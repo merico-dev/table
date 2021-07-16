@@ -1,2 +1,5 @@
-# table
-This is where you can see a UI for the data and analysis of Dev Lake and Dev Analysis
+# Dev Table
+
+Build your own data presentation based on Dev Lake and Dev Analysis.
+
+It is the most flexible and powerful low-code data workflow loved by developers.
