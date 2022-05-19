@@ -233,6 +233,8 @@ const bar3D = {
   FROM public.commit_metric
   WHERE
       ${author_time_condition}
+      AND ${repo_id_condition}
+      AND ${author_email_condition}
       AND dev_equivalent < 2000
       AND effective_add_line < 1000
       AND effective_delete_line < 1000
