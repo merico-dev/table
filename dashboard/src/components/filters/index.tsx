@@ -2,12 +2,12 @@ import { Button, Group } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
-import ContextInfoContext, { TimeRange } from "../../contexts/context-info-context";
+import ContextInfoContext, { ContextInfoContextType, TimeRange } from "../../contexts/context-info-context";
 import { ContributorSelector } from "./contributor-selector";
 import { RepositorySelector } from "./repository-selector";
 
 interface IFilters {
-  submit: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  submit: React.Dispatch<React.SetStateAction<ContextInfoContextType>>;
 }
 
 export function Filters({ submit }: IFilters) {
