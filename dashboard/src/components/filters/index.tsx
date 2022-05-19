@@ -1,13 +1,10 @@
-import { Button, Container, Group, MultiSelect } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
 import ContextInfoContext, { TimeRange } from "../../contexts/context-info-context";
 import { ContributorSelector } from "./contributor-selector";
-
-const mock_repos = [
-  { value: 'ee-frontend', label: 'ee-frontend' },
-];
+import { RepositorySelector } from "./repository-selector";
 
 interface IFilters {
   submit: React.Dispatch<React.SetStateAction<Record<string, any>>>;
@@ -22,26 +19,21 @@ export function Filters({ submit }: IFilters) {
   ]);
 
   const [emails, setEmails] = React.useState<string[]>([]);
+  const [repoIDs, setRepoIDs] = React.useState<string[]>([]);
 
   const doSubmit = React.useCallback(() => {
     submit(prev => ({
       ...prev,
       timeRange,
       emails,
+      repoIDs,
     }))
-  }, [submit, timeRange, emails])
+  }, [submit, timeRange, emails, repoIDs])
 
   React.useEffect(doSubmit, [])
 
   const hasChanges = React.useMemo(() => {
-    const timeRangeEq = _.isEqual(timeRange, contextInfo.timeRange)
-    console.log({ timeRangeEq })
-    if (!timeRangeEq) {
-      return true;
-    }
-    const emailsEq = _.isEqual(emails, contextInfo.emails);
-    console.log({ emailsEq })
-    return !emailsEq;
+    return !_.isEqual(timeRange, contextInfo.timeRange) || !_.isEqual(emails, contextInfo.emails)  || !_.isEqual(repoIDs, contextInfo.repoIDs);
   }, [timeRange, emails, contextInfo]);
 
   return (
@@ -60,12 +52,9 @@ export function Filters({ submit }: IFilters) {
             value={emails}
             onChange={setEmails}
           />
-          <MultiSelect
-            data={mock_repos}
-            label="Repositories"
-            value={[mock_repos[0].value]}
-            disabled
-            sx={{ width: 320 }}
+          <RepositorySelector
+            value={repoIDs}
+            onChange={setRepoIDs}
           />
         </Group>
         <Group sx={{ alignSelf: 'flex-end' }}>
