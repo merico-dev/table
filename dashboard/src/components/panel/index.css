@@ -1,0 +1,22 @@
+.panel-root {
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+.mantine-Tabs-root {
+  width: 100%;
+  height: calc(100% - 25px);
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.mantine-Tabs-tabsListWrapper {
+  flex: 0;
+}
+.mantine-Tabs-body {
+  flex: 1;
+  overflow: scroll;
+}
