@@ -34,7 +34,7 @@ export function Filters({ submit }: IFilters) {
 
   const hasChanges = React.useMemo(() => {
     return !_.isEqual(timeRange, contextInfo.timeRange) || !_.isEqual(emails, contextInfo.emails)  || !_.isEqual(repoIDs, contextInfo.repoIDs);
-  }, [timeRange, emails, contextInfo]);
+  }, [timeRange, emails, repoIDs, contextInfo]);
 
   return (
       <Group position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
