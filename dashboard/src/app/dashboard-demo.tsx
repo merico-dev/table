@@ -15,8 +15,8 @@ export function DashboardDemo() {
   const hasContext = React.useMemo(() => Object.keys(context).length > 0, [context]);
   return (
     <div className='dashboard-demo'>
-      <Filters submit={setContext} />
       <ContextInfoContext.Provider value={context}>
+        <Filters submit={setContext} />
         {hasContext && <DashboardLayout dashboard={dashboard}/>}
       </ContextInfoContext.Provider>
     </div>

@@ -2,11 +2,9 @@ import { Button, Container, Group, MultiSelect } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
-import ContextInfoContext from "../../contexts/context-info-context";
+import ContextInfoContext, { TimeRange } from "../../contexts/context-info-context";
+import { ContributorSelector } from "./contributor-selector";
 
-const mock_contributors = [
-  { value: 'gerile.tu@merico.dev', label: 'Leto' },
-];
 const mock_repos = [
   { value: 'ee-frontend', label: 'ee-frontend' },
 ];
@@ -18,29 +16,37 @@ interface IFilters {
 export function Filters({ submit }: IFilters) {
   const contextInfo = React.useContext(ContextInfoContext);
 
-  const [timeRange, setTimeRange] = React.useState<[Date | null, Date | null]>([
+  const [timeRange, setTimeRange] = React.useState<TimeRange>([
     new Date(2021, 1, 1),
     new Date(),
   ]);
 
+  const [emails, setEmails] = React.useState<string[]>([]);
+
   const doSubmit = React.useCallback(() => {
     submit(prev => ({
       ...prev,
-      timeRange
+      timeRange,
+      emails,
     }))
-  }, [submit, timeRange])
+  }, [submit, timeRange, emails])
 
-  React.useEffect(() => {
-    doSubmit()
-  }, [])
+  React.useEffect(doSubmit, [])
 
   const hasChanges = React.useMemo(() => {
-    return !_.isEqual(timeRange, contextInfo.timeRange);
-  }, [timeRange, contextInfo]);
+    const timeRangeEq = _.isEqual(timeRange, contextInfo.timeRange)
+    console.log({ timeRangeEq })
+    if (!timeRangeEq) {
+      return true;
+    }
+    const emailsEq = _.isEqual(emails, contextInfo.emails);
+    console.log({ emailsEq })
+    return !emailsEq;
+  }, [timeRange, emails, contextInfo]);
 
   return (
       <Group position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
-        <Group>
+        <Group align="flex-start">
           <DateRangePicker
             label="Date Range"
             placeholder="Pick dates range"
@@ -50,12 +56,9 @@ export function Filters({ submit }: IFilters) {
             inputFormat="YYYY-MM-DD"
             sx={{ width: 240 }}
           />
-          <MultiSelect
-            data={mock_contributors}
-            label="Contributors"
-            value={[mock_contributors[0].value]}
-            disabled
-            sx={{ width: 320 }}
+          <ContributorSelector
+            value={emails}
+            onChange={setEmails}
           />
           <MultiSelect
             data={mock_repos}
