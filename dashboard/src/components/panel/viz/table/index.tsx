@@ -44,7 +44,7 @@ export function VizTable({ conf, data, width, height }: IVizTable) {
           <tr key={id_field ? row[id_field] : `row-${index}`}>
             {finalColumns.map(({ value_field, value_type }) => (
               <td key={value_field}>
-                <Group sx={{ '&, *': { fontFamily: 'monospace' } }}>
+                <Group sx={{ '&, .mantine-Text-root': { fontFamily: 'monospace' } }}>
                   <CellValue value={row[value_field]} type={value_type} />
                 </Group>
               </td>
