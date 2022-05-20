@@ -7,6 +7,9 @@ function formatSQL(sql: string, context: Record<string, any>) {
 };
 
 export const queryBySQL = (sql: string, context: Record<string, any>) => async () => {
+  if (!sql) {
+    return [];
+  }
   const formattedSQL = formatSQL(sql, context);
   if (sql.includes('$')) {
     console.log(formattedSQL);
