@@ -8,48 +8,44 @@ echarts.use([SunburstChart, CanvasRenderer]);
 
 interface ISunbrust {
   conf: any;
-  data: any;
+  data: any[];
   width: number;
   height: number;
 }
 
-export function Sunbrust({ conf, data, width, height }: ISunbrust) {
-  const option = {
-    "color": [
-      "#7cbadd",
-      "#f3b7d2",
-      "#7cd6d6",
-      "#bcda96",
-      "#d0bd79",
-      "#dcbfcc",
-      "#fbdd8b",
-      "#e692b5",
-      "#f9be78",
-      "#44c1e9",
-      "#ee9d83",
-      "#a2dff5",
-      "#ec7373",
-      "#ac87dd",
-      "#ffd2ad",
-      "#ceb7ec",
-      "#7bb3b3",
-      "#fdbcac",
-      "#9fd2b6",
-      "#d3ba9b"
+const defaultOption = {
+  tooltip: {
+    show: true
+  },
+  series: {
+    type: "sunburst",
+    radius: [
+      0,
+      "90%"
     ],
-    "series": {
-      "type": "sunburst",
-      "radius": [
-        0,
-        "90%"
-      ],
-      "emphasis": {
-        "focus": "ancestor"
-      },
-      "data": data
+    emphasis: {
+      focus: "ancestor"
+    }
+  }
+};
+
+export function Sunbrust({ conf, data, width, height }: ISunbrust) {
+  const max = _.maxBy(data, d => d.value).value ?? 1;
+  const labelOption = {
+    series: {
+      label: {
+        formatter: ({ name, value }: any) => {
+          if (value / max < 0.2) {
+            return ' ';
+          }
+          return name;
+        }
+      }
     }
   };
+  const option = _.defaultsDeep(defaultOption, labelOption, conf, { series: { data } });
+
   return (
-    <ReactEChartsCore echarts={echarts} option={option} style={{ width, height}} />
+    <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
   )
 }
