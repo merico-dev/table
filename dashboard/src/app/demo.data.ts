@@ -106,7 +106,7 @@ const text3 = {
   sql: `
 SELECT
   author_email,
-  COUNT(effective_add_line)::int AS effective_add_line
+  SUM(effective_add_line)::int AS effective_add_line
 FROM public.commit_metric
 WHERE
   ${author_time_condition}
@@ -151,7 +151,7 @@ const text4 = {
   sql: `
 SELECT
   author_email,
-  COUNT(effective_delete_line)::int AS effective_delete_line
+  SUM(effective_delete_line)::int AS effective_delete_line
 FROM public.commit_metric
 WHERE
   ${author_time_condition}
