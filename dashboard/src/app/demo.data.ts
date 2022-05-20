@@ -1,14 +1,15 @@
 const author_time_condition = "author_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'"
 const repo_id_condition = `\${repoIDs.length > 0 ? \`repo_id IN (\${repoIDs.map(id => "'" + id + "'").join(",")})\` : 'TRUE' }`;
 const author_email_condition = `\${emails.length > 0 ? \`author_email IN (\${emails.map(v => "'" + v + "'").join(",")})\` : 'TRUE' }`;
+
 const text1 = {
   id: 'text-demo-1',
-  title: 'Most ELOC',
+  title: '🏆 Most ELOC',
   description: '',
   layout: {
     x: 0,
     y: 0,
-    w: 4,
+    w: 3,
     h: 6,
   },
   sql: `
@@ -49,12 +50,12 @@ LIMIT 1
 
 const text2 = {
   id: 'text-demo-2',
-  title: 'Most Commits',
+  title: '🏆 Most Commits',
   description: '',
   layout: {
-    x: 4,
+    x: 3,
     y: 0,
-    w: 4,
+    w: 3,
     h: 6,
   },
   sql: `
@@ -94,12 +95,12 @@ LIMIT 1
 
 const text3 = {
   id: 'text-demo-3',
-  title: 'Most Effective Line Added',
+  title: '🏆 Most Effective Line Added',
   description: '',
   layout: {
-    x: 8,
+    x: 6,
     y: 0,
-    w: 4,
+    w: 3,
     h: 6,
   },
   sql: `
@@ -131,6 +132,51 @@ LIMIT 1
           weight: 'bold',
           color: 'red',
           template: '${effective_add_line} lines',
+        },
+      ]
+    },
+  }
+};
+
+const text4 = {
+  id: 'text-demo-4',
+  title: '🏆 Most Effective Line Deleted',
+  description: '',
+  layout: {
+    x: 9,
+    y: 0,
+    w: 3,
+    h: 6,
+  },
+  sql: `
+SELECT
+  author_email,
+  COUNT(effective_delete_line)::int AS effective_delete_line
+FROM public.commit_metric
+WHERE
+  ${author_time_condition}
+  AND ${repo_id_condition}
+  AND ${author_email_condition}
+GROUP BY author_email
+ORDER BY effective_delete_line desc
+LIMIT 1
+  `,
+  viz: {
+    type: 'text',
+    conf: {
+      paragraphs: [
+        {
+          align: 'center',
+          size: 'xl',
+          weight: 'bold',
+          template: '${author_email}',
+        },
+        {
+          align: 'center',
+          size: 'md',
+          weight: 'bold',
+          color: 'red',
+          template: '${effective_delete_line} lines',
         },
       ]
     },
@@ -371,6 +417,7 @@ export const DEMO_ITEMS = [
   text1,
   text2,
   text3,
+  text4,
   table,
   bar3D,
   sunburst,
