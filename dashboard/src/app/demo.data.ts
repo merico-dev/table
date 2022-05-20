@@ -145,7 +145,7 @@ const table = {
     x: 0,
     y: 6,
     w: 8,
-    h: 23,
+    h: 28,
   },
   sql: `
 SELECT
@@ -171,45 +171,50 @@ LIMIT 10
   viz: {
     type: 'table',
     conf: {
-      id_field: 'email',
-      use_raw_columns: false,
-      columns: [
+      "id_field": "email",
+      "use_raw_columns": false,
+      "columns": [
         {
-          label: 'Email',
-          value_field: 'author_email',
-          value_type: 'string',
+          "label": "Email",
+          "value_field": "author_email",
+          "value_type": "string"
         },
         {
-          label: 'ELOC',
-          value_field: 'total_dev_eq',
-          value_type: 'eloc',
+          "label": "ELOC",
+          "value_field": "total_dev_eq",
+          "value_type": "eloc"
         },
         {
-          label: 'ShareLOC',
-          value_field: 'total_share_loc',
-          value_type: 'percentage',
+          "label": "ShareLOC",
+          "value_field": "total_share_loc",
+          "value_type": "percentage"
         },
         {
-          label: 'Lines Added',
-          value_field: 'total_effective_add_line',
-          value_type: 'number',
+          "label": "Lines Added",
+          "value_field": "total_effective_add_line",
+          "value_type": "number"
         },
         {
-          label: 'Lines Deleted',
-          value_field: 'total_effective_delete_line',
-          value_type: 'number',
+          "label": "Lines Deleted",
+          "value_field": "total_effective_delete_line",
+          "value_type": "number"
         },
         {
-          label: 'Commits',
-          value_field: 'count',
-          value_type: 'number',
+          "label": "Commits",
+          "value_field": "count",
+          "value_type": "number"
         },
         {
-          label: 'Punished Commits',
-          value_field: 'punished_count',
-          value_type: 'number',
-        },
-      ]
+          "label": "Punished Commits",
+          "value_field": "punished_count",
+          "value_type": "number"
+        }
+      ],
+      "size": "xs",
+      "horizontalSpacing": "sm",
+      "verticalSpacing": "xs",
+      "striped": true,
+      "highlightOnHover": true
     },
   }
 };
@@ -220,9 +225,9 @@ const bar3D = {
   description: 'this is a demo for bar3D viz',
   layout: {
     x: 8,
-    y: 29,
+    y: 6,
     w: 4,
-    h: 24,
+    h: 28,
   },
   sql: `
   SELECT
@@ -269,9 +274,9 @@ const sunburst = {
   description: 'this is a demo for sunburst viz',
   layout: {
     x: 8,
-    y: 6,
+    y: 35,
     w: 4,
-    h: 23,
+    h: 24,
   },
   sql: `
     SELECT
