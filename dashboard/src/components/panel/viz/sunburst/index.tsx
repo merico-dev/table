@@ -3,6 +3,7 @@ import * as echarts from 'echarts/core';
 import { SunburstChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import _ from "lodash";
+import React from 'react';
 
 echarts.use([SunburstChart, CanvasRenderer]);
 
@@ -30,8 +31,18 @@ const defaultOption = {
 };
 
 export function Sunbrust({ conf, data, width, height }: ISunbrust) {
-  const max = _.maxBy(data, d => d.value).value ?? 1;
-  const labelOption = {
+  const { label_field = 'name', value_field = 'value', ...restConf } = conf
+
+  const chartData = React.useMemo(() => {
+    return data.map(d => ({
+      name: d[label_field],
+      value: d[value_field],
+    }));
+  }, [data, label_field, value_field]);
+
+  const max = React.useMemo(() => _.maxBy(chartData, d => d.value)?.value ?? 1, [chartData]);
+
+  const labelOption = React.useMemo(() => ({
     series: {
       label: {
         formatter: ({ name, value }: any) => {
@@ -42,8 +53,8 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
         }
       }
     }
-  };
-  const option = _.defaultsDeep(defaultOption, labelOption, conf, { series: { data } });
+  }), []);
+  const option = _.defaultsDeep(defaultOption, labelOption, restConf, { series: { data: chartData } });
 
   return (
     <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
