@@ -4,13 +4,14 @@ import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import PanelContext from "../../../../contexts/panel-context";
 import { IVizConfig } from "../../../../types/dashboard";
+import { SunburstPanel } from "../../viz/sunburst/panel";
 import { VizTablePanel } from "../../viz/table/panel";
 import { VizTextPanel } from "../../viz/text/panel";
 
 const types = [
   { value: 'text', label: 'Text', Panel: VizTextPanel },
   { value: 'table', label: 'Table', Panel: VizTablePanel },
-  { value: 'sunburst', label: 'Sunburst' },
+  { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)' },
   { value: 'line', label: 'Line Chart' },
 ]
