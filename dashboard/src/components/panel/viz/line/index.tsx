@@ -38,6 +38,9 @@ export function VizLineChart({ conf, data, width, height }: ILineChart) {
     },
     series
   };
+  if (!width || !height) {
+    return null;
+  }
   return (
     <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
   )
