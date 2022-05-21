@@ -54,7 +54,7 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
       }
     }
   }), []);
-  const option = _.assign(defaultOption, labelOption, restConf, { series: { data: chartData } });
+  const option = _.defaultsDeep(defaultOption, labelOption, restConf, { series: { data: chartData } });
 
   return (
     <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
