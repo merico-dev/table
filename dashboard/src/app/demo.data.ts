@@ -217,7 +217,7 @@ LIMIT 10
   viz: {
     type: 'table',
     conf: {
-      "id_field": "email",
+      "id_field": "author_email",
       "use_raw_columns": false,
       "columns": [
         {
