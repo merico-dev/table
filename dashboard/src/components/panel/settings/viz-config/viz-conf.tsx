@@ -4,6 +4,7 @@ import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import PanelContext from "../../../../contexts/panel-context";
 import { IVizConfig } from "../../../../types/dashboard";
+import { VizLineBarChartPanel } from "../../viz/line-bar/panel";
 import { SunburstPanel } from "../../viz/sunburst/panel";
 import { VizTablePanel } from "../../viz/table/panel";
 import { VizTextPanel } from "../../viz/text/panel";
@@ -13,7 +14,7 @@ const types = [
   { value: 'table', label: 'Table', Panel: VizTablePanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)' },
-  { value: 'line-bar', label: 'Line-Bar Chart' },
+  { value: 'line-bar', label: 'Line-Bar Chart', Panel: VizLineBarChartPanel },
 ]
 
 export function EditVizConf() {

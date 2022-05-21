@@ -296,7 +296,7 @@ const bar3D = {
     type: 'bar-3d',
     conf: {
       x_key: 'effective_add_line',
-      y_key: 'effective_delete_line',
+      y_axis_data_key: 'effective_delete_line',
       z_key: 'dev_equivalent',
       xAxis3D: {
         type: 'value',
@@ -386,27 +386,24 @@ const line = {
           type: 'bar',
           name: 'Total Effective Delete Line',
           showSymbol: false,
-          y_key: 'total_effective_delete_line',
+          y_axis_data_key: 'total_effective_delete_line',
           stack: 'line_change',
-          itemStyle: {
-            color: 'red'
-          },
+          color: '#fa5252'
         },
         {
           type: 'bar',
           name: 'Total Effective Add Line',
           showSymbol: false,
-          y_key: 'total_effective_add_line',
+          y_axis_data_key: 'total_effective_add_line',
           stack: 'line_change',
-          itemStyle: {
-            color: 'green'
-          },
+          color: '#40c057'
         },
         {
           type: 'line',
           name: 'Total ELOC',
           showSymbol: false,
-          y_key: 'total_dev_eq',
+          y_axis_data_key: 'total_dev_eq',
+          color: '#25262b'
         },
       ]
     },

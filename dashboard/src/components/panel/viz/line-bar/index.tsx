@@ -8,6 +8,19 @@ import React from 'react';
 
 echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
+const defaultOption = {
+  legend: {
+    show: true
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: {
+    type: 'category',
+  },
+  yAxis: {},
+}
+
 interface ILineBarChart {
   conf: any;
   data: any[];
@@ -16,28 +29,22 @@ interface ILineBarChart {
 }
 
 export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
-  const xAxisData = React.useMemo(() => {
-    return data.map((d) => d[conf.x_axis_data_key]);
-  }, [data, conf.x_axis_data_key])
-
-  const series = React.useMemo(() => {
-    return conf.series.map(({ y_key, ...rest }: any) => ({
-      data: data.map((d) => d[y_key]),
+  const option = React.useMemo(() => {
+    const dataset = {
+      dataset: { source: data }
+    };
+    const xAxisSource = {
+      xAxis: {
+        data: data.map((d) => d[conf.x_axis_data_key]),
+      }
+    }
+    const series = conf.series.map(({ y_axis_data_key, ...rest }: any) => ({
+      data: data.map((d) => d[y_axis_data_key]),
       ...rest,
-    }))
-  }, [data, conf.series])
+    }));
+    return _.defaultsDeep({}, defaultOption, dataset, xAxisSource, { series });
+  }, [conf, data])
 
-  const option = {
-    ...conf,
-    dataset: {
-      source: data,
-    },
-    xAxis: {
-      ...conf.xAxis,
-      data: xAxisData
-    },
-    series
-  };
   if (!width || !height) {
     return null;
   }
