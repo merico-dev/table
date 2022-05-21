@@ -42,7 +42,7 @@ export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
       data: data.map((d) => d[y_axis_data_key]),
       ...rest,
     }));
-    return _.defaultsDeep({}, defaultOption, dataset, xAxisSource, { series });
+    return _.assign({}, defaultOption, dataset, xAxisSource, { series });
   }, [conf, data])
 
   if (!width || !height) {
