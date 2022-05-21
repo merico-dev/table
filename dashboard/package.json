@@ -24,6 +24,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-grid-layout": "^1.3.4",
+    "react-hook-form": "^7.31.2",
     "tabler-icons-react": "^1.48.0"
   },
   "devDependencies": {
