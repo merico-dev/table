@@ -295,9 +295,9 @@ const bar3D = {
   viz: {
     type: 'bar-3d',
     conf: {
-      x_key: 'effective_add_line',
+      x_axis_data_key: 'effective_add_line',
       y_axis_data_key: 'effective_delete_line',
-      z_key: 'dev_equivalent',
+      z_axis_data_key: 'dev_equivalent',
       xAxis3D: {
         type: 'value',
         name: 'Effective Added Lines',

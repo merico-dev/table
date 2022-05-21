@@ -16,13 +16,14 @@ interface IVizBar3D {
 }
 
 export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
+  const { x_axis_data_key, y_axis_data_key, z_axis_data_key, ...restConf} = conf;
   const min = React.useMemo(() => {
-    return _.minBy(data, d => d[conf.z_key])[conf.z_key];
-  }, [data, conf.z_key]);
+    return _.minBy(data, d => d[z_axis_data_key])[z_axis_data_key];
+  }, [data, z_axis_data_key]);
 
   const max = React.useMemo(() => {
-    return _.maxBy(data, d => d[conf.z_key])[conf.z_key];
-  }, [data, conf.z_key]);
+    return _.maxBy(data, d => d[z_axis_data_key])[z_axis_data_key];
+  }, [data, z_axis_data_key]);
 
   const option = {
     tooltip: {},
@@ -70,14 +71,14 @@ export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
         }
       }
     },
-    ...conf,
+    ...restConf,
     series: [
       {
         type: 'bar3D',
         wireframe: {
           // show: false
         },
-        data: data.map(d => ([d[conf.x_key], d[conf.y_key], d[conf.z_key]])),
+        data: data.map(d => ([d[x_axis_data_key], d[y_axis_data_key], d[z_axis_data_key]])),
       }
     ]
   };
