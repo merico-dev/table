@@ -370,7 +370,7 @@ const line = {
   LIMIT 100
   `,
   viz: {
-    type: 'line',
+    type: 'line-bar',
     conf: {
       x_axis_data_key: 'author_date',
       legend: {},

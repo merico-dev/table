@@ -8,14 +8,14 @@ import React from 'react';
 
 echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
-interface ILineChart {
+interface ILineBarChart {
   conf: any;
   data: any[];
   width: number;
   height: number;
 }
 
-export function VizLineChart({ conf, data, width, height }: ILineChart) {
+export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
   const xAxisData = React.useMemo(() => {
     return data.map((d) => d[conf.x_axis_data_key]);
   }, [data, conf.x_axis_data_key])

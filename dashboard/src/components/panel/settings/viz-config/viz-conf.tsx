@@ -13,7 +13,7 @@ const types = [
   { value: 'table', label: 'Table', Panel: VizTablePanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)' },
-  { value: 'line', label: 'Line Chart' },
+  { value: 'line-bar', label: 'Line-Bar Chart' },
 ]
 
 export function EditVizConf() {
