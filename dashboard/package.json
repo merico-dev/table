@@ -13,7 +13,7 @@
       "import": "./dist/dashboard.es.js",
       "require": "./dist/dashboard.umd.js"
     },
-    "./style": {
+    "./dist/style.css": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
     }
