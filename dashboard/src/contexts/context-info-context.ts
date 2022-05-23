@@ -1,18 +1,10 @@
 import React from "react";
 
-export type TimeRange = [Date | null, Date | null];
+export type TimeRangeType = [Date | null, Date | null];
 
-export type ContextInfoContextType = {
-  timeRange: TimeRange;
-  emails: string[];
-  repoIDs: string[];
-};
+export type ContextInfoContextType = Record<string, TimeRangeType | any | any[]>;
 
-const initialContext = {
-  timeRange: [null, null] as TimeRange,
-  emails: [] as string[],
-  repoIDs: [] as string[],
-}
+const initialContext = {}
 
 export const initialContextInfoContext = initialContext;
 
