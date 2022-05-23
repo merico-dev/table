@@ -15,6 +15,4 @@ const initialContext = {
   inEditMode: false,
 }
 
-const LayoutStateContext = React.createContext<ILayoutStateContext>(initialContext);
-
-export default LayoutStateContext;
+export const LayoutStateContext = React.createContext<ILayoutStateContext>(initialContext);

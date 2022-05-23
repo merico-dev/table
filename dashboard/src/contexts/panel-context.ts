@@ -32,6 +32,4 @@ const initialContext = {
   refreshData: () => {},
 }
 
-const PanelContext = React.createContext<IPanelContext>(initialContext);
-
-export default PanelContext;
+export const PanelContext = React.createContext<IPanelContext>(initialContext);
