@@ -10,12 +10,17 @@
   "dependencies": {
     "@mantine/core": "^4.2.5",
     "@mantine/dates": "^4.2.5",
+    "@mantine/form": "^4.2.5",
+    "@mantine/hooks": "^4.2.5",
+    "@mantine/notifications": "^4.2.5",
+    "@mantine/prism": "^4.2.5",
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
+    "dashboard": "../dashboard",
     "lodash": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "dashboard": "../dashboard"
+    "tabler-icons-react": "^1.48.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
