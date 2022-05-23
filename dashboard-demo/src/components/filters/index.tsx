@@ -2,7 +2,7 @@ import { Button, Group } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
-import ContextInfoContext, { ContextInfoContextType, TimeRange } from "../../contexts/context-info-context";
+import { ContextInfoContext, ContextInfoContextType, TimeRange } from "dashboard";
 import { ContributorSelector } from "./contributor-selector";
 import { RepositorySelector } from "./repository-selector";
 
