@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DashboardLayout, IDashboardItem, ContextInfoContext, initialContextInfoContext } from 'dashboard'
+import { DashboardLayout, IDashboardItem, ContextInfoContext, initialContextInfoContext } from '@devtable/dashboard'
 import { DEMO_ITEMS } from "./demo.data";
 import './index.css'
 import { Filters } from '../components/filters';

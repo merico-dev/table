@@ -2,7 +2,7 @@ import { Button, Group } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
-import { ContextInfoContext, ContextInfoContextType, TimeRange } from "dashboard";
+import { ContextInfoContext, ContextInfoContextType, TimeRangeType } from "@devtable/dashboard";
 import { ContributorSelector } from "./contributor-selector";
 import { RepositorySelector } from "./repository-selector";
 
@@ -13,7 +13,7 @@ interface IFilters {
 export function Filters({ submit }: IFilters) {
   const contextInfo = React.useContext(ContextInfoContext);
 
-  const [timeRange, setTimeRange] = React.useState<TimeRange>([
+  const [timeRange, setTimeRange] = React.useState<TimeRangeType>([
     new Date(2021, 1, 1),
     new Date(),
   ]);

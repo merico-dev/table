@@ -16,7 +16,7 @@
     "@mantine/prism": "^4.2.5",
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
-    "dashboard": "../dashboard",
+    "@devtable/dashboard": "0.0.1",
     "lodash": "^4.17.21",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

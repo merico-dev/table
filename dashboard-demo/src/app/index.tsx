@@ -1,7 +1,7 @@
 import { AppShell } from '@mantine/core';
 import { Header } from '../components/header';
 import { DashboardDemo } from './dashboard-demo';
-import 'dashboard/dist/style.css';
+import '@devtable/dashboard/dist/style.css';
 import './index.css'
 
 function App() {
