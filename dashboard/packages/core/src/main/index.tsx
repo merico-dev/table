@@ -1,11 +1,9 @@
 import React from "react";
 import _ from "lodash";
 import { DashboardMode, IDashboard, IDashboardPanel } from "../types/dashboard";
-import { Button, Group } from "@mantine/core";
-import { DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
 import { LayoutStateContext } from "../contexts/layout-state-context";
-import { ModeToggler } from "./toggle-mode";
 import { DashboardLayout } from "../layout";
+import { DashboardActions } from "./actions";
 
 interface IDashboardLayout {
   dashboard: IDashboard;
@@ -23,7 +21,7 @@ export function Dashboard({
   const [items, setItems] = React.useState<IDashboardPanel[]>(dashboard.panels)
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
-  const onAddItem = () => {
+  const addPanel = () => {
     /*eslint no-console: 0*/
     console.log("adding", "n" + newCounter);
     setNewCounter(v => v + 1)
@@ -55,21 +53,11 @@ export function Dashboard({
   return (
     <div className={className}>
       <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode }}>
-        <Group position="apart" pt="sm" pb="xs">
-          <Group position="left">
-            <ModeToggler mode={mode} setMode={setMode} />
-          </Group>
-          {inEditMode && (
-            <Group position="right">
-              <Button variant="default" size="sm" onClick={onAddItem} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>
-              <Button variant="default" size="sm" disabled leftIcon={<DeviceFloppy size={20} />}>Save Dashboard</Button>
-              <Button color="red" size="sm" disabled leftIcon={<Recycle size={20} />}>Revert Changes</Button>
-            </Group>
-          )}
-          {!inEditMode && (
-            <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>
-          )}
-        </Group>
+        <DashboardActions
+          mode={mode}
+          setMode={setMode}
+          addPanel={addPanel}
+        />
         <DashboardLayout
           panels={dashboard.panels}
           isDraggable={inEditMode && !layoutFrozen}
