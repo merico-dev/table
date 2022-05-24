@@ -17,7 +17,11 @@
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
     "@devtable/dashboard": "0.0.2-alpha",
+    "echarts": "^5.3.2",
+    "echarts-for-react": "^3.0.2",
+    "echarts-gl": "^2.0.9",
     "lodash": "^4.17.21",
+    "numbro": "^2.3.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "tabler-icons-react": "^1.48.0"
