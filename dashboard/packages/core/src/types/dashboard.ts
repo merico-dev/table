@@ -3,7 +3,7 @@ export interface IVizConfig {
   conf: Record<string, any>;
 }
 
-export interface IDashboardItem {
+export interface IDashboardPanel {
   id: string;
     title: string;
     description: string;
@@ -20,4 +20,20 @@ export interface IDashboardItem {
 export enum DashboardMode {
   Use = 'use',
   Edit = 'edit',
+}
+
+export interface ISQLSnippet {
+  key: string;
+  value: string;
+}
+
+export interface IDashboardDefinition {
+  sql_snippets: ISQLSnippet[];
+}
+
+export interface IDashboard {
+  id: string;
+  name: string;
+  definition: IDashboardDefinition;
+  panels: IDashboardPanel[];
 }

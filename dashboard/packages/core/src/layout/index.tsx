@@ -5,7 +5,7 @@ import './index.css'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { Panel } from "../panel";
-import { DashboardMode, IDashboardItem } from "../types/dashboard";
+import { DashboardMode, IDashboard, IDashboardPanel } from "../types/dashboard";
 import { Button, Group } from "@mantine/core";
 import { DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
 import { LayoutStateContext } from "../contexts/layout-state-context";
@@ -14,7 +14,7 @@ import { ModeToggler } from "./toggle-mode";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface IDashboardLayout {
-  dashboard: IDashboardItem[];
+  dashboard: IDashboard;
   className?: string;
   cols?: { lg: number, md: number, sm: number, xs: number, xxs: number };
   rowHeight?: number;
@@ -30,7 +30,7 @@ export function DashboardLayout({
   const [newCounter, setNewCounter] = React.useState(0)
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()
-  const [items, setItems] = React.useState(dashboard)
+  const [items, setItems] = React.useState<IDashboardPanel[]>(dashboard.panels)
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const onAddItem = () => {
