@@ -410,7 +410,7 @@ const line = {
   }
 };
 
-export const DEMO_ITEMS = [
+export const DEMO_PANELS = [
   text1,
   text2,
   text3,

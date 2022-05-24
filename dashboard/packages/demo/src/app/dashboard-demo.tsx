@@ -1,12 +1,21 @@
 import React from 'react';
 
-import { DashboardLayout, IDashboardItem, ContextInfoContext, initialContextInfoContext } from '@devtable/dashboard'
-import { DEMO_ITEMS } from "./demo.data";
+import { DashboardLayout, ContextInfoContext, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
+import { DEMO_PANELS } from "./demo.data";
 import './index.css'
 import { Filters } from '../components/filters';
 
+const DEMO_DASHBOARD: IDashboard = {
+  id: 'demo',
+  name: 'Demo Dashboard',
+  definition: {
+    sql_snippets: [],
+  },
+  panels: DEMO_PANELS,
+}
+
 export function DashboardDemo() {
-  const [dashboard, setDashboard] = React.useState<IDashboardItem[]>(DEMO_ITEMS)
+  const [dashboard, setDashboard] = React.useState<IDashboard>(DEMO_DASHBOARD)
 
   const [context, setContext] = React.useState(initialContextInfoContext);
 
