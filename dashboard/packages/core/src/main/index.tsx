@@ -18,7 +18,7 @@ export function Dashboard({
   const [newCounter, setNewCounter] = React.useState(0)
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()
-  const [items, setItems] = React.useState<IDashboardPanel[]>(dashboard.panels)
+  const [panels, setPanels] = React.useState<IDashboardPanel[]>(dashboard.panels)
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const addPanel = () => {
@@ -29,7 +29,7 @@ export function Dashboard({
     const newItem = {
       id,
       layout: {
-        x: (items.length * 2) % (localCols || 12),
+        x: (panels.length * 2) % (localCols || 12),
         y: Infinity, // puts it at the bottom
         w: 4,
         h: 4,
@@ -42,11 +42,11 @@ export function Dashboard({
         conf: {},
       }
     };
-    setItems(items => ([...items, newItem]));
+    setPanels(panels => ([...panels, newItem]));
   }
 
   const removePanelByID = (id: string) => {
-    setItems(items => _.reject(items, { id }));
+    setPanels(panels => _.reject(panels, { id }));
   }
 
   const inEditMode = mode === DashboardMode.Edit;
@@ -59,7 +59,7 @@ export function Dashboard({
           addPanel={addPanel}
         />
         <DashboardLayout
-          panels={dashboard.panels}
+          panels={panels}
           isDraggable={inEditMode && !layoutFrozen}
           isResizable={inEditMode && !layoutFrozen}
           onRemoveItem={removePanelByID}
