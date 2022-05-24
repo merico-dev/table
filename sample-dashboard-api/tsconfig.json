@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
+  },
+  "exclude": ["node_modules", "build", "_build"],
+  "rules": {
+    "no-unused-expression": true,
+    "no-floating-promises": true
+  }
+}

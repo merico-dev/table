@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["dist/*", "src/*"],
+      "express": ["node_modules/express/lib/express"],
+    },
+  },
+  "exclude": ["node_modules", "build", "_build"],
+  "rules": {
+    "no-unused-expression": true,
+    "no-floating-promises": true
+  }
+}
