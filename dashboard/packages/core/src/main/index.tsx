@@ -5,7 +5,7 @@ import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 
-interface IDashboardLayout {
+interface IDashboardProps {
   dashboard: IDashboard;
   className?: string;
 }
@@ -13,7 +13,7 @@ interface IDashboardLayout {
 export function Dashboard({
   dashboard,
   className = "dashboard",
-}: IDashboardLayout) {
+}: IDashboardProps) {
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [newCounter, setNewCounter] = React.useState(0)
   const [breakpoint, setBreakpoint] = React.useState()

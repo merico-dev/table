@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DashboardLayout, ContextInfoContext, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
+import { Dashboard, ContextInfoContext, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
 import { DEMO_PANELS } from "./demo.data";
 import './index.css'
 import { Filters } from '../components/filters';
@@ -24,7 +24,7 @@ export function DashboardDemo() {
     <div className='dashboard-demo'>
       <ContextInfoContext.Provider value={context}>
         <Filters submit={setContext} />
-        {hasContext && <DashboardLayout dashboard={dashboard}/>}
+        {hasContext && <Dashboard dashboard={dashboard}/>}
       </ContextInfoContext.Provider>
     </div>
   )
