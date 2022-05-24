@@ -651,9 +651,9 @@
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
 "@types/react-dom@^18.0.0":
-  version "18.0.4"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.4.tgz#dcbcadb277bcf6c411ceff70069424c57797d375"
-  integrity sha512-FgTtbqPOCI3dzZPZoC2T/sx3L34qxy99ITWn4eoSA95qPyXDMH0ALoAqUp49ITniiJFsXUVBtalh/KffMpg21Q==
+  version "18.0.5"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.5.tgz#330b2d472c22f796e5531446939eacef8378444a"
+  integrity sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==
   dependencies:
     "@types/react" "*"
 
@@ -698,9 +698,9 @@ ahooks-v3-count@^1.0.0:
   integrity sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==
 
 ahooks@^3.3.11:
-  version "3.3.13"
-  resolved "https://registry.yarnpkg.com/ahooks/-/ahooks-3.3.13.tgz#8589b5878057d58ef9f541bce502760e26e239e6"
-  integrity sha512-/1+KeZHvhEs7IGn2YX4DE8UY7wV7YM7iziFBvSFnYw95z9oNvasuSTu4BwLxCqdIdWEFLFwuLE3naRL3B8xZyQ==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ahooks/-/ahooks-3.4.0.tgz#31d53941a1f90810c401c9944e2d2979d5b5d2ec"
+  integrity sha512-9+13B0YFyBtG2zFkdT6uJ6A9n5J+MpIPaFJ7Q3evidcJ/59Qyn0zI1wXS8x1whcBAUTLPm9j+QbuwrjxctoivQ==
   dependencies:
     "@types/js-cookie" "^2.x.x"
     ahooks-v3-count "^1.0.0"
