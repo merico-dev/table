@@ -7,7 +7,10 @@
     "dev": "node -r ts-node/register -r tsconfig-paths/register --inspect -r dotenv/config src/server.ts",
     "typeorm": "typeorm-ts-node-esm",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
-    "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts"
+    "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
+    "build": "gulp build",
+    "start": "node dist/server.js",
+    "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +31,10 @@
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.35",
     "@types/pg": "^8.6.5",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-terser": "^2.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.0",
     "typescript": "^4.6.4"
