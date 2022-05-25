@@ -1,7 +1,3 @@
-const author_time_condition = "author_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'"
-const repo_id_condition = `\${repoIDs.length > 0 ? \`repo_id IN (\${repoIDs.map(id => "'" + id + "'").join(",")})\` : 'TRUE' }`;
-const author_email_condition = `\${emails.length > 0 ? \`author_email IN (\${emails.map(v => "'" + v + "'").join(",")})\` : 'TRUE' }`;
-
 const text1 = {
   id: 'text-demo-1',
   title: '🏆 Most ELOC',
@@ -19,8 +15,8 @@ SELECT
 FROM public.commit_metric
 WHERE
   \$\{author_time_condition\}
-  AND ${repo_id_condition}
-  AND ${author_email_condition}
+  AND \$\{repo_id_condition\}
+  AND \$\{author_email_condition\}
 GROUP BY author_email
 ORDER BY total_dev_eq desc
 LIMIT 1
@@ -64,9 +60,9 @@ SELECT
   COUNT(id)::int AS count
 FROM public.commit_metric
 WHERE
-  ${author_time_condition}
-  AND ${repo_id_condition}
-  AND ${author_email_condition}
+  \$\{author_time_condition\}
+  AND \$\{repo_id_condition\}
+  AND \$\{author_email_condition\}
 GROUP BY author_email
 ORDER BY count desc
 LIMIT 1
@@ -109,9 +105,9 @@ SELECT
   SUM(effective_add_line)::int AS effective_add_line
 FROM public.commit_metric
 WHERE
-  ${author_time_condition}
-  AND ${repo_id_condition}
-  AND ${author_email_condition}
+  \$\{author_time_condition\}
+  AND \$\{repo_id_condition\}
+  AND \$\{author_email_condition\}
 GROUP BY author_email
 ORDER BY effective_add_line desc
 LIMIT 1
@@ -154,9 +150,9 @@ SELECT
   SUM(effective_delete_line)::int AS effective_delete_line
 FROM public.commit_metric
 WHERE
-  ${author_time_condition}
-  AND ${repo_id_condition}
-  AND ${author_email_condition}
+  \$\{author_time_condition\}
+  AND \$\{repo_id_condition\}
+  AND \$\{author_email_condition\}
 GROUP BY author_email
 ORDER BY effective_delete_line desc
 LIMIT 1
@@ -207,9 +203,9 @@ SELECT
   ) AS punished_count
 FROM public.commit_metric
 WHERE
-      ${author_time_condition}
-      AND ${repo_id_condition}
-      AND ${author_email_condition}
+      \$\{author_time_condition\}
+      AND \$\{repo_id_condition\}
+      AND \$\{author_email_condition\}
 GROUP BY author_email
 ORDER BY total_dev_eq desc
 LIMIT 10
@@ -283,9 +279,9 @@ const bar3D = {
       effective_delete_line
   FROM public.commit_metric
   WHERE
-      ${author_time_condition}
-      AND ${repo_id_condition}
-      AND ${author_email_condition}
+      \$\{author_time_condition\}
+      AND \$\{repo_id_condition\}
+      AND \$\{author_email_condition\}
       AND dev_equivalent < 2000
       AND effective_add_line < 1000
       AND effective_delete_line < 1000
@@ -330,9 +326,9 @@ const sunburst = {
       SUM(dev_equivalent) AS VALUE
     FROM public.commit_metric
     WHERE
-      ${author_time_condition}
-      AND ${repo_id_condition}
-      AND ${author_email_condition}
+      \$\{author_time_condition\}
+      AND \$\{repo_id_condition\}
+      AND \$\{author_email_condition\}
     GROUP BY author_email
     ORDER BY VALUE desc
     LIMIT 100
@@ -362,9 +358,9 @@ const line = {
       COUNT(id):: INT AS COUNT
   FROM public.commit_metric
   WHERE
-      ${author_time_condition}
-      AND ${repo_id_condition}
-      AND ${author_email_condition}
+      \$\{author_time_condition\}
+      AND \$\{repo_id_condition\}
+      AND \$\{author_email_condition\}
   GROUP BY author_date
   ORDER BY total_dev_eq DESC
   LIMIT 100
