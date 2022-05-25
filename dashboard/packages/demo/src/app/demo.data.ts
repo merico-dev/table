@@ -18,7 +18,7 @@ SELECT
   SUM(dev_equivalent) AS total_dev_eq
 FROM public.commit_metric
 WHERE
-  ${author_time_condition}
+  \$\{author_time_condition\}
   AND ${repo_id_condition}
   AND ${author_email_condition}
 GROUP BY author_email

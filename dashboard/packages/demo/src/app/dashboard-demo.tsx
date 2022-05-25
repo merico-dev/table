@@ -9,7 +9,10 @@ const DEMO_DASHBOARD: IDashboard = {
   id: 'demo',
   name: 'Demo Dashboard',
   definition: {
-    sql_snippets: [],
+    sqlSnippets: [{
+      key: 'author_time_condition',
+      value: "author_time BETWEEN '${timeRange?.[0].toISOString()}' AND '${timeRange?.[1].toISOString()}'"
+    }],
   },
   panels: DEMO_PANELS,
 }

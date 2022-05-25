@@ -28,7 +28,7 @@ export interface ISQLSnippet {
 }
 
 export interface IDashboardDefinition {
-  sql_snippets: ISQLSnippet[];
+  sqlSnippets: ISQLSnippet[];
 }
 
 export interface IDashboard {

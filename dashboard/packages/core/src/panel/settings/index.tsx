@@ -7,6 +7,7 @@ import { Viz } from "../viz";
 import { ContextInfo } from "./context-info";
 import { QueryEditor } from "./query-editor";
 import { QueryResult } from "./query-result";
+import { SQLSnippetsTab } from "./sql-snippets";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettings {
@@ -32,7 +33,7 @@ export function PanelSettings({ }: IPanelSettings) {
         onClose={() => setOpened(false)}
         title={title}
         trapFocus
-        onDragStart={e => {e.stopPropagation()}}
+        onDragStart={e => { e.stopPropagation() }}
       >
         <AppShell
           sx={{
@@ -46,6 +47,9 @@ export function PanelSettings({ }: IPanelSettings) {
               <Tabs initialTab={1}>
                 <Tabs.Tab label="Context">
                   <ContextInfo />
+                </Tabs.Tab>
+                <Tabs.Tab label="SQL Snippets">
+                  <SQLSnippetsTab />
                 </Tabs.Tab>
                 <Tabs.Tab label="SQL">
                   <QueryEditor />
