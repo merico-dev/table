@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 dashboard/packages/**/yarn.lock
+dashboard/packages/**/stats.html
 
 .env
 

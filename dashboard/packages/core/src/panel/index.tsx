@@ -8,6 +8,7 @@ import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IVizConfig } from '../types/dashboard';
+import { DefinitionContext } from '../contexts';
 
 interface IPanel {
   layout: any;
@@ -20,12 +21,13 @@ interface IPanel {
 
 export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
+  const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
   const [sql, setSQL] = React.useState(initialSQL);
   const [viz, setViz] = React.useState(initialViz);
 
-  const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo), {
+  const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo, definitions), {
     refreshDeps: [contextInfo],
   });
   const refreshData = refresh;

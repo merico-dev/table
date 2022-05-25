@@ -1,12 +1,30 @@
 import React from 'react';
 
-import { DashboardLayout, IDashboardItem, ContextInfoContext, initialContextInfoContext } from '@devtable/dashboard'
-import { DEMO_ITEMS } from "./demo.data";
+import { Dashboard, ContextInfoContext, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
+import { DEMO_PANELS } from "./demo.data";
 import './index.css'
 import { Filters } from '../components/filters';
 
+const DEMO_DASHBOARD: IDashboard = {
+  id: 'demo',
+  name: 'Demo Dashboard',
+  definition: {
+    sqlSnippets: [{
+      key: 'author_time_condition',
+      value: "author_time BETWEEN '${timeRange?.[0].toISOString()}' AND '${timeRange?.[1].toISOString()}'"
+    }, {
+      key: 'repo_id_condition',
+      value: `\${repoIDs.length > 0 ? \`repo_id IN (\${repoIDs.map(id => "'" + id + "'").join(",")})\` : 'TRUE' }`
+    }, {
+      key: 'author_email_condition',
+      value: `\${emails.length > 0 ? \`author_email IN (\${emails.map(v => "'" + v + "'").join(",")})\` : 'TRUE' }`
+    }],
+  },
+  panels: DEMO_PANELS,
+}
+
 export function DashboardDemo() {
-  const [dashboard, setDashboard] = React.useState<IDashboardItem[]>(DEMO_ITEMS)
+  const [dashboard, setDashboard] = React.useState<IDashboard>(DEMO_DASHBOARD)
 
   const [context, setContext] = React.useState(initialContextInfoContext);
 
@@ -15,7 +33,7 @@ export function DashboardDemo() {
     <div className='dashboard-demo'>
       <ContextInfoContext.Provider value={context}>
         <Filters submit={setContext} />
-        {hasContext && <DashboardLayout dashboard={dashboard}/>}
+        {hasContext && <Dashboard dashboard={dashboard}/>}
       </ContextInfoContext.Provider>
     </div>
   )
