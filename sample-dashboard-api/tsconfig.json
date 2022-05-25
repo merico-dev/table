@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "esModuleInterop": true,
-    "types": ["node"],
+    "types": ["reflect-metadata", "node"],
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,

@@ -7,6 +7,6 @@ export const dashboardDataSource = new DataSource({
   type: 'postgres',
   url: process.env.PG_URL,
   migrationsTableName: 'schema_migrations',
-  migrations: ['src/data_sources/migrations/*.ts'],
-  entities: ['src/models/app/*.ts'],
+  migrations: ['src/data_sources/migrations/*.ts', 'dist/data_sources/migrations/*.js'],
+  entities: ['src/models/app/*.ts', 'dist/models/app/*.js'],
 });
