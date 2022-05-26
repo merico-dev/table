@@ -16,7 +16,7 @@
     "@mantine/prism": "^4.2.5",
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
-    "@devtable/dashboard": "0.0.2",
+    "@devtable/dashboard": "0.0.3",
     "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "echarts-gl": "^2.0.9",
