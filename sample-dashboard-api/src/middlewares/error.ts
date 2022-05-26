@@ -1,7 +1,7 @@
-import { QueryFailedError } from 'typeorm';
+import { QueryFailedError, EntityNotFoundError } from 'typeorm';
 import { ValidationError } from 'class-validator';
 import {
-  ApiError, SERVER_ERROR, BAD_REQUEST, ErrorStatusCode, VALIDATION_FAILED
+  ApiError, SERVER_ERROR, BAD_REQUEST, ErrorStatusCode, VALIDATION_FAILED, NOT_FOUND
 } from '../utils/errors';
 
 export default async function errorHandler(err, req, res, next) {
@@ -13,12 +13,18 @@ export default async function errorHandler(err, req, res, next) {
     error = new ApiError(BAD_REQUEST, {
       message: err.message,
     });
+  } else if (err instanceof EntityNotFoundError) {
+    error = new ApiError(NOT_FOUND, {
+      message: err.message,
+    });
   } else if (err instanceof Array && err[0] instanceof ValidationError) {
     error = new ApiError(VALIDATION_FAILED, {
       message: JSON.stringify(err),
     });
   } else {
-    error = new ApiError(SERVER_ERROR, { message: err.message });
+    error = new ApiError(SERVER_ERROR, { 
+      message: err.message 
+    });
   }
   res.status(status);
   res.send(error);

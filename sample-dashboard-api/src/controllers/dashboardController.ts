@@ -1,54 +1,46 @@
-import { IsObject, Length, IsString, IsOptional, IsIn, ValidateNested, IsInt, IsUUID } from 'class-validator';
+import { IsObject, Length, IsString, IsOptional, IsIn, ValidateNested, IsUUID, IsBoolean } from 'class-validator';
 import express from 'express';
 import { DashboardService } from '../services/app/dashboard_service';
-import { ApiError, NOT_FOUND } from '../utils/errors';
 import { validate } from '../middlewares/validation'
 import { JSONSchema } from 'class-validator-jsonschema';
 import { Type } from 'class-transformer';
+import { FilterRequest, PaginationRequest, SortRequest } from './base.type';
 
-class DashboardFilter {
+export class DashboardFilter extends FilterRequest {
+  @IsOptional()
   @IsString()
-  search: string;
+  @IsIn(['', 'ALL', 'REMOVED'])
+  selection?: string;
 }
 
-class DashboardSort {
-  @IsString()
-  @IsIn(['name', 'create_time'])
+export class DashboardSort implements SortRequest {
+  @IsIn(['create_time', 'name'])
   field: string;
 
-  @IsIn(['ASC', 'DESC'])
-  order: string;
-}
-
-class DashboardPagination {
-  @IsInt()
-  page: number;
-
-  @IsInt()
-  pagesize: number;
+  @IsIn(['ASC', 'DESC',])
+  order: 'ASC' | 'DESC';
 
   constructor(data: any) {
     Object.assign(this, data);
   }
 }
 
-class ListDashboardRequest {
+export class DashboardListRequest {
   @IsOptional()
   @Type(() => DashboardFilter)
   @ValidateNested({ each: true })
   filter?: DashboardFilter;
 
-  @IsOptional()
   @Type(() => DashboardSort)
   @ValidateNested({ each: true })
-  sort?: DashboardSort;
+  sort: DashboardSort = new DashboardSort({ field: 'create_time', order: 'ASC' });
 
-  @Type(() => DashboardPagination)
+  @Type(() => PaginationRequest)
   @ValidateNested({ each: true })
-  pagination: DashboardPagination = new DashboardPagination({page: 1, pagesize: 20});
+  pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
 }
 
-class CreateDashboardRequest {
+export class DashboardCreateRequest {
   @IsString()
   @Length(1, 250)
   name: string;
@@ -60,34 +52,46 @@ class CreateDashboardRequest {
   content: Record<string, unknown>;
 }
 
-class DashboardIDRequest {
+export class DashboardIDRequest {
   @IsUUID()
   id: string;
 }
 
-class DashboardUpdateRequest extends CreateDashboardRequest{
-  @IsUUID()
-  id: string;
+export class DashboardUpdateRequest extends DashboardIDRequest{
+  @IsOptional()
+  @IsString()
+  @Length(1, 250)
+  name?: string;
+
+  @IsOptional()
+  @IsObject()
+  @JSONSchema({
+    additionalProperties: { type: 'string' },
+  })
+  content?: Record<string, unknown>;
+
+  @IsOptional()
+  @IsBoolean()
+  is_removed?: boolean;
 }
 
 const router = express.Router();
-router.post('/list', validate(ListDashboardRequest), async (req: express.Request, res, next) => {
+router.post('/list', validate(DashboardListRequest), async (req: express.Request, res, next) => {
   try {
     const dashboardService = new DashboardService();
-    const {filter, pagination, sort} = req.body;
-    const result = await dashboardService.list(filter, pagination, sort);
+    const data: DashboardListRequest = req.body;
+    const result = await dashboardService.list(data);
     res.json(result);
   } catch (err) {
     next(err);
   }
 })
 
-router.post('/create', validate(CreateDashboardRequest), async (req: express.Request, res, next) => {
+router.post('/create', validate(DashboardCreateRequest), async (req: express.Request, res, next) => {
   try {
     const dashboardService = new DashboardService();
-    const name = req.body.name;
-    const content = req.body.content;
-    const result = await dashboardService.create(name, content);
+    const data: DashboardCreateRequest = req.body;
+    const result = await dashboardService.create(data);
     res.json(result);
   } catch (err) {
     next(err);
@@ -97,11 +101,8 @@ router.post('/create', validate(CreateDashboardRequest), async (req: express.Req
 router.post('/details', validate(DashboardIDRequest), async (req: express.Request, res, next) => {
   try {
     const dashboardService = new DashboardService();
-    const id = req.body.id;
-    const result = await dashboardService.get(id);
-    if (!result) {
-      throw new ApiError(NOT_FOUND);
-    }
+    const data: DashboardIDRequest = req.body;
+    const result = await dashboardService.get(data);
     res.json(result);
   } catch (err) {
     next(err);
@@ -111,11 +112,8 @@ router.post('/details', validate(DashboardIDRequest), async (req: express.Reques
 router.post('/update', validate(DashboardUpdateRequest), async (req: express.Request, res, next) => {
   try {
     const dashboardService = new DashboardService();
-    const { id, name, content } = req.body;
-    const result = await dashboardService.update(id, name, content);
-    if (!result) {
-      throw new ApiError(NOT_FOUND);
-    }
+    const data: DashboardUpdateRequest = req.body;
+    const result = await dashboardService.update(data);
     res.json(result);
   } catch (err) {
     next(err);
@@ -125,11 +123,8 @@ router.post('/update', validate(DashboardUpdateRequest), async (req: express.Req
 router.post('/delete', validate(DashboardIDRequest), async (req: express.Request, res, next) => {
   try {
     const dashboardService = new DashboardService();
-    const id = req.body.id;
-    const result = await dashboardService.delete(id);
-    if (!result) {
-      throw new ApiError(NOT_FOUND);
-    }
+    const data: DashboardIDRequest = req.body;
+    const result = await dashboardService.delete(data);
     res.json(result);
   } catch (err) {
     next(err);

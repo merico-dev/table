@@ -1,70 +1,67 @@
 import { dashboardDataSource } from './../../data_sources/dashboard';
 import Dashboard from '../../models/app/dashboard';
-import { DashboardItem } from './dashboard_service.type';
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base.type';
+import { PaginationResponse } from '../../controllers/base.type';
+import { DashboardCreateRequest, DashboardListRequest, DashboardIDRequest, DashboardUpdateRequest } from '../../controllers/dashboardController'
 
 export class DashboardService {
-  async list(filter: FilterRequest, pagination: PaginationRequest, sort: SortRequest): Promise<PaginationResponse<DashboardItem>> {
+  async list(data: DashboardListRequest): Promise<PaginationResponse<Dashboard>> {
     const qb = dashboardDataSource.manager.createQueryBuilder()
       .from(Dashboard, 'dashboard')
-      .select([
-        'dashboard.id AS id',
-        'dashboard.name AS name',
-        'dashboard.create_time AS create_time'
-      ]).offset(pagination.pagesize * (pagination.page - 1)).limit(pagination.pagesize);
+      .orderBy(data.sort.field, data.sort.order)
+      .offset(data.pagination.pagesize * (data.pagination.page - 1)).limit(data.pagination.pagesize);
 
-    if (sort && sort.field) {
-      qb.orderBy(sort.field, sort.order);
+    if (data.filter?.selection) {
+      if (data.filter.selection === 'ALL') {
+        qb.where('dashboard.is_removed in (true, false)');
+      }
+      if (data.filter.selection === 'REMOVED') {
+        qb.where('dashboard.is_removed = true');
+      }
     } else {
-      qb.orderBy('dashboard.create_time', 'ASC');
-    }
-    if (filter && filter.search) {
-      qb.where('dashboard.name ilike :search', { search: `%${filter.search}%`});
+      qb.where('dashboard.is_removed = false');
     }
 
-    const dashboards = await qb.getRawMany<DashboardItem>();
+    if (data.filter?.search) {
+      qb.andWhere('dashboard.name ilike :search', { search: `%${data.filter.search}%`});
+    }
+
+    const dashboards = await qb.getRawMany<Dashboard>();
     const count = await qb.getCount();
 
     return {
       total: count,
       data: dashboards,
-      offset: pagination.pagesize * (pagination.page - 1),
+      offset: data.pagination.pagesize * (data.pagination.page - 1),
     };
   }
 
-  async create(name: string, content: Record<string, unknown>): Promise<Dashboard> {
+  async create(data: DashboardCreateRequest): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = new Dashboard();
-    dashboard.name = name;
-    dashboard.content = content;
+    dashboard.name = data.name;
+    dashboard.content = data.content;
     let result = await dashboardRepo.save(dashboard);
     return result;
   }
 
-  async get(id: string): Promise<Dashboard | null> {
+  async get(data: DashboardIDRequest): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    let result = await dashboardRepo.findOneBy({ id });
-    return result;
+    return await dashboardRepo.findOneByOrFail({ id: data.id });
   }
 
-  async update(id: string, name: string, content: Record<string, unknown> ): Promise<Dashboard | null> {
+  async update(data: DashboardUpdateRequest ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    let result = await dashboardRepo.findOneBy({ id });
-    if (result) {
-      result.name = name;
-      result.content = content;
-      return await dashboardRepo.save(result);
-    }
-    return result;
+    const dashboard = await dashboardRepo.findOneByOrFail({ id: data.id });
+    dashboard.name = data.name === undefined ? dashboard.name : data.name;
+    dashboard.content = data.content === undefined ? dashboard.content : data.content;
+    dashboard.is_removed = data.is_removed === undefined ? dashboard.is_removed : data.is_removed;
+    return await dashboardRepo.save(dashboard);
   }
 
-  async delete(id: string): Promise<Dashboard | null> {
+  async delete(data: DashboardIDRequest): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    let result = await dashboardRepo.findOneBy({ id });
-    if (result) {
-      result.is_removed = true;
-      result = await dashboardRepo.save(result);
-    }
-    return result;
+    const dashboard = await dashboardRepo.findOneByOrFail({ id: data.id });
+    dashboard.is_removed = true;
+    return await dashboardRepo.save(dashboard);
   }
 }
