@@ -26,10 +26,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@mantine/core": "^4.2.5",
     "@mantine/dates": "^4.2.5",
