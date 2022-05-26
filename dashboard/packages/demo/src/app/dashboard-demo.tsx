@@ -1,9 +1,12 @@
 import React from 'react';
 
 import { Dashboard, ContextInfoContext, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
-import { DEMO_PANELS } from "./demo.data";
-import './index.css'
 import { Filters } from '../components/filters';
+
+import { DEMO_PANELS } from "./demo.data";
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+import './index.css'
 
 const DEMO_DASHBOARD: IDashboard = {
   id: 'demo',

@@ -2,9 +2,7 @@ import React from "react";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
 import { Panel } from "../panel";
-import { DashboardMode, IDashboardPanel } from "../types/dashboard";
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
+import { IDashboardPanel } from "../types/dashboard";
 import './index.css'
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
