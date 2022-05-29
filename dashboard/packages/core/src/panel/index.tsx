@@ -28,7 +28,7 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
   const [viz, setViz] = React.useState(initialViz);
 
   const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo, definitions, title), {
-    refreshDeps: [contextInfo],
+    refreshDeps: [contextInfo, definitions],
   });
   const refreshData = refresh;
   return (
