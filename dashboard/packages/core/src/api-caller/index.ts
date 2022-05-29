@@ -6,7 +6,6 @@ import { post } from "./request";
 function formatSQL(sql: string, params: Record<string, any>) {
   const names = Object.keys(params);
   const vals = Object.values(params);
-  console.log({ names, vals })
   return new Function(...names, `return \`${sql}\`;`)(...vals);
 };
 
@@ -20,14 +19,16 @@ function getSQLParams(context: ContextInfoContextType, definitions: IDashboardDe
   return _.defaultsDeep(context, sqlSnippetRecord);
 }
 
-export const queryBySQL = (sql: string, context: ContextInfoContextType, definitions: IDashboardDefinition) => async () => {
+export const queryBySQL = (sql: string, context: ContextInfoContextType, definitions: IDashboardDefinition, title: string) => async () => {
   if (!sql) {
     return [];
   }
   const params = getSQLParams(context, definitions);
   const formattedSQL = formatSQL(sql, params);
   if (sql.includes('$')) {
+    console.groupCollapsed(`Final SQL for: ${title}`);
     console.log(formattedSQL);
+    console.groupEnd();
   }
   const res = await post('/query', { sql: formattedSQL })
   return res;
