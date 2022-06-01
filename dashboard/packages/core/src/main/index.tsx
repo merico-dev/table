@@ -23,6 +23,11 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
+  const updateDashboard = () => {
+    const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets }})
+    console.log(d)
+  }
+
   const addPanel = () => {
     /*eslint no-console: 0*/
     console.log("adding", "n" + newCounter);
@@ -60,6 +65,7 @@ export function Dashboard({
             mode={mode}
             setMode={setMode}
             addPanel={addPanel}
+            saveChanges={updateDashboard}
           />
           <DashboardLayout
             panels={panels}

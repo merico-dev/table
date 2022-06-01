@@ -8,11 +8,13 @@ interface IDashboardActions {
   mode: DashboardMode;
   setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
   addPanel: () => void;
+  saveChanges: () => void;
 }
 export function DashboardActions({
   mode,
   setMode,
   addPanel,
+  saveChanges,
 }: IDashboardActions) {
   const inEditMode = mode === DashboardMode.Edit;
   return (
@@ -23,7 +25,7 @@ export function DashboardActions({
       {inEditMode && (
         <Group position="right">
           <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>
-          <Button variant="default" size="sm" disabled leftIcon={<DeviceFloppy size={20} />}>Save Dashboard</Button>
+          <Button variant="default" size="sm" onClick={saveChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>
           <Button color="red" size="sm" disabled leftIcon={<Recycle size={20} />}>Revert Changes</Button>
         </Group>
       )}
