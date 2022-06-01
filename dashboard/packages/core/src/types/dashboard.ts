@@ -5,16 +5,16 @@ export interface IVizConfig {
 
 export interface IDashboardPanel {
   id: string;
-    title: string;
-    description: string;
-    layout: {
-      x: number;
-      y: number;
-      w: number;
-      h: number;
-    },
-    sql: string;
-    viz: IVizConfig;
+  title: string;
+  description: string;
+  layout: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  },
+  sql: string;
+  viz: IVizConfig;
 }
 
 export enum DashboardMode {
