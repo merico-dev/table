@@ -10,10 +10,12 @@ import { useListState } from "@mantine/hooks";
 interface IDashboardProps {
   dashboard: IDashboard;
   className?: string;
+  update: (dashboard: IDashboard) => Promise<void>;
 }
 
 export function Dashboard({
   dashboard,
+  update,
   className = "dashboard",
 }: IDashboardProps) {
   const [layoutFrozen, freezeLayout] = React.useState(false);
@@ -28,9 +30,9 @@ export function Dashboard({
     return !_.isEqual(panels, dashboard.panels) || !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
   }, [dashboard, panels, sqlSnippets])
 
-  const updateDashboard = () => {
+  const saveDashboardChanges = async () => {
     const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets }})
-    console.log(d)
+    await update(d);
   }
 
   const addPanel = () => {
@@ -75,7 +77,7 @@ export function Dashboard({
             setMode={setMode}
             hasChanges={hasChanges}
             addPanel={addPanel}
-            saveChanges={updateDashboard}
+            saveChanges={saveDashboardChanges}
           />
           <DashboardLayout
             panels={panels}

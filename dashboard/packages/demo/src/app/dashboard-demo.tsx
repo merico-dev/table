@@ -14,11 +14,15 @@ export function DashboardDemo() {
   const [context, setContext] = React.useState(initialContextInfoContext);
 
   const hasContext = React.useMemo(() => Object.keys(context).length > 0, [context]);
+
+  const updateDashboard = React.useCallback(async (d: IDashboard) => {
+    console.log(d)
+  }, [])
   return (
     <div className='dashboard-demo'>
       <ContextInfoContext.Provider value={context}>
         <Filters submit={setContext} />
-        {hasContext && <Dashboard dashboard={dashboard}/>}
+        {hasContext && <Dashboard dashboard={dashboard} update={updateDashboard}/>}
       </ContextInfoContext.Provider>
     </div>
   )
