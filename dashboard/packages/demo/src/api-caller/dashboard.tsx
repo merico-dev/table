@@ -21,7 +21,20 @@ export const DashboardAPI = {
         panels,
       }
     };
-    const res = await post('/dashboard/update', payload);
+    const res: IDBDashboard = await post('/dashboard/update', payload);
+    return normalizeDBDashboard(res);
+  },
+  create: async (name: string): Promise<IDashboard> => {
+    const payload = {
+      name,
+      content: {
+        definition: {
+          sqlSnippets: [],
+        },
+        panels: [],
+      },
+    }
+    const res: IDBDashboard = await post('/dashboard/create', payload);
     return normalizeDBDashboard(res);
   }
 }
