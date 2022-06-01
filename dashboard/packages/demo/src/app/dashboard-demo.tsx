@@ -8,7 +8,7 @@ import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import './index.css'
 
-export function DashboardDemo() {
+export function DashboardDemo({ id }: { id: string }) {
   const [dashboard, setDashboard] = React.useState<IDashboard>(DEMO_COMMIT_DASHBOARD)
 
   const [context, setContext] = React.useState(initialContextInfoContext);
