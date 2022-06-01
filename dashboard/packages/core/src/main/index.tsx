@@ -27,7 +27,15 @@ export function Dashboard({
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const hasChanges = React.useMemo(() => {
-    return !_.isEqual(panels, dashboard.panels) || !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
+    // local panels' layouts would contain some undefined runtime values
+    const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
+
+    const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
+    if (!panelsEqual) {
+      return true;
+    }
+
+    return !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
   }, [dashboard, panels, sqlSnippets])
 
   const saveDashboardChanges = async () => {
