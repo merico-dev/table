@@ -7,12 +7,14 @@ import { ModeToggler } from "./toggle-mode";
 interface IDashboardActions {
   mode: DashboardMode;
   setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
+  hasChanges: boolean;
   addPanel: () => void;
   saveChanges: () => void;
 }
 export function DashboardActions({
   mode,
   setMode,
+  hasChanges,
   addPanel,
   saveChanges,
 }: IDashboardActions) {
@@ -25,8 +27,8 @@ export function DashboardActions({
       {inEditMode && (
         <Group position="right">
           <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>
-          <Button variant="default" size="sm" onClick={saveChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>
-          <Button color="red" size="sm" disabled leftIcon={<Recycle size={20} />}>Revert Changes</Button>
+          <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>
+          <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>
         </Group>
       )}
       {!inEditMode && (

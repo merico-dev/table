@@ -23,6 +23,10 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
+  const hasChanges = React.useMemo(() => {
+    return !_.isEqual(panels, dashboard.panels) || !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
+  }, [dashboard, panels, sqlSnippets])
+
   const updateDashboard = () => {
     const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets }})
     console.log(d)
@@ -64,6 +68,7 @@ export function Dashboard({
           <DashboardActions
             mode={mode}
             setMode={setMode}
+            hasChanges={hasChanges}
             addPanel={addPanel}
             saveChanges={updateDashboard}
           />
