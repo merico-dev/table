@@ -7,25 +7,32 @@ import { PanelContext } from '../contexts/panel-context';
 import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
-import { IVizConfig } from '../types/dashboard';
+import { IDashboardPanel } from '../types/dashboard';
 import { DefinitionContext } from '../contexts';
 
-interface IPanel {
-  layout: any;
+interface IPanel extends IDashboardPanel {
   destroy: () => void;
-  sql: string;
-  viz: IVizConfig;
-  title: string;
-  description: string;
+  update: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc }: IPanel) {
+export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
   const [sql, setSQL] = React.useState(initialSQL);
   const [viz, setViz] = React.useState(initialViz);
+
+  React.useEffect(() => {
+    update({
+      id,
+      layout,
+      title,
+      description,
+      sql,
+      viz,
+    });
+  }, [title, description, sql, viz, id, layout])
 
   const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo, definitions, title), {
     refreshDeps: [contextInfo, definitions],

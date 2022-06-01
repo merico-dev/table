@@ -1,10 +1,11 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, IDashboardPanel, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard, ISQLSnippet } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 import { DefinitionContext } from "../contexts/definition-context";
+import { useListState } from "@mantine/hooks";
 
 interface IDashboardProps {
   dashboard: IDashboard;
@@ -19,7 +20,7 @@ export function Dashboard({
   const [newCounter, setNewCounter] = React.useState(0)
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()
-  const [panels, setPanels] = React.useState<IDashboardPanel[]>(dashboard.panels)
+  const [panels, setPanels] = useListState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
@@ -53,11 +54,12 @@ export function Dashboard({
         conf: {},
       }
     };
-    setPanels(panels => ([...panels, newItem]));
+    setPanels.append(newItem);
   }
 
   const removePanelByID = (id: string) => {
-    setPanels(panels => _.reject(panels, { id }));
+    const index = panels.findIndex(p => p.id === id);
+    setPanels.remove(index);
   }
 
   const inEditMode = mode === DashboardMode.Edit;
@@ -74,6 +76,7 @@ export function Dashboard({
           />
           <DashboardLayout
             panels={panels}
+            setPanels={setPanels}
             isDraggable={inEditMode && !layoutFrozen}
             isResizable={inEditMode && !layoutFrozen}
             onRemoveItem={removePanelByID}
