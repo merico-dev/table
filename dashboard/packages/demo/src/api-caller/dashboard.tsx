@@ -11,5 +11,17 @@ export const DashboardAPI = {
   details: async (id: string): Promise<IDashboard> => {
     const res = await post('/dashboard/details', { id })
     return normalizeDBDashboard(res);
+  },
+  update: async ({ id, name, definition, panels }: IDashboard): Promise<IDashboard> => {
+    const payload = {
+      id,
+      name,
+      content: {
+        definition,
+        panels,
+      }
+    };
+    const res = await post('/dashboard/update', payload);
+    return normalizeDBDashboard(res);
   }
 }
