@@ -63,9 +63,12 @@ export function Dashboard({
   }
 
   const inEditMode = mode === DashboardMode.Edit;
+
+  const definitions = React.useMemo(() => ({ sqlSnippets, setSQLSnippets }), [sqlSnippets, setSQLSnippets]);
+
   return (
     <div className={className}>
-      <DefinitionContext.Provider value={{ sqlSnippets, setSQLSnippets }}>
+      <DefinitionContext.Provider value={definitions}>
         <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode }}>
           <DashboardActions
             mode={mode}
