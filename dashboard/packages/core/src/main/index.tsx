@@ -5,7 +5,7 @@ import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 import { DefinitionContext } from "../contexts/definition-context";
-import { useListState } from "@mantine/hooks";
+import { randomId, useListState } from "@mantine/hooks";
 
 interface IDashboardProps {
   dashboard: IDashboard;
@@ -19,7 +19,6 @@ export function Dashboard({
   className = "dashboard",
 }: IDashboardProps) {
   const [layoutFrozen, freezeLayout] = React.useState(false);
-  const [newCounter, setNewCounter] = React.useState(0)
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()
   const [panels, setPanels] = useListState(dashboard.panels)
@@ -44,10 +43,7 @@ export function Dashboard({
   }
 
   const addPanel = () => {
-    /*eslint no-console: 0*/
-    console.log("adding", "n" + newCounter);
-    setNewCounter(v => v + 1)
-    const id = "n" + newCounter;
+    const id = randomId();
     const newItem = {
       id,
       layout: {
