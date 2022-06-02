@@ -3,6 +3,7 @@ import React from "react";
 import { Settings } from "tabler-icons-react";
 import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
+import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
 import { ContextInfo } from "./context-info";
 import { QueryEditor } from "./query-editor";
@@ -65,7 +66,9 @@ export function PanelSettings({ }: IPanelSettings) {
             </Navbar>
           )}
         >
-          <Viz viz={viz} data={data} loading={loading} />
+          <ErrorBoundary>
+            <Viz viz={viz} data={data} loading={loading} />
+          </ErrorBoundary>
         </AppShell>
       </Modal>
       <ActionIcon variant="hover" color="blue" loading={loading} onClick={open}>

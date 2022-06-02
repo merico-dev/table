@@ -9,6 +9,7 @@ import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { DefinitionContext } from '../contexts';
+import { ErrorBoundary } from './error-boundary';
 
 interface IPanel extends IDashboardPanel {
   destroy: () => void;
@@ -56,7 +57,9 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
     >
       <Container className="panel-root">
         <PanelTitleBar />
-        <Viz viz={viz} data={data} loading={loading} />
+        <ErrorBoundary>
+          <Viz viz={viz} data={data} loading={loading} />
+        </ErrorBoundary>
       </Container>
     </PanelContext.Provider>
   )
