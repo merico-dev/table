@@ -5,6 +5,7 @@ import React from "react";
 import { ContextInfoContext, ContextInfoContextType, TimeRangeType } from "@devtable/dashboard";
 import { ContributorSelector } from "./contributor-selector";
 import { RepositorySelector } from "./repository-selector";
+import { JenkinsJobSelector } from "./jenkins-job-selector";
 
 interface IFilters {
   submit: React.Dispatch<React.SetStateAction<ContextInfoContextType>>;
@@ -20,6 +21,7 @@ export function Filters({ submit }: IFilters) {
 
   const [emails, setEmails] = React.useState<string[]>([]);
   const [repoIDs, setRepoIDs] = React.useState<string[]>([]);
+  const [jenkinsJobIDs, setJenkinsJobIDs] = React.useState<string[]>([]);
 
   const doSubmit = React.useCallback(() => {
     submit(prev => ({
@@ -27,14 +29,15 @@ export function Filters({ submit }: IFilters) {
       timeRange,
       emails,
       repoIDs,
+      jenkinsJobIDs,
     }))
-  }, [submit, timeRange, emails, repoIDs])
+  }, [submit, timeRange, emails, repoIDs, jenkinsJobIDs])
 
   React.useEffect(doSubmit, [])
 
   const hasChanges = React.useMemo(() => {
-    return !_.isEqual(timeRange, contextInfo.timeRange) || !_.isEqual(emails, contextInfo.emails)  || !_.isEqual(repoIDs, contextInfo.repoIDs);
-  }, [timeRange, emails, repoIDs, contextInfo]);
+    return !_.isEqual(timeRange, contextInfo.timeRange) || !_.isEqual(emails, contextInfo.emails)  || !_.isEqual(repoIDs, contextInfo.repoIDs) || !_.isEqual(jenkinsJobIDs, contextInfo.jenkinsJobIDs);
+  }, [timeRange, emails, repoIDs, jenkinsJobIDs, contextInfo]);
 
   return (
       <Group position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
@@ -55,6 +58,10 @@ export function Filters({ submit }: IFilters) {
           <RepositorySelector
             value={repoIDs}
             onChange={setRepoIDs}
+          />
+          <JenkinsJobSelector
+            value={jenkinsJobIDs}
+            onChange={setJenkinsJobIDs}
           />
         </Group>
         <Group sx={{ alignSelf: 'flex-end' }}>

@@ -36,7 +36,7 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
   const chartData = React.useMemo(() => {
     return data.map(d => ({
       name: d[label_field],
-      value: d[value_field],
+      value: Number(d[value_field]),
     }));
   }, [data, label_field, value_field]);
 
@@ -54,7 +54,7 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
       }
     }
   }), []);
-  const option = _.defaultsDeep(defaultOption, labelOption, restConf, { series: { data: chartData } });
+  const option = _.merge(defaultOption, labelOption, restConf, { series: { data: chartData } });
 
   return (
     <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />

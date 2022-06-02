@@ -1,17 +1,17 @@
 import { AppShell, LoadingOverlay, MantineProvider } from '@mantine/core';
 import { Header } from '../components/header';
 import { DashboardDemo } from './dashboard-demo';
+import { useParams } from 'react-router-dom';
+import { NotificationsProvider } from '@mantine/notifications';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
-import React from 'react';
-import { NotificationsProvider } from '@mantine/notifications';
 
 function App() {
-  const [id, setID] = React.useState('');
+  const { id } = useParams()
   return (
     <AppShell
       padding="md"
-      header={<Header id={id} setID={setID} />}
+      header={<Header />}
     >
       <LoadingOverlay visible={!id} />
       <MantineProvider>

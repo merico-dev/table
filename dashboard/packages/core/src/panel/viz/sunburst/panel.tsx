@@ -3,11 +3,11 @@ import { useForm } from "@mantine/form";
 import { DeviceFloppy } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
 
-export function SunburstPanel({ conf: { columns, ...restConf }, setConf }: IVizPanelProps) {
+export function SunburstPanel({ conf: { label_field, value_field }, setConf }: IVizPanelProps) {
   const form = useForm({
     initialValues: {
-      label_field: 'name',
-      value_field: 'value',
+      label_field: label_field,
+      value_field: value_field,
     },
   });
 

@@ -1,53 +1,45 @@
-import { Group, Tooltip, Text, ActionIcon } from '@mantine/core';
+import { Group, Tooltip, Text, ActionIcon, Menu, Divider } from '@mantine/core';
 import React from 'react';
-import { InfoCircle, Refresh } from 'tabler-icons-react';
+import { InfoCircle, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
-import { PanelSettings } from './settings';
-
-function PanelTitle({ title, description }: { title: string; description: string }) {
-  return (
-    <Group position="center" sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
-      {!description && <Text weight="bold" sx={{ marginLeft: '5px', display: 'inline' }}>{title}</Text>}
-      {description && (
-        <div>
-          <Tooltip
-            label={description}
-            withArrow
-          >
-            <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
-            <Text weight="bold" sx={{ marginLeft: '5px', display: 'inline' }}>{title}</Text>
-          </Tooltip>
-        </div>
-      )}
-    </Group>
-  )
-}
+import { PanelSettingsModal } from './settings';
 
 interface IPanelTitleBar {
 }
 
 export function PanelTitleBar({ }: IPanelTitleBar) {
+  const [opened, setOpened] = React.useState(false);
+  const open = () => setOpened(true);
+  const close = () => setOpened(false);
+
   const { title, description, loading, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
   return (
-    <>
-      <PanelTitle title={title} description={description} />
+    <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
+      <Group>
+        {description && (
+          <Tooltip label={description} withArrow>
+            <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
+          </Tooltip>
+        )}
+      </Group>
+      <Group grow position="center">
+        <Text lineClamp={1} weight="bold">{title}</Text>
+      </Group>
       <Group
         position="right"
         spacing={0}
-        sx={{
-          position: 'absolute',
-          right: '15px',
-          top: '4px',
-          height: '28px',
-        }}
+        sx={{ height: '28px' }}
       >
-        <ActionIcon variant="hover" color="blue" loading={loading} onClick={refreshData}>
-          <Refresh size={16} />
-        </ActionIcon>
-        {inEditMode && <PanelSettings />}
+        <Menu>
+          <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
+          {inEditMode && <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>}
+          <Divider />
+          <Menu.Item color="red" disabled icon={<Trash size={14} />}>Delete</Menu.Item>
+        </Menu>
       </Group>
-    </>
+      {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
+    </Group>
   )
 }
