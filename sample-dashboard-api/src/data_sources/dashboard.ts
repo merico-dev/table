@@ -1,5 +1,5 @@
 import path from 'path';
-import { DataSource } from "typeorm";
+import { DataSource } from 'typeorm';
 
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
@@ -8,5 +8,5 @@ export const dashboardDataSource = new DataSource({
   url: process.env.PG_URL,
   migrationsTableName: 'schema_migrations',
   migrations: ['src/data_sources/migrations/*.ts', 'dist/data_sources/migrations/*.js'],
-  entities: ['src/models/app/*.ts', 'dist/models/app/*.js'],
+  entities: ['src/models/*.ts', 'dist/models/*.js'],
 });

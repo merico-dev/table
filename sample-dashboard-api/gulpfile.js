@@ -34,7 +34,11 @@ function copyPackageJson() {
   return gulp.src(['package.json', 'yarn.lock'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
 }
 
-const build = gulp.parallel(copyPackageJson, compile);
+function copySwagger() {
+  return gulp.src(['./swagger/**/*'], { cwd: __dirname }).pipe(gulp.dest(buildDir + '/swagger/'));
+}
+
+const build = gulp.parallel(copyPackageJson, copySwagger, compile);
 
 module.exports = {
   build,
