@@ -5,11 +5,9 @@ import { DashboardSelector } from './dashboard-selector';
 import { MericoLogo } from './merico-logo';
 
 interface IHeader {
-  id: string;
-  setID: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function Header({ id, setID }: IHeader) {
+export function Header({ }: IHeader) {
   return (
     <MantineHeader height={60} p="md">
       <Group position='apart'>
@@ -18,7 +16,7 @@ export function Header({ id, setID }: IHeader) {
           <Text size="xl" >Dashboard</Text>
         </Group>
         <Group position='right'>
-          <DashboardSelector id={id} setID={setID} />
+          <DashboardSelector />
           <CreateDashboard />
         </Group>
       </Group>
