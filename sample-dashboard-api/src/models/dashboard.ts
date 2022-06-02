@@ -1,8 +1,8 @@
 import { Entity, Column } from "typeorm";
-import { BaseModel } from "../base/base";
+import { BaseModel } from "./base";
 
 @Entity()
-export default class Dashboard extends BaseModel{
+export default class Dashboard extends BaseModel {
   @Column('character varying', {
     nullable: false,
     primary: false,
@@ -11,7 +11,7 @@ export default class Dashboard extends BaseModel{
   name: string;
 
   @Column('jsonb', { name: 'content' })
-  content: Record<string, unknown>;
+  content: object | null;
 
   @Column('boolean', {
     default: false,

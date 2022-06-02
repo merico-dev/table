@@ -1,5 +1,5 @@
 import express from 'express';
-import { Validator } from "class-validator";
+import { Validator } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 
 type Constructor<T> = {new(): T};

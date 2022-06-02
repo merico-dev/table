@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "esModuleInterop": true,
-    "types": ["reflect-metadata", "node"],
+    "types": ["reflect-metadata", "swagger-express-ts", "node"],
     "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
