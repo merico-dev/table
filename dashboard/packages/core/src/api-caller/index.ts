@@ -16,7 +16,7 @@ function getSQLParams(context: ContextInfoContextType, definitions: IDashboardDe
   }, {})
 
   // sql snippets might use context, so context must be at a higher priority
-  return _.defaultsDeep(context, sqlSnippetRecord);
+  return _.merge({}, sqlSnippetRecord, context);
 }
 
 export const queryBySQL = (sql: string, context: ContextInfoContextType, definitions: IDashboardDefinition, title: string) => async () => {

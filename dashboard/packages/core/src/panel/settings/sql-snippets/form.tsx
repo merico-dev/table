@@ -3,7 +3,7 @@ import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
-import { Trash } from "tabler-icons-react";
+import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { IDefinitionContext } from "../../../contexts";
 import { ISQLSnippet } from "../../../types";
 
@@ -15,8 +15,6 @@ export function SQLSnippetsForm({
   sqlSnippets,
   setSQLSnippets,
 }: ISQLSnippetsForm) {
-  const submitButton = React.useRef<HTMLButtonElement>(null)
-
   const initialValues = React.useMemo(() => ({
     snippets: formList<ISQLSnippet>(sqlSnippets ?? []),
   }), [sqlSnippets]);
@@ -32,20 +30,13 @@ export function SQLSnippetsForm({
 
   const changed = React.useMemo(() => !_.isEqual(form.values, initialValues), [form.values, initialValues])
 
-  React.useEffect(() => {
-    if (changed) {
-      submitButton?.current?.click()
-    }
-  }, [changed, submitButton.current])
-
   const submit = ({ snippets }: typeof form.values) => {
     setSQLSnippets(snippets);
   }
 
   return (
-    <Group direction="column" sx={{ width: '100%' }} grow>
+    <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
       <form onSubmit={form.onSubmit(submit)}>
-        <button ref={submitButton} type='submit' style={{ display: 'none' }}>Ghost submit</button>
         {form.values.snippets.map((_item, index) => (
           <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
             <TextInput
@@ -69,9 +60,12 @@ export function SQLSnippetsForm({
             </ActionIcon>
           </Group>
         ))}
-        <Group position="center" mt="xl" grow sx={{ width: '60%' }} mx="auto">
-          <Button color="blue" onClick={addSnippet}>
+        <Group position="center" mt="xl" grow sx={{ width: '80%' }} mx="auto">
+          <Button variant="default" onClick={addSnippet}>
             Add a snippet
+          </Button>
+          <Button color="blue" type="submit" disabled={!changed}>
+            Submit
           </Button>
         </Group>
       </form>
