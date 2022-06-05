@@ -19,6 +19,13 @@ const defaultOption = {
     type: 'category',
   },
   yAxis: {},
+  grid: {
+    top: 30,
+    left: 10,
+    right: 10,
+    bottom: 10,
+    containLabel: true,
+  }
 }
 
 interface ILineBarChart {
