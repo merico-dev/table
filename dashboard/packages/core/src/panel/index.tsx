@@ -12,8 +12,8 @@ import { DefinitionContext } from '../contexts';
 import { ErrorBoundary } from './error-boundary';
 
 interface IPanel extends IDashboardPanel {
-  destroy: () => void;
-  update: (panel: IDashboardPanel) => void;
+  destroy?: () => void;
+  update?: (panel: IDashboardPanel) => void;
 }
 
 export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
@@ -25,7 +25,7 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
   const [viz, setViz] = React.useState(initialViz);
 
   React.useEffect(() => {
-    update({
+    update?.({
       id,
       layout,
       title,
