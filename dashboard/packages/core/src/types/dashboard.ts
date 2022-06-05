@@ -12,6 +12,8 @@ export interface IDashboardPanel {
     y: number;
     w: number;
     h: number;
+    moved?: boolean;
+    static?: boolean;
   },
   sql: string;
   viz: IVizConfig;
