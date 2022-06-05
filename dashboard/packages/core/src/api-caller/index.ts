@@ -25,7 +25,6 @@ export const queryBySQL = (sql: string, context: ContextInfoContextType, definit
   }
   const needParams = sql.includes('$');
   const params = getSQLParams(context, definitions);
-  console.log(needParams, params)
   if (needParams && Object.keys(params).length === 0) {
     console.error(`[queryBySQL] insufficient params for {${title}}'s SQL`)
     return [];
