@@ -47,9 +47,9 @@ export function Dashboard({
     const newItem = {
       id,
       layout: {
-        x: (panels.length * 2) % (localCols || 12),
+        x: 0,
         y: Infinity, // puts it at the bottom
-        w: 4,
+        w: 3,
         h: 4,
       },
       title: `New Panel - ${id}`,
