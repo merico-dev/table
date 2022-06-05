@@ -25,13 +25,13 @@ const marks = [
   },
 ]
 
-interface IMantineFontSizeSlider {
+interface IMantineFontWeightSlider {
   label: string;
   value: string;
   onChange: (value: string) => void;
 }
 
-export function MantineFontSizeSlider({ label, value, onChange }: IMantineFontSizeSlider) {
+export function MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider) {
   const [mark, setMark] = React.useState(marks.find(m => m.label === value)?.value ?? marks[0].value);
 
   React.useEffect(() => {
