@@ -4,7 +4,6 @@ import { randomId } from "@mantine/hooks";
 import { Prism } from "@mantine/prism";
 import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
-import { MantineSizeSlider } from "../../settings/common/mantine-size";
 import { IColumnConf, ValueType } from "./type";
 import { ValueTypeSelector } from "./value-type-selector";
 
@@ -37,18 +36,27 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizP
         <Group direction="column" mt="md" spacing="xs" grow p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <TextInput size="md" mb="lg" label="ID Field" {...form.getInputProps('id_field')} />
           <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
-            <MantineSizeSlider
+            <TextInput
               label="Horizontal Spacing"
+              placeholder="10px, 1em, 1rem, 100%..."
+              required
+              sx={{ flex: 1 }}
               {...form.getInputProps('horizontalSpacing')}
             />
-            <MantineSizeSlider
+            <TextInput
               label="Vertical Spacing"
+              placeholder="10px, 1em, 1rem, 100%..."
+              required
+              sx={{ flex: 1 }}
               {...form.getInputProps('verticalSpacing')}
             />
           </Group>
           <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
-            <MantineSizeSlider
+            <TextInput
               label="Font Size"
+              placeholder="10px, 1em, 1rem, 100%..."
+              required
+              sx={{ flex: 1 }}
               {...form.getInputProps('size')}
             />
           </Group>

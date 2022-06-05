@@ -21,8 +21,8 @@ interface IVizText {
 export function VizText({ conf: { paragraphs }, data }: IVizText) {
   return (
     <>
-      {paragraphs.map(({ template, ...rest }: any, index: number) => (
-        <Text key={`${template}---${index}`} {...rest}>{interpolateString(template, data[0])}</Text>
+      {paragraphs.map(({ template, size, ...rest }: any, index: number) => (
+        <Text key={`${template}---${index}`} {...rest} sx={{ fontSize: size }}>{interpolateString(template, data[0])}</Text>
       ))}
     </>
   )

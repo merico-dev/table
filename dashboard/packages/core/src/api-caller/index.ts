@@ -23,9 +23,14 @@ export const queryBySQL = (sql: string, context: ContextInfoContextType, definit
   if (!sql) {
     return [];
   }
+  const needParams = sql.includes('$');
   const params = getSQLParams(context, definitions);
+  if (needParams && Object.keys(params).length === 0) {
+    console.error(`[queryBySQL] insufficient params for {${title}}'s SQL`)
+    return [];
+  }
   const formattedSQL = formatSQL(sql, params);
-  if (sql.includes('$')) {
+  if (needParams) {
     console.groupCollapsed(`Final SQL for: ${title}`);
     console.log(formattedSQL);
     console.groupEnd();

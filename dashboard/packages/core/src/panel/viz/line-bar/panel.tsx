@@ -3,12 +3,11 @@ import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
-import { Trash } from "tabler-icons-react";
+import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { ILineBarChartSeriesItem, IVizLineBarChartPanel } from "./type";
 
 export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
-  const submitButton = React.useRef<HTMLButtonElement>(null)
   const { series, ...restConf } = conf;
   const initialValues = React.useMemo(() => ({
     series: formList<ILineBarChartSeriesItem>(series ?? []),
@@ -30,18 +29,14 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
 
   const changed = React.useMemo(() => !_.isEqual(form.values, initialValues), [form.values, initialValues])
 
-  React.useEffect(() => {
-    if (changed) {
-      submitButton?.current?.click()
-    }
-  }, [changed, submitButton.current])
-
   return (
     <Group direction="column" mt="md" spacing="xs" grow>
       <form onSubmit={form.onSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Chart Config</Text>
-          <button ref={submitButton} type='submit' style={{ display: 'none' }}>Ghost submit</button>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue">
+            <DeviceFloppy size={20} />
+          </ActionIcon>
         </Group>
         <TextInput size="md" mb="lg" label="X Axis Data Key" {...form.getInputProps('x_axis_data_key')} />
         <Group direction="column" grow>

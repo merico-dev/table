@@ -5,8 +5,7 @@ import { Prism } from "@mantine/prism";
 import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
-import { MantineSizeSlider } from "../../settings/common/mantine-size";
-import { MantineFontSizeSlider } from "../../settings/common/mantine-weight";
+import { MantineFontWeightSlider } from "../../settings/common/mantine-font-weight";
 
 interface IParagraph {
   align: 'center' | 'left' | 'right';
@@ -70,9 +69,16 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
               <Text>Color</Text>
               <MantineColorSelector {...form.getListInputProps('paragraphs', index, 'color')} />
             </Group>
+            <Group direction="column" grow>
+              <TextInput
+                label="Font Size"
+                placeholder="10px, 1em, 1rem, 100%..."
+                sx={{ flex: 1 }}
+                {...form.getListInputProps('paragraphs', index, 'size')}
+              />
+            </Group>
             <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
-              <MantineSizeSlider label="Font Size" {...form.getListInputProps('paragraphs', index, 'size')} />
-              <MantineFontSizeSlider label="Font Weight" {...form.getListInputProps('paragraphs', index, 'weight')} />
+              <MantineFontWeightSlider label="Font Weight" {...form.getListInputProps('paragraphs', index, 'weight')} />
             </Group>
             <ActionIcon
               color="red"

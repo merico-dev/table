@@ -1,37 +1,37 @@
-import { Group, Slider, Text } from "@mantine/core";
+import { Group, Text, Slider } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
 
 const marks = [
   {
-    "value": 0,
-    "label": "xs"
+    label: 'initial',
+    value: 0,
   },
   {
-    "value": 25,
-    "label": "sm"
+    label: '500',
+    value: 25,
   },
   {
-    "value": 50,
-    "label": "md"
+    label: '700',
+    value: 50,
   },
   {
-    "value": 75,
-    "label": "lg"
+    label: 'semibold',
+    value: 75,
   },
   {
-    "value": 100,
-    "label": "xl"
-  }
-];
+    label: 'bold',
+    value: 100,
+  },
+]
 
-interface IMantineSizeSlider {
+interface IMantineFontWeightSlider {
   label: string;
   value: string;
   onChange: (value: string) => void;
 }
 
-export function MantineSizeSlider({ label, value, onChange }: IMantineSizeSlider) {
+export function MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider) {
   const [mark, setMark] = React.useState(marks.find(m => m.label === value)?.value ?? marks[0].value);
 
   React.useEffect(() => {
