@@ -53,7 +53,7 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
         }
       }
     }
-  }), []);
+  }), [max]);
   const option = _.merge(defaultOption, labelOption, restConf, { series: { data: chartData } });
 
   return (
