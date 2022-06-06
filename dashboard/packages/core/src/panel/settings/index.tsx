@@ -4,7 +4,6 @@ import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
 import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
-import { ContextInfo } from "./context-info";
 import { QueryEditor } from "./query-editor";
 import { QueryResult } from "./query-result";
 import { SQLSnippetsTab } from "./sql-snippets";
@@ -42,10 +41,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         padding="md"
         navbar={(
           <Navbar width={{ base: '40%' }} height="100%" p="xs">
-            <Tabs initialTab={1}>
-              <Tabs.Tab label="Context">
-                <ContextInfo />
-              </Tabs.Tab>
+            <Tabs initialTab={3}>
               <Tabs.Tab label="SQL Snippets">
                 <SQLSnippetsTab />
               </Tabs.Tab>
