@@ -24,10 +24,6 @@ export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, titl
   const [dataSourceID, setDataSourceID] = React.useState(initialDataSourceID);
   const [viz, setViz] = React.useState(initialViz);
 
-  if (!initialDataSourceID) {
-    console.log(id)
-  }
-
   const dataSource = React.useMemo(() => {
     if (!dataSourceID) {
       return undefined;
@@ -53,7 +49,7 @@ export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, titl
     title,
     dataSource,
   }), {
-    refreshDeps: [contextInfo, definitions],
+    refreshDeps: [contextInfo, definitions, dataSource],
   });
   const refreshData = refresh;
   return (

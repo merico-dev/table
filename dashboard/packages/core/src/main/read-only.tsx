@@ -1,9 +1,8 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DefinitionContext } from "../contexts/definition-context";
-import { useListState } from "@mantine/hooks";
 import { ReadOnlyDashboardLayout } from "../layout/read-only";
 
 interface IReadOnlyDashboard {

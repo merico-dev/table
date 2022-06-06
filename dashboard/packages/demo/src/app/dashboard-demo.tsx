@@ -47,7 +47,7 @@ export function DashboardDemo({ id }: { id: string }) {
   const ready = hasContext && !loading;
   return (
     <div className='dashboard-demo'>
-      <ContextInfoContext.Provider value={context}>
+      <ContextInfoContext.Provider value={{ ...context }}>
         <Filters submit={setContext} />
         <LoadingOverlay visible={loading || !hasContext} />
         {ready && <Dashboard dashboard={dashboard} update={updateDashboard} />}
