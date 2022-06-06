@@ -1,7 +1,7 @@
 import { IDashboard } from "@devtable/dashboard";
 import { normalizeDBDashboard } from "./dashboard.transform";
 import { IDBDashboard, PaginationResponse } from "./dashboard.typed";
-import { get, post } from "./request";
+import { get, post, put } from "./request";
 
 export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
@@ -28,7 +28,7 @@ export const DashboardAPI = {
         panels,
       }
     };
-    const res: IDBDashboard = await post('/dashboard/update', payload);
+    const res: IDBDashboard = await put('/dashboard/update', payload);
     return normalizeDBDashboard(res);
   },
   create: async (name: string): Promise<IDashboard> => {
