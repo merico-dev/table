@@ -15,16 +15,17 @@ export function ReadOnlyDashboard({
   dashboard,
   className = "dashboard",
 }: IReadOnlyDashboard) {
-  const [panels, setPanels] = useListState(dashboard.panels)
-  const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-
-  const definitions = React.useMemo(() => ({ sqlSnippets, setSQLSnippets }), [sqlSnippets, setSQLSnippets]);
+  const definition = React.useMemo(() => ({
+    ...dashboard.definition,
+    setSQLSnippets: () => {},
+    setDataSources: () => {},
+  }), [dashboard]);
 
   return (
     <div className={className}>
-      <DefinitionContext.Provider value={definitions}>
+      <DefinitionContext.Provider value={definition}>
         <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => {}, mode: DashboardMode.Use, inEditMode: false }}>
-          <ReadOnlyDashboardLayout panels={panels} />
+          <ReadOnlyDashboardLayout panels={dashboard.panels} />
         </LayoutStateContext.Provider>
       </DefinitionContext.Provider>
     </div >

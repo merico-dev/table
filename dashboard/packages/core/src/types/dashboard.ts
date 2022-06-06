@@ -7,6 +7,7 @@ export interface IDataSource {
   type: 'postgresql',
   key: string;
   sql: string;
+  id: string;
 }
 
 export interface IDashboardPanel {
@@ -37,6 +38,7 @@ export interface ISQLSnippet {
 
 export interface IDashboardDefinition {
   sqlSnippets: ISQLSnippet[];
+  dataSources: IDataSource[];
 }
 
 export interface IDashboard {

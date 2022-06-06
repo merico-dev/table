@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard, IDataSource, ISQLSnippet } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
@@ -23,6 +23,7 @@ export function Dashboard({
   const [localCols, setLocalCols] = React.useState()
   const [panels, setPanels] = useListState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
+  const [dataSources, setDataSources] = React.useState<IDataSource[]>(dashboard.definition.dataSources);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const hasChanges = React.useMemo(() => {
@@ -70,7 +71,10 @@ export function Dashboard({
 
   const inEditMode = mode === DashboardMode.Edit;
 
-  const definitions = React.useMemo(() => ({ sqlSnippets, setSQLSnippets }), [sqlSnippets, setSQLSnippets]);
+  const definitions = React.useMemo(() => ({
+    sqlSnippets, setSQLSnippets,
+    dataSources, setDataSources,
+  }), [sqlSnippets, setSQLSnippets, dataSources, setDataSources]);
 
   return (
     <div className={className}>
