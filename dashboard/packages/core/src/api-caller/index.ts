@@ -19,7 +19,16 @@ function getSQLParams(context: ContextInfoContextType, definitions: IDashboardDe
   return _.merge({}, sqlSnippetRecord, context);
 }
 
-export const queryBySQL = (sql: string, context: ContextInfoContextType, definitions: IDashboardDefinition, title: string) => async () => {
+interface IQueryBySQL {
+  context: ContextInfoContextType;
+  definitions: IDashboardDefinition;
+  title: string;
+  type: 'postgresql';
+  key: string;
+  sql: string;
+}
+
+export const queryBySQL = ({ context, definitions, title, type, key, sql }: IQueryBySQL) => async () => {
   if (!sql) {
     return [];
   }
@@ -35,6 +44,6 @@ export const queryBySQL = (sql: string, context: ContextInfoContextType, definit
     console.log(formattedSQL);
     console.groupEnd();
   }
-  const res = await post('/query', { sql: formattedSQL })
+  const res = await post('/query', { type, key, sql: formattedSQL })
   return res;
 }

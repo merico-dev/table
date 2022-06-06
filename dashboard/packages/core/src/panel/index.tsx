@@ -35,7 +35,14 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
     });
   }, [title, description, sql, viz, id, layout])
 
-  const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo, definitions, title), {
+  const { data = [], loading, refresh } = useRequest(queryBySQL({
+    context: contextInfo,
+    definitions,
+    title,
+    type: 'postgresql',
+    key: 'foo',
+    sql,
+  }), {
     refreshDeps: [contextInfo, definitions],
   });
   const refreshData = refresh;
