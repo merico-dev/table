@@ -10,18 +10,19 @@ import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { DefinitionContext } from '../contexts';
 import { ErrorBoundary } from './error-boundary';
+import { useSetState } from '@mantine/hooks';
 
 interface IPanel extends IDashboardPanel {
   destroy?: () => void;
   update?: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
+export function Panel({ viz: initialViz, dataSource: initialDataSource, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
-  const [sql, setSQL] = React.useState(initialSQL);
+  const [dataSource, setDataSource] = useSetState(initialDataSource);
   const [viz, setViz] = React.useState(initialViz);
 
   React.useEffect(() => {
@@ -30,18 +31,16 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
       layout,
       title,
       description,
-      sql,
+      dataSource,
       viz,
     });
-  }, [title, description, sql, viz, id, layout])
+  }, [title, description, dataSource, viz, id, layout])
 
   const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
     title,
-    type: 'postgresql',
-    key: 'foo',
-    sql,
+    dataSource,
   }), {
     refreshDeps: [contextInfo, definitions],
   });
@@ -55,8 +54,8 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
         setTitle,
         description,
         setDescription,
-        sql,
-        setSQL,
+        dataSource,
+        setDataSource,
         viz,
         setViz,
         refreshData,

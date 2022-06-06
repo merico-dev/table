@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { ContextInfoContextType } from "../contexts";
-import { IDashboardDefinition } from "../types";
+import { IDashboardDefinition, IDataSource } from "../types";
 import { post } from "./request";
 
 function formatSQL(sql: string, params: Record<string, any>) {
@@ -23,12 +23,10 @@ interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;
   title: string;
-  type: 'postgresql';
-  key: string;
-  sql: string;
+  dataSource: IDataSource;
 }
 
-export const queryBySQL = ({ context, definitions, title, type, key, sql }: IQueryBySQL) => async () => {
+export const queryBySQL = ({ context, definitions, title, dataSource: { type, key, sql } }: IQueryBySQL) => async () => {
   if (!sql) {
     return [];
   }

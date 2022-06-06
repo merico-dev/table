@@ -12,7 +12,7 @@ async function getContributorOptions() {
     WHERE a.name <> '' AND a.email <> ''
     GROUP BY (a.email)
   `;
-  const res = await post('/query', { sql })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', sql })
   return res;
 }
 

@@ -7,11 +7,13 @@ import './index.css';
 interface ISQLQueryEditor {
 }
 export function SQLQueryEditor({ }: ISQLQueryEditor) {
-  const { sql, setSQL } = React.useContext(PanelContext)
+  const { dataSource, setDataSource } = React.useContext(PanelContext)
   const [showPreview, setShowPreview] = React.useState(true)
 
   const handleChange = (e: any) => {
-    setSQL(e.target.value)
+    setDataSource({
+      sql: e.target.value
+    })
   }
 
   const togglePreview = React.useCallback(() => {
@@ -19,13 +21,15 @@ export function SQLQueryEditor({ }: ISQLQueryEditor) {
   }, [])
 
   const format = React.useCallback(() => {
-    setSQL(sql => sql.trim())
-  }, [setSQL]);
+    setDataSource(ds => ({
+      sql: ds.sql.trim()
+    }))
+  }, [setDataSource]);
 
   return (
     <Box className="sql-query-editor-root" sx={{ height: '100%' }}>
       <Textarea
-        value={sql}
+        value={dataSource.sql}
         onChange={handleChange}
         minRows={20}
         maxRows={20}
@@ -36,7 +40,7 @@ export function SQLQueryEditor({ }: ISQLQueryEditor) {
         <Button variant="default" onClick={togglePreview}>Toggle Preview</Button>
       </Group>
 
-      {showPreview && <Prism language="sql" withLineNumbers noCopy colorScheme="dark">{sql}</Prism>}
+      {showPreview && <Prism language="sql" withLineNumbers noCopy colorScheme="dark">{dataSource.sql}</Prism>}
     </Box>
   )
 }
