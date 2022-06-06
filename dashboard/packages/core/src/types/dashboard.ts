@@ -22,7 +22,7 @@ export interface IDashboardPanel {
     moved?: boolean;
     static?: boolean;
   },
-  dataSource: IDataSource;
+  dataSourceID: string;
   viz: IVizConfig;
 }
 

@@ -35,8 +35,11 @@ export function Dashboard({
       return true;
     }
 
-    return !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
-  }, [dashboard, panels, sqlSnippets])
+    if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
+      return true;
+    };
+    return !_.isEqual(dataSources, dashboard.definition.dataSources)
+  }, [dashboard, panels, sqlSnippets, dataSources])
 
   const saveDashboardChanges = async () => {
     const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets }})
@@ -55,7 +58,7 @@ export function Dashboard({
       },
       title: `New Panel - ${id}`,
       description: "description goes here",
-      sql: '',
+      dataSourceID: '',
       viz: {
         type: 'table',
         conf: {},

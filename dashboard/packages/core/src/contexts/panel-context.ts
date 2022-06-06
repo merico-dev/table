@@ -1,5 +1,5 @@
 import React from "react";
-import { IDataSource, IVizConfig } from "../types/dashboard";
+import { IVizConfig } from "../types/dashboard";
 
 export interface IPanelContext {
   data: any[];
@@ -8,8 +8,8 @@ export interface IPanelContext {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   description: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
-  dataSource: IDataSource;
-  setDataSource: (statePartial: Partial<IDataSource> | ((currentState: IDataSource) => Partial<IDataSource>)) => void;
+  dataSourceID: string;
+  setDataSourceID: React.Dispatch<React.SetStateAction<string>>;
   viz: IVizConfig;
   setViz: React.Dispatch<React.SetStateAction<IVizConfig>>;
   refreshData: () => void;
@@ -22,12 +22,8 @@ const initialContext = {
   setTitle: () => { },
   description: '',
   setDescription: () => { },
-  dataSource: {
-    type: 'postgresql',
-    key: '',
-    sql: '',
-  } as const,
-  setDataSource: () => { },
+  dataSourceID: '',
+  setDataSourceID: () => { },
   viz: {
     type: '',
     conf: {},

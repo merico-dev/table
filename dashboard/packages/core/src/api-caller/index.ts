@@ -6,7 +6,14 @@ import { post } from "./request";
 function formatSQL(sql: string, params: Record<string, any>) {
   const names = Object.keys(params);
   const vals = Object.values(params);
-  return new Function(...names, `return \`${sql}\`;`)(...vals);
+  try {
+    return new Function(...names, `return \`${sql}\`;`)(...vals);
+  } catch (error) {
+    if (names.length === 0 && sql.includes('$')) {
+      throw new Error('[formatSQL] insufficient params')
+    }
+    throw error
+  }
 };
 
 function getSQLParams(context: ContextInfoContextType, definitions: IDashboardDefinition) {
@@ -23,25 +30,28 @@ interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;
   title: string;
-  dataSource: IDataSource;
+  dataSource?: IDataSource;
 }
 
-export const queryBySQL = ({ context, definitions, title, dataSource: { type, key, sql } }: IQueryBySQL) => async () => {
-  if (!sql) {
+export const queryBySQL = ({ context, definitions, title, dataSource }: IQueryBySQL) => async () => {
+  if (!dataSource || !dataSource.sql) {
     return [];
   }
+  const { type, key, sql } = dataSource;
+
   const needParams = sql.includes('$');
-  const params = getSQLParams(context, definitions);
-  if (needParams && Object.keys(params).length === 0) {
-    console.error(`[queryBySQL] insufficient params for {${title}}'s SQL`)
+  try {
+    const params = getSQLParams(context, definitions);
+    const formattedSQL = formatSQL(sql, params);
+    if (needParams) {
+      console.groupCollapsed(`Final SQL for: ${title}`);
+      console.log(formattedSQL);
+      console.groupEnd();
+    }
+    const res = await post('/query', { type, key, sql: formattedSQL })
+    return res;
+  } catch (error) {
+    console.error(error)
     return [];
   }
-  const formattedSQL = formatSQL(sql, params);
-  if (needParams) {
-    console.groupCollapsed(`Final SQL for: ${title}`);
-    console.log(formattedSQL);
-    console.groupEnd();
-  }
-  const res = await post('/query', { type, key, sql: formattedSQL })
-  return res;
 }
