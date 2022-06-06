@@ -27,8 +27,8 @@ export function DataPreview({ id }: { id: string }) {
     return <Table></Table>;
   }
   return (
-    <Group my="xl" sx={{ border: '1px solid #eee' }}>
-      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee' }}>
+    <Group my="xl" direction="column" grow sx={{ border: '1px solid #eee' }}>
+      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Text weight={500}>Preview Data</Text>
       </Group>
       <Table>

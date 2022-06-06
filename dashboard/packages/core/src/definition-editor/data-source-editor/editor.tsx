@@ -27,7 +27,7 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
     return <span>Invalid Data Source ID</span>
   }
   return (
-    <Group direction="column" mt="xs" spacing="xs" grow sx={{ border: '1px solid #eee' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee' }}>
       <DataSourceForm value={dataSource} onChange={update}/>
     </Group>
   )

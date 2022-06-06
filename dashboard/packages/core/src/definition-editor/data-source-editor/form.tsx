@@ -27,9 +27,9 @@ export function DataSourceForm({ value, onChange }: IDataSourceForm) {
   }, [value])
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Group direction="column" grow>
       <form onSubmit={form.onSubmit(submit)}>
-        <Group position="left" pb="md" pl="md" sx={{ borderBottom: '1px solid #eee' }}>
+        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text weight={500}>Data Source Configuration</Text>
           <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
