@@ -6,7 +6,7 @@ import { DataPreview } from "../../../definition-editor/data-source-editor/data-
 interface IPickDataSource {
 }
 export function PickDataSource({ }: IPickDataSource) {
-  const { dataSources, setDataSources } = React.useContext(DefinitionContext);
+  const { dataSources } = React.useContext(DefinitionContext);
   const { dataSourceID, setDataSourceID, data, loading } = React.useContext(PanelContext)
 
   const options = React.useMemo(() => {

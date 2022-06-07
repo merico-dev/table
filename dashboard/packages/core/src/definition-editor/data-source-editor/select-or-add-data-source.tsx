@@ -2,6 +2,7 @@ import { Button, Group, Select, Text } from "@mantine/core";
 import { randomId } from "@mantine/hooks";
 import React from "react";
 import { DefinitionContext } from "../../contexts";
+import { IDataSource } from "../../types";
 
 interface ISelectOrAddDataSource {
   id: string;
@@ -24,12 +25,14 @@ export function SelectOrAddDataSource({ id, setID }: ISelectOrAddDataSource) {
   }, [dataSources]);
 
   const add = React.useCallback(() => {
-    setDataSources!.append({
+    const newDataSource: IDataSource = {
       id: randomId(),
       type: 'postgresql',
       key: '',
       sql: '',
-    })
+    };
+
+    setDataSources(prevs => ([ ...prevs, newDataSource ]))
   }, [setDataSources])
 
   return (

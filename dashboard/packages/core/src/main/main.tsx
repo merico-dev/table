@@ -26,7 +26,7 @@ export function Dashboard({
   const [localCols, setLocalCols] = React.useState()
   const [panels, setPanels] = useListState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-  const [dataSources, setDataSources] = useListState<IDataSource>(dashboard.definition.dataSources ?? []);
+  const [dataSources, setDataSources] = React.useState<IDataSource[]>(dashboard.definition.dataSources);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const hasChanges = React.useMemo(() => {

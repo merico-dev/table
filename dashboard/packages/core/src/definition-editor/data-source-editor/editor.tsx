@@ -21,8 +21,15 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
       console.error(new Error('Invalid data source id when updating by id'))
       return;
     }
-    setDataSources!.setItem(index, value);
-  }, [setDataSources, dataSources]);
+    setDataSources(prevs => {
+      return prevs.map(p => {
+        if (p.id === value.id) {
+          return value;
+        }
+        return p;
+      })
+    });
+  }, [setDataSources]);
 
   if (!dataSource) {
     return <span>Invalid Data Source ID</span>
