@@ -5,7 +5,7 @@ import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 import { DefinitionContext } from "../contexts/definition-context";
-import { randomId, useListState } from "@mantine/hooks";
+import { randomId } from "@mantine/hooks";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 
 interface IDashboardProps {
@@ -24,7 +24,7 @@ export function Dashboard({
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()
-  const [panels, setPanels] = useListState(dashboard.panels)
+  const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [dataSources, setDataSources] = React.useState<IDataSource[]>(dashboard.definition.dataSources);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
@@ -67,12 +67,15 @@ export function Dashboard({
         conf: {},
       }
     };
-    setPanels.append(newItem);
+    setPanels(prevs => ([...prevs, newItem]));
   }
 
   const removePanelByID = (id: string) => {
     const index = panels.findIndex(p => p.id === id);
-    setPanels.remove(index);
+    setPanels(prevs => {
+      prevs.splice(index, 1)
+      return prevs;
+    })
   }
 
   const inEditMode = mode === DashboardMode.Edit;
