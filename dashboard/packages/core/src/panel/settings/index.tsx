@@ -6,7 +6,6 @@ import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
 import { QueryEditor } from "./query-editor";
 import { QueryResult } from "./query-result";
-import { SQLSnippetsTab } from "./sql-snippets";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettingsModal {
@@ -41,10 +40,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         padding="md"
         navbar={(
           <Navbar width={{ base: '40%' }} height="100%" p="xs">
-            <Tabs initialTab={3}>
-              <Tabs.Tab label="SQL Snippets">
-                <SQLSnippetsTab />
-              </Tabs.Tab>
+            <Tabs initialTab={2}>
               <Tabs.Tab label="SQL">
                 <QueryEditor />
               </Tabs.Tab>

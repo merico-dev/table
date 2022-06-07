@@ -1,7 +1,7 @@
 import { Group } from "@mantine/core";
 import React from "react";
 import { DefinitionContext } from "../../contexts";
-import { ContextInfo } from "./context-info";
+import { ContextAndSnippets } from "./context-and-snippets";
 import { IDataSource } from "../../types";
 import { DataSourceForm } from "./form";
 
@@ -28,9 +28,9 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
     return <span>Invalid Data Source ID</span>
   }
   return (
-    <Group direction="row" position="apart" grow align="stretch">
+    <Group direction="row" position="apart" grow align="stretch" noWrap>
       <DataSourceForm value={dataSource} onChange={update}/>
-      <ContextInfo />
+      <ContextAndSnippets />
     </Group>
   )
 }

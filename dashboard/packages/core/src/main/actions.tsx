@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Group } from "@mantine/core";
-import { Database, DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
+import { ClipboardText, Database, DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
 import { DashboardMode } from "../types";
 import { ModeToggler } from "./toggle-mode";
-import { EditDataSourcesModal } from "../definition-editor";
+import { EditDataSourcesModal, EditSQLSnippetsModal } from "../definition-editor";
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -23,6 +23,10 @@ export function DashboardActions({
   const openDataSources = () => setDataSourcesOpened(true);
   const closeDataSources = () => setDataSourcesOpened(false);
 
+  const [sqlSnippetsOpened, setSQLSnippetsOpened] = React.useState(false);
+  const openSQLSnippets = () => setSQLSnippetsOpened(true);
+  const closeSQLSnippets = () => setSQLSnippetsOpened(false);
+
   const inEditMode = mode === DashboardMode.Edit;
   return (
     <Group position="apart" pt="sm" pb="xs">
@@ -30,15 +34,17 @@ export function DashboardActions({
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
       {inEditMode && (
+        <>
         <Group position="right">
           <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>
+          <Button variant="default" size="sm" onClick={openSQLSnippets} leftIcon={<ClipboardText size={20} />}>SQL Snippets</Button>
           <Button variant="default" size="sm" onClick={openDataSources} leftIcon={<Database size={20} />}>Data Sources</Button>
           <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>
           <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>
         </Group>
-      )}
-      {inEditMode && (
         <EditDataSourcesModal opened={dataSourcesOpened} close={closeDataSources} />
+        <EditSQLSnippetsModal opened={sqlSnippetsOpened} close={closeSQLSnippets} />
+      </>
       )}
       {!inEditMode && (
         <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>
