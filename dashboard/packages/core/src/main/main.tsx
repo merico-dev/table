@@ -6,14 +6,17 @@ import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 import { DefinitionContext } from "../contexts/definition-context";
 import { randomId, useListState } from "@mantine/hooks";
+import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 
 interface IDashboardProps {
+  context: ContextInfoContextType;
   dashboard: IDashboard;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
 }
 
 export function Dashboard({
+  context,
   dashboard,
   update,
   className = "dashboard",
@@ -42,7 +45,7 @@ export function Dashboard({
   }, [dashboard, panels, sqlSnippets, dataSources])
 
   const saveDashboardChanges = async () => {
-    const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets }})
+    const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets } })
     await update(d);
   }
 
@@ -80,27 +83,29 @@ export function Dashboard({
   }), [sqlSnippets, setSQLSnippets, dataSources, setDataSources]);
 
   return (
-    <div className={className}>
-      <DefinitionContext.Provider value={definitions}>
-        <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode }}>
-          <DashboardActions
-            mode={mode}
-            setMode={setMode}
-            hasChanges={hasChanges}
-            addPanel={addPanel}
-            saveChanges={saveDashboardChanges}
-          />
-          <DashboardLayout
-            panels={panels}
-            setPanels={setPanels}
-            isDraggable={inEditMode && !layoutFrozen}
-            isResizable={inEditMode && !layoutFrozen}
-            onRemoveItem={removePanelByID}
-            setLocalCols={setLocalCols}
-            setBreakpoint={setBreakpoint}
-          />
-        </LayoutStateContext.Provider>
-      </DefinitionContext.Provider>
-    </div >
+    <ContextInfoContext.Provider value={context}>
+      <div className={className}>
+        <DefinitionContext.Provider value={definitions}>
+          <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode }}>
+            <DashboardActions
+              mode={mode}
+              setMode={setMode}
+              hasChanges={hasChanges}
+              addPanel={addPanel}
+              saveChanges={saveDashboardChanges}
+            />
+            <DashboardLayout
+              panels={panels}
+              setPanels={setPanels}
+              isDraggable={inEditMode && !layoutFrozen}
+              isResizable={inEditMode && !layoutFrozen}
+              onRemoveItem={removePanelByID}
+              setLocalCols={setLocalCols}
+              setBreakpoint={setBreakpoint}
+            />
+          </LayoutStateContext.Provider>
+        </DefinitionContext.Provider>
+      </div >
+    </ContextInfoContext.Provider>
   )
 }

@@ -2,18 +2,17 @@ import { Button, Group } from "@mantine/core";
 import { DateRangePicker } from "@mantine/dates";
 import _ from "lodash";
 import React from "react";
-import { ContextInfoContext, ContextInfoContextType, TimeRangeType } from "@devtable/dashboard";
+import { ContextInfoContextType, TimeRangeType } from "@devtable/dashboard";
 import { ContributorSelector } from "./contributor-selector";
 import { RepositorySelector } from "./repository-selector";
 import { JenkinsJobSelector } from "./jenkins-job-selector";
 
 interface IFilters {
+  context: ContextInfoContextType;
   submit: React.Dispatch<React.SetStateAction<ContextInfoContextType>>;
 }
 
-export function Filters({ submit }: IFilters) {
-  const contextInfo = React.useContext(ContextInfoContext);
-
+export function Filters({ context, submit }: IFilters) {
   const [timeRange, setTimeRange] = React.useState<TimeRangeType>([
     new Date(2021, 1, 1),
     new Date(),
@@ -36,8 +35,8 @@ export function Filters({ submit }: IFilters) {
   React.useEffect(doSubmit, [])
 
   const hasChanges = React.useMemo(() => {
-    return !_.isEqual(timeRange, contextInfo.timeRange) || !_.isEqual(emails, contextInfo.emails)  || !_.isEqual(repoIDs, contextInfo.repoIDs) || !_.isEqual(jenkinsJobIDs, contextInfo.jenkinsJobIDs);
-  }, [timeRange, emails, repoIDs, jenkinsJobIDs, contextInfo]);
+    return !_.isEqual(timeRange, context.timeRange) || !_.isEqual(emails, context.emails)  || !_.isEqual(repoIDs, context.repoIDs) || !_.isEqual(jenkinsJobIDs, context.jenkinsJobIDs);
+  }, [timeRange, emails, repoIDs, jenkinsJobIDs, context]);
 
   return (
       <Group position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
