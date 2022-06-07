@@ -60,8 +60,9 @@ export function DataSourceForm({ value, onChange }: IDataSourceForm) {
             />
           </Group>
           <Textarea
-            minRows={8}
-            maxRows={12}
+            autosize
+            minRows={12}
+            maxRows={24}
             {...form.getInputProps('sql')}
           />
         </Group>
