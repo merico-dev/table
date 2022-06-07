@@ -11,7 +11,7 @@ async function getOptions() {
         ON b.job_id = j.id
     GROUP BY (j.id)
   `;
-  const res = await post('/query', { sql })
+  const res = await post('/query', { type: 'postgresql', key: 'lake', sql })
   return res;
 }
 

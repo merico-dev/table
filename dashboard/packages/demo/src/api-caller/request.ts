@@ -18,7 +18,7 @@ const getRequest = (method: Method) => {
       headers : headers,
     };
 
-    if (method === 'POST') {
+    if (['POST', 'PUT'].includes(method)) {
       conf.data = options.string ? JSON.stringify(data) : data;
     }
 
@@ -35,3 +35,5 @@ const getRequest = (method: Method) => {
 export const get = getRequest('GET')
 
 export const post = getRequest('POST')
+
+export const put = getRequest('PUT')

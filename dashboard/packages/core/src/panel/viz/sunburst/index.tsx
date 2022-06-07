@@ -53,8 +53,9 @@ export function Sunbrust({ conf, data, width, height }: ISunbrust) {
         }
       }
     }
-  }), []);
-  const option = _.merge(defaultOption, labelOption, restConf, { series: { data: chartData } });
+  }), [max]);
+
+  const option = _.merge({}, defaultOption, labelOption, restConf, { series: { data: chartData } });
 
   return (
     <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />

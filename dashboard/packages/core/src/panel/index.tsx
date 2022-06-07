@@ -16,13 +16,21 @@ interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
+export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
-  const [sql, setSQL] = React.useState(initialSQL);
+  const [dataSourceID, setDataSourceID] = React.useState(initialDataSourceID);
   const [viz, setViz] = React.useState(initialViz);
+
+  const dataSource = React.useMemo(() => {
+    if (!dataSourceID) {
+      return undefined;
+    }
+    return definitions.dataSources.find(d => d.id === dataSourceID);
+
+  }, [dataSourceID, definitions.dataSources]);
 
   React.useEffect(() => {
     update?.({
@@ -30,13 +38,18 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
       layout,
       title,
       description,
-      sql,
+      dataSourceID,
       viz,
     });
-  }, [title, description, sql, viz, id, layout])
+  }, [title, description, dataSource, viz, id, layout, dataSourceID])
 
-  const { data = [], loading, refresh } = useRequest(queryBySQL(sql, contextInfo, definitions, title), {
-    refreshDeps: [contextInfo, definitions],
+  const { data = [], loading, refresh } = useRequest(queryBySQL({
+    context: contextInfo,
+    definitions,
+    title,
+    dataSource,
+  }), {
+    refreshDeps: [contextInfo, definitions, dataSource],
   });
   const refreshData = refresh;
   return (
@@ -48,8 +61,8 @@ export function Panel({ viz: initialViz, sql: initialSQL, title: initialTitle, d
         setTitle,
         description,
         setDescription,
-        sql,
-        setSQL,
+        dataSourceID,
+        setDataSourceID,
         viz,
         setViz,
         refreshData,

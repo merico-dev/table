@@ -12,7 +12,7 @@ async function getRepoOptions() {
     WHERE r.name <> ''
     GROUP BY (r.id)
   `;
-  const res = await post('/query', { sql })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', sql })
   return res;
 }
 

@@ -1,32 +1,37 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DefinitionContext } from "../contexts/definition-context";
-import { useListState } from "@mantine/hooks";
 import { ReadOnlyDashboardLayout } from "../layout/read-only";
+import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 
 interface IReadOnlyDashboard {
+  context: ContextInfoContextType;
   dashboard: IDashboard;
   className?: string;
 }
 
 export function ReadOnlyDashboard({
+  context,
   dashboard,
   className = "dashboard",
 }: IReadOnlyDashboard) {
-  const [panels, setPanels] = useListState(dashboard.panels)
-  const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-
-  const definitions = React.useMemo(() => ({ sqlSnippets, setSQLSnippets }), [sqlSnippets, setSQLSnippets]);
+  const definition = React.useMemo(() => ({
+    ...dashboard.definition,
+    setSQLSnippets: () => { },
+    setDataSources: () => { },
+  }), [dashboard]);
 
   return (
-    <div className={className}>
-      <DefinitionContext.Provider value={definitions}>
-        <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => {}, mode: DashboardMode.Use, inEditMode: false }}>
-          <ReadOnlyDashboardLayout panels={panels} />
-        </LayoutStateContext.Provider>
-      </DefinitionContext.Provider>
-    </div >
+    <ContextInfoContext.Provider value={context}>
+      <div className={className}>
+        <DefinitionContext.Provider value={definition}>
+          <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false }}>
+            <ReadOnlyDashboardLayout panels={dashboard.panels} />
+          </LayoutStateContext.Provider>
+        </DefinitionContext.Provider>
+      </div >
+    </ContextInfoContext.Provider>
   )
 }

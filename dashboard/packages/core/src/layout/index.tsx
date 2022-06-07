@@ -4,13 +4,12 @@ import _ from "lodash";
 import { Panel } from "../panel";
 import { IDashboardPanel } from "../types/dashboard";
 import './index.css'
-import { UseListStateHandlers } from "@mantine/hooks";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 interface IDashboardLayout {
   panels: IDashboardPanel[];
-  setPanels:  UseListStateHandlers<IDashboardPanel>;
+  setPanels:  React.Dispatch<React.SetStateAction<IDashboardPanel[]>>;
   className?: string;
   cols?: { lg: number, md: number, sm: number, xs: number, xxs: number };
   rowHeight?: number;
@@ -51,7 +50,7 @@ export function DashboardLayout({
       layout: m.get(p.id),
     }))
 
-    setPanels.setState(newPanels)
+    setPanels(newPanels)
   }, [panels, setPanels])
 
   return (
@@ -72,7 +71,10 @@ export function DashboardLayout({
               {...rest}
               destroy={() => onRemoveItem(id)}
               update={(panel: IDashboardPanel) => {
-                setPanels.setItem(index, panel)
+                setPanels(prevs => {
+                  prevs.splice(index, 1, panel)
+                  return prevs
+                })
               }}
             />
           </div>

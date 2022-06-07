@@ -3,6 +3,13 @@ export interface IVizConfig {
   conf: Record<string, any>;
 }
 
+export interface IDataSource {
+  type: 'postgresql',
+  key: string;
+  sql: string;
+  id: string;
+}
+
 export interface IDashboardPanel {
   id: string;
   title: string;
@@ -15,7 +22,7 @@ export interface IDashboardPanel {
     moved?: boolean;
     static?: boolean;
   },
-  sql: string;
+  dataSourceID: string;
   viz: IVizConfig;
 }
 
@@ -31,6 +38,7 @@ export interface ISQLSnippet {
 
 export interface IDashboardDefinition {
   sqlSnippets: ISQLSnippet[];
+  dataSources: IDataSource[];
 }
 
 export interface IDashboard {

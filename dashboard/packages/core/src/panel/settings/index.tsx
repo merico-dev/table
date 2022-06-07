@@ -1,13 +1,10 @@
-import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
+import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
 import React from "react";
 import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
 import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
-import { ContextInfo } from "./context-info";
-import { QueryEditor } from "./query-editor";
-import { QueryResult } from "./query-result";
-import { SQLSnippetsTab } from "./sql-snippets";
+import { PickDataSource } from "./pick-data-source";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettingsModal {
@@ -40,32 +37,16 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
           main: { height: '100%', width: '100%' }
         }}
         padding="md"
-        navbar={(
-          <Navbar width={{ base: '40%' }} height="100%" p="xs">
-            <Tabs initialTab={1}>
-              <Tabs.Tab label="Context">
-                <ContextInfo />
-              </Tabs.Tab>
-              <Tabs.Tab label="SQL Snippets">
-                <SQLSnippetsTab />
-              </Tabs.Tab>
-              <Tabs.Tab label="SQL">
-                <QueryEditor />
-              </Tabs.Tab>
-              <Tabs.Tab label="Data">
-                <LoadingOverlay visible={loading} />
-                <QueryResult />
-              </Tabs.Tab>
-              <Tabs.Tab label="Viz Config">
-                <VizConfig />
-              </Tabs.Tab>
-            </Tabs>
-          </Navbar>
-        )}
       >
-        <ErrorBoundary>
-          <Viz viz={viz} data={data} loading={loading} />
-        </ErrorBoundary>
+        <Tabs initialTab={2}>
+          <Tabs.Tab label="Data Source">
+            <LoadingOverlay visible={loading} />
+            <PickDataSource />
+          </Tabs.Tab>
+          <Tabs.Tab label="Viz Config">
+            <VizConfig />
+          </Tabs.Tab>
+        </Tabs>
       </AppShell>
     </Modal>
   )
