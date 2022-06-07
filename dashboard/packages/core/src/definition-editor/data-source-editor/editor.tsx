@@ -1,4 +1,4 @@
-import { Divider, Group } from "@mantine/core";
+import { Group } from "@mantine/core";
 import React from "react";
 import { DefinitionContext } from "../../contexts";
 import { ContextInfo } from "./context-info";
@@ -28,9 +28,8 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
     return <span>Invalid Data Source ID</span>
   }
   return (
-    <Group direction="row" position="apart" grow align="flex-start">
+    <Group direction="row" position="apart" grow align="stretch">
       <DataSourceForm value={dataSource} onChange={update}/>
-      <Divider orientation="vertical"/>
       <ContextInfo />
     </Group>
   )
