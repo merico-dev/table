@@ -22,12 +22,9 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
       return;
     }
     setDataSources(prevs => {
-      return prevs.map(p => {
-        if (p.id === value.id) {
-          return value;
-        }
-        return p;
-      })
+      const index = prevs.findIndex(p => p.id === id) // match by original ID, not edited ID
+      prevs.splice(index, 1, value)
+      return [...prevs];
     });
   }, [setDataSources]);
 
