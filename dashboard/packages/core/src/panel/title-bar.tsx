@@ -5,6 +5,15 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
 import { PanelSettingsModal } from './settings';
 
+function DescriptionPopover() {
+  const { description } = React.useContext(PanelContext)
+  return (
+    <Tooltip label={description} withArrow>
+      <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
+    </Tooltip>
+  )
+}
+
 interface IPanelTitleBar {
 }
 
@@ -13,16 +22,12 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
   const open = () => setOpened(true);
   const close = () => setOpened(false);
 
-  const { title, description, loading, refreshData } = React.useContext(PanelContext)
+  const { title, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
   return (
     <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
       <Group>
-        {description && (
-          <Tooltip label={description} withArrow>
-            <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
-          </Tooltip>
-        )}
+        <DescriptionPopover />
       </Group>
       <Group grow position="center">
         <Text lineClamp={1} weight="bold">{title}</Text>
