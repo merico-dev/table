@@ -4,6 +4,7 @@ import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
 import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
+import { PanelConfig } from "./panel-config";
 import { PickDataSource } from "./pick-data-source";
 import { VizConfig } from "./viz-config";
 
@@ -43,7 +44,10 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
             <LoadingOverlay visible={loading} />
             <PickDataSource />
           </Tabs.Tab>
-          <Tabs.Tab label="Viz Config">
+          <Tabs.Tab label="Panel">
+            <PanelConfig />
+          </Tabs.Tab>
+          <Tabs.Tab label="Visualization">
             <VizConfig />
           </Tabs.Tab>
         </Tabs>

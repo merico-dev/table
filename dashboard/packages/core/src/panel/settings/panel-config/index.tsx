@@ -1,18 +1,21 @@
 import { Box, Group } from "@mantine/core";
-import { PreviewViz } from "./preview-viz";
-import { EditVizConf } from "./viz-conf";
+import { EditDescription } from "./description";
+import { PreviewPanel } from "./preview-panel";
+import { EditTitle } from "./title";
 
-interface IVizConfig {
+interface IPanelConfig {
 }
 
-export function VizConfig({ }: IVizConfig) {
+export function PanelConfig({ }: IPanelConfig) {
   return (
+
     <Group direction="row" grow noWrap align="stretch" sx={{ height: '100%' }}>
       <Group grow direction="column" sx={{ width: '40%', flexShrink: 0, flexGrow: 0 }}>
-        <EditVizConf />
+        <EditTitle />
+        <EditDescription />
       </Group>
       <Box sx={{ height: '100%', flexGrow: 1, maxWidth: '60%' }}>
-        <PreviewViz />
+        <PreviewPanel />
       </Box>
     </Group>
   )

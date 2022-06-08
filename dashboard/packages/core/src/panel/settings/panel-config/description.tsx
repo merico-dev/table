@@ -22,7 +22,9 @@ export function EditDescription() {
       label="Panel Description"
       value={localDesc}
       onChange={setLocalDesc}
-      minRows={2}
+      minRows={10}
+      autosize
+      maxRows={30}
       rightSection={(
         <ActionIcon disabled={!changed} onClick={submit} sx={{ alignSelf: 'flex-start', marginTop: '4px' }}>
           <DeviceFloppy size={20} />
