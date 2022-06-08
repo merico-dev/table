@@ -1,8 +1,8 @@
-import { Container, Group, Text, Tooltip } from "@mantine/core";
+import { Container, Group, Text } from "@mantine/core";
 import React from "react";
-import { InfoCircle } from "tabler-icons-react";
 import { PanelContext } from "../../../contexts";
 import { ErrorBoundary } from "../../error-boundary";
+import { DescriptionPopover } from "../../panel-description";
 
 export function PreviewPanel() {
   const { title, description } = React.useContext(PanelContext);
@@ -17,11 +17,7 @@ export function PreviewPanel() {
       }}>
         <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
           <Group>
-            {description && (
-              <Tooltip label={description} withArrow>
-                <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
-              </Tooltip>
-            )}
+            <DescriptionPopover />
           </Group>
           <Group grow position="center">
             <Text lineClamp={1} weight="bold">{title}</Text>

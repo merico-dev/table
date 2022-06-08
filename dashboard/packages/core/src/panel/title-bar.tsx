@@ -1,18 +1,10 @@
-import { Group, Tooltip, Text, ActionIcon, Menu, Divider } from '@mantine/core';
+import { Group, Text, Menu, Divider } from '@mantine/core';
 import React from 'react';
-import { InfoCircle, Refresh, Settings, Trash } from 'tabler-icons-react';
+import { Refresh, Settings, Trash } from 'tabler-icons-react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
+import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
-
-function DescriptionPopover() {
-  const { description } = React.useContext(PanelContext)
-  return (
-    <Tooltip label={description} withArrow>
-      <InfoCircle size={12} style={{ verticalAlign: 'baseline', cursor: 'pointer' }} />
-    </Tooltip>
-  )
-}
 
 interface IPanelTitleBar {
 }

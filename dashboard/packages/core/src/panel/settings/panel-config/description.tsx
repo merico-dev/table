@@ -25,7 +25,7 @@ export function EditDescription() {
           <DeviceFloppy size={20} />
         </ActionIcon>
       </Group>
-      <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }}/>
+      <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0"/>
     </Group>
   )
 }
