@@ -11,11 +11,20 @@ interface ISelectOrAddDataSource {
 export function SelectOrAddDataSource({ id, setID }: ISelectOrAddDataSource) {
   const { dataSources, setDataSources } = React.useContext(DefinitionContext);
 
+  const chooseDefault = React.useCallback(() => {
+    setID(dataSources[0]?.id ?? '');
+  }, [setID, dataSources]);
+
   React.useEffect(() => {
     if (!id) {
-      setID(dataSources[0]?.id ?? '');
+      chooseDefault()
+      return;
     }
-  }, [id, setID, dataSources])
+    const index = dataSources.findIndex(d => d.id === id);
+    if (index === -1) {
+      chooseDefault()
+    }
+  }, [id, dataSources, chooseDefault])
 
   const options = React.useMemo(() => {
     return dataSources.map(d => ({
