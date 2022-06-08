@@ -8,13 +8,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@devtable/dashboard": "0.2.0",
+    "@devtable/dashboard": "1.1.0",
     "@mantine/core": "^4.2.5",
     "@mantine/dates": "^4.2.5",
     "@mantine/form": "^4.2.5",
     "@mantine/hooks": "^4.2.5",
     "@mantine/notifications": "^4.2.5",
     "@mantine/prism": "^4.2.5",
+    "@mantine/rte": "^4.2.5",
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
     "echarts": "^5.3.2",

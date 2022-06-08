@@ -73,7 +73,7 @@ export function DashboardLayout({
               update={(panel: IDashboardPanel) => {
                 setPanels(prevs => {
                   prevs.splice(index, 1, panel)
-                  return prevs
+                  return [...prevs]
                 })
               }}
             />

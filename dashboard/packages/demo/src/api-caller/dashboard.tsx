@@ -37,6 +37,7 @@ export const DashboardAPI = {
       content: {
         definition: {
           sqlSnippets: [],
+          dataSources: [],
         },
         panels: [],
       },

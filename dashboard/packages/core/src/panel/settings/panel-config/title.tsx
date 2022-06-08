@@ -1,4 +1,4 @@
-import { ActionIcon, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
@@ -19,13 +19,15 @@ export function EditTitle() {
 
   return (
     <TextInput
-      label="Panel Title"
       value={localTitle}
       onChange={setLocalTitle}
-      rightSection={(
-        <ActionIcon disabled={!changed} onClick={submit}>
-          <DeviceFloppy size={20} />
-        </ActionIcon>
+      label={(
+        <Group align="end">
+          <Text>Panel Title</Text>
+          <ActionIcon variant="hover" color="blue" disabled={!changed} onClick={submit}>
+            <DeviceFloppy size={20} />
+          </ActionIcon>
+        </Group>
       )}
     />
   )

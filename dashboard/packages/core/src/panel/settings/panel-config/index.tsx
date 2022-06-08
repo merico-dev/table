@@ -10,7 +10,7 @@ export function PanelConfig({ }: IPanelConfig) {
   return (
 
     <Group direction="row" grow noWrap align="stretch" sx={{ height: '100%' }}>
-      <Group grow direction="column" sx={{ width: '40%', flexShrink: 0, flexGrow: 0 }}>
+      <Group grow direction="column" sx={{ width: '40%', flexShrink: 0, flexGrow: 0, height: '100%' }}>
         <EditTitle />
         <EditDescription />
       </Group>

@@ -74,7 +74,7 @@ export function Dashboard({
     const index = panels.findIndex(p => p.id === id);
     setPanels(prevs => {
       prevs.splice(index, 1)
-      return prevs;
+      return [...prevs];
     })
   }
 
