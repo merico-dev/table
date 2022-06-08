@@ -17,7 +17,7 @@ export function PreviewPanel() {
       }}>
         <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
           <Group>
-            <DescriptionPopover />
+            <DescriptionPopover position="bottom" trigger="hover" />
           </Group>
           <Group grow position="center">
             <Text lineClamp={1} weight="bold">{title}</Text>
