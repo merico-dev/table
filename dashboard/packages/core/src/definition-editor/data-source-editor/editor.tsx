@@ -16,7 +16,7 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
   }, [dataSources, id]);
 
   const update = React.useCallback((value: IDataSource) => {
-    const index = dataSources.findIndex(d => d.id === value.id);
+    const index = dataSources.findIndex(d => d.id ===  id);
     if (!index) {
       console.error(new Error('Invalid data source id when updating by id'))
       return;
@@ -26,7 +26,7 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
       prevs.splice(index, 1, value)
       return [...prevs];
     });
-  }, [setDataSources]);
+  }, [id, setDataSources]);
 
   if (!dataSource) {
     return <span>Invalid Data Source ID</span>
