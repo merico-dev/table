@@ -42,7 +42,8 @@ export function SelectOrAddDataSource({ id, setID }: ISelectOrAddDataSource) {
     };
 
     setDataSources(prevs => ([ ...prevs, newDataSource ]))
-  }, [setDataSources])
+    setID(newDataSource.id)
+  }, [setDataSources, setID])
 
   return (
     <Group pb="xl">
