@@ -43,7 +43,11 @@ export function DataPreview({ id }: { id: string }) {
       <Table>
         <thead>
           <tr>
-            {Object.keys(data?.[0]).map(label => <th key={label}>{label}</th>)}
+            {Object.keys(data?.[0]).map(label => (
+              <th key={label}>
+                <Text weight={700} color="#000">{label}</Text>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
