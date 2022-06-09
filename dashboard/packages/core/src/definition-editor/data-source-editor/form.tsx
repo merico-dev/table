@@ -1,8 +1,10 @@
-import { ActionIcon, Group, Text, Textarea, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Select, Text, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRequest } from "ahooks";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
+import { getQuerySources } from "../../api-caller";
 import { IDataSource } from "../../types";
 
 interface IDataSourceForm {
@@ -26,12 +28,34 @@ export function DataSourceForm({ value, onChange }: IDataSourceForm) {
     form.reset()
   }, [value])
 
+  const { data: querySources = {}, loading } = useRequest(getQuerySources, {
+    refreshDeps: []
+  }, []);
+
+  const querySourceTypeOptions = React.useMemo(() => {
+    return Object.keys(querySources).map(k => ({
+      label: k,
+      value: k,
+    }))
+  }, [querySources]);
+
+  const querySourceKeyOptions = React.useMemo(() => {
+    const sources = querySources[form.values.type];
+    if (!sources) {
+      return [];
+    }
+    return sources.map(k => ({
+      label: k,
+      value: k,
+    }))
+  }, [querySources, form.values.type]);
+
   return (
     <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text weight={500}>Data Source Configuration</Text>
-          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed || loading}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
@@ -42,21 +66,22 @@ export function DataSourceForm({ value, onChange }: IDataSourceForm) {
               label="ID"
               required
               sx={{ flex: 1 }}
+              disabled={loading}
               {...form.getInputProps('id')}
             />
-            <TextInput
-              placeholder="TODO: use a dedicated UI component for this"
-              label="Data Source Key"
-              required
+            <Select
+              label="Data Source Type"
+              data={querySourceTypeOptions}
               sx={{ flex: 1 }}
-              {...form.getInputProps('key')}
-            />
-            <TextInput
-              placeholder="Type of the data source"
-              label="Type"
-              disabled
-              sx={{ flex: 1 }}
+              disabled={loading}
               {...form.getInputProps('type')}
+            />
+            <Select
+              label="Data Source Key"
+              data={querySourceKeyOptions}
+              sx={{ flex: 1 }}
+              disabled={loading}
+              {...form.getInputProps('key')}
             />
           </Group>
           <Textarea

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { ContextInfoContextType } from "../contexts";
 import { IDashboardDefinition, IDataSource } from "../types";
-import { post } from "./request";
+import { get, post } from "./request";
 
 function formatSQL(sql: string, params: Record<string, any>) {
   const names = Object.keys(params);
@@ -53,5 +53,17 @@ export const queryBySQL = ({ context, definitions, title, dataSource }: IQueryBy
   } catch (error) {
     console.error(error)
     return [];
+  }
+}
+
+export type TQuerySources = Record<string, string[]>
+
+export async function getQuerySources(): Promise<TQuerySources> {
+  try {
+    const res = await get('/query/sources', {})
+    return res;
+  } catch (error) {
+    console.error(error)
+    return {};
   }
 }
