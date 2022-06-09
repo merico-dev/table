@@ -1,6 +1,7 @@
-import { Group, LoadingOverlay, Table, Text } from "@mantine/core";
+import { ActionIcon, Group, LoadingOverlay, Table, Text } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
+import { Refresh } from "tabler-icons-react";
 import { queryBySQL } from "../../api-caller";
 import { ContextInfoContext, DefinitionContext } from "../../contexts";
 
@@ -12,7 +13,7 @@ export function DataPreview({ id }: { id: string }) {
     return definitions.dataSources.find(d => d.id === id);
   }, [definitions.dataSources, id]);
 
-  const { data = [], loading } = useRequest(queryBySQL({
+  const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
     title: id,
@@ -28,8 +29,16 @@ export function DataPreview({ id }: { id: string }) {
   }
   return (
     <Group my="xl" direction="column" grow sx={{ border: '1px solid #eee' }}>
-      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-        <Text weight={500}>Preview Data</Text>
+      <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+        <Group position="left">
+          <Text weight={500}>Preview Data</Text>
+          {data.length > 10 && (
+            <Text size="sm" color="gray">Showing 10 rows of {data.length}</Text>
+          )}
+        </Group>
+        <ActionIcon mr={15} variant="hover" color="blue" disabled={loading} onClick={refresh}>
+          <Refresh size={15} />
+        </ActionIcon>
       </Group>
       <Table>
         <thead>
@@ -38,7 +47,7 @@ export function DataPreview({ id }: { id: string }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((row: Record<string, any>, index: number) => (
+          {data.slice(0, 10).map((row: Record<string, any>, index: number) => (
             <tr key={`row-${index}`}>
               {Object.values(row).map((v: any, i) => (
                 <td key={`${v}--${i}`}>
