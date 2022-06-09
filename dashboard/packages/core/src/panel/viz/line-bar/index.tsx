@@ -5,6 +5,7 @@ import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/compon
 import { CanvasRenderer } from 'echarts/renderers';
 import _ from "lodash";
 import React from 'react';
+import numbro from 'numbro';
 
 echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -45,10 +46,28 @@ export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
         data: data.map((d) => d[conf.x_axis_data_key]),
       }
     }
-    const series = conf.series.map(({ y_axis_data_key, ...rest }: any) => ({
-      data: data.map((d) => d[y_axis_data_key]),
-      ...rest,
-    }));
+    const series = conf.series.map(({ y_axis_data_key, y_axis_data_formatter, ...rest }: any) => {
+      const ret = {
+        data: data.map((d) => d[y_axis_data_key]),
+        label: {
+          show: true,
+          position: 'top'
+        },
+        ...rest,
+      }
+      if (y_axis_data_formatter) {
+        ret.label.formatter = function formatter({ value }: any) {
+          try {
+            const v = numbro(value).format(JSON.parse(y_axis_data_formatter))
+            return v;
+          } catch (error) {
+            console.error(error)
+            return value;
+          }
+        }
+      }
+      return ret;
+    });
     return _.assign({}, defaultOption, dataset, xAxisSource, { series });
   }, [conf, data])
 

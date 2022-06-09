@@ -3,6 +3,7 @@ export interface ILineBarChartSeriesItem {
   name: string;
   showSymbol: false;
   y_axis_data_key: string;
+  y_axis_data_formatter?: string;
   stack: string;
   color?: string;
 }

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Anchor, Button, Group, JsonInput, Text, Textarea, TextInput } from "@mantine/core";
 import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
@@ -23,6 +23,7 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
     name: randomId(),
     showSymbol: false,
     y_axis_data_key: 'value',
+    y_axis_data_formatter: '',
     stack: '',
     color: '#000'
   });
@@ -34,7 +35,7 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
       <form onSubmit={form.onSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Chart Config</Text>
-          <ActionIcon type='submit' mr={5} variant="filled" color="blue">
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
@@ -43,22 +44,40 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
           <Text mt="xl" mb={0}>Series</Text>
           {form.values.series.map((item, index) => (
             <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-              <TextInput
-                label="Label"
-                required
-                sx={{ flex: 1 }}
-                {...form.getListInputProps('series', index, 'name')}
-              />
               <Group direction="row" grow noWrap>
                 <TextInput
-                  label="Y Axis Data key"
+                  label="Name"
+                  required
+                  sx={{ flex: 1 }}
+                  {...form.getListInputProps('series', index, 'name')}
+                />
+                <TextInput
+                  label="Stack"
+                  placeholder="Stack bars by this ID"
+                  {...form.getListInputProps('series', index, 'stack')}
+                />
+                <TextInput
+                  label="Value key"
                   required
                   {...form.getListInputProps('series', index, 'y_axis_data_key')}
                 />
-                <TextInput
-                  label="Stack ID"
-                  placeholder="Stack bars by this ID"
-                  {...form.getListInputProps('series', index, 'stack')}
+              </Group>
+              <Group direction="row" grow noWrap>
+                <JsonInput
+                  sx={{ label: { width: '100%' } }}
+                  label={(
+                    <Group position="apart">
+                      <Text>Value Formatter</Text>
+                      <Anchor href="https://numbrojs.com/format.html" target="_blank">
+                        Formats
+                      </Anchor>
+                    </Group>
+                  )}
+                  placeholder={`{    output: "percent",    mantissa: 2}`}
+                  minRows={4}
+                  maxRows={12}
+                  autosize
+                  {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
                 />
               </Group>
               <Group direction="column" grow>
