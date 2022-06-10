@@ -6,6 +6,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import _ from "lodash";
 import React from 'react';
 import numbro from 'numbro';
+import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 
 echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -14,7 +15,7 @@ const defaultOption = {
     show: true
   },
   tooltip: {
-    trigger: 'axis'
+    trigger: 'axis',
   },
   xAxis: {
     type: 'category',
@@ -38,37 +39,61 @@ interface ILineBarChart {
 
 export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
   const option = React.useMemo(() => {
-    const dataset = {
-      dataset: { source: data }
-    };
-    const xAxisSource = {
-      xAxis: {
-        data: data.map((d) => d[conf.x_axis_data_key]),
+    const valueFormatters = conf.series.reduce((ret: Record<string, (params: any) => string>, { name, y_axis_data_formatter }: any) => {
+      ret[name] = function formatter({ value }: any) {
+        if (!y_axis_data_formatter) {
+          return value;
+        }
+        try {
+          return numbro(value).format(JSON.parse(y_axis_data_formatter))
+        } catch (error) {
+          console.error(error)
+          return value;
+        }
       }
-    }
-    const series = conf.series.map(({ y_axis_data_key, y_axis_data_formatter, ...rest }: any) => {
+      return ret;
+    }, {});
+
+    const series = conf.series.map(({ y_axis_data_key, y_axis_data_formatter, name, ...rest }: any) => {
       const ret = {
         data: data.map((d) => d[y_axis_data_key]),
         label: {
           show: true,
           position: 'top'
         },
+        name,
         ...rest,
       }
       if (y_axis_data_formatter) {
-        ret.label.formatter = function formatter({ value }: any) {
-          try {
-            const v = numbro(value).format(JSON.parse(y_axis_data_formatter))
-            return v;
-          } catch (error) {
-            console.error(error)
-            return value;
-          }
-        }
+        ret.label.formatter = valueFormatters[name]
       }
       return ret;
     });
-    return _.assign({}, defaultOption, dataset, xAxisSource, { series });
+
+    const customOptions = {
+      xAxis: {
+        data: data.map((d) => d[conf.x_axis_data_key]),
+      },
+      dataset: { source: data },
+      series,
+      tooltip: {
+        formatter: function (params: TopLevelFormatterParams) {
+          const arr = Array.isArray(params) ? params : [params];
+          if (arr.length === 0) {
+            return ''
+          }
+          const lines = arr.map(({ seriesName, value }) => {
+            if (!seriesName) {
+              return value;
+            }
+            return `${seriesName}: ${valueFormatters[seriesName]({ value })}`
+          })
+          lines.unshift(`<strong>${arr[0].name}</strong>`)
+          return lines.join('<br />')
+        }
+      }
+    }
+    return _.assign({}, defaultOption, customOptions);
   }, [conf, data])
 
   if (!width || !height) {
