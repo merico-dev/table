@@ -7,6 +7,11 @@ import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { ILineBarChartSeriesItem, IVizLineBarChartPanel } from "./type";
 
+const numbroFormatExample = JSON.stringify({
+  output: "percent",
+  mantissa: 2
+}, null, 2);
+
 export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
   const { series, ...restConf } = conf;
   const initialValues = React.useMemo(() => ({
@@ -73,7 +78,7 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
                       </Anchor>
                     </Group>
                   )}
-                  placeholder={`{    output: "percent",    mantissa: 2}`}
+                  placeholder={numbroFormatExample}
                   minRows={4}
                   maxRows={12}
                   autosize
