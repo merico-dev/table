@@ -101,7 +101,12 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
                   {...form.getListInputProps('series', index, 'y_axis_data_key')}
                 />
               </Group>
-              <Group direction="row" grow noWrap>
+              <Group direction="row" grow noWrap align="top">
+                <Select
+                  label="Label Position"
+                  data={labelPositions}
+                  {...form.getListInputProps('series', index, 'label_position')}
+                />
                 <JsonInput
                   sx={{ label: { width: '100%' } }}
                   label={(
@@ -117,11 +122,6 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
                   maxRows={12}
                   autosize
                   {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
-                />
-                <Select
-                  label="Label Position"
-                  data={labelPositions}
-                  {...form.getListInputProps('series', index, 'label_position')}
                 />
               </Group>
               <Group direction="column" grow>
