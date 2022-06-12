@@ -19,7 +19,7 @@ export function DescriptionPopover({ position, trigger = 'click' }: IDescription
     freezeLayout(opened);
   }, [opened]);
 
-  if (!description) {
+  if (!description || description === '<p><br></p>') {
     return null;
   }
 
