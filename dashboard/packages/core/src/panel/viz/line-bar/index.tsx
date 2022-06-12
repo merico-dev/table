@@ -19,13 +19,23 @@ const defaultOption = {
   },
   xAxis: {
     type: 'category',
+    nameGap: 20,
+    nameLocation: 'center',
+    nameTextStyle: {
+      fontWeight: 'bold',
+    },
   },
-  yAxis: {},
+  yAxis: {
+    nameTextStyle: {
+      fontWeight: 'bolder',
+      align: 'left',
+    },
+  },
   grid: {
     top: 30,
-    left: 10,
-    right: 10,
-    bottom: 10,
+    left: 15,
+    right: 15,
+    bottom: 20,
     containLabel: true,
   }
 }
@@ -73,6 +83,10 @@ export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
     const customOptions = {
       xAxis: {
         data: data.map((d) => d[conf.x_axis_data_key]),
+        name: conf.x_axis_name ?? '',
+      },
+      yAxis: {
+        name: conf.y_axis_name ?? '',
       },
       dataset: { source: data },
       series,
@@ -93,7 +107,7 @@ export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
         }
       }
     }
-    return _.assign({}, defaultOption, customOptions);
+    return _.merge({}, defaultOption, customOptions);
   }, [conf, data])
 
   if (!width || !height) {

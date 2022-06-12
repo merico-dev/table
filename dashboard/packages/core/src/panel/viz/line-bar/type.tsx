@@ -11,6 +11,8 @@ export interface ILineBarChartSeriesItem {
 
 export interface ILineBarChartConf {
   x_axis_data_key: string;
+  x_axis_name: string;
+  y_axis_name: string;
   series: ILineBarChartSeriesItem[];
 }
 
