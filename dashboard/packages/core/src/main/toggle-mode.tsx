@@ -1,6 +1,6 @@
 import React from "react";
 import { SegmentedControl, Text } from "@mantine/core";
-import { Paint, PlayerPlay } from "tabler-icons-react";
+import { Paint, PlayerPlay, Resize } from "tabler-icons-react";
 import { DashboardMode } from "../types/dashboard"
 
 function renderLabel(icon: React.ReactNode, postfix: string) {
@@ -19,7 +19,8 @@ export function ModeToggler({ mode, setMode }: IModeToggler) {
       onChange={setMode}
       data={[
         { label: renderLabel(<PlayerPlay size={20} />, 'Use'), value: DashboardMode.Use },
-        { label: renderLabel(<Paint size={20} />, 'Edit'), value: DashboardMode.Edit },
+        { label: renderLabel(<Resize size={20} />, 'Layout'), value: DashboardMode.Layout },
+        { label: renderLabel(<Paint size={20} />, 'Content'), value: DashboardMode.Edit },
       ]}
     />
   )
