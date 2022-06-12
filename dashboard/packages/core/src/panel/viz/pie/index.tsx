@@ -24,13 +24,12 @@ const defaultOption = {
     label: {
       position: 'outer',
       alignTo: 'edge',
-      formatter: '{name|{b}}\n{value|{c}}',
+      formatter: '{name|{b}}\n{percentage|{d}%}',
       minMargin: 5,
       edgeDistance: 10,
       lineHeight: 15,
       rich: {
-        value: {
-          fontSize: 10,
+        percentage: {
           color: '#999'
         }
       },
