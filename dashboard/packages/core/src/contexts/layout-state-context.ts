@@ -6,6 +6,8 @@ export interface ILayoutStateContext {
   freezeLayout: React.Dispatch<React.SetStateAction<boolean>>;
   mode: DashboardMode;
   inEditMode: boolean;
+  inLayoutMode: boolean;
+  inUseMode: boolean;
 }
 
 const initialContext = {
@@ -13,6 +15,8 @@ const initialContext = {
   freezeLayout: () => {},
   mode: DashboardMode.Edit,
   inEditMode: false,
+  inLayoutMode: false,
+  inUseMode: true,
 }
 
 export const LayoutStateContext = React.createContext<ILayoutStateContext>(initialContext);

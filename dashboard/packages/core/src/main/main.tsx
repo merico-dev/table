@@ -79,6 +79,8 @@ export function Dashboard({
   }
 
   const inEditMode = mode === DashboardMode.Edit;
+  const inLayoutMode = mode === DashboardMode.Layout;
+  const inUseMode = mode === DashboardMode.Use;
 
   const definitions = React.useMemo(() => ({
     sqlSnippets, setSQLSnippets,
@@ -89,7 +91,7 @@ export function Dashboard({
     <ContextInfoContext.Provider value={context}>
       <div className={className}>
         <DefinitionContext.Provider value={definitions}>
-          <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode }}>
+          <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
             <DashboardActions
               mode={mode}
               setMode={setMode}
@@ -100,8 +102,8 @@ export function Dashboard({
             <DashboardLayout
               panels={panels}
               setPanels={setPanels}
-              isDraggable={inEditMode && !layoutFrozen}
-              isResizable={inEditMode && !layoutFrozen}
+              isDraggable={inLayoutMode}
+              isResizable={inLayoutMode}
               onRemoveItem={removePanelByID}
               setLocalCols={setLocalCols}
               setBreakpoint={setBreakpoint}

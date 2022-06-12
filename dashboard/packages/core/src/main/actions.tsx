@@ -4,6 +4,7 @@ import { ClipboardText, Database, DeviceFloppy, PlaylistAdd, Recycle, Share } fr
 import { DashboardMode } from "../types";
 import { ModeToggler } from "./toggle-mode";
 import { EditDataSourcesModal, EditSQLSnippetsModal } from "../definition-editor";
+import { LayoutStateContext } from "../contexts";
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -19,6 +20,8 @@ export function DashboardActions({
   addPanel,
   saveChanges,
 }: IDashboardActions) {
+  const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
+
   const [dataSourcesOpened, setDataSourcesOpened] = React.useState(false);
   const openDataSources = () => setDataSourcesOpened(true);
   const closeDataSources = () => setDataSourcesOpened(false);
@@ -26,29 +29,21 @@ export function DashboardActions({
   const [sqlSnippetsOpened, setSQLSnippetsOpened] = React.useState(false);
   const openSQLSnippets = () => setSQLSnippetsOpened(true);
   const closeSQLSnippets = () => setSQLSnippetsOpened(false);
-
-  const inEditMode = mode === DashboardMode.Edit;
   return (
     <Group position="apart" pt="sm" pb="xs">
       <Group position="left">
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
-      {inEditMode && (
-        <>
-        <Group position="right">
-          <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>
-          <Button variant="default" size="sm" onClick={openSQLSnippets} leftIcon={<ClipboardText size={20} />}>SQL Snippets</Button>
-          <Button variant="default" size="sm" onClick={openDataSources} leftIcon={<Database size={20} />}>Data Sources</Button>
-          <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>
-          <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>
-        </Group>
-        <EditDataSourcesModal opened={dataSourcesOpened} close={closeDataSources} />
-        <EditSQLSnippetsModal opened={sqlSnippetsOpened} close={closeSQLSnippets} />
-      </>
-      )}
-      {!inEditMode && (
-        <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>
-      )}
+      <Group position="right">
+        {inLayoutMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
+        {inEditMode && <Button variant="default" size="sm" onClick={openSQLSnippets} leftIcon={<ClipboardText size={20} />}>SQL Snippets</Button>}
+        {inEditMode && <Button variant="default" size="sm" onClick={openDataSources} leftIcon={<Database size={20} />}>Data Sources</Button>}
+        {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
+        {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
+      </Group>
+      <EditDataSourcesModal opened={dataSourcesOpened} close={closeDataSources} />
+      <EditSQLSnippetsModal opened={sqlSnippetsOpened} close={closeSQLSnippets} />
+      {inUseMode && <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>}
     </Group>
   )
 }

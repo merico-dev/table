@@ -27,7 +27,7 @@ export function ReadOnlyDashboard({
     <ContextInfoContext.Provider value={context}>
       <div className={className}>
         <DefinitionContext.Provider value={definition}>
-          <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false }}>
+          <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false, inLayoutMode: false, inUseMode: true }}>
             <ReadOnlyDashboardLayout panels={dashboard.panels} />
           </LayoutStateContext.Provider>
         </DefinitionContext.Provider>
