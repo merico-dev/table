@@ -1,9 +1,11 @@
 import { Text } from '@mantine/core';
+import numbro from 'numbro';
 import _ from "lodash";
 
 function interpolateString(template: string, params: Record<string, any> = {}) {
-  const names = Object.keys(params);
-  const vals = Object.values(params);
+  const extendedParams = { ...params, numbro }
+  const names = Object.keys(extendedParams);
+  const vals = Object.values(extendedParams);
   try {
     return new Function(...names, `return \`${template}\`;`)(...vals);
   } catch (error: any) {
