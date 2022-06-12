@@ -12,14 +12,16 @@ echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipCompone
 
 const defaultOption = {
   legend: {
-    show: true
+    show: true,
+    bottom: 0,
+    left: 0,
   },
   tooltip: {
     trigger: 'axis',
   },
   xAxis: {
     type: 'category',
-    nameGap: 20,
+    nameGap: 25,
     nameLocation: 'center',
     nameTextStyle: {
       fontWeight: 'bold',
@@ -35,7 +37,7 @@ const defaultOption = {
     top: 30,
     left: 15,
     right: 15,
-    bottom: 20,
+    bottom: 30,
     containLabel: true,
   }
 }
