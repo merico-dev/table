@@ -61,16 +61,18 @@ export function VizPie({ conf, data, width, height }: IVizPie) {
 
   const labelOptions = React.useMemo(() => {
     return {
-      labelLayout: function (params: any) {
-        const isLeft = params.labelRect.x < width / 2;
-        const points = params.labelLinePoints;
-        points[2][0] = isLeft
-          ? params.labelRect.x
-          : params.labelRect.x + params.labelRect.width;
-        return {
-          labelLinePoints: points
-        };
-      },
+      series: {
+        labelLayout: function (params: any) {
+          const isLeft = params.labelRect.x < width / 2;
+          const points = params.labelLinePoints;
+          points[2][0] = isLeft
+            ? params.labelRect.x
+            : params.labelRect.x + params.labelRect.width;
+          return {
+            labelLinePoints: points
+          };
+        },
+      }
     }
   }, [width]);
 
