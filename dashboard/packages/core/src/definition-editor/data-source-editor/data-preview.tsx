@@ -22,7 +22,7 @@ export function DataPreview({ id }: { id: string }) {
     refreshDeps: [contextInfo, definitions, dataSource],
   });
   if (loading) {
-    return <LoadingOverlay visible={loading} />;
+    return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;
   }
   if (data.length === 0) {
     return <Table></Table>;

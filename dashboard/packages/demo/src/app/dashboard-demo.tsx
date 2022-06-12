@@ -48,7 +48,7 @@ export function DashboardDemo({ id }: { id: string }) {
   return (
     <div className='dashboard-demo'>
       <Filters context={context} submit={setContext} />
-      <LoadingOverlay visible={loading || !hasContext} />
+      <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && <Dashboard context={context} dashboard={dashboard} update={updateDashboard} />}
     </div>
   )

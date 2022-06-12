@@ -1,4 +1,4 @@
-import { AppShell, LoadingOverlay, MantineProvider } from '@mantine/core';
+import { AppShell, MantineProvider } from '@mantine/core';
 import { Header } from '../components/header';
 import { DashboardDemo } from './dashboard-demo';
 import { useParams } from 'react-router-dom';
@@ -13,7 +13,6 @@ function App() {
       padding="md"
       header={<Header />}
     >
-      <LoadingOverlay visible={!id} />
       <MantineProvider>
         <NotificationsProvider>
           {id && <DashboardDemo id={id} />}

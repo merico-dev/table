@@ -38,7 +38,7 @@ export function Viz({ viz, data, loading }: IViz) {
   if (loading) {
     return (
       <div className="viz-root" ref={ref}>
-        <LoadingOverlay visible={loading} />
+        <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     )
   }
