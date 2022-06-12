@@ -11,7 +11,7 @@ interface IVizTable {
   height: number;
 }
 
-export function VizTable({ conf, data, width, height }: IVizTable) {
+export function VizTable({ conf, data = [], width, height }: IVizTable) {
   const { id_field, use_raw_columns, columns, ...rest } = conf;
   const labels = React.useMemo(() => {
     if (use_raw_columns) {
@@ -40,11 +40,11 @@ export function VizTable({ conf, data, width, height }: IVizTable) {
         </tr>
       </thead>
       <tbody>
-        {data.map((row: any, index: number) => (
+        {data.slice(0, 30).map((row: any, index: number) => (
           <tr key={id_field ? row[id_field] : `row-${index}`}>
             {finalColumns.map(({ value_field, value_type }) => (
               <td key={row[value_field]}>
-                <Group sx={{ '&, .mantine-Text-root': { fontFamily: 'monospace' } }}>
+                <Group sx={{ '&, .mantine-Text-root': { fontFamily: 'monospace', fontSize: rest.fontSize } }}>
                   <CellValue value={row[value_field]} type={value_type} />
                 </Group>
               </td>
@@ -52,6 +52,15 @@ export function VizTable({ conf, data, width, height }: IVizTable) {
           </tr>
         ))}
       </tbody>
+      {data.length > 100 && (
+        <tfoot>
+          <tr>
+            <td colSpan={labels.length}>
+              <Text color="red" size="sm">Showing only the first 30 rows to avoid causing slow performance</Text>
+            </td>
+          </tr>
+        </tfoot>
+      )}
     </Table>
   )
 }
