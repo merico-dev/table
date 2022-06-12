@@ -4,6 +4,7 @@ export interface ILineBarChartSeriesItem {
   showSymbol: false;
   y_axis_data_key: string;
   y_axis_data_formatter?: string;
+  label_position?: string;
   stack: string;
   color?: string;
 }

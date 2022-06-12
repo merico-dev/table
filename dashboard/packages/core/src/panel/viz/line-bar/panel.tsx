@@ -1,9 +1,9 @@
-import { ActionIcon, Anchor, Button, Group, JsonInput, Text, Textarea, TextInput } from "@mantine/core";
+import { ActionIcon, Anchor, Button, Group, JsonInput, Select, Text, Textarea, TextInput } from "@mantine/core";
 import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
-import { DeviceFloppy, Trash } from "tabler-icons-react";
+import { DeviceFloppy, Stack, Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { ILineBarChartSeriesItem, IVizLineBarChartPanel } from "./type";
 
@@ -12,10 +12,43 @@ const numbroFormatExample = JSON.stringify({
   mantissa: 2
 }, null, 2);
 
+const labelPositions = [
+  { label: 'top', value: 'top', },
+  { label: 'left', value: 'left', },
+  { label: 'right', value: 'right', },
+  { label: 'bottom', value: 'bottom', },
+  { label: 'inside', value: 'inside', },
+  { label: 'insideLeft', value: 'insideLeft', },
+  { label: 'insideRight', value: 'insideRight', },
+  { label: 'insideTop', value: 'insideTop', },
+  { label: 'insideBottom', value: 'insideBottom', },
+  { label: 'insideTopLeft', value: 'insideTopLeft', },
+  { label: 'insideBottomLeft', value: 'insideBottomLeft', },
+  { label: 'insideTopRight', value: 'insideTopRight', },
+  { label: 'insideBottomRight', value: 'insideBottomRight', },
+]
+
+function withDefaults(series: ILineBarChartSeriesItem[]) {
+  function setDefaults({
+    type,
+    name,
+    showSymbol,
+    y_axis_data_key = 'value',
+    y_axis_data_formatter = '',
+    label_position = 'top',
+    stack = '1',
+    color = 'black',
+  }: ILineBarChartSeriesItem) {
+    return { type, name, showSymbol, y_axis_data_key, y_axis_data_formatter, label_position, stack, color }
+  }
+
+  return series.map(setDefaults);
+}
+
 export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
   const { series, ...restConf } = conf;
   const initialValues = React.useMemo(() => ({
-    series: formList<ILineBarChartSeriesItem>(series ?? []),
+    series: formList<ILineBarChartSeriesItem>(withDefaults(series ?? [])),
     ...restConf
   }), [series, restConf]);
 
@@ -29,6 +62,7 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
     showSymbol: false,
     y_axis_data_key: 'value',
     y_axis_data_formatter: '',
+    label_position: 'top',
     stack: '',
     color: '#000'
   });
@@ -83,6 +117,11 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
                   maxRows={12}
                   autosize
                   {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
+                />
+                <Select
+                  label="Label Position"
+                  data={labelPositions}
+                  {...form.getListInputProps('series', index, 'label_position')}
                 />
               </Group>
               <Group direction="column" grow>

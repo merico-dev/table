@@ -54,12 +54,12 @@ export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
       return ret;
     }, {});
 
-    const series = conf.series.map(({ y_axis_data_key, y_axis_data_formatter, name, ...rest }: any) => {
+    const series = conf.series.map(({ y_axis_data_key, y_axis_data_formatter, name, label_position = 'top', ...rest }: any) => {
       const ret = {
         data: data.map((d) => d[y_axis_data_key]),
         label: {
           show: true,
-          position: 'top'
+          position: label_position,
         },
         name,
         ...rest,
