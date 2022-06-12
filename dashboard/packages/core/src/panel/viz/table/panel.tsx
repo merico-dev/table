@@ -13,7 +13,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizP
       id_field: 'id',
       use_raw_columns: true,
       columns: formList<IColumnConf>(columns ?? []),
-      size: 'sm',
+      fontSize: 'sm',
       horizontalSpacing: 'sm',
       verticalSpacing: 'sm',
       striped: false,
@@ -57,7 +57,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizP
               placeholder="10px, 1em, 1rem, 100%..."
               required
               sx={{ flex: 1 }}
-              {...form.getInputProps('size')}
+              {...form.getInputProps('fontSize')}
             />
           </Group>
           <Group direction="column" grow>

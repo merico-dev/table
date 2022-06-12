@@ -16,7 +16,7 @@ export interface ITableConf {
   id_field: string;
   use_raw_columns: boolean;
   columns: IColumnConf[];
-  size: string;
+  fontSize: string;
   horizontalSpacing: string;
   verticalSpacing: string;
   striped: boolean;
