@@ -36,7 +36,7 @@ interface IVizStats {
 
 export function VizStats({ conf: { template, size, color, value_field, ...rest }, data }: IVizStats) {
   const finalColor = React.useMemo(() => {
-    return getColorByColorConf(JSON.parse(color), data[0][value_field]);
+    return getColorByColorConf(color, data[0][value_field]);
   }, [color, data, value_field]);
 
   return (
