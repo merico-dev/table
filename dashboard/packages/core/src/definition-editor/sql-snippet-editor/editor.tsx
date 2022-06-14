@@ -35,18 +35,18 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
   }
   return (
     <Group direction="column" grow sx={{ border: '1px solid #eee' }}>
-      <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
-        <Text weight={500}>SQL Snippets</Text>
-        <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
+      <form onSubmit={form.onSubmit(submit)}>
+        <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
+          <Text weight={500}>SQL Snippets</Text>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
-      </Group>
-      <Group px="md" pb="md">
-        <Prism language="sql" sx={{ width: '100%' }} noCopy trim={false} colorScheme="dark">
-          {`-- You may refer context data *by name*\n-- in SQL or VizConfig.\n\n${sampleSQL}\n\n-- where author_time_condition is:\nauthor_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'\n `}
-        </Prism>
-        <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
-          <form onSubmit={form.onSubmit(submit)}>
+        </Group>
+        <Group px="md" pb="md">
+          <Prism language="sql" sx={{ width: '100%' }} noCopy trim={false} colorScheme="dark">
+            {`-- You may refer context data *by name*\n-- in SQL or VizConfig.\n\n${sampleSQL}\n\n-- where author_time_condition is:\nauthor_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'\n `}
+          </Prism>
+          <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
             {form.values.snippets.map((_item, index) => (
               <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
                 <TextInput
@@ -61,8 +61,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                   {...form.getListInputProps('snippets', index, 'value')}
                 />
                 <ActionIcon
-                  color="red"
-                  variant="hover"
+                  color="red" variant="hover"
                   onClick={() => form.removeListItem('snippets', index)}
                   sx={{ position: 'absolute', top: 15, right: 5 }}
                 >
@@ -75,9 +74,9 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                 Add a snippet
               </Button>
             </Group>
-          </form>
+          </Group>
         </Group>
-      </Group>
+      </form>
     </Group>
   )
 }
