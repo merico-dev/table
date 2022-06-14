@@ -8,6 +8,7 @@ import { IVizPanelProps } from "../../../types/viz-panel";
 import { MantineFontWeightSlider } from "../../settings/common/mantine-font-weight";
 import { IVizStatsConf } from "./types";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
+import { TextArrayInput } from "../../settings/common/text-array-input";
 
 export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
   const defaultValues: IVizStatsConf = _.merge({}, {
@@ -26,6 +27,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
   const { control, handleSubmit, watch, getValues, formState: { isDirty } } = useForm({ defaultValues });
 
   const colorType = watch('color.type')
+
   return (
     <Group direction="column" mt="md" spacing="xs" grow noWrap>
       <form onSubmit={handleSubmit(setConf)}>
@@ -86,21 +88,24 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
                 ))}
               />
             )}
-            {/* {colorType === 'continuous' && (
+            {colorType === 'continuous' && (
               <>
                 <Controller
                   name="color.valueRange"
                   control={control}
                   render={(({ field }) => (
-                    <TextInput
-                      label="Value Range (comma separated)"
-                      required
-                      {...field}
-                    />
+                    <TextArrayInput label="Value Range" {...field} />
+                  ))}
+                />
+                <Controller
+                  name="color.colorRange"
+                  control={control}
+                  render={(({ field }) => (
+                    <TextArrayInput label="Color Range" {...field} />
                   ))}
                 />
               </>
-            )} */}
+            )}
           </Group>
           <Group direction="column" grow>
             <Controller
