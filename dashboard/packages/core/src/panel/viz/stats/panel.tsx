@@ -1,22 +1,19 @@
-import { Group, JsonInput, Text, TextInput } from "@mantine/core";
-import { useForm, formList } from "@mantine/form";
+import { ActionIcon, Group, JsonInput, Text, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { Prism } from "@mantine/prism";
+import _ from "lodash";
+import React from "react";
+import { DeviceFloppy } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
-import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { MantineFontWeightSlider } from "../../settings/common/mantine-font-weight";
 import { IVizStatsConf } from "./types";
 
-// {
-//   align: "center",
-//   size: "xl",
-//   weight: "bold",
-//   color: "black",
-//   template: "Time: ${new Date().toISOString()}"
-// },
+export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
+  const { size, color, weight, template, value_field } = conf;
 
-export function VizStatsPanel({ conf: { size, color, weight, template, value_field }, setConf }: IVizPanelProps) {
   const form = useForm<IVizStatsConf>({
     initialValues: {
+      align: 'center',
       size,
       color,
       template,
@@ -25,9 +22,19 @@ export function VizStatsPanel({ conf: { size, color, weight, template, value_fie
     },
   });
 
+  const changed = React.useMemo(() => {
+    return !_.isEqual(conf, form.values);
+  }, [conf, form.values])
+
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Group direction="column" mt="md" spacing="xs" grow noWrap>
       <form onSubmit={form.onSubmit(setConf)}>
+      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+          <Text weight={500}>Stats Configurations</Text>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
+            <DeviceFloppy size={20} />
+          </ActionIcon>
+        </Group>
         <Group direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
           <TextInput
             placeholder="Read this field as value"

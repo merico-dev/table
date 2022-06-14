@@ -1,6 +1,9 @@
 import { Text } from '@mantine/core';
 import numbro from 'numbro';
 import _ from "lodash";
+import React from 'react';
+import { ColorConf } from './types';
+import { InterpolateColor } from '../../../utils/color-mapping';
 
 function interpolateString(template: string, params: Record<string, any> = {}) {
   const extendedParams = { ...params, numbro }
@@ -13,6 +16,17 @@ function interpolateString(template: string, params: Record<string, any> = {}) {
   }
 }
 
+function getColorByColorConf(conf: ColorConf, value: number) {
+  if (conf.type === 'static') {
+    return conf.value;
+  }
+  if (conf.type === 'continuous') {
+    const mapper = new InterpolateColor(conf);
+    return mapper.getColor(value);
+  }
+  return 'black'
+}
+
 interface IVizStats {
   conf: any;
   data: any;
@@ -20,8 +34,12 @@ interface IVizStats {
   height: number;
 }
 
-export function VizStats({ conf: { template, size, ...rest }, data }: IVizStats) {
+export function VizStats({ conf: { template, size, color, value_field, ...rest }, data }: IVizStats) {
+  const finalColor = React.useMemo(() => {
+    return getColorByColorConf(JSON.parse(color), data[0][value_field]);
+  }, [color, data, value_field]);
+
   return (
-    <Text {...rest} sx={{ fontSize: size }}>{interpolateString(template, data[0])}</Text>
+    <Text {...rest} color={finalColor} sx={{ fontSize: size }}>{interpolateString(template, data[0])}</Text>
   )
 }

@@ -10,6 +10,7 @@ export type ColorConf = {
 }
 
 export interface IVizStatsConf {
+  align: 'center',
   color: ColorConf;
   size: string;
   weight: string;
