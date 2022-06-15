@@ -4,8 +4,8 @@ import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
-import { SeriesItemField } from "./panel.series-item";
-import { ICartesianChartSeriesItem, IVizCartesianChartPanel } from "./type";
+import { SeriesItemField } from "./series-item";
+import { ICartesianChartSeriesItem, IVizCartesianChartPanel } from "../type";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({

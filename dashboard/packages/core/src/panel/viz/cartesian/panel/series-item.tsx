@@ -2,8 +2,8 @@ import { ActionIcon, Anchor, Group, JsonInput, Select, Text, TextInput } from "@
 import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { Trash } from "tabler-icons-react";
-import { MantineColorSelector } from "../../settings/common/mantine-color";
-import { ICartesianChartSeriesItem } from "./type";
+import { MantineColorSelector } from "../../../settings/common/mantine-color";
+import { ICartesianChartSeriesItem } from "../type";
 
 const numbroFormatExample = JSON.stringify({
   output: "percent",
