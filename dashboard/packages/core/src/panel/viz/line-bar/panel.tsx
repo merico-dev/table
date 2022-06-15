@@ -92,6 +92,15 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
           {form.values.series.map((item, index) => (
             <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
               <Group direction="row" grow noWrap>
+                <Select
+                  label="Type"
+                  data={[
+                    { label: 'Line', value: 'line' },
+                    { label: 'Bar', value: 'bar' },
+                    { label: 'Scatter', value: 'scatter', disabled: true },
+                  ]}
+                  {...form.getListInputProps('series', index, 'type')}
+                />
                 <TextInput
                   label="Name"
                   required
