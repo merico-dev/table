@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, ColorInput } from "@mantine/core";
+import { ActionIcon, Group, Text, ColorInput, useMantineTheme } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy, PlaylistAdd, Trash } from "tabler-icons-react";
@@ -34,6 +34,12 @@ export function ColorArrayInput({ label, value, onChange }: IColorArrayInput) {
     onChange(values.map(s => s.toString()));
   }
 
+  const theme = useMantineTheme();
+
+  const swatches = React.useMemo(() => {
+    return Object.entries(theme.colors).map(([_color, profile]) => profile[6])
+  }, [theme]);
+
   return (
     <>
       <Group position="left" >
@@ -52,6 +58,7 @@ export function ColorArrayInput({ label, value, onChange }: IColorArrayInput) {
                 return [...s]
               })
             }}
+            swatches={swatches}
             rightSection={(
               <ActionIcon onClick={() => del(i)} color="red">
                 <Trash size={14} />
