@@ -18,7 +18,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
     value_field: 'value',
     color: {
       type: 'static',
-      value: 'red',
+      staticColor: 'red',
     }
   } as const, conf);
 
@@ -110,7 +110,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
               />
               {colorType === 'static' && (
                 <Controller
-                  name="color.value"
+                  name="color.staticColor"
                   control={control}
                   render={(({ field }) => (
                     <MantineColorSelector {...field} />

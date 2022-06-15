@@ -18,7 +18,7 @@ function interpolateString(template: string, params: Record<string, any> = {}) {
 
 function getColorByColorConf(conf: ColorConf, value: number) {
   if (conf.type === 'static') {
-    return conf.value;
+    return conf.staticColor;
   }
   if (conf.type === 'continuous') {
     const mapper = new InterpolateColor(conf);

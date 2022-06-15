@@ -1,6 +1,6 @@
 export type ColorConf = {
   type: 'static';
-  value: string;
+  staticColor: string;
 } | {
   type: 'continuous';
   valueRange: number[];
