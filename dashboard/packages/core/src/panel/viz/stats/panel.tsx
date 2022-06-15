@@ -37,7 +37,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion offsetIcon={false} multiple>
+        <Accordion offsetIcon={false} multiple initialState={{ 0: true, 2: true }}>
           <Accordion.Item label="Content">
             <Group direction="column" grow>
               <Controller
