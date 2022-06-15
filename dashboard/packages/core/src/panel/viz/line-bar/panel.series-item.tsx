@@ -37,6 +37,8 @@ interface ISeriesItemField {
   index: number;
 }
 export function SeriesItemField({ form, index }: ISeriesItemField) {
+  const value = form.values.series[index];
+  const { type } = value;
   return (
     <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group direction="row" grow noWrap>
@@ -56,17 +58,21 @@ export function SeriesItemField({ form, index }: ISeriesItemField) {
           {...form.getListInputProps('series', index, 'name')}
         />
         <TextInput
-          label="Stack"
-          placeholder="Stack bars by this ID"
-          {...form.getListInputProps('series', index, 'stack')}
-        />
-        <TextInput
           label="Value key"
           required
           {...form.getListInputProps('series', index, 'y_axis_data_key')}
         />
       </Group>
       <Group direction="row" grow noWrap align="top">
+        {type === 'bar' && (
+          <>
+            <TextInput
+              label="Stack"
+              placeholder="Stack bars by this ID"
+              {...form.getListInputProps('series', index, 'stack')}
+            />
+          </>
+        )}
         <Select
           label="Label Position"
           data={labelPositions}
