@@ -1,6 +1,9 @@
 import { ActionIcon, Anchor, Group, JsonInput, Select, Text, TextInput } from "@mantine/core";
+import { FormList } from "@mantine/form/lib/form-list/form-list";
+import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
+import { ILineBarChartSeriesItem } from "./type";
 
 const numbroFormatExample = JSON.stringify({
   output: "percent",
@@ -24,7 +27,16 @@ const labelPositions = [
   { label: 'insideBottomRight', value: 'insideBottomRight', },
 ]
 
-export function SeriesItemField({ form, index }: any) {
+interface ISeriesItemField {
+  form: UseFormReturnType<{
+    x_axis_data_key: string;
+    series: FormList<ILineBarChartSeriesItem>;
+    x_axis_name: string;
+    y_axis_name: string;
+  }>;
+  index: number;
+}
+export function SeriesItemField({ form, index }: ISeriesItemField) {
   return (
     <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group direction="row" grow noWrap>
