@@ -1,4 +1,4 @@
-export interface ILineBarChartSeriesItem {
+export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar';
   name: string;
   showSymbol: false;
@@ -9,14 +9,14 @@ export interface ILineBarChartSeriesItem {
   color?: string;
 }
 
-export interface ILineBarChartConf {
+export interface ICartesianChartConf {
   x_axis_data_key: string;
   x_axis_name: string;
   y_axis_name: string;
-  series: ILineBarChartSeriesItem[];
+  series: ICartesianChartSeriesItem[];
 }
 
-export interface IVizLineBarChartPanel {
-  conf: ILineBarChartConf;
-  setConf: (values: ILineBarChartConf) => void;
+export interface IVizCartesianChartPanel {
+  conf: ICartesianChartConf;
+  setConf: (values: ICartesianChartConf) => void;
 }

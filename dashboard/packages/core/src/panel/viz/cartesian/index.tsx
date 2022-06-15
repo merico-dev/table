@@ -42,14 +42,14 @@ const defaultOption = {
   }
 }
 
-interface ILineBarChart {
+interface ICartesianChart {
   conf: any;
   data: any[];
   width: number;
   height: number;
 }
 
-export function VizLineBarChart({ conf, data, width, height }: ILineBarChart) {
+export function VizCartesianChart({ conf, data, width, height }: ICartesianChart) {
   const option = React.useMemo(() => {
     const valueFormatters = conf.series.reduce((ret: Record<string, (params: any) => string>, { name, y_axis_data_formatter }: any) => {
       ret[name] = function formatter({ value }: any) {
