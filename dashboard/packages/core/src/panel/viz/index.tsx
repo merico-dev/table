@@ -4,7 +4,7 @@ import { useElementSize } from "@mantine/hooks";
 import { LoadingOverlay, Text } from '@mantine/core';
 
 import { Sunbrust } from './sunburst';
-import { VizLineBarChart } from './line-bar';
+import { VizCartesianChart } from './cartesian';
 import { VizTable } from './table';
 import { VizText } from "./text";
 import { VizBar3D } from "./bar-3d";
@@ -17,7 +17,8 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig )
   const props = { width, height, data, conf: viz.conf }
   switch (viz.type) {
     case 'sunburst': return <Sunbrust {...props} />;
-    case 'line-bar': return <VizLineBarChart {...props} />;
+    case 'line-bar': // deprecated
+    case 'cartesian': return <VizCartesianChart {...props} />;
     // @ts-expect-error
     case 'table': return <VizTable {...props} />;
     case 'text': return <VizText {...props} />;

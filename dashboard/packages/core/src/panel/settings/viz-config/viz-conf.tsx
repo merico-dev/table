@@ -5,7 +5,7 @@ import { DeviceFloppy } from "tabler-icons-react";
 import { PanelContext } from "../../../contexts/panel-context";
 import { IVizConfig } from "../../../types/dashboard";
 import { VizBar3DPanel } from "../../viz/bar-3d/panel";
-import { VizLineBarChartPanel } from "../../viz/line-bar/panel";
+import { VizCartesianChartPanel } from "../../viz/cartesian/panel";
 import { VizPiePanel } from "../../viz/pie/panel";
 import { VizStatsPanel } from "../../viz/stats/panel";
 import { SunburstPanel } from "../../viz/sunburst/panel";
@@ -18,7 +18,7 @@ const types = [
   { value: 'table', label: 'Table', Panel: VizTablePanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)', Panel: VizBar3DPanel },
-  { value: 'line-bar', label: 'Line-Bar Chart', Panel: VizLineBarChartPanel },
+  { value: 'cartesian', label: 'Cartesian Chart', Panel: VizCartesianChartPanel },
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ]
 

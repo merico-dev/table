@@ -3,7 +3,7 @@ import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
-import { ILineBarChartSeriesItem } from "./type";
+import { ICartesianChartSeriesItem } from "./type";
 
 const numbroFormatExample = JSON.stringify({
   output: "percent",
@@ -30,7 +30,7 @@ const labelPositions = [
 interface ISeriesItemField {
   form: UseFormReturnType<{
     x_axis_data_key: string;
-    series: FormList<ILineBarChartSeriesItem>;
+    series: FormList<ICartesianChartSeriesItem>;
     x_axis_name: string;
     y_axis_name: string;
   }>;

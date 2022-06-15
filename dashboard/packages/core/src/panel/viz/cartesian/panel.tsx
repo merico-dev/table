@@ -5,9 +5,9 @@ import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { SeriesItemField } from "./panel.series-item";
-import { ILineBarChartSeriesItem, IVizLineBarChartPanel } from "./type";
+import { ICartesianChartSeriesItem, IVizCartesianChartPanel } from "./type";
 
-function withDefaults(series: ILineBarChartSeriesItem[]) {
+function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
     type,
     name,
@@ -17,19 +17,19 @@ function withDefaults(series: ILineBarChartSeriesItem[]) {
     label_position = 'top',
     stack = '1',
     color = 'black',
-  }: ILineBarChartSeriesItem) {
+  }: ICartesianChartSeriesItem) {
     return { type, name, showSymbol, y_axis_data_key, y_axis_data_formatter, label_position, stack, color }
   }
 
   return series.map(setDefaults);
 }
 
-export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
+export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPanel) {
   const { series, ...restConf } = conf;
   const initialValues = React.useMemo(() => {
     const { x_axis_name = '', y_axis_name = '', ...rest } = restConf
     return {
-      series: formList<ILineBarChartSeriesItem>(withDefaults(series ?? [])),
+      series: formList<ICartesianChartSeriesItem>(withDefaults(series ?? [])),
       x_axis_name,
       y_axis_name,
       ...rest
