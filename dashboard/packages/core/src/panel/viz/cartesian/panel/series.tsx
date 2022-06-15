@@ -2,6 +2,7 @@ import { ActionIcon, Button, Group, SegmentedControl, Select, Text, TextInput } 
 import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { randomId } from "@mantine/hooks";
+import React from "react";
 import { Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../../settings/common/mantine-color";
 import { ICartesianChartSeriesItem, IYAxisConf } from "../type";
@@ -38,10 +39,18 @@ export function SeriesField({ form }: ISeriesField) {
     name: randomId(),
     showSymbol: false,
     y_axis_data_key: 'value',
+    y_axis_id: '',
     label_position: 'top',
     stack: '',
     color: '#000'
   });
+
+  const yAxisOptions = React.useMemo(() => {
+    return form.values.y_axes.map(({ id, name }) => ({
+      label: name,
+      value: id
+    }))
+  }, [form.values.y_axes]);
 
   return (
     <Group direction="column" grow>
@@ -61,20 +70,26 @@ export function SeriesField({ form }: ISeriesField) {
                 ]}
               />
             </Group>
-            <Group direction="row" grow noWrap>
               <TextInput
                 label="Name"
                 required
                 sx={{ flex: 1 }}
                 {...form.getListInputProps('series', index, 'name')}
               />
+            <Group direction="row" grow noWrap>
               <TextInput
                 label="Value key"
                 required
                 {...form.getListInputProps('series', index, 'y_axis_data_key')}
               />
+            <Select
+              label="Y Axis"
+              data={yAxisOptions}
+              {...form.getListInputProps('series', index, 'y_axis_id')}
+              disabled={yAxisOptions.length === 0}
+            />
             </Group>
-            <Group direction="row" grow noWrap align="top">
+            <Group direction="column" grow noWrap align="top">
               {type === 'bar' && (
                 <>
                   <TextInput
