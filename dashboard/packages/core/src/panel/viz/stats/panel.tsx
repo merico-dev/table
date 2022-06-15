@@ -15,7 +15,6 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
     size: '100px',
     template: '',
     weight: 'bold',
-    value_field: 'value',
     color: {
       type: 'static',
       staticColor: 'red',
@@ -26,6 +25,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
   const { control, handleSubmit, watch, formState: { isDirty } } = useForm({ defaultValues });
 
   const colorType = watch('color.type')
+  watch('color.valueField')
 
   return (
     <Group direction="column" mt="md" spacing="xs" grow noWrap>
@@ -82,19 +82,6 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
           <Accordion.Item label="Color">
             <Group direction="column" grow>
               <Controller
-                name='value_field'
-                control={control}
-                render={(({ field }) => (
-                  <TextInput
-                    placeholder="Calc color with this field"
-                    label="Value Field"
-                    required
-                    sx={{ flex: 1 }}
-                    {...field}
-                  />
-                ))}
-              />
-              <Controller
                 name="color.type"
                 control={control}
                 render={(({ field }) => (
@@ -119,6 +106,20 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
               )}
               {colorType === 'continuous' && (
                 <>
+                  <Controller
+                    name='color.valueField'
+                    control={control}
+                    defaultValue=""
+                    render={(({ field }) => (
+                      <TextInput
+                        placeholder="Calculate color with this field"
+                        label="Value Field"
+                        required
+                        sx={{ flex: 1 }}
+                        {...field}
+                      />
+                    ))}
+                  />
                   <Controller
                     name="color.valueRange"
                     control={control}

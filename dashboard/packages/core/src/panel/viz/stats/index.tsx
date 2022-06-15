@@ -16,12 +16,13 @@ function interpolateString(template: string, params: Record<string, any> = {}) {
   }
 }
 
-function getColorByColorConf(conf: ColorConf, value: number) {
+function getColorByColorConf(conf: ColorConf, dataRow: Record<string, number>) {
   if (conf.type === 'static') {
     return conf.staticColor;
   }
   if (conf.type === 'continuous') {
     const mapper = new InterpolateColor(conf);
+    const value = dataRow[conf.valueField];
     return mapper.getColor(value);
   }
   return 'black'
@@ -34,10 +35,10 @@ interface IVizStats {
   height: number;
 }
 
-export function VizStats({ conf: { template, size, color, value_field, ...rest }, data }: IVizStats) {
+export function VizStats({ conf: { template, size, color, ...rest }, data }: IVizStats) {
   const finalColor = React.useMemo(() => {
-    return getColorByColorConf(color, data[0][value_field]);
-  }, [color, data, value_field]);
+    return getColorByColorConf(color, data[0]);
+  }, [color, data]);
 
   return (
     <Text {...rest} color={finalColor} sx={{ fontSize: size }}>{interpolateString(template, data[0])}</Text>

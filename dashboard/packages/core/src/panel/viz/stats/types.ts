@@ -5,6 +5,7 @@ export type ColorConf = {
   type: 'continuous';
   valueRange: number[];
   colorRange: string[];
+  valueField: string;
 } | {
   type: 'piecewise'; // TODO
 }
@@ -15,5 +16,4 @@ export interface IVizStatsConf {
   size: string;
   weight: string;
   template: string;
-  value_field: string;
 }
