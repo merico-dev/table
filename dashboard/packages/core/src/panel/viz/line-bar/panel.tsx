@@ -3,7 +3,7 @@ import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
-import { DeviceFloppy, Stack, Trash } from "tabler-icons-react";
+import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { ILineBarChartSeriesItem, IVizLineBarChartPanel } from "./type";
 
@@ -28,6 +28,75 @@ const labelPositions = [
   { label: 'insideBottomRight', value: 'insideBottomRight', },
 ]
 
+function SeriesItemField({ form, index }: any) {
+  return (
+    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+      <Group direction="row" grow noWrap>
+        <Select
+          label="Type"
+          data={[
+            { label: 'Line', value: 'line' },
+            { label: 'Bar', value: 'bar' },
+            { label: 'Scatter', value: 'scatter', disabled: true },
+          ]}
+          {...form.getListInputProps('series', index, 'type')}
+        />
+        <TextInput
+          label="Name"
+          required
+          sx={{ flex: 1 }}
+          {...form.getListInputProps('series', index, 'name')}
+        />
+        <TextInput
+          label="Stack"
+          placeholder="Stack bars by this ID"
+          {...form.getListInputProps('series', index, 'stack')}
+        />
+        <TextInput
+          label="Value key"
+          required
+          {...form.getListInputProps('series', index, 'y_axis_data_key')}
+        />
+      </Group>
+      <Group direction="row" grow noWrap align="top">
+        <Select
+          label="Label Position"
+          data={labelPositions}
+          {...form.getListInputProps('series', index, 'label_position')}
+        />
+        <JsonInput
+          sx={{ label: { width: '100%' } }}
+          label={(
+            <Group position="apart">
+              <Text>Value Formatter</Text>
+              <Anchor href="https://numbrojs.com/format.html" target="_blank">
+                Formats
+              </Anchor>
+            </Group>
+          )}
+          placeholder={numbroFormatExample}
+          minRows={4}
+          maxRows={12}
+          autosize
+          {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
+        />
+      </Group>
+      <Group direction="column" grow>
+        <Text>Color</Text>
+        <MantineColorSelector {...form.getListInputProps('series', index, 'color')} />
+      </Group>
+      <ActionIcon
+        color="red"
+        variant="hover"
+        onClick={() => form.removeListItem('series', index)}
+        sx={{ position: 'absolute', top: 15, right: 5 }}
+      >
+        <Trash size={16} />
+      </ActionIcon>
+    </Group>
+  )
+}
+
 function withDefaults(series: ILineBarChartSeriesItem[]) {
   function setDefaults({
     type,
@@ -50,11 +119,12 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
   const initialValues = React.useMemo(() => {
     const { x_axis_name = '', y_axis_name = '', ...rest } = restConf
     return {
-    series: formList<ILineBarChartSeriesItem>(withDefaults(series ?? [])),
-    x_axis_name,
-    y_axis_name,
-    ...rest
-  }}, [series, restConf]);
+      series: formList<ILineBarChartSeriesItem>(withDefaults(series ?? [])),
+      x_axis_name,
+      y_axis_name,
+      ...rest
+    }
+  }, [series, restConf]);
 
   const form = useForm({
     initialValues,
@@ -89,72 +159,7 @@ export function VizLineBarChartPanel({ conf, setConf }: IVizLineBarChartPanel) {
         </Group>
         <Group direction="column" grow>
           <Text mt="xl" mb={0}>Series</Text>
-          {form.values.series.map((item, index) => (
-            <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-              <Group direction="row" grow noWrap>
-                <Select
-                  label="Type"
-                  data={[
-                    { label: 'Line', value: 'line' },
-                    { label: 'Bar', value: 'bar' },
-                    { label: 'Scatter', value: 'scatter', disabled: true },
-                  ]}
-                  {...form.getListInputProps('series', index, 'type')}
-                />
-                <TextInput
-                  label="Name"
-                  required
-                  sx={{ flex: 1 }}
-                  {...form.getListInputProps('series', index, 'name')}
-                />
-                <TextInput
-                  label="Stack"
-                  placeholder="Stack bars by this ID"
-                  {...form.getListInputProps('series', index, 'stack')}
-                />
-                <TextInput
-                  label="Value key"
-                  required
-                  {...form.getListInputProps('series', index, 'y_axis_data_key')}
-                />
-              </Group>
-              <Group direction="row" grow noWrap align="top">
-                <Select
-                  label="Label Position"
-                  data={labelPositions}
-                  {...form.getListInputProps('series', index, 'label_position')}
-                />
-                <JsonInput
-                  sx={{ label: { width: '100%' } }}
-                  label={(
-                    <Group position="apart">
-                      <Text>Value Formatter</Text>
-                      <Anchor href="https://numbrojs.com/format.html" target="_blank">
-                        Formats
-                      </Anchor>
-                    </Group>
-                  )}
-                  placeholder={numbroFormatExample}
-                  minRows={4}
-                  maxRows={12}
-                  autosize
-                  {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
-                />
-              </Group>
-              <Group direction="column" grow>
-                <Text>Color</Text>
-                <MantineColorSelector {...form.getListInputProps('series', index, 'color')} />
-              </Group>
-              <ActionIcon
-                color="red"
-                variant="hover"
-                onClick={() => form.removeListItem('series', index)}
-                sx={{ position: 'absolute', top: 15, right: 5 }}
-              >
-                <Trash size={16} />
-              </ActionIcon>
-            </Group>
-          ))}
+          {form.values.series.map((item, index) => <SeriesItemField form={form} index={index} />)}
           <Group position="center" mt="xs">
             <Button onClick={addSeries}>
               Add a Series
