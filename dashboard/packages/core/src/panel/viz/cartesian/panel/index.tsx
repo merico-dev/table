@@ -1,6 +1,5 @@
 import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
 import { formList, useForm } from "@mantine/form";
-import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";

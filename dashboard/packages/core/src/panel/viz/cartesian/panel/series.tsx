@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Button, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
 import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { randomId } from "@mantine/hooks";
@@ -49,16 +49,19 @@ export function SeriesField({ form }: ISeriesField) {
       {form.values.series.map(({ type }, index) => {
         return (
           <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-            <Group direction="row" grow noWrap>
-              <Select
-                label="Type"
+            <Group direction="column" grow noWrap>
+              <SegmentedControl
+                {...form.getListInputProps('series', index, 'type')}
                 data={[
                   { label: 'Line', value: 'line' },
                   { label: 'Bar', value: 'bar' },
                   { label: 'Scatter', value: 'scatter', disabled: true },
+                  { label: 'Boxplot', value: 'boxplot', disabled: true },
+
                 ]}
-                {...form.getListInputProps('series', index, 'type')}
               />
+            </Group>
+            <Group direction="row" grow noWrap>
               <TextInput
                 label="Name"
                 required
