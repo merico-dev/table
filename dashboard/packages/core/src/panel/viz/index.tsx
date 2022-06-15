@@ -11,6 +11,7 @@ import { VizBar3D } from "./bar-3d";
 import './index.css';
 import { IVizConfig } from "../../types/dashboard";
 import { VizPie } from "./pie";
+import { VizStats } from "./stats";
 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig ) {
   const props = { width, height, data, conf: viz.conf }
@@ -20,6 +21,7 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig )
     // @ts-expect-error
     case 'table': return <VizTable {...props} />;
     case 'text': return <VizText {...props} />;
+    case 'stats': return <VizStats {...props} />;
     case 'bar-3d': return <VizBar3D {...props} />;
     case 'pie': return <VizPie {...props} />;
     default: return null;

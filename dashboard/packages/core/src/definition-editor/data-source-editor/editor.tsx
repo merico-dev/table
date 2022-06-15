@@ -7,8 +7,9 @@ import { DataSourceForm } from "./form";
 
 interface IDataSourceEditor {
   id: string;
+  setID: React.Dispatch<React.SetStateAction<string>>;
 }
-export function DataSourceEditor({ id }: IDataSourceEditor) {
+export function DataSourceEditor({ id, setID }: IDataSourceEditor) {
   const { dataSources, setDataSources } = React.useContext(DefinitionContext);
 
   const dataSource = React.useMemo(() => {
@@ -26,7 +27,9 @@ export function DataSourceEditor({ id }: IDataSourceEditor) {
       prevs.splice(index, 1, value)
       return [...prevs];
     });
-  }, [id, dataSources, setDataSources]);
+    setID(value.id);
+
+  }, [id, dataSources, setDataSources, setID]);
 
   if (!id) {
     return null;

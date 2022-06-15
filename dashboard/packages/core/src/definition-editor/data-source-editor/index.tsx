@@ -37,7 +37,7 @@ export function EditDataSourcesModal({ opened, close }: IEditDataSourcesModal) {
         padding="md"
         header={<SelectOrAddDataSource id={id} setID={setID} />}
       >
-        <DataSourceEditor id={id} />
+        <DataSourceEditor id={id} setID={setID} />
         <DataPreview id={id} />
       </AppShell>
     </Modal>
