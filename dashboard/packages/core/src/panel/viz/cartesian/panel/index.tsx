@@ -4,7 +4,7 @@ import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
-import { SeriesItemField } from "./series-item";
+import { SeriesField } from "./series";
 import { ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
 import { YAxesField } from "./y-axes";
 
@@ -40,15 +40,6 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
     initialValues,
   });
 
-  const addSeries = () => form.addListItem('series', {
-    type: 'bar',
-    name: randomId(),
-    showSymbol: false,
-    y_axis_data_key: 'value',
-    label_position: 'top',
-    stack: '',
-    color: '#000'
-  });
 
   const changed = React.useMemo(() => !_.isEqual(form.values, initialValues), [form.values, initialValues])
 
@@ -66,15 +57,7 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
           <TextInput size="md" label="X Axis Name" {...form.getInputProps('x_axis_name')} />
         </Group>
         <YAxesField form={form} />
-        <Group direction="column" grow>
-          <Text mt="xl" mb={0}>Series</Text>
-          {form.values.series.map((_item, index) => <SeriesItemField form={form} index={index} />)}
-          <Group position="center" mt="xs">
-            <Button onClick={addSeries}>
-              Add a Series
-            </Button>
-          </Group>
-        </Group>
+        <SeriesField form={form} />
       </form>
     </Group>
   )
