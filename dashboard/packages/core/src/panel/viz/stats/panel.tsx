@@ -1,6 +1,5 @@
-import { ActionIcon, Group, JsonInput, Select, Text, TextInput } from "@mantine/core";
+import { Accordion, ActionIcon, Group, Select, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
-import { Prism } from "@mantine/prism";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
@@ -24,7 +23,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
   } as const, conf);
 
 
-  const { control, handleSubmit, watch, getValues, formState: { isDirty } } = useForm({ defaultValues });
+  const { control, handleSubmit, watch, formState: { isDirty } } = useForm({ defaultValues });
 
   const colorType = watch('color.type')
 
@@ -37,105 +36,108 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-          <Controller
-            name='value_field'
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                placeholder="Read this field as value"
-                label="Value Field"
-                required
-                sx={{ flex: 1 }}
-                {...field}
-              />
-            ))}
-          />
-          <Controller
-            name='template'
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                placeholder="Time: ${new Date().toISOString()}"
-                label="Content Template"
-                required
-                sx={{ flex: 1 }}
-                {...field}
-              />
-            ))}
-          />
-          <Group direction="column" grow>
-            <Controller
-              name="color.type"
-              control={control}
-              render={(({ field }) => (
-                <Select
-                  label="Type"
-                  data={[
-                    { label: 'Static Color', value: 'static' },
-                    { label: 'Continuous Color', value: 'continuous' },
-                  ]}
-                  {...field}
-                />
-              ))}
-            />
-            {colorType === 'static' && (
+        <Accordion offsetIcon={false} multiple>
+          <Accordion.Item label="Content">
+            <Group direction="column" grow>
               <Controller
-                name="color.value"
+                name='template'
                 control={control}
                 render={(({ field }) => (
-                  <MantineColorSelector {...field} />
+                  <TextInput
+                    placeholder="Time: ${new Date().toISOString()}"
+                    label="Content Template"
+                    required
+                    sx={{ flex: 1 }}
+                    {...field}
+                  />
                 ))}
               />
-            )}
-            {colorType === 'continuous' && (
-              <>
+            </Group>
+          </Accordion.Item>
+          <Accordion.Item label="Font">
+            <Group direction="column" grow>
+              <Controller
+                name='size'
+                control={control}
+                render={(({ field }) => (
+                  <TextInput
+                    label="Font Size"
+                    placeholder="10px, 1em, 1rem, 100%..."
+                    sx={{ flex: 1 }}
+                    {...field}
+                  />
+                ))}
+              />
+            </Group>
+            <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
+              <Controller
+                name='weight'
+                control={control}
+                render={(({ field }) => (
+                  <MantineFontWeightSlider label="Font Weight" {...field} />
+                ))}
+              />
+            </Group>
+          </Accordion.Item>
+          <Accordion.Item label="Color">
+            <Group direction="column" grow>
+              <Controller
+                name='value_field'
+                control={control}
+                render={(({ field }) => (
+                  <TextInput
+                    placeholder="Calc color with this field"
+                    label="Value Field"
+                    required
+                    sx={{ flex: 1 }}
+                    {...field}
+                  />
+                ))}
+              />
+              <Controller
+                name="color.type"
+                control={control}
+                render={(({ field }) => (
+                  <Select
+                    label="Color Type"
+                    data={[
+                      { label: 'Static Color', value: 'static' },
+                      { label: 'Continuous Color', value: 'continuous' },
+                    ]}
+                    {...field}
+                  />
+                ))}
+              />
+              {colorType === 'static' && (
                 <Controller
-                  name="color.valueRange"
+                  name="color.value"
                   control={control}
                   render={(({ field }) => (
-                    <TextArrayInput label="Value Range" {...field} />
+                    <MantineColorSelector {...field} />
                   ))}
                 />
-                <Controller
-                  name="color.colorRange"
-                  control={control}
-                  render={(({ field }) => (
-                    <TextArrayInput label="Color Range" {...field} />
-                  ))}
-                />
-              </>
-            )}
-          </Group>
-          <Group direction="column" grow>
-            <Controller
-              name='size'
-              control={control}
-              render={(({ field }) => (
-                <TextInput
-                  label="Font Size"
-                  placeholder="10px, 1em, 1rem, 100%..."
-                  sx={{ flex: 1 }}
-                  {...field}
-                />
-              ))}
-            />
-          </Group>
-          <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
-            <Controller
-              name='weight'
-              control={control}
-              render={(({ field }) => (
-                <MantineFontWeightSlider label="Font Weight" {...field} />
-              ))}
-            />
-          </Group>
-        </Group>
-
-        <Text size="sm" weight={500} mt="md">
-          Current Configuration:
-        </Text>
-        <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(getValues(), null, 2)}</Prism>
+              )}
+              {colorType === 'continuous' && (
+                <>
+                  <Controller
+                    name="color.valueRange"
+                    control={control}
+                    render={(({ field }) => (
+                      <TextArrayInput label="Value Range" {...field} />
+                    ))}
+                  />
+                  <Controller
+                    name="color.colorRange"
+                    control={control}
+                    render={(({ field }) => (
+                      <TextArrayInput label="Color Range" {...field} />
+                    ))}
+                  />
+                </>
+              )}
+            </Group>
+          </Accordion.Item>
+        </Accordion>
       </form>
     </Group>
   )
