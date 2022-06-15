@@ -8,6 +8,7 @@ const numbroFormatExample = JSON.stringify({
 }, null, 2);
 
 const labelPositions = [
+  { label: 'off', value: '', },
   { label: 'top', value: 'top', },
   { label: 'left', value: 'left', },
   { label: 'right', value: 'right', },
