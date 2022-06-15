@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Group, Select, Text, TextInput } from "@mantine/core";
+import { Accordion, ActionIcon, ColorInput, Group, Select, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -8,6 +8,7 @@ import { MantineFontWeightSlider } from "../../settings/common/mantine-font-weig
 import { IVizStatsConf } from "./types";
 import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { TextArrayInput } from "../../settings/common/text-array-input";
+import { ColorArrayInput } from "../../settings/common/color-array-input";
 
 export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
   const defaultValues: IVizStatsConf = _.merge({}, {
@@ -131,7 +132,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
                     name="color.colorRange"
                     control={control}
                     render={(({ field }) => (
-                      <TextArrayInput label="Color Range" {...field} />
+                      <ColorArrayInput label="Color Range" {...field} />
                     ))}
                   />
                 </>
