@@ -5,7 +5,8 @@ import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { SeriesItemField } from "./series-item";
-import { ICartesianChartSeriesItem, IVizCartesianChartPanel } from "../type";
+import { ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
+import { YAxesField } from "./y-axes";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -13,25 +14,24 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     name,
     showSymbol,
     y_axis_data_key = 'value',
-    y_axis_data_formatter = '',
     label_position = 'top',
     stack = '1',
     color = 'black',
   }: ICartesianChartSeriesItem) {
-    return { type, name, showSymbol, y_axis_data_key, y_axis_data_formatter, label_position, stack, color }
+    return { type, name, showSymbol, y_axis_data_key, label_position, stack, color }
   }
 
   return series.map(setDefaults);
 }
 
 export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPanel) {
-  const { series, ...restConf } = conf;
+  const { series, y_axes, ...restConf } = conf;
   const initialValues = React.useMemo(() => {
-    const { x_axis_name = '', y_axis_name = '', ...rest } = restConf
+    const { x_axis_name = '', ...rest } = restConf
     return {
       series: formList<ICartesianChartSeriesItem>(withDefaults(series ?? [])),
       x_axis_name,
-      y_axis_name,
+      y_axes: formList<IYAxisConf>(y_axes ?? []),
       ...rest
     }
   }, [series, restConf]);
@@ -45,7 +45,6 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
     name: randomId(),
     showSymbol: false,
     y_axis_data_key: 'value',
-    y_axis_data_formatter: '',
     label_position: 'top',
     stack: '',
     color: '#000'
@@ -65,8 +64,8 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
         <TextInput size="md" mb="lg" label="X Axis Data Key" {...form.getInputProps('x_axis_data_key')} />
         <Group direction="column" grow noWrap mb="lg">
           <TextInput size="md" label="X Axis Name" {...form.getInputProps('x_axis_name')} />
-          <TextInput size="md" label="Y Axis Name" {...form.getInputProps('y_axis_name')} />
         </Group>
+        <YAxesField form={form} />
         <Group direction="column" grow>
           <Text mt="xl" mb={0}>Series</Text>
           {form.values.series.map((_item, index) => <SeriesItemField form={form} index={index} />)}

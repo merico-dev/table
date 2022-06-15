@@ -1,14 +1,9 @@
-import { ActionIcon, Anchor, Group, JsonInput, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Select, Text, TextInput } from "@mantine/core";
 import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../../settings/common/mantine-color";
-import { ICartesianChartSeriesItem } from "../type";
-
-const numbroFormatExample = JSON.stringify({
-  output: "percent",
-  mantissa: 2
-}, null, 2);
+import { ICartesianChartSeriesItem, IYAxisConf } from "../type";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -30,9 +25,9 @@ const labelPositions = [
 interface ISeriesItemField {
   form: UseFormReturnType<{
     x_axis_data_key: string;
-    series: FormList<ICartesianChartSeriesItem>;
     x_axis_name: string;
-    y_axis_name: string;
+    series: FormList<ICartesianChartSeriesItem>;
+    y_axes: FormList<IYAxisConf>;
   }>;
   index: number;
 }
@@ -77,22 +72,6 @@ export function SeriesItemField({ form, index }: ISeriesItemField) {
           label="Label Position"
           data={labelPositions}
           {...form.getListInputProps('series', index, 'label_position')}
-        />
-        <JsonInput
-          sx={{ label: { width: '100%' } }}
-          label={(
-            <Group position="apart">
-              <Text>Value Formatter</Text>
-              <Anchor href="https://numbrojs.com/format.html" target="_blank">
-                Formats
-              </Anchor>
-            </Group>
-          )}
-          placeholder={numbroFormatExample}
-          minRows={4}
-          maxRows={12}
-          autosize
-          {...form.getListInputProps('series', index, 'y_axis_data_formatter')}
         />
       </Group>
       <Group direction="column" grow>
