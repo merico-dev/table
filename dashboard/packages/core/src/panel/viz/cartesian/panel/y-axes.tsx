@@ -3,6 +3,7 @@ import { FormList } from "@mantine/form/lib/form-list/form-list";
 import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { randomId } from "@mantine/hooks";
 import { Trash } from "tabler-icons-react";
+import { defaultNumbroFormat, NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
 import { ICartesianChartSeriesItem, IYAxisConf } from "../type";
 
 const numbroFormatExample = JSON.stringify({
@@ -22,7 +23,7 @@ export function YAxesField({ form }: IYAxesField) {
 
   const addYAxis = () => form.addListItem('y_axes', {
     name: '',
-    label_formatter: ''
+    label_formatter: defaultNumbroFormat,
   });
 
   return (
@@ -40,20 +41,8 @@ export function YAxesField({ form }: IYAxesField) {
               />
             </Group>
             <Group direction="column" grow noWrap>
-              <JsonInput
-                sx={{ label: { width: '100%' } }}
-                label={(
-                  <Group position="apart">
-                    <Text>Label Formatter</Text>
-                    <Anchor href="https://numbrojs.com/format.html" target="_blank">
-                      Formats
-                    </Anchor>
-                  </Group>
-                )}
-                placeholder={numbroFormatExample}
-                minRows={4}
-                maxRows={12}
-                autosize
+              <NumbroFormatSelector
+                label="Format"
                 {...form.getListInputProps('y_axes', index, 'label_formatter')}
               />
             </Group>

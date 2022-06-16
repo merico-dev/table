@@ -1,3 +1,5 @@
+import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
+
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar';
   name: string;
@@ -11,7 +13,7 @@ export interface ICartesianChartSeriesItem {
 
 export interface IYAxisConf {
   name: string;
-  label_formatter: string;
+  label_formatter: TNumbroFormat;
 }
 
 export interface ICartesianChartConf {

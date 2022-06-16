@@ -53,7 +53,7 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
           return value;
         }
         try {
-          return numbro(value).format(JSON.parse(label_formatter))
+          return numbro(value).format(label_formatter)
         } catch (error) {
           console.error(error)
           return value;

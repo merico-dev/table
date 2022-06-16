@@ -6,6 +6,7 @@ import { DeviceFloppy } from "tabler-icons-react";
 import { SeriesField } from "./series";
 import { ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
 import { YAxesField } from "./y-axes";
+import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -33,7 +34,7 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
       x_axis_name,
       y_axes: formList<IYAxisConf>(y_axes ?? [{
         name: 'Y Axis',
-        label_formatter: ''
+        label_formatter: defaultNumbroFormat,
       }]),
       ...rest
     }
