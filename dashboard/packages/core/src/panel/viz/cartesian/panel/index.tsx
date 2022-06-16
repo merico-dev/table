@@ -40,6 +40,13 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
     }
   }, [series, restConf]);
 
+  React.useEffect(() => {
+    const configMalformed = !_.isEqual(conf, defaultValues);
+    if (configMalformed) {
+      setConf(defaultValues)
+    }
+  }, [conf, defaultValues])
+
   const { control, handleSubmit, watch, formState: { isDirty }, getValues } = useForm<ICartesianChartConf>({ defaultValues });
 
   return (
