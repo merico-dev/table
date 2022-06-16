@@ -62,6 +62,7 @@ export function YAxesField({ form }: IYAxesField) {
               variant="hover"
               onClick={() => form.removeListItem('y_axes', index)}
               sx={{ position: 'absolute', top: 15, right: 5 }}
+              disabled={index === 0}
             >
               <Trash size={16} />
             </ActionIcon>

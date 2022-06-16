@@ -31,7 +31,10 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
     return {
       series: formList<ICartesianChartSeriesItem>(withDefaults(series ?? [])),
       x_axis_name,
-      y_axes: formList<IYAxisConf>(y_axes ?? []),
+      y_axes: formList<IYAxisConf>(y_axes ?? [{
+        name: 'Y Axis',
+        label_formatter: ''
+      }]),
       ...rest
     }
   }, [series, restConf]);
