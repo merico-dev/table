@@ -19,7 +19,8 @@ export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector)
     onChange({ ...value, output })
   }
   const changeMantissa = (mantissa: TNumbroFormat['mantissa']) => {
-    onChange({ ...value, mantissa })
+    const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
+    onChange({ ...value, mantissa, trimMantissa })
   }
   const changeTrimMantissa = (event: any) => {
     onChange({ ...value, trimMantissa: event.currentTarget.checked })
@@ -49,6 +50,7 @@ export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector)
           label="Trim mantissa"
           checked={value.trimMantissa}
           onChange={changeTrimMantissa}
+          disabled={value.mantissa === 0}
         />
       </Group>
     </Group>
