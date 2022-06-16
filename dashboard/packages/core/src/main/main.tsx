@@ -45,7 +45,11 @@ export function Dashboard({
   }, [dashboard, panels, sqlSnippets, dataSources])
 
   const saveDashboardChanges = async () => {
-    const d: IDashboard = _.merge({}, dashboard, { panels }, { definition: { sqlSnippets, dataSources } })
+    const d: IDashboard = {
+      ...dashboard,
+      panels,
+      definition: { sqlSnippets, dataSources },
+    }
     await update(d);
   }
 

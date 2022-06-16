@@ -3,7 +3,7 @@ import _ from "lodash";
 import React from "react";
 
 interface IMantineColorSelector {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 }
 
@@ -27,7 +27,7 @@ export function MantineColorSelector({ value, onChange }: IMantineColorSelector)
         placeholder="Set any color"
         value={!isThemeColor ? value : ''}
         onChange={(e) => onChange(e.currentTarget.value)}
-        rightSection={<ColorSwatch color={!isThemeColor ? value : 'transparent'} radius={4} />}
+        rightSection={<ColorSwatch color={!isThemeColor ? value! : 'transparent'} radius={4} />}
         variant={!isThemeColor ? 'default' : 'filled'}
         sx={{ maxWidth: '100%', flexGrow: 1 }}
       />
@@ -38,7 +38,7 @@ export function MantineColorSelector({ value, onChange }: IMantineColorSelector)
         onChange={onChange}
         variant={isThemeColor ? 'default' : 'filled'}
         placeholder="Pick a theme color"
-        icon={<ColorSwatch color={isThemeColor ? value : 'transparent'} radius={4}/>}
+        icon={<ColorSwatch color={isThemeColor ? value! : 'transparent'} radius={4}/>}
         sx={{ maxWidth: '100%', flexGrow: 1 }}
       />
     </Group>
