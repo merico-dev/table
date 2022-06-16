@@ -132,8 +132,8 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: I
           ))}
         />
       </Group>
-      <Group direction="column" grow>
-        <Text>Color</Text>
+      <Group direction="column" grow spacing={4}>
+        <Text size="sm">Color</Text>
         <Controller
           name={`series.${index}.color`}
           control={control}
