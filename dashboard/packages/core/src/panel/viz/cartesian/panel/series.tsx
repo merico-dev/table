@@ -84,7 +84,7 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: I
         <Controller
           name={`series.${index}.yAxisIndex`}
           control={control}
-          render={(({ field: { value, onChange, ...rest} }) => (
+          render={(({ field: { value, onChange, ...rest } }) => (
             <Select
               label="Y Axis"
               data={yAxisOptions}
@@ -104,34 +104,44 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: I
           ))}
         />
       </Group>
-      <Group direction="column" grow noWrap align="top">
-        {type === 'bar' && (
-          <>
-            <Controller
-              name={`series.${index}.stack`}
-              control={control}
-              render={(({ field }) => (
-                <TextInput
-                  label="Stack"
-                  placeholder="Stack bars by this ID"
-                  {...field}
-                />
-              ))}
-            />
-          </>
-        )}
-        <Controller
-          name={`series.${index}.label_position`}
-          control={control}
-          render={(({ field }) => (
-            <Select
-              label="Label Position"
-              data={labelPositions}
-              {...field}
-            />
-          ))}
-        />
-      </Group>
+      {type === 'bar' && (
+        <Group direction="row" grow align="top">
+          <Controller
+            name={`series.${index}.stack`}
+            control={control}
+            render={(({ field }) => (
+              <TextInput
+                label="Stack"
+                placeholder="Stack bars by this ID"
+                sx={{ flexGrow: 1 }}
+                {...field}
+              />
+            ))}
+          />
+          <Controller
+            name={`series.${index}.barWidth`}
+            control={control}
+            render={(({ field }) => (
+              <TextInput
+                label="Bar Width"
+                sx={{ flexGrow: 1 }}
+                {...field}
+              />
+            ))}
+          />
+        </Group>
+      )}
+      <Controller
+        name={`series.${index}.label_position`}
+        control={control}
+        render={(({ field }) => (
+          <Select
+            label="Label Position"
+            data={labelPositions}
+            {...field}
+          />
+        ))}
+      />
       <Group direction="column" grow spacing={4}>
         <Text size="sm">Color</Text>
         <Controller

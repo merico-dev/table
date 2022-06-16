@@ -9,6 +9,7 @@ export interface ICartesianChartSeriesItem {
   label_position?: string;
   stack: string;
   color?: string;
+  barWidth: string;
 }
 
 export interface IYAxisConf {

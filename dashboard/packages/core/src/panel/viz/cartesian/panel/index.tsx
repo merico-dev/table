@@ -18,8 +18,9 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     label_position = 'top',
     stack = '1',
     color = 'black',
+    barWidth = '30',
   }: ICartesianChartSeriesItem) {
-    return { type, name, showSymbol, y_axis_data_key, yAxisIndex, label_position, stack, color }
+    return { type, name, showSymbol, y_axis_data_key, yAxisIndex, label_position, stack, color, barWidth }
   }
 
   return series.map(setDefaults);
