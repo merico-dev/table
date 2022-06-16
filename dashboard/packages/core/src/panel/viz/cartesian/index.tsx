@@ -75,13 +75,11 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
         label: {
           show: !!label_position,
           position: label_position,
+          formatter: labelFormatters[yAxisIndex ?? 'default']
         },
         name,
         yAxisIndex,
         ...rest,
-      }
-      if (yAxisIndex) {
-        ret.label.formatter = labelFormatters[yAxisIndex]
       }
       return ret;
     });
