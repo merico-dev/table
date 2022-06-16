@@ -1,10 +1,10 @@
 import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
-import { formList, useForm } from "@mantine/form";
+import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { SeriesField } from "./series";
-import { ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
+import { ICartesianChartConf, ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
 import { YAxesField } from "./y-axes";
 import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
 
@@ -27,41 +27,44 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
 
 export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPanel) {
   const { series, y_axes, ...restConf } = conf;
-  const initialValues = React.useMemo(() => {
+  const defaultValues = React.useMemo(() => {
     const { x_axis_name = '', ...rest } = restConf
     return {
-      series: formList<ICartesianChartSeriesItem>(withDefaults(series ?? [])),
+      series: withDefaults(series ?? []),
       x_axis_name,
-      y_axes: formList<IYAxisConf>(y_axes ?? [{
+      y_axes: y_axes ?? [{
         name: 'Y Axis',
         label_formatter: defaultNumbroFormat,
-      }]),
+      }],
       ...rest
     }
   }, [series, restConf]);
 
-  const form = useForm({
-    initialValues,
-  });
-
-
-  const changed = React.useMemo(() => !_.isEqual(form.values, initialValues), [form.values, initialValues])
+  const { control, handleSubmit, watch, formState: { isDirty }, getValues } = useForm<ICartesianChartConf>({ defaultValues });
 
   return (
     <Group direction="column" mt="md" spacing="xs" grow>
-      <form onSubmit={form.onSubmit(setConf)}>
+      <form onSubmit={handleSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Chart Config</Text>
-          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!isDirty}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <TextInput size="md" mb="lg" label="X Axis Data Key" {...form.getInputProps('x_axis_data_key')} />
+        <Controller
+          name='x_axis_data_key'
+          control={control}
+          render={(({ field }) => <TextInput size="md" mb="lg" label="X Axis Data Key" {...field} />)}
+        />
         <Group direction="column" grow noWrap mb="lg">
-          <TextInput size="md" label="X Axis Name" {...form.getInputProps('x_axis_name')} />
+          <Controller
+            name='x_axis_name'
+            control={control}
+            render={(({ field }) => <TextInput size="md" label="X Axis Name" {...field} />)}
+          />
         </Group>
-        <YAxesField form={form} />
-        <SeriesField form={form} />
+        <YAxesField control={control} watch={watch} />
+        <SeriesField control={control} watch={watch} getValues={getValues} />
       </form>
     </Group>
   )

@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, Text } from "@mantine/core";
+import { Group, NumberInput, Select } from "@mantine/core";
 import _ from "lodash";
 
 export type TNumbroFormat = {
@@ -9,12 +9,11 @@ export type TNumbroFormat = {
 export const defaultNumbroFormat: TNumbroFormat = { mantissa: 0, output: 'number' };
 
 interface INumbroFormatSelector {
-  label: string;
   value: TNumbroFormat;
   onChange: (v: TNumbroFormat) => void;
 }
 
-export function NumbroFormatSelector({ label, value, onChange }: INumbroFormatSelector) {
+export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector) {
   const changeOutput = (output: TNumbroFormat['output']) => {
     onChange({ output, mantissa: value.mantissa })
   }

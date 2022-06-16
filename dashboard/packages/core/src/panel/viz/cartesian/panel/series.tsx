@@ -1,11 +1,10 @@
 import { ActionIcon, Button, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
-import { FormList } from "@mantine/form/lib/form-list/form-list";
-import { UseFormReturnType } from "@mantine/form/lib/use-form";
 import { randomId } from "@mantine/hooks";
 import React from "react";
+import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormGetValues, UseFormWatch } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
 import { MantineColorSelector } from "../../../settings/common/mantine-color";
-import { ICartesianChartSeriesItem, IYAxisConf } from "../type";
+import { ICartesianChartConf, ICartesianChartSeriesItem } from "../type";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -24,17 +23,157 @@ const labelPositions = [
   { label: 'insideBottomRight', value: 'insideBottomRight', },
 ]
 
-interface ISeriesField {
-  form: UseFormReturnType<{
-    x_axis_data_key: string;
-    x_axis_name: string;
-    series: FormList<ICartesianChartSeriesItem>;
-    y_axes: FormList<IYAxisConf>;
-  }>;
-}
-export function SeriesField({ form }: ISeriesField) {
 
-  const addSeries = () => form.addListItem('series', {
+interface ISeriesItemField {
+  control: Control<ICartesianChartConf, any>;
+  index: number;
+  remove: UseFieldArrayRemove;
+  seriesItem: ICartesianChartSeriesItem;
+  yAxisOptions: {
+    label: string;
+    value: string;
+  }[];
+}
+
+function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
+  const type = seriesItem.type;
+  return (
+    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+      <Group direction="column" grow noWrap>
+        <Controller
+          name={`series.${index}.type`}
+          control={control}
+          render={(({ field }) => (
+            <SegmentedControl
+              data={[
+                { label: 'Line', value: 'line' },
+                { label: 'Bar', value: 'bar' },
+                { label: 'Scatter', value: 'scatter', disabled: true },
+                { label: 'Boxplot', value: 'boxplot', disabled: true },
+              ]}
+              {...field}
+            />
+          ))}
+        />
+      </Group>
+      <Controller
+        name={`series.${index}.name`}
+        control={control}
+        render={(({ field }) => (
+          <TextInput
+            label="Name"
+            required
+            sx={{ flex: 1 }}
+            {...field}
+          />
+        ))}
+      />
+      <Group direction="row" grow noWrap>
+        <Controller
+          name={`series.${index}.y_axis_data_key`}
+          control={control}
+          render={(({ field }) => (
+            <TextInput
+              label="Value key"
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
+          ))}
+        />
+        <Controller
+          name={`series.${index}.yAxisIndex`}
+          control={control}
+          render={(({ field: { value, onChange, ...rest} }) => (
+            <Select
+              label="Y Axis"
+              data={yAxisOptions}
+              disabled={yAxisOptions.length === 0}
+              {...rest}
+              value={value?.toString() ?? ''}
+              onChange={(value: string | null) => {
+                if (!value) {
+                  onChange(0);
+                  return;
+                }
+                onChange(Number(value))
+              }}
+              sx={{ flex: 1 }}
+            />
+
+          ))}
+        />
+      </Group>
+      <Group direction="column" grow noWrap align="top">
+        {type === 'bar' && (
+          <>
+            <Controller
+              name={`series.${index}.stack`}
+              control={control}
+              render={(({ field }) => (
+                <TextInput
+                  label="Stack"
+                  placeholder="Stack bars by this ID"
+                  {...field}
+                />
+              ))}
+            />
+          </>
+        )}
+        <Controller
+          name={`series.${index}.label_position`}
+          control={control}
+          render={(({ field }) => (
+            <Select
+              label="Label Position"
+              data={labelPositions}
+              {...field}
+            />
+          ))}
+        />
+      </Group>
+      <Group direction="column" grow>
+        <Text>Color</Text>
+        <Controller
+          name={`series.${index}.color`}
+          control={control}
+          render={(({ field }) => (
+            <MantineColorSelector {...field} />
+          ))}
+        />
+      </Group>
+      <ActionIcon
+        color="red"
+        variant="hover"
+        onClick={() => remove(index)}
+        sx={{ position: 'absolute', top: 15, right: 5 }}
+      >
+        <Trash size={16} />
+      </ActionIcon>
+    </Group>
+  )
+}
+
+interface ISeriesField {
+  control: Control<ICartesianChartConf, any>;
+  watch: UseFormWatch<ICartesianChartConf>;
+  getValues: UseFormGetValues<ICartesianChartConf>;
+}
+export function SeriesField({ control, watch, getValues }: ISeriesField) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "series"
+  });
+
+  const watchFieldArray = watch("y_axes");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index]
+    };
+  });
+
+  const addSeries = () => append({
     type: 'bar',
     name: randomId(),
     showSymbol: false,
@@ -46,87 +185,24 @@ export function SeriesField({ form }: ISeriesField) {
   });
 
   const yAxisOptions = React.useMemo(() => {
-    return form.values.y_axes.map(({ name }, index) => ({
+    return getValues().y_axes.map(({ name }, index) => ({
       label: name,
       value: index.toString()
     }))
-  }, [form.values.y_axes]);
-
-  const getYAxisSelectorProps = (index: number) => {
-    const { value, onChange } = form.getListInputProps('series', index, 'yAxisIndex')
-    return {
-      value: value.toString(),
-      onChange: (v: string) => { onChange(Number(v)) }
-    }
-  }
+  }, [getValues]);
 
   return (
     <Group direction="column" grow>
       <Text mt="xl" mb={0}>Series</Text>
-      {form.values.series.map(({ type }, index) => {
-        return (
-          <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-            <Group direction="column" grow noWrap>
-              <SegmentedControl
-                {...form.getListInputProps('series', index, 'type')}
-                data={[
-                  { label: 'Line', value: 'line' },
-                  { label: 'Bar', value: 'bar' },
-                  { label: 'Scatter', value: 'scatter', disabled: true },
-                  { label: 'Boxplot', value: 'boxplot', disabled: true },
-                ]}
-              />
-            </Group>
-              <TextInput
-                label="Name"
-                required
-                sx={{ flex: 1 }}
-                {...form.getListInputProps('series', index, 'name')}
-              />
-            <Group direction="row" grow noWrap>
-              <TextInput
-                label="Value key"
-                required
-                {...form.getListInputProps('series', index, 'y_axis_data_key')}
-              />
-            <Select
-              label="Y Axis"
-              data={yAxisOptions}
-              disabled={yAxisOptions.length === 0}
-              {...getYAxisSelectorProps(index)}
-            />
-            </Group>
-            <Group direction="column" grow noWrap align="top">
-              {type === 'bar' && (
-                <>
-                  <TextInput
-                    label="Stack"
-                    placeholder="Stack bars by this ID"
-                    {...form.getListInputProps('series', index, 'stack')}
-                  />
-                </>
-              )}
-              <Select
-                label="Label Position"
-                data={labelPositions}
-                {...form.getListInputProps('series', index, 'label_position')}
-              />
-            </Group>
-            <Group direction="column" grow>
-              <Text>Color</Text>
-              <MantineColorSelector {...form.getListInputProps('series', index, 'color')} />
-            </Group>
-            <ActionIcon
-              color="red"
-              variant="hover"
-              onClick={() => form.removeListItem('series', index)}
-              sx={{ position: 'absolute', top: 15, right: 5 }}
-            >
-              <Trash size={16} />
-            </ActionIcon>
-          </Group>
-        )
-      })}
+      {controlledFields.map((seriesItem, index) => (
+        <SeriesItemField
+          control={control}
+          index={index}
+          remove={remove}
+          seriesItem={seriesItem}
+          yAxisOptions={yAxisOptions}
+        />
+      ))}
       <Group position="center" mt="xs">
         <Button onClick={addSeries}>
           Add a Series

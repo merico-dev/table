@@ -1,27 +1,72 @@
-import { ActionIcon, Anchor, Button, Group, JsonInput, Text, TextInput } from "@mantine/core";
-import { FormList } from "@mantine/form/lib/form-list/form-list";
-import { UseFormReturnType } from "@mantine/form/lib/use-form";
-import { randomId } from "@mantine/hooks";
+import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
+import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormRegister, UseFormWatch, useWatch } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
 import { defaultNumbroFormat, NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
-import { ICartesianChartSeriesItem, IYAxisConf } from "../type";
+import { ICartesianChartConf } from "../type";
 
-const numbroFormatExample = JSON.stringify({
-  output: "percent",
-  mantissa: 2
-}, null, 2);
+
+interface IYAxisField {
+  control: Control<ICartesianChartConf, any>;
+  index: number;
+  remove: UseFieldArrayRemove;
+}
+
+function YAxisField({ control, index, remove }: IYAxisField) {
+  return (
+    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+      <Group direction="row" grow noWrap>
+        <Controller
+          name={`y_axes.${index}.name`}
+          control={control}
+          render={(({ field }) => (
+            <TextInput
+              label="Name"
+              required
+              sx={{ flex: 1 }}
+              {...field} />
+          ))}
+        />
+      </Group>
+      <Group direction="column" grow noWrap>
+        <Controller
+          name={`y_axes.${index}.label_formatter`}
+          control={control}
+          render={(({ field }) => <NumbroFormatSelector {...field} />)}
+        />
+      </Group>
+      <ActionIcon
+        color="red"
+        variant="hover"
+        onClick={() => remove(index)}
+        sx={{ position: 'absolute', top: 15, right: 5 }}
+        disabled={index === 0}
+      >
+        <Trash size={16} />
+      </ActionIcon>
+    </Group>
+
+  )
+}
 
 interface IYAxesField {
-  form: UseFormReturnType<{
-    x_axis_data_key: string;
-    series: FormList<ICartesianChartSeriesItem>;
-    x_axis_name: string;
-    y_axes: FormList<IYAxisConf>;
-  }>;
+  control: Control<ICartesianChartConf, any>;
+  watch: UseFormWatch<ICartesianChartConf>;
 }
-export function YAxesField({ form }: IYAxesField) {
+export function YAxesField({ control, watch }: IYAxesField) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "y_axes"
+  });
 
-  const addYAxis = () => form.addListItem('y_axes', {
+  const watchFieldArray = watch("y_axes");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index]
+    };
+  });
+
+  const addYAxis = () => append({
     name: '',
     label_formatter: defaultNumbroFormat,
   });
@@ -29,36 +74,7 @@ export function YAxesField({ form }: IYAxesField) {
   return (
     <Group direction="column" grow>
       <Text mt="xl" mb={0}>Y Axes</Text>
-      {
-        form.values.y_axes.map((_item, index) => (
-          <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-            <Group direction="row" grow noWrap>
-              <TextInput
-                label="Name"
-                required
-                sx={{ flex: 1 }}
-                {...form.getListInputProps('y_axes', index, 'name')}
-              />
-            </Group>
-            <Group direction="column" grow noWrap>
-              <NumbroFormatSelector
-                label="Format"
-                {...form.getListInputProps('y_axes', index, 'label_formatter')}
-              />
-            </Group>
-            <ActionIcon
-              color="red"
-              variant="hover"
-              onClick={() => form.removeListItem('y_axes', index)}
-              sx={{ position: 'absolute', top: 15, right: 5 }}
-              disabled={index === 0}
-            >
-              <Trash size={16} />
-            </ActionIcon>
-          </Group>
-
-        ))
-      }
+      {controlledFields.map((field, index) => <YAxisField control={control} index={index} remove={remove} />)}
       <Group position="center" mt="xs">
         <Button onClick={addYAxis}>
           Add a Y Axis
