@@ -1,9 +1,10 @@
-import { Group, NumberInput, Select } from "@mantine/core";
+import { Group, NumberInput, Select, Switch } from "@mantine/core";
 import _ from "lodash";
 
 export type TNumbroFormat = {
   mantissa: number;
   output: 'percent' | 'number';
+  trimMantissa?: boolean;
 }
 
 export const defaultNumbroFormat: TNumbroFormat = { mantissa: 0, output: 'number' };
@@ -15,10 +16,13 @@ interface INumbroFormatSelector {
 
 export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector) {
   const changeOutput = (output: TNumbroFormat['output']) => {
-    onChange({ output, mantissa: value.mantissa })
+    onChange({ ...value, output })
   }
   const changeMantissa = (mantissa: TNumbroFormat['mantissa']) => {
-    onChange({ output: value.output, mantissa })
+    onChange({ ...value, mantissa })
+  }
+  const changeTrimMantissa = (event: any) => {
+    onChange({ ...value, trimMantissa: event.currentTarget.checked })
   }
   return (
     <Group direction="column" grow noWrap>
@@ -40,6 +44,11 @@ export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector)
           max={4}
           value={value.mantissa}
           onChange={changeMantissa}
+        />
+        <Switch
+          label="Trim mantissa"
+          checked={value.trimMantissa}
+          onChange={changeTrimMantissa}
         />
       </Group>
     </Group>
