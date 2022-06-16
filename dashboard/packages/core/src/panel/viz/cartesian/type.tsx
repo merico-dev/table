@@ -3,14 +3,13 @@ export interface ICartesianChartSeriesItem {
   name: string;
   showSymbol: false;
   y_axis_data_key: string;
-  y_axis_id: string;
+  yAxisIndex: number;
   label_position?: string;
   stack: string;
   color?: string;
 }
 
 export interface IYAxisConf {
-  id: string;
   name: string;
   label_formatter: string;
 }

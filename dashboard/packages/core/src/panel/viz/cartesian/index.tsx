@@ -7,7 +7,7 @@ import _ from "lodash";
 import React from 'react';
 import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
-import { ICartesianChartSeriesItem } from './type';
+import { ICartesianChartSeriesItem, IYAxisConf } from './type';
 
 echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -46,8 +46,9 @@ interface ICartesianChart {
 
 export function VizCartesianChart({ conf, data, width, height }: ICartesianChart) {
   const option = React.useMemo(() => {
-    const labelFormatters = conf.y_axes.reduce((ret: Record<string, (params: any) => string>, { id, label_formatter }: any) => {
-      ret[id] = function formatter({ value }: any) {
+    const labelFormatters = conf.y_axes.reduce((ret: Record<string, (params: any) => string>, { label_formatter }: IYAxisConf, index: number) => {
+      ret[index] = function formatter(payload: any) {
+        const value = typeof payload === 'object' ? payload.value : payload;
         if (!label_formatter) {
           return value;
         }
@@ -63,12 +64,12 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
       default: ({ value }: any) => value,
     });
 
-    const yAxisIDMap = conf.series.reduce((ret: Record<string, string>, { y_axis_id, name }: ICartesianChartSeriesItem) => {
-      ret[name] = y_axis_id
+    const yAxisIndexMap = conf.series.reduce((ret: Record<string, number>, { yAxisIndex, name }: ICartesianChartSeriesItem) => {
+      ret[name] = yAxisIndex
       return ret;
     }, {});
 
-    const series = conf.series.map(({ y_axis_data_key, y_axis_id, label_position, name, ...rest }: ICartesianChartSeriesItem) => {
+    const series = conf.series.map(({ y_axis_data_key, yAxisIndex, label_position, name, ...rest }: ICartesianChartSeriesItem) => {
       const ret: any = {
         data: data.map((d) => d[y_axis_data_key]),
         label: {
@@ -76,10 +77,11 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
           position: label_position,
         },
         name,
+        yAxisIndex,
         ...rest,
       }
-      if (y_axis_id) {
-        ret.label.formatter = labelFormatters[y_axis_id]
+      if (yAxisIndex) {
+        ret.label.formatter = labelFormatters[yAxisIndex]
       }
       return ret;
     });
@@ -89,7 +91,13 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
         data: data.map((d) => d[conf.x_axis_data_key]),
         name: conf.x_axis_name ?? '',
       },
-      yAxis: conf.y_axes,
+      yAxis: conf.y_axes.map(({ label_formatter, ...rest }: IYAxisConf, index: number) => ({
+        ...rest,
+        axisLabel: {
+          show: true,
+          formatter: labelFormatters[index] ?? labelFormatters.default,
+        }
+      })),
       dataset: { source: data },
       series,
       tooltip: {
@@ -102,8 +110,8 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
             if (!seriesName) {
               return value;
             }
-            const yAxisID = yAxisIDMap[seriesName]
-            const formatter = labelFormatters[yAxisID] ?? labelFormatters.default;
+            const yAxisIndex = yAxisIndexMap[seriesName]
+            const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
             return `${seriesName}: ${formatter({ value })}`
           })
           lines.unshift(`<strong>${arr[0].name}</strong>`)

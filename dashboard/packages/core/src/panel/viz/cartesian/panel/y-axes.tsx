@@ -21,7 +21,6 @@ interface IYAxesField {
 export function YAxesField({ form }: IYAxesField) {
 
   const addYAxis = () => form.addListItem('y_axes', {
-    id: `y-${randomId()}`,
     name: '',
     label_formatter: ''
   });
@@ -33,12 +32,6 @@ export function YAxesField({ form }: IYAxesField) {
         form.values.y_axes.map((_item, index) => (
           <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
             <Group direction="row" grow noWrap>
-              <TextInput
-                label="Axis ID"
-                required
-                sx={{ flex: 1 }}
-                {...form.getListInputProps('y_axes', index, 'id')}
-              />
               <TextInput
                 label="Name"
                 required

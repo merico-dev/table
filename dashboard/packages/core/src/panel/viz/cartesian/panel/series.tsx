@@ -39,18 +39,26 @@ export function SeriesField({ form }: ISeriesField) {
     name: randomId(),
     showSymbol: false,
     y_axis_data_key: 'value',
-    y_axis_id: '',
+    yAxisIndex: 0,
     label_position: 'top',
     stack: '',
     color: '#000'
   });
 
   const yAxisOptions = React.useMemo(() => {
-    return form.values.y_axes.map(({ id, name }) => ({
+    return form.values.y_axes.map(({ name }, index) => ({
       label: name,
-      value: id
+      value: index.toString()
     }))
   }, [form.values.y_axes]);
+
+  const getYAxisSelectorProps = (index: number) => {
+    const { value, onChange } = form.getListInputProps('series', index, 'yAxisIndex')
+    return {
+      value: value.toString(),
+      onChange: (v: string) => { onChange(Number(v)) }
+    }
+  }
 
   return (
     <Group direction="column" grow>
@@ -66,7 +74,6 @@ export function SeriesField({ form }: ISeriesField) {
                   { label: 'Bar', value: 'bar' },
                   { label: 'Scatter', value: 'scatter', disabled: true },
                   { label: 'Boxplot', value: 'boxplot', disabled: true },
-
                 ]}
               />
             </Group>
@@ -85,8 +92,8 @@ export function SeriesField({ form }: ISeriesField) {
             <Select
               label="Y Axis"
               data={yAxisOptions}
-              {...form.getListInputProps('series', index, 'y_axis_id')}
               disabled={yAxisOptions.length === 0}
+              {...getYAxisSelectorProps(index)}
             />
             </Group>
             <Group direction="column" grow noWrap align="top">

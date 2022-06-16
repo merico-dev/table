@@ -13,12 +13,12 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     name,
     showSymbol,
     y_axis_data_key = 'value',
-    y_axis_id = '',
+    yAxisIndex = 0,
     label_position = 'top',
     stack = '1',
     color = 'black',
   }: ICartesianChartSeriesItem) {
-    return { type, name, showSymbol, y_axis_data_key, y_axis_id, label_position, stack, color }
+    return { type, name, showSymbol, y_axis_data_key, yAxisIndex, label_position, stack, color }
   }
 
   return series.map(setDefaults);
