@@ -21,7 +21,7 @@ export function DashboardSelector({}: IDashboardSelector) {
       value: d.id
     }))
   }, {
-    refreshDeps: [],
+    refreshDeps: [id],
   });
 
   React.useEffect(() => {
