@@ -64,10 +64,10 @@ export function Dashboard({
         h: 15,
       },
       title: `New Panel - ${id}`,
-      description: "description goes here",
+      description: "",
       dataSourceID: '',
       viz: {
-        type: 'table',
+        type: 'text',
         conf: {},
       }
     };
