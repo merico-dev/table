@@ -2,9 +2,11 @@ import { ActionIcon, Box, Button, Group, Modal, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardAPI } from "../../api-caller/dashboard";
 
 function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+  const navigate = useNavigate();
   const form = useForm({
     initialValues: {
       name: '',
@@ -26,9 +28,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       color: 'green'
     })
     postSubmit()
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000)
+    navigate(`/${id}`)
   }
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
