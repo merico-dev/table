@@ -35,7 +35,7 @@ export function DashboardActions({
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
       <Group position="right">
-        {inLayoutMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
+        {!inUseMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
         {inEditMode && <Button variant="default" size="sm" onClick={openSQLSnippets} leftIcon={<ClipboardText size={20} />}>SQL Snippets</Button>}
         {inEditMode && <Button variant="default" size="sm" onClick={openDataSources} leftIcon={<Database size={20} />}>Data Sources</Button>}
         {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
