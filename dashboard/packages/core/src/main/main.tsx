@@ -61,7 +61,7 @@ export function Dashboard({
         x: 0,
         y: Infinity, // puts it at the bottom
         w: 3,
-        h: 4,
+        h: 15,
       },
       title: `New Panel - ${id}`,
       description: "description goes here",
