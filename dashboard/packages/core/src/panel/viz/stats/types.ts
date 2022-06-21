@@ -1,3 +1,5 @@
+import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
+
 export type ColorConf = {
   type: 'static';
   staticColor: string;
@@ -10,10 +12,17 @@ export type ColorConf = {
   type: 'piecewise'; // TODO
 }
 
+export interface IVizStatsContent {
+  prefix: string;
+  data_field: string;
+  formatter: TNumbroFormat;
+  postfix: string;
+}
+
 export interface IVizStatsConf {
   align: 'center',
   color: ColorConf;
   size: string;
   weight: string;
-  template: string;
+  content: IVizStatsContent;
 }
