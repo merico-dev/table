@@ -1,23 +1,28 @@
 import React from "react";
+import { Text } from '@mantine/core'
 
-export class ErrorBoundary extends React.Component {
-  // @ts-ignore
-  constructor(props) {
+type PropType = {
+  children: React.ReactNode;
+}
+type StateType = {
+  error: null | any;
+}
+
+export class ErrorBoundary extends React.Component<PropType, StateType> {
+  constructor(props: PropType) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { error: null };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  componentDidCatch(error: any) {
+    this.setState({ error })
   }
 
   render() {
-    // @ts-ignore
-    if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+    if (this.state.error) {
+      return <Text size="xs">{this.state.error?.message}</Text>;
     }
 
-    // @ts-ignore
     return this.props.children;
   }
 }
