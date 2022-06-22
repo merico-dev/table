@@ -1,5 +1,6 @@
 import { Group, NumberInput, Select, Switch } from "@mantine/core";
 import _ from "lodash";
+import React from "react";
 
 export type TNumbroFormat = {
   mantissa: number;
@@ -14,7 +15,7 @@ interface INumbroFormatSelector {
   onChange: (v: TNumbroFormat) => void;
 }
 
-export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector) {
+function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: any) {
   const changeOutput = (output: TNumbroFormat['output']) => {
     onChange({ ...value, output })
   }
@@ -26,7 +27,7 @@ export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector)
     onChange({ ...value, trimMantissa: event.currentTarget.checked })
   }
   return (
-    <Group direction="column" grow noWrap>
+    <Group direction="column" grow noWrap ref={ref}>
       <Group direction="row" grow>
         <Select
           label="Format"
@@ -56,3 +57,5 @@ export function NumbroFormatSelector({ value, onChange }: INumbroFormatSelector)
     </Group>
   )
 }
+
+export const NumbroFormatSelector = React.forwardRef(_NumbroFormatSelector)
