@@ -1,18 +1,20 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, IDataSource, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard, IDataSource, ISQLSnippet, IDashboardConfig } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
 import { DefinitionContext } from "../contexts/definition-context";
 import { randomId } from "@mantine/hooks";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
+import { APIClient } from "../api-caller/request";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
   dashboard: IDashboard;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
+  config: IDashboardConfig;
 }
 
 export function Dashboard({
@@ -20,7 +22,12 @@ export function Dashboard({
   dashboard,
   update,
   className = "dashboard",
+  config,
 }: IDashboardProps) {
+  React.useEffect(() => {
+    APIClient.baseURL = config.apiBaseURL;
+  }, [config.apiBaseURL])
+
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [breakpoint, setBreakpoint] = React.useState()
   const [localCols, setLocalCols] = React.useState()

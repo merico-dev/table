@@ -48,3 +48,7 @@ export interface IDashboard {
   definition: IDashboardDefinition;
   panels: IDashboardPanel[];
 }
+
+export interface IDashboardConfig {
+  apiBaseURL: string;
+}
