@@ -7,7 +7,7 @@ interface IMantineColorSelector {
   onChange: (value: string) => void;
 }
 
-export function MantineColorSelector({ value, onChange }: IMantineColorSelector) {
+function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: any) {
   const theme = useMantineTheme();
 
   const themeColors = React.useMemo(() => {
@@ -44,3 +44,4 @@ export function MantineColorSelector({ value, onChange }: IMantineColorSelector)
     </Group>
   )
 }
+export const MantineColorSelector = React.forwardRef(_MantineColorSelector)
