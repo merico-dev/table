@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from '@mantine/core'
+import { Box, Button, Text } from '@mantine/core'
 
 type PropType = {
   children: React.ReactNode;
@@ -20,7 +20,24 @@ export class ErrorBoundary extends React.Component<PropType, StateType> {
 
   render() {
     if (this.state.error) {
-      return <Text size="xs">{this.state.error?.message}</Text>;
+      const retry = () => {
+        this.setState({ error: null })
+      }
+      return (
+        <Box>
+          <Text size="xs">{this.state.error?.message}</Text>
+          <Button
+            variant="subtle"
+            size="xs"
+            mx="auto"
+            compact
+            sx={{ display: 'block' }}
+            onClick={retry}
+          >
+            Retry
+          </Button>
+        </Box>
+      );
     }
 
     return this.props.children;
