@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, IDataSource, ISQLSnippet } from "../types/dashboard";
+import { DashboardMode, IDashboard, IDataSource, ISQLSnippet, IDashboardConfig } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
@@ -13,6 +13,7 @@ interface IDashboardProps {
   dashboard: IDashboard;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
+  config: IDashboardConfig;
 }
 
 export function Dashboard({
@@ -20,6 +21,7 @@ export function Dashboard({
   dashboard,
   update,
   className = "dashboard",
+  config,
 }: IDashboardProps) {
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [breakpoint, setBreakpoint] = React.useState()
