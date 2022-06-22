@@ -49,7 +49,14 @@ export function DashboardDemo({ id }: { id: string }) {
     <div className='dashboard-demo'>
       <Filters context={context} submit={setContext} />
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
-      {ready && <Dashboard context={context} dashboard={dashboard} update={updateDashboard} />}
+      {ready && (
+        <Dashboard
+          context={context}
+          dashboard={dashboard}
+          update={updateDashboard}
+          config={{ apiBaseURL: 'http://localhost:31200/' }}
+        />
+      )}
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DefinitionContext } from "../contexts/definition-context";
 import { ReadOnlyDashboardLayout } from "../layout/read-only";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
+import { APIClient } from "../api-caller/request";
 
 interface IReadOnlyDashboard {
   context: ContextInfoContextType;
@@ -19,6 +20,10 @@ export function ReadOnlyDashboard({
   className = "dashboard",
   config,
 }: IReadOnlyDashboard) {
+  React.useEffect(() => {
+    APIClient.baseURL = config.apiBaseURL;
+  }, [config.apiBaseURL])
+
   const definition = React.useMemo(() => ({
     ...dashboard.definition,
     setSQLSnippets: () => { },

@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { ContextInfoContextType } from "../contexts";
 import { IDashboardDefinition, IDataSource } from "../types";
-import { get, post } from "./request";
+import { APIClient } from "./request";
 
 function formatSQL(sql: string, params: Record<string, any>) {
   const names = Object.keys(params);
@@ -48,7 +48,7 @@ export const queryBySQL = ({ context, definitions, title, dataSource }: IQueryBy
       console.log(formattedSQL);
       console.groupEnd();
     }
-    const res = await post('/query', { type, key, sql: formattedSQL })
+    const res = await APIClient.getRequest('POST')('/query', { type, key, sql: formattedSQL })
     return res;
   } catch (error) {
     console.error(error)
@@ -60,7 +60,7 @@ export type TQuerySources = Record<string, string[]>
 
 export async function getQuerySources(): Promise<TQuerySources> {
   try {
-    const res = await get('/query/sources', {})
+    const res = await APIClient.getRequest('GET')('/query/sources', {})
     return res;
   } catch (error) {
     console.error(error)
