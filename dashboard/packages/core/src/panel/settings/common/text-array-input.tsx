@@ -9,7 +9,7 @@ interface ITextArrayInput {
   onChange: (value: string[] | number[]) => void;
 }
 
-export function TextArrayInput({ label, value, onChange }: ITextArrayInput) {
+function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: any) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : [])
 
   const add = React.useCallback(() => {
@@ -36,7 +36,7 @@ export function TextArrayInput({ label, value, onChange }: ITextArrayInput) {
 
   return (
     <>
-      <Group position="left" >
+      <Group position="left" ref={ref}>
         <Text>{label}</Text>
         <ActionIcon mr={5} variant="filled" color="blue" disabled={!changed} onClick={submit}>
           <DeviceFloppy size={20} />
@@ -68,3 +68,4 @@ export function TextArrayInput({ label, value, onChange }: ITextArrayInput) {
     </>
   )
 }
+export const TextArrayInput = React.forwardRef(_TextArrayInput)

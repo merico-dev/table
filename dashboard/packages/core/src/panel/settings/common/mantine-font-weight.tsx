@@ -31,7 +31,7 @@ interface IMantineFontWeightSlider {
   onChange: (value: string) => void;
 }
 
-export function MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider) {
+function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider, ref: any) {
   const [mark, setMark] = React.useState(marks.find(m => m.label === value)?.value ?? marks[0].value);
 
   React.useEffect(() => {
@@ -51,7 +51,10 @@ export function MantineFontWeightSlider({ label, value, onChange }: IMantineFont
         onChange={setMark}
         step={25}
         placeholder="Pick a font size"
+        ref={ref}
       />
     </Group>
   )
 }
+
+export const MantineFontWeightSlider = React.forwardRef(_MantineFontWeightSlider)
