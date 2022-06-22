@@ -12,8 +12,9 @@ import './index.css';
 import { IVizConfig } from "../../types/dashboard";
 import { VizPie } from "./pie";
 import { VizStats } from "./stats";
+import { ErrorBoundary } from "../error-boundary";
 
-function renderViz(width: number, height: number, data: any[], viz: IVizConfig ) {
+function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf }
   switch (viz.type) {
     case 'sunburst': return <Sunbrust {...props} />;
@@ -22,6 +23,7 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig )
     // @ts-expect-error
     case 'table': return <VizTable {...props} />;
     case 'text': return <VizText {...props} />;
+    // @ts-expect-error
     case 'stats': return <VizStats {...props} />;
     case 'bar-3d': return <VizBar3D {...props} />;
     case 'pie': return <VizPie {...props} />;
@@ -48,7 +50,11 @@ export function Viz({ viz, data, loading }: IViz) {
   return (
     <div className="viz-root" ref={ref}>
       {empty && <Text color="gray" align="center">nothing to show</Text>}
-      {!empty && renderViz(width, height, data, viz)}
+      {!empty && (
+        <ErrorBoundary>
+          {renderViz(width, height, data, viz)}
+        </ErrorBoundary>
+      )}
     </div>
   )
 }

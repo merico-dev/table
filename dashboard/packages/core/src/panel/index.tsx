@@ -70,9 +70,7 @@ export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, titl
     >
       <Container className="panel-root">
         <PanelTitleBar />
-        <ErrorBoundary>
-          <Viz viz={viz} data={data} loading={loading} />
-        </ErrorBoundary>
+        <Viz viz={viz} data={data} loading={loading} />
       </Container>
     </PanelContext.Provider>
   )

@@ -8,8 +8,6 @@ interface IPreviewViz { }
 export function PreviewViz({ }: IPreviewViz) {
   const { data, loading, viz } = React.useContext(PanelContext);
   return (
-    <ErrorBoundary>
-      <Viz viz={viz} data={data} loading={loading} />
-    </ErrorBoundary>
+    <Viz viz={viz} data={data} loading={loading} />
   )
 }
