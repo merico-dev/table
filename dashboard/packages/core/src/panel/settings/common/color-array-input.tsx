@@ -9,7 +9,7 @@ interface IColorArrayInput {
   onChange: (value: string[]) => void;
 }
 
-export function ColorArrayInput({ label, value, onChange }: IColorArrayInput) {
+function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: any) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : [])
 
   const add = React.useCallback(() => {
@@ -42,7 +42,7 @@ export function ColorArrayInput({ label, value, onChange }: IColorArrayInput) {
 
   return (
     <>
-      <Group position="left" >
+      <Group position="left" ref={ref}>
         <Text>{label}</Text>
         <ActionIcon mr={5} variant="filled" color="blue" disabled={!changed} onClick={submit}>
           <DeviceFloppy size={20} />
@@ -74,3 +74,5 @@ export function ColorArrayInput({ label, value, onChange }: IColorArrayInput) {
     </>
   )
 }
+
+export const ColorArrayInput = React.forwardRef(_ColorArrayInput)
