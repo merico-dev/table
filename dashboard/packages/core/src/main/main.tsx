@@ -24,9 +24,9 @@ export function Dashboard({
   className = "dashboard",
   config,
 }: IDashboardProps) {
-  React.useEffect(() => {
+  if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
-  }, [config.apiBaseURL])
+  }
 
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [breakpoint, setBreakpoint] = React.useState()

@@ -20,9 +20,9 @@ export function ReadOnlyDashboard({
   className = "dashboard",
   config,
 }: IReadOnlyDashboard) {
-  React.useEffect(() => {
+  if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
-  }, [config.apiBaseURL])
+  }
 
   const definition = React.useMemo(() => ({
     ...dashboard.definition,
