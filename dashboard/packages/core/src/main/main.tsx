@@ -29,8 +29,6 @@ export function Dashboard({
   }
 
   const [layoutFrozen, freezeLayout] = React.useState(false);
-  const [breakpoint, setBreakpoint] = React.useState()
-  const [localCols, setLocalCols] = React.useState()
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [dataSources, setDataSources] = React.useState<IDataSource[]>(dashboard.definition.dataSources);
@@ -116,8 +114,6 @@ export function Dashboard({
               isDraggable={inLayoutMode}
               isResizable={inLayoutMode}
               onRemoveItem={removePanelByID}
-              setLocalCols={setLocalCols}
-              setBreakpoint={setBreakpoint}
             />
           </LayoutStateContext.Provider>
         </DefinitionContext.Provider>
