@@ -17,6 +17,19 @@ function getColorByColorConf(conf: ColorConf, dataRow: Record<string, number>) {
   return 'black'
 }
 
+function getNonStatsDataText(data: any) {
+  if (data === null) {
+    return 'null';
+  }
+  if (data === undefined) {
+    return 'undefined'
+  }
+  if (Array.isArray(data)) {
+    return `Array(${data.length})`
+  }
+  return data.toString()
+}
+
 interface IVizStats {
   conf: IVizStatsConf;
   data: any;
@@ -32,6 +45,9 @@ export function VizStats({ conf: { content, size, color, ...rest }, data }: IViz
   const finalContent = React.useMemo(() => {
     const { prefix, postfix, data_field, formatter } = content;
     const contentData = data?.[0]?.[data_field];
+    if (!['string', 'number'].includes(typeof contentData)) {
+      return getNonStatsDataText(contentData);
+    }
     const contents = [
       prefix,
       numbro(contentData).format(formatter),
