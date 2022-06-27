@@ -1,3 +1,4 @@
+import { IVizPanelProps } from "../../../types";
 import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
 
 export interface ICartesianChartSeriesItem {
@@ -24,7 +25,7 @@ export interface ICartesianChartConf {
   series: ICartesianChartSeriesItem[];
 }
 
-export interface IVizCartesianChartPanel {
+export interface IVizCartesianChartPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {
   conf: ICartesianChartConf;
   setConf: (values: ICartesianChartConf) => void;
 }

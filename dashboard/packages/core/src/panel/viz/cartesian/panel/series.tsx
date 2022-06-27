@@ -3,6 +3,7 @@ import { randomId } from "@mantine/hooks";
 import React from "react";
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormGetValues, UseFormWatch } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
+import { DataFieldSelector } from "../../../settings/common/data-field-selector";
 import { MantineColorSelector } from "../../../settings/common/mantine-color";
 import { ICartesianChartConf, ICartesianChartSeriesItem } from "../type";
 
@@ -33,9 +34,10 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
+  data: any[];
 }
 
-function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
+function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
     <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
@@ -73,12 +75,7 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: I
           name={`series.${index}.y_axis_data_key`}
           control={control}
           render={(({ field }) => (
-            <TextInput
-              label="Value key"
-              required
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
           ))}
         />
         <Controller
@@ -168,8 +165,9 @@ interface ISeriesField {
   control: Control<ICartesianChartConf, any>;
   watch: UseFormWatch<ICartesianChartConf>;
   getValues: UseFormGetValues<ICartesianChartConf>;
+  data: any[];
 }
-export function SeriesField({ control, watch, getValues }: ISeriesField) {
+export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "series"
@@ -211,6 +209,7 @@ export function SeriesField({ control, watch, getValues }: ISeriesField) {
           remove={remove}
           seriesItem={seriesItem}
           yAxisOptions={yAxisOptions}
+          data={data}
         />
       ))}
       <Group position="center" mt="xs">
