@@ -4,10 +4,11 @@ import { randomId } from "@mantine/hooks";
 import { Prism } from "@mantine/prism";
 import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
+import { DataFieldSelector } from "../../settings/common/data-field-selector";
 import { IColumnConf, ValueType } from "./type";
 import { ValueTypeSelector } from "./value-type-selector";
 
-export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizPanelProps) {
+export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }: IVizPanelProps) {
   const form = useForm({
     initialValues: {
       id_field: 'id',
@@ -34,7 +35,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizP
           </ActionIcon>
         </Group>
         <Group direction="column" mt="md" spacing="xs" grow p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
-          <TextInput size="md" mb="lg" label="ID Field" {...form.getInputProps('id_field')} />
+          <DataFieldSelector label="ID Field" required data={data} {...form.getInputProps('id_field')} />
           <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
             <TextInput
               label="Horizontal Spacing"
@@ -75,20 +76,14 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf }: IVizP
               <Text mt="xl" mb={0}>Custom Columns</Text>
               {form.values.columns.map((item, index) => (
                 <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-                  <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
+                  <Group position="apart" grow>
                     <TextInput
                       label="Label"
                       required
                       sx={{ flex: 1 }}
                       {...form.getListInputProps('columns', index, 'label')}
                     />
-                    <TextInput
-                      label="Value Field"
-                      placeholder="get column value by this field"
-                      required
-                      sx={{ flex: 1 }}
-                      {...form.getListInputProps('columns', index, 'value_field')}
-                    />
+                    <DataFieldSelector label="Value Field" required data={data} {...form.getListInputProps('columns', index, 'value_field')} />
                     <ValueTypeSelector
                       label="Value Type"
                       sx={{ flex: 1 }}
