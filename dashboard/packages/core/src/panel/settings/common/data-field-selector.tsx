@@ -1,4 +1,4 @@
-import { Group,  Select } from "@mantine/core";
+import { Select, Sx } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
 
@@ -8,9 +8,10 @@ interface IDataFieldSelector {
   value: string;
   onChange: (v: string) => void;
   data: any[];
+  sx?: Sx;
 }
 
-function _DataFieldSelector({ label, required, value, onChange, data }: IDataFieldSelector, ref: any) {
+function _DataFieldSelector({ label, required, value, onChange, data, sx }: IDataFieldSelector, ref: any) {
   const options = React.useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) {
       return [];
@@ -31,6 +32,7 @@ function _DataFieldSelector({ label, required, value, onChange, data }: IDataFie
       value={value}
       onChange={onChange}
       required={required}
+      sx={sx}
     />
   )
 }
