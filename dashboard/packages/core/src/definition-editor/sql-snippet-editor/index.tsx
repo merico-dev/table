@@ -1,8 +1,8 @@
-import { AppShell, Group, Modal } from "@mantine/core";
+import { AppShell, Group } from "@mantine/core";
 import React from "react";
-import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { ContextInfo } from "./context-info";
 import { SQLSnippetsEditor } from "./editor";
+import { SQLSnippetGuide } from "./guide";
 
 interface IEditSQLSnippets {
 }
@@ -19,7 +19,10 @@ export function EditSQLSnippets({ }: IEditSQLSnippets) {
     >
       <Group direction="row" position="apart" grow align="stretch" noWrap>
         <SQLSnippetsEditor />
-        <ContextInfo />
+        <Group direction="column" grow noWrap sx={{ maxWidth: '40%' }}>
+          <SQLSnippetGuide />
+          <ContextInfo />
+        </Group>
       </Group>
     </AppShell>
   )
