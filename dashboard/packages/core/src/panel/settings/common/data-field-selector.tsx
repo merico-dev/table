@@ -24,17 +24,14 @@ function _DataFieldSelector({ label, required, value, onChange, data }: IDataFie
   }, [data]);
 
   return (
-    <Group direction="column" grow noWrap ref={ref}>
-      <Group direction="row" grow>
-        <Select
-          label={label}
-          data={options}
-          value={value}
-          onChange={onChange}
-          required={required}
-        />
-      </Group>
-    </Group>
+    <Select
+      ref={ref}
+      label={label}
+      data={options}
+      value={value}
+      onChange={onChange}
+      required={required}
+    />
   )
 }
 
