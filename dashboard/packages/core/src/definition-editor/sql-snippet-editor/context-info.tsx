@@ -11,7 +11,7 @@ export function ContextInfo({ }: IContextInfo) {
   const sampleSQL = `SELECT *\nFROM commit\nWHERE author_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'`;
 
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '48%', overflow: 'hidden' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee', overflow: 'hidden' }}>
       <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
         <Text weight={500}>Context</Text>
       </Group>

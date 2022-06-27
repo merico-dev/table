@@ -14,17 +14,17 @@ export function EditDataSources({ }: IEditDataSources) {
   return (
     <AppShell
       sx={{
-        height: '90vh', maxHeight: 'calc(100vh - 185px)',
+        height: '90vh', maxHeight: 'calc(100vh - 225px)',
         '.mantine-AppShell-body': { height: '100%' },
         main: { height: '100%', width: '100%', padding: 0, margin: 0 }
       }}
       padding="md"
     >
       <Group direction="row" position="apart" grow align="stretch" noWrap>
-        <div>
+        <Group direction="column" grow sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
           <SelectOrAddDataSource id={id} setID={setID} />
           <DataSourceEditor id={id} setID={setID} />
-        </div>
+        </Group>
         <ContextAndSnippets />
       </Group>
       <DataPreview id={id} />

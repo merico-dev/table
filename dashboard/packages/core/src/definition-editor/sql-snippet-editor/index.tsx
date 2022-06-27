@@ -11,7 +11,7 @@ export function EditSQLSnippets({ }: IEditSQLSnippets) {
   return (
     <AppShell
       sx={{
-        height: '90vh', maxHeight: 'calc(100vh - 185px)',
+        height: '90vh', maxHeight: 'calc(100vh - 225px)',
         '.mantine-AppShell-body': { height: '100%' },
         main: { height: '100%', width: '100%', padding: 0, margin: 0 }
       }}

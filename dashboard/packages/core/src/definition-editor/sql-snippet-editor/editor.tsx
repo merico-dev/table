@@ -34,7 +34,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
     setSQLSnippets(snippets);
   }
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
           <Text weight={500}>SQL Snippets</Text>
