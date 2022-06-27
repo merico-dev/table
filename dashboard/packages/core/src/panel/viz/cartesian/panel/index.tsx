@@ -7,6 +7,7 @@ import { SeriesField } from "./series";
 import { ICartesianChartConf, ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from "../type";
 import { YAxesField } from "./y-axes";
 import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
+import { DataFieldSelector } from "../../../settings/common/data-field-selector";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -26,7 +27,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
   return series.map(setDefaults);
 }
 
-export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPanel) {
+export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianChartPanel) {
   const { series, y_axes, ...restConf } = conf;
   const defaultValues = React.useMemo(() => {
     const { x_axis_name = '', ...rest } = restConf
@@ -59,20 +60,22 @@ export function VizCartesianChartPanel({ conf, setConf }: IVizCartesianChartPane
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Controller
-          name='x_axis_data_key'
-          control={control}
-          render={(({ field }) => <TextInput size="md" mb="lg" label="X Axis Data Key" {...field} />)}
-        />
         <Group direction="column" grow noWrap mb="lg">
+          <Controller
+            name='x_axis_data_key'
+            control={control}
+            render={(({ field }) => (
+              <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+            ))}
+          />
           <Controller
             name='x_axis_name'
             control={control}
-            render={(({ field }) => <TextInput size="md" label="X Axis Name" {...field} />)}
+            render={(({ field }) => <TextInput label="X Axis Name" {...field} />)}
           />
         </Group>
         <YAxesField control={control} watch={watch} />
-        <SeriesField control={control} watch={watch} getValues={getValues} />
+        <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
       </form>
     </Group>
   )

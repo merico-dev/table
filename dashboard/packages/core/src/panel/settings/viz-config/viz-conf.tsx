@@ -23,7 +23,7 @@ const types = [
 ]
 
 export function EditVizConf() {
-  const { viz, setViz } = React.useContext(PanelContext)
+  const { data, viz, setViz } = React.useContext(PanelContext)
   const [type, setType] = useInputState(viz.type);
 
   const changed = viz.type !== type;
@@ -68,7 +68,7 @@ export function EditVizConf() {
         )}
       />
       {/* @ts-expect-error */}
-      {Panel && <Panel conf={viz.conf} setConf={setVizConf} />}
+      {Panel && <Panel conf={viz.conf} setConf={setVizConf} data={data} />}
       {!Panel && <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />}
     </>
   )

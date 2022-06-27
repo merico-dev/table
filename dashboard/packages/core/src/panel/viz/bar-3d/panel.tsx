@@ -2,9 +2,10 @@ import { Button, Group, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import { DeviceFloppy } from "tabler-icons-react";
 import _ from "lodash";
-import { IVizBar3DPanel } from "./type";
+import { DataFieldSelector } from "../../settings/common/data-field-selector";
+import { IVizPanelProps } from "../../../types";
 
-export function VizBar3DPanel({ conf, setConf }: IVizBar3DPanel) {
+export function VizBar3DPanel({ conf, setConf, data }: IVizPanelProps) {
   const defaultValues = _.assign({}, {
     "x_axis_data_key": "x",
     "y_axis_data_key": "y",
@@ -34,7 +35,7 @@ export function VizBar3DPanel({ conf, setConf }: IVizBar3DPanel) {
             name='x_axis_data_key'
             control={control}
             render={(({ field }) => (
-              <TextInput sx={{ flexGrow: 1 }} size="md" label="Data Key" {...field} />
+              <DataFieldSelector label="Data Field" required data={data} {...field} />
             ))}
           />
           <Controller
@@ -52,7 +53,7 @@ export function VizBar3DPanel({ conf, setConf }: IVizBar3DPanel) {
             name='y_axis_data_key'
             control={control}
             render={(({ field }) => (
-              <TextInput sx={{ flexGrow: 1 }} size="md" label="Data Key" {...field} />
+              <DataFieldSelector label="Data Field" required data={data} {...field} />
             ))}
           />
           <Controller
@@ -70,7 +71,7 @@ export function VizBar3DPanel({ conf, setConf }: IVizBar3DPanel) {
             name='z_axis_data_key'
             control={control}
             render={(({ field }) => (
-              <TextInput sx={{ flexGrow: 1 }} size="md" label="Data Key" {...field} />
+              <DataFieldSelector label="Data Field" required data={data} {...field} />
             ))}
           />
           <Controller
