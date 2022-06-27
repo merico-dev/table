@@ -2,8 +2,9 @@ import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DeviceFloppy } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
+import { DataFieldSelector } from "../../settings/common/data-field-selector";
 
-export function SunburstPanel({ conf: { label_field, value_field }, setConf }: IVizPanelProps) {
+export function SunburstPanel({ conf: { label_field, value_field }, setConf, data }: IVizPanelProps) {
   const form = useForm({
     initialValues: {
       label_field: label_field,
@@ -21,19 +22,8 @@ export function SunburstPanel({ conf: { label_field, value_field }, setConf }: I
           </ActionIcon>
         </Group>
         <Group direction="column" mt="md" spacing="xs" grow p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
-          <TextInput
-            label="Label Field"
-            required
-            sx={{ flex: 1 }}
-            {...form.getInputProps('label_field')}
-          />
-          <TextInput
-            label="Value Field"
-            placeholder="get column value by this field"
-            required
-            sx={{ flex: 1 }}
-            {...form.getInputProps('value_field')}
-          />
+          <DataFieldSelector label="Label Field" required data={data} {...form.getInputProps('label_field')} />
+          <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps('value_field')} />
         </Group>
       </form>
     </Group>
