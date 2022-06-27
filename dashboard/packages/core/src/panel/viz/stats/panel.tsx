@@ -10,8 +10,9 @@ import { MantineColorSelector } from "../../settings/common/mantine-color";
 import { TextArrayInput } from "../../settings/common/text-array-input";
 import { ColorArrayInput } from "../../settings/common/color-array-input";
 import { NumbroFormatSelector } from "../../settings/common/numbro-format-selector";
+import { DataFieldSelector } from "../../settings/common/data-field-selector";
 
-export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
+export function VizStatsPanel({ conf, setConf, data }: IVizPanelProps) {
   const defaultValues: IVizStatsConf = _.merge({}, {
     align: 'center',
     size: '100px',
@@ -49,7 +50,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
         <Accordion offsetIcon={false} multiple initialState={{ 0: true, 2: true }}>
           <Accordion.Item label="Content">
             <Group direction="column" grow>
-              <Group direction="row" grow>
+              <Group direction="row" grow noWrap>
                 <Controller
                   name='content.prefix'
                   control={control}
@@ -61,7 +62,7 @@ export function VizStatsPanel({ conf, setConf }: IVizPanelProps) {
                   name='content.data_field'
                   control={control}
                   render={(({ field }) => (
-                    <TextInput label="Data Field" required sx={{ flexGrow: 1 }} {...field} />
+                    <DataFieldSelector label="Data Field" required data={data} {...field} />
                   ))}
                 />
                 <Controller
