@@ -59,6 +59,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                   label="Value"
                   required
                   {...form.getListInputProps('snippets', index, 'value')}
+                  className='code-textarea'
                 />
                 <ActionIcon
                   color="red" variant="hover"
