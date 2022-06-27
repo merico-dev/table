@@ -2,7 +2,7 @@ import { Group, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
 import { ContextInfoContext } from "../../contexts";
-import { explainSQLSnippet } from "../../utils/sql-snippet";
+import { explainSQLSnippet } from "../../utils/sql";
 
 interface IPreviewSnippet {
   value: string;
