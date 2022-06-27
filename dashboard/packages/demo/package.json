@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@devtable/dashboard": "1.17.0",
+    "@devtable/dashboard": "1.18.0",
     "@mantine/core": "^4.2.5",
     "@mantine/dates": "^4.2.5",
     "@mantine/form": "^4.2.5",
