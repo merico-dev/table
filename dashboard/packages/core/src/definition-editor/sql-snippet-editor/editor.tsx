@@ -42,7 +42,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group px="md" pb="md">
+        <Group px="md" pb="md" pt="md">
           <Prism language="sql" sx={{ width: '100%' }} noCopy trim={false} colorScheme="dark">
             {`-- You may refer context data *by name*\n-- in SQL or VizConfig.\n\n${sampleSQL}\n\n-- where author_time_condition is:\nauthor_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'\n `}
           </Prism>

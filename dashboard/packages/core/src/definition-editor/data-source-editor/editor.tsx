@@ -38,9 +38,6 @@ export function DataSourceEditor({ id, setID }: IDataSourceEditor) {
     return <span>Invalid Data Source ID</span>
   }
   return (
-    <Group direction="row" position="apart" grow align="stretch" noWrap>
-      <DataSourceForm value={dataSource} onChange={update}/>
-      <ContextAndSnippets />
-    </Group>
+    <DataSourceForm value={dataSource} onChange={update}/>
   )
 }

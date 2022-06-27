@@ -1,2 +1,1 @@
-export * from './data-source-editor';
-export * from './sql-snippet-editor';
+export * from './data-editor-modal';
