@@ -36,7 +36,7 @@ export function ContextAndSnippets({ }: IContextAndSnippets) {
   }, [contextInfo]);
 
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '48%', overflow: 'hidden' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden' }}>
       <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
         <Text weight={500}>Context</Text>
       </Group>

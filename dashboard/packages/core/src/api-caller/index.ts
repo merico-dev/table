@@ -1,30 +1,8 @@
 import _ from "lodash";
 import { ContextInfoContextType } from "../contexts";
 import { IDashboardDefinition, IDataSource } from "../types";
+import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
-
-function formatSQL(sql: string, params: Record<string, any>) {
-  const names = Object.keys(params);
-  const vals = Object.values(params);
-  try {
-    return new Function(...names, `return \`${sql}\`;`)(...vals);
-  } catch (error) {
-    if (names.length === 0 && sql.includes('$')) {
-      throw new Error('[formatSQL] insufficient params')
-    }
-    throw error
-  }
-};
-
-function getSQLParams(context: ContextInfoContextType, definitions: IDashboardDefinition) {
-  const sqlSnippetRecord = definitions.sqlSnippets.reduce((ret: Record<string, any>, curr) => {
-    ret[curr.key] = formatSQL(curr.value, context)
-    return ret;
-  }, {})
-
-  // sql snippets might use context, so context must be at a higher priority
-  return _.merge({}, sqlSnippetRecord, context);
-}
 
 interface IQueryBySQL {
   context: ContextInfoContextType;

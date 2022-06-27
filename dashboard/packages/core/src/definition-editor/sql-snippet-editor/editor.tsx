@@ -1,19 +1,18 @@
 import { ActionIcon, Button, Group, Text, Textarea, TextInput } from "@mantine/core";
 import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
-import { Prism } from "@mantine/prism";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy, Trash } from "tabler-icons-react";
 import { DefinitionContext } from "../../contexts";
 import { ISQLSnippet } from "../../types";
+import { PreviewSnippet } from "./preview-snippet";
 
 interface ISQLSnippetsEditor {
 }
 
 export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
   const { sqlSnippets, setSQLSnippets } = React.useContext(DefinitionContext)
-  const sampleSQL = `SELECT *\nFROM commit\nWHERE \$\{author_time_condition\}`;
 
   const initialValues = React.useMemo(() => ({
     snippets: formList<ISQLSnippet>(sqlSnippets ?? []),
@@ -34,7 +33,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
     setSQLSnippets(snippets);
   }
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
           <Text weight={500}>SQL Snippets</Text>
@@ -42,10 +41,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group px="md" pb="md">
-          <Prism language="sql" sx={{ width: '100%' }} noCopy trim={false} colorScheme="dark">
-            {`-- You may refer context data *by name*\n-- in SQL or VizConfig.\n\n${sampleSQL}\n\n-- where author_time_condition is:\nauthor_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'\n `}
-          </Prism>
+        <Group px="md" pb="md" pt="md">
           <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
             {form.values.snippets.map((_item, index) => (
               <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
@@ -59,7 +55,9 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                   label="Value"
                   required
                   {...form.getListInputProps('snippets', index, 'value')}
+                  className='code-textarea'
                 />
+                <PreviewSnippet value={form.values.snippets[index].value} />
                 <ActionIcon
                   color="red" variant="hover"
                   onClick={() => form.removeListItem('snippets', index)}
