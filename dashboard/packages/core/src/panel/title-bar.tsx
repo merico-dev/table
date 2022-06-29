@@ -17,7 +17,7 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
   const { title, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
   return (
-    <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px' }}>
+    <Group position='apart' noWrap>
       <Group>
         <DescriptionPopover />
       </Group>
