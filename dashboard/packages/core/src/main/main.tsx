@@ -68,8 +68,8 @@ export function Dashboard({
         w: 3,
         h: 15,
       },
-      title: `New Panel - ${id}`,
-      description: "",
+      title: `Panel - ${id}`,
+      description: '<p><br></p>',
       dataSourceID: '',
       viz: {
         type: 'text',

@@ -8,14 +8,14 @@ export function PreviewPanel() {
   const { title } = React.useContext(PanelContext);
   return (
     <ErrorBoundary>
-      <Group direction="column" grow noWrap mx="auto" mt="xl" p="5px" spacing="xs" sx={{
+      <Group direction="column" grow noWrap mx="auto" mt="xl" p="5px" spacing={5} sx={{
         width: '600px',
         height: '450px',
         background: 'transparent',
         borderRadius: '5px',
         boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)',
       }}>
-        <Group position='apart' noWrap sx={{ borderBottom: '1px solid #eee', paddingBottom: '5px', flexGrow: 0, flexShrink: 0 }}>
+        <Group position='apart' noWrap sx={{ flexGrow: 0, flexShrink: 0 }}>
           <Group>
             <DescriptionPopover position="bottom" trigger="hover" />
           </Group>

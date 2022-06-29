@@ -10,7 +10,7 @@ interface IDescriptionPopover {
   trigger?: 'hover' | 'click';
 }
 
-export function DescriptionPopover({ position, trigger = 'click' }: IDescriptionPopover) {
+export function DescriptionPopover({ position = 'bottom', trigger = 'hover' }: IDescriptionPopover) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
   const { description } = React.useContext(PanelContext)
@@ -44,13 +44,14 @@ export function DescriptionPopover({ position, trigger = 'click' }: IDescription
     <Popover
       opened={opened}
       onClose={() => setOpened(false)}
-      withCloseButton
+      withCloseButton={trigger === 'click' }
       withArrow
       trapFocus
       closeOnEscape={false}
       placement="center"
       position={position}
       target={target}
+      width="40vw"
     >
       <RichTextEditor readOnly value={description} onChange={_.noop} sx={{ border: 'none' }} />
     </Popover>

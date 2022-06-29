@@ -1,0 +1,8 @@
+.panel-title-wrapper {
+  text-align: center;
+  transition: background-color 300ms ease;
+}
+.panel-title-wrapper:hover {
+  cursor: pointer;
+  background-color: rgba(100, 100, 100, 0.05);
+}
