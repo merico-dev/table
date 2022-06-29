@@ -5,6 +5,7 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
 import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
+import './title-bar.css'
 
 interface IPanelTitleBar {
 }
@@ -21,7 +22,7 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
       <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28 }}>
         <DescriptionPopover />
       </Box>
-      <Group grow position="center" px={20} sx={{ flexGrow: 1, textAlign: 'center' }}>
+      <Group grow position="center" px={20} className='panel-title-wrapper' sx={{ flexGrow: 1 }}>
         <Menu
           control={(
             <Text lineClamp={1} weight="bold">{title}</Text>
