@@ -1,4 +1,4 @@
-import { Group, Text, Menu, Divider } from '@mantine/core';
+import { Group, Text, Menu, Divider, Box } from '@mantine/core';
 import React from 'react';
 import { Refresh, Settings, Trash } from 'tabler-icons-react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -17,19 +17,17 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
   const { title, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
   return (
-    <Group position='apart' noWrap>
-      <Group>
+    <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28 }}>
         <DescriptionPopover />
-      </Group>
-      <Group grow position="center">
-        <Text lineClamp={1} weight="bold">{title}</Text>
-      </Group>
-      <Group
-        position="right"
-        spacing={0}
-        sx={{ height: '28px' }}
-      >
-        <Menu>
+      </Box>
+      <Group grow position="center" px={20} sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <Menu
+          control={(
+            <Text lineClamp={1} weight="bold">{title}</Text>
+          )}
+          placement='center'
+        >
           <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
           {inEditMode && <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>}
           <Divider />
@@ -37,6 +35,6 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
         </Menu>
       </Group>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
-    </Group>
+    </Box>
   )
 }
