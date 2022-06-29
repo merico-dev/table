@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "lodash";
-import { DashboardMode, IDashboard, IDataSource, ISQLSnippet, IDashboardConfig } from "../types/dashboard";
+import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from "../types/dashboard";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { DashboardLayout } from "../layout";
 import { DashboardActions } from "./actions";
@@ -31,7 +31,7 @@ export function Dashboard({
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-  const [dataSources, setDataSources] = React.useState<IDataSource[]>(dashboard.definition.dataSources);
+  const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const hasChanges = React.useMemo(() => {
@@ -46,14 +46,14 @@ export function Dashboard({
     if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
       return true;
     };
-    return !_.isEqual(dataSources, dashboard.definition.dataSources)
-  }, [dashboard, panels, sqlSnippets, dataSources])
+    return !_.isEqual(queries, dashboard.definition.queries)
+  }, [dashboard, panels, sqlSnippets, queries])
 
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
       panels,
-      definition: { sqlSnippets, dataSources },
+      definition: { sqlSnippets, queries },
     }
     await update(d);
   }
@@ -70,7 +70,7 @@ export function Dashboard({
       },
       title: `Panel - ${id}`,
       description: '<p><br></p>',
-      dataSourceID: '',
+      queryID: '',
       viz: {
         type: 'text',
         conf: {},
@@ -93,8 +93,8 @@ export function Dashboard({
 
   const definitions = React.useMemo(() => ({
     sqlSnippets, setSQLSnippets,
-    dataSources, setDataSources,
-  }), [sqlSnippets, setSQLSnippets, dataSources, setDataSources]);
+    queries, setQueries,
+  }), [sqlSnippets, setSQLSnippets, queries, setQueries]);
 
   return (
     <ContextInfoContext.Provider value={context}>

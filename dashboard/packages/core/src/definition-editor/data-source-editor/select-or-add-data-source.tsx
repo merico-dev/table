@@ -2,48 +2,48 @@ import { Button, Group, Select, Text } from "@mantine/core";
 import { randomId } from "@mantine/hooks";
 import React from "react";
 import { DefinitionContext } from "../../contexts";
-import { IDataSource } from "../../types";
+import { IQuery } from "../../types";
 
-interface ISelectOrAddDataSource {
+interface ISelectOrAddQuery {
   id: string;
   setID: React.Dispatch<React.SetStateAction<string>>;
 }
-export function SelectOrAddDataSource({ id, setID }: ISelectOrAddDataSource) {
-  const { dataSources, setDataSources } = React.useContext(DefinitionContext);
+export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
+  const { queries, setQueries } = React.useContext(DefinitionContext);
 
   const chooseDefault = React.useCallback(() => {
-    setID(dataSources[0]?.id ?? '');
-  }, [setID, dataSources]);
+    setID(queries[0]?.id ?? '');
+  }, [setID, queries]);
 
   React.useEffect(() => {
     if (!id) {
       chooseDefault()
       return;
     }
-    const index = dataSources.findIndex(d => d.id === id);
+    const index = queries.findIndex(d => d.id === id);
     if (index === -1) {
       chooseDefault()
     }
-  }, [id, dataSources, chooseDefault])
+  }, [id, queries, chooseDefault])
 
   const options = React.useMemo(() => {
-    return dataSources.map(d => ({
+    return queries.map(d => ({
       value: d.id,
       label: d.id,
     }))
-  }, [dataSources]);
+  }, [queries]);
 
   const add = React.useCallback(() => {
-    const newDataSource: IDataSource = {
+    const newQuery: IQuery = {
       id: randomId(),
       type: 'postgresql',
       key: '',
       sql: '',
     };
 
-    setDataSources(prevs => ([ ...prevs, newDataSource ]))
-    setID(newDataSource.id)
-  }, [setDataSources, setID])
+    setQueries(prevs => ([ ...prevs, newQuery ]))
+    setID(newQuery.id)
+  }, [setQueries, setID])
 
   return (
     <Group pb="xl">

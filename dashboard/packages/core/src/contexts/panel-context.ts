@@ -8,8 +8,8 @@ export interface IPanelContext {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   description: string;
   setDescription: React.Dispatch<React.SetStateAction<string>>;
-  dataSourceID: string;
-  setDataSourceID: React.Dispatch<React.SetStateAction<string>>;
+  queryID: string;
+  setQueryID: React.Dispatch<React.SetStateAction<string>>;
   viz: IVizConfig;
   setViz: React.Dispatch<React.SetStateAction<IVizConfig>>;
   refreshData: () => void;
@@ -22,8 +22,8 @@ const initialContext = {
   setTitle: () => { },
   description: '',
   setDescription: () => { },
-  dataSourceID: '',
-  setDataSourceID: () => { },
+  queryID: '',
+  setQueryID: () => { },
   viz: {
     type: '',
     conf: {},

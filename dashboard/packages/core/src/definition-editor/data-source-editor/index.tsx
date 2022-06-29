@@ -2,13 +2,13 @@ import { AppShell, Group } from "@mantine/core";
 import React from "react";
 import { ContextAndSnippets } from "./context-and-snippets";
 import { DataPreview } from "./data-preview";
-import { DataSourceEditor } from "./editor";
-import { SelectOrAddDataSource } from "./select-or-add-data-source";
+import { QueryEditor } from "./editor";
+import { SelectOrAddQuery } from "./select-or-add-data-source";
 
-interface IEditDataSources {
+interface IEditQueries {
 }
 
-export function EditDataSources({ }: IEditDataSources) {
+export function EditQueries({ }: IEditQueries) {
   const [id, setID] = React.useState('');
 
   return (
@@ -22,8 +22,8 @@ export function EditDataSources({ }: IEditDataSources) {
     >
       <Group direction="row" position="apart" grow align="stretch" noWrap>
         <Group direction="column" grow sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
-          <SelectOrAddDataSource id={id} setID={setID} />
-          <DataSourceEditor id={id} setID={setID} />
+          <SelectOrAddQuery id={id} setID={setID} />
+          <QueryEditor id={id} setID={setID} />
         </Group>
         <ContextAndSnippets />
       </Group>

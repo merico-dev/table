@@ -5,7 +5,7 @@ import { PanelContext } from "../../contexts/panel-context";
 import { ErrorBoundary } from "../error-boundary";
 import { Viz } from "../viz";
 import { PanelConfig } from "./panel-config";
-import { PickDataSource } from "./pick-data-source";
+import { PickQuery } from "./pick-data-source";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettingsModal {
@@ -42,7 +42,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         <Tabs initialTab={2}>
           <Tabs.Tab label="Data Source">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-            <PickDataSource />
+            <PickQuery />
           </Tabs.Tab>
           <Tabs.Tab label="Panel">
             <PanelConfig />

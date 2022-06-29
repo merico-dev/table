@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { ContextInfoContextType } from "../contexts";
-import { IDashboardDefinition, IDataSource } from "../types";
+import { IDashboardDefinition, IQuery } from "../types";
 import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
 
@@ -8,14 +8,14 @@ interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;
   title: string;
-  dataSource?: IDataSource;
+  query?: IQuery;
 }
 
-export const queryBySQL = ({ context, definitions, title, dataSource }: IQueryBySQL) => async () => {
-  if (!dataSource || !dataSource.sql) {
+export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) => async () => {
+  if (!query || !query.sql) {
     return [];
   }
-  const { type, key, sql } = dataSource;
+  const { type, key, sql } = query;
 
   const needParams = sql.includes('$');
   try {

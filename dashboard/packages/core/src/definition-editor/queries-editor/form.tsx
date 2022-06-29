@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Select, Tabs, Text, Textarea, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Select, Text, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRequest } from "ahooks";
 import _ from "lodash";
@@ -6,7 +6,6 @@ import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { getQuerySources } from "../../api-caller";
 import { IQuery } from "../../types";
-import { PreviewSQL } from "./preview-sql";
 
 interface IQueryForm {
   value: IQuery;
@@ -85,20 +84,12 @@ export function QueryForm({ value, onChange }: IQueryForm) {
               {...form.getInputProps('key')}
             />
           </Group>
-          <Tabs>
-            <Tabs.Tab label="SQL">
-              <Textarea
-                autosize
-                minRows={12}
-                maxRows={24}
-                {...form.getInputProps('sql')}
-                className='code-textarea'
-              />
-            </Tabs.Tab>
-            <Tabs.Tab label="Preview">
-              <PreviewSQL value={form.values.sql}/>
-            </Tabs.Tab>
-          </Tabs>
+          <Textarea
+            autosize
+            minRows={12}
+            maxRows={24}
+            {...form.getInputProps('sql')}
+          />
         </Group>
 
         {/* <Text size="sm" weight={500} mt="md">

@@ -1,43 +1,42 @@
 import { Group } from "@mantine/core";
 import React from "react";
 import { DefinitionContext } from "../../contexts";
-import { ContextAndSnippets } from "./context-and-snippets";
-import { IDataSource } from "../../types";
-import { DataSourceForm } from "./form";
+import { IQuery } from "../../types";
+import { QueryForm } from "./form";
 
-interface IDataSourceEditor {
+interface IQueryEditor {
   id: string;
   setID: React.Dispatch<React.SetStateAction<string>>;
 }
-export function DataSourceEditor({ id, setID }: IDataSourceEditor) {
-  const { dataSources, setDataSources } = React.useContext(DefinitionContext);
+export function QueryEditor({ id, setID }: IQueryEditor) {
+  const { queries, setQueries } = React.useContext(DefinitionContext);
 
-  const dataSource = React.useMemo(() => {
-    return dataSources.find(d => d.id === id);
-  }, [dataSources, id]);
+  const query = React.useMemo(() => {
+    return queries.find(d => d.id === id);
+  }, [queries, id]);
 
-  const update = React.useCallback((value: IDataSource) => {
-    const index = dataSources.findIndex(d => d.id ===  id);
+  const update = React.useCallback((value: IQuery) => {
+    const index = queries.findIndex(d => d.id ===  id);
     if (index === -1) {
       console.error(new Error('Invalid data source id when updating by id'))
       return;
     }
-    setDataSources(prevs => {
+    setQueries(prevs => {
       const index = prevs.findIndex(p => p.id === id) // match by original ID, not edited ID
       prevs.splice(index, 1, value)
       return [...prevs];
     });
     setID(value.id);
 
-  }, [id, dataSources, setDataSources, setID]);
+  }, [id, queries, setQueries, setID]);
 
   if (!id) {
     return null;
   }
-  if (!dataSource) {
+  if (!query) {
     return <span>Invalid Data Source ID</span>
   }
   return (
-    <DataSourceForm value={dataSource} onChange={update}/>
+    <QueryForm value={query} onChange={update}/>
   )
 }
