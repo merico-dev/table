@@ -1,7 +1,7 @@
 import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
 import React from "react";
 import { LayoutStateContext } from "../contexts/layout-state-context";
-import { EditQueries } from "./data-source-editor";
+import { EditQueries } from "./query-editor";
 import { EditSQLSnippets } from "./sql-snippet-editor";
 
 interface IDataEditorModal {

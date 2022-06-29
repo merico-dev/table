@@ -2,10 +2,8 @@ import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/c
 import React from "react";
 import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
-import { ErrorBoundary } from "../error-boundary";
-import { Viz } from "../viz";
 import { PanelConfig } from "./panel-config";
-import { PickQuery } from "./pick-data-source";
+import { PickQuery } from "./pick-query";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettingsModal {

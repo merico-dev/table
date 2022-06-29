@@ -3,7 +3,7 @@ import React from "react";
 import { ContextAndSnippets } from "./context-and-snippets";
 import { DataPreview } from "./data-preview";
 import { QueryEditor } from "./editor";
-import { SelectOrAddQuery } from "./select-or-add-data-source";
+import { SelectOrAddQuery } from "./select-or-add-query";
 
 interface IEditQueries {
 }

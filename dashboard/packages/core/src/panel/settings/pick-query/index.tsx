@@ -1,7 +1,7 @@
 import { Group, Select, Text } from "@mantine/core";
 import React from "react";
 import { DefinitionContext, PanelContext } from "../../../contexts";
-import { DataPreview } from "../../../definition-editor/data-source-editor/data-preview";
+import { DataPreview } from "../../../definition-editor/query-editor/data-preview";
 
 interface IPickQuery {
 }
@@ -19,7 +19,7 @@ export function PickQuery({ }: IPickQuery) {
   return (
     <Group direction="column" grow noWrap>
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Select a query</Text>
+        <Text>Select a Query</Text>
         <Select
           data={options}
           value={queryID}

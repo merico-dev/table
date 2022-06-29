@@ -48,7 +48,7 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
   return (
     <Group pb="xl">
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Select a Data Source</Text>
+        <Text>Select a Query</Text>
         <Select
           data={options}
           value={id}
@@ -61,7 +61,7 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
         <Text>or</Text>
         <Group position="center" mt="md">
           <Button onClick={add}>
-            Add a Data Source
+            Add a Query
           </Button>
         </Group>
       </Group>
