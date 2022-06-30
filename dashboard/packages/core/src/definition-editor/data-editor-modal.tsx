@@ -30,7 +30,7 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
         <Tabs.Tab label="SQL Snippet">
           <EditSQLSnippets />
         </Tabs.Tab>
-        <Tabs.Tab label="Data Source">
+        <Tabs.Tab label="Queries">
           <EditQueries />
         </Tabs.Tab>
       </Tabs>

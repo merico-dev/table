@@ -38,7 +38,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         padding="md"
       >
         <Tabs initialTab={2}>
-          <Tabs.Tab label="Data Source">
+          <Tabs.Tab label="Data">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
             <PickQuery />
           </Tabs.Tab>
