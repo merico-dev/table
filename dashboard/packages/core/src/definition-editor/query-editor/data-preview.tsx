@@ -9,17 +9,17 @@ export function DataPreview({ id }: { id: string }) {
   const definitions = React.useContext(DefinitionContext);
   const contextInfo = React.useContext(ContextInfoContext);
 
-  const dataSource = React.useMemo(() => {
-    return definitions.dataSources.find(d => d.id === id);
-  }, [definitions.dataSources, id]);
+  const query = React.useMemo(() => {
+    return definitions.queries.find(d => d.id === id);
+  }, [definitions.queries, id]);
 
   const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
     title: id,
-    dataSource,
+    query,
   }), {
-    refreshDeps: [contextInfo, definitions, dataSource],
+    refreshDeps: [contextInfo, definitions, query],
   });
   if (loading) {
     return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;

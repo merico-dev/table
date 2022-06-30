@@ -5,19 +5,19 @@ import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { getQuerySources } from "../../api-caller";
-import { IDataSource } from "../../types";
+import { IQuery } from "../../types";
 import { PreviewSQL } from "./preview-sql";
 
-interface IDataSourceForm {
-  value: IDataSource;
+interface IQueryForm {
+  value: IQuery;
   onChange: any;
 }
-export function DataSourceForm({ value, onChange }: IDataSourceForm) {
+export function QueryForm({ value, onChange }: IQueryForm) {
   const form = useForm({
     initialValues: value,
   });
 
-  const submit = React.useCallback((values: IDataSource) => {
+  const submit = React.useCallback((values: IQuery) => {
     onChange(values);
   }, [onChange]);
 
@@ -55,7 +55,7 @@ export function DataSourceForm({ value, onChange }: IDataSourceForm) {
     <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text weight={500}>Data Source Configuration</Text>
+          <Text weight={500}>Edit Query</Text>
           <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed || loading}>
             <DeviceFloppy size={20} />
           </ActionIcon>

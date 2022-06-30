@@ -2,10 +2,8 @@ import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/c
 import React from "react";
 import { LayoutStateContext } from "../../contexts/layout-state-context";
 import { PanelContext } from "../../contexts/panel-context";
-import { ErrorBoundary } from "../error-boundary";
-import { Viz } from "../viz";
 import { PanelConfig } from "./panel-config";
-import { PickDataSource } from "./pick-data-source";
+import { PickQuery } from "./pick-query";
 import { VizConfig } from "./viz-config";
 
 interface IPanelSettingsModal {
@@ -40,9 +38,9 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         padding="md"
       >
         <Tabs initialTab={2}>
-          <Tabs.Tab label="Data Source">
+          <Tabs.Tab label="Data">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-            <PickDataSource />
+            <PickQuery />
           </Tabs.Tab>
           <Tabs.Tab label="Panel">
             <PanelConfig />

@@ -16,21 +16,21 @@ interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
+export function Panel({ viz: initialViz, queryID: initialQueryID, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
-  const [dataSourceID, setDataSourceID] = React.useState(initialDataSourceID);
+  const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
 
-  const dataSource = React.useMemo(() => {
-    if (!dataSourceID) {
+  const query = React.useMemo(() => {
+    if (!queryID) {
       return undefined;
     }
-    return definitions.dataSources.find(d => d.id === dataSourceID);
+    return definitions.queries.find(d => d.id === queryID);
 
-  }, [dataSourceID, definitions.dataSources]);
+  }, [queryID, definitions.queries]);
 
   React.useEffect(() => {
     update?.({
@@ -38,18 +38,18 @@ export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, titl
       layout,
       title,
       description,
-      dataSourceID,
+      queryID,
       viz,
     });
-  }, [title, description, dataSource, viz, id, layout, dataSourceID])
+  }, [title, description, query, viz, id, layout, queryID])
 
   const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
     title,
-    dataSource,
+    query,
   }), {
-    refreshDeps: [contextInfo, definitions, dataSource],
+    refreshDeps: [contextInfo, definitions, query],
   });
   const refreshData = refresh;
   return (
@@ -61,8 +61,8 @@ export function Panel({ viz: initialViz, dataSourceID: initialDataSourceID, titl
         setTitle,
         description,
         setDescription,
-        dataSourceID,
-        setDataSourceID,
+        queryID,
+        setQueryID,
         viz,
         setViz,
         refreshData,

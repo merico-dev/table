@@ -1,7 +1,7 @@
 import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
 import React from "react";
 import { LayoutStateContext } from "../contexts/layout-state-context";
-import { EditDataSources } from "./data-source-editor";
+import { EditQueries } from "./query-editor";
 import { EditSQLSnippets } from "./sql-snippet-editor";
 
 interface IDataEditorModal {
@@ -30,8 +30,8 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
         <Tabs.Tab label="SQL Snippet">
           <EditSQLSnippets />
         </Tabs.Tab>
-        <Tabs.Tab label="Data Source">
-          <EditDataSources />
+        <Tabs.Tab label="Queries">
+          <EditQueries />
         </Tabs.Tab>
       </Tabs>
     </Modal>

@@ -27,7 +27,7 @@ export function ReadOnlyDashboard({
   const definition = React.useMemo(() => ({
     ...dashboard.definition,
     setSQLSnippets: () => { },
-    setDataSources: () => { },
+    setQueries: () => { },
   }), [dashboard]);
 
   return (

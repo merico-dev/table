@@ -1,36 +1,36 @@
 import { Group, Select, Text } from "@mantine/core";
 import React from "react";
 import { DefinitionContext, PanelContext } from "../../../contexts";
-import { DataPreview } from "../../../definition-editor/data-source-editor/data-preview";
+import { DataPreview } from "../../../definition-editor/query-editor/data-preview";
 
-interface IPickDataSource {
+interface IPickQuery {
 }
-export function PickDataSource({ }: IPickDataSource) {
-  const { dataSources } = React.useContext(DefinitionContext);
-  const { dataSourceID, setDataSourceID, data, loading } = React.useContext(PanelContext)
+export function PickQuery({ }: IPickQuery) {
+  const { queries } = React.useContext(DefinitionContext);
+  const { queryID, setQueryID, data, loading } = React.useContext(PanelContext)
 
   const options = React.useMemo(() => {
-    return dataSources.map(d => ({
+    return queries.map(d => ({
       value: d.id,
       label: d.id,
     }))
-  }, [dataSources]);
+  }, [queries]);
 
   return (
     <Group direction="column" grow noWrap>
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Select a Data Source</Text>
+        <Text>Select a Query</Text>
         <Select
           data={options}
-          value={dataSourceID}
+          value={queryID}
           // @ts-expect-error
-          onChange={setDataSourceID}
+          onChange={setQueryID}
           allowDeselect={false}
           clearable={false}
           sx={{ flexGrow: 1 }}
         />
       </Group>
-      <DataPreview id={dataSourceID} />
+      <DataPreview id={queryID} />
     </Group>
   )
 }

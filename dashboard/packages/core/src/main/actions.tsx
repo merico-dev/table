@@ -23,8 +23,8 @@ export function DashboardActions({
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
-  const openDataSources = () => setDataEditorOpened(true);
-  const closeDataSources = () => setDataEditorOpened(false);
+  const openQueries = () => setDataEditorOpened(true);
+  const closeQueries = () => setDataEditorOpened(false);
 
   return (
     <Group position="apart" pt="sm" pb="xs">
@@ -33,11 +33,11 @@ export function DashboardActions({
       </Group>
       <Group position="right">
         {!inUseMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
-        {inEditMode && <Button variant="default" size="sm" onClick={openDataSources} leftIcon={<Database size={20} />}>Data Settings</Button>}
+        {inEditMode && <Button variant="default" size="sm" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
         {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
         {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
       </Group>
-      <DataEditorModal opened={dataEditorOpened} close={closeDataSources} />
+      <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       {inUseMode && <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>}
     </Group>
   )
