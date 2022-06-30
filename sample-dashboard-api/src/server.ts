@@ -6,6 +6,7 @@ import path from 'path';
 import cors from 'cors';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
+import authorizationMiddleware from './middleware/authorization';
 import errorMiddleware from './middleware/error';
 import logger from 'npmlog';
 import { bindControllers } from './controller';
@@ -49,6 +50,7 @@ server.setConfig((app: any) => {
   app.use(cors({
     origin: corsOrigins,
   }));
+  app.use(authorizationMiddleware);
   app.use('/api-docs/swagger', express.static('swagger'));
   app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
   
