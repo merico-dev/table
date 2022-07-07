@@ -1,11 +1,11 @@
-import { ActionIcon, Button, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
-import { randomId } from "@mantine/hooks";
+import { ActionIcon, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
 import React from "react";
-import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormGetValues, UseFormWatch } from "react-hook-form";
+import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
 import { DataFieldSelector } from "../../../../settings/common/data-field-selector";
 import { MantineColorSelector } from "../../../../settings/common/mantine-color";
 import { ICartesianChartConf, ICartesianChartSeriesItem } from "../../type";
+import { BarFields } from "./fields.bar";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -101,33 +101,9 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           ))}
         />
       </Group>
-      {type === 'bar' && (
-        <Group direction="row" grow align="top">
-          <Controller
-            name={`series.${index}.stack`}
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                label="Stack"
-                placeholder="Stack bars by this ID"
-                sx={{ flexGrow: 1 }}
-                {...field}
-              />
-            ))}
-          />
-          <Controller
-            name={`series.${index}.barWidth`}
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                label="Bar Width"
-                sx={{ flexGrow: 1 }}
-                {...field}
-              />
-            ))}
-          />
-        </Group>
-      )}
+
+      {type === 'bar' && <BarFields index={index} control={control} />}
+
       <Controller
         name={`series.${index}.label_position`}
         control={control}
