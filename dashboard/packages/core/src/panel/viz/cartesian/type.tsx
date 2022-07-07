@@ -11,6 +11,8 @@ export interface ICartesianChartSeriesItem {
   stack: string;
   color?: string;
   barWidth: string;
+  smooth: boolean;
+  step: false | 'start' | 'middle' | 'end';
 }
 
 export interface IYAxisConf {
