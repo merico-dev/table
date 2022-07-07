@@ -33,7 +33,9 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
     yAxisIndex: 0,
     label_position: 'top',
     stack: '',
-    color: '#000'
+    color: '#000',
+    step: false,
+    smooth: false,
   });
 
   const yAxisOptions = React.useMemo(() => {
