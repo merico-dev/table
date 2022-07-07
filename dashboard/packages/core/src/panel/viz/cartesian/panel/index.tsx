@@ -51,14 +51,19 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
     }
   }, [conf, defaultValues])
 
-  const { control, handleSubmit, watch, formState: { isDirty }, getValues } = useForm<ICartesianChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, getValues } = useForm<ICartesianChartConf>({ defaultValues });
+
+  const values = getValues()
+  const changed = React.useMemo(() => {
+    return !_.isEqual(values, conf)
+  }, [values, conf])
 
   return (
     <Group direction="column" mt="md" spacing="xs" grow>
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Chart Config</Text>
-          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!isDirty}>
+          <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
