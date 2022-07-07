@@ -173,7 +173,7 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
     name: "series"
   });
 
-  const watchFieldArray = watch("y_axes");
+  const watchFieldArray = watch("series");
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
