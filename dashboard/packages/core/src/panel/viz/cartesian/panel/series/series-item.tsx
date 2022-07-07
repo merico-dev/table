@@ -1,11 +1,12 @@
-import { ActionIcon, Button, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
-import { randomId } from "@mantine/hooks";
+import { ActionIcon, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
 import React from "react";
-import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormGetValues, UseFormWatch } from "react-hook-form";
+import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
-import { DataFieldSelector } from "../../../settings/common/data-field-selector";
-import { MantineColorSelector } from "../../../settings/common/mantine-color";
-import { ICartesianChartConf, ICartesianChartSeriesItem } from "../type";
+import { DataFieldSelector } from "../../../../settings/common/data-field-selector";
+import { MantineColorSelector } from "../../../../settings/common/mantine-color";
+import { ICartesianChartConf, ICartesianChartSeriesItem } from "../../type";
+import { BarFields } from "./fields.bar";
+import { LineFields } from "./fields.line";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -37,7 +38,7 @@ interface ISeriesItemField {
   data: any[];
 }
 
-function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
+export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
     <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
@@ -101,33 +102,11 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, dat
           ))}
         />
       </Group>
-      {type === 'bar' && (
-        <Group direction="row" grow align="top">
-          <Controller
-            name={`series.${index}.stack`}
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                label="Stack"
-                placeholder="Stack bars by this ID"
-                sx={{ flexGrow: 1 }}
-                {...field}
-              />
-            ))}
-          />
-          <Controller
-            name={`series.${index}.barWidth`}
-            control={control}
-            render={(({ field }) => (
-              <TextInput
-                label="Bar Width"
-                sx={{ flexGrow: 1 }}
-                {...field}
-              />
-            ))}
-          />
-        </Group>
-      )}
+
+      {type === 'line' && <LineFields index={index} control={control} />}
+
+      {type === 'bar' && <BarFields index={index} control={control} />}
+
       <Controller
         name={`series.${index}.label_position`}
         control={control}
@@ -157,66 +136,6 @@ function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, dat
       >
         <Trash size={16} />
       </ActionIcon>
-    </Group>
-  )
-}
-
-interface ISeriesField {
-  control: Control<ICartesianChartConf, any>;
-  watch: UseFormWatch<ICartesianChartConf>;
-  getValues: UseFormGetValues<ICartesianChartConf>;
-  data: any[];
-}
-export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "series"
-  });
-
-  const watchFieldArray = watch("y_axes");
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index]
-    };
-  });
-
-  const addSeries = () => append({
-    type: 'bar',
-    name: randomId(),
-    showSymbol: false,
-    y_axis_data_key: 'value',
-    yAxisIndex: 0,
-    label_position: 'top',
-    stack: '',
-    color: '#000'
-  });
-
-  const yAxisOptions = React.useMemo(() => {
-    return getValues().y_axes.map(({ name }, index) => ({
-      label: name,
-      value: index.toString()
-    }))
-  }, [getValues]);
-
-  return (
-    <Group direction="column" grow>
-      <Text mt="xl" mb={0}>Series</Text>
-      {controlledFields.map((seriesItem, index) => (
-        <SeriesItemField
-          control={control}
-          index={index}
-          remove={remove}
-          seriesItem={seriesItem}
-          yAxisOptions={yAxisOptions}
-          data={data}
-        />
-      ))}
-      <Group position="center" mt="xs">
-        <Button onClick={addSeries}>
-          Add a Series
-        </Button>
-      </Group>
     </Group>
   )
 }
