@@ -1,6 +1,6 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
-import { BarChart, LineChart } from 'echarts/charts';
+import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import _ from "lodash";
@@ -9,7 +9,7 @@ import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import { ICartesianChartSeriesItem, IYAxisConf } from './type';
 
-echarts.use([BarChart, LineChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([BarChart, LineChart, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 const defaultOption = {
   legend: {

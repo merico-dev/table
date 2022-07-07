@@ -7,6 +7,7 @@ import { MantineColorSelector } from "../../../../settings/common/mantine-color"
 import { ICartesianChartConf, ICartesianChartSeriesItem } from "../../type";
 import { BarFields } from "./fields.bar";
 import { LineFields } from "./fields.line";
+import { ScatterFields } from "./fields.scatter";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -51,7 +52,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
               data={[
                 { label: 'Line', value: 'line' },
                 { label: 'Bar', value: 'bar' },
-                { label: 'Scatter', value: 'scatter', disabled: true },
+                { label: 'Scatter', value: 'scatter' },
                 { label: 'Boxplot', value: 'boxplot', disabled: true },
               ]}
               {...field}
@@ -106,6 +107,8 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
       {type === 'line' && <LineFields index={index} control={control} />}
 
       {type === 'bar' && <BarFields index={index} control={control} />}
+
+      {type === 'scatter' && <ScatterFields index={index} control={control} />}
 
       <Controller
         name={`series.${index}.label_position`}

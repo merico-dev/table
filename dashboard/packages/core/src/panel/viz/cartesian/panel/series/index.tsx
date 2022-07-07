@@ -29,6 +29,7 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
     type: 'bar',
     name: randomId(),
     showSymbol: false,
+    symbolSize: 5,
     y_axis_data_key: 'value',
     yAxisIndex: 0,
     label_position: 'top',
