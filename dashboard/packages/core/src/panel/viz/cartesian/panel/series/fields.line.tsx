@@ -24,6 +24,7 @@ export function LineFields({ control, index }: ILineFields) {
         render={(({ field }) => (
           <Select
             label="Step"
+            // @ts-ignore mixed type causes warning
             data={stepOptions}
             sx={{ flexGrow: 1, maxWidth: '48%' }}
             {...field}
