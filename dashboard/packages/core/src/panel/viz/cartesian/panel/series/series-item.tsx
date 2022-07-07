@@ -6,6 +6,7 @@ import { DataFieldSelector } from "../../../../settings/common/data-field-select
 import { MantineColorSelector } from "../../../../settings/common/mantine-color";
 import { ICartesianChartConf, ICartesianChartSeriesItem } from "../../type";
 import { BarFields } from "./fields.bar";
+import { LineFields } from "./fields.line";
 
 const labelPositions = [
   { label: 'off', value: '', },
@@ -101,6 +102,8 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           ))}
         />
       </Group>
+
+      {type === 'line' && <LineFields index={index} control={control} />}
 
       {type === 'bar' && <BarFields index={index} control={control} />}
 
