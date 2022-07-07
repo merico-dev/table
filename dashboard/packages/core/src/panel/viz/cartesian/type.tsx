@@ -1,10 +1,12 @@
 import { IVizPanelProps } from "../../../types";
 import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
 
+// TODO: https://github.com/merico-dev/table/issues/86
 export interface ICartesianChartSeriesItem {
-  type: 'line' | 'bar';
+  type: 'line' | 'bar' | 'scatter';
   name: string;
   showSymbol: false;
+  symbolSize: number;
   y_axis_data_key: string;
   yAxisIndex: number;
   label_position?: string;

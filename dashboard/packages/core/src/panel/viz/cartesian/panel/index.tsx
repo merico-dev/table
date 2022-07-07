@@ -14,6 +14,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     type,
     name,
     showSymbol,
+    symbolSize = 5,
     y_axis_data_key = 'value',
     yAxisIndex = 0,
     label_position = 'top',
@@ -23,7 +24,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     smooth = false,
     step = false,
   }: ICartesianChartSeriesItem) {
-    return { type, name, showSymbol, y_axis_data_key, yAxisIndex, label_position, stack, color, barWidth, smooth, step }
+    return { type, name, showSymbol, symbolSize, y_axis_data_key, yAxisIndex, label_position, stack, color, barWidth, smooth, step }
   }
 
   return series.map(setDefaults);
