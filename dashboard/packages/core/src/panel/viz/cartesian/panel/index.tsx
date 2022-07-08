@@ -8,6 +8,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem, IVizCartesianChartPanel
 import { YAxesField } from "./y-axes";
 import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
+import { RegressionsField } from "./regression";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -84,6 +85,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
         </Group>
         <YAxesField control={control} watch={watch} />
         <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
+        <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
       </form>
     </Group>
   )
