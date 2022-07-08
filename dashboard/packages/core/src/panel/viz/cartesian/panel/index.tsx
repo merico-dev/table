@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -8,7 +8,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem, IVizCartesianChartPanel
 import { YAxesField } from "./y-axes";
 import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
-import { RegressionsField } from "./regression";
+import { RegressionsField } from "./regressions";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
