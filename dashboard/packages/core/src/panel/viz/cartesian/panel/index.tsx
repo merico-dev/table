@@ -55,6 +55,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
 
   const { control, handleSubmit, watch, getValues } = useForm<ICartesianChartConf>({ defaultValues });
 
+  watch(['x_axis_data_key', 'x_axis_name'])
   const values = getValues()
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf)
