@@ -48,7 +48,6 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
 
   return (
     <Group direction="column" grow>
-      <Text mt="xl" mb={0}>Series</Text>
       {controlledFields.map((seriesItem, index) => (
         <SeriesItemField
           control={control}

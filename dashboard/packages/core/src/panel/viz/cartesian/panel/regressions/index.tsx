@@ -51,7 +51,6 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
 
   return (
     <Group direction="column" grow>
-      <Text mt="xl" mb={0}>Regression Lines</Text>
       {controlledFields.map((regressionItem, index) => (
         <RegressionField
           regressionItem={regressionItem}

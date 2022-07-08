@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { Accordion, ActionIcon, Group, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -64,29 +64,39 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
   return (
     <Group direction="column" mt="md" spacing="xs" grow>
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
+        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Chart Config</Text>
           <ActionIcon type='submit' mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group direction="column" grow noWrap mb="lg">
-          <Controller
-            name='x_axis_data_key'
-            control={control}
-            render={(({ field }) => (
-              <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-            ))}
-          />
-          <Controller
-            name='x_axis_name'
-            control={control}
-            render={(({ field }) => <TextInput label="X Axis Name" {...field} />)}
-          />
-        </Group>
-        <YAxesField control={control} watch={watch} />
-        <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
-        <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+        <Accordion offsetIcon={false} multiple initialState={{ 0: true, 1: true }}>
+          <Accordion.Item label="X Axis">
+            <Group direction="row" grow noWrap>
+              <Controller
+                name='x_axis_data_key'
+                control={control}
+                render={(({ field }) => (
+                  <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+                ))}
+              />
+              <Controller
+                name='x_axis_name'
+                control={control}
+                render={(({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />)}
+              />
+            </Group>
+          </Accordion.Item>
+          <Accordion.Item label="Y Axes">
+            <YAxesField control={control} watch={watch} />
+          </Accordion.Item>
+          <Accordion.Item label="Series">
+            <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
+          </Accordion.Item>
+          <Accordion.Item label="Regression Lines">
+            <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+          </Accordion.Item>
+        </Accordion>
       </form>
     </Group>
   )
