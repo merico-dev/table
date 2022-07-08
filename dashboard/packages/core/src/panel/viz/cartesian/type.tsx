@@ -34,6 +34,7 @@ export interface IRegressionTransform {
 export interface IRegressionLineConf {
   type: 'line';
   yAxisIndex: number;
+  color: string;
 }
 
 export interface IRegressionConf {

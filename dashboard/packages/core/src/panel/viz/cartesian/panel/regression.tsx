@@ -3,6 +3,7 @@ import React from "react";
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormGetValues, UseFormRegister, UseFormWatch, useWatch } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
+import { MantineColorSelector } from "../../../settings/common/mantine-color";
 import { defaultNumbroFormat, NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
 import { ICartesianChartConf, IRegressionConf } from "../type";
 
@@ -91,12 +92,21 @@ function RegressionField({ control, regressionItem, index, remove, yAxisOptions,
           />
         )}
       </Group>
+      <Group direction="column" grow spacing={4}>
+        <Text size="sm">Color</Text>
+        <Controller
+          name={`regressions.${index}.plot.color`}
+          control={control}
+          render={(({ field }) => (
+            <MantineColorSelector {...field} />
+          ))}
+        />
+      </Group>
       <ActionIcon
         color="red"
         variant="hover"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
-        disabled={index === 0}
       >
         <Trash size={16} />
       </ActionIcon>
@@ -146,6 +156,7 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
     plot: {
       type: 'line',
       yAxisIndex: 0,
+      color: '#666666'
     }
   });
 
