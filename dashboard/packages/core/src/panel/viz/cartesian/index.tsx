@@ -1,15 +1,75 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
+/* @ts-expect-error */
+import { transform } from 'echarts-stat';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import _ from "lodash";
 import React from 'react';
 import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
-import { ICartesianChartSeriesItem, IYAxisConf } from './type';
+import { ICartesianChartConf, ICartesianChartSeriesItem, IRegressionLineConf, IRegressionTransform, IYAxisConf } from './type';
 
 echarts.use([BarChart, LineChart, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.registerTransform(transform.regression);
+
+
+interface IRegressionDataSetItem {
+  id: string;
+  fromDatasetId?: string;
+  source?: number[][];
+  transform?: IRegressionTransform;
+}
+interface IRegressionSeriesItem extends IRegressionLineConf {
+  datasetId: string;
+  xAxisId: string;
+  name: string;
+  showSymbol: boolean;
+  tooltip: Record<string, any>;
+};
+
+function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: any[]) {
+  const regressionDataSets: IRegressionDataSetItem[] = [];
+  const regressionSeries: IRegressionSeriesItem[] = [];
+  const regressionXAxes: Record<string, any>[] = [];
+  if (data.length === 0) {
+    return { regressionDataSets, regressionSeries, regressionXAxes }
+  }
+  regressions.forEach(({ transform, plot, name, y_axis_data_key }) => {
+    const xAxisId = `x-axis-for-${name}`
+    const rawDatasetId = `dataset-for-${name}--raw`
+    const regDatasetId = `dataset-for-${name}--transformed`
+
+    regressionDataSets.push({
+      id: rawDatasetId,
+      source: data.map((d, i) => ([i, d[y_axis_data_key]])),
+    })
+    regressionDataSets.push({
+      transform,
+      id: regDatasetId,
+      fromDatasetId: rawDatasetId,
+    })
+    regressionSeries.push(({
+      ...plot,
+      name,
+      datasetId: regDatasetId,
+      xAxisId,
+      showSymbol: false,
+      tooltip: {
+        show: false
+      }
+    }))
+    regressionXAxes.push({
+      type: 'category',
+      id: xAxisId,
+      datasetId: regDatasetId,
+      show: false,
+    })
+  });
+
+  return { regressionDataSets, regressionSeries, regressionXAxes }
+}
 
 const defaultOption = {
   legend: {
@@ -78,17 +138,24 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
           formatter: labelFormatters[yAxisIndex ?? 'default']
         },
         name,
+        xAxisId: 'main-x-axis',
         yAxisIndex,
         ...rest,
       }
       return ret;
     });
 
+    const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data)
+
     const customOptions = {
-      xAxis: {
-        data: data.map((d) => d[conf.x_axis_data_key]),
-        name: conf.x_axis_name ?? '',
-      },
+      xAxis: [
+        {
+          data: data.map((d) => d[conf.x_axis_data_key]),
+          name: conf.x_axis_name ?? '',
+          id: 'main-x-axis'
+        },
+        ...regressionXAxes,
+      ],
       yAxis: conf.y_axes.map(({ label_formatter, ...rest }: IYAxisConf, index: number) => ({
         ...rest,
         axisLabel: {
@@ -96,8 +163,13 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
           formatter: labelFormatters[index] ?? labelFormatters.default,
         }
       })),
-      dataset: { source: data },
-      series,
+      dataset: [
+        ...regressionDataSets,
+      ],
+      series: [
+        ...series,
+        ...regressionSeries,
+      ],
       tooltip: {
         formatter: function (params: TopLevelFormatterParams) {
           const arr = Array.isArray(params) ? params : [params];
