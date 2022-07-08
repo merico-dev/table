@@ -18,7 +18,7 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
   const props = { width, height, data, conf: viz.conf }
   switch (viz.type) {
     case 'sunburst': return <Sunbrust {...props} />;
-    case 'line-bar': // deprecated
+    // @ts-expect-error
     case 'cartesian': return <VizCartesianChart {...props} />;
     // @ts-expect-error
     case 'table': return <VizTable {...props} />;

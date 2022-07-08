@@ -73,7 +73,6 @@ export function YAxesField({ control, watch }: IYAxesField) {
 
   return (
     <Group direction="column" grow>
-      <Text mt="xl" mb={0}>Y Axes</Text>
       {controlledFields.map((field, index) => <YAxisField control={control} index={index} remove={remove} />)}
       <Group position="center" mt="xs">
         <Button onClick={addYAxis}>

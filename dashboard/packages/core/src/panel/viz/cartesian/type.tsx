@@ -22,11 +22,34 @@ export interface IYAxisConf {
   label_formatter: TNumbroFormat;
 }
 
+export interface IRegressionTransform {
+  type: 'ecStat:regression',
+  config: {
+    method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
+    order: number;
+    formulaOn: 'end';
+  }
+}
+
+export interface IRegressionLineConf {
+  type: 'line';
+  yAxisIndex: number;
+  color: string;
+}
+
+export interface IRegressionConf {
+  transform: IRegressionTransform;
+  plot: IRegressionLineConf;
+  name: string;
+  y_axis_data_key: string;
+}
+
 export interface ICartesianChartConf {
   x_axis_data_key: string;
   x_axis_name: string;
   y_axes: IYAxisConf[];
   series: ICartesianChartSeriesItem[];
+  regressions: IRegressionConf[];
 }
 
 export interface IVizCartesianChartPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {
