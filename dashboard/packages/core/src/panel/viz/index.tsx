@@ -13,6 +13,7 @@ import { IVizConfig } from "../../types/dashboard";
 import { VizPie } from "./pie";
 import { VizStats } from "./stats";
 import { ErrorBoundary } from "../error-boundary";
+import { VizRichText } from "./rich-text";
 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf }
@@ -25,6 +26,8 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'text': return <VizText {...props} />;
     // @ts-expect-error
     case 'stats': return <VizStats {...props} />;
+    // @ts-expect-error
+    case 'rich-text': return <VizRichText {...props} />;
     case 'bar-3d': return <VizBar3D {...props} />;
     case 'pie': return <VizPie {...props} />;
     default: return null;
