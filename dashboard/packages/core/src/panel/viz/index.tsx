@@ -34,6 +34,8 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
   }
 }
 
+const typesDontNeedData = ['rich-text']
+
 interface IViz {
   viz: IVizConfig;
   data: any;
@@ -42,6 +44,17 @@ interface IViz {
 
 export function Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
+  const needData = !typesDontNeedData.includes(viz.type)
+  if (!needData) {
+    return (
+      <div className="viz-root" ref={ref}>
+        <ErrorBoundary>
+          {renderViz(width, height, data, viz)}
+        </ErrorBoundary>
+      </div>
+    )
+  }
+
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data])
   if (loading) {
     return (
