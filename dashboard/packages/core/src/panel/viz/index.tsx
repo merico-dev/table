@@ -13,6 +13,7 @@ import { IVizConfig } from "../../types/dashboard";
 import { VizPie } from "./pie";
 import { VizStats } from "./stats";
 import { ErrorBoundary } from "../error-boundary";
+import { VizRichText } from "./rich-text";
 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf }
@@ -25,11 +26,15 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'text': return <VizText {...props} />;
     // @ts-expect-error
     case 'stats': return <VizStats {...props} />;
+    // @ts-expect-error
+    case 'rich-text': return <VizRichText {...props} />;
     case 'bar-3d': return <VizBar3D {...props} />;
     case 'pie': return <VizPie {...props} />;
     default: return null;
   }
 }
+
+const typesDontNeedData = ['rich-text']
 
 interface IViz {
   viz: IVizConfig;
@@ -39,6 +44,17 @@ interface IViz {
 
 export function Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
+  const needData = !typesDontNeedData.includes(viz.type)
+  if (!needData) {
+    return (
+      <div className="viz-root" ref={ref}>
+        <ErrorBoundary>
+          {renderViz(width, height, data, viz)}
+        </ErrorBoundary>
+      </div>
+    )
+  }
+
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data])
   if (loading) {
     return (
