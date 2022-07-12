@@ -7,22 +7,21 @@ export type ColorConf = {
   type: 'continuous';
   valueRange: number[];
   colorRange: string[];
-  valueField: string;
 } | {
   type: 'piecewise'; // TODO
 }
 
-export interface IVizStatsContent {
-  prefix: string;
+export interface IVizStatsVariable {
+  name: string;
   data_field: string;
   formatter: TNumbroFormat;
-  postfix: string;
+  color: ColorConf;
+  size: string;
+  weight: string;
 }
 
 export interface IVizStatsConf {
   align: 'center',
-  color: ColorConf;
-  size: string;
-  weight: string;
-  content: IVizStatsContent;
+  template: string;
+  variables: IVizStatsVariable[]
 }
