@@ -43,6 +43,28 @@ function variablesToElements(variables: IVizStatsVariable[], data: Record<string
   return ret;
 }
 
+function templateToJSX(template: string, variableElements: Record<string, React.ReactNode>) {
+  const regx = /\$\{(.+)\}(.*)/;
+  return template.split(' ').map(text => {
+    if (['<br/>', '<br />', '\n'].includes(text)) {
+      return <br />
+    }
+    if (!text.includes('${')) {
+      return text;
+    }
+    const match = regx.exec(text);
+    if (!match) {
+      return text;
+    }
+    const element = variableElements[match[1]];
+    if (!element) {
+      return text;
+    }
+    const rest = match[2] ?? '';
+    return <>{element}{rest}</>;
+  });
+}
+
 interface IVizStats {
   conf: IVizStatsConf;
   data: any;
@@ -52,26 +74,8 @@ interface IVizStats {
 
 export function VizStats({ conf: { template, variables, align }, data }: IVizStats) {
   const contents = React.useMemo(() => {
-    const regx = /\$\{(.+)\}(.*)/;
     const variableElements = variablesToElements(variables, data);
-    return template.split(' ').map(text => {
-      if (['<br/>', '<br />', '\n'].includes(text)) {
-        return <br/>
-      }
-      if (!text.includes('${')) {
-        return text;
-      }
-      const match = regx.exec(text);
-      if (!match) {
-        return text;
-      }
-      const element = variableElements[match[1]];
-      if (!element) {
-        return text;
-      }
-      const rest = match[2] ?? '';
-      return <>{element}{rest}</>;
-    });
+    return templateToJSX(template, variableElements)
   }, [template, variables, data])
 
   return (
