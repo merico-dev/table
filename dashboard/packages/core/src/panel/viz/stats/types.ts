@@ -1,3 +1,4 @@
+import { AggregationType } from "../../../utils/aggregation";
 import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
 
 export type ColorConf = {
@@ -14,6 +15,7 @@ export type ColorConf = {
 export interface IVizStatsVariable {
   name: string;
   data_field: string;
+  aggregation: AggregationType;
   formatter: TNumbroFormat;
   color: ColorConf;
   size: string;

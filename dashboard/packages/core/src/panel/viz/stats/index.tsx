@@ -4,6 +4,7 @@ import _ from "lodash";
 import React from 'react';
 import { ColorConf, IVizStatsConf, IVizStatsVariable } from './types';
 import { InterpolateColor } from '../../../utils/color-mapping';
+import { aggregateValue } from '../../../utils/aggregation';
 
 function getColorByColorConf(conf: ColorConf, value: number) {
   if (conf.type === 'static') {
@@ -30,8 +31,9 @@ function getNonStatsDataText(data: any) {
 
 function variablesToElements(variables: IVizStatsVariable[], data: Record<string, number>[]) {
   const ret: Record<string, React.ReactNode> = {};
-  variables.forEach(({ name, color, data_field, size, weight, formatter }) => {
-    const value: number = data[0]?.[data_field];
+  variables.forEach(({ name, color, data_field, aggregation, size, weight, formatter }) => {
+    const value: number = aggregateValue(data, data_field, aggregation);
+    console.log(value, data_field, aggregation);
     let valueContent = ''
     if (!['string', 'number'].includes(typeof value)) {
       valueContent = getNonStatsDataText(value);

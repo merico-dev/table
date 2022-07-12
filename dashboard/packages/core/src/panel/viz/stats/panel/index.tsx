@@ -27,6 +27,7 @@ function getInitialConf(): IVizStatsConf {
         staticColor: 'blue',
       },
       data_field: '',
+      aggregation: 'none',
       formatter: {
         output: 'number',
         mantissa: 0,

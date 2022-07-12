@@ -33,6 +33,7 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
       staticColor: 'blue',
     },
     data_field: '',
+    aggregation: 'none',
     formatter: {
       output: 'number',
       mantissa: 0,

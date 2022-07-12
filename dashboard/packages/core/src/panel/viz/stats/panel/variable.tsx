@@ -2,6 +2,7 @@ import { Accordion, ActionIcon, Group, Select, Text, TextInput } from "@mantine/
 import React from "react";
 import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
+import { AggregationSelector } from "../../../settings/common/aggregation-selector";
 import { ColorArrayInput } from "../../../settings/common/color-array-input";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
 import { MantineColorSelector } from "../../../settings/common/mantine-color";
@@ -36,6 +37,13 @@ export function VariableField({ control, variableItem, index, remove, data }: Va
             control={control}
             render={(({ field }) => (
               <DataFieldSelector label="Data Field" required data={data} {...field} />
+            ))}
+          />
+          <Controller
+            name={`variables.${index}.aggregation`}
+            control={control}
+            render={(({ field }) => (
+              <AggregationSelector label="Aggregation" {...field} />
             ))}
           />
           <Controller

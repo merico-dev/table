@@ -19,7 +19,6 @@ export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IViz
   if ('variables' in legacyConf) {
     return legacyConf as IVizStatsConf;
   }
-  console.log(legacyConf, 'variables' in legacyConf)
 
   const {
     align,
@@ -44,6 +43,7 @@ export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IViz
       {
         name: 'value',
         data_field,
+        aggregation: 'none',
         formatter,
         color,
         weight,
