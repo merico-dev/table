@@ -45,25 +45,47 @@ function variablesToElements(variables: IVizStatsVariable[], data: Record<string
   return ret;
 }
 
+function withWhiteSpaces(text: string) {
+  return text.split(' ').map(s => {
+    if (!s) {
+      return <>&nbsp;</>
+    }
+    return s
+  })
+}
+
+function withLineBreaks(text: string) {
+  const normalized = text.replaceAll('<br />', '<br/>').replaceAll('\n', '<br/>');
+  const splitted = normalized.split('<br/>');
+  const ret = splitted.map((t, i) => {
+    const arr: Array<React.ReactNode> = [
+      withWhiteSpaces(t)
+    ];
+    if (i !== splitted.length - 1) {
+      arr.push(<br/>)
+    }
+    return arr;
+  }).flat().filter(t => t !== undefined)
+  return ret;
+}
+
+function textToJSX(text: string) {
+  return withLineBreaks(text);
+}
+
 function templateToJSX(template: string, variableElements: Record<string, React.ReactNode>) {
-  const regx = /\$\{(.+)\}(.*)/;
-  return template.split(' ').map(text => {
-    if (['<br/>', '<br />', '\n'].includes(text)) {
-      return <br />
-    }
-    if (!text.includes('${')) {
-      return text;
-    }
+  const regx = /^\{(.+)\}(.*)$/;
+  return template.split('$').map(text => {
     const match = regx.exec(text);
     if (!match) {
-      return text;
+      return textToJSX(text);
     }
     const element = variableElements[match[1]];
     if (!element) {
-      return text;
+      return textToJSX(text);
     }
     const rest = match[2] ?? '';
-    return <>{element}{rest}</>;
+    return <>{element}{textToJSX(rest)}</>;
   });
 }
 
@@ -82,9 +104,7 @@ export function VizStats({ conf: { template, variables, align }, data }: IVizSta
 
   return (
     <Text align={align}>
-      {Object.values(contents).map(c => (
-        <>{c} </>
-      ))}
+      {Object.values(contents).map(c => c)}
     </Text>
   )
 }
