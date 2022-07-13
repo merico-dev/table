@@ -7,6 +7,7 @@ import { IVizPanelProps } from "../../../../types/viz-panel";
 import { IVizStatsConf } from "../types";
 import { ILegacyStatsConf, updateSchema } from "../update";
 import { VariablesField } from "./variables";
+import { TemplateInput } from "../../../../utils/template/editor";
 
 function getInitialConf(): IVizStatsConf {
   return {
@@ -77,7 +78,7 @@ export function VizStatsPanel({ conf, setConf, data }: IVizStatsPanel) {
           name='template'
           control={control}
           render={(({ field }) => (
-            <TextInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />
+            <TemplateInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />
           ))}
         />
         <Text pb="sm" pt="md" size="sm">Variables</Text>
