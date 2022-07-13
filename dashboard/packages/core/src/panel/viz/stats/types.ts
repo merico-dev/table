@@ -1,28 +1,7 @@
-import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
-
-export type ColorConf = {
-  type: 'static';
-  staticColor: string;
-} | {
-  type: 'continuous';
-  valueRange: number[];
-  colorRange: string[];
-  valueField: string;
-} | {
-  type: 'piecewise'; // TODO
-}
-
-export interface IVizStatsContent {
-  prefix: string;
-  data_field: string;
-  formatter: TNumbroFormat;
-  postfix: string;
-}
+import { ITemplateVariable } from "../../../utils/template/types";
 
 export interface IVizStatsConf {
   align: 'center',
-  color: ColorConf;
-  size: string;
-  weight: string;
-  content: IVizStatsContent;
+  template: string;
+  variables: ITemplateVariable[]
 }

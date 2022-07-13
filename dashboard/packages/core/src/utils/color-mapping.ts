@@ -1,6 +1,6 @@
 import { interpolate } from "popmotion"
 
-interface InterpolateColorOption {
+export interface InterpolateColorOption {
   valueRange: number[];
   colorRange: string[];
 }

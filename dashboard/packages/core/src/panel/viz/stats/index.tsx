@@ -1,34 +1,8 @@
 import { Text } from '@mantine/core';
-import numbro from 'numbro';
 import _ from "lodash";
 import React from 'react';
-import { ColorConf, IVizStatsConf } from './types';
-import { InterpolateColor } from '../../../utils/color-mapping';
-
-function getColorByColorConf(conf: ColorConf, dataRow: Record<string, number>) {
-  if (conf.type === 'static') {
-    return conf.staticColor;
-  }
-  if (conf.type === 'continuous') {
-    const mapper = new InterpolateColor(conf);
-    const value = dataRow[conf.valueField];
-    return mapper.getColor(value);
-  }
-  return 'black'
-}
-
-function getNonStatsDataText(data: any) {
-  if (data === null) {
-    return 'null';
-  }
-  if (data === undefined) {
-    return 'undefined'
-  }
-  if (Array.isArray(data)) {
-    return `Array(${data.length})`
-  }
-  return data.toString()
-}
+import { templateToJSX } from '../../../utils/template/render';
+import { IVizStatsConf } from './types';
 
 interface IVizStats {
   conf: IVizStatsConf;
@@ -37,26 +11,14 @@ interface IVizStats {
   height: number;
 }
 
-export function VizStats({ conf: { content, size, color, ...rest }, data }: IVizStats) {
-  const finalColor = React.useMemo(() => {
-    return getColorByColorConf(color, data[0]);
-  }, [color, data]);
-
-  const finalContent = React.useMemo(() => {
-    const { prefix, postfix, data_field, formatter } = content;
-    const contentData = data?.[0]?.[data_field];
-    if (!['string', 'number'].includes(typeof contentData)) {
-      return getNonStatsDataText(contentData);
-    }
-    const contents = [
-      prefix,
-      numbro(contentData).format(formatter),
-      postfix,
-    ]
-    return contents.join(' ');
-  }, [content, data])
+export function VizStats({ conf: { template, variables, align }, data }: IVizStats) {
+  const contents = React.useMemo(() => {
+    return templateToJSX(template, variables, data);
+  }, [template, variables, data])
 
   return (
-    <Text {...rest} color={finalColor} sx={{ fontSize: size }}>{finalContent}</Text>
+    <Text align={align}>
+      {Object.values(contents).map(c => c)}
+    </Text>
   )
 }
