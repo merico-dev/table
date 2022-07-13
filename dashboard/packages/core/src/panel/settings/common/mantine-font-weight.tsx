@@ -42,8 +42,8 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
   }, [mark]);
 
   return (
-    <Group direction="column" grow spacing="xs" mb="lg">
-      <Text>{label}</Text>
+    <Group direction="column" grow spacing={0} mt="sm" mb="lg">
+      <Text size="sm">{label}</Text>
       <Slider
         label={null}
         marks={marks}
