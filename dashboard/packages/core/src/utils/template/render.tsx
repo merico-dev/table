@@ -31,7 +31,6 @@ function variablesToElements(variables: ITemplateVariable[], data: Record<string
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach(({ name, color, data_field, aggregation, size, weight, formatter }) => {
     const value: number = aggregateValue(data, data_field, aggregation);
-    console.log(value, data_field, aggregation);
     let valueContent = ''
     if (!['string', 'number'].includes(typeof value)) {
       valueContent = getNonStatsDataText(value);
@@ -43,13 +42,8 @@ function variablesToElements(variables: ITemplateVariable[], data: Record<string
   return ret;
 }
 
-function withWhiteSpaces(text: string) {
-  return text.split(' ').map(s => {
-    if (!s) {
-      return <>&nbsp;</>
-    }
-    return s
-  })
+function preserveWhiteSpaces(text: string) {
+  return text.split(' ').map(s => <>{s}&nbsp;</>)
 }
 
 function withLineBreaks(text: string) {
@@ -57,7 +51,7 @@ function withLineBreaks(text: string) {
   const splitted = normalized.split('<br/>');
   const ret = splitted.map((t, i) => {
     const arr: Array<React.ReactNode> = [
-      withWhiteSpaces(t)
+      preserveWhiteSpaces(t)
     ];
     if (i !== splitted.length - 1) {
       arr.push(<br/>)
