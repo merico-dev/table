@@ -22,7 +22,7 @@ const defaultOption = {
     },
   },
   grid: {
-    top: 30,
+    top: 0,
     left: 15,
     right: 15,
     bottom: 30,
