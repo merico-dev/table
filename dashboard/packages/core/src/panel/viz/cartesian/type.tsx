@@ -1,4 +1,5 @@
 import { IVizPanelProps } from "../../../types";
+import { ITemplateVariable } from "../../../utils/template/types";
 import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
 
 // TODO: https://github.com/merico-dev/table/issues/86
@@ -50,6 +51,13 @@ export interface ICartesianChartConf {
   y_axes: IYAxisConf[];
   series: ICartesianChartSeriesItem[];
   regressions: IRegressionConf[];
+  stats: {
+    templates: {
+      top: string;
+      bottom: string;
+    },
+    variables: ITemplateVariable[];
+  };
 }
 
 export interface IVizCartesianChartPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {
