@@ -1,16 +1,10 @@
-import { Accordion, ActionIcon, ColorInput, Group, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../../types/viz-panel";
-import { MantineFontWeightSlider } from "../../../settings/common/mantine-font-weight";
 import { IVizStatsConf } from "../types";
-import { MantineColorSelector } from "../../../settings/common/mantine-color";
-import { TextArrayInput } from "../../../settings/common/text-array-input";
-import { ColorArrayInput } from "../../../settings/common/color-array-input";
-import { NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
-import { DataFieldSelector } from "../../../settings/common/data-field-selector";
 import { ILegacyStatsConf, updateSchema } from "../update";
 import { VariablesField } from "./variables";
 

@@ -2,6 +2,7 @@ import { Accordion, ActionIcon, Group, Select, Text, TextInput } from "@mantine/
 import React from "react";
 import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
+import { ITemplateVariable } from "../../../../utils/template/types";
 import { AggregationSelector } from "../../../settings/common/aggregation-selector";
 import { ColorArrayInput } from "../../../settings/common/color-array-input";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
@@ -9,11 +10,11 @@ import { MantineColorSelector } from "../../../settings/common/mantine-color";
 import { MantineFontWeightSlider } from "../../../settings/common/mantine-font-weight";
 import { NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
 import { TextArrayInput } from "../../../settings/common/text-array-input";
-import { IVizStatsConf, IVizStatsVariable } from "../types";
+import { IVizStatsConf } from "../types";
 
 interface VariableField {
   control: Control<IVizStatsConf, any>;
-  variableItem: IVizStatsVariable;
+  variableItem: ITemplateVariable;
   index: number;
   remove: UseFieldArrayRemove;
   data: any[];
