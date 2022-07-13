@@ -42,9 +42,8 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
 
   return (
     <Group direction="column" grow>
-      {controlledFields.map((variableItem, index) => (
+      {controlledFields.map((_variableItem, index) => (
         <VariableField
-          variableItem={variableItem}
           control={control}
           index={index}
           remove={remove}
