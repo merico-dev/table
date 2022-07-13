@@ -22,14 +22,14 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
   }, [value, themeColors]);
 
   return (
-    <Group position="apart" spacing="xs">
+    <Group position="apart" spacing={4}>
       <TextInput
         placeholder="Set any color"
         value={!isThemeColor ? value : ''}
         onChange={(e) => onChange(e.currentTarget.value)}
         rightSection={<ColorSwatch color={!isThemeColor ? value! : 'transparent'} radius={4} />}
         variant={!isThemeColor ? 'default' : 'filled'}
-        sx={{ maxWidth: '100%', flexGrow: 1 }}
+        sx={{ maxWidth: '46%', flexGrow: 1 }}
       />
       <Text sx={{ flexGrow: 0 }}>or</Text>
       <Select
@@ -39,7 +39,7 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
         variant={isThemeColor ? 'default' : 'filled'}
         placeholder="Pick a theme color"
         icon={<ColorSwatch color={isThemeColor ? value! : 'transparent'} radius={4}/>}
-        sx={{ maxWidth: '100%', flexGrow: 1 }}
+        sx={{ maxWidth: '46%', flexGrow: 1 }}
       />
     </Group>
   )
