@@ -14,7 +14,7 @@ interface VariableField {
 
 export function VariableField({ control, index, remove, data }: VariableField) {
   return (
-    <Group key={index} direction="column" grow my={0} p={0} sx={{ border: '1px solid #eee', borderTopColor: '#333', borderTopWidth: 2, position: 'relative' }}>
+    <Group key={index} direction="column" grow my="sm" p={0} sx={{ border: '1px solid #eee', borderTopColor: '#333', borderTopWidth: 2, position: 'relative' }}>
       <Controller
         name={`variables.${index}`}
         control={control}
