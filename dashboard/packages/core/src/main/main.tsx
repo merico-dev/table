@@ -60,6 +60,12 @@ export function Dashboard({
     await update(d);
   }
 
+  const revertDashboardChanges = () => {
+    setPanels(dashboard.panels)
+    setSQLSnippets(dashboard.definition.sqlSnippets)
+    setQueries(dashboard.definition.queries)
+  }
+
   const addPanel = () => {
     const id = randomId();
     const newItem = {
@@ -131,6 +137,7 @@ export function Dashboard({
                   setMode={setMode}
                   hasChanges={hasChanges}
                   saveChanges={saveDashboardChanges}
+                  revertChanges={revertDashboardChanges}
                 />
                 <DashboardLayout
                   panels={panels}

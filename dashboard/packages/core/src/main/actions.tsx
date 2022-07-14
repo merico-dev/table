@@ -12,12 +12,14 @@ interface IDashboardActions {
   setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
   hasChanges: boolean;
   saveChanges: () => void;
+  revertChanges: () => void;
 }
 export function DashboardActions({
   mode,
   setMode,
   hasChanges,
   saveChanges,
+  revertChanges,
 }: IDashboardActions) {
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
@@ -35,7 +37,7 @@ export function DashboardActions({
         {!inUseMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
         {inEditMode && <Button variant="default" size="sm" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
         {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
-        {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
+        {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
       </Group>
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       {inUseMode && <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>}
