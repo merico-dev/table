@@ -1,4 +1,5 @@
 import { Accordion, Box, Divider, Group, Select, Text, TextInput, TextInputProps } from "@mantine/core";
+import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React, { ChangeEventHandler } from "react";
 import { Control, Controller, Path } from "react-hook-form";
@@ -10,6 +11,24 @@ import { MantineFontWeightSlider } from "../../panel/settings/common/mantine-fon
 import { NumbroFormatSelector } from "../../panel/settings/common/numbro-format-selector";
 import { TextArrayInput } from "../../panel/settings/common/text-array-input";
 import { ITemplateVariable } from "./types";
+
+export function getANewVariable() {
+  return {
+    name: randomId(),
+    size: '20px',
+    weight: 'bold',
+    color: {
+      type: 'static',
+      staticColor: 'blue',
+    },
+    data_field: '',
+    aggregation: 'none',
+    formatter: {
+      output: 'number',
+      mantissa: 0,
+    },
+  } as ITemplateVariable;
+}
 
 interface ITemplateInput extends Omit<TextInputProps, 'value' | 'onChange'> {
   value: string;

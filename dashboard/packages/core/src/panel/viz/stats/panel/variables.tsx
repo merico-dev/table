@@ -1,9 +1,9 @@
 import { Button, Group, Text } from "@mantine/core";
-import { randomId } from "@mantine/hooks";
 import React from "react";
-import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from "react-hook-form";
+import { Control, useFieldArray, UseFormWatch } from "react-hook-form";
 import { IVizStatsConf } from "../types";
 import { VariableField } from "./variable";
+import { getANewVariable } from '../../../../utils/template/editor';
 
 interface IVariablesField {
   control: Control<IVizStatsConf, any>;
@@ -24,21 +24,7 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
     };
   });
 
-  const add = () => append({
-    name: randomId(),
-    size: '20px',
-    weight: 'bold',
-    color: {
-      type: 'static',
-      staticColor: 'blue',
-    },
-    data_field: '',
-    aggregation: 'none',
-    formatter: {
-      output: 'number',
-      mantissa: 0,
-    },
-  });
+  const add = () => append(getANewVariable());
 
   return (
     <Group direction="column" grow>

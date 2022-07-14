@@ -9,6 +9,7 @@ import { YAxesField } from "./y-axes";
 import { defaultNumbroFormat } from "../../../settings/common/numbro-format-selector";
 import { DataFieldSelector } from "../../../settings/common/data-field-selector";
 import { RegressionsField } from "./regressions";
+import { StatsField } from "./stats";
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -31,10 +32,23 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
   return series.map(setDefaults);
 }
 
+function normalizeStats(stats?: ICartesianChartConf['stats']) {
+  if (!stats) {
+    return {
+      templates: {
+        top: '',
+        bottom: '',
+      },
+      variables: [],
+    }
+  }
+  return stats;
+}
+
 export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianChartPanel) {
   const { series, y_axes, ...restConf } = conf;
   const defaultValues = React.useMemo(() => {
-    const { x_axis_name = '', ...rest } = restConf
+    const { x_axis_name = '', stats, ...rest } = restConf
     return {
       series: withDefaults(series ?? []),
       x_axis_name,
@@ -42,6 +56,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
         name: 'Y Axis',
         label_formatter: defaultNumbroFormat,
       }],
+      stats: normalizeStats(stats),
       ...rest
     }
   }, [series, restConf]);
@@ -95,6 +110,9 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
           </Accordion.Item>
           <Accordion.Item label="Regression Lines">
             <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+          </Accordion.Item>
+          <Accordion.Item label="Stats">
+            <StatsField control={control} watch={watch} data={data} />
           </Accordion.Item>
         </Accordion>
       </form>
