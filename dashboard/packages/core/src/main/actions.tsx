@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Group } from "@mantine/core";
+import { Button, Divider, Group, Menu } from "@mantine/core";
 import { ClipboardText, Database, DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
 import { DashboardMode } from "../types";
 import { ModeToggler } from "./toggle-mode";
@@ -38,9 +38,12 @@ export function DashboardActions({
         {inEditMode && <Button variant="default" size="sm" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
         {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
         {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
+        <Menu control={<Button variant="default" size="sm" leftIcon={<Share size={20} />}>Export</Button>}>
+          <Menu.Item disabled>Download Data</Menu.Item>
+          <Menu.Item disabled>Download Schema</Menu.Item>
+        </Menu>
       </Group>
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
-      {inUseMode && <Button variant="default" size="sm" disabled leftIcon={<Share size={20} />}>Share</Button>}
     </Group>
   )
 }
