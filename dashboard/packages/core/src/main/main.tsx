@@ -9,6 +9,7 @@ import { randomId } from "@mantine/hooks";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
+import { ModalsProvider } from '@mantine/modals';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -119,28 +120,29 @@ export function Dashboard({
   }), [sqlSnippets, setSQLSnippets, queries, setQueries]);
 
   return (
-    <ContextInfoContext.Provider value={context}>
-      <DashboardActionContext.Provider value={{ addPanel, duplidatePanel }}>
-        <DefinitionContext.Provider value={definitions}>
-          <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-            <div className={className}>
-              <DashboardActions
-                mode={mode}
-                setMode={setMode}
-                hasChanges={hasChanges}
-                saveChanges={saveDashboardChanges}
-              />
-              <DashboardLayout
-                panels={panels}
-                setPanels={setPanels}
-                isDraggable={inLayoutMode}
-                isResizable={inLayoutMode}
-                onRemoveItem={removePanelByID}
-              />
-            </div >
-          </LayoutStateContext.Provider>
-        </DefinitionContext.Provider>
-      </DashboardActionContext.Provider>
-    </ContextInfoContext.Provider>
+    <ModalsProvider>
+      <ContextInfoContext.Provider value={context}>
+        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID }}>
+          <DefinitionContext.Provider value={definitions}>
+            <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
+              <div className={className}>
+                <DashboardActions
+                  mode={mode}
+                  setMode={setMode}
+                  hasChanges={hasChanges}
+                  saveChanges={saveDashboardChanges}
+                />
+                <DashboardLayout
+                  panels={panels}
+                  setPanels={setPanels}
+                  isDraggable={inLayoutMode}
+                  isResizable={inLayoutMode}
+                />
+              </div >
+            </LayoutStateContext.Provider>
+          </DefinitionContext.Provider>
+        </DashboardActionContext.Provider>
+      </ContextInfoContext.Provider>
+    </ModalsProvider>
   )
 }

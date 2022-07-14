@@ -12,7 +12,6 @@ import { DefinitionContext } from '../contexts';
 import { ErrorBoundary } from './error-boundary';
 
 interface IPanel extends IDashboardPanel {
-  destroy?: () => void;
   update?: (panel: IDashboardPanel) => void;
 }
 

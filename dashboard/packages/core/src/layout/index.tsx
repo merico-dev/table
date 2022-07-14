@@ -12,7 +12,6 @@ interface IDashboardLayout {
   setPanels:  React.Dispatch<React.SetStateAction<IDashboardPanel[]>>;
   className?: string;
   rowHeight?: number;
-  onRemoveItem: (id: string) => void;
   isDraggable: boolean;
   isResizable: boolean;
 }
@@ -22,7 +21,6 @@ export function DashboardLayout({
   setPanels,
   className = "layout",
   rowHeight = 10,
-  onRemoveItem,
   isDraggable,
   isResizable,
 }: IDashboardLayout) {
@@ -54,7 +52,6 @@ export function DashboardLayout({
             <Panel
               id={id}
               {...rest}
-              destroy={() => onRemoveItem(id)}
               update={(panel: IDashboardPanel) => {
                 setPanels(prevs => {
                   prevs.splice(index, 1, panel)

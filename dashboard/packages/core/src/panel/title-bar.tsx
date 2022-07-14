@@ -1,4 +1,5 @@
 import { Group, Text, Menu, Divider, Box } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import React from 'react';
 import { Copy, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
@@ -12,6 +13,7 @@ interface IPanelTitleBar {
 }
 
 export function PanelTitleBar({ }: IPanelTitleBar) {
+  const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -19,10 +21,17 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
   const { id, title, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
 
-  const { duplidatePanel } = React.useContext(DashboardActionContext)
+  const { duplidatePanel, removePanelByID } = React.useContext(DashboardActionContext)
   const duplicate = React.useCallback(() => {
     duplidatePanel(id);
   }, [duplidatePanel, id])
+
+  const remove = () => modals.openConfirmModal({
+    title: 'Delete this panel?',
+    labels: { confirm: 'Confirm', cancel: 'Cancel' },
+    onCancel: () => console.log('Cancel'),
+    onConfirm: () => removePanelByID(id),
+  });
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -40,7 +49,7 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
           {inEditMode && <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>}
           <Divider />
           <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
-          <Menu.Item color="red" disabled icon={<Trash size={14} />}>Delete</Menu.Item>
+          <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
         </Menu>
       </Group>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
