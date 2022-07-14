@@ -46,5 +46,11 @@ export const DashboardAPI = {
       content,
     });
     return normalizeDBDashboard(res);
+  },
+  delete: async (id: string): Promise<void> => {
+    if (!id) {
+      return;
+    }
+    return await post('/dashboard/delete', {id});
   }
 }

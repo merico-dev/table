@@ -6,6 +6,7 @@ import { DefinitionContext } from "../contexts/definition-context";
 import { ReadOnlyDashboardLayout } from "../layout/read-only";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
+import { ModalsProvider } from '@mantine/modals';
 
 interface IReadOnlyDashboard {
   context: ContextInfoContextType;
@@ -31,14 +32,16 @@ export function ReadOnlyDashboard({
   }), [dashboard]);
 
   return (
-    <ContextInfoContext.Provider value={context}>
-      <div className={className}>
-        <DefinitionContext.Provider value={definition}>
-          <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false, inLayoutMode: false, inUseMode: true }}>
-            <ReadOnlyDashboardLayout panels={dashboard.panels} />
-          </LayoutStateContext.Provider>
-        </DefinitionContext.Provider>
-      </div >
-    </ContextInfoContext.Provider>
+    <ModalsProvider>
+      <ContextInfoContext.Provider value={context}>
+        <div className={className}>
+          <DefinitionContext.Provider value={definition}>
+            <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false, inLayoutMode: false, inUseMode: true }}>
+              <ReadOnlyDashboardLayout panels={dashboard.panels} />
+            </LayoutStateContext.Provider>
+          </DefinitionContext.Provider>
+        </div >
+      </ContextInfoContext.Provider>
+    </ModalsProvider>
   )
 }

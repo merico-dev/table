@@ -8,6 +8,8 @@ import { DefinitionContext } from "../contexts/definition-context";
 import { randomId } from "@mantine/hooks";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
+import { DashboardActionContext } from "../contexts/dashboard-action-context";
+import { ModalsProvider } from '@mantine/modals';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -58,6 +60,12 @@ export function Dashboard({
     await update(d);
   }
 
+  const revertDashboardChanges = () => {
+    setPanels(dashboard.panels)
+    setSQLSnippets(dashboard.definition.sqlSnippets)
+    setQueries(dashboard.definition.queries)
+  }
+
   const addPanel = () => {
     const id = randomId();
     const newItem = {
@@ -79,6 +87,27 @@ export function Dashboard({
     setPanels(prevs => ([...prevs, newItem]));
   }
 
+  const duplidatePanel = (id: string) => {
+    try {
+      const panel = panels.find(p => p.id === id)
+      if (!panel) {
+        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`)
+      }
+      const newPanel = {
+        ...panel,
+        id: randomId(),
+        layout: {
+          ...panel.layout,
+          x: 0,
+          y: Infinity,
+        }
+      }
+      setPanels(prevs => ([...prevs, newPanel]))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const removePanelByID = (id: string) => {
     const index = panels.findIndex(p => p.id === id);
     setPanels(prevs => {
@@ -97,27 +126,30 @@ export function Dashboard({
   }), [sqlSnippets, setSQLSnippets, queries, setQueries]);
 
   return (
-    <ContextInfoContext.Provider value={context}>
-      <div className={className}>
-        <DefinitionContext.Provider value={definitions}>
-          <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-            <DashboardActions
-              mode={mode}
-              setMode={setMode}
-              hasChanges={hasChanges}
-              addPanel={addPanel}
-              saveChanges={saveDashboardChanges}
-            />
-            <DashboardLayout
-              panels={panels}
-              setPanels={setPanels}
-              isDraggable={inLayoutMode}
-              isResizable={inLayoutMode}
-              onRemoveItem={removePanelByID}
-            />
-          </LayoutStateContext.Provider>
-        </DefinitionContext.Provider>
-      </div >
-    </ContextInfoContext.Provider>
+    <ModalsProvider>
+      <ContextInfoContext.Provider value={context}>
+        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID }}>
+          <DefinitionContext.Provider value={definitions}>
+            <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
+              <div className={className}>
+                <DashboardActions
+                  mode={mode}
+                  setMode={setMode}
+                  hasChanges={hasChanges}
+                  saveChanges={saveDashboardChanges}
+                  revertChanges={revertDashboardChanges}
+                />
+                <DashboardLayout
+                  panels={panels}
+                  setPanels={setPanels}
+                  isDraggable={inLayoutMode}
+                  isResizable={inLayoutMode}
+                />
+              </div >
+            </LayoutStateContext.Provider>
+          </DefinitionContext.Provider>
+        </DashboardActionContext.Provider>
+      </ContextInfoContext.Provider>
+    </ModalsProvider>
   )
 }

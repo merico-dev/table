@@ -2,6 +2,7 @@ import React from "react";
 import { IVizConfig } from "../types/dashboard";
 
 export interface IPanelContext {
+  id: string;
   data: any[];
   loading: boolean;
   title: string;
@@ -16,6 +17,7 @@ export interface IPanelContext {
 }
 
 const initialContext = {
+  id: '',
   data: [],
   loading: false,
   title: '',

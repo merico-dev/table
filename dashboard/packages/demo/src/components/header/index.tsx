@@ -1,6 +1,7 @@
 import { Group, Header as MantineHeader, Text } from '@mantine/core'
 import React from 'react';
 import { CreateDashboard } from './create-dashboard';
+import { DeleteDashboard } from './delete-dashboard';
 import { DashboardSelector } from './dashboard-selector';
 import { MericoLogo } from './merico-logo';
 
@@ -18,6 +19,7 @@ export function Header({ }: IHeader) {
         <Group position='right'>
           <DashboardSelector />
           <CreateDashboard />
+          <DeleteDashboard />
         </Group>
       </Group>
     </MantineHeader>

@@ -12,7 +12,6 @@ import { DefinitionContext } from '../contexts';
 import { ErrorBoundary } from './error-boundary';
 
 interface IPanel extends IDashboardPanel {
-  destroy?: () => void;
   update?: (panel: IDashboardPanel) => void;
 }
 
@@ -55,6 +54,7 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
   return (
     <PanelContext.Provider
       value={{
+        id,
         data,
         loading,
         title,
