@@ -1,26 +1,47 @@
-import { ActionIcon, Box, Button, Group, Modal, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { ActionIcon, Box, Button, Checkbox, Group, Modal, Select, TextInput } from "@mantine/core";
+import { Controller, useForm } from "react-hook-form";
 import { showNotification, updateNotification } from "@mantine/notifications";
+import { useRequest } from "ahooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { DashboardAPI } from "../../api-caller/dashboard";
 
+interface IFormValues {
+  name: string;
+  idToDuplicate: string;
+}
+
 function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const navigate = useNavigate();
-  const form = useForm({
-    initialValues: {
+
+  const { data: options = [], loading } = useRequest(async () => {
+    const { data } = await DashboardAPI.list();
+    return data.map(d => ({
+      label: d.name,
+      value: d.id,
+      content: d.content,
+    }))
+  }, {
+    refreshDeps: [],
+  });
+
+  const { control, handleSubmit, watch, getValues } = useForm<IFormValues>({
+    defaultValues: {
       name: '',
+      idToDuplicate: '',
     }
   });
 
-  const createDashboard = async ({ name }: { name: string }) => {
+  const createDashboard = async ({ name, idToDuplicate }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
       message: 'Creating dashboard...',
       loading: true,
     })
-    const { id } = await DashboardAPI.create(name);
+    const dashboard = options.find(o => o.value === idToDuplicate)
+    const content = dashboard?.content;
+    const { id } = await DashboardAPI.create(name, content);
     updateNotification({
       id: 'for-creating',
       title: 'Successful',
@@ -31,13 +52,33 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     navigate(`/${id}`)
   }
   return (
-    <Box sx={{ maxWidth: 300 }} mx="auto">
-      <form onSubmit={form.onSubmit(createDashboard)}>
-        <TextInput
-          required
-          label="Name"
-          placeholder="Name the dashboard"
-          {...form.getInputProps('name')}
+    <Box mx="auto">
+      <form onSubmit={handleSubmit(createDashboard)}>
+        <Controller
+          name='name'
+          control={control}
+          render={(({ field }) => (
+            <TextInput
+              mb="md"
+              required
+              label="Name"
+              placeholder="Name the dashboard"
+              {...field}
+            />
+          ))}
+        />
+        <Controller
+          name='idToDuplicate'
+          control={control}
+          render={(({ field }) => (
+            <Select
+              my="md"
+              data={options}
+              disabled={loading}
+              label="Choose a dashboard to duplicate (optional)"
+              {...field}
+            />
+          ))}
         />
 
         <Group position="right" mt="md">
