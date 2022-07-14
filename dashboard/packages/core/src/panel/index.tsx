@@ -55,6 +55,7 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
   return (
     <PanelContext.Provider
       value={{
+        id,
         data,
         loading,
         title,

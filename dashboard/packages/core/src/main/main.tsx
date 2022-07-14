@@ -80,6 +80,27 @@ export function Dashboard({
     setPanels(prevs => ([...prevs, newItem]));
   }
 
+  const duplidatePanel = (id: string) => {
+    try {
+      const panel = panels.find(p => p.id === id)
+      if (!panel) {
+        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`)
+      }
+      const newPanel = {
+        ...panel,
+        id: randomId(),
+        layout: {
+          ...panel.layout,
+          x: 0,
+          y: Infinity,
+        }
+      }
+      setPanels(prevs => ([...prevs, newPanel]))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const removePanelByID = (id: string) => {
     const index = panels.findIndex(p => p.id === id);
     setPanels(prevs => {
@@ -99,7 +120,7 @@ export function Dashboard({
 
   return (
     <ContextInfoContext.Provider value={context}>
-      <DashboardActionContext.Provider value={{ addPanel }}>
+      <DashboardActionContext.Provider value={{ addPanel, duplidatePanel }}>
         <DefinitionContext.Provider value={definitions}>
           <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
             <div className={className}>
