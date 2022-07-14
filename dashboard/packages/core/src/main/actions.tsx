@@ -5,21 +5,21 @@ import { DashboardMode } from "../types";
 import { ModeToggler } from "./toggle-mode";
 import { DataEditorModal } from "../definition-editor";
 import { LayoutStateContext } from "../contexts";
+import { DashboardActionContext } from "../contexts/dashboard-action-context";
 
 interface IDashboardActions {
   mode: DashboardMode;
   setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
   hasChanges: boolean;
-  addPanel: () => void;
   saveChanges: () => void;
 }
 export function DashboardActions({
   mode,
   setMode,
   hasChanges,
-  addPanel,
   saveChanges,
 }: IDashboardActions) {
+  const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);

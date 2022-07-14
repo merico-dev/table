@@ -8,6 +8,7 @@ import { DefinitionContext } from "../contexts/definition-context";
 import { randomId } from "@mantine/hooks";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
+import { DashboardActionContext } from "../contexts/dashboard-action-context";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -98,26 +99,27 @@ export function Dashboard({
 
   return (
     <ContextInfoContext.Provider value={context}>
-      <div className={className}>
+      <DashboardActionContext.Provider value={{ addPanel }}>
         <DefinitionContext.Provider value={definitions}>
           <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-            <DashboardActions
-              mode={mode}
-              setMode={setMode}
-              hasChanges={hasChanges}
-              addPanel={addPanel}
-              saveChanges={saveDashboardChanges}
-            />
-            <DashboardLayout
-              panels={panels}
-              setPanels={setPanels}
-              isDraggable={inLayoutMode}
-              isResizable={inLayoutMode}
-              onRemoveItem={removePanelByID}
-            />
+            <div className={className}>
+              <DashboardActions
+                mode={mode}
+                setMode={setMode}
+                hasChanges={hasChanges}
+                saveChanges={saveDashboardChanges}
+              />
+              <DashboardLayout
+                panels={panels}
+                setPanels={setPanels}
+                isDraggable={inLayoutMode}
+                isResizable={inLayoutMode}
+                onRemoveItem={removePanelByID}
+              />
+            </div >
           </LayoutStateContext.Provider>
         </DefinitionContext.Provider>
-      </div >
+      </DashboardActionContext.Provider>
     </ContextInfoContext.Provider>
   )
 }
