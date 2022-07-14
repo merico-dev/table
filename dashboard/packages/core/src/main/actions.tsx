@@ -6,6 +6,7 @@ import { ModeToggler } from "./toggle-mode";
 import { DataEditorModal } from "../definition-editor";
 import { LayoutStateContext } from "../contexts";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
+import { ViewSchemaModal } from "./view-schema-modal";
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -13,6 +14,7 @@ interface IDashboardActions {
   hasChanges: boolean;
   saveChanges: () => void;
   revertChanges: () => void;
+  getCurrentSchema: () => any;
 }
 export function DashboardActions({
   mode,
@@ -20,6 +22,7 @@ export function DashboardActions({
   hasChanges,
   saveChanges,
   revertChanges,
+  getCurrentSchema,
 }: IDashboardActions) {
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
@@ -27,6 +30,10 @@ export function DashboardActions({
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
   const openQueries = () => setDataEditorOpened(true);
   const closeQueries = () => setDataEditorOpened(false);
+
+  const [schemaOpened, setSchemaOpened] = React.useState(false);
+  const openSchema = () => setSchemaOpened(true);
+  const closeSchema = () => setSchemaOpened(false);
 
   return (
     <Group position="apart" pt="sm" pb="xs">
@@ -40,10 +47,11 @@ export function DashboardActions({
         {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
         <Menu control={<Button variant="default" size="sm" leftIcon={<Share size={20} />}>Export</Button>}>
           <Menu.Item disabled>Download Data</Menu.Item>
-          <Menu.Item disabled>Download Schema</Menu.Item>
+          <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
         </Menu>
       </Group>
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
+      <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   )
 }

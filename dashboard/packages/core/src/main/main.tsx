@@ -125,6 +125,16 @@ export function Dashboard({
     queries, setQueries,
   }), [sqlSnippets, setSQLSnippets, queries, setQueries]);
 
+  const getCurrentSchema = React.useCallback(() => {
+    return {
+      panels,
+      definition: {
+        sqlSnippets,
+        queries,
+      }
+    }
+  }, [sqlSnippets, queries, panels])
+
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
@@ -138,6 +148,7 @@ export function Dashboard({
                   hasChanges={hasChanges}
                   saveChanges={saveDashboardChanges}
                   revertChanges={revertDashboardChanges}
+                  getCurrentSchema={getCurrentSchema}
                 />
                 <DashboardLayout
                   panels={panels}
