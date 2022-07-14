@@ -25,7 +25,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     refreshDeps: [],
   });
 
-  const { control, handleSubmit, watch, getValues } = useForm<IFormValues>({
+  const { control, handleSubmit, formState: { errors, isValidating, isValid } } = useForm<IFormValues>({
     defaultValues: {
       name: '',
       idToDuplicate: '',
@@ -51,12 +51,20 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     postSubmit()
     navigate(`/${id}`)
   }
+
+  const dashboardNameSet = React.useMemo(() => {
+    return new Set(options.map(o => o.label))
+  }, [options])
+
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(createDashboard)}>
         <Controller
           name='name'
           control={control}
+          rules={{
+            validate: v => !dashboardNameSet.has(v) || 'This name is occupied',
+          }}
           render={(({ field }) => (
             <TextInput
               mb="md"
@@ -64,6 +72,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
               label="Name"
               placeholder="Name the dashboard"
               {...field}
+              error={errors.name?.message}
             />
           ))}
         />
@@ -74,7 +83,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             <Select
               my="md"
               data={options}
-              disabled={loading}
+              disabled={loading || options.length === 0}
               label="Choose a dashboard to duplicate (optional)"
               {...field}
             />
