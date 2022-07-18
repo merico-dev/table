@@ -1,0 +1,269 @@
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { Length, IsString, IsOptional, ValidateNested, IsUUID, IsIn, IsInt, IsObject } from 'class-validator';
+import { Type } from 'class-transformer';
+import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+
+@ApiModel({
+  description: 'Datasource config',
+  name: 'DataSourceConfig',
+})
+export class DataSourceConfig {
+  @IsString()
+  @ApiModelProperty({
+    description: 'host',
+    required: true,
+  })
+  host: string;
+
+  @IsInt()
+  @ApiModelProperty({
+    description: 'port',
+    required: true,
+  })
+  port: number;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'username',
+    required: true,
+  })
+  username: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'password',
+    required: true,
+  })
+  password: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'database name',
+    required: true,
+  })
+  database: string;
+}
+
+@ApiModel({
+  description: 'Datasource entity',
+  name: 'DataSource',
+})
+export class DataSource {
+  @ApiModelProperty({
+    description : 'datasource ID in uuid format' ,
+    required : false,
+  })
+  id: string;
+
+  @ApiModelProperty({
+    description: 'type of the datasource',
+    required: true,
+    enum: ['postgresql', 'mysql', 'http'],
+  })
+  type: string;
+
+  @ApiModelProperty({
+    description: 'key of the datasource',
+    required: true,
+  })
+  key: string;
+
+  @ApiModelProperty({
+    description: 'config of the datasource stored in json object format',
+    required: true,
+    model: 'DataSourceConfig',
+  })
+  config: DataSourceConfig;
+
+  @ApiModelProperty({
+    description: 'Create time',
+    required: false,
+  })
+  create_time: Date;
+
+  @ApiModelProperty({
+    description: 'Time of last update',
+    required: false,
+  })
+  update_time: Date;
+}
+
+@ApiModel({
+  description: 'DataSource filter object',
+  name: 'DataSourceFilterObject',
+})
+export class DataSourceFilterObject implements FilterRequest {
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'search term. Uses fuzzy search for type and key fields',
+    required: false,
+  })
+  search?: string;
+}
+
+@ApiModel({
+  description: 'DataSource sort object',
+  name: 'DataSourceSortObject'
+})
+export class DataSourceSortObject implements SortRequest {
+  @IsIn(['type', 'key', 'create_time'])
+  @ApiModelProperty({
+    description: 'Field for sorting',
+    required: true,
+    enum: ['type', 'key', 'create_time'],
+  })
+  field: 'type' | 'key' | 'create_time';
+
+  @IsIn(['ASC', 'DESC'])
+  @ApiModelProperty({
+    description: 'Sort order',
+    required: true,
+    enum: ['ASC', 'DESC'],
+  })
+  order: 'ASC' | 'DESC';
+
+  constructor(data: any) {
+    Object.assign(this, data);
+  }
+}
+
+@ApiModel({
+  description: 'DataSource list request object',
+  name: 'DataSourceListRequest',
+})
+export class DataSourceListRequest {
+  @IsOptional()
+  @Type(() => DataSourceFilterObject)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'DataSource filter object',
+    required: false,
+    model: 'DataSourceFilterObject',
+  })
+  filter?: DataSourceFilterObject;
+
+  @Type(() => DataSourceSortObject)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'DataSource sort object',
+    required: true,
+    model: 'DataSourceSortObject',
+  })
+  sort: DataSourceSortObject = new DataSourceSortObject({ field: 'create_time', order: 'ASC' });;
+
+  @Type(() => PaginationRequest)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Pagination object',
+    required: true,
+    model: 'PaginationRequest',
+  })
+  pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
+}
+
+@ApiModel({
+  description: 'DataSource pagination response object',
+  name: 'DataSourcePaginationResponse',
+})
+export class DataSourcePaginationResponse implements PaginationResponse<DataSource> {
+  @ApiModelProperty({
+    description: 'Total number results',
+  })
+  total: number;
+
+  @ApiModelProperty({
+    description: 'Current offset of results',
+  })
+  offset: number;
+
+  @ApiModelProperty({
+    description: 'DataSources',
+    model: 'DataSource',
+  })
+  data: DataSource[];
+}
+
+@ApiModel({
+  description: 'DataSource create request object',
+  name: 'DataSourceCreateRequest',
+})
+export class DataSourceCreateRequest {
+  @IsString()
+  @IsIn(['postgresql', 'mysql'])
+  @ApiModelProperty({
+    description: 'type of the datasource',
+    required: true,
+    enum: ['postgresql', 'mysql'],
+  })
+  type: string;
+
+  @IsString()
+  @Length(1, 250)
+  @ApiModelProperty({
+    description: 'key of the datasource',
+    required: true,
+  })
+  key: string;
+
+  @IsObject()
+  @Type(() => DataSourceConfig)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'config of the datasource stored in json object format',
+    required: true,
+    model: 'DataSourceConfig',
+  })
+  config: DataSourceConfig;
+}
+
+@ApiModel({
+  description: 'DataSource update request object',
+  name: 'DataSourceUpdateRequest',
+})
+export class DataSourceUpdateRequest{
+  @IsUUID()
+  @ApiModelProperty({
+    description : "DataSource ID in uuid format" ,
+    required : true,
+  })
+  id: string;
+
+  @IsString()
+  @IsIn(['postgresql', 'mysql'])
+  @ApiModelProperty({
+    description: 'type of the datasource',
+    required: true,
+  })
+  type: string;
+
+  @IsString()
+  @Length(1, 250)
+  @ApiModelProperty({
+    description: 'key of the datasource',
+    required: true,
+  })
+  key: string;
+
+  @IsObject()
+  @Type(() => DataSourceConfig)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'config of the datasource stored in json object format',
+    required: true,
+    model: 'DataSourceConfig',
+  })
+  config: DataSourceConfig;
+}
+
+@ApiModel({
+  description: 'DataSource ID request',
+  name: 'DataSourceIDRequest',
+})
+export class DataSourceIDRequest {
+  @IsUUID()
+  @ApiModelProperty({
+    description: 'DataSource uuid',
+    required: true,
+  })
+  id: string;
+}

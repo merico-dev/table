@@ -2,6 +2,10 @@ import {
   Dashboard, DashboardFilterObject, DashboardSortObject, DashboardListRequest, DashboardPaginationResponse, 
   DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest,
 } from './dashboard';
+import {
+  DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
+  DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceUpdateRequest, DataSourceIDRequest,
+} from './datasource';
 import { QueryRequest } from './query';
 import { ApiError } from './base';
 
@@ -16,6 +20,16 @@ export default {
   DashboardCreateRequest,
   DashboardUpdateRequest,
   DashboardIDRequest,
+
+  DataSourceConfig,
+  DataSource, 
+  DataSourceFilterObject, 
+  DataSourceSortObject, 
+  DataSourceListRequest,
+  DataSourcePaginationResponse, 
+  DataSourceCreateRequest, 
+  DataSourceUpdateRequest, 
+  DataSourceIDRequest,
 
   QueryRequest,
 }

@@ -4,7 +4,7 @@ import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 
 export class DashboardService {
-  async list(filter: DashboardFilterObject, sort: DashboardSortObject, pagination: PaginationRequest): Promise<DashboardPaginationResponse> {
+  async list(filter: DashboardFilterObject | undefined, sort: DashboardSortObject, pagination: PaginationRequest): Promise<DashboardPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
     const qb = dashboardDataSource.manager.createQueryBuilder()
       .from(Dashboard, 'dashboard')
