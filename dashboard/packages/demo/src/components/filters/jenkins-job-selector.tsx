@@ -4,14 +4,14 @@ import React from "react";
 import { post } from "../../api-caller/request";
 
 async function getOptions() {
-  const sql = `
+  const query = `
     SELECT j.name AS label, j.id AS value
     FROM builds AS b
         INNER JOIN jobs AS j
         ON b.job_id = j.id
     GROUP BY (j.id)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'lake', sql })
+  const res = await post('/query', { type: 'postgresql', key: 'lake', query })
   return res;
 }
 

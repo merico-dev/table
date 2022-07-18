@@ -14,6 +14,6 @@ export const queryBySQL = (sql: string, context: Record<string, any>) => async (
   if (sql.includes('$')) {
     console.log(formattedSQL);
   }
-  const res = await post('/query', { sql: formattedSQL })
+  const res = await post('/query', { query: formattedSQL })
   return res;
 }
