@@ -7,7 +7,10 @@ export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
     const res = await post('/dashboard/list', {
       filter: {},
-      sort: {},
+      sort: {
+        field: 'create_time',
+        order: 'ASC'
+      },
       pagination: {
         page: 1,
         pagesize: 100
