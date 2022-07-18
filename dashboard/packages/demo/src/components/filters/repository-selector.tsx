@@ -4,7 +4,7 @@ import React from "react";
 import { post } from "../../api-caller/request";
 
 async function getRepoOptions() {
-  const sql = `
+  const query = `
     SELECT r.name AS label, r.id AS value
     FROM public.repository AS r
         INNER JOIN public.commit_metric AS cm
@@ -12,7 +12,7 @@ async function getRepoOptions() {
     WHERE r.name <> ''
     GROUP BY (r.id)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'vdev', sql })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', query })
   return res;
 }
 

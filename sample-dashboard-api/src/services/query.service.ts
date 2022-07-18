@@ -1,5 +1,4 @@
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';

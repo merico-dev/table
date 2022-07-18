@@ -26,7 +26,7 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
       console.log(formattedSQL);
       console.groupEnd();
     }
-    const res = await APIClient.getRequest('POST')('/query', { type, key, sql: formattedSQL })
+    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL })
     return res;
   } catch (error) {
     console.error(error)
@@ -36,9 +36,9 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
 
 export type TQuerySources = Record<string, string[]>
 
-export async function getQuerySources(): Promise<TQuerySources> {
+export async function listDataSources(): Promise<TQuerySources> {
   try {
-    const res = await APIClient.getRequest('GET')('/query/sources', {})
+    const res = await APIClient.getRequest('GET')('/datasource/list', {})
     return res;
   } catch (error) {
     console.error(error)

@@ -4,7 +4,7 @@ import React from "react";
 import { post } from "../../api-caller/request";
 
 async function getContributorOptions() {
-  const sql = `
+  const query = `
     SELECT a.email as value, a.email as label
     FROM public.account AS a
         INNER JOIN public.commit_metric AS cm
@@ -12,7 +12,7 @@ async function getContributorOptions() {
     WHERE a.name <> '' AND a.email <> ''
     GROUP BY (a.email)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'vdev', sql })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', query })
   return res;
 }
 
