@@ -4,7 +4,7 @@ import { useRequest } from "ahooks";
 import _ from "lodash";
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
-import { getQuerySources } from "../../api-caller";
+import { listDataSources } from "../../api-caller";
 import { IQuery } from "../../types";
 import { PreviewSQL } from "./preview-sql";
 
@@ -29,7 +29,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
     form.reset()
   }, [value])
 
-  const { data: querySources = {}, loading } = useRequest(getQuerySources, {
+  const { data: querySources = {}, loading } = useRequest(listDataSources, {
     refreshDeps: []
   }, []);
 
