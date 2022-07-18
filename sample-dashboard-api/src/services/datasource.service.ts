@@ -16,6 +16,9 @@ export class DataSourceService {
     const offset = pagination.pagesize * (pagination.page - 1);
     const qb = dashboardDataSource.manager.createQueryBuilder()
       .from(DataSource, 'datasource')
+      .select('datasource.id', 'id')
+      .addSelect('datasource.type', 'type')
+      .addSelect('datasource.key', 'key')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
@@ -40,25 +43,6 @@ export class DataSourceService {
     dataSource.key = key;
     dataSource.config = config;
     let result = await dataSourceRepo.save(dataSource);
-    maybeDecryptPassword(result);
-    return result;
-  }
-
-  async get(id: string): Promise<DataSource> {
-    const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
-    const result = await dataSourceRepo.findOneByOrFail({ id });
-    maybeDecryptPassword(result);
-    return result;
-  }
-
-  async update(id: string, type: string, key: string, config: DataSourceConfig): Promise<DataSource> {
-    maybeEncryptPassword(config);
-    const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
-    const dataSource = await dataSourceRepo.findOneByOrFail({ id });
-    dataSource.type = type;
-    dataSource.key = key;
-    dataSource.config = config;
-    const result = await dataSourceRepo.save(dataSource);
     maybeDecryptPassword(result);
     return result;
   }

@@ -1,10 +1,10 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
-import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpPost, interfaces } from 'inversify-express-utils';
+import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DataSourceService } from '../services/datasource.service';
 import { validate } from '../middleware/validation';
-import { DataSourceListRequest, DataSourceCreateRequest, DataSourceUpdateRequest, DataSourceIDRequest } from '../api_models/datasource';
+import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest } from '../api_models/datasource';
 
 @ApiPath({
   path: '/datasource',
@@ -59,52 +59,6 @@ export class DataSourceController implements interfaces.Controller {
     try {
       const { type, key, config } = validate(DataSourceCreateRequest, req.body);
       const result = await this.dataSourceService.create(type, key, config);
-      res.json(result);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  @ApiOperationGet({
-    path: '/details/{id}',
-    description: 'Show datasource',
-    parameters: {
-      path: { ['id']: { description: 'datasource id' } }
-    },
-    responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
-  })
-  @httpGet('/details/:id')
-  public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
-    try {
-      const id = req.params.id;
-      const result = await this.dataSourceService.get(id);
-      res.json(result);
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  @ApiOperationPut({
-    path: '/update',
-    description: 'Update datasource',
-    parameters: {
-      body: { description: 'update datasource request', required: true, model: 'DataSourceUpdateRequest'}
-    },
-    responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
-  })
-  @httpPut('/update')
-  public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
-    try {
-      const { id, type, key, config } = validate(DataSourceUpdateRequest, req.body);
-      const result = await this.dataSourceService.update(id, type, key, config);
       res.json(result);
     } catch (err) {
       next(err);

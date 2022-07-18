@@ -4,7 +4,7 @@ import {
 } from './dashboard';
 import {
   DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
-  DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceUpdateRequest, DataSourceIDRequest,
+  DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest,
 } from './datasource';
 import { QueryRequest } from './query';
 import { ApiError } from './base';
@@ -28,7 +28,6 @@ export default {
   DataSourceListRequest,
   DataSourcePaginationResponse, 
   DataSourceCreateRequest, 
-  DataSourceUpdateRequest, 
   DataSourceIDRequest,
 
   QueryRequest,

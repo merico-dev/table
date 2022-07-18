@@ -67,25 +67,6 @@ export class DataSource {
     required: true,
   })
   key: string;
-
-  @ApiModelProperty({
-    description: 'config of the datasource stored in json object format',
-    required: true,
-    model: 'DataSourceConfig',
-  })
-  config: DataSourceConfig;
-
-  @ApiModelProperty({
-    description: 'Create time',
-    required: false,
-  })
-  create_time: Date;
-
-  @ApiModelProperty({
-    description: 'Time of last update',
-    required: false,
-  })
-  update_time: Date;
 }
 
 @ApiModel({
@@ -194,45 +175,6 @@ export class DataSourceCreateRequest {
     description: 'type of the datasource',
     required: true,
     enum: ['postgresql', 'mysql'],
-  })
-  type: string;
-
-  @IsString()
-  @Length(1, 250)
-  @ApiModelProperty({
-    description: 'key of the datasource',
-    required: true,
-  })
-  key: string;
-
-  @IsObject()
-  @Type(() => DataSourceConfig)
-  @ValidateNested({ each: true })
-  @ApiModelProperty({
-    description: 'config of the datasource stored in json object format',
-    required: true,
-    model: 'DataSourceConfig',
-  })
-  config: DataSourceConfig;
-}
-
-@ApiModel({
-  description: 'DataSource update request object',
-  name: 'DataSourceUpdateRequest',
-})
-export class DataSourceUpdateRequest{
-  @IsUUID()
-  @ApiModelProperty({
-    description : "DataSource ID in uuid format" ,
-    required : true,
-  })
-  id: string;
-
-  @IsString()
-  @IsIn(['postgresql', 'mysql'])
-  @ApiModelProperty({
-    description: 'type of the datasource',
-    required: true,
   })
   type: string;
 
