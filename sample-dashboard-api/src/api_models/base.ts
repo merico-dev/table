@@ -1,3 +1,4 @@
+import { IsInt, ValidationError } from "class-validator";
 import { ApiModel, ApiModelProperty } from "swagger-express-ts";
 
 export interface FilterRequest {
@@ -15,17 +16,23 @@ export interface SortRequest {
   name: 'PaginationRequest'
 })
 export class PaginationRequest {
+  @IsInt()
   @ApiModelProperty({
     description: 'Current page',
     required: true,
   })
   page: number;
 
+  @IsInt()
   @ApiModelProperty({
     description: 'Size of page',
     required: true,
   })
   pagesize: number;
+
+  constructor(data: any) {
+    Object.assign(this, data);
+  }
 }
 
 export interface PaginationResponse<T> {
@@ -44,6 +51,12 @@ class ApiErrorDetail {
     required: true,
   })
   message: string;
+
+  @ApiModelProperty({
+    description: 'Error details',
+    required: false,
+  })
+  errors?: ValidationError[];
 }
 
 @ApiModel({

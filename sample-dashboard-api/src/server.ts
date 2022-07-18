@@ -12,7 +12,6 @@ import logger from 'npmlog';
 import { bindControllers } from './controller';
 import { bindServices } from './services';
 import { dashboardDataSource } from './data_sources/dashboard';
-import pgDataSources from './data_sources/postgres';
 import './api_models';
 
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -25,17 +24,6 @@ dashboardDataSource.initialize()
   logger.error(`Dashboard Data Source initialization failed: ${err}`, err);
   process.exit(1);
 });
-
-for (let key in pgDataSources) {
-  pgDataSources[key].initialize()
-  .then(() => {
-    logger.info(`${key} postgres datasource initialization successful!`);
-  })
-  .catch((err) => {
-    logger.error(`${key} postgres datasource initialization failed: ${err}`, err);
-    process.exit(1);
-  })
-}
 
 const corsOrigins = process.env.CORS_ALLOW_ORIGIN ? process.env.CORS_ALLOW_ORIGIN.split(';') : ['http://localhost'];
 

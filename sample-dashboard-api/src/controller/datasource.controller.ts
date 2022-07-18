@@ -2,41 +2,41 @@ import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
 import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { DashboardService } from '../services/dashboard.service';
+import { DataSourceService } from '../services/datasource.service';
 import { validate } from '../middleware/validation';
-import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
+import { DataSourceListRequest, DataSourceCreateRequest, DataSourceUpdateRequest, DataSourceIDRequest } from '../api_models/datasource';
 
 @ApiPath({
-  path: '/dashboard',
-  name: 'Dashboard'
+  path: '/datasource',
+  name: 'DataSource'
 })
-@controller('/dashboard')
-export class DashboardController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'Dashboard';
-  private dashboardService: DashboardService;
+@controller('/datasource')
+export class DataSourceController implements interfaces.Controller {
+  public static TARGET_NAME: string = 'DataSource';
+  private dataSourceService: DataSourceService;
 
   public constructor(
-    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>
+    @inject('Newable<DataSourceService>') DataSourceService: inverfaces.Newable<DataSourceService>
   ) {
-    this.dashboardService = new DashboardService();
+    this.dataSourceService = new DataSourceService();
   }
 
   @ApiOperationPost({
     path: '/list',
-    description: 'List saved dashboards',
+    description: 'List datasources',
     parameters: {
-      body: { description: 'dashboard list request', required: true, model: 'DashboardListRequest' }
+      body: { description: 'datasource list request', required: true, model: 'DataSourceListRequest' }
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DashboardPaginationResponse' },
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSourcePaginationResponse' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
   @httpPost('/list')
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(DashboardListRequest, req.body);
-      const result = await this.dashboardService.list(filter, sort, pagination);
+      const { filter, sort, pagination } = validate(DataSourceListRequest, req.body);
+      const result = await this.dataSourceService.list(filter, sort, pagination);
       res.json(result);
     } catch (err) {
       next(err);
@@ -45,20 +45,20 @@ export class DashboardController implements interfaces.Controller {
 
   @ApiOperationPost({
     path: '/create',
-    description: 'Create a new dashboard',
+    description: 'Create a new datasource',
     parameters: {
-      body: { description: 'new dashboard request', required: true, model: 'DashboardCreateRequest'}
+      body: { description: 'new datasource request', required: true, model: 'DataSourceCreateRequest'}
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
   @httpPost('/create')
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, content } = validate(DashboardCreateRequest, req.body);
-      const result = await this.dashboardService.create(name, content);
+      const { type, key, config } = validate(DataSourceCreateRequest, req.body);
+      const result = await this.dataSourceService.create(type, key, config);
       res.json(result);
     } catch (err) {
       next(err);
@@ -67,12 +67,12 @@ export class DashboardController implements interfaces.Controller {
 
   @ApiOperationGet({
     path: '/details/{id}',
-    description: 'Show dashboard',
+    description: 'Show datasource',
     parameters: {
-      path: { ['id']: { description: 'dashboard id' } }
+      path: { ['id']: { description: 'datasource id' } }
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
       404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
@@ -81,7 +81,7 @@ export class DashboardController implements interfaces.Controller {
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const id = req.params.id;
-      const result = await this.dashboardService.get(id);
+      const result = await this.dataSourceService.get(id);
       res.json(result);
     } catch (err) {
       next(err);
@@ -90,12 +90,12 @@ export class DashboardController implements interfaces.Controller {
 
   @ApiOperationPut({
     path: '/update',
-    description: 'Update dashboard',
+    description: 'Update datasource',
     parameters: {
-      body: { description: 'update dashboard request', required: true, model: 'DashboardUpdateRequest'}
+      body: { description: 'update datasource request', required: true, model: 'DataSourceUpdateRequest'}
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
       404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
@@ -103,8 +103,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPut('/update')
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
-      const result = await this.dashboardService.update(id, name, content, is_removed);
+      const { id, type, key, config } = validate(DataSourceUpdateRequest, req.body);
+      const result = await this.dataSourceService.update(id, type, key, config);
       res.json(result);
     } catch (err) {
       next(err);
@@ -113,22 +113,21 @@ export class DashboardController implements interfaces.Controller {
 
   @ApiOperationPost({
     path: '/delete',
-    description: 'Remove dashboard',
+    description: 'Remove datasource',
     parameters: {
-      body: { description: 'update dashboard request', required: true, model: 'DashboardIDRequest'}
+      body: { description: 'update datasource request', required: true, model: 'DataSourceIDRequest'}
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
+      200: { description: 'SUCCESS' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
   @httpPost('/delete')
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(DashboardIDRequest, req.body);
-      const result = await this.dashboardService.delete(id);
-      res.json(result);
+      const { id } = validate(DataSourceIDRequest, req.body);
+      await this.dataSourceService.delete(id);
+      res.json();
     } catch (err) {
       next(err);
     }

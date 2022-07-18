@@ -1,4 +1,6 @@
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant  } from 'swagger-express-ts';
+import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
+import { Type } from 'class-transformer';
 import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from "./base";
 
 @ApiModel({
@@ -49,12 +51,15 @@ export class Dashboard {
   name: 'DashboardFilterObject',
 })
 export class DashboardFilterObject implements FilterRequest {
+  @IsOptional()
   @ApiModelProperty({
     description: 'search term. Uses fuzzy search',
     required: false,
   })
   search?: string;
 
+  @IsOptional()
+  @IsIn(['ACTIVE', 'REMOVED', 'ALL'])
   @ApiModelProperty({
     description: 'Types of dashboards to select',
     required: false,
@@ -68,6 +73,7 @@ export class DashboardFilterObject implements FilterRequest {
   name: 'DashboardSortObject'
 })
 export class DashboardSortObject implements SortRequest {
+  @IsIn(['name', 'create_time'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
@@ -75,12 +81,17 @@ export class DashboardSortObject implements SortRequest {
   })
   field: 'name' | 'create_time';
 
+  @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
     description: 'Sort order',
     required: true,
     enum: ['ASC', 'DESC'],
   })
   order: 'ASC' | 'DESC';
+
+  constructor(data: any) {
+    Object.assign(this, data);
+  }
 }
 
 @ApiModel({
@@ -88,6 +99,9 @@ export class DashboardSortObject implements SortRequest {
   name: 'DashboardListRequest',
 })
 export class DashboardListRequest {
+  @IsOptional()
+  @Type(() => DashboardFilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'Dashboard filter object',
     required: false,
@@ -95,19 +109,23 @@ export class DashboardListRequest {
   })
   filter?: DashboardFilterObject;
 
+  @Type(() => DashboardSortObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'Dashboard sort object',
     required: true,
     model: 'DashboardSortObject',
   })
-  sort: DashboardSortObject;
+  sort: DashboardSortObject = new DashboardSortObject({ field: 'create_time', order: 'ASC' });
 
+  @Type(() => PaginationRequest)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'Pagination object',
     required: true,
     model: 'PaginationRequest',
   })
-  pagination: PaginationRequest;
+  pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
 }
 
 @ApiModel({
@@ -137,6 +155,8 @@ export class DashboardPaginationResponse implements PaginationResponse<Dashboard
   name: 'DashboardCreateRequest',
 })
 export class DashboardCreateRequest {
+  @IsString()
+  @Length(1, 250)
   @ApiModelProperty({
     description: 'Name of the dashboard',
     required: true,
@@ -148,7 +168,7 @@ export class DashboardCreateRequest {
     required: true,
     type: SwaggerDefinitionConstant.JSON,
   })
-  content: object | null;
+  content: Record<string, unknown> | null;
 }
 
 @ApiModel({
@@ -156,18 +176,24 @@ export class DashboardCreateRequest {
   name: 'DashboardUpdateRequest',
 })
 export class DashboardUpdateRequest{
+  @IsUUID()
   @ApiModelProperty({
     description : "Dashboard ID in uuid format" ,
     required : true,
   })
   id: string;
 
+  @IsOptional()
+  @IsString()
+  @Length(1, 250)
   @ApiModelProperty({
     description: 'Name of the dashboard',
     required: false,
   })
   name?: string;
 
+  @IsOptional()
+  @IsObject()
   @ApiModelProperty({
     description: 'content of the dashboard stored in json object format',
     required: false,
@@ -175,6 +201,8 @@ export class DashboardUpdateRequest{
   })
   content?: Record<string, unknown>;
 
+  @IsOptional()
+  @IsBoolean()
   @ApiModelProperty({
     description: 'Whether the dashboard is removed or not',
     required: false,
@@ -187,6 +215,7 @@ export class DashboardUpdateRequest{
   name: 'DashboardIDRequest',
 })
 export class DashboardIDRequest {
+  @IsUUID()
   @ApiModelProperty({
     description: 'Dashboard uuid',
     required: true,
