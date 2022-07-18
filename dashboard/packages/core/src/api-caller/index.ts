@@ -26,7 +26,7 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
       console.log(formattedSQL);
       console.groupEnd();
     }
-    const res = await APIClient.getRequest('POST')('/query', { type, key, sql: formattedSQL })
+    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL })
     return res;
   } catch (error) {
     console.error(error)
