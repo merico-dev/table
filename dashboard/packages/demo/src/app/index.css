@@ -1,3 +1,10 @@
 .App {
   padding: 1em;
 }
+
+.dashboard-demo {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+}

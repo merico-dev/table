@@ -12,6 +12,21 @@ function App() {
     <AppShell
       padding="md"
       header={<Header />}
+      styles={{
+        root: {
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        body: {
+          flexGrow: 1,
+        },
+        main: {
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+        }
+      }}
     >
       <MantineProvider>
         <NotificationsProvider>

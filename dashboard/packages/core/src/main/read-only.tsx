@@ -7,6 +7,10 @@ import { ReadOnlyDashboardLayout } from "../layout/read-only";
 import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
 import { ModalsProvider } from '@mantine/modals';
+import { usePanelFullScreen } from "./use-panel-full-screen";
+import { DashboardActionContext } from "../contexts/dashboard-action-context";
+import { Box } from "@mantine/core";
+import { FullScreenPanel } from "./full-screen-panel";
 
 interface IReadOnlyDashboard {
   context: ContextInfoContextType;
@@ -31,16 +35,34 @@ export function ReadOnlyDashboard({
     setQueries: () => { },
   }), [dashboard]);
 
+  const {
+    viewPanelInFullScreen,
+    exitFullScreen,
+    inFullScreen,
+    fullScreenPanel,
+  } = usePanelFullScreen(dashboard.panels)
+
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <div className={className}>
+        <DashboardActionContext.Provider value={{
+          addPanel: _.noop,
+          duplidatePanel: _.noop,
+          removePanelByID: _.noop,
+          viewPanelInFullScreen,
+          inFullScreen
+        }}>
           <DefinitionContext.Provider value={definition}>
             <LayoutStateContext.Provider value={{ layoutFrozen: true, freezeLayout: () => { }, mode: DashboardMode.Use, inEditMode: false, inLayoutMode: false, inUseMode: true }}>
-              <ReadOnlyDashboardLayout panels={dashboard.panels} />
+              {inFullScreen && (
+                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
+              )}
+              <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
+                <ReadOnlyDashboardLayout panels={dashboard.panels} />
+              </Box>
             </LayoutStateContext.Provider>
           </DefinitionContext.Provider>
-        </div >
+        </DashboardActionContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
   )

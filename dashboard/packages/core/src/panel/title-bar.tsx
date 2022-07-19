@@ -1,7 +1,7 @@
 import { Group, Text, Menu, Divider, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import React from 'react';
-import { Copy, Refresh, Settings, Trash } from 'tabler-icons-react';
+import { ArrowsMaximize, Copy, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
@@ -21,7 +21,7 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
   const { id, title, refreshData } = React.useContext(PanelContext)
   const { inEditMode } = React.useContext(LayoutStateContext);
 
-  const { duplidatePanel, removePanelByID } = React.useContext(DashboardActionContext)
+  const { duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext)
   const duplicate = React.useCallback(() => {
     duplidatePanel(id);
   }, [duplidatePanel, id])
@@ -32,6 +32,10 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
     onCancel: () => console.log('Cancel'),
     onConfirm: () => removePanelByID(id),
   });
+
+  const enterFullScreen = React.useCallback(() => {
+    viewPanelInFullScreen(id)
+  }, [id, viewPanelInFullScreen])
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -46,10 +50,15 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
           placement='center'
         >
           <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
-          {inEditMode && <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>}
-          <Divider />
-          <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
-          <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
+          {!inFullScreen && <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>Full Screen</Menu.Item>}
+          {inEditMode && (
+            <>
+              <Divider label="Edit" labelPosition="center" />
+              <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>
+              <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
+              <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
+            </>
+          )}
         </Menu>
       </Group>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}

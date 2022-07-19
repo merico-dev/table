@@ -10,6 +10,9 @@ import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
 import { ModalsProvider } from '@mantine/modals';
+import { FullScreenPanel } from "./full-screen-panel";
+import { Box, Overlay } from "@mantine/core";
+import { usePanelFullScreen } from "./use-panel-full-screen";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -34,7 +37,7 @@ export function Dashboard({
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Use)
 
   const hasChanges = React.useMemo(() => {
     // local panels' layouts would contain some undefined runtime values
@@ -50,7 +53,6 @@ export function Dashboard({
     };
     return !_.isEqual(queries, dashboard.definition.queries)
   }, [dashboard, panels, sqlSnippets, queries])
-
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
@@ -135,13 +137,23 @@ export function Dashboard({
     }
   }, [sqlSnippets, queries, panels])
 
+  const {
+    viewPanelInFullScreen,
+    exitFullScreen,
+    inFullScreen,
+    fullScreenPanel,
+  } = usePanelFullScreen(panels)
+
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID }}>
+        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
           <DefinitionContext.Provider value={definitions}>
             <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-              <div className={className}>
+              {inFullScreen && (
+                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
+              )}
+              <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
                 <DashboardActions
                   mode={mode}
                   setMode={setMode}
@@ -156,7 +168,7 @@ export function Dashboard({
                   isDraggable={inLayoutMode}
                   isResizable={inLayoutMode}
                 />
-              </div >
+              </Box>
             </LayoutStateContext.Provider>
           </DefinitionContext.Provider>
         </DashboardActionContext.Provider>
