@@ -43,7 +43,8 @@ export function Dashboard({
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    if (!panelsEqual) {      return true;
+    if (!panelsEqual) {
+      return true;
     }
 
     if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
@@ -51,7 +52,6 @@ export function Dashboard({
     };
     return !_.isEqual(queries, dashboard.definition.queries)
   }, [dashboard, panels, sqlSnippets, queries])
-
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
