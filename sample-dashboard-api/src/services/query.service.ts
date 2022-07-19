@@ -1,4 +1,5 @@
 import { ApiError, BAD_REQUEST } from '../utils/errors';
+import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';
@@ -14,8 +15,13 @@ export class QueryService {
       case 'mysql':
         return await this.mysqlQuery(key, query);
       
-      // case 'http':
-      //   return await this.httpQuery(key, query);
+      case 'http':
+        const func = `http${key}`;
+        if (typeof this[func] === 'function') {
+          return await this[func](query);
+        } else {
+          throw new ApiError(BAD_REQUEST, { message: `unknown http datasource ${key}` });
+        }
       
       default:
         throw new ApiError(BAD_REQUEST, { message: 'unsupported datasource type' });
@@ -58,18 +64,5 @@ export class QueryService {
       password: config.password,
       database: config.database
     };
-  }
-
-  private async httpQuery(key: string, query: string): Promise<any> {
-    // const sourceConfig = await DataSourceService.getByTypeKey('http', key);
-    // try {
-    //   const headers = {};
-    //   // if (sourceConfig.config.credentials) {
-    //   //   headers['Authorization'] = `Bearer ${access_token}`;
-    //   // }
-    //   return await APIClient.getRequest(sourceConfig.config.method?.toUpperCase() || 'GET')(sourceConfig.config.host, query, {headers});
-    // } catch (error) {
-    //   throw new ApiError(BAD_REQUEST, { message: error.message });
-    // }
   }
 }
