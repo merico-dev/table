@@ -10,6 +10,7 @@ import { ContextInfoContext, ContextInfoContextType } from "../contexts";
 import { APIClient } from "../api-caller/request";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
 import { ModalsProvider } from '@mantine/modals';
+import { FullScreenPanel } from "./full-screen-panel";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -35,14 +36,14 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+  const [fullScreenPanelID, setFullScreenPanelID] = React.useState<string|null>(null)
 
   const hasChanges = React.useMemo(() => {
     // local panels' layouts would contain some undefined runtime values
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    if (!panelsEqual) {
-      return true;
+    if (!panelsEqual) {      return true;
     }
 
     if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
@@ -135,28 +136,44 @@ export function Dashboard({
     }
   }, [sqlSnippets, queries, panels])
 
+  const viewPanelInFullScreen = React.useCallback((id: string) => {
+    setFullScreenPanelID(id);
+  }, [])
+
+  const exitFullScreen = React.useCallback(() => {
+    setFullScreenPanelID(null)
+  }, [])
+
+  const fullScreenPanel = React.useMemo(() => {
+    return panels.find(p => p.id === fullScreenPanelID)
+  }, [fullScreenPanelID, panels]);
+
+  const inFullScreen = !!fullScreenPanel;
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID }}>
+        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
           <DefinitionContext.Provider value={definitions}>
             <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-              <div className={className}>
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  hasChanges={hasChanges}
-                  saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
-                />
-                <DashboardLayout
-                  panels={panels}
-                  setPanels={setPanels}
-                  isDraggable={inLayoutMode}
-                  isResizable={inLayoutMode}
-                />
-              </div >
+              {fullScreenPanel && (<FullScreenPanel panel={fullScreenPanel} exitFullScreen={exitFullScreen} />)}
+              {!fullScreenPanel && (
+                <div className={className}>
+                  <DashboardActions
+                    mode={mode}
+                    setMode={setMode}
+                    hasChanges={hasChanges}
+                    saveChanges={saveDashboardChanges}
+                    revertChanges={revertDashboardChanges}
+                    getCurrentSchema={getCurrentSchema}
+                  />
+                  <DashboardLayout
+                    panels={panels}
+                    setPanels={setPanels}
+                    isDraggable={inLayoutMode}
+                    isResizable={inLayoutMode}
+                  />
+                </div>
+              )}
             </LayoutStateContext.Provider>
           </DefinitionContext.Provider>
         </DashboardActionContext.Provider>
