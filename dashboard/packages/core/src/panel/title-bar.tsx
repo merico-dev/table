@@ -46,10 +46,14 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
           placement='center'
         >
           <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
-          {inEditMode && <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>}
-          <Divider />
-          <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
-          <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
+          {inEditMode && (
+            <>
+              <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>
+              <Divider />
+              <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
+              <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
+            </>
+          )}
         </Menu>
       </Group>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
