@@ -11,6 +11,7 @@ import { APIClient } from "../api-caller/request";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
 import { ModalsProvider } from '@mantine/modals';
 import { FullScreenPanel } from "./full-screen-panel";
+import { Box, Overlay } from "@mantine/core";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -155,25 +156,25 @@ export function Dashboard({
         <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
           <DefinitionContext.Provider value={definitions}>
             <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-              {fullScreenPanel && (<FullScreenPanel panel={fullScreenPanel} exitFullScreen={exitFullScreen} />)}
-              {!fullScreenPanel && (
-                <div className={className}>
-                  <DashboardActions
-                    mode={mode}
-                    setMode={setMode}
-                    hasChanges={hasChanges}
-                    saveChanges={saveDashboardChanges}
-                    revertChanges={revertDashboardChanges}
-                    getCurrentSchema={getCurrentSchema}
-                  />
-                  <DashboardLayout
-                    panels={panels}
-                    setPanels={setPanels}
-                    isDraggable={inLayoutMode}
-                    isResizable={inLayoutMode}
-                  />
-                </div>
+              {inFullScreen && (
+                <FullScreenPanel panel={fullScreenPanel} exitFullScreen={exitFullScreen} />
               )}
+              <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
+                <DashboardActions
+                  mode={mode}
+                  setMode={setMode}
+                  hasChanges={hasChanges}
+                  saveChanges={saveDashboardChanges}
+                  revertChanges={revertDashboardChanges}
+                  getCurrentSchema={getCurrentSchema}
+                />
+                <DashboardLayout
+                  panels={panels}
+                  setPanels={setPanels}
+                  isDraggable={inLayoutMode}
+                  isResizable={inLayoutMode}
+                />
+              </Box>
             </LayoutStateContext.Provider>
           </DefinitionContext.Provider>
         </DashboardActionContext.Provider>
