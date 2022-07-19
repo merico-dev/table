@@ -53,8 +53,8 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
           {!inFullScreen && <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>Full Screen</Menu.Item>}
           {inEditMode && (
             <>
+              <Divider label="Edit" labelPosition="center" />
               <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>
-              <Divider />
               <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
               <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
             </>
