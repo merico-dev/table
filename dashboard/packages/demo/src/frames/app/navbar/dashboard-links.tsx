@@ -1,4 +1,4 @@
-import { Group, UnstyledButton, Text, LoadingOverlay } from "@mantine/core";
+import { Group, UnstyledButton, Text, LoadingOverlay, Box } from "@mantine/core";
 import { useRequest } from "ahooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { DashboardAPI } from "../../../api-caller/dashboard";
@@ -45,9 +45,9 @@ export function DashboardLinks() {
   });
 
   return (
-    <div>
+    <Box pt="sm" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={loading} />
       {data.map((d) => <DashboardLink key={d.id} active={id === d.id} {...d} />)}
-    </div>
+    </Box>
   );
 }
