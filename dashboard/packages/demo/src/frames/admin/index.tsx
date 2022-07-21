@@ -2,6 +2,7 @@ import { AppShell, MantineProvider } from '@mantine/core';
 import { AdminHeader } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
+import { AdminNavbar } from './navbar';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
 
@@ -10,6 +11,7 @@ export function AdminFrame() {
     <AppShell
       padding="md"
       header={<AdminHeader />}
+      navbar={<AdminNavbar />}
       styles={{
         root: {
           minHeight: '100vh',

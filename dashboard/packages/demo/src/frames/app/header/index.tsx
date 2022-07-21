@@ -16,7 +16,7 @@ export function Header({ }: IHeader) {
       <Group position='apart'>
         <Group>
           <MericoLogo width={40} />
-          <Text size="xl" >Dashboard</Text>
+          <Text size="xl">@devtable</Text>
         </Group>
         <Group position='right'>
           <DeleteDashboard />

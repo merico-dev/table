@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="*" element={<DashboardPage />} />
           </Route>
           <Route path="/admin" element={<AdminFrame />}>
-            <Route path="data_source" element={<DataSourcePage />} />
+            <Route path="data_source/list" element={<DataSourcePage />} />
             <Route path="*" element={<DataSourcePage />} />
           </Route>
         </Routes>
