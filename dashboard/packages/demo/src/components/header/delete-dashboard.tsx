@@ -25,7 +25,7 @@ export function DeleteDashboard() {
       message: 'Dashboard is deleted',
       color: 'green'
     })
-    navigate('/')
+    navigate('/dashboard')
   }
   const confirmAndDelete = () => modals.openConfirmModal({
     title: 'Delete this dashboard?',

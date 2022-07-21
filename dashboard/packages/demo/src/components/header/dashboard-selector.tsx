@@ -11,7 +11,7 @@ export function DashboardSelector({}: IDashboardSelector) {
   const { id } = useParams()
   const navigate = useNavigate();
   const changeID = React.useCallback((id: string) => {
-    navigate(`/${id}`);
+    navigate(`/dashboard/${id}`);
   }, []);
 
   const { data: options = [], loading, refresh } = useRequest(async () => {

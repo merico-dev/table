@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { Dashboard, initialContextInfoContext, IDashboard, ContextInfoContextType } from '@devtable/dashboard'
-import { Filters } from '../components/filters';
+import { Dashboard, initialContextInfoContext, IDashboard } from '@devtable/dashboard'
+import { Filters } from '../../components/filters';
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
-import './index.css'
+import './content.css'
 import { useRequest } from 'ahooks';
-import { DashboardAPI } from '../api-caller/dashboard';
+import { DashboardAPI } from '../../api-caller/dashboard';
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 
-export function DashboardDemo({ id }: { id: string }) {
+export function DashboardPageContent({ id }: { id: string }) {
   const { data: dashboard, loading, refresh } = useRequest(async () => {
     const resp = await DashboardAPI.details(id)
     return resp;
@@ -46,7 +46,7 @@ export function DashboardDemo({ id }: { id: string }) {
 
   const ready = hasContext && !loading;
   return (
-    <div className='dashboard-demo'>
+    <div className='dashboard-page-content'>
       <Filters context={context} submit={setContext} />
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (

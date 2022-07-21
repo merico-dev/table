@@ -49,7 +49,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       color: 'green'
     })
     postSubmit()
-    navigate(`/${id}`)
+    navigate(`/dashboard/${id}`)
   }
 
   const dashboardNameSet = React.useMemo(() => {

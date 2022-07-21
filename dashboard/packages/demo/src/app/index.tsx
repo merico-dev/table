@@ -1,13 +1,11 @@
 import { AppShell, MantineProvider } from '@mantine/core';
 import { Header } from '../components/header';
-import { DashboardDemo } from './dashboard-demo';
-import { useParams } from 'react-router-dom';
 import { NotificationsProvider } from '@mantine/notifications';
+import { Outlet } from 'react-router-dom';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
 
 function App() {
-  const { id } = useParams()
   return (
     <AppShell
       padding="md"
@@ -30,7 +28,7 @@ function App() {
     >
       <MantineProvider>
         <NotificationsProvider>
-          {id && <DashboardDemo id={id} />}
+          <Outlet />
         </NotificationsProvider>
       </MantineProvider>
     </AppShell>
