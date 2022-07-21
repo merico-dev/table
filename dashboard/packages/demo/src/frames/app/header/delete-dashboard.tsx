@@ -2,6 +2,7 @@ import { Button, Text } from "@mantine/core";
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router-dom";
+import { Trash } from "tabler-icons-react";
 import { DashboardAPI } from "../../../api-caller/dashboard";
 
 export function DeleteDashboard() {
@@ -36,7 +37,10 @@ export function DeleteDashboard() {
     onCancel: () => console.log('Cancel'),
     onConfirm: doDelete,
   });
+  if (!id) {
+    return null;
+  }
   return (
-    <Button size="xs" color="red" disabled={!id} onClick={confirmAndDelete}>Delete</Button>
+    <Button size="xs" color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>Delete this dashboard</Button>
   )
 }
