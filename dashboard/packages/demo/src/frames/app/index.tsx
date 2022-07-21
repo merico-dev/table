@@ -1,11 +1,11 @@
 import { AppShell, MantineProvider } from '@mantine/core';
-import { Header } from '../components/header';
+import { Header } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
 
-function App() {
+export function App() {
   return (
     <AppShell
       padding="md"
@@ -34,5 +34,3 @@ function App() {
     </AppShell>
   )
 }
-
-export default App

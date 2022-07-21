@@ -2,7 +2,7 @@ import { Button, Text } from "@mantine/core";
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router-dom";
-import { DashboardAPI } from "../../api-caller/dashboard";
+import { DashboardAPI } from "../../../api-caller/dashboard";
 
 export function DeleteDashboard() {
   const navigate = useNavigate();

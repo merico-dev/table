@@ -4,7 +4,7 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import { useRequest } from "ahooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { DashboardAPI } from "../../api-caller/dashboard";
+import { DashboardAPI } from "../../../api-caller/dashboard";
 
 interface IFormValues {
   name: string;

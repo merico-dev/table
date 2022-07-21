@@ -1,7 +1,7 @@
 import { Select } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
-import { DashboardAPI } from "../../api-caller/dashboard";
+import { DashboardAPI } from "../../../api-caller/dashboard";
 import { useParams, useNavigate } from "react-router-dom";
 
 interface IDashboardSelector {
