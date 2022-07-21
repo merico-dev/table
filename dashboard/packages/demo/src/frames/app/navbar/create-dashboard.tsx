@@ -5,6 +5,7 @@ import { useRequest } from "ahooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { DashboardAPI } from "../../../api-caller/dashboard";
+import { PlaylistAdd } from "tabler-icons-react";
 
 interface IFormValues {
   name: string;
@@ -118,7 +119,7 @@ export function CreateDashboard({ }: ICreateDashboard) {
       >
         <CreateDashboardForm postSubmit={close} />
       </Modal>
-      <Button size="xs" color="blue" onClick={open}>Create</Button>
+      <Button size="xs" onClick={open} leftIcon={<PlaylistAdd size={20} />}>Add a new dashboard</Button>
     </>
   )
 }

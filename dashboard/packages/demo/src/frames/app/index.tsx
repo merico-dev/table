@@ -4,12 +4,14 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
+import { Navbar } from './navbar';
 
 export function App() {
   return (
     <AppShell
       padding="md"
       header={<Header />}
+      navbar={<Navbar />}
       styles={{
         root: {
           minHeight: '100vh',
