@@ -10,7 +10,7 @@ interface INavbar {
 
 export function Navbar({ }: INavbar) {
   const navigate = useNavigate();
-  const gotoSettings = () => navigate('/admin/');
+  const gotoSettings = () => navigate('/admin/data_source/list');
   return (
     <MantineNavbar p="md" width={{ base: 300 }}>
       <MantineNavbar.Section>
