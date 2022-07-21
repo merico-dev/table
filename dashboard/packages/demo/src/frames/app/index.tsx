@@ -13,18 +13,9 @@ export function App() {
       header={<Header />}
       navbar={<Navbar />}
       styles={{
-        root: {
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        },
-        body: {
-          flexGrow: 1,
-        },
         main: {
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
+          height: 'calc(100vh - 60px)',
+          overflow: 'scroll',
         }
       }}
     >
