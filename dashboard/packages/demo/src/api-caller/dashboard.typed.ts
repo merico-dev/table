@@ -1,9 +1,3 @@
-export type PaginationResponse<T> = {
-  total: number;
-  offset: number;
-  data: T[];
-}
-
 export interface IDBDashboard {
   id: string;
   name: string;

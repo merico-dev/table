@@ -34,7 +34,7 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
 }
 
 const links = [
-  { name: 'Data Source', to: '/admin/data_sources/list' }
+  { name: 'Data Sources', to: '/admin/data_sources/list' }
 ]
 
 export function AdminPageLinks() {
