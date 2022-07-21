@@ -118,7 +118,7 @@ export function CreateDashboard({ }: ICreateDashboard) {
       >
         <CreateDashboardForm postSubmit={close} />
       </Modal>
-      <Button color="blue" onClick={open}>Create</Button>
+      <Button size="xs" color="blue" onClick={open}>Create</Button>
     </>
   )
 }

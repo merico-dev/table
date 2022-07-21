@@ -38,6 +38,6 @@ export function DashboardSelector({}: IDashboardSelector) {
   }, []);
 
   return (
-    <Select clearable={false} value={id} onChange={handleChange} data={options} />
+    <Select size="xs" clearable={false} value={id} onChange={handleChange} data={options} />
   )
 }

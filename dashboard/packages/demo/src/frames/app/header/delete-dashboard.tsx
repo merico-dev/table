@@ -37,6 +37,6 @@ export function DeleteDashboard() {
     onConfirm: doDelete,
   });
   return (
-    <Button color="red" disabled={!id} onClick={confirmAndDelete}>Delete</Button>
+    <Button size="xs" color="red" disabled={!id} onClick={confirmAndDelete}>Delete</Button>
   )
 }
