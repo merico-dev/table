@@ -10,6 +10,7 @@ import { ModalsProvider } from '@mantine/modals';
 import './index.css'
 import { DashboardPage } from './pages/dashboard-page';
 import { DataSourcePage } from './pages/data-source-page';
+import { AdminFrame } from './frames/admin';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -17,12 +18,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route path="/dashboard/:id" element={<DashboardPage />} />
+            <Route path="dashboard/:id" element={<DashboardPage />} />
             <Route path="*" element={<DashboardPage />} />
           </Route>
-          {/* <Route path="/admin" element={<AdminPages />}>
-            <Route path="/data_source" element={<DataSourcePage />} />
-          </Route> */}
+          <Route path="/admin" element={<AdminFrame />}>
+            <Route path="data_source" element={<DataSourcePage />} />
+            <Route path="*" element={<DataSourcePage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ModalsProvider>
