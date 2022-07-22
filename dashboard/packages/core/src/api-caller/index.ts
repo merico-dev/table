@@ -38,7 +38,7 @@ export type TQuerySources = Record<string, string[]>
 
 export async function listDataSources(): Promise<TQuerySources> {
   try {
-    const res = await APIClient.getRequest('GET')('/datasource/list', {})
+    const res = await APIClient.getRequest('POST')('/datasource/list', {})
     return res;
   } catch (error) {
     console.error(error)

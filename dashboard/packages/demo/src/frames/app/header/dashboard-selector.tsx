@@ -1,7 +1,7 @@
 import { Select } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
-import { DashboardAPI } from "../../api-caller/dashboard";
+import { DashboardAPI } from "../../../api-caller/dashboard";
 import { useParams, useNavigate } from "react-router-dom";
 
 interface IDashboardSelector {
@@ -11,7 +11,7 @@ export function DashboardSelector({}: IDashboardSelector) {
   const { id } = useParams()
   const navigate = useNavigate();
   const changeID = React.useCallback((id: string) => {
-    navigate(`/${id}`);
+    navigate(`/dashboard/${id}`);
   }, []);
 
   const { data: options = [], loading, refresh } = useRequest(async () => {
@@ -38,6 +38,6 @@ export function DashboardSelector({}: IDashboardSelector) {
   }, []);
 
   return (
-    <Select clearable={false} value={id} onChange={handleChange} data={options} />
+    <Select size="xs" clearable={false} value={id} onChange={handleChange} data={options} />
   )
 }

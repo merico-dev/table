@@ -1,17 +1,17 @@
 import { AppShell, MantineProvider } from '@mantine/core';
-import { Header } from '../components/header';
-import { DashboardDemo } from './dashboard-demo';
-import { useParams } from 'react-router-dom';
+import { AdminHeader } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
+import { Outlet } from 'react-router-dom';
+import { AdminNavbar } from './navbar';
 import '@devtable/dashboard/dist/style.css';
 import './index.css'
 
-function App() {
-  const { id } = useParams()
+export function AdminFrame() {
   return (
     <AppShell
       padding="md"
-      header={<Header />}
+      header={<AdminHeader />}
+      navbar={<AdminNavbar />}
       styles={{
         root: {
           minHeight: '100vh',
@@ -30,11 +30,9 @@ function App() {
     >
       <MantineProvider>
         <NotificationsProvider>
-          {id && <DashboardDemo id={id} />}
+          <Outlet />
         </NotificationsProvider>
       </MantineProvider>
     </AppShell>
   )
 }
-
-export default App

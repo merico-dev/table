@@ -1,7 +1,8 @@
 import { IDashboard } from "@devtable/dashboard";
 import { normalizeDBDashboard } from "./dashboard.transform";
-import { IDBDashboard, PaginationResponse } from "./dashboard.typed";
+import { IDBDashboard } from "./dashboard.typed";
 import { get, post, put } from "./request";
+import { PaginationResponse } from "./types";
 
 export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {

@@ -4,7 +4,8 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import { useRequest } from "ahooks";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { DashboardAPI } from "../../api-caller/dashboard";
+import { DashboardAPI } from "../../../api-caller/dashboard";
+import { PlaylistAdd } from "tabler-icons-react";
 
 interface IFormValues {
   name: string;
@@ -49,7 +50,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       color: 'green'
     })
     postSubmit()
-    navigate(`/${id}`)
+    navigate(`/dashboard/${id}`)
   }
 
   const dashboardNameSet = React.useMemo(() => {
@@ -118,7 +119,7 @@ export function CreateDashboard({ }: ICreateDashboard) {
       >
         <CreateDashboardForm postSubmit={close} />
       </Modal>
-      <Button color="blue" onClick={open}>Create</Button>
+      <Button size="xs" onClick={open} leftIcon={<PlaylistAdd size={20} />}>Add a new dashboard</Button>
     </>
   )
 }
