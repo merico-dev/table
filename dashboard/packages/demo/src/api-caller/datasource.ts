@@ -21,4 +21,7 @@ export const DatasourceAPI = {
     const res = await post('/datasource/create', { type, key, config })
     return res;
   },
+  delete: async (id: string): Promise<void> => {
+    await post('/datasource/delete', { id })
+  }
 }

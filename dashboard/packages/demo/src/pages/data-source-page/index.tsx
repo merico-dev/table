@@ -4,6 +4,7 @@ import React from "react";
 import { AlertCircle, PlaylistAdd, Trash } from "tabler-icons-react";
 import { DatasourceAPI } from "../../api-caller/datasource";
 import { AddDataSource } from "./add-data-source";
+import { DeleteDataSource } from "./delete-data-source";
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -21,10 +22,6 @@ export function DataSourcePage() {
   }, {
     refreshDeps: [],
   });
-
-  const remove = async (id: string) => {
-    console.log('removing ', id)
-  }
 
   return (
     <Box sx={{ maxWidth: 1200 }}>
@@ -47,14 +44,14 @@ export function DataSourcePage() {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ key, type }) => (
+            {data.map(({ id, key, type }) => (
               <tr key={key}>
                 <td width={200}>{type}</td>
                 <td>{key}</td>
                 <td width={300}>
                   <Group position="left">
                     <Button disabled>Test</Button>
-                    <Button color="red" onClick={() => remove(key)} leftIcon={<Trash size={20} />}>Delete</Button>
+                    <DeleteDataSource id={id} name={key} onSuccess={refresh} />
                   </Group>
                 </td>
               </tr>
