@@ -9,7 +9,11 @@ interface IAdminNavbar {
 
 export function AdminNavbar({ }: IAdminNavbar) {
   const navigate = useNavigate();
-  const gotoDashboard = () => navigate('/dashboard');
+  const gotoDashboard = () => {
+    const id = localStorage.getItem('last_visited_dashboard_id')
+    const path = id ? `/dashboard/${id}` : '/dashboard'
+    navigate(path)
+  };
   return (
     <MantineNavbar p="md" width={{ base: 300 }}>
       <MantineNavbar.Section>

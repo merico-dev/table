@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Group, Navbar as MantineNavbar, Text } from '@mantine/core'
 import { Settings } from 'tabler-icons-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
 
@@ -9,8 +9,15 @@ interface INavbar {
 }
 
 export function Navbar({ }: INavbar) {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const gotoSettings = () => navigate('/admin/data_source/list');
+  const gotoSettings = () => {
+    if (id) {
+      localStorage.setItem('last_visited_dashboard_id', id)
+    }
+    navigate('/admin/data_source/list')
+  };
+
   return (
     <MantineNavbar p="md" width={{ base: 300 }}>
       <MantineNavbar.Section>
