@@ -1,6 +1,12 @@
-# Developers' Guide
-Dependencies are managed by [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/). Just run `yarn install` at current dir.
+# Dashboard Core
 
-# TODO
-- [ ] auto build `core` during debugging with `demo`
-- [ ] commitlint with conventional-commit
+```bash
+# 1. install deps at dashboard root
+cd devtable/dashboard && yarn
+
+# 2. run demo
+cd devtable/dashboard/packages/core && yarn build
+```
+see `package.json` for more scripts
+
+use `../demo` for debugging
