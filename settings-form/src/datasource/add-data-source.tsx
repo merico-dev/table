@@ -3,8 +3,8 @@ import { Controller, useForm } from "react-hook-form";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import React from "react";
 import { PlaylistAdd } from "tabler-icons-react";
-import { DatasourceAPI } from "../../api-caller/datasource";
-import { DataSourceType, IDataSourceConfig } from "../../api-caller/datasource.typed";
+import { APICaller } from "../api-caller";
+import { DataSourceType, IDataSourceConfig } from "../api-caller/datasource.typed";
 
 interface IFormValues {
   type: DataSourceType;
@@ -34,7 +34,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
       message: 'Adding data source...',
       loading: true,
     })
-    const result = await DatasourceAPI.create(type, key, config);
+    const result = await APICaller.datasource.create(type, key, config);
     if (!result) {
       updateNotification({
         id: 'for-creating',

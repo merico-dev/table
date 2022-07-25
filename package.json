@@ -5,6 +5,7 @@
   "workspaces": [
     "api",
     "dashboard",
+    "settings-form",
     "website"
   ],
   "devDependencies": {
