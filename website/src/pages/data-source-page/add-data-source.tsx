@@ -1,9 +1,7 @@
-import { ActionIcon, Box, Button, Checkbox, Divider, Group, Modal, NumberInput, PasswordInput, SegmentedControl, Select, TextInput } from "@mantine/core";
+import { Box, Button, Divider, Group, Modal, NumberInput, PasswordInput, SegmentedControl, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { useRequest } from "ahooks";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { PlaylistAdd } from "tabler-icons-react";
 import { DatasourceAPI } from "../../api-caller/datasource";
 import { DataSourceType, IDataSourceConfig } from "../../api-caller/datasource.typed";
