@@ -1,9 +1,7 @@
-import { ActionIcon, Box, Button, Checkbox, Divider, Group, Modal, NumberInput, PasswordInput, SegmentedControl, Select, TextInput } from "@mantine/core";
+import { Box, Button, Divider, Group, Modal, NumberInput, PasswordInput, SegmentedControl, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { useRequest } from "ahooks";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { PlaylistAdd } from "tabler-icons-react";
 import { DatasourceAPI } from "../../api-caller/datasource";
 import { DataSourceType, IDataSourceConfig } from "../../api-caller/datasource.typed";
@@ -29,14 +27,24 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
     }
   });
 
-  const AddDataSource = async ({ type, key, config }: IFormValues) => {
+  const addDataSource = async ({ type, key, config }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
       message: 'Adding data source...',
       loading: true,
     })
-    await DatasourceAPI.create(type, key, config);
+    const result = await DatasourceAPI.create(type, key, config);
+    if (!result) {
+      updateNotification({
+        id: 'for-creating',
+        title: 'Failed',
+        message: 'Test connection failed with given info',
+        color: 'red'
+      })
+      return;
+    }
+
     updateNotification({
       id: 'for-creating',
       title: 'Successful',
@@ -48,7 +56,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
 
   return (
     <Box mx="auto">
-      <form onSubmit={handleSubmit(AddDataSource)}>
+      <form onSubmit={handleSubmit(addDataSource)}>
         <Controller
           name='type'
           control={control}
@@ -149,8 +157,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           ))}
         />
 
-        <Group position="apart" mt="md">
-          <Button disabled>Test</Button>
+        <Group position="right" mt="md">
           <Button type="submit">Save</Button>
         </Group>
       </form>
