@@ -48,9 +48,8 @@ export function DataSourcePage() {
               <tr key={key}>
                 <td width={200}>{type}</td>
                 <td>{key}</td>
-                <td width={300}>
+                <td width={200}>
                   <Group position="left">
-                    <Button disabled>Test</Button>
                     <DeleteDataSource id={id} name={key} onSuccess={refresh} />
                   </Group>
                 </td>

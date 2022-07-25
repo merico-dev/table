@@ -27,7 +27,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
     }
   });
 
-  const AddDataSource = async ({ type, key, config }: IFormValues) => {
+  const addDataSource = async ({ type, key, config }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
@@ -46,7 +46,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
 
   return (
     <Box mx="auto">
-      <form onSubmit={handleSubmit(AddDataSource)}>
+      <form onSubmit={handleSubmit(addDataSource)}>
         <Controller
           name='type'
           control={control}
@@ -147,8 +147,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           ))}
         />
 
-        <Group position="apart" mt="md">
-          <Button disabled>Test</Button>
+        <Group position="right" mt="md">
           <Button type="submit">Save</Button>
         </Group>
       </form>
