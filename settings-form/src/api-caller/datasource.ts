@@ -1,8 +1,8 @@
 import { DataSourceType, IDataSource, IDataSourceConfig } from "./datasource.typed";
-import { get, post, put } from "./request";
-import { PaginationResponse } from "./types";
+import { get, post, put } from "../../../website/src/api-caller/request";
+import { PaginationResponse } from "../../../website/src/api-caller/types";
 
-export const DatasourceAPI = {
+export const datasource = {
   list: async (): Promise<PaginationResponse<IDataSource>> => {
     const res = await post('/datasource/list', {
       filter: {},

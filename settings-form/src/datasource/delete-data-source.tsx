@@ -2,7 +2,7 @@ import { Button, Text } from "@mantine/core";
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { Trash } from "tabler-icons-react";
-import { DatasourceAPI } from "../../api-caller/datasource";
+import { APICaller } from "../api-caller";
 
 export function DeleteDataSource({ id, name, onSuccess }: { id: string, name: string, onSuccess: () => void }) {
   const modals = useModals()
@@ -17,7 +17,7 @@ export function DeleteDataSource({ id, name, onSuccess }: { id: string, name: st
       message: 'Deleting data source...',
       loading: true,
     })
-    await DatasourceAPI.delete(id)
+    await APICaller.datasource.delete(id)
     updateNotification({
       id: 'for-deleting',
       title: 'Successful',
