@@ -2,9 +2,7 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
-import { DataSourceConfig } from '../api_models/datasource';
-
-const DATABASE_CONNECTION_TIMEOUT_MS = 5000;
+import { configureDatabaseSource } from '../utils/helpers';
 
 export class QueryService {
   async query(type: string, key: string, query: string): Promise<any> {
@@ -30,12 +28,8 @@ export class QueryService {
 
   private async postgresqlQuery(key: string, sql: string): Promise<object[]> {
     const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
-    const configuration = this.configureDatabaseSource(sourceConfig.config);
-    const source = new DataSource({
-      ...configuration,
-      type: 'postgres',
-      connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,
-    });
+    const configuration = configureDatabaseSource('postgresql', sourceConfig.config);
+    const source = new DataSource(configuration);
     await source.initialize();
     const result = await source.query(sql);
     await source.destroy();
@@ -44,25 +38,11 @@ export class QueryService {
 
   private async mysqlQuery(key: string, sql: string): Promise<object[]> {
     const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
-    const configuration = this.configureDatabaseSource(sourceConfig.config);
-    const source = new DataSource({
-      ...configuration,
-      type: 'mysql',
-      connectTimeout : DATABASE_CONNECTION_TIMEOUT_MS,
-    });
+    const configuration = configureDatabaseSource('mysql', sourceConfig.config);
+    const source = new DataSource(configuration);
     await source.initialize();
     const result = await source.query(sql);
     await source.destroy();
     return result;
-  }
-
-  private configureDatabaseSource(config: DataSourceConfig) {
-    return {
-      host: config.host,
-      port: config.port,
-      username: config.username,
-      password: config.password,
-      database: config.database
-    };
   }
 }

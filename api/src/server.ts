@@ -40,7 +40,7 @@ server.setConfig((app: any) => {
   }));
   app.use(authorizationMiddleware);
   app.use('/api-docs/swagger', express.static('swagger'));
-  app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
+  app.use('/api-docs/swagger/assets', express.static('swagger/assets'));
   
   app.get('/ping', (req: express.Request, res: express.Response) => {
     res.send('pong 1');

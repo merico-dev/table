@@ -176,7 +176,7 @@ export class DataSourceCreateRequest {
     required: true,
     enum: ['postgresql', 'mysql'],
   })
-  type: string;
+  type: 'postgresql' | 'mysql';
 
   @IsString()
   @Length(1, 250)
