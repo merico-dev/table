@@ -1,6 +1,6 @@
-import { Entity, Column } from "typeorm";
-import { BaseModel } from "./base";
-import { DataSourceConfig } from "../api_models/datasource";
+import { Entity, Column } from 'typeorm';
+import { BaseModel } from './base';
+import { DataSourceConfig } from '../api_models/datasource';
 
 @Entity()
 export default class DataSource extends BaseModel {

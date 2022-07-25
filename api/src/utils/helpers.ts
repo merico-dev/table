@@ -1,5 +1,5 @@
-import { DataSourceOptions } from "typeorm";
-import { DataSourceConfig } from "../api_models/datasource";
+import { DataSourceOptions } from 'typeorm';
+import { DataSourceConfig } from '../api_models/datasource';
 
 const DATABASE_CONNECTION_TIMEOUT_MS = 5000;
 

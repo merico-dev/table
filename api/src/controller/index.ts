@@ -1,8 +1,8 @@
-import { Container } from "inversify";
+import { Container } from 'inversify';
 import { interfaces, TYPE } from 'inversify-express-utils';
-import { DashboardController } from "./dashboard.controller";
-import { QueryController } from "./query.controller";
-import { DataSourceController } from "./datasource.controller";
+import { DashboardController } from './dashboard.controller';
+import { QueryController } from './query.controller';
+import { DataSourceController } from './datasource.controller';
 
 export function bindControllers(container: Container) {
   container.bind<interfaces.Controller>(TYPE.Controller).to(DashboardController).inSingletonScope().whenTargetNamed(DashboardController.TARGET_NAME);

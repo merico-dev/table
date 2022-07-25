@@ -1,5 +1,5 @@
-import { IsIn, IsString } from "class-validator";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
+import { IsIn, IsString } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 
 @ApiModel({
   description: 'Query object',

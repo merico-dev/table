@@ -1,5 +1,5 @@
-import { IsInt, ValidationError } from "class-validator";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
+import { IsInt, ValidationError } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 
 export interface FilterRequest {
   search?: string;
