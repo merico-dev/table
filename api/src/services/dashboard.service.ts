@@ -35,7 +35,7 @@ export class DashboardService {
     };
   }
 
-  async create(name: string, content: object | null): Promise<Dashboard> {
+  async create(name: string, content: Record<string, any>): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = new Dashboard();
     dashboard.name = name;
@@ -49,7 +49,7 @@ export class DashboardService {
     return await dashboardRepo.findOneByOrFail({ id });
   }
 
-  async update(id: string, name: string | undefined, content: object | null | undefined, is_removed: boolean | undefined): Promise<Dashboard> {
+  async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     dashboard.name = name === undefined ? dashboard.name : name;

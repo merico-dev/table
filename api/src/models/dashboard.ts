@@ -1,5 +1,5 @@
-import { Entity, Column } from "typeorm";
-import { BaseModel } from "./base";
+import { Entity, Column } from 'typeorm';
+import { BaseModel } from './base';
 
 @Entity()
 export default class Dashboard extends BaseModel {
@@ -11,7 +11,7 @@ export default class Dashboard extends BaseModel {
   name: string;
 
   @Column('jsonb', { name: 'content' })
-  content: object | null;
+  content: Record<string, any>;
 
   @Column('boolean', {
     default: false,

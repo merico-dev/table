@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant  } from 'swagger-express-ts';
 import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from "./base";
+import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Dashboard entity',
@@ -9,7 +9,7 @@ import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } fro
 })
 export class Dashboard {
   @ApiModelProperty({
-    description : "Dashboard ID in uuid format" ,
+    description : 'Dashboard ID in uuid format' ,
     required : false,
   })
   id: string;
@@ -28,7 +28,7 @@ export class Dashboard {
   content: object | null;
 
   @ApiModelProperty({
-    description : "whether the dashboard is removed or not" ,
+    description : 'whether the dashboard is removed or not' ,
     required : false,
   })
   is_removed: boolean;
@@ -163,12 +163,13 @@ export class DashboardCreateRequest {
   })
   name: string;
 
+  @IsObject()
   @ApiModelProperty({
     description: 'content of the dashboard stored in json object format',
     required: true,
     type: SwaggerDefinitionConstant.JSON,
   })
-  content: Record<string, unknown> | null;
+  content: Record<string, any>;
 }
 
 @ApiModel({
@@ -178,7 +179,7 @@ export class DashboardCreateRequest {
 export class DashboardUpdateRequest{
   @IsUUID()
   @ApiModelProperty({
-    description : "Dashboard ID in uuid format" ,
+    description : 'Dashboard ID in uuid format' ,
     required : true,
   })
   id: string;
@@ -199,7 +200,7 @@ export class DashboardUpdateRequest{
     required: false,
     type: SwaggerDefinitionConstant.JSON,
   })
-  content?: Record<string, unknown>;
+  content?: Record<string, any>;
 
   @IsOptional()
   @IsBoolean()

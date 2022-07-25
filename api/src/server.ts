@@ -19,6 +19,7 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 dashboardDataSource.initialize()
 .then(() => {
   logger.info('Dashboard Data Source initialization successful!');
+  require('./dashboard_migration');
 })
 .catch((err) => {
   logger.error(`Dashboard Data Source initialization failed: ${err}`, err);
