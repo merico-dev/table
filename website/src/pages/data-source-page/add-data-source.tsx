@@ -34,7 +34,17 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
       message: 'Adding data source...',
       loading: true,
     })
-    await DatasourceAPI.create(type, key, config);
+    const result = await DatasourceAPI.create(type, key, config);
+    if (!result) {
+      updateNotification({
+        id: 'for-creating',
+        title: 'Failed',
+        message: 'Test connection failed with given info',
+        color: 'red'
+      })
+      return;
+    }
+
     updateNotification({
       id: 'for-creating',
       title: 'Successful',

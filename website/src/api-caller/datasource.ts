@@ -17,9 +17,14 @@ export const DatasourceAPI = {
     })
     return res;
   },
-  create: async (type: DataSourceType, key: string, config: IDataSourceConfig): Promise<PaginationResponse<IDataSource>> => {
-    const res = await post('/datasource/create', { type, key, config })
-    return res;
+  create: async (type: DataSourceType, key: string, config: IDataSourceConfig): Promise<PaginationResponse<IDataSource> | false> => {
+    try {
+      const res = await post('/datasource/create', { type, key, config })
+      return res;
+    } catch (error) {
+      console.error(error)
+      return false;
+    }
   },
   delete: async (id: string): Promise<void> => {
     await post('/datasource/delete', { id })
