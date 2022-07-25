@@ -1,6 +1,3 @@
-export interface IDataSourceList {}
-export function DataSourceList({}: IDataSourceList) {
-  return (
-    <span>DataSourceList</span>
-  )
-}
+export * from './add-data-source'
+export * from './data-source-list'
+export * from './delete-data-source'

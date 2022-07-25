@@ -1,6 +1,7 @@
 import React from "react";
 import { AlertCircle } from "tabler-icons-react";
 import { Box, Breadcrumbs, Anchor, Group, Alert } from "@mantine/core";
+import { DataSourceList } from '@devtable/settings-form';
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -21,7 +22,7 @@ export function DataSourcePage() {
         Details of data sources are not exposed to avoid security risk.<br />
         You may only <b>Add</b> or <b>Delete</b> a data source.
       </Alert>
-      {/* <DataSourceList /> */}
+      <DataSourceList />
     </Box>
   )
 }
