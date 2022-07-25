@@ -1,8 +1,10 @@
+import { DataSource as Source } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
 import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationResponse, DataSourceConfig } from '../api_models/datasource';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
+import { configureDatabaseSource } from '../utils/helpers';
 
 export class DataSourceService {
   static async getByTypeKey(type: string, key: string): Promise<DataSource> {
@@ -35,7 +37,8 @@ export class DataSourceService {
     };
   }
 
-  async create(type: string, key: string, config: DataSourceConfig): Promise<DataSource> {
+  async create(type: 'mysql' | 'postgresql', key: string, config: DataSourceConfig): Promise<DataSource> {
+    await this.testDatabaseConfiguration(type, config);
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = new DataSource();
@@ -50,5 +53,12 @@ export class DataSourceService {
   async delete(id: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     await dataSourceRepo.delete(id);
+  }
+
+  private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {
+    const configuration = configureDatabaseSource(type, config);
+    const source = new Source(configuration);
+    await source.initialize();
+    await source.destroy();
   }
 }
