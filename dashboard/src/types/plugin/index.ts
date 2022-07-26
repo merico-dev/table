@@ -4,7 +4,7 @@ import React from 'react';
 /**
  * Basic information of a viz component instance
  */
-interface VizInstance {
+export interface VizInstance {
   id: string;
   name: string;
 }
@@ -12,12 +12,12 @@ interface VizInstance {
 /**
  * Props to render the view of viz component
  */
-interface VizViewProps {
+export interface VizViewProps {
   instance: VizInstance;
   context: VizViewContext;
 }
 
-interface PluginStorage {
+export interface PluginStorage {
   getItem<T>(key: string): Promise<T>;
 
   setItem<T>(key: string, item: T): Promise<T>;
@@ -25,32 +25,32 @@ interface PluginStorage {
   deleteItem(key: string): Promise<void>;
 }
 
-interface ColorPaletteItem {
+export interface ColorPaletteItem {
   name: string;
   type: string;
   category: string;
 }
 
-interface SingleColor extends ColorPaletteItem {
+export interface SingleColor extends ColorPaletteItem {
   type: 'single';
   value: string;
 }
 
-interface ColorInterpolation extends ColorPaletteItem {
+export interface ColorInterpolation extends ColorPaletteItem {
   type: 'interpolation';
   interpolation: (value: number) => string;
 }
 
-interface ColorPalette {
+export interface ColorPalette {
   getColor(colorInfo: ColorPaletteItem): (value: unknown) => string;
 }
 
-interface IMessageChannels {
+export interface IMessageChannels {
   globalChannel: EventEmitter2;
   getChannel(name: string): EventEmitter2;
 }
 
-interface VizContext {
+export interface VizContext {
   pluginData: PluginStorage;
   instanceData: PluginStorage;
   colorPalette: ColorPalette;
@@ -58,25 +58,25 @@ interface VizContext {
   msgChannels: IMessageChannels;
 }
 
-interface VizConfigContext extends VizContext {
+export interface VizConfigContext extends VizContext {
 }
 
-interface VizViewContext extends VizContext {
+export interface VizViewContext extends VizContext {
   viewport: { width: string; height: string; };
   data: unknown;
 }
 
-interface VizConfigProps {
+export interface VizConfigProps {
   instance: VizInstance;
   context: VizConfigContext;
 }
 
-interface VizComponentMigrationContext {
+export interface VizComponentMigrationContext {
   pluginData: PluginStorage;
   instanceData: PluginStorage;
 }
 
-interface VizComponent {
+export interface VizComponent {
   name: string;
   viewRender: React.Component<VizViewProps>;
   configRender: React.Component<VizConfigProps>;
@@ -94,7 +94,7 @@ export interface DashboardPlugin {
   manifest: PluginManifest;
 }
 
-interface PluginManager {
+export interface PluginManager {
   install(plugin: DashboardPlugin): void;
 
   factory: {
