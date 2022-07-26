@@ -27,6 +27,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "eventemitter2": "^6.4.6",
     "popmotion": "^11.0.3"
   },
   "devDependencies": {
