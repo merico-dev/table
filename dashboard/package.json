@@ -24,7 +24,9 @@
   "scripts": {
     "dev-build": "tsc && vite build --watch",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest --globals",
+    "coverage": "vitest --globals --coverage"
   },
   "dependencies": {
     "eventemitter2": "^6.4.6",
@@ -58,7 +60,8 @@
     "tabler-icons-react": "^1.48.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.9",
-    "vite-plugin-dts": "^1.1.1"
+    "vite-plugin-dts": "^1.1.1",
+    "vitest": "^0.19.1"
   },
   "peerDependencies": {
     "@emotion/react": "11.10.0",
