@@ -78,24 +78,24 @@ export interface VizComponentMigrationContext {
 
 export interface VizComponent {
   name: string;
-  viewRender: React.Component<VizViewProps>;
-  configRender: React.Component<VizConfigProps>;
+  viewRender: React.ComponentType<VizViewProps>;
+  configRender: React.ComponentType<VizConfigProps>;
   migration: (ctx: VizComponentMigrationContext) => Promise<void>;
 }
 
-export interface PluginManifest {
+export interface IPluginManifest {
   viz: VizComponent[];
   color: ColorPaletteItem[];
 }
 
-export interface DashboardPlugin {
+export interface IDashboardPlugin {
   id: string;
   version: string;
-  manifest: PluginManifest;
+  manifest: IPluginManifest;
 }
 
-export interface PluginManager {
-  install(plugin: DashboardPlugin): void;
+export interface IPluginManager {
+  install(plugin: IDashboardPlugin): void;
 
   factory: {
     viz: (name: string) => VizComponent;
