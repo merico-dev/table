@@ -1,26 +1,6 @@
-import {
-  IPluginManager,
-  VizComponent,
-} from '../types/plugin';
+import { IPluginManager, } from '../types/plugin';
 import { PluginManager } from './plugin-manager';
-
-// bad path
-//    todo: plugin not found
-function createMockPlugin(id: string = 'foo', components: string [] = ['mockViz']) {
-  return {
-    id: id,
-    manifest: {
-      color: [], viz: components.map(name => ({
-        name,
-        configRender: () => <span>Hello</span>,
-        viewRender: () => <span>World</span>,
-        migration: async () => {
-        }
-      } as VizComponent))
-    },
-    version: '1.1.1'
-  };
-}
+import { createMockPlugin } from './test-utils';
 
 describe('plugin-manager', () => {
   let pm: IPluginManager;
