@@ -1,3 +1,7 @@
+.dashboard-layout {
+  margin-left: -10px;
+  margin-right: -10px;
+}
 .react-grid-item {
   padding: 0;
 }
