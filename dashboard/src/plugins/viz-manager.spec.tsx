@@ -44,14 +44,18 @@ describe('VizManager', () => {
     } as IDashboardPlugin);
   });
   test('create view', async () => {
-    const view = vizManager.createVizView(mockPanel);
+    const view = vizManager.createVizView(mockPanel, 'data');
     render(<>{view}</>);
     await waitFor(() => {
       expect(screen.getByText('Hello, alice')).toBeInTheDocument();
     });
   });
   test('create config', async () => {
-    const configPanel = vizManager.createVizConfig(mockPanel);
+    const configPanel = vizManager.createVizConfig(mockPanel, {
+      title: '',
+      description: '',
+      queryID: ''
+    });
     render(<>{configPanel}</>);
     await waitFor(() => {
       expect(screen.getByText('World')).toBeInTheDocument();

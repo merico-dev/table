@@ -56,14 +56,22 @@ export interface VizContext {
   colorPalette: ColorPalette;
   locale: string;
   msgChannels: IMessageChannels;
+  data: unknown;
+}
+
+type Setter<T> = (val: string) => void;
+export interface IPanelInfoEditor {
+  setTitle: Setter<string>;
+  setDescription: Setter<string>;
+  setQueryID: Setter<string>;
 }
 
 export interface VizConfigContext extends VizContext {
+  panelInfoEditor: IPanelInfoEditor;
 }
 
 export interface VizViewContext extends VizContext {
   viewport: { width: number; height: number; };
-  data: unknown;
 }
 
 export interface VizConfigProps {
@@ -78,6 +86,7 @@ export interface VizComponentMigrationContext {
 
 export interface VizComponent {
   name: string;
+  displayName?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migration: (ctx: VizComponentMigrationContext) => Promise<void>;
@@ -96,6 +105,8 @@ export interface IDashboardPlugin {
 
 export interface IPluginManager {
   install(plugin: IDashboardPlugin): void;
+
+  installedPlugins: IDashboardPlugin[];
 
   factory: {
     viz: (name: string) => VizComponent;

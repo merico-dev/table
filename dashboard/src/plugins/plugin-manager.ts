@@ -41,6 +41,10 @@ export class PluginManager implements IPluginManager {
     }
   }
 
+  get installedPlugins(): IDashboardPlugin[] {
+    return Array.from(this.plugins.values());
+  }
+
 }
 
 // todo: text viz component plugin
