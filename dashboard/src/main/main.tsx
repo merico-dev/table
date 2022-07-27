@@ -1,6 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
-import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
+import {
+  DashboardMode,
+  IDashboard,
+  IQuery,
+  ISQLSnippet,
+  IDashboardConfig
+} from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
@@ -18,6 +24,8 @@ import { FilterValuesContext } from '../contexts/filter-values-context';
 import { useFilters } from './use-filters';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
+import { createPluginContext, PluginContext } from '../plugins/plugin-context';
+import { useCreation } from 'ahooks';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -28,12 +36,12 @@ interface IDashboardProps {
 }
 
 export const Dashboard = observer(function _Dashboard({
-  context,
-  dashboard,
-  update,
-  className = 'dashboard',
-  config,
-}: IDashboardProps) {
+                                                        context,
+                                                        dashboard,
+                                                        update,
+                                                        className = 'dashboard',
+                                                        config,
+                                                      }: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -46,7 +54,12 @@ export const Dashboard = observer(function _Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
-  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
+  const {
+    filters,
+    setFilters,
+    filterValues,
+    setFilterValues
+  } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
@@ -157,21 +170,45 @@ export const Dashboard = observer(function _Dashboard({
     };
   }, [sqlSnippets, queries, panels]);
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
+  const {
+    viewPanelInFullScreen,
+    exitFullScreen,
+    inFullScreen,
+    fullScreenPanel
+  } = usePanelFullScreen(panels);
 
+  const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
         <FilterValuesContext.Provider value={filterValues}>
           <DashboardActionContext.Provider
-            value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}
+            value={{
+              addPanel,
+              duplidatePanel,
+              removePanelByID,
+              viewPanelInFullScreen,
+              inFullScreen
+            }}
           >
             <DefinitionContext.Provider value={definitions}>
               <LayoutStateContext.Provider
-                value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}
+                value={{
+                  layoutFrozen,
+                  freezeLayout,
+                  mode,
+                  inEditMode,
+                  inLayoutMode,
+                  inUseMode
+                }}
               >
-                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-                <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
+                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!}
+                                                  exitFullScreen={exitFullScreen}/>}
+                <Box className={className}
+                     sx={{
+                       position: 'relative',
+                       display: inFullScreen ? 'none' : 'block'
+                     }}>
                   <DashboardActions
                     mode={mode}
                     setMode={setMode}
@@ -181,13 +218,18 @@ export const Dashboard = observer(function _Dashboard({
                     getCurrentSchema={getCurrentSchema}
                     model={model}
                   />
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <DashboardLayout
-                    panels={panels}
-                    setPanels={setPanels}
-                    isDraggable={inLayoutMode}
-                    isResizable={inLayoutMode}
-                  />
+                  <Filters filters={filters}
+                           filterValues={filterValues}
+                           setFilterValues={setFilterValues}/>
+                  <PluginContext.Provider value={pluginContext}>
+
+                    <DashboardLayout
+                      panels={panels}
+                      setPanels={setPanels}
+                      isDraggable={inLayoutMode}
+                      isResizable={inLayoutMode}
+                    />
+                  </PluginContext.Provider>
                 </Box>
               </LayoutStateContext.Provider>
             </DefinitionContext.Provider>
