@@ -13,6 +13,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { FullScreenPanel } from "./full-screen-panel";
 import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
+import { Filters } from "../filter";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -37,7 +38,7 @@ export function Dashboard({
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Use)
+  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
 
   const hasChanges = React.useMemo(() => {
     // local panels' layouts would contain some undefined runtime values
@@ -162,6 +163,7 @@ export function Dashboard({
                   revertChanges={revertDashboardChanges}
                   getCurrentSchema={getCurrentSchema}
                 />
+                <Filters />
                 <DashboardLayout
                   panels={panels}
                   setPanels={setPanels}
