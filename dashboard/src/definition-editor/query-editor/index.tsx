@@ -1,6 +1,6 @@
 import { AppShell, Group } from "@mantine/core";
 import React from "react";
-import { ContextAndSnippets } from "./context-and-snippets";
+import { GlobalVariablesGuide } from "../global-variables-guide";
 import { DataPreview } from "./data-preview";
 import { QueryEditor } from "./editor";
 import { SelectOrAddQuery } from "./select-or-add-query";
@@ -25,7 +25,7 @@ export function EditQueries({ }: IEditQueries) {
           <SelectOrAddQuery id={id} setID={setID} />
           <QueryEditor id={id} setID={setID} />
         </Group>
-        <ContextAndSnippets />
+        <GlobalVariablesGuide />
       </Group>
       <DataPreview id={id} />
     </AppShell>

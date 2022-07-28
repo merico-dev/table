@@ -1,6 +1,6 @@
 import { AppShell, Group } from "@mantine/core";
 import React from "react";
-import { ContextInfo } from "./context-info";
+import { GlobalVariablesGuide } from "../global-variables-guide";
 import { SQLSnippetsEditor } from "./editor";
 import { SQLSnippetGuide } from "./guide";
 
@@ -21,7 +21,7 @@ export function EditSQLSnippets({ }: IEditSQLSnippets) {
         <SQLSnippetsEditor />
         <Group direction="column" grow noWrap sx={{ maxWidth: '40%' }}>
           <SQLSnippetGuide />
-          <ContextInfo />
+          <GlobalVariablesGuide showSQLSnippets={false} />
         </Group>
       </Group>
     </AppShell>
