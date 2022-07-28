@@ -8,7 +8,7 @@ import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
-import { DefinitionContext } from '../contexts';
+import { DefinitionContext, FilterValuesContext } from '../contexts';
 import { ErrorBoundary } from './error-boundary';
 
 interface IPanel extends IDashboardPanel {
@@ -17,6 +17,7 @@ interface IPanel extends IDashboardPanel {
 
 export function Panel({ viz: initialViz, queryID: initialQueryID, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
+  const filterValues = React.useContext(FilterValuesContext);
   const definitions = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle)
   const [description, setDescription] = React.useState(initialDesc)
@@ -45,10 +46,11 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
   const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
+    filterValues,
     title,
     query,
   }), {
-    refreshDeps: [contextInfo, definitions, query],
+    refreshDeps: [contextInfo, definitions, query, filterValues],
   });
   const refreshData = refresh;
   return (

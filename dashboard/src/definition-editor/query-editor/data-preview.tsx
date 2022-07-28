@@ -3,10 +3,11 @@ import { useRequest } from "ahooks";
 import React from "react";
 import { Refresh } from "tabler-icons-react";
 import { queryBySQL } from "../../api-caller";
-import { ContextInfoContext, DefinitionContext } from "../../contexts";
+import { ContextInfoContext, DefinitionContext, FilterValuesContext } from "../../contexts";
 
 export function DataPreview({ id }: { id: string }) {
   const definitions = React.useContext(DefinitionContext);
+  const filterValues = React.useContext(FilterValuesContext);
   const contextInfo = React.useContext(ContextInfoContext);
 
   const query = React.useMemo(() => {
@@ -16,10 +17,11 @@ export function DataPreview({ id }: { id: string }) {
   const { data = [], loading, refresh } = useRequest(queryBySQL({
     context: contextInfo,
     definitions,
+    filterValues,
     title: id,
     query,
   }), {
-    refreshDeps: [contextInfo, definitions, query],
+    refreshDeps: [contextInfo, definitions, query, filterValues],
   });
   if (loading) {
     return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;

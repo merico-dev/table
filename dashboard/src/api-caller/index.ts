@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { ContextInfoContextType } from "../contexts";
+import { ContextInfoContextType, FilterValuesContextType } from "../contexts";
 import { IDashboardDefinition, IQuery } from "../types";
 import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
@@ -10,9 +10,10 @@ interface IQueryBySQL {
   definitions: IDashboardDefinition;
   title: string;
   query?: IQuery;
+  filterValues: FilterValuesContextType;
 }
 
-export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) => async () => {
+export const queryBySQL = ({ context, definitions, title, query, filterValues }: IQueryBySQL) => async () => {
   if (!query || !query.sql) {
     return [];
   }
@@ -20,7 +21,7 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
 
   const needParams = sql.includes('$');
   try {
-    const params = getSQLParams(context, definitions);
+    const params = getSQLParams(context, definitions, filterValues);
     const formattedSQL = formatSQL(sql, params);
     if (needParams) {
       console.groupCollapsed(`Final SQL for: ${title}`);
