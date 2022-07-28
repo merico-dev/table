@@ -15,6 +15,7 @@ import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
 import { Filters } from "../filter";
 import { IDashboardFilter, mockFilters } from "../types";
+import { FilterValuesContext } from "../contexts/filter-values-context";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -158,32 +159,34 @@ export function Dashboard({
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
-          <DefinitionContext.Provider value={definitions}>
-            <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-              {inFullScreen && (
-                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
-              )}
-              <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  hasChanges={hasChanges}
-                  saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
-                />
-                <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                <DashboardLayout
-                  panels={panels}
-                  setPanels={setPanels}
-                  isDraggable={inLayoutMode}
-                  isResizable={inLayoutMode}
-                />
-              </Box>
-            </LayoutStateContext.Provider>
-          </DefinitionContext.Provider>
-        </DashboardActionContext.Provider>
+        <FilterValuesContext.Provider value={filterValues}>
+          <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
+            <DefinitionContext.Provider value={definitions}>
+              <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
+                {inFullScreen && (
+                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
+                )}
+                <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
+                  <DashboardActions
+                    mode={mode}
+                    setMode={setMode}
+                    hasChanges={hasChanges}
+                    saveChanges={saveDashboardChanges}
+                    revertChanges={revertDashboardChanges}
+                    getCurrentSchema={getCurrentSchema}
+                  />
+                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <DashboardLayout
+                    panels={panels}
+                    setPanels={setPanels}
+                    isDraggable={inLayoutMode}
+                    isResizable={inLayoutMode}
+                  />
+                </Box>
+              </LayoutStateContext.Provider>
+            </DefinitionContext.Provider>
+          </DashboardActionContext.Provider>
+        </FilterValuesContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
   )
