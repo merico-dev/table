@@ -25,9 +25,10 @@ const BuiltInPlugin: IDashboardPlugin = {
 export const pluginManager = new PluginManager();
 
 export const createPluginContext = (): IPluginContextProps => {
-  pluginManager.install(BuiltInPlugin);
   const vizManager = new VizManager(pluginManager);
   return { pluginManager, vizManager };
 };
 
 export const PluginContext = createContext<IPluginContextProps>(createPluginContext());
+
+pluginManager.install(BuiltInPlugin);
