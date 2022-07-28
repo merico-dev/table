@@ -1,8 +1,7 @@
-import _ from "lodash";
-import { ContextInfoContextType } from "../contexts";
-import { IDashboardDefinition, IQuery } from "../types";
-import { formatSQL, getSQLParams } from "../utils/sql";
-import { APIClient } from "./request";
+import { ContextInfoContextType } from '../contexts';
+import { IDashboardDefinition, IQuery } from '../types';
+import { formatSQL, getSQLParams } from '../utils/sql';
+import { APIClient } from './request';
 
 interface IQueryBySQL {
   context: ContextInfoContextType;
@@ -11,37 +10,53 @@ interface IQueryBySQL {
   query?: IQuery;
 }
 
-export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) => async () => {
-  if (!query || !query.sql) {
-    return [];
-  }
-  const { type, key, sql } = query;
-
-  const needParams = sql.includes('$');
-  try {
-    const params = getSQLParams(context, definitions);
-    const formattedSQL = formatSQL(sql, params);
-    if (needParams) {
-      console.groupCollapsed(`Final SQL for: ${title}`);
-      console.log(formattedSQL);
-      console.groupEnd();
+export const queryBySQL =
+  ({
+     context,
+     definitions,
+     title,
+     query
+   }: IQueryBySQL) => async () => {
+    if (!query || !query.sql) {
+      return [];
     }
-    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL })
-    return res;
-  } catch (error) {
-    console.error(error)
-    return [];
-  }
-}
+    const { type, key, sql } = query;
 
-export type TQuerySources = Record<string, string[]>
+    const needParams = sql.includes('$');
+    try {
+      const params = getSQLParams(context, definitions);
+      const formattedSQL = formatSQL(sql, params);
+      if (needParams) {
+        console.groupCollapsed(`Final SQL for: ${title}`);
+        console.log(formattedSQL);
+        console.groupEnd();
+      }
+      const res = await APIClient.getRequest('POST')('/query', {
+        type,
+        key,
+        query: formattedSQL
+      });
+      return res;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  };
+
+export type TQuerySources = {
+  total: number;
+  data: {
+    type: string;
+    key: string;
+  }[];
+}
 
 export async function listDataSources(): Promise<TQuerySources> {
   try {
-    const res = await APIClient.getRequest('POST')('/datasource/list', {})
+    const res = await APIClient.getRequest('POST')('/datasource/list', {});
     return res;
   } catch (error) {
-    console.error(error)
-    return {};
+    console.error(error);
+    return { data: [], total: 0 };
   }
 }
