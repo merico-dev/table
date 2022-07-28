@@ -1,6 +1,7 @@
 import { Group, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
+import { FilterValuesContext } from "../../contexts";
 import { ContextInfoContext } from "../../contexts/context-info-context";
 
 interface IContextInfo {
@@ -8,6 +9,7 @@ interface IContextInfo {
 
 export function ContextInfo({ }: IContextInfo) {
   const contextInfo = React.useContext(ContextInfoContext)
+  const filterValues = React.useContext(FilterValuesContext)
   const sampleSQL = `SELECT *\nFROM commit\nWHERE author_time BETWEEN '\$\{timeRange?.[0].toISOString()\}' AND '\$\{timeRange?.[1].toISOString()\}'`;
 
   return (
@@ -21,6 +23,9 @@ export function ContextInfo({ }: IContextInfo) {
         </Prism>
         <Text weight={500} sx={{ flexGrow: 0 }}>Available context entries</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{JSON.stringify(contextInfo, null, 2)}</Prism>
+
+        <Text weight={500} sx={{ flexGrow: 0 }}>Available filter values</Text>
+        <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{JSON.stringify(filterValues, null, 2)}</Prism>
       </Group>
     </Group>
   )

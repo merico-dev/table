@@ -1,7 +1,7 @@
 import { Group, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
-import { DefinitionContext } from "../../contexts";
+import { DefinitionContext, FilterValuesContext } from "../../contexts";
 import { ContextInfoContext } from "../../contexts/context-info-context";
 
 interface IContextAndSnippets {
@@ -21,6 +21,7 @@ WHERE
 `
 export function ContextAndSnippets({ }: IContextAndSnippets) {
   const contextInfo = React.useContext(ContextInfoContext)
+  const filterValues = React.useContext(FilterValuesContext)
   const { sqlSnippets } = React.useContext(DefinitionContext)
 
   const snippets = React.useMemo(() => {
@@ -46,6 +47,8 @@ export function ContextAndSnippets({ }: IContextAndSnippets) {
         </Prism>
         <Text weight={500} sx={{ flexGrow: 0 }}>Available context</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{context}</Prism>
+        <Text weight={500} sx={{ flexGrow: 0 }}>Available filter values</Text>
+        <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{JSON.stringify(filterValues, null, 2)}</Prism>
         <Text weight={500} sx={{ flexGrow: 0 }}>Available SQL Snippets</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{snippets}</Prism>
       </Group>
