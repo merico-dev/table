@@ -14,6 +14,7 @@ import { FullScreenPanel } from "./full-screen-panel";
 import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
 import { Filters } from "../filter";
+import { IDashboardFilter, mockFilters } from "../types";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -33,12 +34,21 @@ export function Dashboard({
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
-
   const [layoutFrozen, freezeLayout] = React.useState(false);
+  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+
+  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters ?? mockFilters);
+  const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
+    const filters = dashboard.filters ?? mockFilters
+    return filters.reduce((ret, filter) => {
+      ret[filter.key] = ''
+      return ret;
+    }, {} as Record<string, any>)
+  });
 
   const hasChanges = React.useMemo(() => {
     // local panels' layouts would contain some undefined runtime values
@@ -163,7 +173,7 @@ export function Dashboard({
                   revertChanges={revertDashboardChanges}
                   getCurrentSchema={getCurrentSchema}
                 />
-                <Filters />
+                <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                 <DashboardLayout
                   panels={panels}
                   setPanels={setPanels}

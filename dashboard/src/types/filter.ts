@@ -20,7 +20,32 @@ export interface IFilterConfig_Input {
 
 export interface IDashboardFilter {
   key: string;
-  name: string;
+  label: string;
   type: 'select' | 'input' | 'checkbox' | 'date-time';
   config: IFilterConfig_Select | IFilterConfig_Input;
 }
+
+export const mockFilters: IDashboardFilter[] = [
+  {
+    key: 'repo_id',
+    label: 'Repository',
+    type: 'select',
+    config: {
+      multiple: true,
+      static_options: [
+        {
+          label: 'Repo A',
+          value: 'repo_a',
+        },
+        {
+          label: 'Repo B',
+          value: 'repo_b',
+        },
+        {
+          label: 'Repo C',
+          value: 'repo_c',
+        },
+      ]
+    } as IFilterConfig_Select
+  }
+]

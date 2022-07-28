@@ -1,49 +1,38 @@
 import { Button, Group } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
-import { IDashboardFilter, IFilterConfig_Select } from "../types";
+import { Controller, useForm } from "react-hook-form";
+import { IDashboardFilter } from "../types";
 import { Filter } from "./filter";
 
-const mockFilters: IDashboardFilter[] = [
-  {
-    key: 'repo_id',
-    name: 'Repository',
-    type: 'select',
-    config: {
-      multiple: true,
-      static_options: [
-        {
-          label: 'Repo A',
-          value: 'repo_a',
-        },
-        {
-          label: 'Repo B',
-          value: 'repo_b',
-        },
-        {
-          label: 'Repo C',
-          value: 'repo_c',
-        },
-      ]
-    } as IFilterConfig_Select
-  }
-]
-
 interface IFilters {
-  filters?: IDashboardFilter[];
-  values?: Record<string, any>;
+  filters: IDashboardFilter[];
+  filterValues: Record<string, any>;
+  setFilterValues: (v: Record<string, any>) => void;
 }
 
-export function Filters({ filters = mockFilters, values = {} }: IFilters) {
-  const hasChanges = true;
+export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
+
+  const { control, handleSubmit } = useForm({ defaultValues: filterValues });
+
   return (
-    <Group className="dashboard-filters" position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
-      <Group align="flex-start">
-        {filters.map((filter) => <Filter filter={filter} />)}
+    <form onSubmit={handleSubmit(setFilterValues)}>
+      <Group className="dashboard-filters" position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
+        <Group align="flex-start">
+          {filters.map((filter) => (
+            <Controller
+              name={filter.key}
+              control={control}
+              render={({ field }) => (
+                <Filter filter={filter} {...field} />
+              )}
+            />
+          ))}
+        </Group>
+        <Group sx={{ alignSelf: 'flex-end' }}>
+          <Button color="blue" size="sm" type="submit">Submit</Button>
+        </Group>
       </Group>
-      <Group sx={{ alignSelf: 'flex-end' }}>
-        <Button disabled={!hasChanges} color="blue" size="sm" onClick={_.noop}>Submit</Button>
-      </Group>
-    </Group>
+    </form>
   )
 }
