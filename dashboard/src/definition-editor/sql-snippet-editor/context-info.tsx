@@ -19,7 +19,7 @@ export function ContextInfo({ }: IContextInfo) {
         <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {`-- You may refer context data *by name*\n-- in SQL or VizConfig.\n\n${sampleSQL}`}
         </Prism>
-        <Text weight={500} sx={{ flexGrow: 0 }}>Avaiable context entries</Text>
+        <Text weight={500} sx={{ flexGrow: 0 }}>Available context entries</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{JSON.stringify(contextInfo, null, 2)}</Prism>
       </Group>
     </Group>

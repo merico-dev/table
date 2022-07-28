@@ -44,9 +44,9 @@ export function ContextAndSnippets({ }: IContextAndSnippets) {
         <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {example}
         </Prism>
-        <Text weight={500} sx={{ flexGrow: 0 }}>Avaiable context</Text>
+        <Text weight={500} sx={{ flexGrow: 0 }}>Available context</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{context}</Prism>
-        <Text weight={500} sx={{ flexGrow: 0 }}>Avaiable SQL Snippets</Text>
+        <Text weight={500} sx={{ flexGrow: 0 }}>Available SQL Snippets</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{snippets}</Prism>
       </Group>
     </Group>
