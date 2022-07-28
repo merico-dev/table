@@ -22,6 +22,7 @@ export interface IDashboardFilter {
   key: string;
   label: string;
   type: 'select' | 'input' | 'checkbox' | 'date-time';
+  default_value: any;
   config: IFilterConfig_Select | IFilterConfig_Input;
 }
 
