@@ -28,23 +28,24 @@ export interface IDashboardFilter {
 
 export const mockFilters: IDashboardFilter[] = [
   {
-    key: 'repo_id',
-    label: 'Repository',
+    key: 'date_format',
+    label: 'Date Format',
     type: 'select',
+    default_value: 'yyyy-mm-dd',
     config: {
       multiple: true,
       static_options: [
         {
-          label: 'Repo A',
-          value: 'repo_a',
+          label: 'yyyy-mm-dd',
+          value: 'yyyy-mm-dd',
         },
         {
-          label: 'Repo B',
-          value: 'repo_b',
+          label: 'yyyy-mm',
+          value: 'yyyy-mm',
         },
         {
-          label: 'Repo C',
-          value: 'repo_c',
+          label: 'yyyy',
+          value: 'yyyy',
         },
       ]
     } as IFilterConfig_Select
