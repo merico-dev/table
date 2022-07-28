@@ -15,15 +15,16 @@ export interface IFilterConfig_Select {
   options_query: IDashboardFilterOptionQuery;
 }
 
-export interface IFilterConfig_Input {
+export interface IFilterConfig_TextInput {
+  required?: boolean;
 }
 
 export interface IDashboardFilter {
   key: string;
   label: string;
-  type: 'select' | 'input' | 'checkbox' | 'date-time';
+  type: 'select' | 'text-input' | 'checkbox' | 'date-time';
   default_value: any;
-  config: IFilterConfig_Select | IFilterConfig_Input;
+  config: IFilterConfig_Select | IFilterConfig_TextInput;
 }
 
 export const mockFilters: IDashboardFilter[] = [
@@ -48,6 +49,15 @@ export const mockFilters: IDashboardFilter[] = [
           value: 'yyyy',
         },
       ]
-    } as IFilterConfig_Select
-  }
+    } as IFilterConfig_Select,
+  },
+  {
+    key: 'title_keyword',
+    label: 'Title Keyword',
+    type: 'text-input',
+    default_value: '',
+    config: {
+      required: false,
+    } as IFilterConfig_TextInput,
+  },
 ]
