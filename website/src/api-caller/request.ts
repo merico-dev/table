@@ -11,7 +11,7 @@ const getRequest = (method: Method) => {
     };
 
     const conf: any = {
-      baseURL: 'http://localhost:31200',
+      baseURL: import.meta.env.VITE_API_URL || 'http://localhost:31200',
       method,
       url,
       params: method === 'GET' ? data : options.params,
