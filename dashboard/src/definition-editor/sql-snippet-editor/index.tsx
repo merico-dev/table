@@ -21,7 +21,7 @@ export function EditSQLSnippets({ }: IEditSQLSnippets) {
         <SQLSnippetsEditor />
         <Group direction="column" grow noWrap sx={{ maxWidth: '40%' }}>
           <SQLSnippetGuide />
-          <GlobalVariablesGuide showSQLSnippets={false} />
+          <GlobalVariablesGuide showSQLSnippets={false} sx={{ maxWidth: '100%' }} />
         </Group>
       </Group>
     </AppShell>

@@ -1,4 +1,4 @@
-import { Group, Text } from "@mantine/core";
+import { Group, Sx, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
 import { DefinitionContext, FilterValuesContext } from "../contexts";
@@ -6,6 +6,7 @@ import { ContextInfoContext } from "../contexts/context-info-context";
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
+  sx?: Sx;
 }
 
 const example = `
@@ -21,7 +22,7 @@ WHERE
   AND \$\{sql_snippets.author_email_condition\}
   \$\{sql_snippets.order_by_clause\}
 `
-export function GlobalVariablesGuide({ showSQLSnippets = true }: IGlobalVariablesGuide) {
+export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGlobalVariablesGuide) {
   const contextInfo = React.useContext(ContextInfoContext)
   const filterValues = React.useContext(FilterValuesContext)
   const { sqlSnippets } = React.useContext(DefinitionContext)
@@ -44,7 +45,7 @@ export function GlobalVariablesGuide({ showSQLSnippets = true }: IGlobalVariable
   }, [contextInfo, sqlSnippets, filterValues, showSQLSnippets])
 
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden' }}>
+    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
       <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
         <Text weight={500}>Global Variables</Text>
       </Group>
