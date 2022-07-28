@@ -3,6 +3,7 @@ import { ContextInfoContextType } from "../contexts";
 import { IDashboardDefinition, IQuery } from "../types";
 import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
+import { IDataSource, PaginationResponse } from "./types";
 
 interface IQueryBySQL {
   context: ContextInfoContextType;
@@ -36,12 +37,12 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
 
 export type TQuerySources = Record<string, string[]>
 
-export async function listDataSources(): Promise<TQuerySources> {
+export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res = await APIClient.getRequest('POST')('/datasource/list', {})
-    return res;
+    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {})
+    return res.data;
   } catch (error) {
     console.error(error)
-    return {};
+    return [];
   }
 }
