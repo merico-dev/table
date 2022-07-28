@@ -44,6 +44,8 @@ interface IViz {
 
 export function Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
+  const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data])
+
   const needData = !typesDontNeedData.includes(viz.type)
   if (!needData) {
     return (
@@ -55,7 +57,6 @@ export function Viz({ viz, data, loading }: IViz) {
     )
   }
 
-  const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data])
   if (loading) {
     return (
       <div className="viz-root" ref={ref}>
