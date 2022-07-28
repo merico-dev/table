@@ -1,0 +1,14 @@
+{
+  "root": "api",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev"
+      },
+      "dependsOn": [
+        "^dev"
+      ]
+    }
+  }
+}
