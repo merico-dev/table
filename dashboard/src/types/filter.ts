@@ -20,7 +20,7 @@ export interface IFilterConfig_TextInput {
 }
 
 export interface IFilterConfig_DateTime {
-  inputFormat: 'YYYY-MM-DD';
+  inputFormat: 'YYYY' | 'YYYY-MM' | 'YYYY-MM-DD';
   clearable: boolean;
 }
 
