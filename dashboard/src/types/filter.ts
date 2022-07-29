@@ -24,12 +24,15 @@ export interface IFilterConfig_DateTime {
   clearable: boolean;
 }
 
+export interface IFilterConfig_Checkbox {
+}
+
 export interface IDashboardFilter {
   key: string;
   label: string;
   type: 'select' | 'text-input' | 'checkbox' | 'date-time';
   default_value: any;
-  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateTime;
+  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateTime | IFilterConfig_Checkbox;
 }
 
 export const mockFilters: IDashboardFilter[] = [
@@ -74,5 +77,13 @@ export const mockFilters: IDashboardFilter[] = [
       inputFormat: 'YYYY-MM-DD',
       clearable: false,
     } as IFilterConfig_DateTime,
+  },
+  {
+    key: 'main-branch-only',
+    label: 'Main-branch-based PR only',
+    type: 'checkbox',
+    default_value: false,
+    config: {
+    } as IFilterConfig_Checkbox,
   },
 ]
