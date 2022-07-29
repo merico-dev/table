@@ -19,12 +19,17 @@ export interface IFilterConfig_TextInput {
   required?: boolean;
 }
 
+export interface IFilterConfig_DateTime {
+  inputFormat: 'YYYY-MM-DD';
+  clearable: boolean;
+}
+
 export interface IDashboardFilter {
   key: string;
   label: string;
   type: 'select' | 'text-input' | 'checkbox' | 'date-time';
   default_value: any;
-  config: IFilterConfig_Select | IFilterConfig_TextInput;
+  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateTime;
 }
 
 export const mockFilters: IDashboardFilter[] = [
@@ -59,5 +64,15 @@ export const mockFilters: IDashboardFilter[] = [
     config: {
       required: false,
     } as IFilterConfig_TextInput,
+  },
+  {
+    key: 'date_range',
+    label: 'Date Range',
+    type: 'date-time',
+    default_value: '',
+    config: {
+      inputFormat: 'YYYY-MM-DD',
+      clearable: false,
+    } as IFilterConfig_DateTime,
   },
 ]
