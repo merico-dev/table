@@ -40,7 +40,17 @@ export type TQuerySources = Record<string, string[]>
 
 export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {})
+    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {
+      filter: {},
+      sort: {
+        field: 'create_time',
+        order: 'ASC'
+      },
+      pagination: {
+        page: 1,
+        pagesize: 100
+      }
+    })
     return res.data;
   } catch (error) {
     console.error(error)
