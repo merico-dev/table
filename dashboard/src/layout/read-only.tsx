@@ -20,7 +20,7 @@ export function ReadOnlyDashboardLayout({
 }: IReadOnlyDashboardLayout) {
   return (
     <ReactGridLayout
-      className={className}
+      className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
       isDraggable={false}
       isResizable={false}

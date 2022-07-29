@@ -29,25 +29,26 @@ export function QueryForm({ value, onChange }: IQueryForm) {
     form.reset()
   }, [value])
 
-  const { data: querySources = {}, loading } = useRequest(listDataSources, {
+  const { data: querySources = [], loading } = useRequest(listDataSources, {
     refreshDeps: []
   }, []);
 
   const querySourceTypeOptions = React.useMemo(() => {
-    return Object.keys(querySources).map(k => ({
-      label: k,
-      value: k,
+    const types = Array.from(new Set(querySources.map(({ type }) => type)))
+    return types.map((type) => ({
+      label: type,
+      value: type,
     }))
   }, [querySources]);
 
   const querySourceKeyOptions = React.useMemo(() => {
-    const sources = querySources[form.values.type];
+    const sources = querySources.filter(({ type }) => type === form.values.type);
     if (!sources) {
       return [];
     }
-    return sources.map(k => ({
-      label: k,
-      value: k,
+    return sources.map(({ key }) => ({
+      label: key,
+      value: key,
     }))
   }, [querySources, form.values.type]);
 

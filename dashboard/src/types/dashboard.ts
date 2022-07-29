@@ -1,3 +1,5 @@
+import { IDashboardFilter } from "./filter";
+
 export interface IVizConfig {
   type: string;
   conf: Record<string, any>;
@@ -42,11 +44,13 @@ export interface IDashboardDefinition {
   queries: IQuery[];
 }
 
+
 export interface IDashboard {
   id: string;
   name: string;
   definition: IDashboardDefinition;
   panels: IDashboardPanel[];
+  filters: IDashboardFilter[];
 }
 
 export interface IDashboardConfig {

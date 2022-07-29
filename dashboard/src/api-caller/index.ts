@@ -1,17 +1,19 @@
 import _ from "lodash";
-import { ContextInfoContextType } from "../contexts";
+import { ContextInfoContextType, FilterValuesContextType } from "../contexts";
 import { IDashboardDefinition, IQuery } from "../types";
 import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
+import { IDataSource, PaginationResponse } from "./types";
 
 interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;
   title: string;
   query?: IQuery;
+  filterValues: FilterValuesContextType;
 }
 
-export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) => async () => {
+export const queryBySQL = ({ context, definitions, title, query, filterValues }: IQueryBySQL) => async () => {
   if (!query || !query.sql) {
     return [];
   }
@@ -19,7 +21,7 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
 
   const needParams = sql.includes('$');
   try {
-    const params = getSQLParams(context, definitions);
+    const params = getSQLParams(context, definitions, filterValues);
     const formattedSQL = formatSQL(sql, params);
     if (needParams) {
       console.groupCollapsed(`Final SQL for: ${title}`);
@@ -36,12 +38,22 @@ export const queryBySQL = ({ context, definitions, title, query }: IQueryBySQL) 
 
 export type TQuerySources = Record<string, string[]>
 
-export async function listDataSources(): Promise<TQuerySources> {
+export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res = await APIClient.getRequest('POST')('/datasource/list', {})
-    return res;
+    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {
+      filter: {},
+      sort: {
+        field: 'create_time',
+        order: 'ASC'
+      },
+      pagination: {
+        page: 1,
+        pagesize: 100
+      }
+    })
+    return res.data;
   } catch (error) {
     console.error(error)
-    return {};
+    return [];
   }
 }

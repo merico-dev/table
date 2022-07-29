@@ -36,7 +36,7 @@ export function DashboardActions({
   const closeSchema = () => setSchemaOpened(false);
 
   return (
-    <Group position="apart" pt="sm" pb="xs">
+    <Group position="apart" pt={0} pb="xs">
       <Group position="left">
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>

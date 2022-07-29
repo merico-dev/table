@@ -21,8 +21,6 @@ export function DashboardPageContent({ id }: { id: string }) {
 
   const [context, setContext] = React.useState(initialContextInfoContext);
 
-  const hasContext = React.useMemo(() => Object.keys(context).length > 0, [context]);
-
   const updateDashboard = React.useCallback(async (d: IDashboard) => {
     showNotification({
       id: 'for-updating',
@@ -44,10 +42,10 @@ export function DashboardPageContent({ id }: { id: string }) {
     return null;
   }
 
-  const ready = hasContext && !loading;
+  const ready = !loading;
   return (
     <div className='dashboard-page-content'>
-      <Filters context={context} submit={setContext} />
+      {/* <Filters context={context} submit={setContext} /> */}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <Dashboard

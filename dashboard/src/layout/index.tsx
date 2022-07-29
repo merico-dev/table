@@ -41,7 +41,7 @@ export function DashboardLayout({
   return (
     <ReactGridLayout
       onLayoutChange={onLayoutChange}
-      className={className}
+      className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
       isDraggable={isDraggable}
       isResizable={isResizable}

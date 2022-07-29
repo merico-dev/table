@@ -13,6 +13,9 @@ import { ModalsProvider } from '@mantine/modals';
 import { FullScreenPanel } from "./full-screen-panel";
 import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
+import { Filters } from "../filter";
+import { IDashboardFilter, mockFilters } from "../types";
+import { FilterValuesContext } from "../contexts/filter-values-context";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -32,12 +35,21 @@ export function Dashboard({
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
-
   const [layoutFrozen, freezeLayout] = React.useState(false);
+  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+
   const [panels, setPanels] = React.useState(dashboard.panels)
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Use)
+
+  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters ?? mockFilters);
+  const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
+    const filters = dashboard.filters ?? mockFilters
+    return filters.reduce((ret, filter) => {
+      ret[filter.key] = filter.default_value ?? ''
+      return ret;
+    }, {} as Record<string, any>)
+  });
 
   const hasChanges = React.useMemo(() => {
     // local panels' layouts would contain some undefined runtime values
@@ -147,31 +159,34 @@ export function Dashboard({
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
-          <DefinitionContext.Provider value={definitions}>
-            <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-              {inFullScreen && (
-                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
-              )}
-              <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  hasChanges={hasChanges}
-                  saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
-                />
-                <DashboardLayout
-                  panels={panels}
-                  setPanels={setPanels}
-                  isDraggable={inLayoutMode}
-                  isResizable={inLayoutMode}
-                />
-              </Box>
-            </LayoutStateContext.Provider>
-          </DefinitionContext.Provider>
-        </DashboardActionContext.Provider>
+        <FilterValuesContext.Provider value={filterValues}>
+          <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
+            <DefinitionContext.Provider value={definitions}>
+              <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
+                {inFullScreen && (
+                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
+                )}
+                <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
+                  <DashboardActions
+                    mode={mode}
+                    setMode={setMode}
+                    hasChanges={hasChanges}
+                    saveChanges={saveDashboardChanges}
+                    revertChanges={revertDashboardChanges}
+                    getCurrentSchema={getCurrentSchema}
+                  />
+                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <DashboardLayout
+                    panels={panels}
+                    setPanels={setPanels}
+                    isDraggable={inLayoutMode}
+                    isResizable={inLayoutMode}
+                  />
+                </Box>
+              </LayoutStateContext.Provider>
+            </DefinitionContext.Provider>
+          </DashboardActionContext.Provider>
+        </FilterValuesContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
   )
