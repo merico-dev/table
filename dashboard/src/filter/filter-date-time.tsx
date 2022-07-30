@@ -13,6 +13,7 @@ export function FilterDateTime({ label, config, value, onChange }: IFilterDateTi
       label={label}
       value={value}
       onChange={onChange}
+      sx={{ minWidth: '14em' }}
       {...config}
     />
   )
