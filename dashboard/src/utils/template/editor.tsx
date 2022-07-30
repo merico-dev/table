@@ -1,4 +1,4 @@
-import { Accordion, Box, Divider, Group, Select, Text, TextInput, TextInputProps } from "@mantine/core";
+import { Accordion, Box, Divider, Group, Select, Stack, Text, TextInput, TextInputProps } from "@mantine/core";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React, { ChangeEventHandler } from "react";
@@ -73,7 +73,7 @@ export function TemplateVariableField({ value, onChange, data }: ITemplateVariab
       <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
 
       <Divider my="xs" label="Typography" labelPosition="center" />
-      <Group direction="column" grow>
+      <Stack>
         <TextInput
           label="Font Size"
           placeholder="10px, 1em, 1rem, 100%..."
@@ -81,14 +81,14 @@ export function TemplateVariableField({ value, onChange, data }: ITemplateVariab
           value={value.size}
           onChange={(e) => handleChange('size', e.currentTarget.value)}
         />
-      </Group>
+      </Stack>
 
       <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
         <MantineFontWeightSlider label="Font Weight" value={value.weight} onChange={(v) => handleChange('weight', v)} />
       </Group>
 
       <Divider my="xs" label="Style" labelPosition="center" />
-      <Group direction="column" grow>
+      <Stack>
         <Select
           label="Color Type"
           data={[
@@ -107,7 +107,7 @@ export function TemplateVariableField({ value, onChange, data }: ITemplateVariab
             <ColorArrayInput label="Color Range" value={value.color.colorRange} onChange={(v) => handleChange('color.colorRange', v)} />
           </>
         )}
-      </Group>
+      </Stack>
     </Box>
   )
 }

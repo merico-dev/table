@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text } from "@mantine/core";
+import { ActionIcon, Group, Stack, Text } from "@mantine/core";
 import { RichTextEditor } from '@mantine/rte';
 import React from "react";
 import { DeviceFloppy } from "tabler-icons-react";
@@ -18,7 +18,7 @@ export function EditDescription() {
   }, [changed, value]);
 
   return (
-    <Group direction="column" sx={{ flexGrow: 1 }}>
+    <Stack sx={{ flexGrow: 1 }}>
       <Group align="end">
         <Text>Description</Text>
         <ActionIcon variant="hover" color="blue" disabled={!changed} onClick={submit}>
@@ -26,6 +26,6 @@ export function EditDescription() {
         </ActionIcon>
       </Group>
       <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0"/>
-    </Group>
+    </Stack>
   )
 }

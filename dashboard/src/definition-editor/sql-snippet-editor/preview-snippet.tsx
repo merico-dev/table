@@ -1,4 +1,4 @@
-import { Group, Text } from "@mantine/core";
+import { Group, Stack, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
 import { ContextInfoContext } from "../../contexts";
@@ -15,9 +15,9 @@ export function PreviewSnippet({ value}: IPreviewSnippet) {
   }, [value, context])
 
   return (
-    <Group direction="column" noWrap grow>
+    <Stack>
       <Text>Preview</Text>
       <Prism language="sql" noCopy colorScheme="dark">{explained}</Prism>
-    </Group>
+    </Stack>
   )
 }

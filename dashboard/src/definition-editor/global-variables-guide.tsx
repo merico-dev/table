@@ -1,4 +1,4 @@
-import { Group, Sx, Text } from "@mantine/core";
+import { Group, Stack, Sx, Text } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React from "react";
 import { DefinitionContext, FilterValuesContext } from "../contexts";
@@ -45,17 +45,17 @@ export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGloba
   }, [contextInfo, sqlSnippets, filterValues, showSQLSnippets])
 
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
+    <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
       <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
         <Text weight={500}>Global Variables</Text>
       </Group>
-      <Group direction="column" px="md" pb="md" sx={{ width: '100%' }}>
+      <Stack px="md" pb="md" sx={{ width: '100%' }}>
         <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {example}
         </Prism>
         <Text weight={500} sx={{ flexGrow: 0 }}>Current Values</Text>
         <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{variablesString}</Prism>
-      </Group>
-    </Group>
+      </Stack>
+    </Stack>
   )
 }

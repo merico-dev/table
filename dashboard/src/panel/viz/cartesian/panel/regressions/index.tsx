@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import React from "react";
 import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from "react-hook-form";
 import { ICartesianChartConf } from "../../type";
@@ -50,7 +50,7 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
   });
 
   return (
-    <Group direction="column" grow>
+    <Stack>
       {controlledFields.map((regressionItem, index) => (
         <RegressionField
           regressionItem={regressionItem}
@@ -66,6 +66,6 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
           Add a Regression Line
         </Button>
       </Group>
-    </Group>
+    </Stack>
   )
 }

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Button, Group, Stack, Text, TextInput } from "@mantine/core";
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormRegister, UseFormWatch, useWatch } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
 import { defaultNumbroFormat, NumbroFormatSelector } from "../../../settings/common/numbro-format-selector";
@@ -13,7 +13,7 @@ interface IYAxisField {
 
 function YAxisField({ control, index, remove }: IYAxisField) {
   return (
-    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group direction="row" grow noWrap>
         <Controller
           name={`y_axes.${index}.name`}
@@ -27,13 +27,13 @@ function YAxisField({ control, index, remove }: IYAxisField) {
           ))}
         />
       </Group>
-      <Group direction="column" grow noWrap>
+      <Stack>
         <Controller
           name={`y_axes.${index}.label_formatter`}
           control={control}
           render={(({ field }) => <NumbroFormatSelector {...field} />)}
         />
-      </Group>
+      </Stack>
       <ActionIcon
         color="red"
         variant="hover"
@@ -43,7 +43,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
       >
         <Trash size={16} />
       </ActionIcon>
-    </Group>
+    </Stack>
 
   )
 }
@@ -72,13 +72,13 @@ export function YAxesField({ control, watch }: IYAxesField) {
   });
 
   return (
-    <Group direction="column" grow>
+    <Stack>
       {controlledFields.map((field, index) => <YAxisField control={control} index={index} remove={remove} />)}
       <Group position="center" mt="xs">
         <Button onClick={addYAxis}>
           Add a Y Axis
         </Button>
       </Group>
-    </Group>
+    </Stack>
   )
 }

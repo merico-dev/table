@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Stack, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { DeviceFloppy } from "tabler-icons-react";
 import { IVizPanelProps } from "../../../types/viz-panel";
@@ -13,7 +13,7 @@ export function SunburstPanel({ conf: { label_field, value_field }, setConf, dat
   });
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={form.onSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Sunburst Config</Text>
@@ -21,11 +21,11 @@ export function SunburstPanel({ conf: { label_field, value_field }, setConf, dat
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group direction="column" mt="md" spacing="xs" grow p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
+        <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <DataFieldSelector label="Label Field" required data={data} {...form.getInputProps('label_field')} />
           <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps('value_field')} />
-        </Group>
+        </Stack>
       </form>
-    </Group>
+    </Stack>
   )
 }

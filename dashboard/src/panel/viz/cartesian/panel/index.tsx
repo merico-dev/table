@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -77,7 +77,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
   }, [values, conf])
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Chart Config</Text>
@@ -116,6 +116,6 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
           </Accordion.Item>
         </Accordion>
       </form>
-    </Group>
+    </Stack>
   )
 }

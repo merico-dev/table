@@ -2,7 +2,7 @@
  * NOTE: this file is almost a duplicate of stats/panel/variables.tsx
  * FIXME: remove this when variables' fields are defined in utils/template
  */
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import React from "react";
 import { Control, Controller, useFieldArray, UseFormWatch } from "react-hook-form";
 import { ICartesianChartConf } from "../../type";
@@ -32,8 +32,8 @@ export function StatsField({ control, watch, data }: IVariablesField) {
   const add = () => append(getANewVariable());
 
   return (
-    <Group direction="column" grow>
-      <Group direction="column" grow noWrap spacing={0}>
+    <Stack>
+      <Stack spacing={0}>
         <Controller
           name='stats.templates.top'
           control={control}
@@ -48,7 +48,7 @@ export function StatsField({ control, watch, data }: IVariablesField) {
             <TemplateInput label="Template for stats under the chart" py="md" sx={{ flexGrow: 1 }} {...field} />
           ))}
         />
-      </Group>
+      </Stack>
       {controlledFields.map((_variableItem, index) => (
         <VariableField
           control={control}
@@ -62,6 +62,6 @@ export function StatsField({ control, watch, data }: IVariablesField) {
           Add a Variable
         </Button>
       </Group>
-    </Group>
+    </Stack>
   )
 }

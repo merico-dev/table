@@ -1,4 +1,4 @@
-import { Group, Text, Slider } from "@mantine/core";
+import { Group, Text, Slider, Stack } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
 
@@ -42,7 +42,7 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
   }, [mark]);
 
   return (
-    <Group direction="column" grow spacing={0} mt="sm" mb="lg">
+    <Stack spacing={0} mt="sm" mb="lg">
       <Text size="sm">{label}</Text>
       <Slider
         label={null}
@@ -53,7 +53,7 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
         placeholder="Pick a font size"
         ref={ref}
       />
-    </Group>
+    </Stack>
   )
 }
 

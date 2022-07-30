@@ -1,4 +1,4 @@
-import { Group, Tabs } from "@mantine/core";
+import { Group, Stack, Tabs } from "@mantine/core";
 import { IDashboardFilter } from "../../types";
 
 interface FilterSettings {
@@ -8,8 +8,8 @@ interface FilterSettings {
 
 export function FilterSettings({ filters, setFilters }: FilterSettings) {
   return (
-    <Group direction="column" grow>
+    <Stack>
       <pre>{JSON.stringify(filters, null, 2)}</pre>
-    </Group>
+    </Stack>
   )
 }

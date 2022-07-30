@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import { randomId } from "@mantine/hooks";
 import React from "react";
 import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from "react-hook-form";
@@ -47,7 +47,7 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
   }, [getValues]);
 
   return (
-    <Group direction="column" grow>
+    <Stack>
       {controlledFields.map((seriesItem, index) => (
         <SeriesItemField
           control={control}
@@ -63,6 +63,6 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
           Add a Series
         </Button>
       </Group>
-    </Group>
+    </Stack>
   )
 }

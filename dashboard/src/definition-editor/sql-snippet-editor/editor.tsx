@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Text, Textarea, TextInput } from "@mantine/core";
+import { ActionIcon, Button, Group, Stack, Text, Textarea, TextInput } from "@mantine/core";
 import { formList, useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
@@ -33,7 +33,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
     setSQLSnippets(snippets);
   }
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
+    <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
           <Text weight={500}>SQL Snippets</Text>
@@ -42,9 +42,9 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
           </ActionIcon>
         </Group>
         <Group px="md" pb="md" pt="md">
-          <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
+          <Stack sx={{ width: '100%', position: 'relative' }}>
             {form.values.snippets.map((_item, index) => (
-              <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+              <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
                 <TextInput
                   label="Key"
                   required
@@ -65,7 +65,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                 >
                   <Trash size={16} />
                 </ActionIcon>
-              </Group>
+              </Stack>
             ))}
             <Group position="center" mt="xl" grow sx={{ width: '40%' }} mx="auto">
               <Button variant="default" onClick={addSnippet}>
@@ -73,8 +73,8 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
               </Button>
             </Group>
           </Group>
-        </Group>
+        </Stack>
       </form>
-    </Group>
+    </Stack>
   )
 }

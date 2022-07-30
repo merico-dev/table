@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Select, Tabs, Text, Textarea, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Select, Stack, Tabs, Text, Textarea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRequest } from "ahooks";
 import _ from "lodash";
@@ -53,7 +53,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
   }, [querySources, form.values.type]);
 
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
+    <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text weight={500}>Edit Query</Text>
@@ -61,7 +61,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Group direction="column" grow my={0} p="md" pr={40}>
+        <Stack my={0} p="md" pr={40}>
           <Group grow>
             <TextInput
               placeholder="An ID unique in this dashboard"
@@ -100,13 +100,13 @@ export function QueryForm({ value, onChange }: IQueryForm) {
               <PreviewSQL value={form.values.sql}/>
             </Tabs.Tab>
           </Tabs>
-        </Group>
+        </Stack>
 
         {/* <Text size="sm" weight={500} mt="md">
           Current Configuration:
         </Text>
         <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(form.values, null, 2)}</Prism> */}
       </form>
-    </Group>
+    </Stack>
   )
 }

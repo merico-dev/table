@@ -42,7 +42,7 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
   const addParagraph = () => form.addListItem('paragraphs', { ...sampleParagraphs[0], template: randomId() });
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={form.onSubmit(setConf)}>
         {form.values.paragraphs.length === 0 && (
           <Text color="dimmed" align="center">
@@ -57,7 +57,7 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
           </ActionIcon>
         </Group>
         {form.values.paragraphs.map((item, index) => (
-          <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+          <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
             <TextInput
               placeholder="Time: ${new Date().toISOString()}"
               label="Content Template"
@@ -65,18 +65,18 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
               sx={{ flex: 1 }}
               {...form.getListInputProps('paragraphs', index, 'template')}
             />
-            <Group direction="column" grow>
+            <Stack>
               <Text>Color</Text>
               <MantineColorSelector {...form.getListInputProps('paragraphs', index, 'color')} />
-            </Group>
-            <Group direction="column" grow>
+            </Stack>
+            <Stack>
               <TextInput
                 label="Font Size"
                 placeholder="10px, 1em, 1rem, 100%..."
                 sx={{ flex: 1 }}
                 {...form.getListInputProps('paragraphs', index, 'size')}
               />
-            </Group>
+            </Stack>
             <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
               <MantineFontWeightSlider label="Font Weight" {...form.getListInputProps('paragraphs', index, 'weight')} />
             </Group>
@@ -88,7 +88,7 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
             >
               <Trash size={16} />
             </ActionIcon>
-          </Group>
+          </Stack>
         ))}
         <Group position="center" mt="md">
           <Button onClick={addParagraph}>
@@ -101,6 +101,6 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
         </Text>
         <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(form.values, null, 2)}</Prism>
       </form>
-    </Group>
+    </Stack>
   )
 }
