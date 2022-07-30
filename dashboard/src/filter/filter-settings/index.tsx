@@ -24,7 +24,7 @@ export function FilterSettingsModal({ opened, close, filters, setFilters }: Filt
       overflow="inside"
       opened={opened}
       onClose={close}
-      title='Data Settings'
+      title='Filters'
       trapFocus
       onDragStart={e => { e.stopPropagation() }}
     >
