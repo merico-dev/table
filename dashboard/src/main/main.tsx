@@ -94,7 +94,7 @@ export function Dashboard({
       description: '<p><br></p>',
       queryID: '',
       viz: {
-        type: 'text',
+        type: 'table',
         conf: {},
       }
     };

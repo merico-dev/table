@@ -11,10 +11,8 @@ import { VizRichTextPanel } from "../../viz/rich-text/panel";
 import { VizStatsPanel } from "../../viz/stats/panel";
 import { SunburstPanel } from "../../viz/sunburst/panel";
 import { VizTablePanel } from "../../viz/table/panel";
-import { VizTextPanel } from "../../viz/text/panel";
 
 const types = [
-  { value: 'text', label: 'Text', Panel: VizTextPanel },
   { value: 'stats', label: 'Stats', Panel: VizStatsPanel },
   { value: 'rich-text', label: 'Rich Text', Panel: VizRichTextPanel },
   { value: 'table', label: 'Table', Panel: VizTablePanel },
