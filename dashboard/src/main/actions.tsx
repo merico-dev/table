@@ -41,11 +41,11 @@ export function DashboardActions({
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
       <Group position="right">
-        {!inUseMode && <Button variant="default" size="sm" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
-        {inEditMode && <Button variant="default" size="sm" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
-        {!inUseMode && <Button variant="default" size="sm" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
-        {!inUseMode && <Button color="red" size="sm" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
-        <Menu control={<Button variant="default" size="sm" leftIcon={<Share size={20} />}>Export</Button>}>
+        {!inUseMode && <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
+        {inEditMode && <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
+        {!inUseMode && <Button variant="default" size="xs" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
+        {!inUseMode && <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
+        <Menu control={<Button variant="default" size="xs" leftIcon={<Share size={20} />}>Export</Button>}>
           <Menu.Item disabled>Download Data</Menu.Item>
           <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
         </Menu>
