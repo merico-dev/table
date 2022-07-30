@@ -1,4 +1,4 @@
-import { Accordion, Box, Divider, Group, Select, Stack, Text, TextInput, TextInputProps } from "@mantine/core";
+import { Box, Divider, Group, Select, Stack, Text, TextInput, TextInputProps } from "@mantine/core";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React, { ChangeEventHandler } from "react";
