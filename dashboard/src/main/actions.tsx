@@ -1,12 +1,13 @@
 import React from "react";
 import { Button, Divider, Group, Menu } from "@mantine/core";
-import { ClipboardText, Database, DeviceFloppy, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
-import { DashboardMode } from "../types";
+import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
+import { DashboardMode, IDashboardFilter } from "../types";
 import { ModeToggler } from "./toggle-mode";
 import { DataEditorModal } from "../definition-editor";
 import { LayoutStateContext } from "../contexts";
 import { DashboardActionContext } from "../contexts/dashboard-action-context";
 import { ViewSchemaModal } from "./view-schema-modal";
+import { FilterSettingsModal } from "../filter/filter-settings";
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -15,6 +16,8 @@ interface IDashboardActions {
   saveChanges: () => void;
   revertChanges: () => void;
   getCurrentSchema: () => any;
+  filters: IDashboardFilter[];
+  setFilters: (v: IDashboardFilter[]) => void;
 }
 export function DashboardActions({
   mode,
@@ -23,6 +26,8 @@ export function DashboardActions({
   saveChanges,
   revertChanges,
   getCurrentSchema,
+  filters,
+  setFilters,
 }: IDashboardActions) {
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
@@ -30,6 +35,10 @@ export function DashboardActions({
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
   const openQueries = () => setDataEditorOpened(true);
   const closeQueries = () => setDataEditorOpened(false);
+
+  const [filtersOpened, setFiltersOpened] = React.useState(false);
+  const openFilters = () => setFiltersOpened(true);
+  const closeFilters = () => setFiltersOpened(false);
 
   const [schemaOpened, setSchemaOpened] = React.useState(false);
   const openSchema = () => setSchemaOpened(true);
@@ -42,6 +51,7 @@ export function DashboardActions({
       </Group>
       <Group position="right">
         {!inUseMode && <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
+        {inEditMode && <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>Filters</Button>}
         {inEditMode && <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
         {!inUseMode && <Button variant="default" size="xs" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
         {!inUseMode && <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
@@ -50,6 +60,7 @@ export function DashboardActions({
           <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
         </Menu>
       </Group>
+      <FilterSettingsModal opened={filtersOpened} close={closeFilters} filters={filters} setFilters={setFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>

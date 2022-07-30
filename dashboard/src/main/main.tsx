@@ -174,6 +174,8 @@ export function Dashboard({
                     saveChanges={saveDashboardChanges}
                     revertChanges={revertDashboardChanges}
                     getCurrentSchema={getCurrentSchema}
+                    filters={filters}
+                    setFilters={setFilters}
                   />
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                   <DashboardLayout
