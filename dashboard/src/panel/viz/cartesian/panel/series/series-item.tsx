@@ -133,7 +133,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
       </Stack>
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
       >

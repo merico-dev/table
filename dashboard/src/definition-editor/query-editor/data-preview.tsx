@@ -38,7 +38,7 @@ export function DataPreview({ id }: { id: string }) {
             <Text size="sm" color="gray">Showing 10 rows of {data.length}</Text>
           )}
         </Group>
-        <ActionIcon mr={15} variant="hover" color="blue" disabled={loading} onClick={refresh}>
+        <ActionIcon mr={15} variant="subtle" color="blue" disabled={loading} onClick={refresh}>
           <Refresh size={15} />
         </ActionIcon>
       </Group>

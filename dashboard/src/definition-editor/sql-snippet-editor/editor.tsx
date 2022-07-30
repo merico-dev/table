@@ -59,7 +59,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                 />
                 <PreviewSnippet value={form.values.snippets[index].value} />
                 <ActionIcon
-                  color="red" variant="hover"
+                  color="red" variant="subtle"
                   onClick={() => form.removeListItem('snippets', index)}
                   sx={{ position: 'absolute', top: 15, right: 5 }}
                 >

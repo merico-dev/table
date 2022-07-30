@@ -36,7 +36,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
       </Stack>
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
         disabled={index === 0}

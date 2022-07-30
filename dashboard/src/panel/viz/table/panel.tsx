@@ -92,7 +92,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
                   </Group>
                   <ActionIcon
                     color="red"
-                    variant="hover"
+                    variant="subtle"
                     onClick={() => form.removeListItem('columns', index)}
                     sx={{ position: 'absolute', top: 15, right: 5 }}
                   >

@@ -24,7 +24,7 @@ export function VariableField({ control, index, remove, data }: VariableField) {
       />
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
       >

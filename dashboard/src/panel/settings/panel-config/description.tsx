@@ -21,7 +21,7 @@ export function EditDescription() {
     <Stack sx={{ flexGrow: 1 }}>
       <Group align="end">
         <Text>Description</Text>
-        <ActionIcon variant="hover" color="blue" disabled={!changed} onClick={submit}>
+        <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
           <DeviceFloppy size={20} />
         </ActionIcon>
       </Group>

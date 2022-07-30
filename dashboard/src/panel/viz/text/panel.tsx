@@ -82,7 +82,7 @@ export function VizTextPanel({ conf, setConf }: IVizPanelProps) {
             </Group>
             <ActionIcon
               color="red"
-              variant="hover"
+              variant="subtle"
               onClick={() => form.removeListItem('paragraphs', index)}
               sx={{ position: 'absolute', top: 15, right: 5 }}
             >
