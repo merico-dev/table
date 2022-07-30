@@ -87,7 +87,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
         </Group>
         <Accordion offsetIcon={false} multiple initialState={{ 0: true, 1: true }}>
           <Accordion.Item label="X Axis">
-            <Group direction="row" grow noWrap>
+            <Group grow noWrap>
               <Controller
                 name='x_axis_data_key'
                 control={control}

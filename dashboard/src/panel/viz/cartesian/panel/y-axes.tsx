@@ -14,7 +14,7 @@ interface IYAxisField {
 function YAxisField({ control, index, remove }: IYAxisField) {
   return (
     <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <Controller
           name={`y_axes.${index}.name`}
           control={control}

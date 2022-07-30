@@ -28,7 +28,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   }
   return (
     <Stack ref={ref}>
-      <Group direction="row" grow>
+      <Group grow>
         <Select
           label="Format"
           data={[

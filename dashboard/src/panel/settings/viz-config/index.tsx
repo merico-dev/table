@@ -7,7 +7,7 @@ interface IVizConfig {
 
 export function VizConfig({ }: IVizConfig) {
   return (
-    <Group direction="row" grow noWrap align="stretch" sx={{ height: '100%' }}>
+    <Group grow noWrap align="stretch" sx={{ height: '100%' }}>
       <Stack sx={{ width: '40%', flexShrink: 0, flexGrow: 0 }}>
         <EditVizConf />
       </Stack>

@@ -65,7 +65,7 @@ export function TemplateVariableField({ value, onChange, data }: ITemplateVariab
       <Text weight="bold" pb={0}>{value.name}</Text>
 
       <Divider my="xs" label="Data" labelPosition="center" />
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <TextInput label="Name" required value={value.name} onChange={(e) => handleChange('name', e.currentTarget.value)} />
         <DataFieldSelector label="Data Field" required data={data} value={value.data_field} onChange={(v) => handleChange('data_field', v)} />
         <AggregationSelector label="Aggregation" value={value.aggregation} onChange={(v) => handleChange('aggregation', v)} />

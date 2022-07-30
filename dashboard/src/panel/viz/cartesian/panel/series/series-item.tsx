@@ -72,7 +72,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           />
         ))}
       />
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}

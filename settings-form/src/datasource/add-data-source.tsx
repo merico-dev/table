@@ -90,7 +90,7 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
 
         <Divider label="Connection Info" labelPosition="center"/>
 
-        <Group direction="row" grow>
+        <Group grow>
           <Controller
             name='config.host'
             control={control}

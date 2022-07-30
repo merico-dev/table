@@ -15,7 +15,7 @@ interface IScatterFields {
 
 export function ScatterFields({ control, index }: IScatterFields) {
   return (
-    <Group direction="row" grow align="center">
+    <Group grow align="center">
       <Controller
         name={`series.${index}.symbolSize`}
         control={control}

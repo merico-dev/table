@@ -20,7 +20,7 @@ export function EditQueries({ }: IEditQueries) {
       }}
       padding="md"
     >
-      <Group direction="row" position="apart" grow align="stretch" noWrap>
+      <Group position="apart" grow align="stretch" noWrap>
         <Stack sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
           <SelectOrAddQuery id={id} setID={setID} />
           <QueryEditor id={id} setID={setID} />
