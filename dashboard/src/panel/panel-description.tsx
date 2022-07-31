@@ -1,4 +1,4 @@
-import { Popover, Tooltip } from "@mantine/core";
+import { HoverCard, Tooltip } from "@mantine/core";
 import React from "react";
 import { InfoCircle } from "tabler-icons-react";
 import { LayoutStateContext, PanelContext } from "../contexts";
@@ -41,19 +41,17 @@ export function DescriptionPopover({ position = 'bottom', trigger = 'hover' }: I
   );
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      withCloseButton={trigger === 'click' }
+    <HoverCard
       withArrow
-      trapFocus
-      closeOnEscape={false}
-      placement="center"
       position={position}
-      target={target}
       width="40vw"
     >
-      <RichTextEditor readOnly value={description} onChange={_.noop} sx={{ border: 'none' }} />
-    </Popover>
+      <HoverCard.Target>
+        {target}
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        <RichTextEditor readOnly value={description} onChange={_.noop} sx={{ border: 'none' }} />
+      </HoverCard.Dropdown>
+    </HoverCard>
   )
 }
