@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Group, Stack, Text, Textarea, TextInput } from "@mantine/core";
-import { formList, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
@@ -15,14 +15,14 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
   const { sqlSnippets, setSQLSnippets } = React.useContext(DefinitionContext)
 
   const initialValues = React.useMemo(() => ({
-    snippets: formList<ISQLSnippet>(sqlSnippets ?? []),
+    snippets: (sqlSnippets ?? []) as ISQLSnippet[],
   }), [sqlSnippets]);
 
   const form = useForm({
     initialValues,
   });
 
-  const addSnippet = () => form.addListItem('snippets', {
+  const addSnippet = () => form.insertListItem('snippets', {
     key: randomId(),
     value: '',
   });
@@ -48,13 +48,13 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                 <TextInput
                   label="Key"
                   required
-                  {...form.getListInputProps('snippets', index, 'key')}
+                  {...form.getInputProps(`snippets.${index}.key`)}
                 />
                 <Textarea
                   minRows={3}
                   label="Value"
                   required
-                  {...form.getListInputProps('snippets', index, 'value')}
+                  {...form.getInputProps(`snippets.${index}.value`)}
                   className='code-textarea'
                 />
                 <PreviewSnippet value={form.values.snippets[index].value} />
@@ -72,8 +72,8 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
                 Add a snippet
               </Button>
             </Group>
-          </Group>
-        </Stack>
+          </Stack>
+        </Group>
       </form>
     </Stack>
   )

@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Divider, Group, Stack, Switch, Text, TextInput } from "@mantine/core";
-import { formList, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import { Prism } from "@mantine/prism";
 import { DeviceFloppy, Trash } from "tabler-icons-react";
@@ -13,7 +13,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
     initialValues: {
       id_field: 'id',
       use_raw_columns: true,
-      columns: formList<IColumnConf>(columns ?? []),
+      columns: (columns ?? []) as IColumnConf[],
       fontSize: 'sm',
       horizontalSpacing: 'sm',
       verticalSpacing: 'sm',
@@ -23,7 +23,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
     },
   });
 
-  const addColumn = () => form.addListItem('columns', { label: randomId(), value_field: 'value', value_type: ValueType.string });
+  const addColumn = () => form.insertListItem('columns', { label: randomId(), value_field: 'value', value_type: ValueType.string });
 
   return (
     <Stack mt="md" spacing="xs">
@@ -74,20 +74,20 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
           {!form.values.use_raw_columns && (
             <Stack grow>
               <Text mt="xl" mb={0}>Custom Columns</Text>
-              {form.values.columns.map((item, index) => (
+              {form.values.columns.map((_item, index) => (
                 <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
                   <Group position="apart" grow>
                     <TextInput
                       label="Label"
                       required
                       sx={{ flex: 1 }}
-                      {...form.getListInputProps('columns', index, 'label')}
+                      {...form.getInputProps(`columns.${index}.label`)}
                     />
-                    <DataFieldSelector label="Value Field" required data={data} {...form.getListInputProps('columns', index, 'value_field')} />
+                    <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps(`columns.${index}.value_field`)} />
                     <ValueTypeSelector
                       label="Value Type"
                       sx={{ flex: 1 }}
-                      {...form.getListInputProps('columns', index, 'value_type')}
+                      {...form.getInputProps(`columns.${index}.value_type`)}
                     />
                   </Group>
                   <ActionIcon
