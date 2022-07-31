@@ -23,6 +23,7 @@ export default defineConfig({
         visualizer()
       ],
       external: [
+        '@emotion/react',
         '@mantine/core',
         '@mantine/hooks',
         '@mantine/modals',
@@ -37,6 +38,7 @@ export default defineConfig({
       ],
       output: {
         globals: {
+          '@emotion/react': '@emotion/react',
           '@mantine/core': '@mantine/core',
           '@mantine/hooks': '@mantine/hooks',
           '@mantine/modals': '@mantine/modals',

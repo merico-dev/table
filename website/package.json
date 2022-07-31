@@ -10,6 +10,7 @@
   "dependencies": {
     "@devtable/dashboard": "2.0.0",
     "@devtable/settings-form": "2.0.0",
+    "@emotion/react": "11.10.0",
     "@mantine/core": "^5.0.2",
     "@mantine/dates": "^5.0.2",
     "@mantine/form": "^5.0.2",
