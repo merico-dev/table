@@ -61,7 +61,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
               {...form.getInputProps('fontSize')}
             />
           </Group>
-          <Stack grow>
+          <Stack>
             <Text>Other</Text>
             <Group position="apart" grow>
               <Switch label="Striped" {...form.getInputProps('striped', { type: 'checkbox' })} />
@@ -69,10 +69,10 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
             </Group>
           </Stack>
         </Stack>
-        <Stack mt="xs" spacing="xs" grow p="md" mb="xl" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
+        <Stack mt="xs" spacing="xs" p="md" mb="xl" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Switch label="Use Original Data Columns" {...form.getInputProps('use_raw_columns', { type: 'checkbox' })} />
           {!form.values.use_raw_columns && (
-            <Stack grow>
+            <Stack>
               <Text mt="xl" mb={0}>Custom Columns</Text>
               {form.values.columns.map((_item, index) => (
                 <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
