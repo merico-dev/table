@@ -36,7 +36,7 @@ export function DashboardActions({
   const openQueries = () => setDataEditorOpened(true);
   const closeQueries = () => setDataEditorOpened(false);
 
-  const [filtersOpened, setFiltersOpened] = React.useState(false);
+  const [filtersOpened, setFiltersOpened] = React.useState(true);
   const openFilters = () => setFiltersOpened(true);
   const closeFilters = () => setFiltersOpened(false);
 

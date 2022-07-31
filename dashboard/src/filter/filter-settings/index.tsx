@@ -27,6 +27,7 @@ export function FilterSettingsModal({ opened, close, filters, setFilters }: Filt
       title='Filters'
       trapFocus
       onDragStart={e => { e.stopPropagation() }}
+      withCloseButton={false}
     >
       <FilterSettings filters={filters} setFilters={setFilters} />
     </Modal>
