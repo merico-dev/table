@@ -13,7 +13,7 @@ interface FilterSettings {
 }
 
 export function FilterSettings({ filters, setFilters }: FilterSettings) {
-  const { control, handleSubmit } = useForm<IFilterSettingsForm>({
+  const { control, handleSubmit, watch } = useForm<IFilterSettingsForm>({
     defaultValues: {
       filters: filters ?? []
     },
@@ -30,7 +30,8 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
       label: key,
       type: 'text-input',
       config: {
-        required: false
+        required: false,
+        default_value: '',
       },
     })
   }
@@ -63,7 +64,7 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
                 <Tabs.Panel key={field.id} value={field.id} sx={{ height: '100%' }}>
                   <Stack sx={{ height: '100%' }}>
                     <Box sx={{ flexGrow: 1 }}>
-                      <FilterSetting field={field} index={index} control={control} />
+                      <FilterSetting field={field} index={index} control={control} watch={watch} />
                     </Box>
                     <Group position="right">
                       <Button size="xs" color="red" leftIcon={<Trash size={20} />} onClick={() => removeFilter(index)}>Delete this filter</Button>

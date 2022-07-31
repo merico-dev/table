@@ -10,12 +10,22 @@ interface IFilterEditorTextInput {
 
 export function FilterEditorTextInput({ field, index, control }: IFilterEditorTextInput) {
   return (
-    <Controller
-      name={`filters.${index}.config.required`}
-      control={control}
-      render={({ field }) => (
-        <Checkbox checked={field.value} onChange={e => field.onChange(e.currentTarget.checked)} label="Required"/>
-      )}
-    />
+    <>
+      <Controller
+        name={`filters.${index}.config.default_value`}
+        control={control}
+        render={({ field }) => (
+          // @ts-expect-error
+          <TextInput label="Default Value" {...field} />
+        )}
+      />
+      <Controller
+        name={`filters.${index}.config.required`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox checked={field.value} onChange={e => field.onChange(e.currentTarget.checked)} label="Required"/>
+        )}
+      />
+    </>
   )
 }

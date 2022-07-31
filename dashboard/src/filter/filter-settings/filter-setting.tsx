@@ -1,6 +1,6 @@
 import { Box, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import React from "react";
-import { Control, Controller, FieldArrayWithId } from "react-hook-form";
+import { Control, Controller, FieldArrayWithId, UseFormWatch } from "react-hook-form";
 import { FilterEditorTextInput } from "../filter-text-input/editor";
 import { PreviewFilter } from "./preview-filter";
 import { IFilterSettingsForm } from "./types";
@@ -23,9 +23,10 @@ interface IFilterSetting {
   field: FieldArrayWithId<IFilterSettingsForm, "filters", "id">;
   index: number;
   control: Control<IFilterSettingsForm, object>;
+  watch: UseFormWatch<IFilterSettingsForm>;
 }
 
-export function FilterSetting({ field, index, control }: IFilterSetting) {
+export function FilterSetting({ field, index, control, watch }: IFilterSetting) {
   const FilterEditor = React.useMemo(() => {
     return editors[field.type]
   }, [field.type]);
@@ -60,7 +61,7 @@ export function FilterSetting({ field, index, control }: IFilterSetting) {
           <FilterEditor field={field} index={index} control={control}/>
         </Stack>
       </Box>
-      <PreviewFilter filter={field} />
+      <PreviewFilter filter={field} index={index} watch={watch} />
     </SimpleGrid>
   )
 }

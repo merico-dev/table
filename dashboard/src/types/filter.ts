@@ -17,6 +17,7 @@ export interface IFilterConfig_Select {
 
 export interface IFilterConfig_TextInput {
   required?: boolean;
+  default_value: string;
 }
 
 export interface IFilterConfig_DateTime {
@@ -25,6 +26,7 @@ export interface IFilterConfig_DateTime {
 }
 
 export interface IFilterConfig_Checkbox {
+  default_value: boolean;
 }
 
 export interface IDashboardFilter {
@@ -66,6 +68,7 @@ export const mockFilters: IDashboardFilter[] = [
     default_value: '',
     config: {
       required: false,
+      default_value: '',
     } as IFilterConfig_TextInput,
   },
   {
