@@ -12,12 +12,18 @@ interface IPreviewFilter {
 }
 export function PreviewFilter({ filter, index, watch }: IPreviewFilter) {
   // @ts-expect-error
-  const [value, setValue] = React.useState(filter.config.default_value)
-  watch(`filters.${index}`)
+  const defaultValue = filter.config.default_value;
+  const [value, setValue] = React.useState(defaultValue)
+
+  React.useEffect(() => {
+    setValue(defaultValue)
+  }, [defaultValue])
+
   return (
     <Box sx={{ maxWidth: '30em' }}>
       <Text pb="md" color="gray">Preview</Text>
       <Filter filter={filter} value={value} onChange={setValue} />
+      <pre>{JSON.stringify(filter, null, 4)}</pre>
     </Box>
   )
 }
