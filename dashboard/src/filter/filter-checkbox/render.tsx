@@ -1,5 +1,5 @@
 import { Checkbox } from "@mantine/core";
-import { IDashboardFilter, IFilterConfig_Checkbox } from "../types";
+import { IDashboardFilter, IFilterConfig_Checkbox } from "../../types";
 
 interface IFilterCheckbox extends Omit<IDashboardFilter, 'type' | 'config'> {
   config: IFilterConfig_Checkbox;

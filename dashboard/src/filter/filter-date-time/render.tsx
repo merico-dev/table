@@ -1,5 +1,5 @@
 import { DateRangePicker } from "@mantine/dates";
-import { IDashboardFilter, IFilterConfig_DateTime } from "../types";
+import { IDashboardFilter, IFilterConfig_DateTime } from "../../types";
 
 interface IFilterDateTime extends Omit<IDashboardFilter, 'type' | 'config'> {
   config: IFilterConfig_DateTime;

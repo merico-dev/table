@@ -1,9 +1,9 @@
 import { ErrorBoundary } from "../panel/error-boundary";
 import { IDashboardFilter, IFilterConfig_Checkbox, IFilterConfig_DateTime, IFilterConfig_Select, IFilterConfig_TextInput } from "../types";
-import { FilterCheckbox } from "./filter-checkbox";
-import { FilterDateTime } from "./filter-date-time";
-import { FilterSelect } from "./filter-select";
-import { FilterTextInput } from "./filter-text-input";
+import { FilterCheckbox } from "./filter-checkbox/render";
+import { FilterDateTime } from "./filter-date-time/render";
+import { FilterSelect } from "./filter-select/render";
+import { FilterTextInput } from "./filter-text-input/render";
 
 interface IFilter {
   filter: IDashboardFilter;
