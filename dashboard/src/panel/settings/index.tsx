@@ -33,7 +33,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         sx={{
           height: '90vh', maxHeight: 'calc(100vh - 185px)',
           '.mantine-AppShell-body': { height: '100%' },
-          main: { height: '100%', width: '100%' }
+          main: { height: '100%', width: '100%', padding: '16px' }
         }}
         padding="md"
       >
