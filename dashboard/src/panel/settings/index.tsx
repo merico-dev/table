@@ -38,16 +38,21 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         padding="md"
       >
         <Tabs defaultValue="Visualization">
-          <Tabs.Tab value="Data">
+          <Tabs.List>
+            <Tabs.Tab value="Data">Data</Tabs.Tab>
+            <Tabs.Tab value="Panel">Panel</Tabs.Tab>
+            <Tabs.Tab value="Visualization">Visualization</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="Data" pt="sm">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
             <PickQuery />
-          </Tabs.Tab>
-          <Tabs.Tab value="Panel">
+          </Tabs.Panel>
+          <Tabs.Panel value="Panel" pt="sm">
             <PanelConfig />
-          </Tabs.Tab>
-          <Tabs.Tab value="Visualization">
+          </Tabs.Panel>
+          <Tabs.Panel value="Visualization" pt="sm">
             <VizConfig />
-          </Tabs.Tab>
+          </Tabs.Panel>
         </Tabs>
       </AppShell>
     </Modal>

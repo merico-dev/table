@@ -86,8 +86,12 @@ export function QueryForm({ value, onChange }: IQueryForm) {
               {...form.getInputProps('key')}
             />
           </Group>
-          <Tabs>
-            <Tabs.Tab value="SQL">
+          <Tabs defaultValue="SQL">
+            <Tabs.List>
+              <Tabs.Tab value="SQL">SQL</Tabs.Tab>
+              <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="SQL" pt="sm">
               <Textarea
                 autosize
                 minRows={12}
@@ -95,10 +99,10 @@ export function QueryForm({ value, onChange }: IQueryForm) {
                 {...form.getInputProps('sql')}
                 className='code-textarea'
               />
-            </Tabs.Tab>
-            <Tabs.Tab value="Preview">
-              <PreviewSQL value={form.values.sql}/>
-            </Tabs.Tab>
+            </Tabs.Panel>
+            <Tabs.Panel value="Preview" pt="sm">
+              <PreviewSQL value={form.values.sql} />
+            </Tabs.Panel>
           </Tabs>
         </Stack>
 
