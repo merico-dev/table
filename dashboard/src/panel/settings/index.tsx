@@ -37,15 +37,15 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         }}
         padding="md"
       >
-        <Tabs initialTab={2}>
-          <Tabs.Tab label="Data">
+        <Tabs defaultValue="Visualization">
+          <Tabs.Tab value="Data">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
             <PickQuery />
           </Tabs.Tab>
-          <Tabs.Tab label="Panel">
+          <Tabs.Tab value="Panel">
             <PanelConfig />
           </Tabs.Tab>
-          <Tabs.Tab label="Visualization">
+          <Tabs.Tab value="Visualization">
             <VizConfig />
           </Tabs.Tab>
         </Tabs>

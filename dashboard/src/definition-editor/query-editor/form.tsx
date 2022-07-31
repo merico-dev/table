@@ -87,7 +87,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
             />
           </Group>
           <Tabs>
-            <Tabs.Tab label="SQL">
+            <Tabs.Tab value="SQL">
               <Textarea
                 autosize
                 minRows={12}
@@ -96,7 +96,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
                 className='code-textarea'
               />
             </Tabs.Tab>
-            <Tabs.Tab label="Preview">
+            <Tabs.Tab value="Preview">
               <PreviewSQL value={form.values.sql}/>
             </Tabs.Tab>
           </Tabs>

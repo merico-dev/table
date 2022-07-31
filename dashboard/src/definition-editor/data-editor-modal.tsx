@@ -27,10 +27,10 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
       onDragStart={e => { e.stopPropagation() }}
     >
       <Tabs>
-        <Tabs.Tab label="SQL Snippet">
+        <Tabs.Tab value="SQL Snippet">
           <EditSQLSnippets />
         </Tabs.Tab>
-        <Tabs.Tab label="Queries">
+        <Tabs.Tab value="Queries">
           <EditQueries />
         </Tabs.Tab>
       </Tabs>
