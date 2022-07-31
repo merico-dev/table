@@ -55,9 +55,14 @@ export function DashboardActions({
         {inEditMode && <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
         {!inUseMode && <Button variant="default" size="xs" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
         {!inUseMode && <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
-        <Menu control={<Button variant="default" size="xs" leftIcon={<Share size={20} />}>Export</Button>}>
-          <Menu.Item disabled>Download Data</Menu.Item>
-          <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
+        <Menu>
+          <Menu.Target>
+            <Button variant="default" size="xs" leftIcon={<Share size={20} />}>Export</Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item disabled>Download Data</Menu.Item>
+            <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
+          </Menu.Dropdown>
         </Menu>
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} filters={filters} setFilters={setFilters} />
