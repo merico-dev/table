@@ -17,7 +17,7 @@ export function PreviewPanel() {
       }}>
         <Group position='apart' noWrap sx={{ flexGrow: 0, flexShrink: 0 }}>
           <Group>
-            <DescriptionPopover position="bottom" trigger="hover" />
+            <DescriptionPopover />
           </Group>
           <Group grow position="center">
             <Text lineClamp={1} weight="bold">{title}</Text>
