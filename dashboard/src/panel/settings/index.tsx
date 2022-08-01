@@ -33,21 +33,26 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         sx={{
           height: '90vh', maxHeight: 'calc(100vh - 185px)',
           '.mantine-AppShell-body': { height: '100%' },
-          main: { height: '100%', width: '100%' }
+          main: { height: '100%', width: '100%', padding: '16px' }
         }}
         padding="md"
       >
-        <Tabs initialTab={2}>
-          <Tabs.Tab label="Data">
+        <Tabs defaultValue="Visualization">
+          <Tabs.List>
+            <Tabs.Tab value="Data">Data</Tabs.Tab>
+            <Tabs.Tab value="Panel">Panel</Tabs.Tab>
+            <Tabs.Tab value="Visualization">Visualization</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="Data" pt="sm">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
             <PickQuery />
-          </Tabs.Tab>
-          <Tabs.Tab label="Panel">
+          </Tabs.Panel>
+          <Tabs.Panel value="Panel" pt="sm">
             <PanelConfig />
-          </Tabs.Tab>
-          <Tabs.Tab label="Visualization">
+          </Tabs.Panel>
+          <Tabs.Panel value="Visualization" pt="sm">
             <VizConfig />
-          </Tabs.Tab>
+          </Tabs.Panel>
         </Tabs>
       </AppShell>
     </Modal>

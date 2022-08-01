@@ -13,7 +13,7 @@ export function BarFields({
   index,
 }: IBarFields) {
   return (
-    <Group direction="row" grow align="top">
+    <Group grow align="top">
       <Controller
         name={`series.${index}.stack`}
         control={control}

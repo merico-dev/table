@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -77,7 +77,7 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
   }, [values, conf])
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Chart Config</Text>
@@ -85,9 +85,9 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion offsetIcon={false} multiple initialState={{ 0: true, 1: true }}>
-          <Accordion.Item label="X Axis">
-            <Group direction="row" grow noWrap>
+        <Accordion multiple value={["X Axis", "Y Axes"]}>
+          <Accordion.Item value="X Axis">
+            <Group grow noWrap>
               <Controller
                 name='x_axis_data_key'
                 control={control}
@@ -102,20 +102,20 @@ export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianCha
               />
             </Group>
           </Accordion.Item>
-          <Accordion.Item label="Y Axes">
+          <Accordion.Item value="Y Axes">
             <YAxesField control={control} watch={watch} />
           </Accordion.Item>
-          <Accordion.Item label="Series">
+          <Accordion.Item value="Series">
             <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
           </Accordion.Item>
-          <Accordion.Item label="Regression Lines">
+          <Accordion.Item value="Regression Lines">
             <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
           </Accordion.Item>
-          <Accordion.Item label="Stats">
+          <Accordion.Item value="Stats">
             <StatsField control={control} watch={watch} data={data} />
           </Accordion.Item>
         </Accordion>
       </form>
-    </Group>
+    </Stack>
   )
 }

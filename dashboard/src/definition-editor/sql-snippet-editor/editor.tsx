@@ -1,5 +1,5 @@
-import { ActionIcon, Button, Group, Text, Textarea, TextInput } from "@mantine/core";
-import { formList, useForm } from "@mantine/form";
+import { ActionIcon, Button, Group, Stack, Text, Textarea, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import _ from "lodash";
 import React from "react";
@@ -15,14 +15,14 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
   const { sqlSnippets, setSQLSnippets } = React.useContext(DefinitionContext)
 
   const initialValues = React.useMemo(() => ({
-    snippets: formList<ISQLSnippet>(sqlSnippets ?? []),
+    snippets: (sqlSnippets ?? []) as ISQLSnippet[],
   }), [sqlSnippets]);
 
   const form = useForm({
     initialValues,
   });
 
-  const addSnippet = () => form.addListItem('snippets', {
+  const addSnippet = () => form.insertListItem('snippets', {
     key: randomId(),
     value: '',
   });
@@ -33,7 +33,7 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
     setSQLSnippets(snippets);
   }
   return (
-    <Group direction="column" grow sx={{ border: '1px solid #eee', flexGrow: 1 }}>
+    <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <form onSubmit={form.onSubmit(submit)}>
         <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
           <Text weight={500}>SQL Snippets</Text>
@@ -42,39 +42,39 @@ export function SQLSnippetsEditor({ }: ISQLSnippetsEditor) {
           </ActionIcon>
         </Group>
         <Group px="md" pb="md" pt="md">
-          <Group direction="column" sx={{ width: '100%', position: 'relative' }} grow>
+          <Stack sx={{ width: '100%', position: 'relative' }}>
             {form.values.snippets.map((_item, index) => (
-              <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+              <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
                 <TextInput
                   label="Key"
                   required
-                  {...form.getListInputProps('snippets', index, 'key')}
+                  {...form.getInputProps(`snippets.${index}.key`)}
                 />
                 <Textarea
                   minRows={3}
                   label="Value"
                   required
-                  {...form.getListInputProps('snippets', index, 'value')}
+                  {...form.getInputProps(`snippets.${index}.value`)}
                   className='code-textarea'
                 />
                 <PreviewSnippet value={form.values.snippets[index].value} />
                 <ActionIcon
-                  color="red" variant="hover"
+                  color="red" variant="subtle"
                   onClick={() => form.removeListItem('snippets', index)}
                   sx={{ position: 'absolute', top: 15, right: 5 }}
                 >
                   <Trash size={16} />
                 </ActionIcon>
-              </Group>
+              </Stack>
             ))}
             <Group position="center" mt="xl" grow sx={{ width: '40%' }} mx="auto">
               <Button variant="default" onClick={addSnippet}>
                 Add a snippet
               </Button>
             </Group>
-          </Group>
+          </Stack>
         </Group>
       </form>
-    </Group>
+    </Stack>
   )
 }

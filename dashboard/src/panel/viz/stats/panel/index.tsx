@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, Stack, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -66,7 +66,7 @@ export function VizStatsPanel({ conf, setConf, data }: IVizStatsPanel) {
   }, [values, conf])
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow noWrap>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text weight={500}>Stats Configurations</Text>
@@ -84,6 +84,6 @@ export function VizStatsPanel({ conf, setConf, data }: IVizStatsPanel) {
         <Text pb="sm" pt="md" size="sm">Variables</Text>
         <VariablesField control={control} watch={watch} data={data} />
       </form>
-    </Group>
+    </Stack>
   )
 }

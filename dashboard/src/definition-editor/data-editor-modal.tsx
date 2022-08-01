@@ -1,4 +1,4 @@
-import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
+import { Modal, Tabs } from "@mantine/core";
 import React from "react";
 import { LayoutStateContext } from "../contexts/layout-state-context";
 import { EditQueries } from "./query-editor";
@@ -26,13 +26,17 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
       trapFocus
       onDragStart={e => { e.stopPropagation() }}
     >
-      <Tabs>
-        <Tabs.Tab label="SQL Snippet">
+      <Tabs defaultValue="Queries">
+        <Tabs.List>
+          <Tabs.Tab value="SQL Snippet">SQL Snippet</Tabs.Tab>
+          <Tabs.Tab value="Queries">Queries</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="SQL Snippet" pt="sm">
           <EditSQLSnippets />
-        </Tabs.Tab>
-        <Tabs.Tab label="Queries">
+        </Tabs.Panel>
+        <Tabs.Panel value="Queries" pt="sm">
           <EditQueries />
-        </Tabs.Tab>
+        </Tabs.Panel>
       </Tabs>
     </Modal>
   )

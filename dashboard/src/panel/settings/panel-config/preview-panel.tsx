@@ -1,4 +1,4 @@
-import { Container, Group, Text } from "@mantine/core";
+import { Container, Group, Stack, Text } from "@mantine/core";
 import React from "react";
 import { PanelContext } from "../../../contexts";
 import { ErrorBoundary } from "../../error-boundary";
@@ -8,7 +8,7 @@ export function PreviewPanel() {
   const { title } = React.useContext(PanelContext);
   return (
     <ErrorBoundary>
-      <Group direction="column" grow noWrap mx="auto" mt="xl" p="5px" spacing={5} sx={{
+      <Stack mx="auto" mt="xl" p="5px" spacing={5} sx={{
         width: '600px',
         height: '450px',
         background: 'transparent',
@@ -17,7 +17,7 @@ export function PreviewPanel() {
       }}>
         <Group position='apart' noWrap sx={{ flexGrow: 0, flexShrink: 0 }}>
           <Group>
-            <DescriptionPopover position="bottom" trigger="hover" />
+            <DescriptionPopover />
           </Group>
           <Group grow position="center">
             <Text lineClamp={1} weight="bold">{title}</Text>
@@ -29,7 +29,7 @@ export function PreviewPanel() {
           />
         </Group>
         <Group sx={{ background: '#eee', flexGrow: 1 }}/>
-      </Group>
+      </Stack>
     </ErrorBoundary>
   )
 }

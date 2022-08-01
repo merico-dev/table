@@ -1,4 +1,4 @@
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Stack, Text } from "@mantine/core";
 import React from "react";
 import { Control, useFieldArray, UseFormWatch } from "react-hook-form";
 import { IVizStatsConf } from "../types";
@@ -27,7 +27,7 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
   const add = () => append(getANewVariable());
 
   return (
-    <Group direction="column" grow>
+    <Stack>
       {controlledFields.map((_variableItem, index) => (
         <VariableField
           control={control}
@@ -41,6 +41,6 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
           Add a Variable
         </Button>
       </Group>
-    </Group>
+    </Stack>
   )
 }

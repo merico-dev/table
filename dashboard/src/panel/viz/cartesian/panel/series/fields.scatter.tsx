@@ -1,4 +1,4 @@
-import { Group, Slider, Text } from '@mantine/core';
+import { Group, Slider, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
@@ -15,15 +15,15 @@ interface IScatterFields {
 
 export function ScatterFields({ control, index }: IScatterFields) {
   return (
-    <Group direction="row" grow align="center">
+    <Group grow align="center">
       <Controller
         name={`series.${index}.symbolSize`}
         control={control}
         render={(({ field }) => (
-          <Group direction='column' noWrap sx={{ flexGrow: 1 }} pb={16} spacing={4}>
+          <Stack sx={{ flexGrow: 1 }} pb={16} spacing={4}>
             <Text size="sm">Size</Text>
             <Slider min={1} max={10} marks={symbolSizeOptions} {...field} sx={{ width: '100%' }} />
-          </Group>
+          </Stack>
         ))}
       />
     </Group>

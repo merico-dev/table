@@ -1,4 +1,4 @@
-import { ActionIcon, Group, LoadingOverlay, Table, Text } from "@mantine/core";
+import { ActionIcon, Group, LoadingOverlay, Stack, Table, Text } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
 import { Refresh } from "tabler-icons-react";
@@ -30,7 +30,7 @@ export function DataPreview({ id }: { id: string }) {
     return <Table></Table>;
   }
   return (
-    <Group my="xl" direction="column" grow sx={{ border: '1px solid #eee' }}>
+    <Stack my="xl" sx={{ border: '1px solid #eee' }}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Group position="left">
           <Text weight={500}>Preview Data</Text>
@@ -38,7 +38,7 @@ export function DataPreview({ id }: { id: string }) {
             <Text size="sm" color="gray">Showing 10 rows of {data.length}</Text>
           )}
         </Group>
-        <ActionIcon mr={15} variant="hover" color="blue" disabled={loading} onClick={refresh}>
+        <ActionIcon mr={15} variant="subtle" color="blue" disabled={loading} onClick={refresh}>
           <Refresh size={15} />
         </ActionIcon>
       </Group>
@@ -66,6 +66,6 @@ export function DataPreview({ id }: { id: string }) {
           ))}
         </tbody>
       </Table>
-    </Group>
+    </Stack>
   )
 }

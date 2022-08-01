@@ -1,4 +1,4 @@
-import { AppShell, Group } from "@mantine/core";
+import { AppShell, Group, Stack } from "@mantine/core";
 import React from "react";
 import { GlobalVariablesGuide } from "../global-variables-guide";
 import { DataPreview } from "./data-preview";
@@ -20,11 +20,11 @@ export function EditQueries({ }: IEditQueries) {
       }}
       padding="md"
     >
-      <Group direction="row" position="apart" grow align="stretch" noWrap>
-        <Group direction="column" grow sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
+      <Group position="apart" grow align="stretch" noWrap>
+        <Stack sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
           <SelectOrAddQuery id={id} setID={setID} />
           <QueryEditor id={id} setID={setID} />
-        </Group>
+        </Stack>
         <GlobalVariablesGuide />
       </Group>
       <DataPreview id={id} />

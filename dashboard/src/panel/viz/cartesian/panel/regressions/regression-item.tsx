@@ -1,4 +1,4 @@
-import { ActionIcon, Group, NumberInput, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, NumberInput, Select, Stack, Text, TextInput } from "@mantine/core";
 import React from "react";
 import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
@@ -28,7 +28,7 @@ interface IRegressionField {
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {
   const method = regressionItem.transform.config.method;
   return (
-    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Controller
         name={`regressions.${index}.name`}
         control={control}
@@ -40,7 +40,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
             {...field} />
         ))}
       />
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <Controller
           name={`regressions.${index}.y_axis_data_key`}
           control={control}
@@ -71,7 +71,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           ))}
         />
       </Group>
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <Controller
           name={`regressions.${index}.transform.config.method`}
           control={control}
@@ -91,7 +91,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           />
         )}
       </Group>
-      <Group direction="column" grow spacing={4}>
+      <Stack spacing={4}>
         <Text size="sm">Color</Text>
         <Controller
           name={`regressions.${index}.plot.color`}
@@ -100,16 +100,15 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
             <MantineColorSelector {...field} />
           ))}
         />
-      </Group>
+      </Stack>
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
       >
         <Trash size={16} />
       </ActionIcon>
-    </Group>
-
+    </Stack>
   )
 }

@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, Switch } from "@mantine/core";
+import { Group, NumberInput, Select, Stack, Switch } from "@mantine/core";
 import _ from "lodash";
 import React from "react";
 
@@ -27,8 +27,8 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     onChange({ ...value, trimMantissa: event.currentTarget.checked })
   }
   return (
-    <Group direction="column" grow noWrap ref={ref}>
-      <Group direction="row" grow>
+    <Stack ref={ref}>
+      <Group grow>
         <Select
           label="Format"
           data={[
@@ -54,7 +54,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           disabled={value.mantissa === 0}
         />
       </Group>
-    </Group>
+    </Stack>
   )
 }
 

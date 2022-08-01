@@ -1,4 +1,4 @@
-import { ActionIcon, Group } from "@mantine/core";
+import { ActionIcon, Group, Stack } from "@mantine/core";
 import React from "react";
 import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
@@ -14,7 +14,7 @@ interface VariableField {
 
 export function VariableField({ control, index, remove, data }: VariableField) {
   return (
-    <Group key={index} direction="column" grow my="sm" p={0} sx={{ border: '1px solid #eee', borderTopColor: '#333', borderTopWidth: 2, position: 'relative' }}>
+    <Stack key={index} my="sm" p={0} sx={{ border: '1px solid #eee', borderTopColor: '#333', borderTopWidth: 2, position: 'relative' }}>
       <Controller
         name={`variables.${index}`}
         control={control}
@@ -24,13 +24,12 @@ export function VariableField({ control, index, remove, data }: VariableField) {
       />
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
       >
         <Trash size={16} />
       </ActionIcon>
-    </Group >
-
+    </Stack>
   )
 }

@@ -1,4 +1,4 @@
-import { Button, Group, Text, TextInput } from "@mantine/core";
+import { Button, Group, Stack, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import { DeviceFloppy } from "tabler-icons-react";
 import _ from "lodash";
@@ -27,7 +27,7 @@ export function VizBar3DPanel({ conf, setConf, data }: IVizPanelProps) {
   const { control, handleSubmit, formState } = useForm({ defaultValues });
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Text>X Axis</Text>
         <Group position="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>
@@ -88,6 +88,6 @@ export function VizBar3DPanel({ conf, setConf, data }: IVizPanelProps) {
           </Button>
         </Group>
       </form>
-    </Group>
+    </Stack>
   )
 }

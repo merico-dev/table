@@ -43,22 +43,22 @@ export function PanelTitleBar({ }: IPanelTitleBar) {
         <DescriptionPopover />
       </Box>
       <Group grow position="center" px={20} className='panel-title-wrapper' sx={{ flexGrow: 1 }}>
-        <Menu
-          control={(
+        <Menu>
+          <Menu.Target>
             <Text lineClamp={1} weight="bold">{title}</Text>
-          )}
-          placement='center'
-        >
-          <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
-          {!inFullScreen && <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>Full Screen</Menu.Item>}
-          {inEditMode && (
-            <>
-              <Divider label="Edit" labelPosition="center" />
-              <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>
-              <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
-              <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
-            </>
-          )}
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>Refresh</Menu.Item>
+            {!inFullScreen && <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>Full Screen</Menu.Item>}
+            {inEditMode && (
+              <>
+                <Divider label="Edit" labelPosition="center" />
+                <Menu.Item onClick={open} icon={<Settings size={14} />}>Settings</Menu.Item>
+                <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>Duplicate</Menu.Item>
+                <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>Delete</Menu.Item>
+              </>
+            )}
+          </Menu.Dropdown>
         </Menu>
       </Group>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}

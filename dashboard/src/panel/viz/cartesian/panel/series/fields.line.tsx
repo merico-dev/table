@@ -17,7 +17,7 @@ interface ILineFields {
 
 export function LineFields({ control, index }: ILineFields) {
   return (
-    <Group direction="row" grow align="center">
+    <Group grow align="center">
       <Controller
         name={`series.${index}.step`}
         control={control}

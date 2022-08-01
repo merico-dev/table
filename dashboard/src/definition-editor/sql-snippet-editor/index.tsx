@@ -16,7 +16,7 @@ export function EditSQLSnippets({ }: IEditSQLSnippets) {
       }}
       padding="md"
     >
-      <Group direction="row" position="apart" grow align="stretch" noWrap>
+      <Group position="apart" grow align="stretch" noWrap>
         <SQLSnippetsEditor />
         <GlobalVariablesGuide showSQLSnippets={false} />
       </Group>

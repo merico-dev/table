@@ -5,6 +5,26 @@ import { formatSQL, getSQLParams } from "../utils/sql";
 import { APIClient } from "./request";
 import { IDataSource, PaginationResponse } from "./types";
 
+interface IQueryByStaticSQL {
+  type: 'postgresql';
+  key: string;
+  sql: string;
+}
+
+export const queryByStaticSQL = ({ type, key, sql }: IQueryByStaticSQL) => async () => {
+  if (!type || !key || !sql) {
+    return [];
+  }
+  try {
+    const res = await APIClient.getRequest('POST')('/query', { type, key, query: sql })
+    return res;
+  } catch (error) {
+    console.error(error)
+    return [];
+  }
+}
+
+
 interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;

@@ -1,4 +1,4 @@
-import { ActionIcon, Group, SegmentedControl, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Group, SegmentedControl, Select, Stack, Text, TextInput } from "@mantine/core";
 import React from "react";
 import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
 import { Trash } from "tabler-icons-react";
@@ -42,8 +42,8 @@ interface ISeriesItemField {
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
-    <Group key={index} direction="column" grow my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-      <Group direction="column" grow noWrap>
+    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+      <Stack>
         <Controller
           name={`series.${index}.type`}
           control={control}
@@ -59,7 +59,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             />
           ))}
         />
-      </Group>
+      </Stack>
       <Controller
         name={`series.${index}.name`}
         control={control}
@@ -72,7 +72,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           />
         ))}
       />
-      <Group direction="row" grow noWrap>
+      <Group grow noWrap>
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
@@ -121,7 +121,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           />
         ))}
       />
-      <Group direction="column" grow spacing={4}>
+      <Stack spacing={4}>
         <Text size="sm">Color</Text>
         <Controller
           name={`series.${index}.color`}
@@ -130,15 +130,15 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             <MantineColorSelector {...field} />
           ))}
         />
-      </Group>
+      </Stack>
       <ActionIcon
         color="red"
-        variant="hover"
+        variant="subtle"
         onClick={() => remove(index)}
         sx={{ position: 'absolute', top: 15, right: 5 }}
       >
         <Trash size={16} />
       </ActionIcon>
-    </Group>
+    </Stack>
   )
 }

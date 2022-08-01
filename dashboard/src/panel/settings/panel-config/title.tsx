@@ -24,7 +24,7 @@ export function EditTitle() {
       label={(
         <Group align="end">
           <Text>Panel Title</Text>
-          <ActionIcon variant="hover" color="blue" disabled={!changed} onClick={submit}>
+          <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>

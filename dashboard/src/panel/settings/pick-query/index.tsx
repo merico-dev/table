@@ -1,4 +1,4 @@
-import { Group, Select, Text } from "@mantine/core";
+import { Group, Select, Stack, Text } from "@mantine/core";
 import React from "react";
 import { DefinitionContext, PanelContext } from "../../../contexts";
 import { DataPreview } from "../../../definition-editor/query-editor/data-preview";
@@ -17,7 +17,7 @@ export function PickQuery({ }: IPickQuery) {
   }, [queries]);
 
   return (
-    <Group direction="column" grow noWrap>
+    <Stack>
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
         <Text>Select a Query</Text>
         <Select
@@ -31,6 +31,6 @@ export function PickQuery({ }: IPickQuery) {
         />
       </Group>
       <DataPreview id={queryID} />
-    </Group>
+    </Stack>
   )
 }

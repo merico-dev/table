@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Text } from "@mantine/core";
+import { ActionIcon, Group, Stack, Text } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 import _ from "lodash";
 import React from "react";
@@ -28,7 +28,7 @@ export function VizRichTextPanel({ conf, setConf }: IVizRichTextPanel) {
   }, [values, conf])
 
   return (
-    <Group direction="column" mt="md" spacing="xs" grow>
+    <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Content</Text>
@@ -44,6 +44,6 @@ export function VizRichTextPanel({ conf, setConf }: IVizRichTextPanel) {
           ))}
         />
       </form>
-    </Group>
+    </Stack>
   )
 }
