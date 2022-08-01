@@ -52,7 +52,7 @@ interface ITemplateVariableField {
   data: any[];
 }
 
-export function TemplateVariableField({ value, onChange, data }: ITemplateVariableField) {
+export const TemplateVariableField = React.forwardRef(function _TemplateVariableField({ value, onChange, data }: ITemplateVariableField, _ref: any) {
   const colorType = value.color.type;
   const handleChange = (path: Path<ITemplateVariable>, newValue: any) => {
     const v = _.cloneDeep(value);
@@ -110,4 +110,4 @@ export function TemplateVariableField({ value, onChange, data }: ITemplateVariab
       </Stack>
     </Box>
   )
-}
+})

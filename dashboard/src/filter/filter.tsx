@@ -1,3 +1,4 @@
+import React from "react";
 import { ErrorBoundary } from "../panel/error-boundary";
 import { IDashboardFilter, IFilterConfig_Checkbox, IFilterConfig_DateRange, IFilterConfig_Select, IFilterConfig_TextInput } from "../types";
 import { FilterCheckbox } from "./filter-checkbox/render";
@@ -23,12 +24,12 @@ function renderFilter({ type, config, ...rest }: IDashboardFilter, formFieldProp
   }
 }
 
-export function Filter({ filter, ...formFieldProps }: IFilter) {
+export const Filter = React.forwardRef(function _Filter({ filter, ...formFieldProps }: IFilter, ref: any) {
   return (
-    <div className="filter-root">
+    <div className="filter-root" ref={ref}>
       <ErrorBoundary>
         {renderFilter(filter, formFieldProps)}
       </ErrorBoundary>
     </div>
   )
-}
+})

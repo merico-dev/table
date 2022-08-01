@@ -1,4 +1,5 @@
 import { Stack, Tabs, Textarea } from "@mantine/core";
+import React from "react";
 import { PreviewSQL } from "../../definition-editor/query-editor/preview-sql";
 import { IDashboardFilterOptionQuery } from "../../types";
 import { SelectDataSource } from "./select-data-source";
@@ -7,7 +8,7 @@ interface IFilterQueryField {
   value: IDashboardFilterOptionQuery;
   onChange: (v: IDashboardFilterOptionQuery) => void;
 }
-export function FilterQueryField({ value, onChange }: IFilterQueryField) {
+export const FilterQueryField = React.forwardRef(function _FilterQueryField({ value, onChange }: IFilterQueryField, _ref: any) {
   return (
     <Stack my={0}>
       <SelectDataSource value={value} onChange={onChange} />
@@ -33,4 +34,4 @@ export function FilterQueryField({ value, onChange }: IFilterQueryField) {
       </Tabs>
     </Stack>
   )
-}
+})
