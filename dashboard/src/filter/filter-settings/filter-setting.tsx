@@ -34,7 +34,7 @@ export function FilterSetting({ field, index, control, watch }: IFilterSetting) 
 
   return (
     <SimpleGrid cols={2}>
-      <Box>
+      <Box pl="md">
         <Text pb="md" color="gray">Edit</Text>
         <Stack sx={{ maxWidth: '30em' }}>
           <Controller
