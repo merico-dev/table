@@ -7,13 +7,13 @@ interface IFilterCheckbox extends Omit<IDashboardFilter, 'type' | 'config'> {
   onChange: (v: any) => void;
 }
 
-export function FilterCheckbox({ label, config, value, onChange }: IFilterCheckbox) {
+export function FilterCheckbox({ label, config: { default_value, ...rest }, value, onChange }: IFilterCheckbox) {
   return (
     <Checkbox
       label={label}
       checked={value}
       onChange={(event) => onChange(event.currentTarget.checked)}
-      {...config}
+      {...rest}
     />
   )
 }
