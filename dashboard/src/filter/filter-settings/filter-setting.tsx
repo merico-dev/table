@@ -3,6 +3,7 @@ import React from "react";
 import { Control, Controller, FieldArrayWithId, UseFormWatch } from "react-hook-form";
 import { FilterEditorCheckbox } from "../filter-checkbox/editor";
 import { FilterEditorDateRange } from "../filter-date-range/editor";
+import { FilterEditorMultiSelect } from "../filter-multi-select/editor";
 import { FilterEditorSelect } from "../filter-select/editor";
 import { FilterEditorTextInput } from "../filter-text-input/editor";
 import { PreviewFilter } from "./preview-filter";
@@ -10,6 +11,7 @@ import { IFilterSettingsForm } from "./types";
 
 const editors = {
   'select': FilterEditorSelect,
+  'multi-select': FilterEditorMultiSelect,
   'text-input': FilterEditorTextInput,
   'checkbox': FilterEditorCheckbox,
   'date-range': FilterEditorDateRange,
@@ -17,6 +19,7 @@ const editors = {
 
 const filterTypeOptions = [
   { label: 'Select', value: 'select' },
+  { label: 'Multi Select', value: 'multi-select' },
   { label: 'Text Input', value: 'text-input' },
   { label: 'Checkbox', value: 'checkbox' },
   { label: 'Date Range', value: 'date-range' },

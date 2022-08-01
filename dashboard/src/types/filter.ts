@@ -17,6 +17,12 @@ export interface IFilterConfig_Select {
   options_query: IDashboardFilterOptionQuery;
 }
 
+export interface IFilterConfig_MultiSelect {
+  default_value: string[];
+  static_options: IDashboardFilterOption[];
+  options_query: IDashboardFilterOptionQuery;
+}
+
 export interface IFilterConfig_TextInput {
   required: boolean;
   default_value: string;
@@ -35,9 +41,9 @@ export interface IFilterConfig_Checkbox {
 export interface IDashboardFilter {
   key: string;
   label: string;
-  type: 'select' | 'text-input' | 'checkbox' | 'date-range';
+  type: 'select' | 'multi-select' | 'text-input' | 'checkbox' | 'date-range';
   default_value: any;
-  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateRange | IFilterConfig_Checkbox;
+  config: IFilterConfig_Select | IFilterConfig_MultiSelect | IFilterConfig_TextInput | IFilterConfig_DateRange | IFilterConfig_Checkbox;
 }
 
 export const mockFilters: IDashboardFilter[] = [
@@ -69,6 +75,34 @@ export const mockFilters: IDashboardFilter[] = [
         sql: '',
       }
     } as IFilterConfig_Select,
+  },
+  {
+    key: 'multi_select',
+    label: 'Multi Select',
+    type: 'multi-select',
+    default_value: '',
+    config: {
+      default_value: ['react', 'nextjs'],
+      static_options: [
+        {
+          label: 'React',
+          value: 'react',
+        },
+        {
+          label: 'Next.js',
+          value: 'nextjs',
+        },
+        {
+          label: 'Svelte',
+          value: 'svelte',
+        },
+      ],
+      options_query: {
+        type: 'postgresql',
+        key: '',
+        sql: '',
+      }
+    } as IFilterConfig_MultiSelect,
   },
   {
     key: 'title_keyword',
