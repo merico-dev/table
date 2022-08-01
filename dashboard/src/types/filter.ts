@@ -18,13 +18,14 @@ export interface IFilterConfig_Select {
 }
 
 export interface IFilterConfig_TextInput {
-  required?: boolean;
+  required: boolean;
   default_value: string;
 }
 
 export interface IFilterConfig_DateRange {
   inputFormat: 'YYYY' | 'YYYY-MM' | 'YYYY-MM-DD';
   clearable: boolean;
+  required: boolean;
 }
 
 export interface IFilterConfig_Checkbox {
@@ -87,6 +88,7 @@ export const mockFilters: IDashboardFilter[] = [
     config: {
       inputFormat: 'YYYY-MM-DD',
       clearable: false,
+      required: false,
     } as IFilterConfig_DateRange,
   },
   {

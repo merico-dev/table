@@ -2,6 +2,7 @@ import { Box, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from 
 import React from "react";
 import { Control, Controller, FieldArrayWithId, UseFormWatch } from "react-hook-form";
 import { FilterEditorCheckbox } from "../filter-checkbox/editor";
+import { FilterEditorDateRange } from "../filter-date-range/editor";
 import { FilterEditorSelect } from "../filter-select/editor";
 import { FilterEditorTextInput } from "../filter-text-input/editor";
 import { PreviewFilter } from "./preview-filter";
@@ -11,7 +12,7 @@ const editors = {
   'select': FilterEditorSelect,
   'text-input': FilterEditorTextInput,
   'checkbox': FilterEditorCheckbox,
-  'date-range': React.Fragment,
+  'date-range': FilterEditorDateRange,
 }
 
 const filterTypeOptions = [
