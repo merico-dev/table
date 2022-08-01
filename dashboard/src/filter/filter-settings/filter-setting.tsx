@@ -1,6 +1,7 @@
 import { Box, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import React from "react";
 import { Control, Controller, FieldArrayWithId, UseFormWatch } from "react-hook-form";
+import { FilterEditorCheckbox } from "../filter-checkbox/editor";
 import { FilterEditorSelect } from "../filter-select/editor";
 import { FilterEditorTextInput } from "../filter-text-input/editor";
 import { PreviewFilter } from "./preview-filter";
@@ -9,7 +10,7 @@ import { IFilterSettingsForm } from "./types";
 const editors = {
   'select': FilterEditorSelect,
   'text-input': FilterEditorTextInput,
-  'checkbox': React.Fragment,
+  'checkbox': FilterEditorCheckbox,
   'date-time': React.Fragment,
 }
 

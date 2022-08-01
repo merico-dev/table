@@ -95,6 +95,7 @@ export const mockFilters: IDashboardFilter[] = [
     type: 'checkbox',
     default_value: false,
     config: {
+      default_value: false,
     } as IFilterConfig_Checkbox,
   },
   {
