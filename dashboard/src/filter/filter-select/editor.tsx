@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Divider, Group, Select, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Button, Checkbox, Divider, Group, Select, Text, TextInput } from "@mantine/core";
 import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from "react-hook-form";
 import { PlaylistAdd, Trash } from "tabler-icons-react";
 import { FilterQueryField } from "../filter-query-field";
@@ -32,6 +32,13 @@ export function FilterEditorSelect({ field, index, control, watch }: IFilterEdit
   ]
   return (
     <>
+      <Controller
+        name={`filters.${index}.config.required`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox checked={field.value} onChange={e => field.onChange(e.currentTarget.checked)} label="Required" />
+        )}
+      />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
         <Controller

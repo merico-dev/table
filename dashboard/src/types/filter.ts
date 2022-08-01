@@ -11,7 +11,7 @@ export interface IDashboardFilterOptionQuery {
 
 // FIXME: better naming?
 export interface IFilterConfig_Select {
-  multiple: false;
+  required: boolean;
   default_value: string;
   static_options: IDashboardFilterOption[];
   options_query: IDashboardFilterOptionQuery;
@@ -43,23 +43,23 @@ export interface IDashboardFilter {
 export const mockFilters: IDashboardFilter[] = [
   {
     key: 'date_format',
-    label: 'Date Format',
+    label: 'Charting Date Format',
     type: 'select',
     default_value: 'yyyy-mm-dd',
     config: {
       default_value: 'yyyy-mm-dd',
-      multiple: false,
+      required: true,
       static_options: [
         {
-          label: 'yyyy-mm-dd',
+          label: '2022-01-01',
           value: 'yyyy-mm-dd',
         },
         {
-          label: 'yyyy-mm',
+          label: '2022-01',
           value: 'yyyy-mm',
         },
         {
-          label: 'yyyy',
+          label: '2022',
           value: 'yyyy',
         },
       ],
@@ -106,8 +106,8 @@ export const mockFilters: IDashboardFilter[] = [
     type: 'select',
     default_value: '',
     config: {
+      required: false,
       default_value: '',
-      multiple: false,
       static_options: [],
       options_query: {
         type: 'postgresql',
