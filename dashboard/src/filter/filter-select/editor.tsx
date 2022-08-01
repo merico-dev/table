@@ -1,8 +1,6 @@
 import { ActionIcon, Button, Divider, Group, Select, Text, TextInput } from "@mantine/core";
 import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from "react-hook-form";
 import { PlaylistAdd, Trash } from "tabler-icons-react";
-import { QueryForm } from "../../definition-editor/query-editor/form";
-import { IFilterConfig_Select } from "../../types";
 import { FilterQueryField } from "../filter-query-field";
 import { IFilterSettingsForm } from "../filter-settings/types";
 
@@ -14,20 +12,12 @@ interface IFilterEditorSelect {
 }
 
 export function FilterEditorSelect({ field, index, control, watch }: IFilterEditorSelect) {
-  const config = field.config as IFilterConfig_Select;
-
   const { fields: staticOptionFields, append, remove } = useFieldArray({
     control,
     name: `filters.${index}.config.static_options`,
   })
 
   const watchedStaticOptions = watch(`filters.${index}.config.static_options`)
-  // const staticOptionFields = config.static_options.map((field, index) => {
-  //   return {
-  //     ...field,
-  //     ...watchStaticOptions[index]
-  //   };
-  // });
 
   const addStaticOption = () => {
     append({

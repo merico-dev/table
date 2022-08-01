@@ -16,9 +16,6 @@ export function FilterSelect({ label, config, value, onChange }: IFilterSelect) 
     refreshDeps: [config.options_query, usingRemoteOptions]
   })
 
-  if (usingRemoteOptions) {
-    console.log({ loading, remoteOptions })
-  }
   return (
     <Select
       label={label}
