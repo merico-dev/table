@@ -1,7 +1,7 @@
 import { ErrorBoundary } from "../panel/error-boundary";
-import { IDashboardFilter, IFilterConfig_Checkbox, IFilterConfig_DateTime, IFilterConfig_Select, IFilterConfig_TextInput } from "../types";
+import { IDashboardFilter, IFilterConfig_Checkbox, IFilterConfig_DateRange, IFilterConfig_Select, IFilterConfig_TextInput } from "../types";
 import { FilterCheckbox } from "./filter-checkbox/render";
-import { FilterDateTime } from "./filter-date-time/render";
+import { FilterDateRange } from "./filter-date-range/render";
 import { FilterSelect } from "./filter-select/render";
 import { FilterTextInput } from "./filter-text-input/render";
 
@@ -15,7 +15,7 @@ function renderFilter({ type, config, ...rest }: IDashboardFilter, formFieldProp
   switch (type) {
     case 'select': return <FilterSelect {...rest} {...formFieldProps} config={config as IFilterConfig_Select} />;
     case 'text-input': return <FilterTextInput {...rest} {...formFieldProps} config={config as IFilterConfig_TextInput} />;
-    case 'date-time': return <FilterDateTime {...rest} {...formFieldProps} config={config as IFilterConfig_DateTime} />;
+    case 'date-range': return <FilterDateRange {...rest} {...formFieldProps} config={config as IFilterConfig_DateRange} />;
     case 'checkbox': return <FilterCheckbox {...rest} {...formFieldProps} config={config as IFilterConfig_Checkbox} />;
     default: return null;
   }

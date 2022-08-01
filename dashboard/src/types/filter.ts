@@ -22,7 +22,7 @@ export interface IFilterConfig_TextInput {
   default_value: string;
 }
 
-export interface IFilterConfig_DateTime {
+export interface IFilterConfig_DateRange {
   inputFormat: 'YYYY' | 'YYYY-MM' | 'YYYY-MM-DD';
   clearable: boolean;
 }
@@ -34,9 +34,9 @@ export interface IFilterConfig_Checkbox {
 export interface IDashboardFilter {
   key: string;
   label: string;
-  type: 'select' | 'text-input' | 'checkbox' | 'date-time';
+  type: 'select' | 'text-input' | 'checkbox' | 'date-range';
   default_value: any;
-  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateTime | IFilterConfig_Checkbox;
+  config: IFilterConfig_Select | IFilterConfig_TextInput | IFilterConfig_DateRange | IFilterConfig_Checkbox;
 }
 
 export const mockFilters: IDashboardFilter[] = [
@@ -82,12 +82,12 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'date_range',
     label: 'Date Range',
-    type: 'date-time',
+    type: 'date-range',
     default_value: '',
     config: {
       inputFormat: 'YYYY-MM-DD',
       clearable: false,
-    } as IFilterConfig_DateTime,
+    } as IFilterConfig_DateRange,
   },
   {
     key: 'main-branch-only',

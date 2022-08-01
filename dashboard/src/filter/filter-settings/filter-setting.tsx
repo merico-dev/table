@@ -11,14 +11,14 @@ const editors = {
   'select': FilterEditorSelect,
   'text-input': FilterEditorTextInput,
   'checkbox': FilterEditorCheckbox,
-  'date-time': React.Fragment,
+  'date-range': React.Fragment,
 }
 
 const filterTypeOptions = [
   { label: 'Select', value: 'select' },
   { label: 'Text Input', value: 'text-input' },
   { label: 'Checkbox', value: 'checkbox' },
-  { label: 'Date Time', value: 'date-time' },
+  { label: 'Date Range', value: 'date-range' },
 ]
 
 interface IFilterSetting {
