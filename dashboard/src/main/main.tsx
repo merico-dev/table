@@ -46,7 +46,8 @@ export function Dashboard({
   const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
     const filters = dashboard.filters ?? mockFilters
     return filters.reduce((ret, filter) => {
-      ret[filter.key] = filter.default_value ?? ''
+      // @ts-expect-error
+      ret[filter.key] = filter.config.default_value ?? ''
       return ret;
     }, {} as Record<string, any>)
   });
