@@ -1,7 +1,9 @@
 import { ActionIcon, Button, Divider, Group, Select, Text, TextInput } from "@mantine/core";
 import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from "react-hook-form";
 import { PlaylistAdd, Trash } from "tabler-icons-react";
+import { QueryForm } from "../../definition-editor/query-editor/form";
 import { IFilterConfig_Select } from "../../types";
+import { FilterQueryField } from "../filter-query-field";
 import { IFilterSettingsForm } from "../filter-settings/types";
 
 interface IFilterEditorSelect {
@@ -75,7 +77,14 @@ export function FilterEditorSelect({ field, index, control, watch }: IFilterEdit
           <Select label="Default Selection" data={optionsForDefaultValue} {...field} />
         )}
       />
-      <Divider label="Or fetch options from remote" labelPosition="center" />
+      <Divider label="Or fetch options from database" labelPosition="center" />
+      <Controller
+        name={`filters.${index}.config.options_query`}
+        control={control}
+        render={({ field }) => (
+          <FilterQueryField {...field} />
+        )}
+      />
     </>
   )
 }

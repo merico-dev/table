@@ -5,6 +5,7 @@ export interface IDashboardFilterOption {
 
 export interface IDashboardFilterOptionQuery {
   type: 'postgresql',
+  key: string;
   sql: string;
 }
 
@@ -60,7 +61,12 @@ export const mockFilters: IDashboardFilter[] = [
           label: 'yyyy',
           value: 'yyyy',
         },
-      ]
+      ],
+      options_query: {
+        type: 'postgresql',
+        key: '',
+        sql: '',
+      }
     } as IFilterConfig_Select,
   },
   {
@@ -90,5 +96,26 @@ export const mockFilters: IDashboardFilter[] = [
     default_value: false,
     config: {
     } as IFilterConfig_Checkbox,
+  },
+  {
+    key: 'jenkinsJobID',
+    label: 'Jenkins Job',
+    type: 'select',
+    default_value: '',
+    config: {
+      default_value: '',
+      multiple: false,
+      static_options: [],
+      options_query: {
+        type: 'postgresql',
+        key: 'lake',
+        sql: `SELECT j.name AS label, j.id AS value
+FROM builds AS b
+  INNER JOIN jobs AS j
+ON b.job_id = j.id
+GROUP BY (j.id)
+        `,
+      }
+    } as IFilterConfig_Select,
   },
 ]
