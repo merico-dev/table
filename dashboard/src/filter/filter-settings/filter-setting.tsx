@@ -58,7 +58,6 @@ export function FilterSetting({ field, index, control, watch }: IFilterSetting) 
               <Select label="Widget" data={filterTypeOptions} required {...field} />
             )}
           />
-          <Divider label='Widget Settings' labelPosition="center" />
           <FilterEditor field={field} index={index} control={control} watch={watch} />
         </Stack>
       </Box>

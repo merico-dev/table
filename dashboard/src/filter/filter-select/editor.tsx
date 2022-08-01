@@ -42,7 +42,17 @@ export function FilterEditorSelect({ field, index, control, watch }: IFilterEdit
   ]
   return (
     <>
-      <Text size="sm">Options</Text>
+      <Divider label="Configure options" labelPosition="center" />
+      {staticOptionFields.length > 0 && (
+        <Controller
+          name={`filters.${index}.config.default_value`}
+          control={control}
+          render={({ field }) => (
+            // @ts-expect-error
+            <Select label="Default Selection" data={optionsForDefaultValue} {...field} />
+          )}
+        />
+      )}
       {staticOptionFields.map((_optionField, optionIndex) => (
         <Group sx={{ position: 'relative' }} pr="40px" >
           <Controller
@@ -69,14 +79,6 @@ export function FilterEditorSelect({ field, index, control, watch }: IFilterEdit
         </Group>
       ))}
       <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addStaticOption} sx={{ width: '50%' }} mx="auto" >Add an Option</Button>
-      <Controller
-        name={`filters.${index}.config.default_value`}
-        control={control}
-        render={({ field }) => (
-          // @ts-expect-error
-          <Select label="Default Selection" data={optionsForDefaultValue} {...field} />
-        )}
-      />
       <Divider label="Or fetch options from database" labelPosition="center" />
       <Controller
         name={`filters.${index}.config.options_query`}
