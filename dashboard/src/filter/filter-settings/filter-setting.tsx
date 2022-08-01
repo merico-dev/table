@@ -1,12 +1,13 @@
 import { Box, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from "@mantine/core";
 import React from "react";
 import { Control, Controller, FieldArrayWithId, UseFormWatch } from "react-hook-form";
+import { FilterEditorSelect } from "../filter-select/editor";
 import { FilterEditorTextInput } from "../filter-text-input/editor";
 import { PreviewFilter } from "./preview-filter";
 import { IFilterSettingsForm } from "./types";
 
 const editors = {
-  select: React.Fragment,
+  'select': FilterEditorSelect,
   'text-input': FilterEditorTextInput,
   'checkbox': React.Fragment,
   'date-time': React.Fragment,
@@ -58,7 +59,7 @@ export function FilterSetting({ field, index, control, watch }: IFilterSetting) 
             )}
           />
           <Divider label='Widget Settings' labelPosition="center" />
-          <FilterEditor field={field} index={index} control={control}/>
+          <FilterEditor field={field} index={index} control={control} watch={watch} />
         </Stack>
       </Box>
       <PreviewFilter filter={field} index={index} watch={watch} />

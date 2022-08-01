@@ -10,7 +10,8 @@ export interface IDashboardFilterOptionQuery {
 
 // FIXME: better naming?
 export interface IFilterConfig_Select {
-  multiple: boolean;
+  multiple: false;
+  default_value: string;
   static_options: IDashboardFilterOption[];
   options_query: IDashboardFilterOptionQuery;
 }
@@ -44,7 +45,8 @@ export const mockFilters: IDashboardFilter[] = [
     type: 'select',
     default_value: 'yyyy-mm-dd',
     config: {
-      multiple: true,
+      default_value: 'yyyy-mm-dd',
+      multiple: false,
       static_options: [
         {
           label: 'yyyy-mm-dd',
