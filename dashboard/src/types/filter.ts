@@ -41,6 +41,7 @@ export interface IFilterConfig_Checkbox {
 export interface IDashboardFilter {
   key: string;
   label: string;
+  order: number;
   type: 'select' | 'multi-select' | 'text-input' | 'checkbox' | 'date-range';
   config: IFilterConfig_Select | IFilterConfig_MultiSelect | IFilterConfig_TextInput | IFilterConfig_DateRange | IFilterConfig_Checkbox;
 }
@@ -50,6 +51,7 @@ export const mockFilters: IDashboardFilter[] = [
     key: 'date_format',
     label: 'Charting Date Format',
     type: 'select',
+    order: 2,
     config: {
       default_value: 'yyyy-mm-dd',
       required: true,
@@ -77,6 +79,7 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'multi_select',
     label: 'Multi Select',
+    order: 3,
     type: 'multi-select',
     config: {
       default_value: ['react', 'nextjs'],
@@ -104,6 +107,7 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'title_keyword',
     label: 'Title Keyword',
+    order: 1,
     type: 'text-input',
     config: {
       required: false,
@@ -113,6 +117,7 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'date_range',
     label: 'Date Range',
+    order: 1,
     type: 'date-range',
     config: {
       inputFormat: 'YYYY-MM-DD',
@@ -123,6 +128,7 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'main-branch-only',
     label: 'Main-branch-based PR only',
+    order: 5,
     type: 'checkbox',
     config: {
       default_value: false,
@@ -131,6 +137,7 @@ export const mockFilters: IDashboardFilter[] = [
   {
     key: 'jenkinsJobID',
     label: 'Jenkins Job',
+    order: 4,
     type: 'select',
     config: {
       required: false,

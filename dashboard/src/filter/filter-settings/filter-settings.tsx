@@ -34,15 +34,17 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
 
   const addFilter = () => {
     const key = randomId()
-    append({
+    const filter: IDashboardFilter = {
       key,
       label: key,
+      order: filters.length + 1,
       type: 'text-input',
       config: {
         required: false,
         default_value: '',
       },
-    })
+    };
+    append(filter)
   }
 
   const removeFilter = (index: number) => {

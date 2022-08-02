@@ -12,15 +12,20 @@ interface IFilters {
 }
 
 export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
-
   const { control, handleSubmit } = useForm({ defaultValues: filterValues });
+  const filtersInOrder = React.useMemo(() => {
+    return _.sortBy(filters, 'order');
+  }, [filters])
+
+  console.log(filtersInOrder)
 
   return (
     <form onSubmit={handleSubmit(setFilterValues)}>
       <Group className="dashboard-filters" position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
         <Group align="flex-start">
-          {filters.map((filter) => (
+          {filtersInOrder.map((filter) => (
             <Controller
+              key={filter.key}
               name={filter.key}
               control={control}
               render={({ field }) => (
