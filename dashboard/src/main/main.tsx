@@ -14,7 +14,7 @@ import { FullScreenPanel } from "./full-screen-panel";
 import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
 import { Filters } from "../filter";
-import { IDashboardFilter, mockFilters } from "../types";
+import { IDashboardFilter } from "../types";
 import { FilterValuesContext } from "../contexts/filter-values-context";
 
 interface IDashboardProps {
@@ -42,9 +42,9 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
-  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters ?? mockFilters);
+  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters);
   const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
-    const filters = dashboard.filters ?? mockFilters
+    const filters = dashboard.filters;
     return filters.reduce((ret, filter) => {
       // @ts-expect-error
       ret[filter.key] = filter.config.default_value ?? ''

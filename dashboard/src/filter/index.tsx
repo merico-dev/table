@@ -17,8 +17,6 @@ export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
     return _.sortBy(filters, 'order');
   }, [filters])
 
-  console.log(filtersInOrder)
-
   return (
     <form onSubmit={handleSubmit(setFilterValues)}>
       <Group className="dashboard-filters" position="apart" p="md" mb="md" noWrap sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
