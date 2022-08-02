@@ -16,6 +16,7 @@ import { usePanelFullScreen } from "./use-panel-full-screen";
 import { Filters } from "../filter";
 import { IDashboardFilter } from "../types";
 import { FilterValuesContext } from "../contexts/filter-values-context";
+import { useFilters } from "./use-filters";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -42,15 +43,7 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
-  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters);
-  const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
-    const filters = dashboard.filters;
-    return filters.reduce((ret, filter) => {
-      // @ts-expect-error
-      ret[filter.key] = filter.config.default_value ?? ''
-      return ret;
-    }, {} as Record<string, any>)
-  });
+  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (!_.isEqual(filters, dashboard.filters)) {
