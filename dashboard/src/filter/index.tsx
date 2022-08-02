@@ -21,7 +21,7 @@ export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
 
   return (
     <form onSubmit={handleSubmit(setFilterValues)}>
-      <Group className="dashboard-filters" position="apart" p="md" mb="md" sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
+      <Group className="dashboard-filters" position="apart" p="md" mb="md" noWrap sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}>
         <Group align="flex-start">
           {filtersInOrder.map((filter) => (
             <Controller
