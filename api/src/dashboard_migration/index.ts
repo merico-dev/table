@@ -41,13 +41,13 @@ async function main() {
 
     for (let i = 0; i < dashboards.length; i += 1) {
       const db = dashboards[i];
-      const handler = await findHandler(db.content.version as string);
-      if (!handler) {
-        continue;
+      let handler = await findHandler(db.content.version as string);
+      while(handler) {
+        db.content = handler.main(db.content);
+        await dashboardRepo.save(db);
+        logger.info(`MIGRATED ${db.id} TO VERSION ${db.content.version}`);
+        handler = await findHandler(db.content.version as string);
       }
-      db.content = handler.main(db.content);
-      await dashboardRepo.save(db);
-      logger.info(`MIGRATED ${db.id} TO VERSION ${db.content.version}`);
     }
   } catch (error) {
     logger.error('error migrating dashboards');
