@@ -43,6 +43,13 @@ export function FilterSetting({ field, index, control, watch }: IFilterSetting) 
         <Text pb="md" color="gray">Edit</Text>
         <Stack sx={{ maxWidth: '30em' }}>
           <Controller
+            name={`filters.${index}.order`}
+            control={control}
+            render={({ field }) => (
+              <TextInput label="Placement Order" required {...field} />
+            )}
+          />
+          <Controller
             name={`filters.${index}.key`}
             control={control}
             render={({ field }) => (

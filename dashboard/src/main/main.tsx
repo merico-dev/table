@@ -14,8 +14,9 @@ import { FullScreenPanel } from "./full-screen-panel";
 import { Box, Overlay } from "@mantine/core";
 import { usePanelFullScreen } from "./use-panel-full-screen";
 import { Filters } from "../filter";
-import { IDashboardFilter, mockFilters } from "../types";
+import { IDashboardFilter } from "../types";
 import { FilterValuesContext } from "../contexts/filter-values-context";
+import { useFilters } from "./use-filters";
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -42,17 +43,12 @@ export function Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
-  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters ?? mockFilters);
-  const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
-    const filters = dashboard.filters ?? mockFilters
-    return filters.reduce((ret, filter) => {
-      // @ts-expect-error
-      ret[filter.key] = filter.config.default_value ?? ''
-      return ret;
-    }, {} as Record<string, any>)
-  });
+  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
+    if (!_.isEqual(filters, dashboard.filters)) {
+      return true;
+    }
     // local panels' layouts would contain some undefined runtime values
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
@@ -65,10 +61,12 @@ export function Dashboard({
       return true;
     };
     return !_.isEqual(queries, dashboard.definition.queries)
-  }, [dashboard, panels, sqlSnippets, queries])
+  }, [dashboard, filters, panels, sqlSnippets, queries])
+
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
+      filters,
       panels,
       definition: { sqlSnippets, queries },
     }
@@ -76,6 +74,7 @@ export function Dashboard({
   }
 
   const revertDashboardChanges = () => {
+    setFilters(dashboard.filters)
     setPanels(dashboard.panels)
     setSQLSnippets(dashboard.definition.sqlSnippets)
     setQueries(dashboard.definition.queries)
