@@ -53,6 +53,9 @@ export function Dashboard({
   });
 
   const hasChanges = React.useMemo(() => {
+    if (!_.isEqual(filters, dashboard.filters)) {
+      return true;
+    }
     // local panels' layouts would contain some undefined runtime values
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
@@ -65,10 +68,12 @@ export function Dashboard({
       return true;
     };
     return !_.isEqual(queries, dashboard.definition.queries)
-  }, [dashboard, panels, sqlSnippets, queries])
+  }, [dashboard, filters, panels, sqlSnippets, queries])
+
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
+      filters,
       panels,
       definition: { sqlSnippets, queries },
     }
@@ -76,6 +81,7 @@ export function Dashboard({
   }
 
   const revertDashboardChanges = () => {
+    setFilters(dashboard.filters)
     setPanels(dashboard.panels)
     setSQLSnippets(dashboard.definition.sqlSnippets)
     setQueries(dashboard.definition.queries)
