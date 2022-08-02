@@ -71,11 +71,11 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
             <Box sx={{ flexGrow: 1, height: '100%' }}>
               {controlledFields.map((field, index) => (
                 <Tabs.Panel key={field.id} value={field.id} sx={{ height: '100%' }}>
-                  <Stack sx={{ height: '100%' }}>
-                    <Box sx={{ flexGrow: 1 }}>
+                  <Stack sx={{ height: '100%' }} spacing="sm">
+                    <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'scroll' }}>
                       <FilterSetting field={field} index={index} control={control} watch={watch} />
                     </Box>
-                    <Group position="right">
+                    <Group position="right" pt={10}>
                       <Button size="xs" color="red" leftIcon={<Trash size={20} />} onClick={() => removeFilter(index)}>Delete this filter</Button>
                     </Group>
                   </Stack>
