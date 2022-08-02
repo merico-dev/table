@@ -6,6 +6,7 @@ import logger from 'npmlog';
 // NOTE: Keep versions in order
 const versions = [
   '2.0.0',
+  '2.1.0',
   // ... future versions
 ]
 
