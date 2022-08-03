@@ -1,11 +1,16 @@
-import { Box, LoadingOverlay, Table, Group } from "@mantine/core";
+import { Box, LoadingOverlay, Table, Group, MantineSize } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
 import { APICaller } from "../api-caller";
 import { AddDataSource } from "./add-data-source";
 import { DeleteDataSource } from "./delete-data-source";
+import { defaultStyles, IStyles } from "./styles";
 
-export function DataSourceList() {
+interface IDataSourceList {
+  styles?: IStyles;
+}
+
+export function DataSourceList({ styles = defaultStyles }: IDataSourceList) {
   const { data = [], loading, refresh } = useRequest(async () => {
     const { data } = await APICaller.datasource.list()
     return data;
@@ -14,12 +19,12 @@ export function DataSourceList() {
   });
   return (
     <>
-      <Group pt="md" position="right">
+      <Group pt={styles.spacing} position="right">
         <AddDataSource onSuccess={refresh} />
       </Group>
-      <Box mt="xl" sx={{ position: 'relative' }}>
+      <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
-        <Table horizontalSpacing="md" verticalSpacing="md" fontSize="md" highlightOnHover>
+        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fontSize={styles.size} highlightOnHover>
           <thead>
             <tr>
               <th>Type</th>

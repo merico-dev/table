@@ -3,8 +3,9 @@ import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { Trash } from "tabler-icons-react";
 import { APICaller } from "../api-caller";
+import { defaultStyles, IStyles } from "./styles";
 
-export function DeleteDataSource({ id, name, onSuccess }: { id: string, name: string, onSuccess: () => void }) {
+export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: { id: string, name: string, onSuccess: () => void, styles?: IStyles }) {
   const modals = useModals()
 
   const doDelete = async () => {
@@ -30,7 +31,7 @@ export function DeleteDataSource({ id, name, onSuccess }: { id: string, name: st
   const confirmAndDelete = () => modals.openConfirmModal({
     title: 'Delete this data source?',
     children: (
-      <Text size="sm">This action won't affect your database.</Text>
+      <Text size={styles.size}>This action won't affect your database.</Text>
     ),
     labels: { confirm: 'Confirm', cancel: 'Cancel' },
     onCancel: () => console.log('Cancel'),
@@ -38,6 +39,6 @@ export function DeleteDataSource({ id, name, onSuccess }: { id: string, name: st
   });
 
   return (
-    <Button size="sm" color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>Delete</Button>
+    <Button size={styles.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>Delete</Button>
   )
 }

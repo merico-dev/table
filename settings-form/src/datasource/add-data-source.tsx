@@ -5,6 +5,7 @@ import React from "react";
 import { PlaylistAdd } from "tabler-icons-react";
 import { APICaller } from "../api-caller";
 import { DataSourceType, IDataSourceConfig } from "../api-caller/datasource.typed";
+import { defaultStyles, IStyles } from "./styles";
 
 interface IFormValues {
   type: DataSourceType;
@@ -12,7 +13,7 @@ interface IFormValues {
   config: IDataSourceConfig;
 }
 
-function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
+function AddDataSourceForm({ postSubmit, styles = defaultStyles }: { postSubmit: () => void; styles?: IStyles; }) {
   const { control, handleSubmit, formState: { errors, isValidating, isValid } } = useForm<IFormValues>({
     defaultValues: {
       type: 'postgresql',
@@ -63,7 +64,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           render={(({ field }) => (
             <SegmentedControl
               fullWidth
-              mb="md"
+              mb={styles.spacing}
+              size={styles.size}
               data={[
                 { label: 'PostgreSQL', value: 'postgresql' },
                 { label: 'MySQL', value: 'mysql' },
@@ -79,7 +81,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           control={control}
           render={(({ field }) => (
             <TextInput
-              mb="md"
+              mb={styles.spacing}
+              size={styles.size}
               required
               label="Name"
               placeholder="A unique name"
@@ -96,7 +99,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
             control={control}
             render={(({ field }) => (
               <TextInput
-                mb="md"
+                mb={styles.spacing}
+                size={styles.size}
                 required
                 label="Host"
                 sx={{ flexGrow: 1 }}
@@ -109,7 +113,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
             control={control}
             render={(({ field }) => (
               <NumberInput
-                mb="md"
+                mb={styles.spacing}
+                size={styles.size}
                 required
                 label="Port"
                 hideControls
@@ -125,7 +130,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           control={control}
           render={(({ field }) => (
             <TextInput
-              mb="md"
+              mb={styles.spacing}
+              size={styles.size}
               required
               label="Username"
               {...field}
@@ -137,7 +143,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           control={control}
           render={(({ field }) => (
             <PasswordInput
-              mb="md"
+              mb={styles.spacing}
+              size={styles.size}
               required
               label="Password"
               {...field}
@@ -149,7 +156,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           control={control}
           render={(({ field }) => (
             <TextInput
-              mb="md"
+              mb={styles.spacing}
+              size={styles.size}
               required
               label="Database"
               {...field}
@@ -157,8 +165,8 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
           ))}
         />
 
-        <Group position="right" mt="md">
-          <Button type="submit">Save</Button>
+        <Group position="right" mt={styles.spacing}>
+          <Button type="submit" size={styles.size}>Save</Button>
         </Group>
       </form>
     </Box>
@@ -166,10 +174,11 @@ function AddDataSourceForm({ postSubmit }: { postSubmit: () => void }) {
 }
 
 interface IAddDataSource {
+  styles?: IStyles;
   onSuccess: () => void;
 }
 
-export function AddDataSource({ onSuccess }: IAddDataSource) {
+export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSource) {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -188,9 +197,9 @@ export function AddDataSource({ onSuccess }: IAddDataSource) {
         trapFocus
         onDragStart={e => { e.stopPropagation() }}
       >
-        <AddDataSourceForm postSubmit={postSubmit} />
+        <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size="sm" onClick={open} leftIcon={<PlaylistAdd size={20} />}>Add a Data Source</Button>
+      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>Add a Data Source</Button>
     </>
   )
 }
