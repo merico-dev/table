@@ -5,7 +5,14 @@ import { Trash } from "tabler-icons-react";
 import { APICaller } from "../api-caller";
 import { defaultStyles, IStyles } from "./styles";
 
-export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: { id: string, name: string, onSuccess: () => void, styles?: IStyles }) {
+interface IDeleteDataSource {
+  id: string;
+  name: string;
+  onSuccess: () => void;
+  styles?: IStyles;
+}
+
+export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
   const modals = useModals()
 
   const doDelete = async () => {

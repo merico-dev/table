@@ -13,7 +13,12 @@ interface IFormValues {
   config: IDataSourceConfig;
 }
 
-function AddDataSourceForm({ postSubmit, styles = defaultStyles }: { postSubmit: () => void; styles?: IStyles; }) {
+interface IAddDataSourceForm {
+  postSubmit: () => void;
+  styles?: IStyles;
+}
+
+function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourceForm) {
   const { control, handleSubmit, formState: { errors, isValidating, isValid } } = useForm<IFormValues>({
     defaultValues: {
       type: 'postgresql',
