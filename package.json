@@ -9,7 +9,12 @@
     "website"
   ],
   "devDependencies": {
+    "@nrwl/nx-cloud": "latest",
     "nx": "14.4.3",
-    "@nrwl/nx-cloud": "latest"
+    "prettier": "^2.7.1",
+    "husky": "^8.0.0"
+  },
+  "scripts": {
+    "prepare": "husky install"
   }
 }
