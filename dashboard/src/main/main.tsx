@@ -17,6 +17,7 @@ import { Filters } from '../filter';
 import { IDashboardFilter } from '../types';
 import { FilterValuesContext } from '../contexts/filter-values-context';
 import { useFilters } from './use-filters';
+import { createDashboardModel } from '../model';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -34,6 +35,7 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const [panels, setPanels] = React.useState(dashboard.panels);
+  const model = createDashboardModel(dashboard);
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
