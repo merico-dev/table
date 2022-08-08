@@ -1,12 +1,10 @@
-import axios, { Method } from 'axios'
+import axios, { Method } from 'axios';
 
 const getRequest = (method: Method) => {
   return (url: string, data: any, options: any = {}) => {
     const headers = {
       'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': options.string
-        ? 'application/x-www-form-urlencoded'
-        : 'application/json',
+      'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
       ...options.headers,
     };
 
@@ -15,7 +13,7 @@ const getRequest = (method: Method) => {
       method,
       url,
       params: method === 'GET' ? data : options.params,
-      headers : headers,
+      headers: headers,
     };
 
     if (['POST', 'PUT'].includes(method)) {
@@ -24,16 +22,16 @@ const getRequest = (method: Method) => {
 
     return axios(conf)
       .then((res: any) => {
-        return res.data
+        return res.data;
       })
       .catch((err: any) => {
-        return Promise.reject(err)
-      })
-  }
-}
+        return Promise.reject(err);
+      });
+  };
+};
 
-export const get = getRequest('GET')
+export const get = getRequest('GET');
 
-export const post = getRequest('POST')
+export const post = getRequest('POST');
 
-export const put = getRequest('PUT')
+export const put = getRequest('PUT');

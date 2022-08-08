@@ -1,7 +1,7 @@
-import { Loader, MultiSelect } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { post } from "../../api-caller/request";
+import { Loader, MultiSelect } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { post } from '../../api-caller/request';
 
 async function getOptions() {
   const query = `
@@ -11,7 +11,7 @@ async function getOptions() {
         ON b.job_id = j.id
     GROUP BY (j.id)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'lake', query })
+  const res = await post('/query', { type: 'postgresql', key: 'lake', query });
   return res;
 }
 
@@ -19,11 +19,7 @@ interface IJenkinsJobSelector {
   value: string[];
   onChange: React.Dispatch<React.SetStateAction<string[]>>;
 }
-export function JenkinsJobSelector({
-  value,
-  onChange,
-}: IJenkinsJobSelector) {
-
+export function JenkinsJobSelector({ value, onChange }: IJenkinsJobSelector) {
   const { data = [], loading } = useRequest(getOptions, {
     refreshDeps: [],
   });
@@ -39,5 +35,5 @@ export function JenkinsJobSelector({
       rightSection={loading ? <Loader size="xs" /> : null}
       searchable
     />
-  )
+  );
 }

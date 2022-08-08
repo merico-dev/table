@@ -1,13 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { App } from './frames/app'
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { App } from './frames/app';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ModalsProvider } from '@mantine/modals';
-import './index.css'
+import './index.css';
 import { DashboardPage } from './pages/dashboard-page';
 import { DataSourcePage } from './pages/data-source-page';
 import { AdminFrame } from './frames/admin';
@@ -28,5 +24,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </Routes>
       </BrowserRouter>
     </ModalsProvider>
-  </React.StrictMode>
-)
+  </React.StrictMode>,
+);

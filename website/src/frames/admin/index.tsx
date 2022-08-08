@@ -4,7 +4,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import { AdminNavbar } from './navbar';
 import '@devtable/dashboard/dist/style.css';
-import './index.css'
+import './index.css';
 
 export function AdminFrame() {
   return (
@@ -25,7 +25,7 @@ export function AdminFrame() {
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
-        }
+        },
       }}
     >
       <MantineProvider>
@@ -34,5 +34,5 @@ export function AdminFrame() {
         </NotificationsProvider>
       </MantineProvider>
     </AppShell>
-  )
+  );
 }

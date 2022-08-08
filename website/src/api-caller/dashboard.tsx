@@ -1,8 +1,8 @@
-import { IDashboard } from "@devtable/dashboard";
-import { normalizeDBDashboard } from "./dashboard.transform";
-import { IDBDashboard } from "./dashboard.typed";
-import { get, post, put } from "./request";
-import { PaginationResponse } from "./types";
+import { IDashboard } from '@devtable/dashboard';
+import { normalizeDBDashboard } from './dashboard.transform';
+import { IDBDashboard } from './dashboard.typed';
+import { get, post, put } from './request';
+import { PaginationResponse } from './types';
 
 export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
@@ -10,17 +10,17 @@ export const DashboardAPI = {
       filter: {},
       sort: {
         field: 'create_time',
-        order: 'ASC'
+        order: 'ASC',
       },
       pagination: {
         page: 1,
-        pagesize: 100
-      }
-    })
+        pagesize: 100,
+      },
+    });
     return res;
   },
   details: async (id: string): Promise<IDashboard> => {
-    const res = await get(`/dashboard/details/${id}`, {})
+    const res = await get(`/dashboard/details/${id}`, {});
     return normalizeDBDashboard(res);
   },
   update: async ({ id, name, definition, panels, filters }: IDashboard): Promise<IDashboard> => {
@@ -31,7 +31,7 @@ export const DashboardAPI = {
         definition,
         panels,
         filters,
-      }
+      },
     };
     const res: IDBDashboard = await put('/dashboard/update', payload);
     return normalizeDBDashboard(res);
@@ -44,7 +44,7 @@ export const DashboardAPI = {
           queries: [],
         },
         panels: [],
-      }
+      };
     }
     const res: IDBDashboard = await post('/dashboard/create', {
       name,
@@ -56,6 +56,6 @@ export const DashboardAPI = {
     if (!id) {
       return;
     }
-    return await post('/dashboard/delete', {id});
-  }
-}
+    return await post('/dashboard/delete', { id });
+  },
+};

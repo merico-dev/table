@@ -1,7 +1,7 @@
-import { Group, UnstyledButton, Text, LoadingOverlay, Box } from "@mantine/core";
-import { useRequest } from "ahooks";
-import { useNavigate, useParams } from "react-router-dom";
-import { DashboardAPI } from "../../../api-caller/dashboard";
+import { Group, UnstyledButton, Text, LoadingOverlay, Box } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import { useNavigate, useParams } from 'react-router-dom';
+import { DashboardAPI } from '../../../api-caller/dashboard';
 
 interface DashboardLinkProps {
   id: string;
@@ -21,10 +21,10 @@ function DashboardLink({ id, name, active }: DashboardLinkProps) {
         color: theme.black,
 
         '&:hover': {
-          backgroundColor: theme.colors.gray[0]
+          backgroundColor: theme.colors.gray[0],
         },
 
-        backgroundColor: active ? theme.colors.gray[2] : 'transparent'
+        backgroundColor: active ? theme.colors.gray[2] : 'transparent',
       })}
       onClick={() => navigate(`/dashboard/${id}`)}
     >
@@ -36,18 +36,23 @@ function DashboardLink({ id, name, active }: DashboardLinkProps) {
 }
 
 export function DashboardLinks() {
-  const { id } = useParams()
-  const { data = [], loading } = useRequest(async () => {
-    const { data } = await DashboardAPI.list();
-    return data
-  }, {
-    refreshDeps: [id],
-  });
+  const { id } = useParams();
+  const { data = [], loading } = useRequest(
+    async () => {
+      const { data } = await DashboardAPI.list();
+      return data;
+    },
+    {
+      refreshDeps: [id],
+    },
+  );
 
   return (
     <Box pt="sm" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={loading} />
-      {data.map((d) => <DashboardLink key={d.id} active={id === d.id} {...d} />)}
+      {data.map((d) => (
+        <DashboardLink key={d.id} active={id === d.id} {...d} />
+      ))}
     </Box>
   );
 }

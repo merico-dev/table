@@ -1,5 +1,5 @@
-import { Group, UnstyledButton, Text, Box } from "@mantine/core";
-import { useNavigate, useParams } from "react-router-dom";
+import { Group, UnstyledButton, Text, Box } from '@mantine/core';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface IAdminPageLink {
   to: string;
@@ -19,10 +19,10 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
         color: theme.black,
 
         '&:hover': {
-          backgroundColor: theme.colors.gray[0]
+          backgroundColor: theme.colors.gray[0],
         },
 
-        backgroundColor: active ? theme.colors.gray[2] : 'transparent'
+        backgroundColor: active ? theme.colors.gray[2] : 'transparent',
       })}
       onClick={() => navigate(to)}
     >
@@ -33,9 +33,7 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
   );
 }
 
-const links = [
-  { name: 'Data Sources', to: '/admin/data_sources/list' }
-]
+const links = [{ name: 'Data Sources', to: '/admin/data_sources/list' }];
 
 export function AdminPageLinks() {
   return (

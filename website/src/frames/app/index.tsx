@@ -3,7 +3,7 @@ import { Header } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import '@devtable/dashboard/dist/style.css';
-import './index.css'
+import './index.css';
 import { Navbar } from './navbar';
 
 export function App() {
@@ -16,7 +16,7 @@ export function App() {
         main: {
           height: 'calc(100vh - 60px)',
           overflow: 'scroll',
-        }
+        },
       }}
     >
       <MantineProvider>
@@ -25,5 +25,5 @@ export function App() {
         </NotificationsProvider>
       </MantineProvider>
     </AppShell>
-  )
+  );
 }

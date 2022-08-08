@@ -1,7 +1,7 @@
-import { Loader, MultiSelect } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { post } from "../../api-caller/request";
+import { Loader, MultiSelect } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { post } from '../../api-caller/request';
 
 async function getRepoOptions() {
   const query = `
@@ -12,7 +12,7 @@ async function getRepoOptions() {
     WHERE r.name <> ''
     GROUP BY (r.id)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'vdev', query })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', query });
   return res;
 }
 
@@ -20,11 +20,7 @@ interface IRepositorySelector {
   value: string[];
   onChange: React.Dispatch<React.SetStateAction<string[]>>;
 }
-export function RepositorySelector({
-  value,
-  onChange,
-}: IRepositorySelector) {
-
+export function RepositorySelector({ value, onChange }: IRepositorySelector) {
   const { data = [], loading } = useRequest(getRepoOptions, {
     refreshDeps: [],
   });
@@ -40,5 +36,5 @@ export function RepositorySelector({
       rightSection={loading ? <Loader size="xs" /> : null}
       searchable
     />
-  )
+  );
 }

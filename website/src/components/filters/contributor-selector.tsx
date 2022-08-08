@@ -1,7 +1,7 @@
-import { Loader, MultiSelect } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { post } from "../../api-caller/request";
+import { Loader, MultiSelect } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { post } from '../../api-caller/request';
 
 async function getContributorOptions() {
   const query = `
@@ -12,7 +12,7 @@ async function getContributorOptions() {
     WHERE a.name <> '' AND a.email <> ''
     GROUP BY (a.email)
   `;
-  const res = await post('/query', { type: 'postgresql', key: 'vdev', query })
+  const res = await post('/query', { type: 'postgresql', key: 'vdev', query });
   return res;
 }
 
@@ -20,11 +20,7 @@ interface IContributorSelector {
   value: string[];
   onChange: React.Dispatch<React.SetStateAction<string[]>>;
 }
-export function ContributorSelector({
-  value,
-  onChange,
-}: IContributorSelector) {
-
+export function ContributorSelector({ value, onChange }: IContributorSelector) {
   const { data = [], loading } = useRequest(getContributorOptions, {
     refreshDeps: [],
   });
@@ -40,5 +36,5 @@ export function ContributorSelector({
       rightSection={loading ? <Loader size="xs" /> : null}
       searchable
     />
-  )
+  );
 }
