@@ -1,10 +1,10 @@
 import { DataSourceType, IDataSource, IDataSourceConfig } from "./datasource.typed";
-import { get, post, put } from "../../../website/src/api-caller/request";
-import { PaginationResponse } from "../../../website/src/api-caller/types";
+import { APIClient } from "./request";
+import { PaginationResponse } from "./types";
 
 export const datasource = {
   list: async (): Promise<PaginationResponse<IDataSource>> => {
-    const res = await post('/datasource/list', {
+    const res = await APIClient.getRequest('POST')('/datasource/list', {
       filter: {},
       sort: {
         field: 'create_time',
@@ -19,7 +19,7 @@ export const datasource = {
   },
   create: async (type: DataSourceType, key: string, config: IDataSourceConfig): Promise<PaginationResponse<IDataSource> | false> => {
     try {
-      const res = await post('/datasource/create', { type, key, config })
+      const res = await APIClient.getRequest('POST')('/datasource/create', { type, key, config })
       return res;
     } catch (error) {
       console.error(error)
@@ -27,6 +27,6 @@ export const datasource = {
     }
   },
   delete: async (id: string): Promise<void> => {
-    await post('/datasource/delete', { id })
+    await APIClient.getRequest('POST')('/datasource/delete', { id })
   }
 }
