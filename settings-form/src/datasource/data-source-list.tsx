@@ -1,22 +1,30 @@
-import { Box, LoadingOverlay, Table, Group, MantineSize } from "@mantine/core";
+import { Box, LoadingOverlay, Table, Group } from "@mantine/core";
 import { useRequest } from "ahooks";
 import React from "react";
 import { APICaller } from "../api-caller";
+import { APIClient } from "../api-caller/request";
 import { AddDataSource } from "./add-data-source";
 import { DeleteDataSource } from "./delete-data-source";
 import { defaultStyles, IStyles } from "./styles";
+import { ISettingsFormConfig } from "./types";
 
 interface IDataSourceList {
   styles?: IStyles;
+  config: ISettingsFormConfig;
 }
 
-export function DataSourceList({ styles = defaultStyles }: IDataSourceList) {
+export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
   const { data = [], loading, refresh } = useRequest(async () => {
     const { data } = await APICaller.datasource.list()
     return data;
   }, {
     refreshDeps: [],
   });
+
+  if (APIClient.baseURL !== config.apiBaseURL) {
+    APIClient.baseURL = config.apiBaseURL;
+  }
+
   return (
     <>
       <Group pt={styles.spacing} position="right">
