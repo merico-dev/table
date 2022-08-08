@@ -1,12 +1,12 @@
-import { Box, LoadingOverlay, Table, Group } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { APICaller } from "../api-caller";
-import { APIClient } from "../api-caller/request";
-import { AddDataSource } from "./add-data-source";
-import { DeleteDataSource } from "./delete-data-source";
-import { defaultStyles, IStyles } from "./styles";
-import { ISettingsFormConfig } from "./types";
+import { Box, LoadingOverlay, Table, Group } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { APICaller } from '../api-caller';
+import { APIClient } from '../api-caller/request';
+import { AddDataSource } from './add-data-source';
+import { DeleteDataSource } from './delete-data-source';
+import { defaultStyles, IStyles } from './styles';
+import { ISettingsFormConfig } from './types';
 
 interface IDataSourceList {
   styles?: IStyles;
@@ -14,12 +14,19 @@ interface IDataSourceList {
 }
 
 export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
-  const { data = [], loading, refresh } = useRequest(async () => {
-    const { data } = await APICaller.datasource.list()
-    return data;
-  }, {
-    refreshDeps: [],
-  });
+  const {
+    data = [],
+    loading,
+    refresh,
+  } = useRequest(
+    async () => {
+      const { data } = await APICaller.datasource.list();
+      return data;
+    },
+    {
+      refreshDeps: [],
+    },
+  );
 
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
@@ -32,7 +39,12 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
-        <Table horizontalSpacing={styles.spacing} verticalSpacing={styles.spacing} fontSize={styles.size} highlightOnHover>
+        <Table
+          horizontalSpacing={styles.spacing}
+          verticalSpacing={styles.spacing}
+          fontSize={styles.size}
+          highlightOnHover
+        >
           <thead>
             <tr>
               <th>Type</th>
@@ -56,5 +68,5 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
         </Table>
       </Box>
     </>
-  )
+  );
 }

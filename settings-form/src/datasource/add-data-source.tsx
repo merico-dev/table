@@ -1,11 +1,21 @@
-import { Box, Button, Divider, Group, Modal, NumberInput, PasswordInput, SegmentedControl, TextInput } from "@mantine/core";
-import { Controller, useForm } from "react-hook-form";
-import { showNotification, updateNotification } from "@mantine/notifications";
-import React from "react";
-import { PlaylistAdd } from "tabler-icons-react";
-import { APICaller } from "../api-caller";
-import { DataSourceType, IDataSourceConfig } from "../api-caller/datasource.typed";
-import { defaultStyles, IStyles } from "./styles";
+import {
+  Box,
+  Button,
+  Divider,
+  Group,
+  Modal,
+  NumberInput,
+  PasswordInput,
+  SegmentedControl,
+  TextInput,
+} from '@mantine/core';
+import { Controller, useForm } from 'react-hook-form';
+import { showNotification, updateNotification } from '@mantine/notifications';
+import React from 'react';
+import { PlaylistAdd } from 'tabler-icons-react';
+import { APICaller } from '../api-caller';
+import { DataSourceType, IDataSourceConfig } from '../api-caller/datasource.typed';
+import { defaultStyles, IStyles } from './styles';
 
 interface IFormValues {
   type: DataSourceType;
@@ -19,7 +29,11 @@ interface IAddDataSourceForm {
 }
 
 function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourceForm) {
-  const { control, handleSubmit, formState: { errors, isValidating, isValid } } = useForm<IFormValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValidating, isValid },
+  } = useForm<IFormValues>({
     defaultValues: {
       type: 'postgresql',
       key: '',
@@ -29,8 +43,8 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
         username: '',
         password: '',
         database: '',
-      }
-    }
+      },
+    },
   });
 
   const addDataSource = async ({ type, key, config }: IFormValues) => {
@@ -39,15 +53,15 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       title: 'Pending',
       message: 'Adding data source...',
       loading: true,
-    })
+    });
     const result = await APICaller.datasource.create(type, key, config);
     if (!result) {
       updateNotification({
         id: 'for-creating',
         title: 'Failed',
         message: 'Test connection failed with given info',
-        color: 'red'
-      })
+        color: 'red',
+      });
       return;
     }
 
@@ -55,18 +69,18 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       id: 'for-creating',
       title: 'Successful',
       message: 'Data source is added',
-      color: 'green'
-    })
-    postSubmit()
-  }
+      color: 'green',
+    });
+    postSubmit();
+  };
 
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(addDataSource)}>
         <Controller
-          name='type'
+          name="type"
           control={control}
-          render={(({ field }) => (
+          render={({ field }) => (
             <SegmentedControl
               fullWidth
               mb={styles.spacing}
@@ -78,13 +92,13 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
               ]}
               {...field}
             />
-          ))}
+          )}
         />
 
         <Controller
-          name='key'
+          name="key"
           control={control}
-          render={(({ field }) => (
+          render={({ field }) => (
             <TextInput
               mb={styles.spacing}
               size={styles.size}
@@ -93,30 +107,23 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
               placeholder="A unique name"
               {...field}
             />
-          ))}
+          )}
         />
 
-        <Divider label="Connection Info" labelPosition="center"/>
+        <Divider label="Connection Info" labelPosition="center" />
 
         <Group grow>
           <Controller
-            name='config.host'
+            name="config.host"
             control={control}
-            render={(({ field }) => (
-              <TextInput
-                mb={styles.spacing}
-                size={styles.size}
-                required
-                label="Host"
-                sx={{ flexGrow: 1 }}
-                {...field}
-              />
-            ))}
+            render={({ field }) => (
+              <TextInput mb={styles.spacing} size={styles.size} required label="Host" sx={{ flexGrow: 1 }} {...field} />
+            )}
           />
           <Controller
-            name='config.port'
+            name="config.port"
             control={control}
-            render={(({ field }) => (
+            render={({ field }) => (
               <NumberInput
                 mb={styles.spacing}
                 size={styles.size}
@@ -126,56 +133,40 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
                 sx={{ width: '8em' }}
                 {...field}
               />
-            ))}
+            )}
           />
         </Group>
 
         <Controller
-          name='config.username'
+          name="config.username"
           control={control}
-          render={(({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Username"
-              {...field}
-            />
-          ))}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+          )}
         />
         <Controller
-          name='config.password'
+          name="config.password"
           control={control}
-          render={(({ field }) => (
-            <PasswordInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Password"
-              {...field}
-            />
-          ))}
+          render={({ field }) => (
+            <PasswordInput mb={styles.spacing} size={styles.size} required label="Password" {...field} />
+          )}
         />
         <Controller
-          name='config.database'
+          name="config.database"
           control={control}
-          render={(({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Database"
-              {...field}
-            />
-          ))}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label="Database" {...field} />
+          )}
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.size}>Save</Button>
+          <Button type="submit" size={styles.size}>
+            Save
+          </Button>
         </Group>
       </form>
     </Box>
-  )
+  );
 }
 
 interface IAddDataSource {
@@ -188,9 +179,9 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
   const open = () => setOpened(true);
   const close = () => setOpened(false);
   const postSubmit = () => {
-    onSuccess()
-    close()
-  }
+    onSuccess();
+    close();
+  };
 
   return (
     <>
@@ -200,11 +191,15 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
         onClose={() => setOpened(false)}
         title="Add a data source"
         trapFocus
-        onDragStart={e => { e.stopPropagation() }}
+        onDragStart={(e) => {
+          e.stopPropagation();
+        }}
       >
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>Add a Data Source</Button>
+      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+        Add a Data Source
+      </Button>
     </>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { MantineSize } from "@mantine/core";
+import { MantineSize } from '@mantine/core';
 
 export interface IStyles {
   size: MantineSize;
@@ -7,5 +7,5 @@ export interface IStyles {
 
 export const defaultStyles: IStyles = {
   size: 'sm',
-  spacing: 'md'
-}
+  spacing: 'md',
+};

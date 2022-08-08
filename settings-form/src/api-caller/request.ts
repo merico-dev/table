@@ -1,5 +1,4 @@
-import axios, { Method } from 'axios'
-
+import axios, { Method } from 'axios';
 
 export const APIClient = {
   baseURL: 'http://localhost:31200',
@@ -7,9 +6,7 @@ export const APIClient = {
     return (url: string, data: any, options: any = {}) => {
       const headers = {
         'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': options.string
-          ? 'application/x-www-form-urlencoded'
-          : 'application/json',
+        'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
         ...options.headers,
       };
 
@@ -27,11 +24,11 @@ export const APIClient = {
 
       return axios(conf)
         .then((res: any) => {
-          return res.data
+          return res.data;
         })
         .catch((err: any) => {
-          return Promise.reject(err)
-        })
-    }
+          return Promise.reject(err);
+        });
+    };
   },
-}
+};

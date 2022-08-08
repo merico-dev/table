@@ -1,9 +1,9 @@
-import { Button, Text } from "@mantine/core";
+import { Button, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { showNotification, updateNotification } from "@mantine/notifications";
-import { Trash } from "tabler-icons-react";
-import { APICaller } from "../api-caller";
-import { defaultStyles, IStyles } from "./styles";
+import { showNotification, updateNotification } from '@mantine/notifications';
+import { Trash } from 'tabler-icons-react';
+import { APICaller } from '../api-caller';
+import { defaultStyles, IStyles } from './styles';
 
 interface IDeleteDataSource {
   id: string;
@@ -13,7 +13,7 @@ interface IDeleteDataSource {
 }
 
 export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
-  const modals = useModals()
+  const modals = useModals();
 
   const doDelete = async () => {
     if (!id) {
@@ -24,28 +24,29 @@ export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }
       title: 'Pending',
       message: 'Deleting data source...',
       loading: true,
-    })
-    await APICaller.datasource.delete(id)
+    });
+    await APICaller.datasource.delete(id);
     updateNotification({
       id: 'for-deleting',
       title: 'Successful',
       message: `Data source [${name}] is deleted`,
-      color: 'green'
-    })
-    onSuccess()
-  }
+      color: 'green',
+    });
+    onSuccess();
+  };
 
-  const confirmAndDelete = () => modals.openConfirmModal({
-    title: 'Delete this data source?',
-    children: (
-      <Text size={styles.size}>This action won't affect your database.</Text>
-    ),
-    labels: { confirm: 'Confirm', cancel: 'Cancel' },
-    onCancel: () => console.log('Cancel'),
-    onConfirm: doDelete,
-  });
+  const confirmAndDelete = () =>
+    modals.openConfirmModal({
+      title: 'Delete this data source?',
+      children: <Text size={styles.size}>This action won't affect your database.</Text>,
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: doDelete,
+    });
 
   return (
-    <Button size={styles.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>Delete</Button>
-  )
+    <Button size={styles.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
+      Delete
+    </Button>
+  );
 }
