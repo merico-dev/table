@@ -1,4 +1,4 @@
-import { IDashboardFilter } from "./filter";
+import { IDashboardFilter } from './filter';
 
 export interface IVizConfig {
   type: string;
@@ -6,7 +6,7 @@ export interface IVizConfig {
 }
 
 export interface IQuery {
-  type: 'postgresql',
+  type: 'postgresql';
   key: string;
   sql: string;
   id: string;
@@ -23,7 +23,7 @@ export interface IDashboardPanel {
     h: number;
     moved?: boolean;
     static?: boolean;
-  },
+  };
   queryID: string;
   viz: IVizConfig;
 }
@@ -43,7 +43,6 @@ export interface IDashboardDefinition {
   sqlSnippets: ISQLSnippet[];
   queries: IQuery[];
 }
-
 
 export interface IDashboard {
   id: string;

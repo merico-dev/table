@@ -1,22 +1,22 @@
-import { AppShell, Group, Stack } from "@mantine/core";
-import React from "react";
-import { GlobalVariablesGuide } from "../global-variables-guide";
-import { DataPreview } from "./data-preview";
-import { QueryEditor } from "./editor";
-import { SelectOrAddQuery } from "./select-or-add-query";
+import { AppShell, Group, Stack } from '@mantine/core';
+import React from 'react';
+import { GlobalVariablesGuide } from '../global-variables-guide';
+import { DataPreview } from './data-preview';
+import { QueryEditor } from './editor';
+import { SelectOrAddQuery } from './select-or-add-query';
 
-interface IEditQueries {
-}
+interface IEditQueries {}
 
-export function EditQueries({ }: IEditQueries) {
+export function EditQueries({}: IEditQueries) {
   const [id, setID] = React.useState('');
 
   return (
     <AppShell
       sx={{
-        height: '90vh', maxHeight: 'calc(100vh - 225px)',
+        height: '90vh',
+        maxHeight: 'calc(100vh - 225px)',
         '.mantine-AppShell-body': { height: '100%' },
-        main: { height: '100%', width: '100%', padding: 0, margin: 0 }
+        main: { height: '100%', width: '100%', padding: 0, margin: 0 },
       }}
       padding="md"
     >
@@ -29,5 +29,5 @@ export function EditQueries({ }: IEditQueries) {
       </Group>
       <DataPreview id={id} />
     </AppShell>
-  )
+  );
 }

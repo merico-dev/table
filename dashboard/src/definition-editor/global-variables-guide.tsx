@@ -1,8 +1,8 @@
-import { Group, Stack, Sx, Text } from "@mantine/core";
-import { Prism } from "@mantine/prism";
-import React from "react";
-import { DefinitionContext, FilterValuesContext } from "../contexts";
-import { ContextInfoContext } from "../contexts/context-info-context";
+import { Group, Stack, Sx, Text } from '@mantine/core';
+import { Prism } from '@mantine/prism';
+import React from 'react';
+import { DefinitionContext, FilterValuesContext } from '../contexts';
+import { ContextInfoContext } from '../contexts/context-info-context';
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
@@ -21,11 +21,11 @@ WHERE
   -- SQL snippets
   AND \$\{sql_snippets.author_email_condition\}
   \$\{sql_snippets.order_by_clause\}
-`
+`;
 export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGlobalVariablesGuide) {
-  const contextInfo = React.useContext(ContextInfoContext)
-  const filterValues = React.useContext(FilterValuesContext)
-  const { sqlSnippets } = React.useContext(DefinitionContext)
+  const contextInfo = React.useContext(ContextInfoContext);
+  const filterValues = React.useContext(FilterValuesContext);
+  const { sqlSnippets } = React.useContext(DefinitionContext);
 
   const variablesString = React.useMemo(() => {
     const ret: Record<string, any> = {
@@ -37,25 +37,34 @@ export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGloba
       const sql_snippets = sqlSnippets.reduce((prev, curr) => {
         prev[curr.key] = curr.value;
         return prev;
-      }, {} as Record<string, string>)
+      }, {} as Record<string, string>);
       ret.sql_snippets = sql_snippets;
     }
 
-    return JSON.stringify(ret, null, 2)
-  }, [contextInfo, sqlSnippets, filterValues, showSQLSnippets])
+    return JSON.stringify(ret, null, 2);
+  }, [contextInfo, sqlSnippets, filterValues, showSQLSnippets]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
-      <Group position="left" pl="md" py="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}>
+      <Group
+        position="left"
+        pl="md"
+        py="md"
+        sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}
+      >
         <Text weight={500}>Global Variables</Text>
       </Group>
       <Stack px="md" pb="md" sx={{ width: '100%' }}>
         <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {example}
         </Prism>
-        <Text weight={500} sx={{ flexGrow: 0 }}>Current Values</Text>
-        <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">{variablesString}</Prism>
+        <Text weight={500} sx={{ flexGrow: 0 }}>
+          Current Values
+        </Text>
+        <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
+          {variablesString}
+        </Prism>
       </Stack>
     </Stack>
-  )
+  );
 }

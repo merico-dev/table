@@ -1,5 +1,5 @@
-import { TNumbroFormat } from "../../../settings/common/numbro-format-selector";
-import { IVizStatsConf } from "../types";
+import { TNumbroFormat } from '../../../settings/common/numbro-format-selector';
+import { IVizStatsConf } from '../types';
 
 export interface ILegacyStatsConf {
   align: 'center';
@@ -9,9 +9,9 @@ export interface ILegacyStatsConf {
   content: {
     prefix: string;
     data_field: string;
-    formatter: TNumbroFormat,
+    formatter: TNumbroFormat;
     postfix: string;
-  }
+  };
 }
 
 // TODO: follow plugin system's way of updating viz schema
@@ -32,8 +32,8 @@ export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IViz
         output: 'number',
         mantissa: 0,
       },
-      postfix = ''
-    } = {}
+      postfix = '',
+    } = {},
   } = legacyConf as ILegacyStatsConf;
 
   return {
@@ -48,7 +48,7 @@ export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IViz
         color,
         weight,
         size,
-      }
-    ]
-  }
+      },
+    ],
+  };
 }

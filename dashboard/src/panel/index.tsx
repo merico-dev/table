@@ -15,12 +15,20 @@ interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({ viz: initialViz, queryID: initialQueryID, title: initialTitle, description: initialDesc, update, layout, id, }: IPanel) {
+export function Panel({
+  viz: initialViz,
+  queryID: initialQueryID,
+  title: initialTitle,
+  description: initialDesc,
+  update,
+  layout,
+  id,
+}: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const filterValues = React.useContext(FilterValuesContext);
   const definitions = React.useContext(DefinitionContext);
-  const [title, setTitle] = React.useState(initialTitle)
-  const [description, setDescription] = React.useState(initialDesc)
+  const [title, setTitle] = React.useState(initialTitle);
+  const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
 
@@ -28,8 +36,7 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
     if (!queryID) {
       return undefined;
     }
-    return definitions.queries.find(d => d.id === queryID);
-
+    return definitions.queries.find((d) => d.id === queryID);
   }, [queryID, definitions.queries]);
 
   React.useEffect(() => {
@@ -41,17 +48,24 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
       queryID,
       viz,
     });
-  }, [title, description, query, viz, id, layout, queryID])
+  }, [title, description, query, viz, id, layout, queryID]);
 
-  const { data = [], loading, refresh } = useRequest(queryBySQL({
-    context: contextInfo,
-    definitions,
-    filterValues,
-    title,
-    query,
-  }), {
-    refreshDeps: [contextInfo, definitions, query, filterValues],
-  });
+  const {
+    data = [],
+    loading,
+    refresh,
+  } = useRequest(
+    queryBySQL({
+      context: contextInfo,
+      definitions,
+      filterValues,
+      title,
+      query,
+    }),
+    {
+      refreshDeps: [contextInfo, definitions, query, filterValues],
+    },
+  );
   const refreshData = refresh;
   return (
     <PanelContext.Provider
@@ -75,5 +89,5 @@ export function Panel({ viz: initialViz, queryID: initialQueryID, title: initial
         <Viz viz={viz} data={data} loading={loading} />
       </Container>
     </PanelContext.Provider>
-  )
+  );
 }

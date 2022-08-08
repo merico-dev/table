@@ -1,5 +1,5 @@
-import React from "react";
-import { IVizConfig } from "../types/dashboard";
+import React from 'react';
+import { IVizConfig } from '../types/dashboard';
 
 export interface IPanelContext {
   id: string;
@@ -21,17 +21,17 @@ const initialContext = {
   data: [],
   loading: false,
   title: '',
-  setTitle: () => { },
+  setTitle: () => {},
   description: '',
-  setDescription: () => { },
+  setDescription: () => {},
   queryID: '',
-  setQueryID: () => { },
+  setQueryID: () => {},
   viz: {
     type: '',
     conf: {},
   },
-  setViz: () => { },
-  refreshData: () => { },
-}
+  setViz: () => {},
+  refreshData: () => {},
+};
 
 export const PanelContext = React.createContext<IPanelContext>(initialContext);

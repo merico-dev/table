@@ -1,22 +1,22 @@
-import React from "react";
-import _ from "lodash";
-import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from "../types/dashboard";
-import { LayoutStateContext } from "../contexts/layout-state-context";
-import { DashboardLayout } from "../layout";
-import { DashboardActions } from "./actions";
-import { DefinitionContext } from "../contexts/definition-context";
-import { randomId } from "@mantine/hooks";
-import { ContextInfoContext, ContextInfoContextType } from "../contexts";
-import { APIClient } from "../api-caller/request";
-import { DashboardActionContext } from "../contexts/dashboard-action-context";
+import React from 'react';
+import _ from 'lodash';
+import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
+import { LayoutStateContext } from '../contexts/layout-state-context';
+import { DashboardLayout } from '../layout';
+import { DashboardActions } from './actions';
+import { DefinitionContext } from '../contexts/definition-context';
+import { randomId } from '@mantine/hooks';
+import { ContextInfoContext, ContextInfoContextType } from '../contexts';
+import { APIClient } from '../api-caller/request';
+import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ModalsProvider } from '@mantine/modals';
-import { FullScreenPanel } from "./full-screen-panel";
-import { Box, Overlay } from "@mantine/core";
-import { usePanelFullScreen } from "./use-panel-full-screen";
-import { Filters } from "../filter";
-import { IDashboardFilter } from "../types";
-import { FilterValuesContext } from "../contexts/filter-values-context";
-import { useFilters } from "./use-filters";
+import { FullScreenPanel } from './full-screen-panel';
+import { Box, Overlay } from '@mantine/core';
+import { usePanelFullScreen } from './use-panel-full-screen';
+import { Filters } from '../filter';
+import { IDashboardFilter } from '../types';
+import { FilterValuesContext } from '../contexts/filter-values-context';
+import { useFilters } from './use-filters';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -26,20 +26,14 @@ interface IDashboardProps {
   config: IDashboardConfig;
 }
 
-export function Dashboard({
-  context,
-  dashboard,
-  update,
-  className = "dashboard",
-  config,
-}: IDashboardProps) {
+export function Dashboard({ context, dashboard, update, className = 'dashboard', config }: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
   const [layoutFrozen, freezeLayout] = React.useState(false);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit)
+  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
-  const [panels, setPanels] = React.useState(dashboard.panels)
+  const [panels, setPanels] = React.useState(dashboard.panels);
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
@@ -59,9 +53,9 @@ export function Dashboard({
 
     if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
       return true;
-    };
-    return !_.isEqual(queries, dashboard.definition.queries)
-  }, [dashboard, filters, panels, sqlSnippets, queries])
+    }
+    return !_.isEqual(queries, dashboard.definition.queries);
+  }, [dashboard, filters, panels, sqlSnippets, queries]);
 
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
@@ -69,16 +63,16 @@ export function Dashboard({
       filters,
       panels,
       definition: { sqlSnippets, queries },
-    }
+    };
     await update(d);
-  }
+  };
 
   const revertDashboardChanges = () => {
-    setFilters(dashboard.filters)
-    setPanels(dashboard.panels)
-    setSQLSnippets(dashboard.definition.sqlSnippets)
-    setQueries(dashboard.definition.queries)
-  }
+    setFilters(dashboard.filters);
+    setPanels(dashboard.panels);
+    setSQLSnippets(dashboard.definition.sqlSnippets);
+    setQueries(dashboard.definition.queries);
+  };
 
   const addPanel = () => {
     const id = randomId();
@@ -96,16 +90,16 @@ export function Dashboard({
       viz: {
         type: 'table',
         conf: {},
-      }
+      },
     };
-    setPanels(prevs => ([...prevs, newItem]));
-  }
+    setPanels((prevs) => [...prevs, newItem]);
+  };
 
   const duplidatePanel = (id: string) => {
     try {
-      const panel = panels.find(p => p.id === id)
+      const panel = panels.find((p) => p.id === id);
       if (!panel) {
-        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`)
+        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`);
       }
       const newPanel = {
         ...panel,
@@ -114,30 +108,35 @@ export function Dashboard({
           ...panel.layout,
           x: 0,
           y: Infinity,
-        }
-      }
-      setPanels(prevs => ([...prevs, newPanel]))
+        },
+      };
+      setPanels((prevs) => [...prevs, newPanel]);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const removePanelByID = (id: string) => {
-    const index = panels.findIndex(p => p.id === id);
-    setPanels(prevs => {
-      prevs.splice(index, 1)
+    const index = panels.findIndex((p) => p.id === id);
+    setPanels((prevs) => {
+      prevs.splice(index, 1);
       return [...prevs];
-    })
-  }
+    });
+  };
 
   const inEditMode = mode === DashboardMode.Edit;
   const inLayoutMode = mode === DashboardMode.Layout;
   const inUseMode = mode === DashboardMode.Use;
 
-  const definitions = React.useMemo(() => ({
-    sqlSnippets, setSQLSnippets,
-    queries, setQueries,
-  }), [sqlSnippets, setSQLSnippets, queries, setQueries]);
+  const definitions = React.useMemo(
+    () => ({
+      sqlSnippets,
+      setSQLSnippets,
+      queries,
+      setQueries,
+    }),
+    [sqlSnippets, setSQLSnippets, queries, setQueries],
+  );
 
   const getCurrentSchema = React.useCallback(() => {
     return {
@@ -145,27 +144,24 @@ export function Dashboard({
       definition: {
         sqlSnippets,
         queries,
-      }
-    }
-  }, [sqlSnippets, queries, panels])
+      },
+    };
+  }, [sqlSnippets, queries, panels]);
 
-  const {
-    viewPanelInFullScreen,
-    exitFullScreen,
-    inFullScreen,
-    fullScreenPanel,
-  } = usePanelFullScreen(panels)
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
         <FilterValuesContext.Provider value={filterValues}>
-          <DashboardActionContext.Provider value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}>
+          <DashboardActionContext.Provider
+            value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}
+          >
             <DefinitionContext.Provider value={definitions}>
-              <LayoutStateContext.Provider value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}>
-                {inFullScreen && (
-                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />
-                )}
+              <LayoutStateContext.Provider
+                value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}
+              >
+                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
                 <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
                   <DashboardActions
                     mode={mode}
@@ -191,5 +187,5 @@ export function Dashboard({
         </FilterValuesContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
-  )
+  );
 }

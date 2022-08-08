@@ -1,8 +1,8 @@
-import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
-import React from "react";
-import { LayoutStateContext } from "../../contexts/layout-state-context";
-import { IDashboardFilter } from "../../types";
-import { FilterSettings } from "./filter-settings";
+import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import React from 'react';
+import { LayoutStateContext } from '../../contexts/layout-state-context';
+import { IDashboardFilter } from '../../types';
+import { FilterSettings } from './filter-settings';
 
 interface FilterSettingsModal {
   opened: boolean;
@@ -24,12 +24,14 @@ export function FilterSettingsModal({ opened, close, filters, setFilters }: Filt
       overflow="inside"
       opened={opened}
       onClose={close}
-      title='Filters'
+      title="Filters"
       trapFocus
-      onDragStart={e => { e.stopPropagation() }}
+      onDragStart={(e) => {
+        e.stopPropagation();
+      }}
       withCloseButton={false}
     >
       <FilterSettings filters={filters} setFilters={setFilters} />
     </Modal>
-  )
+  );
 }

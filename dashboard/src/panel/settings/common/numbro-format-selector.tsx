@@ -1,12 +1,12 @@
-import { Group, NumberInput, Select, Stack, Switch } from "@mantine/core";
-import _ from "lodash";
-import React from "react";
+import { Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
+import _ from 'lodash';
+import React from 'react';
 
 export type TNumbroFormat = {
   mantissa: number;
   output: 'percent' | 'number';
   trimMantissa?: boolean;
-}
+};
 
 export const defaultNumbroFormat: TNumbroFormat = { mantissa: 0, output: 'number' };
 
@@ -17,15 +17,15 @@ interface INumbroFormatSelector {
 
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: any) {
   const changeOutput = (output: TNumbroFormat['output']) => {
-    onChange({ ...value, output })
-  }
+    onChange({ ...value, output });
+  };
   const changeMantissa = (mantissa: TNumbroFormat['mantissa']) => {
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
-    onChange({ ...value, mantissa, trimMantissa })
-  }
+    onChange({ ...value, mantissa, trimMantissa });
+  };
   const changeTrimMantissa = (event: any) => {
-    onChange({ ...value, trimMantissa: event.currentTarget.checked })
-  }
+    onChange({ ...value, trimMantissa: event.currentTarget.checked });
+  };
   return (
     <Stack ref={ref}>
       <Group grow>
@@ -55,7 +55,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
       </Group>
     </Stack>
-  )
+  );
 }
 
-export const NumbroFormatSelector = React.forwardRef(_NumbroFormatSelector)
+export const NumbroFormatSelector = React.forwardRef(_NumbroFormatSelector);

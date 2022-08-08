@@ -1,6 +1,6 @@
-import { Group, Text, Slider, Stack } from "@mantine/core";
-import _ from "lodash";
-import React from "react";
+import { Group, Text, Slider, Stack } from '@mantine/core';
+import _ from 'lodash';
+import React from 'react';
 
 const marks = [
   {
@@ -23,7 +23,7 @@ const marks = [
     label: 'bold',
     value: 100,
   },
-]
+];
 
 interface IMantineFontWeightSlider {
   label: string;
@@ -32,10 +32,10 @@ interface IMantineFontWeightSlider {
 }
 
 function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider, ref: any) {
-  const [mark, setMark] = React.useState(marks.find(m => m.label === value)?.value ?? marks[0].value);
+  const [mark, setMark] = React.useState(marks.find((m) => m.label === value)?.value ?? marks[0].value);
 
   React.useEffect(() => {
-    const match = marks.find(s => s.value === mark);
+    const match = marks.find((s) => s.value === mark);
     if (match) {
       onChange(match.label);
     }
@@ -54,7 +54,7 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
         ref={ref}
       />
     </Stack>
-  )
+  );
 }
 
-export const MantineFontWeightSlider = React.forwardRef(_MantineFontWeightSlider)
+export const MantineFontWeightSlider = React.forwardRef(_MantineFontWeightSlider);

@@ -1,2 +1,2 @@
-export * from './main'
-export * from './read-only'
+export * from './main';
+export * from './read-only';

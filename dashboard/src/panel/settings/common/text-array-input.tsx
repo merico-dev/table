@@ -1,7 +1,7 @@
-import { ActionIcon, Group, Text, TextInput } from "@mantine/core";
-import _ from "lodash";
-import React from "react";
-import { DeviceFloppy, PlaylistAdd, Trash } from "tabler-icons-react";
+import { ActionIcon, Group, Text, TextInput } from '@mantine/core';
+import _ from 'lodash';
+import React from 'react';
+import { DeviceFloppy, PlaylistAdd, Trash } from 'tabler-icons-react';
 
 interface ITextArrayInput {
   label: React.ReactNode;
@@ -10,29 +10,29 @@ interface ITextArrayInput {
 }
 
 function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: any) {
-  const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : [])
+  const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : []);
 
   const add = React.useCallback(() => {
-    setValues(s => ([
-      ...s,
-      '',
-    ]))
+    setValues((s) => [...s, '']);
   }, [setValues]);
 
-  const del = React.useCallback((index: number) => {
-    setValues(s => {
-      s.splice(index, 1)
-      return [...s]
-    })
-  }, [setValues])
+  const del = React.useCallback(
+    (index: number) => {
+      setValues((s) => {
+        s.splice(index, 1);
+        return [...s];
+      });
+    },
+    [setValues],
+  );
 
   const changed = React.useMemo(() => {
     return !_.isEqual(values, value);
-  }, [values, value])
+  }, [values, value]);
 
   const submit = () => {
-    onChange(values.map(s => s.toString()));
-  }
+    onChange(values.map((s) => s.toString()));
+  };
 
   return (
     <>
@@ -48,16 +48,16 @@ function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: any) 
             value={v}
             onChange={(event: React.FormEvent<HTMLInputElement>) => {
               const newValue = event.currentTarget.value;
-              setValues(s => {
-                s.splice(i, 1, newValue)
-                return [...s]
-              })
+              setValues((s) => {
+                s.splice(i, 1, newValue);
+                return [...s];
+              });
             }}
-            rightSection={(
+            rightSection={
               <ActionIcon onClick={() => del(i)} color="red">
                 <Trash size={14} />
               </ActionIcon>
-            )}
+            }
             sx={{ width: '45%' }}
           />
         ))}
@@ -66,6 +66,6 @@ function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: any) 
         </ActionIcon>
       </Group>
     </>
-  )
+  );
 }
-export const TextArrayInput = React.forwardRef(_TextArrayInput)
+export const TextArrayInput = React.forwardRef(_TextArrayInput);

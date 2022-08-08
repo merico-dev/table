@@ -5,7 +5,7 @@ import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 import { transform } from 'echarts-stat';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from "lodash";
+import _ from 'lodash';
 import React from 'react';
 import { getOption } from './option';
 import { ICartesianChartConf } from './type';
@@ -30,12 +30,12 @@ interface ICartesianChart {
 function Chart({ conf, data, width, height }: ICartesianChart) {
   const option = React.useMemo(() => {
     return getOption(conf, data);
-  }, [conf, data])
+  }, [conf, data]);
 
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }
 
 export function VizCartesianChart({ conf, data, width, height }: ICartesianChart) {
@@ -43,25 +43,31 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
 
   const templates = React.useMemo(() => {
-    const { stats: { templates, variables } } = conf;
+    const {
+      stats: { templates, variables },
+    } = conf;
     return {
       top: templateToJSX(templates.top, variables, data),
       bottom: templateToJSX(templates.bottom, variables, data),
     };
-  }, [conf, data])
+  }, [conf, data]);
 
   const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
   return (
     <Box>
       {templateNotEmpty(conf.stats.templates.top) && (
-        <Text ref={topStatsRef} align='left' size='xs' pl="sm">{Object.values(templates.top).map(c => c)}</Text>
+        <Text ref={topStatsRef} align="left" size="xs" pl="sm">
+          {Object.values(templates.top).map((c) => c)}
+        </Text>
       )}
 
       <Chart width={width} height={finalHeight} data={data} conf={conf} />
 
       {templateNotEmpty(conf.stats.templates.bottom) && (
-        <Text ref={bottomStatsRef} align='left' size='xs' pl="sm">{Object.values(templates.bottom).map(c => c)}</Text>
+        <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">
+          {Object.values(templates.bottom).map((c) => c)}
+        </Text>
       )}
     </Box>
-  )
+  );
 }

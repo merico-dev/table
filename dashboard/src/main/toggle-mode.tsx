@@ -1,10 +1,14 @@
-import React from "react";
-import { SegmentedControl, Text } from "@mantine/core";
-import { Paint, PlayerPlay, Resize } from "tabler-icons-react";
-import { DashboardMode } from "../types/dashboard"
+import React from 'react';
+import { SegmentedControl, Text } from '@mantine/core';
+import { Paint, PlayerPlay, Resize } from 'tabler-icons-react';
+import { DashboardMode } from '../types/dashboard';
 
 function renderLabel(icon: React.ReactNode, postfix: string) {
-  return <Text size="xs" sx={{ svg: { verticalAlign: 'bottom' }}}>{icon} {postfix}</Text>
+  return (
+    <Text size="xs" sx={{ svg: { verticalAlign: 'bottom' } }}>
+      {icon} {postfix}
+    </Text>
+  );
 }
 
 interface IModeToggler {
@@ -24,5 +28,5 @@ export function ModeToggler({ mode, setMode }: IModeToggler) {
         { label: renderLabel(<Paint size={20} />, 'Edit Content'), value: DashboardMode.Edit },
       ]}
     />
-  )
+  );
 }

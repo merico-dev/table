@@ -1,35 +1,36 @@
-import { ActionIcon, Button, Checkbox, Divider, Group, MultiSelect, Text, TextInput } from "@mantine/core";
-import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from "react-hook-form";
-import { PlaylistAdd, Trash } from "tabler-icons-react";
-import { FilterQueryField } from "../filter-query-field";
-import { IFilterSettingsForm } from "../filter-settings/types";
+import { ActionIcon, Button, Checkbox, Divider, Group, MultiSelect, Text, TextInput } from '@mantine/core';
+import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { PlaylistAdd, Trash } from 'tabler-icons-react';
+import { FilterQueryField } from '../filter-query-field';
+import { IFilterSettingsForm } from '../filter-settings/types';
 
 interface IFilterEditorMultiSelect {
-  field: FieldArrayWithId<IFilterSettingsForm, "filters", "id">;
+  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
   index: number;
   control: Control<IFilterSettingsForm, object>;
   watch: UseFormWatch<IFilterSettingsForm>;
 }
 
 export function FilterEditorMultiSelect({ field, index, control, watch }: IFilterEditorMultiSelect) {
-  const { fields: staticOptionFields, append, remove } = useFieldArray({
+  const {
+    fields: staticOptionFields,
+    append,
+    remove,
+  } = useFieldArray({
     control,
     name: `filters.${index}.config.static_options`,
-  })
+  });
 
-  const watchedStaticOptions = watch(`filters.${index}.config.static_options`)
+  const watchedStaticOptions = watch(`filters.${index}.config.static_options`);
 
   const addStaticOption = () => {
     append({
       label: '',
       value: '',
-    })
-  }
+    });
+  };
 
-  const optionsForDefaultValue = [
-    { label: 'No default selection', value: '' },
-    ...watchedStaticOptions,
-  ]
+  const optionsForDefaultValue = [{ label: 'No default selection', value: '' }, ...watchedStaticOptions];
   return (
     <>
       <Divider label="Configure options" labelPosition="center" />
@@ -44,23 +45,20 @@ export function FilterEditorMultiSelect({ field, index, control, watch }: IFilte
         />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
-        <Group sx={{ position: 'relative' }} pr="40px" >
+        <Group sx={{ position: 'relative' }} pr="40px">
           <Controller
             name={`filters.${index}.config.static_options.${optionIndex}.label`}
             control={control}
-            render={({ field }) => (
-              <TextInput label="Label" required {...field} sx={{ flexGrow: 1 }} />
-            )}
+            render={({ field }) => <TextInput label="Label" required {...field} sx={{ flexGrow: 1 }} />}
           />
           <Controller
             name={`filters.${index}.config.static_options.${optionIndex}.value`}
             control={control}
-            render={({ field }) => (
-              <TextInput label="Value" required {...field} sx={{ flexGrow: 1 }} />
-            )}
+            render={({ field }) => <TextInput label="Value" required {...field} sx={{ flexGrow: 1 }} />}
           />
           <ActionIcon
-            color="red" variant="subtle"
+            color="red"
+            variant="subtle"
             onClick={() => remove(optionIndex)}
             sx={{ position: 'absolute', top: 28, right: 5 }}
           >
@@ -68,15 +66,22 @@ export function FilterEditorMultiSelect({ field, index, control, watch }: IFilte
           </ActionIcon>
         </Group>
       ))}
-      <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addStaticOption} sx={{ width: '50%' }} mx="auto" >Add an Option</Button>
+      <Button
+        size="xs"
+        color="blue"
+        leftIcon={<PlaylistAdd size={20} />}
+        onClick={addStaticOption}
+        sx={{ width: '50%' }}
+        mx="auto"
+      >
+        Add an Option
+      </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
       <Controller
         name={`filters.${index}.config.options_query`}
         control={control}
-        render={({ field }) => (
-          <FilterQueryField {...field} />
-        )}
+        render={({ field }) => <FilterQueryField {...field} />}
       />
     </>
-  )
+  );
 }

@@ -1,6 +1,5 @@
-
 export enum ValueType {
-  string =  'string',
+  string = 'string',
   number = 'number',
   eloc = 'eloc',
   percentage = 'percentage',

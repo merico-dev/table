@@ -1,17 +1,17 @@
-import { ActionIcon, Group, NumberInput, Select, Stack, Text, TextInput } from "@mantine/core";
-import React from "react";
-import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
-import { Trash } from "tabler-icons-react";
-import { DataFieldSelector } from "../../../../settings/common/data-field-selector";
-import { MantineColorSelector } from "../../../../settings/common/mantine-color";
-import { ICartesianChartConf, IRegressionConf } from "../../type";
+import { ActionIcon, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import React from 'react';
+import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { Trash } from 'tabler-icons-react';
+import { DataFieldSelector } from '../../../../settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../../settings/common/mantine-color';
+import { ICartesianChartConf, IRegressionConf } from '../../type';
 
 const regressionOptions = [
-  { label: 'Linear', value: 'linear', },
-  { label: 'Exponential', value: 'exponential', },
-  { label: 'Logarithmic', value: 'logarithmic', },
-  { label: 'Polynomial', value: 'polynomial', },
-]
+  { label: 'Linear', value: 'linear' },
+  { label: 'Exponential', value: 'exponential' },
+  { label: 'Logarithmic', value: 'logarithmic' },
+  { label: 'Polynomial', value: 'polynomial' },
+];
 
 interface IRegressionField {
   control: Control<ICartesianChartConf, any>;
@@ -32,26 +32,20 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
       <Controller
         name={`regressions.${index}.name`}
         control={control}
-        render={(({ field }) => (
-          <TextInput
-            label="Name"
-            required
-            sx={{ flex: 1 }}
-            {...field} />
-        ))}
+        render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
       />
       <Group grow noWrap>
         <Controller
           name={`regressions.${index}.y_axis_data_key`}
           control={control}
-          render={(({ field }) => (
+          render={({ field }) => (
             <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          ))}
+          )}
         />
         <Controller
           name={`regressions.${index}.plot.yAxisIndex`}
           control={control}
-          render={(({ field: { value, onChange, ...rest } }) => (
+          render={({ field: { value, onChange, ...rest } }) => (
             <Select
               label="Y Axis"
               data={yAxisOptions}
@@ -63,31 +57,24 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
                   onChange(0);
                   return;
                 }
-                onChange(Number(value))
+                onChange(Number(value));
               }}
               sx={{ flex: 1 }}
             />
-
-          ))}
+          )}
         />
       </Group>
       <Group grow noWrap>
         <Controller
           name={`regressions.${index}.transform.config.method`}
           control={control}
-          render={(({ field }) => (
-            <Select
-              label="Method"
-              data={regressionOptions}
-              sx={{ flex: 1 }}
-              {...field} />
-          ))}
+          render={({ field }) => <Select label="Method" data={regressionOptions} sx={{ flex: 1 }} {...field} />}
         />
         {method === 'polynomial' && (
           <Controller
             name={`regressions.${index}.transform.config.order`}
             control={control}
-            render={(({ field }) => <NumberInput label="Order" sx={{ flex: 1 }} {...field} />)}
+            render={({ field }) => <NumberInput label="Order" sx={{ flex: 1 }} {...field} />}
           />
         )}
       </Group>
@@ -96,9 +83,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.plot.color`}
           control={control}
-          render={(({ field }) => (
-            <MantineColorSelector {...field} />
-          ))}
+          render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
       <ActionIcon
@@ -110,5 +95,5 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Trash size={16} />
       </ActionIcon>
     </Stack>
-  )
+  );
 }

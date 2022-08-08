@@ -1,13 +1,13 @@
-import React from "react";
-import { Button, Divider, Group, Menu } from "@mantine/core";
-import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from "tabler-icons-react";
-import { DashboardMode, IDashboardFilter } from "../types";
-import { ModeToggler } from "./toggle-mode";
-import { DataEditorModal } from "../definition-editor";
-import { LayoutStateContext } from "../contexts";
-import { DashboardActionContext } from "../contexts/dashboard-action-context";
-import { ViewSchemaModal } from "./view-schema-modal";
-import { FilterSettingsModal } from "../filter/filter-settings";
+import React from 'react';
+import { Button, Divider, Group, Menu } from '@mantine/core';
+import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { DashboardMode, IDashboardFilter } from '../types';
+import { ModeToggler } from './toggle-mode';
+import { DataEditorModal } from '../definition-editor';
+import { LayoutStateContext } from '../contexts';
+import { DashboardActionContext } from '../contexts/dashboard-action-context';
+import { ViewSchemaModal } from './view-schema-modal';
+import { FilterSettingsModal } from '../filter/filter-settings';
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -50,14 +50,42 @@ export function DashboardActions({
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
       <Group position="right">
-        {!inUseMode && <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>Add a Panel</Button>}
-        {inEditMode && <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>Filters</Button>}
-        {inEditMode && <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>Data Settings</Button>}
-        {!inUseMode && <Button variant="default" size="xs" onClick={saveChanges} disabled={!hasChanges} leftIcon={<DeviceFloppy size={20} />}>Save Changes</Button>}
-        {!inUseMode && <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>Revert Changes</Button>}
+        {!inUseMode && (
+          <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>
+            Add a Panel
+          </Button>
+        )}
+        {inEditMode && (
+          <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>
+            Filters
+          </Button>
+        )}
+        {inEditMode && (
+          <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>
+            Data Settings
+          </Button>
+        )}
+        {!inUseMode && (
+          <Button
+            variant="default"
+            size="xs"
+            onClick={saveChanges}
+            disabled={!hasChanges}
+            leftIcon={<DeviceFloppy size={20} />}
+          >
+            Save Changes
+          </Button>
+        )}
+        {!inUseMode && (
+          <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>
+            Revert Changes
+          </Button>
+        )}
         <Menu>
           <Menu.Target>
-            <Button variant="default" size="xs" leftIcon={<Share size={20} />}>Export</Button>
+            <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
+              Export
+            </Button>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item disabled>Download Data</Menu.Item>
@@ -69,5 +97,5 @@ export function DashboardActions({
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
-  )
+  );
 }

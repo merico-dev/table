@@ -2,7 +2,7 @@ import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { PieChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from "lodash";
+import _ from 'lodash';
 import React from 'react';
 
 echarts.use([PieChart, CanvasRenderer]);
@@ -16,7 +16,7 @@ interface IVizPie {
 
 const defaultOption = {
   tooltip: {
-    show: true
+    show: true,
   },
   series: {
     type: 'pie',
@@ -30,10 +30,10 @@ const defaultOption = {
       lineHeight: 15,
       rich: {
         percentage: {
-          color: '#999'
-        }
+          color: '#999',
+        },
       },
-      margin: 20
+      margin: 20,
     },
     labelLine: {
       length: 15,
@@ -44,15 +44,15 @@ const defaultOption = {
     top: 10,
     bottom: 10,
     left: 10,
-    right: 10
-  }
+    right: 10,
+  },
 };
 
 export function VizPie({ conf, data, width, height }: IVizPie) {
-  const { label_field = 'name', value_field = 'value', ...restConf } = conf
+  const { label_field = 'name', value_field = 'value', ...restConf } = conf;
 
   const chartData = React.useMemo(() => {
-    return data.map(d => ({
+    return data.map((d) => ({
       name: d[label_field],
       value: Number(d[value_field]),
     }));
@@ -64,20 +64,16 @@ export function VizPie({ conf, data, width, height }: IVizPie) {
         labelLayout: function (params: any) {
           const isLeft = params.labelRect.x < width / 2;
           const points = params.labelLinePoints;
-          points[2][0] = isLeft
-            ? params.labelRect.x
-            : params.labelRect.x + params.labelRect.width;
+          points[2][0] = isLeft ? params.labelRect.x : params.labelRect.x + params.labelRect.width;
           return {
-            labelLinePoints: points
+            labelLinePoints: points,
           };
         },
-      }
-    }
+      },
+    };
   }, [width]);
 
   const option = _.merge({}, defaultOption, labelOptions, restConf, { series: { data: chartData } });
 
-  return (
-    <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
-  )
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }

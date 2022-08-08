@@ -1,6 +1,6 @@
-import { Group, Text } from "@mantine/core";
-import numbro from "numbro";
-import { ValueType } from "./type";
+import { Group, Text } from '@mantine/core';
+import numbro from 'numbro';
+import { ValueType } from './type';
 
 interface IXXCell {
   value: any;
@@ -15,11 +15,11 @@ function ELOCCell({ value }: IXXCell) {
 }
 
 function NumberCell({ value }: { value: number | string }) {
-  const num = numbro(value).format({ thousandSeparated: true })
+  const num = numbro(value).format({ thousandSeparated: true });
   return <Text component="span">{num}</Text>;
 }
 function PercentageCell({ value }: { value: number | string }) {
-  const num = numbro(value).format({ output: "percent", mantissa: 3 })
+  const num = numbro(value).format({ output: 'percent', mantissa: 3 });
   return <Text component="span">{num}</Text>;
 }
 
@@ -30,9 +30,13 @@ interface ICellValue {
 
 export function CellValue({ value, type }: ICellValue) {
   switch (type) {
-    case ValueType.string: return <StringCell value={value} />;
-    case ValueType.eloc: return <ELOCCell value={value} />
-    case ValueType.number: return <NumberCell value={value} />;
-    case ValueType.percentage: return <PercentageCell value={value} />;
+    case ValueType.string:
+      return <StringCell value={value} />;
+    case ValueType.eloc:
+      return <ELOCCell value={value} />;
+    case ValueType.number:
+      return <NumberCell value={value} />;
+    case ValueType.percentage:
+      return <PercentageCell value={value} />;
   }
 }

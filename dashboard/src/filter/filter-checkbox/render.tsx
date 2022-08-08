@@ -1,5 +1,5 @@
-import { Box, Checkbox, Text } from "@mantine/core";
-import { IDashboardFilter, IFilterConfig_Checkbox } from "../../types";
+import { Box, Checkbox, Text } from '@mantine/core';
+import { IDashboardFilter, IFilterConfig_Checkbox } from '../../types';
 
 interface IFilterCheckbox extends Omit<IDashboardFilter, 'type' | 'config'> {
   config: IFilterConfig_Checkbox;
@@ -11,12 +11,7 @@ export function FilterCheckbox({ label, config: { default_value, ...rest }, valu
   return (
     <Box>
       <Text>&nbsp;</Text>
-      <Checkbox
-        label={label}
-        checked={value}
-        onChange={(event) => onChange(event.currentTarget.checked)}
-        {...rest}
-      />
+      <Checkbox label={label} checked={value} onChange={(event) => onChange(event.currentTarget.checked)} {...rest} />
     </Box>
-  )
+  );
 }

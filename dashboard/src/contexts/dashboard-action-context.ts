@@ -1,5 +1,5 @@
-import _ from "lodash";
-import React from "react";
+import _ from 'lodash';
+import React from 'react';
 
 export interface IDashboardActionContext {
   addPanel: () => void;
@@ -15,6 +15,6 @@ const initialContext = {
   removePanelByID: _.noop,
   viewPanelInFullScreen: _.noop,
   inFullScreen: false,
-}
+};
 
 export const DashboardActionContext = React.createContext<IDashboardActionContext>(initialContext);

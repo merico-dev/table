@@ -1,8 +1,8 @@
-import { Modal } from "@mantine/core";
-import { Prism } from "@mantine/prism";
-import _ from "lodash";
-import React from "react";
-import { LayoutStateContext } from "../contexts/layout-state-context";
+import { Modal } from '@mantine/core';
+import { Prism } from '@mantine/prism';
+import _ from 'lodash';
+import React from 'react';
+import { LayoutStateContext } from '../contexts/layout-state-context';
 
 interface IViewSchemaModal {
   opened: boolean;
@@ -18,7 +18,7 @@ export function ViewSchemaModal({ opened, close, getCurrentSchema }: IViewSchema
   }, [opened]);
 
   const schema = React.useMemo(() => {
-    return JSON.stringify(getCurrentSchema(), null, 2)
+    return JSON.stringify(getCurrentSchema(), null, 2);
   }, [opened]);
 
   return (
@@ -27,13 +27,15 @@ export function ViewSchemaModal({ opened, close, getCurrentSchema }: IViewSchema
       overflow="inside"
       opened={opened}
       onClose={close}
-      title='This dashboard is described by this schema'
+      title="This dashboard is described by this schema"
       trapFocus
-      onDragStart={e => { e.stopPropagation() }}
+      onDragStart={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Prism language="json" sx={{ width: '100%' }} colorScheme="dark">
         {schema}
       </Prism>
     </Modal>
-  )
+  );
 }

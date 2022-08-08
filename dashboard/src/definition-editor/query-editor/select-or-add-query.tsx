@@ -1,8 +1,8 @@
-import { Button, Group, Select, Text } from "@mantine/core";
-import { randomId } from "@mantine/hooks";
-import React from "react";
-import { DefinitionContext } from "../../contexts";
-import { IQuery } from "../../types";
+import { Button, Group, Select, Text } from '@mantine/core';
+import { randomId } from '@mantine/hooks';
+import React from 'react';
+import { DefinitionContext } from '../../contexts';
+import { IQuery } from '../../types';
 
 interface ISelectOrAddQuery {
   id: string;
@@ -17,20 +17,20 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
 
   React.useEffect(() => {
     if (!id) {
-      chooseDefault()
+      chooseDefault();
       return;
     }
-    const index = queries.findIndex(d => d.id === id);
+    const index = queries.findIndex((d) => d.id === id);
     if (index === -1) {
-      chooseDefault()
+      chooseDefault();
     }
-  }, [id, queries, chooseDefault])
+  }, [id, queries, chooseDefault]);
 
   const options = React.useMemo(() => {
-    return queries.map(d => ({
+    return queries.map((d) => ({
       value: d.id,
       label: d.id,
-    }))
+    }));
   }, [queries]);
 
   const add = React.useCallback(() => {
@@ -41,9 +41,9 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
       sql: '',
     };
 
-    setQueries(prevs => ([ ...prevs, newQuery ]))
-    setID(newQuery.id)
-  }, [setQueries, setID])
+    setQueries((prevs) => [...prevs, newQuery]);
+    setID(newQuery.id);
+  }, [setQueries, setID]);
 
   return (
     <Group pb="xl">
@@ -60,11 +60,9 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
         />
         <Text>or</Text>
         <Group position="center" mt="md">
-          <Button onClick={add}>
-            Add a Query
-          </Button>
+          <Button onClick={add}>Add a Query</Button>
         </Group>
       </Group>
     </Group>
-  )
+  );
 }

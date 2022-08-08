@@ -1,31 +1,30 @@
-import { ActionIcon, Group, SegmentedControl, Select, Stack, Text, TextInput } from "@mantine/core";
-import React from "react";
-import { Control, Controller, UseFieldArrayRemove } from "react-hook-form";
-import { Trash } from "tabler-icons-react";
-import { DataFieldSelector } from "../../../../settings/common/data-field-selector";
-import { MantineColorSelector } from "../../../../settings/common/mantine-color";
-import { ICartesianChartConf, ICartesianChartSeriesItem } from "../../type";
-import { BarFields } from "./fields.bar";
-import { LineFields } from "./fields.line";
-import { ScatterFields } from "./fields.scatter";
+import { ActionIcon, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
+import React from 'react';
+import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { Trash } from 'tabler-icons-react';
+import { DataFieldSelector } from '../../../../settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../../settings/common/mantine-color';
+import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { BarFields } from './fields.bar';
+import { LineFields } from './fields.line';
+import { ScatterFields } from './fields.scatter';
 
 const labelPositions = [
-  { label: 'off', value: '', },
-  { label: 'top', value: 'top', },
-  { label: 'left', value: 'left', },
-  { label: 'right', value: 'right', },
-  { label: 'bottom', value: 'bottom', },
-  { label: 'inside', value: 'inside', },
-  { label: 'insideLeft', value: 'insideLeft', },
-  { label: 'insideRight', value: 'insideRight', },
-  { label: 'insideTop', value: 'insideTop', },
-  { label: 'insideBottom', value: 'insideBottom', },
-  { label: 'insideTopLeft', value: 'insideTopLeft', },
-  { label: 'insideBottomLeft', value: 'insideBottomLeft', },
-  { label: 'insideTopRight', value: 'insideTopRight', },
-  { label: 'insideBottomRight', value: 'insideBottomRight', },
-]
-
+  { label: 'off', value: '' },
+  { label: 'top', value: 'top' },
+  { label: 'left', value: 'left' },
+  { label: 'right', value: 'right' },
+  { label: 'bottom', value: 'bottom' },
+  { label: 'inside', value: 'inside' },
+  { label: 'insideLeft', value: 'insideLeft' },
+  { label: 'insideRight', value: 'insideRight' },
+  { label: 'insideTop', value: 'insideTop' },
+  { label: 'insideBottom', value: 'insideBottom' },
+  { label: 'insideTopLeft', value: 'insideTopLeft' },
+  { label: 'insideBottomLeft', value: 'insideBottomLeft' },
+  { label: 'insideTopRight', value: 'insideTopRight' },
+  { label: 'insideBottomRight', value: 'insideBottomRight' },
+];
 
 interface ISeriesItemField {
   control: Control<ICartesianChartConf, any>;
@@ -47,7 +46,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Controller
           name={`series.${index}.type`}
           control={control}
-          render={(({ field }) => (
+          render={({ field }) => (
             <SegmentedControl
               data={[
                 { label: 'Line', value: 'line' },
@@ -57,33 +56,26 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
               ]}
               {...field}
             />
-          ))}
+          )}
         />
       </Stack>
       <Controller
         name={`series.${index}.name`}
         control={control}
-        render={(({ field }) => (
-          <TextInput
-            label="Name"
-            required
-            sx={{ flex: 1 }}
-            {...field}
-          />
-        ))}
+        render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
       />
       <Group grow noWrap>
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
-          render={(({ field }) => (
+          render={({ field }) => (
             <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          ))}
+          )}
         />
         <Controller
           name={`series.${index}.yAxisIndex`}
           control={control}
-          render={(({ field: { value, onChange, ...rest } }) => (
+          render={({ field: { value, onChange, ...rest } }) => (
             <Select
               label="Y Axis"
               data={yAxisOptions}
@@ -95,12 +87,11 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
                   onChange(0);
                   return;
                 }
-                onChange(Number(value))
+                onChange(Number(value));
               }}
               sx={{ flex: 1 }}
             />
-
-          ))}
+          )}
         />
       </Group>
 
@@ -113,22 +104,14 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
       <Controller
         name={`series.${index}.label_position`}
         control={control}
-        render={(({ field }) => (
-          <Select
-            label="Label Position"
-            data={labelPositions}
-            {...field}
-          />
-        ))}
+        render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
       />
       <Stack spacing={4}>
         <Text size="sm">Color</Text>
         <Controller
           name={`series.${index}.color`}
           control={control}
-          render={(({ field }) => (
-            <MantineColorSelector {...field} />
-          ))}
+          render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
       <ActionIcon
@@ -140,5 +123,5 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Trash size={16} />
       </ActionIcon>
     </Stack>
-  )
+  );
 }

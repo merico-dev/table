@@ -1,7 +1,7 @@
-import { ITemplateVariable } from "../../../utils/template/types";
+import { ITemplateVariable } from '../../../utils/template/types';
 
 export interface IVizStatsConf {
-  align: 'center',
+  align: 'center';
   template: string;
-  variables: ITemplateVariable[]
+  variables: ITemplateVariable[];
 }

@@ -1,9 +1,9 @@
-import React from "react";
-import RGL, { WidthProvider } from "react-grid-layout";
-import _ from "lodash";
-import { Panel } from "../panel";
-import { IDashboardPanel } from "../types/dashboard";
-import './index.css'
+import React from 'react';
+import RGL, { WidthProvider } from 'react-grid-layout';
+import _ from 'lodash';
+import { Panel } from '../panel';
+import { IDashboardPanel } from '../types/dashboard';
+import './index.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -13,11 +13,7 @@ interface IReadOnlyDashboardLayout {
   rowHeight?: number;
 }
 
-export function ReadOnlyDashboardLayout({
-  panels,
-  className = "layout",
-  rowHeight = 10,
-}: IReadOnlyDashboardLayout) {
+export function ReadOnlyDashboardLayout({ panels, className = 'layout', rowHeight = 10 }: IReadOnlyDashboardLayout) {
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
@@ -30,8 +26,8 @@ export function ReadOnlyDashboardLayout({
           <div key={id} data-grid={rest.layout}>
             <Panel id={id} {...rest} />
           </div>
-        )
+        );
       })}
     </ReactGridLayout>
-  )
+  );
 }

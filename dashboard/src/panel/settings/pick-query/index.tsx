@@ -1,19 +1,18 @@
-import { Group, Select, Stack, Text } from "@mantine/core";
-import React from "react";
-import { DefinitionContext, PanelContext } from "../../../contexts";
-import { DataPreview } from "../../../definition-editor/query-editor/data-preview";
+import { Group, Select, Stack, Text } from '@mantine/core';
+import React from 'react';
+import { DefinitionContext, PanelContext } from '../../../contexts';
+import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 
-interface IPickQuery {
-}
-export function PickQuery({ }: IPickQuery) {
+interface IPickQuery {}
+export function PickQuery({}: IPickQuery) {
   const { queries } = React.useContext(DefinitionContext);
-  const { queryID, setQueryID, data, loading } = React.useContext(PanelContext)
+  const { queryID, setQueryID, data, loading } = React.useContext(PanelContext);
 
   const options = React.useMemo(() => {
-    return queries.map(d => ({
+    return queries.map((d) => ({
       value: d.id,
       label: d.id,
-    }))
+    }));
   }, [queries]);
 
   return (
@@ -32,5 +31,5 @@ export function PickQuery({ }: IPickQuery) {
       </Group>
       <DataPreview id={queryID} />
     </Stack>
-  )
+  );
 }

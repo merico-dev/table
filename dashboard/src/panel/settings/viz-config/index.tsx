@@ -1,11 +1,10 @@
-import { Box, Group, Stack } from "@mantine/core";
-import { PreviewViz } from "./preview-viz";
-import { EditVizConf } from "./viz-conf";
+import { Box, Group, Stack } from '@mantine/core';
+import { PreviewViz } from './preview-viz';
+import { EditVizConf } from './viz-conf';
 
-interface IVizConfig {
-}
+interface IVizConfig {}
 
-export function VizConfig({ }: IVizConfig) {
+export function VizConfig({}: IVizConfig) {
   return (
     <Group grow noWrap align="stretch" sx={{ height: '100%' }}>
       <Stack sx={{ width: '40%', flexShrink: 0, flexGrow: 0 }}>
@@ -15,5 +14,5 @@ export function VizConfig({ }: IVizConfig) {
         <PreviewViz />
       </Box>
     </Group>
-  )
+  );
 }

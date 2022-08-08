@@ -1,7 +1,7 @@
-import { IVizConfig } from "./dashboard";
+import { IVizConfig } from './dashboard';
 
 export interface IVizPanelProps {
-  conf: IVizConfig['conf'],
+  conf: IVizConfig['conf'];
   setConf: (conf: IVizConfig['conf']) => void;
   data: any[];
 }

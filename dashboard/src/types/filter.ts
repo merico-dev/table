@@ -4,7 +4,7 @@ export interface IDashboardFilterOption {
 }
 
 export interface IDashboardFilterOptionQuery {
-  type: 'postgresql',
+  type: 'postgresql';
   key: string;
   sql: string;
 }
@@ -43,5 +43,10 @@ export interface IDashboardFilter {
   label: string;
   order: number;
   type: 'select' | 'multi-select' | 'text-input' | 'checkbox' | 'date-range';
-  config: IFilterConfig_Select | IFilterConfig_MultiSelect | IFilterConfig_TextInput | IFilterConfig_DateRange | IFilterConfig_Checkbox;
+  config:
+    | IFilterConfig_Select
+    | IFilterConfig_MultiSelect
+    | IFilterConfig_TextInput
+    | IFilterConfig_DateRange
+    | IFilterConfig_Checkbox;
 }

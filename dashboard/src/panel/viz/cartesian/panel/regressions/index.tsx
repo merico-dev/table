@@ -1,8 +1,8 @@
-import { Button, Group, Stack, Text } from "@mantine/core";
-import React from "react";
-import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from "react-hook-form";
-import { ICartesianChartConf } from "../../type";
-import { RegressionField } from "./regression-item";
+import { Button, Group, Stack, Text } from '@mantine/core';
+import React from 'react';
+import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from 'react-hook-form';
+import { ICartesianChartConf } from '../../type';
+import { RegressionField } from './regression-item';
 
 interface IRegressionsField {
   control: Control<ICartesianChartConf, any>;
@@ -13,41 +13,42 @@ interface IRegressionsField {
 export function RegressionsField({ control, watch, getValues, data }: IRegressionsField) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "regressions"
+    name: 'regressions',
   });
 
-  const watchFieldArray = watch("regressions");
+  const watchFieldArray = watch('regressions');
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
-      ...watchFieldArray[index]
+      ...watchFieldArray[index],
     };
   });
 
   const yAxisOptions = React.useMemo(() => {
     return getValues().y_axes.map(({ name }, index) => ({
       label: name,
-      value: index.toString()
-    }))
+      value: index.toString(),
+    }));
   }, [getValues]);
 
-  const add = () => append({
-    transform: {
-      type: 'ecStat:regression',
-      config: {
-        method: 'linear',
-        order: 1,
-        formulaOn: 'end',
+  const add = () =>
+    append({
+      transform: {
+        type: 'ecStat:regression',
+        config: {
+          method: 'linear',
+          order: 1,
+          formulaOn: 'end',
+        },
       },
-    },
-    name: '',
-    y_axis_data_key: '',
-    plot: {
-      type: 'line',
-      yAxisIndex: 0,
-      color: '#666666'
-    }
-  });
+      name: '',
+      y_axis_data_key: '',
+      plot: {
+        type: 'line',
+        yAxisIndex: 0,
+        color: '#666666',
+      },
+    });
 
   return (
     <Stack>
@@ -62,10 +63,8 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
         />
       ))}
       <Group position="center" mt="xs">
-        <Button onClick={add}>
-          Add a Regression Line
-        </Button>
+        <Button onClick={add}>Add a Regression Line</Button>
       </Group>
     </Stack>
-  )
+  );
 }

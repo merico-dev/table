@@ -1,7 +1,7 @@
-import { Select, Sx } from "@mantine/core";
-import { ValueType } from "./type"
+import { Select, Sx } from '@mantine/core';
+import { ValueType } from './type';
 
-const valueTypes = Object.values(ValueType).map(v => ({ label: v, value: v }))
+const valueTypes = Object.values(ValueType).map((v) => ({ label: v, value: v }));
 
 interface IValueTypeSelector {
   label: string;
@@ -11,13 +11,5 @@ interface IValueTypeSelector {
 }
 
 export function ValueTypeSelector({ label, value, onChange, sx }: IValueTypeSelector) {
-  return (
-    <Select
-      label={label}
-      data={valueTypes}
-      value={value}
-      onChange={onChange}
-      sx={sx}
-    />
-  )
+  return <Select label={label} data={valueTypes} value={value} onChange={onChange} sx={sx} />;
 }

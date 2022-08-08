@@ -1,14 +1,12 @@
-import { Box, Group, Stack } from "@mantine/core";
-import { EditDescription } from "./description";
-import { PreviewPanel } from "./preview-panel";
-import { EditTitle } from "./title";
+import { Box, Group, Stack } from '@mantine/core';
+import { EditDescription } from './description';
+import { PreviewPanel } from './preview-panel';
+import { EditTitle } from './title';
 
-interface IPanelConfig {
-}
+interface IPanelConfig {}
 
-export function PanelConfig({ }: IPanelConfig) {
+export function PanelConfig({}: IPanelConfig) {
   return (
-
     <Group grow noWrap align="stretch" sx={{ height: '100%' }}>
       <Stack sx={{ width: '40%', flexShrink: 0, flexGrow: 0, height: '100%' }}>
         <EditTitle />
@@ -18,5 +16,5 @@ export function PanelConfig({ }: IPanelConfig) {
         <PreviewPanel />
       </Box>
     </Group>
-  )
+  );
 }

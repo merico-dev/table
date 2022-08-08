@@ -2,7 +2,7 @@ import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { SunburstChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from "lodash";
+import _ from 'lodash';
 import React from 'react';
 
 echarts.use([SunburstChart, CanvasRenderer]);
@@ -16,48 +16,46 @@ interface ISunbrust {
 
 const defaultOption = {
   tooltip: {
-    show: true
+    show: true,
   },
   series: {
-    type: "sunburst",
-    radius: [
-      0,
-      "90%"
-    ],
+    type: 'sunburst',
+    radius: [0, '90%'],
     emphasis: {
-      focus: "ancestor"
-    }
-  }
+      focus: 'ancestor',
+    },
+  },
 };
 
 export function Sunbrust({ conf, data, width, height }: ISunbrust) {
-  const { label_field = 'name', value_field = 'value', ...restConf } = conf
+  const { label_field = 'name', value_field = 'value', ...restConf } = conf;
 
   const chartData = React.useMemo(() => {
-    return data.map(d => ({
+    return data.map((d) => ({
       name: d[label_field],
       value: Number(d[value_field]),
     }));
   }, [data, label_field, value_field]);
 
-  const max = React.useMemo(() => _.maxBy(chartData, d => d.value)?.value ?? 1, [chartData]);
+  const max = React.useMemo(() => _.maxBy(chartData, (d) => d.value)?.value ?? 1, [chartData]);
 
-  const labelOption = React.useMemo(() => ({
-    series: {
-      label: {
-        formatter: ({ name, value }: any) => {
-          if (value / max < 0.2) {
-            return ' ';
-          }
-          return name;
-        }
-      }
-    }
-  }), [max]);
+  const labelOption = React.useMemo(
+    () => ({
+      series: {
+        label: {
+          formatter: ({ name, value }: any) => {
+            if (value / max < 0.2) {
+              return ' ';
+            }
+            return name;
+          },
+        },
+      },
+    }),
+    [max],
+  );
 
   const option = _.merge({}, defaultOption, labelOption, restConf, { series: { data: chartData } });
 
-  return (
-    <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
-  )
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }

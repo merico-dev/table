@@ -1,4 +1,4 @@
-import { interpolate } from "popmotion"
+import { interpolate } from 'popmotion';
 
 export interface InterpolateColorOption {
   valueRange: number[];
@@ -8,10 +8,10 @@ export class InterpolateColor {
   mapper: (v: number) => string;
 
   constructor({ valueRange, colorRange }: InterpolateColorOption) {
-    this.mapper = interpolate(valueRange, colorRange)
+    this.mapper = interpolate(valueRange, colorRange);
   }
 
   getColor(value: number) {
-    return this.mapper(value)
+    return this.mapper(value);
   }
 }

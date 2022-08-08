@@ -1,8 +1,8 @@
-import { Modal, Tabs } from "@mantine/core";
-import React from "react";
-import { LayoutStateContext } from "../contexts/layout-state-context";
-import { EditQueries } from "./query-editor";
-import { EditSQLSnippets } from "./sql-snippet-editor";
+import { Modal, Tabs } from '@mantine/core';
+import React from 'react';
+import { LayoutStateContext } from '../contexts/layout-state-context';
+import { EditQueries } from './query-editor';
+import { EditSQLSnippets } from './sql-snippet-editor';
 
 interface IDataEditorModal {
   opened: boolean;
@@ -22,9 +22,11 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
       overflow="inside"
       opened={opened}
       onClose={close}
-      title='Data Settings'
+      title="Data Settings"
       trapFocus
-      onDragStart={e => { e.stopPropagation() }}
+      onDragStart={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Tabs defaultValue="Queries">
         <Tabs.List>
@@ -39,5 +41,5 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
         </Tabs.Panel>
       </Tabs>
     </Modal>
-  )
+  );
 }

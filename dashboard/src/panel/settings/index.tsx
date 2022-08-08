@@ -1,10 +1,10 @@
-import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from "@mantine/core";
-import React from "react";
-import { LayoutStateContext } from "../../contexts/layout-state-context";
-import { PanelContext } from "../../contexts/panel-context";
-import { PanelConfig } from "./panel-config";
-import { PickQuery } from "./pick-query";
-import { VizConfig } from "./viz-config";
+import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import React from 'react';
+import { LayoutStateContext } from '../../contexts/layout-state-context';
+import { PanelContext } from '../../contexts/panel-context';
+import { PanelConfig } from './panel-config';
+import { PickQuery } from './pick-query';
+import { VizConfig } from './viz-config';
 
 interface IPanelSettingsModal {
   opened: boolean;
@@ -13,7 +13,7 @@ interface IPanelSettingsModal {
 
 export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
-  const { data, loading, viz, title } = React.useContext(PanelContext)
+  const { data, loading, viz, title } = React.useContext(PanelContext);
 
   React.useEffect(() => {
     freezeLayout(opened);
@@ -27,13 +27,16 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
       onClose={close}
       title={title}
       trapFocus
-      onDragStart={e => { e.stopPropagation() }}
+      onDragStart={(e) => {
+        e.stopPropagation();
+      }}
     >
       <AppShell
         sx={{
-          height: '90vh', maxHeight: 'calc(100vh - 185px)',
+          height: '90vh',
+          maxHeight: 'calc(100vh - 185px)',
           '.mantine-AppShell-body': { height: '100%' },
-          main: { height: '100%', width: '100%', padding: '16px' }
+          main: { height: '100%', width: '100%', padding: '16px' },
         }}
         padding="md"
       >
@@ -56,5 +59,5 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
         </Tabs>
       </AppShell>
     </Modal>
-  )
+  );
 }

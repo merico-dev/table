@@ -1,12 +1,12 @@
-import { ActionIcon, Button, Divider, Group, Stack, Switch, Text, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { randomId } from "@mantine/hooks";
-import { Prism } from "@mantine/prism";
-import { DeviceFloppy, Trash } from "tabler-icons-react";
-import { IVizPanelProps } from "../../../types/viz-panel";
-import { DataFieldSelector } from "../../settings/common/data-field-selector";
-import { IColumnConf, ValueType } from "./type";
-import { ValueTypeSelector } from "./value-type-selector";
+import { ActionIcon, Button, Divider, Group, Stack, Switch, Text, TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { randomId } from '@mantine/hooks';
+import { Prism } from '@mantine/prism';
+import { DeviceFloppy, Trash } from 'tabler-icons-react';
+import { IVizPanelProps } from '../../../types/viz-panel';
+import { DataFieldSelector } from '../../settings/common/data-field-selector';
+import { IColumnConf, ValueType } from './type';
+import { ValueTypeSelector } from './value-type-selector';
 
 export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }: IVizPanelProps) {
   const form = useForm({
@@ -19,18 +19,19 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
       verticalSpacing: 'sm',
       striped: false,
       highlightOnHover: false,
-      ...restConf
+      ...restConf,
     },
   });
 
-  const addColumn = () => form.insertListItem('columns', { label: randomId(), value_field: 'value', value_type: ValueType.string });
+  const addColumn = () =>
+    form.insertListItem('columns', { label: randomId(), value_field: 'value', value_type: ValueType.string });
 
   return (
     <Stack mt="md" spacing="xs">
       <form onSubmit={form.onSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Table Config</Text>
-          <ActionIcon type='submit' mr={5} variant="filled" color="blue">
+          <ActionIcon type="submit" mr={5} variant="filled" color="blue">
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
@@ -73,7 +74,9 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
           <Switch label="Use Original Data Columns" {...form.getInputProps('use_raw_columns', { type: 'checkbox' })} />
           {!form.values.use_raw_columns && (
             <Stack>
-              <Text mt="xl" mb={0}>Custom Columns</Text>
+              <Text mt="xl" mb={0}>
+                Custom Columns
+              </Text>
               {form.values.columns.map((_item, index) => (
                 <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
                   <Group position="apart" grow>
@@ -83,7 +86,12 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
                       sx={{ flex: 1 }}
                       {...form.getInputProps(`columns.${index}.label`)}
                     />
-                    <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps(`columns.${index}.value_field`)} />
+                    <DataFieldSelector
+                      label="Value Field"
+                      required
+                      data={data}
+                      {...form.getInputProps(`columns.${index}.value_field`)}
+                    />
                     <ValueTypeSelector
                       label="Value Type"
                       sx={{ flex: 1 }}
@@ -101,9 +109,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
                 </Stack>
               ))}
               <Group position="center" mt="xs">
-                <Button onClick={addColumn}>
-                  Add a Column
-                </Button>
+                <Button onClick={addColumn}>Add a Column</Button>
               </Group>
             </Stack>
           )}
@@ -111,8 +117,10 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
         <Text weight={500} mb="md">
           Current Configuration:
         </Text>
-        <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(form.values, null, 2)}</Prism>
+        <Prism language="json" colorScheme="dark" noCopy>
+          {JSON.stringify(form.values, null, 2)}
+        </Prism>
       </form>
     </Stack>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import numbro from "numbro";
-import { Text } from "@mantine/core";
-import { aggregateValue } from "../aggregation";
-import { InterpolateColor } from "../color-mapping";
-import { ColorConfType, ITemplateVariable } from "./types";
+import numbro from 'numbro';
+import { Text } from '@mantine/core';
+import { aggregateValue } from '../aggregation';
+import { InterpolateColor } from '../color-mapping';
+import { ColorConfType, ITemplateVariable } from './types';
 
 function getColorByColorConf(conf: ColorConfType, value: number) {
   if (conf.type === 'static') {
@@ -11,7 +11,7 @@ function getColorByColorConf(conf: ColorConfType, value: number) {
   if (conf.type === 'continuous') {
     return new InterpolateColor(conf).getColor(value);
   }
-  return 'black'
+  return 'black';
 }
 
 function getNonStatsDataText(data: any) {
@@ -19,45 +19,50 @@ function getNonStatsDataText(data: any) {
     return 'null';
   }
   if (data === undefined) {
-    return 'undefined'
+    return 'undefined';
   }
   if (Array.isArray(data)) {
-    return `Array(${data.length})`
+    return `Array(${data.length})`;
   }
-  return data.toString()
+  return data.toString();
 }
 
 function variablesToElements(variables: ITemplateVariable[], data: Record<string, number>[]) {
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach(({ name, color, data_field, aggregation, size, weight, formatter }) => {
     const value: number = aggregateValue(data, data_field, aggregation);
-    let valueContent = ''
+    let valueContent = '';
     if (!['string', 'number'].includes(typeof value)) {
       valueContent = getNonStatsDataText(value);
     } else {
       valueContent = numbro(value).format(formatter);
     }
-    ret[name] = <Text sx={{ fontSize: size, display: 'inline' }} color={getColorByColorConf(color, value)} weight={weight}>{valueContent}</Text>;
-  })
+    ret[name] = (
+      <Text sx={{ fontSize: size, display: 'inline' }} color={getColorByColorConf(color, value)} weight={weight}>
+        {valueContent}
+      </Text>
+    );
+  });
   return ret;
 }
 
 function preserveWhiteSpaces(text: string) {
-  return text.split(' ').map(s => <>{s}&nbsp;</>)
+  return text.split(' ').map((s) => <>{s}&nbsp;</>);
 }
 
 function withLineBreaks(text: string) {
   const normalized = text.replaceAll('<br />', '<br/>').replaceAll('\n', '<br/>');
   const splitted = normalized.split('<br/>');
-  const ret = splitted.map((t, i) => {
-    const arr: Array<React.ReactNode> = [
-      preserveWhiteSpaces(t)
-    ];
-    if (i !== splitted.length - 1) {
-      arr.push(<br/>)
-    }
-    return arr;
-  }).flat().filter(t => t !== undefined)
+  const ret = splitted
+    .map((t, i) => {
+      const arr: Array<React.ReactNode> = [preserveWhiteSpaces(t)];
+      if (i !== splitted.length - 1) {
+        arr.push(<br />);
+      }
+      return arr;
+    })
+    .flat()
+    .filter((t) => t !== undefined);
   return ret;
 }
 
@@ -68,7 +73,7 @@ function textToJSX(text: string) {
 export function templateToJSX(template: string, variables: ITemplateVariable[], data: Record<string, number>[]) {
   const variableElements = variablesToElements(variables, data);
   const regx = /^\{(.+)\}(.*)$/;
-  return template.split('$').map(text => {
+  return template.split('$').map((text) => {
     const match = regx.exec(text);
     if (!match) {
       return textToJSX(text);
@@ -78,6 +83,11 @@ export function templateToJSX(template: string, variables: ITemplateVariable[], 
       return textToJSX(text);
     }
     const rest = match[2] ?? '';
-    return <>{element}{textToJSX(rest)}</>;
+    return (
+      <>
+        {element}
+        {textToJSX(rest)}
+      </>
+    );
   });
 }

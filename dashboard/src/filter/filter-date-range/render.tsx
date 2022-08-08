@@ -1,6 +1,6 @@
-import { DateRangePicker } from "@mantine/dates";
-import { Calendar } from "tabler-icons-react";
-import { IDashboardFilter, IFilterConfig_DateRange } from "../../types";
+import { DateRangePicker } from '@mantine/dates';
+import { Calendar } from 'tabler-icons-react';
+import { IDashboardFilter, IFilterConfig_DateRange } from '../../types';
 
 interface IFilterDateRange extends Omit<IDashboardFilter, 'type' | 'config'> {
   config: IFilterConfig_DateRange;
@@ -18,5 +18,5 @@ export function FilterDateRange({ label, config, value, onChange }: IFilterDateR
       sx={{ minWidth: '14em' }}
       {...config}
     />
-  )
+  );
 }

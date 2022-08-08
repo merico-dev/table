@@ -1,8 +1,8 @@
-import { Select } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { queryByStaticSQL } from "../../api-caller";
-import { IDashboardFilter, IFilterConfig_Select } from "../../types";
+import { Select } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { queryByStaticSQL } from '../../api-caller';
+import { IDashboardFilter, IFilterConfig_Select } from '../../types';
 
 interface IFilterSelect extends Omit<IDashboardFilter, 'type' | 'config'> {
   config: IFilterConfig_Select;
@@ -13,8 +13,8 @@ interface IFilterSelect extends Omit<IDashboardFilter, 'type' | 'config'> {
 export function FilterSelect({ label, config, value, onChange }: IFilterSelect) {
   const usingRemoteOptions = !!config.options_query.sql;
   const { data: remoteOptions = [], loading } = useRequest(queryByStaticSQL(config.options_query), {
-    refreshDeps: [config.options_query, usingRemoteOptions]
-  })
+    refreshDeps: [config.options_query, usingRemoteOptions],
+  });
 
   return (
     <Select
@@ -24,5 +24,5 @@ export function FilterSelect({ label, config, value, onChange }: IFilterSelect) 
       value={value}
       onChange={onChange}
     />
-  )
+  );
 }

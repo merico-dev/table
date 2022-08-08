@@ -1,6 +1,6 @@
-import { Group, Select, TextInput, Text, useMantineTheme, ColorSwatch } from "@mantine/core";
-import _ from "lodash";
-import React from "react";
+import { Group, Select, TextInput, Text, useMantineTheme, ColorSwatch } from '@mantine/core';
+import _ from 'lodash';
+import React from 'react';
 
 interface IMantineColorSelector {
   value?: string;
@@ -14,11 +14,11 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
     return Object.entries(theme.colors).map(([color, profile]) => ({
       label: color,
       value: profile[6],
-    }))
+    }));
   }, [theme]);
 
   const isThemeColor = React.useMemo(() => {
-    return themeColors.some(option => option.value === value);
+    return themeColors.some((option) => option.value === value);
   }, [value, themeColors]);
 
   return (
@@ -38,10 +38,10 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
         onChange={onChange}
         variant={isThemeColor ? 'default' : 'filled'}
         placeholder="Pick a theme color"
-        icon={<ColorSwatch color={isThemeColor ? value! : 'transparent'} radius={4}/>}
+        icon={<ColorSwatch color={isThemeColor ? value! : 'transparent'} radius={4} />}
         sx={{ maxWidth: '46%', flexGrow: 1 }}
       />
     </Group>
-  )
+  );
 }
-export const MantineColorSelector = React.forwardRef(_MantineColorSelector)
+export const MantineColorSelector = React.forwardRef(_MantineColorSelector);

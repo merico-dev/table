@@ -1,9 +1,9 @@
-import { ActionIcon, Group, LoadingOverlay, Stack, Table, Text } from "@mantine/core";
-import { useRequest } from "ahooks";
-import React from "react";
-import { Refresh } from "tabler-icons-react";
-import { queryBySQL } from "../../api-caller";
-import { ContextInfoContext, DefinitionContext, FilterValuesContext } from "../../contexts";
+import { ActionIcon, Group, LoadingOverlay, Stack, Table, Text } from '@mantine/core';
+import { useRequest } from 'ahooks';
+import React from 'react';
+import { Refresh } from 'tabler-icons-react';
+import { queryBySQL } from '../../api-caller';
+import { ContextInfoContext, DefinitionContext, FilterValuesContext } from '../../contexts';
 
 export function DataPreview({ id }: { id: string }) {
   const definitions = React.useContext(DefinitionContext);
@@ -11,18 +11,25 @@ export function DataPreview({ id }: { id: string }) {
   const contextInfo = React.useContext(ContextInfoContext);
 
   const query = React.useMemo(() => {
-    return definitions.queries.find(d => d.id === id);
+    return definitions.queries.find((d) => d.id === id);
   }, [definitions.queries, id]);
 
-  const { data = [], loading, refresh } = useRequest(queryBySQL({
-    context: contextInfo,
-    definitions,
-    filterValues,
-    title: id,
-    query,
-  }), {
-    refreshDeps: [contextInfo, definitions, query, filterValues],
-  });
+  const {
+    data = [],
+    loading,
+    refresh,
+  } = useRequest(
+    queryBySQL({
+      context: contextInfo,
+      definitions,
+      filterValues,
+      title: id,
+      query,
+    }),
+    {
+      refreshDeps: [contextInfo, definitions, query, filterValues],
+    },
+  );
   if (loading) {
     return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;
   }
@@ -35,7 +42,9 @@ export function DataPreview({ id }: { id: string }) {
         <Group position="left">
           <Text weight={500}>Preview Data</Text>
           {data.length > 10 && (
-            <Text size="sm" color="gray">Showing 10 rows of {data.length}</Text>
+            <Text size="sm" color="gray">
+              Showing 10 rows of {data.length}
+            </Text>
           )}
         </Group>
         <ActionIcon mr={15} variant="subtle" color="blue" disabled={loading} onClick={refresh}>
@@ -45,9 +54,11 @@ export function DataPreview({ id }: { id: string }) {
       <Table>
         <thead>
           <tr>
-            {Object.keys(data?.[0]).map(label => (
+            {Object.keys(data?.[0]).map((label) => (
               <th key={label}>
-                <Text weight={700} color="#000">{label}</Text>
+                <Text weight={700} color="#000">
+                  {label}
+                </Text>
               </th>
             ))}
           </tr>
@@ -67,5 +78,5 @@ export function DataPreview({ id }: { id: string }) {
         </tbody>
       </Table>
     </Stack>
-  )
+  );
 }

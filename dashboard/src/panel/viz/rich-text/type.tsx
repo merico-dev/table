@@ -1,7 +1,7 @@
-import { IVizPanelProps } from "../../../types";
+import { IVizPanelProps } from '../../../types';
 
 export interface IRichTextConf {
-  content: ''
+  content: '';
 }
 
 export interface IVizRichTextPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {

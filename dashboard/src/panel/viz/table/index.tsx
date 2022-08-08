@@ -1,8 +1,8 @@
-import _ from "lodash";
+import _ from 'lodash';
 import { Group, Table, Text } from '@mantine/core';
-import { IColumnConf, ITableConf, ValueType } from "./type";
-import React from "react";
-import { CellValue } from "./value";
+import { IColumnConf, ITableConf, ValueType } from './type';
+import React from 'react';
+import { CellValue } from './value';
 
 interface IVizTable {
   conf: ITableConf;
@@ -17,26 +17,28 @@ export function VizTable({ conf, data = [], width, height }: IVizTable) {
     if (use_raw_columns) {
       return Object.keys(data?.[0]);
     }
-    return columns.map(c => c.label);
-  }, [use_raw_columns, columns, data])
+    return columns.map((c) => c.label);
+  }, [use_raw_columns, columns, data]);
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
-      return Object.keys(data?.[0]).map(k => ({
+      return Object.keys(data?.[0]).map((k) => ({
         label: k,
         value_field: k,
-        value_type: ValueType.string
+        value_type: ValueType.string,
       }));
     }
     return columns;
-  }, [use_raw_columns, columns, data])
+  }, [use_raw_columns, columns, data]);
 
   return (
     // @ts-expect-error
     <Table sx={{ maxHeight: height }} {...rest}>
       <thead>
         <tr>
-          {labels.map(label => <th key={label}>{label}</th>)}
+          {labels.map((label) => (
+            <th key={label}>{label}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -56,11 +58,13 @@ export function VizTable({ conf, data = [], width, height }: IVizTable) {
         <tfoot>
           <tr>
             <td colSpan={labels.length}>
-              <Text color="red" size="sm">Showing only the first 30 rows to avoid causing slow performance</Text>
+              <Text color="red" size="sm">
+                Showing only the first 30 rows to avoid causing slow performance
+              </Text>
             </td>
           </tr>
         </tfoot>
       )}
     </Table>
-  )
+  );
 }

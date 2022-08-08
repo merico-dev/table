@@ -1,11 +1,11 @@
-import { ActionIcon, Group, Stack, Text } from "@mantine/core";
+import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
-import React from "react";
-import { DeviceFloppy } from "tabler-icons-react";
-import { PanelContext } from "../../../contexts/panel-context";
+import React from 'react';
+import { DeviceFloppy } from 'tabler-icons-react';
+import { PanelContext } from '../../../contexts/panel-context';
 
 export function EditDescription() {
-  const { description, setDescription } = React.useContext(PanelContext)
+  const { description, setDescription } = React.useContext(PanelContext);
   const [value, onChange] = React.useState(description);
 
   const changed = description !== value;
@@ -25,7 +25,7 @@ export function EditDescription() {
           <DeviceFloppy size={20} />
         </ActionIcon>
       </Group>
-      <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0"/>
+      <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0" />
     </Stack>
-  )
+  );
 }

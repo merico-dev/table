@@ -1,6 +1,6 @@
-import { IVizPanelProps } from "../../../types";
-import { ITemplateVariable } from "../../../utils/template/types";
-import { TNumbroFormat } from "../../settings/common/numbro-format-selector";
+import { IVizPanelProps } from '../../../types';
+import { ITemplateVariable } from '../../../utils/template/types';
+import { TNumbroFormat } from '../../settings/common/numbro-format-selector';
 
 // TODO: https://github.com/merico-dev/table/issues/86
 export interface ICartesianChartSeriesItem {
@@ -24,12 +24,12 @@ export interface IYAxisConf {
 }
 
 export interface IRegressionTransform {
-  type: 'ecStat:regression',
+  type: 'ecStat:regression';
   config: {
     method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
     order: number;
     formulaOn: 'end';
-  }
+  };
 }
 
 export interface IRegressionLineConf {
@@ -55,7 +55,7 @@ export interface ICartesianChartConf {
     templates: {
       top: string;
       bottom: string;
-    },
+    };
     variables: ITemplateVariable[];
   };
 }

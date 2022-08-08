@@ -8,7 +8,7 @@ const stepOptions = [
   { label: 'start', value: 'start' },
   { label: 'middle', value: 'middle' },
   { label: 'end', value: 'end' },
-]
+];
 
 interface ILineFields {
   control: Control<ICartesianChartConf, any>;
@@ -21,7 +21,7 @@ export function LineFields({ control, index }: ILineFields) {
       <Controller
         name={`series.${index}.step`}
         control={control}
-        render={(({ field }) => (
+        render={({ field }) => (
           <Select
             label="Step"
             data={stepOptions}
@@ -30,15 +30,15 @@ export function LineFields({ control, index }: ILineFields) {
             value={String(field.value)}
             onChange={(v: string) => {
               const step = v === 'false' ? false : v;
-              field.onChange(step)
+              field.onChange(step);
             }}
           />
-        ))}
+        )}
       />
       <Controller
         name={`series.${index}.smooth`}
         control={control}
-        render={(({ field }) => (
+        render={({ field }) => (
           <Box sx={{ flexGrow: 1 }}>
             <Switch
               label="Smooth Line"
@@ -46,8 +46,8 @@ export function LineFields({ control, index }: ILineFields) {
               onChange={(event) => field.onChange(event.currentTarget.checked)}
             />
           </Box>
-        ))}
+        )}
       />
     </Group>
-  )
+  );
 }

@@ -1,7 +1,7 @@
-import { Select } from "@mantine/core";
-import _ from "lodash";
-import React from "react";
-import { AggregationType } from "../../../utils/aggregation";
+import { Select } from '@mantine/core';
+import _ from 'lodash';
+import React from 'react';
+import { AggregationType } from '../../../utils/aggregation';
 
 const options = [
   { label: 'None', value: 'none' },
@@ -10,7 +10,7 @@ const options = [
   { label: 'Median', value: 'median' },
   { label: 'Max', value: 'max' },
   { label: 'Min', value: 'min' },
-]
+];
 
 interface IAggregationSelector {
   value: AggregationType;
@@ -19,15 +19,7 @@ interface IAggregationSelector {
 }
 
 function _AggregationSelector({ label, value, onChange }: IAggregationSelector, ref: any) {
-  return (
-    <Select
-      ref={ref}
-      label={label}
-      data={options}
-      value={value}
-      onChange={onChange}
-    />
-  )
+  return <Select ref={ref} label={label} data={options} value={value} onChange={onChange} />;
 }
 
-export const AggregationSelector = React.forwardRef(_AggregationSelector)
+export const AggregationSelector = React.forwardRef(_AggregationSelector);

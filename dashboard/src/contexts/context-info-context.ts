@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 export type TimeRangeType = [Date | null, Date | null];
 
 export type ContextInfoContextType = Record<string, TimeRangeType | any | any[]>;
 
-const initialContext = {}
+const initialContext = {};
 
 export const initialContextInfoContext = initialContext;
 

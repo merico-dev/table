@@ -1,14 +1,17 @@
-import { Stack, Tabs, Textarea } from "@mantine/core";
-import React from "react";
-import { PreviewSQL } from "../../definition-editor/query-editor/preview-sql";
-import { IDashboardFilterOptionQuery } from "../../types";
-import { SelectDataSource } from "./select-data-source";
+import { Stack, Tabs, Textarea } from '@mantine/core';
+import React from 'react';
+import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
+import { IDashboardFilterOptionQuery } from '../../types';
+import { SelectDataSource } from './select-data-source';
 
 interface IFilterQueryField {
   value: IDashboardFilterOptionQuery;
   onChange: (v: IDashboardFilterOptionQuery) => void;
 }
-export const FilterQueryField = React.forwardRef(function _FilterQueryField({ value, onChange }: IFilterQueryField, _ref: any) {
+export const FilterQueryField = React.forwardRef(function _FilterQueryField(
+  { value, onChange }: IFilterQueryField,
+  _ref: any,
+) {
   return (
     <Stack my={0}>
       <SelectDataSource value={value} onChange={onChange} />
@@ -22,10 +25,12 @@ export const FilterQueryField = React.forwardRef(function _FilterQueryField({ va
             autosize
             minRows={12}
             maxRows={24}
-            className='code-textarea'
+            className="code-textarea"
             value={value.sql}
-            onChange={(e) => { onChange({ ...value, sql: e.currentTarget.value })}}
-            placeholder='SELECT name AS label, id AS value'
+            onChange={(e) => {
+              onChange({ ...value, sql: e.currentTarget.value });
+            }}
+            placeholder="SELECT name AS label, id AS value"
           />
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
@@ -33,5 +38,5 @@ export const FilterQueryField = React.forwardRef(function _FilterQueryField({ va
         </Tabs.Panel>
       </Tabs>
     </Stack>
-  )
-})
+  );
+});
