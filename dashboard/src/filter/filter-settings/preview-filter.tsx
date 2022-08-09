@@ -27,7 +27,9 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
       <Text pt="lg" pb="md" color="gray">
         Config
       </Text>
-      <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(filter, null, 4)}</Prism>
+      <Prism language="json" colorScheme="dark" noCopy>
+        {JSON.stringify(filter, null, 4)}
+      </Prism>
     </Box>
   );
 });
