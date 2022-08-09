@@ -19,3 +19,10 @@ export const FilterConfigModel_DateRange = types
   }));
 
 export type IFilterConfig_DateRange = Instance<typeof FilterConfigModel_DateRange>;
+
+export const createFilterConfig_DateRange = () =>
+  FilterConfigModel_DateRange.create({
+    required: false,
+    inputFormat: 'YYYY-MM-DD',
+    clearable: false,
+  });

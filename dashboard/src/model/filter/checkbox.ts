@@ -11,3 +11,8 @@ export const FilterConfigModel_Checkbox = types
   }));
 
 export type IFilterConfig_Checkbox = Instance<typeof FilterConfigModel_Checkbox>;
+
+export const createFilterConfig_Checkbox = () =>
+  FilterConfigModel_Checkbox.create({
+    default_value: false,
+  });

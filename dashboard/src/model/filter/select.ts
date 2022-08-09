@@ -43,3 +43,15 @@ export const FilterConfigModel_Select = types
   }));
 
 export type IFilterConfig_Select = Instance<typeof FilterConfigModel_Select>;
+
+export const createFilterConfig_Select = () =>
+  FilterConfigModel_Select.create({
+    required: false,
+    default_value: '',
+    static_options: [],
+    options_query: {
+      type: 'postgresql',
+      key: '',
+      sql: '',
+    },
+  });

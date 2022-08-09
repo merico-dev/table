@@ -1,9 +1,9 @@
 import { Instance, types } from 'mobx-state-tree';
-import { FilterConfigModel_Select } from './select';
-import { FilterConfigModel_MultiSelect } from './multi-select';
-import { FilterConfigModel_Checkbox } from './checkbox';
-import { FilterConfigModel_TextInput } from './text-input';
-import { FilterConfigModel_DateRange } from './date-range';
+import { createFilterConfig_Select, FilterConfigModel_Select } from './select';
+import { createFilterConfig_MultiSelect, FilterConfigModel_MultiSelect } from './multi-select';
+import { FilterConfigModel_Checkbox, createFilterConfig_Checkbox } from './checkbox';
+import { createFilterConfig_TextInput, FilterConfigModel_TextInput } from './text-input';
+import { createFilterConfig_DateRange, FilterConfigModel_DateRange } from './date-range';
 import { DashboardFilterType } from './common';
 
 export const FilterModel = types
@@ -38,6 +38,23 @@ export const FilterModel = types
       self.order = order;
     },
     setType(type: DashboardFilterType) {
+      switch (type) {
+        case DashboardFilterType.Select:
+          self.config = createFilterConfig_Select();
+          break;
+        case DashboardFilterType.MultiSelect:
+          self.config = createFilterConfig_MultiSelect();
+          break;
+        case DashboardFilterType.TextInput:
+          self.config = createFilterConfig_TextInput();
+          break;
+        case DashboardFilterType.Checkbox:
+          self.config = createFilterConfig_Checkbox();
+          break;
+        case DashboardFilterType.DateRange:
+          self.config = createFilterConfig_DateRange();
+          break;
+      }
       self.type = type;
     },
   }));

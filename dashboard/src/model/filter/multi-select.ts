@@ -24,3 +24,14 @@ export const FilterConfigModel_MultiSelect = types
   }));
 
 export type IFilterConfig_MultiSelect = Instance<typeof FilterConfigModel_MultiSelect>;
+
+export const createFilterConfig_MultiSelect = () =>
+  FilterConfigModel_MultiSelect.create({
+    default_value: [],
+    static_options: [],
+    options_query: {
+      type: 'postgresql',
+      key: '',
+      sql: '',
+    },
+  });

@@ -15,3 +15,9 @@ export const FilterConfigModel_TextInput = types
   }));
 
 export type IFilterConfig_TextInput = Instance<typeof FilterConfigModel_TextInput>;
+
+export const createFilterConfig_TextInput = () =>
+  FilterConfigModel_TextInput.create({
+    required: false,
+    default_value: '',
+  });
