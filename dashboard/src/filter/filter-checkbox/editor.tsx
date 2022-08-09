@@ -1,4 +1,5 @@
 import { Checkbox } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { IFilterConfig_Checkbox } from '../../model/filter/checkbox';
 
 interface IFilterEditorCheckbox {
@@ -6,14 +7,14 @@ interface IFilterEditorCheckbox {
   index: number;
 }
 
-export function FilterEditorCheckbox({ config }: IFilterEditorCheckbox) {
+export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ config }: IFilterEditorCheckbox) {
   return (
     <>
       <Checkbox
         checked={config.default_value}
-        onChange={(e) => console.log(e.currentTarget.checked)}
+        onChange={(e) => config.setDefaultValue(e.currentTarget.checked)}
         label="Default Checked"
       />
     </>
   );
-}
+});
