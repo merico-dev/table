@@ -32,16 +32,6 @@ export const FilterSettings = observer(function _FilterSettings({ model }: Filte
   return (
     <Group sx={{ height: '90vh', maxHeight: 'calc(100vh - 185px)' }} p={0}>
       <Group sx={{ position: 'absolute', top: '16px', right: '16px' }}>
-        <span>{model.filters.len}</span>
-        <Button
-          size="xs"
-          color="green"
-          leftIcon={<DeviceFloppy size={20} />}
-          type="submit"
-          disabled={!model.filters.changed}
-        >
-          Save Changes
-        </Button>
         <Button
           size="xs"
           color="red"

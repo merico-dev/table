@@ -12,9 +12,6 @@ const FiltersModel = types
     get changed() {
       return !_.isEqual(self.original, self.current);
     },
-    get len() {
-      return self.current.length;
-    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;
