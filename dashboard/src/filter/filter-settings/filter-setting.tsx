@@ -1,4 +1,5 @@
-import { Box, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { Box, NumberInput, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FilterModelInstance } from '../../model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
@@ -29,7 +30,7 @@ interface IFilterSetting {
   index: number;
 }
 
-export function FilterSetting({ filter, index }: IFilterSetting) {
+export const FilterSetting = observer(function _FilterSetting({ filter, index }: IFilterSetting) {
   const FilterEditor = React.useMemo(() => {
     return editors[filter.type];
   }, [filter.type]);
@@ -41,22 +42,26 @@ export function FilterSetting({ filter, index }: IFilterSetting) {
           Edit
         </Text>
         <Stack sx={{ maxWidth: '30em' }}>
-          <TextInput label="Placement Order" required value={filter.order} onChange={console.log} />
+          <NumberInput label="Placement Order" required value={filter.order} onChange={filter.setOrder} hideControls />
           <TextInput
             label="Key"
             placeholder="A unique key to refer"
             required
             value={filter.key}
-            onChange={console.log}
+            onChange={(e) => {
+              filter.setKey(e.currentTarget.value);
+            }}
           />
           <TextInput
             label="Label"
             placeholder="Label for this field"
             required
             value={filter.label}
-            onChange={console.log}
+            onChange={(e) => {
+              filter.setLabel(e.currentTarget.value);
+            }}
           />
-          <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={console.log} />
+          <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={filter.setType} />
           {/* @ts-expect-error */}
           <FilterEditor config={filter.config} index={index} />
         </Stack>
@@ -64,4 +69,4 @@ export function FilterSetting({ filter, index }: IFilterSetting) {
       <PreviewFilter filter={filter} />
     </SimpleGrid>
   );
-}
+})
