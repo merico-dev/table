@@ -41,14 +41,15 @@ export const Dashboard = observer(function _Dashboard({
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const [panels, setPanels] = React.useState(dashboard.panels);
-  const model = createDashboardModel(dashboard);
+  const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
+
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
-    if (!_.isEqual(filters, dashboard.filters)) {
+    if (model.filters.changed) {
       return true;
     }
     // local panels' layouts would contain some undefined runtime values
@@ -63,12 +64,12 @@ export const Dashboard = observer(function _Dashboard({
       return true;
     }
     return !_.isEqual(queries, dashboard.definition.queries);
-  }, [dashboard, filters, panels, sqlSnippets, queries]);
+  }, [dashboard, filters, panels, sqlSnippets, queries, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
-      filters,
+      filters: [...model.filters.current],
       panels,
       definition: { sqlSnippets, queries },
     };
