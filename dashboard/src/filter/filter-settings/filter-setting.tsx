@@ -69,4 +69,4 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
       <PreviewFilter filter={filter} />
     </SimpleGrid>
   );
-})
+});

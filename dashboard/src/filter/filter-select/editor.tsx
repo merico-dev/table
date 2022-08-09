@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Checkbox, Divider, Group, Select, Text, TextInput } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_Select } from '../../model/filter/select';
 import { FilterQueryField } from '../filter-query-field';
@@ -7,7 +8,7 @@ interface IFilterEditorSelect {
   config: IFilterConfig_Select;
 }
 
-export function FilterEditorSelect({ config }: IFilterEditorSelect) {
+export const FilterEditorSelect = observer(function _FilterEditorSelect({ config }: IFilterEditorSelect) {
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
@@ -21,14 +22,18 @@ export function FilterEditorSelect({ config }: IFilterEditorSelect) {
 
   return (
     <>
-      <Checkbox checked={config.required} onChange={(e) => console.log(e.currentTarget.checked)} label="Required" />
+      <Checkbox
+        checked={config.required}
+        onChange={(e) => config.setRequired(e.currentTarget.checked)}
+        label="Required"
+      />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
         <Select
           label="Default Selection"
           data={optionsForDefaultValue}
           value={config.default_value}
-          onChange={console.log}
+          onChange={config.setDefaultValue}
         />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
@@ -37,14 +42,18 @@ export function FilterEditorSelect({ config }: IFilterEditorSelect) {
             label="Label"
             required
             value={config.static_options[optionIndex].label}
-            onChange={console.log}
+            onChange={(e) => {
+              config.static_options[optionIndex].setLabel(e.currentTarget.value);
+            }}
             sx={{ flexGrow: 1 }}
           />
           <TextInput
             label="Value"
             required
             value={config.static_options[optionIndex].value}
-            onChange={console.log}
+            onChange={(e) => {
+              config.static_options[optionIndex].setValue(e.currentTarget.value);
+            }}
             sx={{ flexGrow: 1 }}
           />
           <ActionIcon
@@ -68,7 +77,7 @@ export function FilterEditorSelect({ config }: IFilterEditorSelect) {
         Add an Option
       </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
-      <FilterQueryField value={config.options_query} onChange={console.log} />
+      <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );
-}
+});

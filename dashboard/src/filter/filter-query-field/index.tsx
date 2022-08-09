@@ -1,4 +1,5 @@
 import { Stack, Tabs, Textarea } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
 import { IFilterOptionQuery } from '../../model/filter/common';
@@ -8,10 +9,7 @@ interface IFilterQueryField {
   value: IFilterOptionQuery;
   onChange: (v: IFilterOptionQuery) => void;
 }
-export const FilterQueryField = React.forwardRef(function _FilterQueryField(
-  { value, onChange }: IFilterQueryField,
-  _ref: any,
-) {
+export const FilterQueryField = observer(function _FilterQueryField({ value, onChange }: IFilterQueryField) {
   return (
     <Stack my={0}>
       <SelectDataSource value={value} onChange={onChange} />

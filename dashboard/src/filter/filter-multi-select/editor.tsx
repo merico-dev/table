@@ -26,13 +26,29 @@ export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
           label="Default Selection"
           data={optionsForDefaultValue}
           value={config.default_value}
-          onChange={console.log}
+          onChange={config.setDefaultValue}
         />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
         <Group sx={{ position: 'relative' }} pr="40px">
-          <TextInput label="Label" required value={config.static_options[optionIndex].label} sx={{ flexGrow: 1 }} />
-          <TextInput label="Value" required value={config.static_options[optionIndex].value} sx={{ flexGrow: 1 }} />
+          <TextInput
+            label="Label"
+            required
+            value={config.static_options[optionIndex].label}
+            onChange={(e) => {
+              config.static_options[optionIndex].setLabel(e.currentTarget.value);
+            }}
+            sx={{ flexGrow: 1 }}
+          />
+          <TextInput
+            label="Value"
+            required
+            value={config.static_options[optionIndex].value}
+            onChange={(e) => {
+              config.static_options[optionIndex].setValue(e.currentTarget.value);
+            }}
+            sx={{ flexGrow: 1 }}
+          />
           <ActionIcon
             color="red"
             variant="subtle"
@@ -54,7 +70,7 @@ export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
         Add an Option
       </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
-      <FilterQueryField value={config.options_query} onChange={console.log} />
+      <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );
 }

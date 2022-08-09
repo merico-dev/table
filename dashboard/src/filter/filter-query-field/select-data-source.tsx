@@ -1,5 +1,6 @@
 import { Group, Select, Stack, Tabs, Textarea } from '@mantine/core';
 import { useRequest } from 'ahooks';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { listDataSources } from '../../api-caller';
 import { IFilterOptionQuery } from '../../model/filter/common';
@@ -8,7 +9,7 @@ interface ISelectDataSource {
   value: IFilterOptionQuery;
   onChange: (v: IFilterOptionQuery) => void;
 }
-export function SelectDataSource({ value, onChange }: ISelectDataSource) {
+export const SelectDataSource = observer(function _SelectDataSource({ value, onChange }: ISelectDataSource) {
   const { data: querySources = [], loading } = useRequest(
     listDataSources,
     {
@@ -60,4 +61,4 @@ export function SelectDataSource({ value, onChange }: ISelectDataSource) {
       />
     </Group>
   );
-}
+});
