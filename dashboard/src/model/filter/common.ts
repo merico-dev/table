@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree"
+import { types } from 'mobx-state-tree';
 
 export enum DashboardFilterType {
   Select = 'select',
@@ -12,4 +12,4 @@ export const FilterOptionQueryModel = types.model({
   type: types.enumeration('DataSourceType', ['postgresql']),
   key: types.string,
   sql: types.string,
-})
+});

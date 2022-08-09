@@ -27,7 +27,13 @@ interface IDashboardProps {
   config: IDashboardConfig;
 }
 
-export const Dashboard = observer(function _Dashboard({ context, dashboard, update, className = 'dashboard', config }: IDashboardProps) {
+export const Dashboard = observer(function _Dashboard({
+  context,
+  dashboard,
+  update,
+  className = 'dashboard',
+  config,
+}: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -189,4 +195,4 @@ export const Dashboard = observer(function _Dashboard({ context, dashboard, upda
       </ContextInfoContext.Provider>
     </ModalsProvider>
   );
-})
+});
