@@ -1,16 +1,12 @@
 import React from 'react';
 import { Filter } from '../filter';
 import { Box, Stack, Text } from '@mantine/core';
-import { UseFormWatch } from 'react-hook-form';
-import { IFilterSettingsForm } from './types';
 import { FilterModelInstance } from '../../model';
 
 interface IPreviewFilter {
   filter: FilterModelInstance;
-  index: number;
-  watch: UseFormWatch<IFilterSettingsForm>;
 }
-export function PreviewFilter({ filter, index, watch }: IPreviewFilter) {
+export function PreviewFilter({ filter }: IPreviewFilter) {
   // @ts-expect-error
   const defaultValue = filter.config.default_value;
   const [value, setValue] = React.useState(defaultValue);

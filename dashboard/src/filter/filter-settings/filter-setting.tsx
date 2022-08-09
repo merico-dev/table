@@ -1,13 +1,12 @@
-import { Box, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import React from 'react';
-import { Control, Controller, FieldArrayWithId, UseFormWatch } from 'react-hook-form';
+import { FilterModelInstance } from '../../model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
 import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
 import { PreviewFilter } from './preview-filter';
-import { IFilterSettingsForm } from './types';
 
 const editors = {
   select: FilterEditorSelect,
@@ -26,16 +25,14 @@ const filterTypeOptions = [
 ];
 
 interface IFilterSetting {
-  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
+  filter: FilterModelInstance;
   index: number;
-  control: Control<IFilterSettingsForm, object>;
-  watch: UseFormWatch<IFilterSettingsForm>;
 }
 
-export function FilterSetting({ field, index, control, watch }: IFilterSetting) {
+export function FilterSetting({ filter, index }: IFilterSetting) {
   const FilterEditor = React.useMemo(() => {
-    return editors[field.type];
-  }, [field.type]);
+    return editors[filter.type];
+  }, [filter.type]);
 
   return (
     <SimpleGrid cols={2}>
@@ -44,30 +41,27 @@ export function FilterSetting({ field, index, control, watch }: IFilterSetting) 
           Edit
         </Text>
         <Stack sx={{ maxWidth: '30em' }}>
-          <Controller
-            name={`filters.${index}.order`}
-            control={control}
-            render={({ field }) => <TextInput label="Placement Order" required {...field} />}
+          <TextInput label="Placement Order" required value={filter.order} onChange={console.log} />
+          <TextInput
+            label="Key"
+            placeholder="A unique key to refer"
+            required
+            value={filter.key}
+            onChange={console.log}
           />
-          <Controller
-            name={`filters.${index}.key`}
-            control={control}
-            render={({ field }) => <TextInput label="Key" placeholder="A unique key to refer" required {...field} />}
+          <TextInput
+            label="Label"
+            placeholder="Label for this field"
+            required
+            value={filter.label}
+            onChange={console.log}
           />
-          <Controller
-            name={`filters.${index}.label`}
-            control={control}
-            render={({ field }) => <TextInput label="Label" placeholder="Label for this field" required {...field} />}
-          />
-          <Controller
-            name={`filters.${index}.type`}
-            control={control}
-            render={({ field }) => <Select label="Widget" data={filterTypeOptions} required {...field} />}
-          />
-          <FilterEditor field={field} index={index} control={control} watch={watch} />
+          <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={console.log} />
+          {/* @ts-expect-error */}
+          <FilterEditor config={filter.config} index={index} />
         </Stack>
       </Box>
-      <PreviewFilter filter={field} index={index} watch={watch} />
+      <PreviewFilter filter={filter} />
     </SimpleGrid>
   );
 }

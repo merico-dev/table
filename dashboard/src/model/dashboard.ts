@@ -13,16 +13,22 @@ const FiltersModel = types
       return !_.isEqual(self.original, self.current);
     },
     get len() {
-      return self.current.length
-    }
+      return self.current.length;
+    },
   }))
   .actions((self) => {
     return {
       reset() {
         self.current = _.cloneDeep(self.original);
       },
-      setCurrent(current: Array<FilterModelInstance>) {
+      replace(current: Array<FilterModelInstance>) {
         self.current = cast(current);
+      },
+      append(item: FilterModelInstance) {
+        self.current.push(item);
+      },
+      remove(index: number) {
+        self.current.splice(index, 1);
       },
     };
   });
