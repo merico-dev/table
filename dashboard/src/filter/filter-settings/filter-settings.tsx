@@ -56,7 +56,7 @@ export const FilterSettings = observer(function _FilterSettings({ model }: Filte
           Revert Changes
         </Button>
       </Group>
-      <Tabs orientation="vertical" defaultValue={model.filters.current[0]?.id}>
+      <Tabs orientation="vertical" defaultValue={model.filters.firstID}>
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Tabs.List position="left" sx={{ flexGrow: 1 }}>

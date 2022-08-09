@@ -15,6 +15,12 @@ const FiltersModel = types
     get len() {
       return self.current.length;
     },
+    get firstID() {
+      if (self.current.length === 0) {
+        return undefined;
+      }
+      return self.current[0].id;
+    },
   }))
   .actions((self) => {
     return {
