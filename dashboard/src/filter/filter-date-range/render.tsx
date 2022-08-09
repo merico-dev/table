@@ -1,8 +1,9 @@
 import { DateRangePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
-import { IDashboardFilter, IFilterConfig_DateRange } from '../../types';
+import { FilterModelInstance } from '../../model';
+import { IFilterConfig_DateRange } from '../../model/filter/date-range';
 
-interface IFilterDateRange extends Omit<IDashboardFilter, 'type' | 'config'> {
+interface IFilterDateRange extends Omit<FilterModelInstance, 'type' | 'config'> {
   config: IFilterConfig_DateRange;
   value: any;
   onChange: (v: any) => void;

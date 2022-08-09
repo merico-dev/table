@@ -1,7 +1,8 @@
 import { TextInput } from '@mantine/core';
-import { IDashboardFilter, IFilterConfig_TextInput } from '../../types';
+import { FilterModelInstance } from '../../model';
+import { IFilterConfig_TextInput } from '../../model/filter/text-input';
 
-interface IFilterTextInput extends Omit<IDashboardFilter, 'type' | 'config'> {
+interface IFilterTextInput extends Omit<FilterModelInstance, 'type' | 'config'> {
   config: IFilterConfig_TextInput;
   value: any;
   onChange: (v: any) => void;

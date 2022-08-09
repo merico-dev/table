@@ -2,9 +2,10 @@ import { MultiSelect } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import React from 'react';
 import { queryByStaticSQL } from '../../api-caller';
-import { IDashboardFilter, IFilterConfig_Select } from '../../types';
+import { FilterModelInstance } from '../../model';
+import { IFilterConfig_Select } from '../../model/filter/select';
 
-interface IFilterMultiSelect extends Omit<IDashboardFilter, 'type' | 'config'> {
+interface IFilterMultiSelect extends Omit<FilterModelInstance, 'type' | 'config'> {
   config: IFilterConfig_Select;
   value: any;
   onChange: (v: any) => void;

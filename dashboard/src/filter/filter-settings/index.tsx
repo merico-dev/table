@@ -1,17 +1,16 @@
 import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
-import { IDashboardFilter } from '../../types';
+import { DashboardModelInstance } from '../../model';
 import { FilterSettings } from './filter-settings';
 
 interface FilterSettingsModal {
   opened: boolean;
   close: () => void;
-  filters: IDashboardFilter[];
-  setFilters: (v: IDashboardFilter[]) => void;
+  model: DashboardModelInstance;
 }
 
-export function FilterSettingsModal({ opened, close, filters, setFilters }: FilterSettingsModal) {
+export function FilterSettingsModal({ opened, close, model }: FilterSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
 
   React.useEffect(() => {
@@ -31,7 +30,7 @@ export function FilterSettingsModal({ opened, close, filters, setFilters }: Filt
       }}
       withCloseButton={false}
     >
-      <FilterSettings filters={filters} setFilters={setFilters} />
+      <FilterSettings model={model} />
     </Modal>
   );
 }

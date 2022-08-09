@@ -1,12 +1,12 @@
 import React from 'react';
-import { IDashboardFilter } from '../../types';
 import { Filter } from '../filter';
 import { Box, Stack, Text } from '@mantine/core';
 import { UseFormWatch } from 'react-hook-form';
 import { IFilterSettingsForm } from './types';
+import { FilterModelInstance } from '../../model';
 
 interface IPreviewFilter {
-  filter: IDashboardFilter;
+  filter: FilterModelInstance;
   index: number;
   watch: UseFormWatch<IFilterSettingsForm>;
 }

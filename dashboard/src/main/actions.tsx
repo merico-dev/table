@@ -1,13 +1,14 @@
 import React from 'react';
 import { Button, Divider, Group, Menu } from '@mantine/core';
 import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
-import { DashboardMode, IDashboardFilter } from '../types';
+import { DashboardMode } from '../types';
 import { ModeToggler } from './toggle-mode';
 import { DataEditorModal } from '../definition-editor';
 import { LayoutStateContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ViewSchemaModal } from './view-schema-modal';
 import { FilterSettingsModal } from '../filter/filter-settings';
+import { DashboardModelInstance } from '../model';
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -16,8 +17,7 @@ interface IDashboardActions {
   saveChanges: () => void;
   revertChanges: () => void;
   getCurrentSchema: () => any;
-  filters: IDashboardFilter[];
-  setFilters: (v: IDashboardFilter[]) => void;
+  model: DashboardModelInstance;
 }
 export function DashboardActions({
   mode,
@@ -26,8 +26,7 @@ export function DashboardActions({
   saveChanges,
   revertChanges,
   getCurrentSchema,
-  filters,
-  setFilters,
+  model,
 }: IDashboardActions) {
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
@@ -93,7 +92,7 @@ export function DashboardActions({
           </Menu.Dropdown>
         </Menu>
       </Group>
-      <FilterSettingsModal opened={filtersOpened} close={closeFilters} filters={filters} setFilters={setFilters} />
+      <FilterSettingsModal opened={filtersOpened} close={closeFilters} model={model} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>

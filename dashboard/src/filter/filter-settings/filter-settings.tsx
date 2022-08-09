@@ -1,22 +1,24 @@
 import { Box, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { DeviceFloppy, PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
-import { IDashboardFilter } from '../../types';
+import { DashboardModelInstance, FilterModelInstance } from '../../model';
+import { DashboardFilterType } from '../../model/filter/common';
 import { FilterSetting } from './filter-setting';
 import { IFilterSettingsForm } from './types';
 
 interface FilterSettings {
-  filters: IDashboardFilter[];
-  setFilters: (v: IDashboardFilter[]) => void;
+  model: DashboardModelInstance;
 }
 
-export function FilterSettings({ filters, setFilters }: FilterSettings) {
+export const FilterSettings = observer(function _FilterSettings({ model }: FilterSettings) {
+  const filters = model.filters.current;
   const { control, handleSubmit, watch, setValue } = useForm<IFilterSettingsForm>({
     defaultValues: {
-      filters: filters ?? [],
+      filters: [...filters],
     },
   });
   const { fields, append, remove, replace } = useFieldArray({
@@ -34,11 +36,11 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
 
   const addFilter = () => {
     const key = randomId();
-    const filter: IDashboardFilter = {
+    const filter: FilterModelInstance = {
       key,
       label: key,
       order: filters.length + 1,
-      type: 'text-input',
+      type: DashboardFilterType.TextInput,
       config: {
         required: false,
         default_value: '',
@@ -55,19 +57,19 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
     replace(filters);
   }, [filters]);
 
-  const notChanged = _.isEqual(filters, watchFieldArray);
+  const notChanged = _.isEqual([...JSON.parse(JSON.stringify(filters))], watchFieldArray);
 
-  const submit = React.useCallback(
-    ({ filters }: IFilterSettingsForm) => {
-      setFilters(filters);
-    },
-    [setFilters],
-  );
+  const submit = ({ filters }: IFilterSettingsForm) => {
+    model.filters.setCurrent(filters);
+  };
+
+  // console.log([...JSON.parse(JSON.stringify(filters))], watchFieldArray)
 
   return (
     <Group sx={{ height: '90vh', maxHeight: 'calc(100vh - 185px)' }} p={0}>
       <form onSubmit={handleSubmit(submit)} style={{ height: '100%', width: '100%' }}>
         <Group sx={{ position: 'absolute', top: '16px', right: '16px' }}>
+          <span>{model.filters.len}</span>
           <Button size="xs" color="green" leftIcon={<DeviceFloppy size={20} />} type="submit" disabled={notChanged}>
             Save Changes
           </Button>
@@ -110,4 +112,4 @@ export function FilterSettings({ filters, setFilters }: FilterSettings) {
       </form>
     </Group>
   );
-}
+});

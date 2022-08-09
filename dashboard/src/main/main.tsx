@@ -14,10 +14,10 @@ import { FullScreenPanel } from './full-screen-panel';
 import { Box, Overlay } from '@mantine/core';
 import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
-import { IDashboardFilter } from '../types';
 import { FilterValuesContext } from '../contexts/filter-values-context';
 import { useFilters } from './use-filters';
 import { createDashboardModel } from '../model';
+import { observer } from 'mobx-react-lite';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -27,7 +27,7 @@ interface IDashboardProps {
   config: IDashboardConfig;
 }
 
-export function Dashboard({ context, dashboard, update, className = 'dashboard', config }: IDashboardProps) {
+export const Dashboard = observer(function _Dashboard({ context, dashboard, update, className = 'dashboard', config }: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -172,8 +172,7 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
                     saveChanges={saveDashboardChanges}
                     revertChanges={revertDashboardChanges}
                     getCurrentSchema={getCurrentSchema}
-                    filters={filters}
-                    setFilters={setFilters}
+                    model={model}
                   />
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                   <DashboardLayout
@@ -190,4 +189,4 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
       </ContextInfoContext.Provider>
     </ModalsProvider>
   );
-}
+})

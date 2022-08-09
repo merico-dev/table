@@ -1,5 +1,5 @@
-import { IDashboardFilter } from '../../types';
+import { FilterModelInstance } from "../../model";
 
 export interface IFilterSettingsForm {
-  filters: IDashboardFilter[];
+  filters: FilterModelInstance[];
 }

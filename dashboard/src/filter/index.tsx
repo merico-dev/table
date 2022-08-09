@@ -2,11 +2,11 @@ import { Button, Group } from '@mantine/core';
 import _ from 'lodash';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { IDashboardFilter } from '../types';
+import { FilterModelInstance } from '../model';
 import { Filter } from './filter';
 
 interface IFilters {
-  filters: IDashboardFilter[];
+  filters: FilterModelInstance[];
   filterValues: Record<string, any>;
   setFilterValues: (v: Record<string, any>) => void;
 }
