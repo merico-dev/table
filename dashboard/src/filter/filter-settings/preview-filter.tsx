@@ -3,6 +3,7 @@ import { Filter } from '../filter';
 import { Box, Stack, Text } from '@mantine/core';
 import { FilterModelInstance } from '../../model';
 import { observer } from 'mobx-react-lite';
+import { Prism } from '@mantine/prism';
 
 interface IPreviewFilter {
   filter: FilterModelInstance;
@@ -22,7 +23,11 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
         Preview
       </Text>
       <Filter filter={filter} value={value} onChange={setValue} />
-      <pre>{JSON.stringify(filter, null, 4)}</pre>
+
+      <Text pt="lg" pb="md" color="gray">
+        Config
+      </Text>
+      <Prism language="json" colorScheme="dark" noCopy>{JSON.stringify(filter, null, 4)}</Prism>
     </Box>
   );
 });
