@@ -1,17 +1,19 @@
 import { Instance, types, cast } from 'mobx-state-tree';
 import { FilterOptionQueryModel, IFilterOptionQuery } from './common';
 
-export const FilterConfigModel_SelectOption = types.model({
-  label: types.string,
-  value: types.string,
-}).actions((self) => ({
-  setLabel(label: string) {
-    self.label = label
-  },
-  setValue(value: string) {
-    self.value = value;
-  },
-}));
+export const FilterConfigModel_SelectOption = types
+  .model({
+    label: types.string,
+    value: types.string,
+  })
+  .actions((self) => ({
+    setLabel(label: string) {
+      self.label = label;
+    },
+    setValue(value: string) {
+      self.value = value;
+    },
+  }));
 
 export type IFilterConfig_SelectOption = Instance<typeof FilterConfigModel_SelectOption>;
 
@@ -23,7 +25,7 @@ export const FilterConfigModel_Select = types
     options_query: FilterOptionQueryModel,
   })
   .actions((self) => ({
-    addStaticOption(option: { label: string, value: string }) {
+    addStaticOption(option: { label: string; value: string }) {
       self.static_options.push(option);
     },
     removeStaticOption(index: number) {

@@ -9,7 +9,7 @@ export const FilterConfigModel_MultiSelect = types
     options_query: FilterOptionQueryModel,
   })
   .actions((self) => ({
-    addStaticOption(option: { label: string, value: string }) {
+    addStaticOption(option: { label: string; value: string }) {
       self.static_options.push(option);
     },
     removeStaticOption(index: number) {
