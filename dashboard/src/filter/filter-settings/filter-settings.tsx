@@ -6,6 +6,7 @@ import React from 'react';
 import { DeviceFloppy, PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
 import { DashboardModelInstance, FilterModelInstance } from '../../model';
 import { DashboardFilterType } from '../../model/filter/common';
+import { createFilterConfig_TextInput } from '../../model/filter/text-input';
 import { FilterSetting } from './filter-setting';
 
 interface FilterSettings {
@@ -16,22 +17,17 @@ export const FilterSettings = observer(function _FilterSettings({ model }: Filte
   const filters = model.filters.current;
 
   const addFilter = () => {
-    const key = randomId();
-    const filter: FilterModelInstance = {
-      id: randomId(),
-      key,
-      label: key,
+    const id = randomId();
+    const filter = {
+      id,
+      key: id,
+      label: id,
       order: filters.length + 1,
       type: DashboardFilterType.TextInput,
-      config: {
-        required: false,
-        default_value: '',
-      },
-    };
+      config: createFilterConfig_TextInput(),
+    } as FilterModelInstance;
     model.filters.append(filter);
   };
-
-  // console.log([...JSON.parse(JSON.stringify(filters))], watchFieldArray)
 
   return (
     <Group sx={{ height: '90vh', maxHeight: 'calc(100vh - 185px)' }} p={0}>
