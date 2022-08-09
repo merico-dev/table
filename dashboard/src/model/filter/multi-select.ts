@@ -1,5 +1,5 @@
-import { Instance, types } from 'mobx-state-tree';
-import { FilterOptionQueryModel } from './common';
+import { Instance, types, cast } from 'mobx-state-tree';
+import { FilterOptionQueryModel, IFilterOptionQuery } from './common';
 import { FilterConfigModel_SelectOption, IFilterConfig_SelectOption } from './select';
 
 export const FilterConfigModel_MultiSelect = types
@@ -9,11 +9,17 @@ export const FilterConfigModel_MultiSelect = types
     options_query: FilterOptionQueryModel,
   })
   .actions((self) => ({
-    addStaticOption(option: IFilterConfig_SelectOption) {
+    addStaticOption(option: { label: string, value: string }) {
       self.static_options.push(option);
     },
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
+    },
+    setDefaultValue(default_value: string[]) {
+      self.default_value = cast(default_value);
+    },
+    setOptionsQuery(options_query: IFilterOptionQuery) {
+      self.options_query = options_query;
     },
   }));
 

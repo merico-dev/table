@@ -25,6 +25,19 @@ export const FilterModel = types.model('FilterModel', {
     FilterConfigModel_Checkbox,
     FilterConfigModel_DateRange,
   ),
-});
+}).actions((self) => ({
+  setKey(key: string) {
+    self.key = key;
+  },
+  setLabel(label: string) {
+    self.label = label;
+  },
+  setOrder(order: number) {
+    self.order = order;
+  },
+  setType(type: DashboardFilterType) {
+    self.type = type;
+  },
+}));
 
 export type FilterModelInstance = Instance<typeof FilterModel>;
