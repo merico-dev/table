@@ -44,6 +44,7 @@ export const DashboardAPI = {
           queries: [],
         },
         panels: [],
+        filters: [],
       };
     }
     const res: IDBDashboard = await post('/dashboard/create', {
