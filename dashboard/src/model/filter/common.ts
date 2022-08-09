@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 
 export enum DashboardFilterType {
   Select = 'select',
@@ -13,3 +13,5 @@ export const FilterOptionQueryModel = types.model({
   key: types.string,
   sql: types.string,
 });
+
+export type IFilterOptionQuery = Instance<typeof FilterOptionQueryModel>

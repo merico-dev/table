@@ -1,12 +1,12 @@
 import { Stack, Tabs, Textarea } from '@mantine/core';
 import React from 'react';
 import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
-import { IDashboardFilterOptionQuery } from '../../types';
+import { IFilterOptionQuery } from '../../model/filter/common';
 import { SelectDataSource } from './select-data-source';
 
 interface IFilterQueryField {
-  value: IDashboardFilterOptionQuery;
-  onChange: (v: IDashboardFilterOptionQuery) => void;
+  value: IFilterOptionQuery;
+  onChange: (v: IFilterOptionQuery) => void;
 }
 export const FilterQueryField = React.forwardRef(function _FilterQueryField(
   { value, onChange }: IFilterQueryField,

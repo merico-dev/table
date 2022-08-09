@@ -2,11 +2,11 @@ import { Group, Select, Stack, Tabs, Textarea } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import React from 'react';
 import { listDataSources } from '../../api-caller';
-import { IDashboardFilterOptionQuery } from '../../types';
+import { IFilterOptionQuery } from '../../model/filter/common';
 
 interface ISelectDataSource {
-  value: IDashboardFilterOptionQuery;
-  onChange: (v: IDashboardFilterOptionQuery) => void;
+  value: IFilterOptionQuery;
+  onChange: (v: IFilterOptionQuery) => void;
 }
 export function SelectDataSource({ value, onChange }: ISelectDataSource) {
   const { data: querySources = [], loading } = useRequest(
