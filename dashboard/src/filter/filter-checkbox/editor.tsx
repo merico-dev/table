@@ -1,27 +1,18 @@
 import { Checkbox } from '@mantine/core';
-import { Control, Controller, FieldArrayWithId } from 'react-hook-form';
-import { IFilterSettingsForm } from '../filter-settings/types';
+import { IFilterConfig_Checkbox } from '../../model/filter/checkbox';
 
 interface IFilterEditorCheckbox {
-  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
+  config: IFilterConfig_Checkbox;
   index: number;
-  control: Control<IFilterSettingsForm, object>;
 }
 
-export function FilterEditorCheckbox({ field, index, control }: IFilterEditorCheckbox) {
+export function FilterEditorCheckbox({ config }: IFilterEditorCheckbox) {
   return (
     <>
-      <Controller
-        name={`filters.${index}.config.default_value`}
-        control={control}
-        render={({ field }) => (
-          // @ts-expect-error
-          <Checkbox
-            checked={field.value}
-            onChange={(e) => field.onChange(e.currentTarget.checked)}
-            label="Default Checked"
-          />
-        )}
+      <Checkbox
+        checked={config.default_value}
+        onChange={(e) => console.log(e.currentTarget.checked)}
+        label="Default Checked"
       />
     </>
   );

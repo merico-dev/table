@@ -1,11 +1,8 @@
-import { Checkbox, Divider, Group, Select } from '@mantine/core';
-import { Control, Controller, FieldArrayWithId } from 'react-hook-form';
-import { IFilterSettingsForm } from '../filter-settings/types';
+import { Checkbox, Group, Select } from '@mantine/core';
+import { IFilterConfig_DateRange } from '../../model/filter/date-range';
 
 interface IFilterEditorDateRange {
-  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
-  index: number;
-  control: Control<IFilterSettingsForm, object>;
+  config: IFilterConfig_DateRange;
 }
 
 const inputFormatOptions = [
@@ -14,38 +11,14 @@ const inputFormatOptions = [
   { label: '2022-01-01', value: 'YYYY-MM-DD' },
 ];
 
-export function FilterEditorDateRange({ field, index, control }: IFilterEditorDateRange) {
+export function FilterEditorDateRange({ config }: IFilterEditorDateRange) {
   return (
     <>
       <Group>
-        <Controller
-          name={`filters.${index}.config.required`}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              checked={field.value}
-              onChange={(e) => field.onChange(e.currentTarget.checked)}
-              label="Required"
-            />
-          )}
-        />
-        <Controller
-          name={`filters.${index}.config.clearable`}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              checked={field.value}
-              onChange={(e) => field.onChange(e.currentTarget.checked)}
-              label="Clearable"
-            />
-          )}
-        />
+        <Checkbox checked={config.required} onChange={(e) => console.log(e.currentTarget.checked)} label="Required" />
+        <Checkbox checked={config.clearable} onChange={(e) => console.log(e.currentTarget.checked)} label="Clearable" />
       </Group>
-      <Controller
-        name={`filters.${index}.config.inputFormat`}
-        control={control}
-        render={({ field }) => <Select data={inputFormatOptions} label="Display Format" {...field} />}
-      />
+      <Select data={inputFormatOptions} label="Display Format" value={config.inputFormat} onChange={console.log} />
     </>
   );
 }
