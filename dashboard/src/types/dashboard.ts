@@ -1,4 +1,4 @@
-import { FilterModelInstance } from "../model";
+import { FilterModelInstance } from '../model';
 
 export interface IVizConfig {
   type: string;

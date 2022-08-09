@@ -14,4 +14,4 @@ export const FilterOptionQueryModel = types.model({
   sql: types.string,
 });
 
-export type IFilterOptionQuery = Instance<typeof FilterOptionQueryModel>
+export type IFilterOptionQuery = Instance<typeof FilterOptionQueryModel>;

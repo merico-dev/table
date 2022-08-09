@@ -19,17 +19,17 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
   switch (viz.type) {
     case 'sunburst':
       return <Sunbrust {...props} />;
-    // @ts-expect-error
     case 'cartesian':
+      // @ts-expect-error
       return <VizCartesianChart {...props} />;
-    // @ts-expect-error
     case 'table':
+      // @ts-expect-error
       return <VizTable {...props} />;
-    // @ts-expect-error
     case 'stats':
+      // @ts-expect-error
       return <VizStats {...props} />;
-    // @ts-expect-error
     case 'rich-text':
+      // @ts-expect-error
       return <VizRichText {...props} />;
     case 'bar-3d':
       return <VizBar3D {...props} />;

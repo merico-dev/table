@@ -24,12 +24,29 @@ export function FilterEditorSelect({ config }: IFilterEditorSelect) {
       <Checkbox checked={config.required} onChange={(e) => console.log(e.currentTarget.checked)} label="Required" />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
-        <Select label="Default Selection" data={optionsForDefaultValue} value={config.default_value} onChange={console.log} />
+        <Select
+          label="Default Selection"
+          data={optionsForDefaultValue}
+          value={config.default_value}
+          onChange={console.log}
+        />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
         <Group sx={{ position: 'relative' }} pr="40px">
-          <TextInput label="Label" required value={config.static_options[optionIndex].label} onChange={console.log} sx={{ flexGrow: 1 }} />
-          <TextInput label="Value" required value={config.static_options[optionIndex].value} onChange={console.log} sx={{ flexGrow: 1 }} />
+          <TextInput
+            label="Label"
+            required
+            value={config.static_options[optionIndex].label}
+            onChange={console.log}
+            sx={{ flexGrow: 1 }}
+          />
+          <TextInput
+            label="Value"
+            required
+            value={config.static_options[optionIndex].value}
+            onChange={console.log}
+            sx={{ flexGrow: 1 }}
+          />
           <ActionIcon
             color="red"
             variant="subtle"

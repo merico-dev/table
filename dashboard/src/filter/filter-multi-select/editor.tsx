@@ -22,7 +22,12 @@ export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
     <>
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
-        <MultiSelect label="Default Selection" data={optionsForDefaultValue} value={config.default_value} onChange={console.log} />
+        <MultiSelect
+          label="Default Selection"
+          data={optionsForDefaultValue}
+          value={config.default_value}
+          onChange={console.log}
+        />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
         <Group sx={{ position: 'relative' }} pr="40px">
