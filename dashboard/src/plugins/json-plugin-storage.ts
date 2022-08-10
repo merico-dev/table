@@ -2,8 +2,7 @@ import { get, set } from 'lodash';
 import { PluginStorage } from '../types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
-  constructor(private root: Record<string, any>) {
-  }
+  constructor(private root: Record<string, any>) {}
 
   async deleteItem(key: string): Promise<void> {
     delete this.root[key];

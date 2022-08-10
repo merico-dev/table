@@ -6,11 +6,10 @@ import { IPanelInfo, IVizManager, VizInstanceInfo } from './types';
 export class VizManager implements IVizManager {
   private instances: Map<string, VizInstanceInfo> = new Map<string, VizInstanceInfo>();
 
-  constructor(private pluginManager: IPluginManager) {
-  }
+  constructor(private pluginManager: IPluginManager) {}
 
   get availableVizList(): VizComponent[] {
-    return this.pluginManager.installedPlugins.flatMap(it => it.manifest.viz);
+    return this.pluginManager.installedPlugins.flatMap((it) => it.manifest.viz);
   }
 
   resolveComponent(name: string) {
@@ -26,7 +25,7 @@ export class VizManager implements IVizManager {
       id: panel.id,
       name: panel.viz.type,
       messageChannels: new MessageChannels(),
-      instanceData: new JsonPluginStorage(panel.viz.conf)
+      instanceData: new JsonPluginStorage(panel.viz.conf),
     };
     this.instances.set(panel.id, instanceInfo);
     return instanceInfo;

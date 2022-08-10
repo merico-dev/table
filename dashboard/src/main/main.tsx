@@ -1,12 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  DashboardMode,
-  IDashboard,
-  IQuery,
-  ISQLSnippet,
-  IDashboardConfig
-} from '../types/dashboard';
+import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
@@ -36,12 +30,12 @@ interface IDashboardProps {
 }
 
 export const Dashboard = observer(function _Dashboard({
-                                                        context,
-                                                        dashboard,
-                                                        update,
-                                                        className = 'dashboard',
-                                                        config,
-                                                      }: IDashboardProps) {
+  context,
+  dashboard,
+  update,
+  className = 'dashboard',
+  config,
+}: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -54,12 +48,7 @@ export const Dashboard = observer(function _Dashboard({
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
-  const {
-    filters,
-    setFilters,
-    filterValues,
-    setFilterValues
-  } = useFilters(dashboard);
+  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
@@ -170,12 +159,7 @@ export const Dashboard = observer(function _Dashboard({
     };
   }, [sqlSnippets, queries, panels]);
 
-  const {
-    viewPanelInFullScreen,
-    exitFullScreen,
-    inFullScreen,
-    fullScreenPanel
-  } = usePanelFullScreen(panels);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
@@ -188,7 +172,7 @@ export const Dashboard = observer(function _Dashboard({
               duplidatePanel,
               removePanelByID,
               viewPanelInFullScreen,
-              inFullScreen
+              inFullScreen,
             }}
           >
             <DefinitionContext.Provider value={definitions}>
@@ -199,16 +183,17 @@ export const Dashboard = observer(function _Dashboard({
                   mode,
                   inEditMode,
                   inLayoutMode,
-                  inUseMode
+                  inUseMode,
                 }}
               >
-                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!}
-                                                  exitFullScreen={exitFullScreen}/>}
-                <Box className={className}
-                     sx={{
-                       position: 'relative',
-                       display: inFullScreen ? 'none' : 'block'
-                     }}>
+                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+                <Box
+                  className={className}
+                  sx={{
+                    position: 'relative',
+                    display: inFullScreen ? 'none' : 'block',
+                  }}
+                >
                   <DashboardActions
                     mode={mode}
                     setMode={setMode}
@@ -218,11 +203,8 @@ export const Dashboard = observer(function _Dashboard({
                     getCurrentSchema={getCurrentSchema}
                     model={model}
                   />
-                  <Filters filters={filters}
-                           filterValues={filterValues}
-                           setFilterValues={setFilterValues}/>
+                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                   <PluginContext.Provider value={pluginContext}>
-
                     <DashboardLayout
                       panels={panels}
                       setPanels={setPanels}

@@ -2,7 +2,7 @@ import { IMessageChannels } from '../types/plugin';
 import { MessageChannels } from './message-channels';
 
 describe('message channels', () => {
-  let channels:IMessageChannels;
+  let channels: IMessageChannels;
   beforeEach(() => {
     channels = new MessageChannels();
   });

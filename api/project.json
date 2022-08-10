@@ -6,9 +6,7 @@
       "options": {
         "script": "dev"
       },
-      "dependsOn": [
-        "^dev"
-      ]
+      "dependsOn": ["^dev"]
     }
   }
 }

@@ -1,4 +1,4 @@
-import { IPluginManager, } from '../types/plugin';
+import { IPluginManager } from '../types/plugin';
 import { PluginManager } from './plugin-manager';
 import { createMockPlugin } from './test-utils';
 
@@ -34,7 +34,6 @@ describe('plugin-manager', () => {
   test('viz component not found', () => {
     expect(() => {
       pm.factory.viz('mockViz');
-    }).toThrowError(/Viz Component \(.*\) not found/)
+    }).toThrowError(/Viz Component \(.*\) not found/);
   });
-
 });

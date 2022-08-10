@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 import dts from 'vite-plugin-dts';
-import visualizer from 'rollup-plugin-visualizer'
+import visualizer from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
@@ -25,9 +25,7 @@ export default defineConfig({
       fileName: (format) => `dashboard.${format}.js`,
     },
     rollupOptions: {
-      plugins: [
-        visualizer()
-      ],
+      plugins: [visualizer()],
       external: [
         '@emotion/react',
         '@mantine/core',
@@ -67,7 +65,7 @@ export default defineConfig({
           '@mantine/prism': '@mantine/prism',
           '@mantine/rte': '@mantine/rte',
           ahooks: 'ahooks',
-          'axios': 'axios',
+          axios: 'axios',
           'echarts/core': 'echarts/core',
           'echarts/charts': 'echarts/charts',
           'echarts/components': 'echarts/components',

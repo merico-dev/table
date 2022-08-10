@@ -21,5 +21,4 @@ export class MessageChannels implements IMessageChannels {
       this.channels.set(name, undefined);
     }
   }
-
 }

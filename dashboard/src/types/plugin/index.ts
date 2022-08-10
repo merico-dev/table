@@ -72,7 +72,7 @@ export interface VizConfigContext extends VizContext {
 }
 
 export interface VizViewContext extends VizContext {
-  viewport: { width: number; height: number; };
+  viewport: { width: number; height: number };
 }
 
 export interface VizConfigProps {

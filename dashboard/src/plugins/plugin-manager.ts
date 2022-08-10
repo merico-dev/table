@@ -1,8 +1,4 @@
-import {
-  IDashboardPlugin,
-  IPluginManager,
-  VizComponent
-} from '../types/plugin';
+import { IDashboardPlugin, IPluginManager, VizComponent } from '../types/plugin';
 
 export class PluginManager implements IPluginManager {
   /**
@@ -15,8 +11,7 @@ export class PluginManager implements IPluginManager {
    */
   private vizComponents: Map<string, VizComponent> = new Map<string, VizComponent>();
 
-  constructor() {
-  }
+  constructor() {}
 
   factory = {
     viz: (name: string) => {
@@ -25,7 +20,7 @@ export class PluginManager implements IPluginManager {
         return vizComponent;
       }
       throw new Error(`Viz Component (${name}) not found`);
-    }
+    },
   };
 
   install(plugin: IDashboardPlugin): void {
@@ -44,7 +39,6 @@ export class PluginManager implements IPluginManager {
   get installedPlugins(): IDashboardPlugin[] {
     return Array.from(this.plugins.values());
   }
-
 }
 
 // todo: text viz component plugin
