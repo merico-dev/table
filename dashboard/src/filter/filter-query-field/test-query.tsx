@@ -39,13 +39,15 @@ function DataTable({ data }: { data: any[] }) {
         <tfoot>
           <tr>
             <td colSpan={Object.keys(data?.[0]).length}>
-              <Text color='gray' size="sm">{data.length - 3} more row(s) hidden</Text>
+              <Text color="gray" size="sm">
+                {data.length - 3} more row(s) hidden
+              </Text>
             </td>
           </tr>
         </tfoot>
       )}
     </Table>
-  )
+  );
 }
 
 interface ITestQuery {
@@ -56,20 +58,19 @@ export const TestQuery = observer(function _FilterQueryField({ query }: ITestQue
     data = [],
     loading,
     refresh,
-  } = useRequest(
-    queryByStaticSQL(query),
-    {
-      refreshDeps: [query],
-    },
-  );
+  } = useRequest(queryByStaticSQL(query), {
+    refreshDeps: [query],
+  });
 
   return (
     <Stack my={0}>
-      <Group position='apart'>
+      <Group position="apart">
         <Text size="md" pl="sm">
           Fetched Data
         </Text>
-        <Button size='xs' onClick={refresh} disabled={!query.sql || !query.key}>Retry</Button>
+        <Button size="xs" onClick={refresh} disabled={!query.sql || !query.key}>
+          Retry
+        </Button>
       </Group>
       <Box sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
