@@ -34,7 +34,7 @@ export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
         <Group align="flex-start">
           {filtersInOrder.map((filter) => (
             <Controller
-              key={filter.key}
+              key={filter.id}
               name={filter.key}
               control={control}
               render={({ field }) => <Filter filter={filter} {...field} />}
