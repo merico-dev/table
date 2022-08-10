@@ -18,7 +18,7 @@ interface IFilter {
   onChange: (v: any) => void;
 }
 
-function renderFilter({ type, config, ...rest }: FilterModelInstance, formFieldProps: Omit<IFilter, 'filter'>) {
+function renderFilter({ type, config, key, ...rest }: FilterModelInstance, formFieldProps: Omit<IFilter, 'filter'>) {
   switch (type) {
     case 'select':
       return <FilterSelect {...rest} {...formFieldProps} config={config as IFilterConfig_Select} />;

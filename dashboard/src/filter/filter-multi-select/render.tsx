@@ -5,7 +5,7 @@ import { queryByStaticSQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_MultiSelect } from '../../model/filter/multi-select';
 
-interface IFilterMultiSelect extends Omit<FilterModelInstance, 'type' | 'config'> {
+interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;
   value: any;
   onChange: (v: any) => void;

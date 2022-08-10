@@ -5,7 +5,7 @@ import { queryByStaticSQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Select } from '../../model/filter/select';
 
-interface IFilterSelect extends Omit<FilterModelInstance, 'type' | 'config'> {
+interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
   value: any;
   onChange: (v: any) => void;

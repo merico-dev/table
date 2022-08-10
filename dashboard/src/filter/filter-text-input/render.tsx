@@ -2,7 +2,7 @@ import { TextInput } from '@mantine/core';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_TextInput } from '../../model/filter/text-input';
 
-interface IFilterTextInput extends Omit<FilterModelInstance, 'type' | 'config'> {
+interface IFilterTextInput extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TextInput;
   value: any;
   onChange: (v: any) => void;

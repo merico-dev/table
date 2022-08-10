@@ -2,7 +2,7 @@ import { Box, Checkbox, Text } from '@mantine/core';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Checkbox } from '../../model/filter/checkbox';
 
-interface IFilterCheckbox extends Omit<FilterModelInstance, 'type' | 'config'> {
+interface IFilterCheckbox extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Checkbox;
   value: any;
   onChange: (v: any) => void;
