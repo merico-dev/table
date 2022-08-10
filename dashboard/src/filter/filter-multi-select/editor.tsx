@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Divider, Group, MultiSelect, TextInput } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_MultiSelect } from '../../model/filter/multi-select';
 import { FilterQueryField } from '../filter-query-field';
@@ -7,7 +8,9 @@ interface IFilterEditorMultiSelect {
   config: IFilterConfig_MultiSelect;
 }
 
-export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
+export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelect({
+  config,
+}: IFilterEditorMultiSelect) {
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
@@ -17,7 +20,7 @@ export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
 
   const staticOptionFields = config.static_options;
 
-  const optionsForDefaultValue = [{ label: 'No default selection', value: '' }, ...staticOptionFields];
+  const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
       <Divider label="Configure options" labelPosition="center" />
@@ -73,4 +76,4 @@ export function FilterEditorMultiSelect({ config }: IFilterEditorMultiSelect) {
       <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );
-}
+});
