@@ -18,6 +18,8 @@ import { FilterValuesContext } from '../contexts/filter-values-context';
 import { useFilters } from './use-filters';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
+import { createPluginContext, PluginContext } from '../plugins/plugin-context';
+import { useCreation } from 'ahooks';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -159,19 +161,39 @@ export const Dashboard = observer(function _Dashboard({
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
+  const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
         <FilterValuesContext.Provider value={filterValues}>
           <DashboardActionContext.Provider
-            value={{ addPanel, duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen }}
+            value={{
+              addPanel,
+              duplidatePanel,
+              removePanelByID,
+              viewPanelInFullScreen,
+              inFullScreen,
+            }}
           >
             <DefinitionContext.Provider value={definitions}>
               <LayoutStateContext.Provider
-                value={{ layoutFrozen, freezeLayout, mode, inEditMode, inLayoutMode, inUseMode }}
+                value={{
+                  layoutFrozen,
+                  freezeLayout,
+                  mode,
+                  inEditMode,
+                  inLayoutMode,
+                  inUseMode,
+                }}
               >
                 {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-                <Box className={className} sx={{ position: 'relative', display: inFullScreen ? 'none' : 'block' }}>
+                <Box
+                  className={className}
+                  sx={{
+                    position: 'relative',
+                    display: inFullScreen ? 'none' : 'block',
+                  }}
+                >
                   <DashboardActions
                     mode={mode}
                     setMode={setMode}
@@ -182,12 +204,14 @@ export const Dashboard = observer(function _Dashboard({
                     model={model}
                   />
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <DashboardLayout
-                    panels={panels}
-                    setPanels={setPanels}
-                    isDraggable={inLayoutMode}
-                    isResizable={inLayoutMode}
-                  />
+                  <PluginContext.Provider value={pluginContext}>
+                    <DashboardLayout
+                      panels={panels}
+                      setPanels={setPanels}
+                      isDraggable={inLayoutMode}
+                      isResizable={inLayoutMode}
+                    />
+                  </PluginContext.Provider>
                 </Box>
               </LayoutStateContext.Provider>
             </DefinitionContext.Provider>

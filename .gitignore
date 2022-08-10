@@ -26,3 +26,5 @@ dashboard/packages/**/stats.html
 *.njsproj
 *.sln
 *.sw?
+
+_build
