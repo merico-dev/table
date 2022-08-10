@@ -4,6 +4,7 @@ import React from 'react';
 import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
 import { IFilterOptionQuery } from '../../model/filter/common';
 import { SelectDataSource } from './select-data-source';
+import { TestQuery } from './test-query';
 
 interface IFilterQueryField {
   value: IFilterOptionQuery;
@@ -17,6 +18,7 @@ export const FilterQueryField = observer(function _FilterQueryField({ value, onC
         <Tabs.List>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+          <Tabs.Tab value="Data">Data</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
           <Textarea
@@ -33,6 +35,9 @@ export const FilterQueryField = observer(function _FilterQueryField({ value, onC
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
           <PreviewSQL value={value.sql} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Data" pt="sm">
+          <TestQuery query={value} />
         </Tabs.Panel>
       </Tabs>
     </Stack>
