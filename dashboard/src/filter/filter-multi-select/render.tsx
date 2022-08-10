@@ -24,6 +24,7 @@ export function FilterMultiSelect({ label, config, value, onChange }: IFilterMul
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
+      sx={{ minWidth: '14em' }}
     />
   );
 }
