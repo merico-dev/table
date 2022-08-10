@@ -45,7 +45,7 @@ export const FilterSettings = observer(function _FilterSettings({ model }: Filte
       <Tabs orientation="vertical" defaultValue={model.filters.firstID}>
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
-            <Tabs.List position="left" sx={{ flexGrow: 1 }}>
+            <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field, index) => (
                 <Tabs.Tab key={field.id} value={field.id}>
                   {field.label}
