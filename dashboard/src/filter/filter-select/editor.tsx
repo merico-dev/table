@@ -1,72 +1,65 @@
 import { ActionIcon, Button, Checkbox, Divider, Group, Select, Text, TextInput } from '@mantine/core';
-import { Control, Controller, FieldArrayWithId, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
+import { IFilterConfig_Select } from '../../model/filter/select';
 import { FilterQueryField } from '../filter-query-field';
-import { IFilterSettingsForm } from '../filter-settings/types';
 
 interface IFilterEditorSelect {
-  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
-  index: number;
-  control: Control<IFilterSettingsForm, object>;
-  watch: UseFormWatch<IFilterSettingsForm>;
+  config: IFilterConfig_Select;
 }
 
-export function FilterEditorSelect({ field, index, control, watch }: IFilterEditorSelect) {
-  const {
-    fields: staticOptionFields,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: `filters.${index}.config.static_options`,
-  });
-
-  const watchedStaticOptions = watch(`filters.${index}.config.static_options`);
-
+export const FilterEditorSelect = observer(function _FilterEditorSelect({ config }: IFilterEditorSelect) {
   const addStaticOption = () => {
-    append({
+    config.addStaticOption({
       label: '',
       value: '',
     });
   };
 
-  const optionsForDefaultValue = [{ label: 'No default selection', value: '' }, ...watchedStaticOptions];
+  const staticOptionFields = config.static_options;
+
+  const optionsForDefaultValue = [{ label: 'No default selection', value: '' }, ...staticOptionFields];
+
   return (
     <>
-      <Controller
-        name={`filters.${index}.config.required`}
-        control={control}
-        render={({ field }) => (
-          <Checkbox checked={field.value} onChange={(e) => field.onChange(e.currentTarget.checked)} label="Required" />
-        )}
+      <Checkbox
+        checked={config.required}
+        onChange={(e) => config.setRequired(e.currentTarget.checked)}
+        label="Required"
       />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
-        <Controller
-          name={`filters.${index}.config.default_value`}
-          control={control}
-          render={({ field }) => (
-            // @ts-expect-error
-            <Select label="Default Selection" data={optionsForDefaultValue} {...field} />
-          )}
+        <Select
+          label="Default Selection"
+          data={optionsForDefaultValue}
+          value={config.default_value}
+          onChange={config.setDefaultValue}
         />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
         <Group sx={{ position: 'relative' }} pr="40px">
-          <Controller
-            name={`filters.${index}.config.static_options.${optionIndex}.label`}
-            control={control}
-            render={({ field }) => <TextInput label="Label" required {...field} sx={{ flexGrow: 1 }} />}
+          <TextInput
+            label="Label"
+            required
+            value={config.static_options[optionIndex].label}
+            onChange={(e) => {
+              config.static_options[optionIndex].setLabel(e.currentTarget.value);
+            }}
+            sx={{ flexGrow: 1 }}
           />
-          <Controller
-            name={`filters.${index}.config.static_options.${optionIndex}.value`}
-            control={control}
-            render={({ field }) => <TextInput label="Value" required {...field} sx={{ flexGrow: 1 }} />}
+          <TextInput
+            label="Value"
+            required
+            value={config.static_options[optionIndex].value}
+            onChange={(e) => {
+              config.static_options[optionIndex].setValue(e.currentTarget.value);
+            }}
+            sx={{ flexGrow: 1 }}
           />
           <ActionIcon
             color="red"
             variant="subtle"
-            onClick={() => remove(optionIndex)}
+            onClick={() => config.removeStaticOption(optionIndex)}
             sx={{ position: 'absolute', top: 28, right: 5 }}
           >
             <Trash size={16} />
@@ -84,11 +77,7 @@ export function FilterEditorSelect({ field, index, control, watch }: IFilterEdit
         Add an Option
       </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
-      <Controller
-        name={`filters.${index}.config.options_query`}
-        control={control}
-        render={({ field }) => <FilterQueryField {...field} />}
-      />
+      <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );
-}
+});

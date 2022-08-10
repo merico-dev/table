@@ -1,17 +1,16 @@
 import { Stack, Tabs, Textarea } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
-import { IDashboardFilterOptionQuery } from '../../types';
+import { IFilterOptionQuery } from '../../model/filter/common';
 import { SelectDataSource } from './select-data-source';
+import { TestQuery } from './test-query';
 
 interface IFilterQueryField {
-  value: IDashboardFilterOptionQuery;
-  onChange: (v: IDashboardFilterOptionQuery) => void;
+  value: IFilterOptionQuery;
+  onChange: (v: IFilterOptionQuery) => void;
 }
-export const FilterQueryField = React.forwardRef(function _FilterQueryField(
-  { value, onChange }: IFilterQueryField,
-  _ref: any,
-) {
+export const FilterQueryField = observer(function _FilterQueryField({ value, onChange }: IFilterQueryField) {
   return (
     <Stack my={0}>
       <SelectDataSource value={value} onChange={onChange} />
@@ -19,6 +18,7 @@ export const FilterQueryField = React.forwardRef(function _FilterQueryField(
         <Tabs.List>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+          <Tabs.Tab value="Data">Data</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
           <Textarea
@@ -35,6 +35,9 @@ export const FilterQueryField = React.forwardRef(function _FilterQueryField(
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
           <PreviewSQL value={value.sql} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Data" pt="sm">
+          <TestQuery query={value} />
         </Tabs.Panel>
       </Tabs>
     </Stack>

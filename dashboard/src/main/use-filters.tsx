@@ -1,8 +1,9 @@
 import React from 'react';
-import { IDashboard, IDashboardFilter } from '../types';
+import { FilterModelInstance } from '../model';
+import { IDashboard } from '../types';
 
 export function useFilters(dashboard: IDashboard) {
-  const [filters, setFilters] = React.useState<IDashboardFilter[]>(dashboard.filters);
+  const [filters, setFilters] = React.useState<FilterModelInstance[]>(dashboard.filters);
   const [filterValues, setFilterValues] = React.useState<Record<string, any>>(() => {
     const filters = dashboard.filters;
     return filters.reduce((ret, filter) => {

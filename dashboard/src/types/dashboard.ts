@@ -1,4 +1,4 @@
-import { IDashboardFilter } from './filter';
+import { FilterModelInstance } from '../model';
 
 export interface IVizConfig {
   type: string;
@@ -49,7 +49,7 @@ export interface IDashboard {
   name: string;
   definition: IDashboardDefinition;
   panels: IDashboardPanel[];
-  filters: IDashboardFilter[];
+  filters: FilterModelInstance[];
 }
 
 export interface IDashboardConfig {

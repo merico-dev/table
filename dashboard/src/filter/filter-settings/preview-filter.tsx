@@ -1,16 +1,14 @@
 import React from 'react';
-import { IDashboardFilter } from '../../types';
 import { Filter } from '../filter';
 import { Box, Stack, Text } from '@mantine/core';
-import { UseFormWatch } from 'react-hook-form';
-import { IFilterSettingsForm } from './types';
+import { FilterModelInstance } from '../../model';
+import { observer } from 'mobx-react-lite';
+import { Prism } from '@mantine/prism';
 
 interface IPreviewFilter {
-  filter: IDashboardFilter;
-  index: number;
-  watch: UseFormWatch<IFilterSettingsForm>;
+  filter: FilterModelInstance;
 }
-export function PreviewFilter({ filter, index, watch }: IPreviewFilter) {
+export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
   // @ts-expect-error
   const defaultValue = filter.config.default_value;
   const [value, setValue] = React.useState(defaultValue);
@@ -25,7 +23,13 @@ export function PreviewFilter({ filter, index, watch }: IPreviewFilter) {
         Preview
       </Text>
       <Filter filter={filter} value={value} onChange={setValue} />
-      <pre>{JSON.stringify(filter, null, 4)}</pre>
+
+      <Text pt="lg" pb="md" color="gray">
+        Config
+      </Text>
+      <Prism language="json" colorScheme="dark" noCopy>
+        {JSON.stringify(filter, null, 4)}
+      </Prism>
     </Box>
   );
-}
+});

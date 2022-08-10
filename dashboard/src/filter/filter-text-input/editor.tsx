@@ -1,31 +1,26 @@
 import { Checkbox, TextInput } from '@mantine/core';
-import { Control, Controller, FieldArrayWithId } from 'react-hook-form';
-import { IFilterSettingsForm } from '../filter-settings/types';
+import { observer } from 'mobx-react-lite';
+import { IFilterConfig_TextInput } from '../../model/filter/text-input';
 
 interface IFilterEditorTextInput {
-  field: FieldArrayWithId<IFilterSettingsForm, 'filters', 'id'>;
-  index: number;
-  control: Control<IFilterSettingsForm, object>;
+  config: IFilterConfig_TextInput;
 }
 
-export function FilterEditorTextInput({ field, index, control }: IFilterEditorTextInput) {
+export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ config }: IFilterEditorTextInput) {
   return (
     <>
-      <Controller
-        name={`filters.${index}.config.default_value`}
-        control={control}
-        render={({ field }) => (
-          // @ts-expect-error
-          <TextInput label="Default Value" {...field} />
-        )}
+      <TextInput
+        label="Default Value"
+        value={config.default_value}
+        onChange={(e) => {
+          config.setDefaultValue(e.currentTarget.value);
+        }}
       />
-      <Controller
-        name={`filters.${index}.config.required`}
-        control={control}
-        render={({ field }) => (
-          <Checkbox checked={field.value} onChange={(e) => field.onChange(e.currentTarget.checked)} label="Required" />
-        )}
+      <Checkbox
+        checked={config.required}
+        onChange={(e) => config.setRequired(e.currentTarget.checked)}
+        label="Required"
       />
     </>
   );
-}
+});

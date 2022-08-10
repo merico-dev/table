@@ -14,9 +14,10 @@ import { FullScreenPanel } from './full-screen-panel';
 import { Box, Overlay } from '@mantine/core';
 import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
-import { IDashboardFilter } from '../types';
 import { FilterValuesContext } from '../contexts/filter-values-context';
 import { useFilters } from './use-filters';
+import { createDashboardModel } from '../model';
+import { observer } from 'mobx-react-lite';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -26,7 +27,13 @@ interface IDashboardProps {
   config: IDashboardConfig;
 }
 
-export function Dashboard({ context, dashboard, update, className = 'dashboard', config }: IDashboardProps) {
+export const Dashboard = observer(function _Dashboard({
+  context,
+  dashboard,
+  update,
+  className = 'dashboard',
+  config,
+}: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -34,13 +41,15 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const [panels, setPanels] = React.useState(dashboard.panels);
+  const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
+
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
   const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
 
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
-    if (!_.isEqual(filters, dashboard.filters)) {
+    if (model.filters.changed) {
       return true;
     }
     // local panels' layouts would contain some undefined runtime values
@@ -55,12 +64,12 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
       return true;
     }
     return !_.isEqual(queries, dashboard.definition.queries);
-  }, [dashboard, filters, panels, sqlSnippets, queries]);
+  }, [dashboard, filters, panels, sqlSnippets, queries, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
     const d: IDashboard = {
       ...dashboard,
-      filters,
+      filters: [...model.filters.current],
       panels,
       definition: { sqlSnippets, queries },
     };
@@ -170,8 +179,7 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
                     saveChanges={saveDashboardChanges}
                     revertChanges={revertDashboardChanges}
                     getCurrentSchema={getCurrentSchema}
-                    filters={filters}
-                    setFilters={setFilters}
+                    model={model}
                   />
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                   <DashboardLayout
@@ -188,4 +196,4 @@ export function Dashboard({ context, dashboard, update, className = 'dashboard',
       </ContextInfoContext.Provider>
     </ModalsProvider>
   );
-}
+});
