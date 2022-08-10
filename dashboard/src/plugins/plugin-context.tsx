@@ -3,6 +3,7 @@ import * as PACKAGE from '../../package.json';
 
 import { IDashboardPlugin, IPluginManager } from '../types/plugin';
 import { PluginManager } from './plugin-manager';
+import { TableVizComponent } from './viz-components/table';
 import { VizManager } from './viz-manager';
 
 interface IPluginContextProps {
@@ -14,7 +15,7 @@ const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',
   version: PACKAGE.version,
   manifest: {
-    viz: [],
+    viz: [TableVizComponent],
     color: [],
   },
 };
