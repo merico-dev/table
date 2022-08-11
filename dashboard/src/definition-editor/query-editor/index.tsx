@@ -1,4 +1,5 @@
 import { AppShell, Group, Stack } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DashboardModelInstance } from '../../model';
 import { GlobalVariablesGuide } from '../global-variables-guide';
@@ -10,7 +11,7 @@ interface IEditQueries {
   model: DashboardModelInstance;
 }
 
-export function EditQueries({ model }: IEditQueries) {
+export const EditQueries = observer(function _EditQueries({ model }: IEditQueries) {
   const [id, setID] = React.useState('');
 
   return (
@@ -33,4 +34,4 @@ export function EditQueries({ model }: IEditQueries) {
       <DataPreview id={id} model={model} />
     </AppShell>
   );
-}
+});

@@ -1,10 +1,11 @@
 import { Button, Group, Stack } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
 import { DashboardModelInstance } from '../model';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types';
 
-export function FullScreenPanel({
+export const FullScreenPanel = observer(function _FullScreenPanel({
   panel,
   exitFullScreen,
   model,
@@ -25,4 +26,4 @@ export function FullScreenPanel({
       </Group>
     </Stack>
   );
-}
+});

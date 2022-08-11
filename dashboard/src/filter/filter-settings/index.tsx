@@ -1,4 +1,5 @@
 import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { DashboardModelInstance } from '../../model';
@@ -10,7 +11,11 @@ interface FilterSettingsModal {
   model: DashboardModelInstance;
 }
 
-export function FilterSettingsModal({ opened, close, model }: FilterSettingsModal) {
+export const FilterSettingsModal = observer(function _FilterSettingsModal({
+  opened,
+  close,
+  model,
+}: FilterSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
 
   React.useEffect(() => {
@@ -33,4 +38,4 @@ export function FilterSettingsModal({ opened, close, model }: FilterSettingsModa
       <FilterSettings model={model} />
     </Modal>
   );
-}
+});

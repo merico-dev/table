@@ -5,6 +5,7 @@ import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
 import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -15,7 +16,7 @@ interface IReadOnlyDashboardLayout {
   model: DashboardModelInstance;
 }
 
-export function ReadOnlyDashboardLayout({
+export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayout({
   panels,
   className = 'layout',
   rowHeight = 10,
@@ -37,4 +38,4 @@ export function ReadOnlyDashboardLayout({
       })}
     </ReactGridLayout>
   );
-}
+});

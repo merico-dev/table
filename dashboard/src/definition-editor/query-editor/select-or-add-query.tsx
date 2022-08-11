@@ -4,13 +4,14 @@ import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { DashboardModelInstance } from '../../model';
 import { DataSourceType } from '../../model/queries';
+import { observer } from 'mobx-react-lite';
 
 interface ISelectOrAddQuery {
   id: string;
   setID: React.Dispatch<React.SetStateAction<string>>;
   model: DashboardModelInstance;
 }
-export function SelectOrAddQuery({ id, setID, model }: ISelectOrAddQuery) {
+export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID, model }: ISelectOrAddQuery) {
   const chooseDefault = React.useCallback(() => {
     setID(model.queries.firstID ?? '');
   }, [setID, model.queries.firstID]);
@@ -67,4 +68,4 @@ export function SelectOrAddQuery({ id, setID, model }: ISelectOrAddQuery) {
       </Group>
     </Group>
   );
-}
+});

@@ -1,4 +1,5 @@
 import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { PanelContext } from '../../contexts/panel-context';
@@ -13,7 +14,7 @@ interface IPanelSettingsModal {
   model: DashboardModelInstance;
 }
 
-export function PanelSettingsModal({ opened, close, model }: IPanelSettingsModal) {
+export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close, model }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const { data, loading, viz, title } = React.useContext(PanelContext);
 
@@ -62,4 +63,4 @@ export function PanelSettingsModal({ opened, close, model }: IPanelSettingsModal
       </AppShell>
     </Modal>
   );
-}
+});
