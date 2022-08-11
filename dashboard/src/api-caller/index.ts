@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
 import { QueryModelInstance } from '../model/queries';
-import { ISQLSnippet } from '../types';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
@@ -29,7 +29,7 @@ export const queryByStaticSQL =
 
 interface IQueryBySQL {
   context: ContextInfoContextType;
-  sqlSnippets: ISQLSnippet[];
+  sqlSnippets: SQLSnippetModelInstance[];
   title: string;
   query?: QueryModelInstance;
   filterValues: FilterValuesContextType;

@@ -1,7 +1,7 @@
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { DefinitionContext, PanelContext } from '../../../contexts';
+import { PanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 import { DashboardModelInstance } from '../../../model';
 

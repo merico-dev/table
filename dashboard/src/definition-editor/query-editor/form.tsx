@@ -5,14 +5,16 @@ import _ from 'lodash';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { listDataSources } from '../../api-caller';
+import { DashboardModelInstance } from '../../model';
 import { QueryModelInstance } from '../../model/queries';
 import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
+  model: DashboardModelInstance;
   value: QueryModelInstance;
   onChange: any;
 }
-export function QueryForm({ value, onChange }: IQueryForm) {
+export function QueryForm({ model, value, onChange }: IQueryForm) {
   const form = useForm({
     initialValues: value,
   });

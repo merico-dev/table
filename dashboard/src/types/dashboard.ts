@@ -1,5 +1,6 @@
 import { FilterModelInstance } from '../model';
 import { QueryModelInstance } from '../model/queries';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
 export interface IVizConfig {
   type: string;
@@ -28,13 +29,8 @@ export enum DashboardMode {
   Edit = 'edit',
 }
 
-export interface ISQLSnippet {
-  key: string;
-  value: string;
-}
-
 export interface IDashboardDefinition {
-  sqlSnippets: ISQLSnippet[];
+  sqlSnippets: SQLSnippetModelInstance[];
   queries: QueryModelInstance[];
 }
 

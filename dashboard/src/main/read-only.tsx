@@ -29,14 +29,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
   const { filters, filterValues, setFilterValues } = useFilters(dashboard);
 
-  const definition = React.useMemo(
-    () => ({
-      ...dashboard.definition,
-      setSQLSnippets: () => {},
-    }),
-    [dashboard],
-  );
-
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
 
   return (
@@ -52,11 +44,11 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               inFullScreen,
             }}
           >
-            <DefinitionContext.Provider value={definition}>
+            <DefinitionContext.Provider value={{}}>
               <LayoutStateContext.Provider
                 value={{
                   layoutFrozen: true,
-                  freezeLayout: () => {},
+                  freezeLayout: () => { },
                   mode: DashboardMode.Use,
                   inEditMode: false,
                   inLayoutMode: false,
