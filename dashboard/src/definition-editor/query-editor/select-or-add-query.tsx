@@ -1,49 +1,51 @@
 import { Button, Group, Select, Text } from '@mantine/core';
+import { cast } from 'mobx-state-tree';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
-import { DefinitionContext } from '../../contexts';
-import { DataSourceType, QueryModelInstance } from '../../model/queries';
+import { DashboardModelInstance } from '../../model';
+import { DataSourceType } from '../../model/queries';
 
 interface ISelectOrAddQuery {
   id: string;
   setID: React.Dispatch<React.SetStateAction<string>>;
+  model: DashboardModelInstance;
 }
-export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
-  const { queries, setQueries } = React.useContext(DefinitionContext);
-
+export function SelectOrAddQuery({ id, setID, model }: ISelectOrAddQuery) {
   const chooseDefault = React.useCallback(() => {
-    setID(queries[0]?.id ?? '');
-  }, [setID, queries]);
+    setID(model.queries.firstID ?? '');
+  }, [setID, model.queries.firstID]);
 
   React.useEffect(() => {
     if (!id) {
       chooseDefault();
       return;
     }
-    const index = queries.findIndex((d) => d.id === id);
+    const index = model.queries.current.findIndex((d) => d.id === id);
     if (index === -1) {
       chooseDefault();
     }
-  }, [id, queries, chooseDefault]);
+  }, [id, model.queries, chooseDefault]);
 
   const options = React.useMemo(() => {
-    return queries.map((d) => ({
+    return model.queries.current.map((d) => ({
       value: d.id,
       label: d.id,
     }));
-  }, [queries]);
+  }, [model.queries.current]);
 
   const add = React.useCallback(() => {
-    const newQuery: QueryModelInstance = {
-      id: randomId(),
-      type: DataSourceType.Postgresql,
-      key: '',
-      sql: '',
-    };
+    const id = randomId();
+    model.queries.append(
+      cast({
+        id,
+        type: DataSourceType.Postgresql,
+        key: '',
+        sql: '',
+      }),
+    );
 
-    setQueries((prevs) => [...prevs, newQuery]);
-    setID(newQuery.id);
-  }, [setQueries, setID]);
+    setID(id);
+  }, [model.queries, setID]);
 
   return (
     <Group pb="xl">

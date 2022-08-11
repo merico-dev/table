@@ -2,18 +2,20 @@ import { Group, Select, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { DefinitionContext, PanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
+import { DashboardModelInstance } from '../../../model';
 
-interface IPickQuery {}
-export function PickQuery({}: IPickQuery) {
-  const { queries } = React.useContext(DefinitionContext);
-  const { queryID, setQueryID, data, loading } = React.useContext(PanelContext);
+interface IPickQuery {
+  model: DashboardModelInstance;
+}
+export function PickQuery({ model }: IPickQuery) {
+  const { queryID, setQueryID } = React.useContext(PanelContext);
 
   const options = React.useMemo(() => {
-    return queries.map((d) => ({
+    return model.queries.current.map((d) => ({
       value: d.id,
       label: d.id,
     }));
-  }, [queries]);
+  }, [model.queries.current]);
 
   return (
     <Stack>
@@ -29,7 +31,7 @@ export function PickQuery({}: IPickQuery) {
           sx={{ flexGrow: 1 }}
         />
       </Group>
-      <DataPreview id={queryID} />
+      <DataPreview id={queryID} model={model} />
     </Stack>
   );
 }

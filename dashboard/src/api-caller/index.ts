@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
 import { QueryModelInstance } from '../model/queries';
-import { IDashboardDefinition } from '../types';
+import { ISQLSnippet } from '../types';
 import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
@@ -29,14 +29,14 @@ export const queryByStaticSQL =
 
 interface IQueryBySQL {
   context: ContextInfoContextType;
-  definitions: IDashboardDefinition;
+  sqlSnippets: ISQLSnippet[];
   title: string;
   query?: QueryModelInstance;
   filterValues: FilterValuesContextType;
 }
 
 export const queryBySQL =
-  ({ context, definitions, title, query, filterValues }: IQueryBySQL) =>
+  ({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) =>
   async () => {
     if (!query || !query.sql) {
       return [];
@@ -45,7 +45,7 @@ export const queryBySQL =
 
     const needParams = sql.includes('$');
     try {
-      const params = getSQLParams(context, definitions, filterValues);
+      const params = getSQLParams(context, sqlSnippets, filterValues);
       const formattedSQL = formatSQL(sql, params);
       if (needParams) {
         console.groupCollapsed(`Final SQL for: ${title}`);

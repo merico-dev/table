@@ -4,15 +4,16 @@ import React from 'react';
 import { Refresh } from 'tabler-icons-react';
 import { queryBySQL } from '../../api-caller';
 import { ContextInfoContext, DefinitionContext, FilterValuesContext } from '../../contexts';
+import { DashboardModelInstance } from '../../model';
 
-export function DataPreview({ id }: { id: string }) {
-  const definitions = React.useContext(DefinitionContext);
+export function DataPreview({ id, model }: { id: string; model: DashboardModelInstance }) {
+  const { sqlSnippets } = React.useContext(DefinitionContext);
   const filterValues = React.useContext(FilterValuesContext);
   const contextInfo = React.useContext(ContextInfoContext);
 
   const query = React.useMemo(() => {
-    return definitions.queries.find((d) => d.id === id);
-  }, [definitions.queries, id]);
+    return model.queries.current.find((d) => d.id === id);
+  }, [model.queries, id]);
 
   const {
     data = [],
@@ -21,13 +22,13 @@ export function DataPreview({ id }: { id: string }) {
   } = useRequest(
     queryBySQL({
       context: contextInfo,
-      definitions,
+      sqlSnippets,
       filterValues,
       title: id,
       query,
     }),
     {
-      refreshDeps: [contextInfo, definitions, query, filterValues],
+      refreshDeps: [contextInfo, sqlSnippets, model.queries.current, query, filterValues],
     },
   );
   if (loading) {
