@@ -22,7 +22,7 @@
     }
   },
   "scripts": {
-    "dev-build": "tsc && vite build --watch",
+    "dev-build": "tsc && vite build --mode development --watch",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
