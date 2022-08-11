@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { queryByStaticSQL } from '../../api-caller';
-import { IFilterOptionQuery } from '../../model/filter/common';
+import { IFilterOptionQuery } from '../../model/filters/filter/common';
 
 function DataTable({ data }: { data: any[] }) {
   if (data.length === 0) {

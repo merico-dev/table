@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import React from 'react';
 import { queryByStaticSQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
-import { IFilterConfig_Select } from '../../model/filter/select';
+import { IFilterConfig_Select } from '../../model/filters/filter/select';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
