@@ -9,6 +9,7 @@ import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ViewSchemaModal } from './view-schema-modal';
 import { FilterSettingsModal } from '../filter/filter-settings';
 import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -19,7 +20,7 @@ interface IDashboardActions {
   getCurrentSchema: () => any;
   model: DashboardModelInstance;
 }
-export function DashboardActions({
+export const DashboardActions = observer(function _DashboardActions({
   mode,
   setMode,
   hasChanges,
@@ -97,4 +98,4 @@ export function DashboardActions({
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );
-}
+});

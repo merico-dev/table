@@ -1,5 +1,6 @@
 import { Group, Text, Menu, Divider, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
@@ -14,7 +15,7 @@ interface IPanelTitleBar {
   model: DashboardModelInstance;
 }
 
-export function PanelTitleBar({ model }: IPanelTitleBar) {
+export const PanelTitleBar = observer(function _PanelTitleBar({ model }: IPanelTitleBar) {
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
@@ -82,4 +83,4 @@ export function PanelTitleBar({ model }: IPanelTitleBar) {
       {inEditMode && <PanelSettingsModal opened={opened} close={close} model={model} />}
     </Box>
   );
-}
+});

@@ -10,13 +10,14 @@ import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { DefinitionContext, FilterValuesContext } from '../contexts';
 import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
   model: DashboardModelInstance;
 }
 
-export function Panel({
+export const Panel = observer(function _Panel({
   viz: initialViz,
   queryID: initialQueryID,
   title: initialTitle,
@@ -92,4 +93,4 @@ export function Panel({
       </Container>
     </PanelContext.Provider>
   );
-}
+});

@@ -1,4 +1,5 @@
 import { Group } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DefinitionContext } from '../../contexts';
 import { DashboardModelInstance } from '../../model';
@@ -10,7 +11,7 @@ interface IQueryEditor {
   setID: React.Dispatch<React.SetStateAction<string>>;
   model: DashboardModelInstance;
 }
-export function QueryEditor({ id, setID, model }: IQueryEditor) {
+export const QueryEditor = observer(function _QueryEditor({ id, setID, model }: IQueryEditor) {
   const query = React.useMemo(() => {
     return model.queries.findByID(id);
   }, [model.queries, id]);
@@ -35,4 +36,4 @@ export function QueryEditor({ id, setID, model }: IQueryEditor) {
     return <span>Invalid Data Source ID</span>;
   }
   return <QueryForm value={query} onChange={update} />;
-}
+});

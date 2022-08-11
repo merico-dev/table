@@ -1,12 +1,19 @@
 import { ActionIcon, Group, LoadingOverlay, Stack, Table, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Refresh } from 'tabler-icons-react';
 import { queryBySQL } from '../../api-caller';
 import { ContextInfoContext, DefinitionContext, FilterValuesContext } from '../../contexts';
 import { DashboardModelInstance } from '../../model';
 
-export function DataPreview({ id, model }: { id: string; model: DashboardModelInstance }) {
+export const DataPreview = observer(function _DataPreview({
+  id,
+  model,
+}: {
+  id: string;
+  model: DashboardModelInstance;
+}) {
   const { sqlSnippets } = React.useContext(DefinitionContext);
   const filterValues = React.useContext(FilterValuesContext);
   const contextInfo = React.useContext(ContextInfoContext);
@@ -80,4 +87,4 @@ export function DataPreview({ id, model }: { id: string; model: DashboardModelIn
       </Table>
     </Stack>
   );
-}
+});
