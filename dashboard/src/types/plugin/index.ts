@@ -23,6 +23,8 @@ export interface PluginStorage {
   setItem<T>(key: string, item: T): Promise<T>;
 
   deleteItem(key: string): Promise<void>;
+
+  watchItem<T>(key: string, callback: (value: T, previous?: T) => void): () => void;
 }
 
 export interface ColorPaletteItem {
@@ -47,7 +49,9 @@ export interface ColorPalette {
 
 export interface IMessageChannels {
   globalChannel: EventEmitter2;
+
   getChannel(name: string): EventEmitter2;
+
   close(name: string): void;
 }
 
@@ -61,6 +65,7 @@ export interface VizContext {
 }
 
 type Setter<T> = (val: string) => void;
+
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
   setDescription: Setter<string>;

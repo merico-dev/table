@@ -1,21 +1,40 @@
-import { PluginStorage } from '../types/plugin';
 import { JsonPluginStorage } from './json-plugin-storage';
 
+class TestJsonPluginStorage extends JsonPluginStorage {
+  getRoot() {
+    return this.root;
+  }
+}
+
 describe('JsonPluginStorage', () => {
-  let storage: PluginStorage;
-  let root: any;
+  let storage: TestJsonPluginStorage;
   beforeEach(() => {
-    root = {};
-    storage = new JsonPluginStorage(root);
+    storage = new TestJsonPluginStorage({});
   });
 
   test('set item with object path key', async () => {
     const item = await storage.setItem('foo.bar', true);
     expect(item).toBe(true);
-    expect(root).toMatchInlineSnapshot(`
+    expect(storage.getRoot()).toMatchInlineSnapshot(`
       {
         "foo.bar": true,
       }
     `);
+  });
+  test('watch item changes', async () => {
+    const callback = vi.fn();
+    const dispose = storage.watchItem('foo', callback);
+    await storage.setItem('foo', true);
+    expect(callback).toHaveBeenCalledWith(true, undefined);
+    callback.mockClear();
+    await storage.setItem('foo', true);
+    expect(callback).not.toHaveBeenCalled();
+    callback.mockClear();
+    await storage.setItem('foo', false);
+    expect(callback).toHaveBeenCalledWith(false, true);
+    callback.mockClear();
+    dispose();
+    await storage.setItem('foo', false);
+    expect(callback).not.toHaveBeenCalled();
   });
 });
