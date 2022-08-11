@@ -1,6 +1,7 @@
 import { Group, Select, Stack, Tabs, Text, Textarea, TextInput } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { listDataSources } from '../../api-caller';
 import { QueryModelInstance } from '../../model/queries';
@@ -9,7 +10,7 @@ import { PreviewSQL } from './preview-sql';
 interface IQueryForm {
   queryModel: QueryModelInstance;
 }
-export function QueryForm({ queryModel }: IQueryForm) {
+export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
   const { data: querySources = [], loading } = useRequest(
     listDataSources,
     {
@@ -96,4 +97,4 @@ export function QueryForm({ queryModel }: IQueryForm) {
       </Stack>
     </Stack>
   );
-}
+});

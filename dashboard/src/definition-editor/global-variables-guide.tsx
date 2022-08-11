@@ -1,5 +1,6 @@
 import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FilterValuesContext } from '../contexts';
 import { ContextInfoContext } from '../contexts/context-info-context';
@@ -24,7 +25,11 @@ WHERE
   AND \$\{sql_snippets.author_email_condition\}
   \$\{sql_snippets.order_by_clause\}
 `;
-export function GlobalVariablesGuide({ model, showSQLSnippets = true, sx = {} }: IGlobalVariablesGuide) {
+export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
+  model,
+  showSQLSnippets = true,
+  sx = {},
+}: IGlobalVariablesGuide) {
   const contextInfo = React.useContext(ContextInfoContext);
   const filterValues = React.useContext(FilterValuesContext);
 
@@ -68,4 +73,4 @@ export function GlobalVariablesGuide({ model, showSQLSnippets = true, sx = {} }:
       </Stack>
     </Stack>
   );
-}
+});
