@@ -7,10 +7,9 @@ import { DataPreview } from './data-preview';
 import { QueryEditor } from './editor';
 import { SelectOrAddQuery } from './select-or-add-query';
 
-interface IEditQueries {
-}
+interface IEditQueries {}
 
-export const EditQueries = observer(function _EditQueries({ }: IEditQueries) {
+export const EditQueries = observer(function _EditQueries({}: IEditQueries) {
   const [id, setID] = React.useState('');
   const { model } = React.useContext(ModelContext);
 

@@ -48,7 +48,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               <LayoutStateContext.Provider
                 value={{
                   layoutFrozen: true,
-                  freezeLayout: () => { },
+                  freezeLayout: () => {},
                   mode: DashboardMode.Use,
                   inEditMode: false,
                   inLayoutMode: false,
