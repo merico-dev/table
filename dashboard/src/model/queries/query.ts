@@ -14,6 +14,9 @@ export const QueryModel = types
     sql: types.string,
   })
   .actions((self) => ({
+    setID(id: string) {
+      self.id = id;
+    },
     setKey(key: string) {
       self.key = key;
     },
