@@ -5,11 +5,11 @@ import _ from 'lodash';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { listDataSources } from '../../api-caller';
-import { IQuery } from '../../types';
+import { QueryModelInstance } from '../../model/queries';
 import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
-  value: IQuery;
+  value: QueryModelInstance;
   onChange: any;
 }
 export function QueryForm({ value, onChange }: IQueryForm) {
@@ -18,7 +18,7 @@ export function QueryForm({ value, onChange }: IQueryForm) {
   });
 
   const submit = React.useCallback(
-    (values: IQuery) => {
+    (values: QueryModelInstance) => {
       onChange(values);
     },
     [onChange],

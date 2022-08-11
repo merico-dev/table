@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
+import { DashboardMode, IDashboard, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
@@ -20,6 +20,7 @@ import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
+import { QueryModelInstance } from '../model/queries';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -46,7 +47,7 @@ export const Dashboard = observer(function _Dashboard({
   const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
 
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-  const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
+  const [queries, setQueries] = React.useState<QueryModelInstance[]>(dashboard.definition.queries);
 
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
