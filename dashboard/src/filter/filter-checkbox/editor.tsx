@@ -1,6 +1,6 @@
 import { Checkbox } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_Checkbox } from '../../model/filter/checkbox';
+import { IFilterConfig_Checkbox } from '../../model/filters/filter/checkbox';
 
 interface IFilterEditorCheckbox {
   config: IFilterConfig_Checkbox;
