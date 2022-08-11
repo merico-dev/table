@@ -1,13 +1,16 @@
 import { AppShell, Group, Stack } from '@mantine/core';
 import React from 'react';
+import { DashboardModelInstance } from '../../model';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { DataPreview } from './data-preview';
 import { QueryEditor } from './editor';
 import { SelectOrAddQuery } from './select-or-add-query';
 
-interface IEditQueries {}
+interface IEditQueries {
+  model: DashboardModelInstance;
+}
 
-export function EditQueries({}: IEditQueries) {
+export function EditQueries({ model }: IEditQueries) {
   const [id, setID] = React.useState('');
 
   return (
@@ -22,12 +25,12 @@ export function EditQueries({}: IEditQueries) {
     >
       <Group position="apart" grow align="stretch" noWrap>
         <Stack sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
-          <SelectOrAddQuery id={id} setID={setID} />
-          <QueryEditor id={id} setID={setID} />
+          <SelectOrAddQuery id={id} setID={setID} model={model} />
+          <QueryEditor id={id} setID={setID} model={model} />
         </Stack>
         <GlobalVariablesGuide />
       </Group>
-      <DataPreview id={id} />
+      <DataPreview id={id} model={model} />
     </AppShell>
   );
 }

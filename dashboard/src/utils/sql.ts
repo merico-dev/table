@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
-import { IDashboardDefinition, ISQLSnippet } from '../types';
+import { ISQLSnippet } from '../types';
 
 export function explainSQLSnippet(snippet: string, context: ContextInfoContextType) {
   const names = Object.keys(context);
@@ -28,10 +28,10 @@ export function formatSQL(sql: string, params: Record<string, any>) {
 
 export function getSQLParams(
   context: ContextInfoContextType,
-  definitions: IDashboardDefinition,
+  sqlSnippets: ISQLSnippet[],
   filterValues: FilterValuesContextType,
 ) {
-  const sqlSnippetRecord = definitions.sqlSnippets.reduce((ret: Record<string, any>, curr) => {
+  const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, any>, curr) => {
     ret[curr.key] = formatSQL(curr.value, context);
     return ret;
   }, {});
@@ -43,11 +43,11 @@ export function getSQLParams(
 export function explainSQL(
   sql: string,
   context: ContextInfoContextType,
-  definitions: IDashboardDefinition,
+  sqlSnippets: ISQLSnippet[],
   filterValues: FilterValuesContextType,
 ) {
   try {
-    const params = getSQLParams(context, definitions, filterValues);
+    const params = getSQLParams(context, sqlSnippets, filterValues);
     return formatSQL(sql, params);
   } catch (error: any) {
     console.error(error);

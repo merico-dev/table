@@ -9,10 +9,11 @@ import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { DefinitionContext, FilterValuesContext } from '../contexts';
-import { ErrorBoundary } from './error-boundary';
+import { DashboardModelInstance } from '../model';
 
 interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
+  model: DashboardModelInstance;
 }
 
 export function Panel({
@@ -23,10 +24,11 @@ export function Panel({
   update,
   layout,
   id,
+  model,
 }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const filterValues = React.useContext(FilterValuesContext);
-  const definitions = React.useContext(DefinitionContext);
+  const { sqlSnippets } = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
@@ -36,8 +38,8 @@ export function Panel({
     if (!queryID) {
       return undefined;
     }
-    return definitions.queries.find((d) => d.id === queryID);
-  }, [queryID, definitions.queries]);
+    return model.queries.findByID(queryID);
+  }, [queryID, model.queries]);
 
   React.useEffect(() => {
     update?.({
@@ -57,13 +59,13 @@ export function Panel({
   } = useRequest(
     queryBySQL({
       context: contextInfo,
-      definitions,
+      sqlSnippets,
       filterValues,
       title,
       query,
     }),
     {
-      refreshDeps: [contextInfo, definitions, query, filterValues],
+      refreshDeps: [contextInfo, sqlSnippets, query, filterValues],
     },
   );
   const refreshData = refresh;
@@ -85,7 +87,7 @@ export function Panel({
       }}
     >
       <Container className="panel-root">
-        <PanelTitleBar />
+        <PanelTitleBar model={model} />
         <Viz viz={viz} data={data} loading={loading} />
       </Container>
     </PanelContext.Provider>

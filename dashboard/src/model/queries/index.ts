@@ -17,6 +17,9 @@ export const QueriesModel = types
       }
       return self.current[0].id;
     },
+    findByID(id: string) {
+      return self.current.find((query) => query.id === id);
+    },
   }))
   .actions((self) => {
     return {
@@ -31,6 +34,9 @@ export const QueriesModel = types
       },
       remove(index: number) {
         self.current.splice(index, 1);
+      },
+      replaceByIndex(index: number, replacement: QueryModelInstance) {
+        self.current.splice(index, 1, replacement);
       },
     };
   });

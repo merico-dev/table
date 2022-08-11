@@ -93,7 +93,7 @@ export function DashboardActions({
         </Menu>
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} model={model} />
-      <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
+      <DataEditorModal opened={dataEditorOpened} close={closeQueries} model={model} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );

@@ -1,15 +1,17 @@
 import { Modal, Tabs } from '@mantine/core';
 import React from 'react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
+import { DashboardModelInstance } from '../model';
 import { EditQueries } from './query-editor';
 import { EditSQLSnippets } from './sql-snippet-editor';
 
 interface IDataEditorModal {
   opened: boolean;
   close: () => void;
+  model: DashboardModelInstance;
 }
 
-export function DataEditorModal({ opened, close }: IDataEditorModal) {
+export function DataEditorModal({ opened, close, model }: IDataEditorModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
 
   React.useEffect(() => {
@@ -37,7 +39,7 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
           <EditSQLSnippets />
         </Tabs.Panel>
         <Tabs.Panel value="Queries" pt="sm">
-          <EditQueries />
+          <EditQueries model={model} />
         </Tabs.Panel>
       </Tabs>
     </Modal>

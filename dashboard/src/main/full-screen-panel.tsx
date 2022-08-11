@@ -1,9 +1,18 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { ArrowLeft } from 'tabler-icons-react';
+import { DashboardModelInstance } from '../model';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types';
 
-export function FullScreenPanel({ panel, exitFullScreen }: { panel: IDashboardPanel; exitFullScreen: () => void }) {
+export function FullScreenPanel({
+  panel,
+  exitFullScreen,
+  model,
+}: {
+  panel: IDashboardPanel;
+  exitFullScreen: () => void;
+  model: DashboardModelInstance;
+}) {
   return (
     <Stack sx={{ flexGrow: 1, justifyContent: 'flex-start' }}>
       <Group sx={{ flexGrow: 0 }}>
@@ -12,7 +21,7 @@ export function FullScreenPanel({ panel, exitFullScreen }: { panel: IDashboardPa
         </Button>
       </Group>
       <Group grow sx={{ flexGrow: 1, flexShrink: 0 }}>
-        <Panel {...panel} />
+        <Panel {...panel} model={model} />
       </Group>
     </Stack>
   );

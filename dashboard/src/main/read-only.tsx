@@ -13,6 +13,7 @@ import { Box } from '@mantine/core';
 import { FullScreenPanel } from './full-screen-panel';
 import { useFilters } from './use-filters';
 import { Filters } from '../filter';
+import { createDashboardModel } from '../model';
 
 interface IReadOnlyDashboard {
   context: ContextInfoContextType;
@@ -25,14 +26,13 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
-
+  const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
   const { filters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const definition = React.useMemo(
     () => ({
       ...dashboard.definition,
       setSQLSnippets: () => {},
-      setQueries: () => {},
     }),
     [dashboard],
   );
@@ -63,10 +63,12 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
                   inUseMode: true,
                 }}
               >
-                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+                {inFullScreen && (
+                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+                )}
                 <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <ReadOnlyDashboardLayout panels={dashboard.panels} />
+                  <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
                 </Box>
               </LayoutStateContext.Provider>
             </DefinitionContext.Provider>

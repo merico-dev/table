@@ -47,12 +47,14 @@ export const Dashboard = observer(function _Dashboard({
   const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
 
   const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-  const [queries, setQueries] = React.useState<QueryModelInstance[]>(dashboard.definition.queries);
 
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
+      return true;
+    }
+    if (model.queries.changed) {
       return true;
     }
     // local panels' layouts would contain some undefined runtime values
@@ -63,13 +65,11 @@ export const Dashboard = observer(function _Dashboard({
       return true;
     }
 
-    if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
-      return true;
-    }
-    return !_.isEqual(queries, dashboard.definition.queries);
-  }, [dashboard, filters, panels, sqlSnippets, queries, model.filters.changed]);
+    return !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
+  }, [dashboard, filters, panels, sqlSnippets, model.queries.changed, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
+    const queries = [...model.queries.current];
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
@@ -80,10 +80,10 @@ export const Dashboard = observer(function _Dashboard({
   };
 
   const revertDashboardChanges = () => {
-    setFilters(dashboard.filters);
+    model.filters.reset();
     setPanels(dashboard.panels);
     setSQLSnippets(dashboard.definition.sqlSnippets);
-    setQueries(dashboard.definition.queries);
+    model.queries.reset();
   };
 
   const addPanel = () => {
@@ -144,21 +144,22 @@ export const Dashboard = observer(function _Dashboard({
     () => ({
       sqlSnippets,
       setSQLSnippets,
-      queries,
-      setQueries,
     }),
-    [sqlSnippets, setSQLSnippets, queries, setQueries],
+    [sqlSnippets, setSQLSnippets],
   );
 
   const getCurrentSchema = React.useCallback(() => {
+    const queries = model.queries.current;
+    const filters = model.filters.current;
     return {
+      filters,
       panels,
       definition: {
         sqlSnippets,
         queries,
       },
     };
-  }, [sqlSnippets, queries, panels]);
+  }, [sqlSnippets, panels, model]);
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
@@ -187,7 +188,9 @@ export const Dashboard = observer(function _Dashboard({
                   inUseMode,
                 }}
               >
-                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+                {inFullScreen && (
+                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+                )}
                 <Box
                   className={className}
                   sx={{
@@ -207,6 +210,7 @@ export const Dashboard = observer(function _Dashboard({
                   <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
                   <PluginContext.Provider value={pluginContext}>
                     <DashboardLayout
+                      model={model}
                       panels={panels}
                       setPanels={setPanels}
                       isDraggable={inLayoutMode}

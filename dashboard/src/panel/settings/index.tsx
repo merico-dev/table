@@ -2,6 +2,7 @@ import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/c
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { PanelContext } from '../../contexts/panel-context';
+import { DashboardModelInstance } from '../../model';
 import { PanelConfig } from './panel-config';
 import { PickQuery } from './pick-query';
 import { VizConfig } from './viz-config';
@@ -9,9 +10,10 @@ import { VizConfig } from './viz-config';
 interface IPanelSettingsModal {
   opened: boolean;
   close: () => void;
+  model: DashboardModelInstance;
 }
 
-export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
+export function PanelSettingsModal({ opened, close, model }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const { data, loading, viz, title } = React.useContext(PanelContext);
 
@@ -48,7 +50,7 @@ export function PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
           </Tabs.List>
           <Tabs.Panel value="Data" pt="sm">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-            <PickQuery />
+            <PickQuery model={model} />
           </Tabs.Panel>
           <Tabs.Panel value="Panel" pt="sm">
             <PanelConfig />

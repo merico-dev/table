@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
+import { DashboardModelInstance } from '../model';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -14,6 +15,7 @@ interface IDashboardLayout {
   rowHeight?: number;
   isDraggable: boolean;
   isResizable: boolean;
+  model: DashboardModelInstance;
 }
 
 export function DashboardLayout({
@@ -23,6 +25,7 @@ export function DashboardLayout({
   rowHeight = 10,
   isDraggable,
   isResizable,
+  model,
 }: IDashboardLayout) {
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
@@ -55,6 +58,7 @@ export function DashboardLayout({
             <Panel
               id={id}
               {...rest}
+              model={model}
               update={(panel: IDashboardPanel) => {
                 setPanels((prevs) => {
                   prevs.splice(index, 1, panel);
