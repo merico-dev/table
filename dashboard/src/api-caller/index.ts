@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
-import { IDashboardDefinition, IQuery } from '../types';
+import { QueryModelInstance } from '../model/queries';
+import { IDashboardDefinition } from '../types';
 import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
@@ -30,7 +31,7 @@ interface IQueryBySQL {
   context: ContextInfoContextType;
   definitions: IDashboardDefinition;
   title: string;
-  query?: IQuery;
+  query?: QueryModelInstance;
   filterValues: FilterValuesContextType;
 }
 

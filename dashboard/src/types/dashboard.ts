@@ -1,15 +1,9 @@
 import { FilterModelInstance } from '../model';
+import { QueryModelInstance } from '../model/queries';
 
 export interface IVizConfig {
   type: string;
   conf: Record<string, any>;
-}
-
-export interface IQuery {
-  type: 'postgresql';
-  key: string;
-  sql: string;
-  id: string;
 }
 
 export interface IDashboardPanel {
@@ -41,7 +35,7 @@ export interface ISQLSnippet {
 
 export interface IDashboardDefinition {
   sqlSnippets: ISQLSnippet[];
-  queries: IQuery[];
+  queries: QueryModelInstance[];
 }
 
 export interface IDashboard {

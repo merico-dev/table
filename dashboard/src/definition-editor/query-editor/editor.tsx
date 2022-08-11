@@ -1,7 +1,7 @@
 import { Group } from '@mantine/core';
 import React from 'react';
 import { DefinitionContext } from '../../contexts';
-import { IQuery } from '../../types';
+import { QueryModelInstance } from '../../model/queries';
 import { QueryForm } from './form';
 
 interface IQueryEditor {
@@ -16,7 +16,7 @@ export function QueryEditor({ id, setID }: IQueryEditor) {
   }, [queries, id]);
 
   const update = React.useCallback(
-    (value: IQuery) => {
+    (value: QueryModelInstance) => {
       const index = queries.findIndex((d) => d.id === id);
       if (index === -1) {
         console.error(new Error('Invalid data source id when updating by id'));

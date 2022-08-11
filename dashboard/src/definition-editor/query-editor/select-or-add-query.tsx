@@ -2,7 +2,7 @@ import { Button, Group, Select, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { DefinitionContext } from '../../contexts';
-import { IQuery } from '../../types';
+import { DataSourceType, QueryModelInstance } from '../../model/queries';
 
 interface ISelectOrAddQuery {
   id: string;
@@ -34,9 +34,9 @@ export function SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
   }, [queries]);
 
   const add = React.useCallback(() => {
-    const newQuery: IQuery = {
+    const newQuery: QueryModelInstance = {
       id: randomId(),
-      type: 'postgresql',
+      type: DataSourceType.Postgresql,
       key: '',
       sql: '',
     };
