@@ -12,10 +12,12 @@ interface ISQLSnippetsEditor {
 
 export function SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
   const addSnippet = () =>
-    model.sqlSnippets.append(cast({
-      key: randomId(),
-      value: '',
-    }));
+    model.sqlSnippets.append(
+      cast({
+        key: randomId(),
+        value: '',
+      }),
+    );
 
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
@@ -31,12 +33,22 @@ export function SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
         <Stack sx={{ width: '100%', position: 'relative' }}>
           {model.sqlSnippets.current.map((item, index) => (
             <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
-              <TextInput label="Key" required value={item.key} onChange={(e) => { item.setKey(e.currentTarget.value) }} />
+              <TextInput
+                label="Key"
+                required
+                value={item.key}
+                onChange={(e) => {
+                  item.setKey(e.currentTarget.value);
+                }}
+              />
               <Textarea
                 minRows={3}
                 label="Value"
                 required
-                value={item.value} onChange={(e) => { item.setValue(e.currentTarget.value) }}
+                value={item.value}
+                onChange={(e) => {
+                  item.setValue(e.currentTarget.value);
+                }}
                 className="code-textarea"
               />
               <PreviewSnippet value={item.value} />
