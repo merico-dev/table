@@ -4,11 +4,10 @@ import { ModelContext } from '../../contexts/model-context';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { SQLSnippetsEditor } from './editor';
 
-interface IEditSQLSnippets {
-}
+interface IEditSQLSnippets {}
 
-export function EditSQLSnippets({ }: IEditSQLSnippets) {
-  const { model } = React.useContext(ModelContext)
+export function EditSQLSnippets({}: IEditSQLSnippets) {
+  const { model } = React.useContext(ModelContext);
   return (
     <AppShell
       sx={{

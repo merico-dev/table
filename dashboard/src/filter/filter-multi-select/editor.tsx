@@ -11,7 +11,6 @@ interface IFilterEditorMultiSelect {
 export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelect({
   config,
 }: IFilterEditorMultiSelect) {
-
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
