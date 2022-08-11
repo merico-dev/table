@@ -34,5 +34,5 @@ export const QueryEditor = observer(function _QueryEditor({ id, setID, model }: 
   if (!query) {
     return <span>Invalid Data Source ID</span>;
   }
-  return <QueryForm value={query} onChange={update} model={model} />;
+  return <QueryForm queryModel={query} />;
 });
