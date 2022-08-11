@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Refresh } from 'tabler-icons-react';
 import { queryBySQL } from '../../api-caller';
-import { ContextInfoContext, DefinitionContext, FilterValuesContext } from '../../contexts';
+import { ContextInfoContext, FilterValuesContext } from '../../contexts';
 import { DashboardModelInstance } from '../../model';
 
 export const DataPreview = observer(function _DataPreview({
@@ -14,7 +14,6 @@ export const DataPreview = observer(function _DataPreview({
   id: string;
   model: DashboardModelInstance;
 }) {
-  const { sqlSnippets } = React.useContext(DefinitionContext);
   const filterValues = React.useContext(FilterValuesContext);
   const contextInfo = React.useContext(ContextInfoContext);
 
@@ -29,13 +28,13 @@ export const DataPreview = observer(function _DataPreview({
   } = useRequest(
     queryBySQL({
       context: contextInfo,
-      sqlSnippets,
+      sqlSnippets: model.sqlSnippets.current,
       filterValues,
       title: id,
       query,
     }),
     {
-      refreshDeps: [contextInfo, sqlSnippets, model.queries.current, query, filterValues],
+      refreshDeps: [contextInfo, model.sqlSnippets.current, model.queries.current, query, filterValues],
     },
   );
   if (loading) {

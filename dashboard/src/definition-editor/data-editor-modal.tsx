@@ -40,7 +40,7 @@ export const DataEditorModal = observer(function _DataEditorModal({ opened, clos
           <EditSQLSnippets />
         </Tabs.Panel>
         <Tabs.Panel value="Queries" pt="sm">
-          <EditQueries model={model} />
+          <EditQueries />
         </Tabs.Panel>
       </Tabs>
     </Modal>

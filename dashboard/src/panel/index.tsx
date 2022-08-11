@@ -8,7 +8,7 @@ import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
-import { DefinitionContext, FilterValuesContext } from '../contexts';
+import { FilterValuesContext } from '../contexts';
 import { DashboardModelInstance } from '../model';
 import { observer } from 'mobx-react-lite';
 
@@ -29,7 +29,6 @@ export const Panel = observer(function _Panel({
 }: IPanel) {
   const contextInfo = React.useContext(ContextInfoContext);
   const filterValues = React.useContext(FilterValuesContext);
-  const { sqlSnippets } = React.useContext(DefinitionContext);
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
@@ -60,13 +59,13 @@ export const Panel = observer(function _Panel({
   } = useRequest(
     queryBySQL({
       context: contextInfo,
-      sqlSnippets,
+      sqlSnippets: model.sqlSnippets.current,
       filterValues,
       title,
       query,
     }),
     {
-      refreshDeps: [contextInfo, sqlSnippets, query, filterValues],
+      refreshDeps: [contextInfo, model.sqlSnippets.current, query, filterValues],
     },
   );
   const refreshData = refresh;

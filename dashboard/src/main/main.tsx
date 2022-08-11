@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { DashboardMode, IDashboard, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
+import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
@@ -21,6 +21,7 @@ import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
 import { QueryModelInstance } from '../model/queries';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -46,8 +47,6 @@ export const Dashboard = observer(function _Dashboard({
   const [panels, setPanels] = React.useState(dashboard.panels);
   const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
 
-  const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
@@ -57,19 +56,19 @@ export const Dashboard = observer(function _Dashboard({
     if (model.queries.changed) {
       return true;
     }
+    if (model.sqlSnippets.changed) {
+      return true;
+    }
     // local panels' layouts would contain some undefined runtime values
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    if (!panelsEqual) {
-      return true;
-    }
-
-    return !_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets);
-  }, [dashboard, filters, panels, sqlSnippets, model.queries.changed, model.filters.changed]);
+    return !panelsEqual;
+  }, [dashboard, filters, panels, model.queries.changed, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.current];
+    const sqlSnippets = [...model.sqlSnippets.current];
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
@@ -82,7 +81,7 @@ export const Dashboard = observer(function _Dashboard({
   const revertDashboardChanges = () => {
     model.filters.reset();
     setPanels(dashboard.panels);
-    setSQLSnippets(dashboard.definition.sqlSnippets);
+    model.sqlSnippets.reset();
     model.queries.reset();
   };
 
@@ -140,16 +139,9 @@ export const Dashboard = observer(function _Dashboard({
   const inLayoutMode = mode === DashboardMode.Layout;
   const inUseMode = mode === DashboardMode.Use;
 
-  const definitions = React.useMemo(
-    () => ({
-      sqlSnippets,
-      setSQLSnippets,
-    }),
-    [sqlSnippets, setSQLSnippets],
-  );
-
   const getCurrentSchema = React.useCallback(() => {
     const queries = model.queries.current;
+    const sqlSnippets = model.sqlSnippets.current;
     const filters = model.filters.current;
     return {
       filters,
@@ -159,7 +151,7 @@ export const Dashboard = observer(function _Dashboard({
         queries,
       },
     };
-  }, [sqlSnippets, panels, model]);
+  }, [panels, model]);
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
@@ -177,7 +169,7 @@ export const Dashboard = observer(function _Dashboard({
               inFullScreen,
             }}
           >
-            <DefinitionContext.Provider value={definitions}>
+            <DefinitionContext.Provider value={{}}>
               <LayoutStateContext.Provider
                 value={{
                   layoutFrozen,

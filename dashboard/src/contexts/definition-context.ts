@@ -1,13 +1,7 @@
 import React from 'react';
-import { IDashboardDefinition, ISQLSnippet } from '../types';
 
-export interface IDefinitionContext extends Omit<IDashboardDefinition, 'queries'> {
-  setSQLSnippets: React.Dispatch<React.SetStateAction<ISQLSnippet[]>>;
-}
+export interface IDefinitionContext {}
 
-const initialContext = {
-  sqlSnippets: [],
-  setSQLSnippets: () => {},
-};
+const initialContext = {};
 
 export const DefinitionContext = React.createContext<IDefinitionContext>(initialContext);

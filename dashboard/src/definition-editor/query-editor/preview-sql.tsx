@@ -1,7 +1,7 @@
 import { Prism } from '@mantine/prism';
 import React from 'react';
-import { ContextInfoContext, DefinitionContext, FilterValuesContext } from '../../contexts';
-import { DashboardModelInstance } from '../../model';
+import { ContextInfoContext, FilterValuesContext } from '../../contexts';
+import { ModelContext } from '../../contexts/model-context';
 import { explainSQL } from '../../utils/sql';
 
 interface IPreviewSQL {
@@ -10,11 +10,11 @@ interface IPreviewSQL {
 export function PreviewSQL({ value }: IPreviewSQL) {
   const context = React.useContext(ContextInfoContext);
   const filterValues = React.useContext(FilterValuesContext);
-  const { sqlSnippets } = React.useContext(DefinitionContext);
+  const { model } = React.useContext(ModelContext);
 
   const explained = React.useMemo(() => {
-    return explainSQL(value, context, sqlSnippets, filterValues);
-  }, [value, context, sqlSnippets, filterValues]);
+    return explainSQL(value, context, model.sqlSnippets.current, filterValues);
+  }, [value, context, model.sqlSnippets.current, filterValues]);
   return (
     <Prism language="sql" colorScheme="light">
       {explained}

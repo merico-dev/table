@@ -4,20 +4,19 @@ import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import React from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
-import { DefinitionContext } from '../../contexts';
-import { ISQLSnippet } from '../../types';
+import { DashboardModelInstance } from '../../model';
 import { PreviewSnippet } from './preview-snippet';
 
-interface ISQLSnippetsEditor {}
+interface ISQLSnippetsEditor {
+  model: DashboardModelInstance;
+}
 
-export function SQLSnippetsEditor({}: ISQLSnippetsEditor) {
-  const { sqlSnippets, setSQLSnippets } = React.useContext(DefinitionContext);
-
+export function SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
   const initialValues = React.useMemo(
     () => ({
-      snippets: (sqlSnippets ?? []) as ISQLSnippet[],
+      snippets: model.sqlSnippets.current,
     }),
-    [sqlSnippets],
+    [model.sqlSnippets.current],
   );
 
   const form = useForm({
@@ -33,7 +32,7 @@ export function SQLSnippetsEditor({}: ISQLSnippetsEditor) {
   const changed = React.useMemo(() => !_.isEqual(form.values, initialValues), [form.values, initialValues]);
 
   const submit = ({ snippets }: typeof form.values) => {
-    setSQLSnippets(snippets);
+    // setSQLSnippets(snippets);
   };
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>

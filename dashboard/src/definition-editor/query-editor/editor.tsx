@@ -1,7 +1,6 @@
 import { Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { DefinitionContext } from '../../contexts';
 import { DashboardModelInstance } from '../../model';
 import { QueryModelInstance } from '../../model/queries';
 import { QueryForm } from './form';
@@ -35,5 +34,5 @@ export const QueryEditor = observer(function _QueryEditor({ id, setID, model }: 
   if (!query) {
     return <span>Invalid Data Source ID</span>;
   }
-  return <QueryForm value={query} onChange={update} />;
+  return <QueryForm value={query} onChange={update} model={model} />;
 });

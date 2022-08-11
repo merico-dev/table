@@ -1,18 +1,18 @@
 import { AppShell, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { DashboardModelInstance } from '../../model';
+import { ModelContext } from '../../contexts/model-context';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { DataPreview } from './data-preview';
 import { QueryEditor } from './editor';
 import { SelectOrAddQuery } from './select-or-add-query';
 
 interface IEditQueries {
-  model: DashboardModelInstance;
 }
 
-export const EditQueries = observer(function _EditQueries({ model }: IEditQueries) {
+export const EditQueries = observer(function _EditQueries({ }: IEditQueries) {
   const [id, setID] = React.useState('');
+  const { model } = React.useContext(ModelContext);
 
   return (
     <AppShell
@@ -29,7 +29,7 @@ export const EditQueries = observer(function _EditQueries({ model }: IEditQuerie
           <SelectOrAddQuery id={id} setID={setID} model={model} />
           <QueryEditor id={id} setID={setID} model={model} />
         </Stack>
-        <GlobalVariablesGuide />
+        <GlobalVariablesGuide model={model} />
       </Group>
       <DataPreview id={id} model={model} />
     </AppShell>
