@@ -51,7 +51,9 @@ export function QueryForm({ queryModel }: IQueryForm) {
             sx={{ flex: 1 }}
             disabled={loading}
             value={queryModel.id}
-            onChange={(e) => { queryModel.setID(e.currentTarget.value) }}
+            onChange={(e) => {
+              queryModel.setID(e.currentTarget.value);
+            }}
           />
           <Select
             label="Data Source Type"
@@ -76,7 +78,16 @@ export function QueryForm({ queryModel }: IQueryForm) {
             <Tabs.Tab value="Preview">Preview</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="SQL" pt="sm">
-            <Textarea autosize minRows={12} maxRows={24} className="code-textarea" value={queryModel.sql} onChange={e => { queryModel.setSQL(e.currentTarget.value) }} />
+            <Textarea
+              autosize
+              minRows={12}
+              maxRows={24}
+              className="code-textarea"
+              value={queryModel.sql}
+              onChange={(e) => {
+                queryModel.setSQL(e.currentTarget.value);
+              }}
+            />
           </Tabs.Panel>
           <Tabs.Panel value="Preview" pt="sm">
             <PreviewSQL value={queryModel.sql} />
