@@ -5,12 +5,13 @@ import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
 import { DashboardModelInstance } from '../../model';
 import { PreviewSnippet } from './preview-snippet';
+import { observer } from 'mobx-react-lite';
 
 interface ISQLSnippetsEditor {
   model: DashboardModelInstance;
 }
 
-export function SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
+export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
   const addSnippet = () =>
     model.sqlSnippets.append(
       cast({
@@ -71,4 +72,4 @@ export function SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
       </Group>
     </Stack>
   );
-}
+});
