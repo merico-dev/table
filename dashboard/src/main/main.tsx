@@ -22,6 +22,7 @@ import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
 import { QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
+import { ModelContext } from '../contexts/model-context';
 
 interface IDashboardProps {
   context: ContextInfoContextType;
@@ -159,61 +160,63 @@ export const Dashboard = observer(function _Dashboard({
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <FilterValuesContext.Provider value={filterValues}>
-          <DashboardActionContext.Provider
-            value={{
-              addPanel,
-              duplidatePanel,
-              removePanelByID,
-              viewPanelInFullScreen,
-              inFullScreen,
-            }}
-          >
-            <DefinitionContext.Provider value={{}}>
-              <LayoutStateContext.Provider
-                value={{
-                  layoutFrozen,
-                  freezeLayout,
-                  mode,
-                  inEditMode,
-                  inLayoutMode,
-                  inUseMode,
-                }}
-              >
-                {inFullScreen && (
-                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-                )}
-                <Box
-                  className={className}
-                  sx={{
-                    position: 'relative',
-                    display: inFullScreen ? 'none' : 'block',
+        <ModelContext.Provider value={{ model }}>
+          <FilterValuesContext.Provider value={filterValues}>
+            <DashboardActionContext.Provider
+              value={{
+                addPanel,
+                duplidatePanel,
+                removePanelByID,
+                viewPanelInFullScreen,
+                inFullScreen,
+              }}
+            >
+              <DefinitionContext.Provider value={{}}>
+                <LayoutStateContext.Provider
+                  value={{
+                    layoutFrozen,
+                    freezeLayout,
+                    mode,
+                    inEditMode,
+                    inLayoutMode,
+                    inUseMode,
                   }}
                 >
-                  <DashboardActions
-                    mode={mode}
-                    setMode={setMode}
-                    hasChanges={hasChanges}
-                    saveChanges={saveDashboardChanges}
-                    revertChanges={revertDashboardChanges}
-                    getCurrentSchema={getCurrentSchema}
-                    model={model}
-                  />
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <PluginContext.Provider value={pluginContext}>
-                    <DashboardLayout
+                  {inFullScreen && (
+                    <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+                  )}
+                  <Box
+                    className={className}
+                    sx={{
+                      position: 'relative',
+                      display: inFullScreen ? 'none' : 'block',
+                    }}
+                  >
+                    <DashboardActions
+                      mode={mode}
+                      setMode={setMode}
+                      hasChanges={hasChanges}
+                      saveChanges={saveDashboardChanges}
+                      revertChanges={revertDashboardChanges}
+                      getCurrentSchema={getCurrentSchema}
                       model={model}
-                      panels={panels}
-                      setPanels={setPanels}
-                      isDraggable={inLayoutMode}
-                      isResizable={inLayoutMode}
                     />
-                  </PluginContext.Provider>
-                </Box>
-              </LayoutStateContext.Provider>
-            </DefinitionContext.Provider>
-          </DashboardActionContext.Provider>
-        </FilterValuesContext.Provider>
+                    <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                    <PluginContext.Provider value={pluginContext}>
+                      <DashboardLayout
+                        model={model}
+                        panels={panels}
+                        setPanels={setPanels}
+                        isDraggable={inLayoutMode}
+                        isResizable={inLayoutMode}
+                      />
+                    </PluginContext.Provider>
+                  </Box>
+                </LayoutStateContext.Provider>
+              </DefinitionContext.Provider>
+            </DashboardActionContext.Provider>
+          </FilterValuesContext.Provider>
+        </ModelContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
   );
