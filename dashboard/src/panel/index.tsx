@@ -1,14 +1,10 @@
 import { Container } from '@mantine/core';
-import { useRequest } from 'ahooks';
 import React from 'react';
-import { queryBySQL } from '../api-caller';
-import { ContextInfoContext } from '../contexts/context-info-context';
 import { PanelContext } from '../contexts/panel-context';
 import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
-import { FilterValuesContext } from '../contexts';
 import { DashboardModelInstance } from '../model';
 import { observer } from 'mobx-react-lite';
 
@@ -27,19 +23,10 @@ export const Panel = observer(function _Panel({
   id,
   model,
 }: IPanel) {
-  const contextInfo = React.useContext(ContextInfoContext);
-  const filterValues = React.useContext(FilterValuesContext);
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
-
-  const query = React.useMemo(() => {
-    if (!queryID) {
-      return undefined;
-    }
-    return model.queries.findByID(queryID);
-  }, [queryID, model.queries]);
 
   React.useEffect(() => {
     update?.({
@@ -50,25 +37,10 @@ export const Panel = observer(function _Panel({
       queryID,
       viz,
     });
-  }, [title, description, query, viz, id, layout, queryID]);
+  }, [title, description, viz, id, layout, queryID]);
 
-  const {
-    data = [],
-    loading,
-    refresh,
-  } = useRequest(
-    queryBySQL({
-      context: contextInfo,
-      sqlSnippets: model.sqlSnippets.current,
-      filterValues,
-      title,
-      query,
-    }),
-    {
-      refreshDeps: [contextInfo, model.sqlSnippets.current, query, filterValues],
-    },
-  );
-  const refreshData = refresh;
+  const { data, state, error } = model.getDataStuffByID(queryID);
+  const loading = state === 'loading';
   return (
     <PanelContext.Provider
       value={{
@@ -83,7 +55,7 @@ export const Panel = observer(function _Panel({
         setQueryID,
         viz,
         setViz,
-        refreshData,
+        refreshData: () => console.log('under mantainance'),
       }}
     >
       <Container className="panel-root">

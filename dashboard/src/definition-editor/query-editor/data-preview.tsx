@@ -1,10 +1,7 @@
 import { ActionIcon, Group, LoadingOverlay, Stack, Table, Text } from '@mantine/core';
-import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Refresh } from 'tabler-icons-react';
-import { queryBySQL } from '../../api-caller';
-import { ContextInfoContext, FilterValuesContext } from '../../contexts';
 import { DashboardModelInstance } from '../../model';
 
 export const DataPreview = observer(function _DataPreview({
@@ -14,29 +11,9 @@ export const DataPreview = observer(function _DataPreview({
   id: string;
   model: DashboardModelInstance;
 }) {
-  const filterValues = React.useContext(FilterValuesContext);
-  const contextInfo = React.useContext(ContextInfoContext);
-
-  const query = React.useMemo(() => {
-    return model.queries.current.find((d) => d.id === id);
-  }, [model.queries, id]);
-
-  const {
-    data = [],
-    loading,
-    refresh,
-  } = useRequest(
-    queryBySQL({
-      context: contextInfo,
-      sqlSnippets: model.sqlSnippets.current,
-      filterValues,
-      title: id,
-      query,
-    }),
-    {
-      refreshDeps: [contextInfo, model.sqlSnippets.current, model.queries.current, query, filterValues],
-    },
-  );
+  const { data, state, error } = model.getDataStuffByID(id);
+  const loading = state === 'loading';
+  const refresh = () => console.log('under mantainance')
   if (loading) {
     return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;
   }

@@ -13,6 +13,7 @@ import { VizPie } from './pie';
 import { VizStats } from './stats';
 import { ErrorBoundary } from '../error-boundary';
 import { VizRichText } from './rich-text';
+import { observer } from 'mobx-react-lite';
 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf };
@@ -48,7 +49,7 @@ interface IViz {
   loading: boolean;
 }
 
-export function Viz({ viz, data, loading }: IViz) {
+export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
@@ -78,4 +79,4 @@ export function Viz({ viz, data, loading }: IViz) {
       {!empty && <ErrorBoundary>{renderViz(width, height, data, viz)}</ErrorBoundary>}
     </div>
   );
-}
+});
