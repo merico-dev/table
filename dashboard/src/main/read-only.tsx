@@ -14,6 +14,7 @@ import { FullScreenPanel } from './full-screen-panel';
 import { useFilters } from './use-filters';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
+import { ModelContext } from '../contexts/model-context';
 
 interface IReadOnlyDashboard {
   context: ContextInfoContextType;
@@ -34,38 +35,40 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   return (
     <ModalsProvider>
       <ContextInfoContext.Provider value={context}>
-        <FilterValuesContext.Provider value={filterValues}>
-          <DashboardActionContext.Provider
-            value={{
-              addPanel: _.noop,
-              duplidatePanel: _.noop,
-              removePanelByID: _.noop,
-              viewPanelInFullScreen,
-              inFullScreen,
-            }}
-          >
-            <DefinitionContext.Provider value={{}}>
-              <LayoutStateContext.Provider
-                value={{
-                  layoutFrozen: true,
-                  freezeLayout: () => {},
-                  mode: DashboardMode.Use,
-                  inEditMode: false,
-                  inLayoutMode: false,
-                  inUseMode: true,
-                }}
-              >
-                {inFullScreen && (
-                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-                )}
-                <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
-                </Box>
-              </LayoutStateContext.Provider>
-            </DefinitionContext.Provider>
-          </DashboardActionContext.Provider>
-        </FilterValuesContext.Provider>
+        <ModelContext.Provider value={{ model }}>
+          <FilterValuesContext.Provider value={filterValues}>
+            <DashboardActionContext.Provider
+              value={{
+                addPanel: _.noop,
+                duplidatePanel: _.noop,
+                removePanelByID: _.noop,
+                viewPanelInFullScreen,
+                inFullScreen,
+              }}
+            >
+              <DefinitionContext.Provider value={{}}>
+                <LayoutStateContext.Provider
+                  value={{
+                    layoutFrozen: true,
+                    freezeLayout: () => {},
+                    mode: DashboardMode.Use,
+                    inEditMode: false,
+                    inLayoutMode: false,
+                    inUseMode: true,
+                  }}
+                >
+                  {inFullScreen && (
+                    <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+                  )}
+                  <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
+                    <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                    <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
+                  </Box>
+                </LayoutStateContext.Provider>
+              </DefinitionContext.Provider>
+            </DashboardActionContext.Provider>
+          </FilterValuesContext.Provider>
+        </ModelContext.Provider>
       </ContextInfoContext.Provider>
     </ModalsProvider>
   );
