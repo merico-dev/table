@@ -20,6 +20,12 @@ export const QueriesModel = types
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },
+    get options() {
+      return self.current.map((d) => ({
+        value: d.id,
+        label: d.id,
+      }));
+    },
   }))
   .actions((self) => {
     return {

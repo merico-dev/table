@@ -12,9 +12,9 @@ interface ISelectOrAddQuery {
   model: DashboardModelInstance;
 }
 export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID, model }: ISelectOrAddQuery) {
-  const chooseDefault = React.useCallback(() => {
+  const chooseDefault = () => {
     setID(model.queries.firstID ?? '');
-  }, [setID, model.queries.firstID]);
+  };
 
   React.useEffect(() => {
     if (!id) {
@@ -25,16 +25,9 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID,
     if (index === -1) {
       chooseDefault();
     }
-  }, [id, model.queries, chooseDefault]);
+  }, [id, model.queries.current, chooseDefault]);
 
-  const options = React.useMemo(() => {
-    return model.queries.current.map((d) => ({
-      value: d.id,
-      label: d.id,
-    }));
-  }, [model.queries.current]);
-
-  const add = React.useCallback(() => {
+  const add = () => {
     const id = randomId();
     model.queries.append(
       cast({
@@ -46,14 +39,14 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID,
     );
 
     setID(id);
-  }, [model.queries, setID]);
+  };
 
   return (
     <Group pb="xl">
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
         <Text>Select a Query</Text>
         <Select
-          data={options}
+          data={model.queries.options}
           value={id}
           // @ts-expect-error
           onChange={setID}
