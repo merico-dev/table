@@ -21,6 +21,27 @@ const DashboardModel = types
         return ret;
       }, {} as Record<string, any[]>);
     },
+    getDataStuffByID(queryID: string) {
+      const q = self.queries.findByID(queryID);
+      if (!q) {
+        return {
+          data: [],
+          state: 'idle',
+          error: undefined,
+        };
+      }
+      return {
+        data: q.data.toJSON(),
+        state: q.state,
+        error: undefined,
+      };
+    },
+    getDataStateByID(queryID: string) {
+      return self.queries.findByID(queryID)?.state ?? [];
+    },
+    getDataErrorByID(queryID: string) {
+      return self.queries.findByID(queryID)?.error ?? [];
+    },
   }));
 
 export function createDashboardModel({ id, name, filters, definition: { queries, sqlSnippets } }: IDashboard) {
