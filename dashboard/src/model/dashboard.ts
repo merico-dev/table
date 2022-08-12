@@ -5,13 +5,23 @@ import { FiltersModel } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
-const DashboardModel = types.model({
-  id: types.identifier,
-  name: types.string,
-  filters: FiltersModel,
-  queries: QueriesModel,
-  sqlSnippets: SQLSnippetsModel,
-});
+const DashboardModel = types
+  .model({
+    id: types.identifier,
+    name: types.string,
+    filters: FiltersModel,
+    queries: QueriesModel,
+    sqlSnippets: SQLSnippetsModel,
+  })
+  .views((self) => ({
+    get data() {
+      const data = self.queries.current.map(({ id, data }) => ({ id, data }));
+      return data.reduce((ret, curr) => {
+        ret[curr.id] = curr.data;
+        return ret;
+      }, {} as Record<string, any[]>);
+    },
+  }));
 
 export function createDashboardModel({ id, name, filters, definition: { queries, sqlSnippets } }: IDashboard) {
   return DashboardModel.create({
