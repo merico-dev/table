@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { types, cast, Instance } from 'mobx-state-tree';
+import { reaction } from 'mobx';
+import { types, cast, addDisposer } from 'mobx-state-tree';
 import { QueryModel, QueryModelInstance } from './query';
 
 export const QueriesModel = types
@@ -43,6 +44,22 @@ export const QueriesModel = types
       },
       replaceByIndex(index: number, replacement: QueryModelInstance) {
         self.current.splice(index, 1, replacement);
+      },
+      afterCreate() {
+        addDisposer(
+          self,
+          reaction(
+            () => {
+              return self.current.filter((query) => query.valid);
+            },
+            (queries) => {
+              queries.forEach((q) => q.fetchData());
+            },
+            {
+              fireImmediately: true,
+            },
+          ),
+        );
       },
     };
   });
