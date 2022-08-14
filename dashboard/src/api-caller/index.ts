@@ -31,44 +31,11 @@ interface IQueryBySQL {
   context: ContextInfoContextType;
   sqlSnippets: SQLSnippetModelInstance[];
   title: string;
-  query?: QueryModelInstance;
-  filterValues: FilterValuesContextType;
-}
-
-export const queryBySQL =
-  ({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) =>
-  async () => {
-    if (!query || !query.sql) {
-      return [];
-    }
-    const { type, key, sql } = query;
-
-    const needParams = sql.includes('$');
-    try {
-      const params = getSQLParams(context, sqlSnippets, filterValues);
-      const formattedSQL = formatSQL(sql, params);
-      if (needParams) {
-        console.groupCollapsed(`Final SQL for: ${title}`);
-        console.log(formattedSQL);
-        console.groupEnd();
-      }
-      const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
-      return res;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
-interface INewQueryBySQL {
-  context: ContextInfoContextType;
-  sqlSnippets: SQLSnippetModelInstance[];
-  title: string;
   query: { type: DataSourceType; key: string; sql: string };
   filterValues: FilterValuesContextType;
 }
 
-export async function newQueryBySQL({ context, sqlSnippets, title, query, filterValues }: INewQueryBySQL) {
+export async function queryBySQL({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {
   if (!query.sql) {
     return [];
   }
