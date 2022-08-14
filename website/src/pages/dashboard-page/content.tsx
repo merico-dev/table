@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dashboard, initialContextInfoContext, IDashboard } from '@devtable/dashboard';
+import { Dashboard, IDashboard } from '@devtable/dashboard';
 import { Filters } from '../../components/filters';
 
 import 'react-grid-layout/css/styles.css';
@@ -26,7 +26,7 @@ export function DashboardPageContent({ id }: { id: string }) {
     },
   );
 
-  const [context, setContext] = React.useState(initialContextInfoContext);
+  const [context, setContext] = React.useState({});
 
   const updateDashboard = React.useCallback(async (d: IDashboard) => {
     showNotification({
