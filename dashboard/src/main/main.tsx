@@ -6,7 +6,6 @@ import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
 import { DefinitionContext } from '../contexts/definition-context';
 import { randomId } from '@mantine/hooks';
-import { ContextInfoContext, ContextInfoContextType } from '../contexts';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ModalsProvider } from '@mantine/modals';
@@ -23,9 +22,10 @@ import { useCreation } from 'ahooks';
 import { QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 import { ModelContext } from '../contexts/model-context';
+import { ContextInfoType } from '../model/context';
 
 interface IDashboardProps {
-  context: ContextInfoContextType;
+  context: ContextInfoType;
   dashboard: IDashboard;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
@@ -163,65 +163,63 @@ export const Dashboard = observer(function _Dashboard({
   const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
-      <ContextInfoContext.Provider value={context}>
-        <ModelContext.Provider value={{ model }}>
-          <FilterValuesContext.Provider value={filterValues}>
-            <DashboardActionContext.Provider
-              value={{
-                addPanel,
-                duplidatePanel,
-                removePanelByID,
-                viewPanelInFullScreen,
-                inFullScreen,
-              }}
-            >
-              <DefinitionContext.Provider value={{}}>
-                <LayoutStateContext.Provider
-                  value={{
-                    layoutFrozen,
-                    freezeLayout,
-                    mode,
-                    inEditMode,
-                    inLayoutMode,
-                    inUseMode,
+      <ModelContext.Provider value={{ model }}>
+        <FilterValuesContext.Provider value={filterValues}>
+          <DashboardActionContext.Provider
+            value={{
+              addPanel,
+              duplidatePanel,
+              removePanelByID,
+              viewPanelInFullScreen,
+              inFullScreen,
+            }}
+          >
+            <DefinitionContext.Provider value={{}}>
+              <LayoutStateContext.Provider
+                value={{
+                  layoutFrozen,
+                  freezeLayout,
+                  mode,
+                  inEditMode,
+                  inLayoutMode,
+                  inUseMode,
+                }}
+              >
+                {inFullScreen && (
+                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+                )}
+                <Box
+                  className={className}
+                  sx={{
+                    position: 'relative',
+                    display: inFullScreen ? 'none' : 'block',
                   }}
                 >
-                  {inFullScreen && (
-                    <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-                  )}
-                  <Box
-                    className={className}
-                    sx={{
-                      position: 'relative',
-                      display: inFullScreen ? 'none' : 'block',
-                    }}
-                  >
-                    <DashboardActions
-                      mode={mode}
-                      setMode={setMode}
-                      hasChanges={hasChanges}
-                      saveChanges={saveDashboardChanges}
-                      revertChanges={revertDashboardChanges}
-                      getCurrentSchema={getCurrentSchema}
+                  <DashboardActions
+                    mode={mode}
+                    setMode={setMode}
+                    hasChanges={hasChanges}
+                    saveChanges={saveDashboardChanges}
+                    revertChanges={revertDashboardChanges}
+                    getCurrentSchema={getCurrentSchema}
+                    model={model}
+                  />
+                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <PluginContext.Provider value={pluginContext}>
+                    <DashboardLayout
                       model={model}
+                      panels={panels}
+                      setPanels={setPanels}
+                      isDraggable={inLayoutMode}
+                      isResizable={inLayoutMode}
                     />
-                    <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                    <PluginContext.Provider value={pluginContext}>
-                      <DashboardLayout
-                        model={model}
-                        panels={panels}
-                        setPanels={setPanels}
-                        isDraggable={inLayoutMode}
-                        isResizable={inLayoutMode}
-                      />
-                    </PluginContext.Provider>
-                  </Box>
-                </LayoutStateContext.Provider>
-              </DefinitionContext.Provider>
-            </DashboardActionContext.Provider>
-          </FilterValuesContext.Provider>
-        </ModelContext.Provider>
-      </ContextInfoContext.Provider>
+                  </PluginContext.Provider>
+                </Box>
+              </LayoutStateContext.Provider>
+            </DefinitionContext.Provider>
+          </DashboardActionContext.Provider>
+        </FilterValuesContext.Provider>
+      </ModelContext.Provider>
     </ModalsProvider>
   );
 });
