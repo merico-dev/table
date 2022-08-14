@@ -46,7 +46,11 @@ export const Dashboard = observer(function _Dashboard({
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const [panels, setPanels] = React.useState(dashboard.panels);
-  const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
+  const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+
+  React.useEffect(() => {
+    model.context.replace(context);
+  }, [context]);
 
   const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
 

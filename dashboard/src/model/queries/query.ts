@@ -38,11 +38,13 @@ export const QueryModel = types
     fetchData: flow(function* () {
       self.state = 'loading';
       try {
+        const dashboard = getRoot(self);
         self.data = yield* toGenerator(
           queryBySQL({
-            context: {},
             // @ts-expect-error
-            sqlSnippets: getRoot(self).sqlSnippets.current,
+            context: dashboard.context.current.toJSON(),
+            // @ts-expect-error
+            sqlSnippets: dashboard.sqlSnippets.current,
             title: self.key,
             query: {
               type: self.type,
