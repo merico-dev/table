@@ -1,4 +1,4 @@
-import { Instance, types, flow, toGenerator } from 'mobx-state-tree';
+import { Instance, types, flow, toGenerator, getRoot } from 'mobx-state-tree';
 import { queryBySQL } from '../../api-caller';
 
 export enum DataSourceType {
@@ -41,7 +41,8 @@ export const QueryModel = types
         self.data = yield* toGenerator(
           queryBySQL({
             context: {},
-            sqlSnippets: [],
+            // @ts-expect-error
+            sqlSnippets: getRoot(self).sqlSnippets.current,
             title: self.key,
             query: {
               type: self.type,
