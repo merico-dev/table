@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { types, Instance } from 'mobx-state-tree';
 import { IDashboard } from '../types';
+import { ContextModel, ContextInfoType } from './context';
 import { FiltersModel } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
@@ -12,6 +13,7 @@ const DashboardModel = types
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
+    context: ContextModel,
   })
   .views((self) => ({
     get data() {
@@ -44,7 +46,10 @@ const DashboardModel = types
     },
   }));
 
-export function createDashboardModel({ id, name, filters, definition: { queries, sqlSnippets } }: IDashboard) {
+export function createDashboardModel(
+  { id, name, filters, definition: { queries, sqlSnippets } }: IDashboard,
+  context: ContextInfoType,
+) {
   return DashboardModel.create({
     id,
     name,
@@ -60,6 +65,7 @@ export function createDashboardModel({ id, name, filters, definition: { queries,
       original: sqlSnippets,
       current: sqlSnippets,
     },
+    context,
   });
 }
 
@@ -79,6 +85,7 @@ export function createEmptyDashboardModel() {
       original: [],
       current: [],
     },
+    context: {},
   });
 }
 
