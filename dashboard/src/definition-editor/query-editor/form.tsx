@@ -1,8 +1,9 @@
-import { Group, Select, Stack, Tabs, Text, Textarea, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Group, Select, Stack, Tabs, Text, Textarea, TextInput } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { DeviceFloppy } from 'tabler-icons-react';
 import { listDataSources } from '../../api-caller';
 import { QueryModelInstance } from '../../model/queries';
 import { PreviewSQL } from './preview-sql';
@@ -37,6 +38,23 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
       value: key,
     }));
   }, [querySources, queryModel.type]);
+
+  const [sql, setSQL] = React.useState(queryModel.sql);
+
+  React.useEffect(() => {
+    setSQL((sql) => {
+      if (sql !== queryModel.sql) {
+        return queryModel.sql;
+      }
+      return sql;
+    });
+  }, [queryModel.sql]);
+
+  const sqlChanged = sql !== queryModel.sql;
+
+  const submitSQLChanges = () => {
+    queryModel.setSQL(sql);
+  };
 
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
@@ -79,16 +97,28 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
             <Tabs.Tab value="Preview">Preview</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="SQL" pt="sm">
-            <Textarea
-              autosize
-              minRows={12}
-              maxRows={24}
-              className="code-textarea"
-              value={queryModel.sql}
-              onChange={(e) => {
-                queryModel.setSQL(e.currentTarget.value);
-              }}
-            />
+            <Box sx={{ position: 'relative' }}>
+              <Textarea
+                autosize
+                minRows={12}
+                maxRows={24}
+                className="code-textarea"
+                value={sql}
+                onChange={(e) => {
+                  setSQL(e.currentTarget.value);
+                }}
+              />
+              <ActionIcon
+                mr={5}
+                variant="filled"
+                color="blue"
+                sx={{ position: 'absolute', right: 10, top: 10 }}
+                disabled={!sqlChanged}
+                onClick={submitSQLChanges}
+              >
+                <DeviceFloppy size={20} />
+              </ActionIcon>
+            </Box>
           </Tabs.Panel>
           <Tabs.Panel value="Preview" pt="sm">
             <PreviewSQL value={queryModel.sql} />
