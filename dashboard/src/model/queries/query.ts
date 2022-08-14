@@ -1,5 +1,5 @@
 import { Instance, types, flow, toGenerator } from 'mobx-state-tree';
-import { newQueryBySQL } from '../../api-caller';
+import { queryBySQL } from '../../api-caller';
 
 export enum DataSourceType {
   Postgresql = 'postgresql',
@@ -39,7 +39,7 @@ export const QueryModel = types
       self.state = 'loading';
       try {
         self.data = yield* toGenerator(
-          newQueryBySQL({
+          queryBySQL({
             context: {},
             sqlSnippets: [],
             title: self.key,
