@@ -3,7 +3,6 @@ import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FilterValuesContext } from '../contexts';
-import { ContextInfoContext } from '../contexts/context-info-context';
 import { DashboardModelInstance } from '../model';
 
 interface IGlobalVariablesGuide {
@@ -30,7 +29,7 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   showSQLSnippets = true,
   sx = {},
 }: IGlobalVariablesGuide) {
-  const contextInfo = React.useContext(ContextInfoContext);
+  const contextInfo = model.context.current;
   const filterValues = React.useContext(FilterValuesContext);
 
   const variablesString = React.useMemo(() => {

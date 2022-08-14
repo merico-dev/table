@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
+import { FilterValuesContextType } from '../contexts';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType, QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';

@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
+import { FilterValuesContextType } from '../contexts';
+import { ContextInfoType } from '../model/context';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
-export function explainSQLSnippet(snippet: string, context: ContextInfoContextType) {
+export function explainSQLSnippet(snippet: string, context: ContextInfoType) {
   const names = Object.keys(context);
   const vals = Object.values(context);
   try {
@@ -27,7 +28,7 @@ export function formatSQL(sql: string, params: Record<string, any>) {
 }
 
 export function getSQLParams(
-  context: ContextInfoContextType,
+  context: ContextInfoType,
   sqlSnippets: SQLSnippetModelInstance[],
   filterValues: FilterValuesContextType,
 ) {
@@ -42,7 +43,7 @@ export function getSQLParams(
 
 export function explainSQL(
   sql: string,
-  context: ContextInfoContextType,
+  context: ContextInfoType,
   sqlSnippets: SQLSnippetModelInstance[],
   filterValues: FilterValuesContextType,
 ) {
