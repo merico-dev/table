@@ -52,7 +52,7 @@ export const Dashboard = observer(function _Dashboard({
     model.context.replace(context);
   }, [context]);
 
-  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
+  const { filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
@@ -69,7 +69,7 @@ export const Dashboard = observer(function _Dashboard({
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
     return !panelsEqual;
-  }, [dashboard, filters, panels, model.queries.changed, model.filters.changed]);
+  }, [dashboard, panels, model.queries.changed, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.current];
@@ -204,7 +204,7 @@ export const Dashboard = observer(function _Dashboard({
                     getCurrentSchema={getCurrentSchema}
                     model={model}
                   />
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <Filters filterValues={filterValues} setFilterValues={setFilterValues} />
                   <PluginContext.Provider value={pluginContext}>
                     <DashboardLayout
                       model={model}

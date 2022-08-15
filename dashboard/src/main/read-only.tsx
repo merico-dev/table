@@ -29,7 +29,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
     APIClient.baseURL = config.apiBaseURL;
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
-  const { filters, filterValues, setFilterValues } = useFilters(dashboard);
+  const { filterValues, setFilterValues } = useFilters(dashboard);
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
 
@@ -61,7 +61,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
                   <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
                 )}
                 <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <Filters filterValues={filterValues} setFilterValues={setFilterValues} />
                   <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
                 </Box>
               </LayoutStateContext.Provider>
