@@ -17,6 +17,12 @@ export const FiltersModel = types
       }
       return self.current[0].id;
     },
+    get inOrder() {
+      return _.sortBy(self.current, 'order');
+    },
+    get empty() {
+      return self.current.length === 0;
+    },
   }))
   .actions((self) => {
     return {

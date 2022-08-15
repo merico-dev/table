@@ -1,23 +1,22 @@
 import { Button, Group } from '@mantine/core';
 import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FilterModelInstance } from '../model';
+import { ModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
 
 interface IFilters {
-  filters: FilterModelInstance[];
   filterValues: Record<string, any>;
   setFilterValues: (v: Record<string, any>) => void;
 }
 
-export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
-  const { control, handleSubmit } = useForm({ defaultValues: filterValues });
-  const filtersInOrder = React.useMemo(() => {
-    return _.sortBy(filters, 'order');
-  }, [filters]);
+export const Filters = observer(function _Filters({ filterValues, setFilterValues }: IFilters) {
+  const { model } = React.useContext(ModelContext);
 
-  if (filters.length === 0) {
+  const { control, handleSubmit } = useForm({ defaultValues: filterValues });
+
+  if (model.filters.empty) {
     return null;
   }
 
@@ -32,7 +31,7 @@ export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
         sx={{ boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)' }}
       >
         <Group align="flex-start">
-          {filtersInOrder.map((filter) => (
+          {model.filters.inOrder.map((filter) => (
             <Controller
               key={filter.id}
               name={filter.key}
@@ -49,4 +48,4 @@ export function Filters({ filters, filterValues, setFilterValues }: IFilters) {
       </Group>
     </form>
   );
-}
+});
