@@ -18,7 +18,6 @@ interface IDashboardActions {
   saveChanges: () => void;
   revertChanges: () => void;
   getCurrentSchema: () => any;
-  model: DashboardModelInstance;
 }
 export const DashboardActions = observer(function _DashboardActions({
   mode,
@@ -27,7 +26,6 @@ export const DashboardActions = observer(function _DashboardActions({
   saveChanges,
   revertChanges,
   getCurrentSchema,
-  model,
 }: IDashboardActions) {
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
@@ -93,8 +91,8 @@ export const DashboardActions = observer(function _DashboardActions({
           </Menu.Dropdown>
         </Menu>
       </Group>
-      <FilterSettingsModal opened={filtersOpened} close={closeFilters} model={model} />
-      <DataEditorModal opened={dataEditorOpened} close={closeQueries} model={model} />
+      <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
+      <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );

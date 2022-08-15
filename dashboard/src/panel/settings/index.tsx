@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { PanelContext } from '../../contexts/panel-context';
-import { DashboardModelInstance } from '../../model';
 import { PanelConfig } from './panel-config';
 import { PickQuery } from './pick-query';
 import { VizConfig } from './viz-config';
@@ -11,10 +10,9 @@ import { VizConfig } from './viz-config';
 interface IPanelSettingsModal {
   opened: boolean;
   close: () => void;
-  model: DashboardModelInstance;
 }
 
-export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close, model }: IPanelSettingsModal) {
+export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const { data, loading, viz, title } = React.useContext(PanelContext);
 
@@ -51,7 +49,7 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
           </Tabs.List>
           <Tabs.Panel value="Data" pt="sm">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-            <PickQuery model={model} />
+            <PickQuery />
           </Tabs.Panel>
           <Tabs.Panel value="Panel" pt="sm">
             <PanelConfig />

@@ -16,7 +16,6 @@ interface IDashboardLayout {
   rowHeight?: number;
   isDraggable: boolean;
   isResizable: boolean;
-  model: DashboardModelInstance;
 }
 
 export const DashboardLayout = observer(function _DashboardLayout({
@@ -26,7 +25,6 @@ export const DashboardLayout = observer(function _DashboardLayout({
   rowHeight = 10,
   isDraggable,
   isResizable,
-  model,
 }: IDashboardLayout) {
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
@@ -59,7 +57,6 @@ export const DashboardLayout = observer(function _DashboardLayout({
             <Panel
               id={id}
               {...rest}
-              model={model}
               update={(panel: IDashboardPanel) => {
                 setPanels((prevs) => {
                   prevs.splice(index, 1, panel);

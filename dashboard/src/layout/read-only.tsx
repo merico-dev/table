@@ -13,14 +13,12 @@ interface IReadOnlyDashboardLayout {
   panels: IDashboardPanel[];
   className?: string;
   rowHeight?: number;
-  model: DashboardModelInstance;
 }
 
 export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayout({
   panels,
   className = 'layout',
   rowHeight = 10,
-  model,
 }: IReadOnlyDashboardLayout) {
   return (
     <ReactGridLayout
@@ -32,7 +30,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
       {panels.map(({ id, ...rest }) => {
         return (
           <div key={id} data-grid={rest.layout}>
-            <Panel id={id} {...rest} model={model} />
+            <Panel id={id} {...rest} />
           </div>
         );
       })}

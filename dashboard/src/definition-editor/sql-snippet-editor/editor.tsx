@@ -3,15 +3,16 @@ import { cast } from 'mobx-state-tree';
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
-import { DashboardModelInstance } from '../../model';
 import { PreviewSnippet } from './preview-snippet';
 import { observer } from 'mobx-react-lite';
+import { ModelContext } from '../../contexts';
+import React from 'react';
 
-interface ISQLSnippetsEditor {
-  model: DashboardModelInstance;
-}
+interface ISQLSnippetsEditor {}
 
-export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor({ model }: ISQLSnippetsEditor) {
+export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor({}: ISQLSnippetsEditor) {
+  const { model } = React.useContext(ModelContext);
+
   const addSnippet = () =>
     model.sqlSnippets.append(
       cast({
