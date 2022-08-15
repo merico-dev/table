@@ -6,6 +6,7 @@ export const FiltersModel = types
   .model('FiltersModel', {
     original: types.optional(types.array(FilterModel), []),
     current: types.optional(types.array(FilterModel), []),
+    values: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
     get changed() {
@@ -38,7 +39,29 @@ export const FiltersModel = types
       remove(index: number) {
         self.current.splice(index, 1);
       },
+      setValues(values: Record<string, any>) {
+        self.values = values;
+      },
+      setValueByKey(key: string, value: Record<string, any>) {
+        self.values[key] = value;
+      },
+      getValueByKey(key: string) {
+        return self.values[key];
+      },
     };
   });
 
 export * from './filter';
+
+export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
+  const values = filters.reduce((ret, filter) => {
+    // @ts-expect-error
+    ret[filter.key] = filter.config.default_value ?? '';
+    return ret;
+  }, {} as Record<string, any>);
+  return {
+    original: filters,
+    current: filters,
+    values,
+  };
+}

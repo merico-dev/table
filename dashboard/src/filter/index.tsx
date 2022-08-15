@@ -6,22 +6,19 @@ import { Controller, useForm } from 'react-hook-form';
 import { ModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
 
-interface IFilters {
-  filterValues: Record<string, any>;
-  setFilterValues: (v: Record<string, any>) => void;
-}
+interface IFilters { }
 
-export const Filters = observer(function _Filters({ filterValues, setFilterValues }: IFilters) {
+export const Filters = observer(function _Filters({ }: IFilters) {
   const { model } = React.useContext(ModelContext);
 
-  const { control, handleSubmit } = useForm({ defaultValues: filterValues });
+  const { control, handleSubmit } = useForm({ defaultValues: model.filters.values });
 
   if (model.filters.empty) {
     return null;
   }
 
   return (
-    <form onSubmit={handleSubmit(setFilterValues)}>
+    <form onSubmit={handleSubmit(model.filters.setValues)}>
       <Group
         className="dashboard-filters"
         position="apart"

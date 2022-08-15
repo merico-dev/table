@@ -11,7 +11,6 @@ import { usePanelFullScreen } from './use-panel-full-screen';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { Box } from '@mantine/core';
 import { FullScreenPanel } from './full-screen-panel';
-import { useFilters } from './use-filters';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
 import { ModelContext } from '../contexts/model-context';
@@ -29,14 +28,13 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
     APIClient.baseURL = config.apiBaseURL;
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
-  const { filterValues, setFilterValues } = useFilters(dashboard);
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
 
   return (
     <ModalsProvider>
       <ModelContext.Provider value={{ model }}>
-        <FilterValuesContext.Provider value={filterValues}>
+        <FilterValuesContext.Provider value={model.filters.values}>
           <DashboardActionContext.Provider
             value={{
               addPanel: _.noop,
@@ -50,7 +48,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               <LayoutStateContext.Provider
                 value={{
                   layoutFrozen: true,
-                  freezeLayout: () => {},
+                  freezeLayout: () => { },
                   mode: DashboardMode.Use,
                   inEditMode: false,
                   inLayoutMode: false,
@@ -61,7 +59,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
                   <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
                 )}
                 <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
-                  <Filters filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <Filters />
                   <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
                 </Box>
               </LayoutStateContext.Provider>

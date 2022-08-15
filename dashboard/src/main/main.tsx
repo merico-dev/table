@@ -14,7 +14,6 @@ import { Box, Overlay } from '@mantine/core';
 import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
 import { FilterValuesContext } from '../contexts/filter-values-context';
-import { useFilters } from './use-filters';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
@@ -51,8 +50,6 @@ export const Dashboard = observer(function _Dashboard({
   React.useEffect(() => {
     model.context.replace(context);
   }, [context]);
-
-  const { filterValues, setFilterValues } = useFilters(dashboard);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
@@ -164,7 +161,7 @@ export const Dashboard = observer(function _Dashboard({
   return (
     <ModalsProvider>
       <ModelContext.Provider value={{ model }}>
-        <FilterValuesContext.Provider value={filterValues}>
+        <FilterValuesContext.Provider value={model.filters.values}>
           <DashboardActionContext.Provider
             value={{
               addPanel,
@@ -204,7 +201,7 @@ export const Dashboard = observer(function _Dashboard({
                     getCurrentSchema={getCurrentSchema}
                     model={model}
                   />
-                  <Filters filterValues={filterValues} setFilterValues={setFilterValues} />
+                  <Filters />
                   <PluginContext.Provider value={pluginContext}>
                     <DashboardLayout
                       model={model}

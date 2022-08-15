@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { types, Instance } from 'mobx-state-tree';
 import { IDashboard } from '../types';
 import { ContextModel, ContextInfoType } from './context';
-import { FiltersModel } from './filters';
+import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
@@ -53,10 +53,7 @@ export function createDashboardModel(
   return DashboardModel.create({
     id,
     name,
-    filters: {
-      original: filters,
-      current: filters,
-    },
+    filters: getInitialFiltersPayload(filters),
     queries: {
       original: queries,
       current: queries,
@@ -76,6 +73,7 @@ export function createEmptyDashboardModel() {
     filters: {
       original: [],
       current: [],
+      values: {},
     },
     queries: {
       original: [],
