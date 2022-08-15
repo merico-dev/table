@@ -4,7 +4,6 @@ import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard'
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
-import { DefinitionContext } from '../contexts/definition-context';
 import { randomId } from '@mantine/hooks';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
@@ -169,45 +168,43 @@ export const Dashboard = observer(function _Dashboard({
             inFullScreen,
           }}
         >
-          <DefinitionContext.Provider value={{}}>
-            <LayoutStateContext.Provider
-              value={{
-                layoutFrozen,
-                freezeLayout,
-                mode,
-                inEditMode,
-                inLayoutMode,
-                inUseMode,
+          <LayoutStateContext.Provider
+            value={{
+              layoutFrozen,
+              freezeLayout,
+              mode,
+              inEditMode,
+              inLayoutMode,
+              inUseMode,
+            }}
+          >
+            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+            <Box
+              className={className}
+              sx={{
+                position: 'relative',
+                display: inFullScreen ? 'none' : 'block',
               }}
             >
-              {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-              <Box
-                className={className}
-                sx={{
-                  position: 'relative',
-                  display: inFullScreen ? 'none' : 'block',
-                }}
-              >
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  hasChanges={hasChanges}
-                  saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
+              <DashboardActions
+                mode={mode}
+                setMode={setMode}
+                hasChanges={hasChanges}
+                saveChanges={saveDashboardChanges}
+                revertChanges={revertDashboardChanges}
+                getCurrentSchema={getCurrentSchema}
+              />
+              <Filters />
+              <PluginContext.Provider value={pluginContext}>
+                <DashboardLayout
+                  panels={panels}
+                  setPanels={setPanels}
+                  isDraggable={inLayoutMode}
+                  isResizable={inLayoutMode}
                 />
-                <Filters />
-                <PluginContext.Provider value={pluginContext}>
-                  <DashboardLayout
-                    panels={panels}
-                    setPanels={setPanels}
-                    isDraggable={inLayoutMode}
-                    isResizable={inLayoutMode}
-                  />
-                </PluginContext.Provider>
-              </Box>
-            </LayoutStateContext.Provider>
-          </DefinitionContext.Provider>
+              </PluginContext.Provider>
+            </Box>
+          </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
       </ModelContext.Provider>
     </ModalsProvider>
