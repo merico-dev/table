@@ -10,7 +10,12 @@ export const QueriesModel = types
   })
   .views((self) => ({
     get changed() {
-      return !_.isEqual(self.original, self.current);
+      if (self.original.length !== self.current.length) {
+        return true;
+      }
+      return self.original.some((o, i) => {
+        return !_.isEqual(o.configurations, self.current[i].configurations);
+      });
     },
     get firstID() {
       if (self.current.length === 0) {
