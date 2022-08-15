@@ -14,11 +14,10 @@ import {
 import { DashboardMode } from '../types';
 import { ModeToggler } from './toggle-mode';
 import { DataEditorModal } from '../definition-editor';
-import { LayoutStateContext } from '../contexts';
+import { LayoutStateContext, ModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ViewSchemaModal } from './view-schema-modal';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { DashboardModelInstance } from '../model';
 import { observer } from 'mobx-react-lite';
 
 interface IDashboardActions {
@@ -37,6 +36,7 @@ export const DashboardActions = observer(function _DashboardActions({
   revertChanges,
   getCurrentSchema,
 }: IDashboardActions) {
+  const { model } = React.useContext(ModelContext);
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
@@ -96,7 +96,7 @@ export const DashboardActions = observer(function _DashboardActions({
             </Button>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item disabled icon={<Download size={14} />}>
+            <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
               Download Data
             </Menu.Item>
             <Menu.Item icon={<Code size={14} />} onClick={openSchema}>

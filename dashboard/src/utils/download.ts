@@ -1,3 +1,6 @@
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+
 export function downloadCSV(id: string, csv: string) {
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = window.URL.createObjectURL(blob);
@@ -7,8 +10,18 @@ export function downloadCSV(id: string, csv: string) {
   a.click();
 }
 
+export function downloadDataListAsZip(idDataList: Array<{ id: string; data: any[] }>) {
+  const zip = new JSZip();
+  idDataList.forEach(({ id, data }) => {
+    zip.file(`${id}.csv`, makeCSV(data));
+  });
+  zip.generateAsync({ type: 'blob' }).then((content) => {
+    saveAs(content, 'dashboard_data.zip');
+  });
+}
+
 export function makeCSV(data: any | any[]) {
-  if (!Array.isArray(data)) {
+  if (!Array.isArray(data) || data.length === 0) {
     // Not dealing with object-typed data for now
     return '';
   }
