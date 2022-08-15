@@ -6,9 +6,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { ModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
 
-interface IFilters { }
+interface IFilters {}
 
-export const Filters = observer(function _Filters({ }: IFilters) {
+export const Filters = observer(function _Filters({}: IFilters) {
   const { model } = React.useContext(ModelContext);
 
   const { control, handleSubmit } = useForm({ defaultValues: model.filters.values });
