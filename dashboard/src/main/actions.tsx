@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Divider, Group, Menu } from '@mantine/core';
-import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { ClipboardText, Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
 import { DashboardMode } from '../types';
 import { ModeToggler } from './toggle-mode';
 import { DataEditorModal } from '../definition-editor';
@@ -79,15 +79,15 @@ export const DashboardActions = observer(function _DashboardActions({
             Revert Changes
           </Button>
         )}
-        <Menu>
+        <Menu width={180}>
           <Menu.Target>
             <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
               Export
             </Button>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item disabled>Download Data</Menu.Item>
-            <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
+            <Menu.Item disabled icon={<Download size={14} />}>Download Data</Menu.Item>
+            <Menu.Item icon={<Code size={14} />} onClick={openSchema}>View Schema</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>
