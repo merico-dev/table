@@ -2,10 +2,10 @@ import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { ModelContext } from '../contexts/model-context';
 import { DashboardModelInstance } from '../model';
 
 interface IGlobalVariablesGuide {
-  model: DashboardModelInstance;
   showSQLSnippets?: boolean;
   sx?: Sx;
 }
@@ -24,10 +24,10 @@ WHERE
   \$\{sql_snippets.order_by_clause\}
 `;
 export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
-  model,
   showSQLSnippets = true,
   sx = {},
 }: IGlobalVariablesGuide) {
+  const { model } = React.useContext(ModelContext);
   const contextInfo = model.context.current;
 
   const variablesString = React.useMemo(() => {

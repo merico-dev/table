@@ -180,9 +180,7 @@ export const Dashboard = observer(function _Dashboard({
                 inUseMode,
               }}
             >
-              {inFullScreen && (
-                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-              )}
+              {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
               <Box
                 className={className}
                 sx={{
@@ -197,12 +195,10 @@ export const Dashboard = observer(function _Dashboard({
                   saveChanges={saveDashboardChanges}
                   revertChanges={revertDashboardChanges}
                   getCurrentSchema={getCurrentSchema}
-                  model={model}
                 />
                 <Filters />
                 <PluginContext.Provider value={pluginContext}>
                   <DashboardLayout
-                    model={model}
                     panels={panels}
                     setPanels={setPanels}
                     isDraggable={inLayoutMode}

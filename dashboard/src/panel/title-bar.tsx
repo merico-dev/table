@@ -6,16 +6,13 @@ import { ArrowsMaximize, Copy, Refresh, Settings, Trash } from 'tabler-icons-rea
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
-import { DashboardModelInstance } from '../model';
 import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
 import './title-bar.css';
 
-interface IPanelTitleBar {
-  model: DashboardModelInstance;
-}
+interface IPanelTitleBar {}
 
-export const PanelTitleBar = observer(function _PanelTitleBar({ model }: IPanelTitleBar) {
+export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar) {
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
@@ -80,7 +77,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar({ model }: IPanelT
           </Menu.Dropdown>
         </Menu>
       </Group>
-      {inEditMode && <PanelSettingsModal opened={opened} close={close} model={model} />}
+      {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
     </Box>
   );
 });

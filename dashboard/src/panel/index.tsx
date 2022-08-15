@@ -5,12 +5,11 @@ import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
-import { DashboardModelInstance } from '../model';
 import { observer } from 'mobx-react-lite';
+import { ModelContext } from '../contexts';
 
 interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
-  model: DashboardModelInstance;
 }
 
 export const Panel = observer(function _Panel({
@@ -21,8 +20,8 @@ export const Panel = observer(function _Panel({
   update,
   layout,
   id,
-  model,
 }: IPanel) {
+  const { model } = React.useContext(ModelContext);
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
@@ -59,7 +58,7 @@ export const Panel = observer(function _Panel({
       }}
     >
       <Container className="panel-root">
-        <PanelTitleBar model={model} />
+        <PanelTitleBar />
         <Viz viz={viz} data={data} loading={loading} />
       </Container>
     </PanelContext.Provider>

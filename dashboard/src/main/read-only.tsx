@@ -53,12 +53,10 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
                 inUseMode: true,
               }}
             >
-              {inFullScreen && (
-                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-              )}
+              {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
               <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
                 <Filters />
-                <ReadOnlyDashboardLayout panels={dashboard.panels} model={model} />
+                <ReadOnlyDashboardLayout panels={dashboard.panels} />
               </Box>
             </LayoutStateContext.Provider>
           </DefinitionContext.Provider>

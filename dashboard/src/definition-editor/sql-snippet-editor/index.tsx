@@ -1,13 +1,10 @@
 import { AppShell, Group } from '@mantine/core';
-import React from 'react';
-import { ModelContext } from '../../contexts/model-context';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { SQLSnippetsEditor } from './editor';
 
 interface IEditSQLSnippets {}
 
 export function EditSQLSnippets({}: IEditSQLSnippets) {
-  const { model } = React.useContext(ModelContext);
   return (
     <AppShell
       sx={{
@@ -19,8 +16,8 @@ export function EditSQLSnippets({}: IEditSQLSnippets) {
       padding="md"
     >
       <Group position="apart" grow align="stretch" noWrap>
-        <SQLSnippetsEditor model={model} />
-        <GlobalVariablesGuide showSQLSnippets={false} model={model} />
+        <SQLSnippetsEditor />
+        <GlobalVariablesGuide showSQLSnippets={false} />
       </Group>
     </AppShell>
   );

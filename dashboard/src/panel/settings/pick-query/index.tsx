@@ -1,14 +1,12 @@
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { PanelContext } from '../../../contexts';
+import { ModelContext, PanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
-import { DashboardModelInstance } from '../../../model';
 
-interface IPickQuery {
-  model: DashboardModelInstance;
-}
-export const PickQuery = observer(function _PickQuery({ model }: IPickQuery) {
+interface IPickQuery {}
+export const PickQuery = observer(function _PickQuery({}: IPickQuery) {
+  const { model } = React.useContext(ModelContext);
   const { queryID, setQueryID } = React.useContext(PanelContext);
 
   const options = React.useMemo(() => {
@@ -32,7 +30,7 @@ export const PickQuery = observer(function _PickQuery({ model }: IPickQuery) {
           sx={{ flexGrow: 1 }}
         />
       </Group>
-      <DataPreview id={queryID} model={model} />
+      <DataPreview id={queryID} />
     </Stack>
   );
 });
