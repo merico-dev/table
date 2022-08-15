@@ -3,11 +3,7 @@ import { saveAs } from 'file-saver';
 
 export function downloadCSV(id: string, csv: string) {
   const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.setAttribute('href', url);
-  a.setAttribute('download', `${id}.csv`);
-  a.click();
+  saveAs(blob, `${id}.csv`);
 }
 
 export function downloadDataListAsZip(idDataList: Array<{ id: string; data: any[] }>) {
