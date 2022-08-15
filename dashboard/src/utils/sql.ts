@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FilterValuesContextType } from '../contexts';
+import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
@@ -30,7 +30,7 @@ export function formatSQL(sql: string, params: Record<string, any>) {
 export function getSQLParams(
   context: ContextInfoType,
   sqlSnippets: SQLSnippetModelInstance[],
-  filterValues: FilterValuesContextType,
+  filterValues: FilterValuesType,
 ) {
   const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, any>, curr) => {
     ret[curr.key] = formatSQL(curr.value, context);
@@ -45,7 +45,7 @@ export function explainSQL(
   sql: string,
   context: ContextInfoType,
   sqlSnippets: SQLSnippetModelInstance[],
-  filterValues: FilterValuesContextType,
+  filterValues: FilterValuesType,
 ) {
   try {
     const params = getSQLParams(context, sqlSnippets, filterValues);

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FilterValuesContextType } from '../contexts';
+import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType, QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
@@ -33,7 +33,7 @@ interface IQueryBySQL {
   sqlSnippets: SQLSnippetModelInstance[];
   title: string;
   query: { type: DataSourceType; key: string; sql: string };
-  filterValues: FilterValuesContextType;
+  filterValues: FilterValuesType;
 }
 
 export async function queryBySQL({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {

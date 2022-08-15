@@ -2,7 +2,6 @@ import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { FilterValuesContext } from '../contexts';
 import { DashboardModelInstance } from '../model';
 
 interface IGlobalVariablesGuide {
@@ -30,12 +29,11 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   sx = {},
 }: IGlobalVariablesGuide) {
   const contextInfo = model.context.current;
-  const filterValues = React.useContext(FilterValuesContext);
 
   const variablesString = React.useMemo(() => {
     const ret: Record<string, any> = {
       context: contextInfo,
-      filters: filterValues,
+      filters: model.filters.values,
     };
 
     if (showSQLSnippets) {
@@ -47,7 +45,7 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
     }
 
     return JSON.stringify(ret, null, 2);
-  }, [contextInfo, model.sqlSnippets.current, filterValues, showSQLSnippets]);
+  }, [contextInfo, model.sqlSnippets.current, model.filters.values, showSQLSnippets]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
