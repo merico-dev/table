@@ -2,7 +2,8 @@ import { Group, Text, Menu, Divider, Box } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ArrowsMaximize, Copy, Refresh, Settings, Trash } from 'tabler-icons-react';
+import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
+import { ModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
@@ -13,12 +14,13 @@ import './title-bar.css';
 interface IPanelTitleBar {}
 
 export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar) {
+  const { model } = React.useContext(ModelContext);
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
 
-  const { id, title, refreshData } = React.useContext(PanelContext);
+  const { id, title, refreshData, queryID } = React.useContext(PanelContext);
   const { inEditMode } = React.useContext(LayoutStateContext);
 
   const { duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen } =
@@ -54,6 +56,9 @@ export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar
           <Menu.Dropdown>
             <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>
               Refresh
+            </Menu.Item>
+            <Menu.Item onClick={() => model.queries.downloadDataByQueryID(queryID)} icon={<Download size={14} />}>
+              Download Data
             </Menu.Item>
             {!inFullScreen && (
               <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>

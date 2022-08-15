@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { reaction } from 'mobx';
 import { types, cast, addDisposer } from 'mobx-state-tree';
+import { downloadCSV, makeCSV } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
 
 export const QueriesModel = types
@@ -49,6 +50,16 @@ export const QueriesModel = types
       },
       replaceByIndex(index: number, replacement: QueryModelInstance) {
         self.current.splice(index, 1, replacement);
+      },
+      downloadDataByQueryID(queryID: string) {
+        const query = self.findByID(queryID);
+        if (!query) {
+          console.log(`[downloadDataByQueryID] query by ID[${queryID}] not found`);
+          return;
+        }
+        const { id, data } = query;
+        const csv = makeCSV(data);
+        downloadCSV(id, csv);
       },
       afterCreate() {
         addDisposer(
