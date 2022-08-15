@@ -21,6 +21,10 @@ export const QueryModel = types
     get valid() {
       return self.id && self.type && self.key && self.sql;
     },
+    get configurations() {
+      const { id, type, key, sql } = self;
+      return { id, type, key, sql };
+    },
   }))
   .actions((self) => ({
     setID(id: string) {
