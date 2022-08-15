@@ -2,7 +2,6 @@ import React from 'react';
 import _ from 'lodash';
 import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
-import { DefinitionContext } from '../contexts/definition-context';
 import { ReadOnlyDashboardLayout } from '../layout/read-only';
 import { APIClient } from '../api-caller/request';
 import { ModalsProvider } from '@mantine/modals';
@@ -42,24 +41,22 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
             inFullScreen,
           }}
         >
-          <DefinitionContext.Provider value={{}}>
-            <LayoutStateContext.Provider
-              value={{
-                layoutFrozen: true,
-                freezeLayout: () => {},
-                mode: DashboardMode.Use,
-                inEditMode: false,
-                inLayoutMode: false,
-                inUseMode: true,
-              }}
-            >
-              {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-              <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
-                <Filters />
-                <ReadOnlyDashboardLayout panels={dashboard.panels} />
-              </Box>
-            </LayoutStateContext.Provider>
-          </DefinitionContext.Provider>
+          <LayoutStateContext.Provider
+            value={{
+              layoutFrozen: true,
+              freezeLayout: () => {},
+              mode: DashboardMode.Use,
+              inEditMode: false,
+              inLayoutMode: false,
+              inUseMode: true,
+            }}
+          >
+            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+            <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
+              <Filters />
+              <ReadOnlyDashboardLayout panels={dashboard.panels} />
+            </Box>
+          </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
       </ModelContext.Provider>
     </ModalsProvider>
