@@ -13,7 +13,6 @@ import { FullScreenPanel } from './full-screen-panel';
 import { Box, Overlay } from '@mantine/core';
 import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
-import { FilterValuesContext } from '../contexts/filter-values-context';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
@@ -161,61 +160,59 @@ export const Dashboard = observer(function _Dashboard({
   return (
     <ModalsProvider>
       <ModelContext.Provider value={{ model }}>
-        <FilterValuesContext.Provider value={model.filters.values}>
-          <DashboardActionContext.Provider
-            value={{
-              addPanel,
-              duplidatePanel,
-              removePanelByID,
-              viewPanelInFullScreen,
-              inFullScreen,
-            }}
-          >
-            <DefinitionContext.Provider value={{}}>
-              <LayoutStateContext.Provider
-                value={{
-                  layoutFrozen,
-                  freezeLayout,
-                  mode,
-                  inEditMode,
-                  inLayoutMode,
-                  inUseMode,
+        <DashboardActionContext.Provider
+          value={{
+            addPanel,
+            duplidatePanel,
+            removePanelByID,
+            viewPanelInFullScreen,
+            inFullScreen,
+          }}
+        >
+          <DefinitionContext.Provider value={{}}>
+            <LayoutStateContext.Provider
+              value={{
+                layoutFrozen,
+                freezeLayout,
+                mode,
+                inEditMode,
+                inLayoutMode,
+                inUseMode,
+              }}
+            >
+              {inFullScreen && (
+                <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
+              )}
+              <Box
+                className={className}
+                sx={{
+                  position: 'relative',
+                  display: inFullScreen ? 'none' : 'block',
                 }}
               >
-                {inFullScreen && (
-                  <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} model={model} />
-                )}
-                <Box
-                  className={className}
-                  sx={{
-                    position: 'relative',
-                    display: inFullScreen ? 'none' : 'block',
-                  }}
-                >
-                  <DashboardActions
-                    mode={mode}
-                    setMode={setMode}
-                    hasChanges={hasChanges}
-                    saveChanges={saveDashboardChanges}
-                    revertChanges={revertDashboardChanges}
-                    getCurrentSchema={getCurrentSchema}
+                <DashboardActions
+                  mode={mode}
+                  setMode={setMode}
+                  hasChanges={hasChanges}
+                  saveChanges={saveDashboardChanges}
+                  revertChanges={revertDashboardChanges}
+                  getCurrentSchema={getCurrentSchema}
+                  model={model}
+                />
+                <Filters />
+                <PluginContext.Provider value={pluginContext}>
+                  <DashboardLayout
                     model={model}
+                    panels={panels}
+                    setPanels={setPanels}
+                    isDraggable={inLayoutMode}
+                    isResizable={inLayoutMode}
                   />
-                  <Filters />
-                  <PluginContext.Provider value={pluginContext}>
-                    <DashboardLayout
-                      model={model}
-                      panels={panels}
-                      setPanels={setPanels}
-                      isDraggable={inLayoutMode}
-                      isResizable={inLayoutMode}
-                    />
-                  </PluginContext.Provider>
-                </Box>
-              </LayoutStateContext.Provider>
-            </DefinitionContext.Provider>
-          </DashboardActionContext.Provider>
-        </FilterValuesContext.Provider>
+                </PluginContext.Provider>
+              </Box>
+            </LayoutStateContext.Provider>
+          </DefinitionContext.Provider>
+        </DashboardActionContext.Provider>
       </ModelContext.Provider>
     </ModalsProvider>
   );
