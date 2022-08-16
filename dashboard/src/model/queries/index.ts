@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { reaction } from 'mobx';
-import { types, cast, addDisposer } from 'mobx-state-tree';
+import { types, cast } from 'mobx-state-tree';
 import { downloadCSV, makeCSV, downloadDataListAsZip } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
 
@@ -67,22 +66,6 @@ export const QueriesModel = types
         const { id, data } = query;
         const csv = makeCSV(data);
         downloadCSV(id, csv);
-      },
-      afterCreate() {
-        addDisposer(
-          self,
-          reaction(
-            () => {
-              return self.current.filter((query) => query.valid);
-            },
-            (queries) => {
-              queries.forEach((q) => q.fetchData());
-            },
-            {
-              fireImmediately: true,
-            },
-          ),
-        );
       },
     };
   });
