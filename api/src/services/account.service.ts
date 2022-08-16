@@ -12,6 +12,7 @@ import { ROLE_TYPES } from '../api_models/role';
 export const SALT_ROUNDS = 12;
 const SECRET_KEY: jwt.Secret = process.env.SECRET_KEY as jwt.Secret;
 const TOKEN_VALIDITY = 7 * 24 * 3600;
+const DEFAULT_RESET_PASSWORD = process.env.DEFAULT_RESET_PASSWORD ?? '123456';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
@@ -102,7 +103,7 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, editor_role_id: ROLE_TYPES): Promise<AccountAPIModel> {
+  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, reset_password: boolean, editor_role_id: ROLE_TYPES): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (account.role_id >= editor_role_id) {
@@ -110,6 +111,9 @@ export class AccountService {
     }
     if (role_id >= editor_role_id) {
       throw new ApiError(BAD_REQUEST, { message: 'Can not change account permissions to similar or higher than own account' });
+    }
+    if (reset_password) {
+      account.password = await bcrypt.hash(DEFAULT_RESET_PASSWORD, SALT_ROUNDS);
     }
     account.name = name;
     account.email = email === undefined ? account.email : email;

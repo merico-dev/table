@@ -1,5 +1,5 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
-import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsInt } from 'class-validator';
+import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsInt, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FilterRequest, SortRequest, PaginationRequest, PaginationResponse } from './base';
 import { ROLE_TYPES } from './role';
@@ -278,6 +278,13 @@ export class AccountEditRequest {
     enum: [ROLE_TYPES.INACTIVE.toString(), ROLE_TYPES.READER.toString(), ROLE_TYPES.AUTHOR.toString(), ROLE_TYPES.ADMIN.toString()],
   })
   role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'Reset account password',
+    required: true,
+  })
+  reset_password: boolean;
 }
 
 @ApiModel({
