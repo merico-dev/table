@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -26,6 +27,7 @@
     "express": "^4.18.1",
     "inversify": "^6.0.1",
     "inversify-express-utils": "^6.4.3",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mysql": "^2.18.1",
     "npmlog": "^6.0.2",
@@ -37,9 +39,11 @@
     "typeorm": "^0.3.6"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/body-parser": "^1.19.2",
     "@types/express": "^4.17.13",
     "@types/inversify": "^2.0.33",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.35",
     "@types/pg": "^8.6.5",

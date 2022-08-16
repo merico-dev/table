@@ -1,0 +1,1 @@
+export const AUTH_ENABLED = parseInt(process.env.ENABLE_AUTH as string ?? 0);
