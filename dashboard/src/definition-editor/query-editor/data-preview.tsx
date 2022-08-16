@@ -2,7 +2,7 @@ import { ActionIcon, Box, Group, LoadingOverlay, Stack, Table, Text } from '@man
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Refresh } from 'tabler-icons-react';
-import { ModelContext } from '../../contexts';
+import { useModelContext } from '../../contexts';
 
 function DataTable({ loading, data }: { loading: boolean; data: any[] }) {
   if (loading) {
@@ -42,7 +42,7 @@ function DataTable({ loading, data }: { loading: boolean; data: any[] }) {
 }
 
 export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const { data, state, error } = model.getDataStuffByID(id);
   const loading = state === 'loading';
   const refresh = () => console.log('under mantainance');

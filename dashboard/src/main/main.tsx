@@ -16,9 +16,7 @@ import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
-import { QueryModelInstance } from '../model/queries';
-import { SQLSnippetModelInstance } from '../model/sql-snippets';
-import { ModelContext } from '../contexts/model-context';
+import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
 
 interface IDashboardProps {
@@ -158,7 +156,7 @@ export const Dashboard = observer(function _Dashboard({
   const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
-      <ModelContext.Provider value={{ model }}>
+      <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
             addPanel,
@@ -206,7 +204,7 @@ export const Dashboard = observer(function _Dashboard({
             </Box>
           </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
-      </ModelContext.Provider>
+      </ModelContextProvider>
     </ModalsProvider>
   );
 });

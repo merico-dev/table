@@ -1,12 +1,12 @@
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ModelContext, PanelContext } from '../../../contexts';
+import { useModelContext, PanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 
 interface IPickQuery {}
 export const PickQuery = observer(function _PickQuery({}: IPickQuery) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const { queryID, setQueryID } = React.useContext(PanelContext);
 
   const options = React.useMemo(() => {

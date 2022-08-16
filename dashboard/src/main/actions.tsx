@@ -14,7 +14,7 @@ import {
 import { DashboardMode } from '../types';
 import { ModeToggler } from './toggle-mode';
 import { DataEditorModal } from '../definition-editor';
-import { LayoutStateContext, ModelContext } from '../contexts';
+import { LayoutStateContext, useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ViewSchemaModal } from './view-schema-modal';
 import { FilterSettingsModal } from '../filter/filter-settings';
@@ -36,7 +36,7 @@ export const DashboardActions = observer(function _DashboardActions({
   revertChanges,
   getCurrentSchema,
 }: IDashboardActions) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 

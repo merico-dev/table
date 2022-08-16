@@ -5,13 +5,13 @@ import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
 import { PreviewSnippet } from './preview-snippet';
 import { observer } from 'mobx-react-lite';
-import { ModelContext } from '../../contexts';
+import { useModelContext } from '../../contexts';
 import React from 'react';
 
 interface ISQLSnippetsEditor {}
 
 export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor({}: ISQLSnippetsEditor) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
 
   const addSnippet = () =>
     model.sqlSnippets.append(

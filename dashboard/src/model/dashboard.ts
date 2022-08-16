@@ -66,25 +66,4 @@ export function createDashboardModel(
   });
 }
 
-export function createEmptyDashboardModel() {
-  return DashboardModel.create({
-    id: 'initial',
-    name: '',
-    filters: {
-      original: [],
-      current: [],
-      values: {},
-    },
-    queries: {
-      original: [],
-      current: [],
-    },
-    sqlSnippets: {
-      original: [],
-      current: [],
-    },
-    context: {},
-  });
-}
-
 export type DashboardModelInstance = Instance<typeof DashboardModel>;

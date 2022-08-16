@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
-import { ModelContext } from '../contexts';
+import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { PanelContext } from '../contexts/panel-context';
@@ -14,7 +14,7 @@ import './title-bar.css';
 interface IPanelTitleBar {}
 
 export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);

@@ -1,13 +1,13 @@
 import { Prism } from '@mantine/prism';
 import React from 'react';
-import { ModelContext } from '../../contexts/model-context';
+import { useModelContext } from '../../contexts/model-context';
 import { explainSQL } from '../../utils/sql';
 
 interface IPreviewSQL {
   value: string;
 }
 export function PreviewSQL({ value }: IPreviewSQL) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const context = model.context.current;
 
   const explained = React.useMemo(() => {
