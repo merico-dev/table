@@ -9,6 +9,7 @@ Add a `.env` file based on `.env.sample`
 - `SECRET_KEY` for encrypting and decrypting passwords used in datasource configurations.
 - `ENABLE_AUTH` Whether to add authentication and authorization to routes. 0 = disabled, 1 = enabled 
 - `SUPER_ADMIN_PASSWORD` The password which will be configured for the superadmin account during migration. Must be configured before migration is run. If value is not set, password will be 'secret';
+- `DEFAULT_RESET_PASSWORD` password that will be used when resetting an account password. Defaults to 123456
 
 ### up and running
 1. `yarn install`
