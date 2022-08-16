@@ -1,4 +1,5 @@
-import { Instance, types, flow, toGenerator, getRoot } from 'mobx-state-tree';
+import { autorun, reaction } from 'mobx';
+import { Instance, types, flow, toGenerator, getRoot, addDisposer } from 'mobx-state-tree';
 import { queryBySQL } from '../../api-caller';
 
 export enum DataSourceType {
@@ -40,16 +41,19 @@ export const QueryModel = types
       self.sql = sql;
     },
     fetchData: flow(function* () {
+      if (!self.valid) {
+        return;
+      }
       self.state = 'loading';
       try {
         const dashboard = getRoot(self);
         self.data = yield* toGenerator(
           queryBySQL({
             // @ts-expect-error
-            context: dashboard.context.current.toJSON(),
+            context: dashboard.context.current,
             // @ts-expect-error
             sqlSnippets: dashboard.sqlSnippets.current,
-            title: self.key,
+            title: self.id,
             query: {
               type: self.type,
               key: self.key,
@@ -60,10 +64,25 @@ export const QueryModel = types
         );
         self.state = 'idle';
       } catch (error) {
+        console.error(error);
         self.error = error;
         self.state = 'error';
       }
     }),
+  }))
+  .actions((self) => ({
+    afterCreate() {
+      if (self.id === 'q-1.1') {
+        console.log('after create');
+      }
+      addDisposer(
+        self,
+        reaction(() => `${self.id}--${self.key}--${self.type}--${self.sql}`, self.fetchData, {
+          fireImmediately: true,
+          delay: 1000,
+        }),
+      );
+    },
   }));
 
 export type QueryModelInstance = Instance<typeof QueryModel>;
