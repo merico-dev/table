@@ -5,6 +5,9 @@ import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDef
 import { DashboardService } from '../services/dashboard.service';
 import { validate } from '../middleware/validation';
 import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
+import { RoleService } from '../services/role.service';
+import Account from '../models/account';
+import { ROLE_TYPES } from '../api_models/role';
 
 @ApiPath({
   path: '/dashboard',
@@ -14,11 +17,14 @@ import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, D
 export class DashboardController implements interfaces.Controller {
   public static TARGET_NAME: string = 'Dashboard';
   private dashboardService: DashboardService;
+  private roleService: RoleService;
 
   public constructor(
-    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>
+    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>,
+    @inject('Newable<RoleService>') RoleService: inverfaces.Newable<RoleService>
   ) {
     this.dashboardService = new DashboardService();
+    this.roleService = new RoleService();
   }
 
   @ApiOperationPost({
@@ -35,6 +41,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/list')
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const account: Account = req.body.account;
+      this.roleService.checkPermission(account, ROLE_TYPES.READER);
       const { filter, sort, pagination } = validate(DashboardListRequest, req.body);
       const result = await this.dashboardService.list(filter, sort, pagination);
       res.json(result);
@@ -57,6 +65,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/create')
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const account: Account = req.body.account;
+      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { name, content } = validate(DashboardCreateRequest, req.body);
       const result = await this.dashboardService.create(name, content);
       res.json(result);
@@ -80,6 +90,8 @@ export class DashboardController implements interfaces.Controller {
   @httpGet('/details/:id')
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const account: Account = req.body.account;
+      this.roleService.checkPermission(account, ROLE_TYPES.READER);
       const id = req.params.id;
       const result = await this.dashboardService.get(id);
       res.json(result);
@@ -103,6 +115,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPut('/update')
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const account: Account = req.body.account;
+      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
       const result = await this.dashboardService.update(id, name, content, is_removed);
       res.json(result);
@@ -126,6 +140,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/delete')
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const account: Account = req.body.account;
+      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { id } = validate(DashboardIDRequest, req.body);
       const result = await this.dashboardService.delete(id);
       res.json(result);

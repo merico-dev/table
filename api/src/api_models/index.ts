@@ -6,6 +6,11 @@ import {
   DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
   DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest,
 } from './datasource';
+import {
+  Account, AccountLoginRequest, AccountLoginResponse, AccountFilterObject, AccountSortObject, AccountListRequest, AccountPaginationResponse,
+  AccountCreateRequest, AccountUpdateRequest, AccountEditRequest, AccountChangePasswordRequest, AccountIDRequest,
+} from './account';
+import { Role } from './role';
 import { QueryRequest } from './query';
 import { ApiError } from './base';
 
@@ -22,13 +27,28 @@ export default {
   DashboardIDRequest,
 
   DataSourceConfig,
-  DataSource, 
-  DataSourceFilterObject, 
-  DataSourceSortObject, 
+  DataSource,
+  DataSourceFilterObject,
+  DataSourceSortObject,
   DataSourceListRequest,
-  DataSourcePaginationResponse, 
-  DataSourceCreateRequest, 
+  DataSourcePaginationResponse,
+  DataSourceCreateRequest,
   DataSourceIDRequest,
+
+  Account,
+  AccountLoginRequest,
+  AccountLoginResponse,
+  AccountFilterObject,
+  AccountSortObject,
+  AccountListRequest,
+  AccountPaginationResponse,
+  AccountCreateRequest,
+  AccountUpdateRequest,
+  AccountEditRequest,
+  AccountChangePasswordRequest,
+  AccountIDRequest,
+
+  Role,
 
   QueryRequest,
 }
