@@ -2,8 +2,7 @@ import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ModelContext } from '../contexts/model-context';
-import { DashboardModelInstance } from '../model';
+import { useModelContext } from '../contexts/model-context';
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
@@ -27,7 +26,7 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   showSQLSnippets = true,
   sx = {},
 }: IGlobalVariablesGuide) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const contextInfo = model.context.current;
 
   const variablesString = React.useMemo(() => {

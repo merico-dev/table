@@ -1,12 +1,14 @@
 import React from 'react';
-import { createEmptyDashboardModel, DashboardModelInstance } from '../model';
+import { DashboardModelInstance } from '../model';
 
-export interface IModelContext {
-  model: DashboardModelInstance;
+const ModelContext = React.createContext<DashboardModelInstance | null>(null);
+
+export const ModelContextProvider = ModelContext.Provider;
+
+export function useModelContext() {
+  const model = React.useContext(ModelContext);
+  if (!model) {
+    throw new Error('Please use ModelContextProvider');
+  }
+  return model;
 }
-
-const initialContext = {
-  model: createEmptyDashboardModel(),
-};
-
-export const ModelContext = React.createContext<IModelContext>(initialContext);

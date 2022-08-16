@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ModelContext } from '../../contexts';
+import { useModelContext } from '../../contexts';
 import { QueryForm } from './form';
 
 interface IQueryEditor {
@@ -8,7 +8,7 @@ interface IQueryEditor {
   setID: React.Dispatch<React.SetStateAction<string>>;
 }
 export const QueryEditor = observer(function _QueryEditor({ id, setID }: IQueryEditor) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const query = React.useMemo(() => {
     return model.queries.findByID(id);
   }, [model.queries, id]);

@@ -6,7 +6,7 @@ import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { observer } from 'mobx-react-lite';
-import { ModelContext } from '../contexts';
+import { useModelContext } from '../contexts';
 
 interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
@@ -21,7 +21,7 @@ export const Panel = observer(function _Panel({
   layout,
   id,
 }: IPanel) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);

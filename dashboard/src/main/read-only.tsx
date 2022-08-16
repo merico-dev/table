@@ -11,7 +11,7 @@ import { Box } from '@mantine/core';
 import { FullScreenPanel } from './full-screen-panel';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
-import { ModelContext } from '../contexts/model-context';
+import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
 
 interface IReadOnlyDashboard {
@@ -31,7 +31,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
 
   return (
     <ModalsProvider>
-      <ModelContext.Provider value={{ model }}>
+      <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
             addPanel: _.noop,
@@ -58,7 +58,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
             </Box>
           </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
-      </ModelContext.Provider>
+      </ModelContextProvider>
     </ModalsProvider>
   );
 }

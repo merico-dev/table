@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy, PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
-import { ModelContext } from '../../contexts';
+import { useModelContext } from '../../contexts';
 import { DashboardModelInstance, FilterModelInstance } from '../../model';
 import { DashboardFilterType } from '../../model/filters/filter/common';
 import { createFilterConfig_TextInput } from '../../model/filters/filter/text-input';
@@ -13,7 +13,7 @@ import { FilterSetting } from './filter-setting';
 interface FilterSettings {}
 
 export const FilterSettings = observer(function _FilterSettings({}: FilterSettings) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const filters = model.filters.current;
 
   const addFilter = () => {

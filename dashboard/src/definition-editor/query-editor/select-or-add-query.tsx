@@ -4,14 +4,14 @@ import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { DataSourceType } from '../../model/queries';
 import { observer } from 'mobx-react-lite';
-import { ModelContext } from '../../contexts';
+import { useModelContext } from '../../contexts';
 
 interface ISelectOrAddQuery {
   id: string;
   setID: React.Dispatch<React.SetStateAction<string>>;
 }
 export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID }: ISelectOrAddQuery) {
-  const { model } = React.useContext(ModelContext);
+  const model = useModelContext();
   const chooseDefault = () => {
     setID(model.queries.firstID ?? '');
   };
