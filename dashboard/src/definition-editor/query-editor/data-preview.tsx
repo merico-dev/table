@@ -45,7 +45,9 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
   const model = useModelContext();
   const { data, state, error } = model.getDataStuffByID(id);
   const loading = state === 'loading';
-  const refresh = () => console.log('under mantainance');
+  const refresh = () => {
+    model.queries.refetchDataByQueryID(id);
+  };
   return (
     <Stack my="xl" sx={{ border: '1px solid #eee' }}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>

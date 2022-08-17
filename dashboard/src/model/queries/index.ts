@@ -68,6 +68,14 @@ export const QueriesModel = types
         const csv = makeCSV(data);
         downloadCSV(id, csv);
       },
+      refetchDataByQueryID(queryID: string) {
+        const query = self.findByID(queryID);
+        if (!query) {
+          console.error(new Error(`[downloadDataByQueryID] query by ID[${queryID}] not found`));
+          return;
+        }
+        return query.fetchData();
+      },
     };
   });
 
