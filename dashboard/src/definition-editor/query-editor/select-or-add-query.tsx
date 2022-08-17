@@ -2,7 +2,7 @@ import { Button, Group, Select, Text } from '@mantine/core';
 import { cast } from 'mobx-state-tree';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
-import { DataSourceType } from '../../model/queries';
+import { DataSourceType } from '../../model/queries/types';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '../../contexts';
 
