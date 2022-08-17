@@ -4,12 +4,9 @@ import React from 'react';
 import { Refresh } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
 
-function DataTable({ loading, data }: { loading: boolean; data: any[] }) {
-  if (loading) {
-    return <LoadingOverlay visible={loading} exitTransitionDuration={0} />;
-  }
+function DataTable({ data }: { data: any[] }) {
   if (data.length === 0) {
-    return <Table></Table>;
+    return <Box sx={{ height: '5em' }} />;
   }
   return (
     <Table>
@@ -64,7 +61,8 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
         </ActionIcon>
       </Group>
       <Box sx={{ position: 'relative' }}>
-        <DataTable loading={loading} data={data} />
+        <LoadingOverlay visible={loading} />
+        <DataTable data={data} />
       </Box>
     </Stack>
   );

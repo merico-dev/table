@@ -7,7 +7,7 @@ import { IFilterOptionQuery } from '../../model/filters/filter/common';
 
 function DataTable({ data }: { data: any[] }) {
   if (data.length === 0) {
-    return <Table></Table>;
+    return <Box sx={{ height: '5em' }} />;
   }
   return (
     <Table>
