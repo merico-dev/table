@@ -1,10 +1,10 @@
 import React from 'react';
 import { FilterModelInstance } from '../model';
-import { IFilterConfig_Checkbox } from '../model/filter/checkbox';
-import { IFilterConfig_DateRange } from '../model/filter/date-range';
-import { IFilterConfig_MultiSelect } from '../model/filter/multi-select';
-import { IFilterConfig_Select } from '../model/filter/select';
-import { IFilterConfig_TextInput } from '../model/filter/text-input';
+import { IFilterConfig_Checkbox } from '../model/filters/filter/checkbox';
+import { IFilterConfig_DateRange } from '../model/filters/filter/date-range';
+import { IFilterConfig_MultiSelect } from '../model/filters/filter/multi-select';
+import { IFilterConfig_Select } from '../model/filters/filter/select';
+import { IFilterConfig_TextInput } from '../model/filters/filter/text-input';
 import { ErrorBoundary } from '../panel/error-boundary';
 import { FilterCheckbox } from './filter-checkbox/render';
 import { FilterDateRange } from './filter-date-range/render';

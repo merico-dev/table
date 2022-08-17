@@ -4,16 +4,16 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy, PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
+import { useModelContext } from '../../contexts';
 import { DashboardModelInstance, FilterModelInstance } from '../../model';
-import { DashboardFilterType } from '../../model/filter/common';
-import { createFilterConfig_TextInput } from '../../model/filter/text-input';
+import { DashboardFilterType } from '../../model/filters/filter/common';
+import { createFilterConfig_TextInput } from '../../model/filters/filter/text-input';
 import { FilterSetting } from './filter-setting';
 
-interface FilterSettings {
-  model: DashboardModelInstance;
-}
+interface FilterSettings {}
 
-export const FilterSettings = observer(function _FilterSettings({ model }: FilterSettings) {
+export const FilterSettings = observer(function _FilterSettings({}: FilterSettings) {
+  const model = useModelContext();
   const filters = model.filters.current;
 
   const addFilter = () => {

@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
+import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -16,7 +18,7 @@ interface IDashboardLayout {
   isResizable: boolean;
 }
 
-export function DashboardLayout({
+export const DashboardLayout = observer(function _DashboardLayout({
   panels,
   setPanels,
   className = 'layout',
@@ -67,4 +69,4 @@ export function DashboardLayout({
       })}
     </ReactGridLayout>
   );
-}
+});

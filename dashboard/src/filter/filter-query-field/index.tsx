@@ -2,7 +2,8 @@ import { Stack, Tabs, Textarea } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { PreviewSQL } from '../../definition-editor/query-editor/preview-sql';
-import { IFilterOptionQuery } from '../../model/filter/common';
+import { DashboardModelInstance } from '../../model';
+import { IFilterOptionQuery } from '../../model/filters/filter/common';
 import { SelectDataSource } from './select-data-source';
 import { TestQuery } from './test-query';
 

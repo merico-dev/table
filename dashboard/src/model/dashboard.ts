@@ -1,55 +1,68 @@
 import _ from 'lodash';
-import { types, cast, Instance } from 'mobx-state-tree';
+import { types, Instance } from 'mobx-state-tree';
 import { IDashboard } from '../types';
-import { FilterModel, FilterModelInstance } from './filter';
+import { ContextModel, ContextInfoType } from './context';
+import { FiltersModel, getInitialFiltersPayload } from './filters';
+import { QueriesModel } from './queries';
+import { SQLSnippetsModel } from './sql-snippets';
 
-const FiltersModel = types
-  .model('FiltersModel', {
-    original: types.optional(types.array(FilterModel), []),
-    current: types.optional(types.array(FilterModel), []),
+const DashboardModel = types
+  .model({
+    id: types.identifier,
+    name: types.string,
+    filters: FiltersModel,
+    queries: QueriesModel,
+    sqlSnippets: SQLSnippetsModel,
+    context: ContextModel,
   })
   .views((self) => ({
-    get changed() {
-      return !_.isEqual(self.original, self.current);
+    get data() {
+      const data = self.queries.current.map(({ id, data }) => ({ id, data }));
+      return data.reduce((ret, curr) => {
+        ret[curr.id] = curr.data;
+        return ret;
+      }, {} as Record<string, any[]>);
     },
-    get firstID() {
-      if (self.current.length === 0) {
-        return undefined;
+    getDataStuffByID(queryID: string) {
+      const q = self.queries.findByID(queryID);
+      if (!q) {
+        return {
+          data: [],
+          state: 'idle',
+          error: undefined,
+        };
       }
-      return self.current[0].id;
+      return {
+        data: q.data.toJSON(),
+        state: q.state,
+        error: undefined,
+      };
     },
-  }))
-  .actions((self) => {
-    return {
-      reset() {
-        self.current = _.cloneDeep(self.original);
-      },
-      replace(current: Array<FilterModelInstance>) {
-        self.current = cast(current);
-      },
-      append(item: FilterModelInstance) {
-        self.current.push(item);
-      },
-      remove(index: number) {
-        self.current.splice(index, 1);
-      },
-    };
-  });
+    getDataStateByID(queryID: string) {
+      return self.queries.findByID(queryID)?.state ?? [];
+    },
+    getDataErrorByID(queryID: string) {
+      return self.queries.findByID(queryID)?.error ?? [];
+    },
+  }));
 
-const DashboardModel = types.model({
-  id: types.identifier,
-  name: types.string,
-  filters: FiltersModel,
-});
-
-export function createDashboardModel({ id, name, filters }: IDashboard) {
+export function createDashboardModel(
+  { id, name, filters, definition: { queries, sqlSnippets } }: IDashboard,
+  context: ContextInfoType,
+) {
   return DashboardModel.create({
     id,
     name,
-    filters: {
-      original: filters,
-      current: filters,
+    filters: getInitialFiltersPayload(filters),
+    queries: {
+      original: queries,
+      current: queries,
     },
+    sqlSnippets: {
+      original: sqlSnippets,
+      current: sqlSnippets,
+    },
+    context,
   });
 }
 

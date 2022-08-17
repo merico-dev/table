@@ -1,5 +1,4 @@
 import { AppShell, Group } from '@mantine/core';
-import React from 'react';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { SQLSnippetsEditor } from './editor';
 

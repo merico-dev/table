@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import React from 'react';
 import { queryByStaticSQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
-import { IFilterConfig_MultiSelect } from '../../model/filter/multi-select';
+import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
 
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;

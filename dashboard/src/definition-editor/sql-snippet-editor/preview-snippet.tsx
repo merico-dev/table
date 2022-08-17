@@ -1,7 +1,7 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import React from 'react';
-import { ContextInfoContext } from '../../contexts';
+import { useModelContext } from '../../contexts/model-context';
 import { explainSQLSnippet } from '../../utils/sql';
 
 interface IPreviewSnippet {
@@ -9,7 +9,8 @@ interface IPreviewSnippet {
 }
 
 export function PreviewSnippet({ value }: IPreviewSnippet) {
-  const context = React.useContext(ContextInfoContext);
+  const model = useModelContext();
+  const context = model.context.current;
   const explained = React.useMemo(() => {
     return explainSQLSnippet(value, context);
   }, [value, context]);

@@ -1,6 +1,6 @@
 import { Checkbox, Group, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_DateRange } from '../../model/filter/date-range';
+import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
 
 interface IFilterEditorDateRange {
   config: IFilterConfig_DateRange;

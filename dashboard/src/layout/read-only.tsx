@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
+import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -13,7 +15,11 @@ interface IReadOnlyDashboardLayout {
   rowHeight?: number;
 }
 
-export function ReadOnlyDashboardLayout({ panels, className = 'layout', rowHeight = 10 }: IReadOnlyDashboardLayout) {
+export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayout({
+  panels,
+  className = 'layout',
+  rowHeight = 10,
+}: IReadOnlyDashboardLayout) {
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
@@ -30,4 +36,4 @@ export function ReadOnlyDashboardLayout({ panels, className = 'layout', rowHeigh
       })}
     </ReactGridLayout>
   );
-}
+});

@@ -1,4 +1,5 @@
 import { Modal, Tabs } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { EditQueries } from './query-editor';
@@ -9,7 +10,7 @@ interface IDataEditorModal {
   close: () => void;
 }
 
-export function DataEditorModal({ opened, close }: IDataEditorModal) {
+export const DataEditorModal = observer(function _DataEditorModal({ opened, close }: IDataEditorModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
 
   React.useEffect(() => {
@@ -42,4 +43,4 @@ export function DataEditorModal({ opened, close }: IDataEditorModal) {
       </Tabs>
     </Modal>
   );
-}
+});

@@ -1,14 +1,24 @@
 import React from 'react';
 import { Button, Divider, Group, Menu } from '@mantine/core';
-import { ClipboardText, Database, DeviceFloppy, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import {
+  ClipboardText,
+  Code,
+  Database,
+  DeviceFloppy,
+  Download,
+  Filter,
+  PlaylistAdd,
+  Recycle,
+  Share,
+} from 'tabler-icons-react';
 import { DashboardMode } from '../types';
 import { ModeToggler } from './toggle-mode';
 import { DataEditorModal } from '../definition-editor';
-import { LayoutStateContext } from '../contexts';
+import { LayoutStateContext, useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ViewSchemaModal } from './view-schema-modal';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { DashboardModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -17,17 +27,16 @@ interface IDashboardActions {
   saveChanges: () => void;
   revertChanges: () => void;
   getCurrentSchema: () => any;
-  model: DashboardModelInstance;
 }
-export function DashboardActions({
+export const DashboardActions = observer(function _DashboardActions({
   mode,
   setMode,
   hasChanges,
   saveChanges,
   revertChanges,
   getCurrentSchema,
-  model,
 }: IDashboardActions) {
+  const model = useModelContext();
   const { addPanel } = React.useContext(DashboardActionContext);
   const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
@@ -80,21 +89,25 @@ export function DashboardActions({
             Revert Changes
           </Button>
         )}
-        <Menu>
+        <Menu width={180}>
           <Menu.Target>
             <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
               Export
             </Button>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item disabled>Download Data</Menu.Item>
-            <Menu.Item onClick={openSchema}>View Schema</Menu.Item>
+            <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
+              Download Data
+            </Menu.Item>
+            <Menu.Item icon={<Code size={14} />} onClick={openSchema}>
+              View Schema
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Group>
-      <FilterSettingsModal opened={filtersOpened} close={closeFilters} model={model} />
+      <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
       <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );
-}
+});

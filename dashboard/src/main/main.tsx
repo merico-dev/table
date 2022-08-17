@@ -1,12 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import { DashboardMode, IDashboard, IQuery, ISQLSnippet, IDashboardConfig } from '../types/dashboard';
+import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
 import { DashboardActions } from './actions';
-import { DefinitionContext } from '../contexts/definition-context';
 import { randomId } from '@mantine/hooks';
-import { ContextInfoContext, ContextInfoContextType } from '../contexts';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { ModalsProvider } from '@mantine/modals';
@@ -14,15 +12,15 @@ import { FullScreenPanel } from './full-screen-panel';
 import { Box, Overlay } from '@mantine/core';
 import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
-import { FilterValuesContext } from '../contexts/filter-values-context';
-import { useFilters } from './use-filters';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
 import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
+import { ModelContextProvider } from '../contexts/model-context';
+import { ContextInfoType } from '../model/context';
 
 interface IDashboardProps {
-  context: ContextInfoContextType;
+  context: ContextInfoType;
   dashboard: IDashboard;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
@@ -43,32 +41,32 @@ export const Dashboard = observer(function _Dashboard({
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const [panels, setPanels] = React.useState(dashboard.panels);
-  const model = React.useMemo(() => createDashboardModel(dashboard), [dashboard]);
+  const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
-  const [sqlSnippets, setSQLSnippets] = React.useState<ISQLSnippet[]>(dashboard.definition.sqlSnippets);
-  const [queries, setQueries] = React.useState<IQuery[]>(dashboard.definition.queries);
-
-  const { filters, setFilters, filterValues, setFilterValues } = useFilters(dashboard);
+  React.useEffect(() => {
+    model.context.replace(context);
+  }, [context]);
 
   const hasChanges = React.useMemo(() => {
     if (model.filters.changed) {
+      return true;
+    }
+    if (model.queries.changed) {
+      return true;
+    }
+    if (model.sqlSnippets.changed) {
       return true;
     }
     // local panels' layouts would contain some undefined runtime values
     const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    if (!panelsEqual) {
-      return true;
-    }
-
-    if (!_.isEqual(sqlSnippets, dashboard.definition.sqlSnippets)) {
-      return true;
-    }
-    return !_.isEqual(queries, dashboard.definition.queries);
-  }, [dashboard, filters, panels, sqlSnippets, queries, model.filters.changed]);
+    return !panelsEqual;
+  }, [dashboard, panels, model.queries.changed, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
+    const queries = [...model.queries.current];
+    const sqlSnippets = [...model.sqlSnippets.current];
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
@@ -79,10 +77,10 @@ export const Dashboard = observer(function _Dashboard({
   };
 
   const revertDashboardChanges = () => {
-    setFilters(dashboard.filters);
+    model.filters.reset();
     setPanels(dashboard.panels);
-    setSQLSnippets(dashboard.definition.sqlSnippets);
-    setQueries(dashboard.definition.queries);
+    model.sqlSnippets.reset();
+    model.queries.reset();
   };
 
   const addPanel = () => {
@@ -139,85 +137,74 @@ export const Dashboard = observer(function _Dashboard({
   const inLayoutMode = mode === DashboardMode.Layout;
   const inUseMode = mode === DashboardMode.Use;
 
-  const definitions = React.useMemo(
-    () => ({
-      sqlSnippets,
-      setSQLSnippets,
-      queries,
-      setQueries,
-    }),
-    [sqlSnippets, setSQLSnippets, queries, setQueries],
-  );
-
   const getCurrentSchema = React.useCallback(() => {
+    const queries = model.queries.current;
+    const sqlSnippets = model.sqlSnippets.current;
+    const filters = model.filters.current;
     return {
+      filters,
       panels,
       definition: {
         sqlSnippets,
         queries,
       },
     };
-  }, [sqlSnippets, queries, panels]);
+  }, [panels, model]);
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
-      <ContextInfoContext.Provider value={context}>
-        <FilterValuesContext.Provider value={filterValues}>
-          <DashboardActionContext.Provider
+      <ModelContextProvider value={model}>
+        <DashboardActionContext.Provider
+          value={{
+            addPanel,
+            duplidatePanel,
+            removePanelByID,
+            viewPanelInFullScreen,
+            inFullScreen,
+          }}
+        >
+          <LayoutStateContext.Provider
             value={{
-              addPanel,
-              duplidatePanel,
-              removePanelByID,
-              viewPanelInFullScreen,
-              inFullScreen,
+              layoutFrozen,
+              freezeLayout,
+              mode,
+              inEditMode,
+              inLayoutMode,
+              inUseMode,
             }}
           >
-            <DefinitionContext.Provider value={definitions}>
-              <LayoutStateContext.Provider
-                value={{
-                  layoutFrozen,
-                  freezeLayout,
-                  mode,
-                  inEditMode,
-                  inLayoutMode,
-                  inUseMode,
-                }}
-              >
-                {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-                <Box
-                  className={className}
-                  sx={{
-                    position: 'relative',
-                    display: inFullScreen ? 'none' : 'block',
-                  }}
-                >
-                  <DashboardActions
-                    mode={mode}
-                    setMode={setMode}
-                    hasChanges={hasChanges}
-                    saveChanges={saveDashboardChanges}
-                    revertChanges={revertDashboardChanges}
-                    getCurrentSchema={getCurrentSchema}
-                    model={model}
-                  />
-                  <Filters filters={filters} filterValues={filterValues} setFilterValues={setFilterValues} />
-                  <PluginContext.Provider value={pluginContext}>
-                    <DashboardLayout
-                      panels={panels}
-                      setPanels={setPanels}
-                      isDraggable={inLayoutMode}
-                      isResizable={inLayoutMode}
-                    />
-                  </PluginContext.Provider>
-                </Box>
-              </LayoutStateContext.Provider>
-            </DefinitionContext.Provider>
-          </DashboardActionContext.Provider>
-        </FilterValuesContext.Provider>
-      </ContextInfoContext.Provider>
+            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+            <Box
+              className={className}
+              sx={{
+                position: 'relative',
+                display: inFullScreen ? 'none' : 'block',
+              }}
+            >
+              <DashboardActions
+                mode={mode}
+                setMode={setMode}
+                hasChanges={hasChanges}
+                saveChanges={saveDashboardChanges}
+                revertChanges={revertDashboardChanges}
+                getCurrentSchema={getCurrentSchema}
+              />
+              <Filters />
+              <PluginContext.Provider value={pluginContext}>
+                <DashboardLayout
+                  panels={panels}
+                  setPanels={setPanels}
+                  isDraggable={inLayoutMode}
+                  isResizable={inLayoutMode}
+                />
+              </PluginContext.Provider>
+            </Box>
+          </LayoutStateContext.Provider>
+        </DashboardActionContext.Provider>
+      </ModelContextProvider>
     </ModalsProvider>
   );
 });

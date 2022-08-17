@@ -1,4 +1,5 @@
 import { AppShell, Group, Stack } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { DataPreview } from './data-preview';
@@ -7,7 +8,7 @@ import { SelectOrAddQuery } from './select-or-add-query';
 
 interface IEditQueries {}
 
-export function EditQueries({}: IEditQueries) {
+export const EditQueries = observer(function _EditQueries({}: IEditQueries) {
   const [id, setID] = React.useState('');
 
   return (
@@ -30,4 +31,4 @@ export function EditQueries({}: IEditQueries) {
       <DataPreview id={id} />
     </AppShell>
   );
-}
+});

@@ -1,21 +1,18 @@
 import { Container } from '@mantine/core';
-import { useRequest } from 'ahooks';
 import React from 'react';
-import { queryBySQL } from '../api-caller';
-import { ContextInfoContext } from '../contexts/context-info-context';
 import { PanelContext } from '../contexts/panel-context';
 import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
-import { DefinitionContext, FilterValuesContext } from '../contexts';
-import { ErrorBoundary } from './error-boundary';
+import { observer } from 'mobx-react-lite';
+import { useModelContext } from '../contexts';
 
 interface IPanel extends IDashboardPanel {
   update?: (panel: IDashboardPanel) => void;
 }
 
-export function Panel({
+export const Panel = observer(function _Panel({
   viz: initialViz,
   queryID: initialQueryID,
   title: initialTitle,
@@ -24,20 +21,11 @@ export function Panel({
   layout,
   id,
 }: IPanel) {
-  const contextInfo = React.useContext(ContextInfoContext);
-  const filterValues = React.useContext(FilterValuesContext);
-  const definitions = React.useContext(DefinitionContext);
+  const model = useModelContext();
   const [title, setTitle] = React.useState(initialTitle);
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
-
-  const query = React.useMemo(() => {
-    if (!queryID) {
-      return undefined;
-    }
-    return definitions.queries.find((d) => d.id === queryID);
-  }, [queryID, definitions.queries]);
 
   React.useEffect(() => {
     update?.({
@@ -48,25 +36,10 @@ export function Panel({
       queryID,
       viz,
     });
-  }, [title, description, query, viz, id, layout, queryID]);
+  }, [title, description, viz, id, layout, queryID]);
 
-  const {
-    data = [],
-    loading,
-    refresh,
-  } = useRequest(
-    queryBySQL({
-      context: contextInfo,
-      definitions,
-      filterValues,
-      title,
-      query,
-    }),
-    {
-      refreshDeps: [contextInfo, definitions, query, filterValues],
-    },
-  );
-  const refreshData = refresh;
+  const { data, state, error } = model.getDataStuffByID(queryID);
+  const loading = state === 'loading';
   return (
     <PanelContext.Provider
       value={{
@@ -81,7 +54,6 @@ export function Panel({
         setQueryID,
         viz,
         setViz,
-        refreshData,
       }}
     >
       <Container className="panel-root">
@@ -90,4 +62,4 @@ export function Panel({
       </Container>
     </PanelContext.Provider>
   );
-}
+});

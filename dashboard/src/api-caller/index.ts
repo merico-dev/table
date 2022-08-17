@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
-import { IDashboardDefinition, IQuery } from '../types';
+import { FilterValuesType } from '../model';
+import { ContextInfoType } from '../model/context';
+import { DataSourceType } from '../model/queries/types';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
@@ -27,37 +29,35 @@ export const queryByStaticSQL =
   };
 
 interface IQueryBySQL {
-  context: ContextInfoContextType;
-  definitions: IDashboardDefinition;
+  context: ContextInfoType;
+  sqlSnippets: SQLSnippetModelInstance[];
   title: string;
-  query?: IQuery;
-  filterValues: FilterValuesContextType;
+  query: { type: DataSourceType; key: string; sql: string };
+  filterValues: FilterValuesType;
 }
 
-export const queryBySQL =
-  ({ context, definitions, title, query, filterValues }: IQueryBySQL) =>
-  async () => {
-    if (!query || !query.sql) {
-      return [];
-    }
-    const { type, key, sql } = query;
+export async function queryBySQL({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {
+  if (!query.sql) {
+    return [];
+  }
+  const { type, key, sql } = query;
 
-    const needParams = sql.includes('$');
-    try {
-      const params = getSQLParams(context, definitions, filterValues);
-      const formattedSQL = formatSQL(sql, params);
-      if (needParams) {
-        console.groupCollapsed(`Final SQL for: ${title}`);
-        console.log(formattedSQL);
-        console.groupEnd();
-      }
-      const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
-      return res;
-    } catch (error) {
-      console.error(error);
-      return [];
+  const needParams = sql.includes('$');
+  try {
+    const params = getSQLParams(context, sqlSnippets, filterValues);
+    const formattedSQL = formatSQL(sql, params);
+    if (needParams) {
+      console.groupCollapsed(`Final SQL for: ${title}`);
+      console.log(formattedSQL);
+      console.groupEnd();
     }
-  };
+    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
+    return res;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
 export type TQuerySources = Record<string, string[]>;
 

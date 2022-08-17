@@ -1,15 +1,10 @@
 import { FilterModelInstance } from '../model';
+import { QueryModelInstance } from '../model/queries';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
 export interface IVizConfig {
   type: string;
   conf: Record<string, any>;
-}
-
-export interface IQuery {
-  type: 'postgresql';
-  key: string;
-  sql: string;
-  id: string;
 }
 
 export interface IDashboardPanel {
@@ -34,14 +29,9 @@ export enum DashboardMode {
   Edit = 'edit',
 }
 
-export interface ISQLSnippet {
-  key: string;
-  value: string;
-}
-
 export interface IDashboardDefinition {
-  sqlSnippets: ISQLSnippet[];
-  queries: IQuery[];
+  sqlSnippets: SQLSnippetModelInstance[];
+  queries: QueryModelInstance[];
 }
 
 export interface IDashboard {

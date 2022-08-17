@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { ContextInfoContextType, FilterValuesContextType } from '../contexts';
-import { IDashboardDefinition, ISQLSnippet } from '../types';
+import { FilterValuesType } from '../model';
+import { ContextInfoType } from '../model/context';
+import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
-export function explainSQLSnippet(snippet: string, context: ContextInfoContextType) {
+export function explainSQLSnippet(snippet: string, context: ContextInfoType) {
   const names = Object.keys(context);
   const vals = Object.values(context);
   try {
@@ -27,11 +28,11 @@ export function formatSQL(sql: string, params: Record<string, any>) {
 }
 
 export function getSQLParams(
-  context: ContextInfoContextType,
-  definitions: IDashboardDefinition,
-  filterValues: FilterValuesContextType,
+  context: ContextInfoType,
+  sqlSnippets: SQLSnippetModelInstance[],
+  filterValues: FilterValuesType,
 ) {
-  const sqlSnippetRecord = definitions.sqlSnippets.reduce((ret: Record<string, any>, curr) => {
+  const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, any>, curr) => {
     ret[curr.key] = formatSQL(curr.value, context);
     return ret;
   }, {});
@@ -42,12 +43,12 @@ export function getSQLParams(
 
 export function explainSQL(
   sql: string,
-  context: ContextInfoContextType,
-  definitions: IDashboardDefinition,
-  filterValues: FilterValuesContextType,
+  context: ContextInfoType,
+  sqlSnippets: SQLSnippetModelInstance[],
+  filterValues: FilterValuesType,
 ) {
   try {
-    const params = getSQLParams(context, definitions, filterValues);
+    const params = getSQLParams(context, sqlSnippets, filterValues);
     return formatSQL(sql, params);
   } catch (error: any) {
     console.error(error);

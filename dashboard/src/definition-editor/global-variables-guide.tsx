@@ -1,8 +1,8 @@
 import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { DefinitionContext, FilterValuesContext } from '../contexts';
-import { ContextInfoContext } from '../contexts/context-info-context';
+import { useModelContext } from '../contexts/model-context';
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
@@ -22,19 +22,21 @@ WHERE
   AND \$\{sql_snippets.author_email_condition\}
   \$\{sql_snippets.order_by_clause\}
 `;
-export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGlobalVariablesGuide) {
-  const contextInfo = React.useContext(ContextInfoContext);
-  const filterValues = React.useContext(FilterValuesContext);
-  const { sqlSnippets } = React.useContext(DefinitionContext);
+export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
+  showSQLSnippets = true,
+  sx = {},
+}: IGlobalVariablesGuide) {
+  const model = useModelContext();
+  const contextInfo = model.context.current;
 
   const variablesString = React.useMemo(() => {
     const ret: Record<string, any> = {
       context: contextInfo,
-      filters: filterValues,
+      filters: model.filters.values,
     };
 
     if (showSQLSnippets) {
-      const sql_snippets = sqlSnippets.reduce((prev, curr) => {
+      const sql_snippets = model.sqlSnippets.current.reduce((prev, curr) => {
         prev[curr.key] = curr.value;
         return prev;
       }, {} as Record<string, string>);
@@ -42,7 +44,7 @@ export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGloba
     }
 
     return JSON.stringify(ret, null, 2);
-  }, [contextInfo, sqlSnippets, filterValues, showSQLSnippets]);
+  }, [contextInfo, model.sqlSnippets.current, model.filters.values, showSQLSnippets]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
@@ -67,4 +69,4 @@ export function GlobalVariablesGuide({ showSQLSnippets = true, sx = {} }: IGloba
       </Stack>
     </Stack>
   );
-}
+});
