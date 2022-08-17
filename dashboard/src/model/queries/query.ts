@@ -14,7 +14,7 @@ export const QueryModel = types
     type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
     key: types.string,
     sql: types.string,
-    state: types.optional(types.enumeration(['idle', 'loading', 'loaded', 'error']), 'idle'),
+    state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     data: types.optional(types.array(types.frozen<Object>()), []),
     error: types.frozen(),
   })
@@ -72,14 +72,11 @@ export const QueryModel = types
   }))
   .actions((self) => ({
     afterCreate() {
-      if (self.id === 'q-1.1') {
-        console.log('after create');
-      }
       addDisposer(
         self,
         reaction(() => `${self.id}--${self.key}--${self.type}--${self.sql}`, self.fetchData, {
           fireImmediately: true,
-          delay: 1000,
+          delay: 500,
         }),
       );
     },
