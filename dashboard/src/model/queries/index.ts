@@ -2,10 +2,11 @@ import _ from 'lodash';
 import { types, cast } from 'mobx-state-tree';
 import { downloadCSV, makeCSV, downloadDataListAsZip } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
+import { MuteQueryModel } from './mute-query';
 
 export const QueriesModel = types
   .model('QueriesModel', {
-    original: types.optional(types.array(QueryModel), []),
+    original: types.optional(types.array(MuteQueryModel), []),
     current: types.optional(types.array(QueryModel), []),
   })
   .views((self) => ({
@@ -36,7 +37,7 @@ export const QueriesModel = types
   .actions((self) => {
     return {
       reset() {
-        self.current = _.cloneDeep(self.original);
+        self.current = cast(self.original);
       },
       replace(current: Array<QueryModelInstance>) {
         self.current = cast(current);

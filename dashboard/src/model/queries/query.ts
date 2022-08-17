@@ -1,6 +1,7 @@
-import { autorun, reaction } from 'mobx';
-import { Instance, types, flow, toGenerator, getRoot, addDisposer } from 'mobx-state-tree';
+import { reaction } from 'mobx';
+import { getType, Instance, types, flow, toGenerator, getRoot, addDisposer } from 'mobx-state-tree';
 import { queryBySQL } from '../../api-caller';
+import { MuteQueryModel } from './mute-query';
 
 export enum DataSourceType {
   Postgresql = 'postgresql',
@@ -9,24 +10,15 @@ export enum DataSourceType {
 }
 
 export const QueryModel = types
-  .model('QueryModel', {
-    id: types.string,
-    type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
-    key: types.string,
-    sql: types.string,
-    state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
-    data: types.optional(types.array(types.frozen<Object>()), []),
-    error: types.frozen(),
-  })
-  .views((self) => ({
-    get valid() {
-      return self.id && self.type && self.key && self.sql;
-    },
-    get configurations() {
-      const { id, type, key, sql } = self;
-      return { id, type, key, sql };
-    },
-  }))
+  .compose(
+    'QueryModel',
+    MuteQueryModel,
+    types.model({
+      state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
+      data: types.optional(types.array(types.frozen<Object>()), []),
+      error: types.frozen(),
+    }),
+  )
   .actions((self) => ({
     setID(id: string) {
       self.id = id;
@@ -46,6 +38,7 @@ export const QueryModel = types
       }
       self.state = 'loading';
       try {
+        const title = self.id;
         const dashboard = getRoot(self);
         self.data = yield* toGenerator(
           queryBySQL({
@@ -53,7 +46,7 @@ export const QueryModel = types
             context: dashboard.context.current,
             // @ts-expect-error
             sqlSnippets: dashboard.sqlSnippets.current,
-            title: self.id,
+            title,
             query: {
               type: self.type,
               key: self.key,
