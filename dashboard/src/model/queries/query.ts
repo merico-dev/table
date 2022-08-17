@@ -1,13 +1,8 @@
 import { reaction } from 'mobx';
-import { getType, Instance, types, flow, toGenerator, getRoot, addDisposer } from 'mobx-state-tree';
+import { addDisposer, flow, getRoot, Instance, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL } from '../../api-caller';
 import { MuteQueryModel } from './mute-query';
-
-export enum DataSourceType {
-  Postgresql = 'postgresql',
-  MySQL = 'mysql',
-  HTTP = 'http',
-}
+import { DataSourceType } from './types';
 
 export const QueryModel = types
   .compose(

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
-import { DataSourceType, QueryModelInstance } from '../model/queries';
+import { DataSourceType } from '../model/queries/types';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
