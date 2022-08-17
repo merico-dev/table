@@ -13,7 +13,6 @@ export interface IPanelContext {
   setQueryID: React.Dispatch<React.SetStateAction<string>>;
   viz: IVizConfig;
   setViz: React.Dispatch<React.SetStateAction<IVizConfig>>;
-  refreshData: () => void;
 }
 
 const initialContext = {
@@ -31,7 +30,6 @@ const initialContext = {
     conf: {},
   },
   setViz: () => {},
-  refreshData: () => {},
 };
 
 export const PanelContext = React.createContext<IPanelContext>(initialContext);

@@ -54,7 +54,6 @@ export const Panel = observer(function _Panel({
         setQueryID,
         viz,
         setViz,
-        refreshData: () => console.log('under mantainance'),
       }}
     >
       <Container className="panel-root">
