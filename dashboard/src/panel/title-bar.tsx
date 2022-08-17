@@ -20,8 +20,9 @@ export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar
   const open = () => setOpened(true);
   const close = () => setOpened(false);
 
-  const { id, title, refreshData, queryID } = React.useContext(PanelContext);
+  const { id, title, queryID } = React.useContext(PanelContext);
   const { inEditMode } = React.useContext(LayoutStateContext);
+  const refreshData = () => model.queries.refetchDataByQueryID(queryID);
 
   const { duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen } =
     React.useContext(DashboardActionContext);
