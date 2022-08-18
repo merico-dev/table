@@ -2,14 +2,16 @@ import { Button, Group } from '@mantine/core';
 import { DateRangePicker } from '@mantine/dates';
 import _ from 'lodash';
 import React from 'react';
-import { ContextInfoContextType, TimeRangeType } from '@devtable/dashboard';
 import { ContributorSelector } from './contributor-selector';
 import { RepositorySelector } from './repository-selector';
 import { JenkinsJobSelector } from './jenkins-job-selector';
+import { ContextInfoType } from '@devtable/dashboard';
+
+type TimeRangeType = [Date | null, Date | null];
 
 interface IFilters {
-  context: ContextInfoContextType;
-  submit: React.Dispatch<React.SetStateAction<ContextInfoContextType>>;
+  context: ContextInfoType;
+  submit: React.Dispatch<React.SetStateAction<ContextInfoType>>;
 }
 
 export function Filters({ context, submit }: IFilters) {
