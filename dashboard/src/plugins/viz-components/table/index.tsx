@@ -7,7 +7,7 @@ export const TableVizComponent: VizComponent = {
   migration(ctx: VizComponentMigrationContext): Promise<void> {
     return Promise.resolve(undefined);
   },
-  name: 'dashboard/table',
+  name: 'table',
   viewRender: VizTable,
   configRender: VizTablePanel,
 };
