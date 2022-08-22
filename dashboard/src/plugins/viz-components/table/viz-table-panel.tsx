@@ -3,6 +3,7 @@ import { useForm } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
 import { defaults } from 'lodash';
+import { useEffect } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
 import { VizConfigProps } from '../../../types/plugin';
@@ -13,8 +14,14 @@ import { ValueTypeSelector } from './value-type-selector';
 export function VizTablePanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   const form = useForm({
-    initialValues: defaults({}, conf, DEFAULT_CONFIG),
+    initialValues: DEFAULT_CONFIG,
   });
+  useEffect(() => {
+    const updated = defaults({}, conf, form.values, DEFAULT_CONFIG);
+    if (conf) {
+      form.setValues(updated);
+    }
+  }, [conf]);
   const data = context.data || [];
 
   const addColumn = () =>
@@ -29,7 +36,7 @@ export function VizTablePanel({ context }: VizConfigProps) {
       <form onSubmit={form.onSubmit(setConf)}>
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Table Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue">
+          <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>

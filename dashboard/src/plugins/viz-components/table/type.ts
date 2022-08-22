@@ -24,11 +24,11 @@ export interface ITableConf {
 
 export const DEFAULT_CONFIG: ITableConf = {
   columns: [],
-  fontSize: '',
+  fontSize: '1rem',
   highlightOnHover: false,
-  horizontalSpacing: '',
+  horizontalSpacing: '1em',
   id_field: '',
   striped: false,
   use_raw_columns: false,
-  verticalSpacing: '',
+  verticalSpacing: '1em',
 };
