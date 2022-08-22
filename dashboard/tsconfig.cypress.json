@@ -1,8 +1,17 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src", "cypress"],
-  "exclude": [],
+  "include": [
+    "src",
+    "cypress"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ],
   "compilerOptions": {
-    "types": ["cypress", "@testing-library/cypress", "chai"]
+    "types": [
+      "cypress",
+      "@testing-library/cypress",
+      "chai"
+    ]
   }
 }
