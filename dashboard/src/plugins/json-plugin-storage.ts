@@ -1,5 +1,5 @@
 import { get, set } from 'lodash';
-import { observable, reaction, runInAction } from 'mobx';
+import { observable, reaction, runInAction, toJS } from 'mobx';
 import { PluginStorage } from '../types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
@@ -20,7 +20,10 @@ export class JsonPluginStorage implements PluginStorage {
     return Promise.resolve(value);
   }
 
-  private getValueFromRoot(key: string) {
+  private getValueFromRoot(key: string | null) {
+    if (key === null) {
+      return toJS(this.root);
+    }
     return get(this.root, [key]);
   }
 
@@ -31,11 +34,14 @@ export class JsonPluginStorage implements PluginStorage {
     return Promise.resolve(this.getItem(key));
   }
 
-  watchItem<T>(key: string, callback: (value: T, previous?: T) => void): () => void {
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void {
     return reaction(
       () => this.getValueFromRoot(key),
       (value, previous) => {
         callback(value, previous);
+      },
+      {
+        requiresObservable: true,
       },
     );
   }

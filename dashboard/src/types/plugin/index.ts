@@ -24,7 +24,7 @@ export interface PluginStorage {
 
   deleteItem(key: string): Promise<void>;
 
-  watchItem<T>(key: string, callback: (value: T, previous?: T) => void): () => void;
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void;
 }
 
 export interface ColorPaletteItem {
