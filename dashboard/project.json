@@ -14,6 +14,37 @@
         "script": "dev-build"
       },
       "dependsOn": ["^build"]
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "exit 0"
+      },
+      "dependsOn": ["vitest", "cypress"]
+    },
+    "vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn exec vitest -- --ui",
+        "cwd": "./dashboard/"
+      },
+      "configurations": {
+        "ci": {
+          "command": "yarn exec vitest -- --run"
+        }
+      }
+    },
+    "cypress": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn exec cypress open -- --component",
+        "cwd": "./dashboard/"
+      },
+      "configurations": {
+        "ci": {
+          "command": "yarn exec cypress run -- --component"
+        }
+      }
     }
   }
 }
