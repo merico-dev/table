@@ -18,7 +18,7 @@ export interface VizViewProps {
 }
 
 export interface PluginStorage {
-  getItem<T>(key: string): Promise<T>;
+  getItem<T>(key: string | null): Promise<T>;
 
   setItem<T>(key: string, item: T): Promise<T>;
 

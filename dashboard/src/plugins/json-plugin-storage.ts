@@ -15,7 +15,7 @@ export class JsonPluginStorage implements PluginStorage {
     });
   }
 
-  getItem<T>(key: string): Promise<T> {
+  getItem<T>(key: string | null): Promise<T> {
     const value = this.getValueFromRoot(key);
     return Promise.resolve(value);
   }

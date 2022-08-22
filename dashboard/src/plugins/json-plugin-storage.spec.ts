@@ -37,6 +37,12 @@ describe('JsonPluginStorage', () => {
     await storage.setItem('foo', false);
     expect(callback).not.toHaveBeenCalled();
   });
+
+  test('get item with null to retrieve the root node', async () => {
+    await storage.setItem('foo', true);
+    const item = await storage.getItem(null);
+    expect(item).toStrictEqual({ foo: true });
+  });
   test('watch item changes with null key', async () => {
     const callback = vi.fn();
     const dispose = storage.watchItem(null, callback);
