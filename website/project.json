@@ -12,8 +12,7 @@
       "executor": "nx:run-script",
       "options": {
         "script": "dev"
-      },
-      "dependsOn": ["^build"]
+      }
     }
   }
 }
