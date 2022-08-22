@@ -1,6 +1,5 @@
 import React from 'react';
 import { PanelContext } from '../../../contexts';
-import { ErrorBoundary } from '../../error-boundary';
 import { Viz } from '../../viz';
 
 interface IPreviewViz {}

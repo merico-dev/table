@@ -32,8 +32,11 @@ export class JsonPluginStorage implements PluginStorage {
   }
 
   watchItem<T>(key: string, callback: (value: T, previous?: T) => void): () => void {
-    return reaction(() => this.getValueFromRoot(key), (value, previous) => {
-      callback(value, previous);
-    });
+    return reaction(
+      () => this.getValueFromRoot(key),
+      (value, previous) => {
+        callback(value, previous);
+      },
+    );
   }
 }

@@ -51,7 +51,7 @@ export async function queryBySQL({ context, sqlSnippets, title, query, filterVal
       console.log(formattedSQL);
       console.groupEnd();
     }
-    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
+      const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
     return res;
   } catch (error) {
     console.error(error);
