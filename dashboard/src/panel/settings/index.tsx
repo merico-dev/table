@@ -37,11 +37,11 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
           height: '90vh',
           maxHeight: 'calc(100vh - 185px)',
           '.mantine-AppShell-body': { height: '100%' },
-          main: { height: '100%', width: '100%', padding: '16px' },
+          main: { height: '100%', minHeight: 'unset', maxHeight: '100%', width: '100%', padding: '16px' },
         }}
         padding="md"
       >
-        <Tabs defaultValue="Visualization">
+        <Tabs defaultValue="Visualization" className="panel-settings-tabs">
           <Tabs.List>
             <Tabs.Tab value="Data">Data</Tabs.Tab>
             <Tabs.Tab value="Panel">Panel</Tabs.Tab>

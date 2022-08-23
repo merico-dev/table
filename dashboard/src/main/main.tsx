@@ -18,6 +18,8 @@ import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
 import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
+import { useStickyAreaStyle } from './use-sticky-area-style';
+import './main.css';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -151,6 +153,8 @@ export const Dashboard = observer(function _Dashboard({
     };
   }, [panels, model]);
 
+  useStickyAreaStyle();
+
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
   const pluginContext = useCreation(createPluginContext, []);
@@ -178,21 +182,23 @@ export const Dashboard = observer(function _Dashboard({
           >
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
-              className={className}
+              className={`${className} dashboard-root dashboard-sticky-parent`}
               sx={{
                 position: 'relative',
                 display: inFullScreen ? 'none' : 'block',
               }}
             >
-              <DashboardActions
-                mode={mode}
-                setMode={setMode}
-                hasChanges={hasChanges}
-                saveChanges={saveDashboardChanges}
-                revertChanges={revertDashboardChanges}
-                getCurrentSchema={getCurrentSchema}
-              />
-              <Filters />
+              <Box className="dashboard-sticky-area">
+                <DashboardActions
+                  mode={mode}
+                  setMode={setMode}
+                  hasChanges={hasChanges}
+                  saveChanges={saveDashboardChanges}
+                  revertChanges={revertDashboardChanges}
+                  getCurrentSchema={getCurrentSchema}
+                />
+                <Filters />
+              </Box>
               <PluginContext.Provider value={pluginContext}>
                 <DashboardLayout
                   panels={panels}

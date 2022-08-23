@@ -9,6 +9,7 @@ import { DashboardModelInstance, FilterModelInstance } from '../../model';
 import { DashboardFilterType } from '../../model/filters/filter/common';
 import { createFilterConfig_TextInput } from '../../model/filters/filter/text-input';
 import { FilterSetting } from './filter-setting';
+import './filter-settings.css';
 
 interface FilterSettings {}
 
@@ -42,7 +43,7 @@ export const FilterSettings = observer(function _FilterSettings({}: FilterSettin
           Revert Changes
         </Button>
       </Group>
-      <Tabs orientation="vertical" defaultValue={model.filters.firstID}>
+      <Tabs className="filter-settings-tabs" orientation="vertical" defaultValue={model.filters.firstID}>
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>

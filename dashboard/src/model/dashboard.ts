@@ -16,6 +16,13 @@ const DashboardModel = types
     context: ContextModel,
   })
   .views((self) => ({
+    get payloadForSQL() {
+      return {
+        context: self.context.current,
+        sqlSnippets: self.sqlSnippets.current,
+        filterValues: self.filters.values,
+      };
+    },
     get data() {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));
       return data.reduce((ret, curr) => {
