@@ -1,0 +1,11 @@
+.dashboard-root {
+  overflow: scroll;
+  padding: 0 10px 10px;
+}
+
+.dashboard-sticky-area {
+  z-index: 100;
+  background: white;
+  margin: 0 -10px;
+  padding: 0 10px 10px;
+}

@@ -13,6 +13,8 @@ import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
 import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
+import './main.css';
+import { useStickyAreaStyle } from './use-sticky-area-style';
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
@@ -29,6 +31,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
 
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
 
+  useStickyAreaStyle();
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
@@ -52,8 +55,13 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
             }}
           >
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-            <Box className={className} sx={{ display: inFullScreen ? 'none' : 'block' }}>
-              <Filters />
+            <Box
+              className={`${className} dashboard-root dashboard-sticky-parent`}
+              sx={{ display: inFullScreen ? 'none' : 'block' }}
+            >
+              <Box className="dashboard-sticky-area">
+                <Filters />
+              </Box>
               <ReadOnlyDashboardLayout panels={dashboard.panels} />
             </Box>
           </LayoutStateContext.Provider>

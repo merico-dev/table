@@ -5,7 +5,6 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
-import './index.css';
 
 interface IFilters {}
 
@@ -19,7 +18,7 @@ export const Filters = observer(function _Filters({}: IFilters) {
   }
 
   return (
-    <form onSubmit={handleSubmit(model.filters.setValues)} className="dashboard-filters-wrapper">
+    <form onSubmit={handleSubmit(model.filters.setValues)}>
       <Group
         className="dashboard-filters"
         position="apart"
