@@ -2,20 +2,16 @@ import { Button, Stack, Text } from '@mantine/core';
 import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
 import { IConfigComponentProps, VizConfigComponent } from '../plugins/viz-manager/components';
+import { IVizManager, VizInstanceInfo } from '../plugins/viz-manager/types';
 import { IVizConfig } from '../types';
 
-type MigrationStateType = 'pending' | 'done' | 'need-migration';
+type MigrationStateType = 'checking' | 'done' | 'need-migration';
 
-export function PluginVizConfigComponent({
-  setVizConf,
-  ...props
-}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig>) => void }) {
-  const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
-  const comp = vizManager.resolveComponent(panel.viz.type);
-  const [migrationState, setMigrationState] = useState<MigrationStateType>('pending');
+function usePluginMigration(vizManager: IVizManager, instance: VizInstanceInfo) {
+  const comp = vizManager.resolveComponent(instance.type);
+  const [migrationState, setMigrationState] = useState<MigrationStateType>('checking');
   useAsyncEffect(async () => {
-    if (migrationState !== 'pending') {
+    if (migrationState !== 'checking') {
       return;
     }
     if (await comp.migrator.needMigration({ instanceData: instance.instanceData })) {
@@ -28,6 +24,16 @@ export function PluginVizConfigComponent({
     await comp.migrator.migrate({ instanceData: instance.instanceData });
     setMigrationState('done');
   };
+  return { migrationState, updateConfig: handleUpdateConfigClick };
+}
+
+export function PluginVizConfigComponent({
+  setVizConf,
+  ...props
+}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig>) => void }) {
+  const { vizManager, panel } = props;
+  const instance = vizManager.getOrCreateInstance(panel);
+  const { migrationState, updateConfig } = usePluginMigration(vizManager, instance);
 
   useEffect(() => {
     return instance.instanceData.watchItem<Record<string, any>>(null, (configData) => {
@@ -35,14 +41,14 @@ export function PluginVizConfigComponent({
     });
   }, [setVizConf]);
 
-  if (migrationState === 'pending') {
+  if (migrationState === 'checking') {
     return <Text>Migration pending</Text>;
   }
   if (migrationState === 'need-migration') {
     return (
       <Stack justify="center" align="center">
         <Text>The configuration of this panel is outdated.</Text>
-        <Button type="button" aria-label="update config" onClick={handleUpdateConfigClick}>
+        <Button type="button" aria-label="update config" onClick={updateConfig}>
           Update Config
         </Button>
       </Stack>

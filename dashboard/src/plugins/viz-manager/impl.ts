@@ -24,6 +24,7 @@ export class VizManager implements IVizManager {
     const instanceInfo: VizInstanceInfo = {
       id: panel.id,
       name: panel.viz.type,
+      type: panel.viz.type,
       messageChannels: new MessageChannels(),
       instanceData: new JsonPluginStorage(panel.viz.conf),
     };

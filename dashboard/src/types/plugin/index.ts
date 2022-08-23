@@ -7,6 +7,7 @@ import React from 'react';
 export interface VizInstance {
   id: string;
   name: string;
+  type: string;
 }
 
 /**
