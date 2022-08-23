@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
 import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks/use-storage-data';
+import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, ITableConf, ValueType } from './type';
 import { ValueTypeSelector } from './value-type-selector';
 
@@ -35,7 +35,6 @@ export function VizTablePanel({ context }: VizConfigProps) {
     <Stack mt="md" spacing="xs">
       <form
         onSubmit={form.onSubmit(async (val) => {
-          console.log('submit', val);
           await setConf(val);
         })}
       >

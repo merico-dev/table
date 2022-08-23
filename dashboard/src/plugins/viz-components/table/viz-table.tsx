@@ -1,14 +1,14 @@
 import { Group, Table, TableProps, Text } from '@mantine/core';
 import React from 'react';
-import { CellValue } from '../../../panel/viz/table/value';
+import { CellValue } from './value';
 import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks/use-storage-data';
+import { useStorageData } from '../..';
 import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
 
 export function VizTable({ context }: VizViewProps) {
   const data = (context.data ?? []) as any[];
   const height = context.viewport.height;
-  const { value: conf = DEFAULT_CONFIG, loading } = useStorageData<ITableConf>(context.instanceData, 'config');
+  const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
   const { id_field, use_raw_columns, columns, ...rest } = conf;
   const labels = React.useMemo(() => {
     if (use_raw_columns) {
