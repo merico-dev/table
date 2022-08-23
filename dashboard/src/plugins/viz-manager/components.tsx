@@ -41,7 +41,7 @@ export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
   const Comp = comp.viewRender;
   return <Comp context={context} instance={instance} {...omit(props, ['panel', 'vizManager', 'data'])} />;
 };
-type IConfigComponentProps<TDebug = {}> = {
+export type IConfigComponentProps<TDebug = {}> = {
   panel: IPanelInfo;
   panelInfoEditor: IPanelInfoEditor;
   vizManager: IVizManager;

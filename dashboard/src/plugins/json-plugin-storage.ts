@@ -1,19 +1,58 @@
-import { get, set } from 'lodash';
+import { get, isObject, set, unset } from 'lodash';
+import { observable, reaction, runInAction, toJS } from 'mobx';
 import { PluginStorage } from '../types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
-  constructor(private root: Record<string, any>) {}
+  protected rootRef: { current: Record<string, any> };
+
+  constructor(initValue: Record<string, any>) {
+    this.rootRef = observable({ current: initValue });
+  }
 
   async deleteItem(key: string): Promise<void> {
-    delete this.root[key];
+    runInAction(() => {
+      unset(this.rootRef.current, [key]);
+    });
   }
 
-  getItem<T>(key: string): Promise<T> {
-    return Promise.resolve(get(this.root, [key]));
+  getItem<T>(key: string | null): Promise<T> {
+    const value = this.getValueFromRoot(key);
+    return Promise.resolve(value);
   }
 
-  setItem<T>(key: string, item: T): Promise<T> {
-    set(this.root, [key], item);
+  private getValueFromRoot(key: string | null) {
+    if (key === null) {
+      return toJS(this.rootRef.current);
+    }
+    return get(this.rootRef.current, [key]);
+  }
+
+  setItem<T>(key: string | null, item: T): Promise<T> {
+    if (key === null) {
+      if (isObject(item)) {
+        runInAction(() => {
+          this.rootRef.current = item;
+        });
+      } else {
+        throw new Error('Cannot set root value to non-object');
+      }
+    } else {
+      runInAction(() => {
+        set(this.rootRef.current, [key], item);
+      });
+    }
     return Promise.resolve(this.getItem(key));
+  }
+
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void {
+    return reaction(
+      () => this.getValueFromRoot(key),
+      (value, previous) => {
+        callback(value, previous);
+      },
+      {
+        requiresObservable: true,
+      },
+    );
   }
 }

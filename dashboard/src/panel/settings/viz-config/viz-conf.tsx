@@ -1,26 +1,65 @@
-import { ActionIcon, JsonInput, Select, TextInput } from '@mantine/core';
+import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
-import React from 'react';
+import { get } from 'lodash';
+import React, { createElement, useContext } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PanelContext } from '../../../contexts/panel-context';
-import { IVizConfig } from '../../../types/dashboard';
+import { PanelContext } from '../../../contexts';
+import { IPanelInfo, PluginContext } from '../../../plugins';
+import { IVizConfig } from '../../../types';
+import { IPanelInfoEditor } from '../../../types/plugin';
 import { VizBar3DPanel } from '../../viz/bar-3d/panel';
 import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
 import { VizPiePanel } from '../../viz/pie/panel';
 import { VizRichTextPanel } from '../../viz/rich-text/panel';
 import { VizStatsPanel } from '../../viz/stats/panel';
 import { SunburstPanel } from '../../viz/sunburst/panel';
-import { VizTablePanel } from '../../viz/table/panel';
+import { PluginVizConfigComponent } from '../../plugin-adaptor';
 
 const types = [
   { value: 'stats', label: 'Stats', Panel: VizStatsPanel },
   { value: 'rich-text', label: 'Rich Text', Panel: VizRichTextPanel },
-  { value: 'table', label: 'Table', Panel: VizTablePanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)', Panel: VizBar3DPanel },
-  { value: 'cartesian', label: 'Cartesian Chart', Panel: VizCartesianChartPanel },
+  {
+    value: 'cartesian',
+    label: 'Cartesian Chart',
+    Panel: VizCartesianChartPanel,
+  },
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
+
+function usePluginVizConfig() {
+  const { viz, title, data, queryID, description, setDescription, setTitle, setQueryID, setViz, id } =
+    useContext(PanelContext);
+  const { vizManager } = useContext(PluginContext);
+  const panel: IPanelInfo = {
+    title,
+    description,
+    viz,
+    queryID,
+    id,
+  };
+  const panelEditor: IPanelInfoEditor = {
+    setDescription: setDescription,
+    setQueryID: setQueryID,
+    setTitle: setTitle,
+  };
+  try {
+    vizManager.resolveComponent(panel.viz.type);
+    return (
+      <PluginVizConfigComponent
+        setVizConf={setViz}
+        panel={panel}
+        panelInfoEditor={panelEditor}
+        vizManager={vizManager}
+        data={data}
+      />
+    );
+  } catch (e) {
+    console.info(get(e, 'message'));
+    return null;
+  }
+}
 
 export function EditVizConf() {
   const { data, viz, setViz } = React.useContext(PanelContext);
@@ -54,6 +93,15 @@ export function EditVizConf() {
     return types.find((t) => t.value === type)?.Panel;
   }, [type, types]);
 
+  const pluginPanel = usePluginVizConfig();
+  const builtInPanel = Panel
+    ? createElement(Panel as any, {
+        data,
+        conf: viz.conf,
+        setConf: setVizConf,
+      })
+    : null;
+  const finalPanel = pluginPanel || builtInPanel;
   return (
     <>
       <Select
@@ -67,9 +115,8 @@ export function EditVizConf() {
           </ActionIcon>
         }
       />
-      {/* @ts-expect-error */}
-      {Panel && <Panel conf={viz.conf} setConf={setVizConf} data={data} />}
-      {!Panel && (
+      {finalPanel}
+      {!finalPanel && (
         <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />
       )}
     </>

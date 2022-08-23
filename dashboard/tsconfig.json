@@ -17,6 +17,13 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["**/*.spec.ts", "**/*.spec.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["**/*.spec.ts", "**/*.spec.tsx", "src/test/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ]
 }

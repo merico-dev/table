@@ -3,7 +3,6 @@ import { AdminHeader } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import { AdminNavbar } from './navbar';
-import '@devtable/dashboard/dist/style.css';
 import './index.css';
 
 export function AdminFrame() {

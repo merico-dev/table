@@ -10,6 +10,9 @@ export const useStorageData = <T>(storage: PluginStorage, dataKey: string) => {
       setValue(result);
       setFalse();
     });
+    return storage.watchItem<T>(dataKey, (update) => {
+      setValue(update);
+    });
   });
   const set = useCallback(
     async (val: T) => {

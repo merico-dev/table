@@ -7,6 +7,7 @@ import React from 'react';
 export interface VizInstance {
   id: string;
   name: string;
+  type: string;
 }
 
 /**
@@ -18,11 +19,13 @@ export interface VizViewProps {
 }
 
 export interface PluginStorage {
-  getItem<T>(key: string): Promise<T>;
+  getItem<T>(key: string | null): Promise<T>;
 
-  setItem<T>(key: string, item: T): Promise<T>;
+  setItem<T>(key: string | null, item: T): Promise<T>;
 
   deleteItem(key: string): Promise<void>;
+
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void;
 }
 
 export interface ColorPaletteItem {
@@ -47,8 +50,8 @@ export interface ColorPalette {
 
 export interface IMessageChannels {
   globalChannel: EventEmitter2;
+
   getChannel(name: string): EventEmitter2;
-  close(name: string): void;
 }
 
 export interface VizContext {
@@ -61,6 +64,7 @@ export interface VizContext {
 }
 
 type Setter<T> = (val: string) => void;
+
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
   setDescription: Setter<string>;
@@ -81,7 +85,6 @@ export interface VizConfigProps {
 }
 
 export interface VizComponentMigrationContext {
-  pluginData: PluginStorage;
   instanceData: PluginStorage;
 }
 
@@ -90,7 +93,13 @@ export interface VizComponent {
   displayName?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
-  migration: (ctx: VizComponentMigrationContext) => Promise<void>;
+  migrator: IVizComponentMigrator;
+}
+
+export interface IVizComponentMigrator {
+  needMigration(ctx: VizComponentMigrationContext): Promise<boolean>;
+
+  migrate(ctx: VizComponentMigrationContext): Promise<void>;
 }
 
 export interface IPluginManifest {

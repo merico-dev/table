@@ -21,3 +21,14 @@ export interface ITableConf {
   striped: boolean;
   highlightOnHover: boolean;
 }
+
+export const DEFAULT_CONFIG: ITableConf = {
+  columns: [],
+  fontSize: '1rem',
+  highlightOnHover: false,
+  horizontalSpacing: '1em',
+  id_field: '',
+  striped: false,
+  use_raw_columns: false,
+  verticalSpacing: '1em',
+};

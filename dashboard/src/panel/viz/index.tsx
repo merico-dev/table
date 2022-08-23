@@ -1,19 +1,42 @@
-import React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
+import React, { ReactNode, useContext } from 'react';
 import { useElementSize } from '@mantine/hooks';
 import { LoadingOverlay, Text } from '@mantine/core';
+import { PanelContext } from '../../contexts';
+import { PluginContext, IViewPanelInfo } from '../../plugins';
+import { PluginVizViewComponent } from '../plugin-adaptor';
 
 import { Sunbrust } from './sunburst';
 import { VizCartesianChart } from './cartesian';
-import { VizTable } from './table';
 import { VizBar3D } from './bar-3d';
 import './index.css';
-import { IVizConfig } from '../../types/dashboard';
+import { IVizConfig } from '../../types';
 import { VizPie } from './pie';
 import { VizStats } from './stats';
 import { ErrorBoundary } from '../error-boundary';
 import { VizRichText } from './rich-text';
 import { observer } from 'mobx-react-lite';
+
+function usePluginViz(data: any): ReactNode | null {
+  const { vizManager } = useContext(PluginContext);
+  const { viz, title, id, description, queryID } = useContext(PanelContext);
+  const panel: IViewPanelInfo = {
+    title,
+    id,
+    description,
+    queryID,
+    viz,
+    layout: { w: 0, h: 0 },
+  };
+  try {
+    // ensure that the plugin is loaded
+    vizManager.resolveComponent(viz.type);
+    return <PluginVizViewComponent panel={panel} data={data} vizManager={vizManager} />;
+  } catch (e) {
+    console.info(get(e, 'message'));
+    return null;
+  }
+}
 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf };
@@ -23,9 +46,6 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'cartesian':
       // @ts-expect-error
       return <VizCartesianChart {...props} />;
-    case 'table':
-      // @ts-expect-error
-      return <VizTable {...props} />;
     case 'stats':
       // @ts-expect-error
       return <VizStats {...props} />;
@@ -53,7 +73,8 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
-  const needData = !typesDontNeedData.includes(viz.type);
+  const pluginViz = usePluginViz(data);
+  const needData = !typesDontNeedData.includes(viz.type) || !!pluginViz;
   if (!needData) {
     return (
       <div className="viz-root" ref={ref}>
@@ -62,6 +83,7 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
     );
   }
 
+  const finalViz = pluginViz || renderViz(width, height, data, viz);
   if (loading) {
     return (
       <div className="viz-root" ref={ref}>
@@ -76,7 +98,7 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
           nothing to show
         </Text>
       )}
-      {!empty && <ErrorBoundary>{renderViz(width, height, data, viz)}</ErrorBoundary>}
+      {!empty && <ErrorBoundary>{finalViz}</ErrorBoundary>}
     </div>
   );
 });

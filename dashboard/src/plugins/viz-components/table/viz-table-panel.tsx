@@ -1,37 +1,46 @@
-import { ActionIcon, Button, Divider, Group, Stack, Switch, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Group, Stack, Switch, Text, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
+import { defaults } from 'lodash';
+import { useEffect } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
-import { IVizPanelProps } from '../../../types/viz-panel';
-import { DataFieldSelector } from '../../settings/common/data-field-selector';
-import { IColumnConf, ValueType } from './type';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DEFAULT_CONFIG, ITableConf, ValueType } from './type';
 import { ValueTypeSelector } from './value-type-selector';
 
-export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }: IVizPanelProps) {
+export function VizTablePanel({ context }: VizConfigProps) {
+  const { value: conf, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   const form = useForm({
-    initialValues: {
-      id_field: 'id',
-      use_raw_columns: true,
-      columns: (columns ?? []) as IColumnConf[],
-      fontSize: 'sm',
-      horizontalSpacing: 'sm',
-      verticalSpacing: 'sm',
-      striped: false,
-      highlightOnHover: false,
-      ...restConf,
-    },
+    initialValues: DEFAULT_CONFIG,
   });
+  useEffect(() => {
+    const updated = defaults({}, conf, form.values, DEFAULT_CONFIG);
+    if (conf) {
+      form.setValues(updated);
+    }
+  }, [conf]);
+  const data = context.data || [];
 
   const addColumn = () =>
-    form.insertListItem('columns', { label: randomId(), value_field: 'value', value_type: ValueType.string });
+    form.insertListItem('columns', {
+      label: randomId(),
+      value_field: 'value',
+      value_type: ValueType.string,
+    });
 
   return (
     <Stack mt="md" spacing="xs">
-      <form onSubmit={form.onSubmit(setConf)}>
+      <form
+        onSubmit={form.onSubmit(async (val) => {
+          await setConf(val);
+        })}
+      >
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Table Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue">
+          <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
@@ -83,6 +92,7 @@ export function VizTablePanel({ conf: { columns, ...restConf }, setConf, data }:
                     <TextInput
                       label="Label"
                       required
+                      id={`col-label-${index}`}
                       sx={{ flex: 1 }}
                       {...form.getInputProps(`columns.${index}.label`)}
                     />

@@ -40,9 +40,11 @@ const mockPanel = {
 class MockVizHelper {
   viewProps: VizViewProps | undefined;
   configProps: VizConfigProps | undefined;
+  data?: any;
 
   onViewRender(props: VizViewProps) {
     this.viewProps = props;
+    this.data = props.context.data;
   }
 
   onConfigRender(props: VizConfigProps) {
@@ -133,6 +135,18 @@ describe('VizManager', () => {
     );
     await waitFor(() => {
       expect(viz1.viewProps?.context.msgChannels).not.toBe(viz2.viewProps?.context.msgChannels);
+    });
+  });
+
+  test('provide data through context', async () => {
+    const viz1 = new MockVizHelper();
+    render(<VizViewComponent helper={viz1} panel={mockPanel} data={[1, 2, 3]} vizManager={vizManager} />);
+    // wait until it rendered
+    await waitFor(() => {
+      expect(screen.getByText('Hello, alice')).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(viz1.data).toStrictEqual([1, 2, 3]);
     });
   });
 });

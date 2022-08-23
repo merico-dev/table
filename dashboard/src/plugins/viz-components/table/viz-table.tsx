@@ -1,28 +1,25 @@
-import _ from 'lodash';
-import { Group, Table, Text } from '@mantine/core';
-import { IColumnConf, ITableConf, ValueType } from './type';
+import { Group, Table, TableProps, Text } from '@mantine/core';
 import React from 'react';
 import { CellValue } from './value';
+import { VizViewProps } from '../../../types/plugin';
+import { useStorageData } from '../..';
+import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
 
-interface IVizTable {
-  conf: ITableConf;
-  data: any;
-  width: number;
-  height: number;
-}
-
-export function VizTable({ conf, data = [], width, height }: IVizTable) {
+export function VizTable({ context }: VizViewProps) {
+  const data = (context.data ?? []) as any[];
+  const height = context.viewport.height;
+  const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
   const { id_field, use_raw_columns, columns, ...rest } = conf;
   const labels = React.useMemo(() => {
     if (use_raw_columns) {
-      return Object.keys(data?.[0]);
+      return Object.keys(data[0]);
     }
-    return columns.map((c) => c.label);
+    return columns?.map((c) => c.label) || [];
   }, [use_raw_columns, columns, data]);
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
-      return Object.keys(data?.[0]).map((k) => ({
+      return Object.keys(data[0]).map((k) => ({
         label: k,
         value_field: k,
         value_type: ValueType.string,
@@ -30,10 +27,8 @@ export function VizTable({ conf, data = [], width, height }: IVizTable) {
     }
     return columns;
   }, [use_raw_columns, columns, data]);
-
   return (
-    // @ts-expect-error
-    <Table sx={{ maxHeight: height }} {...rest}>
+    <Table sx={{ maxHeight: height }} {...(rest as TableProps)}>
       <thead>
         <tr>
           {labels.map((label) => (
@@ -44,9 +39,16 @@ export function VizTable({ conf, data = [], width, height }: IVizTable) {
       <tbody>
         {data.slice(0, 30).map((row: any, index: number) => (
           <tr key={id_field ? row[id_field] : `row-${index}`}>
-            {finalColumns.map(({ value_field, value_type }) => (
+            {finalColumns?.map(({ value_field, value_type }) => (
               <td key={`${value_field}--${row[value_field]}`}>
-                <Group sx={{ '&, .mantine-Text-root': { fontFamily: 'monospace', fontSize: rest.fontSize } }}>
+                <Group
+                  sx={{
+                    '&, .mantine-Text-root': {
+                      fontFamily: 'monospace',
+                      fontSize: rest.fontSize,
+                    },
+                  }}
+                >
                   <CellValue value={row[value_field]} type={value_type} />
                 </Group>
               </td>
