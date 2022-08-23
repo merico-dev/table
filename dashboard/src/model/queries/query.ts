@@ -1,6 +1,7 @@
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL } from '../../api-caller';
+import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
 
@@ -14,6 +15,13 @@ export const QueryModel = types
       error: types.frozen(),
     }),
   )
+  .views((self) => ({
+    get formattedSQL() {
+      // @ts-expect-error
+      const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+      return explainSQL(self.sql, context, sqlSnippets, filterValues);
+    },
+  }))
   .actions((self) => ({
     setID(id: string) {
       self.id = id;
@@ -28,26 +36,26 @@ export const QueryModel = types
       self.sql = sql;
     },
     fetchData: flow(function* () {
+      console.log('triggered');
       if (!self.valid) {
         return;
       }
       self.state = 'loading';
       try {
         const title = self.id;
-        const dashboard = getRoot(self);
+        // @ts-expect-error
+        const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
         self.data = yield* toGenerator(
           queryBySQL({
-            // @ts-expect-error
-            context: dashboard.context.current,
-            // @ts-expect-error
-            sqlSnippets: dashboard.sqlSnippets.current,
+            context,
+            sqlSnippets,
             title,
             query: {
               type: self.type,
               key: self.key,
               sql: self.sql,
             },
-            filterValues: {},
+            filterValues,
           }),
         );
         self.state = 'idle';
@@ -62,7 +70,7 @@ export const QueryModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => `${self.id}--${self.key}--${self.type}--${self.sql}`, self.fetchData, {
+        reaction(() => `${self.id}--${self.key}--${self.type}--${self.formattedSQL}`, self.fetchData, {
           fireImmediately: true,
           delay: 500,
         }),
