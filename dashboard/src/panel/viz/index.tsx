@@ -102,7 +102,7 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
           nothing to show
         </Text>
       )}
-      {!empty && finalViz}
+      {!empty && <ErrorBoundary>{finalViz}</ErrorBoundary>}
     </div>
   );
 });

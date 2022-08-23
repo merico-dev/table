@@ -33,7 +33,12 @@ export function VizTablePanel({ context }: VizConfigProps) {
 
   return (
     <Stack mt="md" spacing="xs">
-      <form onSubmit={form.onSubmit(setConf)}>
+      <form
+        onSubmit={form.onSubmit(async (val) => {
+          console.log('submit', val);
+          await setConf(val);
+        })}
+      >
         <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
           <Text>Table Config</Text>
           <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">

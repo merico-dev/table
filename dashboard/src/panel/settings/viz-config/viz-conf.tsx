@@ -1,5 +1,6 @@
 import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import { get } from 'lodash';
 import React, { createElement, useContext } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PanelContext } from '../../../contexts';
@@ -57,7 +58,7 @@ function usePluginVizConfig() {
       />
     );
   } catch (e) {
-    console.warn(e);
+    console.info(get(e, 'message'));
     return null;
   }
 }
@@ -98,8 +99,8 @@ export function EditVizConf() {
   const builtInPanel = Panel
     ? createElement(Panel as any, {
         data,
-        viz,
-        setVizConf,
+        conf: viz.conf,
+        setConf: setVizConf,
       })
     : null;
   const finalPanel = pluginPanel || builtInPanel;

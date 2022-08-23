@@ -27,7 +27,9 @@ class VizTableMigrator extends PluginDataMigrator implements IVizComponentMigrat
   async needMigration({ instanceData }: VizComponentMigrationContext): Promise<boolean> {
     const data = await instanceData.getItem(null);
     const instanceVersion = get(data, 'version', 0);
-    return instanceVersion < VERSION;
+    const result = instanceVersion < VERSION;
+    console.info(`needMigration: ${result}, from: ${instanceVersion}, to: ${VERSION}`);
+    return result;
   }
 }
 

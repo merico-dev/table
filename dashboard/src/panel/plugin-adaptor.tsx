@@ -1,6 +1,7 @@
 import { Button, Stack, Text } from '@mantine/core';
 import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
+import { useChannelEvent } from '../plugins/hooks/use-channel-event';
 import {
   IConfigComponentProps,
   IViewComponentProps,
@@ -14,19 +15,27 @@ type MigrationStateType = 'checking' | 'done' | 'need-migration';
 
 function usePluginMigration(vizManager: IVizManager, instance: VizInstanceInfo) {
   const comp = vizManager.resolveComponent(instance.type);
+  const instanceChannel = instance.messageChannels.getChannel(instance.id);
   const [migrationState, setMigrationState] = useState<MigrationStateType>('checking');
+  useChannelEvent(instanceChannel, 'migration-done', () => {
+    setMigrationState('done');
+  });
+
   useAsyncEffect(async () => {
     if (migrationState !== 'checking') {
       return;
     }
-    if (await comp.migrator.needMigration({ instanceData: instance.instanceData })) {
+    if (await comp.migrator.needMigration(instance)) {
       setMigrationState('need-migration');
     } else {
       setMigrationState('done');
     }
-  }, [comp, instance]);
+  });
   const handleUpdateConfigClick = async () => {
-    await comp.migrator.migrate({ instanceData: instance.instanceData });
+    await comp.migrator.migrate(instance);
+    // there may be other panels displaying the same instance, so we need to
+    // notify them
+    instanceChannel.emit('migration-done');
     setMigrationState('done');
   };
   return { migrationState, updateConfig: handleUpdateConfigClick };
@@ -72,7 +81,7 @@ export function PluginVizViewComponent(props: IViewComponentProps) {
   if (migrationState === 'need-migration') {
     return (
       <Stack justify="center" align="center">
-        <Text>The configuration of this panel is outdated, please update config in Edit mode</Text>
+        <Text>The configuration of this panel is outdated, please update config in "Settings"</Text>
       </Stack>
     );
   }
