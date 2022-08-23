@@ -18,6 +18,7 @@ import { createPluginContext, PluginContext } from '../plugins/plugin-context';
 import { useCreation } from 'ahooks';
 import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
+import stickybits from 'stickybits';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -151,6 +152,12 @@ export const Dashboard = observer(function _Dashboard({
     };
   }, [panels, model]);
 
+  React.useEffect(() => {
+    stickybits('.dashboard-filters-wrapper', {
+      parentClass: 'stick-filters-parent',
+    });
+  }, []);
+
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
 
   const pluginContext = useCreation(createPluginContext, []);
@@ -178,7 +185,7 @@ export const Dashboard = observer(function _Dashboard({
           >
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
-              className={className}
+              className={`${className} stick-filters-parent`}
               sx={{
                 position: 'relative',
                 display: inFullScreen ? 'none' : 'block',

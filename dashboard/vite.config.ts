@@ -54,6 +54,7 @@ export default defineConfig({
         'react-dom',
         'react-grid-layout',
         'react-hook-form',
+        'stickybits',
         'tabler-icons-react',
       ],
       output: {
@@ -85,6 +86,7 @@ export default defineConfig({
           'react-dom': 'ReactDOM',
           'react-grid-layout': 'react-grid-layout',
           'react-hook-form': 'react-hook-form',
+          stickybits: 'stickybits',
           'tabler-icons-react': 'tabler-icons-react',
         },
       },
