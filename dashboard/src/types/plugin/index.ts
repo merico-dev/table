@@ -20,7 +20,7 @@ export interface VizViewProps {
 export interface PluginStorage {
   getItem<T>(key: string | null): Promise<T>;
 
-  setItem<T>(key: string, item: T): Promise<T>;
+  setItem<T>(key: string | null, item: T): Promise<T>;
 
   deleteItem(key: string): Promise<void>;
 
@@ -95,7 +95,13 @@ export interface VizComponent {
   displayName?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
-  migration: (ctx: VizComponentMigrationContext) => Promise<void>;
+  migrator: IVizComponentMigrator;
+}
+
+export interface IVizComponentMigrator {
+  needMigration(ctx: VizComponentMigrationContext): Promise<boolean>;
+
+  migrate(ctx: VizComponentMigrationContext): Promise<void>;
 }
 
 export interface IPluginManifest {

@@ -2,7 +2,7 @@ import { JsonPluginStorage } from './json-plugin-storage';
 
 class TestJsonPluginStorage extends JsonPluginStorage {
   getRoot() {
-    return this.root;
+    return this.rootRef.current;
   }
 }
 
@@ -49,5 +49,29 @@ describe('JsonPluginStorage', () => {
     await storage.setItem('foo', true);
     expect(callback).toHaveBeenCalledWith({ foo: true }, {});
     dispose();
+  });
+
+  test('set root with null key', async () => {
+    await storage.setItem('foo', 'init');
+    const fooWatcher = vi.fn();
+    const rootWatcher = vi.fn();
+
+    const dispose = storage.watchItem('foo', fooWatcher);
+    const disposeRoot = storage.watchItem(null, rootWatcher);
+    await storage.setItem(null, { foo: 'bar' });
+    expect(storage.getRoot()).toStrictEqual({ foo: 'bar' });
+    expect(fooWatcher).toHaveBeenCalledWith('bar', 'init');
+    expect(rootWatcher).toHaveBeenCalledWith({ foo: 'bar' }, { foo: 'init' });
+    dispose();
+    disposeRoot();
+  });
+
+  test('set root with non-object value', async () => {
+    expect.assertions(1);
+    try {
+      await storage.setItem(null, true);
+    } catch (e) {
+      expect(e).toMatch(/object/gi);
+    }
   });
 });
