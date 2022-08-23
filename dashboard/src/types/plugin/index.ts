@@ -52,8 +52,6 @@ export interface IMessageChannels {
   globalChannel: EventEmitter2;
 
   getChannel(name: string): EventEmitter2;
-
-  close(name: string): void;
 }
 
 export interface VizContext {
