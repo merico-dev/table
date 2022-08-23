@@ -36,7 +36,6 @@ export const QueryModel = types
       self.sql = sql;
     },
     fetchData: flow(function* () {
-      console.log('triggered');
       if (!self.valid) {
         return;
       }
