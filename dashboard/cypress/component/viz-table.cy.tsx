@@ -1,8 +1,13 @@
 import { get, set } from 'lodash';
-import { IVizManager, VizConfigComponent, VizManager, VizViewComponent } from '../../src/plugins';
-import { pluginManager } from '../../src/plugins/plugin-context';
+import {
+  IViewPanelInfo,
+  IVizManager,
+  pluginManager,
+  VizConfigComponent,
+  VizManager,
+  VizViewComponent,
+} from '../../src/plugins';
 import { ITableConf, ValueType } from '../../src/plugins/viz-components/table/type';
-import { IViewPanelInfo } from '../../src/plugins/viz-manager/components';
 import { IPanelInfoEditor } from '../../src/types/plugin';
 
 const defaultConfig = {
@@ -21,7 +26,7 @@ const defaultConfig = {
 const mockPanel: IViewPanelInfo = {
   layout: { h: 100, w: 100 },
   viz: {
-    type: 'dashboard/table',
+    type: 'table',
     conf: {
       config: defaultConfig,
     },

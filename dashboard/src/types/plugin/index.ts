@@ -86,7 +86,6 @@ export interface VizConfigProps {
 }
 
 export interface VizComponentMigrationContext {
-  pluginData: PluginStorage;
   instanceData: PluginStorage;
 }
 

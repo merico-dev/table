@@ -1,6 +1,10 @@
 import { VizComponent } from '../types/plugin';
 
-export function createMockPlugin(id: string = 'foo', components: string[] = ['mockViz']) {
+export function createMockPlugin(
+  id: string = 'foo',
+  components: string[] = ['mockViz'],
+  others: Partial<VizComponent> = {},
+) {
   return {
     id: id,
     manifest: {
@@ -11,7 +15,8 @@ export function createMockPlugin(id: string = 'foo', components: string[] = ['mo
             name,
             configRender: () => <span>Hello</span>,
             viewRender: () => <span>World</span>,
-            migration: async () => {},
+            migrator: {} as any,
+            ...others,
           } as VizComponent),
       ),
     },

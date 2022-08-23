@@ -1,10 +1,9 @@
 import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
-import React, { createElement, useContext, useEffect } from 'react';
+import React, { createElement, useContext } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PanelContext } from '../../../contexts';
-import { IPanelInfo, PluginContext, VizConfigComponent } from '../../../plugins';
-import { IConfigComponentProps } from '../../../plugins/viz-manager/components';
+import { IPanelInfo, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { VizBar3DPanel } from '../../viz/bar-3d/panel';
@@ -14,6 +13,7 @@ import { VizRichTextPanel } from '../../viz/rich-text/panel';
 import { VizStatsPanel } from '../../viz/stats/panel';
 import { SunburstPanel } from '../../viz/sunburst/panel';
 import { VizTablePanel } from '../../viz/table/panel';
+import { PluginVizConfigComponent } from '../../plugin-adaptor';
 
 const types = [
   { value: 'stats', label: 'Stats', Panel: VizStatsPanel },
@@ -28,20 +28,6 @@ const types = [
   },
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
-
-function PluginVizConfigComponent({
-  setVizConf,
-  ...props
-}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig>) => void }) {
-  const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
-  useEffect(() => {
-    return instance.instanceData.watchItem<Record<string, any>>(null, (configData) => {
-      setVizConf((prev) => ({ ...prev, conf: configData }));
-    });
-  }, [setVizConf]);
-  return <VizConfigComponent {...props} />;
-}
 
 function usePluginVizConfig() {
   const { viz, title, data, queryID, description, setDescription, setTitle, setQueryID, setViz, id } =
