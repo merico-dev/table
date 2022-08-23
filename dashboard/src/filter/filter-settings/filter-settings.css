@@ -1,0 +1,14 @@
+.filter-settings-tabs {
+  width: 100%;
+  height: 100%;
+}
+.filter-settings-tabs .mantine-Tabs-panel {
+  height: calc(100% - 25px);
+}
+.filter-settings-tabs .mantine-Tabs-tabsListWrapper {
+  flex: 0;
+}
+.filter-settings-tabs .mantine-Tabs-body {
+  flex: 1;
+  overflow: scroll;
+}
