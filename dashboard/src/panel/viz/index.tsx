@@ -2,7 +2,8 @@ import React, { ReactNode, useContext } from 'react';
 import { useElementSize } from '@mantine/hooks';
 import { LoadingOverlay, Text } from '@mantine/core';
 import { PanelContext } from '../../contexts';
-import { PluginContext, VizViewComponent, IViewPanelInfo } from '../../plugins';
+import { PluginContext, IViewPanelInfo } from '../../plugins';
+import { PluginVizViewComponent } from '../plugin-adaptor';
 
 import { Sunbrust } from './sunburst';
 import { VizCartesianChart } from './cartesian';
@@ -30,7 +31,7 @@ function usePluginViz(data: any): ReactNode | null {
   try {
     // ensure that the plugin is loaded
     vizManager.resolveComponent(viz.type);
-    return <VizViewComponent panel={panel} data={data} vizManager={vizManager} />;
+    return <PluginVizViewComponent panel={panel} data={data} vizManager={vizManager} />;
   } catch (e) {
     console.warn(e);
     return null;

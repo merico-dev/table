@@ -1,7 +1,12 @@
 import { Button, Stack, Text } from '@mantine/core';
 import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
-import { IConfigComponentProps, VizConfigComponent } from '../plugins/viz-manager/components';
+import {
+  IConfigComponentProps,
+  IViewComponentProps,
+  VizConfigComponent,
+  VizViewComponent,
+} from '../plugins/viz-manager/components';
 import { IVizManager, VizInstanceInfo } from '../plugins/viz-manager/types';
 import { IVizConfig } from '../types';
 
@@ -42,7 +47,7 @@ export function PluginVizConfigComponent({
   }, [setVizConf]);
 
   if (migrationState === 'checking') {
-    return <Text>Migration pending</Text>;
+    return <Text>Checking update...</Text>;
   }
   if (migrationState === 'need-migration') {
     return (
@@ -54,6 +59,22 @@ export function PluginVizConfigComponent({
       </Stack>
     );
   }
-  // show migrate button when needed
   return <VizConfigComponent {...props} />;
+}
+
+export function PluginVizViewComponent(props: IViewComponentProps) {
+  const { vizManager, panel } = props;
+  const instance = vizManager.getOrCreateInstance(panel);
+  const { migrationState } = usePluginMigration(vizManager, instance);
+  if (migrationState === 'checking') {
+    return <Text>Checking update</Text>;
+  }
+  if (migrationState === 'need-migration') {
+    return (
+      <Stack justify="center" align="center">
+        <Text>The configuration of this panel is outdated, please update config in Edit mode</Text>
+      </Stack>
+    );
+  }
+  return <VizViewComponent {...props} />;
 }
