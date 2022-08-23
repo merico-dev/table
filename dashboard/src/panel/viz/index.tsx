@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { ReactNode, useContext } from 'react';
 import { useElementSize } from '@mantine/hooks';
 import { LoadingOverlay, Text } from '@mantine/core';
@@ -33,7 +34,7 @@ function usePluginViz(data: any): ReactNode | null {
     vizManager.resolveComponent(viz.type);
     return <PluginVizViewComponent panel={panel} data={data} vizManager={vizManager} />;
   } catch (e) {
-    console.warn(e);
+    console.info(get(e, 'message'));
     return null;
   }
 }
