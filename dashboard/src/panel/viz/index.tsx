@@ -12,7 +12,6 @@ import { VizBar3D } from './bar-3d';
 import './index.css';
 import { IVizConfig } from '../../types';
 import { VizPie } from './pie';
-import { VizStats } from './stats';
 import { ErrorBoundary } from '../error-boundary';
 import { VizRichText } from './rich-text';
 import { observer } from 'mobx-react-lite';
@@ -47,8 +46,6 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
       // @ts-expect-error
       return <VizCartesianChart {...props} />;
     case 'stats':
-      // @ts-expect-error
-      return <VizStats {...props} />;
     case 'rich-text':
       // @ts-expect-error
       return <VizRichText {...props} />;

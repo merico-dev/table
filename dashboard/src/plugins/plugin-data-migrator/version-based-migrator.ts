@@ -14,6 +14,14 @@ export abstract class VersionBasedMigrator extends PluginDataMigrator implements
   public abstract readonly VERSION: number;
 
   public abstract configVersions(): void;
+  constructor() {
+    super();
+    this.configVersions();
+  }
+
+  override version(version: number, handler: (data: any) => any): PluginDataMigrator {
+    return super.version(version, (data) => ({ version, ...handler(data) }));
+  }
 
   async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
     const data = await instanceData.getItem(null);

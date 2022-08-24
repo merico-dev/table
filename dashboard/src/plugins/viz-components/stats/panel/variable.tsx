@@ -1,9 +1,9 @@
-import { ActionIcon, Group, Stack } from '@mantine/core';
+import { ActionIcon, Stack } from '@mantine/core';
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { TemplateVariableField } from '../../../../utils/template/editor';
-import { IVizStatsConf } from '../types';
+import { IVizStatsConf } from '../type';
 
 interface VariableField {
   control: Control<IVizStatsConf, any>;
