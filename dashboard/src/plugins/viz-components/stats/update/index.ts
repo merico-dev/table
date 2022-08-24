@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import { TNumbroFormat } from '../../../../panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '../../../plugin-data-migrator';
 import { IVizStatsConf } from '../type';
@@ -59,9 +58,7 @@ export class VizStatsMigrator extends VersionBasedMigrator {
 
   configVersions(): void {
     this.version(1, (data: any) => {
-      const result = { config: updateSchema(data) };
-      console.log('after migration', get(data, 'variables.0.data_field'));
-      return result;
+      return { config: updateSchema(data) };
     });
   }
 }

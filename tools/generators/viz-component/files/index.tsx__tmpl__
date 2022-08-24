@@ -1,21 +1,20 @@
-import { get } from 'lodash';
-import { IVizComponentMigrator, VizComponent, VizComponentMigrationContext } from '../../../types/plugin';
-import { PluginDataMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '../../../types/plugin';
+import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { Viz<%= pascalcase(name) %> } from './viz-<%= dashcase(name) %>';
 import { Viz<%= pascalcase(name) %>Panel } from './viz-<%= dashcase(name) %>-panel';
 
-const VERSION = 1;
+class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
+  readonly VERSION = 1;
 
-class Viz<%= pascalcase(name) %>Migrator extends PluginDataMigrator implements IVizComponentMigrator {
-  constructor() {
-    super();
-    // this.version(1, (data: any) => {
-    //   return {
-    //     version: 1,
-    //     config: data,
-    //   };
-    // });
+  configVersions(): void {
+    this.version(1, (data: any) => {
+      return {
+        version: 1,
+        config: data,
+      };
+    });
   }
+}
 
   async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
     const data = await instanceData.getItem(null);

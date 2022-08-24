@@ -33,8 +33,6 @@ export abstract class VersionBasedMigrator extends PluginDataMigrator implements
   async needMigration({ instanceData }: VizComponentMigrationContext): Promise<boolean> {
     const data = await instanceData.getItem(null);
     const instanceVersion = get(data, 'version', 0);
-    const result = instanceVersion < this.VERSION;
-    console.info(`needMigration: ${result}, from: ${instanceVersion}, to: ${this.VERSION}`);
-    return result;
+    return instanceVersion < this.VERSION;
   }
 }
