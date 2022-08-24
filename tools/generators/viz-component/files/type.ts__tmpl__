@@ -1,0 +1,7 @@
+export interface I<% pascalCase(name) %>Conf {
+  hello: string;
+}
+
+export DEFAULT_CONFIG: I<% pascalCase(name) %>Conf = {
+  hello: 'world'
+};

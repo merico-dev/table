@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "viz-component",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "component name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "path": {
+      "type": "string",
+      "description": "path to the generated files"
+    }
+  },
+  "required": ["name"]
+}

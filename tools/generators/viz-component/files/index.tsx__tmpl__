@@ -1,0 +1,42 @@
+import { get } from 'lodash';
+import { IVizComponentMigrator, VizComponent, VizComponentMigrationContext } from '../../../types/plugin';
+import { PluginDataMigrator } from '../../plugin-data-migrator';
+import { Viz<% pascalcase(name) %> } from './viz-<% dashcase(name) %>';
+import { Viz<% pascalcase(name) %>Panel } from './viz-<% dashcase(name) %>-panel';
+
+const VERSION = 1;
+
+class Viz<% pascalcase(name) %>>Migrator extends PluginDataMigrator implements IVizComponentMigrator {
+  constructor() {
+    super();
+    // this.version(1, (data: any) => {
+    //   return {
+    //     version: 1,
+    //     config: data,
+    //   };
+    // });
+  }
+
+  async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
+    const data = await instanceData.getItem(null);
+    const instanceVersion = get(data, 'version', 0);
+    const updated = this.run({ from: instanceVersion, to: VERSION }, data);
+    await instanceData.setItem(null, updated);
+  }
+
+  async needMigration({ instanceData }: VizComponentMigrationContext): Promise<boolean> {
+    // const data = await instanceData.getItem(null);
+    const instanceVersion = get(data, 'version', 0);
+    const result = instanceVersion < VERSION;
+    console.info(`needMigration: ${result}, from: ${instanceVersion}, to: ${VERSION}`);
+    return result;
+  }
+}
+
+export const <% pascalcase(name) %>VizComponent: VizComponent = {
+  displayName: '<% pascalcase(name) %>',
+  migrator: new Viz<% pascalcase(name) %>Migrator(),
+  name: '<% camelCase(name) %>',
+  viewRender: Viz<% pascalcase(name) %>,
+  configRender: Viz<% pascalcase(name) %>Panel,
+};

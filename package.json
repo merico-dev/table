@@ -9,12 +9,17 @@
     "website"
   ],
   "devDependencies": {
+    "@nrwl/devkit": "14.5.10",
     "@nrwl/nx-cloud": "latest",
+    "@nrwl/workspace": "^14.5.10",
+    "@types/node": "latest",
+    "change-case": "^4.1.2",
+    "husky": "^8.0.0",
     "nx": "14.4.3",
-    "prettier": "^2.7.1",
-    "husky": "^8.0.0"
+    "prettier": "^2.7.1"
   },
   "scripts": {
     "prepare": "husky install"
-  }
+  },
+  "dependencies": {}
 }
