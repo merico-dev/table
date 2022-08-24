@@ -1,8 +1,0 @@
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, I<% pascalCase(name) %>>Conf } from './type';
-
-export function Viz<% pascalCase(name) %>Panel({ context }: VizConfigProps) {
-const { value: conf, set: setConf } = useStorageData<I<% pascalCase(name) %>>Conf>(context.instanceData, 'config');
-    return <div>Hello World</div>;
-}
