@@ -23,7 +23,7 @@ export function DataSourcePage() {
         <br />
         You may only <b>Add</b> or <b>Delete</b> a data source.
       </Alert>
-      <DataSourceList config={{ apiBaseURL: 'http://localhost:31200/' }} />
+      <DataSourceList config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} />
     </Box>
   );
 }

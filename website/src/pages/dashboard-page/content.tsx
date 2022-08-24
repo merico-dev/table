@@ -59,7 +59,7 @@ export function DashboardPageContent({ id }: { id: string }) {
           context={context}
           dashboard={dashboard}
           update={updateDashboard}
-          config={{ apiBaseURL: 'http://localhost:31200/' }}
+          config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
         />
       )}
     </div>
