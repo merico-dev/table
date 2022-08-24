@@ -6,7 +6,7 @@ import { TemplateInput } from '../../../utils/template/editor';
 import { useStorageData } from '../../hooks';
 import { VariablesField } from './panel/variables';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
-import _, { defaultsDeep, get } from 'lodash';
+import _, { defaultsDeep } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 
 export function VizStatsPanel({ context }: VizConfigProps) {
@@ -30,7 +30,6 @@ export function VizStatsPanel({ context }: VizConfigProps) {
 
   watch(['variables', 'template']);
   const values = getValues();
-  console.log('wtf values', get(values, 'variables.0.data_field'), get(defaultValues, 'variables.0.data_field'));
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf);
   }, [values, conf]);
