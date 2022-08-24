@@ -32,9 +32,9 @@
   "dependencies": {
     "eventemitter2": "^6.4.6",
     "file-saver": "2.0.5",
-    "stickybits": "3.7.11",
     "jszip": "3.10.1",
-    "popmotion": "^11.0.3"
+    "popmotion": "^11.0.3",
+    "stickybits": "3.7.11"
   },
   "devDependencies": {
     "@mantine/core": "^5.0.2",
@@ -50,6 +50,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.3.0",
+    "@types/eventemitter2": "^4.1.0",
     "@types/file-saver": "2.0.5",
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.0",
