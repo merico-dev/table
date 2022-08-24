@@ -1,4 +1,4 @@
-import { ListenerFn } from 'eventemitter2';
+import { ListenerFn, EventEmitter2 } from 'eventemitter2';
 import { useEffect } from 'react';
 
 export function useChannelEvent(channel: EventEmitter2, event: string, listener: ListenerFn) {
