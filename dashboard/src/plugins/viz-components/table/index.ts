@@ -1,5 +1,7 @@
+import { cloneDeep } from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { DEFAULT_CONFIG } from './type';
 import { VizTable } from './viz-table';
 import { VizTablePanel } from './viz-table-panel';
 
@@ -17,6 +19,12 @@ class VizTableMigrator extends VersionBasedMigrator {
 }
 
 export const TableVizComponent: VizComponent = {
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG),
+    };
+  },
   displayName: 'Table',
   migrator: new VizTableMigrator(),
   name: 'table',

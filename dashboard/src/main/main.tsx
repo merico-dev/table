@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { TableVizComponent } from '../plugins/viz-components/table';
 import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
@@ -99,8 +100,8 @@ export const Dashboard = observer(function _Dashboard({
       description: '<p><br></p>',
       queryID: '',
       viz: {
-        type: 'table',
-        conf: {},
+        type: TableVizComponent.name,
+        conf: TableVizComponent.createConfig(),
       },
     };
     setPanels((prevs) => [...prevs, newItem]);
