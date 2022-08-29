@@ -10,8 +10,18 @@ import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
   queryModel: QueryModelInstance;
+  setCurrentID: React.Dispatch<React.SetStateAction<string>>;
 }
-export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
+export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID }: IQueryForm) {
+  const initialID = React.useRef(queryModel.id);
+  const [id, setID] = React.useState(initialID.current);
+  React.useEffect(() => {
+    if (initialID.current !== queryModel.id) {
+      setID(queryModel.id);
+      initialID.current = queryModel.id;
+    }
+  }, [initialID, queryModel.id]);
+
   const { data: querySources = [], loading } = useRequest(
     listDataSources,
     {
@@ -56,6 +66,11 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
     queryModel.setSQL(sql);
   };
 
+  const submitIDChanges = () => {
+    setCurrentID(id);
+    queryModel.setID(id);
+  };
+
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
@@ -69,10 +84,21 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
             required
             sx={{ flex: 1 }}
             disabled={loading}
-            value={queryModel.id}
+            value={id}
             onChange={(e) => {
-              queryModel.setID(e.currentTarget.value);
+              setID(e.currentTarget.value);
             }}
+            rightSection={
+              <ActionIcon
+                mr={5}
+                variant="filled"
+                color="blue"
+                disabled={id === queryModel.id}
+                onClick={submitIDChanges}
+              >
+                <DeviceFloppy size={18} />
+              </ActionIcon>
+            }
           />
           <Select
             label="Data Source Type"
