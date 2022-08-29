@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import { TableVizComponent } from '../plugins/viz-components/table';
 import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardLayout } from '../layout';
@@ -15,11 +14,12 @@ import { usePanelFullScreen } from './use-panel-full-screen';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
 import { observer } from 'mobx-react-lite';
-import { createPluginContext, PluginContext } from '../plugins/plugin-context';
+import { createPluginContext, PluginContext } from '../plugins';
 import { useCreation } from 'ahooks';
 import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
 import { useStickyAreaStyle } from './use-sticky-area-style';
+import { TableVizComponent } from '../plugins/viz-components/table';
 import './main.css';
 
 interface IDashboardProps {
