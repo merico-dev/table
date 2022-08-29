@@ -8,6 +8,7 @@ import { PluginVizViewComponent } from '../plugin-adaptor';
 
 import { Sunbrust } from './sunburst';
 import { VizCartesianChart } from './cartesian';
+import { VizRadarChart } from './radar';
 import { VizBar3D } from './bar-3d';
 import './index.css';
 import { IVizConfig } from '../../types';
@@ -45,6 +46,9 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'cartesian':
       // @ts-expect-error
       return <VizCartesianChart {...props} />;
+    case 'radar':
+      // @ts-expect-error
+      return <VizRadarChart {...props} />;
     case 'stats':
     case 'rich-text':
       // @ts-expect-error
