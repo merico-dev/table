@@ -94,6 +94,7 @@ export interface VizComponent {
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
+  createConfig: () => any;
 }
 
 export interface IVizComponentMigrator {

@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PanelContext } from '../../../contexts';
-import { IPanelInfo, PluginContext } from '../../../plugins';
+import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { VizBar3DPanel } from '../../viz/bar-3d/panel';
@@ -38,6 +38,14 @@ function useVizSelectData() {
         .concat(types),
     [vizManager],
   );
+}
+
+function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
+  try {
+    return vizManager.resolveComponent(type).createConfig();
+  } catch (e) {
+    return null;
+  }
 }
 
 function usePluginVizConfig() {
@@ -79,15 +87,14 @@ export function EditVizConf() {
   const [type, setType] = useInputState(viz.type);
 
   const changed = viz.type !== type;
+  const { vizManager } = useContext(PluginContext);
 
   const submit = React.useCallback(() => {
     if (!changed) {
       return;
     }
-    setViz((v) => ({
-      ...v,
-      type,
-    }));
+    const defaultConfig = getPluginVizDefaultConfig(vizManager, type);
+    setViz({ conf: defaultConfig || {}, type });
   }, [changed, type]);
 
   const setVizConf = (conf: IVizConfig['conf']) => {
