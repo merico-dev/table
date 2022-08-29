@@ -1,6 +1,6 @@
-import { Group, Select, TextInput, Text, useMantineTheme, ColorSwatch } from '@mantine/core';
-import _ from 'lodash';
-import React from 'react';
+import { Group, Select, TextInput, Text, ColorSwatch } from '@mantine/core';
+import React, { useContext } from 'react';
+import { PluginContext } from '../../../plugins';
 
 interface IMantineColorSelector {
   value?: string;
@@ -8,14 +8,17 @@ interface IMantineColorSelector {
 }
 
 function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: any) {
-  const theme = useMantineTheme();
+  const { colorManager } = useContext(PluginContext);
 
   const themeColors = React.useMemo(() => {
-    return Object.entries(theme.colors).map(([color, profile]) => ({
-      label: color,
-      value: profile[6],
+    const colors = colorManager.getStaticColors();
+    return colors.map((color) => ({
+      label: color.name,
+      group: color.category,
+      // todo: select color by reference instead of value, e.g. $category.name
+      value: color.value,
     }));
-  }, [theme]);
+  }, [colorManager]);
 
   const isThemeColor = React.useMemo(() => {
     return themeColors.some((option) => option.value === value);
@@ -44,4 +47,5 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
     </Group>
   );
 }
+
 export const MantineColorSelector = React.forwardRef(_MantineColorSelector);

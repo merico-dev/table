@@ -1,14 +1,12 @@
-import { get } from 'lodash';
-import { IVizComponentMigrator, VizComponent, VizComponentMigrationContext } from '../../../types/plugin';
-import { PluginDataMigrator } from '../../plugin-data-migrator';
-import { VizTable } from './viz-table';
-import { VizTablePanel } from './viz-table-panel';
+import { VizComponent } from '../../../types/plugin';
+import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { Viz<%= pascalcase(name) %> } from './viz-<%= dashcase(name) %>';
+import { Viz<%= pascalcase(name) %>Panel } from './viz-<%= dashcase(name) %>-panel';
 
-const VERSION = 1;
+class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
+  readonly VERSION = 1;
 
-class VizTableMigrator extends PluginDataMigrator implements IVizComponentMigrator {
-  constructor() {
-    super();
+  configVersions(): void {
     this.version(1, (data: any) => {
       return {
         version: 1,
@@ -16,6 +14,7 @@ class VizTableMigrator extends PluginDataMigrator implements IVizComponentMigrat
       };
     });
   }
+}
 
   async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
     const data = await instanceData.getItem(null);
@@ -33,10 +32,10 @@ class VizTableMigrator extends PluginDataMigrator implements IVizComponentMigrat
   }
 }
 
-export const TableVizComponent: VizComponent = {
-  displayName: 'Table',
-  migrator: new VizTableMigrator(),
-  name: 'table',
-  viewRender: VizTable,
-  configRender: VizTablePanel,
+export const <%= pascalcase(name) %>VizComponent: VizComponent = {
+  displayName: '<%= pascalcase(name) %>',
+  migrator: new Viz<%= pascalcase(name) %>Migrator(),
+  name: '<%= camelcase(name) %>',
+  viewRender: Viz<%= pascalcase(name) %>,
+  configRender: Viz<%= pascalcase(name) %>Panel,
 };

@@ -1,7 +1,7 @@
-import { Button, Group, Stack, Text } from '@mantine/core';
+import { Button, Group, Stack } from '@mantine/core';
 import React from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { IVizStatsConf } from '../types';
+import { IVizStatsConf } from '../type';
 import { VariableField } from './variable';
 import { getANewVariable } from '../../../../utils/template/editor';
 
@@ -29,7 +29,7 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
   return (
     <Stack>
       {controlledFields.map((_variableItem, index) => (
-        <VariableField control={control} index={index} remove={remove} data={data} />
+        <VariableField key={_variableItem.name} control={control} index={index} remove={remove} data={data} />
       ))}
       <Group position="center" mt="xs">
         <Button onClick={add}>Add a Variable</Button>

@@ -1,7 +1,8 @@
-import { TNumbroFormat } from '../../../settings/common/numbro-format-selector';
-import { IVizStatsConf } from '../types';
+import { TNumbroFormat } from '../../../../panel/settings/common/numbro-format-selector';
+import { VersionBasedMigrator } from '../../../plugin-data-migrator';
+import { IVizStatsConf } from '../type';
 
-export interface ILegacyStatsConf {
+interface ILegacyStatsConf {
   align: 'center';
   size: string;
   weight: string;
@@ -14,8 +15,7 @@ export interface ILegacyStatsConf {
   };
 }
 
-// TODO: follow plugin system's way of updating viz schema
-export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IVizStatsConf {
+function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IVizStatsConf {
   if ('variables' in legacyConf) {
     return legacyConf as IVizStatsConf;
   }
@@ -51,4 +51,14 @@ export function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IViz
       },
     ],
   };
+}
+
+export class VizStatsMigrator extends VersionBasedMigrator {
+  readonly VERSION = 1;
+
+  configVersions(): void {
+    this.version(1, (data: any) => {
+      return { config: updateSchema(data) };
+    });
+  }
 }

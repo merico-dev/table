@@ -1,4 +1,4 @@
-import EventEmitter2 from 'eventemitter2';
+import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
 
 /**
@@ -28,24 +28,24 @@ export interface PluginStorage {
   watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void;
 }
 
-export interface ColorPaletteItem {
+export interface IColorPaletteItem {
   name: string;
   type: string;
   category: string;
 }
 
-export interface SingleColor extends ColorPaletteItem {
+export interface ISingleColor extends IColorPaletteItem {
   type: 'single';
   value: string;
 }
 
-export interface ColorInterpolation extends ColorPaletteItem {
+export interface ColorInterpolation extends IColorPaletteItem {
   type: 'interpolation';
   interpolation: (value: number) => string;
 }
 
 export interface ColorPalette {
-  getColor(colorInfo: ColorPaletteItem): (value: unknown) => string;
+  getColor(colorInfo: IColorPaletteItem): (value: unknown) => string;
 }
 
 export interface IMessageChannels {
@@ -104,7 +104,7 @@ export interface IVizComponentMigrator {
 
 export interface IPluginManifest {
   viz: VizComponent[];
-  color: ColorPaletteItem[];
+  color: IColorPaletteItem[];
 }
 
 export interface IDashboardPlugin {

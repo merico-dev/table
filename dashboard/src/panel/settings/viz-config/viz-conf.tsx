@@ -1,7 +1,7 @@
 import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
-import React, { createElement, useContext } from 'react';
+import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PanelContext } from '../../../contexts';
 import { IPanelInfo, PluginContext } from '../../../plugins';
@@ -11,12 +11,10 @@ import { VizBar3DPanel } from '../../viz/bar-3d/panel';
 import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
 import { VizPiePanel } from '../../viz/pie/panel';
 import { VizRichTextPanel } from '../../viz/rich-text/panel';
-import { VizStatsPanel } from '../../viz/stats/panel';
 import { SunburstPanel } from '../../viz/sunburst/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 
 const types = [
-  { value: 'stats', label: 'Stats', Panel: VizStatsPanel },
   { value: 'rich-text', label: 'Rich Text', Panel: VizRichTextPanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)', Panel: VizBar3DPanel },
@@ -28,10 +26,25 @@ const types = [
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
 
+function useVizSelectData() {
+  const { vizManager } = useContext(PluginContext);
+  return useMemo(
+    () =>
+      vizManager.availableVizList
+        .map((it) => ({
+          value: it.name,
+          label: it.displayName,
+        }))
+        .concat(types),
+    [vizManager],
+  );
+}
+
 function usePluginVizConfig() {
   const { viz, title, data, queryID, description, setDescription, setTitle, setQueryID, setViz, id } =
     useContext(PanelContext);
   const { vizManager } = useContext(PluginContext);
+
   const panel: IPanelInfo = {
     title,
     description,
@@ -102,13 +115,14 @@ export function EditVizConf() {
       })
     : null;
   const finalPanel = pluginPanel || builtInPanel;
+  const selectData = useVizSelectData();
   return (
     <>
       <Select
         label="Visualization"
         value={type}
         onChange={setType}
-        data={types}
+        data={selectData}
         rightSection={
           <ActionIcon disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
