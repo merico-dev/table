@@ -1,7 +1,7 @@
 import { Button, Stack, Text } from '@mantine/core';
 import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
-import { useChannelEvent } from '../plugins/hooks/use-channel-event';
+import { useChannelEvent } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
@@ -49,11 +49,15 @@ export function PluginVizConfigComponent({
   const instance = vizManager.getOrCreateInstance(panel);
   const { migrationState, updateConfig } = usePluginMigration(vizManager, instance);
 
+  useAsyncEffect(async () => {
+    await instance.instanceData.setItem(null, panel.viz.conf);
+  }, [instance, panel.viz.type]);
+
   useEffect(() => {
     return instance.instanceData.watchItem<Record<string, any>>(null, (configData) => {
       setVizConf({ type: panel.viz.type, conf: configData });
     });
-  }, [setVizConf]);
+  }, [setVizConf, panel.viz.type]);
 
   if (migrationState === 'checking') {
     return <Text>Checking update...</Text>;
