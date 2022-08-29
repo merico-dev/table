@@ -17,7 +17,7 @@ export class ColorManager implements IColorManager {
   }
 
   register<T extends IColorPaletteItem>(paletteItem: T): void {
-    const key = paletteItem.category + '%' + paletteItem.name;
+    const key = this.encodeColor(paletteItem);
     if (paletteItem.type === 'single') {
       if (this.staticColors.has(key)) {
         console.warn(
@@ -26,5 +26,13 @@ export class ColorManager implements IColorManager {
       }
       this.staticColors.set(key, paletteItem as unknown as ISingleColor);
     }
+  }
+
+  decodeStaticColor(key: string): ISingleColor | undefined {
+    return this.staticColors.get(key);
+  }
+
+  encodeColor(color: IColorPaletteItem): string {
+    return `\${${color.category}}.{${color.name}}`;
   }
 }

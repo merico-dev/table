@@ -5,5 +5,9 @@ export interface IColorManager {
 
   register<T extends IColorPaletteItem>(paletteItem: T): void;
 
+  decodeStaticColor(key: string): ISingleColor | undefined;
+
+  encodeColor(color: ISingleColor): string;
+
   // todo: color interpolation
 }
