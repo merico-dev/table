@@ -19,5 +19,5 @@ export const QueryEditor = observer(function _QueryEditor({ id, setID }: IQueryE
   if (!query) {
     return <span>Invalid Query ID</span>;
   }
-  return <QueryForm queryModel={query} />;
+  return <QueryForm queryModel={query} setCurrentID={setID} />;
 });
