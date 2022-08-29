@@ -1,7 +1,7 @@
-import { Button, Stack, Text } from '@mantine/core';
-import { useAsyncEffect } from 'ahooks';
+import { Text } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import { useAsyncEffect, useCreation } from 'ahooks';
 import React, { useEffect, useState } from 'react';
-import { useChannelEvent } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
@@ -11,34 +11,26 @@ import {
 import { IVizManager, VizInstanceInfo } from '../plugins/viz-manager/types';
 import { IVizConfig } from '../types';
 
-type MigrationStateType = 'checking' | 'done' | 'need-migration';
-
-function usePluginMigration(vizManager: IVizManager, instance: VizInstanceInfo) {
+function usePluginMigration(vizManager: IVizManager, instance: VizInstanceInfo, onMigrate?: () => void) {
+  const migrations = useCreation(() => new Set<string>(), []);
   const comp = vizManager.resolveComponent(instance.type);
-  const instanceChannel = instance.messageChannels.getChannel(instance.id);
-  const [migrationState, setMigrationState] = useState<MigrationStateType>('checking');
-  useChannelEvent(instanceChannel, 'migration-done', () => {
-    setMigrationState('done');
-  });
-
+  const [migrated, setMigrated] = useState(false);
   useAsyncEffect(async () => {
-    if (migrationState !== 'checking') {
-      return;
-    }
-    if (await comp.migrator.needMigration(instance)) {
-      setMigrationState('need-migration');
+    // we can have more than one component for a given viz instance
+    if ((await comp.migrator.needMigration(instance)) && !migrations.has(instance.id)) {
+      try {
+        migrations.add(instance.id);
+        await comp.migrator.migrate(instance);
+        onMigrate?.();
+      } finally {
+        migrations.delete(instance.id);
+        setMigrated(true);
+      }
     } else {
-      setMigrationState('done');
+      setMigrated(true);
     }
   });
-  const handleUpdateConfigClick = async () => {
-    await comp.migrator.migrate(instance);
-    // there may be other panels displaying the same instance, so we need to
-    // notify them
-    instanceChannel.emit('migration-done');
-    setMigrationState('done');
-  };
-  return { migrationState, updateConfig: handleUpdateConfigClick };
+  return migrated;
 }
 
 export function PluginVizConfigComponent({
@@ -47,7 +39,12 @@ export function PluginVizConfigComponent({
 }: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig>) => void }) {
   const { vizManager, panel } = props;
   const instance = vizManager.getOrCreateInstance(panel);
-  const { migrationState, updateConfig } = usePluginMigration(vizManager, instance);
+  const migrated = usePluginMigration(vizManager, instance, () => {
+    showNotification({
+      title: `${panel.title} - Updated`,
+      message: 'Your plugin configuration has been migrated to the latest version',
+    });
+  });
 
   useAsyncEffect(async () => {
     await instance.instanceData.setItem(null, panel.viz.conf);
@@ -59,18 +56,8 @@ export function PluginVizConfigComponent({
     });
   }, [setVizConf, panel.viz.type]);
 
-  if (migrationState === 'checking') {
+  if (!migrated) {
     return <Text>Checking update...</Text>;
-  }
-  if (migrationState === 'need-migration') {
-    return (
-      <Stack justify="center" align="center">
-        <Text>The configuration of this panel is outdated.</Text>
-        <Button type="button" aria-label="update config" onClick={updateConfig}>
-          Update Config
-        </Button>
-      </Stack>
-    );
   }
   return <VizConfigComponent {...props} />;
 }
@@ -78,16 +65,14 @@ export function PluginVizConfigComponent({
 export function PluginVizViewComponent(props: IViewComponentProps) {
   const { vizManager, panel } = props;
   const instance = vizManager.getOrCreateInstance(panel);
-  const { migrationState } = usePluginMigration(vizManager, instance);
-  if (migrationState === 'checking') {
+  const migrated = usePluginMigration(vizManager, instance, () => {
+    showNotification({
+      title: `${panel.title} - Updated`,
+      message: 'Your plugin configuration has been migrated to the latest version',
+    });
+  });
+  if (!migrated) {
     return <Text>Checking update</Text>;
-  }
-  if (migrationState === 'need-migration') {
-    return (
-      <Stack justify="center" align="center">
-        <Text>The configuration of this panel is outdated, please update config in "Settings"</Text>
-      </Stack>
-    );
   }
   return <VizViewComponent {...props} />;
 }
