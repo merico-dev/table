@@ -1,7 +1,7 @@
 import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
-import React, { createElement, useContext } from 'react';
+import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PanelContext } from '../../../contexts';
 import { IPanelInfo, PluginContext } from '../../../plugins';
@@ -26,10 +26,25 @@ const types = [
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
 
+function useVizSelectData() {
+  const { vizManager } = useContext(PluginContext);
+  return useMemo(
+    () =>
+      vizManager.availableVizList
+        .map((it) => ({
+          value: it.name,
+          label: it.displayName,
+        }))
+        .concat(types),
+    [vizManager],
+  );
+}
+
 function usePluginVizConfig() {
   const { viz, title, data, queryID, description, setDescription, setTitle, setQueryID, setViz, id } =
     useContext(PanelContext);
   const { vizManager } = useContext(PluginContext);
+
   const panel: IPanelInfo = {
     title,
     description,
@@ -100,13 +115,14 @@ export function EditVizConf() {
       })
     : null;
   const finalPanel = pluginPanel || builtInPanel;
+  const selectData = useVizSelectData();
   return (
     <>
       <Select
         label="Visualization"
         value={type}
         onChange={setType}
-        data={types}
+        data={selectData}
         rightSection={
           <ActionIcon disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
