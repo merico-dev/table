@@ -13,6 +13,7 @@ import { VizPiePanel } from '../../viz/pie/panel';
 import { VizRichTextPanel } from '../../viz/rich-text/panel';
 import { SunburstPanel } from '../../viz/sunburst/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
+import { VizRadarChartPanel } from '../../viz/radar/panel';
 
 const types = [
   { value: 'rich-text', label: 'Rich Text', Panel: VizRichTextPanel },
@@ -22,6 +23,11 @@ const types = [
     value: 'cartesian',
     label: 'Cartesian Chart',
     Panel: VizCartesianChartPanel,
+  },
+  {
+    value: 'radar',
+    label: 'Radar Chart',
+    Panel: VizRadarChartPanel,
   },
   { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
