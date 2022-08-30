@@ -7,6 +7,7 @@ export interface IBoxplotChartConf {
     name: string;
     data_key: string;
   };
+  color: string;
 }
 
 export const DEFAULT_CONFIG: IBoxplotChartConf = {
@@ -18,4 +19,5 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     name: 'Y Axis',
     data_key: 'value',
   },
+  color: '#228be6',
 };

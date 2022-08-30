@@ -16,7 +16,7 @@ export function VizBoxplotChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const data = context.data as any[];
   const { width, height } = context.viewport;
-  const { x_axis, y_axis } = defaults({}, conf, DEFAULT_CONFIG);
+  const { x_axis, y_axis, color } = defaults({}, conf, DEFAULT_CONFIG);
 
   const { xAxisData, boxplotData } = useMemo(() => {
     const grouped = _.groupBy(data, x_axis.data_key);
@@ -60,6 +60,11 @@ export function VizBoxplotChart({ context }: VizViewProps) {
       {
         name: y_axis.name,
         type: 'boxplot',
+        itemStyle: {
+          color,
+          borderColor: '#454545',
+        },
+        boxWidth: [10, 40],
         datasetIndex: 1,
       },
     ],

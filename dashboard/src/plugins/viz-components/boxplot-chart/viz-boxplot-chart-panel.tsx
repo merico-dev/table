@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../panel/settings/common/mantine-color';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
@@ -64,6 +65,11 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
             )}
           />
         </Group>
+        <Divider label="Style" labelPosition="center" mt="md" />
+        <Stack spacing={4}>
+          <Text size="sm">Color</Text>
+          <Controller name="color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
+        </Stack>
       </form>
     </Stack>
   );
