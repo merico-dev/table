@@ -9,6 +9,7 @@ import { RichTextVizComponent } from './viz-components/rich-text';
 import { StatsVizComponent } from './viz-components/stats';
 import { TableVizComponent } from './viz-components/table';
 import { SunburstVizComponent } from './viz-components/sunburst';
+import { PieChartVizComponent } from './viz-components/pie-chart';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -86,7 +87,7 @@ const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',
   version: PACKAGE.version,
   manifest: {
-    viz: [TableVizComponent, StatsVizComponent, RichTextVizComponent, SunburstVizComponent],
+    viz: [TableVizComponent, StatsVizComponent, RichTextVizComponent, SunburstVizComponent, PieChartVizComponent],
     color: [...basicColors],
   },
 };

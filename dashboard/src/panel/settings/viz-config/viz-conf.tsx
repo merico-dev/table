@@ -9,7 +9,6 @@ import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { VizBar3DPanel } from '../../viz/bar-3d/panel';
 import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
-import { VizPiePanel } from '../../viz/pie/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 import { VizRadarChartPanel } from '../../viz/radar/panel';
 
@@ -25,7 +24,6 @@ const types = [
     label: 'Radar Chart',
     Panel: VizRadarChartPanel,
   },
-  { value: 'pie', label: 'Pie Chart', Panel: VizPiePanel },
 ];
 
 function useVizSelectData() {
