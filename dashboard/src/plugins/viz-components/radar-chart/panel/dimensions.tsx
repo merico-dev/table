@@ -2,8 +2,8 @@ import { ActionIcon, Box, Button, Group, NumberInput, Stack, Text, TextInput } f
 import { randomId } from '@mantine/hooks';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../settings/common/data-field-selector';
-import { MantineColorSelector } from '../../../settings/common/mantine-color';
+import { DataFieldSelector } from '../../../../panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../../panel/settings/common/mantine-color';
 import { IRadarChartConf } from '../type';
 
 interface IDimensionField {
@@ -61,6 +61,7 @@ interface IDimensionsField {
   watch: UseFormWatch<IRadarChartConf>;
   data: any[];
 }
+
 export function DimensionsField({ control, watch, data }: IDimensionsField) {
   const { fields, append, remove } = useFieldArray({
     control,

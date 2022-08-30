@@ -6,7 +6,6 @@ import { PanelContext } from '../../contexts';
 import { PluginContext, IViewPanelInfo } from '../../plugins';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 
-import { VizRadarChart } from './radar';
 import './index.css';
 import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
@@ -36,9 +35,6 @@ function usePluginViz(data: any, layout: IViewPanelInfo['layout']): ReactNode | 
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf };
   switch (viz.type) {
-    case 'radar':
-      // @ts-expect-error
-      return <VizRadarChart {...props} />;
     default:
       return null;
   }
