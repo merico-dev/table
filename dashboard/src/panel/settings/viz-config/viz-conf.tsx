@@ -10,13 +10,11 @@ import { IPanelInfoEditor } from '../../../types/plugin';
 import { VizBar3DPanel } from '../../viz/bar-3d/panel';
 import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
 import { VizPiePanel } from '../../viz/pie/panel';
-import { VizRichTextPanel } from '../../viz/rich-text/panel';
 import { SunburstPanel } from '../../viz/sunburst/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 import { VizRadarChartPanel } from '../../viz/radar/panel';
 
 const types = [
-  { value: 'rich-text', label: 'Rich Text', Panel: VizRichTextPanel },
   { value: 'sunburst', label: 'Sunburst', Panel: SunburstPanel },
   { value: 'bar-3d', label: 'Bar Chart (3D)', Panel: VizBar3DPanel },
   {

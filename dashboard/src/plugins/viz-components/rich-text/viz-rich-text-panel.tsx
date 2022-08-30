@@ -1,31 +1,27 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
-import _ from 'lodash';
-import React from 'react';
-import { DeviceFloppy } from 'tabler-icons-react';
-import { IRichTextConf, IVizRichTextPanel } from './type';
 import RichTextEditor from '@mantine/rte';
+import { defaults, isEqual, omit } from 'lodash';
+import { useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { DeviceFloppy } from 'tabler-icons-react';
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { useSyncEditorContent } from './hooks';
+import { DEFAULT_CONFIG, IRichTextConf } from './type';
 
-export function VizRichTextPanel({ conf, setConf }: IVizRichTextPanel) {
-  const defaultValues = React.useMemo(() => {
-    const { content = '' } = conf;
-    return { content };
+export function VizRichTextPanel({ context }: VizConfigProps) {
+  const { value: conf, set: setConf } = useStorageData<IRichTextConf>(context.instanceData, 'config');
+  const defaultValues = useMemo(() => {
+    return defaults({}, conf, DEFAULT_CONFIG);
   }, [conf]);
 
-  React.useEffect(() => {
-    const configMalformed = !_.isEqual(conf, defaultValues);
-    if (configMalformed) {
-      setConf(defaultValues);
-    }
-  }, [conf, defaultValues]);
-
   const { control, handleSubmit, watch, getValues } = useForm<IRichTextConf>({ defaultValues });
-
   watch('content');
   const values = getValues();
-  const changed = React.useMemo(() => {
-    return !_.isEqual(values, conf);
+  const changed = useMemo(() => {
+    return !isEqual(values, conf);
   }, [values, conf]);
+  const editorRef = useSyncEditorContent(conf?.content);
 
   return (
     <Stack mt="md" spacing="xs">
@@ -39,7 +35,7 @@ export function VizRichTextPanel({ conf, setConf }: IVizRichTextPanel) {
         <Controller
           name="content"
           control={control}
-          render={({ field }) => <RichTextEditor sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <RichTextEditor ref={editorRef} sx={{ flex: 1 }} {...omit(field, 'ref')} />}
         />
       </form>
     </Stack>
