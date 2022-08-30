@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { defaultsDeep } from 'lodash';
 import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import { ICartesianChartConf, ICartesianChartSeriesItem, IYAxisConf } from '../type';
@@ -13,17 +13,19 @@ const defaultOption = {
   tooltip: {
     trigger: 'axis',
   },
-  xAxis: {
-    type: 'category',
-    nameGap: 25,
-    nameLocation: 'center',
-    nameTextStyle: {
-      fontWeight: 'bold',
+  xAxis: [
+    {
+      type: 'category',
+      nameGap: 25,
+      nameLocation: 'center',
+      nameTextStyle: {
+        fontWeight: 'bold',
+      },
     },
-  },
+  ],
   grid: {
-    top: 0,
-    left: 15,
+    top: 10,
+    left: 30,
     right: 15,
     bottom: 30,
     containLabel: true,
@@ -95,6 +97,11 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
         show: true,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
+      nameTextStyle: {
+        fontWeight: 'bold',
+      },
+      nameLocation: 'middle',
+      nameGap: 40,
     })),
     dataset: [...regressionDataSets],
     series: [...series, ...regressionSeries],
@@ -117,5 +124,5 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
       },
     },
   };
-  return _.merge({}, defaultOption, customOptions);
+  return defaultsDeep({}, customOptions, defaultOption);
 }
