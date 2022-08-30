@@ -1,7 +1,7 @@
 import { defaults } from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
-import { DEFAULT_CONFIG } from './type';
+import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { VizRichText } from './viz-rich-text';
 import { VizRichTextPanel } from './viz-rich-text-panel';
 
@@ -28,5 +28,5 @@ export const RichTextVizComponent: VizComponent = {
   name: 'richText',
   viewRender: VizRichText,
   configRender: VizRichTextPanel,
-  createConfig: () => ({}),
+  createConfig: (): IRichTextConf => DEFAULT_CONFIG,
 };

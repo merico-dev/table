@@ -1,6 +1,6 @@
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
-import { ISunburstConf } from './type';
+import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
 import { VizSunburstPanel } from './viz-sunburst-panel';
 
@@ -23,5 +23,5 @@ export const SunburstVizComponent: VizComponent = {
   name: 'sunburst',
   viewRender: VizSunburst,
   configRender: VizSunburstPanel,
-  createConfig: (): ISunburstConf => ({ label_field: '', value_field: '' }),
+  createConfig: (): ISunburstConf => DEFAULT_CONFIG,
 };
