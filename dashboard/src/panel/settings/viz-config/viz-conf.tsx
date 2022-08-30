@@ -7,16 +7,10 @@ import { PanelContext } from '../../../contexts';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
-import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 import { VizRadarChartPanel } from '../../viz/radar/panel';
 
 const types = [
-  {
-    value: 'cartesian',
-    label: 'Cartesian Chart',
-    Panel: VizCartesianChartPanel,
-  },
   {
     value: 'radar',
     label: 'Radar Chart',

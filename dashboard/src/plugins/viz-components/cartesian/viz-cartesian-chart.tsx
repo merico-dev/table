@@ -1,3 +1,4 @@
+import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
@@ -5,13 +6,14 @@ import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 import { transform } from 'echarts-stat';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from 'lodash';
-import React from 'react';
-import { getOption } from './option';
-import { ICartesianChartConf } from './type';
+import { defaults } from 'lodash';
+import React, { useMemo } from 'react';
+import { VizViewProps } from '../../../types/plugin';
 import { templateToJSX } from '../../../utils/template/render';
+import { useStorageData } from '../../hooks';
+import { getOption } from './option';
+import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { Box, Text } from '@mantine/core';
-import { useElementSize } from '@mantine/hooks';
 
 echarts.use([BarChart, LineChart, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 echarts.registerTransform(transform.regression);
@@ -20,14 +22,17 @@ function templateNotEmpty(str: string) {
   return str.trim().length > 0;
 }
 
-interface ICartesianChart {
+function Chart({
+  conf,
+  data,
+  width,
+  height,
+}: {
   conf: ICartesianChartConf;
   data: any[];
   width: number;
   height: number;
-}
-
-function Chart({ conf, data, width, height }: ICartesianChart) {
+}) {
   const option = React.useMemo(() => {
     return getOption(conf, data);
   }, [conf, data]);
@@ -38,10 +43,13 @@ function Chart({ conf, data, width, height }: ICartesianChart) {
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }
 
-export function VizCartesianChart({ conf, data, width, height }: ICartesianChart) {
+export function VizCartesianChart({ context }: VizViewProps) {
+  const { value: confValue } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
+  const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const data = context.data as any[];
+  const { width, height } = context.viewport;
   const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
-
   const templates = React.useMemo(() => {
     const {
       stats: { templates, variables },
@@ -51,7 +59,6 @@ export function VizCartesianChart({ conf, data, width, height }: ICartesianChart
       bottom: templateToJSX(templates.bottom, variables, data),
     };
   }, [conf, data]);
-
   const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
   return (
     <Box>

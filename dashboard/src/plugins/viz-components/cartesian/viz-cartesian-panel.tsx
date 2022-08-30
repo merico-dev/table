@@ -1,15 +1,17 @@
-import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
+import { defaultsDeep, isEqual } from 'lodash';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import _ from 'lodash';
-import React from 'react';
+import { Text, Group, Stack, Accordion, ActionIcon, TextInput } from '@mantine/core';
+
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { StatsField } from './panel/stats';
+import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
+import { RegressionsField } from './panel/regressions';
+import { SeriesField } from './panel/series';
+import { YAxesField } from './panel/y-axes';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { SeriesField } from './series';
-import { ICartesianChartConf, ICartesianChartSeriesItem, IVizCartesianChartPanel, IYAxisConf } from '../type';
-import { YAxesField } from './y-axes';
-import { defaultNumbroFormat } from '../../../settings/common/numbro-format-selector';
-import { DataFieldSelector } from '../../../settings/common/data-field-selector';
-import { RegressionsField } from './regressions';
-import { StatsField } from './stats';
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -58,37 +60,36 @@ function normalizeStats(stats?: ICartesianChartConf['stats']) {
   return stats;
 }
 
-export function VizCartesianChartPanel({ conf, setConf, data }: IVizCartesianChartPanel) {
-  const { series, y_axes, ...restConf } = conf;
-  const defaultValues = React.useMemo(() => {
-    const { x_axis_name = '', stats, ...rest } = restConf;
+export function VizCartesianPanel({ context }: VizConfigProps) {
+  const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
+  const data = context.data as any[];
+  const conf: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues: ICartesianChartConf = useMemo(() => {
+    const { series, stats, ...rest } = conf;
     return {
       series: withDefaults(series ?? []),
-      x_axis_name,
-      y_axes: y_axes ?? [
-        {
-          name: 'Y Axis',
-          label_formatter: defaultNumbroFormat,
-        },
-      ],
       stats: normalizeStats(stats),
       ...rest,
     };
-  }, [series, restConf]);
+  }, [conf]);
 
-  React.useEffect(() => {
-    const configMalformed = !_.isEqual(conf, defaultValues);
+  useEffect(() => {
+    const configMalformed = !isEqual(conf, defaultValues);
     if (configMalformed) {
-      setConf(defaultValues);
+      console.log('config malformed, resetting to defaults', conf, defaultValues);
+      void setConf(defaultValues);
     }
   }, [conf, defaultValues]);
 
-  const { control, handleSubmit, watch, getValues } = useForm<ICartesianChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, getValues, reset } = useForm<ICartesianChartConf>({ defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
 
   watch(['x_axis_data_key', 'x_axis_name']);
   const values = getValues();
-  const changed = React.useMemo(() => {
-    return !_.isEqual(values, conf);
+  const changed = useMemo(() => {
+    return !isEqual(values, conf);
   }, [values, conf]);
 
   return (

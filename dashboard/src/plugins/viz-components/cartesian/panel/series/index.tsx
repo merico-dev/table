@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Text } from '@mantine/core';
+import { Button, Group, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from 'react-hook-form';

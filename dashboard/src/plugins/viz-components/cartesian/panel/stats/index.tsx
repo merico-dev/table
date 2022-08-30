@@ -2,7 +2,7 @@
  * NOTE: this file is almost a duplicate of stats/panel/variables.tsx
  * FIXME: remove this when variables' fields are defined in utils/template
  */
-import { Button, Group, Stack, Text } from '@mantine/core';
+import { Button, Group, Stack } from '@mantine/core';
 import React from 'react';
 import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
@@ -14,6 +14,7 @@ interface IVariablesField {
   watch: UseFormWatch<ICartesianChartConf>;
   data: any[];
 }
+
 export function StatsField({ control, watch, data }: IVariablesField) {
   const { fields, append, remove } = useFieldArray({
     control,
