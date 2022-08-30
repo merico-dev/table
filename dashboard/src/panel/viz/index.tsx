@@ -8,7 +8,6 @@ import { PluginVizViewComponent } from '../plugin-adaptor';
 
 import { VizCartesianChart } from './cartesian';
 import { VizRadarChart } from './radar';
-import { VizBar3D } from './bar-3d';
 import './index.css';
 import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
@@ -44,8 +43,6 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'radar':
       // @ts-expect-error
       return <VizRadarChart {...props} />;
-    case 'bar-3d':
-      return <VizBar3D {...props} />;
     default:
       return null;
   }

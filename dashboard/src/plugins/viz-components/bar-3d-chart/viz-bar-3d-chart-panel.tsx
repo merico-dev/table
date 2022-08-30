@@ -1,34 +1,26 @@
 import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { defaults } from 'lodash';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
 import { DeviceFloppy } from 'tabler-icons-react';
-import _ from 'lodash';
-import { DataFieldSelector } from '../../settings/common/data-field-selector';
-import { IVizPanelProps } from '../../../types';
+import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
-export function VizBar3DPanel({ conf, setConf, data }: IVizPanelProps) {
-  const defaultValues = _.assign(
-    {},
-    {
-      x_axis_data_key: 'x',
-      y_axis_data_key: 'y',
-      z_axis_data_key: 'z',
-      xAxis3D: {
-        type: 'value',
-        name: 'X Axis Name',
-      },
-      yAxis3D: {
-        type: 'value',
-        name: 'Y Axis Name',
-      },
-      zAxis3D: {
-        type: 'value',
-        name: 'Z Axis Name',
-      },
-    },
-    conf,
-  );
+export function VizBar3dChartPanel({ context }: VizConfigProps) {
+  const { value: conf, set: setConf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
+  const data = context.data as any[];
+  const defaultValues = defaults({}, conf, DEFAULT_CONFIG);
+  const { control, handleSubmit, reset } = useForm({ defaultValues });
 
-  const { control, handleSubmit, formState } = useForm({ defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+  }, [conf]);
+
+  if (!conf) {
+    return null;
+  }
 
   return (
     <Stack mt="md" spacing="xs">

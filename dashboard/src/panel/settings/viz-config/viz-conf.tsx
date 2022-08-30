@@ -7,13 +7,11 @@ import { PanelContext } from '../../../contexts';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
-import { VizBar3DPanel } from '../../viz/bar-3d/panel';
 import { VizCartesianChartPanel } from '../../viz/cartesian/panel';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 import { VizRadarChartPanel } from '../../viz/radar/panel';
 
 const types = [
-  { value: 'bar-3d', label: 'Bar Chart (3D)', Panel: VizBar3DPanel },
   {
     value: 'cartesian',
     label: 'Cartesian Chart',
