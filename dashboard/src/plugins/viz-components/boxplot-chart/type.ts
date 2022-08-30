@@ -1,3 +1,5 @@
+import { ITemplateVariable } from '../../../utils/template/types';
+
 export interface IBoxplotChartConf {
   x_axis: {
     name: string;
@@ -8,6 +10,7 @@ export interface IBoxplotChartConf {
     data_key: string;
   };
   color: string;
+  variables: ITemplateVariable[];
 }
 
 export const DEFAULT_CONFIG: IBoxplotChartConf = {
@@ -20,4 +23,5 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     data_key: 'value',
   },
   color: '#228be6',
+  variables: [],
 };

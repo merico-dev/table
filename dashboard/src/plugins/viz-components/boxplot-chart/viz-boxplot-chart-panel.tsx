@@ -9,6 +9,7 @@ import { MantineColorSelector } from '../../../panel/settings/common/mantine-col
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
+import { VariablesField } from './variables';
 
 export function VizBoxplotChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
@@ -70,6 +71,11 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
           <Text size="sm">Color</Text>
           <Controller name="color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
         </Stack>
+        <Divider label="Variables" labelPosition="center" mt="md" />
+        <Text align="right" size={14} color="grey">
+          Tip: Define variables, and use them in reference lines
+        </Text>
+        <VariablesField control={control} watch={watch} data={data} />
       </form>
     </Stack>
   );
