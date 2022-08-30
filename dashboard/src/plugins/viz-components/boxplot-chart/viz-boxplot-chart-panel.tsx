@@ -19,7 +19,7 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis.data_key']);
+  watch(['x_axis', 'y_axis']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
