@@ -8,15 +8,8 @@ import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
-import { VizRadarChartPanel } from '../../viz/radar/panel';
 
-const types = [
-  {
-    value: 'radar',
-    label: 'Radar Chart',
-    Panel: VizRadarChartPanel,
-  },
-];
+const types = [] as any[];
 
 function useVizSelectData() {
   const { vizManager } = useContext(PluginContext);

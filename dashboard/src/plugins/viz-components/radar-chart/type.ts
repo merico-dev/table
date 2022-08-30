@@ -1,5 +1,3 @@
-import { IVizPanelProps } from '../../../types';
-
 export interface IRadarChartDimension {
   name: string;
   data_key: string;
@@ -12,7 +10,7 @@ export interface IRadarChartConf {
   dimensions: IRadarChartDimension[];
 }
 
-export interface IVizRadarChartPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {
-  conf: IRadarChartConf;
-  setConf: (values: IRadarChartConf) => void;
-}
+export const DEFAULT_CONFIG: IRadarChartConf = {
+  series_name_key: 'name',
+  dimensions: [],
+};

@@ -12,6 +12,7 @@ import { SunburstVizComponent } from './viz-components/sunburst';
 import { PieChartVizComponent } from './viz-components/pie-chart';
 import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { CartesianVizComponent } from './viz-components/cartesian';
+import { RadarChartVizComponent } from './viz-components/radar-chart';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -97,6 +98,7 @@ const BuiltInPlugin: IDashboardPlugin = {
       PieChartVizComponent,
       Bar3dChartVizComponent,
       CartesianVizComponent,
+      RadarChartVizComponent,
     ],
     color: [...basicColors],
   },

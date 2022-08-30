@@ -1,11 +1,14 @@
-import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
-import _ from 'lodash';
-import React from 'react';
+import { defaultsDeep, isEqual } from 'lodash';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Stack, Text, Box, Group, ActionIcon } from '@mantine/core';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../settings/common/data-field-selector';
-import { IRadarChartConf, IRadarChartDimension, IVizRadarChartPanel } from '../type';
-import { DimensionsField } from './dimensions';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DimensionsField } from './panel/dimensions';
+import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 
 function withDefaults(dimensions: IRadarChartDimension[]) {
   function setDefaults({ name = '', data_key = '', max = 10, color = 'blue' }: IRadarChartDimension) {
@@ -20,29 +23,37 @@ function withDefaults(dimensions: IRadarChartDimension[]) {
   return dimensions.map(setDefaults);
 }
 
-export function VizRadarChartPanel({ conf, setConf, data }: IVizRadarChartPanel) {
-  const { dimensions, series_name_key = 'name' } = conf;
-  const defaultValues = React.useMemo(
+export function VizRadarChartPanel({ context }: VizConfigProps) {
+  const data = context.data as any[];
+  const { value: confValue, set: setConf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
+  const conf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const { dimensions, series_name_key } = conf;
+  const defaultValues = useMemo(
     () => ({
       dimensions: withDefaults(dimensions ?? []),
       series_name_key,
     }),
     [dimensions, series_name_key],
   );
-
-  React.useEffect(() => {
-    const configMalformed = !_.isEqual(conf, defaultValues);
+  useEffect(() => {
+    const configMalformed = !isEqual(conf, defaultValues);
     if (configMalformed) {
-      setConf(defaultValues);
+      void setConf(defaultValues);
     }
   }, [conf, defaultValues]);
 
-  const { control, handleSubmit, watch, getValues } = useForm<IRadarChartConf>({ defaultValues });
+  const { control, handleSubmit, watch, getValues, reset } = useForm<IRadarChartConf>({ defaultValues });
+
+  useEffect(() => {
+    if (!isEqual(getValues(), defaultValues)) {
+      reset(defaultValues);
+    }
+  }, [conf]);
 
   watch(['series_name_key']);
   const values = getValues();
-  const changed = React.useMemo(() => {
-    return !_.isEqual(values, conf);
+  const changed = useMemo(() => {
+    return !isEqual(values, conf);
   }, [values, conf]);
 
   return (
