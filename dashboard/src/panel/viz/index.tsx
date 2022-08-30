@@ -14,7 +14,6 @@ import './index.css';
 import { IVizConfig } from '../../types';
 import { VizPie } from './pie';
 import { ErrorBoundary } from '../error-boundary';
-import { VizRichText } from './rich-text';
 import { observer } from 'mobx-react-lite';
 
 function usePluginViz(data: any): ReactNode | null {
@@ -49,10 +48,6 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
     case 'radar':
       // @ts-expect-error
       return <VizRadarChart {...props} />;
-    case 'stats':
-    case 'rich-text':
-      // @ts-expect-error
-      return <VizRichText {...props} />;
     case 'bar-3d':
       return <VizBar3D {...props} />;
     case 'pie':

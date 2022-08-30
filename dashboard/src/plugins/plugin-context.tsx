@@ -4,9 +4,10 @@ import * as PACKAGE from '../../package.json';
 import { IDashboardPlugin, IPluginManager, ISingleColor } from '../types/plugin';
 import { IColorManager, ColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
+import { VizManager } from './viz-manager';
+import { RichTextVizComponent } from './viz-components/rich-text';
 import { StatsVizComponent } from './viz-components/stats';
 import { TableVizComponent } from './viz-components/table';
-import { VizManager } from './viz-manager';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -84,7 +85,7 @@ const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',
   version: PACKAGE.version,
   manifest: {
-    viz: [TableVizComponent, StatsVizComponent],
+    viz: [TableVizComponent, StatsVizComponent, RichTextVizComponent],
     color: [...basicColors],
   },
 };
