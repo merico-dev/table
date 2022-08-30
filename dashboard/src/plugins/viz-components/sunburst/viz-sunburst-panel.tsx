@@ -1,6 +1,7 @@
 import { Group, Stack, Text, ActionIcon } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useForm } from '@mantine/form';
+import { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
 import { VizConfigProps } from '../../../types/plugin';
@@ -17,6 +18,10 @@ export function VizSunburstPanel({ context }: VizConfigProps) {
       value_field: value_field,
     },
   });
+
+  useEffect(() => {
+    form.setValues({ label_field, value_field });
+  }, [label_field, value_field]);
 
   return (
     <Stack mt="md" spacing="xs">
