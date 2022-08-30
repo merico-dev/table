@@ -12,10 +12,6 @@ import { VizRadarChartPanel } from '../../viz/radar/panel';
 
 const types = [
   {
-    value: 'cartesian',
-    label: 'Cartesian Chart',
-  },
-  {
     value: 'radar',
     label: 'Radar Chart',
     Panel: VizRadarChartPanel,

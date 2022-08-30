@@ -18,7 +18,7 @@ class VizCartesianMigrator extends VersionBasedMigrator {
 }
 
 export const CartesianVizComponent: VizComponent = {
-  displayName: 'Cartesian',
+  displayName: 'Cartesian Chart',
   migrator: new VizCartesianMigrator(),
   name: 'cartesian',
   viewRender: VizCartesianChart,
