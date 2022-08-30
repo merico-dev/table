@@ -14,22 +14,7 @@ class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
       };
     });
   }
-}
 
-  async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
-    const data = await instanceData.getItem(null);
-    const instanceVersion = get(data, 'version', 0);
-    const updated = this.run({ from: instanceVersion, to: VERSION }, data);
-    await instanceData.setItem(null, updated);
-  }
-
-  async needMigration({ instanceData }: VizComponentMigrationContext): Promise<boolean> {
-    const data = await instanceData.getItem(null);
-    const instanceVersion = get(data, 'version', 0);
-    const result = instanceVersion < VERSION;
-    console.info(`needMigration: ${result}, from: ${instanceVersion}, to: ${VERSION}`);
-    return result;
-  }
 }
 
 export const <%= pascalcase(name) %>VizComponent: VizComponent = {
@@ -38,4 +23,5 @@ export const <%= pascalcase(name) %>VizComponent: VizComponent = {
   name: '<%= camelcase(name) %>',
   viewRender: Viz<%= pascalcase(name) %>,
   configRender: Viz<%= pascalcase(name) %>Panel,
+  createConfig: () => ({}),
 };
