@@ -11,7 +11,6 @@ import { VizRadarChart } from './radar';
 import { VizBar3D } from './bar-3d';
 import './index.css';
 import { IVizConfig } from '../../types';
-import { VizPie } from './pie';
 import { ErrorBoundary } from '../error-boundary';
 import { observer } from 'mobx-react-lite';
 
@@ -47,8 +46,6 @@ function renderViz(width: number, height: number, data: any[], viz: IVizConfig) 
       return <VizRadarChart {...props} />;
     case 'bar-3d':
       return <VizBar3D {...props} />;
-    case 'pie':
-      return <VizPie {...props} />;
     default:
       return null;
   }

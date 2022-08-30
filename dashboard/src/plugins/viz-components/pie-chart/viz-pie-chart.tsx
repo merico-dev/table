@@ -1,18 +1,14 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import * as echarts from 'echarts/core';
 import { PieChart } from 'echarts/charts';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from 'lodash';
-import React from 'react';
+import { defaults, merge, set } from 'lodash';
+import { useMemo } from 'react';
+import { VizViewProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 echarts.use([PieChart, CanvasRenderer]);
-
-interface IVizPie {
-  conf: any;
-  data: any[];
-  width: number;
-  height: number;
-}
 
 const defaultOption = {
   tooltip: {
@@ -48,23 +44,25 @@ const defaultOption = {
   },
 };
 
-export function VizPie({ conf, data, width, height }: IVizPie) {
-  const { label_field = 'name', value_field = 'value', ...restConf } = conf;
-
-  const chartData = React.useMemo(() => {
+export function VizPieChart({ context }: VizViewProps) {
+  const { value: conf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
+  const data = context.data as any[];
+  const { width, height } = context.viewport;
+  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
+  const chartData = useMemo(() => {
     return data.map((d) => ({
       name: d[label_field],
       value: Number(d[value_field]),
     }));
   }, [data, label_field, value_field]);
 
-  const labelOptions = React.useMemo(() => {
+  const labelOptions = useMemo(() => {
     return {
       series: {
         labelLayout: function (params: any) {
           const isLeft = params.labelRect.x < width / 2;
           const points = params.labelLinePoints;
-          points[2][0] = isLeft ? params.labelRect.x : params.labelRect.x + params.labelRect.width;
+          set(points, [2, 0], isLeft ? params.labelRect.x : params.labelRect.x + params.labelRect.width);
           return {
             labelLinePoints: points,
           };
@@ -73,7 +71,7 @@ export function VizPie({ conf, data, width, height }: IVizPie) {
     };
   }, [width]);
 
-  const option = _.merge({}, defaultOption, labelOptions, restConf, { series: { data: chartData } });
+  const option = merge({}, defaultOption, labelOptions, { series: { data: chartData } });
 
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }

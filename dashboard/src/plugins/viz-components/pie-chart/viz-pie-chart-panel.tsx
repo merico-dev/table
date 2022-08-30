@@ -1,16 +1,27 @@
-import { ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Group, Stack, ActionIcon, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { defaults } from 'lodash';
+import { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { IVizPanelProps } from '../../../types/viz-panel';
-import { DataFieldSelector } from '../../settings/common/data-field-selector';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
-export function VizPiePanel({ conf: { label_field, value_field }, setConf, data }: IVizPanelProps) {
+export function VizPieChartPanel({ context }: VizConfigProps) {
+  const { value: conf, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
+  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
+  const data = context.data as any[];
+
   const form = useForm({
     initialValues: {
-      label_field: label_field,
-      value_field: value_field,
+      label_field,
+      value_field,
     },
   });
+  useEffect(() => {
+    form.setValues({ label_field, value_field });
+  }, [label_field, value_field]);
 
   return (
     <Stack mt="md" spacing="xs">
