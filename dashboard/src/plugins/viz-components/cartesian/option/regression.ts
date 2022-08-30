@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { ICartesianChartConf, IRegressionLineConf, IRegressionTransform } from '../type';
 
 interface IRegressionDataSetItem {

@@ -2,8 +2,8 @@ import { ActionIcon, Group, NumberInput, Select, Stack, Text, TextInput } from '
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../../settings/common/data-field-selector';
-import { MantineColorSelector } from '../../../../settings/common/mantine-color';
+import { DataFieldSelector } from '../../../../../panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../../../panel/settings/common/mantine-color';
 import { ICartesianChartConf, IRegressionConf } from '../../type';
 
 const regressionOptions = [

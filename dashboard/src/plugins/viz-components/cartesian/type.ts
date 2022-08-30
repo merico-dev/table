@@ -1,8 +1,6 @@
-import { IVizPanelProps } from '../../../types';
+import { defaultNumbroFormat, TNumbroFormat } from '../../../panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '../../../utils/template/types';
-import { TNumbroFormat } from '../../settings/common/numbro-format-selector';
 
-// TODO: https://github.com/merico-dev/table/issues/86
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
   name: string;
@@ -60,7 +58,16 @@ export interface ICartesianChartConf {
   };
 }
 
-export interface IVizCartesianChartPanel extends Omit<IVizPanelProps, 'conf' | 'setConf'> {
-  conf: ICartesianChartConf;
-  setConf: (values: ICartesianChartConf) => void;
-}
+export const DEFAULT_CONFIG: ICartesianChartConf = {
+  regressions: [],
+  series: [],
+  stats: { templates: { bottom: '', top: '' }, variables: [] },
+  x_axis_data_key: '',
+  x_axis_name: '',
+  y_axes: [
+    {
+      name: 'Y Axis',
+      label_formatter: defaultNumbroFormat,
+    },
+  ],
+};

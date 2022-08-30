@@ -2,7 +2,7 @@
  * NOTE: this file is almost a duplicate of stats/panel/variable.tsx
  * FIXME: remove this when variables' fields are defined in utils/template
  */
-import { ActionIcon, Group, Stack } from '@mantine/core';
+import { ActionIcon, Stack } from '@mantine/core';
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';

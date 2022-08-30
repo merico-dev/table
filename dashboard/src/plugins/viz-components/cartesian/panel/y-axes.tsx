@@ -1,15 +1,7 @@
-import { ActionIcon, Button, Group, Stack, Text, TextInput } from '@mantine/core';
-import {
-  Control,
-  Controller,
-  useFieldArray,
-  UseFieldArrayRemove,
-  UseFormRegister,
-  UseFormWatch,
-  useWatch,
-} from 'react-hook-form';
+import { ActionIcon, Button, Group, Stack, TextInput } from '@mantine/core';
+import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { defaultNumbroFormat, NumbroFormatSelector } from '../../../settings/common/numbro-format-selector';
+import { defaultNumbroFormat, NumbroFormatSelector } from '../../../../panel/settings/common/numbro-format-selector';
 import { ICartesianChartConf } from '../type';
 
 interface IYAxisField {
