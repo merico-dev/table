@@ -1,10 +1,16 @@
-import { ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Group, Stack, Text, ActionIcon } from '@mantine/core';
+import { defaults } from 'lodash';
 import { useForm } from '@mantine/form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { IVizPanelProps } from '../../../types/viz-panel';
-import { DataFieldSelector } from '../../settings/common/data-field-selector';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { VizConfigProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
-export function SunburstPanel({ conf: { label_field, value_field }, setConf, data }: IVizPanelProps) {
+export function VizSunburstPanel({ context }: VizConfigProps) {
+  const { value: conf, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
+  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
+  const data = context.data as any[];
   const form = useForm({
     initialValues: {
       label_field: label_field,

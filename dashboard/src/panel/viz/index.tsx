@@ -6,7 +6,6 @@ import { PanelContext } from '../../contexts';
 import { PluginContext, IViewPanelInfo } from '../../plugins';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 
-import { Sunbrust } from './sunburst';
 import { VizCartesianChart } from './cartesian';
 import { VizRadarChart } from './radar';
 import { VizBar3D } from './bar-3d';
@@ -16,7 +15,7 @@ import { VizPie } from './pie';
 import { ErrorBoundary } from '../error-boundary';
 import { observer } from 'mobx-react-lite';
 
-function usePluginViz(data: any): ReactNode | null {
+function usePluginViz(data: any, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const { viz, title, id, description, queryID } = useContext(PanelContext);
   const panel: IViewPanelInfo = {
@@ -25,7 +24,7 @@ function usePluginViz(data: any): ReactNode | null {
     description,
     queryID,
     viz,
-    layout: { w: 0, h: 0 },
+    layout,
   };
   try {
     // ensure that the plugin is loaded
@@ -40,8 +39,6 @@ function usePluginViz(data: any): ReactNode | null {
 function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
   const props = { width, height, data, conf: viz.conf };
   switch (viz.type) {
-    case 'sunburst':
-      return <Sunbrust {...props} />;
     case 'cartesian':
       // @ts-expect-error
       return <VizCartesianChart {...props} />;
@@ -69,7 +66,7 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
-  const pluginViz = usePluginViz(data);
+  const pluginViz = usePluginViz(data, { w: width, h: height });
   const needData = !typesDontNeedData.includes(viz.type) || !!pluginViz;
   if (!needData) {
     return (
