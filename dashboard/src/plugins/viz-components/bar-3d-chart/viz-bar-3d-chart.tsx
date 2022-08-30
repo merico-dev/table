@@ -1,28 +1,34 @@
 import 'echarts-gl';
-import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import _ from 'lodash';
-import React from 'react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { defaults, get, maxBy, minBy } from 'lodash';
+import { useMemo } from 'react';
+import { VizViewProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
-interface IVizBar3D {
-  conf: any;
-  data: any[];
-  width: number;
-  height: number;
-}
+export function VizBar3dChart({ context }: VizViewProps) {
+  const { value: conf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
+  const data = context.data as any[];
+  const { width, height } = context.viewport;
+  const { x_axis_data_key, y_axis_data_key, z_axis_data_key, xAxis3D, yAxis3D, zAxis3D } = defaults(
+    {},
+    conf,
+    DEFAULT_CONFIG,
+  );
 
-export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
-  const { x_axis_data_key, y_axis_data_key, z_axis_data_key, ...restConf } = conf;
-  const min = React.useMemo(() => {
-    return _.minBy(data, (d) => d[z_axis_data_key])[z_axis_data_key];
+  const min = useMemo(() => {
+    const minValue = minBy(data, (d) => d[z_axis_data_key]);
+    return get(minValue, z_axis_data_key);
   }, [data, z_axis_data_key]);
 
-  const max = React.useMemo(() => {
-    return _.maxBy(data, (d) => d[z_axis_data_key])[z_axis_data_key];
+  const max = useMemo(() => {
+    const maxValue = maxBy(data, (d) => d[z_axis_data_key]);
+    return get(maxValue, z_axis_data_key);
   }, [data, z_axis_data_key]);
 
   const option = {
@@ -49,15 +55,9 @@ export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
         ],
       },
     },
-    xAxis3D: {
-      type: 'value',
-    },
-    yAxis3D: {
-      type: 'value',
-    },
-    zAxis3D: {
-      type: 'value',
-    },
+    xAxis3D,
+    yAxis3D,
+    zAxis3D,
     grid3D: {
       viewControl: {
         projection: 'orthographic',
@@ -71,7 +71,6 @@ export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
         },
       },
     },
-    ...restConf,
     series: [
       {
         type: 'bar3D',
@@ -83,5 +82,8 @@ export function VizBar3D({ conf, data, width, height }: IVizBar3D) {
     ],
   };
 
+  if (!conf) {
+    return null;
+  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }
