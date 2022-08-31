@@ -1,15 +1,15 @@
 {
   "name": "@devtable/website",
   "private": true,
-  "version": "3.1.0",
+  "version": "3.2.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@devtable/dashboard": "3.1.0",
-    "@devtable/settings-form": "3.1.0",
+    "@devtable/dashboard": "3.2.0",
+    "@devtable/settings-form": "3.2.0",
     "@emotion/react": "11.10.0",
     "@mantine/core": "^5.0.2",
     "@mantine/dates": "^5.0.2",
@@ -25,6 +25,7 @@
     "echarts-for-react": "^3.0.2",
     "echarts-gl": "^2.0.9",
     "echarts-stat": "1.2.0",
+    "d3-array": "3.2.0",
     "lodash": "^4.17.21",
     "mobx": "^6.6.1",
     "mobx-react-lite": "^3.4.0",

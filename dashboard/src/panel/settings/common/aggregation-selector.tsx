@@ -10,6 +10,10 @@ const options = [
   { label: 'Median', value: 'median' },
   { label: 'Max', value: 'max' },
   { label: 'Min', value: 'min' },
+  { label: '99%', value: 'quantile_99' },
+  { label: '95%', value: 'quantile_95' },
+  { label: '90%', value: 'quantile_90' },
+  { label: '85%', value: 'quantile_85' },
 ];
 
 interface IAggregationSelector {

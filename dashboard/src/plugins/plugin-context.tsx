@@ -11,6 +11,7 @@ import { TableVizComponent } from './viz-components/table';
 import { SunburstVizComponent } from './viz-components/sunburst';
 import { PieChartVizComponent } from './viz-components/pie-chart';
 import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
+import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { CartesianVizComponent } from './viz-components/cartesian';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
 
@@ -97,6 +98,7 @@ const BuiltInPlugin: IDashboardPlugin = {
       SunburstVizComponent,
       PieChartVizComponent,
       Bar3dChartVizComponent,
+      BoxplotChartVizComponent,
       CartesianVizComponent,
       RadarChartVizComponent,
     ],
