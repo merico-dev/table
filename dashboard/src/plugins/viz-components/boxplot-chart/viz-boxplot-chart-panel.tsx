@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Divider, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -37,47 +37,79 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Divider label="X Axis" labelPosition="center" mt="md" />
-        <Group grow noWrap>
-          <Controller
-            name="x_axis.name"
-            control={control}
-            render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-          />
-          <Controller
-            name="x_axis.data_key"
-            control={control}
-            render={({ field }) => (
-              <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-            )}
-          />
-        </Group>
-        <Divider label="Y Axis" labelPosition="center" mt="md" />
-        <Group grow noWrap>
-          <Controller
-            name="y_axis.name"
-            control={control}
-            render={({ field }) => <TextInput label="Y Axis Name" sx={{ flex: 1 }} {...field} />}
-          />
-          <Controller
-            name="y_axis.data_key"
-            control={control}
-            render={({ field }) => (
-              <DataFieldSelector label="Y Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-            )}
-          />
-        </Group>
-        <Divider label="Style" labelPosition="center" mt="md" />
-        <Stack spacing={4}>
-          <Text size="sm">Color</Text>
-          <Controller name="color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
-        </Stack>
-        <Divider label="Variables" labelPosition="center" mt="md" />
-        <Text align="right" size={14} color="grey">
-          Tip: Define variables, and use them in reference lines
-        </Text>
-        <VariablesField control={control} watch={watch} data={data} />
-        <ReferenceLinesField control={control} watch={watch} />
+        <Accordion defaultValue={'Axis'}>
+          <Accordion.Item value="Axis">
+            <Accordion.Control>Axis</Accordion.Control>
+            <Accordion.Panel>
+              <Group grow noWrap>
+                <Controller
+                  name="x_axis.name"
+                  control={control}
+                  render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+                />
+                <Controller
+                  name="x_axis.data_key"
+                  control={control}
+                  render={({ field }) => (
+                    <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+                  )}
+                />
+              </Group>
+              <Group grow noWrap>
+                <Controller
+                  name="y_axis.name"
+                  control={control}
+                  render={({ field }) => <TextInput label="Y Axis Name" sx={{ flex: 1 }} {...field} />}
+                />
+                <Controller
+                  name="y_axis.data_key"
+                  control={control}
+                  render={({ field }) => (
+                    <DataFieldSelector label="Y Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+                  )}
+                />
+              </Group>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="Style">
+            <Accordion.Control>Style</Accordion.Control>
+            <Accordion.Panel>
+              <Stack spacing={4}>
+                <Text size="sm">Color</Text>
+                <Controller
+                  name="color"
+                  control={control}
+                  render={({ field }) => <MantineColorSelector {...field} />}
+                />
+              </Stack>
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="Advanced">
+            <Accordion.Control>
+              <Group position="apart">
+                Advanced
+                <Text align="right" size={12} color="grey">
+                  Use variables in reference lines
+                </Text>
+              </Group>
+            </Accordion.Control>
+            <Accordion.Panel>
+              <Tabs defaultValue="variables">
+                <Tabs.List>
+                  <Tabs.Tab value="variables">Variables</Tabs.Tab>
+                  <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="variables" pt="xs">
+                  <VariablesField control={control} watch={watch} data={data} />
+                </Tabs.Panel>
+                <Tabs.Panel value="reference_lines" pt="xs">
+                  <ReferenceLinesField control={control} watch={watch} />
+                </Tabs.Panel>
+              </Tabs>
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
       </form>
     </Stack>
   );
