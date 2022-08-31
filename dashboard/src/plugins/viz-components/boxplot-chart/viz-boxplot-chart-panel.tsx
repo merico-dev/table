@@ -8,6 +8,7 @@ import { DataFieldSelector } from '../../../panel/settings/common/data-field-sel
 import { MantineColorSelector } from '../../../panel/settings/common/mantine-color';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
+import { ReferenceLinesField } from './reference-lines';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VariablesField } from './variables';
 
@@ -21,7 +22,7 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis', 'y_axis']);
+  watch(['x_axis', 'y_axis', 'reference_lines', 'color']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
@@ -76,6 +77,7 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
           Tip: Define variables, and use them in reference lines
         </Text>
         <VariablesField control={control} watch={watch} data={data} />
+        <ReferenceLinesField control={control} watch={watch} />
       </form>
     </Stack>
   );

@@ -7,17 +7,48 @@ import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults, values } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
-import { formatAggregatedValue, getAggregatedValue } from '../../../utils/template/render';
+import { formatAggregatedValue, getAggregatedValue, templateToString } from '../../../utils/template/render';
+import { ITemplateVariable } from '../../../utils/template/types';
 import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
+import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 
 echarts.use([BoxplotChart, MarkLineComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+
+function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: any[]) {
+  const variableValueMap = variables.reduce((prev, variable) => {
+    const value = getAggregatedValue(variable, data);
+    prev[variable.name] = formatAggregatedValue(variable, value);
+    return prev;
+  }, {} as Record<string, string | number>);
+
+  return reference_lines.map((r) => ({
+    name: 'refs',
+    type: 'scatter',
+    data: [],
+    markLine: {
+      data: [
+        {
+          name: r.name,
+          yAxis: Number(variableValueMap[r.variable_key]),
+        },
+      ],
+      silent: true,
+      symbol: ['none', 'none'],
+      label: {
+        formatter: function () {
+          return templateToString(r.template, variables, data);
+        },
+        position: 'insideEndTop',
+      },
+    },
+  }));
+}
 
 export function VizBoxplotChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const data = context.data as any[];
   const { width, height } = context.viewport;
-  const { x_axis, y_axis, color, variables } = defaults({}, conf, DEFAULT_CONFIG);
+  const { x_axis, y_axis, color, variables, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
 
   const { xAxisData, boxplotData } = useMemo(() => {
     const grouped = _.groupBy(data, x_axis.data_key);
@@ -26,12 +57,6 @@ export function VizBoxplotChart({ context }: VizViewProps) {
       boxplotData: Object.values(grouped).map((group) => group.map((item) => item[y_axis.data_key])),
     };
   }, [data, x_axis.data_key, y_axis.data_key]);
-
-  const variableValueMap = variables.reduce((prev, variable) => {
-    const value = getAggregatedValue(variable, data);
-    prev[variable.name] = formatAggregatedValue(variable, value);
-    return prev;
-  }, {} as Record<string, string | number>);
 
   const option = {
     dataset: [
@@ -74,25 +99,7 @@ export function VizBoxplotChart({ context }: VizViewProps) {
         boxWidth: [10, 40],
         datasetIndex: 1,
       },
-      {
-        name: 'refs',
-        type: 'scatter',
-        data: [],
-        markLine: {
-          data: [
-            {
-              name: 'Mean',
-              yAxis: Number(variableValueMap['Mean']),
-            },
-          ],
-          silent: true,
-          symbol: ['none', 'none'],
-          label: {
-            formatter: '{b}',
-            position: 'end',
-          },
-        },
-      },
+      ...getReferenceLines(reference_lines, variables, data),
     ],
   };
   if (!conf) {
