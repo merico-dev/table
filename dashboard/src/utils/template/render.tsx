@@ -115,16 +115,19 @@ export function templateToJSX(template: string, variables: ITemplateVariable[], 
 export function templateToString(template: string, variables: ITemplateVariable[], data: Record<string, number>[]) {
   const variableStrings = variablesToStrings(variables, data);
   const regx = /^\{(.+)\}(.*)$/;
-  return template.split('$').map((text) => {
-    const match = regx.exec(text);
-    if (!match) {
-      return text;
-    }
-    const element = variableStrings[match[1]];
-    if (!element) {
-      return text;
-    }
-    const rest = match[2] ?? '';
-    return `${element}${rest}`;
-  });
+  return template
+    .split('$')
+    .map((text) => {
+      const match = regx.exec(text);
+      if (!match) {
+        return text;
+      }
+      const element = variableStrings[match[1]];
+      if (!element) {
+        return text;
+      }
+      const rest = match[2] ?? '';
+      return `${element}${rest}`;
+    })
+    .join('');
 }
