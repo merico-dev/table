@@ -1,6 +1,7 @@
 import _ from 'lodash';
+import { quantile } from 'd3-array';
 
-export type AggregationType = 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min';
+export type AggregationType = 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'quantile_85';
 
 function median(numbers: number[]) {
   const sorted = Array.from(numbers).sort((a, b) => a - b);
@@ -26,6 +27,8 @@ export function aggregateValue(data: Record<string, number>[], data_field: strin
       return _.max(numbers) ?? 0;
     case 'min':
       return _.min(numbers) ?? 0;
+    case 'quantile_85':
+      return quantile(numbers, 0.85) ?? 0;
     default:
       return data[0]?.[data_field];
   }
