@@ -101,34 +101,49 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion multiple value={['X Axis', 'Y Axes']}>
+        <Accordion multiple defaultValue={['X Axis', 'Y Axes']}>
           <Accordion.Item value="X Axis">
-            <Group grow noWrap>
-              <Controller
-                name="x_axis_data_key"
-                control={control}
-                render={({ field }) => (
-                  <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                )}
-              />
-              <Controller
-                name="x_axis_name"
-                control={control}
-                render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-              />
-            </Group>
+            <Accordion.Control>X Axis</Accordion.Control>
+            <Accordion.Panel>
+              <Group grow noWrap>
+                <Controller
+                  name="x_axis_data_key"
+                  control={control}
+                  render={({ field }) => (
+                    <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+                  )}
+                />
+                <Controller
+                  name="x_axis_name"
+                  control={control}
+                  render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+                />
+              </Group>
+            </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Y Axes">
-            <YAxesField control={control} watch={watch} />
+            <Accordion.Control>Y Axes</Accordion.Control>
+            <Accordion.Panel>
+              <YAxesField control={control} watch={watch} />
+            </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Series">
-            <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
+            <Accordion.Control>Series</Accordion.Control>
+            <Accordion.Panel>
+              <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
+            </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Regression Lines">
-            <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+            <Accordion.Control>Regression Lines</Accordion.Control>
+            <Accordion.Panel>
+              <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+            </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Stats">
-            <StatsField control={control} watch={watch} data={data} />
+            <Accordion.Control>Stats</Accordion.Control>
+            <Accordion.Panel>
+              <StatsField control={control} watch={watch} data={data} />
+            </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
       </form>
