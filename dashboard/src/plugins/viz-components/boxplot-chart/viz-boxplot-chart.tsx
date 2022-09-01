@@ -4,11 +4,15 @@ import { BoxplotChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, MarkLineComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _, { defaults, values } from 'lodash';
+import _, { defaults } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
-import { formatAggregatedValue, getAggregatedValue, templateToString } from '../../../utils/template/render';
-import { ITemplateVariable } from '../../../utils/template/types';
+import {
+  formatAggregatedValue,
+  getAggregatedValue,
+  ITemplateVariable,
+  templateToString,
+} from '../../../utils/template';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 

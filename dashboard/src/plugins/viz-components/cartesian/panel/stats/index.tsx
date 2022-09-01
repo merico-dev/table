@@ -3,11 +3,10 @@
  * FIXME: remove this when variables' fields are defined in utils/template
  */
 import { Button, Group, Stack } from '@mantine/core';
-import React from 'react';
 import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { getANewVariable, TemplateInput } from '../../../../../utils/template';
 import { ICartesianChartConf } from '../../type';
 import { VariableField } from './variable';
-import { getANewVariable, TemplateInput } from '../../../../../utils/template/editor';
 
 interface IVariablesField {
   control: Control<ICartesianChartConf, any>;

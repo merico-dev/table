@@ -3,7 +3,7 @@ import React from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { IVizStatsConf } from '../type';
 import { VariableField } from './variable';
-import { getANewVariable } from '../../../../utils/template/editor';
+import { getANewVariable } from '../../../../utils/template';
 
 interface IVariablesField {
   control: Control<IVizStatsConf, any>;
