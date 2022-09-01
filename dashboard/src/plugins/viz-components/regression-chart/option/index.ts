@@ -3,24 +3,9 @@ import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression';
 
 const defaultOption = {
-  legend: {
-    show: true,
-    bottom: 0,
-    left: 0,
-  },
   tooltip: {
     trigger: 'axis',
   },
-  xAxis: [
-    {
-      type: 'category',
-      nameGap: 25,
-      nameLocation: 'center',
-      nameTextStyle: {
-        fontWeight: 'bold',
-      },
-    },
-  ],
   grid: {
     top: 10,
     left: 30,
@@ -49,7 +34,7 @@ export function getOption(conf: IRegressionChartConf, data: any[]) {
     series: [
       {
         data: data.map((d) => d[conf.regression.y_axis_data_key]),
-        name: 'scatter',
+        name: conf.y_axis.name,
         type: 'scatter',
         symbolSize: 4,
         color: 'red',

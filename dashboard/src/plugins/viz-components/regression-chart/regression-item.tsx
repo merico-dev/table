@@ -25,13 +25,13 @@ interface IRegressionField {
 export function RegressionField({ control, watch, data }: IRegressionField) {
   const method = watch('regression.transform.config.method');
   return (
-    <Stack my={0} p="md" pr={40}>
-      <Controller
-        name={`regression.name`}
-        control={control}
-        render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
-      />
+    <Stack>
       <Group grow noWrap>
+        <Controller
+          name={`regression.name`}
+          control={control}
+          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+        />
         <Controller
           name={`regression.y_axis_data_key`}
           control={control}
