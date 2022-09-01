@@ -1,7 +1,3 @@
-/**
- * NOTE: refactor is coming
- * https://github.com/merico-dev/table/issues/178
- */
 import { Text } from '@mantine/core';
 import { aggregateValue } from '../../aggregation';
 import { InterpolateColor } from '../../color-mapping';
