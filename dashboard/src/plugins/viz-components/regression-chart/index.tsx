@@ -18,7 +18,7 @@ class VizRegressionChartMigrator extends VersionBasedMigrator {
 }
 
 export const RegressionChartVizComponent: VizComponent = {
-  displayName: 'RegressionChart',
+  displayName: 'Regression Chart',
   migrator: new VizRegressionChartMigrator(),
   name: 'regressionChart',
   viewRender: VizRegressionChart,
