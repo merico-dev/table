@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Text } from '@mantine/core';
 
 import { VizViewProps } from '../../../types/plugin';
-import { templateToJSX } from '../../../utils/template/render';
+import { templateToJSX } from '../../../utils/template';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 

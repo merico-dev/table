@@ -4,7 +4,7 @@
  */
 import { Button, Group, Stack } from '@mantine/core';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { getANewVariable } from '../../../../utils/template/editor';
+import { getANewVariable } from '../../../../utils/template';
 import { IBoxplotChartConf } from '../type';
 import { VariableField } from './variable';
 

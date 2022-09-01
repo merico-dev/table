@@ -5,7 +5,7 @@
 import { ActionIcon, Stack } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { TemplateVariableField } from '../../../../utils/template/editor';
+import { TemplateVariableField } from '../../../../utils/template';
 import { IBoxplotChartConf } from '../type';
 
 interface VariableField {
@@ -26,7 +26,7 @@ export function VariableField({ control, index, remove, data }: VariableField) {
       <Controller
         name={`variables.${index}`}
         control={control}
-        render={({ field }) => <TemplateVariableField data={data} {...field} />}
+        render={({ field }) => <TemplateVariableField data={data} withStyle={false} {...field} />}
       />
       <ActionIcon
         color="red"

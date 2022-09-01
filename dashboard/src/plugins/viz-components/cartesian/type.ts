@@ -1,5 +1,5 @@
 import { defaultNumbroFormat, TNumbroFormat } from '../../../panel/settings/common/numbro-format-selector';
-import { ITemplateVariable } from '../../../utils/template/types';
+import { ITemplateVariable } from '../../../utils/template';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';

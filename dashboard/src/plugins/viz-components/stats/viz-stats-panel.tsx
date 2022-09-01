@@ -2,7 +2,7 @@ import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '../../../types/plugin';
-import { TemplateInput } from '../../../utils/template/editor';
+import { TemplateInput } from '../../../utils/template';
 import { useStorageData } from '../../hooks';
 import { VariablesField } from './panel/variables';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
