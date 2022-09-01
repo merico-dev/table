@@ -14,6 +14,7 @@ import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { CartesianVizComponent } from './viz-components/cartesian';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
+import { RegressionChartVizComponent } from './viz-components/regression-chart';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -101,6 +102,7 @@ const BuiltInPlugin: IDashboardPlugin = {
       BoxplotChartVizComponent,
       CartesianVizComponent,
       RadarChartVizComponent,
+      RegressionChartVizComponent,
     ],
     color: [...basicColors],
   },
