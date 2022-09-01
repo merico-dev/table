@@ -58,7 +58,15 @@ export function getRegressionConf({ regression, x_axis }: IRegressionChartConf, 
   return { regressionDataSets, regressionSeries, regressionXAxes };
 }
 
-export function getRegressionDescription({ regression, x_axis, y_axis }: IRegressionChartConf, data: any[]) {
+export function getRegressionDescription(data: any[], conf?: IRegressionChartConf) {
+  if (!conf || conf.regression.transform.config.method !== 'linear') {
+    return {
+      expression: '',
+      gradient: 0,
+      intercept: 0,
+    };
+  }
+  const { regression, x_axis, y_axis } = conf;
   const dataSource = data.map((d) => [d[x_axis.data_key], d[regression.y_axis_data_key]]);
 
   const {

@@ -26,10 +26,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
   }, [conf, data]);
 
   const { expression, gradient, intercept } = useMemo(() => {
-    if (!conf) {
-      return '';
-    }
-    return getRegressionDescription(conf, data);
+    return getRegressionDescription(data, conf);
   }, [conf, data]);
 
   if (!width || !height || !conf) {
@@ -37,9 +34,11 @@ export function VizRegressionChart({ context }: VizViewProps) {
   }
   return (
     <Box>
-      <Text align="center" size={14}>
-        {expression}
-      </Text>
+      {expression && (
+        <Text align="center" size={14}>
+          {expression}
+        </Text>
+      )}
       <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
     </Box>
   );
