@@ -1,5 +1,7 @@
 import { IRegressionLineConf, IRegressionTransform } from '../../cartesian/type';
 import { IRegressionChartConf } from '../type';
+import ecStat, { RegressionResult } from 'echarts-stat';
+import { round } from 'lodash';
 
 interface IRegressionDataSetItem {
   id: string;
@@ -54,4 +56,23 @@ export function getRegressionConf({ regression, x_axis }: IRegressionChartConf, 
   });
 
   return { regressionDataSets, regressionSeries, regressionXAxes };
+}
+
+export function getRegressionDescription({ regression, x_axis, y_axis }: IRegressionChartConf, data: any[]) {
+  const dataSource = data.map((d) => [d[x_axis.data_key], d[regression.y_axis_data_key]]);
+
+  const {
+    // @ts-expect-error echarts-stat is outdated on type definition
+    parameter: { gradient, intercept },
+  }: RegressionResult = ecStat.regression(
+    regression.transform.config.method,
+    dataSource,
+    regression.transform.config.order,
+  );
+
+  return {
+    expression: `${y_axis.name} = ${round(intercept, 2)} + ${round(gradient, 2)} × ${x_axis.name}`,
+    gradient,
+    intercept,
+  };
 }

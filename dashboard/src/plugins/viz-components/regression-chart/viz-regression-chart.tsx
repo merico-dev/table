@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Box, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -12,6 +12,7 @@ import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
+import { getRegressionDescription } from './option/regression';
 
 echarts.use([ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 echarts.registerTransform(transform.regression);
@@ -24,11 +25,21 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
+  const { expression, gradient, intercept } = useMemo(() => {
+    if (!conf) {
+      return '';
+    }
+    return getRegressionDescription(conf, data);
+  }, [conf, data]);
+
   if (!width || !height || !conf) {
     return null;
   }
   return (
     <Box>
+      <Text align="center" size={14}>
+        {expression}
+      </Text>
       <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
     </Box>
   );
