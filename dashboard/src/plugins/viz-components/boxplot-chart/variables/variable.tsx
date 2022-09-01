@@ -26,7 +26,7 @@ export function VariableField({ control, index, remove, data }: VariableField) {
       <Controller
         name={`variables.${index}`}
         control={control}
-        render={({ field }) => <TemplateVariableField data={data} {...field} />}
+        render={({ field }) => <TemplateVariableField data={data} withStyle={false} {...field} />}
       />
       <ActionIcon
         color="red"
