@@ -3,44 +3,14 @@ import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import React, { ChangeEventHandler } from 'react';
 import { Control, Controller, Path } from 'react-hook-form';
-import { AggregationSelector } from '../../panel/settings/common/aggregation-selector';
-import { ColorArrayInput } from '../../panel/settings/common/color-array-input';
-import { DataFieldSelector } from '../../panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '../../panel/settings/common/mantine-color';
-import { MantineFontWeightSlider } from '../../panel/settings/common/mantine-font-weight';
-import { NumbroFormatSelector } from '../../panel/settings/common/numbro-format-selector';
-import { TextArrayInput } from '../../panel/settings/common/text-array-input';
-import { ITemplateVariable } from './types';
-
-export function getANewVariable() {
-  return {
-    name: randomId(),
-    size: '20px',
-    weight: 'bold',
-    color: {
-      type: 'static',
-      staticColor: 'blue',
-    },
-    data_field: '',
-    aggregation: 'none',
-    formatter: {
-      output: 'number',
-      mantissa: 0,
-    },
-  } as ITemplateVariable;
-}
-
-interface ITemplateInput extends Omit<TextInputProps, 'value' | 'onChange'> {
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-}
-
-export const TemplateInput = React.forwardRef(function TemplateInput(
-  { value, onChange, ...rest }: ITemplateInput,
-  ref: any,
-) {
-  return <TextInput ref={ref} value={value} onChange={onChange} {...rest} />;
-});
+import { AggregationSelector } from '../../../panel/settings/common/aggregation-selector';
+import { ColorArrayInput } from '../../../panel/settings/common/color-array-input';
+import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '../../../panel/settings/common/mantine-color';
+import { MantineFontWeightSlider } from '../../../panel/settings/common/mantine-font-weight';
+import { NumbroFormatSelector } from '../../../panel/settings/common/numbro-format-selector';
+import { TextArrayInput } from '../../../panel/settings/common/text-array-input';
+import { ITemplateVariable } from '../types';
 
 interface ITemplateVariableField {
   value: ITemplateVariable;
