@@ -32,8 +32,18 @@ Then, visit http://localhost:32000/dashboard
 
 ### lint
 
+run eslint
+
 ```bash
-nx lint dashboard
+nx run-many --target=lint
+```
+
+### check
+
+run tsc to do type checking
+
+```bash
+nx run-many --target=check
 ```
 
 ## TODO

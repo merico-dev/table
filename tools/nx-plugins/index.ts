@@ -16,6 +16,12 @@ function registerProjectTargets(projectFilePath) {
         ],
       },
     },
+    check: {
+      executor: '@nrwl/workspace:run-commands',
+      options: {
+        commands: [`yarn tsc --noEmit -p ${projectDir('tsconfig.json')}`],
+      },
+    },
   };
 }
 
