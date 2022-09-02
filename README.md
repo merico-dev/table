@@ -30,6 +30,12 @@ nx run-many --target=dev --all
 
 Then, visit http://localhost:32000/dashboard
 
+### lint
+
+```bash
+nx lint dashboard
+```
+
 ## TODO
 
 - [ ] auto build `core` during debugging with `demo`
