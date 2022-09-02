@@ -2678,9 +2678,9 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-class-validator-jsonschema@^3.1.0:
+class-validator-jsonschema@^3.1.1:
   version "3.1.1"
-  resolved "https://registry.yarnpkg.com/class-validator-jsonschema/-/class-validator-jsonschema-3.1.1.tgz#5d2dd61428a2382f7d6571e8250b1aa7f9e0e8d3"
+  resolved "https://registry.npmmirror.com/class-validator-jsonschema/-/class-validator-jsonschema-3.1.1.tgz#5d2dd61428a2382f7d6571e8250b1aa7f9e0e8d3"
   integrity sha512-xga/5rTDKaYysivdX6OWaVllAS2OGeXgRRaXRo5QAW+mSDOpbjrf5JhmdPvUKMEkGyQer0gCoferB3COl170Rg==
   dependencies:
     lodash.groupby "^4.6.0"
