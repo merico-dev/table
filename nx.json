@@ -24,5 +24,6 @@
   },
   "affected": {
     "defaultBase": "main"
-  }
+  },
+  "plugins": ["./tools/dist/nx-plugins"]
 }

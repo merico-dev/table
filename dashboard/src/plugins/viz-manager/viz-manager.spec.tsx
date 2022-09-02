@@ -2,7 +2,7 @@ import { waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
 import { IDashboardPlugin, VizComponent, VizConfigProps, VizViewProps } from '../../types/plugin';
-import { useStorageData } from '../hooks/use-storage-data';
+import { useStorageData } from '../hooks';
 import { PluginManager } from '../plugin-manager';
 import { VizManager } from './impl';
 
@@ -26,8 +26,8 @@ const MockViz = (name = 'mock') =>
       helper?.onConfigRender(props);
       return <span>World</span>;
     },
-    migration: async () => {},
-  } as VizComponent);
+    migration: {},
+  } as unknown as VizComponent);
 const mockPanel = {
   id: '001',
   viz: { type: 'mock', conf: { name: 'alice' } },
@@ -40,7 +40,7 @@ const mockPanel = {
 class MockVizHelper {
   viewProps: VizViewProps | undefined;
   configProps: VizConfigProps | undefined;
-  data?: any;
+  data?: unknown;
 
   onViewRender(props: VizViewProps) {
     this.viewProps = props;
