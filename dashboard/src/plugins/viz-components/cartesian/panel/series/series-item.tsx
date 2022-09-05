@@ -95,6 +95,13 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             />
           )}
         />
+        <Controller
+          name={`series.${index}.group_by_key`}
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label="Group By" required data={data} sx={{ flex: 1 }} {...field} />
+          )}
+        />
       </Group>
 
       {type === 'line' && <LineFields index={index} control={control} />}

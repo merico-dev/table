@@ -27,6 +27,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     barWidth = '30',
     smooth = false,
     step = false,
+    group_by_key = '',
   }: ICartesianChartSeriesItem) {
     return {
       type,
@@ -41,6 +42,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       barWidth,
       smooth,
       step,
+      group_by_key,
     };
   }
 

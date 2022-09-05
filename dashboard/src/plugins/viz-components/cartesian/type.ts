@@ -14,6 +14,7 @@ export interface ICartesianChartSeriesItem {
   barWidth: string;
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
+  group_by_key: string;
 }
 
 export interface IYAxisConf {
