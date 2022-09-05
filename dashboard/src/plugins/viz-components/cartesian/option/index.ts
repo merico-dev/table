@@ -63,14 +63,16 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
     {},
   );
 
-  const series = getSeries(conf, data, labelFormatters);
+  const xAxisData = data.map((d) => d[conf.x_axis_data_key]);
+
+  const series = getSeries(conf, xAxisData, data, labelFormatters);
 
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 
   const customOptions = {
     xAxis: [
       {
-        data: data.map((d) => d[conf.x_axis_data_key]),
+        data: xAxisData,
         name: conf.x_axis_name ?? '',
         id: 'main-x-axis',
       },
