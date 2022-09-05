@@ -99,7 +99,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           name={`series.${index}.group_by_key`}
           control={control}
           render={({ field }) => (
-            <DataFieldSelector label="Group By" required data={data} sx={{ flex: 1 }} {...field} />
+            <DataFieldSelector label="Group By" data={data} clearable sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
