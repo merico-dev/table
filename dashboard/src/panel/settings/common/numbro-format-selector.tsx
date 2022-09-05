@@ -1,6 +1,9 @@
 import { Group, NumberInput, Select, Stack, Text, Switch } from '@mantine/core';
 import _ from 'lodash';
+import numbro from 'numbro';
 import React from 'react';
+import { ArrowRight } from 'tabler-icons-react';
+import { ErrorBoundary } from '../../error-boundary';
 
 export type TNumbroFormat = {
   mantissa: number;
@@ -79,6 +82,22 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           disabled={value.mantissa === 0}
         />
       </Group>
+      <Stack spacing={0}>
+        <Text weight="bold">Preview</Text>
+        <ErrorBoundary>
+          <Group position="apart">
+            <Text size={12} color="gray">
+              123456789 <ArrowRight size={9} /> {numbro(123456789).format(value)}
+            </Text>
+            <Text size={12} color="gray">
+              1234 <ArrowRight size={9} /> {numbro(1234).format(value)}
+            </Text>
+            <Text size={12} color="gray">
+              0.1234 <ArrowRight size={9} /> {numbro(0.1234).format(value)}
+            </Text>
+          </Group>
+        </ErrorBoundary>
+      </Stack>
     </Stack>
   );
 }
