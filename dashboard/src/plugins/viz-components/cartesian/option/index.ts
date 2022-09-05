@@ -3,6 +3,7 @@ import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import { ICartesianChartConf, ICartesianChartSeriesItem, IYAxisConf } from '../type';
 import { getRegressionConfs } from './regression';
+import { getSeries } from './series';
 
 const defaultOption = {
   legend: {
@@ -62,23 +63,7 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
     {},
   );
 
-  const series = conf.series.map(
-    ({ y_axis_data_key, yAxisIndex, label_position, name, ...rest }: ICartesianChartSeriesItem) => {
-      const ret: any = {
-        data: data.map((d) => d[y_axis_data_key]),
-        label: {
-          show: !!label_position,
-          position: label_position,
-          formatter: labelFormatters[yAxisIndex ?? 'default'],
-        },
-        name,
-        xAxisId: 'main-x-axis',
-        yAxisIndex,
-        ...rest,
-      };
-      return ret;
-    },
-  );
+  const series = getSeries(conf, data, labelFormatters);
 
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 
