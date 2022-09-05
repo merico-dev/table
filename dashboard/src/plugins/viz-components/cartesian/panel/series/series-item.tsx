@@ -59,12 +59,12 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Stack>
-      <Controller
-        name={`series.${index}.name`}
-        control={control}
-        render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
-      />
-      <Group grow noWrap>
+      <Group noWrap>
+        <Controller
+          name={`series.${index}.name`}
+          control={control}
+          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+        />
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
@@ -72,6 +72,8 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
           )}
         />
+      </Group>
+      <Group grow noWrap>
         <Controller
           name={`series.${index}.yAxisIndex`}
           control={control}
@@ -91,6 +93,13 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
               }}
               sx={{ flex: 1 }}
             />
+          )}
+        />
+        <Controller
+          name={`series.${index}.group_by_key`}
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label="Group By" required data={data} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>

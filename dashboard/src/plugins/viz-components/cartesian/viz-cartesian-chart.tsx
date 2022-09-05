@@ -2,7 +2,7 @@ import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-/* @ts-expect-error */
+/* @ts-expect-error type defs of echarts-stat */
 import { transform } from 'echarts-stat';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';

@@ -3,6 +3,7 @@ import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import { ICartesianChartConf, ICartesianChartSeriesItem, IYAxisConf } from '../type';
 import { getRegressionConfs } from './regression';
+import { getSeries } from './series';
 
 const defaultOption = {
   legend: {
@@ -62,30 +63,16 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
     {},
   );
 
-  const series = conf.series.map(
-    ({ y_axis_data_key, yAxisIndex, label_position, name, ...rest }: ICartesianChartSeriesItem) => {
-      const ret: any = {
-        data: data.map((d) => d[y_axis_data_key]),
-        label: {
-          show: !!label_position,
-          position: label_position,
-          formatter: labelFormatters[yAxisIndex ?? 'default'],
-        },
-        name,
-        xAxisId: 'main-x-axis',
-        yAxisIndex,
-        ...rest,
-      };
-      return ret;
-    },
-  );
+  const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
+
+  const series = getSeries(conf, xAxisData, data, labelFormatters);
 
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 
   const customOptions = {
     xAxis: [
       {
-        data: data.map((d) => d[conf.x_axis_data_key]),
+        data: xAxisData,
         name: conf.x_axis_name ?? '',
         id: 'main-x-axis',
       },
@@ -112,12 +99,16 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
           return '';
         }
         const lines = arr.map(({ seriesName, value }) => {
+          if (Array.isArray(value) && value.length === 2) {
+            // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
+            value = value[1];
+          }
           if (!seriesName) {
             return value;
           }
           const yAxisIndex = yAxisIndexMap[seriesName];
           const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
-          return `${seriesName}: ${formatter({ value })}`;
+          return `${seriesName}: <strong>${formatter({ value })}</strong>`;
         });
         lines.unshift(`<strong>${arr[0].name}</strong>`);
         return lines.join('<br />');
