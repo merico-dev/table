@@ -7,11 +7,12 @@ interface IDataFieldSelector {
   value: string;
   onChange: (v: string) => void;
   data: any[];
+  clearable?: boolean;
   sx?: Sx;
 }
 
 function _DataFieldSelector(
-  { label, required, value, onChange, data, sx, ...restProps }: IDataFieldSelector,
+  { label, required, value, onChange, data, clearable = false, sx, ...restProps }: IDataFieldSelector,
   ref: any,
 ) {
   const options = React.useMemo(() => {
@@ -20,10 +21,14 @@ function _DataFieldSelector(
     }
 
     const keys = Object.keys(data[0]);
-    return keys.map((k) => ({
+    const options = keys.map((k) => ({
       label: k,
       value: k,
     }));
+    if (!clearable) {
+      return options;
+    }
+    return options.concat([{ label: 'unset', value: '' }]);
   }, [data]);
 
   return (
