@@ -63,7 +63,7 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
     {},
   );
 
-  const xAxisData = data.map((d) => d[conf.x_axis_data_key]);
+  const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
 
   const series = getSeries(conf, xAxisData, data, labelFormatters);
 
