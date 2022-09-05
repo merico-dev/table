@@ -37,7 +37,15 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
   const labelFormatters = conf.y_axes.reduce(
     (ret: Record<string, (params: any) => string>, { label_formatter }: IYAxisConf, index: number) => {
       ret[index] = function formatter(payload: any) {
-        const value = typeof payload === 'object' ? payload.value : payload;
+        let value;
+        if (typeof payload === 'object') {
+          if (Array.isArray(payload.value) && payload.value.length === 2) {
+            // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
+            value = payload.value[1];
+          } else {
+            value = payload.value;
+          }
+        }
         if (!label_formatter) {
           return value;
         }
