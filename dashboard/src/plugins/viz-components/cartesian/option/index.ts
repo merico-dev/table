@@ -99,12 +99,16 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
           return '';
         }
         const lines = arr.map(({ seriesName, value }) => {
+          if (Array.isArray(value) && value.length === 2) {
+            // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
+            value = value[1];
+          }
           if (!seriesName) {
             return value;
           }
           const yAxisIndex = yAxisIndexMap[seriesName];
           const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
-          return `${seriesName}: ${formatter({ value })}`;
+          return `${seriesName}: <strong>${formatter({ value })}</strong>`;
         });
         lines.unshift(`<strong>${arr[0].name}</strong>`);
         return lines.join('<br />');
