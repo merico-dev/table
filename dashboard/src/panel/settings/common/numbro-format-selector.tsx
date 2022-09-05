@@ -1,14 +1,23 @@
-import { Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
+import { Group, NumberInput, Select, Stack, Text, Switch } from '@mantine/core';
 import _ from 'lodash';
+import numbro from 'numbro';
 import React from 'react';
+import { ArrowRight } from 'tabler-icons-react';
+import { ErrorBoundary } from '../../error-boundary';
 
 export type TNumbroFormat = {
   mantissa: number;
   output: 'percent' | 'number';
+  average?: boolean;
   trimMantissa?: boolean;
 };
 
-export const defaultNumbroFormat: TNumbroFormat = { mantissa: 0, output: 'number' };
+export const defaultNumbroFormat: TNumbroFormat = {
+  mantissa: 0,
+  output: 'number',
+  trimMantissa: false,
+  average: false,
+};
 
 interface INumbroFormatSelector {
   value: TNumbroFormat;
@@ -26,6 +35,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   const changeTrimMantissa = (event: any) => {
     onChange({ ...value, trimMantissa: event.currentTarget.checked });
   };
+  const changeAverage = (event: any) => {
+    onChange({ ...value, average: event.currentTarget.checked });
+  };
   return (
     <Stack ref={ref}>
       <Group grow>
@@ -38,6 +50,22 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           value={value.output}
           onChange={changeOutput}
         />
+        <Switch
+          label={
+            <Text>
+              Average
+              <br />
+              <Text size={12} color="gray">
+                like 1.234k, 1.234m
+              </Text>
+            </Text>
+          }
+          checked={value.average}
+          onChange={changeAverage}
+          disabled={value.output !== 'number'}
+        />
+      </Group>
+      <Group grow>
         <NumberInput
           label="Mantissa"
           defaultValue={0}
@@ -54,6 +82,22 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           disabled={value.mantissa === 0}
         />
       </Group>
+      <Stack spacing={0}>
+        <Text weight="bold">Preview</Text>
+        <ErrorBoundary>
+          <Group position="apart">
+            <Text size={12} color="gray">
+              123456789 <ArrowRight size={9} /> {numbro(123456789).format(value)}
+            </Text>
+            <Text size={12} color="gray">
+              1234 <ArrowRight size={9} /> {numbro(1234).format(value)}
+            </Text>
+            <Text size={12} color="gray">
+              0.1234 <ArrowRight size={9} /> {numbro(0.1234).format(value)}
+            </Text>
+          </Group>
+        </ErrorBoundary>
+      </Stack>
     </Stack>
   );
 }
