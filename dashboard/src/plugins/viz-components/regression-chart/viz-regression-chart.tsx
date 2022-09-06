@@ -12,7 +12,7 @@ import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
-import { getRegressionDescription } from './option/regression';
+import { getRegressionDescription } from './option/regression-expression';
 
 echarts.use([ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 echarts.registerTransform(transform.regression);
@@ -35,7 +35,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
   return (
     <Box>
       {expression && (
-        <Text align="center" size={14}>
+        <Text align="center" size={12}>
           {expression}
         </Text>
       )}

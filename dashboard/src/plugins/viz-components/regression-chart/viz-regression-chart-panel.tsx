@@ -33,7 +33,7 @@ export function VizRegressionChartPanel({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion defaultValue={'Axis'}>
+        <Accordion multiple defaultValue={['Axis', 'Regression']}>
           <Accordion.Item value="Axis">
             <Accordion.Control>Axis</Accordion.Control>
             <Accordion.Panel>
