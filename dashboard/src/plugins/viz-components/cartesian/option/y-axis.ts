@@ -9,8 +9,9 @@ export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<stri
     },
     nameTextStyle: {
       fontWeight: 'bold',
+      align: 'right',
     },
-    nameLocation: 'middle',
-    nameGap: 40,
+    nameLocation: 'end',
+    nameGap: 15,
   }));
 }
