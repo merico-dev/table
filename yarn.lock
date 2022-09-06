@@ -3524,6 +3524,11 @@ d3-array@3.2.0:
   dependencies:
     internmap "1 - 2"
 
+d3-regression@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/d3-regression/-/d3-regression-1.2.8.tgz#921cf32c43f2f1497a1a143d37d350633ee279ce"
+  integrity sha512-kx5RMJrUjpPRyLC/9Sd2S59QyB/m1aQmGpiv70bTxp6hLP3uiEie6weP2A31LfjiEUF4U7VYgJW2aqeDuyp2EA==
+
 d@1, d@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/d/-/d-1.0.1.tgz#8698095372d58dbee346ffd0c7093f99f8f9eb5a"
