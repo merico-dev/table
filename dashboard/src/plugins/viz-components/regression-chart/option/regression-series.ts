@@ -3,14 +3,7 @@ import { IRegressionChartConf } from '../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
 
-interface IRegressionDataSetItem {
-  id: string;
-  fromDatasetId?: string;
-  source?: number[][];
-  transform?: IRegressionTransform;
-}
 interface IRegressionSeriesItem extends IRegressionLineConf {
-  xAxisId?: string;
   data: number[][];
   name: string;
   showSymbol: boolean;
