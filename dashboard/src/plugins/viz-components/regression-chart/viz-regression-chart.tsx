@@ -1,4 +1,4 @@
-import { Box, Text } from '@mantine/core';
+import { Box, Group, Stack, Table, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -25,12 +25,16 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const { expression } = useMemo(() => {
+  const { expression, rSquared } = useMemo(() => {
     return getRegressionDescription(data, conf);
   }, [conf, data]);
 
   if (!width || !height || !conf) {
     return null;
+  }
+  let finalHeight = height;
+  if (expression) {
+    finalHeight -= 20;
   }
   return (
     <Box>
@@ -39,7 +43,19 @@ export function VizRegressionChart({ context }: VizViewProps) {
           {expression}
         </Text>
       )}
-      <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
+      <Group spacing={10} noWrap align="start" sx={{ '> *': { flexGrow: 0, flexShrink: 0 } }}>
+        <ReactEChartsCore echarts={echarts} option={option} style={{ width: width - 220, height: finalHeight }} />
+        {rSquared && (
+          <Table mt={20} fontSize={12} sx={{ width: 200, border: '1px solid #999' }}>
+            <tbody>
+              <tr>
+                <td>R-Sq</td>
+                <td style={{ textAlign: 'right' }}>{rSquared}</td>
+              </tr>
+            </tbody>
+          </Table>
+        )}
+      </Group>
     </Box>
   );
 }
