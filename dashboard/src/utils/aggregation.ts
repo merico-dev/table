@@ -2,16 +2,16 @@ import _ from 'lodash';
 import { quantile } from 'd3-array';
 
 export type AggregationType =
-  | 'none'
-  | 'sum'
-  | 'mean'
-  | 'median'
-  | 'max'
-  | 'min'
-  | 'quantile_99'
-  | 'quantile_95'
-  | 'quantile_90'
-  | 'quantile_85';
+  | {
+      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min';
+      config: Record<any, never>;
+    }
+  | {
+      type: 'quantile';
+      config: {
+        p: number;
+      };
+    };
 
 function median(numbers: number[]) {
   const sorted = Array.from(numbers).sort((a, b) => a - b);
@@ -26,7 +26,7 @@ function median(numbers: number[]) {
 
 export function aggregateValue(data: Record<string, number>[], data_field: string, aggregation: AggregationType) {
   const numbers = data.map((d) => d[data_field]);
-  switch (aggregation) {
+  switch (aggregation.type) {
     case 'sum':
       return _.sum(numbers);
     case 'mean':
@@ -37,15 +37,8 @@ export function aggregateValue(data: Record<string, number>[], data_field: strin
       return _.max(numbers) ?? 0;
     case 'min':
       return _.min(numbers) ?? 0;
-    // TODO: https://github.com/merico-dev/table/issues/179
-    case 'quantile_99':
-      return quantile(numbers, 0.99) ?? 0;
-    case 'quantile_95':
-      return quantile(numbers, 0.95) ?? 0;
-    case 'quantile_90':
-      return quantile(numbers, 0.9) ?? 0;
-    case 'quantile_85':
-      return quantile(numbers, 0.85) ?? 0;
+    case 'quantile':
+      return quantile(numbers, aggregation.config.p) ?? 0;
     default:
       return data[0]?.[data_field];
   }
