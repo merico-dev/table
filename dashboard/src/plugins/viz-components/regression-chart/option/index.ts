@@ -16,29 +16,27 @@ const defaultOption = {
 };
 
 export function getOption(conf: IRegressionChartConf, data: any[]) {
-  const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConf(conf, data);
+  const processedData = _.uniqBy(
+    data.map((d) => [d[conf.x_axis.data_key], d[conf.regression.y_axis_data_key]]),
+    0,
+  );
+  const { regressionSeries } = getRegressionConf(conf, processedData);
 
   const customOptions = {
-    xAxis: [
-      {
-        data: data.map((d) => d[conf.x_axis.data_key]),
-        name: conf.x_axis.name ?? '',
-        id: 'main-x-axis',
-      },
-      ...regressionXAxes,
-    ],
+    xAxis: {
+      type: 'category',
+      name: conf.x_axis.name ?? '',
+    },
     yAxis: {
       name: conf.y_axis.name ?? '',
     },
-    dataset: [...regressionDataSets],
     series: [
       {
-        data: data.map((d) => d[conf.regression.y_axis_data_key]),
+        data: processedData,
         name: conf.y_axis.name,
         type: 'scatter',
         symbolSize: 4,
         color: 'red',
-        xAxisId: 'main-x-axis',
       },
       ...regressionSeries,
     ],
