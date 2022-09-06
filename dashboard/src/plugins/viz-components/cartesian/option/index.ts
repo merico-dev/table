@@ -1,9 +1,12 @@
 import _, { defaultsDeep } from 'lodash';
 import numbro from 'numbro';
-import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
-import { ICartesianChartConf, ICartesianChartSeriesItem, IYAxisConf } from '../type';
+import { ICartesianChartConf, IYAxisConf } from '../type';
+import { getGrid } from './grid';
 import { getRegressionConfs } from './regression';
 import { getSeries } from './series';
+import { getTooltip } from './tooltip';
+import { getXAxes } from './x-axis';
+import { getYAxes } from './y-axis';
 
 const defaultOption = {
   legend: {
@@ -64,14 +67,6 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
     },
   );
 
-  const yAxisIndexMap = conf.series.reduce(
-    (ret: Record<string, number>, { yAxisIndex, name }: ICartesianChartSeriesItem) => {
-      ret[name] = yAxisIndex;
-      return ret;
-    },
-    {},
-  );
-
   const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
 
   const series = getSeries(conf, xAxisData, data, labelFormatters);
@@ -79,53 +74,12 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 
   const customOptions = {
-    xAxis: [
-      {
-        data: xAxisData,
-        name: conf.x_axis_name ?? '',
-        id: 'main-x-axis',
-      },
-      ...regressionXAxes,
-    ],
-    yAxis: conf.y_axes.map(({ label_formatter, ...rest }: IYAxisConf, index: number) => ({
-      ...rest,
-      axisLabel: {
-        show: true,
-        formatter: labelFormatters[index] ?? labelFormatters.default,
-      },
-      nameTextStyle: {
-        fontWeight: 'bold',
-      },
-      nameLocation: 'middle',
-      nameGap: 40,
-    })),
+    xAxis: getXAxes(conf, xAxisData, regressionXAxes),
+    yAxis: getYAxes(conf, labelFormatters),
     dataset: [...regressionDataSets],
     series: [...series, ...regressionSeries],
-    tooltip: {
-      formatter: function (params: TopLevelFormatterParams) {
-        const arr = Array.isArray(params) ? params : [params];
-        if (arr.length === 0) {
-          return '';
-        }
-        const lines = arr.map(({ seriesName, value }) => {
-          if (Array.isArray(value) && value.length === 2) {
-            // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
-            value = value[1];
-          }
-          if (!seriesName) {
-            return value;
-          }
-          const yAxisIndex = yAxisIndexMap[seriesName];
-          const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
-          return `${seriesName}: <strong>${formatter({ value })}</strong>`;
-        });
-        lines.unshift(`<strong>${arr[0].name}</strong>`);
-        return lines.join('<br />');
-      },
-    },
-    grid: {
-      bottom: conf.x_axis_name ? 40 : 25,
-    },
+    tooltip: getTooltip(conf, labelFormatters),
+    grid: getGrid(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
