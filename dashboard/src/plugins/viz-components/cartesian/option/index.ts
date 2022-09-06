@@ -10,6 +10,7 @@ const defaultOption = {
     show: true,
     bottom: 0,
     left: 0,
+    type: 'scroll',
   },
   tooltip: {
     trigger: 'axis',
