@@ -8,6 +8,9 @@ export interface VizInstance {
   id: string;
   name: string;
   type: string;
+  messageChannels: IMessageChannels;
+  instanceData: PluginStorage;
+  triggers: ITrigger[];
 }
 
 /**
@@ -122,4 +125,24 @@ export interface IPluginManager {
   factory: {
     viz: (name: string) => VizComponent;
   };
+}
+
+export interface IPayloadVariableSchema {
+  name: string;
+  description: string;
+  valueType: 'string' | 'number';
+}
+
+export interface ITriggerSchema {
+  id: string;
+  type: string;
+  displayName: string;
+  payload: IPayloadVariableSchema[];
+}
+
+export interface ITrigger {
+  id: string;
+  displayName: string;
+  schema: ITriggerSchema;
+  payload: Record<string, unknown>;
 }

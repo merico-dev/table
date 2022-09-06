@@ -8,10 +8,11 @@ import {
   VizConfigComponent,
   VizViewComponent,
 } from '../plugins/viz-manager/components';
-import { IVizManager, VizInstanceInfo } from '../plugins/viz-manager/types';
+import { IVizManager } from '../plugins';
 import { IVizConfig } from '../types';
+import { VizInstance } from '../types/plugin';
 
-function usePluginMigration(vizManager: IVizManager, instance: VizInstanceInfo, onMigrate?: () => void) {
+function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMigrate?: () => void) {
   const migrations = useCreation(() => new Set<string>(), []);
   const comp = vizManager.resolveComponent(instance.type);
   const [migrated, setMigrated] = useState(false);

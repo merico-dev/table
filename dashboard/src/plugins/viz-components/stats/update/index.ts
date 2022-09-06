@@ -43,7 +43,7 @@ function updateSchema(legacyConf: IVizStatsConf | ILegacyStatsConf): IVizStatsCo
       {
         name: 'value',
         data_field,
-        aggregation: 'none',
+        aggregation: { type: 'none', config: {} },
         formatter,
         color,
         weight,

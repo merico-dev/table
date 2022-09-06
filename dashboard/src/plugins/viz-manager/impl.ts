@@ -1,10 +1,10 @@
-import { IPluginManager, VizComponent } from '../../types/plugin';
+import { IPluginManager, VizComponent, VizInstance } from '../../types/plugin';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { MessageChannels } from '../message-channels';
-import { IPanelInfo, IVizManager, VizInstanceInfo } from './types';
+import { IPanelInfo, IVizManager } from './types';
 
 export class VizManager implements IVizManager {
-  private instances: Map<string, VizInstanceInfo> = new Map<string, VizInstanceInfo>();
+  private instances: Map<string, VizInstance> = new Map<string, VizInstance>();
 
   constructor(private pluginManager: IPluginManager) {}
 
@@ -21,12 +21,13 @@ export class VizManager implements IVizManager {
     if (result) {
       return result;
     }
-    const instanceInfo: VizInstanceInfo = {
+    const instanceInfo: VizInstance = {
       id: panel.id,
       name: panel.viz.type,
       type: panel.viz.type,
       messageChannels: new MessageChannels(),
       instanceData: new JsonPluginStorage(panel.viz.conf),
+      triggers: [],
     };
     this.instances.set(panel.id, instanceInfo);
     return instanceInfo;

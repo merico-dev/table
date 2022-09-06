@@ -13,7 +13,7 @@ export const DEFAULT_CONFIG: IVizStatsConf = {
         staticColor: 'blue',
       },
       data_field: '',
-      aggregation: 'none',
+      aggregation: { type: 'none', config: {} },
       formatter: {
         output: 'number',
         mantissa: 0,

@@ -12,7 +12,7 @@ export function getANewVariable() {
       staticColor: 'blue',
     },
     data_field: '',
-    aggregation: 'none',
+    aggregation: { type: 'none', config: {} },
     formatter: defaultNumbroFormat,
   } as ITemplateVariable;
 }

@@ -1,9 +1,9 @@
 import { omit } from 'lodash';
-import { IPanelInfoEditor, VizConfigContext, VizContext, VizViewContext } from '../../types/plugin';
+import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewContext } from '../../types/plugin';
 import { JsonPluginStorage } from '../json-plugin-storage';
-import { IPanelInfo, IVizManager, VizInstanceInfo } from './types';
+import { IPanelInfo, IVizManager } from './types';
 
-function createCommonContext(instance: VizInstanceInfo, data: any): VizContext {
+function createCommonContext(instance: VizInstance, data: any): VizContext {
   return {
     /**
      * todo: locale not implemented
@@ -29,7 +29,11 @@ function createCommonContext(instance: VizInstanceInfo, data: any): VizContext {
 }
 
 export type IViewPanelInfo = IPanelInfo & { layout: { w: number; h: number } };
-export type IViewComponentProps<TDebug = {}> = { panel: IViewPanelInfo; data: any; vizManager: IVizManager } & TDebug;
+export type IViewComponentProps<TDebug = Record<string, unknown>> = {
+  panel: IViewPanelInfo;
+  data: any;
+  vizManager: IVizManager;
+} & TDebug;
 export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
   const { panel, vizManager, data } = props;
   const comp = vizManager.resolveComponent(panel.viz.type);
@@ -41,7 +45,7 @@ export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
   const Comp = comp.viewRender;
   return <Comp context={context} instance={instance} {...omit(props, ['panel', 'vizManager', 'data'])} />;
 };
-export type IConfigComponentProps<TDebug = {}> = {
+export type IConfigComponentProps<TDebug = Record<string, unknown>> = {
   panel: IPanelInfo;
   panelInfoEditor: IPanelInfoEditor;
   vizManager: IVizManager;
