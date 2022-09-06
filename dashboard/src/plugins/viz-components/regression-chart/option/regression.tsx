@@ -1,10 +1,8 @@
+import { Group, Text } from '@mantine/core';
 import { IRegressionLineConf, IRegressionTransform } from '../../cartesian/type';
 import { IRegressionChartConf } from '../type';
-import { Group, Text } from '@mantine/core';
-import ecStat, { RegressionResult } from 'echarts-stat';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
-import { round } from 'lodash';
 
 interface IRegressionDataSetItem {
   id: string;
