@@ -29,7 +29,7 @@ const defaultOption = {
     top: 10,
     left: 30,
     right: 15,
-    bottom: 30,
+    bottom: 25,
     containLabel: true,
   },
 };
@@ -122,6 +122,9 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
         lines.unshift(`<strong>${arr[0].name}</strong>`);
         return lines.join('<br />');
       },
+    },
+    grid: {
+      bottom: conf.x_axis_name ? 40 : 25,
     },
   };
   return defaultsDeep({}, customOptions, defaultOption);
