@@ -2,7 +2,7 @@ import { Box, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
-/* @ts-expect-error */
+/* @ts-expect-error type defs of echarts-stats */
 import { transform } from 'echarts-stat';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -25,7 +25,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const { expression, gradient, intercept } = useMemo(() => {
+  const { expression } = useMemo(() => {
     return getRegressionDescription(data, conf);
   }, [conf, data]);
 
