@@ -10,7 +10,6 @@ export interface VizInstance {
   type: string;
   messageChannels: IMessageChannels;
   instanceData: PluginStorage;
-  triggers: ITrigger[];
 }
 
 /**
@@ -66,7 +65,7 @@ export interface VizContext {
   data: unknown;
 }
 
-type Setter<T> = (val: string) => void;
+type Setter<T> = (val: T) => void;
 
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
@@ -98,6 +97,7 @@ export interface VizComponent {
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
   createConfig: () => any;
+  triggers?: ITriggerSchema[];
 }
 
 export interface IVizComponentMigrator {
@@ -135,7 +135,6 @@ export interface IPayloadVariableSchema {
 
 export interface ITriggerSchema {
   id: string;
-  type: string;
   displayName: string;
   payload: IPayloadVariableSchema[];
 }
@@ -143,6 +142,16 @@ export interface ITriggerSchema {
 export interface ITrigger {
   id: string;
   displayName: string;
-  schema: ITriggerSchema;
+  schemaRef: string;
   payload: Record<string, unknown>;
+}
+
+export interface IVizTriggerManager {
+  getTriggerSchemaList(): ITriggerSchema[];
+
+  getTriggerList(): Promise<ITrigger[]>;
+
+  addTrigger(trigger: ITrigger): Promise<void>;
+
+  removeTrigger(triggerId: string): Promise<void>;
 }
