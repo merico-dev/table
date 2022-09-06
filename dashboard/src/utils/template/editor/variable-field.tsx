@@ -46,12 +46,12 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
           value={value.data_field}
           onChange={(v) => handleChange('data_field', v)}
         />
-        <AggregationSelector
-          label="Aggregation"
-          value={value.aggregation}
-          onChange={(v) => handleChange('aggregation', v)}
-        />
       </Group>
+      <AggregationSelector
+        label="Aggregation"
+        value={value.aggregation}
+        onChange={(v) => handleChange('aggregation', v)}
+      />
 
       <Divider my="xs" label="Format" labelPosition="center" />
       <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
