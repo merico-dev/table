@@ -26,7 +26,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const { expression, rSquared } = useMemo(() => {
+  const { expression, rSquared, adjustedRSquared } = useMemo(() => {
     return getRegressionDescription(data, conf);
   }, [conf, data]);
 
@@ -55,7 +55,9 @@ export function VizRegressionChart({ context }: VizViewProps) {
               </tr>
               <tr>
                 <td>R-Sq(Adjusted)</td>
-                <td style={{ textAlign: 'right' }}>{numbro(rSquared).format({ output: 'percent', mantissa: 1 })}</td>
+                <td style={{ textAlign: 'right' }}>
+                  {numbro(adjustedRSquared).format({ output: 'percent', mantissa: 1 })}
+                </td>
               </tr>
             </tbody>
           </Table>
