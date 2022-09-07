@@ -1,9 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { JsonPluginStorage } from '../../plugins/json-plugin-storage';
 import { MessageChannels } from '../../plugins/message-channels';
-import { ITrigger, VizComponent, VizInstance } from '../../types/plugin';
+import { ITriggerSchema, VizComponent, VizInstance } from '../../types/plugin';
 import { VizTriggerManager } from './trigger-manager-impl';
 
+const FAKE_TRIGGERS: ITriggerSchema[] = [
+  {
+    displayName: 'click me',
+    id: 'some-plugin:trigger:click',
+    payload: [],
+    configRender: () => null,
+    nameRender: () => null,
+  },
+  {
+    displayName: 'drag me',
+    id: 'some-plugin:trigger:drag',
+    payload: [],
+    configRender: () => null,
+    nameRender: () => null,
+  },
+];
 const testVizComponent: VizComponent = {
   configRender: () => null,
   createConfig() {
@@ -13,25 +29,9 @@ const testVizComponent: VizComponent = {
   viewRender: () => null,
   name: 'test',
   displayName: 'test',
-  triggers: [
-    {
-      displayName: 'click me',
-      id: 'some-plugin:trigger:click',
-      payload: [],
-    },
-    {
-      displayName: 'drag me',
-      id: 'some-plugin:trigger:drag',
-      payload: [],
-    },
-  ],
+  triggers: FAKE_TRIGGERS,
 };
-const FAKE_TRIGGER: ITrigger = {
-  id: '23333',
-  payload: { foo: 123 },
-  schemaRef: 'some-plugin:trigger:click',
-  displayName: 'click me',
-};
+
 describe('TriggerManager', () => {
   let triggerManager: VizTriggerManager;
   let instance: VizInstance;
@@ -49,45 +49,71 @@ describe('TriggerManager', () => {
     expect(triggerManager.getTriggerSchemaList()).toEqual(testVizComponent.triggers);
   });
   test('manage triggers', async () => {
-    await triggerManager.addTrigger(FAKE_TRIGGER);
+    await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[0]);
+    const t = await triggerManager.createOrGetTrigger('bar', FAKE_TRIGGERS[0]);
+    await t.triggerData.setItem('foo', 'bar');
     const triggers = await triggerManager.getTriggerList();
-    expect(triggers).toHaveLength(1);
-    expect(triggers[0].payload).toEqual({ foo: 123 });
+    expect(triggers).toHaveLength(2);
     // remove trigger
-    await triggerManager.removeTrigger(triggers[0].id);
-    expect(await triggerManager.getTriggerList()).toHaveLength(0);
+    await triggerManager.removeTrigger('foo');
+    expect(await triggerManager.getTriggerList()).toHaveLength(1);
+
+    // remove other trigger should not affect the data
+    const barTrigger = await triggerManager.createOrGetTrigger('bar', FAKE_TRIGGERS[0]);
+    expect(await barTrigger.triggerData.getItem('foo')).toEqual('bar');
   });
   test('add trigger with invalid schema', async () => {
-    await triggerManager.addTrigger({
-      ...FAKE_TRIGGER,
-      schemaRef: 'some-plugin:trigger:invalid',
-    });
+    await expect(
+      triggerManager.createOrGetTrigger('foo', {
+        ...FAKE_TRIGGERS[0],
+        id: 'invalid-schema',
+      } as ITriggerSchema),
+    ).rejects.toThrow(/invalid-schema/);
     expect(await triggerManager.getTriggerList()).toHaveLength(0);
   });
   test('remove nonexistent trigger', async () => {
-    await triggerManager.addTrigger(FAKE_TRIGGER);
     await expect(triggerManager.removeTrigger('invalid')).resolves.toBeUndefined();
-    expect(await triggerManager.getTriggerList()).toHaveLength(1);
+    expect(await triggerManager.getTriggerList()).toHaveLength(0);
   });
   test('persist trigger list to instance data', async () => {
-    const trigger: ITrigger = FAKE_TRIGGER;
-    await triggerManager.addTrigger(trigger);
+    const trigger = await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[0]);
     const triggerManager2 = new VizTriggerManager(instance, testVizComponent);
     expect(await triggerManager2.getTriggerList()).toEqual([trigger]);
   });
 
   test('add triggers from different manager', async () => {
     const triggerManager2 = new VizTriggerManager(instance, testVizComponent);
-    await triggerManager2.addTrigger(FAKE_TRIGGER);
-    await triggerManager2.addTrigger({ ...FAKE_TRIGGER, id: '23334' });
-    await triggerManager.addTrigger({ ...FAKE_TRIGGER, id: '23335' });
-    const triggers = await triggerManager.getTriggerList();
-    expect(triggers).toHaveLength(3);
+    await triggerManager2.createOrGetTrigger('1', FAKE_TRIGGERS[0]);
+    await triggerManager2.createOrGetTrigger('2', FAKE_TRIGGERS[0]);
+    await triggerManager.createOrGetTrigger('3', FAKE_TRIGGERS[0]);
+    expect(await triggerManager.getTriggerList()).toHaveLength(3);
+    expect(await triggerManager2.getTriggerList()).toHaveLength(3);
   });
 
   test('add triggers with same id', async () => {
-    await triggerManager.addTrigger(FAKE_TRIGGER);
-    await triggerManager.addTrigger(FAKE_TRIGGER);
-    expect(await triggerManager.getTriggerList()).toHaveLength(1);
+    const t1 = await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[0]);
+    const t2 = await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[0]);
+    expect(t1).toEqual(t2);
+  });
+
+  test('add triggers with same id but different schema will empty' + ' trigger data', async () => {
+    const t1 = await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[0]);
+    await t1.triggerData.setItem('foo', 'bar');
+    const t2 = await triggerManager.createOrGetTrigger('foo', FAKE_TRIGGERS[1]);
+    expect(await t2.triggerData.getItem('foo')).toBeUndefined();
+    expect(t2.schemaRef).toEqual(FAKE_TRIGGERS[1].id);
+  });
+  test('trigger can store config in triggerData', async () => {
+    const trigger = await triggerManager.createOrGetTrigger('column-a-click', FAKE_TRIGGERS[0]);
+    await trigger.triggerData.setItem('test', 1);
+    const trigger2 = await triggerManager.createOrGetTrigger('column-a-click', FAKE_TRIGGERS[0]);
+    expect(await trigger2.triggerData.getItem('test')).toBe(1);
+  });
+
+  test('recreate trigger will empty trigger data', async () => {
+    const trigger = await triggerManager.createOrGetTrigger('column-a-click', FAKE_TRIGGERS[0]);
+    await trigger.triggerData.setItem('test', 1);
+    const trigger2 = await triggerManager.createOrGetTrigger('column-a-click', FAKE_TRIGGERS[0], { recreate: true });
+    expect(await trigger2.triggerData.getItem('test')).toBeUndefined();
   });
 });

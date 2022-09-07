@@ -133,17 +133,26 @@ export interface IPayloadVariableSchema {
   valueType: 'string' | 'number';
 }
 
+export interface IInteractionConfigProps {
+  instance: VizInstance;
+}
+
+export interface ITriggerConfigProps extends IInteractionConfigProps {
+  triggerData: PluginStorage;
+}
+
 export interface ITriggerSchema {
   id: string;
   displayName: string;
   payload: IPayloadVariableSchema[];
+  configRender: React.ComponentType<IInteractionConfigProps>;
+  nameRender: React.ComponentType<IInteractionConfigProps>;
 }
 
 export interface ITrigger {
   id: string;
-  displayName: string;
   schemaRef: string;
-  payload: Record<string, unknown>;
+  triggerData: PluginStorage;
 }
 
 export interface IVizTriggerManager {
@@ -151,7 +160,26 @@ export interface IVizTriggerManager {
 
   getTriggerList(): Promise<ITrigger[]>;
 
-  addTrigger(trigger: ITrigger): Promise<void>;
-
   removeTrigger(triggerId: string): Promise<void>;
+
+  createOrGetTrigger(id: string, schema: ITriggerSchema): Promise<ITrigger>;
+}
+
+export interface IDashboardOperationSchema {
+  id: string;
+  displayName: string;
+  configRender: React.ComponentType<IInteractionConfigProps>;
+  run: (payload: Record<string, unknown>, operationData: PluginStorage) => Promise<void>;
+}
+
+export interface IDashboardOperation {
+  id: string;
+  schemaRef: string;
+}
+
+export interface IVizInteraction {
+  trigger: ITrigger;
+  operation: IDashboardOperation;
+
+  emit(payload: Record<string, unknown>): Promise<void>;
 }

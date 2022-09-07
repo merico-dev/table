@@ -1,41 +1,63 @@
-import { ITrigger, ITriggerSchema, IVizTriggerManager, VizComponent, VizInstance } from '../../types/plugin';
+import { values } from 'lodash';
+import { SubTreeJsonPluginStorage } from '../../plugins/sub-tree-json-plugin-storage';
+import {
+  ITrigger,
+  ITriggerSchema,
+  IVizTriggerManager,
+  PluginStorage,
+  VizComponent,
+  VizInstance,
+} from '../../types/plugin';
 
 export class VizTriggerManager implements IVizTriggerManager {
-  constructor(protected instance: VizInstance, protected component: VizComponent) {}
+  protected triggersStorage: PluginStorage;
 
-  async addTrigger(trigger: ITrigger): Promise<void> {
-    if (!(await this.validateTrigger(trigger))) {
-      return;
-    }
-    const triggers = await this.getTriggerList();
-    triggers.push(trigger);
-    await this.saveTriggers(triggers);
+  constructor(protected instance: VizInstance, protected component: VizComponent) {
+    this.triggersStorage = new SubTreeJsonPluginStorage(instance.instanceData, '__TRIGGERS');
   }
 
-  protected async validateTrigger(trigger: ITrigger) {
-    const schema = trigger.schemaRef;
+  async createOrGetTrigger(
+    id: string,
+    schema: ITriggerSchema,
+    options: { recreate: boolean } = { recreate: false },
+  ): Promise<ITrigger> {
+    // check if schema is valid
     const schemaList = this.getTriggerSchemaList();
-    // is schema valid
-    if (!schemaList.some((s) => s.id === schema)) {
-      console.warn(`Trigger schema '${schema}' is not defined in component '${this.component.name}'`);
-      return false;
+    if (!schemaList.some((s) => s.id === schema.id)) {
+      throw new Error(`Trigger schema '${schema.id}' is not defined in component '${this.component.name}'`);
     }
-    // is trigger id duplicated
-    const triggers = await this.getTriggerList();
-    if (triggers.some((t) => t.id === trigger.id)) {
-      console.warn(`Trigger id '${trigger.id}' is duplicated`);
-      return false;
+    const trigger = await this.getTrigger(id);
+    const shouldRecreate = !trigger || options.recreate || trigger.schemaRef !== schema.id;
+    if (shouldRecreate) {
+      await this.triggersStorage.setItem(id, {
+        id,
+        schemaRef: schema.id,
+      });
     }
-    return true;
+    return {
+      id,
+      schemaRef: schema.id,
+      triggerData: this.createTriggerDataStorage(id),
+    };
   }
 
-  protected async saveTriggers(triggers: ITrigger[]) {
-    const instanceData = this.instance.instanceData;
-    await instanceData.setItem('__TRIGGERS', triggers);
+  protected async getTrigger(id: string) {
+    return (await this.triggersStorage.getItem(id)) as ITrigger | undefined;
+  }
+
+  protected createTriggerDataStorage(id: string) {
+    return new SubTreeJsonPluginStorage(new SubTreeJsonPluginStorage(this.triggersStorage, id), 'data');
   }
 
   async getTriggerList(): Promise<ITrigger[]> {
-    return (await this.instance.instanceData.getItem('__TRIGGERS')) || [];
+    const triggersDict = (await this.triggersStorage.getItem(null)) || {};
+    return values(triggersDict).map((t) => {
+      return {
+        id: t.id,
+        schemaRef: t.schemaRef,
+        triggerData: this.createTriggerDataStorage(t.id),
+      };
+    });
   }
 
   getTriggerSchemaList(): ITriggerSchema[] {
@@ -43,7 +65,9 @@ export class VizTriggerManager implements IVizTriggerManager {
   }
 
   async removeTrigger(triggerId: string): Promise<void> {
-    const triggers = await this.getTriggerList();
-    await this.saveTriggers(triggers.filter((t) => t.id !== triggerId));
+    const trigger = await this.getTrigger(triggerId);
+    if (trigger) {
+      await this.triggersStorage.deleteItem(triggerId);
+    }
   }
 }
