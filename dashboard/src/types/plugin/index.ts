@@ -175,6 +175,14 @@ export interface IDashboardOperationSchema {
 export interface IDashboardOperation {
   id: string;
   schemaRef: string;
+  operationData: PluginStorage;
+}
+
+export interface IVizOperationManager {
+  getOperationSchemaList(): IDashboardOperationSchema[];
+  getOperationList(): Promise<IDashboardOperation[]>;
+  removeOperation(operationId: string): Promise<void>;
+  createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation>;
 }
 
 export interface IVizInteraction {
