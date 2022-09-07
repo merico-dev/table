@@ -3,12 +3,23 @@ import { IRegressionChartConf } from '../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
 
+/**
+ * calculate Adjusted RSquared
+ * @param r RSquared
+ * @param n The number of observations
+ * @param k The number of predictor variables
+ * @returns Adjusted RSquared
+ */
+function calculateAdjustedRSquared(r: number, n: number, k: number) {
+  return 1 - ((1 - r) * (n - 1)) / (n - k - 1);
+}
+
 export function getRegressionDescription(data: any[], conf?: IRegressionChartConf) {
   if (!conf) {
     return {
       expression: '',
-      gradient: 0,
-      intercept: 0,
+      rSquared: 0,
+      adjustedRSquared: 0,
     };
   }
   const { regression, x_axis, y_axis } = conf;
@@ -34,6 +45,7 @@ export function getRegressionDescription(data: any[], conf?: IRegressionChartCon
         </Group>
       ),
       rSquared,
+      adjustedRSquared: calculateAdjustedRSquared(rSquared, data.length, 1),
     };
   }
   if (regression.transform.config.method === 'exponential') {
@@ -59,6 +71,7 @@ export function getRegressionDescription(data: any[], conf?: IRegressionChartCon
         </Group>
       ),
       rSquared,
+      adjustedRSquared: calculateAdjustedRSquared(rSquared, data.length, 1),
     };
   }
 
@@ -85,6 +98,7 @@ export function getRegressionDescription(data: any[], conf?: IRegressionChartCon
         </Group>
       ),
       rSquared,
+      adjustedRSquared: calculateAdjustedRSquared(rSquared, data.length, 1),
     };
   }
   if (regression.transform.config.method === 'polynomial') {
@@ -94,6 +108,7 @@ export function getRegressionDescription(data: any[], conf?: IRegressionChartCon
     return {
       expression: '',
       rSquared,
+      adjustedRSquared: calculateAdjustedRSquared(rSquared, data.length, 1),
     };
   }
   return {

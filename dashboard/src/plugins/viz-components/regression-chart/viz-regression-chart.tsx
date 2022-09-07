@@ -1,4 +1,4 @@
-import { Box, Group, Stack, Table, Text } from '@mantine/core';
+import { Box, Group, Table, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -7,12 +7,13 @@ import { transform } from 'echarts-stat';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
+import numbro from 'numbro';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { getOption } from './option';
-import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 import { getRegressionDescription } from './option/regression-expression';
+import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 echarts.use([ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 echarts.registerTransform(transform.regression);
@@ -25,7 +26,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const { expression, rSquared } = useMemo(() => {
+  const { expression, rSquared, adjustedRSquared } = useMemo(() => {
     return getRegressionDescription(data, conf);
   }, [conf, data]);
 
@@ -43,14 +44,20 @@ export function VizRegressionChart({ context }: VizViewProps) {
           {expression}
         </Text>
       )}
-      <Group spacing={10} noWrap align="start" sx={{ '> *': { flexGrow: 0, flexShrink: 0 } }}>
-        <ReactEChartsCore echarts={echarts} option={option} style={{ width: width - 220, height: finalHeight }} />
+      <Group spacing={0} noWrap align="start" sx={{ '> *': { flexGrow: 0, flexShrink: 0 } }}>
+        <ReactEChartsCore echarts={echarts} option={option} style={{ width: width - 190, height: finalHeight }} />
         {rSquared && (
-          <Table mt={20} fontSize={12} sx={{ width: 200, border: '1px solid #999' }}>
+          <Table mt={20} fontSize={12} sx={{ width: 180, border: '1px solid #999', td: { padding: '3px 8px' } }}>
             <tbody>
               <tr>
                 <td>R-Sq</td>
-                <td style={{ textAlign: 'right' }}>{rSquared}</td>
+                <td style={{ textAlign: 'right' }}>{numbro(rSquared).format({ output: 'percent', mantissa: 1 })}</td>
+              </tr>
+              <tr>
+                <td>R-Sq(Adjusted)</td>
+                <td style={{ textAlign: 'right' }}>
+                  {numbro(adjustedRSquared).format({ output: 'percent', mantissa: 1 })}
+                </td>
               </tr>
             </tbody>
           </Table>
