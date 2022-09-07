@@ -1,36 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { JsonPluginStorage } from '../../plugins/json-plugin-storage';
 import { MessageChannels } from '../../plugins/message-channels';
-import { ITriggerSchema, VizComponent, VizInstance } from '../../types/plugin';
+import { ITriggerSchema, VizInstance } from '../../types/plugin';
+import { FAKE_TRIGGERS, testVizComponent } from '../test/helpers';
 import { VizTriggerManager } from './trigger-manager-impl';
-
-const FAKE_TRIGGERS: ITriggerSchema[] = [
-  {
-    displayName: 'click me',
-    id: 'some-plugin:trigger:click',
-    payload: [],
-    configRender: () => null,
-    nameRender: () => null,
-  },
-  {
-    displayName: 'drag me',
-    id: 'some-plugin:trigger:drag',
-    payload: [],
-    configRender: () => null,
-    nameRender: () => null,
-  },
-];
-const testVizComponent: VizComponent = {
-  configRender: () => null,
-  createConfig() {
-    return 1;
-  },
-  migrator: null as unknown as VizComponent['migrator'],
-  viewRender: () => null,
-  name: 'test',
-  displayName: 'test',
-  triggers: FAKE_TRIGGERS,
-};
 
 describe('TriggerManager', () => {
   let triggerManager: VizTriggerManager;

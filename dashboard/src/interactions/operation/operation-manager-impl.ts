@@ -12,7 +12,7 @@ import { OPERATIONS } from './operations';
 export class OperationManager implements IVizOperationManager {
   protected attachments: AttachmentInstanceManager<IDashboardOperation>;
 
-  constructor(instance: VizInstance) {
+  constructor(instance: VizInstance, protected operations: IDashboardOperationSchema[] = OPERATIONS) {
     const constructInstance = async (storage: PluginStorage) => {
       const { id, schemaRef } = await storage.getItem(null);
       return {
@@ -22,6 +22,20 @@ export class OperationManager implements IVizOperationManager {
       };
     };
     this.attachments = new AttachmentInstanceManager(instance, '__OPERATIONS', constructInstance);
+  }
+
+  async runOperation(operationId: string, payload: Record<string, unknown>): Promise<void> {
+    const operation = await this.attachments.getInstance(operationId);
+    if (!operation) {
+      console.warn(`Operation '${operationId}' is not defined`);
+      return;
+    }
+    const schema = this.operations.find((s) => s.id === operation.schemaRef);
+    if (!schema) {
+      console.warn(`Operation schema '${operation.schemaRef}' is not defined`);
+      return;
+    }
+    await schema.run(payload, operation.operationData);
   }
 
   async createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation> {
@@ -46,7 +60,7 @@ export class OperationManager implements IVizOperationManager {
   }
 
   getOperationSchemaList(): IDashboardOperationSchema[] {
-    return OPERATIONS;
+    return this.operations;
   }
 
   removeOperation(operationId: string): Promise<void> {

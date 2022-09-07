@@ -180,14 +180,31 @@ export interface IDashboardOperation {
 
 export interface IVizOperationManager {
   getOperationSchemaList(): IDashboardOperationSchema[];
+
   getOperationList(): Promise<IDashboardOperation[]>;
+
   removeOperation(operationId: string): Promise<void>;
+
   createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation>;
+
+  runOperation(operationId: string, payload: Record<string, unknown>): Promise<void>;
 }
 
 export interface IVizInteraction {
-  trigger: ITrigger;
-  operation: IDashboardOperation;
+  id: string;
+  triggerRef: string;
+  operationRef: string;
+}
 
-  emit(payload: Record<string, unknown>): Promise<void>;
+export interface IVizInteractionManager {
+  triggerManager: IVizTriggerManager;
+  operationManager: IVizOperationManager;
+
+  getInteractionList(): Promise<IVizInteraction[]>;
+
+  addInteraction(trigger: ITrigger, operation: IDashboardOperation): Promise<void>;
+
+  removeInteraction(interactionId: string): Promise<void>;
+
+  runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void>;
 }
