@@ -1,12 +1,5 @@
-import { SubTreeJsonPluginStorage } from '../../plugins/sub-tree-json-plugin-storage';
-import {
-  ITrigger,
-  ITriggerSchema,
-  IVizTriggerManager,
-  PluginStorage,
-  VizComponent,
-  VizInstance,
-} from '../../types/plugin';
+import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
+import { ITrigger, ITriggerSchema, IVizTriggerManager, PluginStorage, VizComponent, VizInstance } from '~/types/plugin';
 import { AttachmentInstanceManager } from '../attachment-instance-manager';
 
 export class VizTriggerManager implements IVizTriggerManager {

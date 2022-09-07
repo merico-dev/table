@@ -1,11 +1,11 @@
-import { SubTreeJsonPluginStorage } from '../../plugins/sub-tree-json-plugin-storage';
+import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
 import {
   IDashboardOperation,
   IDashboardOperationSchema,
   IVizOperationManager,
   PluginStorage,
   VizInstance,
-} from '../../types/plugin';
+} from '~/types/plugin';
 import { AttachmentInstanceManager } from '../attachment-instance-manager';
 import { OPERATIONS } from './operations';
 

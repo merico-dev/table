@@ -1,4 +1,4 @@
-import { IDashboardOperationSchema, ITriggerSchema, VizComponent } from '../../types/plugin';
+import { IDashboardOperationSchema, ITriggerSchema, VizComponent } from '~/types/plugin';
 
 export const FAKE_TRIGGERS: ITriggerSchema[] = [
   {

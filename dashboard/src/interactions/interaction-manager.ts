@@ -9,7 +9,8 @@ import {
   PluginStorage,
   VizComponent,
   VizInstance,
-} from '../types/plugin';
+} from '~/types/plugin';
+
 import { AttachmentInstanceManager } from './attachment-instance-manager';
 import { OperationManager } from './operation/operation-manager-impl';
 import { VizTriggerManager } from './trigger/trigger-manager-impl';

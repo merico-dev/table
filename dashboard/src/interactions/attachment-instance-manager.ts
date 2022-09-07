@@ -1,6 +1,6 @@
 import { values } from 'lodash';
-import { SubTreeJsonPluginStorage } from '../plugins/sub-tree-json-plugin-storage';
-import { PluginStorage, VizInstance } from '../types/plugin';
+import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
+import { PluginStorage, VizInstance } from '~/types/plugin';
 
 export class AttachmentInstanceManager<T extends { id: string }> {
   protected attachmentStorage: PluginStorage;

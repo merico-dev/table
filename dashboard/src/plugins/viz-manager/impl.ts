@@ -1,4 +1,4 @@
-import { IPluginManager, VizComponent, VizInstance } from '../../types/plugin';
+import { IPluginManager, VizComponent, VizInstance } from '~/types/plugin';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { MessageChannels } from '../message-channels';
 import { IPanelInfo, IVizManager } from './types';
@@ -27,7 +27,6 @@ export class VizManager implements IVizManager {
       type: panel.viz.type,
       messageChannels: new MessageChannels(),
       instanceData: new JsonPluginStorage(panel.viz.conf),
-      triggers: [],
     };
     this.instances.set(panel.id, instanceInfo);
     return instanceInfo;

@@ -1,8 +1,8 @@
 import { SpyInstance } from 'vitest';
 
-import { JsonPluginStorage } from '../plugins/json-plugin-storage';
-import { MessageChannels } from '../plugins/message-channels';
-import { IVizInteractionManager } from '../types/plugin';
+import { JsonPluginStorage } from '~/plugins/json-plugin-storage';
+import { MessageChannels } from '~/plugins/message-channels';
+import { IVizInteractionManager } from '~/types/plugin';
 import { InteractionManager } from './interaction-manager';
 import { FAKE_OPERATIONS, FAKE_TRIGGERS, testVizComponent } from './test/helpers';
 
