@@ -52,7 +52,6 @@ describe('PluginVizConfigComponent.cy.ts', () => {
 
   it('migration', () => {
     needMigrateHandler.returns(Promise.resolve(true));
-    cy.findByLabelText('update config').should('exist').click();
     cy.findByText(/hello/gi).then(() => {
       expect(migrateHandler).to.be.calledOnce;
     });
