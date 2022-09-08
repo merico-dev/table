@@ -21,12 +21,12 @@
     "@mantine/rte": "^5.0.2",
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
+    "d3-array": "3.2.0",
+    "d3-regression": "1.2.8",
     "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "echarts-gl": "^2.0.9",
     "echarts-stat": "1.2.0",
-    "d3-array": "3.2.0",
-    "d3-regression": "1.2.8",
     "lodash": "^4.17.21",
     "mobx": "^6.6.1",
     "mobx-react-lite": "^3.4.0",
@@ -43,6 +43,7 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^2.0.1",
     "typescript": "^4.6.3",
-    "vite": "^3.0.9"
+    "vite": "^3.0.9",
+    "vite-tsconfig-paths": "^3.5.0"
   }
 }
