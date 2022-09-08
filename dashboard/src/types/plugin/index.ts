@@ -96,7 +96,7 @@ export interface VizComponent {
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
-  createConfig: () => any;
+  createConfig: () => Record<string, unknown>;
   triggers?: ITriggerSchema[];
 }
 
@@ -138,15 +138,16 @@ export interface IInteractionConfigProps {
 }
 
 export interface ITriggerConfigProps extends IInteractionConfigProps {
-  triggerData: PluginStorage;
+  trigger: ITrigger;
+  sampleData: Record<string, unknown>[];
 }
 
 export interface ITriggerSchema {
   id: string;
   displayName: string;
   payload: IPayloadVariableSchema[];
-  configRender: React.ComponentType<IInteractionConfigProps>;
-  nameRender: React.ComponentType<IInteractionConfigProps>;
+  configRender: React.ComponentType<ITriggerConfigProps>;
+  nameRender: React.ComponentType<ITriggerConfigProps>;
 }
 
 export interface ITrigger {
