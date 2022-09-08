@@ -1,10 +1,6 @@
-import { VizComponent } from '../types/plugin';
+import { VizComponent } from '~/types/plugin';
 
-export function createMockPlugin(
-  id: string = 'foo',
-  components: string[] = ['mockViz'],
-  others: Partial<VizComponent> = {},
-) {
+export function createMockPlugin(id = 'foo', components: string[] = ['mockViz'], others: Partial<VizComponent> = {}) {
   return {
     id: id,
     manifest: {

@@ -3,9 +3,9 @@ import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { RegressionField } from './regression-item';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 

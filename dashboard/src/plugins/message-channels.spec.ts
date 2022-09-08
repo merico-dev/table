@@ -1,4 +1,4 @@
-import { IMessageChannels } from '../types/plugin';
+import { IMessageChannels } from '~/types/plugin';
 import { MessageChannels } from './message-channels';
 
 describe('message channels', () => {

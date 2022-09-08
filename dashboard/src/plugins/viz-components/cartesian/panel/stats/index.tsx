@@ -4,7 +4,7 @@
  */
 import { Button, Group, Stack } from '@mantine/core';
 import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { getANewVariable, TemplateInput } from '../../../../../utils/template';
+import { getANewVariable, TemplateInput } from '~/utils/template';
 import { ICartesianChartConf } from '../../type';
 import { VariableField } from './variable';
 

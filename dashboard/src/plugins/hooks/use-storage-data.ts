@@ -1,6 +1,6 @@
 import { useBoolean } from 'ahooks';
 import { useCallback, useEffect, useState } from 'react';
-import { PluginStorage } from '../../types/plugin';
+import { PluginStorage } from '~/types/plugin';
 
 export const useStorageData = <T>(storage: PluginStorage, dataKey: string) => {
   const [loading, { setFalse }] = useBoolean(true);

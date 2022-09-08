@@ -5,8 +5,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { defaults, get, maxBy, minBy } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);

@@ -1,4 +1,4 @@
-import { ITemplateVariable } from '../../../utils/template';
+import { ITemplateVariable } from '~/utils/template';
 
 export interface IBoxplotReferenceLine {
   name: string;

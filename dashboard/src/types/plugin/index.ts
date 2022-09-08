@@ -8,6 +8,8 @@ export interface VizInstance {
   id: string;
   name: string;
   type: string;
+  messageChannels: IMessageChannels;
+  instanceData: PluginStorage;
 }
 
 /**
@@ -63,7 +65,7 @@ export interface VizContext {
   data: unknown;
 }
 
-type Setter<T> = (val: string) => void;
+type Setter<T> = (val: T) => void;
 
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
@@ -95,6 +97,7 @@ export interface VizComponent {
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
   createConfig: () => any;
+  triggers?: ITriggerSchema[];
 }
 
 export interface IVizComponentMigrator {
@@ -122,4 +125,86 @@ export interface IPluginManager {
   factory: {
     viz: (name: string) => VizComponent;
   };
+}
+
+export interface IPayloadVariableSchema {
+  name: string;
+  description: string;
+  valueType: 'string' | 'number';
+}
+
+export interface IInteractionConfigProps {
+  instance: VizInstance;
+}
+
+export interface ITriggerConfigProps extends IInteractionConfigProps {
+  triggerData: PluginStorage;
+}
+
+export interface ITriggerSchema {
+  id: string;
+  displayName: string;
+  payload: IPayloadVariableSchema[];
+  configRender: React.ComponentType<IInteractionConfigProps>;
+  nameRender: React.ComponentType<IInteractionConfigProps>;
+}
+
+export interface ITrigger {
+  id: string;
+  schemaRef: string;
+  triggerData: PluginStorage;
+}
+
+export interface IVizTriggerManager {
+  getTriggerSchemaList(): ITriggerSchema[];
+
+  getTriggerList(): Promise<ITrigger[]>;
+
+  removeTrigger(triggerId: string): Promise<void>;
+
+  createOrGetTrigger(id: string, schema: ITriggerSchema): Promise<ITrigger>;
+}
+
+export interface IDashboardOperationSchema {
+  id: string;
+  displayName: string;
+  configRender: React.ComponentType<IInteractionConfigProps>;
+  run: (payload: Record<string, unknown>, operationData: PluginStorage) => Promise<void>;
+}
+
+export interface IDashboardOperation {
+  id: string;
+  schemaRef: string;
+  operationData: PluginStorage;
+}
+
+export interface IVizOperationManager {
+  getOperationSchemaList(): IDashboardOperationSchema[];
+
+  getOperationList(): Promise<IDashboardOperation[]>;
+
+  removeOperation(operationId: string): Promise<void>;
+
+  createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation>;
+
+  runOperation(operationId: string, payload: Record<string, unknown>): Promise<void>;
+}
+
+export interface IVizInteraction {
+  id: string;
+  triggerRef: string;
+  operationRef: string;
+}
+
+export interface IVizInteractionManager {
+  triggerManager: IVizTriggerManager;
+  operationManager: IVizOperationManager;
+
+  getInteractionList(): Promise<IVizInteraction[]>;
+
+  addInteraction(trigger: ITrigger, operation: IDashboardOperation): Promise<void>;
+
+  removeInteraction(interactionId: string): Promise<void>;
+
+  runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void>;
 }

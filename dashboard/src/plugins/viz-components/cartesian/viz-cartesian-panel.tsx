@@ -3,14 +3,14 @@ import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Text, Group, Stack, Accordion, ActionIcon, TextInput } from '@mantine/core';
 
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { StatsField } from './panel/stats';
 import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
 import { RegressionsField } from './panel/regressions';
 import { SeriesField } from './panel/series';
 import { YAxesField } from './panel/y-axes';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { DeviceFloppy } from 'tabler-icons-react';
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {

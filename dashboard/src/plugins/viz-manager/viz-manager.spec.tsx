@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { render, screen } from '../../test/test-utils';
-import { IDashboardPlugin, VizComponent, VizConfigProps, VizViewProps } from '../../types/plugin';
+import { IDashboardPlugin, VizComponent, VizConfigProps, VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../hooks';
 import { PluginManager } from '../plugin-manager';
 import { VizManager } from './impl';

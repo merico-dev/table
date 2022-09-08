@@ -1,7 +1,7 @@
 import { RichTextEditor } from '@mantine/rte';
 import { noop } from 'lodash';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { useSyncEditorContent } from './hooks';
 import { IRichTextConf } from './type';
 

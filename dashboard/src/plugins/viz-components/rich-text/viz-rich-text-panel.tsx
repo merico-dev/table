@@ -4,8 +4,8 @@ import { defaults, isEqual, omit } from 'lodash';
 import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { useSyncEditorContent } from './hooks';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 

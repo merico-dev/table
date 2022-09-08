@@ -3,10 +3,10 @@ import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Stack, Text, Box, Group, ActionIcon } from '@mantine/core';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DimensionsField } from './panel/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 

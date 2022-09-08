@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import * as PACKAGE from '../../package.json';
 
-import { IDashboardPlugin, IPluginManager, ISingleColor } from '../types/plugin';
+import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';
 import { IColorManager, ColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
 import { VizManager } from './viz-manager';

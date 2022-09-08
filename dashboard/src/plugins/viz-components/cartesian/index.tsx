@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizCartesianChart } from './viz-cartesian-chart';
 import { VizCartesianPanel } from './viz-cartesian-panel';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';

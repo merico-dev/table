@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizRegressionChart } from './viz-regression-chart';
 import { VizRegressionChartPanel } from './viz-regression-chart-panel';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';

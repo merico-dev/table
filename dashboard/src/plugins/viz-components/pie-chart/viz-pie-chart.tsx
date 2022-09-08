@@ -4,8 +4,8 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults, merge, set } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 echarts.use([PieChart, CanvasRenderer]);

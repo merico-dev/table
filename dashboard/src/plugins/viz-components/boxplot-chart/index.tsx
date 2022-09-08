@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
