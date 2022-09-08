@@ -3,9 +3,13 @@ import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 import dts from 'vite-plugin-dts';
 import visualizer from 'rollup-plugin-visualizer';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
+    tsconfigPaths({
+      projects: ['tsconfig.json'],
+    }),
     react(),
     dts({
       insertTypesEntry: true,

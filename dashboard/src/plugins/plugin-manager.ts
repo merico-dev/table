@@ -1,4 +1,4 @@
-import { IDashboardPlugin, IPluginManager, VizComponent } from '../types/plugin';
+import { IDashboardPlugin, IPluginManager, VizComponent } from '~/types/plugin';
 
 export class PluginManager implements IPluginManager {
   /**
@@ -10,8 +10,6 @@ export class PluginManager implements IPluginManager {
    * Name to component map
    */
   private vizComponents: Map<string, VizComponent> = new Map<string, VizComponent>();
-
-  constructor() {}
 
   factory = {
     viz: (name: string) => {

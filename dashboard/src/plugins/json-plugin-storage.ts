@@ -1,6 +1,6 @@
 import { get, isObject, set, unset } from 'lodash';
 import { observable, reaction, runInAction, toJS } from 'mobx';
-import { PluginStorage } from '../types/plugin';
+import { PluginStorage } from '~/types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
   protected rootRef: { current: Record<string, any> };

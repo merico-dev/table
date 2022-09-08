@@ -1,4 +1,4 @@
-import { ITemplateVariable } from '../../../utils/template';
+import { ITemplateVariable } from '~/utils/template';
 
 export const DEFAULT_CONFIG: IVizStatsConf = {
   align: 'center',

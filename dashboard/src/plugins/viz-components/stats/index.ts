@@ -1,4 +1,4 @@
-import { VizComponent } from '../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { DEFAULT_CONFIG } from './type';
 import { VizStatsMigrator } from './update';
 import { VizStats } from './viz-stats';

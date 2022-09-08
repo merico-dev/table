@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Text } from '@mantine/core';
 
-import { VizViewProps } from '../../../types/plugin';
-import { templateToJSX } from '../../../utils/template';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { templateToJSX } from '~/utils/template';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 
 export function VizStats({ context }: VizViewProps) {

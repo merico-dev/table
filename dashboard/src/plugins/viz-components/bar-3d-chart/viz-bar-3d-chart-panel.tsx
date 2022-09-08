@@ -2,9 +2,9 @@ import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { defaults } from 'lodash';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 

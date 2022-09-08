@@ -1,5 +1,5 @@
 import { omit } from 'lodash';
-import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewContext } from '../../types/plugin';
+import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewContext } from '~/types/plugin';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
 

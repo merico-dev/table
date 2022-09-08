@@ -5,8 +5,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { defaults, maxBy, merge } from 'lodash';
 import { useMemo } from 'react';
 
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
 echarts.use([SunburstChart, CanvasRenderer]);

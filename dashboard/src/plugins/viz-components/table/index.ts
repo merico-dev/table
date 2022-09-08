@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG } from './type';
 import { VizTable } from './viz-table';
 import { VizTablePanel } from './viz-table-panel';

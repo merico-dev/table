@@ -1,4 +1,4 @@
-import { IPluginManager } from '../types/plugin';
+import { IPluginManager } from '~/types/plugin';
 import { PluginManager } from './plugin-manager';
 import { createMockPlugin } from './test-utils';
 

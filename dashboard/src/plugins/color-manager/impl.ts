@@ -1,5 +1,5 @@
-import { IColorPaletteItem, IPluginManager, ISingleColor } from '../../types/plugin';
-import { IColorManager } from './color-manager';
+import { IColorPaletteItem, IPluginManager, ISingleColor } from '~/types/plugin';
+import { IColorManager } from '~/plugins/color-manager';
 
 export class ColorManager implements IColorManager {
   protected staticColors = new Map<string, ISingleColor>();

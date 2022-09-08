@@ -3,9 +3,9 @@ import { useForm } from '@mantine/form';
 import { defaults } from 'lodash';
 import { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 export function VizPieChartPanel({ context }: VizConfigProps) {

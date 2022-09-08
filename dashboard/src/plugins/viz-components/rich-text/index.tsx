@@ -1,6 +1,6 @@
 import { defaults } from 'lodash';
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { VizRichText } from './viz-rich-text';
 import { VizRichTextPanel } from './viz-rich-text-panel';

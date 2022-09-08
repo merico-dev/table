@@ -1,5 +1,5 @@
-import { IDashboardPanel } from '../../types';
-import { VizComponent, VizInstance } from '../../types/plugin';
+import { IDashboardPanel } from '~/types';
+import { VizComponent, VizInstance } from '~/types/plugin';
 
 export type IPanelInfo = Omit<IDashboardPanel, 'layout'>;
 

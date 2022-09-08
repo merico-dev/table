@@ -1,4 +1,4 @@
-import { PluginStorage } from '../types/plugin';
+import { PluginStorage } from '~/types/plugin';
 import { JsonPluginStorage } from './json-plugin-storage';
 import { SubTreeJsonPluginStorage } from './sub-tree-json-plugin-storage';
 

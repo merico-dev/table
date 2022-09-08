@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { IVizComponentMigrator, VizComponentMigrationContext } from '../../types/plugin';
+import { IVizComponentMigrator, VizComponentMigrationContext } from '~/types/plugin';
 import { PluginDataMigrator } from './plugin-data-migrator';
 
 /**

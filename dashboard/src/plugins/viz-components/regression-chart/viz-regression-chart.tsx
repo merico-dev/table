@@ -1,4 +1,4 @@
-import { Box, Group, Stack, Table, Text } from '@mantine/core';
+import { Box, Group, Table, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -8,8 +8,8 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 import { getRegressionDescription } from './option/regression-expression';

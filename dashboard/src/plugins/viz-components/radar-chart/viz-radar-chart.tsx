@@ -6,8 +6,8 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep, isEmpty } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 

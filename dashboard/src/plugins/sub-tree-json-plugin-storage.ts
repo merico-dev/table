@@ -1,5 +1,5 @@
 import { get, omit } from 'lodash';
-import { PluginStorage } from '../types/plugin';
+import { PluginStorage } from '~/types/plugin';
 
 export class SubTreeJsonPluginStorage implements PluginStorage {
   constructor(protected root: PluginStorage, protected path: string) {}

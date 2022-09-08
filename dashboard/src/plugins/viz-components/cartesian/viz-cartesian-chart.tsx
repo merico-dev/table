@@ -8,9 +8,9 @@ import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/compon
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { templateToJSX } from '../../../utils/template';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { templateToJSX } from '~/utils/template';
+import { useStorageData } from '~/plugins/hooks';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { Box, Text } from '@mantine/core';

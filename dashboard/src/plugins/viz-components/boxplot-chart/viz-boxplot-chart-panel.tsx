@@ -1,13 +1,13 @@
-import { Accordion, ActionIcon, Divider, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '../../../panel/settings/common/mantine-color';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { ReferenceLinesField } from './reference-lines';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VariablesField } from './variables';

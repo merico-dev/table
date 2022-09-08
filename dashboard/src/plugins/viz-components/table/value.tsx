@@ -1,4 +1,4 @@
-import { Group, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import numbro from 'numbro';
 import { ValueType } from './type';
 

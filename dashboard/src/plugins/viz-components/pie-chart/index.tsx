@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizPieChart } from './viz-pie-chart';
 import { VizPieChartPanel } from './viz-pie-chart-panel';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';

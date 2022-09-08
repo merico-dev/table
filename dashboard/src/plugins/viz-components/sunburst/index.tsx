@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
 import { VizSunburstPanel } from './viz-sunburst-panel';

@@ -1,5 +1,5 @@
 import EventEmitter2 from 'eventemitter2';
-import { IMessageChannels } from '../types/plugin';
+import { IMessageChannels } from '~/types/plugin';
 
 export class MessageChannels implements IMessageChannels {
   private channels = new Map<string, EventEmitter2 | undefined>();

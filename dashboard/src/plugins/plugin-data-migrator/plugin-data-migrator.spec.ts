@@ -1,5 +1,5 @@
 import { Mock } from 'vitest';
-import { PluginDataMigrator } from './plugin-data-migrator';
+import { PluginDataMigrator } from '~/plugins';
 
 describe('PluginDataMigrator', () => {
   let migrator: PluginDataMigrator;

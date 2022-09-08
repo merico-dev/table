@@ -1,5 +1,5 @@
-import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizBar3dChart } from './viz-bar-3d-chart';
 import { VizBar3dChartPanel } from './viz-bar-3d-chart-panel';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';

@@ -3,9 +3,9 @@ import { defaults } from 'lodash';
 import { useForm } from '@mantine/form';
 import { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { VizConfigProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { VizConfigProps } from '~/types/plugin';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
 export function VizSunburstPanel({ context }: VizConfigProps) {

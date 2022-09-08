@@ -6,14 +6,9 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import {
-  formatAggregatedValue,
-  getAggregatedValue,
-  ITemplateVariable,
-  templateToString,
-} from '../../../utils/template';
-import { useStorageData } from '../../hooks';
+import { VizViewProps } from '~/types/plugin';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 
 echarts.use([BoxplotChart, MarkLineComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);

@@ -1,4 +1,4 @@
-import { IColorPaletteItem, ISingleColor } from '../../types/plugin';
+import { IColorPaletteItem, ISingleColor } from '~/types/plugin';
 
 export interface IColorManager {
   getStaticColors(): ISingleColor[];

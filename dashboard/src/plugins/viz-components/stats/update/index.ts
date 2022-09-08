@@ -1,5 +1,5 @@
-import { TNumbroFormat } from '../../../../panel/settings/common/numbro-format-selector';
-import { VersionBasedMigrator } from '../../../plugin-data-migrator';
+import { TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 
 interface ILegacyStatsConf {

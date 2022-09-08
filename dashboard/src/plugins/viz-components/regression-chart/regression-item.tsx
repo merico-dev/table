@@ -5,8 +5,8 @@
 
 import { Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { DataFieldSelector } from '../../../panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '../../../panel/settings/common/mantine-color';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { IRegressionChartConf } from './type';
 
 const regressionOptions = [

@@ -1,7 +1,7 @@
 import { Group, Table, TableProps, Text } from '@mantine/core';
 import React from 'react';
 import { CellValue } from './value';
-import { VizViewProps } from '../../../types/plugin';
+import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../..';
 import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
 
