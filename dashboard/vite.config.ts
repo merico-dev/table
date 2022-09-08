@@ -8,10 +8,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [
     tsconfigPaths({
-      projects: ['tsconfig.json'],
+      projects: [process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json'],
     }),
     react(),
     dts({
+      entryRoot: resolve(__dirname, 'src'),
       insertTypesEntry: true,
     }),
   ],

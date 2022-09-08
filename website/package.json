@@ -41,9 +41,6 @@
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@vitejs/plugin-react": "^2.0.1",
-    "typescript": "^4.6.3",
-    "vite": "^3.0.9",
-    "vite-tsconfig-paths": "^3.5.0"
+    "typescript": "^4.6.3"
   }
 }
