@@ -1,5 +1,5 @@
-import { Select, SelectItem } from '@mantine/core';
-import { defaults, isEmpty } from 'lodash';
+import { Select, SelectItem, Text } from '@mantine/core';
+import { defaults, isEmpty, isNumber } from 'lodash';
 import { useStorageData } from '~/plugins';
 import { ITableConf } from '~/plugins/viz-components/table/type';
 import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin';
@@ -7,7 +7,7 @@ import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin
 export const ClickCellContent: ITriggerSchema = {
   id: 'builtin:table:click-cell-content',
   displayName: 'Click Cell Content',
-  nameRender: () => <>Some Name</>,
+  nameRender: ClickCellContentName,
   configRender: ClickCellContentSettings,
   payload: [
     {
@@ -82,4 +82,20 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
       onChange={handleFieldChange}
     />
   );
+}
+
+function generateTriggerName(config: IClickCellContentConfig | undefined, columnsFromConfig: SelectItem[]) {
+  if (!config) {
+    return 'Click cell content';
+  }
+  if (isNumber(config.column)) {
+    return `Click cell of ${columnsFromConfig[config.column]}`;
+  }
+  return `Click cell of ${config.column}`;
+}
+
+function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
+  const columnsFromConfig = useColumnsFromConfig(props.instance);
+  const { value: config } = useStorageData<IClickCellContentConfig>(props.trigger.triggerData, 'config');
+  return <Text>{generateTriggerName(config, columnsFromConfig)}</Text>;
 }

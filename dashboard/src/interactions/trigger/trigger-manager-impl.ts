@@ -50,4 +50,8 @@ export class VizTriggerManager implements IVizTriggerManager {
   async removeTrigger(triggerId: string): Promise<void> {
     await this.attachments.remove(triggerId);
   }
+
+  async retrieveTrigger(id: string) {
+    return await this.attachments.getInstance(id);
+  }
 }

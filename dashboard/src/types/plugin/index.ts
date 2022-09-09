@@ -153,7 +153,7 @@ export interface ITriggerSchema {
   displayName: string;
   payload: IPayloadVariableSchema[];
   configRender: React.ComponentType<ITriggerConfigProps>;
-  nameRender: React.ComponentType<ITriggerConfigProps>;
+  nameRender: React.ComponentType<Omit<ITriggerConfigProps, 'sampleData'>>;
 }
 
 export interface ITrigger {
@@ -170,6 +170,8 @@ export interface IVizTriggerManager {
   removeTrigger(triggerId: string): Promise<void>;
 
   createOrGetTrigger(id: string, schema: ITriggerSchema): Promise<ITrigger>;
+
+  retrieveTrigger(id: string): Promise<ITrigger | undefined>;
 }
 
 export interface IDashboardOperationSchema {
