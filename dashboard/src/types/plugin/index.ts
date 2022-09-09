@@ -197,6 +197,8 @@ export interface IVizOperationManager {
   createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation>;
 
   runOperation(operationId: string, payload: Record<string, unknown>): Promise<void>;
+
+  retrieveTrigger(operationId: string): Promise<IDashboardOperation | undefined>;
 }
 
 export interface IVizInteraction {

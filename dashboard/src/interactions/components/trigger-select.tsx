@@ -3,10 +3,10 @@ import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
 import { makeAutoObservable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { createElement } from 'react';
-import { AnyObject } from '~/types';
+import { AnyObject, Ready } from '~/types';
 import { ITrigger, ITriggerConfigProps, ITriggerSchema, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
-interface ITriggerSelectProps {
+export interface ITriggerSelectProps {
   triggerId: string;
   triggerManager: IVizTriggerManager;
   instance: VizInstance;
@@ -21,11 +21,9 @@ const TriggerModalButton = observer(({ model, onClick }: { model: ReadyTriggerCo
     sampleData: model.sampleData,
   };
   return (
-    <Stack>
-      <Button variant="outline" onClick={onClick}>
-        {createElement(TriggerName, props)}
-      </Button>
-    </Stack>
+    <Button variant="outline" onClick={onClick}>
+      {createElement(TriggerName, props)}
+    </Button>
   );
 });
 
@@ -41,7 +39,7 @@ const TriggerSchemaSelect = observer(({ model }: { model: ReadyTriggerConfigMode
     await model.changeSchema(schemaList.find((it) => it.id === schemaId)!);
   }
 
-  return <Select data={selectItems} value={model.triggerSchema.id} onChange={handleChange} />;
+  return <Select label="Trigger" data={selectItems} value={model.triggerSchema.id} onChange={handleChange} />;
 });
 
 const TriggerSettings = observer(({ model }: { model: ReadyTriggerConfigModel }) => {
@@ -107,8 +105,6 @@ class TriggerConfigModel {
     makeAutoObservable(this);
   }
 }
-
-type Ready<T, TK extends keyof T> = T & { [P in TK]-?: NonNullable<T[P]> };
 
 type ReadyTriggerConfigModel = Ready<TriggerConfigModel, 'trigger' | 'triggerSchema' | 'sampleData'>;
 
