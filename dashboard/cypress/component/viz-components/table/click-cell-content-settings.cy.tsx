@@ -49,4 +49,13 @@ describe('click-cell-content-settings.cy.tsx', () => {
         });
     });
   });
+
+  test('read config', () => {
+    cy.then(async () => {
+      const trigger = await triggerManager.createOrGetTrigger('builtin:table:click-cell-content', ClickCellContent);
+      await trigger.triggerData.setItem<IClickCellContentConfig>('config', { column: 0 });
+      cy.mount(<ClickCellContentSettings instance={instance} sampleData={MOCK_DATA} trigger={trigger} />);
+      cy.findByDisplayValue('Foo');
+    });
+  });
 });

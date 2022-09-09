@@ -1,81 +1,117 @@
 import { Button, Modal, Select, Stack } from '@mantine/core';
-import { useAsyncEffect, useBoolean } from 'ahooks';
-import { useState } from 'react';
-import { ITrigger, ITriggerSchema, IVizTriggerManager, VizInstance } from '~/types/plugin';
+import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
+import { makeAutoObservable } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { createElement } from 'react';
+import { AnyObject } from '~/types';
+import { ITrigger, ITriggerConfigProps, ITriggerSchema, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
 interface ITriggerSelectProps {
   triggerId: string;
   triggerManager: IVizTriggerManager;
   instance: VizInstance;
+  sampleData: AnyObject[];
 }
 
-function getTriggerSchema(trigger: ITrigger | undefined, triggerManager: IVizTriggerManager) {
-  return triggerManager.getTriggerSchemaList().find((it) => it.id === trigger?.schemaRef);
-}
-
-function useTrigger(triggerId: string, triggerManager: IVizTriggerManager) {
-  const [trigger, setTrigger] = useState<ITrigger>();
-  useAsyncEffect(async () => {
-    const result = await triggerManager.retrieveTrigger(triggerId);
-    setTrigger(result);
-  }, [triggerId, triggerManager]);
-  return trigger;
-}
-
-const TriggerModalButton = (props: ITriggerSelectProps & { onClick: () => void }) => {
-  const { triggerId, triggerManager, instance } = props;
-  const trigger = useTrigger(triggerId, triggerManager);
-  const triggerSchema = getTriggerSchema(trigger, triggerManager);
-  if (!trigger || !triggerSchema) {
-    return null;
-  }
-  const TriggerName = triggerSchema.nameRender;
+const TriggerModalButton = observer(({ model, onClick }: { model: ReadyTriggerConfigModel; onClick: () => void }) => {
+  const TriggerName = model.triggerSchema.nameRender;
+  const props: ITriggerConfigProps = {
+    trigger: model.trigger,
+    instance: model.instance,
+    sampleData: model.sampleData,
+  };
   return (
     <Stack>
-      <Button variant="outline" onClick={props.onClick}>
-        <TriggerName trigger={trigger} instance={instance} />
+      <Button variant="outline" onClick={onClick}>
+        {createElement(TriggerName, props)}
       </Button>
     </Stack>
   );
-};
+});
 
-function TriggerSchemaSelect(props: {
-  triggerManager: IVizTriggerManager;
-  onChange: (schema: ITriggerSchema) => void;
-  value?: ITriggerSchema;
-}) {
-  const schemaList = props.triggerManager.getTriggerSchemaList();
+const TriggerSchemaSelect = observer(({ model }: { model: ReadyTriggerConfigModel }) => {
+  const schemaList = model.schemaList;
   const selectItems = schemaList.map((it) => ({
     label: it.displayName,
     value: it.id,
   }));
 
-  function handleChange(schemaId: string) {
+  async function handleChange(schemaId: string) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    props.onChange(schemaList.find((it) => it.id === schemaId)!);
+    await model.changeSchema(schemaList.find((it) => it.id === schemaId)!);
   }
 
-  return <Select data={selectItems} value={props.value?.id} onChange={handleChange} />;
+  return <Select data={selectItems} value={model.triggerSchema.id} onChange={handleChange} />;
+});
+
+const TriggerSettings = observer(({ model }: { model: ReadyTriggerConfigModel }) => {
+  const configProps: ITriggerConfigProps = {
+    trigger: model.trigger,
+    instance: model.instance,
+    sampleData: model.sampleData,
+  };
+  return createElement(model.triggerSchema.configRender, configProps);
+});
+
+export const TriggerSelect = observer((props: ITriggerSelectProps) => {
+  const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
+  const { sampleData, triggerManager, triggerId, instance } = props;
+  const model = useCreation(() => new TriggerConfigModel(triggerManager, instance), [triggerManager, instance]);
+  useAsyncEffect(async () => {
+    await model.configTrigger(triggerId, sampleData);
+  }, [triggerId, sampleData, model]);
+
+  if (isReady(model)) {
+    return (
+      <>
+        <Modal opened={modalOpen} onClose={closeModal} title="Setup Trigger" closeButtonLabel="close setup">
+          <Stack>
+            <TriggerSchemaSelect model={model} />
+            <TriggerSettings model={model} />
+          </Stack>
+        </Modal>
+        <TriggerModalButton onClick={openModal} model={model} />
+      </>
+    );
+  }
+
+  return null;
+});
+
+class TriggerConfigModel {
+  triggerId?: string;
+  trigger?: ITrigger;
+  triggerSchema?: ITriggerSchema;
+  sampleData?: AnyObject[];
+
+  get schemaList() {
+    return this.triggerManager.getTriggerSchemaList();
+  }
+
+  async configTrigger(triggerId: string, sampleData: AnyObject[]) {
+    this.triggerId = triggerId;
+    this.trigger = await this.triggerManager.retrieveTrigger(triggerId);
+    this.triggerSchema = this.triggerManager.getTriggerSchemaList().find((it) => it.id === this.trigger?.schemaRef);
+    this.sampleData = sampleData;
+  }
+
+  async changeSchema(schema: ITriggerSchema) {
+    if (this.triggerId) {
+      await this.triggerManager.createOrGetTrigger(this.triggerId, schema);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await this.configTrigger(this.triggerId, this.sampleData!);
+    }
+  }
+
+  constructor(public triggerManager: IVizTriggerManager, public instance: VizInstance) {
+    makeAutoObservable(this);
+  }
 }
 
-export const TriggerSelect = (props: ITriggerSelectProps) => {
-  const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
-  const { triggerManager, triggerId } = props;
-  const triggerSchema = getTriggerSchema(useTrigger(triggerId, triggerManager), triggerManager);
+type Ready<T, TK extends keyof T> = T & { [P in TK]-?: NonNullable<T[P]> };
 
-  async function handleSchemaChange(schema: ITriggerSchema) {
-    await triggerManager.createOrGetTrigger(triggerId, schema);
-  }
+type ReadyTriggerConfigModel = Ready<TriggerConfigModel, 'trigger' | 'triggerSchema' | 'sampleData'>;
 
-  return (
-    <>
-      <Modal opened={modalOpen} onClose={closeModal} title="Setup Trigger">
-        <Stack>
-          <TriggerSchemaSelect triggerManager={triggerManager} onChange={handleSchemaChange} value={triggerSchema} />
-          {/*<TriggerSettings trigger={trigger} />*/}
-        </Stack>
-      </Modal>
-      <TriggerModalButton onClick={openModal} {...props} />
-    </>
-  );
-};
+function isReady(model: TriggerConfigModel): model is ReadyTriggerConfigModel {
+  return !!model.triggerId && !!model.triggerSchema;
+}

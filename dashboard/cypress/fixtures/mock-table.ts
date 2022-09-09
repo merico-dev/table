@@ -6,7 +6,14 @@ export const DEFAULT_TABLE_CONFIG = {
   horizontalSpacing: '10px',
   verticalSpacing: '10px',
   use_raw_columns: false,
-  columns: [{ label: 'Foo', value_type: ValueType.string, value_field: 'foo' }],
+  columns: [
+    {
+      label: 'Foo',
+      value_type: ValueType.string,
+      value_field: 'foo',
+    },
+    { label: 'Bar', value_type: ValueType.string, value_field: 'bar' },
+  ],
 } as Partial<ITableConf>;
 export const TABLE_PANEL: IViewPanelInfo = {
   layout: { h: 100, w: 100 },

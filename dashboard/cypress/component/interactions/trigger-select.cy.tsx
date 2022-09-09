@@ -4,7 +4,7 @@ import { IVizManager, pluginManager, VizManager } from '~/plugins';
 import { ClickCellContent } from '~/plugins/viz-components/table/triggers';
 import { IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
 import { VizInstance } from '~/types/plugin';
-import { TABLE_PANEL } from '@cy/fixtures/mock-table';
+import { MOCK_DATA, TABLE_PANEL } from '@cy/fixtures/mock-table';
 
 describe('trigger-select.cy.tsx', () => {
   let instance: VizInstance;
@@ -18,10 +18,16 @@ describe('trigger-select.cy.tsx', () => {
   it('playground', () => {
     cy.then(async () => {
       const t1 = await triggerManager.createOrGetTrigger('t1', ClickCellContent);
-      await t1.triggerData.setItem<IClickCellContentConfig>('config', { column: 'Foo' });
-      cy.mount(<TriggerSelect triggerId={t1.id} triggerManager={triggerManager} instance={instance} />);
+      await t1.triggerData.setItem<IClickCellContentConfig>('config', { column: 0 });
+      cy.mount(
+        <TriggerSelect sampleData={MOCK_DATA} triggerId={t1.id} triggerManager={triggerManager} instance={instance} />,
+      );
       cy.findByText(/click cell of foo/gi).click();
       cy.findByText(/setup trigger/gi);
+      cy.findByLabelText(/choose a column/gi).click();
+      cy.findByText(/bar/gi).click();
+      cy.findByLabelText(/close setup/gi).click();
+      cy.findByText(/click cell of bar/gi);
     });
   });
 });

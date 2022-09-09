@@ -66,6 +66,7 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
     'config',
   );
   const { column } = defaults({}, config, DEFAULT_CONFIG);
+  console.log('column', column);
   const handleFieldChange = (col: string) => {
     if (!isNaN(+col)) {
       void setConfig({ column: +col });
@@ -89,7 +90,7 @@ function generateTriggerName(config: IClickCellContentConfig | undefined, column
     return 'Click cell content';
   }
   if (isNumber(config.column)) {
-    return `Click cell of ${columnsFromConfig[config.column]}`;
+    return `Click cell of ${columnsFromConfig[config.column].label}`;
   }
   return `Click cell of ${config.column}`;
 }
