@@ -3,6 +3,10 @@
   "include": ["src", "cypress"],
   "exclude": ["**/*.spec.ts"],
   "compilerOptions": {
-    "types": ["cypress", "@testing-library/cypress", "chai"]
+    "types": ["cypress", "@testing-library/cypress", "chai"],
+    "paths": {
+      "@cy/*": ["./cypress/*"],
+      "~/*": ["./src/*"]
+    }
   }
 }
