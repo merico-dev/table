@@ -1,6 +1,6 @@
 import { Button, Modal, Select, Stack } from '@mantine/core';
 import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { createElement } from 'react';
 import { VariableList } from './variable-list';
@@ -36,12 +36,14 @@ class OperationConfigModel {
   }
 
   async configOperation(operationId: string, variables: IPayloadVariableSchema[]) {
-    this.operationId = operationId;
-    this.operation = await this.operationManager.retrieveTrigger(operationId);
-    this.operationSchema = await this.operationManager
-      .getOperationSchemaList()
-      .find((it) => it.id === this.operation?.schemaRef);
-    this.variables = variables;
+    const operation = await this.operationManager.retrieveTrigger(operationId);
+    const schema = this.operationManager.getOperationSchemaList().find((it) => it.id === operation?.schemaRef);
+    runInAction(() => {
+      this.operationId = operationId;
+      this.operation = operation;
+      this.operationSchema = schema;
+      this.variables = variables;
+    });
   }
 
   async changeSchema(schema: IDashboardOperationSchema) {
@@ -117,5 +119,3 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
   }
   return null;
 });
-
-// todo: show variable list

@@ -1,6 +1,6 @@
 import { Button, Modal, Select, Stack } from '@mantine/core';
 import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { createElement } from 'react';
 import { VariableList } from '~/interactions/components/variable-list';
@@ -89,10 +89,14 @@ class TriggerConfigModel {
   }
 
   async configTrigger(triggerId: string, sampleData: AnyObject[]) {
-    this.triggerId = triggerId;
-    this.trigger = await this.triggerManager.retrieveTrigger(triggerId);
-    this.triggerSchema = this.triggerManager.getTriggerSchemaList().find((it) => it.id === this.trigger?.schemaRef);
-    this.sampleData = sampleData;
+    const trigger = await this.triggerManager.retrieveTrigger(triggerId);
+    const schema = this.triggerManager.getTriggerSchemaList().find((it) => it.id === trigger?.schemaRef);
+    runInAction(() => {
+      this.triggerId = triggerId;
+      this.trigger = trigger;
+      this.triggerSchema = schema;
+      this.sampleData = sampleData;
+    });
   }
 
   async changeSchema(schema: ITriggerSchema) {
