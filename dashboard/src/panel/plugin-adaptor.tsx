@@ -9,7 +9,7 @@ import {
   VizViewComponent,
 } from '../plugins/viz-manager/components';
 import { IVizManager } from '../plugins';
-import { IVizConfig } from '../types';
+import { AnyObject, IVizConfig } from '../types';
 import { VizInstance } from '../types/plugin';
 
 function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMigrate?: () => void) {
@@ -30,7 +30,7 @@ function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMi
     } else {
       setMigrated(true);
     }
-  });
+  }, [instance]);
   return migrated;
 }
 
@@ -52,7 +52,7 @@ export function PluginVizConfigComponent({
   }, [instance, panel.viz.type]);
 
   useEffect(() => {
-    return instance.instanceData.watchItem<Record<string, any>>(null, (configData) => {
+    return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
       setVizConf({ type: panel.viz.type, conf: configData });
     });
   }, [setVizConf, panel.viz.type]);
