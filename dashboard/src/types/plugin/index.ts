@@ -142,6 +142,11 @@ export interface ITriggerConfigProps extends IInteractionConfigProps {
   sampleData: Record<string, unknown>[];
 }
 
+export interface IOperationConfigProps extends IInteractionConfigProps {
+  operation: IDashboardOperation;
+  variables: IPayloadVariableSchema[];
+}
+
 export interface ITriggerSchema {
   id: string;
   displayName: string;
@@ -169,8 +174,8 @@ export interface IVizTriggerManager {
 export interface IDashboardOperationSchema {
   id: string;
   displayName: string;
-  configRender: React.ComponentType<IInteractionConfigProps>;
-  run: (payload: Record<string, unknown>, operationData: PluginStorage) => Promise<void>;
+  configRender: React.ComponentType<IOperationConfigProps>;
+  run: (payload: Record<string, unknown>, operation: IDashboardOperation) => Promise<void>;
 }
 
 export interface IDashboardOperation {
