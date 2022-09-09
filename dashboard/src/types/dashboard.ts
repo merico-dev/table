@@ -1,10 +1,11 @@
+import { AnyObject } from '~/types/utils';
 import { FilterModelInstance } from '../model';
 import { QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
 export interface IVizConfig {
   type: string;
-  conf: Record<string, any>;
+  conf: AnyObject;
 }
 
 export interface IDashboardPanel {

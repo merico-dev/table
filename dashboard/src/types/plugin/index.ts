@@ -1,5 +1,6 @@
 import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
+import { AnyObject } from '~/types';
 
 /**
  * Basic information of a viz component instance
@@ -96,7 +97,7 @@ export interface VizComponent {
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
-  createConfig: () => Record<string, unknown>;
+  createConfig: () => AnyObject;
   triggers?: ITriggerSchema[];
 }
 
