@@ -21,6 +21,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
     css: false,
+    deps: {
+      inline: ['echarts'],
+    },
   },
   build: {
     lib: {
