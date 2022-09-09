@@ -3,7 +3,8 @@ import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
 import { makeAutoObservable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { createElement } from 'react';
-import { AnyObject, Ready } from '~/types';
+import { VariableList } from './variable-list';
+import { Ready } from '~/types';
 import {
   IDashboardOperation,
   IDashboardOperationSchema,
@@ -17,7 +18,6 @@ export interface IOperationSelectProps {
   operationId: string;
   operationManager: IVizOperationManager;
   instance: VizInstance;
-  sampleData: AnyObject[];
   variables: IPayloadVariableSchema[];
 }
 
@@ -25,7 +25,7 @@ class OperationConfigModel {
   operationId?: string;
   operation?: IDashboardOperation;
   operationSchema?: IDashboardOperationSchema;
-  sampleData?: AnyObject[];
+  variables: IPayloadVariableSchema[] = [];
 
   get schemaList() {
     return this.operationManager.getOperationSchemaList();
@@ -35,28 +35,24 @@ class OperationConfigModel {
     makeAutoObservable(this);
   }
 
-  async configOperation(operationId: string, sampleData: AnyObject[]) {
+  async configOperation(operationId: string, variables: IPayloadVariableSchema[]) {
     this.operationId = operationId;
     this.operation = await this.operationManager.retrieveTrigger(operationId);
     this.operationSchema = await this.operationManager
       .getOperationSchemaList()
       .find((it) => it.id === this.operation?.schemaRef);
-    this.sampleData = sampleData;
+    this.variables = variables;
   }
 
   async changeSchema(schema: IDashboardOperationSchema) {
     if (this.operationId) {
       await this.operationManager.createOrGetOperation(this.operationId, schema);
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await this.configOperation(this.operationId, this.sampleData!);
+      await this.configOperation(this.operationId, this.variables);
     }
   }
 }
 
-type ReadyOperationConfigModel = Ready<
-  OperationConfigModel,
-  'operationId' | 'operation' | 'operationSchema' | 'sampleData'
->;
+type ReadyOperationConfigModel = Ready<OperationConfigModel, 'operationId' | 'operation' | 'operationSchema'>;
 
 function isReady(model: OperationConfigModel): model is ReadyOperationConfigModel {
   return !!model.operationId;
@@ -99,10 +95,10 @@ function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) 
 
 export const OperationSelect = observer((props: IOperationSelectProps) => {
   const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
-  const { operationManager, operationId, instance } = props;
+  const { operationManager, operationId, instance, variables } = props;
   const model = useCreation(() => new OperationConfigModel(operationManager, instance), [operationManager, instance]);
   useAsyncEffect(async () => {
-    await model.configOperation(operationId, props.sampleData);
+    await model.configOperation(operationId, variables);
   }, [operationId, model]);
 
   if (isReady(model)) {
@@ -113,6 +109,7 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
           <Stack>
             <OperationSchemaSelect model={model} />
             <OperationSettings model={model} />
+            <VariableList variables={model.variables} />
           </Stack>
         </Modal>
       </>
