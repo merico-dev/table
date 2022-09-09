@@ -3,6 +3,7 @@ import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
 import { makeAutoObservable } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { createElement } from 'react';
+import { VariableList } from '~/interactions/components/variable-list';
 import { AnyObject, Ready } from '~/types';
 import { ITrigger, ITriggerConfigProps, ITriggerSchema, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
@@ -66,6 +67,7 @@ export const TriggerSelect = observer((props: ITriggerSelectProps) => {
           <Stack>
             <TriggerSchemaSelect model={model} />
             <TriggerSettings model={model} />
+            <VariableList title="Payload" variables={model.triggerSchema.payload} />
           </Stack>
         </Modal>
         <TriggerModalButton onClick={openModal} model={model} />

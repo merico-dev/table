@@ -11,14 +11,19 @@ export const ClickCellContent: ITriggerSchema = {
   configRender: ClickCellContentSettings,
   payload: [
     {
-      name: 'cell_field_value',
-      description: '',
-      valueType: 'string',
+      name: 'row_index',
+      description: 'Index of the row that the cell belongs to',
+      valueType: 'number',
     },
     {
-      name: 'cell_field_name',
-      description: '',
-      valueType: 'string',
+      name: 'column_index',
+      description: 'Index of the column that the cell belongs to',
+      valueType: 'number',
+    },
+    {
+      name: 'row_data',
+      description: 'Data of the row that the cell belongs to',
+      valueType: 'object',
     },
   ],
 };

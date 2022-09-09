@@ -109,7 +109,7 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
           <Stack>
             <OperationSchemaSelect model={model} />
             <OperationSettings model={model} />
-            <VariableList variables={model.variables} />
+            <VariableList title="Variables" variables={model.variables} />
           </Stack>
         </Modal>
       </>

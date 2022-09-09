@@ -131,7 +131,7 @@ export interface IPluginManager {
 export interface IPayloadVariableSchema {
   name: string;
   description: string;
-  valueType: 'string' | 'number';
+  valueType: 'string' | 'number' | 'object';
 }
 
 export interface IInteractionConfigProps {
