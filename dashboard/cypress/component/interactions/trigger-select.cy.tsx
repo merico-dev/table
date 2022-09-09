@@ -20,7 +20,8 @@ describe('trigger-select.cy.tsx', () => {
       const t1 = await triggerManager.createOrGetTrigger('t1', ClickCellContent);
       await t1.triggerData.setItem<IClickCellContentConfig>('config', { column: 'Foo' });
       cy.mount(<TriggerSelect triggerId={t1.id} triggerManager={triggerManager} instance={instance} />);
-      cy.findByText(/click cell of foo/gi);
+      cy.findByText(/click cell of foo/gi).click();
+      cy.findByText(/setup trigger/gi);
     });
   });
 });
