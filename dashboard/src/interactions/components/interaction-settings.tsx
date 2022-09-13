@@ -9,12 +9,14 @@ import { useTriggerConfigModel } from '~/interactions/components/trigger-config-
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { IVizManager } from '~/plugins';
 import { AnyObject } from '~/types';
-import { IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
+import { IPayloadVariableSchema, IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
 
 export interface IInteractionSettingsProps {
   instance: VizInstance;
   vizManager: IVizManager;
   interactionManager: IVizInteractionManager;
+  sampleData: AnyObject[];
+  variables: IPayloadVariableSchema[];
 }
 
 function useInteractionList(interactionManager: IVizInteractionManager, version: number) {
@@ -32,12 +34,14 @@ const InteractionItem = observer(
     manager,
     instance,
     sampleData,
+    variables,
     onRemove,
   }: {
     instance: VizInstance;
     item: IVizInteraction;
     manager: IVizInteractionManager;
     sampleData: AnyObject[];
+    variables: IPayloadVariableSchema[];
     onRemove: (item: IVizInteraction) => void;
   }) => {
     const { triggerRef, operationRef } = item;
@@ -46,13 +50,14 @@ const InteractionItem = observer(
       await triggerConfigModel.configTrigger(triggerRef, sampleData);
     }, [triggerConfigModel, triggerRef, sampleData]);
     if (triggerConfigModel.isReady()) {
+      const operationVariables = [...triggerConfigModel.triggerSchema.payload, ...variables];
       return (
         <Group>
           <TriggerSelect model={triggerConfigModel} />
           <OperationSelect
             instance={instance}
             operationId={operationRef}
-            variables={[...triggerConfigModel.triggerSchema.payload]}
+            variables={operationVariables}
             operationManager={manager.operationManager}
           />
           <Button aria-label="delete-interaction" variant="outline" color="red" onClick={() => onRemove(item)}>
@@ -67,7 +72,7 @@ const InteractionItem = observer(
 
 export const InteractionSettings = (props: IInteractionSettingsProps) => {
   const [version, setVersion] = useState(0);
-  const { interactionManager, instance } = props;
+  const { interactionManager, instance, sampleData, variables } = props;
   const interactions = useInteractionList(interactionManager, version);
   const createNewInteraction = async () => {
     const trigger = await interactionManager.triggerManager.createOrGetTrigger(
@@ -93,7 +98,8 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
         <InteractionItem
           onRemove={handleRemoveInteraction}
           instance={instance}
-          sampleData={[]}
+          sampleData={sampleData}
+          variables={variables}
           item={it}
           manager={props.interactionManager}
           key={it.id}

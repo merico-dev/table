@@ -2,7 +2,7 @@ import { InteractionSettings } from '~/interactions/components/interaction-setti
 import { InteractionManager } from '~/interactions/interaction-manager';
 import { IVizManager, pluginManager, VizManager } from '~/plugins';
 import { VizInstance } from '~/types/plugin';
-import { TABLE_PANEL } from '../fixtures/mock-table';
+import { MOCK_DATA, TABLE_PANEL } from '../fixtures/mock-table';
 
 describe('interaction-settings.cy.tsx', () => {
   let instance: VizInstance;
@@ -30,15 +30,24 @@ describe('interaction-settings.cy.tsx', () => {
   }
 
   test('add new interaction', () => {
-    cy.mount(
-      <InteractionSettings instance={instance} interactionManager={interactionManager} vizManager={vizManager} />,
-    );
+    mount();
     addInteraction();
   });
-  test('delete interaction', () => {
+
+  function mount() {
     cy.mount(
-      <InteractionSettings instance={instance} interactionManager={interactionManager} vizManager={vizManager} />,
+      <InteractionSettings
+        sampleData={MOCK_DATA}
+        variables={[]}
+        instance={instance}
+        interactionManager={interactionManager}
+        vizManager={vizManager}
+      />,
     );
+  }
+
+  test('delete interaction', () => {
+    mount();
     addInteraction();
     const triggerBtn = cy.findByText(/click cell/gi);
     cy.findByLabelText(/delete/gi).click();
