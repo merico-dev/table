@@ -38,7 +38,7 @@ export interface IClickCellContentConfig {
 }
 
 const DEFAULT_CONFIG: IClickCellContentConfig = {
-  column: 0,
+  column: '',
 };
 
 function useColumnsFromConfig(instance: VizInstance): SelectItem[] {
@@ -71,7 +71,6 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
     'config',
   );
   const { column } = defaults({}, config, DEFAULT_CONFIG);
-  console.log('column', column);
   const handleFieldChange = (col: string) => {
     if (!isNaN(+col)) {
       void setConfig({ column: +col });
@@ -92,7 +91,7 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
 
 function generateTriggerName(config: IClickCellContentConfig | undefined, columnsFromConfig: SelectItem[]) {
   if (!config) {
-    return 'Click cell content';
+    return 'Click cell content (click to config)';
   }
   if (isNumber(config.column)) {
     return `Click cell of ${columnsFromConfig[config.column].label}`;

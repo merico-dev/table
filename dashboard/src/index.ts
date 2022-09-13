@@ -4,4 +4,3 @@ export * from './panel';
 export * from './contexts';
 export * from './types';
 export * from './model';
-export { Ready } from '~/types/utils';

@@ -1,13 +1,17 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { useAsyncEffect } from 'ahooks';
+import { useAsyncEffect, useCreation } from 'ahooks';
+import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Trash } from 'tabler-icons-react';
+import { PanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { useTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
-import { IVizManager } from '~/plugins';
+import { InteractionManager } from '~/interactions/interaction-manager';
+import { OPERATIONS } from '~/interactions/operation/operations';
+import { IPanelInfo, IVizManager, PluginContext } from '~/plugins';
 import { AnyObject } from '~/types';
 import { IPayloadVariableSchema, IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
 
@@ -105,7 +109,52 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
           key={it.id}
         />
       ))}
-      <Button onClick={() => createNewInteraction()}>Add interaction</Button>
+      <Button style={{ width: 'fit-content' }} onClick={() => createNewInteraction()}>
+        Add interaction
+      </Button>
     </Stack>
   );
+};
+
+const useInteractionSettingsProps = (): IInteractionSettingsProps => {
+  const { data, viz, title, id, queryID, description, setViz } = useContext(PanelContext);
+  const { vizManager } = useContext(PluginContext);
+  const panelInfo: IPanelInfo = {
+    title,
+    description,
+    id,
+    queryID,
+    viz,
+  };
+  const instance = useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, viz.type]);
+  const interactionManager = useCreation(
+    () => new InteractionManager(instance, vizManager.resolveComponent(viz.type), OPERATIONS),
+    [instance, viz.type],
+  );
+  useEffect(() => {
+    return instance.instanceData.watchItem(
+      null,
+      // avoid too many updates
+      throttle(
+        (value) => {
+          setViz((prevConf) => ({ ...prevConf, conf: value as AnyObject }));
+        },
+        100,
+        { leading: false, trailing: true },
+      ),
+    );
+  }, [instance]);
+
+  return {
+    instance,
+    vizManager,
+    interactionManager,
+    sampleData: data,
+    variables: [],
+  };
+};
+
+export const InteractionSettingsPanel = () => {
+  const props = useInteractionSettingsProps();
+  return <InteractionSettings {...props} />;
 };

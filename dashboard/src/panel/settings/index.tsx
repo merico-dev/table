@@ -1,6 +1,7 @@
-import { AppShell, Group, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import { AppShell, LoadingOverlay, Modal, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useState } from 'react';
+import { InteractionSettingsPanel } from '~/interactions/components/interaction-settings';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { PanelContext } from '../../contexts/panel-context';
 import { PanelConfig } from './panel-config';
@@ -14,7 +15,8 @@ interface IPanelSettingsModal {
 
 export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
-  const { data, loading, viz, title } = React.useContext(PanelContext);
+  const [value, setValue] = useState<string | null>('Visualization');
+  const { loading, title } = React.useContext(PanelContext);
 
   React.useEffect(() => {
     freezeLayout(opened);
@@ -37,25 +39,35 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
           height: '90vh',
           maxHeight: 'calc(100vh - 185px)',
           '.mantine-AppShell-body': { height: '100%' },
-          main: { height: '100%', minHeight: 'unset', maxHeight: '100%', width: '100%', padding: '16px' },
+          main: {
+            height: '100%',
+            minHeight: 'unset',
+            maxHeight: '100%',
+            width: '100%',
+            padding: '16px',
+          },
         }}
         padding="md"
       >
-        <Tabs defaultValue="Visualization" className="panel-settings-tabs">
+        <Tabs value={value} onTabChange={setValue} className="panel-settings-tabs">
           <Tabs.List>
             <Tabs.Tab value="Data">Data</Tabs.Tab>
             <Tabs.Tab value="Panel">Panel</Tabs.Tab>
             <Tabs.Tab value="Visualization">Visualization</Tabs.Tab>
+            <Tabs.Tab value="Interactions">Interactions</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="Data" pt="sm">
             <LoadingOverlay visible={loading} exitTransitionDuration={0} />
             <PickQuery />
           </Tabs.Panel>
           <Tabs.Panel value="Panel" pt="sm">
-            <PanelConfig />
+            {value === 'Panel' && <PanelConfig />}
           </Tabs.Panel>
           <Tabs.Panel value="Visualization" pt="sm">
-            <VizConfig />
+            {value === 'Visualization' && <VizConfig />}
+          </Tabs.Panel>
+          <Tabs.Panel value="Interactions" pt="sm">
+            <InteractionSettingsPanel />
           </Tabs.Panel>
         </Tabs>
       </AppShell>
