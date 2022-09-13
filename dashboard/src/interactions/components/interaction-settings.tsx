@@ -1,7 +1,8 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { useAsyncEffect, useWhyDidYouUpdate } from 'ahooks';
+import { useAsyncEffect } from 'ahooks';
 import { useState } from 'react';
+import { Trash } from 'tabler-icons-react';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { IVizManager } from '~/plugins';
@@ -28,11 +29,13 @@ function InteractionItem({
   manager,
   instance,
   sampleData,
+  onRemove,
 }: {
   instance: VizInstance;
   item: IVizInteraction;
   manager: IVizInteractionManager;
   sampleData: AnyObject[];
+  onRemove: (item: IVizInteraction) => void;
 }) {
   const { triggerRef, operationRef } = item;
   // todo: load variables from trigger schema
@@ -50,6 +53,9 @@ function InteractionItem({
         variables={[]}
         operationManager={manager.operationManager}
       />
+      <Button aria-label="delete-interaction" variant="outline" color="red" onClick={() => onRemove(item)}>
+        <Trash />
+      </Button>
     </Group>
   );
 }
@@ -70,13 +76,27 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
     await interactionManager.addInteraction(trigger, operation);
     setVersion((it) => it + 1);
   };
-  useWhyDidYouUpdate('InteractionSettings', props);
+
+  async function handleRemoveInteraction(item: IVizInteraction) {
+    await interactionManager.removeInteraction(item.id);
+    setVersion((it) => it + 1);
+  }
+
   return (
     <Stack>
       {interactions.map((it) => (
-        <InteractionItem instance={instance} sampleData={[]} item={it} manager={props.interactionManager} key={it.id} />
+        <InteractionItem
+          onRemove={handleRemoveInteraction}
+          instance={instance}
+          sampleData={[]}
+          item={it}
+          manager={props.interactionManager}
+          key={it.id}
+        />
       ))}
       <Button onClick={() => createNewInteraction()}>Add interaction</Button>
     </Stack>
   );
 };
+
+// todo: implement delete
