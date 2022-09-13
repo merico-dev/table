@@ -64,3 +64,6 @@ const port = process.env.SERVER_PORT || 31200;
 app.listen(port, () => {
   logger.info(`Listening on port ${port}`);
 });
+
+process.on('uncaughtException', err => {
+});

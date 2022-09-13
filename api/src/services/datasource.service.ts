@@ -4,6 +4,7 @@ import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationRespo
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
+import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource } from '../utils/helpers';
 
 export class DataSourceService {
@@ -58,7 +59,11 @@ export class DataSourceService {
   private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {
     const configuration = configureDatabaseSource(type, config);
     const source = new Source(configuration);
-    await source.initialize();
+    try {
+      await source.initialize();
+    } catch (error) {
+      throw new ApiError(BAD_REQUEST, { message: 'Testing datasource connection failed' });      
+    }
     await source.destroy();
   }
 }
