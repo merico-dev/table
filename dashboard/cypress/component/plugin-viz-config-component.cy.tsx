@@ -22,19 +22,8 @@ describe('PluginVizConfigComponent.cy.ts', () => {
   let migrateHandler: Agent<SinonStub>;
   let needMigrateHandler: Agent<SinonStub>;
   let setVizConf: Agent<SinonStub>;
-  beforeEach(() => {
-    pm = new PluginManager();
-    migrateHandler = cy.stub();
-    needMigrateHandler = cy.stub();
-    setVizConf = cy.stub();
-    const mockPlugin = createMockPlugin('mock', ['mockComp'], {
-      migrator: {
-        needMigration: needMigrateHandler,
-        migrate: migrateHandler,
-      },
-    });
-    pm.install(mockPlugin);
-    vm = new VizManager(pm);
+
+  function mount() {
     cy.mount(
       <PluginVizConfigComponent
         vizManager={vm}
@@ -48,16 +37,33 @@ describe('PluginVizConfigComponent.cy.ts', () => {
         }}
       />,
     );
+  }
+
+  beforeEach(() => {
+    pm = new PluginManager();
+    migrateHandler = cy.stub();
+    needMigrateHandler = cy.stub();
+    setVizConf = cy.stub();
+    const mockPlugin = createMockPlugin('mock', ['mockComp'], {
+      migrator: {
+        needMigration: needMigrateHandler,
+        migrate: migrateHandler,
+      },
+    });
+    pm.install(mockPlugin);
+    vm = new VizManager(pm);
   });
 
-  it('migration', () => {
+  it.only('migration', () => {
     needMigrateHandler.returns(Promise.resolve(true));
+    mount();
     cy.findByText(/hello/gi).then(() => {
       expect(migrateHandler).to.be.calledOnce;
     });
   });
   it('sync config', () => {
     needMigrateHandler.returns(Promise.resolve(false));
+    mount();
     cy.findByText(/hello/gi).then(async () => {
       const instance = vm.getOrCreateInstance(mockPanel);
       await instance.instanceData.setItem('foo', 'bar');
