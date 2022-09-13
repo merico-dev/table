@@ -35,7 +35,7 @@ export class OperationManager implements IVizOperationManager {
       console.warn(`Operation schema '${operation.schemaRef}' is not defined`);
       return;
     }
-    await schema.run(payload, operation.operationData);
+    await schema.run(payload, operation);
   }
 
   async createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation> {
@@ -65,5 +65,9 @@ export class OperationManager implements IVizOperationManager {
 
   removeOperation(operationId: string): Promise<void> {
     return this.attachments.remove(operationId);
+  }
+
+  async retrieveTrigger(operationId: string): Promise<IDashboardOperation | undefined> {
+    return await this.attachments.getInstance(operationId);
   }
 }

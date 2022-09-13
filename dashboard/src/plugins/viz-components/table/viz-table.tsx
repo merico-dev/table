@@ -1,12 +1,39 @@
 import { Group, Table, TableProps, Text } from '@mantine/core';
+import { get } from 'lodash';
 import React from 'react';
-import { CellValue } from './value';
-import { VizViewProps } from '~/types/plugin';
-import { useStorageData } from '../..';
+import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
+import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
+import { ClickCellContent, IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
+import { AnyObject } from '~/types';
+import { VizInstance, VizViewProps } from '~/types/plugin';
+import { IVizManager, useStorageData } from '../..';
 import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
+import { CellValue } from './value';
 
-export function VizTable({ context }: VizViewProps) {
-  const data = (context.data ?? []) as any[];
+type TriggerConfigType = IClickCellContentConfig;
+
+const useHandleContentClick = (context: { vizManager: IVizManager; instance: VizInstance }) => {
+  const interactionManager = useCurrentInteractionManager(context);
+  const triggers = useTriggerSnapshotList<TriggerConfigType>(interactionManager.triggerManager, ClickCellContent.id);
+  return (col_index: number, row_index: number, row_data: AnyObject) => {
+    const relatedTriggers = triggers.filter((it) => get(it.config, 'column') == col_index);
+    if (relatedTriggers.length !== 0) {
+      return () => {
+        const payload = {
+          row_data,
+          row_index,
+          col_index,
+        };
+        for (const trigger of relatedTriggers) {
+          void interactionManager.runInteraction(trigger.id, payload);
+        }
+      };
+    }
+  };
+};
+
+export function VizTable({ context, instance }: VizViewProps) {
+  const data = (context.data ?? []) as AnyObject[];
   const height = context.viewport.height;
   const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
   const { id_field, use_raw_columns, columns, ...rest } = conf;
@@ -16,6 +43,11 @@ export function VizTable({ context }: VizViewProps) {
     }
     return columns?.map((c) => c.label) || [];
   }, [use_raw_columns, columns, data]);
+
+  const getContentClickHandler = useHandleContentClick({
+    vizManager: context.vizManager,
+    instance: instance,
+  });
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
@@ -37,9 +69,9 @@ export function VizTable({ context }: VizViewProps) {
         </tr>
       </thead>
       <tbody>
-        {data.slice(0, 30).map((row: any, index: number) => (
-          <tr key={id_field ? row[id_field] : `row-${index}`}>
-            {finalColumns?.map(({ value_field, value_type }) => (
+        {data.slice(0, 30).map((row: AnyObject, rowIndex: number) => (
+          <tr key={id_field ? row[id_field] : `row-${rowIndex}`}>
+            {finalColumns?.map(({ value_field, value_type }, colIndex) => (
               <td key={`${value_field}--${row[value_field]}`}>
                 <Group
                   sx={{
@@ -49,7 +81,11 @@ export function VizTable({ context }: VizViewProps) {
                     },
                   }}
                 >
-                  <CellValue value={row[value_field]} type={value_type} />
+                  <CellValue
+                    value={row[value_field]}
+                    onContentClick={getContentClickHandler(colIndex, rowIndex, row)}
+                    type={value_type}
+                  />
                 </Group>
               </td>
             ))}

@@ -1,4 +1,5 @@
 import { Container } from '@mantine/core';
+import { useWhyDidYouUpdate } from 'ahooks';
 import React from 'react';
 import { PanelContext } from '../contexts/panel-context';
 import { PanelTitleBar } from './title-bar';
@@ -26,6 +27,7 @@ export const Panel = observer(function _Panel({
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
+  useWhyDidYouUpdate('Panel', { title, description, queryID, viz, layout, id });
 
   React.useEffect(() => {
     update?.({
@@ -38,7 +40,7 @@ export const Panel = observer(function _Panel({
     });
   }, [title, description, viz, id, layout, queryID]);
 
-  const { data, state, error } = model.getDataStuffByID(queryID);
+  const { data, state } = model.getDataStuffByID(queryID);
   const loading = state === 'loading';
   return (
     <PanelContext.Provider

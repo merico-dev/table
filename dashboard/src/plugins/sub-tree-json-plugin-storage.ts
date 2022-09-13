@@ -1,5 +1,5 @@
 import { get, omit } from 'lodash';
-import { PluginStorage } from '~/types/plugin';
+import { IWatchOptions, PluginStorage } from '~/types/plugin';
 
 export class SubTreeJsonPluginStorage implements PluginStorage {
   constructor(protected root: PluginStorage, protected path: string) {}
@@ -27,18 +27,26 @@ export class SubTreeJsonPluginStorage implements PluginStorage {
     return await this.getItem(key);
   }
 
-  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void {
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void, options?: IWatchOptions): () => void {
     if (key === null) {
-      return this.root.watchItem(this.path, (value, previous) => {
-        callback(value as T, previous as T);
-      });
+      return this.root.watchItem(
+        this.path,
+        (value, previous) => {
+          callback(value as T, previous as T);
+        },
+        options,
+      );
     }
-    return this.root.watchItem(this.path, (rootValue, rootPrevious) => {
-      const value = get(rootValue, key);
-      const previous = get(rootPrevious, key);
-      if (value !== previous) {
-        callback(value as T, previous as T);
-      }
-    });
+    return this.root.watchItem(
+      this.path,
+      (rootValue, rootPrevious) => {
+        const value = get(rootValue, key);
+        const previous = get(rootPrevious, key);
+        if (value !== previous) {
+          callback(value as T, previous as T);
+        }
+      },
+      options,
+    );
   }
 }

@@ -1,5 +1,7 @@
 import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
+import { IVizManager } from '~/plugins';
+import { AnyObject } from '~/types';
 
 /**
  * Basic information of a viz component instance
@@ -20,6 +22,10 @@ export interface VizViewProps {
   context: VizViewContext;
 }
 
+export interface IWatchOptions {
+  fireImmediately?: boolean;
+}
+
 export interface PluginStorage {
   getItem<T>(key: string | null): Promise<T>;
 
@@ -27,7 +33,7 @@ export interface PluginStorage {
 
   deleteItem(key: string): Promise<void>;
 
-  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void;
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void, options?: IWatchOptions): () => void;
 }
 
 export interface IColorPaletteItem {
@@ -63,6 +69,7 @@ export interface VizContext {
   locale: string;
   msgChannels: IMessageChannels;
   data: unknown;
+  vizManager: IVizManager;
 }
 
 type Setter<T> = (val: T) => void;
@@ -96,7 +103,7 @@ export interface VizComponent {
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IVizComponentMigrator;
-  createConfig: () => any;
+  createConfig: () => AnyObject;
   triggers?: ITriggerSchema[];
 }
 
@@ -130,7 +137,7 @@ export interface IPluginManager {
 export interface IPayloadVariableSchema {
   name: string;
   description: string;
-  valueType: 'string' | 'number';
+  valueType: 'string' | 'number' | 'object';
 }
 
 export interface IInteractionConfigProps {
@@ -138,21 +145,36 @@ export interface IInteractionConfigProps {
 }
 
 export interface ITriggerConfigProps extends IInteractionConfigProps {
-  triggerData: PluginStorage;
+  trigger: ITrigger;
+  sampleData: Record<string, unknown>[];
+}
+
+export interface IOperationConfigProps extends IInteractionConfigProps {
+  operation: IDashboardOperation;
+  variables: IPayloadVariableSchema[];
 }
 
 export interface ITriggerSchema {
   id: string;
   displayName: string;
   payload: IPayloadVariableSchema[];
-  configRender: React.ComponentType<IInteractionConfigProps>;
-  nameRender: React.ComponentType<IInteractionConfigProps>;
+  configRender: React.ComponentType<ITriggerConfigProps>;
+  nameRender: React.ComponentType<Omit<ITriggerConfigProps, 'sampleData'>>;
 }
 
 export interface ITrigger {
   id: string;
   schemaRef: string;
   triggerData: PluginStorage;
+}
+
+/**
+ * A readonly snapshot of a trigger
+ */
+export interface ITriggerSnapshot<TConfig> {
+  id: string;
+  schemaRef: string;
+  config: TConfig;
 }
 
 export interface IVizTriggerManager {
@@ -163,13 +185,17 @@ export interface IVizTriggerManager {
   removeTrigger(triggerId: string): Promise<void>;
 
   createOrGetTrigger(id: string, schema: ITriggerSchema): Promise<ITrigger>;
+
+  retrieveTrigger(id: string): Promise<ITrigger | undefined>;
+
+  watchTriggerSnapshotList(callback: (triggerList: ITriggerSnapshot<AnyObject>[]) => void): () => void;
 }
 
 export interface IDashboardOperationSchema {
   id: string;
   displayName: string;
-  configRender: React.ComponentType<IInteractionConfigProps>;
-  run: (payload: Record<string, unknown>, operationData: PluginStorage) => Promise<void>;
+  configRender: React.ComponentType<IOperationConfigProps>;
+  run: (payload: Record<string, unknown>, operation: IDashboardOperation) => Promise<void>;
 }
 
 export interface IDashboardOperation {
@@ -188,6 +214,8 @@ export interface IVizOperationManager {
   createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation>;
 
   runOperation(operationId: string, payload: Record<string, unknown>): Promise<void>;
+
+  retrieveTrigger(operationId: string): Promise<IDashboardOperation | undefined>;
 }
 
 export interface IVizInteraction {

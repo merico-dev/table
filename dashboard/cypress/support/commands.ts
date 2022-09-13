@@ -37,3 +37,10 @@
 // }
 
 import '@testing-library/cypress/add-commands';
+import 'cypress-wait-until';
+
+const test = it;
+
+test.todo = it.skip;
+
+global.test = it;
