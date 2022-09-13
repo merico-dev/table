@@ -3,7 +3,7 @@ import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { IPayloadVariableSchema } from '~/types/plugin';
 
-interface IVariableListProps {
+export interface IVariableListProps {
   variables: IPayloadVariableSchema[];
   title: string;
 }
