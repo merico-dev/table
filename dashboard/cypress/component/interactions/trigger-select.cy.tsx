@@ -1,3 +1,4 @@
+import { ReadyTriggerConfigModel, TriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { VizTriggerManager } from '~/interactions/trigger';
 import { IVizManager, pluginManager, VizManager } from '~/plugins';
@@ -19,9 +20,9 @@ describe('trigger-select.cy.tsx', () => {
     cy.then(async () => {
       const t1 = await triggerManager.createOrGetTrigger('t1', ClickCellContent);
       await t1.triggerData.setItem<IClickCellContentConfig>('config', { column: 0 });
-      cy.mount(
-        <TriggerSelect sampleData={MOCK_DATA} triggerId={t1.id} triggerManager={triggerManager} instance={instance} />,
-      );
+      const triggerConfigModel = new TriggerConfigModel(triggerManager, instance);
+      await triggerConfigModel.configTrigger(t1.id, MOCK_DATA);
+      cy.mount(<TriggerSelect model={triggerConfigModel as ReadyTriggerConfigModel} />);
       cy.findByText(/click cell of foo/gi).click();
       cy.findByText(/setup trigger/gi);
       cy.findByLabelText(/choose a column/gi).click();
