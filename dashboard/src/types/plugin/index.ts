@@ -21,6 +21,10 @@ export interface VizViewProps {
   context: VizViewContext;
 }
 
+export interface IWatchOptions {
+  fireImmediately?: boolean;
+}
+
 export interface PluginStorage {
   getItem<T>(key: string | null): Promise<T>;
 
@@ -28,7 +32,7 @@ export interface PluginStorage {
 
   deleteItem(key: string): Promise<void>;
 
-  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void;
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void, options?: IWatchOptions): () => void;
 }
 
 export interface IColorPaletteItem {
@@ -162,6 +166,15 @@ export interface ITrigger {
   triggerData: PluginStorage;
 }
 
+/**
+ * A readonly snapshot of a trigger
+ */
+export interface ITriggerSnapshot<TConfig> {
+  id: string;
+  schemaRef: string;
+  config: TConfig;
+}
+
 export interface IVizTriggerManager {
   getTriggerSchemaList(): ITriggerSchema[];
 
@@ -172,6 +185,8 @@ export interface IVizTriggerManager {
   createOrGetTrigger(id: string, schema: ITriggerSchema): Promise<ITrigger>;
 
   retrieveTrigger(id: string): Promise<ITrigger | undefined>;
+
+  watchTriggerSnapshotList(callback: (triggerList: ITriggerSnapshot<AnyObject>[]) => void): () => void;
 }
 
 export interface IDashboardOperationSchema {

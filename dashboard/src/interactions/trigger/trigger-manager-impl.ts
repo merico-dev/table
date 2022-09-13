@@ -1,6 +1,19 @@
+import { get, values } from 'lodash';
+import { toJS } from 'mobx';
 import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
-import { ITrigger, ITriggerSchema, IVizTriggerManager, PluginStorage, VizComponent, VizInstance } from '~/types/plugin';
+import { AnyObject } from '~/types';
+import {
+  ITrigger,
+  ITriggerSchema,
+  ITriggerSnapshot,
+  IVizTriggerManager,
+  PluginStorage,
+  VizComponent,
+  VizInstance,
+} from '~/types/plugin';
 import { AttachmentInstanceManager } from '../attachment-instance-manager';
+
+export const TRIGGERS_KEY = '__TRIGGERS';
 
 export class VizTriggerManager implements IVizTriggerManager {
   protected attachments: AttachmentInstanceManager<ITrigger>;
@@ -14,7 +27,25 @@ export class VizTriggerManager implements IVizTriggerManager {
         triggerData: new SubTreeJsonPluginStorage(storage, 'data'),
       };
     };
-    this.attachments = new AttachmentInstanceManager(instance, '__TRIGGERS', constructInstance);
+    this.attachments = new AttachmentInstanceManager(instance, TRIGGERS_KEY, constructInstance);
+  }
+
+  watchTriggerSnapshotList(callback: (triggerList: ITriggerSnapshot<AnyObject>[]) => void): () => void {
+    return this.instance.instanceData.watchItem(
+      TRIGGERS_KEY,
+      (entries) => {
+        const triggerValues = values(entries).map(
+          (value) =>
+            ({
+              id: get(value, 'id'),
+              schemaRef: get(value, 'schemaRef'),
+              config: toJS(get(value, 'data.config')),
+            } as ITriggerSnapshot<AnyObject>),
+        );
+        callback(triggerValues);
+      },
+      { fireImmediately: true },
+    );
   }
 
   async createOrGetTrigger(

@@ -16,13 +16,14 @@ function useConfigTemplate(operation: IDashboardOperation) {
 function ConsoleLogOperationSettings(props: IOperationConfigProps) {
   const [template, setTemplate] = useConfigTemplate(props.operation);
   return (
-    <TextInput value={template} onChange={(event) => setTemplate(event.currentTarget.value)} label="console.log" />
+    <TextInput defaultValue={template} onBlur={(event) => setTemplate(event.currentTarget.value)} label="console.log" />
   );
 }
 
 async function run(payload: Record<string, unknown>, operation: IDashboardOperation) {
   const config = await operation.operationData.getItem<IConsoleLogOperationConfig>('config');
   const compiled = template(config.template || '');
+  console.log('run with payload', payload);
   console.log(compiled(payload));
 }
 

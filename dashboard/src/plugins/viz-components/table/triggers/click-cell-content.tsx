@@ -16,7 +16,7 @@ export const ClickCellContent: ITriggerSchema = {
       valueType: 'number',
     },
     {
-      name: 'column_index',
+      name: 'col_index',
       description: 'Index of the column that the cell belongs to',
       valueType: 'number',
     },

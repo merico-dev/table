@@ -1,6 +1,6 @@
 import { get, isObject, set, unset } from 'lodash';
 import { observable, reaction, runInAction, toJS } from 'mobx';
-import { PluginStorage } from '~/types/plugin';
+import { IWatchOptions, PluginStorage } from '~/types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
   protected rootRef: { current: Record<string, any> };
@@ -44,7 +44,7 @@ export class JsonPluginStorage implements PluginStorage {
     return Promise.resolve(this.getItem(key));
   }
 
-  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void): () => void {
+  watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void, options?: IWatchOptions): () => void {
     return reaction(
       () => this.getValueFromRoot(key),
       (value, previous) => {
@@ -52,6 +52,7 @@ export class JsonPluginStorage implements PluginStorage {
       },
       {
         requiresObservable: true,
+        fireImmediately: get(options, 'fireImmediately', false),
       },
     );
   }
