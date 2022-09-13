@@ -5,15 +5,15 @@ import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-i
 import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
 import { ClickCellContent, IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
 import { AnyObject } from '~/types';
-import { VizViewProps } from '~/types/plugin';
-import { useStorageData } from '../..';
+import { VizInstance, VizViewProps } from '~/types/plugin';
+import { IVizManager, useStorageData } from '../..';
 import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
 import { CellValue } from './value';
 
 type TriggerConfigType = IClickCellContentConfig;
 
-const useHandleContentClick = () => {
-  const interactionManager = useCurrentInteractionManager();
+const useHandleContentClick = (context: { vizManager: IVizManager; instance: VizInstance }) => {
+  const interactionManager = useCurrentInteractionManager(context);
   const triggers = useTriggerSnapshotList<TriggerConfigType>(interactionManager.triggerManager, ClickCellContent.id);
   return (col_index: number, row_index: number, row_data: AnyObject) => {
     const relatedTriggers = triggers.filter((it) => get(it.config, 'column') == col_index);
@@ -32,7 +32,7 @@ const useHandleContentClick = () => {
   };
 };
 
-export function VizTable({ context }: VizViewProps) {
+export function VizTable({ context, instance }: VizViewProps) {
   const data = (context.data ?? []) as AnyObject[];
   const height = context.viewport.height;
   const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
@@ -44,7 +44,10 @@ export function VizTable({ context }: VizViewProps) {
     return columns?.map((c) => c.label) || [];
   }, [use_raw_columns, columns, data]);
 
-  const getContentClickHandler = useHandleContentClick();
+  const getContentClickHandler = useHandleContentClick({
+    vizManager: context.vizManager,
+    instance: instance,
+  });
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {

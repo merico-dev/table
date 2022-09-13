@@ -1,5 +1,6 @@
 import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
+import { IVizManager } from '~/plugins';
 import { AnyObject } from '~/types';
 
 /**
@@ -68,6 +69,7 @@ export interface VizContext {
   locale: string;
   msgChannels: IMessageChannels;
   data: unknown;
+  vizManager: IVizManager;
 }
 
 type Setter<T> = (val: T) => void;

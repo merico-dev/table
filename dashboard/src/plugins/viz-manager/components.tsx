@@ -3,8 +3,9 @@ import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewCon
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
 
-function createCommonContext(instance: VizInstance, data: any): VizContext {
+function createCommonContext(instance: VizInstance, data: any, vizManager: IVizManager): VizContext {
   return {
+    vizManager,
     /**
      * todo: locale not implemented
      */
@@ -39,7 +40,7 @@ export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
   const comp = vizManager.resolveComponent(panel.viz.type);
   const instance = vizManager.getOrCreateInstance(panel);
   const context: VizViewContext = {
-    ...createCommonContext(instance, data),
+    ...createCommonContext(instance, data, vizManager),
     viewport: { width: panel.layout.w, height: panel.layout.h },
   };
   const Comp = comp.viewRender;
@@ -56,7 +57,7 @@ export const VizConfigComponent = <T,>(props: IConfigComponentProps<T>) => {
   const vizComp = vizManager.resolveComponent(panel.viz.type);
   const instance = vizManager.getOrCreateInstance(panel);
   const context: VizConfigContext = {
-    ...createCommonContext(instance, data),
+    ...createCommonContext(instance, data, vizManager),
     panelInfoEditor: panelInfoEditor,
   };
   const Comp = vizComp.configRender;
