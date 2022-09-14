@@ -6,6 +6,8 @@ import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
 import { DashboardModelInstance } from '../model';
 import { observer } from 'mobx-react-lite';
+import { ActionIcon } from '@mantine/core';
+import { Resize } from 'tabler-icons-react';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -50,10 +52,19 @@ export const DashboardLayout = observer(function _DashboardLayout({
       rowHeight={rowHeight}
       isDraggable={isDraggable}
       isResizable={isResizable}
+      draggableHandle=".react-grid-customDragHandle"
     >
       {panels.map(({ id, ...rest }, index) => {
         return (
-          <div key={id} data-grid={rest.layout}>
+          <div key={id} data-grid={rest.layout} style={{ position: 'relative' }}>
+            {isDraggable && (
+              <ActionIcon
+                className="react-grid-customDragHandle"
+                sx={{ userSelect: 'none', cursor: 'grab', position: 'absolute', top: 0, right: 0, zIndex: 300 }}
+              >
+                <Resize size={16} />
+              </ActionIcon>
+            )}
             <Panel
               id={id}
               {...rest}
