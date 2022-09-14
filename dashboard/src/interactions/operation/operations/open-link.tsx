@@ -1,5 +1,5 @@
 import { Stack, Switch, TextInput } from '@mantine/core';
-import { defaults, template } from 'lodash';
+import { cloneDeepWith, defaults, template } from 'lodash';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useStorageData } from '~/plugins';
 import { AnyObject } from '~/types';
@@ -55,17 +55,19 @@ function OpenLinkSettings(props: IOperationConfigProps) {
 }
 
 function urlEncodeFields(payload: AnyObject) {
-  const result: AnyObject = {};
-  for (const key in payload) {
-    result[key] = encodeURIComponent(payload[key]);
-  }
+  const result: AnyObject = cloneDeepWith(payload, (value) => {
+    if (typeof value === 'string') {
+      return encodeURIComponent(value);
+    }
+  });
   return result;
 }
 
 async function run(payload: Record<string, unknown>, operation: IDashboardOperation) {
   const { urlTemplate, openInNewTab } = await operation.operationData.getItem<IOpenLinkOperationConfig>('config');
-  const url = template(urlTemplate || '');
-  window.open(url(urlEncodeFields(payload)), openInNewTab ? '_blank' : '_self');
+  const compiled = template(urlTemplate || '');
+  const url = compiled(urlEncodeFields(payload));
+  window.open(url, openInNewTab ? '_blank' : '_self', 'noopener');
 }
 
 export const OpenLink: IDashboardOperationSchema = {
