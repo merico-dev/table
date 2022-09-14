@@ -28,7 +28,7 @@ export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, da
 
     regressionDataSets.push({
       id: rawDatasetId,
-      source: data.map((d, i) => [i, d[y_axis_data_key]]),
+      source: data.map((d, i) => [i, Number(d[y_axis_data_key])]),
     });
     regressionDataSets.push({
       transform,
