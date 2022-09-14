@@ -3,8 +3,7 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
 import { DataSourceType } from '~/model/queries/types';
-import { listDataSources } from '../../api-caller';
-import { IFilterOptionQuery } from '../../model/filters/filter/common';
+import { listDataSources } from '../api-caller';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) => (
@@ -16,8 +15,8 @@ const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSo
 );
 
 interface ISelectDataSource {
-  value: IFilterOptionQuery;
-  onChange: (v: IFilterOptionQuery) => void;
+  value: { type: DataSourceType; key: string };
+  onChange: (v: { type: DataSourceType; key: string }) => void;
 }
 export const SelectDataSource = observer(function _SelectDataSource({ value, onChange }: ISelectDataSource) {
   const { data: dataSources = [], loading } = useRequest(
@@ -56,7 +55,6 @@ export const SelectDataSource = observer(function _SelectDataSource({ value, onC
           return;
         }
         onChange({
-          ...value,
           key,
           type: dataSourceTypeMap[key],
         });
