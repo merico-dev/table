@@ -37,7 +37,14 @@ export const QueriesModel = types
   .actions((self) => {
     return {
       reset() {
-        self.current = cast(self.original);
+        self.current = cast(
+          self.original.map((o) => ({
+            ...o,
+            state: 'idle',
+            data: [],
+            error: null,
+          })),
+        );
       },
       replace(current: Array<QueryModelInstance>) {
         self.current = cast(current);
