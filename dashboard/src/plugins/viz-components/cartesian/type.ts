@@ -12,6 +12,7 @@ export interface ICartesianChartSeriesItem {
   stack: string;
   color?: string;
   barWidth: string;
+  barGap?: string;
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
   group_by_key: string;
