@@ -1,17 +1,16 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
-import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from 'react-hook-form';
+import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
   control: Control<ICartesianChartConf, any>;
   watch: UseFormWatch<ICartesianChartConf>;
-  getValues: UseFormGetValues<ICartesianChartConf>;
   data: any[];
 }
-export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
+export function SeriesField({ control, watch, data }: ISeriesField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'series',
@@ -40,12 +39,14 @@ export function SeriesField({ control, watch, getValues, data }: ISeriesField) {
       smooth: false,
     });
 
+  const yAxes = watch('y_axes');
+
   const yAxisOptions = React.useMemo(() => {
-    return getValues().y_axes.map(({ name }, index) => ({
+    return yAxes.map(({ name }, index) => ({
       label: name,
       value: index.toString(),
     }));
-  }, [getValues]);
+  }, [yAxes]);
 
   return (
     <Stack>

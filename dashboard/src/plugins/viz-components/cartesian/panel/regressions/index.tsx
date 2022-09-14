@@ -1,16 +1,15 @@
 import { Button, Group, Stack } from '@mantine/core';
 import React from 'react';
-import { Control, useFieldArray, UseFormGetValues, UseFormWatch } from 'react-hook-form';
+import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
 import { RegressionField } from './regression-item';
 
 interface IRegressionsField {
   control: Control<ICartesianChartConf, any>;
   watch: UseFormWatch<ICartesianChartConf>;
-  getValues: UseFormGetValues<ICartesianChartConf>;
   data: any[];
 }
-export function RegressionsField({ control, watch, getValues, data }: IRegressionsField) {
+export function RegressionsField({ control, watch, data }: IRegressionsField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'regressions',
@@ -24,12 +23,13 @@ export function RegressionsField({ control, watch, getValues, data }: IRegressio
     };
   });
 
+  const yAxes = watch('y_axes');
   const yAxisOptions = React.useMemo(() => {
-    return getValues().y_axes.map(({ name }, index) => ({
+    return yAxes.map(({ name }, index) => ({
       label: name,
       value: index.toString(),
     }));
-  }, [getValues]);
+  }, [yAxes]);
 
   const add = () =>
     append({

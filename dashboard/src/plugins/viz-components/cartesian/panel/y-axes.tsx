@@ -12,7 +12,7 @@ interface IYAxisField {
 
 function YAxisField({ control, index, remove }: IYAxisField) {
   return (
-    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`y_axes.${index}.name`}
@@ -67,7 +67,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
   return (
     <Stack>
       {controlledFields.map((field, index) => (
-        <YAxisField control={control} index={index} remove={remove} />
+        <YAxisField key={index} control={control} index={index} remove={remove} />
       ))}
       <Group position="center" mt="xs">
         <Button onClick={addYAxis}>Add a Y Axis</Button>
