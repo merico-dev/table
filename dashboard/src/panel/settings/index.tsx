@@ -2,6 +2,7 @@ import { AppShell, LoadingOverlay, Modal, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { InteractionSettingsPanel } from '~/interactions/components/interaction-settings';
+import { ErrorBoundary } from '~/panel/error-boundary';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { PanelContext } from '../../contexts/panel-context';
 import { PanelConfig } from './panel-config';
@@ -67,7 +68,9 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
             {value === 'Visualization' && <VizConfig />}
           </Tabs.Panel>
           <Tabs.Panel value="Interactions" pt="sm">
-            <InteractionSettingsPanel />
+            <ErrorBoundary>
+              <InteractionSettingsPanel />
+            </ErrorBoundary>
           </Tabs.Panel>
         </Tabs>
       </AppShell>
