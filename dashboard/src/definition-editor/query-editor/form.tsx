@@ -1,11 +1,9 @@
-import { ActionIcon, Box, Group, Select, Stack, Tabs, Text, Textarea, TextInput } from '@mantine/core';
-import { useRequest } from 'ahooks';
-import _ from 'lodash';
+import { ActionIcon, Box, Group, Stack, Tabs, Text, Textarea, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { listDataSources } from '../../api-caller';
 import { QueryModelInstance } from '../../model/queries';
+import { SelectDataSource } from '../select-data-source';
 import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
@@ -21,33 +19,6 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
       initialID.current = queryModel.id;
     }
   }, [initialID, queryModel.id]);
-
-  const { data: querySources = [], loading } = useRequest(
-    listDataSources,
-    {
-      refreshDeps: [],
-    },
-    [],
-  );
-
-  const querySourceTypeOptions = React.useMemo(() => {
-    const types = Array.from(new Set(querySources.map(({ type }) => type)));
-    return types.map((type) => ({
-      label: type,
-      value: type,
-    }));
-  }, [querySources]);
-
-  const querySourceKeyOptions = React.useMemo(() => {
-    const sources = querySources.filter(({ type }) => type === queryModel.type);
-    if (!sources) {
-      return [];
-    }
-    return sources.map(({ key }) => ({
-      label: key,
-      value: key,
-    }));
-  }, [querySources, queryModel.type]);
 
   const [sql, setSQL] = React.useState(queryModel.sql);
 
@@ -83,7 +54,6 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
             label="ID"
             required
             sx={{ flex: 1 }}
-            disabled={loading}
             value={id}
             onChange={(e) => {
               setID(e.currentTarget.value);
@@ -100,21 +70,15 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
               </ActionIcon>
             }
           />
-          <Select
-            label="Data Source Type"
-            data={querySourceTypeOptions}
-            sx={{ flex: 1 }}
-            disabled={loading}
-            value={queryModel.type}
-            onChange={queryModel.setType}
-          />
-          <Select
-            label="Data Source Key"
-            data={querySourceKeyOptions}
-            sx={{ flex: 1 }}
-            disabled={loading}
-            value={queryModel.key}
-            onChange={queryModel.setKey}
+          <SelectDataSource
+            value={{
+              type: queryModel.type,
+              key: queryModel.key,
+            }}
+            onChange={({ type, key }) => {
+              queryModel.setKey(key);
+              queryModel.setType(type);
+            }}
           />
         </Group>
         <Tabs defaultValue="SQL">
