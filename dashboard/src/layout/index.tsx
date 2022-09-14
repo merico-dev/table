@@ -43,11 +43,14 @@ export const DashboardLayout = observer(function _DashboardLayout({
     [panels, setPanels],
   );
 
+  const layout = panels.map(({ id, layout }) => ({ ...layout, i: id }));
+
   return (
     <ReactGridLayout
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
+      layout={layout}
       isDraggable={isDraggable}
       isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
@@ -71,7 +74,7 @@ export const DashboardLayout = observer(function _DashboardLayout({
     >
       {panels.map(({ id, ...rest }, index) => {
         return (
-          <div key={id} data-grid={rest.layout} style={{ position: 'relative' }}>
+          <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
             {isDraggable && (
               <ActionIcon
                 className="react-grid-customDragHandle"
