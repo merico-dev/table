@@ -132,13 +132,13 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
           <Accordion.Item value="Series">
             <Accordion.Control>Series</Accordion.Control>
             <Accordion.Panel>
-              <SeriesField control={control} watch={watch} getValues={getValues} data={data} />
+              <SeriesField control={control} watch={watch} data={data} />
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Regression Lines">
             <Accordion.Control>Regression Lines</Accordion.Control>
             <Accordion.Panel>
-              <RegressionsField control={control} watch={watch} getValues={getValues} data={data} />
+              <RegressionsField control={control} watch={watch} data={data} />
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Stats">
