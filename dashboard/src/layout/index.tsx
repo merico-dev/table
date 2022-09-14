@@ -56,7 +56,7 @@ export const DashboardLayout = observer(function _DashboardLayout({
           className="react-grid-customResizeHandle"
           sx={{
             userSelect: 'none',
-            cursor: 'grab',
+            cursor: 'nwse-resize',
             position: 'absolute',
             bottom: -5,
             right: -5,
