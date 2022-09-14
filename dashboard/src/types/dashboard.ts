@@ -26,7 +26,6 @@ export interface IDashboardPanel {
 
 export enum DashboardMode {
   Use = 'use',
-  Layout = 'layout',
   Edit = 'edit',
 }
 

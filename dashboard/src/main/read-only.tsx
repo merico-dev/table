@@ -50,7 +50,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               freezeLayout: () => {},
               mode: DashboardMode.Use,
               inEditMode: false,
-              inLayoutMode: false,
               inUseMode: true,
             }}
           >
