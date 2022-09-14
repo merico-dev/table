@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType } from '../model/queries/types';
@@ -8,7 +7,7 @@ import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 
 interface IQueryByStaticSQL {
-  type: 'postgresql';
+  type: DataSourceType;
   key: string;
   sql: string;
 }
