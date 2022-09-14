@@ -21,7 +21,25 @@ echarts.registerTransform(transform.regression);
 export function VizRegressionChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
   const { width, height } = context.viewport;
-  const data = context.data as any[];
+
+  // convert strings as numbers
+  const data = useMemo(() => {
+    const rawData = context.data as any[];
+    const key = conf?.regression?.y_axis_data_key;
+    if (!key) {
+      return rawData;
+    }
+    return rawData.map((row) => {
+      if (typeof row[key] === 'number') {
+        return row;
+      }
+      return {
+        ...row,
+        [key]: Number(row[key]),
+      };
+    });
+  }, [context.data, conf?.regression.y_axis_data_key]);
+
   const option = useMemo(() => {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
