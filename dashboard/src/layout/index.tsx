@@ -58,8 +58,8 @@ export const DashboardLayout = observer(function _DashboardLayout({
             userSelect: 'none',
             cursor: 'grab',
             position: 'absolute',
-            bottom: 0,
-            right: 0,
+            bottom: -5,
+            right: -5,
             zIndex: 300,
             '&:hover': { color: '#228be6' },
           }}

@@ -24,7 +24,7 @@ export function ModeToggler({ mode, setMode }: IModeToggler) {
       onChange={setMode}
       data={[
         { label: renderLabel(<PlayerPlay size={20} />, 'Use'), value: DashboardMode.Use },
-        { label: renderLabel(<Paint size={20} />, 'Edit Content'), value: DashboardMode.Edit },
+        { label: renderLabel(<Paint size={20} />, 'Edit'), value: DashboardMode.Edit },
       ]}
     />
   );
