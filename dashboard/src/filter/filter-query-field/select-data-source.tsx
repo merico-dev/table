@@ -1,16 +1,26 @@
-import { Group, Select, Stack, Tabs, Textarea } from '@mantine/core';
+import { Group, Select, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { forwardRef, useMemo } from 'react';
+import { DataSourceType } from '~/model/queries/types';
 import { listDataSources } from '../../api-caller';
 import { IFilterOptionQuery } from '../../model/filters/filter/common';
+
+const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
+  ({ label, type, ...others }, ref) => (
+    <Group position="apart" ref={ref} {...others}>
+      <Text>{label}</Text>
+      <Text>{type}</Text>
+    </Group>
+  ),
+);
 
 interface ISelectDataSource {
   value: IFilterOptionQuery;
   onChange: (v: IFilterOptionQuery) => void;
 }
 export const SelectDataSource = observer(function _SelectDataSource({ value, onChange }: ISelectDataSource) {
-  const { data: querySources = [], loading } = useRequest(
+  const { data: dataSources = [], loading } = useRequest(
     listDataSources,
     {
       refreshDeps: [],
@@ -18,47 +28,39 @@ export const SelectDataSource = observer(function _SelectDataSource({ value, onC
     [],
   );
 
-  const querySourceTypeOptions = React.useMemo(() => {
-    const types = Array.from(new Set(querySources.map(({ type }) => type)));
-    return types.map((type) => ({
-      label: type,
-      value: type,
+  const dataSourceOptions = useMemo(() => {
+    return dataSources.map((ds) => ({
+      label: ds.key,
+      value: ds.key,
+      type: ds.type,
     }));
-  }, [querySources]);
+  }, [dataSources]);
 
-  const querySourceKeyOptions = React.useMemo(() => {
-    const sources = querySources.filter(({ type }) => type === value.type);
-    if (!sources) {
-      return [];
-    }
-    return sources.map(({ key }) => ({
-      label: key,
-      value: key,
-    }));
-  }, [querySources, value.type]);
+  const dataSourceTypeMap = useMemo(() => {
+    return dataSourceOptions.reduce((ret, curr) => {
+      ret[curr.value] = curr.type;
+      return ret;
+    }, {} as Record<string, DataSourceType>);
+  }, [dataSourceOptions]);
 
   return (
-    <Group grow>
-      <Select
-        label="Data Source Type"
-        data={querySourceTypeOptions}
-        sx={{ flex: 1 }}
-        disabled={loading}
-        value={value.type}
-        onChange={(type: any) => {
-          onChange({ ...value, type });
-        }}
-      />
-      <Select
-        label="Data Source Key"
-        data={querySourceKeyOptions}
-        sx={{ flex: 1 }}
-        disabled={loading}
-        value={value.key}
-        onChange={(key: string) => {
-          onChange({ ...value, key });
-        }}
-      />
-    </Group>
+    <Select
+      label="Data Source"
+      data={dataSourceOptions}
+      itemComponent={DataSourceLabel}
+      sx={{ flex: 1 }}
+      disabled={loading}
+      value={value.key}
+      onChange={(key) => {
+        if (key === null) {
+          return;
+        }
+        onChange({
+          ...value,
+          key,
+          type: dataSourceTypeMap[key],
+        });
+      }}
+    />
   );
 });
