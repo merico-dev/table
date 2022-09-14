@@ -38,7 +38,7 @@ export const DashboardActions = observer(function _DashboardActions({
 }: IDashboardActions) {
   const model = useModelContext();
   const { addPanel } = React.useContext(DashboardActionContext);
-  const { inLayoutMode, inEditMode, inUseMode } = React.useContext(LayoutStateContext);
+  const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
   const openQueries = () => setDataEditorOpened(true);

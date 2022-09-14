@@ -137,7 +137,6 @@ export const Dashboard = observer(function _Dashboard({
   };
 
   const inEditMode = mode === DashboardMode.Edit;
-  const inLayoutMode = mode === DashboardMode.Layout;
   const inUseMode = mode === DashboardMode.Use;
 
   const getCurrentSchema = React.useCallback(() => {
@@ -177,7 +176,6 @@ export const Dashboard = observer(function _Dashboard({
               freezeLayout,
               mode,
               inEditMode,
-              inLayoutMode,
               inUseMode,
             }}
           >
@@ -204,8 +202,8 @@ export const Dashboard = observer(function _Dashboard({
                 <DashboardLayout
                   panels={panels}
                   setPanels={setPanels}
-                  isDraggable={inLayoutMode}
-                  isResizable={inLayoutMode}
+                  isDraggable={inEditMode}
+                  isResizable={inEditMode}
                 />
               </PluginContext.Provider>
             </Box>

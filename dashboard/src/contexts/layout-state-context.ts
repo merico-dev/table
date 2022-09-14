@@ -6,16 +6,15 @@ export interface ILayoutStateContext {
   freezeLayout: React.Dispatch<React.SetStateAction<boolean>>;
   mode: DashboardMode;
   inEditMode: boolean;
-  inLayoutMode: boolean;
   inUseMode: boolean;
 }
 
 const initialContext = {
   layoutFrozen: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   freezeLayout: () => {},
   mode: DashboardMode.Edit,
   inEditMode: false,
-  inLayoutMode: false,
   inUseMode: true,
 };
 
