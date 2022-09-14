@@ -1,13 +1,11 @@
+import { ActionIcon } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import RGL, { WidthProvider, Layout } from 'react-grid-layout';
-import _ from 'lodash';
+import RGL, { Layout, WidthProvider } from 'react-grid-layout';
+import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
-import { DashboardModelInstance } from '../model';
-import { observer } from 'mobx-react-lite';
-import { ActionIcon } from '@mantine/core';
-import { Resize } from 'tabler-icons-react';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -53,6 +51,23 @@ export const DashboardLayout = observer(function _DashboardLayout({
       isDraggable={isDraggable}
       isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
+      resizeHandle={
+        <ActionIcon
+          className="react-grid-customResizeHandle"
+          sx={{
+            userSelect: 'none',
+            cursor: 'grab',
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            zIndex: 300,
+            '&:hover': { color: '#228be6' },
+          }}
+          variant="transparent"
+        >
+          <ChevronDownRight size={16} />
+        </ActionIcon>
+      }
     >
       {panels.map(({ id, ...rest }, index) => {
         return (
@@ -60,9 +75,18 @@ export const DashboardLayout = observer(function _DashboardLayout({
             {isDraggable && (
               <ActionIcon
                 className="react-grid-customDragHandle"
-                sx={{ userSelect: 'none', cursor: 'grab', position: 'absolute', top: 0, right: 0, zIndex: 300 }}
+                sx={{
+                  userSelect: 'none',
+                  cursor: 'grab',
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  zIndex: 300,
+                  '&:hover': { color: '#228be6' },
+                }}
+                variant="transparent"
               >
-                <Resize size={16} />
+                <ArrowsMove size={16} />
               </ActionIcon>
             )}
             <Panel
