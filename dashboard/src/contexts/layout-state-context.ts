@@ -11,6 +11,7 @@ export interface ILayoutStateContext {
 
 const initialContext = {
   layoutFrozen: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   freezeLayout: () => {},
   mode: DashboardMode.Edit,
   inEditMode: false,
