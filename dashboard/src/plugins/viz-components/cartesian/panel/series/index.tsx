@@ -54,6 +54,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
     <Stack>
       {controlledFields.map((seriesItem, index) => (
         <SeriesItemField
+          key={seriesItem.id}
           control={control}
           index={index}
           remove={remove}
