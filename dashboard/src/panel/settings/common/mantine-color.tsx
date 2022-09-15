@@ -7,7 +7,7 @@ interface IMantineColorSelector {
   onChange: (value: string) => void;
 }
 
-function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: any) {
+function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: $TSFixMe) {
   const { colorManager } = useContext(PluginContext);
 
   const themeColors = React.useMemo(() => {
@@ -27,7 +27,7 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
   return (
     <Group position="apart" spacing={4}>
       <TextInput
-        placeholder="Set any color"
+        placeholder="Set $TSFixMe color"
         value={!isThemeColor ? value : ''}
         onChange={(e) => onChange(e.currentTarget.value)}
         rightSection={<ColorSwatch color={!isThemeColor ? value! : 'transparent'} radius={4} />}

@@ -28,7 +28,7 @@ const DashboardModel = types
       return data.reduce((ret, curr) => {
         ret[curr.id] = curr.data;
         return ret;
-      }, {} as Record<string, any[]>);
+      }, {} as Record<string, $TSFixMe[]>);
     },
     getDataStuffByID(queryID: string) {
       const q = self.queries.findByID(queryID);

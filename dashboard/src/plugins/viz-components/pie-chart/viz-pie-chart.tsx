@@ -46,7 +46,7 @@ const defaultOption = {
 
 export function VizPieChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
   const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
   const chartData = useMemo(() => {
@@ -59,7 +59,7 @@ export function VizPieChart({ context }: VizViewProps) {
   const labelOptions = useMemo(() => {
     return {
       series: {
-        labelLayout: function (params: any) {
+        labelLayout: function (params: $TSFixMe) {
           const isLeft = params.labelRect.x < width / 2;
           const points = params.labelLinePoints;
           set(points, [2, 0], isLeft ? params.labelRect.x : params.labelRect.x + params.labelRect.width);

@@ -6,6 +6,9 @@ interface ITemplateInput extends Omit<TextInputProps, 'value' | 'onChange'> {
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-export const TemplateInput = forwardRef(function TemplateInput({ value, onChange, ...rest }: ITemplateInput, ref: any) {
+export const TemplateInput = forwardRef(function TemplateInput(
+  { value, onChange, ...rest }: ITemplateInput,
+  ref: $TSFixMe,
+) {
   return <TextInput ref={ref} value={value} onChange={onChange} {...rest} />;
 });

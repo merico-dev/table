@@ -1,6 +1,6 @@
 import { ICartesianChartConf, IYAxisConf } from '../type';
 
-export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<string, (p: any) => string>) {
+export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
   return conf.y_axes.map(({ ...rest }: IYAxisConf, index: number) => ({
     ...rest,
     axisLabel: {

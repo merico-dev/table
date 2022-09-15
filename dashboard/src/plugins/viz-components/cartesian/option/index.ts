@@ -37,10 +37,10 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: ICartesianChartConf, data: any[]) {
+export function getOption(conf: ICartesianChartConf, data: $TSFixMe[]) {
   const labelFormatters = conf.y_axes.reduce(
-    (ret: Record<string, (params: any) => string>, { label_formatter }: IYAxisConf, index: number) => {
-      ret[index] = function formatter(payload: any) {
+    (ret: Record<string, (params: $TSFixMe) => string>, { label_formatter }: IYAxisConf, index: number) => {
+      ret[index] = function formatter(payload: $TSFixMe) {
         let value = payload;
         if (typeof payload === 'object') {
           if (Array.isArray(payload.value) && payload.value.length === 2) {
@@ -63,7 +63,7 @@ export function getOption(conf: ICartesianChartConf, data: any[]) {
       return ret;
     },
     {
-      default: ({ value }: any) => value,
+      default: ({ value }: $TSFixMe) => value,
     },
   );
 

@@ -3,14 +3,14 @@ import axios, { Method } from 'axios';
 export const APIClient = {
   baseURL: 'http://localhost:31200',
   getRequest(method: Method) {
-    return (url: string, data: any, options: any = {}) => {
+    return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
       const headers = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
         ...options.headers,
       };
 
-      const conf: any = {
+      const conf: $TSFixMe = {
         baseURL: this.baseURL,
         method,
         url,
@@ -23,10 +23,10 @@ export const APIClient = {
       }
 
       return axios(conf)
-        .then((res: any) => {
+        .then((res: $TSFixMe) => {
           return res.data;
         })
-        .catch((err: any) => {
+        .catch((err: $TSFixMe) => {
           return Promise.reject(err);
         });
     };

@@ -31,7 +31,7 @@ interface IMantineFontWeightSlider {
   onChange: (value: string) => void;
 }
 
-function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider, ref: any) {
+function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeightSlider, ref: $TSFixMe) {
   const [mark, setMark] = React.useState(marks.find((m) => m.label === value)?.value ?? marks[0].value);
 
   React.useEffect(() => {

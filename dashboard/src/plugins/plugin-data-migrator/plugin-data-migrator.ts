@@ -2,18 +2,18 @@ import { last, orderBy } from 'lodash';
 
 interface IMigration {
   version: number;
-  handler: (data: any) => any;
+  handler: (data: $TSFixMe) => $TSFixMe;
 }
 
 export class PluginDataMigrator {
   protected migrations: IMigration[] = [];
 
-  version(version: number, handler: (data: any) => any): PluginDataMigrator {
+  version(version: number, handler: (data: $TSFixMe) => $TSFixMe): PluginDataMigrator {
     this.migrations.push({ version, handler });
     return this;
   }
 
-  run(migrationTarget: { from: number; to: number }, val: any) {
+  run(migrationTarget: { from: number; to: number }, val: $TSFixMe) {
     if (migrationTarget.from === migrationTarget.to) {
       return val;
     }

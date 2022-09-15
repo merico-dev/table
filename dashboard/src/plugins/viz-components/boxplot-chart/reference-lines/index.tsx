@@ -5,7 +5,7 @@ import { IBoxplotChartConf } from '../type';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
-  control: Control<IBoxplotChartConf, any>;
+  control: Control<IBoxplotChartConf, $TSFixMe>;
   watch: UseFormWatch<IBoxplotChartConf>;
 }
 

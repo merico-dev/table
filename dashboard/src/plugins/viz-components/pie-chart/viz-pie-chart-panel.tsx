@@ -11,7 +11,7 @@ import { DEFAULT_CONFIG, IPieChartConf } from './type';
 export function VizPieChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
   const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
 
   const form = useForm({
     initialValues: {

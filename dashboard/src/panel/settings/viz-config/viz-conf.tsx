@@ -9,7 +9,7 @@ import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 
-const types = [] as any[];
+const types = [] as $TSFixMe[];
 
 function useVizSelectData() {
   const { vizManager } = useContext(PluginContext);
@@ -100,7 +100,7 @@ export function EditVizConf() {
 
   const pluginPanel = usePluginVizConfig();
   const builtInPanel = Panel
-    ? createElement(Panel as any, {
+    ? createElement(Panel as $TSFixMe, {
         data,
         conf: viz.conf,
         setConf: setVizConf,

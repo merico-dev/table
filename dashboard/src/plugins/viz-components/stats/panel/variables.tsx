@@ -6,9 +6,9 @@ import { VariableField } from './variable';
 import { getANewVariable } from '~/utils/template';
 
 interface IVariablesField {
-  control: Control<IVizStatsConf, any>;
+  control: Control<IVizStatsConf, $TSFixMe>;
   watch: UseFormWatch<IVizStatsConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 export function VariablesField({ control, watch, data }: IVariablesField) {
   const { fields, append, remove } = useFieldArray({

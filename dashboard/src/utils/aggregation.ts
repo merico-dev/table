@@ -4,7 +4,7 @@ import { quantile } from 'd3-array';
 export type AggregationType =
   | {
       type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min';
-      config: Record<any, never>;
+      config: Record<$TSFixMe, never>;
     }
   | {
       type: 'quantile';

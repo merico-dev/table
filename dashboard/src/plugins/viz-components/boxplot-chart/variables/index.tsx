@@ -9,9 +9,9 @@ import { IBoxplotChartConf } from '../type';
 import { VariableField } from './variable';
 
 interface IVariablesField {
-  control: Control<IBoxplotChartConf, any>;
+  control: Control<IBoxplotChartConf, $TSFixMe>;
   watch: UseFormWatch<IBoxplotChartConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function VariablesField({ control, watch, data }: IVariablesField) {

@@ -5,7 +5,7 @@ import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/comm
 import { ICartesianChartConf } from '../type';
 
 interface IYAxisField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
 }
@@ -41,7 +41,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
 }
 
 interface IYAxesField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
 }
 export function YAxesField({ control, watch }: IYAxesField) {

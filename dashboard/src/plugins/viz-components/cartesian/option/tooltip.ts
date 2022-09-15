@@ -1,7 +1,7 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../type';
 
-export function getTooltip(conf: ICartesianChartConf, labelFormatters: Record<string, (p: any) => string>) {
+export function getTooltip(conf: ICartesianChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
   const yAxisIndexMap = conf.series.reduce(
     (ret: Record<string, number>, { yAxisIndex, name }: ICartesianChartSeriesItem) => {
       ret[name] = yAxisIndex;

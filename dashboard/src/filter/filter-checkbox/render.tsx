@@ -4,8 +4,8 @@ import { IFilterConfig_Checkbox } from '../../model/filters/filter/checkbox';
 
 interface IFilterCheckbox extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Checkbox;
-  value: any;
-  onChange: (v: any) => void;
+  value: $TSFixMe;
+  onChange: (v: $TSFixMe) => void;
 }
 
 export function FilterCheckbox({ label, config: { default_value, ...rest }, value, onChange }: IFilterCheckbox) {

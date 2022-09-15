@@ -6,14 +6,14 @@ interface IDataFieldSelector {
   required?: boolean;
   value: string;
   onChange: (v: string) => void;
-  data: any[];
+  data: $TSFixMe[];
   clearable?: boolean;
   sx?: Sx;
 }
 
 function _DataFieldSelector(
   { label, required, value, onChange, data, clearable = false, sx, ...restProps }: IDataFieldSelector,
-  ref: any,
+  ref: $TSFixMe,
 ) {
   const options = React.useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) {

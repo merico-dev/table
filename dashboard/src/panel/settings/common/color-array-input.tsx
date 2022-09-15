@@ -9,7 +9,7 @@ interface IColorArrayInput {
   onChange: (value: string[]) => void;
 }
 
-function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: any) {
+function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TSFixMe) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : []);
 
   const add = React.useCallback(() => {

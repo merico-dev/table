@@ -11,13 +11,13 @@ interface IRegressionSeriesItem extends IRegressionLineConf {
   xAxisId: string;
   name: string;
   showSymbol: boolean;
-  tooltip: Record<string, any>;
+  tooltip: Record<string, $TSFixMe>;
 }
 
-export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: any[]) {
+export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: $TSFixMe[]) {
   const regressionDataSets: IRegressionDataSetItem[] = [];
   const regressionSeries: IRegressionSeriesItem[] = [];
-  const regressionXAxes: Record<string, any>[] = [];
+  const regressionXAxes: Record<string, $TSFixMe>[] = [];
   if (data.length === 0) {
     return { regressionDataSets, regressionSeries, regressionXAxes };
   }

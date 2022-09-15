@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { ValueType } from './type';
 
 interface IXXCell {
-  value: any;
+  value: $TSFixMe;
   onContentClick?: () => void;
 }
 
@@ -44,7 +44,7 @@ function PercentageCell({ value, onContentClick }: IXXCell) {
 }
 
 interface ICellValue {
-  value: any;
+  value: $TSFixMe;
   type: ValueType;
   onContentClick?: () => void;
 }

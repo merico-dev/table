@@ -15,16 +15,16 @@ export const ContextModel = types
   }))
   .actions((self) => {
     return {
-      replace(record: Record<string, any>) {
+      replace(record: Record<string, $TSFixMe>) {
         self.current = record;
       },
       get(key: string) {
         return self.current[key];
       },
-      set(key: string, value: any) {
+      set(key: string, value: $TSFixMe) {
         self.current[key] = value;
       },
     };
   });
 
-export type ContextInfoType = Record<string, any>;
+export type ContextInfoType = Record<string, $TSFixMe>;

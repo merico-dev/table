@@ -19,7 +19,7 @@ export abstract class VersionBasedMigrator extends PluginDataMigrator implements
     this.configVersions();
   }
 
-  override version(version: number, handler: (data: any) => any): PluginDataMigrator {
+  override version(version: number, handler: (data: $TSFixMe) => $TSFixMe): PluginDataMigrator {
     return super.version(version, (data) => ({ version, ...handler(data) }));
   }
 

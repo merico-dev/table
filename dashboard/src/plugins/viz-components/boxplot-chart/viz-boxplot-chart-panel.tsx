@@ -14,7 +14,7 @@ import { VariablesField } from './variables';
 
 export function VizBoxplotChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IBoxplotChartConf>({ defaultValues });

@@ -9,9 +9,9 @@ import { ICartesianChartConf } from '../../type';
 import { VariableField } from './variable';
 
 interface IVariablesField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function StatsField({ control, watch, data }: IVariablesField) {

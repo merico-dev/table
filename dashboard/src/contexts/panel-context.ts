@@ -4,7 +4,7 @@ import { IVizConfig } from '../types/dashboard';
 
 export interface IPanelContext {
   id: string;
-  data: any[];
+  data: $TSFixMe[];
   loading: boolean;
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;

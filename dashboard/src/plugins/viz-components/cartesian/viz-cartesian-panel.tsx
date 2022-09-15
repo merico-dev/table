@@ -66,7 +66,7 @@ function normalizeStats(stats?: ICartesianChartConf['stats']) {
 
 export function VizCartesianPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const conf: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ICartesianChartConf = useMemo(() => {
     const { series, stats, ...rest } = conf;

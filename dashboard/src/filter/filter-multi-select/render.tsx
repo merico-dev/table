@@ -7,8 +7,8 @@ import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-sele
 
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;
-  value: any;
-  onChange: (v: any) => void;
+  value: $TSFixMe;
+  onChange: (v: $TSFixMe) => void;
 }
 
 export function FilterMultiSelect({ label, config, value, onChange }: IFilterMultiSelect) {

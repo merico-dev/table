@@ -15,7 +15,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IRegressionChartConf, data: any[]) {
+export function getOption(conf: IRegressionChartConf, data: $TSFixMe[]) {
   const processedData = _.uniqBy(
     data.map((d) => [d[conf.x_axis.data_key], d[conf.regression.y_axis_data_key]]),
     0,

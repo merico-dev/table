@@ -5,8 +5,8 @@ import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
 
 interface IFilterDateRange extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_DateRange;
-  value: any;
-  onChange: (v: any) => void;
+  value: $TSFixMe;
+  onChange: (v: $TSFixMe) => void;
 }
 
 export function FilterDateRange({ label, config, value, onChange }: IFilterDateRange) {

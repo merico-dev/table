@@ -11,15 +11,15 @@ import { TemplateVariableStyleField } from './variable-style';
 interface ITemplateVariableField {
   value: ITemplateVariable;
   onChange: (v: ITemplateVariable) => void;
-  data: any[];
+  data: $TSFixMe[];
   withStyle?: boolean;
 }
 
 export const TemplateVariableField = React.forwardRef(function _TemplateVariableField(
   { value, onChange, data, withStyle = true }: ITemplateVariableField,
-  _ref: any,
+  _ref: $TSFixMe,
 ) {
-  const handleChange = (path: Path<ITemplateVariable>, newValue: any) => {
+  const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {
     const v = _.cloneDeep(value);
     _.set(v, path, newValue);
     onChange(v);

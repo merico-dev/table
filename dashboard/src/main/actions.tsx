@@ -26,7 +26,7 @@ interface IDashboardActions {
   hasChanges: boolean;
   saveChanges: () => void;
   revertChanges: () => void;
-  getCurrentSchema: () => any;
+  getCurrentSchema: () => $TSFixMe;
 }
 export const DashboardActions = observer(function _DashboardActions({
   mode,

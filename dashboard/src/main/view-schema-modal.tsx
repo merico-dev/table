@@ -7,7 +7,7 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 interface IViewSchemaModal {
   opened: boolean;
   close: () => void;
-  getCurrentSchema: () => any;
+  getCurrentSchema: () => $TSFixMe;
 }
 
 export function ViewSchemaModal({ opened, close, getCurrentSchema }: IViewSchemaModal) {

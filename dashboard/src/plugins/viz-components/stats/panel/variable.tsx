@@ -6,10 +6,10 @@ import { TemplateVariableField } from '~/utils/template';
 import { IVizStatsConf } from '../type';
 
 interface VariableField {
-  control: Control<IVizStatsConf, any>;
+  control: Control<IVizStatsConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function VariableField({ control, index, remove, data }: VariableField) {

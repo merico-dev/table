@@ -5,7 +5,7 @@ import React from 'react';
 import { queryByStaticSQL } from '../../api-caller';
 import { IFilterOptionQuery } from '../../model/filters/filter/common';
 
-function DataTable({ data }: { data: any[] }) {
+function DataTable({ data }: { data: $TSFixMe[] }) {
   if (data.length === 0) {
     return <Box sx={{ height: '5em' }} />;
   }
@@ -23,9 +23,9 @@ function DataTable({ data }: { data: any[] }) {
         </tr>
       </thead>
       <tbody>
-        {data.slice(0, 3).map((row: Record<string, any>, index: number) => (
+        {data.slice(0, 3).map((row: Record<string, $TSFixMe>, index: number) => (
           <tr key={`row-${index}`}>
-            {Object.values(row).map((v: any, i) => (
+            {Object.values(row).map((v: $TSFixMe, i) => (
               <td key={`${v}--${i}`}>
                 <Group sx={{ '&, .mantine-Text-root': { fontFamily: 'monospace' } }}>
                   <Text>{v}</Text>

@@ -3,9 +3,9 @@ import { observable, reaction, runInAction, toJS } from 'mobx';
 import { IWatchOptions, PluginStorage } from '~/types/plugin';
 
 export class JsonPluginStorage implements PluginStorage {
-  protected rootRef: { current: Record<string, any> };
+  protected rootRef: { current: Record<string, $TSFixMe> };
 
-  constructor(initValue: Record<string, any>) {
+  constructor(initValue: Record<string, $TSFixMe>) {
     this.rootRef = observable({ current: initValue });
   }
 

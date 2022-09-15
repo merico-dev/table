@@ -61,7 +61,7 @@ export const Dashboard = observer(function _Dashboard({
       return true;
     }
     // local panels' layouts would contain some undefined runtime values
-    const cleanJSON = (v: any) => JSON.parse(JSON.stringify(v));
+    const cleanJSON = (v: $TSFixMe) => JSON.parse(JSON.stringify(v));
 
     const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
     return !panelsEqual;

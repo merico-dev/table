@@ -16,7 +16,7 @@ echarts.use([RadarChart, GridComponent, LegendComponent, TooltipComponent, Canva
 export function VizRadarChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const { width, height } = context.viewport;
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const option = useMemo(() => {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
