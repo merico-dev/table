@@ -8,9 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { useModelContext } from '../../contexts';
 import React from 'react';
 
-interface ISQLSnippetsEditor {}
-
-export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor({}: ISQLSnippetsEditor) {
+export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
   const model = useModelContext();
 
   const addSnippet = () =>

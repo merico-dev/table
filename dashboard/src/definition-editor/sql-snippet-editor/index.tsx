@@ -2,9 +2,7 @@ import { AppShell, Group } from '@mantine/core';
 import { GlobalVariablesGuide } from '../global-variables-guide';
 import { SQLSnippetsEditor } from './editor';
 
-interface IEditSQLSnippets {}
-
-export function EditSQLSnippets({}: IEditSQLSnippets) {
+export function EditSQLSnippets() {
   return (
     <AppShell
       sx={{
