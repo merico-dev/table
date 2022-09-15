@@ -1,12 +1,10 @@
 import { ActionIcon, Button, Group, Stack, Text, Textarea, TextInput } from '@mantine/core';
-import { cast } from 'mobx-state-tree';
 import { randomId } from '@mantine/hooks';
-import _ from 'lodash';
-import { Trash } from 'tabler-icons-react';
-import { PreviewSnippet } from './preview-snippet';
 import { observer } from 'mobx-react-lite';
+import { cast } from 'mobx-state-tree';
+import { Trash } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
-import React from 'react';
+import { PreviewSnippet } from './preview-snippet';
 
 export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
   const model = useModelContext();

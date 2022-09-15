@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { types, cast } from 'mobx-state-tree';
+import { cast, types } from 'mobx-state-tree';
 import { FilterModel, FilterModelInstance } from './filter';
 
 export const FiltersModel = types

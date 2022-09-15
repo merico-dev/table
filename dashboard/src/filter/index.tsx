@@ -1,7 +1,5 @@
 import { Button, Group } from '@mantine/core';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useModelContext } from '../contexts/model-context';
 import { Filter } from './filter';

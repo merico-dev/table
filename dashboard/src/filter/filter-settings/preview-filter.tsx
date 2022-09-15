@@ -1,9 +1,9 @@
-import React from 'react';
-import { Filter } from '../filter';
-import { Box, Stack, Text } from '@mantine/core';
-import { FilterModelInstance } from '../../model';
-import { observer } from 'mobx-react-lite';
+import { Box, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { FilterModelInstance } from '../../model';
+import { Filter } from '../filter';
 
 interface IPreviewFilter {
   filter: FilterModelInstance;
