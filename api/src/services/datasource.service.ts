@@ -38,8 +38,10 @@ export class DataSourceService {
     };
   }
 
-  async create(type: 'mysql' | 'postgresql', key: string, config: DataSourceConfig): Promise<DataSource> {
-    await this.testDatabaseConfiguration(type, config);
+  async create(type: 'mysql' | 'postgresql' | 'http', key: string, config: DataSourceConfig): Promise<DataSource> {
+    if (type !== 'http') {
+      await this.testDatabaseConfiguration(type, config);
+    }
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = new DataSource();

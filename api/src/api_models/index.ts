@@ -11,7 +11,7 @@ import {
   AccountCreateRequest, AccountUpdateRequest, AccountEditRequest, AccountChangePasswordRequest, AccountIDRequest,
 } from './account';
 import { Role } from './role';
-import { QueryRequest } from './query';
+import { QueryRequest, HttpParams } from './query';
 import { ApiError } from './base';
 
 export default {
@@ -51,4 +51,5 @@ export default {
   Role,
 
   QueryRequest,
+  HttpParams,
 }

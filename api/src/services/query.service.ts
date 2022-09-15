@@ -3,6 +3,8 @@ import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
 import { configureDatabaseSource } from '../utils/helpers';
+import { validate } from '../middleware/validation';
+import { HttpParams } from '../api_models/query';
 
 export class QueryService {
   async query(type: string, key: string, query: string): Promise<any> {
@@ -14,12 +16,7 @@ export class QueryService {
         return await this.mysqlQuery(key, query);
       
       case 'http':
-        const func = `http${key}`;
-        if (typeof this[func] === 'function') {
-          return await this[func](query);
-        } else {
-          throw new ApiError(BAD_REQUEST, { message: `unknown http datasource ${key}` });
-        }
+        return await this.httpQuery(key, query);
       
       default:
         throw new ApiError(BAD_REQUEST, { message: 'unsupported datasource type' });
@@ -45,4 +42,11 @@ export class QueryService {
     await source.destroy();
     return result;
   }
+
+  private async httpQuery(key: string, query: string): Promise<any> {
+    const params = validate(HttpParams, JSON.parse(query));
+    const sourceConfig = await DataSourceService.getByTypeKey('http', key);
+    const { host } = sourceConfig.config;
+    return await APIClient.request(params.method)([host, params.url_postfix].join(''), params);
+  };
 }
