@@ -32,7 +32,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValidating, isValid },
+    formState: { errors },
   } = useForm<IFormValues>({
     defaultValues: {
       name: '',

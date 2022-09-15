@@ -11,11 +11,7 @@ export function DashboardSelector() {
     navigate(`/dashboard/${id}`);
   }, []);
 
-  const {
-    data: options = [],
-    loading,
-    refresh,
-  } = useRequest(
+  const { data: options = [] } = useRequest(
     async () => {
       const { data } = await DashboardAPI.list();
       return data.map((d) => ({
