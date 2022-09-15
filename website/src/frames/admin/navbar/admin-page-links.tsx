@@ -1,5 +1,5 @@
-import { Group, UnstyledButton, Text, Box } from '@mantine/core';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Group, Text, UnstyledButton } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 interface IAdminPageLink {
   to: string;
