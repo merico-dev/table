@@ -1,27 +1,25 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
+import { HttpParams } from '../api_models/query';
 
 export const APIClient = {
   request(method: string) {
-    return (url: string, data: any, options: any = {}) => {
+    return (url: string, options: HttpParams) => {
       const headers = {
         'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': options.string
-          ? 'application/x-www-form-urlencoded'
-          : 'application/json',
+        'Content-Type': 'application/json',
         ...options.headers,
       };
 
-      const conf: any = {
+      const conf: AxiosRequestConfig = {
         method,
         url,
-        params: method === 'GET' ? data : options.params,
+        params: options.url_postfix,
         headers: headers,
       };
 
-      if (method === 'POST') {
-        conf.data = options.string ? JSON.stringify(data) : data;
+      if (method !== 'GET') {
+        conf.data = JSON.stringify(options.data);
       }
-
       return axios(conf)
         .then((res: any) => {
           return res.data;

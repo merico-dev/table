@@ -1,13 +1,15 @@
 import * as express from 'express';
+import _ from 'lodash';
 import { inject, interfaces as inverfaces } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DataSourceService } from '../services/datasource.service';
 import { validate } from '../middleware/validation';
-import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest } from '../api_models/datasource';
+import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, DataSourceConfig } from '../api_models/datasource';
 import { RoleService } from '../services/role.service';
 import Account from '../models/account';
 import { ROLE_TYPES } from '../api_models/role';
+import { ApiError, BAD_REQUEST } from '../utils/errors';
 
 @ApiPath({
   path: '/datasource',
@@ -67,7 +69,8 @@ export class DataSourceController implements interfaces.Controller {
     try {
       const account: Account = req.body.account;
       this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
-      const { type, key, config } = validate(DataSourceCreateRequest, req.body);
+      let { type, key, config } = validate(DataSourceCreateRequest, req.body);
+      config = this.validateConfig(type, config);
       const result = await this.dataSourceService.create(type, key, config);
       res.json(result);
     } catch (err) {
@@ -96,6 +99,22 @@ export class DataSourceController implements interfaces.Controller {
       res.json();
     } catch (err) {
       next(err);
+    }
+  }
+
+  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig): DataSourceConfig {
+    switch (type) {
+      case 'http':
+        return _.omit(config, ['port', 'username', 'password', 'database']);
+      
+      default:
+        if (
+          !_.has(config, 'port') ||
+          !_.has(config, 'username') ||
+          !_.has(config, 'password') ||
+          !_.has(config, 'database')
+        ) throw new ApiError(BAD_REQUEST, { message: 'Mysql|Postgresql config must contain [port, username, password, database]' });
+        return config;
     }
   }
 }

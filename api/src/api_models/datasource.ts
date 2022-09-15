@@ -15,33 +15,37 @@ export class DataSourceConfig {
   })
   host: string;
 
+  @IsOptional()
   @IsInt()
   @ApiModelProperty({
     description: 'port',
-    required: true,
+    required: false,
   })
-  port: number;
+  port?: number;
 
+  @IsOptional()
   @IsString()
   @ApiModelProperty({
-    description: 'username',
-    required: true,
+    description: 'username. Required for mysql | postgresql data sources',
+    required: false,
   })
-  username: string;
+  username?: string;
 
+  @IsOptional()
   @IsString()
   @ApiModelProperty({
-    description: 'password',
-    required: true,
+    description: 'password. Required for mysql | postgresql data sources',
+    required: false,
   })
-  password: string;
+  password?: string;
 
+  @IsOptional()
   @IsString()
   @ApiModelProperty({
-    description: 'database name',
-    required: true,
+    description: 'database name. Required for mysql | postgresql data sources',
+    required: false,
   })
-  database: string;
+  database?: string;
 }
 
 @ApiModel({
@@ -170,13 +174,13 @@ export class DataSourcePaginationResponse implements PaginationResponse<DataSour
 })
 export class DataSourceCreateRequest {
   @IsString()
-  @IsIn(['postgresql', 'mysql'])
+  @IsIn(['postgresql', 'mysql', 'http'])
   @ApiModelProperty({
     description: 'type of the datasource',
     required: true,
-    enum: ['postgresql', 'mysql'],
+    enum: ['postgresql', 'mysql', 'http'],
   })
-  type: 'postgresql' | 'mysql';
+  type: 'postgresql' | 'mysql' | 'http';
 
   @IsString()
   @Length(1, 250)
