@@ -1,4 +1,4 @@
-# Dev Table
+# DevTable
 
 Build your own data presentation using SQL and multiple data sources including big data. It is a natural integration with Dev Lake and Dev Analysis.
 
