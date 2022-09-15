@@ -9,9 +9,9 @@ import {
   SegmentedControl,
   TextInput,
 } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { DataSourceType, IDataSourceConfig } from '../api-caller/datasource.typed';
@@ -29,11 +29,7 @@ interface IAddDataSourceForm {
 }
 
 function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourceForm) {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValidating, isValid },
-  } = useForm<IFormValues>({
+  const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       type: 'postgresql',
       key: '',
