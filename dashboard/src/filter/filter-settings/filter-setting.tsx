@@ -62,7 +62,7 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
             }}
           />
           <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={filter.setType} />
-          {/* @ts-expect-error */}
+          {/* @ts-expect-error type mismatch */}
           <FilterEditor config={filter.config} index={index} />
         </Stack>
       </Box>

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import { IVizConfig } from '../types/dashboard';
 
@@ -20,16 +21,16 @@ const initialContext = {
   data: [],
   loading: false,
   title: '',
-  setTitle: () => {},
+  setTitle: _.noop,
   description: '',
-  setDescription: () => {},
+  setDescription: _.noop,
   queryID: '',
-  setQueryID: () => {},
+  setQueryID: _.noop,
   viz: {
     type: '',
     conf: {},
   },
-  setViz: () => {},
+  setViz: _.noop,
 };
 
 export const PanelContext = React.createContext<IPanelContext>(initialContext);
