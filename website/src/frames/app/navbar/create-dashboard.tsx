@@ -106,9 +106,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   );
 }
 
-interface ICreateDashboard {}
-
-export function CreateDashboard({}: ICreateDashboard) {
+export function CreateDashboard() {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);

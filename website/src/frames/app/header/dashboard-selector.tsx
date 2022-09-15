@@ -4,9 +4,7 @@ import React from 'react';
 import { DashboardAPI } from '../../../api-caller/dashboard';
 import { useParams, useNavigate } from 'react-router-dom';
 
-interface IDashboardSelector {}
-
-export function DashboardSelector({}: IDashboardSelector) {
+export function DashboardSelector() {
   const { id } = useParams();
   const navigate = useNavigate();
   const changeID = React.useCallback((id: string) => {

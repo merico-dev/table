@@ -4,9 +4,7 @@ import { ArrowLeft } from 'tabler-icons-react';
 import { useNavigate } from 'react-router-dom';
 import { AdminPageLinks } from './admin-page-links';
 
-interface IAdminNavbar {}
-
-export function AdminNavbar({}: IAdminNavbar) {
+export function AdminNavbar() {
   const navigate = useNavigate();
   const gotoDashboard = () => {
     const id = localStorage.getItem('last_visited_dashboard_id');

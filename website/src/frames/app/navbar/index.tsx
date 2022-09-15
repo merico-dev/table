@@ -5,9 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
 
-interface INavbar {}
-
-export function Navbar({}: INavbar) {
+export function Navbar() {
   const { id } = useParams();
   const navigate = useNavigate();
   const gotoSettings = () => {

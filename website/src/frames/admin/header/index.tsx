@@ -2,9 +2,7 @@ import { Group, Header as MantineHeader, Text } from '@mantine/core';
 import React from 'react';
 import { MericoLogo } from '../../../resources/merico-logo';
 
-interface IAdminHeader {}
-
-export function AdminHeader({}: IAdminHeader) {
+export function AdminHeader() {
   return (
     <MantineHeader height={60} p="md">
       <Group position="apart">
