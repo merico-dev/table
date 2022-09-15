@@ -17,7 +17,7 @@ interface ITemplateVariableField {
 
 export const TemplateVariableField = React.forwardRef(function _TemplateVariableField(
   { value, onChange, data, withStyle = true }: ITemplateVariableField,
-  _ref: $TSFixMe,
+  ref: $TSFixMe,
 ) {
   const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {
     const v = _.cloneDeep(value);
@@ -26,7 +26,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
   };
 
   return (
-    <Box px="sm" py="md">
+    <Box px="sm" py="md" ref={ref}>
       <Text weight="bold" pb={0}>
         {value.name}
       </Text>

@@ -1,7 +1,6 @@
-import _ from 'lodash';
-import { types, Instance } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
-import { ContextModel, ContextInfoType } from './context';
+import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';

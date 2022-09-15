@@ -1,5 +1,4 @@
 import { Group, NumberInput, Select } from '@mantine/core';
-import _ from 'lodash';
 import React, { useEffect } from 'react';
 import { AggregationType } from '../../../utils/aggregation';
 

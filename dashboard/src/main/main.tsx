@@ -1,26 +1,26 @@
-import React from 'react';
-import _ from 'lodash';
-import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
-import { LayoutStateContext } from '../contexts/layout-state-context';
-import { DashboardLayout } from '../layout';
-import { DashboardActions } from './actions';
+import { Box } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
+import { ModalsProvider } from '@mantine/modals';
+import { useCreation } from 'ahooks';
+import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
-import { ModalsProvider } from '@mantine/modals';
-import { FullScreenPanel } from './full-screen-panel';
-import { Box, Overlay } from '@mantine/core';
-import { usePanelFullScreen } from './use-panel-full-screen';
-import { Filters } from '../filter';
-import { createDashboardModel } from '../model';
-import { observer } from 'mobx-react-lite';
-import { createPluginContext, PluginContext } from '../plugins';
-import { useCreation } from 'ahooks';
+import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
+import { Filters } from '../filter';
+import { DashboardLayout } from '../layout';
+import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
-import { useStickyAreaStyle } from './use-sticky-area-style';
+import { createPluginContext, PluginContext } from '../plugins';
 import { TableVizComponent } from '../plugins/viz-components/table';
+import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
+import { DashboardActions } from './actions';
+import { FullScreenPanel } from './full-screen-panel';
 import './main.css';
+import { usePanelFullScreen } from './use-panel-full-screen';
+import { useStickyAreaStyle } from './use-sticky-area-style';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -179,6 +179,7 @@ export const Dashboard = observer(function _Dashboard({
               inUseMode,
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
               className={`${className} dashboard-root dashboard-sticky-parent`}

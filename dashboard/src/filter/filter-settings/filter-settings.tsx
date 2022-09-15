@@ -1,19 +1,15 @@
 import { Box, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { DeviceFloppy, PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
+import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
-import { DashboardModelInstance, FilterModelInstance } from '../../model';
+import { FilterModelInstance } from '../../model';
 import { DashboardFilterType } from '../../model/filters/filter/common';
 import { createFilterConfig_TextInput } from '../../model/filters/filter/text-input';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
 
-interface FilterSettings {}
-
-export const FilterSettings = observer(function _FilterSettings({}: FilterSettings) {
+export const FilterSettings = observer(function _FilterSettings() {
   const model = useModelContext();
   const filters = model.filters.current;
 
@@ -47,7 +43,7 @@ export const FilterSettings = observer(function _FilterSettings({}: FilterSettin
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
-              {model.filters.current.map((field, index) => (
+              {model.filters.current.map((field) => (
                 <Tabs.Tab key={field.id} value={field.id}>
                   {field.label}
                 </Tabs.Tab>

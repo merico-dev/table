@@ -1,4 +1,4 @@
-import { Container, Group, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { PanelContext } from '../../../contexts';
 import { ErrorBoundary } from '../../error-boundary';

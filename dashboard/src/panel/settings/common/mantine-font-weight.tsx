@@ -1,5 +1,4 @@
-import { Group, Text, Slider, Stack } from '@mantine/core';
-import _ from 'lodash';
+import { Slider, Stack, Text } from '@mantine/core';
 import React from 'react';
 
 const marks = [

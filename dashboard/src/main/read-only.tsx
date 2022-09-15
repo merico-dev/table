@@ -53,6 +53,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               inUseMode: true,
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
               className={`${className} dashboard-root dashboard-sticky-parent`}

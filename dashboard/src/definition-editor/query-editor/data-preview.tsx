@@ -40,7 +40,7 @@ function DataTable({ data }: { data: $TSFixMe[] }) {
 
 export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {
   const model = useModelContext();
-  const { data, state, error } = model.getDataStuffByID(id);
+  const { data, state } = model.getDataStuffByID(id);
   const loading = state === 'loading';
   const refresh = () => {
     model.queries.refetchDataByQueryID(id);

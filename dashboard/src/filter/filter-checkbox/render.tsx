@@ -8,7 +8,7 @@ interface IFilterCheckbox extends Omit<FilterModelInstance, 'key' | 'type' | 'co
   onChange: (v: $TSFixMe) => void;
 }
 
-export function FilterCheckbox({ label, config: { default_value, ...rest }, value, onChange }: IFilterCheckbox) {
+export function FilterCheckbox({ label, config: { ...rest }, value, onChange }: IFilterCheckbox) {
   return (
     <Box>
       <Text>&nbsp;</Text>

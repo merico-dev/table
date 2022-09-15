@@ -1,6 +1,5 @@
 import { Modal } from '@mantine/core';
 import { Prism } from '@mantine/prism';
-import _ from 'lodash';
 import React from 'react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 

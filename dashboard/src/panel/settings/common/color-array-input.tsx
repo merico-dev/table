@@ -37,7 +37,8 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TS
   const theme = useMantineTheme();
 
   const swatches = React.useMemo(() => {
-    return Object.entries(theme.colors).map(([_color, profile]) => profile[6]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return Object.entries(theme.colors).map(([color, profile]) => profile[6]);
   }, [theme]);
 
   return (

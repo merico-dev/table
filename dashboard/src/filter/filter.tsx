@@ -18,6 +18,7 @@ interface IFilter {
   onChange: (v: $TSFixMe) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function renderFilter({ type, config, key, ...rest }: FilterModelInstance, formFieldProps: Omit<IFilter, 'filter'>) {
   switch (type) {
     case 'select':

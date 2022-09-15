@@ -33,6 +33,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
 }
 
 function renderViz(width: number, height: number, data: $TSFixMe[], viz: IVizConfig) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const props = { width, height, data, conf: viz.conf };
   switch (viz.type) {
     default:

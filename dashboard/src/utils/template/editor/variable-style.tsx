@@ -15,7 +15,8 @@ interface ITemplateVariableStyleField {
 
 export const TemplateVariableStyleField = React.forwardRef(function _TemplateVariableStyleField(
   { value, onChange }: ITemplateVariableStyleField,
-  _ref: $TSFixMe,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ref: $TSFixMe,
 ) {
   const colorType = value.color.type;
   const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {

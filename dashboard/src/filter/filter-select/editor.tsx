@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Checkbox, Divider, Group, Select, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Divider, Group, Select, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
