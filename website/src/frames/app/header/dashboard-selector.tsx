@@ -1,8 +1,8 @@
 import { Select } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DashboardAPI } from '../../../api-caller/dashboard';
-import { useParams, useNavigate } from 'react-router-dom';
 
 export function DashboardSelector() {
   const { id } = useParams();
