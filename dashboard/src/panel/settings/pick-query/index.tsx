@@ -23,7 +23,7 @@ export const PickQuery = observer(function _PickQuery({}: IPickQuery) {
         <Select
           data={options}
           value={queryID}
-          // @ts-expect-error
+          // @ts-expect-error type mismatch
           onChange={setQueryID}
           allowDeselect={false}
           clearable={false}

@@ -9,7 +9,7 @@ interface IPreviewFilter {
   filter: FilterModelInstance;
 }
 export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
-  // @ts-expect-error
+  // @ts-expect-error default_value
   const defaultValue = filter.config.default_value;
   const [value, setValue] = React.useState(defaultValue);
 

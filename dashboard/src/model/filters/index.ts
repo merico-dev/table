@@ -57,7 +57,7 @@ export type FilterValuesType = Record<string, any>;
 
 export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
   const values = filters.reduce((ret, filter) => {
-    // @ts-expect-error
+    // @ts-expect-error default_value
     ret[filter.key] = filter.config.default_value ?? '';
     return ret;
   }, {} as FilterValuesType);
