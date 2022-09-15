@@ -1,6 +1,7 @@
 import { ActionIcon } from '@mantine/core';
+import { useWhyDidYouUpdate } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useMemo } from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { Panel } from '../panel';
@@ -43,7 +44,44 @@ export const DashboardLayout = observer(function _DashboardLayout({
     [panels, setPanels],
   );
 
-  const layout = panels.map(({ id, layout }) => ({ ...layout, i: id }));
+  useWhyDidYouUpdate('layout', { panels });
+
+  const children = useMemo(() => {
+    return panels.map(({ id, ...rest }, index) => {
+      return (
+        <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
+          {isDraggable && (
+            <ActionIcon
+              className="react-grid-customDragHandle"
+              sx={{
+                userSelect: 'none',
+                cursor: 'grab',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                zIndex: 300,
+                '&:hover': { color: '#228be6' },
+              }}
+              variant="transparent"
+            >
+              <ArrowsMove size={16} />
+            </ActionIcon>
+          )}
+          <Panel
+            id={id}
+            {...rest}
+            update={(panel: IDashboardPanel) => {
+              setPanels((prevs) => {
+                prevs.splice(index, 1, panel);
+                return [...prevs];
+              });
+            }}
+          />
+        </div>
+      );
+    });
+  }, [panels]);
+  const layout = useMemo(() => panels.map(({ id, layout }) => ({ ...layout, i: id })), [panels]);
 
   return (
     <ReactGridLayout
@@ -72,39 +110,7 @@ export const DashboardLayout = observer(function _DashboardLayout({
         </ActionIcon>
       }
     >
-      {panels.map(({ id, ...rest }, index) => {
-        return (
-          <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
-            {isDraggable && (
-              <ActionIcon
-                className="react-grid-customDragHandle"
-                sx={{
-                  userSelect: 'none',
-                  cursor: 'grab',
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  zIndex: 300,
-                  '&:hover': { color: '#228be6' },
-                }}
-                variant="transparent"
-              >
-                <ArrowsMove size={16} />
-              </ActionIcon>
-            )}
-            <Panel
-              id={id}
-              {...rest}
-              update={(panel: IDashboardPanel) => {
-                setPanels((prevs) => {
-                  prevs.splice(index, 1, panel);
-                  return [...prevs];
-                });
-              }}
-            />
-          </div>
-        );
-      })}
+      {children}
     </ReactGridLayout>
   );
 });

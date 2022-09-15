@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
@@ -17,20 +18,25 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   className = 'layout',
   rowHeight = 10,
 }: IReadOnlyDashboardLayout) {
+  const children = useMemo(() => {
+    return panels.map(({ id, ...rest }) => {
+      return (
+        <div key={id} data-grid={rest.layout}>
+          <Panel id={id} {...rest} />
+        </div>
+      );
+    });
+  }, [panels]);
+  const layout = useMemo(() => panels.map(({ id, layout }) => ({ ...layout, i: id })), [panels]);
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
       isDraggable={false}
       isResizable={false}
+      layout={layout}
     >
-      {panels.map(({ id, ...rest }) => {
-        return (
-          <div key={id} data-grid={rest.layout}>
-            <Panel id={id} {...rest} />
-          </div>
-        );
-      })}
+      {children}
     </ReactGridLayout>
   );
 });
