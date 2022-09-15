@@ -13,7 +13,7 @@ import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type
 
 echarts.use([BoxplotChart, MarkLineComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
-function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: any[]) {
+function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: $TSFixMe[]) {
   const variableValueMap = variables.reduce((prev, variable) => {
     const value = getAggregatedValue(variable, data);
     prev[variable.name] = formatAggregatedValue(variable, value);
@@ -45,7 +45,7 @@ function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: 
 
 export function VizBoxplotChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
   const { x_axis, y_axis, color, variables, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
 

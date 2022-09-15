@@ -12,7 +12,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IRadarChartConf, data: any[]) {
+export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
   const indicator = conf.dimensions.map(({ name, max, color }) => ({
     name,
     max,

@@ -14,7 +14,7 @@ const regressionOptions = [
 ];
 
 interface IRegressionField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   regressionItem: IRegressionConf;
   index: number;
   remove: UseFieldArrayRemove;
@@ -22,7 +22,7 @@ interface IRegressionField {
     label: string;
     value: string;
   }[];
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {

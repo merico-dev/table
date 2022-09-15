@@ -6,7 +6,7 @@ interface ILegacyStatsConf {
   align: 'center';
   size: string;
   weight: string;
-  color: any;
+  color: $TSFixMe;
   content: {
     prefix: string;
     data_field: string;
@@ -57,7 +57,7 @@ export class VizStatsMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
 
   configVersions(): void {
-    this.version(1, (data: any) => {
+    this.version(1, (data: $TSFixMe) => {
       return { config: updateSchema(data) };
     });
   }

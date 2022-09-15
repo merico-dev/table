@@ -8,12 +8,12 @@ import { VizRichTextPanel } from './viz-rich-text-panel';
 class VizRichTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
 
-  fixMalformedConfig(config: any): any {
+  fixMalformedConfig(config: $TSFixMe): $TSFixMe {
     return defaults({}, config, DEFAULT_CONFIG);
   }
 
   configVersions(): void {
-    this.version(1, (data: any) => {
+    this.version(1, (data: $TSFixMe) => {
       return {
         version: 1,
         config: this.fixMalformedConfig(data),

@@ -11,7 +11,7 @@ import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
 import { observer } from 'mobx-react-lite';
 
-function usePluginViz(data: any, layout: IViewPanelInfo['layout']): ReactNode | null {
+function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const { viz, title, id, description, queryID } = useContext(PanelContext);
   const panel: IViewPanelInfo = {
@@ -32,7 +32,8 @@ function usePluginViz(data: any, layout: IViewPanelInfo['layout']): ReactNode | 
   }
 }
 
-function renderViz(width: number, height: number, data: any[], viz: IVizConfig) {
+function renderViz(width: number, height: number, data: $TSFixMe[], viz: IVizConfig) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const props = { width, height, data, conf: viz.conf };
   switch (viz.type) {
     default:
@@ -44,7 +45,7 @@ const typesDontNeedData = ['rich-text'];
 
 interface IViz {
   viz: IVizConfig;
-  data: any;
+  data: $TSFixMe;
   loading: boolean;
 }
 

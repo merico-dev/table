@@ -1,7 +1,6 @@
-import _ from 'lodash';
-import { types, Instance } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
-import { ContextModel, ContextInfoType } from './context';
+import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
@@ -28,7 +27,7 @@ const DashboardModel = types
       return data.reduce((ret, curr) => {
         ret[curr.id] = curr.data;
         return ret;
-      }, {} as Record<string, any[]>);
+      }, {} as Record<string, $TSFixMe[]>);
     },
     getDataStuffByID(queryID: string) {
       const q = self.queries.findByID(queryID);

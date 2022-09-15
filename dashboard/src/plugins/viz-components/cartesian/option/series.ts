@@ -2,8 +2,8 @@ import _, { cloneDeep, groupBy } from 'lodash';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../type';
 
 function getFullSeriesItemData(
-  dataTemplate: any[][],
-  seriesItemData: any[],
+  dataTemplate: $TSFixMe[][],
+  seriesItemData: $TSFixMe[],
   x_axis_data_key: string,
   y_axis_data_key: string,
 ) {
@@ -14,11 +14,11 @@ function getFullSeriesItemData(
 function getSeriesItemOrItems(
   { x_axis_data_key }: ICartesianChartConf,
   { y_axis_data_key, yAxisIndex, label_position, name, group_by_key, stack, color, ...rest }: ICartesianChartSeriesItem,
-  dataTemplate: any[][],
-  data: any[],
-  labelFormatters: Record<string, any>,
+  dataTemplate: $TSFixMe[][],
+  data: $TSFixMe[],
+  labelFormatters: Record<string, $TSFixMe>,
 ) {
-  const seriesItem: any = {
+  const seriesItem: $TSFixMe = {
     label: {
       show: !!label_position,
       position: label_position,
@@ -48,9 +48,9 @@ function getSeriesItemOrItems(
 
 export function getSeries(
   conf: ICartesianChartConf,
-  xAxisData: any[],
-  data: any[],
-  labelFormatters: Record<string, any>,
+  xAxisData: $TSFixMe[],
+  data: $TSFixMe[],
+  labelFormatters: Record<string, $TSFixMe>,
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
   const ret = conf.series.map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, labelFormatters)).flat();

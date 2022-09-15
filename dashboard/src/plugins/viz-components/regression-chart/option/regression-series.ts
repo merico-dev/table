@@ -7,11 +7,11 @@ interface IRegressionSeriesItem extends IRegressionLineConf {
   data: number[][];
   name: string;
   showSymbol: boolean;
-  tooltip: Record<string, any>;
+  tooltip: Record<string, $TSFixMe>;
   smooth: boolean;
 }
 
-function getRegressionDataSource(transform: IRegressionTransform, rawData: any[][]) {
+function getRegressionDataSource(transform: IRegressionTransform, rawData: $TSFixMe[][]) {
   switch (transform.config.method) {
     case 'linear':
       return [...d3Regression.regressionLinear()(rawData)];
@@ -28,7 +28,7 @@ function getRegressionDataSource(transform: IRegressionTransform, rawData: any[]
 
 export function getRegressionConf({ regression }: IRegressionChartConf, data: number[][]) {
   const regressionSeries: IRegressionSeriesItem[] = [];
-  const regressionXAxes: Record<string, any>[] = [];
+  const regressionXAxes: Record<string, $TSFixMe>[] = [];
   if (data.length === 0) {
     return { regressionSeries, regressionXAxes };
   }

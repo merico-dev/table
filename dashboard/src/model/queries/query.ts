@@ -11,13 +11,13 @@ export const QueryModel = types
     MuteQueryModel,
     types.model({
       state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
-      data: types.optional(types.array(types.frozen<Object>()), []),
+      data: types.optional(types.array(types.frozen<string[] | number[]>()), []),
       error: types.frozen(),
     }),
   )
   .views((self) => ({
     get formattedSQL() {
-      // @ts-expect-error
+      // @ts-expect-error untyped getRoot(self)
       const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
       return explainSQL(self.sql, context, sqlSnippets, filterValues);
     },
@@ -42,7 +42,7 @@ export const QueryModel = types
       self.state = 'loading';
       try {
         const title = self.id;
-        // @ts-expect-error
+        // @ts-expect-error untyped getRoot(self)
         const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
         self.data = yield* toGenerator(
           queryBySQL({

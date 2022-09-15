@@ -15,7 +15,7 @@ const barGapOptions = [
 ];
 
 interface IBarFields {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
 }
 

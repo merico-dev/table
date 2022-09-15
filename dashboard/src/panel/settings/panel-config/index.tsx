@@ -3,9 +3,7 @@ import { EditDescription } from './description';
 import { PreviewPanel } from './preview-panel';
 import { EditTitle } from './title';
 
-interface IPanelConfig {}
-
-export function PanelConfig({}: IPanelConfig) {
+export function PanelConfig() {
   return (
     <Group grow noWrap align="stretch" sx={{ height: '100%' }}>
       <Stack sx={{ width: '40%', flexShrink: 0, flexGrow: 0, height: '100%' }}>

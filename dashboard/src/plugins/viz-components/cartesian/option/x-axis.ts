@@ -1,6 +1,6 @@
 import { ICartesianChartConf } from '../type';
 
-export function getXAxes(conf: ICartesianChartConf, xAxisData: any[], regressionXAxes: any[]) {
+export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
   return [
     {
       data: xAxisData,

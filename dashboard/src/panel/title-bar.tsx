@@ -11,9 +11,7 @@ import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
 import './title-bar.css';
 
-interface IPanelTitleBar {}
-
-export const PanelTitleBar = observer(function _PanelTitleBar({}: IPanelTitleBar) {
+export const PanelTitleBar = observer(function _PanelTitleBar() {
   const model = useModelContext();
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);

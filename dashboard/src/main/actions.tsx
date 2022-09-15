@@ -1,24 +1,14 @@
+import { Button, Group, Menu } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Button, Divider, Group, Menu } from '@mantine/core';
-import {
-  ClipboardText,
-  Code,
-  Database,
-  DeviceFloppy,
-  Download,
-  Filter,
-  PlaylistAdd,
-  Recycle,
-  Share,
-} from 'tabler-icons-react';
-import { DashboardMode } from '../types';
-import { ModeToggler } from './toggle-mode';
-import { DataEditorModal } from '../definition-editor';
+import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
-import { ViewSchemaModal } from './view-schema-modal';
+import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { observer } from 'mobx-react-lite';
+import { DashboardMode } from '../types';
+import { ModeToggler } from './toggle-mode';
+import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
   mode: DashboardMode;
@@ -26,7 +16,7 @@ interface IDashboardActions {
   hasChanges: boolean;
   saveChanges: () => void;
   revertChanges: () => void;
-  getCurrentSchema: () => any;
+  getCurrentSchema: () => $TSFixMe;
 }
 export const DashboardActions = observer(function _DashboardActions({
   mode,

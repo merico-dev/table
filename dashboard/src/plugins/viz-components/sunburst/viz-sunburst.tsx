@@ -27,7 +27,7 @@ const defaultOption = {
 export function VizSunburst({ context }: VizViewProps) {
   const { value: conf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
 
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
   const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
 
@@ -42,7 +42,7 @@ export function VizSunburst({ context }: VizViewProps) {
     () => ({
       series: {
         label: {
-          formatter: ({ name, value }: any) => {
+          formatter: ({ name, value }: $TSFixMe) => {
             if (value / max < 0.2) {
               return ' ';
             }

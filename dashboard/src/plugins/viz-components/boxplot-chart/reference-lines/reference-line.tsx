@@ -4,7 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { IBoxplotChartConf } from '../type';
 
 interface IReferenceLineField {
-  control: Control<IBoxplotChartConf, any>;
+  control: Control<IBoxplotChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];

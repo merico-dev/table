@@ -30,7 +30,7 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   const contextInfo = model.context.current;
 
   const variablesString = React.useMemo(() => {
-    const ret: Record<string, any> = {
+    const ret: Record<string, $TSFixMe> = {
       context: contextInfo,
       filters: model.filters.values,
     };

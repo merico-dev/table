@@ -1,11 +1,8 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import _ from 'lodash';
 import { Panel } from '../panel';
 import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
-import { DashboardModelInstance } from '../model';
-import { observer } from 'mobx-react-lite';
 
 const ReactGridLayout = WidthProvider(RGL);
 

@@ -1,13 +1,10 @@
-import React from 'react';
-import { Box, Button, Group, Navbar as MantineNavbar, Text } from '@mantine/core';
-import { Settings } from 'tabler-icons-react';
+import { Button, Group, Navbar as MantineNavbar } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Settings } from 'tabler-icons-react';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
 
-interface INavbar {}
-
-export function Navbar({}: INavbar) {
+export function Navbar() {
   const { id } = useParams();
   const navigate = useNavigate();
   const gotoSettings = () => {

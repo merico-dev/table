@@ -7,8 +7,8 @@ import { IFilterConfig_Select } from '../../model/filters/filter/select';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
-  value: any;
-  onChange: (v: any) => void;
+  value: $TSFixMe;
+  onChange: (v: $TSFixMe) => void;
 }
 
 export function FilterSelect({ label, config, value, onChange }: IFilterSelect) {

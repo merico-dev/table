@@ -1,11 +1,11 @@
-import { ActionIcon, Box, Button, Checkbox, Group, Modal, Select, TextInput } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
+import { Box, Button, Group, Modal, Select, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { DashboardAPI } from '../../../api-caller/dashboard';
 import { PlaylistAdd } from 'tabler-icons-react';
+import { DashboardAPI } from '../../../api-caller/dashboard';
 
 interface IFormValues {
   name: string;
@@ -32,7 +32,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValidating, isValid },
+    formState: { errors },
   } = useForm<IFormValues>({
     defaultValues: {
       name: '',
@@ -106,9 +106,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   );
 }
 
-interface ICreateDashboard {}
-
-export function CreateDashboard({}: ICreateDashboard) {
+export function CreateDashboard() {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);

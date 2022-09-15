@@ -11,7 +11,7 @@ const stepOptions = [
 ];
 
 interface ILineFields {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
 }
 

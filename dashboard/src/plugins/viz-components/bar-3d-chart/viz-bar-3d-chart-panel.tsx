@@ -10,7 +10,7 @@ import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 export function VizBar3dChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const defaultValues = defaults({}, conf, DEFAULT_CONFIG);
   const { control, handleSubmit, reset } = useForm({ defaultValues });
 

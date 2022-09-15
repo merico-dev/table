@@ -1,13 +1,12 @@
 import { Modal } from '@mantine/core';
 import { Prism } from '@mantine/prism';
-import _ from 'lodash';
 import React from 'react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 
 interface IViewSchemaModal {
   opened: boolean;
   close: () => void;
-  getCurrentSchema: () => any;
+  getCurrentSchema: () => $TSFixMe;
 }
 
 export function ViewSchemaModal({ opened, close, getCurrentSchema }: IViewSchemaModal) {

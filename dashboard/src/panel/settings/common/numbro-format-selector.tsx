@@ -1,5 +1,4 @@
-import { Group, NumberInput, Select, Stack, Text, Switch } from '@mantine/core';
-import _ from 'lodash';
+import { Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
 import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
@@ -24,7 +23,7 @@ interface INumbroFormatSelector {
   onChange: (v: TNumbroFormat) => void;
 }
 
-function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: any) {
+function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
   const changeOutput = (output: TNumbroFormat['output']) => {
     onChange({ ...value, output });
   };
@@ -32,10 +31,10 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
-  const changeTrimMantissa = (event: any) => {
+  const changeTrimMantissa = (event: $TSFixMe) => {
     onChange({ ...value, trimMantissa: event.currentTarget.checked });
   };
-  const changeAverage = (event: any) => {
+  const changeAverage = (event: $TSFixMe) => {
     onChange({ ...value, average: event.currentTarget.checked });
   };
   return (

@@ -24,7 +24,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
 
   // convert strings as numbers
   const data = useMemo(() => {
-    const rawData = context.data as any[];
+    const rawData = context.data as $TSFixMe[];
     const key = conf?.regression?.y_axis_data_key;
     if (!key) {
       return rawData;

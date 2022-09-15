@@ -6,7 +6,7 @@ export function downloadCSV(id: string, csv: string) {
   saveAs(blob, `${id}.csv`);
 }
 
-export function downloadDataListAsZip(idDataList: Array<{ id: string; data: any[] }>) {
+export function downloadDataListAsZip(idDataList: Array<{ id: string; data: $TSFixMe[] }>) {
   const zip = new JSZip();
   idDataList.forEach(({ id, data }) => {
     zip.file(`${id}.csv`, makeCSV(data));
@@ -16,7 +16,7 @@ export function downloadDataListAsZip(idDataList: Array<{ id: string; data: any[
   });
 }
 
-export function makeCSV(data: any | any[]) {
+export function makeCSV(data: $TSFixMe | $TSFixMe[]) {
   if (!Array.isArray(data) || data.length === 0) {
     // Not dealing with object-typed data for now
     return '';

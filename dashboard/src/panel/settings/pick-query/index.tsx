@@ -4,8 +4,7 @@ import React from 'react';
 import { useModelContext, PanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 
-interface IPickQuery {}
-export const PickQuery = observer(function _PickQuery({}: IPickQuery) {
+export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
   const { queryID, setQueryID } = React.useContext(PanelContext);
 
@@ -23,7 +22,7 @@ export const PickQuery = observer(function _PickQuery({}: IPickQuery) {
         <Select
           data={options}
           value={queryID}
-          // @ts-expect-error
+          // @ts-expect-error type mismatch
           onChange={setQueryID}
           allowDeselect={false}
           clearable={false}

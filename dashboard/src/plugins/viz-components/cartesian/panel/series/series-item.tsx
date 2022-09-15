@@ -27,7 +27,7 @@ const labelPositions = [
 ];
 
 interface ISeriesItemField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
   seriesItem: ICartesianChartSeriesItem;
@@ -35,7 +35,7 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {

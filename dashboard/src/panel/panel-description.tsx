@@ -1,13 +1,11 @@
-import { ActionIcon, Button, Modal, Popover, Tooltip } from '@mantine/core';
+import { ActionIcon, Modal, Tooltip } from '@mantine/core';
+import RichTextEditor from '@mantine/rte';
+import _ from 'lodash';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
 import { LayoutStateContext, PanelContext } from '../contexts';
-import RichTextEditor from '@mantine/rte';
-import _ from 'lodash';
 
-interface IDescriptionPopover {}
-
-export function DescriptionPopover({}: IDescriptionPopover) {
+export function DescriptionPopover() {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
   const { title, description } = React.useContext(PanelContext);

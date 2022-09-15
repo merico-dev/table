@@ -24,7 +24,7 @@ function withDefaults(dimensions: IRadarChartDimension[]) {
 }
 
 export function VizRadarChartPanel({ context }: VizConfigProps) {
-  const data = context.data as any[];
+  const data = context.data as $TSFixMe[];
   const { value: confValue, set: setConf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const { dimensions, series_name_key } = conf;

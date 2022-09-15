@@ -1,15 +1,14 @@
 import React from 'react';
 
 import { Dashboard, IDashboard } from '@devtable/dashboard';
-import { Filters } from '../../components/filters';
 
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-import './content.css';
-import { useRequest } from 'ahooks';
-import { DashboardAPI } from '../../api-caller/dashboard';
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { useRequest } from 'ahooks';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import { DashboardAPI } from '../../api-caller/dashboard';
+import './content.css';
 
 export function DashboardPageContent({ id }: { id: string }) {
   const {
@@ -26,7 +25,7 @@ export function DashboardPageContent({ id }: { id: string }) {
     },
   );
 
-  const [context, setContext] = React.useState({});
+  const [context] = React.useState({});
 
   const updateDashboard = React.useCallback(async (d: IDashboard) => {
     showNotification({

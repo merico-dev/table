@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { types, cast } from 'mobx-state-tree';
+import { cast, types } from 'mobx-state-tree';
 import { FilterModel, FilterModelInstance } from './filter';
 
 export const FiltersModel = types
@@ -39,10 +39,10 @@ export const FiltersModel = types
       remove(index: number) {
         self.current.splice(index, 1);
       },
-      setValues(values: Record<string, any>) {
+      setValues(values: Record<string, $TSFixMe>) {
         self.values = values;
       },
-      setValueByKey(key: string, value: Record<string, any>) {
+      setValueByKey(key: string, value: Record<string, $TSFixMe>) {
         self.values[key] = value;
       },
       getValueByKey(key: string) {
@@ -53,11 +53,11 @@ export const FiltersModel = types
 
 export * from './filter';
 
-export type FilterValuesType = Record<string, any>;
+export type FilterValuesType = Record<string, $TSFixMe>;
 
 export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
   const values = filters.reduce((ret, filter) => {
-    // @ts-expect-error
+    // @ts-expect-error default_value
     ret[filter.key] = filter.config.default_value ?? '';
     return ret;
   }, {} as FilterValuesType);

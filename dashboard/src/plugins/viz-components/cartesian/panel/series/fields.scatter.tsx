@@ -9,7 +9,7 @@ const symbolSizeOptions = Array.from(new Array(9), (_, i) => ({
 }));
 
 interface IScatterFields {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
 }
 

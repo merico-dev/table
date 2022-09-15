@@ -8,7 +8,7 @@ class VizCartesianMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
 
   configVersions(): void {
-    this.version(1, (data: any) => {
+    this.version(1, (data: $TSFixMe) => {
       return {
         version: 1,
         config: data,

@@ -1,15 +1,8 @@
-import { Anchor, Group, Header as MantineHeader, Text } from '@mantine/core';
-import React from 'react';
-import { CreateDashboard } from '../navbar/create-dashboard';
-import { DeleteDashboard } from './delete-dashboard';
-import { DashboardSelector } from './dashboard-selector';
+import { Group, Header as MantineHeader, Text } from '@mantine/core';
 import { MericoLogo } from '../../../resources/merico-logo';
-import { Settings } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
+import { DeleteDashboard } from './delete-dashboard';
 
-interface IHeader {}
-
-export function Header({}: IHeader) {
+export function Header() {
   return (
     <MantineHeader height={60} p="md">
       <Group position="apart">

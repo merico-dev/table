@@ -9,10 +9,10 @@ import { TemplateVariableField } from '~/utils/template';
 import { ICartesianChartConf } from '../../type';
 
 interface VariableField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function VariableField({ control, index, remove, data }: VariableField) {

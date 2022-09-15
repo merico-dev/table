@@ -47,13 +47,13 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
           <LayoutStateContext.Provider
             value={{
               layoutFrozen: true,
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              freezeLayout: () => {},
+              freezeLayout: _.noop,
               mode: DashboardMode.Use,
               inEditMode: false,
               inUseMode: true,
             }}
           >
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
             {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
               className={`${className} dashboard-root dashboard-sticky-parent`}

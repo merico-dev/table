@@ -9,7 +9,7 @@ interface ITextArrayInput {
   onChange: (value: string[] | number[]) => void;
 }
 
-function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: any) {
+function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: $TSFixMe) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : []);
 
   const add = React.useCallback(() => {

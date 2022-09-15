@@ -1,12 +1,12 @@
 import { post } from './request';
 
-function formatSQL(sql: string, context: Record<string, any>) {
+function formatSQL(sql: string, context: Record<string, $TSFixMe>) {
   const names = Object.keys(context);
   const vals = Object.values(context);
   return new Function(...names, `return \`${sql}\`;`)(...vals);
 }
 
-export const queryBySQL = (sql: string, context: Record<string, any>) => async () => {
+export const queryBySQL = (sql: string, context: Record<string, $TSFixMe>) => async () => {
   if (!sql) {
     return [];
   }

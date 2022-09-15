@@ -1,4 +1,4 @@
-import { Group, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import React from 'react';
 import { useModelContext } from '../../contexts/model-context';

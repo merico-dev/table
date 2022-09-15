@@ -3,7 +3,7 @@ import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewCon
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
 
-function createCommonContext(instance: VizInstance, data: any, vizManager: IVizManager): VizContext {
+function createCommonContext(instance: VizInstance, data: $TSFixMe, vizManager: IVizManager): VizContext {
   return {
     vizManager,
     /**
@@ -32,7 +32,7 @@ function createCommonContext(instance: VizInstance, data: any, vizManager: IVizM
 export type IViewPanelInfo = IPanelInfo & { layout: { w: number; h: number } };
 export type IViewComponentProps<TDebug = Record<string, unknown>> = {
   panel: IViewPanelInfo;
-  data: any;
+  data: $TSFixMe;
   vizManager: IVizManager;
 } & TDebug;
 export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
@@ -50,7 +50,7 @@ export type IConfigComponentProps<TDebug = Record<string, unknown>> = {
   panel: IPanelInfo;
   panelInfoEditor: IPanelInfoEditor;
   vizManager: IVizManager;
-  data: any;
+  data: $TSFixMe;
 } & TDebug;
 export const VizConfigComponent = <T,>(props: IConfigComponentProps<T>) => {
   const { vizManager, panel, panelInfoEditor, data } = props;

@@ -1,5 +1,4 @@
 import { Group, NumberInput, Select } from '@mantine/core';
-import _ from 'lodash';
 import React, { useEffect } from 'react';
 import { AggregationType } from '../../../utils/aggregation';
 
@@ -19,7 +18,7 @@ interface IAggregationSelector {
   label: string;
 }
 
-function _AggregationSelector({ label, value, onChange }: IAggregationSelector, ref: any) {
+function _AggregationSelector({ label, value, onChange }: IAggregationSelector, ref: $TSFixMe) {
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {

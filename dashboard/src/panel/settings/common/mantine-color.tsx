@@ -7,7 +7,7 @@ interface IMantineColorSelector {
   onChange: (value: string) => void;
 }
 
-function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: any) {
+function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: $TSFixMe) {
   const { colorManager } = useContext(PluginContext);
 
   const themeColors = React.useMemo(() => {
@@ -25,11 +25,12 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
   }, [value, themeColors]);
 
   return (
-    <Group position="apart" spacing={4}>
+    <Group position="apart" spacing={4} ref={ref}>
       <TextInput
-        placeholder="Set any color"
+        placeholder="Set $TSFixMe color"
         value={!isThemeColor ? value : ''}
         onChange={(e) => onChange(e.currentTarget.value)}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         rightSection={<ColorSwatch color={!isThemeColor ? value! : 'transparent'} radius={4} />}
         variant={!isThemeColor ? 'default' : 'filled'}
         sx={{ maxWidth: '46%', flexGrow: 1 }}
@@ -41,6 +42,7 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
         onChange={onChange}
         variant={isThemeColor ? 'default' : 'filled'}
         placeholder="Pick a theme color"
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         icon={<ColorSwatch color={isThemeColor ? value! : 'transparent'} radius={4} />}
         sx={{ maxWidth: '46%', flexGrow: 1 }}
       />

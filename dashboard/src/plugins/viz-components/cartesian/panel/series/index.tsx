@@ -6,9 +6,9 @@ import { ICartesianChartConf } from '../../type';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 export function SeriesField({ control, watch, data }: ISeriesField) {
   const { fields, append, remove } = useFieldArray({

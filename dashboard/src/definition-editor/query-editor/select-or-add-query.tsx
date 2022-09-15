@@ -48,7 +48,7 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID 
         <Select
           data={model.queries.options}
           value={id}
-          // @ts-expect-error
+          // @ts-expect-error type mismatch
           onChange={setID}
           allowDeselect={false}
           clearable={false}

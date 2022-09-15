@@ -9,10 +9,10 @@ import { TemplateVariableField } from '~/utils/template';
 import { IBoxplotChartConf } from '../type';
 
 interface VariableField {
-  control: Control<IBoxplotChartConf, any>;
+  control: Control<IBoxplotChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function VariableField({ control, index, remove, data }: VariableField) {

@@ -1,4 +1,4 @@
-import { AppShell, LoadingOverlay, Modal, Navbar, Tabs } from '@mantine/core';
+import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../../contexts/layout-state-context';

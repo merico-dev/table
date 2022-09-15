@@ -5,7 +5,7 @@ type PropType = {
   children: React.ReactNode;
 };
 type StateType = {
-  error: null | any;
+  error: null | $TSFixMe;
 };
 
 export class ErrorBoundary extends React.Component<PropType, StateType> {
@@ -14,7 +14,7 @@ export class ErrorBoundary extends React.Component<PropType, StateType> {
     this.state = { error: null };
   }
 
-  componentDidCatch(error: any) {
+  componentDidCatch(error: $TSFixMe) {
     this.setState({ error });
   }
 

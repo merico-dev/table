@@ -1,23 +1,17 @@
 import { Select } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DashboardAPI } from '../../../api-caller/dashboard';
-import { useParams, useNavigate } from 'react-router-dom';
 
-interface IDashboardSelector {}
-
-export function DashboardSelector({}: IDashboardSelector) {
+export function DashboardSelector() {
   const { id } = useParams();
   const navigate = useNavigate();
   const changeID = React.useCallback((id: string) => {
     navigate(`/dashboard/${id}`);
   }, []);
 
-  const {
-    data: options = [],
-    loading,
-    refresh,
-  } = useRequest(
+  const { data: options = [] } = useRequest(
     async () => {
       const { data } = await DashboardAPI.list();
       return data.map((d) => ({

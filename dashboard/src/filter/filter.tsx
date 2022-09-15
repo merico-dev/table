@@ -14,10 +14,11 @@ import { FilterTextInput } from './filter-text-input/render';
 
 interface IFilter {
   filter: FilterModelInstance;
-  value: any;
-  onChange: (v: any) => void;
+  value: $TSFixMe;
+  onChange: (v: $TSFixMe) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function renderFilter({ type, config, key, ...rest }: FilterModelInstance, formFieldProps: Omit<IFilter, 'filter'>) {
   switch (type) {
     case 'select':
@@ -35,7 +36,7 @@ function renderFilter({ type, config, key, ...rest }: FilterModelInstance, formF
   }
 }
 
-export const Filter = React.forwardRef(function _Filter({ filter, ...formFieldProps }: IFilter, ref: any) {
+export const Filter = React.forwardRef(function _Filter({ filter, ...formFieldProps }: IFilter, ref: $TSFixMe) {
   return (
     <div className="filter-root" ref={ref}>
       <ErrorBoundary>{renderFilter(filter, formFieldProps)}</ErrorBoundary>

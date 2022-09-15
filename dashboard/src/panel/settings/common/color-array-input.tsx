@@ -9,7 +9,7 @@ interface IColorArrayInput {
   onChange: (value: string[]) => void;
 }
 
-function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: any) {
+function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: $TSFixMe) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : []);
 
   const add = React.useCallback(() => {
@@ -37,7 +37,8 @@ function _ColorArrayInput({ label, value, onChange }: IColorArrayInput, ref: any
   const theme = useMantineTheme();
 
   const swatches = React.useMemo(() => {
-    return Object.entries(theme.colors).map(([_color, profile]) => profile[6]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return Object.entries(theme.colors).map(([color, profile]) => profile[6]);
   }, [theme]);
 
   return (

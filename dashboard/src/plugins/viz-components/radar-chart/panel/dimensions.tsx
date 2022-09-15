@@ -7,10 +7,10 @@ import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { IRadarChartConf } from '../type';
 
 interface IDimensionField {
-  control: Control<IRadarChartConf, any>;
+  control: Control<IRadarChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 function DimensionField({ control, index, remove, data }: IDimensionField) {
@@ -57,9 +57,9 @@ function DimensionField({ control, index, remove, data }: IDimensionField) {
 }
 
 interface IDimensionsField {
-  control: Control<IRadarChartConf, any>;
+  control: Control<IRadarChartConf, $TSFixMe>;
   watch: UseFormWatch<IRadarChartConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 
 export function DimensionsField({ control, watch, data }: IDimensionsField) {

@@ -15,10 +15,11 @@ interface ITemplateVariableStyleField {
 
 export const TemplateVariableStyleField = React.forwardRef(function _TemplateVariableStyleField(
   { value, onChange }: ITemplateVariableStyleField,
-  _ref: any,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ref: $TSFixMe,
 ) {
   const colorType = value.color.type;
-  const handleChange = (path: Path<ITemplateVariable>, newValue: any) => {
+  const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {
     const v = _.cloneDeep(value);
     _.set(v, path, newValue);
     onChange(v);

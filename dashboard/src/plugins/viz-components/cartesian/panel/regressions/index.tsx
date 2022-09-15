@@ -5,9 +5,9 @@ import { ICartesianChartConf } from '../../type';
 import { RegressionField } from './regression-item';
 
 interface IRegressionsField {
-  control: Control<ICartesianChartConf, any>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: any[];
+  data: $TSFixMe[];
 }
 export function RegressionsField({ control, watch, data }: IRegressionsField) {
   const { fields, append, remove } = useFieldArray({

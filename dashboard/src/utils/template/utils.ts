@@ -2,7 +2,7 @@ import numbro from 'numbro';
 import { aggregateValue } from '../aggregation';
 import { ITemplateVariable } from './types';
 
-export function getNonStatsDataText(data: any) {
+export function getNonStatsDataText(data: $TSFixMe) {
   if (data === null) {
     return 'null';
   }

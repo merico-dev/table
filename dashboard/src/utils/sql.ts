@@ -8,13 +8,13 @@ export function explainSQLSnippet(snippet: string, context: ContextInfoType) {
   const vals = Object.values(context);
   try {
     return new Function(...names, `return \`${snippet}\`;`)(...vals);
-  } catch (error: any) {
+  } catch (error: $TSFixMe) {
     console.error(error);
     return error.message;
   }
 }
 
-export function formatSQL(sql: string, params: Record<string, any>) {
+export function formatSQL(sql: string, params: Record<string, $TSFixMe>) {
   const names = Object.keys(params);
   const vals = Object.values(params);
   try {
@@ -32,7 +32,7 @@ export function getSQLParams(
   sqlSnippets: SQLSnippetModelInstance[],
   filterValues: FilterValuesType,
 ) {
-  const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, any>, curr) => {
+  const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, $TSFixMe>, curr) => {
     ret[curr.key] = formatSQL(curr.value, context);
     return ret;
   }, {});
@@ -50,7 +50,7 @@ export function explainSQL(
   try {
     const params = getSQLParams(context, sqlSnippets, filterValues);
     return formatSQL(sql, params);
-  } catch (error: any) {
+  } catch (error: $TSFixMe) {
     console.error(error);
     return error.message;
   }

@@ -1,15 +1,15 @@
-import React from 'react';
-import { Filter } from '../filter';
-import { Box, Stack, Text } from '@mantine/core';
-import { FilterModelInstance } from '../../model';
-import { observer } from 'mobx-react-lite';
+import { Box, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { FilterModelInstance } from '../../model';
+import { Filter } from '../filter';
 
 interface IPreviewFilter {
   filter: FilterModelInstance;
 }
 export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
-  // @ts-expect-error
+  // @ts-expect-error default_value
   const defaultValue = filter.config.default_value;
   const [value, setValue] = React.useState(defaultValue);
 
