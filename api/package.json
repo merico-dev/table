@@ -13,7 +13,7 @@
     "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",

@@ -1,6 +1,7 @@
 {
   "name": "@devtable/settings-form",
   "version": "4.1.2",
+  "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
