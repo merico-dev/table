@@ -12,7 +12,7 @@ import { AdminFrame } from './frames/admin';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ModalsProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.VITE_WEBSITE_BASE_URL ?? ''}>
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="dashboard/:id" element={<DashboardPage />} />
