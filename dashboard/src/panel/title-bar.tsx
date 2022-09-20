@@ -22,18 +22,17 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
   const { inEditMode } = React.useContext(LayoutStateContext);
   const refreshData = () => model.queries.refetchDataByQueryID(queryID);
 
-  const { duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen } =
-    React.useContext(DashboardActionContext);
-  const duplicate = React.useCallback(() => {
-    duplidatePanel(id);
-  }, [duplidatePanel, id]);
+  const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
+  const duplicate = () => {
+    model.panels.duplicateByID(id);
+  };
 
   const remove = () =>
     modals.openConfirmModal({
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => removePanelByID(id),
+      onConfirm: () => model.panels.removeByID(id),
     });
 
   const enterFullScreen = React.useCallback(() => {

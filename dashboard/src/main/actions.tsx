@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
 import { LayoutStateContext, useModelContext } from '../contexts';
-import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
 import { DashboardMode } from '../types';
@@ -13,21 +12,26 @@ import { ViewSchemaModal } from './view-schema-modal';
 interface IDashboardActions {
   mode: DashboardMode;
   setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
-  hasChanges: boolean;
   saveChanges: () => void;
-  revertChanges: () => void;
   getCurrentSchema: () => $TSFixMe;
 }
 export const DashboardActions = observer(function _DashboardActions({
   mode,
   setMode,
-  hasChanges,
   saveChanges,
-  revertChanges,
   getCurrentSchema,
 }: IDashboardActions) {
   const model = useModelContext();
-  const { addPanel } = React.useContext(DashboardActionContext);
+
+  const revertChanges = () => {
+    model.filters.reset();
+    model.panels.reset();
+    model.sqlSnippets.reset();
+    model.queries.reset();
+  };
+
+  const hasChanges =
+    model.panels.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
   const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
@@ -49,7 +53,7 @@ export const DashboardActions = observer(function _DashboardActions({
       </Group>
       <Group position="right">
         {!inUseMode && (
-          <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>
+          <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>
             Add a Panel
           </Button>
         )}

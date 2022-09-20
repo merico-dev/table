@@ -101,7 +101,7 @@ export function VizBoxplotChart({ context }: VizViewProps) {
       ...getReferenceLines(reference_lines, variables, data),
     ],
   };
-  if (!conf) {
+  if (!conf || !width || !height) {
     return null;
   }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;

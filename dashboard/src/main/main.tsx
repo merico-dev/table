@@ -1,10 +1,9 @@
 import { Box } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { ReadOnlyDashboardLayout } from '~/layout/read-only';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -14,7 +13,6 @@ import { DashboardLayout } from '../layout';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
-import { TableVizComponent } from '../plugins/viz-components/table';
 import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { DashboardActions } from './actions';
 import { FullScreenPanel } from './full-screen-panel';
@@ -43,29 +41,11 @@ export const Dashboard = observer(function _Dashboard({
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
-  const [panels, setPanels] = React.useState(dashboard.panels);
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
   React.useEffect(() => {
     model.context.replace(context);
   }, [context]);
-
-  const hasChanges = React.useMemo(() => {
-    if (model.filters.changed) {
-      return true;
-    }
-    if (model.queries.changed) {
-      return true;
-    }
-    if (model.sqlSnippets.changed) {
-      return true;
-    }
-    // local panels' layouts would contain some undefined runtime values
-    const cleanJSON = (v: $TSFixMe) => JSON.parse(JSON.stringify(v));
-
-    const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    return !panelsEqual;
-  }, [dashboard, panels, model.queries.changed, model.filters.changed]);
 
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.current];
@@ -73,67 +53,10 @@ export const Dashboard = observer(function _Dashboard({
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
-      panels,
+      panels: [...model.panels.current],
       definition: { sqlSnippets, queries },
     };
     await update(d);
-  };
-
-  const revertDashboardChanges = () => {
-    model.filters.reset();
-    setPanels(dashboard.panels);
-    model.sqlSnippets.reset();
-    model.queries.reset();
-  };
-
-  const addPanel = () => {
-    const id = randomId();
-    const newItem = {
-      id,
-      layout: {
-        x: 0,
-        y: Infinity, // puts it at the bottom
-        w: 3,
-        h: 15,
-      },
-      title: `Panel - ${id}`,
-      description: '<p><br></p>',
-      queryID: '',
-      viz: {
-        type: TableVizComponent.name,
-        conf: TableVizComponent.createConfig(),
-      },
-    };
-    setPanels((prevs) => [...prevs, newItem]);
-  };
-
-  const duplidatePanel = (id: string) => {
-    try {
-      const panel = panels.find((p) => p.id === id);
-      if (!panel) {
-        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`);
-      }
-      const newPanel = {
-        ...panel,
-        id: randomId(),
-        layout: {
-          ...panel.layout,
-          x: 0,
-          y: Infinity,
-        },
-      };
-      setPanels((prevs) => [...prevs, newPanel]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const removePanelByID = (id: string) => {
-    const index = panels.findIndex((p) => p.id === id);
-    setPanels((prevs) => {
-      prevs.splice(index, 1);
-      return [...prevs];
-    });
   };
 
   const inEditMode = mode === DashboardMode.Edit;
@@ -141,6 +64,7 @@ export const Dashboard = observer(function _Dashboard({
 
   const getCurrentSchema = React.useCallback(() => {
     const queries = model.queries.current;
+    const panels = model.panels.current;
     const sqlSnippets = model.sqlSnippets.current;
     const filters = model.filters.current;
     return {
@@ -151,11 +75,13 @@ export const Dashboard = observer(function _Dashboard({
         queries,
       },
     };
-  }, [panels, model]);
+  }, [model]);
 
   useStickyAreaStyle();
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    model.panels.json,
+  );
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
@@ -163,9 +89,6 @@ export const Dashboard = observer(function _Dashboard({
       <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
-            addPanel,
-            duplidatePanel,
-            removePanelByID,
             viewPanelInFullScreen,
             inFullScreen,
           }}
@@ -192,20 +115,13 @@ export const Dashboard = observer(function _Dashboard({
                 <DashboardActions
                   mode={mode}
                   setMode={setMode}
-                  hasChanges={hasChanges}
                   saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
                   getCurrentSchema={getCurrentSchema}
                 />
                 <Filters />
               </Box>
               <PluginContext.Provider value={pluginContext}>
-                <DashboardLayout
-                  panels={panels}
-                  setPanels={setPanels}
-                  isDraggable={inEditMode}
-                  isResizable={inEditMode}
-                />
+                <DashboardLayout isDraggable={inEditMode} isResizable={inEditMode} />
               </PluginContext.Provider>
             </Box>
           </LayoutStateContext.Provider>

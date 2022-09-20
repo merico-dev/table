@@ -29,7 +29,13 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
+  React.useEffect(() => {
+    model.context.replace(context);
+  }, [context]);
+
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    model.panels.json,
+  );
 
   useStickyAreaStyle();
   return (
@@ -37,9 +43,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
       <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
-            addPanel: _.noop,
-            duplidatePanel: _.noop,
-            removePanelByID: _.noop,
             viewPanelInFullScreen,
             inFullScreen,
           }}
@@ -62,7 +65,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               <Box className="dashboard-sticky-area">
                 <Filters />
               </Box>
-              <ReadOnlyDashboardLayout panels={dashboard.panels} />
+              <ReadOnlyDashboardLayout />
             </Box>
           </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
