@@ -5,8 +5,46 @@ import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
 import { Panel } from '../panel';
-import { IDashboardPanel } from '../types/dashboard';
 import './index.css';
+
+const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFixMe) => (
+  <ActionIcon
+    ref={ref}
+    className="react-grid-customDragHandle"
+    sx={{
+      userSelect: 'none',
+      cursor: 'grab',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      zIndex: 300,
+      '&:hover': { color: '#228be6' },
+    }}
+    variant="transparent"
+  >
+    <ArrowsMove size={16} />
+  </ActionIcon>
+));
+
+const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, ref: $TSFixMe) => (
+  <ActionIcon
+    ref={ref}
+    className="react-grid-customResizeHandle"
+    sx={{
+      userSelect: 'none',
+      cursor: 'nwse-resize',
+      position: 'absolute',
+      bottom: -5,
+      right: -5,
+      zIndex: 300,
+      '&:hover': { color: '#228be6' },
+    }}
+    variant="transparent"
+    {...rest}
+  >
+    <ChevronDownRight size={16} />
+  </ActionIcon>
+));
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -46,44 +84,12 @@ export const DashboardLayout = observer(function _DashboardLayout({
       isDraggable={isDraggable}
       isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
-      resizeHandle={
-        <ActionIcon
-          className="react-grid-customResizeHandle"
-          sx={{
-            userSelect: 'none',
-            cursor: 'nwse-resize',
-            position: 'absolute',
-            bottom: -5,
-            right: -5,
-            zIndex: 300,
-            '&:hover': { color: '#228be6' },
-          }}
-          variant="transparent"
-        >
-          <ChevronDownRight size={16} />
-        </ActionIcon>
-      }
+      resizeHandle={<CustomResizeHandle />}
     >
       {model.panels.current.map(({ id, ...rest }, index) => {
         return (
           <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
-            {isDraggable && (
-              <ActionIcon
-                className="react-grid-customDragHandle"
-                sx={{
-                  userSelect: 'none',
-                  cursor: 'grab',
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  zIndex: 300,
-                  '&:hover': { color: '#228be6' },
-                }}
-                variant="transparent"
-              >
-                <ArrowsMove size={16} />
-              </ActionIcon>
-            )}
+            {isDraggable && <CustomDragHandle />}
             <Panel id={id} {...rest} />
           </div>
         );
