@@ -1,4 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
+import { Layout } from 'react-grid-layout';
 
 export const PanelLayoutModel = types
   .model('PanelLayoutModel', {
@@ -22,6 +23,16 @@ export const PanelLayoutModel = types
       };
     },
   }))
-  .actions((self) => ({}));
+  .actions((self) => ({
+    set(layout: Omit<Layout, 'i'>) {
+      const { x, y, w, h, moved } = layout;
+      self.x = x;
+      self.y = y;
+      self.w = w;
+      self.h = h;
+      self.moved = !!moved;
+      self.static = !!layout.static;
+    },
+  }));
 
 export type PanelLayoutModelInstance = Instance<typeof PanelLayoutModel>;

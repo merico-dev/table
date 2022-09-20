@@ -9,17 +9,14 @@ import { IDashboardPanel } from '../types/dashboard';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '../contexts';
 
-interface IPanel extends IDashboardPanel {
-  update?: (panel: IDashboardPanel) => void;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IPanel extends IDashboardPanel {}
 
 export const Panel = observer(function _Panel({
   viz: initialViz,
   queryID: initialQueryID,
   title: initialTitle,
   description: initialDesc,
-  update,
-  layout,
   id,
 }: IPanel) {
   const model = useModelContext();
@@ -27,18 +24,19 @@ export const Panel = observer(function _Panel({
   const [description, setDescription] = React.useState(initialDesc);
   const [queryID, setQueryID] = React.useState(initialQueryID);
   const [viz, setViz] = React.useState(initialViz);
-  useWhyDidYouUpdate('Panel', { title, description, queryID, viz, layout, id });
+  useWhyDidYouUpdate('Panel', { title, description, queryID, viz, id });
 
   React.useEffect(() => {
-    update?.({
-      id,
-      layout,
-      title,
-      description,
-      queryID,
-      viz,
-    });
-  }, [title, description, viz, id, layout, queryID]);
+    const panel = model.panels.findByID(id);
+    if (!panel) {
+      return;
+    }
+    panel.setTitle(title);
+    panel.setDescription(description);
+    panel.setQueryID(queryID);
+    panel.viz.setType(viz.type);
+    panel.viz.setConf(viz.conf);
+  }, [title, description, viz, id, queryID]);
 
   const { data, state } = model.getDataStuffByID(queryID);
   const loading = state === 'loading';
