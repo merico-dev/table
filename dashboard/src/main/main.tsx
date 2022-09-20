@@ -93,14 +93,6 @@ export const Dashboard = observer(function _Dashboard({
     }
   };
 
-  const removePanelByID = (id: string) => {
-    const index = panels.findIndex((p) => p.id === id);
-    setPanels((prevs) => {
-      prevs.splice(index, 1);
-      return [...prevs];
-    });
-  };
-
   const inEditMode = mode === DashboardMode.Edit;
   const inUseMode = mode === DashboardMode.Use;
 
@@ -129,7 +121,6 @@ export const Dashboard = observer(function _Dashboard({
         <DashboardActionContext.Provider
           value={{
             duplidatePanel,
-            removePanelByID,
             viewPanelInFullScreen,
             inFullScreen,
           }}

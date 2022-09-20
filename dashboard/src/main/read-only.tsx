@@ -38,7 +38,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
         <DashboardActionContext.Provider
           value={{
             duplidatePanel: _.noop,
-            removePanelByID: _.noop,
             viewPanelInFullScreen,
             inFullScreen,
           }}

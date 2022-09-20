@@ -22,8 +22,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
   const { inEditMode } = React.useContext(LayoutStateContext);
   const refreshData = () => model.queries.refetchDataByQueryID(queryID);
 
-  const { duplidatePanel, removePanelByID, viewPanelInFullScreen, inFullScreen } =
-    React.useContext(DashboardActionContext);
+  const { duplidatePanel, viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = React.useCallback(() => {
     duplidatePanel(id);
   }, [duplidatePanel, id]);
@@ -33,7 +32,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => removePanelByID(id),
+      onConfirm: () => model.panels.remove(id),
     });
 
   const enterFullScreen = React.useCallback(() => {
