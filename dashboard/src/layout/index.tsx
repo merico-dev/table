@@ -11,8 +11,6 @@ import './index.css';
 const ReactGridLayout = WidthProvider(RGL);
 
 interface IDashboardLayout {
-  panels: IDashboardPanel[];
-  setPanels: React.Dispatch<React.SetStateAction<IDashboardPanel[]>>;
   className?: string;
   rowHeight?: number;
   isDraggable: boolean;
@@ -20,7 +18,6 @@ interface IDashboardLayout {
 }
 
 export const DashboardLayout = observer(function _DashboardLayout({
-  setPanels,
   className = 'layout',
   rowHeight = 10,
   isDraggable,

@@ -18,6 +18,9 @@ export const PanelsModel = types
         return !_.isEqual(o.json, self.current[i].json);
       });
     },
+    get json() {
+      return self.current.map((o) => o.json);
+    },
     get layouts() {
       return self.current.map((o) => ({
         ...o.layout.json,

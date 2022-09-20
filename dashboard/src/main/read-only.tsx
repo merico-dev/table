@@ -29,7 +29,9 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(dashboard.panels);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    model.panels.json,
+  );
 
   useStickyAreaStyle();
   return (

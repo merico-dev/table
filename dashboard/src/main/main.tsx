@@ -1,8 +1,6 @@
 import { Box } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { APIClient } from '../api-caller/request';
@@ -14,7 +12,6 @@ import { DashboardLayout } from '../layout';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
-import { TableVizComponent } from '../plugins/viz-components/table';
 import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
 import { DashboardActions } from './actions';
 import { FullScreenPanel } from './full-screen-panel';
@@ -43,7 +40,6 @@ export const Dashboard = observer(function _Dashboard({
   const [layoutFrozen, freezeLayout] = React.useState(false);
   const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
-  const [panels, setPanels] = React.useState(dashboard.panels);
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
   React.useEffect(() => {
@@ -59,7 +55,7 @@ export const Dashboard = observer(function _Dashboard({
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
-      panels,
+      panels: [...model.panels.current],
       definition: { sqlSnippets, queries },
     };
     await update(d);
@@ -76,6 +72,7 @@ export const Dashboard = observer(function _Dashboard({
 
   const getCurrentSchema = React.useCallback(() => {
     const queries = model.queries.current;
+    const panels = model.panels.current;
     const sqlSnippets = model.sqlSnippets.current;
     const filters = model.filters.current;
     return {
@@ -86,11 +83,13 @@ export const Dashboard = observer(function _Dashboard({
         queries,
       },
     };
-  }, [panels, model]);
+  }, [model]);
 
   useStickyAreaStyle();
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(panels);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    model.panels.json,
+  );
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
@@ -132,12 +131,7 @@ export const Dashboard = observer(function _Dashboard({
                 <Filters />
               </Box>
               <PluginContext.Provider value={pluginContext}>
-                <DashboardLayout
-                  panels={panels}
-                  setPanels={setPanels}
-                  isDraggable={inEditMode}
-                  isResizable={inEditMode}
-                />
+                <DashboardLayout isDraggable={inEditMode} isResizable={inEditMode} />
               </PluginContext.Provider>
             </Box>
           </LayoutStateContext.Provider>
