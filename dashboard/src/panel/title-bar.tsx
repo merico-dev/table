@@ -32,7 +32,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.panels.remove(id),
+      onConfirm: () => model.panels.removeByID(id),
     });
 
   const enterFullScreen = React.useCallback(() => {

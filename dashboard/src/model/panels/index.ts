@@ -59,6 +59,13 @@ export const PanelsModel = types
       remove(index: number) {
         self.current.splice(index, 1);
       },
+      removeByID(id: string) {
+        const index = self.current.findIndex((o) => o.id === id);
+        if (index === -1) {
+          return;
+        }
+        self.current.splice(index, 1);
+      },
       replaceByIndex(index: number, replacement: PanelModelInstance) {
         self.current.splice(index, 1, replacement);
       },
