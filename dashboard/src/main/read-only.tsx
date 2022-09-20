@@ -37,7 +37,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
       <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
-            addPanel: _.noop,
             duplidatePanel: _.noop,
             removePanelByID: _.noop,
             viewPanelInFullScreen,

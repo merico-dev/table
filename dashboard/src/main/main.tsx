@@ -50,22 +50,8 @@ export const Dashboard = observer(function _Dashboard({
     model.context.replace(context);
   }, [context]);
 
-  const hasChanges = React.useMemo(() => {
-    if (model.filters.changed) {
-      return true;
-    }
-    if (model.queries.changed) {
-      return true;
-    }
-    if (model.sqlSnippets.changed) {
-      return true;
-    }
-    // local panels' layouts would contain some undefined runtime values
-    const cleanJSON = (v: $TSFixMe) => JSON.parse(JSON.stringify(v));
-
-    const panelsEqual = _.isEqual(cleanJSON(panels), cleanJSON(dashboard.panels));
-    return !panelsEqual;
-  }, [dashboard, panels, model.queries.changed, model.filters.changed]);
+  const hasChanges =
+    model.panels.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
 
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.current];
@@ -81,30 +67,9 @@ export const Dashboard = observer(function _Dashboard({
 
   const revertDashboardChanges = () => {
     model.filters.reset();
-    setPanels(dashboard.panels);
+    model.panels.reset();
     model.sqlSnippets.reset();
     model.queries.reset();
-  };
-
-  const addPanel = () => {
-    const id = randomId();
-    const newItem = {
-      id,
-      layout: {
-        x: 0,
-        y: Infinity, // puts it at the bottom
-        w: 3,
-        h: 15,
-      },
-      title: `Panel - ${id}`,
-      description: '<p><br></p>',
-      queryID: '',
-      viz: {
-        type: TableVizComponent.name,
-        conf: TableVizComponent.createConfig(),
-      },
-    };
-    setPanels((prevs) => [...prevs, newItem]);
   };
 
   const duplidatePanel = (id: string) => {
@@ -163,7 +128,6 @@ export const Dashboard = observer(function _Dashboard({
       <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
-            addPanel,
             duplidatePanel,
             removePanelByID,
             viewPanelInFullScreen,

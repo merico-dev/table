@@ -1,5 +1,7 @@
+import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import { cast, types } from 'mobx-state-tree';
+import { TableVizComponent } from '~/plugins/viz-components/table';
 import { PanelModel, PanelModelInstance } from './panel';
 
 export const PanelsModel = types
@@ -31,6 +33,25 @@ export const PanelsModel = types
       },
       replace(current: Array<PanelModelInstance>) {
         self.current = cast(current);
+      },
+      addANewPanel() {
+        const id = randomId();
+        self.current.push({
+          id,
+          layout: {
+            x: 0,
+            y: Infinity, // puts it at the bottom
+            w: 3,
+            h: 15,
+          },
+          title: `Panel - ${id}`,
+          description: '<p><br></p>',
+          queryID: '',
+          viz: {
+            type: TableVizComponent.name,
+            conf: TableVizComponent.createConfig(),
+          },
+        });
       },
       append(item: PanelModelInstance) {
         self.current.push(item);

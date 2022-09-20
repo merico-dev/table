@@ -27,7 +27,6 @@ export const DashboardActions = observer(function _DashboardActions({
   getCurrentSchema,
 }: IDashboardActions) {
   const model = useModelContext();
-  const { addPanel } = React.useContext(DashboardActionContext);
   const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
@@ -49,7 +48,7 @@ export const DashboardActions = observer(function _DashboardActions({
       </Group>
       <Group position="right">
         {!inUseMode && (
-          <Button variant="default" size="xs" onClick={addPanel} leftIcon={<PlaylistAdd size={20} />}>
+          <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>
             Add a Panel
           </Button>
         )}
