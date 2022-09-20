@@ -3,6 +3,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { ReadOnlyDashboardLayout } from '~/layout/read-only';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -46,9 +47,6 @@ export const Dashboard = observer(function _Dashboard({
     model.context.replace(context);
   }, [context]);
 
-  const hasChanges =
-    model.panels.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
-
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.current];
     const sqlSnippets = [...model.sqlSnippets.current];
@@ -61,12 +59,6 @@ export const Dashboard = observer(function _Dashboard({
     await update(d);
   };
 
-  const revertDashboardChanges = () => {
-    model.filters.reset();
-    model.panels.reset();
-    model.sqlSnippets.reset();
-    model.queries.reset();
-  };
   const inEditMode = mode === DashboardMode.Edit;
   const inUseMode = mode === DashboardMode.Use;
 
@@ -123,9 +115,7 @@ export const Dashboard = observer(function _Dashboard({
                 <DashboardActions
                   mode={mode}
                   setMode={setMode}
-                  hasChanges={hasChanges}
                   saveChanges={saveDashboardChanges}
-                  revertChanges={revertDashboardChanges}
                   getCurrentSchema={getCurrentSchema}
                 />
                 <Filters />
