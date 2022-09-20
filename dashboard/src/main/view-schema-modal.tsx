@@ -32,9 +32,11 @@ export function ViewSchemaModal({ opened, close, getCurrentSchema }: IViewSchema
         e.stopPropagation();
       }}
     >
-      <Prism language="json" sx={{ width: '100%' }} colorScheme="dark">
-        {schema}
-      </Prism>
+      {opened && (
+        <Prism language="json" sx={{ width: '100%' }} colorScheme="dark">
+          {schema}
+        </Prism>
+      )}
     </Modal>
   );
 }
