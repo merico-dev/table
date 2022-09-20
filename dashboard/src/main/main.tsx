@@ -71,28 +71,6 @@ export const Dashboard = observer(function _Dashboard({
     model.sqlSnippets.reset();
     model.queries.reset();
   };
-
-  const duplidatePanel = (id: string) => {
-    try {
-      const panel = panels.find((p) => p.id === id);
-      if (!panel) {
-        throw new Error(`[duplicate panel] Can't find a panel by id[${id}]`);
-      }
-      const newPanel = {
-        ...panel,
-        id: randomId(),
-        layout: {
-          ...panel.layout,
-          x: 0,
-          y: Infinity,
-        },
-      };
-      setPanels((prevs) => [...prevs, newPanel]);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const inEditMode = mode === DashboardMode.Edit;
   const inUseMode = mode === DashboardMode.Use;
 
@@ -120,7 +98,6 @@ export const Dashboard = observer(function _Dashboard({
       <ModelContextProvider value={model}>
         <DashboardActionContext.Provider
           value={{
-            duplidatePanel,
             viewPanelInFullScreen,
             inFullScreen,
           }}

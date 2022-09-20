@@ -66,6 +66,23 @@ export const PanelsModel = types
         }
         self.current.splice(index, 1);
       },
+      duplicateByID(id: string) {
+        const base = self.current.find((o) => o.id === id);
+        if (!base) {
+          console.error(new Error(`[duplicate panel] Can't find a panel by id[${id}]`));
+          return;
+        }
+        self.current.push({
+          ...base,
+          id: randomId(),
+          layout: {
+            ...base.layout,
+            x: 0,
+            y: Infinity,
+            moved: false,
+          },
+        });
+      },
       replaceByIndex(index: number, replacement: PanelModelInstance) {
         self.current.splice(index, 1, replacement);
       },

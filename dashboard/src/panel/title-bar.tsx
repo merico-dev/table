@@ -22,10 +22,10 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
   const { inEditMode } = React.useContext(LayoutStateContext);
   const refreshData = () => model.queries.refetchDataByQueryID(queryID);
 
-  const { duplidatePanel, viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
-  const duplicate = React.useCallback(() => {
-    duplidatePanel(id);
-  }, [duplidatePanel, id]);
+  const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
+  const duplicate = () => {
+    model.panels.duplicateByID(id);
+  };
 
   const remove = () =>
     modals.openConfirmModal({
