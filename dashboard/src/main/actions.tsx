@@ -101,7 +101,7 @@ export const DashboardActions = observer(function _DashboardActions({
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
-      {/* <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} /> */}
+      <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );
 });
