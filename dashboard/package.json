@@ -31,10 +31,12 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.5.13",
     "eventemitter2": "^6.4.6",
     "file-saver": "2.0.5",
     "jszip": "3.10.1",
     "popmotion": "^11.0.3",
+    "react-virtual": "^2.10.4",
     "stickybits": "3.7.11"
   },
   "devDependencies": {
