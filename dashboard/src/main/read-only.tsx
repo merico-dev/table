@@ -29,6 +29,10 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
+  React.useEffect(() => {
+    model.context.replace(context);
+  }, [context]);
+
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
     model.panels.json,
   );
