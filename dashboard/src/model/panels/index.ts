@@ -18,6 +18,12 @@ export const PanelsModel = types
         return !_.isEqual(o.json, self.current[i].json);
       });
     },
+    get layouts() {
+      return self.current.map((o) => ({
+        ...o.layout.json,
+        i: o.id,
+      }));
+    },
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },

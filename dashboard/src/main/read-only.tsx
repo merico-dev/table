@@ -59,7 +59,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               <Box className="dashboard-sticky-area">
                 <Filters />
               </Box>
-              <ReadOnlyDashboardLayout panels={dashboard.panels} />
+              <ReadOnlyDashboardLayout />
             </Box>
           </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>
