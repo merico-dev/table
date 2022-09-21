@@ -1,62 +1,50 @@
-import { Table, TableProps, Text } from '@mantine/core';
+import { Table, TableProps } from '@mantine/core';
 import {
+  Cell,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  Header,
   Row,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { get } from 'lodash';
 import React, { useCallback, useMemo, useState } from 'react';
-import { IconArrowUp, IconArrowDown } from '@tabler/icons';
 import { useVirtual } from 'react-virtual';
 import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
 import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
+import { HeadCell } from '~/plugins/viz-components/table/components/head-cell';
 import { ClickCellContent, IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
 import { useTableStyles } from '~/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
-import { VizInstance, VizViewProps } from '~/types/plugin';
+import { ITriggerSnapshot, IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { IVizManager, useStorageData } from '../..';
-import { DEFAULT_CONFIG, IColumnConf, ITableConf, ValueType } from './type';
+import { DEFAULT_CONFIG, IColumnConf, ITableCellContext, ITableConf, ValueType } from './type';
 import { CellValue } from './value';
 
 type TriggerConfigType = IClickCellContentConfig;
 
-const useHandleContentClick = (context: { vizManager: IVizManager; instance: VizInstance }) => {
+const useGetCellContext = (context: {
+  vizManager: IVizManager;
+  instance: VizInstance;
+  getColIndex: (cell: Cell<AnyObject, unknown>) => number;
+}) => {
   const interactionManager = useCurrentInteractionManager(context);
   const triggers = useTriggerSnapshotList<TriggerConfigType>(interactionManager.triggerManager, ClickCellContent.id);
-  return (col_index: number, row_index: number, row_data: AnyObject) => {
-    const relatedTriggers = triggers.filter((it) => get(it.config, 'column') == col_index);
-    if (relatedTriggers.length !== 0) {
-      return () => {
-        const payload = {
-          row_data,
-          row_index,
-          col_index,
-        };
-        for (const trigger of relatedTriggers) {
-          void interactionManager.runInteraction(trigger.id, payload);
-        }
-      };
-    }
-  };
+  return useCallback(
+    (cell: Cell<AnyObject, unknown>) => new TableCellContext(context.getColIndex, cell, triggers, interactionManager),
+    [triggers, interactionManager, context.getColIndex],
+  );
 };
 
 export function VizTable({ context, instance }: VizViewProps) {
   const data = (context.data ?? []) as AnyObject[];
   const { height, width } = context.viewport;
   const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
-  const { id_field, use_raw_columns, columns, ...rest } = conf;
+  const { use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
-
-  const getContentClickHandler = useHandleContentClick({
-    vizManager: context.vizManager,
-    instance: instance,
-  });
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
@@ -68,14 +56,22 @@ export function VizTable({ context, instance }: VizViewProps) {
     }
     return columns;
   }, [use_raw_columns, columns, data]);
+  const getCellContext = useGetCellContext({
+    getColIndex: useCallback((cell) => finalColumns.indexOf(cell.column.columnDef.meta as IColumnConf), [finalColumns]),
+    vizManager: context.vizManager,
+    instance: instance,
+  });
 
   const tableColumns = useMemo(() => {
     const columnHelper = createColumnHelper<AnyObject>();
     const valueCols = finalColumns.map((c) => {
       return columnHelper.accessor(c.value_field, {
-        cell: (row) => <CellValue value={row.getValue()} type={c.value_type} />,
+        cell: (cell) => (
+          <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} />
+        ),
         header: c.label,
         enableSorting: true,
+        meta: c,
       });
     });
     const indexCol = columnHelper.display({
@@ -85,7 +81,7 @@ export function VizTable({ context, instance }: VizViewProps) {
       size: 10 * (data.length.toString().length + 1),
     });
     return [indexCol, ...valueCols];
-  }, [finalColumns]);
+  }, [finalColumns, getCellContext]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
@@ -152,25 +148,43 @@ export function VizTable({ context, instance }: VizViewProps) {
   );
 }
 
-const HeadCell = ({ header, cx }: { header: Header<AnyObject, unknown>; cx: (...args: unknown[]) => string }) => {
-  return (
-    <Text
-      className={cx('table-head-cell', { 'table-head-cell--sortable': header.column.getCanSort() })}
-      onClick={header.column.getToggleSortingHandler()}
-    >
-      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-      {<SortIcon direction={header.column.getIsSorted()} />}
-    </Text>
-  );
-};
+class TableCellContext implements ITableCellContext {
+  constructor(
+    private getColIndex: (cell: Cell<AnyObject, unknown>) => number,
+    public cell: Cell<AnyObject, unknown>,
+    public triggers: ITriggerSnapshot<TriggerConfigType>[],
+    public interactionManager: IVizInteractionManager,
+  ) {}
 
-const SortIcon = ({ direction }: { direction: false | 'asc' | 'desc' }) => {
-  switch (direction) {
-    case 'asc':
-      return <IconArrowUp size={16} />;
-    case 'desc':
-      return <IconArrowDown size="1em" />;
-    default:
-      return null;
+  getClickHandler(): (() => void) | undefined {
+    const relatedTriggers = this.getRelatedTrigger();
+    if (relatedTriggers.length === 0) {
+      return undefined;
+    }
+    return () => {
+      const payload = {
+        row_data: this.cell.row.original,
+        row_index: this.cell.row.index,
+        col_index: this.getColIndex(this.cell),
+      };
+      for (const trigger of relatedTriggers) {
+        void this.interactionManager.runInteraction(trigger.id, payload);
+      }
+    };
   }
-};
+
+  private getRelatedTrigger() {
+    const clickCellTriggers = this.triggers.filter((it) => it.schemaRef === ClickCellContent.id);
+    return clickCellTriggers.filter((it) => {
+      // -1 for index column
+      const colIndex = this.getColIndex(this.cell);
+      const colField = get(this.cell.column.columnDef.meta, 'value_field');
+      const column = get(it.config, 'column');
+      return column == colIndex || column == colField;
+    });
+  }
+
+  isClickable(): boolean {
+    return this.getRelatedTrigger().length > 0;
+  }
+}
