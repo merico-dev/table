@@ -32,3 +32,9 @@ export const DEFAULT_CONFIG: ITableConf = {
   use_raw_columns: false,
   verticalSpacing: '1em',
 };
+
+export interface ITableCellContext {
+  getClickHandler(): (() => void) | undefined;
+
+  isClickable(): boolean;
+}
