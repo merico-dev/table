@@ -10,7 +10,11 @@ const workspace = (...segments: string[]) => {
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  console.log(env);
+
+  console.group('🔵 Loading ENV from', process.cwd());
+  console.table(env);
+  console.groupEnd();
+
   return defineConfig({
     base: env.VITE_WEBSITE_BASE_URL,
     plugins: [
