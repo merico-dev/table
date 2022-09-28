@@ -45,6 +45,12 @@ export interface IRegressionConf {
   y_axis_data_key: string;
 }
 
+export interface ICartesianReferenceLine {
+  name: string;
+  template: string;
+  variable_key: string;
+}
+
 export interface ICartesianChartConf {
   x_axis_data_key: string;
   x_axis_name: string;
@@ -58,6 +64,8 @@ export interface ICartesianChartConf {
     };
     variables: ITemplateVariable[];
   };
+  variables: ITemplateVariable[];
+  reference_lines: ICartesianReferenceLine[];
 }
 
 export const DEFAULT_CONFIG: ICartesianChartConf = {
@@ -72,4 +80,6 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       label_formatter: defaultNumbroFormat,
     },
   ],
+  variables: [],
+  reference_lines: [],
 };

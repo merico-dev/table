@@ -1,7 +1,7 @@
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Text, Group, Stack, Accordion, ActionIcon, TextInput } from '@mantine/core';
+import { Text, Group, Stack, Accordion, ActionIcon, TextInput, Tabs } from '@mantine/core';
 
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
@@ -12,6 +12,8 @@ import { SeriesField } from './panel/series';
 import { YAxesField } from './panel/y-axes';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { DeviceFloppy } from 'tabler-icons-react';
+import { VariablesField } from './panel/variables';
+import { ReferenceLinesField } from './panel/reference-lines';
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -147,6 +149,31 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <Accordion.Control>Stats</Accordion.Control>
             <Accordion.Panel>
               <StatsField control={control} watch={watch} data={data} />
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item value="Advanced">
+            <Accordion.Control>
+              <Group position="apart">
+                Advanced
+                <Text align="right" size={12} color="grey">
+                  Use variables in reference lines
+                </Text>
+              </Group>
+            </Accordion.Control>
+            <Accordion.Panel>
+              <Tabs defaultValue="variables">
+                <Tabs.List>
+                  <Tabs.Tab value="variables">Variables</Tabs.Tab>
+                  <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="variables" pt="xs">
+                  <VariablesField control={control} watch={watch} data={data} />
+                </Tabs.Panel>
+                <Tabs.Panel value="reference_lines" pt="xs">
+                  <ReferenceLinesField control={control} watch={watch} />
+                </Tabs.Panel>
+              </Tabs>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
