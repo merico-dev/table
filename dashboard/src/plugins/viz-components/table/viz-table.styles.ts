@@ -12,6 +12,12 @@ export const useTableStyles = createStyles((theme) => ({
         userSelect: 'none',
       },
     },
+    '&.table-highlight-on-hover tr': {
+      transition: 'background-color 0.2s',
+      '&:hover': {
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[0],
+      },
+    },
   },
   thead: {
     background: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,

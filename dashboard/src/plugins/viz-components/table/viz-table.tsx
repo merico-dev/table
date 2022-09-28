@@ -108,8 +108,12 @@ export function VizTable({ context, instance }: VizViewProps) {
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
   return (
-    <div ref={tableContainerRef} style={{ height, width }} className={classes.root}>
-      <Table sx={{ maxHeight: height }} {...(rest as TableProps)}>
+    <div
+      ref={tableContainerRef}
+      style={{ height, width }}
+      className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
+    >
+      <Table sx={{ maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>

@@ -1,3 +1,5 @@
+import { IColorInterpolationConfig, ISingleColor } from '~/types/plugin';
+
 export enum ValueType {
   string = 'string',
   number = 'number',
@@ -5,10 +7,13 @@ export enum ValueType {
   percentage = 'percentage',
 }
 
+type CellBackgroundColorType = ISingleColor | IColorInterpolationConfig;
+
 export interface IColumnConf {
   label: string;
   value_field: string;
   value_type: ValueType;
+  cellBackgroundColor?: CellBackgroundColorType;
 }
 
 export interface ITableConf {
