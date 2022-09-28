@@ -8,7 +8,7 @@ import numbro from 'numbro';
 import React, { CSSProperties, useEffect, useState } from 'react';
 import { IValueStep } from '~/plugins/color-manager/multi-step-value-mapper';
 import { useStyles } from '~/plugins/controls/color-mapping-editor/style';
-import { ColorInterpolation } from '~/types/plugin';
+import { IColorInterpolation } from '~/types/plugin';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },
@@ -18,7 +18,7 @@ const DEFAULT_STEPS: IValueStep[] = [
 export interface IColorMappingEditorProps {
   steps: IValueStep[];
   onChange?: (steps: IValueStep[]) => void;
-  interpolation: ColorInterpolation;
+  interpolation: IColorInterpolation;
 }
 
 class ColorMappingEditorModel {
@@ -26,7 +26,7 @@ class ColorMappingEditorModel {
    * map toValue to fromValue
    */
   steps: Map<number, number> = new Map();
-  interpolation!: ColorInterpolation;
+  interpolation!: IColorInterpolation;
   onChange: IColorMappingEditorProps['onChange'];
 
   constructor() {
@@ -105,7 +105,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
   const valueText = numbro(value).format({ average: true });
 
   return (
-    <div className={classes.paletteItem}>
+    <div data-testid={`palette-item-${index}`} className={classes.paletteItem}>
       <Text
         title={textTitle}
         style={{ opacity: showUpLabel ? 1 : 0 }}
@@ -115,9 +115,10 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
       >
         {valueText}
       </Text>
-      <Popover width={200} trapFocus opened={popoverOpened}>
+      <Popover width={200} trapFocus opened={popoverOpened} onClose={closePopover}>
         <Popover.Target>
           <div
+            data-testid={`palette-item-target`}
             className="palette-item"
             onClick={openPopover}
             style={
@@ -135,7 +136,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
               <Button variant="subtle" size="xs" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button size="xs" onClick={handleOk}>
+              <Button data-testid="palette-item-ok" size="xs" onClick={handleOk}>
                 OK
               </Button>
             </Group>

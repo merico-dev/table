@@ -1,4 +1,6 @@
 import { createContext } from 'react';
+import { RedGreen } from '~/plugins/colors/red-green';
+import { YellowBlue } from '~/plugins/colors/yellow-blue';
 import * as PACKAGE from '../../package.json';
 
 import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';
@@ -88,6 +90,8 @@ const basicColors = [
   }),
 );
 
+const colorInterpolations = [RedGreen, YellowBlue];
+
 const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',
   version: PACKAGE.version,
@@ -104,7 +108,7 @@ const BuiltInPlugin: IDashboardPlugin = {
       RadarChartVizComponent,
       RegressionChartVizComponent,
     ],
-    color: [...basicColors],
+    color: [...basicColors, ...colorInterpolations],
   },
 };
 

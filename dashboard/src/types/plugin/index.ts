@@ -47,7 +47,7 @@ export interface ISingleColor extends IColorPaletteItem {
   value: string;
 }
 
-export interface ColorInterpolation extends IColorPaletteItem {
+export interface IColorInterpolation extends IColorPaletteItem {
   type: 'interpolation';
   displayName: string;
   /**
