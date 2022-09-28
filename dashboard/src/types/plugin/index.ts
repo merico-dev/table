@@ -49,7 +49,12 @@ export interface ISingleColor extends IColorPaletteItem {
 
 export interface ColorInterpolation extends IColorPaletteItem {
   type: 'interpolation';
-  interpolation: (value: number) => string;
+  displayName: string;
+  /**
+   * Map a value (0-100) to a color
+   * @param value
+   */
+  getColor: (value: number) => string;
 }
 
 export interface ColorPalette {
