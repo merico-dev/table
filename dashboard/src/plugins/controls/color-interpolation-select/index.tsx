@@ -3,13 +3,8 @@ import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { IColorManager } from '~/plugins';
 
-import { IValueStep } from '~/plugins/color-manager/multi-step-value-mapper';
 import { ColorMappingEditor } from '~/plugins/controls/color-mapping-editor';
-
-interface IColorInterpolationConfig {
-  steps: IValueStep[];
-  interpolation: string;
-}
+import { IColorInterpolationConfig, IValueStep } from '~/types/plugin';
 
 export interface IColorInterpolationSelectProps {
   colorManager: IColorManager;

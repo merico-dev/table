@@ -1,9 +1,9 @@
 import { useUpdate } from 'ahooks';
 import { noop } from 'lodash';
 import { MutableRefObject, useEffect, useState } from 'react';
-import { IValueStep } from '~/plugins/color-manager/multi-step-value-mapper';
 import { RedGreen } from '~/plugins/colors';
 import { ColorMappingEditor, IColorMappingEditorProps } from '~/plugins/controls/color-mapping-editor';
+import { IValueStep } from '~/types/plugin';
 
 const steps: IValueStep[] = [
   { from: 0, to: 0 },

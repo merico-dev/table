@@ -6,9 +6,8 @@ import { makeAutoObservable, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import numbro from 'numbro';
 import React, { CSSProperties, useEffect, useState } from 'react';
-import { IValueStep } from '~/plugins/color-manager/multi-step-value-mapper';
 import { useStyles } from '~/plugins/controls/color-mapping-editor/style';
-import { IColorInterpolation } from '~/types/plugin';
+import { IColorInterpolation, IValueStep } from '~/types/plugin';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },

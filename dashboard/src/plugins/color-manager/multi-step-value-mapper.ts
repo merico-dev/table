@@ -1,10 +1,6 @@
 import { findLastIndex } from 'lodash';
+import { IValueStep } from '~/types/plugin';
 import { IValueMapper } from './type';
-
-export interface IValueStep {
-  from: number;
-  to: number;
-}
 
 function minmax(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);

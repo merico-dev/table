@@ -241,3 +241,13 @@ export interface IVizInteractionManager {
 
   runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void>;
 }
+
+export interface IValueStep {
+  from: number;
+  to: number;
+}
+
+export interface IColorInterpolationConfig {
+  steps: IValueStep[];
+  interpolation: string;
+}
