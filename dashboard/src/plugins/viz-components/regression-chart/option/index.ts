@@ -13,6 +13,16 @@ const defaultOption = {
     bottom: 30,
     containLabel: true,
   },
+  dataZoom: [
+    {
+      type: 'inside',
+      xAxisIndex: [0],
+    },
+    {
+      type: 'inside',
+      yAxisIndex: [0],
+    },
+  ],
 };
 
 export function getOption(conf: IRegressionChartConf, data: $TSFixMe[]) {

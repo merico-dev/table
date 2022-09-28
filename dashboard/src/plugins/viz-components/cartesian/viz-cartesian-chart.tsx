@@ -4,7 +4,7 @@ import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 /* @ts-expect-error type defs of echarts-stat */
 import { transform } from 'echarts-stat';
-import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
@@ -15,7 +15,16 @@ import { getOption } from './option';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { Box, Text } from '@mantine/core';
 
-echarts.use([BarChart, LineChart, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([
+  DataZoomComponent,
+  BarChart,
+  LineChart,
+  ScatterChart,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  CanvasRenderer,
+]);
 echarts.registerTransform(transform.regression);
 
 function templateNotEmpty(str: string) {

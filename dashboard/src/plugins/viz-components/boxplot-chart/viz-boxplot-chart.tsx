@@ -1,7 +1,13 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import { BoxplotChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, MarkLineComponent, TooltipComponent } from 'echarts/components';
+import {
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  MarkLineComponent,
+  TooltipComponent,
+} from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
@@ -11,7 +17,15 @@ import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateT
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 
-echarts.use([BoxplotChart, MarkLineComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+echarts.use([
+  DataZoomComponent,
+  BoxplotChart,
+  MarkLineComponent,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  CanvasRenderer,
+]);
 
 function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: $TSFixMe[]) {
   const variableValueMap = variables.reduce((prev, variable) => {
@@ -71,6 +85,16 @@ export function VizBoxplotChart({ context }: VizViewProps) {
             },
           },
         },
+      },
+    ],
+    dataZoom: [
+      {
+        type: 'inside',
+        xAxisIndex: [0],
+      },
+      {
+        type: 'inside',
+        yAxisIndex: [0],
       },
     ],
     tooltip: {
