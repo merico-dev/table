@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-import { RedGreen } from '~/plugins/colors/red-green';
-import { YellowBlue } from '~/plugins/colors/yellow-blue';
+import { RedGreen, YellowBlue } from '~/plugins/colors';
 import * as PACKAGE from '../../package.json';
 
 import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';

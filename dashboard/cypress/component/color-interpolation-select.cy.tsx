@@ -2,7 +2,7 @@ import { useUpdate } from 'ahooks';
 import { noop } from 'lodash';
 import React, { ComponentProps, ComponentType, useEffect } from 'react';
 import { ColorManager, pluginManager } from '~/plugins';
-import { RedGreen } from '~/plugins/colors/red-green';
+import { RedGreen } from '~/plugins/colors';
 import {
   ColorInterpolationSelect,
   IColorInterpolationSelectProps,
