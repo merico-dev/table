@@ -15,6 +15,11 @@ const defaultOption = {
     left: 0,
     type: 'scroll',
   },
+  dataZoom: [
+    {
+      type: 'inside',
+    },
+  ],
   tooltip: {
     trigger: 'axis',
   },
