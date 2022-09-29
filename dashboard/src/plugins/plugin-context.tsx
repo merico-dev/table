@@ -16,6 +16,7 @@ import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { CartesianVizComponent } from './viz-components/cartesian';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
 import { RegressionChartVizComponent } from './viz-components/regression-chart';
+import { ParetoChartVizComponent } from './viz-components/pareto-chart';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -103,6 +104,7 @@ const BuiltInPlugin: IDashboardPlugin = {
       PieChartVizComponent,
       Bar3dChartVizComponent,
       BoxplotChartVizComponent,
+      ParetoChartVizComponent,
       CartesianVizComponent,
       RadarChartVizComponent,
       RegressionChartVizComponent,
