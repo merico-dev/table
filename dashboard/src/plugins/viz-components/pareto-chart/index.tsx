@@ -18,7 +18,7 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
 }
 
 export const ParetoChartVizComponent: VizComponent = {
-  displayName: 'ParetoChart',
+  displayName: 'Pareto Chart',
   migrator: new VizParetoChartMigrator(),
   name: 'paretoChart',
   viewRender: VizParetoChart,
