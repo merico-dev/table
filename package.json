@@ -30,7 +30,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "postinstall": "cd ./tools && tsc -p ./tsconfig.tools.json"
+    "postinstall": "cd ./tools && tsc -p ./tsconfig.plugin.json"
   },
   "dependencies": {}
 }
