@@ -1,4 +1,5 @@
 import { Group, Select } from '@mantine/core';
+import { useLatest } from 'ahooks';
 import { isObject, isString } from 'lodash';
 import { useContext, useState } from 'react';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
@@ -56,33 +57,29 @@ export const BackgroundColorSelect = (props: IBackgroundColorSelectProps) => {
   const { colorManager } = useContext(PluginContext);
   const [colorType, setColorType] = useState(getColorType(props.value));
   const [staticColor, setStaticColor] = useState<string>(getInitialStaticColor(colorManager, props.value));
+  const staticColorRef = useLatest(staticColor);
   const [interpolationColor, setInterpolationColor] = useState<IColorInterpolationConfig>(
     getInitialInterpolationColor(colorManager, props.value),
   );
-  const notifyChange = (color: CellBackgroundColorType | null) => {
-    switch (color) {
-      case 'static':
-        props.onChange?.(staticColor);
-        break;
-      case 'interpolation':
-        props.onChange?.(interpolationColor);
-        break;
-      default:
-        props.onChange?.('none');
-    }
-  };
+  const interpolationColorRef = useLatest(interpolationColor);
 
   const handleColorTypeChange = (value: string | null) => {
     setColorType(value || 'none');
-    notifyChange(value);
+    if (value === 'static') {
+      props.onChange?.(staticColorRef.current);
+    } else if (value === 'none' || !value) {
+      props.onChange?.('none');
+    } else {
+      props.onChange?.(interpolationColorRef.current);
+    }
   };
   const handleStaticColorChange = (value: string) => {
     setStaticColor(value);
-    notifyChange(value);
+    props.onChange?.(value);
   };
   const handleInterpolationColorChange = (value: IColorInterpolationConfig) => {
     setInterpolationColor(value);
-    notifyChange(value);
+    props.onChange?.(value);
   };
   return (
     <Group align="end">

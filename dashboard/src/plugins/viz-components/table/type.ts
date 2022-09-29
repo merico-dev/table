@@ -42,4 +42,6 @@ export interface ITableCellContext {
   getClickHandler(): (() => void) | undefined;
 
   isClickable(): boolean;
+
+  bgColor: string | undefined;
 }

@@ -1,22 +1,53 @@
 import { createStyles, Text } from '@mantine/core';
+import chroma from 'chroma-js';
 import numbro from 'numbro';
 import { PropsWithChildren } from 'react';
+import { AnyObject } from '~/types';
 import { ITableCellContext, ValueType } from './type';
 
 const useCellStyles = createStyles((theme, params: { clickable?: boolean }) => ({
   content: {
-    cursor: params.clickable ? 'pointer' : 'default',
-    textDecoration: params.clickable ? 'underline' : 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    '.table-cell-text': {
+      whiteSpace: 'nowrap',
+      marginLeft: theme.spacing.xs,
+      cursor: params.clickable ? 'pointer' : 'default',
+      textDecoration: params.clickable ? 'underline' : 'none',
+    },
   },
 }));
+
+function getTextColor(bgColor?: string) {
+  if (!bgColor) {
+    return 'inherit';
+  }
+  return (chroma(bgColor) as AnyObject).oklch()[0] > 0.7 ? 'black' : 'white';
+}
+
+function getCellStyle(cell: ICellValue) {
+  const bgColor = cell.tableCellContext.bgColor;
+  return {
+    backgroundColor: bgColor,
+    color: getTextColor(bgColor),
+  };
+}
 
 function CellRender(props: PropsWithChildren<ICellValue>) {
   const clickable = props.tableCellContext.isClickable();
   const cellStyles = useCellStyles({ clickable });
   return (
-    <Text className={cellStyles.classes.content} onClick={props.tableCellContext.getClickHandler()}>
-      {props.children}
-    </Text>
+    <div
+      className={cellStyles.classes.content}
+      style={{
+        ...getCellStyle(props),
+      }}
+    >
+      <Text className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
+        <span>{props.children}</span>
+      </Text>
+    </div>
   );
 }
 

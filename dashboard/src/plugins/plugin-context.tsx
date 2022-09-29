@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { RedGreen, YellowBlue } from '~/plugins/colors';
+import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors';
 import * as PACKAGE from '../../package.json';
 
 import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';
@@ -89,7 +89,7 @@ const basicColors = [
   }),
 );
 
-const colorInterpolations = [RedGreen, YellowBlue];
+const colorInterpolations = [RedGreen, YellowBlue, Blue, Green, Red, Orange];
 
 const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',

@@ -7,6 +7,7 @@ export const useTableStyles = createStyles((theme) => ({
       display: 'flex',
       flexFlow: 'row nowrap',
       alignItems: 'center',
+      whiteSpace: 'nowrap',
       '&.table-head-cell--sortable': {
         cursor: 'pointer',
         userSelect: 'none',
