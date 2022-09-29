@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors';
 import * as PACKAGE from '../../package.json';
 
 import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';
@@ -88,6 +89,8 @@ const basicColors = [
   }),
 );
 
+const colorInterpolations = [RedGreen, YellowBlue, Blue, Green, Red, Orange];
+
 const BuiltInPlugin: IDashboardPlugin = {
   id: 'dashboard',
   version: PACKAGE.version,
@@ -104,13 +107,19 @@ const BuiltInPlugin: IDashboardPlugin = {
       RadarChartVizComponent,
       RegressionChartVizComponent,
     ],
-    color: [...basicColors],
+    color: [...basicColors, ...colorInterpolations],
   },
 };
 
 export const pluginManager = new PluginManager();
 
 export const createPluginContext = (): IPluginContextProps => {
+  try {
+    // reinstall built-in plugin on HMR
+    pluginManager.install(BuiltInPlugin);
+  } catch (e) {
+    // ignore
+  }
   const vizManager = new VizManager(pluginManager);
   const colorManager = new ColorManager(pluginManager);
   return { pluginManager, vizManager, colorManager };
@@ -118,4 +127,8 @@ export const createPluginContext = (): IPluginContextProps => {
 
 export const PluginContext = createContext<IPluginContextProps>(createPluginContext());
 
-pluginManager.install(BuiltInPlugin);
+try {
+  pluginManager.install(BuiltInPlugin);
+} catch (e) {
+  // ignore
+}

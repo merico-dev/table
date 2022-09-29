@@ -1,3 +1,5 @@
+import { IColorInterpolationConfig } from '~/types/plugin';
+
 export enum ValueType {
   string = 'string',
   number = 'number',
@@ -5,10 +7,13 @@ export enum ValueType {
   percentage = 'percentage',
 }
 
+export type CellBackgroundColorType = string | IColorInterpolationConfig;
+
 export interface IColumnConf {
   label: string;
   value_field: string;
   value_type: ValueType;
+  cellBackgroundColor?: CellBackgroundColorType;
 }
 
 export interface ITableConf {
@@ -37,4 +42,6 @@ export interface ITableCellContext {
   getClickHandler(): (() => void) | undefined;
 
   isClickable(): boolean;
+
+  bgColor: string | undefined;
 }

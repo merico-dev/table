@@ -9,17 +9,18 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import { get } from 'lodash';
-import React, { useCallback, useMemo, useState } from 'react';
+import { get, isString } from 'lodash';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
 import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
+import { MultiStepValueMapper } from '~/plugins/color-manager/multi-step-value-mapper';
 import { HeadCell } from '~/plugins/viz-components/table/components/head-cell';
 import { ClickCellContent, IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
 import { useTableStyles } from '~/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
 import { ITriggerSnapshot, IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
-import { IVizManager, useStorageData } from '../..';
+import { IColorManager, IVizManager, PluginContext, useStorageData } from '../..';
 import { DEFAULT_CONFIG, IColumnConf, ITableCellContext, ITableConf, ValueType } from './type';
 import { CellValue } from './value';
 
@@ -32,8 +33,10 @@ const useGetCellContext = (context: {
 }) => {
   const interactionManager = useCurrentInteractionManager(context);
   const triggers = useTriggerSnapshotList<TriggerConfigType>(interactionManager.triggerManager, ClickCellContent.id);
+  const { colorManager } = useContext(PluginContext);
   return useCallback(
-    (cell: Cell<AnyObject, unknown>) => new TableCellContext(context.getColIndex, cell, triggers, interactionManager),
+    (cell: Cell<AnyObject, unknown>) =>
+      new TableCellContext(context.getColIndex, cell, triggers, interactionManager, colorManager),
     [triggers, interactionManager, context.getColIndex],
   );
 };
@@ -108,8 +111,12 @@ export function VizTable({ context, instance }: VizViewProps) {
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
   return (
-    <div ref={tableContainerRef} style={{ height, width }} className={classes.root}>
-      <Table sx={{ maxHeight: height }} {...(rest as TableProps)}>
+    <div
+      ref={tableContainerRef}
+      style={{ height, width }}
+      className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
+    >
+      <Table sx={{ maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -154,6 +161,7 @@ class TableCellContext implements ITableCellContext {
     public cell: Cell<AnyObject, unknown>,
     public triggers: ITriggerSnapshot<TriggerConfigType>[],
     public interactionManager: IVizInteractionManager,
+    public colorManager: IColorManager,
   ) {}
 
   getClickHandler(): (() => void) | undefined {
@@ -186,5 +194,26 @@ class TableCellContext implements ITableCellContext {
 
   isClickable(): boolean {
     return this.getRelatedTrigger().length > 0;
+  }
+
+  get columnConf(): IColumnConf {
+    return this.cell.column.columnDef.meta as IColumnConf;
+  }
+
+  get bgColor() {
+    const colorDef = this.columnConf.cellBackgroundColor;
+    if (!colorDef || colorDef === 'none') {
+      return undefined;
+    }
+    if (isString(colorDef)) {
+      return colorDef;
+    }
+    const cellValueNumber = +(this.cell.getValue() as number);
+    if (isFinite(cellValueNumber)) {
+      const interpolation = this.colorManager.decodeInterpolation(colorDef.interpolation);
+      const valueMapper = new MultiStepValueMapper(colorDef.steps);
+      const mappedValue = valueMapper.mapValue(cellValueNumber);
+      return interpolation?.getColor(mappedValue);
+    }
   }
 }

@@ -47,9 +47,14 @@ export interface ISingleColor extends IColorPaletteItem {
   value: string;
 }
 
-export interface ColorInterpolation extends IColorPaletteItem {
+export interface IColorInterpolation extends IColorPaletteItem {
   type: 'interpolation';
-  interpolation: (value: number) => string;
+  displayName: string;
+  /**
+   * Map a value (0-100) to a color
+   * @param value
+   */
+  getColor: (value: number) => string;
 }
 
 export interface ColorPalette {
@@ -235,4 +240,14 @@ export interface IVizInteractionManager {
   removeInteraction(interactionId: string): Promise<void>;
 
   runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void>;
+}
+
+export interface IValueStep {
+  from: number;
+  to: number;
+}
+
+export interface IColorInterpolationConfig {
+  steps: IValueStep[];
+  interpolation: string;
 }
