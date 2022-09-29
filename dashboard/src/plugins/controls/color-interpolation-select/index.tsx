@@ -1,5 +1,6 @@
 import { Button, Group, Modal, Select, SelectItem, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
+import { toJS } from 'mobx';
 import { useState } from 'react';
 import { IColorManager } from '~/plugins';
 
@@ -32,8 +33,9 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
 
   const handleOk = () => {
     setFalse();
-    onChange?.(localValue);
+    onChange?.(toJS(localValue));
   };
+
   function handleStepsChange(steps: IValueStep[]) {
     setLocalValue((prev) => ({ ...prev, steps }));
   }
@@ -44,7 +46,9 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
   };
   return (
     <>
-      <Button onClick={setTrue}>{interpolation?.displayName}</Button>
+      <Button variant="outline" onClick={setTrue}>
+        {interpolation?.displayName}
+      </Button>
       <Modal size={508} title="Setup color interpolation" opened={modalOpened} onClose={setFalse}>
         {modalOpened && (
           <Stack data-testid="color-interpolation-modal">

@@ -6,6 +6,7 @@ import { defaults } from 'lodash';
 import { useEffect } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { BackgroundColorSelect } from '~/plugins/viz-components/table/components/background-color-select';
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ITableConf, ValueType } from './type';
@@ -107,6 +108,7 @@ export function VizTablePanel({ context }: VizConfigProps) {
                       sx={{ flex: 1 }}
                       {...form.getInputProps(`columns.${index}.value_type`)}
                     />
+                    <BackgroundColorSelect {...form.getInputProps(`columns.${index}.cellBackgroundColor`)} />
                   </Group>
                   <ActionIcon
                     color="red"
