@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "./",
-    "outDir": "./dist/generators",
+    "outDir": "./dist/nx-plugin",
     "module": "commonjs",
     "target": "ES2019",
     "sourceMap": false,

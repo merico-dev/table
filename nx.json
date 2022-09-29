@@ -25,5 +25,5 @@
   "affected": {
     "defaultBase": "main"
   },
-  "plugins": ["./tools/dist/nx-plugins"]
+  "plugins": ["./tools/dist/nx-plugin/nx-plugins"]
 }
