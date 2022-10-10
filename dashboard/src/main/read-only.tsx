@@ -33,8 +33,10 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
     model.context.replace(context);
   }, [context]);
 
+  // TODO: view-level fullsreen
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
-    model.panels.json,
+    // model.panels.json,
+    [],
   );
 
   useStickyAreaStyle();

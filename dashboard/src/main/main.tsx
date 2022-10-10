@@ -80,8 +80,10 @@ export const Dashboard = observer(function _Dashboard({
 
   useStickyAreaStyle();
 
+  // TODO: view-level fullsreen
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
-    model.panels.json,
+    // model.panels.json,
+    [],
   );
 
   const pluginContext = useCreation(createPluginContext, []);
