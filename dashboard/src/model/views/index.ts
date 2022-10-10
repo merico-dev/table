@@ -7,6 +7,7 @@ export const ViewsModel = types
   .model('ViewsModel', {
     original: types.optional(types.array(ViewModel), []),
     current: types.optional(types.array(ViewModel), []),
+    visibleViewIDs: types.array(types.string),
   })
   .views((self) => ({
     get changed() {

@@ -74,6 +74,7 @@ export function createDashboardModel(
     views: {
       original: views,
       current: views,
+      visibleViewIDs: views.length > 0 ? [views[1].id] : [],
     },
   });
 }
