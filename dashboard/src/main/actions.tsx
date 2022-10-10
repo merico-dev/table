@@ -1,25 +1,32 @@
 import { Button, Group, Menu } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { Code, Database, DeviceFloppy, Download, Filter, Recycle, Share } from 'tabler-icons-react';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
 import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
-  mode: DashboardMode;
-  setMode: React.Dispatch<React.SetStateAction<DashboardMode>>;
   saveChanges: () => void;
-  getCurrentSchema: () => $TSFixMe;
 }
-export const DashboardActions = observer(function _DashboardActions({
-  mode,
-  setMode,
-  saveChanges,
-  getCurrentSchema,
-}: IDashboardActions) {
+export const DashboardActions = observer(function _DashboardActions({ saveChanges }: IDashboardActions) {
   const model = useModelContext();
+
+  const getCurrentSchema = React.useCallback(() => {
+    const queries = model.queries.current;
+    const views = model.views.current;
+    const sqlSnippets = model.sqlSnippets.current;
+    const filters = model.filters.current;
+    return {
+      filters,
+      views,
+      definition: {
+        sqlSnippets,
+        queries,
+      },
+    };
+  }, [model]);
 
   const revertChanges = () => {
     model.filters.reset();

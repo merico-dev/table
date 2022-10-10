@@ -58,75 +58,33 @@ export const Dashboard = observer(function _Dashboard({
     await update(d);
   };
 
-  const inEditMode = mode === DashboardMode.Edit;
-  const inUseMode = mode === DashboardMode.Use;
-
-  const getCurrentSchema = React.useCallback(() => {
-    const queries = model.queries.current;
-    const views = model.views.current;
-    const sqlSnippets = model.sqlSnippets.current;
-    const filters = model.filters.current;
-    return {
-      filters,
-      views,
-      definition: {
-        sqlSnippets,
-        queries,
-      },
-    };
-  }, [model]);
-
   useStickyAreaStyle();
-
-  // TODO: view-level fullsreen
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
-    // model.panels.json,
-    [],
-  );
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
-        <DashboardActionContext.Provider
+        <LayoutStateContext.Provider
           value={{
-            viewPanelInFullScreen,
-            inFullScreen,
+            layoutFrozen,
+            freezeLayout,
+            inEditMode: true,
+            inUseMode: false,
           }}
         >
-          <LayoutStateContext.Provider
-            value={{
-              layoutFrozen,
-              freezeLayout,
-              mode,
-              inEditMode,
-              inUseMode,
+          <Box
+            className={`${className} dashboard-root dashboard-sticky-parent`}
+            sx={{
+              position: 'relative',
             }}
           >
-            <Box
-              className={`${className} dashboard-root dashboard-sticky-parent`}
-              sx={{
-                position: 'relative',
-                display: inFullScreen ? 'none' : 'block',
-              }}
-            >
-              <Box className="dashboard-sticky-area">
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  saveChanges={saveDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
-                />
-                <Filters />
-              </Box>
-              <PluginContext.Provider value={pluginContext}>
-                {model.views.current.map((view) => (
-                  <MainDashboardView key={view.id} view={view} />
-                ))}
-              </PluginContext.Provider>
-            </Box>
-          </LayoutStateContext.Provider>
-        </DashboardActionContext.Provider>
+            <PluginContext.Provider value={pluginContext}>
+              {model.views.current.map((view) => (
+                <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+              ))}
+            </PluginContext.Provider>
+          </Box>
+        </LayoutStateContext.Provider>
       </ModelContextProvider>
     </ModalsProvider>
   );
