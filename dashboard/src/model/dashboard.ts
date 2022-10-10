@@ -4,7 +4,7 @@ import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
-import { ViewsModel } from './views';
+import { createDashboardViewsModel, ViewsModel } from './views';
 
 const DashboardModel = types
   .model({
@@ -71,11 +71,7 @@ export function createDashboardModel(
       current: sqlSnippets,
     },
     context,
-    views: {
-      original: views,
-      current: views,
-      visibleViewIDs: views.length > 0 ? [views[0].id] : [],
-    },
+    views: createDashboardViewsModel(views),
   });
 }
 

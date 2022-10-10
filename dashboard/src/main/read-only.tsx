@@ -68,7 +68,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
                 <Filters />
               </Box>
               {model.views.current.map((view) => (
-                <ReadOnlyDashboardView view={view} />
+                <ReadOnlyDashboardView key={view.id} view={view} />
               ))}
             </Box>
           </LayoutStateContext.Provider>

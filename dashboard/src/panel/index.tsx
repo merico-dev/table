@@ -8,9 +8,12 @@ import './index.css';
 import { IDashboardPanel } from '../types/dashboard';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '../contexts';
+import { ViewModelInstance } from '..';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface IPanel extends IDashboardPanel {}
+interface IPanel extends IDashboardPanel {
+  view: ViewModelInstance;
+}
 
 export const Panel = observer(function _Panel({
   viz: initialViz,
@@ -18,6 +21,7 @@ export const Panel = observer(function _Panel({
   title: initialTitle,
   description: initialDesc,
   id,
+  view,
 }: IPanel) {
   const model = useModelContext();
   const [title, setTitle] = React.useState(initialTitle);
@@ -27,7 +31,7 @@ export const Panel = observer(function _Panel({
   useWhyDidYouUpdate('Panel', { title, description, queryID, viz, id });
 
   React.useEffect(() => {
-    const panel = model.panels.findByID(id);
+    const panel = view.panels.findByID(id);
     if (!panel) {
       return;
     }
@@ -57,7 +61,7 @@ export const Panel = observer(function _Panel({
       }}
     >
       <Container className="panel-root">
-        <PanelTitleBar />
+        <PanelTitleBar view={view} />
         <Viz viz={viz} data={data} loading={loading} />
       </Container>
     </PanelContext.Provider>

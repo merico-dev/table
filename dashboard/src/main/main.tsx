@@ -104,8 +104,6 @@ export const Dashboard = observer(function _Dashboard({
               inUseMode,
             }}
           >
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
             <Box
               className={`${className} dashboard-root dashboard-sticky-parent`}
               sx={{
@@ -124,7 +122,7 @@ export const Dashboard = observer(function _Dashboard({
               </Box>
               <PluginContext.Provider value={pluginContext}>
                 {model.views.current.map((view) => (
-                  <MainDashboardView view={view} />
+                  <MainDashboardView key={view.id} view={view} />
                 ))}
               </PluginContext.Provider>
             </Box>

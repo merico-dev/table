@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { cast, types } from 'mobx-state-tree';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType, IDashboardView } from '~/types';
 import { ViewModel, ViewModelInstance } from './view';
 
 export const ViewsModel = types
@@ -69,3 +69,19 @@ export const ViewsModel = types
   });
 
 export * from './view';
+
+export function createDashboardViewsModel(views: IDashboardView[]) {
+  const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
+  const processedViews = views.map((view) => ({
+    ...view,
+    panels: {
+      original: view.panels,
+      current: view.panels,
+    },
+  }));
+  return ViewsModel.create({
+    original: processedViews,
+    current: processedViews,
+    visibleViewIDs,
+  });
+}

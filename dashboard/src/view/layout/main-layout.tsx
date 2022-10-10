@@ -91,7 +91,7 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
         return (
           <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
             {isDraggable && <CustomDragHandle />}
-            <Panel id={id} {...rest} />
+            <Panel id={id} view={view} {...rest} />
           </div>
         );
       })}

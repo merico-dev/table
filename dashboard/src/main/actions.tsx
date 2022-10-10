@@ -25,13 +25,12 @@ export const DashboardActions = observer(function _DashboardActions({
 
   const revertChanges = () => {
     model.filters.reset();
-    model.panels.reset();
+    model.views.reset();
     model.sqlSnippets.reset();
     model.queries.reset();
   };
 
-  const hasChanges =
-    model.panels.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
+  const hasChanges = model.views.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
   const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
@@ -52,11 +51,11 @@ export const DashboardActions = observer(function _DashboardActions({
         <ModeToggler mode={mode} setMode={setMode} />
       </Group>
       <Group position="right">
-        {!inUseMode && (
+        {/* {!inUseMode && (
           <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>
             Add a Panel
           </Button>
-        )}
+        )} */}
         {inEditMode && (
           <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>
             Filters

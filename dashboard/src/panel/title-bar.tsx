@@ -3,6 +3,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
+import { ViewModelInstance } from '..';
 import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -11,7 +12,7 @@ import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
 import './title-bar.css';
 
-export const PanelTitleBar = observer(function _PanelTitleBar() {
+export const PanelTitleBar = observer(function _PanelTitleBar({ view }: { view: ViewModelInstance }) {
   const model = useModelContext();
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
@@ -24,7 +25,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
-    model.panels.duplicateByID(id);
+    view.panels.duplicateByID(id);
   };
 
   const remove = () =>
@@ -32,7 +33,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar() {
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.panels.removeByID(id),
+      onConfirm: () => view.panels.removeByID(id),
     });
 
   const enterFullScreen = React.useCallback(() => {

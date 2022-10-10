@@ -28,7 +28,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
       {view.panels.current.map(({ id, ...rest }) => {
         return (
           <div key={id} data-grid={rest.layout}>
-            <Panel id={id} {...rest} />
+            <Panel id={id} view={view} {...rest} />
           </div>
         );
       })}
