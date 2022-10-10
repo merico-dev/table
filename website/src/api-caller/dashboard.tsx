@@ -43,7 +43,14 @@ export const DashboardAPI = {
           sqlSnippets: [],
           queries: [],
         },
-        panels: [],
+        views: [
+          {
+            id: 'Main',
+            type: 'div',
+            config: {},
+            panels: [],
+          },
+        ],
         filters: [],
       };
     }
