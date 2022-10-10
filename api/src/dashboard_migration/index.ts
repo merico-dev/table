@@ -7,6 +7,7 @@ import logger from 'npmlog';
 const versions = [
   '2.0.0',
   '2.1.0',
+  '4.5.0',
   // ... future versions
 ]
 
