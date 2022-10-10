@@ -34,11 +34,24 @@ export interface IDashboardDefinition {
   queries: QueryModelInstance[];
 }
 
+export enum EViewComponentType {
+  Division = 'div',
+  Modal = 'modal',
+  // Tabs = 'tabs',
+}
+
+export interface IDashboardView {
+  id: string;
+  type: EViewComponentType;
+  config: Record<string, any>;
+  panels: IDashboardPanel[];
+}
+
 export interface IDashboard {
   id: string;
   name: string;
   definition: IDashboardDefinition;
-  panels: IDashboardPanel[];
+  views: IDashboardView[];
   filters: FilterModelInstance[];
 }
 

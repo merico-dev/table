@@ -2,9 +2,9 @@ import { Instance, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
-import { PanelsModel } from './panels';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
+import { ViewsModel } from './views';
 
 const DashboardModel = types
   .model({
@@ -13,7 +13,7 @@ const DashboardModel = types
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
-    panels: PanelsModel,
+    views: ViewsModel,
     context: ContextModel,
   })
   .views((self) => ({
@@ -55,7 +55,7 @@ const DashboardModel = types
   }));
 
 export function createDashboardModel(
-  { id, name, filters, panels, definition: { queries, sqlSnippets } }: IDashboard,
+  { id, name, filters, views, definition: { queries, sqlSnippets } }: IDashboard,
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
@@ -71,9 +71,9 @@ export function createDashboardModel(
       current: sqlSnippets,
     },
     context,
-    panels: {
-      original: panels,
-      current: panels,
+    views: {
+      original: views,
+      current: views,
     },
   });
 }
