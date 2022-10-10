@@ -53,7 +53,8 @@ export const Dashboard = observer(function _Dashboard({
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
-      panels: [...model.panels.current],
+      // @ts-expect-error Type 'string' is not assignable to type 'EViewComponentType'.
+      views: [...model.views.current],
       definition: { sqlSnippets, queries },
     };
     await update(d);
@@ -64,12 +65,12 @@ export const Dashboard = observer(function _Dashboard({
 
   const getCurrentSchema = React.useCallback(() => {
     const queries = model.queries.current;
-    const panels = model.panels.current;
+    const views = model.views.current;
     const sqlSnippets = model.sqlSnippets.current;
     const filters = model.filters.current;
     return {
       filters,
-      panels,
+      views,
       definition: {
         sqlSnippets,
         queries,
