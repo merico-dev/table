@@ -5,8 +5,6 @@ import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, S
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { DashboardMode } from '../types';
-import { ModeToggler } from './toggle-mode';
 import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
@@ -47,9 +45,7 @@ export const DashboardActions = observer(function _DashboardActions({
 
   return (
     <Group position="apart" pt={0} pb="xs">
-      <Group position="left">
-        <ModeToggler mode={mode} setMode={setMode} />
-      </Group>
+      <Group position="left"></Group>
       <Group position="right">
         {/* {!inUseMode && (
           <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>

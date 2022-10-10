@@ -38,7 +38,6 @@ export const Dashboard = observer(function _Dashboard({
     APIClient.baseURL = config.apiBaseURL;
   }
   const [layoutFrozen, freezeLayout] = React.useState(false);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
