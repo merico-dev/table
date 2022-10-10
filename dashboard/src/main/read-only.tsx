@@ -1,19 +1,19 @@
-import React from 'react';
-import _ from 'lodash';
-import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
-import { LayoutStateContext } from '../contexts/layout-state-context';
-import { ReadOnlyDashboardLayout } from '../layout/read-only';
-import { APIClient } from '../api-caller/request';
-import { ModalsProvider } from '@mantine/modals';
-import { usePanelFullScreen } from './use-panel-full-screen';
-import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { Box } from '@mantine/core';
-import { FullScreenPanel } from './full-screen-panel';
+import { ModalsProvider } from '@mantine/modals';
+import _ from 'lodash';
+import React from 'react';
+import { ReadOnlyDashboardView } from '~/view';
+import { APIClient } from '../api-caller/request';
+import { DashboardActionContext } from '../contexts/dashboard-action-context';
+import { LayoutStateContext } from '../contexts/layout-state-context';
+import { ModelContextProvider } from '../contexts/model-context';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
-import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
+import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
+import { FullScreenPanel } from './full-screen-panel';
 import './main.css';
+import { usePanelFullScreen } from './use-panel-full-screen';
 import { useStickyAreaStyle } from './use-sticky-area-style';
 
 interface IReadOnlyDashboard {
@@ -67,7 +67,9 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
               <Box className="dashboard-sticky-area">
                 <Filters />
               </Box>
-              <ReadOnlyDashboardLayout />
+              {model.views.current.map((view) => (
+                <ReadOnlyDashboardView view={view} />
+              ))}
             </Box>
           </LayoutStateContext.Provider>
         </DashboardActionContext.Provider>

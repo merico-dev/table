@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
-import { useModelContext } from '~/contexts';
-import { Panel } from '../panel';
+import { ViewModelInstance } from '~/model';
+import { Panel } from '../../panel';
 import './index.css';
 
 const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFixMe) => (
@@ -48,31 +48,32 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
 
 const ReactGridLayout = WidthProvider(RGL);
 
-interface IDashboardLayout {
+interface IMainDashboardLayout {
+  view: ViewModelInstance;
   className?: string;
   rowHeight?: number;
   isDraggable: boolean;
   isResizable: boolean;
 }
 
-export const DashboardLayout = observer(function _DashboardLayout({
+export const MainDashboardLayout = observer(function _MainDashboardLayout({
+  view,
   className = 'layout',
   rowHeight = 10,
   isDraggable,
   isResizable,
-}: IDashboardLayout) {
-  const model = useModelContext();
+}: IMainDashboardLayout) {
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
       currentLayout.forEach(({ i, ...rest }) => {
-        const p = model.panels.findByID(i);
+        const p = view.panels.findByID(i);
         if (!p) {
           return;
         }
         p.layout.set(rest);
       });
     },
-    [model],
+    [view],
   );
 
   return (
@@ -80,13 +81,13 @@ export const DashboardLayout = observer(function _DashboardLayout({
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
-      layout={model.panels.layouts}
+      layout={view.panels.layouts}
       isDraggable={isDraggable}
       isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
     >
-      {model.panels.current.map(({ id, ...rest }, index) => {
+      {view.panels.current.map(({ id, ...rest }, index) => {
         return (
           <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
             {isDraggable && <CustomDragHandle />}

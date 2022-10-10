@@ -3,13 +3,12 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ReadOnlyDashboardLayout } from '~/layout/read-only';
+import { MainDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { Filters } from '../filter';
-import { DashboardLayout } from '../layout';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
@@ -124,7 +123,9 @@ export const Dashboard = observer(function _Dashboard({
                 <Filters />
               </Box>
               <PluginContext.Provider value={pluginContext}>
-                <DashboardLayout isDraggable={inEditMode} isResizable={inEditMode} />
+                {model.views.current.map((view) => (
+                  <MainDashboardView view={view} />
+                ))}
               </PluginContext.Provider>
             </Box>
           </LayoutStateContext.Provider>

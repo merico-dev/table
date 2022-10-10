@@ -24,6 +24,10 @@ export const ViewsModel = types
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },
+    get firstVisibleView() {
+      const [firstVisibleID] = self.visibleViewIDs;
+      return self.current.find(({ id }) => id === firstVisibleID);
+    },
   }))
   .actions((self) => {
     return {
