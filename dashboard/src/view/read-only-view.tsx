@@ -23,12 +23,20 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
         inFullScreen,
       }}
     >
-      <Box className="dashboard-view">
-        <Box className="dashboard-sticky-area">
-          <DashboardActions saveChanges={_.noop} />
-          <Filters />
-        </Box>
+      <Box
+        className="dashboard-view"
+        sx={{
+          position: 'relative',
+          height: '100%',
+        }}
+      >
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+        {!inFullScreen && (
+          <Box className="dashboard-sticky-area">
+            <DashboardActions saveChanges={_.noop} />
+            <Filters />
+          </Box>
+        )}
         {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
         <ReadOnlyDashboardLayout view={view} />;
       </Box>

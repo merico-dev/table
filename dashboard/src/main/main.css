@@ -1,6 +1,7 @@
 .dashboard-root {
   overflow: scroll;
   padding: 0 10px 10px;
+  height: 100%;
 }
 
 .dashboard-sticky-area {

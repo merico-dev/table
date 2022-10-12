@@ -15,7 +15,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
   exitFullScreen: () => void;
 }) {
   return (
-    <Stack px="10px" pb="5px" sx={{ flexGrow: 1, justifyContent: 'flex-start' }}>
+    <Stack px="10px" pb="5px" sx={{ height: '100%', flexGrow: 1, justifyContent: 'flex-start' }}>
       <Group mx="-5px" sx={{ flexGrow: 0 }}>
         <Button variant="default" size="sm" onClick={exitFullScreen} leftIcon={<ArrowLeft size={20} />}>
           Exit fullscreen

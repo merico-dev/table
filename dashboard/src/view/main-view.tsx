@@ -26,14 +26,24 @@ export const MainDashboardView = observer(function _MainDashboardView({
         inFullScreen,
       }}
     >
-      <Box className="dashboard-view">
-        <Box className="dashboard-sticky-area">
-          <DashboardActions saveChanges={saveDashboardChanges} />
-          <Filters />
-        </Box>
+      <Box
+        className="dashboard-view"
+        sx={{
+          position: 'relative',
+          height: '100%',
+        }}
+      >
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
+        {!inFullScreen && (
+          <Box className="dashboard-sticky-area">
+            <DashboardActions saveChanges={saveDashboardChanges} />
+            <Filters />
+          </Box>
+        )}
         {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-        <MainDashboardLayout view={view} isDraggable isResizable />;
+        <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
+          <MainDashboardLayout view={view} isDraggable isResizable />;
+        </Box>
       </Box>
     </DashboardActionContext.Provider>
   );
