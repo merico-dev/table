@@ -8,6 +8,7 @@ export const ViewsModel = types
     original: types.optional(types.array(ViewModel), []),
     current: types.optional(types.array(ViewModel), []),
     visibleViewIDs: types.array(types.string),
+    idOfVIE: types.string, // VIE: view in edit
   })
   .views((self) => ({
     get changed() {
@@ -27,6 +28,9 @@ export const ViewsModel = types
     get firstVisibleView() {
       const [firstVisibleID] = self.visibleViewIDs;
       return self.current.find(({ id }) => id === firstVisibleID);
+    },
+    get VIE() {
+      return self.current.find(({ id }) => id === self.idOfVIE);
     },
   }))
   .actions((self) => {
@@ -65,6 +69,12 @@ export const ViewsModel = types
       replaceByIndex(index: number, replacement: ViewModelInstance) {
         self.current.splice(index, 1, replacement);
       },
+      setIDOfVIE(id: string) {
+        self.idOfVIE = id;
+      },
+      addAPanelToVIE() {
+        self.VIE?.panels.addANewPanel();
+      },
     };
   });
 
@@ -72,6 +82,7 @@ export * from './view';
 
 export function createDashboardViewsModel(views: IDashboardView[]) {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
+  const idOfVIE = views.length > 0 ? views[0].id : '';
   const processedViews = views.map((view) => ({
     ...view,
     panels: {
@@ -83,5 +94,6 @@ export function createDashboardViewsModel(views: IDashboardView[]) {
     original: processedViews,
     current: processedViews,
     visibleViewIDs,
+    idOfVIE,
   });
 }

@@ -1,7 +1,8 @@
 import { Button, Group, Menu } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Code, Database, DeviceFloppy, Download, Filter, Recycle, Share } from 'tabler-icons-react';
+import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { ViewModelInstance } from '..';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
@@ -54,11 +55,17 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     <Group position="apart" pt={0} pb="xs">
       <Group position="left"></Group>
       <Group position="right">
-        {/* {!inUseMode && (
-          <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>
+        {!inUseMode && (
+          <Button
+            variant="default"
+            size="xs"
+            disabled={!model.views.VIE}
+            onClick={model.views.addAPanelToVIE}
+            leftIcon={<PlaylistAdd size={20} />}
+          >
             Add a Panel
           </Button>
-        )} */}
+        )}
         {inEditMode && (
           <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>
             Filters
