@@ -6,6 +6,7 @@ import { ViewModelInstance } from '..';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
+import { SwitchViews } from './swith-views';
 import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
@@ -53,7 +54,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
 
   return (
     <Group position="apart" pt={0} pb="xs">
-      <Group position="left"></Group>
+      <Group position="left">{inEditMode && <SwitchViews />}</Group>
       <Group position="right">
         {!inUseMode && (
           <Button
