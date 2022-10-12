@@ -7,15 +7,16 @@ import logger from 'npmlog';
 const versions = [
   '2.0.0',
   '2.1.0',
+  '4.5.0',
   // ... future versions
-]
+];
 
 function findNextVersion(currentVersion: string | undefined) {
   if (!currentVersion) {
     return versions[0];
   }
 
-  const currentIndex = versions.findIndex(v => v === currentVersion)
+  const currentIndex = versions.findIndex((v) => v === currentVersion);
   if (currentIndex < versions.length - 1) {
     return versions[currentIndex + 1];
   }
@@ -28,7 +29,7 @@ async function findHandler(currentVersion: string | undefined) {
   if (!nextVersion) {
     return;
   }
-  return import (`./handlers/${nextVersion}`);
+  return import(`./handlers/${nextVersion}`);
 }
 
 async function main() {
@@ -43,7 +44,7 @@ async function main() {
     for (let i = 0; i < dashboards.length; i += 1) {
       const db = dashboards[i];
       let handler = await findHandler(db.content.version as string);
-      while(handler) {
+      while (handler) {
         db.content = handler.main(db.content);
         await dashboardRepo.save(db);
         logger.info(`MIGRATED ${db.id} TO VERSION ${db.content.version}`);

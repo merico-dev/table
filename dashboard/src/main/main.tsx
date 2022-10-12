@@ -3,13 +3,12 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { ReadOnlyDashboardLayout } from '~/layout/read-only';
+import { MainDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { Filters } from '../filter';
-import { DashboardLayout } from '../layout';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
@@ -39,7 +38,6 @@ export const Dashboard = observer(function _Dashboard({
     APIClient.baseURL = config.apiBaseURL;
   }
   const [layoutFrozen, freezeLayout] = React.useState(false);
-  const [mode, setMode] = React.useState<DashboardMode>(DashboardMode.Edit);
 
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
 
@@ -53,79 +51,40 @@ export const Dashboard = observer(function _Dashboard({
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
-      panels: [...model.panels.current],
+      // @ts-expect-error Type 'string' is not assignable to type 'EViewComponentType'.
+      views: [...model.views.current],
       definition: { sqlSnippets, queries },
     };
     await update(d);
   };
 
-  const inEditMode = mode === DashboardMode.Edit;
-  const inUseMode = mode === DashboardMode.Use;
-
-  const getCurrentSchema = React.useCallback(() => {
-    const queries = model.queries.current;
-    const panels = model.panels.current;
-    const sqlSnippets = model.sqlSnippets.current;
-    const filters = model.filters.current;
-    return {
-      filters,
-      panels,
-      definition: {
-        sqlSnippets,
-        queries,
-      },
-    };
-  }, [model]);
-
   useStickyAreaStyle();
-
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
-    model.panels.json,
-  );
 
   const pluginContext = useCreation(createPluginContext, []);
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
-        <DashboardActionContext.Provider
+        <LayoutStateContext.Provider
           value={{
-            viewPanelInFullScreen,
-            inFullScreen,
+            layoutFrozen,
+            freezeLayout,
+            inEditMode: true,
+            inUseMode: false,
           }}
         >
-          <LayoutStateContext.Provider
-            value={{
-              layoutFrozen,
-              freezeLayout,
-              mode,
-              inEditMode,
-              inUseMode,
+          <Box
+            className={`${className} dashboard-root dashboard-sticky-parent`}
+            sx={{
+              position: 'relative',
             }}
           >
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-            <Box
-              className={`${className} dashboard-root dashboard-sticky-parent`}
-              sx={{
-                position: 'relative',
-                display: inFullScreen ? 'none' : 'block',
-              }}
-            >
-              <Box className="dashboard-sticky-area">
-                <DashboardActions
-                  mode={mode}
-                  setMode={setMode}
-                  saveChanges={saveDashboardChanges}
-                  getCurrentSchema={getCurrentSchema}
-                />
-                <Filters />
-              </Box>
-              <PluginContext.Provider value={pluginContext}>
-                <DashboardLayout isDraggable={inEditMode} isResizable={inEditMode} />
-              </PluginContext.Provider>
-            </Box>
-          </LayoutStateContext.Provider>
-        </DashboardActionContext.Provider>
+            <PluginContext.Provider value={pluginContext}>
+              {model.views.current.map((view) => (
+                <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+              ))}
+            </PluginContext.Provider>
+          </Box>
+        </LayoutStateContext.Provider>
       </ModelContextProvider>
     </ModalsProvider>
   );

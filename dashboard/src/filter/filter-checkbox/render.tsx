@@ -8,7 +8,8 @@ interface IFilterCheckbox extends Omit<FilterModelInstance, 'key' | 'type' | 'co
   onChange: (v: $TSFixMe) => void;
 }
 
-export function FilterCheckbox({ label, config: { ...rest }, value, onChange }: IFilterCheckbox) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function FilterCheckbox({ label, config: { default_value, ...rest }, value, onChange }: IFilterCheckbox) {
   return (
     <Box>
       <Text>&nbsp;</Text>

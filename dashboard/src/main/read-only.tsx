@@ -1,18 +1,15 @@
-import React from 'react';
-import _ from 'lodash';
-import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
-import { LayoutStateContext } from '../contexts/layout-state-context';
-import { ReadOnlyDashboardLayout } from '../layout/read-only';
-import { APIClient } from '../api-caller/request';
-import { ModalsProvider } from '@mantine/modals';
-import { usePanelFullScreen } from './use-panel-full-screen';
-import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { Box } from '@mantine/core';
-import { FullScreenPanel } from './full-screen-panel';
+import { ModalsProvider } from '@mantine/modals';
+import _ from 'lodash';
+import React from 'react';
+import { ReadOnlyDashboardView } from '~/view';
+import { APIClient } from '../api-caller/request';
+import { LayoutStateContext } from '../contexts/layout-state-context';
+import { ModelContextProvider } from '../contexts/model-context';
 import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
-import { ModelContextProvider } from '../contexts/model-context';
 import { ContextInfoType } from '../model/context';
+import { IDashboard, IDashboardConfig } from '../types/dashboard';
 import './main.css';
 import { useStickyAreaStyle } from './use-sticky-area-style';
 
@@ -33,42 +30,24 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
     model.context.replace(context);
   }, [context]);
 
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
-    model.panels.json,
-  );
-
   useStickyAreaStyle();
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
-        <DashboardActionContext.Provider
+        <LayoutStateContext.Provider
           value={{
-            viewPanelInFullScreen,
-            inFullScreen,
+            layoutFrozen: true,
+            freezeLayout: _.noop,
+            inEditMode: false,
+            inUseMode: true,
           }}
         >
-          <LayoutStateContext.Provider
-            value={{
-              layoutFrozen: true,
-              freezeLayout: _.noop,
-              mode: DashboardMode.Use,
-              inEditMode: false,
-              inUseMode: true,
-            }}
-          >
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {inFullScreen && <FullScreenPanel panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-            <Box
-              className={`${className} dashboard-root dashboard-sticky-parent`}
-              sx={{ display: inFullScreen ? 'none' : 'block' }}
-            >
-              <Box className="dashboard-sticky-area">
-                <Filters />
-              </Box>
-              <ReadOnlyDashboardLayout />
-            </Box>
-          </LayoutStateContext.Provider>
-        </DashboardActionContext.Provider>
+          <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
+            {model.views.current.map((view) => (
+              <ReadOnlyDashboardView key={view.id} view={view} />
+            ))}
+          </Box>
+        </LayoutStateContext.Provider>
       </ModelContextProvider>
     </ModalsProvider>
   );

@@ -23,13 +23,13 @@ export const DashboardAPI = {
     const res = await get(`/dashboard/details/${id}`, {});
     return normalizeDBDashboard(res);
   },
-  update: async ({ id, name, definition, panels, filters }: IDashboard): Promise<IDashboard> => {
+  update: async ({ id, name, definition, views, filters }: IDashboard): Promise<IDashboard> => {
     const payload = {
       id,
       name,
       content: {
         definition,
-        panels,
+        views,
         filters,
       },
     };
@@ -43,7 +43,14 @@ export const DashboardAPI = {
           sqlSnippets: [],
           queries: [],
         },
-        panels: [],
+        views: [
+          {
+            id: 'Main',
+            type: 'div',
+            config: {},
+            panels: [],
+          },
+        ],
         filters: [],
       };
     }
