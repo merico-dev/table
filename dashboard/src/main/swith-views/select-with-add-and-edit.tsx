@@ -26,7 +26,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, type, ...othe
   return (
     <div ref={ref} {...others}>
       <Group noWrap grow>
-        <Text size="sm" align="center">
+        <Text size="sm" align="center" color="#228be6">
           {label}
         </Text>
       </Group>
@@ -35,50 +35,66 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, type, ...othe
 });
 
 interface ISelectWithAddAndEdit {
+  value: string;
+  onChange: (v: string) => void;
   triggerAdd: () => void;
   triggerEdit: () => void;
   options: ItemProps[];
 }
 
-export const SelectWithAddAndEdit = observer(({ triggerAdd, triggerEdit, options }: ISelectWithAddAndEdit) => {
-  const optionsWithAction = useMemo(() => {
-    return [...options, { label: 'Add a View', value: 'add_a_view', type: 'TRIGGER_TO_ADD' }];
-  }, [options, triggerAdd]);
-  return (
-    <Group position="left" spacing={0} sx={{ minWidth: '260px' }}>
-      <Select
-        placeholder="Pick a View"
-        itemComponent={SelectItem}
-        data={optionsWithAction}
-        nothingFound="Empty"
-        sx={{ flexGrow: 1 }}
-        styles={{
-          input: {
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-          },
-        }}
-      />
-      <ActionIcon
-        onClick={triggerEdit}
-        variant="default"
-        size={36}
-        sx={{
-          borderLeft: 0,
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-          // height: '36px',
-          // width: '36px',
-          '&:active': {
-            transform: 'none',
-            svg: {
-              transform: 'translateY(1px)',
+const ValueOfTriggerToAdd = 'TRIGGER_TO_ADD';
+
+export const SelectWithAddAndEdit = observer(
+  ({ value, onChange, triggerAdd, triggerEdit, options }: ISelectWithAddAndEdit) => {
+    const optionsWithAction = useMemo(() => {
+      return [...options, { label: 'Add a View', value: ValueOfTriggerToAdd, type: 'TRIGGER_TO_ADD' }];
+    }, [options, triggerAdd]);
+
+    const handleChange = (v: string) => {
+      if (v !== ValueOfTriggerToAdd) {
+        onChange(v);
+      } else {
+        triggerAdd();
+      }
+    };
+    return (
+      <Group position="left" spacing={0} sx={{ minWidth: '260px' }}>
+        <Select
+          value={value}
+          onChange={handleChange}
+          placeholder="Pick a View"
+          itemComponent={SelectItem}
+          data={optionsWithAction}
+          nothingFound="Empty"
+          sx={{ flexGrow: 1 }}
+          styles={{
+            input: {
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
             },
-          },
-        }}
-      >
-        <Settings size={20} />
-      </ActionIcon>
-    </Group>
-  );
-});
+          }}
+        />
+        <ActionIcon
+          onClick={triggerEdit}
+          variant="default"
+          size={36}
+          sx={{
+            borderLeft: 0,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            // height: '36px',
+            // width: '36px',
+            '&:active': {
+              transform: 'none',
+              svg: {
+                transform: 'translateY(1px)',
+              },
+            },
+          }}
+        >
+          <Settings size={20} />
+        </ActionIcon>
+      </Group>
+    );
+  },
+);

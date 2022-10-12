@@ -1,25 +1,25 @@
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
+import { useMemo, useState } from 'react';
+import { useModelContext } from '~/contexts';
 import { EViewComponentType } from '~/types';
 import { SelectWithAddAndEdit } from './select-with-add-and-edit';
-const data = [
-  {
-    label: 'Main',
-    value: 'main',
-    type: EViewComponentType.Division,
-  },
-  {
-    label: 'Modal of ELOC',
-    value: 'modal1',
-    type: EViewComponentType.Modal,
-  },
-  {
-    label: 'Modal of Commits',
-    value: 'modal2',
-    type: EViewComponentType.Modal,
-  },
-];
 
 export const SwitchViews = observer(() => {
-  return <SelectWithAddAndEdit triggerAdd={_.noop} triggerEdit={_.noop} options={data} />;
+  const model = useModelContext();
+
+  const [opened, setOpened] = useState(false);
+  const openEditViewModal = () => {
+    setOpened(false);
+  };
+
+  return (
+    <SelectWithAddAndEdit
+      value={model.views.idOfVIE}
+      onChange={model.views.setIDOfVIE}
+      triggerAdd={model.views.addARandomNewView}
+      triggerEdit={openEditViewModal}
+      options={model.views.options}
+    />
+  );
 });

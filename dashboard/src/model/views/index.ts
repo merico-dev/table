@@ -1,3 +1,5 @@
+import { randomId } from '@mantine/hooks';
+import { selectRowsFn } from '@tanstack/react-table';
 import _ from 'lodash';
 import { cast, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
@@ -32,6 +34,13 @@ export const ViewsModel = types
     get VIE() {
       return self.current.find(({ id }) => id === self.idOfVIE);
     },
+    get options() {
+      return self.current.map((v) => ({
+        label: v.id,
+        value: v.id,
+        type: v.type as EViewComponentType,
+      }));
+    },
   }))
   .actions((self) => {
     return {
@@ -50,7 +59,10 @@ export const ViewsModel = types
           id,
           type,
           config,
-          panels: [],
+          panels: {
+            current: [],
+            original: [],
+          },
         });
       },
       append(item: ViewModelInstance) {
@@ -76,7 +88,14 @@ export const ViewsModel = types
         self.VIE?.panels.addANewPanel();
       },
     };
-  });
+  })
+  .actions((self) => ({
+    addARandomNewView() {
+      const id = randomId();
+      self.addANewView(id, EViewComponentType.Division, {});
+      self.setIDOfVIE(id);
+    },
+  }));
 
 export * from './view';
 
