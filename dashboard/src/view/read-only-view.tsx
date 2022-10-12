@@ -38,7 +38,7 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
           </Box>
         )}
         {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-        <ReadOnlyDashboardLayout view={view} />;
+        <ReadOnlyDashboardLayout view={view} />
       </Box>
     </DashboardActionContext.Provider>
   );

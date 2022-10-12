@@ -42,7 +42,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
         )}
         {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
         <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
-          <MainDashboardLayout view={view} isDraggable isResizable />;
+          <MainDashboardLayout view={view} isDraggable isResizable />
         </Box>
       </Box>
     </DashboardActionContext.Provider>
