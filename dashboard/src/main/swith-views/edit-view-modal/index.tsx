@@ -1,7 +1,8 @@
 import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { LayoutStateContext } from '~/contexts';
+import { LayoutStateContext, useModelContext } from '~/contexts';
+import { EditViewForm } from './form';
 
 interface IEditViewModal {
   opened: boolean;
@@ -9,6 +10,7 @@ interface IEditViewModal {
 }
 
 export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
+  const model = useModelContext();
   const { freezeLayout } = React.useContext(LayoutStateContext);
 
   React.useEffect(() => {
@@ -21,13 +23,14 @@ export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
       overflow="inside"
       opened={opened}
       onClose={close}
-      title="Edit View"
+      withCloseButton={false}
+      title={`Editing ${model.views.VIE?.id}`}
       trapFocus
       onDragStart={(e) => {
         e.stopPropagation();
       }}
     >
-      Edit View Form
+      <EditViewForm />
     </Modal>
   );
 });

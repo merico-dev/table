@@ -30,6 +30,9 @@ export const ViewModel = types
     setConfig(config: Record<string, any>) {
       self.config = config;
     },
+    updateConfig(key: string, value: $TSFixMe) {
+      self.config[key] = value;
+    },
   }))
   .actions((self) => ({}));
 
