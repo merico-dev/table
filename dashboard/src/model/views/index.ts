@@ -40,7 +40,7 @@ export const ViewsModel = types
     },
     get options() {
       return self.current.map((v) => ({
-        label: v.id,
+        label: v.name,
         value: v.id,
         type: v.type as EViewComponentType,
       }));
