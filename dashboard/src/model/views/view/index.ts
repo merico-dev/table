@@ -12,9 +12,10 @@ export const ViewModel = types
   })
   .views((self) => ({
     get json() {
-      const { id, type, config } = self;
+      const { id, name, type, config } = self;
       return {
         id,
+        name,
         type,
         config,
         panels: self.panels.json,
