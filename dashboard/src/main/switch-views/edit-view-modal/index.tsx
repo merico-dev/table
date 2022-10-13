@@ -37,7 +37,7 @@ export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
       title={
         <Group position="apart">
           <Text sx={{ flexGrow: 1 }}>Editing {model.views.VIE?.id}</Text>
-          <ActionIcon size={18} color="red" onClick={_.noop}>
+          <ActionIcon size={18} color="red" onClick={model.views.removeVIE} disabled={model.views.isVIETheFirstView}>
             <Trash size={18} />
           </ActionIcon>
         </Group>

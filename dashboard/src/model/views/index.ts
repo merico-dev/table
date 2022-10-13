@@ -27,6 +27,12 @@ export const ViewsModel = types
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },
+    get isVIETheFirstView() {
+      if (self.current.length === 0 || !self.idOfVIE) {
+        return false;
+      }
+      return self.current[0].id === self.idOfVIE;
+    },
     get firstVisibleView() {
       const [firstVisibleID] = self.visibleViewIDs;
       return self.current.find(({ id }) => id === firstVisibleID);
@@ -101,6 +107,13 @@ export const ViewsModel = types
       const id = randomId();
       self.addANewView(id, EViewComponentType.Division, {});
       self.setIDOfVIE(id);
+    },
+    removeVIE() {
+      if (self.current.length === 1) {
+        return;
+      }
+      self.removeByID(self.idOfVIE);
+      self.setIDOfVIE(self.current[0].id);
     },
   }));
 
