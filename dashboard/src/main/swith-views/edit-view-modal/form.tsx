@@ -19,10 +19,6 @@ export const EditViewForm = observer(() => {
   }
   return (
     <Stack sx={{ position: 'relative' }}>
-      <ActionIcon size={18} color="red" sx={{ position: 'absolute', right: 8, top: 0, zIndex: 310 }} onClick={_.noop}>
-        <Trash size={18} />
-      </ActionIcon>
-
       <TextInput
         label="Name"
         value={VIE.id}
