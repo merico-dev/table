@@ -27,7 +27,7 @@ export const FilterSettings = observer(function _FilterSettings() {
   };
 
   return (
-    <Group sx={{ height: '90vh', maxHeight: 'calc(100vh - 185px)' }} p={0}>
+    <Box sx={{ height: '90vh', maxHeight: 'calc(100vh - 185px)' }} p={0}>
       <Group sx={{ position: 'absolute', top: '16px', right: '16px' }}>
         <Button
           size="xs"
@@ -39,7 +39,16 @@ export const FilterSettings = observer(function _FilterSettings() {
           Revert Changes
         </Button>
       </Group>
-      <Tabs className="filter-settings-tabs" orientation="vertical" defaultValue={model.filters.firstID}>
+      <Tabs
+        className="filter-settings-tabs"
+        orientation="vertical"
+        defaultValue={model.filters.firstID}
+        styles={{
+          root: {
+            display: 'block',
+          },
+        }}
+      >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
@@ -76,6 +85,6 @@ export const FilterSettings = observer(function _FilterSettings() {
           </Box>
         </Group>
       </Tabs>
-    </Group>
+    </Box>
   );
 });
