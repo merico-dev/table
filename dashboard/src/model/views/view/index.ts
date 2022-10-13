@@ -4,7 +4,8 @@ import { PanelsModel } from './panels';
 
 export const ViewModel = types
   .model({
-    id: types.string,
+    id: types.identifier,
+    name: types.string,
     type: types.string,
     config: types.frozen(),
     panels: PanelsModel,
@@ -21,8 +22,8 @@ export const ViewModel = types
     },
   }))
   .actions((self) => ({
-    setID(id: string) {
-      self.id = id;
+    setName(name: string) {
+      self.name = name;
     },
     setType(type: EViewComponentType) {
       if (self.type === type) {

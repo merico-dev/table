@@ -1,7 +1,5 @@
-import { ActionIcon, Select, Stack, TextInput } from '@mantine/core';
-import _ from 'lodash';
+import { Select, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { Trash } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
 import { EViewComponentType } from '~/types';
 import { ConfigFields } from './config-fields';
@@ -21,9 +19,9 @@ export const EditViewForm = observer(() => {
     <Stack sx={{ position: 'relative' }}>
       <TextInput
         label="Name"
-        value={VIE.id}
+        value={VIE.name}
         onChange={(e) => {
-          VIE.setID(e.currentTarget.value);
+          VIE.setName(e.currentTarget.value);
         }}
       />
       <Select label="Type" value={VIE.type} onChange={VIE.setType} data={viewComponentTypeOptions} />

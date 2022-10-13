@@ -58,9 +58,10 @@ export const ViewsModel = types
       replace(current: Array<ViewModelInstance>) {
         self.current = cast(current);
       },
-      addANewView(id: string, type: EViewComponentType, config: Record<string, any>) {
+      addANewView(name: string, type: EViewComponentType, config: Record<string, any>) {
         self.current.push({
-          id,
+          id: randomId(),
+          name,
           type,
           config,
           panels: {
