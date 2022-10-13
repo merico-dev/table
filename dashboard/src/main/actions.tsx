@@ -6,7 +6,7 @@ import { ViewModelInstance } from '..';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { SwitchViews } from './swith-views';
+import { SwitchViews } from './switch-views';
 import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
