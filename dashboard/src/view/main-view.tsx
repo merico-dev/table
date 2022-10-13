@@ -35,16 +35,16 @@ export const MainDashboardView = observer(function _MainDashboardView({
         }}
       >
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && (
-          <Box className="dashboard-sticky-area">
-            <DashboardActions saveChanges={saveDashboardChanges} />
-            <Filters view={view} />
-          </Box>
-        )}
+        {!inFullScreen && <DashboardActions saveChanges={saveDashboardChanges} />}
         <PreviewViewComponent view={view}>
-          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-          <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
-            <MainDashboardLayout view={view} isDraggable isResizable />
+          <Box className="dashboard-sticky-parent">
+            <Box className="dashboard-sticky-area">
+              <Filters view={view} />
+            </Box>
+            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
+            <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
+              <MainDashboardLayout view={view} isDraggable isResizable />
+            </Box>
           </Box>
         </PreviewViewComponent>
       </Box>

@@ -74,7 +74,7 @@ export const Dashboard = observer(function _Dashboard({
           }}
         >
           <Box
-            className={`${className} dashboard-root dashboard-sticky-parent`}
+            className={`${className} dashboard-root`}
             sx={{
               position: 'relative',
             }}
