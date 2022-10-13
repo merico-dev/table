@@ -1,6 +1,7 @@
-import { Box, NumberInput, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { Box, MultiSelect, NumberInput, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
@@ -31,6 +32,7 @@ interface IFilterSetting {
 }
 
 export const FilterSetting = observer(function _FilterSetting({ filter, index }: IFilterSetting) {
+  const model = useModelContext();
   const FilterEditor = React.useMemo(() => {
     return editors[filter.type];
   }, [filter.type]);
@@ -43,6 +45,12 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
         </Text>
         <Stack sx={{ maxWidth: '30em' }}>
           <NumberInput label="Placement Order" required value={filter.order} onChange={filter.setOrder} hideControls />
+          <MultiSelect
+            label="Visible in..."
+            data={model.views.options}
+            value={filter.visibleInViewsIDs}
+            onChange={filter.setVisibleInViewsIDs}
+          />
           <TextInput
             label="Key"
             placeholder="A unique key to refer"

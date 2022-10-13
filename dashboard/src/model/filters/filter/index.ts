@@ -12,6 +12,7 @@ export const FilterModel = types
     key: types.string,
     label: types.string,
     order: types.number,
+    visibleInViewsIDs: types.array(types.string),
     type: types.enumeration('DashboardFilterType', [
       DashboardFilterType.Select,
       DashboardFilterType.MultiSelect,
@@ -56,6 +57,11 @@ export const FilterModel = types
           break;
       }
       self.type = type;
+    },
+    setVisibleInViewsIDs(ids: string[]) {
+      console.log(ids);
+      self.visibleInViewsIDs.length = 0;
+      self.visibleInViewsIDs.push(...ids);
     },
   }));
 
