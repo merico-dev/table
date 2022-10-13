@@ -24,6 +24,12 @@ export const FiltersModel = types
     get empty() {
       return self.current.length === 0;
     },
+    visibleInView(viewID: string) {
+      return _.sortBy(
+        self.current.filter((f) => f.visibleInViewsIDs.includes(viewID)),
+        'order',
+      );
+    },
   }))
   .actions((self) => {
     return {

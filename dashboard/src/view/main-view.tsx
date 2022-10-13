@@ -38,7 +38,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
         {!inFullScreen && (
           <Box className="dashboard-sticky-area">
             <DashboardActions saveChanges={saveDashboardChanges} />
-            <Filters />
+            <Filters view={view} />
           </Box>
         )}
         <PreviewViewComponent view={view}>
