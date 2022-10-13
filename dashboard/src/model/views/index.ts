@@ -31,6 +31,10 @@ export const ViewsModel = types
       const [firstVisibleID] = self.visibleViewIDs;
       return self.current.find(({ id }) => id === firstVisibleID);
     },
+    get visibleViews() {
+      const idSet = new Set(self.visibleViewIDs);
+      return self.current.filter(({ id }) => idSet.has(id));
+    },
     get VIE() {
       return self.current.find(({ id }) => id === self.idOfVIE);
     },
@@ -83,6 +87,8 @@ export const ViewsModel = types
       },
       setIDOfVIE(id: string) {
         self.idOfVIE = id;
+        self.visibleViewIDs.length = 0;
+        self.visibleViewIDs.push(id);
       },
       addAPanelToVIE() {
         self.VIE?.panels.addANewPanel();

@@ -43,7 +43,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
           }}
         >
           <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
-            {model.views.current.map((view) => (
+            {model.views.visibleViews.map((view) => (
               <ReadOnlyDashboardView key={view.id} view={view} />
             ))}
           </Box>

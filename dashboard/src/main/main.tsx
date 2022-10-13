@@ -80,7 +80,7 @@ export const Dashboard = observer(function _Dashboard({
             }}
           >
             <PluginContext.Provider value={pluginContext}>
-              {model.views.current.map((view) => (
+              {model.views.visibleViews.map((view) => (
                 <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
               ))}
             </PluginContext.Provider>

@@ -25,6 +25,17 @@ export const ViewModel = types
       self.id = id;
     },
     setType(type: EViewComponentType) {
+      if (self.type === type) {
+        return;
+      }
+      if (type === EViewComponentType.Modal) {
+        self.config = {
+          width: '600px',
+          height: '400px',
+        };
+      } else {
+        self.config = {};
+      }
       self.type = type;
     },
     setConfig(config: Record<string, any>) {
