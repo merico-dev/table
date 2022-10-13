@@ -26,8 +26,16 @@ export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
       opened={opened}
       onClose={close}
       withCloseButton={false}
+      styles={{
+        header: {
+          width: '100%',
+        },
+        title: {
+          width: '100%',
+        },
+      }}
       title={
-        <Group position="apart" sx={{ width: '100%' }}>
+        <Group position="apart">
           <Text sx={{ flexGrow: 1 }}>Editing {model.views.VIE?.id}</Text>
           <ActionIcon size={18} color="red" onClick={_.noop}>
             <Trash size={18} />
