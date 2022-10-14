@@ -5,19 +5,13 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { MainDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
-import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
-import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
-import { DashboardMode, IDashboard, IDashboardConfig } from '../types/dashboard';
-import { DashboardActions } from './actions';
-import { FullScreenPanel } from './full-screen-panel';
+import { IDashboard, IDashboardConfig } from '../types/dashboard';
 import './main.css';
-import { usePanelFullScreen } from './use-panel-full-screen';
-import { useStickyAreaStyle } from './use-sticky-area-style';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -58,8 +52,6 @@ export const Dashboard = observer(function _Dashboard({
     };
     await update(d);
   };
-
-  useStickyAreaStyle();
 
   const pluginContext = useCreation(createPluginContext, []);
   return (

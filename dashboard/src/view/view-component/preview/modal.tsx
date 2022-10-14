@@ -28,6 +28,8 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
         },
         modal: {
           border: '1px solid #efefef',
+        },
+        body: {
           maxHeight: view.config.height,
           overflow: 'scroll',
         },

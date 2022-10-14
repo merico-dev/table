@@ -6,6 +6,7 @@ import { Filters } from '~/filter';
 import { DashboardActions } from '~/main/actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
+import { useStickyAreaStyle } from '~/main/use-sticky-area-style';
 import { ViewModelInstance } from '..';
 import { ReadOnlyDashboardLayout } from './layout';
 
@@ -14,8 +15,8 @@ interface IReadOnlyDashboardView {
 }
 
 export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }: IReadOnlyDashboardView) {
-  // TODO: view-level fullsreen
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view.panels.json);
+  useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider
       value={{
