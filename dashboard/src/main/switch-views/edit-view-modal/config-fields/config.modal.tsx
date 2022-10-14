@@ -16,13 +16,13 @@ export const ViewModalConfigFields = observer(() => {
         <TextInput
           label="Width"
           value={VIE.config.width}
-          onChange={(e) => VIE.config.updateConfig('width', e.currentTarget.value)}
+          onChange={(e) => VIE.updateConfig('width', e.currentTarget.value)}
           placeholder="600px / 50vw"
         />
         <TextInput
           label="Height"
           value={VIE.config.height}
-          onChange={(e) => VIE.config.updateConfig('height', e.currentTarget.value)}
+          onChange={(e) => VIE.updateConfig('height', e.currentTarget.value)}
           placeholder="600px / 50vw"
         />
       </Group>

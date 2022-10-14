@@ -44,7 +44,10 @@ export const ViewModel = types
       self.config = config;
     },
     updateConfig(key: string, value: $TSFixMe) {
-      self.config[key] = value;
+      self.config = {
+        ...self.config,
+        [key]: value,
+      };
     },
   }))
   .actions((self) => ({}));
