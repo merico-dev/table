@@ -1,4 +1,4 @@
-import { Box, Modal, Overlay, Stack, Text } from '@mantine/core';
+import { Modal } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
@@ -35,6 +35,7 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
         },
       }}
       withinPortal={false}
+      transitionDuration={0}
     >
       {children}
     </Modal>
