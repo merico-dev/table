@@ -48,20 +48,32 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           ]}
           value={value.output}
           onChange={changeOutput}
+          sx={{ flexGrow: 1 }}
         />
         <Switch
           label={
-            <Text>
-              Average
-              <br />
+            <Stack spacing={0}>
+              <Text>Average</Text>
               <Text size={12} color="gray">
                 like 1.234k, 1.234m
               </Text>
-            </Text>
+            </Stack>
           }
           checked={value.average}
           onChange={changeAverage}
           disabled={value.output !== 'number'}
+          sx={{ flexGrow: 1 }}
+          styles={{
+            root: {
+              alignSelf: 'flex-end',
+            },
+            body: {
+              alignItems: 'center',
+            },
+            label: {
+              display: 'block',
+            },
+          }}
         />
       </Group>
       <Group grow>
@@ -79,6 +91,14 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           checked={value.trimMantissa}
           onChange={changeTrimMantissa}
           disabled={value.mantissa === 0}
+          styles={{
+            root: {
+              alignSelf: 'flex-end',
+            },
+            body: {
+              alignItems: 'center',
+            },
+          }}
         />
       </Group>
       <Stack spacing={0}>
