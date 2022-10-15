@@ -3,25 +3,25 @@ import RichTextEditor from '@mantine/rte';
 import _ from 'lodash';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
-import { LayoutStateContext, PanelContext } from '../contexts';
+import { LayoutStateContext, usePanelContext } from '../contexts';
 
 export function DescriptionPopover() {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
-  const { title, description } = React.useContext(PanelContext);
+  const { panel } = usePanelContext();
 
   React.useEffect(() => {
     freezeLayout(opened);
   }, [opened]);
 
-  if (!description || description === '<p><br></p>') {
+  if (!panel.description || panel.description === '<p><br></p>') {
     return null;
   }
 
   return (
     <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title={title} withCloseButton={false}>
-        <RichTextEditor readOnly value={description} onChange={_.noop} sx={{ border: 'none' }} />
+      <Modal opened={opened} onClose={() => setOpened(false)} title={panel.title} withCloseButton={false}>
+        <RichTextEditor readOnly value={panel.description} onChange={_.noop} sx={{ border: 'none' }} />
       </Modal>
       <Tooltip label="Click to see description" position="top-start">
         <ActionIcon

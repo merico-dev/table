@@ -1,4 +1,4 @@
-import { Group, Text, Menu, Divider, Box } from '@mantine/core';
+import { Box, Divider, Group, Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -7,7 +7,7 @@ import { ViewModelInstance } from '..';
 import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
-import { PanelContext } from '../contexts/panel-context';
+import { usePanelContext } from '../contexts/panel-context';
 import { DescriptionPopover } from './panel-description';
 import { PanelSettingsModal } from './settings';
 import './title-bar.css';
@@ -19,7 +19,8 @@ export const PanelTitleBar = observer(function _PanelTitleBar({ view }: { view: 
   const open = () => setOpened(true);
   const close = () => setOpened(false);
 
-  const { id, title, queryID } = React.useContext(PanelContext);
+  const { panel } = usePanelContext();
+  const { id, title, queryID } = panel;
   const { inEditMode } = React.useContext(LayoutStateContext);
   const refreshData = () => model.queries.refetchDataByQueryID(queryID);
 

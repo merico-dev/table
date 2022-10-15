@@ -2,10 +2,11 @@ import { ActionIcon, Group, Text, TextInput } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PanelContext } from '../../../contexts/panel-context';
+import { usePanelContext } from '../../../contexts/panel-context';
 
 export function EditTitle() {
-  const { title, setTitle } = React.useContext(PanelContext);
+  const { panel } = usePanelContext();
+  const { title, setTitle } = panel;
   const [localTitle, setLocalTitle] = useInputState(title);
 
   const changed = title !== localTitle;

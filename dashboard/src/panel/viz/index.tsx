@@ -1,19 +1,21 @@
+import { LoadingOverlay, Text } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 import React, { ReactNode, useContext } from 'react';
-import { useElementSize } from '@mantine/hooks';
-import { LoadingOverlay, Text } from '@mantine/core';
-import { PanelContext } from '../../contexts';
-import { PluginContext, IViewPanelInfo } from '../../plugins';
+import { usePanelContext } from '../../contexts';
+import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 
-import './index.css';
+import { observer } from 'mobx-react-lite';
 import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
-import { observer } from 'mobx-react-lite';
+import './index.css';
 
 function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
-  const { viz, title, id, description, queryID } = useContext(PanelContext);
+  const {
+    panel: { viz, title, id, description, queryID },
+  } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
     id,

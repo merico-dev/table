@@ -87,11 +87,11 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
     >
-      {view.panels.current.map(({ id, ...rest }, index) => {
+      {view.panels.current.map((panel, index) => {
         return (
-          <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
+          <div key={panel.id} data-grid={{ ...panel.layout }} style={{ position: 'relative' }}>
             {isDraggable && <CustomDragHandle />}
-            <Panel id={id} view={view} {...rest} />
+            <Panel view={view} panel={panel} />
           </div>
         );
       })}

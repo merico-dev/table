@@ -3,7 +3,7 @@ import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
 import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PanelContext } from '../../../contexts';
+import { PanelContext, usePanelContext } from '../../../contexts';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
@@ -34,8 +34,10 @@ function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
 }
 
 function usePluginVizConfig() {
-  const { viz, title, data, queryID, description, setDescription, setTitle, setQueryID, setViz, id } =
-    useContext(PanelContext);
+  const {
+    data,
+    panel: { viz, title, queryID, description, setDescription, setTitle, setQueryID, id },
+  } = usePanelContext();
   const { vizManager } = useContext(PluginContext);
 
   const panel: IPanelInfo = {
@@ -54,7 +56,7 @@ function usePluginVizConfig() {
     vizManager.resolveComponent(panel.viz.type);
     return (
       <PluginVizConfigComponent
-        setVizConf={setViz}
+        setVizConf={viz.setConf}
         panel={panel}
         panelInfoEditor={panelEditor}
         vizManager={vizManager}
@@ -68,7 +70,10 @@ function usePluginVizConfig() {
 }
 
 export function EditVizConf() {
-  const { data, viz, setViz } = React.useContext(PanelContext);
+  const {
+    data,
+    panel: { viz },
+  } = usePanelContext();
   const [type, setType] = useInputState(viz.type);
 
   const changed = viz.type !== type;
@@ -79,16 +84,13 @@ export function EditVizConf() {
       return;
     }
     const defaultConfig = getPluginVizDefaultConfig(vizManager, type);
-    setViz({ conf: defaultConfig || {}, type });
-  }, [changed, type]);
-
-  const setVizConf = (conf: IVizConfig['conf']) => {
-    setViz((v) => ({ ...v, conf }));
-  };
+    viz.setType(type);
+    viz.setConf(defaultConfig || {});
+  }, [viz, changed, type]);
 
   const setVizConfByJSON = (conf: string) => {
     try {
-      setVizConf(JSON.parse(conf));
+      viz.setConf(JSON.parse(conf));
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +105,7 @@ export function EditVizConf() {
     ? createElement(Panel as $TSFixMe, {
         data,
         conf: viz.conf,
-        setConf: setVizConf,
+        setConf: viz.setConf,
       })
     : null;
   const finalPanel = pluginPanel || builtInPanel;

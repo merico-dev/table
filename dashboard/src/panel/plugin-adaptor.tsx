@@ -37,7 +37,7 @@ function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMi
 export function PluginVizConfigComponent({
   setVizConf,
   ...props
-}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig>) => void }) {
+}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void }) {
   const { vizManager, panel } = props;
   const instance = vizManager.getOrCreateInstance(panel);
   const migrated = usePluginMigration(vizManager, instance, () => {
@@ -53,7 +53,7 @@ export function PluginVizConfigComponent({
 
   useEffect(() => {
     return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
-      setVizConf({ type: panel.viz.type, conf: configData });
+      setVizConf(configData);
     });
   }, [setVizConf, panel.viz.type]);
 
