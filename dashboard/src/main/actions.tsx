@@ -53,7 +53,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   const closeSchema = () => setSchemaOpened(false);
 
   return (
-    <Group position="apart" pt={0} pb="xs">
+    <Group position="apart" pt={0} px={10} pb="xs">
       <Group position="left">{inEditMode && <SwitchViews />}</Group>
       <Group position="right">
         {!inUseMode && (

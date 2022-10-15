@@ -30,6 +30,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
     >
       <Box
         className="dashboard-view"
+        mx={-10}
         sx={{
           position: 'relative',
           height: '100%',
