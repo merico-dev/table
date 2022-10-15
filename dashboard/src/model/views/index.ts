@@ -115,6 +115,13 @@ export const ViewsModel = types
       self.removeByID(self.idOfVIE);
       self.setIDOfVIE(self.current[0].id);
     },
+    rmVisibleViewID(id: string) {
+      const index = self.visibleViewIDs.findIndex((i) => i === id);
+      if (index === -1) {
+        return;
+      }
+      self.visibleViewIDs.splice(index, 1);
+    },
   }));
 
 export * from './view';

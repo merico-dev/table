@@ -1,18 +1,20 @@
 import { Modal } from '@mantine/core';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
+import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 
-// TODO: opened state
 export const RenderViewModal = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+  const model = useModelContext();
+  const opened = model.views.visibleViewIDs.includes(view.id);
+  const close = () => model.views.rmVisibleViewID(view.id);
   return (
     <Modal
       size={view.config.width}
       centered
       overflow="inside"
-      opened={true}
-      onClose={_.noop}
+      opened={opened}
+      onClose={close}
       withCloseButton={false}
       title={view.name}
       trapFocus
@@ -20,13 +22,23 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         e.stopPropagation();
       }}
       styles={{
+        root: {
+          position: 'relative',
+          height: 'calc(100% - 46px)',
+        },
         overlay: {
-          display: 'none',
+          // @ts-expect-error absolute !important
+          position: 'absolute !important',
         },
         modal: {
           border: '1px solid #efefef',
         },
+        body: {
+          maxHeight: view.config.height,
+          overflow: 'scroll',
+        },
       }}
+      transitionDuration={0}
     >
       {children}
     </Modal>
