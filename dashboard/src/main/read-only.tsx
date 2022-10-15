@@ -6,12 +6,10 @@ import { ReadOnlyDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
-import { Filters } from '../filter';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { IDashboard, IDashboardConfig } from '../types/dashboard';
 import './main.css';
-import { useStickyAreaStyle } from './use-sticky-area-style';
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
@@ -30,7 +28,6 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
     model.context.replace(context);
   }, [context]);
 
-  useStickyAreaStyle();
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
@@ -43,7 +40,7 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
           }}
         >
           <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
-            {model.views.current.map((view) => (
+            {model.views.visibleViews.map((view) => (
               <ReadOnlyDashboardView key={view.id} view={view} />
             ))}
           </Box>

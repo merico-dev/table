@@ -42,6 +42,7 @@ export enum EViewComponentType {
 
 export interface IDashboardView {
   id: string;
+  name: string;
   type: EViewComponentType;
   config: Record<string, any>;
   panels: IDashboardPanel[];

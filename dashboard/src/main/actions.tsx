@@ -1,10 +1,12 @@
 import { Button, Group, Menu } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Code, Database, DeviceFloppy, Download, Filter, Recycle, Share } from 'tabler-icons-react';
+import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { ViewModelInstance } from '..';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
+import { SwitchViews } from './switch-views';
 import { ViewSchemaModal } from './view-schema-modal';
 
 interface IDashboardActions {
@@ -51,14 +53,20 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   const closeSchema = () => setSchemaOpened(false);
 
   return (
-    <Group position="apart" pt={0} pb="xs">
-      <Group position="left"></Group>
+    <Group position="apart" pt={0} px={10} pb="xs">
+      <Group position="left">{inEditMode && <SwitchViews />}</Group>
       <Group position="right">
-        {/* {!inUseMode && (
-          <Button variant="default" size="xs" onClick={model.panels.addANewPanel} leftIcon={<PlaylistAdd size={20} />}>
+        {!inUseMode && (
+          <Button
+            variant="default"
+            size="xs"
+            disabled={!model.views.VIE}
+            onClick={model.views.addAPanelToVIE}
+            leftIcon={<PlaylistAdd size={20} />}
+          >
             Add a Panel
           </Button>
-        )} */}
+        )}
         {inEditMode && (
           <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>
             Filters
