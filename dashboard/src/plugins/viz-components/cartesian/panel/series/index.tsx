@@ -39,6 +39,9 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
       smooth: false,
       barWidth: '10',
       barGap: '0%',
+      lineStyle: {
+        type: 'solid',
+      },
     });
 
   const yAxes = watch('y_axes');

@@ -16,6 +16,9 @@ export interface ICartesianChartSeriesItem {
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
   group_by_key: string;
+  lineStyle: {
+    type: 'solid' | 'dashed' | 'dotted';
+  };
 }
 
 export interface IYAxisConf {

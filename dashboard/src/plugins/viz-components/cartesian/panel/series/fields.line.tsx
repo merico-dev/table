@@ -1,4 +1,4 @@
-import { Box, Group, Select, Switch } from '@mantine/core';
+import { Box, Divider, Group, Select, Switch } from '@mantine/core';
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
@@ -10,6 +10,12 @@ const stepOptions = [
   { label: 'end', value: 'end' },
 ];
 
+const lineTypeOptions = [
+  { label: 'solid', value: 'solid' },
+  { label: 'dashed', value: 'dashed' },
+  { label: 'dotted', value: 'dotted' },
+];
+
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
@@ -17,37 +23,45 @@ interface ILineFields {
 
 export function LineFields({ control, index }: ILineFields) {
   return (
-    <Group grow align="center">
+    <>
+      <Divider mb={-15} variant="dashed" label="Line Settings" labelPosition="center" />
       <Controller
-        name={`series.${index}.step`}
+        name={`series.${index}.lineStyle.type`}
         control={control}
-        render={({ field }) => (
-          <Select
-            label="Step"
-            data={stepOptions}
-            sx={{ flexGrow: 1, maxWidth: '48%' }}
-            {...field}
-            value={String(field.value)}
-            onChange={(v: string) => {
-              const step = v === 'false' ? false : v;
-              field.onChange(step);
-            }}
-          />
-        )}
+        render={({ field }) => <Select label="Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
       />
-      <Controller
-        name={`series.${index}.smooth`}
-        control={control}
-        render={({ field }) => (
-          <Box sx={{ flexGrow: 1 }}>
-            <Switch
-              label="Smooth Line"
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
+      <Group grow align="center">
+        <Controller
+          name={`series.${index}.step`}
+          control={control}
+          render={({ field }) => (
+            <Select
+              label="Step"
+              data={stepOptions}
+              sx={{ flexGrow: 1, maxWidth: '48%' }}
+              {...field}
+              value={String(field.value)}
+              onChange={(v: string) => {
+                const step = v === 'false' ? false : v;
+                field.onChange(step);
+              }}
             />
-          </Box>
-        )}
-      />
-    </Group>
+          )}
+        />
+        <Controller
+          name={`series.${index}.smooth`}
+          control={control}
+          render={({ field }) => (
+            <Box sx={{ flexGrow: 1 }}>
+              <Switch
+                label="Smooth Line"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+              />
+            </Box>
+          )}
+        />
+      </Group>
+    </>
   );
 }

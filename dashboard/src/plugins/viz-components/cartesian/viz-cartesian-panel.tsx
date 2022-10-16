@@ -31,6 +31,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     smooth = false,
     step = false,
     group_by_key = '',
+    lineStyle = { type: 'solid' },
   }: ICartesianChartSeriesItem) {
     return {
       type,
@@ -47,6 +48,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       smooth,
       step,
       group_by_key,
+      lineStyle,
     };
   }
 
