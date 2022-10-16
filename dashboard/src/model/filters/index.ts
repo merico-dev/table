@@ -61,10 +61,22 @@ export * from './filter';
 
 export type FilterValuesType = Record<string, $TSFixMe>;
 
+function formatDefaultValue(v: any) {
+  if (v === undefined) {
+    return v;
+  }
+  if (Array.isArray(v)) {
+    return v.map((v) => {
+      const d = new Date(v); // for date-range
+      return d ?? v;
+    });
+  }
+  return v;
+}
+
 export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
   const values = filters.reduce((ret, filter) => {
-    // @ts-expect-error default_value
-    ret[filter.key] = filter.config.default_value ?? '';
+    ret[filter.key] = formatDefaultValue(filter.config.default_value);
     return ret;
   }, {} as FilterValuesType);
   return {

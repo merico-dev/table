@@ -59,7 +59,6 @@ export const FilterModel = types
       self.type = type;
     },
     setVisibleInViewsIDs(ids: string[]) {
-      console.log(ids);
       self.visibleInViewsIDs.length = 0;
       self.visibleInViewsIDs.push(...ids);
     },

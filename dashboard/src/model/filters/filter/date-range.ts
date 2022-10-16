@@ -1,9 +1,11 @@
+import { DateRangePickerValue } from '@mantine/dates';
 import { Instance, types } from 'mobx-state-tree';
 
-export const FilterConfigModel_DateRange = types
+const _FilterConfigModel_DateRange = types
   .model('FilterConfigModel_DateRange', {
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYY-MM', 'YYYY-MM-DD']),
+    default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     clearable: types.boolean,
   })
   .actions((self) => ({
@@ -16,7 +18,30 @@ export const FilterConfigModel_DateRange = types
     setInputFormat(inputFormat: string) {
       self.inputFormat = inputFormat;
     },
+    setDefaultValue(v: DateRangePickerValue) {
+      self.default_value.length = 0;
+      self.default_value.push(...v);
+    },
   }));
+
+export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfigModel_DateRange, {
+  preProcessor({ default_value, ...rest }: $TSFixMe) {
+    return {
+      ...rest,
+      default_value: default_value.map((v: string | null) => {
+        return v === null ? null : new Date(v);
+      }),
+    };
+  },
+  postProcessor({ default_value, ...rest }) {
+    return {
+      ...rest,
+      default_value: default_value.map((v: number | null) => {
+        return typeof v === 'number' ? new Date(v).toISOString() : '';
+      }),
+    };
+  },
+});
 
 export type IFilterConfig_DateRange = Instance<typeof FilterConfigModel_DateRange>;
 
@@ -25,4 +50,5 @@ export const createFilterConfig_DateRange = () =>
     required: false,
     inputFormat: 'YYYY-MM-DD',
     clearable: false,
+    default_value: [null, null],
   });

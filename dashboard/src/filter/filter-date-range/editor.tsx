@@ -1,6 +1,7 @@
 import { Checkbox, Group, Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
+import { FilterDateRange } from './render';
 
 interface IFilterEditorDateRange {
   config: IFilterConfig_DateRange;
@@ -32,6 +33,12 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         label="Display Format"
         value={config.inputFormat}
         onChange={config.setInputFormat}
+      />
+      <FilterDateRange
+        label="Default Value"
+        config={config}
+        value={config.default_value}
+        onChange={config.setDefaultValue}
       />
     </>
   );
