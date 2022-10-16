@@ -27,7 +27,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   return (
     <PanelContextProvider value={{ panel, data, loading }}>
       <Container className="panel-root">
-        <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28 }}>
+        <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28, zIndex: 310 }}>
           <DescriptionPopover />
         </Box>
         <PanelTitleBar view={view} />

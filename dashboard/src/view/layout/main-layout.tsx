@@ -17,7 +17,7 @@ const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFix
       position: 'absolute',
       top: 0,
       right: 0,
-      zIndex: 300,
+      zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
     variant="transparent"
@@ -36,7 +36,7 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
       position: 'absolute',
       bottom: -5,
       right: -5,
-      zIndex: 300,
+      zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
     variant="transparent"
