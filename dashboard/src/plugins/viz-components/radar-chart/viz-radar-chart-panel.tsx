@@ -9,14 +9,15 @@ import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DimensionsField } from './panel/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
+import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 
 function withDefaults(dimensions: IRadarChartDimension[]) {
-  function setDefaults({ name = '', data_key = '', max = 10, color = 'blue' }: IRadarChartDimension) {
+  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumbroFormat }: IRadarChartDimension) {
     return {
       name,
       data_key,
       max,
-      color,
+      formatter,
     };
   }
 
