@@ -49,9 +49,10 @@ interface IViz {
   viz: IVizConfig;
   data: $TSFixMe;
   loading: boolean;
+  height: string;
 }
 
-export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
+export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
@@ -68,13 +69,13 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
   const finalViz = pluginViz || renderViz(width, height, data, viz);
   if (loading) {
     return (
-      <div className="viz-root" ref={ref}>
+      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     );
   }
   return (
-    <div className="viz-root" ref={ref}>
+    <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
       {empty && (
         <Text color="gray" align="center">
           nothing to show

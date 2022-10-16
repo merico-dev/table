@@ -25,16 +25,17 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
 
   const { data, state } = model.getDataStuffByID(panel.queryID);
   const loading = doesVizRequiresData(panel.viz.type) && state === 'loading';
+  const vizHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   return (
     <PanelContextProvider value={{ panel, data, loading }}>
-      <Stack className="panel-root" p={5} spacing={5}>
+      <Box className="panel-root" p={5} pt={0}>
         <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28, zIndex: 310 }}>
           <DescriptionPopover />
         </Box>
         <PanelDropdownMenu view={view} />
         <PanelTitleBar />
-        <Viz viz={panel.viz} data={data} loading={loading} />
-      </Stack>
+        <Viz viz={panel.viz} data={data} loading={loading} height={vizHeight} />
+      </Box>
     </PanelContextProvider>
   );
 });
