@@ -1,9 +1,10 @@
-import { ActionIcon, Box, Button, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Button, Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
+import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IRadarChartConf } from '../type';
 
 interface IDimensionField {
@@ -35,14 +36,14 @@ function DimensionField({ control, index, remove, data }: IDimensionField) {
           render={({ field }) => <NumberInput label="Max" hideControls required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Box>
-        <Text size="sm">Color</Text>
+      <Stack>
+        <Divider mb={-15} variant="dashed" label="Value Formatter" labelPosition="center" />
         <Controller
-          name={`dimensions.${index}.color`}
+          name={`dimensions.${index}.formatter`}
           control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
+          render={({ field }) => <NumbroFormatSelector {...field} />}
         />
-      </Box>
+      </Stack>
       <ActionIcon
         color="red"
         variant="subtle"
@@ -81,7 +82,7 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
       name: randomId(),
       data_key: '',
       max: 100,
-      color: 'red',
+      formatter: defaultNumbroFormat,
     });
 
   return (
