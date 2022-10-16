@@ -6,7 +6,10 @@ import { DescriptionPopover } from '../../panel-description';
 
 export const PreviewPanel = observer(() => {
   const {
-    panel: { title },
+    panel: {
+      title,
+      style: { border },
+    },
   } = usePanelContext();
   return (
     <ErrorBoundary>
@@ -20,7 +23,8 @@ export const PreviewPanel = observer(() => {
           height: '450px',
           background: 'transparent',
           borderRadius: '5px',
-          boxShadow: '0px 0px 10px 0px rgba(0,0,0,.2)',
+          border: '1px solid #ced4da',
+          borderWidth: border.enabled ? '1px' : '0px',
         }}
       >
         <Group position="apart" noWrap sx={{ flexGrow: 0, flexShrink: 0 }}>

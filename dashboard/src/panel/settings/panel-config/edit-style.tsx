@@ -8,7 +8,6 @@ export const EditStyle = observer(() => {
 
   return (
     <>
-      <Divider label="Panel Style" labelPosition="center" />
       <Switch
         label="Border"
         checked={style.border.enabled}
