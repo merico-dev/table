@@ -14,7 +14,7 @@ import './index.css';
 function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
-    panel: { viz, title, id, description, queryID },
+    panel: { viz, title, id, description, queryID, style },
   } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
@@ -23,6 +23,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     queryID,
     viz,
     layout,
+    style: style.json,
   };
   try {
     // ensure that the plugin is loaded

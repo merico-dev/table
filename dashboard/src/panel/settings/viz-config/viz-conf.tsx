@@ -35,7 +35,7 @@ function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
 function usePluginVizConfig() {
   const {
     data,
-    panel: { viz, title, queryID, description, setDescription, setTitle, setQueryID, id },
+    panel: { viz, title, queryID, description, setDescription, setTitle, setQueryID, id, style },
   } = usePanelContext();
   const { vizManager } = useContext(PluginContext);
 
@@ -45,6 +45,7 @@ function usePluginVizConfig() {
     viz,
     queryID,
     id,
+    style: style.json,
   };
   const panelEditor: IPanelInfoEditor = {
     setDescription: setDescription,
