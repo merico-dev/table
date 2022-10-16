@@ -7,5 +7,5 @@ export function PreviewViz() {
     loading,
     panel: { viz },
   } = usePanelContext();
-  return <Viz viz={viz} data={data} loading={loading} />;
+  return <Viz viz={viz} data={data} loading={loading} height="100%" />;
 }
