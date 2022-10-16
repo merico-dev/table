@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { IRadarChartConf } from '../type';
+import { getTooltipFormatter } from './tooltip';
 
 const defaultOption = {
   legend: {
@@ -52,6 +53,9 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
       splitArea: {
         show: false,
       },
+    },
+    tooltip: {
+      formatter: getTooltipFormatter(conf),
     },
     legend: {
       show: true,
