@@ -43,15 +43,15 @@ export const PanelTitleBar = observer(function _PanelTitleBar({ view }: { view: 
 
   return (
     <Box sx={{ position: 'relative' }}>
-      <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28 }}>
-        <DescriptionPopover />
-      </Box>
       <Group grow position="center" px={20} className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
+        <Text align="center" lineClamp={1} weight="bold">
+          {title}
+        </Text>
+      </Group>
+      <Box sx={{ position: 'absolute', top: -5, left: -5, right: -5, zIndex: 300 }}>
         <Menu>
           <Menu.Target>
-            <Text lineClamp={1} weight="bold">
-              {title}
-            </Text>
+            <Box className="panel-dropdown-target" sx={{ width: '100%', height: '30px' }}></Box>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>
@@ -81,7 +81,7 @@ export const PanelTitleBar = observer(function _PanelTitleBar({ view }: { view: 
             )}
           </Menu.Dropdown>
         </Menu>
-      </Group>
+      </Box>
       {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
     </Box>
   );
