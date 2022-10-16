@@ -12,7 +12,7 @@ const defaultOption = {
   legend: {
     show: true,
     bottom: 0,
-    left: 0,
+    left: 'center',
     type: 'scroll',
   },
   dataZoom: [
