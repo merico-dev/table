@@ -16,7 +16,7 @@ export function FilterDateRange({ label, config, value, onChange }: IFilterDateR
       value={value}
       onChange={onChange}
       icon={<Calendar size={16} />}
-      sx={{ minWidth: '14em' }}
+      sx={{ minWidth: '16em' }}
       {...config}
     />
   );
