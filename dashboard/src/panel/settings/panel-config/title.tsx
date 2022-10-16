@@ -24,13 +24,19 @@ export const EditTitle = observer(() => {
       value={localTitle}
       onChange={setLocalTitle}
       label={
-        <Group align="end">
-          <Text>Panel Title</Text>
+        <Group align="apart">
+          <Text sx={{ flexGrow: 1 }}>Panel Title</Text>
           <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
       }
+      styles={{
+        label: {
+          display: 'block',
+          paddingBottom: '4px',
+        },
+      }}
     />
   );
 });

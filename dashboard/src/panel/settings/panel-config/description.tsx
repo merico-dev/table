@@ -19,9 +19,9 @@ export const EditDescription = observer(() => {
   }, [changed, value]);
 
   return (
-    <Stack sx={{ flexGrow: 1 }}>
+    <Stack spacing={4} sx={{ flexGrow: 1 }}>
       <Group align="end">
-        <Text>Description</Text>
+        <Text sx={{ flexGrow: 1 }}>Description</Text>
         <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
           <DeviceFloppy size={20} />
         </ActionIcon>
