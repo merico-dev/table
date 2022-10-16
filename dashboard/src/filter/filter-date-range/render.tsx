@@ -1,9 +1,9 @@
 import { DateRangePicker } from '@mantine/dates';
 import { Calendar } from 'tabler-icons-react';
-import { FilterModelInstance } from '../../model';
 import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
 
-interface IFilterDateRange extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
+interface IFilterDateRange {
+  label: string;
   config: IFilterConfig_DateRange;
   value: $TSFixMe;
   onChange: (v: $TSFixMe) => void;
