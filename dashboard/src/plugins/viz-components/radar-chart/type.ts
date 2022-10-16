@@ -2,7 +2,6 @@ export interface IRadarChartDimension {
   name: string;
   data_key: string;
   max: number;
-  color?: string;
 }
 
 export interface IRadarChartConf {

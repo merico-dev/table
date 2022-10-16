@@ -35,14 +35,6 @@ function DimensionField({ control, index, remove, data }: IDimensionField) {
           render={({ field }) => <NumberInput label="Max" hideControls required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Box>
-        <Text size="sm">Color</Text>
-        <Controller
-          name={`dimensions.${index}.color`}
-          control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
-        />
-      </Box>
       <ActionIcon
         color="red"
         variant="subtle"
@@ -81,7 +73,6 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
       name: randomId(),
       data_key: '',
       max: 100,
-      color: 'red',
     });
 
   return (

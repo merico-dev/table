@@ -36,10 +36,9 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
     '#826BAF',
   ];
 
-  const indicator = conf.dimensions.map(({ name, max, color }) => ({
+  const indicator = conf.dimensions.map(({ name, max }) => ({
     name,
     max,
-    color,
   }));
 
   const seriesData = data.map((row) => ({
