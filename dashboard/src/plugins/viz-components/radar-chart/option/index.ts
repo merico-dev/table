@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import { IRadarChartConf } from '../type';
+import { getFormatter } from './formatter';
+import { getSeriesLabel } from './series.label';
 import { getTooltipFormatter } from './tooltip';
 
 const defaultOption = {
@@ -71,6 +73,7 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
       areaStyle: {
         opacity: 0.4,
       },
+      label: getSeriesLabel(conf),
     },
     color: palette,
   };
