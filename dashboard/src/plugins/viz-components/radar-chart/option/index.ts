@@ -54,6 +54,10 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
         show: false,
       },
     },
+    legend: {
+      show: true,
+      left: 'center',
+    },
     series: {
       type: 'radar',
       data: seriesData,
