@@ -19,7 +19,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
   view,
   saveDashboardChanges,
 }: IMainDashboardView) {
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view.panels.json);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view);
   useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider

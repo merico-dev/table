@@ -1,7 +1,7 @@
 import React from 'react';
-import { IDashboardPanel } from '../types';
+import { ViewModelInstance } from '..';
 
-export function usePanelFullScreen(panels: IDashboardPanel[]) {
+export function usePanelFullScreen(view: ViewModelInstance) {
   const [fullScreenPanelID, setFullScreenPanelID] = React.useState<string | null>(null);
   const viewPanelInFullScreen = React.useCallback((id: string) => {
     setFullScreenPanelID(id);
@@ -11,9 +11,7 @@ export function usePanelFullScreen(panels: IDashboardPanel[]) {
     setFullScreenPanelID(null);
   }, []);
 
-  const fullScreenPanel = React.useMemo(() => {
-    return panels.find((p) => p.id === fullScreenPanelID);
-  }, [fullScreenPanelID, panels]);
+  const fullScreenPanel = fullScreenPanelID ? view.panels.findByID(fullScreenPanelID) : null;
 
   const inFullScreen = !!fullScreenPanel;
   return {

@@ -15,7 +15,7 @@ interface IReadOnlyDashboardView {
 }
 
 export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }: IReadOnlyDashboardView) {
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view.panels.json);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view);
   useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider
