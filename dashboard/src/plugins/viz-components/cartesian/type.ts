@@ -20,6 +20,7 @@ export interface ICartesianChartSeriesItem {
 
 export interface IYAxisConf {
   name: string;
+  nameAlignment: 'left' | 'center' | 'right';
   label_formatter: TNumbroFormat;
 }
 
@@ -77,6 +78,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   y_axes: [
     {
       name: 'Y Axis',
+      nameAlignment: 'center',
       label_formatter: defaultNumbroFormat,
     },
   ],

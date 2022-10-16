@@ -1,8 +1,14 @@
-import { ActionIcon, Button, Group, Stack, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Group, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { ICartesianChartConf } from '../type';
+
+const nameAlignmentOptions = [
+  { label: 'left', value: 'left' },
+  { label: 'center', value: 'center' },
+  { label: 'right', value: 'right' },
+];
 
 interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -18,6 +24,13 @@ function YAxisField({ control, index, remove }: IYAxisField) {
           name={`y_axes.${index}.name`}
           control={control}
           render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+        />
+        <Controller
+          name={`y_axes.${index}.nameAlignment`}
+          control={control}
+          render={({ field }) => (
+            <Select label="Name Alignment" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Stack>

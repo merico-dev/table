@@ -1,7 +1,7 @@
 import { ICartesianChartConf, IYAxisConf } from '../type';
 
 export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
-  return conf.y_axes.map(({ ...rest }: IYAxisConf, index: number) => ({
+  return conf.y_axes.map(({ nameAlignment, ...rest }: IYAxisConf, index: number) => ({
     ...rest,
     axisLabel: {
       show: true,
@@ -9,7 +9,7 @@ export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<stri
     },
     nameTextStyle: {
       fontWeight: 'bold',
-      align: 'right',
+      align: nameAlignment,
     },
     nameLocation: 'end',
     nameGap: 15,
