@@ -25,6 +25,14 @@ const _FilterConfigModel_DateRange = types
   }));
 
 export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfigModel_DateRange, {
+  preProcessor({ default_value, ...rest }: $TSFixMe) {
+    return {
+      ...rest,
+      default_value: default_value.map((v: string | null) => {
+        return v === null ? null : new Date(v);
+      }),
+    };
+  },
   postProcessor({ default_value, ...rest }) {
     return {
       ...rest,
