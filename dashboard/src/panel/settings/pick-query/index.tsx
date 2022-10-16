@@ -1,7 +1,7 @@
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useModelContext, PanelContext, usePanelContext } from '../../../contexts';
+import { useModelContext, usePanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 
 export const PickQuery = observer(function _PickQuery() {

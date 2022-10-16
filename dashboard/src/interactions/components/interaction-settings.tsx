@@ -5,7 +5,7 @@ import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { Trash } from 'tabler-icons-react';
-import { PanelContext, usePanelContext } from '~/contexts';
+import { usePanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { useTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';

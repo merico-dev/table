@@ -1,6 +1,5 @@
 import { Group, Stack, Text } from '@mantine/core';
-import React from 'react';
-import { PanelContext, usePanelContext } from '../../../contexts';
+import { usePanelContext } from '../../../contexts';
 import { ErrorBoundary } from '../../error-boundary';
 import { DescriptionPopover } from '../../panel-description';
 

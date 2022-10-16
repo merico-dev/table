@@ -3,9 +3,8 @@ import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
 import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PanelContext, usePanelContext } from '../../../contexts';
+import { usePanelContext } from '../../../contexts';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
-import { IVizConfig } from '../../../types';
 import { IPanelInfoEditor } from '../../../types/plugin';
 import { PluginVizConfigComponent } from '../../plugin-adaptor';
 

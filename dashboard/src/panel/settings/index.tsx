@@ -17,8 +17,8 @@ interface IPanelSettingsModal {
 export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [value, setValue] = useState<string | null>('Visualization');
-  const { panel } = usePanelContext();
-  const { loading, title } = panel;
+  const { panel, loading } = usePanelContext();
+  const { title } = panel;
 
   React.useEffect(() => {
     freezeLayout(opened);
