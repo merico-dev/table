@@ -1,7 +1,8 @@
 import { Divider, Switch } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { usePanelContext } from '../../../contexts/panel-context';
 
-export function EditStyle() {
+export const EditStyle = observer(() => {
   const { panel } = usePanelContext();
   const { style } = panel;
 
@@ -15,4 +16,4 @@ export function EditStyle() {
       />
     </>
   );
-}
+});

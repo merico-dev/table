@@ -1,10 +1,11 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { usePanelContext } from '../../../contexts/panel-context';
 
-export function EditDescription() {
+export const EditDescription = observer(() => {
   const { panel } = usePanelContext();
   const [value, onChange] = React.useState(panel.description);
 
@@ -28,4 +29,4 @@ export function EditDescription() {
       <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0" />
     </Stack>
   );
-}
+});

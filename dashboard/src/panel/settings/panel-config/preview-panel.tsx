@@ -1,9 +1,10 @@
 import { Group, Stack, Text } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { usePanelContext } from '../../../contexts';
 import { ErrorBoundary } from '../../error-boundary';
 import { DescriptionPopover } from '../../panel-description';
 
-export function PreviewPanel() {
+export const PreviewPanel = observer(() => {
   const {
     panel: { title },
   } = usePanelContext();
@@ -37,4 +38,4 @@ export function PreviewPanel() {
       </Stack>
     </ErrorBoundary>
   );
-}
+});
