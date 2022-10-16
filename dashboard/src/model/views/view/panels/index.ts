@@ -60,6 +60,11 @@ export const PanelsModel = types
             type: TableVizComponent.name,
             conf: TableVizComponent.createConfig(),
           },
+          style: {
+            border: {
+              enabled: true,
+            },
+          },
         });
       },
       append(item: PanelModelInstance) {

@@ -8,6 +8,12 @@ export interface IVizConfig {
   conf: AnyObject;
 }
 
+interface IDashboardPanelStyle {
+  border: {
+    enabled: boolean;
+  };
+}
+
 export interface IDashboardPanel {
   id: string;
   title: string;
@@ -22,6 +28,7 @@ export interface IDashboardPanel {
   };
   queryID: string;
   viz: IVizConfig;
+  style: IDashboardPanelStyle;
 }
 
 export enum DashboardMode {

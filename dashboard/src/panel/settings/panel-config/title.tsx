@@ -1,10 +1,11 @@
 import { ActionIcon, Group, Text, TextInput } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { usePanelContext } from '../../../contexts/panel-context';
 
-export function EditTitle() {
+export const EditTitle = observer(() => {
   const { panel } = usePanelContext();
   const { title, setTitle } = panel;
   const [localTitle, setLocalTitle] = useInputState(title);
@@ -23,13 +24,19 @@ export function EditTitle() {
       value={localTitle}
       onChange={setLocalTitle}
       label={
-        <Group align="end">
-          <Text>Panel Title</Text>
+        <Group align="apart">
+          <Text sx={{ flexGrow: 1 }}>Panel Title</Text>
           <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
       }
+      styles={{
+        label: {
+          display: 'block',
+          paddingBottom: '4px',
+        },
+      }}
     />
   );
-}
+});

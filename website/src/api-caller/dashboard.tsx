@@ -52,6 +52,7 @@ export const DashboardAPI = {
           },
         ],
         filters: [],
+        version: '4.10.0',
       };
     }
     const res: IDBDashboard = await post('/dashboard/create', {

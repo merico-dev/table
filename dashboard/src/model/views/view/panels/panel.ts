@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { PanelLayoutModel } from './layout';
+import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
 
 export const PanelModel = types
@@ -10,6 +11,7 @@ export const PanelModel = types
     layout: PanelLayoutModel,
     queryID: types.string,
     viz: PanelVizModel,
+    style: PanelStyleModel,
   })
   .views((self) => ({
     get json() {
@@ -21,6 +23,7 @@ export const PanelModel = types
         layout: self.layout.json,
         queryID,
         viz: self.viz.json,
+        style: self.style.json,
       };
     },
   }))
