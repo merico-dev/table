@@ -41,10 +41,10 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
   }, [id, viewPanelInFullScreen]);
   return (
     <>
-      <Box sx={{ position: 'absolute', top: -5, left: -5, right: -5, zIndex: 300 }}>
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }}>
         <Menu>
           <Menu.Target>
-            <Box className="panel-dropdown-target" sx={{ width: '100%', height: '30px' }}></Box>
+            <Box className="panel-dropdown-target" sx={{ width: '100%', height: '25px' }}></Box>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>
