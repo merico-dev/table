@@ -9,6 +9,10 @@ const nameAlignmentOptions = [
   { label: 'center', value: 'center' },
   { label: 'right', value: 'right' },
 ];
+const positionOptions = [
+  { label: 'left', value: 'left' },
+  { label: 'right', value: 'right' },
+];
 
 interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -35,7 +39,15 @@ function YAxisField({ control, index, remove }: IYAxisField) {
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Layout" labelPosition="center" />
-      <Group grow noWrap></Group>
+      <Group grow noWrap>
+        <Controller
+          name={`y_axes.${index}.position`}
+          control={control}
+          render={({ field }) => (
+            <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
+          )}
+        />
+      </Group>
       <Stack>
         <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
         <Controller
