@@ -18,7 +18,7 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [value, setValue] = useState<string | null>('Visualization');
   const { panel, loading } = usePanelContext();
-  const { title } = panel;
+  const { id, title } = panel;
 
   React.useEffect(() => {
     freezeLayout(opened);
@@ -30,7 +30,7 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
       overflow="inside"
       opened={opened}
       onClose={close}
-      title={title}
+      title={`Editing Panel - ${title.trim() ? title : id}`}
       trapFocus
       onDragStart={(e) => {
         e.stopPropagation();
