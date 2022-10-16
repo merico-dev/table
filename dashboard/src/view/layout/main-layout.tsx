@@ -17,7 +17,7 @@ const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFix
       position: 'absolute',
       top: 0,
       right: 0,
-      zIndex: 300,
+      zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
     variant="transparent"
@@ -36,7 +36,7 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
       position: 'absolute',
       bottom: -5,
       right: -5,
-      zIndex: 300,
+      zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
     variant="transparent"
@@ -87,11 +87,11 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
     >
-      {view.panels.current.map(({ id, ...rest }, index) => {
+      {view.panels.current.map((panel, index) => {
         return (
-          <div key={id} data-grid={{ ...rest.layout }} style={{ position: 'relative' }}>
+          <div key={panel.id} data-grid={{ ...panel.layout }} style={{ position: 'relative' }}>
             {isDraggable && <CustomDragHandle />}
-            <Panel id={id} view={view} {...rest} />
+            <Panel view={view} panel={panel} />
           </div>
         );
       })}

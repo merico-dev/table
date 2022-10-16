@@ -1,36 +1,26 @@
-import _ from 'lodash';
 import React from 'react';
-import { IVizConfig } from '../types/dashboard';
+import { PanelModelInstance } from '~/model/views/view/panels';
 
-export interface IPanelContext {
-  id: string;
-  data: $TSFixMe[];
+const PanelContext = React.createContext<{
+  panel: PanelModelInstance | null;
+  data: any;
   loading: boolean;
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-  description: string;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  queryID: string;
-  setQueryID: React.Dispatch<React.SetStateAction<string>>;
-  viz: IVizConfig;
-  setViz: React.Dispatch<React.SetStateAction<IVizConfig>>;
-}
-
-const initialContext = {
-  id: '',
+}>({
+  panel: null,
   data: [],
   loading: false,
-  title: '',
-  setTitle: _.noop,
-  description: '',
-  setDescription: _.noop,
-  queryID: '',
-  setQueryID: _.noop,
-  viz: {
-    type: '',
-    conf: {},
-  },
-  setViz: _.noop,
-};
+});
 
-export const PanelContext = React.createContext<IPanelContext>(initialContext);
+export const PanelContextProvider = PanelContext.Provider;
+
+export function usePanelContext() {
+  const c = React.useContext(PanelContext);
+  if (!c.panel) {
+    throw new Error('Please use PanelContextProvider');
+  }
+  return c as {
+    panel: PanelModelInstance;
+    data: any;
+    loading: boolean;
+  };
+}

@@ -1,11 +1,12 @@
 import { Group, Stack, Text } from '@mantine/core';
-import React from 'react';
-import { PanelContext } from '../../../contexts';
+import { usePanelContext } from '../../../contexts';
 import { ErrorBoundary } from '../../error-boundary';
 import { DescriptionPopover } from '../../panel-description';
 
 export function PreviewPanel() {
-  const { title } = React.useContext(PanelContext);
+  const {
+    panel: { title },
+  } = usePanelContext();
   return (
     <ErrorBoundary>
       <Stack

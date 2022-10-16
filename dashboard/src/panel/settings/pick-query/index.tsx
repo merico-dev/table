@@ -1,12 +1,14 @@
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useModelContext, PanelContext } from '../../../contexts';
+import { useModelContext, usePanelContext } from '../../../contexts';
 import { DataPreview } from '../../../definition-editor/query-editor/data-preview';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
-  const { queryID, setQueryID } = React.useContext(PanelContext);
+  const {
+    panel: { queryID, setQueryID },
+  } = usePanelContext();
 
   const options = React.useMemo(() => {
     return model.queries.current.map((d) => ({
@@ -22,7 +24,6 @@ export const PickQuery = observer(function _PickQuery() {
         <Select
           data={options}
           value={queryID}
-          // @ts-expect-error type mismatch
           onChange={setQueryID}
           allowDeselect={false}
           clearable={false}

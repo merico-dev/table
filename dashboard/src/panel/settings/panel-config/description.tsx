@@ -2,19 +2,19 @@ import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { RichTextEditor } from '@mantine/rte';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PanelContext } from '../../../contexts/panel-context';
+import { usePanelContext } from '../../../contexts/panel-context';
 
 export function EditDescription() {
-  const { description, setDescription } = React.useContext(PanelContext);
-  const [value, onChange] = React.useState(description);
+  const { panel } = usePanelContext();
+  const [value, onChange] = React.useState(panel.description);
 
-  const changed = description !== value;
+  const changed = panel.description !== value;
 
   const submit = React.useCallback(() => {
     if (!changed) {
       return;
     }
-    setDescription(value);
+    panel.setDescription(value);
   }, [changed, value]);
 
   return (

@@ -1,9 +1,9 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
+import { PanelModelInstance } from '~/model/views/view/panels';
 import { ViewModelInstance } from '..';
 import { Panel } from '../panel';
-import { IDashboardPanel } from '../types';
 
 export const FullScreenPanel = observer(function _FullScreenPanel({
   view,
@@ -11,7 +11,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
   exitFullScreen,
 }: {
   view: ViewModelInstance;
-  panel: IDashboardPanel;
+  panel: PanelModelInstance;
   exitFullScreen: () => void;
 }) {
   return (
@@ -22,7 +22,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
         </Button>
       </Group>
       <Group mx="-5px" grow sx={{ flexGrow: 1, flexShrink: 0 }}>
-        <Panel view={view} {...panel} />
+        <Panel view={view} panel={panel} />
       </Group>
     </Stack>
   );

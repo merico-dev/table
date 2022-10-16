@@ -1,7 +1,6 @@
 .viz-root {
   width: 100%;
   overflow: scroll;
-  padding-top: 5px;
-  height: calc(100% - 25px); /* title */
+  flex-grow: 1;
   background-color: white;
 }

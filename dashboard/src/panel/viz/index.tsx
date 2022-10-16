@@ -1,19 +1,21 @@
+import { LoadingOverlay, Text } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 import React, { ReactNode, useContext } from 'react';
-import { useElementSize } from '@mantine/hooks';
-import { LoadingOverlay, Text } from '@mantine/core';
-import { PanelContext } from '../../contexts';
-import { PluginContext, IViewPanelInfo } from '../../plugins';
+import { usePanelContext } from '../../contexts';
+import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 
-import './index.css';
+import { observer } from 'mobx-react-lite';
 import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
-import { observer } from 'mobx-react-lite';
+import './index.css';
 
 function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
-  const { viz, title, id, description, queryID } = useContext(PanelContext);
+  const {
+    panel: { viz, title, id, description, queryID },
+  } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
     id,
@@ -47,9 +49,10 @@ interface IViz {
   viz: IVizConfig;
   data: $TSFixMe;
   loading: boolean;
+  height: string;
 }
 
-export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
+export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
@@ -66,13 +69,13 @@ export const Viz = observer(function _Viz({ viz, data, loading }: IViz) {
   const finalViz = pluginViz || renderViz(width, height, data, viz);
   if (loading) {
     return (
-      <div className="viz-root" ref={ref}>
+      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     );
   }
   return (
-    <div className="viz-root" ref={ref}>
+    <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
       {empty && (
         <Text color="gray" align="center">
           nothing to show

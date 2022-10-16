@@ -11,7 +11,20 @@ export function VizRichText({ context }: VizViewProps) {
   const editorRef = useSyncEditorContent(content);
 
   if (conf?.content) {
-    return <RichTextEditor ref={editorRef} readOnly value={conf.content} onChange={noop} sx={{ border: 'none' }} />;
+    return (
+      <RichTextEditor
+        ref={editorRef}
+        readOnly
+        value={conf.content}
+        onChange={noop}
+        sx={{
+          border: 'none',
+          '.ql-editor': {
+            padding: 0,
+          },
+        }}
+      />
+    );
   }
   return null;
 }

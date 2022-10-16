@@ -5,7 +5,7 @@ import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { Trash } from 'tabler-icons-react';
-import { PanelContext } from '~/contexts';
+import { usePanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { useTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
@@ -117,15 +117,10 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
 };
 
 const useInteractionSettingsProps = (): IInteractionSettingsProps => {
-  const { data, viz, title, id, queryID, description, setViz } = useContext(PanelContext);
+  const { panel, data } = usePanelContext();
+  const viz = panel.viz;
   const { vizManager } = useContext(PluginContext);
-  const panelInfo: IPanelInfo = {
-    title,
-    description,
-    id,
-    queryID,
-    viz,
-  };
+  const panelInfo: IPanelInfo = panel.json;
   const instance = useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, viz.type]);
   const interactionManager = useCreation(
     () => new InteractionManager(instance, vizManager.resolveComponent(viz.type), OPERATIONS),
@@ -137,7 +132,7 @@ const useInteractionSettingsProps = (): IInteractionSettingsProps => {
       // avoid too many updates
       throttle(
         (value) => {
-          setViz((prevConf) => ({ ...prevConf, conf: value as AnyObject }));
+          panel.viz.setConf(value);
         },
         100,
         { leading: false, trailing: true },

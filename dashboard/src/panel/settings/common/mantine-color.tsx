@@ -27,7 +27,7 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
   return (
     <Group position="apart" spacing={4} ref={ref}>
       <TextInput
-        placeholder="Set $TSFixMe color"
+        placeholder="Set any color"
         value={!isThemeColor ? value : ''}
         onChange={(e) => onChange(e.currentTarget.value)}
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

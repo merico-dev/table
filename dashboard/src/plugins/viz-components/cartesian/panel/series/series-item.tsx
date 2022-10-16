@@ -59,7 +59,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Stack>
-      <Group noWrap>
+      <Group grow noWrap>
         <Controller
           name={`series.${index}.name`}
           control={control}

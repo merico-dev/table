@@ -1,18 +1,12 @@
 import { useCreation } from 'ahooks';
 import { useContext } from 'react';
-import { PanelContext } from '~/contexts';
+import { usePanelContext } from '~/contexts';
 import { IPanelInfo, PluginContext } from '~/plugins';
 
 export const useCurrentVizInstance = () => {
-  const { viz, title, id, queryID, description } = useContext(PanelContext);
+  const { panel } = usePanelContext();
   const { vizManager } = useContext(PluginContext);
-  const panelInfo: IPanelInfo = {
-    title,
-    description,
-    id,
-    queryID,
-    viz,
-  };
+  const panelInfo: IPanelInfo = panel.json;
 
-  return useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, viz.type]);
+  return useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, panel.viz.type]);
 };

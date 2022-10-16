@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { InteractionSettingsPanel } from '~/interactions/components/interaction-settings';
 import { ErrorBoundary } from '~/panel/error-boundary';
 import { LayoutStateContext } from '../../contexts/layout-state-context';
-import { PanelContext } from '../../contexts/panel-context';
+import { usePanelContext } from '../../contexts/panel-context';
 import { PanelConfig } from './panel-config';
 import { PickQuery } from './pick-query';
 import { VizConfig } from './viz-config';
@@ -17,7 +17,8 @@ interface IPanelSettingsModal {
 export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened, close }: IPanelSettingsModal) {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [value, setValue] = useState<string | null>('Visualization');
-  const { loading, title } = React.useContext(PanelContext);
+  const { panel, loading } = usePanelContext();
+  const { title } = panel;
 
   React.useEffect(() => {
     freezeLayout(opened);
