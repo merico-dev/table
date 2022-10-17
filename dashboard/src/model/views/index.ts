@@ -71,8 +71,7 @@ export const ViewsModel = types
           type,
           config,
           panels: {
-            current: [],
-            original: [],
+            list: [],
           },
         });
       },
@@ -132,8 +131,7 @@ export function createDashboardViewsModel(views: IDashboardView[]) {
   const processedViews = views.map((view) => ({
     ...view,
     panels: {
-      original: view.panels,
-      current: view.panels,
+      list: view.panels,
     },
   }));
   return ViewsModel.create({
