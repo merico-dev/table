@@ -14,6 +14,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { VariablesField } from './panel/variables';
 import { ReferenceLinesField } from './panel/reference-lines';
+import { XAxisField } from './panel/x-axis';
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -94,7 +95,6 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis_data_key', 'x_axis_name']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
@@ -113,20 +113,7 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
           <Accordion.Item value="X Axis">
             <Accordion.Control>X Axis</Accordion.Control>
             <Accordion.Panel>
-              <Group grow noWrap>
-                <Controller
-                  name="x_axis_data_key"
-                  control={control}
-                  render={({ field }) => (
-                    <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                  )}
-                />
-                <Controller
-                  name="x_axis_name"
-                  control={control}
-                  render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-                />
-              </Group>
+              <XAxisField control={control} watch={watch} data={data} />
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Y Axes">
