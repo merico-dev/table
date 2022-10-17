@@ -60,6 +60,11 @@ export interface ICartesianChartConf {
   x_axis_data_key: string;
   x_axis_name: string;
   y_axes: IYAxisConf[];
+  x_axis: {
+    axisLabel: {
+      rotate: number;
+    };
+  };
   series: ICartesianChartSeriesItem[];
   regressions: IRegressionConf[];
   stats: {
@@ -77,6 +82,11 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   regressions: [],
   series: [],
   stats: { templates: { bottom: '', top: '' }, variables: [] },
+  x_axis: {
+    axisLabel: {
+      rotate: 0,
+    },
+  },
   x_axis_data_key: '',
   x_axis_name: '',
   y_axes: [
