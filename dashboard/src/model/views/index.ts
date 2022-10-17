@@ -56,7 +56,10 @@ export const ViewsModel = types
     return {
       reset() {
         const o = self.original.map((o) => ({
-          ...o,
+          ...o.json,
+          panels: {
+            list: o.panels.json,
+          },
         }));
         self.current.length = 0;
         self.current.unshift(...o);
