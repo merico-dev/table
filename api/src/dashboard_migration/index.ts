@@ -12,6 +12,7 @@ const versions = [
   '4.5.2',
   '4.5.3',
   '4.10.0',
+  '4.14.1',
   // ... future versions
 ];
 
