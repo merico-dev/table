@@ -6,46 +6,30 @@ import { PanelModel, PanelModelInstance } from './panel';
 
 export const PanelsModel = types
   .model('PanelsModel', {
-    original: types.optional(types.array(PanelModel), []),
-    current: types.optional(types.array(PanelModel), []),
+    list: types.optional(types.array(PanelModel), []),
   })
   .views((self) => ({
-    get changed() {
-      if (self.original.length !== self.current.length) {
-        return true;
-      }
-      return self.original.some((o, i) => {
-        return !_.isEqual(o.json, self.current[i].json);
-      });
-    },
     get json() {
-      return self.current.map((o) => o.json);
+      return self.list.map((o) => o.json);
     },
     get layouts() {
-      return self.current.map((o) => ({
+      return self.list.map((o) => ({
         ...o.layout.json,
         i: o.id,
       }));
     },
     findByID(id: string) {
-      return self.current.find((query) => query.id === id);
+      return self.list.find((query) => query.id === id);
     },
   }))
   .actions((self) => {
     return {
-      reset() {
-        const o = self.original.map((o) => ({
-          ...o,
-        }));
-        self.current.length = 0;
-        self.current.unshift(...o);
-      },
       replace(current: Array<PanelModelInstance>) {
-        self.current = cast(current);
+        self.list = cast(current);
       },
       addANewPanel() {
         const id = randomId();
-        self.current.push({
+        self.list.push({
           id,
           layout: {
             x: 0,
@@ -68,26 +52,26 @@ export const PanelsModel = types
         });
       },
       append(item: PanelModelInstance) {
-        self.current.push(item);
+        self.list.push(item);
       },
       remove(index: number) {
-        self.current.splice(index, 1);
+        self.list.splice(index, 1);
       },
       removeByID(id: string) {
-        const index = self.current.findIndex((o) => o.id === id);
+        const index = self.list.findIndex((o) => o.id === id);
         if (index === -1) {
           return;
         }
-        self.current.splice(index, 1);
+        self.list.splice(index, 1);
       },
       duplicateByID(id: string) {
-        const base = self.current.find((o) => o.id === id);
+        const base = self.list.find((o) => o.id === id);
         if (!base) {
           console.error(new Error(`[duplicate panel] Can't find a panel by id[${id}]`));
           return;
         }
-        self.current.push({
-          ...base,
+        self.list.push({
+          ...base.json,
           id: randomId(),
           layout: {
             ...base.layout,
@@ -98,7 +82,7 @@ export const PanelsModel = types
         });
       },
       replaceByIndex(index: number, replacement: PanelModelInstance) {
-        self.current.splice(index, 1, replacement);
+        self.list.splice(index, 1, replacement);
       },
     };
   });
