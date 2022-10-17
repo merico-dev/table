@@ -71,7 +71,7 @@ export const PanelsModel = types
           return;
         }
         self.list.push({
-          ...base,
+          ...base.json,
           id: randomId(),
           layout: {
             ...base.layout,
