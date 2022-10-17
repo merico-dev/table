@@ -46,6 +46,7 @@ export const DashboardAPI = {
         views: [
           {
             id: 'Main',
+            name: 'Main',
             type: 'div',
             config: {},
             panels: [],
