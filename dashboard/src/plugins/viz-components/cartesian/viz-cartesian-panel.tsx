@@ -1,20 +1,19 @@
+import { Accordion, ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Text, Group, Stack, Accordion, ActionIcon, TextInput, Tabs } from '@mantine/core';
+import { useForm } from 'react-hook-form';
 
-import { VizConfigProps } from '~/types/plugin';
+import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
-import { StatsField } from './panel/stats';
-import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
+import { VizConfigProps } from '~/types/plugin';
+import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
 import { SeriesField } from './panel/series';
-import { YAxesField } from './panel/y-axes';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { DeviceFloppy } from 'tabler-icons-react';
+import { StatsField } from './panel/stats';
 import { VariablesField } from './panel/variables';
-import { ReferenceLinesField } from './panel/reference-lines';
 import { XAxisField } from './panel/x-axis';
+import { YAxesField } from './panel/y-axes';
+import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -69,17 +68,20 @@ function normalizeStats(stats?: ICartesianChartConf['stats']) {
   return stats;
 }
 
+function normalizeConf({ series, stats, ...rest }: ICartesianChartConf): ICartesianChartConf {
+  return {
+    series: withDefaults(series ?? []),
+    stats: normalizeStats(stats),
+    ...rest,
+  };
+}
+
 export function VizCartesianPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const conf: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ICartesianChartConf = useMemo(() => {
-    const { series, stats, ...rest } = conf;
-    return {
-      series: withDefaults(series ?? []),
-      stats: normalizeStats(stats),
-      ...rest,
-    };
+    return normalizeConf(conf);
   }, [conf]);
 
   useEffect(() => {
