@@ -41,6 +41,9 @@ export interface IRegressionLineConf {
   type: 'line';
   yAxisIndex: number;
   color: string;
+  lineStyle: {
+    type: 'solid' | 'dashed' | 'dotted';
+  };
 }
 
 export interface IRegressionConf {

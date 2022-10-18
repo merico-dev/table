@@ -47,6 +47,9 @@ export function RegressionsField({ control, watch, data }: IRegressionsField) {
         type: 'line',
         yAxisIndex: 0,
         color: '#666666',
+        lineStyle: {
+          type: 'solid',
+        },
       },
     });
 

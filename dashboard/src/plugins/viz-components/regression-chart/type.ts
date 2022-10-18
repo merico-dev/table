@@ -32,6 +32,9 @@ export const DEFAULT_CONFIG: IRegressionChartConf = {
       type: 'line',
       yAxisIndex: 0,
       color: '#228be6',
+      lineStyle: {
+        type: 'solid',
+      },
     },
     name: 'regression',
     y_axis_data_key: 'value',

@@ -1,4 +1,4 @@
-import { ActionIcon, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
@@ -11,6 +11,12 @@ const regressionOptions = [
   { label: 'Exponential', value: 'exponential' },
   { label: 'Logarithmic', value: 'logarithmic' },
   { label: 'Polynomial', value: 'polynomial' },
+];
+
+const lineTypeOptions = [
+  { label: 'solid', value: 'solid' },
+  { label: 'dashed', value: 'dashed' },
+  { label: 'dotted', value: 'dotted' },
 ];
 
 interface IRegressionField {
@@ -78,6 +84,12 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           />
         )}
       </Group>
+      <Divider mb={-15} variant="dashed" label="Line Style" labelPosition="center" />
+      <Controller
+        name={`regressions.${index}.plot.lineStyle.type`}
+        control={control}
+        render={({ field }) => <Select label="Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+      />
       <Stack spacing={4}>
         <Text size="sm">Color</Text>
         <Controller
