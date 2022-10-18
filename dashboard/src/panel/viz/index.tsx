@@ -52,7 +52,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
   const dontNeedData = typesDontNeedData.includes(viz.type);
   if (dontNeedData) {
     return (
-      <div className="viz-root" ref={ref}>
+      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
         <ErrorBoundary>{pluginViz}</ErrorBoundary>
       </div>
     );
