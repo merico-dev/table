@@ -85,11 +85,18 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         )}
       </Group>
       <Divider mb={-15} variant="dashed" label="Line Style" labelPosition="center" />
-      <Controller
-        name={`regressions.${index}.plot.lineStyle.type`}
-        control={control}
-        render={({ field }) => <Select label="Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
-      />
+      <Group grow>
+        <Controller
+          name={`regressions.${index}.plot.lineStyle.type`}
+          control={control}
+          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+        />
+        <Controller
+          name={`regressions.${index}.plot.lineStyle.width`}
+          control={control}
+          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+        />
+      </Group>
       <Stack spacing={4}>
         <Text size="sm">Color</Text>
         <Controller

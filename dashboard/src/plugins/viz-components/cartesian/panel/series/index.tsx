@@ -41,6 +41,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
       barGap: '0%',
       lineStyle: {
         type: 'solid',
+        width: 1,
       },
     });
 

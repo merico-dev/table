@@ -1,4 +1,4 @@
-import { Box, Divider, Group, Select, Switch } from '@mantine/core';
+import { Box, Divider, Group, NumberInput, Select, Switch } from '@mantine/core';
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
@@ -25,11 +25,18 @@ export function LineFields({ control, index }: ILineFields) {
   return (
     <>
       <Divider mb={-15} variant="dashed" label="Line Settings" labelPosition="center" />
-      <Controller
-        name={`series.${index}.lineStyle.type`}
-        control={control}
-        render={({ field }) => <Select label="Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
-      />
+      <Group grow>
+        <Controller
+          name={`series.${index}.lineStyle.type`}
+          control={control}
+          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+        />
+        <Controller
+          name={`series.${index}.lineStyle.width`}
+          control={control}
+          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+        />
+      </Group>
       <Group grow align="center">
         <Controller
           name={`series.${index}.step`}

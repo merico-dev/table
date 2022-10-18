@@ -34,6 +34,7 @@ export const DEFAULT_CONFIG: IRegressionChartConf = {
       color: '#228be6',
       lineStyle: {
         type: 'solid',
+        width: 1,
       },
     },
     name: 'regression',

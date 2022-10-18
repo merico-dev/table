@@ -49,6 +49,7 @@ export function RegressionsField({ control, watch, data }: IRegressionsField) {
         color: '#666666',
         lineStyle: {
           type: 'solid',
+          width: 1,
         },
       },
     });
@@ -57,6 +58,7 @@ export function RegressionsField({ control, watch, data }: IRegressionsField) {
     <Stack>
       {controlledFields.map((regressionItem, index) => (
         <RegressionField
+          key={index}
           regressionItem={regressionItem}
           control={control}
           index={index}

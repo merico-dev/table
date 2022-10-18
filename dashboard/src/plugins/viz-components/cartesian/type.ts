@@ -18,6 +18,7 @@ export interface ICartesianChartSeriesItem {
   group_by_key: string;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
+    width: number;
   };
 }
 
@@ -43,6 +44,7 @@ export interface IRegressionLineConf {
   color: string;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
+    width: number;
   };
 }
 
