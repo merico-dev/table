@@ -24,7 +24,7 @@ export const DescriptionPopover = observer(() => {
       <Modal opened={opened} onClose={() => setOpened(false)} title={panel.title} withCloseButton={false}>
         <RichTextEditor readOnly value={panel.description} onChange={_.noop} sx={{ border: 'none' }} />
       </Modal>
-      <Tooltip label="Click to see description" position="top-start">
+      <Tooltip label="Click to see description" position="top-start" withinPortal>
         <ActionIcon
           variant="subtle"
           color="blue"
