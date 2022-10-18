@@ -21,6 +21,11 @@ export function VizRichText({ context }: VizViewProps) {
           border: 'none',
           '.ql-editor': {
             padding: 0,
+            'h1, h2, h3, h4, h5, p, ul, ol': {
+              '&:last-child': {
+                marginBottom: 0,
+              },
+            },
           },
         }}
       />
