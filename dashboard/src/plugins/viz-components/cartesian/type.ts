@@ -18,6 +18,7 @@ export interface ICartesianChartSeriesItem {
   group_by_key: string;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
+    width: number;
   };
 }
 
