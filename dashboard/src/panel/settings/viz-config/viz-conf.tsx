@@ -1,6 +1,7 @@
 import { ActionIcon, JsonInput, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { usePanelContext } from '../../../contexts';
@@ -69,7 +70,7 @@ function usePluginVizConfig() {
   }
 }
 
-export function EditVizConf() {
+export const EditVizConf = observer(() => {
   const {
     data,
     panel: { viz },
@@ -129,4 +130,4 @@ export function EditVizConf() {
       )}
     </>
   );
-}
+});

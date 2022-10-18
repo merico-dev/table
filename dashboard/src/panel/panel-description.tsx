@@ -1,11 +1,12 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import RichTextEditor from '@mantine/rte';
 import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
 import { LayoutStateContext, usePanelContext } from '../contexts';
 
-export function DescriptionPopover() {
+export const DescriptionPopover = observer(() => {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
   const { panel } = usePanelContext();
@@ -35,4 +36,4 @@ export function DescriptionPopover() {
       </Tooltip>
     </>
   );
-}
+});
