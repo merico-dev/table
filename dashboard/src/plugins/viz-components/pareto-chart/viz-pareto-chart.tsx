@@ -137,6 +137,10 @@ export function VizParetoChart({ context }: VizViewProps) {
         itemStyle: {
           color: line.color,
         },
+        symbolSize: 2,
+        lineStyle: {
+          width: 1,
+        },
         label: {
           show: true,
           position: 'top',
