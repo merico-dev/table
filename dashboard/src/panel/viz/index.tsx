@@ -35,16 +35,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
   }
 }
 
-function renderViz(width: number, height: number, data: $TSFixMe[], viz: IVizConfig) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const props = { width, height, data, conf: viz.conf };
-  switch (viz.type) {
-    default:
-      return null;
-  }
-}
-
-const typesDontNeedData = ['rich-text'];
+const typesDontNeedData = ['richText'];
 
 interface IViz {
   viz: IVizConfig;
@@ -58,16 +49,15 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
-  const needData = !typesDontNeedData.includes(viz.type) || !!pluginViz;
-  if (!needData) {
+  const dontNeedData = typesDontNeedData.includes(viz.type);
+  if (dontNeedData) {
     return (
       <div className="viz-root" ref={ref}>
-        <ErrorBoundary>{renderViz(width, height, data, viz)}</ErrorBoundary>
+        <ErrorBoundary>{pluginViz}</ErrorBoundary>
       </div>
     );
   }
 
-  const finalViz = pluginViz || renderViz(width, height, data, viz);
   if (loading) {
     return (
       <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
@@ -82,7 +72,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
           nothing to show
         </Text>
       )}
-      {!empty && <ErrorBoundary>{finalViz}</ErrorBoundary>}
+      {!empty && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
     </div>
   );
 });
