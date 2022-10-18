@@ -69,7 +69,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
     <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
       {empty && (
         <Text color="gray" align="center">
-          nothing to show
+          Empty Data
         </Text>
       )}
       {!empty && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
