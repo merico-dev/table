@@ -9,7 +9,7 @@ interface IPreviewFilter {
   filter: FilterModelInstance;
 }
 export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
-  const defaultValue = filter.config.default_value;
+  const defaultValue = filter.plainDefaultValue;
   const [value, setValue] = React.useState(defaultValue);
 
   React.useEffect(() => {
