@@ -61,6 +61,7 @@ export interface IDashboard {
   definition: IDashboardDefinition;
   views: IDashboardView[];
   filters: FilterModelInstance[];
+  version: string;
 }
 
 export interface IDashboardConfig {

@@ -23,7 +23,7 @@ export const DashboardAPI = {
     const res = await get(`/dashboard/details/${id}`, {});
     return normalizeDBDashboard(res);
   },
-  update: async ({ id, name, definition, views, filters }: IDashboard): Promise<IDashboard> => {
+  update: async ({ id, name, definition, views, filters, version }: IDashboard): Promise<IDashboard> => {
     const payload = {
       id,
       name,
@@ -31,6 +31,7 @@ export const DashboardAPI = {
         definition,
         views,
         filters,
+        version,
       },
     };
     const res: IDBDashboard = await put('/dashboard/update', payload);
