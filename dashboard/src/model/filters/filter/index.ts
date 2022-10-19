@@ -28,6 +28,15 @@ export const FilterModel = types
       FilterConfigModel_DateRange,
     ),
   })
+  .views((self) => ({
+    get plainDefaultValue() {
+      const v = self.config.default_value;
+      if (Array.isArray(v)) {
+        return [...v];
+      }
+      return v;
+    },
+  }))
   .actions((self) => ({
     setKey(key: string) {
       self.key = key;

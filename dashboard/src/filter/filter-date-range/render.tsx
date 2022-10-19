@@ -1,4 +1,5 @@
 import { DateRangePicker } from '@mantine/dates';
+import { observer } from 'mobx-react-lite';
 import { Calendar } from 'tabler-icons-react';
 import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
 
@@ -9,7 +10,7 @@ interface IFilterDateRange {
   onChange: (v: $TSFixMe) => void;
 }
 
-export function FilterDateRange({ label, config, value, onChange }: IFilterDateRange) {
+export const FilterDateRange = observer(({ label, config, value, onChange }: IFilterDateRange) => {
   return (
     <DateRangePicker
       label={label}
@@ -20,4 +21,4 @@ export function FilterDateRange({ label, config, value, onChange }: IFilterDateR
       {...config}
     />
   );
-}
+});

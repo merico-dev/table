@@ -37,7 +37,12 @@ export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfig
     return {
       ...rest,
       default_value: default_value.map((v: number | null) => {
-        return typeof v === 'number' ? new Date(v).toISOString() : '';
+        try {
+          return typeof v === 'number' ? new Date(v).toISOString() : null;
+        } catch (error) {
+          console.log(`[date-range] failed parsing ${v}`);
+          return null;
+        }
       }),
     };
   },

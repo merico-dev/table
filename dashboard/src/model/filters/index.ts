@@ -1,6 +1,20 @@
 import _ from 'lodash';
-import { cast, types } from 'mobx-state-tree';
+import { reaction } from 'mobx';
+import { addDisposer, cast, types } from 'mobx-state-tree';
 import { FilterModel, FilterModelInstance } from './filter';
+
+function formatDefaultValue(v: any) {
+  if (v === undefined) {
+    return v;
+  }
+  if (Array.isArray(v)) {
+    return v.map((v) => {
+      const d = new Date(v); // for date-range
+      return d ?? v;
+    });
+  }
+  return v;
+}
 
 export const FiltersModel = types
   .model('FiltersModel', {
@@ -30,6 +44,10 @@ export const FiltersModel = types
         'order',
       );
     },
+    get triggerForRefreshValues() {
+      const ret = self.current.map((f) => f.config.default_value?.toString()).join('__');
+      return ret;
+    },
   }))
   .actions((self) => {
     return {
@@ -54,34 +72,36 @@ export const FiltersModel = types
       getValueByKey(key: string) {
         return self.values[key];
       },
+      refreshValues() {
+        console.log('refreshing values');
+        const values = self.current.reduce((ret, filter) => {
+          ret[filter.key] = formatDefaultValue(filter.config.default_value);
+          return ret;
+        }, {} as FilterValuesType);
+        self.values = values;
+      },
     };
-  });
+  })
+  .actions((self) => ({
+    afterCreate() {
+      addDisposer(
+        self,
+        reaction(() => self.triggerForRefreshValues, self.refreshValues, {
+          fireImmediately: true,
+          delay: 0,
+        }),
+      );
+    },
+  }));
 
 export * from './filter';
 
 export type FilterValuesType = Record<string, $TSFixMe>;
 
-function formatDefaultValue(v: any) {
-  if (v === undefined) {
-    return v;
-  }
-  if (Array.isArray(v)) {
-    return v.map((v) => {
-      const d = new Date(v); // for date-range
-      return d ?? v;
-    });
-  }
-  return v;
-}
-
 export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
-  const values = filters.reduce((ret, filter) => {
-    ret[filter.key] = formatDefaultValue(filter.config.default_value);
-    return ret;
-  }, {} as FilterValuesType);
   return {
     original: filters,
     current: filters,
-    values,
+    values: {},
   };
 }

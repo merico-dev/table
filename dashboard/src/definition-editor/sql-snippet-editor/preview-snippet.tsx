@@ -1,5 +1,6 @@
 import { Stack, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext } from '../../contexts/model-context';
 import { explainSQLSnippet } from '../../utils/sql';
@@ -8,11 +9,11 @@ interface IPreviewSnippet {
   value: string;
 }
 
-export function PreviewSnippet({ value }: IPreviewSnippet) {
+export const PreviewSnippet = observer(({ value }: IPreviewSnippet) => {
   const model = useModelContext();
   const context = model.context.current;
   const explained = React.useMemo(() => {
-    return explainSQLSnippet(value, context);
+    return explainSQLSnippet(value, context, model.filters.values);
   }, [value, context]);
 
   return (
@@ -23,4 +24,4 @@ export function PreviewSnippet({ value }: IPreviewSnippet) {
       </Prism>
     </Stack>
   );
-}
+});
