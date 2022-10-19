@@ -22,6 +22,17 @@ export const QueryModel = types
       return explainSQL(self.sql, context, sqlSnippets, filterValues);
     },
   }))
+  .views((self) => ({
+    get json() {
+      const { id, type, key, sql } = self;
+      return {
+        id,
+        type,
+        key,
+        sql,
+      };
+    },
+  }))
   .actions((self) => ({
     setID(id: string) {
       self.id = id;

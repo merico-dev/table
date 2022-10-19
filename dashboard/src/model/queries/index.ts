@@ -34,6 +34,11 @@ export const QueriesModel = types
       }));
     },
   }))
+  .views((self) => ({
+    get json() {
+      return self.current.map((o) => o.json);
+    },
+  }))
   .actions((self) => {
     return {
       reset() {

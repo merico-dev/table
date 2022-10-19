@@ -5,6 +5,15 @@ export const SQLSnippetModel = types
     key: types.string,
     value: types.string,
   })
+  .views((self) => ({
+    get json() {
+      const { key, value } = self;
+      return {
+        key,
+        value,
+      };
+    },
+  }))
   .actions((self) => ({
     setKey(key: string) {
       self.key = key;

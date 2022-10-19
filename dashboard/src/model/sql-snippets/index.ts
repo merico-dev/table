@@ -11,6 +11,9 @@ export const SQLSnippetsModel = types
     get changed() {
       return !_.isEqual(self.original, self.current);
     },
+    get json() {
+      return self.current.map((o) => o.json);
+    },
   }))
   .actions((self) => {
     return {

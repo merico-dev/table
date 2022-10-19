@@ -40,14 +40,15 @@ export const Dashboard = observer(function _Dashboard({
   }, [context]);
 
   const saveDashboardChanges = async () => {
-    const queries = [...model.queries.current];
-    const sqlSnippets = [...model.sqlSnippets.current];
+    const queries = [...model.queries.json];
+    const sqlSnippets = [...model.sqlSnippets.json];
     const views = [...model.views.json];
     const d: IDashboard = {
       ...dashboard,
       filters: [...model.filters.current],
       // @ts-expect-error Type 'string' is not assignable to type 'EViewComponentType'.
       views,
+      // @ts-expect-error IDashboard's Definition type is incorrect
       definition: { sqlSnippets, queries },
     };
     await update(d);
