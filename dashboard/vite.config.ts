@@ -44,7 +44,7 @@ export default defineConfig({
         '@mantine/notifications',
         '@mantine/prism',
         '@mantine/rte',
-        '@tanstack/react-table',
+        // '@tanstack/react-table'
         'ahooks',
         'axios',
         'chroma-js',
