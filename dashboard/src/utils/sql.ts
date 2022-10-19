@@ -3,9 +3,10 @@ import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
-export function explainSQLSnippet(snippet: string, context: ContextInfoType) {
-  const names = Object.keys(context);
-  const vals = Object.values(context);
+export function explainSQLSnippet(snippet: string, context: ContextInfoType, filterValues: FilterValuesType) {
+  const params = getSQLParams(context, [], filterValues);
+  const names = Object.keys(params);
+  const vals = Object.values(params);
   try {
     return new Function(...names, `return \`${snippet}\`;`)(...vals);
   } catch (error: $TSFixMe) {
@@ -14,7 +15,7 @@ export function explainSQLSnippet(snippet: string, context: ContextInfoType) {
   }
 }
 
-export function formatSQL(sql: string, params: Record<string, $TSFixMe>) {
+export function formatSQL(sql: string, params: Record<string, $TSFixMe> = {}) {
   const names = Object.keys(params);
   const vals = Object.values(params);
   try {
@@ -32,8 +33,9 @@ export function getSQLParams(
   sqlSnippets: SQLSnippetModelInstance[],
   filterValues: FilterValuesType,
 ) {
+  const params = { ...context, filters: filterValues };
   const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, $TSFixMe>, curr) => {
-    ret[curr.key] = formatSQL(curr.value, context);
+    ret[curr.key] = formatSQL(curr.value, params);
     return ret;
   }, {});
 
