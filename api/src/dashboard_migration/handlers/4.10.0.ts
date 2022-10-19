@@ -11,7 +11,7 @@ export function main({ views, ...rest }: Record<string, any>) {
         ...p,
         style: {
           border: {
-            enabled: true,
+            enabled: !!p.style?.border?.enabled,
           },
         },
       })),

@@ -13,7 +13,7 @@ export function main({ filters, views, ...rest }: Record<string, any>) {
         ...f,
         config: {
           ...f.config,
-          default_value: Array.isArray(f.config) ? f.config : [null, null],
+          default_value: Array.isArray(f.config.default_value) ? f.config.default_value : [null, null],
         },
       };
     }),
