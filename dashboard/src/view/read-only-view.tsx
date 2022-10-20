@@ -26,6 +26,7 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
     >
       <Box
         className="dashboard-view"
+        mx={-10}
         sx={{
           position: 'relative',
           height: '100%',
