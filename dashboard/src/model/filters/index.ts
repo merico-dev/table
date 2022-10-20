@@ -16,6 +16,13 @@ function formatDefaultValue(v: any) {
   return v;
 }
 
+function getValuesFromFilters(filters: FilterModelInstance[]) {
+  return filters.reduce((ret, filter) => {
+    ret[filter.key] = formatDefaultValue(filter.config.default_value);
+    return ret;
+  }, {} as FilterValuesType);
+}
+
 export const FiltersModel = types
   .model('FiltersModel', {
     original: types.optional(types.array(FilterModel), []),
@@ -74,10 +81,7 @@ export const FiltersModel = types
       },
       refreshValues() {
         console.log('refreshing values');
-        const values = self.current.reduce((ret, filter) => {
-          ret[filter.key] = formatDefaultValue(filter.config.default_value);
-          return ret;
-        }, {} as FilterValuesType);
+        const values = getValuesFromFilters(self.current);
         self.values = values;
       },
     };
@@ -102,6 +106,6 @@ export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
   return {
     original: filters,
     current: filters,
-    values: {},
+    values: getValuesFromFilters(filters),
   };
 }
