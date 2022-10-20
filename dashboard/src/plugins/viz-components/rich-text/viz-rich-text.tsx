@@ -4,8 +4,10 @@ import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { useSyncEditorContent } from './hooks';
 import { IRichTextConf } from './type';
+import { usePanelContext } from '~/contexts';
 
 export function VizRichText({ context }: VizViewProps) {
+  const { panel } = usePanelContext();
   const { value: conf } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const content = conf?.content;
   const editorRef = useSyncEditorContent(content);
@@ -13,6 +15,7 @@ export function VizRichText({ context }: VizViewProps) {
   if (conf?.content) {
     return (
       <RichTextEditor
+        id={panel.id}
         ref={editorRef}
         readOnly
         value={conf.content}
