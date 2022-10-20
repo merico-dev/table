@@ -93,21 +93,23 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
             Revert Changes
           </Button>
         )}
-        <Menu width={180}>
-          <Menu.Target>
-            <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
-              Export
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
-              Download Data
-            </Menu.Item>
-            <Menu.Item icon={<Code size={14} />} onClick={openSchema}>
-              View Schema
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+        {!inUseMode && (
+          <Menu width={180}>
+            <Menu.Target>
+              <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
+                Export
+              </Button>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
+                Download Data
+              </Menu.Item>
+              <Menu.Item icon={<Code size={14} />} onClick={openSchema}>
+                View Schema
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        )}
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
