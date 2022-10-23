@@ -2,10 +2,7 @@ import { IAccount, IEditAccountPayload } from './account.typed';
 import { get, post, put } from '../../../website/src/api-caller/request';
 import { PaginationResponse } from '../../../website/src/api-caller/types';
 
-export const AccountAPI = {
-  /**
-   * change current account's password
-   */
+export const account = {
   login: async (name: string, password: string): Promise<IAccount> => {
     const payload = {
       name,
