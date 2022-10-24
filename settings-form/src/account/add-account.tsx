@@ -9,14 +9,14 @@ import { defaultStyles, IStyles } from './styles';
 interface IFormValues {
   name: string;
   email: string;
-  role_id: string;
+  role_id: number;
   password: string;
 }
 
 interface IAddAccountForm {
   postSubmit: () => void;
   styles?: IStyles;
-  roleOptions: { label: string; value: string }[];
+  roleOptions: { label: string; value: number }[];
 }
 
 function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAddAccountForm) {
@@ -99,7 +99,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
 interface IAddAccount {
   styles?: IStyles;
   onSuccess: () => void;
-  roleOptions: { label: string; value: string }[];
+  roleOptions: { label: string; value: number }[];
 }
 
 export function AddAccount({ onSuccess, styles = defaultStyles, roleOptions }: IAddAccount) {

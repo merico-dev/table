@@ -1,6 +1,6 @@
 import { Box, LoadingOverlay, Table, Group } from '@mantine/core';
 import { useRequest } from 'ahooks';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { APICaller } from '../api-caller';
 import { APIClient } from '../api-caller/request';
 import { AddAccount } from './add-account';
@@ -29,7 +29,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
   );
   const { data: roleOptions = [], loading: roleLoading } = useRequest(
     async () => {
-      const { data } = await APICaller.role.list();
+      const data = await APICaller.role.list();
       return data.map((d) => ({
         label: d.name,
         value: d.id,
@@ -39,6 +39,17 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
       refreshDeps: [],
     },
   );
+
+  const roleNameMap = useMemo(() => {
+    return roleOptions.reduce((m, r) => {
+      m.set(r.value, r.label);
+      return m;
+    }, new Map<number, string>());
+  }, [roleOptions]);
+
+  const getRoleName = (id: number) => {
+    return roleNameMap.get(id) ?? id;
+  };
 
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
@@ -62,19 +73,19 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Created at</th>
-              <th>Updated at</th>
+              {/* <th>Created at</th>
+              <th>Updated at</th> */}
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, name, email, role_id, create_time, update_time }) => (
+            {data.map(({ id, name, email, role_id }) => (
               <tr key={id}>
                 <td width={200}>{name}</td>
                 <td width={200}>{email}</td>
-                <td width={200}>{role_id}</td>
-                <td width={200}>{create_time}</td>
-                <td width={200}>{update_time}</td>
+                <td width={200}>{getRoleName(role_id)}</td>
+                {/* <td width={200}>{create_time}</td>
+                <td width={200}>{update_time}</td> */}
                 <td width={200}>
                   <Group position="left">
                     <DeleteAccount id={id} name={name} onSuccess={refresh} />
