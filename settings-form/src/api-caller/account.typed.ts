@@ -14,3 +14,8 @@ export interface IEditAccountPayload {
   role_id: string;
   reset_password: boolean;
 }
+
+export interface ILoginResp {
+  account: IAccount;
+  token: string;
+}

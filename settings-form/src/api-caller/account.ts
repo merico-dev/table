@@ -1,14 +1,14 @@
-import { IAccount, IEditAccountPayload } from './account.typed';
+import { IAccount, IEditAccountPayload, ILoginResp } from './account.typed';
 import { get, post, put } from '../../../website/src/api-caller/request';
 import { PaginationResponse } from '../../../website/src/api-caller/types';
 
 export const account = {
-  login: async (name: string, password: string): Promise<IAccount> => {
+  login: async (name: string, password: string): Promise<ILoginResp> => {
     const payload = {
       name,
       password,
     };
-    const res: IAccount = await post('/account/login', payload);
+    const res: ILoginResp = await post('/account/login', payload);
     return res;
   },
   list: async (): Promise<PaginationResponse<IAccount>> => {

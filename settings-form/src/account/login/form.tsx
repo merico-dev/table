@@ -2,6 +2,7 @@ import { Box, Button, Group, PasswordInput, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../api-caller';
+import { ILoginResp } from '../../api-caller/account.typed';
 import { defaultStyles, IStyles } from '../styles';
 
 interface IFormValues {
@@ -10,7 +11,7 @@ interface IFormValues {
 }
 
 interface ILoginForm {
-  postSubmit: () => void;
+  postSubmit: (resp: ILoginResp) => void;
   styles?: IStyles;
 }
 
@@ -30,14 +31,14 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         message: 'Loggin in...',
         loading: true,
       });
-      await APICaller.account.login(name, password);
+      const res = await APICaller.account.login(name, password);
       updateNotification({
         id: 'for-login',
         title: 'Successful',
         message: 'Logged in',
         color: 'green',
       });
-      postSubmit();
+      postSubmit(res);
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-login',

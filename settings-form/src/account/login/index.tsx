@@ -3,11 +3,12 @@ import { APIClient } from '../../api-caller/request';
 import { LoginForm } from './form';
 import { defaultStyles, IStyles } from '../styles';
 import { ISettingsFormConfig } from '../types';
+import { ILoginResp } from '../../api-caller/account.typed';
 
 interface ILogin {
   styles?: IStyles;
   config: ISettingsFormConfig;
-  onSuccess: () => void;
+  onSuccess: (resp: ILoginResp) => void;
 }
 
 export function Login({ styles = defaultStyles, config, onSuccess }: ILogin) {
