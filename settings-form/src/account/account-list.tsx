@@ -33,6 +33,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
       return data.map((d) => ({
         label: d.name,
         value: d.id,
+        description: d.description,
       }));
     },
     {
