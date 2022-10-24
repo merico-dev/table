@@ -79,14 +79,6 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
         />
 
         <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Password" {...field} />
-          )}
-        />
-
-        <Controller
           name="role_id"
           control={control}
           render={({ field }) => (
