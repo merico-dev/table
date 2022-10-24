@@ -8,6 +8,7 @@ import { DashboardPage } from './pages/dashboard-page';
 import { DataSourcePage } from './pages/data-source-page';
 import { AdminFrame } from './frames/admin';
 import { AccountsPage } from './pages/account-page';
+import { LoginPage } from './pages/login-page';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ModalsProvider>
       <BrowserRouter basename={import.meta.env.VITE_WEBSITE_BASE_URL ?? ''}>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<App />}>
             <Route path="dashboard/:id" element={<DashboardPage />} />
             <Route path="*" element={<DashboardPage />} />
