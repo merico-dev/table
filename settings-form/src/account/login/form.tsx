@@ -32,6 +32,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         loading: true,
       });
       const res = await APICaller.account.login(name, password);
+      window.localStorage.setItem('token', res.token);
       updateNotification({
         id: 'for-login',
         title: 'Successful',
