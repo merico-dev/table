@@ -1,4 +1,4 @@
-import { DataSourceList } from '@devtable/settings-form';
+import { AccountList } from '@devtable/settings-form';
 import { Anchor, Box, Breadcrumbs, Group } from '@mantine/core';
 
 const items = [
@@ -16,7 +16,7 @@ export function AccountsPage() {
       <Group position="apart" sx={{ width: '100%' }}>
         <Breadcrumbs>{items}</Breadcrumbs>
       </Group>
-      <DataSourceList config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} />
+      <AccountList config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} />
     </Box>
   );
 }
