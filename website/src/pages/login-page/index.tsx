@@ -1,10 +1,11 @@
-import { Login } from '@devtable/settings-form';
+import { Login, ILoginResp } from '@devtable/settings-form';
 import { Box, Center } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const onSuccess = () => {
+  const onSuccess = ({ account, token }: ILoginResp) => {
+    window.localStorage.setItem('token', token);
     navigate('/');
   };
   return (
