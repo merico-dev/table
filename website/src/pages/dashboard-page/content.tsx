@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dashboard, IDashboard, ReadOnlyDashboard } from '@devtable/dashboard';
+import { Dashboard, IDashboard } from '@devtable/dashboard';
 
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
@@ -54,7 +54,7 @@ export function DashboardPageContent({ id }: { id: string }) {
       {/* <Filters context={context} submit={setContext} /> */}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
-        <ReadOnlyDashboard
+        <Dashboard
           context={context}
           dashboard={dashboard}
           update={updateDashboard}

@@ -32,14 +32,14 @@ const hoverBorder = {
   },
 };
 
-function getPanelBorderStyle(panel: PanelModelInstance, inEditMode: boolean) {
+function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, inEditMode: boolean) {
   if (panel.style.border.enabled) {
     return constantBorder;
   }
   if (inEditMode) {
     return hoverBorder;
   }
-  if (doesVizRequiresData(panel.viz.type)) {
+  if (panelNeedData) {
     return hoverBorder;
   }
   return { border: '1px dashed transparent' };
@@ -50,11 +50,12 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const { inEditMode } = useContext(LayoutStateContext);
 
   const { data, state } = model.getDataStuffByID(panel.queryID);
-  const loading = doesVizRequiresData(panel.viz.type) && state === 'loading';
+  const panelNeedData = doesVizRequiresData(panel.viz.type);
+  const loading = panelNeedData && state === 'loading';
 
   const vizHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
-  const panelStyle = getPanelBorderStyle(panel, inEditMode);
-
+  const panelStyle = getPanelBorderStyle(panel, panelNeedData, inEditMode);
+  const needDropdownMenu = panelNeedData || inEditMode;
   return (
     <PanelContextProvider value={{ panel, data, loading }}>
       <Box
@@ -68,7 +69,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28, zIndex: 310 }}>
           <DescriptionPopover />
         </Box>
-        <PanelDropdownMenu view={view} />
+        {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
         <Viz viz={panel.viz} data={data} loading={loading} height={vizHeight} />
       </Box>
