@@ -10,3 +10,12 @@
   margin: 0;
   padding: 0 10px;
 }
+
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+* {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}

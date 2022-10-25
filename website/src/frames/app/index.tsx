@@ -8,6 +8,7 @@ import { Navbar } from './navbar';
 export function App() {
   return (
     <AppShell
+      className="website-app"
       padding="md"
       header={<Header />}
       navbar={<Navbar />}
