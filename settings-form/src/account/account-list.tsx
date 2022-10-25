@@ -34,6 +34,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
         label: d.name,
         value: d.id,
         description: d.description,
+        disabled: d.id === 50, // SUPERADMIN
       }));
     },
     {
