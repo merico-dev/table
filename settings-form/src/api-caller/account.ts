@@ -1,6 +1,6 @@
 import { IAccount, IEditAccountPayload, ILoginResp } from './account.typed';
-import { get, post, put } from '../../../website/src/api-caller/request';
-import { PaginationResponse } from '../../../website/src/api-caller/types';
+import { APIClient } from './request';
+import { PaginationResponse } from './types';
 
 export const account = {
   login: async (name: string, password: string): Promise<ILoginResp> => {
@@ -8,11 +8,11 @@ export const account = {
       name,
       password,
     };
-    const res: ILoginResp = await post('/account/login', payload);
+    const res: ILoginResp = await APIClient.getRequest('POST')('/account/login', payload);
     return res;
   },
   list: async (): Promise<PaginationResponse<IAccount>> => {
-    const res = await post('/account/list', {
+    const res = await APIClient.getRequest('POST')('/account/list', {
       filter: {
         search: '',
       },
@@ -31,7 +31,7 @@ export const account = {
    * get current account
    */
   get: async (): Promise<IAccount> => {
-    const res = await get('/account/get', {});
+    const res = await APIClient.getRequest('GET')('/account/get', {});
     return res;
   },
   /**
@@ -42,7 +42,7 @@ export const account = {
       name,
       email,
     };
-    const res: IAccount = await put('/account/update', payload);
+    const res: IAccount = await APIClient.getRequest('PUT')('/account/update', payload);
     return res;
   },
   /**
@@ -53,11 +53,11 @@ export const account = {
       old_password,
       new_password,
     };
-    const res: IAccount = await post('/account/changepassword', payload);
+    const res: IAccount = await APIClient.getRequest('POST')('/account/changepassword', payload);
     return res;
   },
   create: async (name: string, email: string, password: string, role_id: number): Promise<IAccount> => {
-    const res: IAccount = await post('/account/create', {
+    const res: IAccount = await APIClient.getRequest('POST')('/account/create', {
       name,
       email,
       password,
@@ -66,13 +66,13 @@ export const account = {
     return res;
   },
   edit: async (payload: IEditAccountPayload): Promise<IAccount> => {
-    const res: IAccount = await put('/account/edit', payload);
+    const res: IAccount = await APIClient.getRequest('PUT')('/account/edit', payload);
     return res;
   },
   delete: async (id: string): Promise<void> => {
     if (!id) {
       return;
     }
-    return await post('/account/delete', { id });
+    return APIClient.getRequest('POST')('/account/delete', { id });
   },
 };
