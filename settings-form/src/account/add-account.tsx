@@ -105,6 +105,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
               required
               label="Role"
               itemComponent={RoleOptionItem}
+              // @ts-expect-error value type
               data={roleOptions}
               styles={() => ({
                 item: {
