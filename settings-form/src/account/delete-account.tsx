@@ -25,14 +25,23 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
       message: 'Deleting account...',
       loading: true,
     });
-    await APICaller.account.delete(id);
-    updateNotification({
-      id: 'for-deleting',
-      title: 'Successful',
-      message: `Account [${name}] is deleted`,
-      color: 'green',
-    });
-    onSuccess();
+    try {
+      await APICaller.account.delete(id);
+      updateNotification({
+        id: 'for-deleting',
+        title: 'Successful',
+        message: `Account [${name}] is deleted`,
+        color: 'green',
+      });
+      onSuccess();
+    } catch (error: $TSFixMe) {
+      updateNotification({
+        id: 'for-deleting',
+        title: 'Failed',
+        message: error.message,
+        color: 'red',
+      });
+    }
   };
 
   const confirmAndDelete = () =>
