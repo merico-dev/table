@@ -25,7 +25,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
       message: 'Deleting account...',
       loading: true,
     });
-    await APICaller.datasource.delete(id);
+    await APICaller.account.delete(id);
     updateNotification({
       id: 'for-deleting',
       title: 'Successful',
