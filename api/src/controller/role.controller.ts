@@ -30,7 +30,7 @@ export class RoleController implements interfaces.Controller {
     }
   })
   @httpGet('/list')
-  public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.account;
       this.roleService.checkPermission(account, ROLE_TYPES.INACTIVE);

@@ -12,7 +12,6 @@ import { ROLE_TYPES } from '../api_models/role';
 export const SALT_ROUNDS = 12;
 const SECRET_KEY: jwt.Secret = process.env.SECRET_KEY as jwt.Secret;
 const TOKEN_VALIDITY = 7 * 24 * 3600;
-const DEFAULT_RESET_PASSWORD = process.env.DEFAULT_RESET_PASSWORD ?? '123456';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
