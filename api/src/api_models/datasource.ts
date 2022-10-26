@@ -134,7 +134,7 @@ export class DataSourceListRequest {
     required: true,
     model: 'DataSourceSortObject',
   })
-  sort: DataSourceSortObject = new DataSourceSortObject({ field: 'create_time', order: 'ASC' });;
+  sort: DataSourceSortObject = new DataSourceSortObject({ field: 'create_time', order: 'ASC' });
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

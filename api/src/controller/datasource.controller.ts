@@ -17,7 +17,7 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 })
 @controller('/datasource')
 export class DataSourceController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'DataSource';
+  public static TARGET_NAME = 'DataSource';
   private dataSourceService: DataSourceService;
   private roleService: RoleService;
 
@@ -69,7 +69,8 @@ export class DataSourceController implements interfaces.Controller {
     try {
       const account: Account = req.body.account;
       this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
-      let { type, key, config } = validate(DataSourceCreateRequest, req.body);
+      // eslint-disable-next-line prefer-const
+      let {type, key, config } = validate(DataSourceCreateRequest, req.body);
       config = this.validateConfig(type, config);
       const result = await this.dataSourceService.create(type, key, config);
       res.json(result);

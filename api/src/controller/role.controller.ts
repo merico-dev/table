@@ -12,7 +12,7 @@ import { RoleService } from '../services/role.service';
 })
 @controller('/role')
 export class RoleController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'Role';
+  public static TARGET_NAME = 'Role';
   private roleService: RoleService;
 
   public constructor(

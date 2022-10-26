@@ -48,7 +48,7 @@ export class DataSourceService {
     dataSource.type = type;
     dataSource.key = key;
     dataSource.config = config;
-    let result = await dataSourceRepo.save(dataSource);
+    const result = await dataSourceRepo.save(dataSource);
     maybeDecryptPassword(result);
     return result;
   }

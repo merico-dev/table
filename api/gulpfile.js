@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const path = require('path');

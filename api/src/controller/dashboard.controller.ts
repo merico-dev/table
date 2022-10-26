@@ -15,7 +15,7 @@ import { ROLE_TYPES } from '../api_models/role';
 })
 @controller('/dashboard')
 export class DashboardController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'Dashboard';
+  public static TARGET_NAME = 'Dashboard';
   private dashboardService: DashboardService;
   private roleService: RoleService;
 

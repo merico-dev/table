@@ -4,6 +4,7 @@ import _ from 'lodash';
 import DataSource from '../models/datasource';
 import { DataSourceConfig } from '../api_models/datasource';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const secretKey = process.env.SECRET_KEY ?? '';
 

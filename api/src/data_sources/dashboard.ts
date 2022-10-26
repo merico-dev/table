@@ -1,6 +1,7 @@
 import path from 'path';
 import { DataSource } from 'typeorm';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 export const dashboardDataSource = new DataSource({
