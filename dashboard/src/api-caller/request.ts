@@ -20,7 +20,7 @@ export const APIClient = {
         headers: headers,
       };
 
-      if (method === 'POST') {
+      if (['POST', 'PUT'].includes(method)) {
         conf.data = options.string ? JSON.stringify(data) : data;
       }
 
