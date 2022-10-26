@@ -1,11 +1,16 @@
 import { AppShell, MantineProvider } from '@mantine/core';
 import { AdminHeader } from './header';
 import { NotificationsProvider } from '@mantine/notifications';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { AdminNavbar } from './navbar';
 import './index.css';
+import { useAccountContext } from '../require-auth/account-context';
 
 export function AdminFrame() {
+  const { isAdmin } = useAccountContext();
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <AppShell
       padding="md"

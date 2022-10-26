@@ -4,9 +4,11 @@ export const APIClient = {
   baseURL: 'http://localhost:31200',
   getRequest(method: Method) {
     return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
+      const token = window.localStorage.getItem('token');
       const headers = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
+        authorization: token ? `bearer ${token}` : '',
         ...options.headers,
       };
 
@@ -18,7 +20,7 @@ export const APIClient = {
         headers: headers,
       };
 
-      if (method === 'POST') {
+      if (['POST', 'PUT'].includes(method)) {
         conf.data = options.string ? JSON.stringify(data) : data;
       }
 

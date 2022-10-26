@@ -5,14 +5,14 @@ import { Trash } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
 
-interface IDeleteDataSource {
+interface IDeleteAccount {
   id: string;
   name: string;
   onSuccess: () => void;
   styles?: IStyles;
 }
 
-export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
+export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: IDeleteAccount) {
   const modals = useModals();
 
   const doDelete = async () => {
@@ -22,23 +22,31 @@ export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }
     showNotification({
       id: 'for-deleting',
       title: 'Pending',
-      message: 'Deleting data source...',
+      message: 'Deleting account...',
       loading: true,
     });
-    await APICaller.datasource.delete(id);
-    updateNotification({
-      id: 'for-deleting',
-      title: 'Successful',
-      message: `Data source [${name}] is deleted`,
-      color: 'green',
-    });
-    onSuccess();
+    try {
+      await APICaller.account.delete(id);
+      updateNotification({
+        id: 'for-deleting',
+        title: 'Successful',
+        message: `Account [${name}] is deleted`,
+        color: 'green',
+      });
+      onSuccess();
+    } catch (error: $TSFixMe) {
+      updateNotification({
+        id: 'for-deleting',
+        title: 'Failed',
+        message: error.message,
+        color: 'red',
+      });
+    }
   };
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: 'Delete this data source?',
-      children: <Text size={styles.size}>This action won't affect your database.</Text>,
+      title: 'Delete this account?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,

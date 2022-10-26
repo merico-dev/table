@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dashboard, IDashboard } from '@devtable/dashboard';
+import { Dashboard, IDashboard, ReadOnlyDashboard } from '@devtable/dashboard';
 
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
@@ -9,6 +9,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import './content.css';
+import { useAccountContext } from '../../frames/require-auth/account-context';
 
 export function DashboardPageContent({ id }: { id: string }) {
   const {
@@ -44,17 +45,19 @@ export function DashboardPageContent({ id }: { id: string }) {
     refresh();
   }, []);
 
+  const { canEdit } = useAccountContext();
+
   if (!dashboard) {
     return null;
   }
 
   const ready = !loading;
+  const DashboardComponent = canEdit ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
-      {/* <Filters context={context} submit={setContext} /> */}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
-        <Dashboard
+        <DashboardComponent
           context={context}
           dashboard={dashboard}
           update={updateDashboard}

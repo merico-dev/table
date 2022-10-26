@@ -33,7 +33,10 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
   );
 }
 
-const links = [{ name: 'Data Sources', to: '/admin/data_sources/list' }];
+const links = [
+  { name: 'Data Sources', to: '/admin/data_source/list' },
+  { name: 'Accounts', to: '/admin/account/list' },
+];
 
 export function AdminPageLinks() {
   return (

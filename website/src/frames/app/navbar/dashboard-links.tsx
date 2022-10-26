@@ -48,7 +48,7 @@ export function DashboardLinks() {
   );
 
   return (
-    <Box pt="sm" sx={{ position: 'relative' }}>
+    <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={loading} />
       {data.map((d) => (
         <DashboardLink key={d.id} active={id === d.id} {...d} />

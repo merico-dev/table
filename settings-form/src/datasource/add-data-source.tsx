@@ -156,7 +156,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.size}>
+          <Button type="submit" size={styles.button.size}>
             Save
           </Button>
         </Group>
@@ -193,7 +193,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       >
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
         Add a Data Source
       </Button>
     </>
