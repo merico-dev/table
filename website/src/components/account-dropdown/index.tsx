@@ -53,7 +53,7 @@ export function AccountDropdown() {
   };
   return (
     <Group position="center">
-      <Menu>
+      <Menu withinPortal>
         <Menu.Target>
           <UserButton username={account.name} email={account.email} />
         </Menu.Target>
