@@ -1,4 +1,4 @@
-import { Button, Group, Navbar as MantineNavbar } from '@mantine/core';
+import { Box, Button, Group, Navbar as MantineNavbar } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Settings } from 'tabler-icons-react';
 import { CreateDashboard } from './create-dashboard';
@@ -15,15 +15,17 @@ export function Navbar() {
   };
 
   return (
-    <MantineNavbar p="md" width={{ base: 300 }}>
+    <MantineNavbar p="md" width={{ base: 300, height: '100vh - 60px - 60px' }}>
       <MantineNavbar.Section>
         <Group grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
           <CreateDashboard />
         </Group>
       </MantineNavbar.Section>
 
-      <MantineNavbar.Section grow>
-        <DashboardLinks />
+      <MantineNavbar.Section grow sx={{ overflow: 'hidden' }}>
+        <Box sx={{ height: '100%', overflow: 'scroll' }}>
+          <DashboardLinks />
+        </Box>
       </MantineNavbar.Section>
 
       <MantineNavbar.Section>
