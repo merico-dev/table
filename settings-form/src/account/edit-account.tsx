@@ -1,40 +1,12 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Group,
-  Modal,
-  PasswordInput,
-  Select,
-  Stack,
-  Switch,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Box, Button, Divider, Group, Modal, PasswordInput, Switch, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Edit } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { IAccount } from '../api-caller/account.typed';
+import { RoleSelector } from './role-selector';
 import { defaultStyles, IStyles } from './styles';
-
-interface IRoleOptionItem {
-  label: string;
-  value: string;
-  description: string;
-}
-
-const RoleOptionItem = forwardRef<HTMLDivElement, IRoleOptionItem>(
-  ({ label, value, description, ...others }: IRoleOptionItem, ref) => (
-    <Stack spacing={2} ref={ref} {...others}>
-      <Text size="sm">{label}</Text>
-      <Text size="xs" color="dimmed" className="role-description">
-        {description}
-      </Text>
-    </Stack>
-  ),
-);
 
 interface IFormValues {
   name: string;
@@ -47,18 +19,9 @@ interface IFormValues {
 interface IEditAccountForm extends Pick<IAccount, 'id' | 'name' | 'email' | 'role_id'> {
   postSubmit: () => void;
   styles?: IStyles;
-  roleOptions: { label: string; value: number; description: string }[];
 }
 
-function EditAccountForm({
-  id,
-  name,
-  email,
-  role_id,
-  postSubmit,
-  styles = defaultStyles,
-  roleOptions,
-}: IEditAccountForm) {
+function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaultStyles }: IEditAccountForm) {
   const { control, handleSubmit, watch } = useForm<IFormValues>({
     defaultValues: {
       name,
@@ -124,29 +87,7 @@ function EditAccountForm({
         <Controller
           name="role_id"
           control={control}
-          render={({ field }) => (
-            <Select
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Role"
-              itemComponent={RoleOptionItem}
-              // @ts-expect-error value type
-              data={roleOptions}
-              styles={() => ({
-                item: {
-                  '&[data-selected]': {
-                    '&, &:hover': {
-                      '.role-description': {
-                        color: 'rgba(255,255,255,.8)',
-                      },
-                    },
-                  },
-                },
-              })}
-              {...field}
-            />
-          )}
+          render={({ field }) => <RoleSelector styles={styles} {...field} />}
         />
 
         <Divider my={20} variant="dashed" label="" labelPosition="center" />
@@ -206,11 +147,10 @@ function EditAccountForm({
 interface IEditAccount {
   styles?: IStyles;
   onSuccess: () => void;
-  roleOptions: { label: string; value: number; description: string }[];
   account: IAccount;
 }
 
-export function EditAccount({ account, onSuccess, styles = defaultStyles, roleOptions }: IEditAccount) {
+export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEditAccount) {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -231,7 +171,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles, roleOp
           e.stopPropagation();
         }}
       >
-        <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} roleOptions={roleOptions} />
+        <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.size} onClick={open} leftIcon={<Edit size={20} />}>
         Edit

@@ -61,7 +61,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
   return (
     <>
       <Group pt={styles.spacing} position="right">
-        <AddAccount onSuccess={refresh} roleOptions={roleOptions} />
+        <AddAccount onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 0} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
@@ -93,7 +93,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
                 <td width={200}>{update_time}</td> */}
                   <td width={200}>
                     <Group position="left">
-                      <EditAccount account={account} onSuccess={refresh} roleOptions={roleOptions} />
+                      <EditAccount account={account} onSuccess={refresh} />
                       <DeleteAccount id={id} name={name} onSuccess={refresh} />
                     </Group>
                   </td>

@@ -4,24 +4,8 @@ import React, { forwardRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
+import { RoleSelector } from './role-selector';
 import { defaultStyles, IStyles } from './styles';
-
-interface IRoleOptionItem {
-  label: string;
-  value: string;
-  description: string;
-}
-
-const RoleOptionItem = forwardRef<HTMLDivElement, IRoleOptionItem>(
-  ({ label, value, description, ...others }: IRoleOptionItem, ref) => (
-    <Stack spacing={2} ref={ref} {...others}>
-      <Text size="sm">{label}</Text>
-      <Text size="xs" color="dimmed" className="role-description">
-        {description}
-      </Text>
-    </Stack>
-  ),
-);
 
 interface IFormValues {
   name: string;
@@ -33,15 +17,15 @@ interface IFormValues {
 interface IAddAccountForm {
   postSubmit: () => void;
   styles?: IStyles;
-  roleOptions: { label: string; value: number; description: string }[];
+  initialRoleID: number;
 }
 
-function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAddAccountForm) {
+function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAccountForm) {
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       name: '',
       email: '',
-      role_id: roleOptions?.[0]?.value ?? 0,
+      role_id: initialRoleID,
       password: '',
     },
   });
@@ -107,29 +91,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
         <Controller
           name="role_id"
           control={control}
-          render={({ field }) => (
-            <Select
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Role"
-              itemComponent={RoleOptionItem}
-              // @ts-expect-error value type
-              data={roleOptions}
-              styles={() => ({
-                item: {
-                  '&[data-selected]': {
-                    '&, &:hover': {
-                      '.role-description': {
-                        color: 'rgba(255,255,255,.8)',
-                      },
-                    },
-                  },
-                },
-              })}
-              {...field}
-            />
-          )}
+          render={({ field }) => <RoleSelector styles={styles} {...field} />}
         />
 
         <Group position="right" mt={styles.spacing}>
@@ -145,10 +107,10 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
 interface IAddAccount {
   styles?: IStyles;
   onSuccess: () => void;
-  roleOptions: { label: string; value: number; description: string }[];
+  initialRoleID: number;
 }
 
-export function AddAccount({ onSuccess, styles = defaultStyles, roleOptions }: IAddAccount) {
+export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAccount) {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -169,7 +131,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, roleOptions }: I
           e.stopPropagation();
         }}
       >
-        <AddAccountForm postSubmit={postSubmit} styles={styles} roleOptions={roleOptions} />
+        <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
       <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
         Add an Account
