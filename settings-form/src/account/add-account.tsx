@@ -95,7 +95,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.size}>
+          <Button type="submit" size={styles.button.size}>
             Save
           </Button>
         </Group>
@@ -133,7 +133,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       >
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
-      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
         Add an Account
       </Button>
     </>

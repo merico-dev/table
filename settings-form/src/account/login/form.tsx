@@ -69,7 +69,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
           )}
         />
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.size}>
+          <Button type="submit" size={styles.button.size}>
             Submit
           </Button>
         </Group>

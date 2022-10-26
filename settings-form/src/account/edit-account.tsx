@@ -135,7 +135,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         )}
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.size}>
+          <Button type="submit" size={styles.button.size}>
             Submit
           </Button>
         </Group>
@@ -173,7 +173,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
       >
         <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
-      <Button size={styles.size} onClick={open} leftIcon={<Edit size={20} />}>
+      <Button size={styles.button.size} onClick={open} leftIcon={<Edit size={20} />}>
         Edit
       </Button>
     </>
