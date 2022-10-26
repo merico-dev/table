@@ -5,6 +5,7 @@ import { APICaller } from '../api-caller';
 import { APIClient } from '../api-caller/request';
 import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
+import { EditAccount } from './edit-account';
 import { defaultStyles, IStyles } from './styles';
 import { ISettingsFormConfig } from './types';
 
@@ -81,20 +82,24 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, name, email, role_id }) => (
-              <tr key={id}>
-                <td width={200}>{name}</td>
-                <td width={200}>{email}</td>
-                <td width={200}>{getRoleName(role_id)}</td>
-                {/* <td width={200}>{create_time}</td>
+            {data.map((account) => {
+              const { id, name, email, role_id } = account;
+              return (
+                <tr key={id}>
+                  <td width={200}>{name}</td>
+                  <td width={200}>{email}</td>
+                  <td width={200}>{getRoleName(role_id)}</td>
+                  {/* <td width={200}>{create_time}</td>
                 <td width={200}>{update_time}</td> */}
-                <td width={200}>
-                  <Group position="left">
-                    <DeleteAccount id={id} name={name} onSuccess={refresh} />
-                  </Group>
-                </td>
-              </tr>
-            ))}
+                  <td width={200}>
+                    <Group position="left">
+                      <EditAccount account={account} onSuccess={refresh} roleOptions={roleOptions} />
+                      <DeleteAccount id={id} name={name} onSuccess={refresh} />
+                    </Group>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </Box>

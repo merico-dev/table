@@ -8,11 +8,12 @@ export interface IAccount {
 }
 
 export interface IEditAccountPayload {
-  id: 'string';
-  name: 'string';
-  email: 'string';
+  id: string;
+  name: string;
+  email: string;
   role_id: number;
   reset_password: boolean;
+  new_password?: string;
 }
 
 export interface ILoginResp {

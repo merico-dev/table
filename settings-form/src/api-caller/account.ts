@@ -66,6 +66,9 @@ export const account = {
     return res;
   },
   edit: async (payload: IEditAccountPayload): Promise<IAccount> => {
+    if (!payload.reset_password) {
+      payload.new_password = undefined;
+    }
     const res: IAccount = await APIClient.getRequest('PUT')('/account/edit', payload);
     return res;
   },

@@ -1,9 +1,22 @@
-import { Box, Button, Group, Modal, PasswordInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Divider,
+  Group,
+  Modal,
+  PasswordInput,
+  Select,
+  Stack,
+  Switch,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import React, { forwardRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { PlaylistAdd } from 'tabler-icons-react';
+import { Edit } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
+import { IAccount } from '../api-caller/account.typed';
 import { defaultStyles, IStyles } from './styles';
 
 interface IRoleOptionItem {
@@ -27,44 +40,61 @@ interface IFormValues {
   name: string;
   email: string;
   role_id: number;
-  password: string;
+  reset_password: boolean;
+  new_password: string;
 }
 
-interface IAddAccountForm {
+interface IEditAccountForm extends Pick<IAccount, 'id' | 'name' | 'email' | 'role_id'> {
   postSubmit: () => void;
   styles?: IStyles;
   roleOptions: { label: string; value: number; description: string }[];
 }
 
-function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAddAccountForm) {
-  const { control, handleSubmit } = useForm<IFormValues>({
+function EditAccountForm({
+  id,
+  name,
+  email,
+  role_id,
+  postSubmit,
+  styles = defaultStyles,
+  roleOptions,
+}: IEditAccountForm) {
+  const { control, handleSubmit, watch } = useForm<IFormValues>({
     defaultValues: {
-      name: '',
-      email: '',
-      role_id: roleOptions?.[0]?.value ?? 0,
-      password: '',
+      name,
+      email,
+      role_id,
+      reset_password: false,
+      new_password: '',
     },
   });
 
-  const addAccount = async ({ name, email, password, role_id }: IFormValues) => {
+  const update = async ({ name, email, role_id, reset_password, new_password }: IFormValues) => {
     try {
       showNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Pending',
-        message: 'Adding account...',
+        message: 'Updating account...',
         loading: true,
       });
-      await APICaller.account.create(name, email, password, role_id);
+      await APICaller.account.edit({
+        id,
+        name,
+        email,
+        role_id,
+        reset_password,
+        new_password,
+      });
       updateNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Successful',
-        message: 'Account is added',
+        message: 'Account is updated',
         color: 'green',
       });
       postSubmit();
     } catch (error: $TSFixMe) {
       updateNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Failed',
         message: error.message,
         color: 'red',
@@ -72,9 +102,11 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
     }
   };
 
+  const [reset_password, new_password] = watch(['reset_password', 'new_password']);
+
   return (
     <Box mx="auto">
-      <form onSubmit={handleSubmit(addAccount)}>
+      <form onSubmit={handleSubmit(update)}>
         <Controller
           name="name"
           control={control}
@@ -87,21 +119,6 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
           name="email"
           control={control}
           render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Email" {...field} />}
-        />
-
-        <Controller
-          name="password"
-          control={control}
-          render={({ field }) => (
-            <PasswordInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Password"
-              description="Password must be at least 8 characters long"
-              {...field}
-            />
-          )}
         />
 
         <Controller
@@ -132,9 +149,53 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
           )}
         />
 
+        <Divider my={20} variant="dashed" label="" labelPosition="center" />
+
+        <Controller
+          name="reset_password"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              mb={styles.spacing}
+              size={styles.size}
+              label="Reset password"
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+              styles={{
+                label: {
+                  verticalAlign: 'middle',
+                },
+              }}
+            />
+          )}
+        />
+
+        {reset_password && (
+          <Controller
+            name="new_password"
+            control={control}
+            // rules={{
+            //   validate: (v) => {
+            //     return v.length >= 8 || 'At least 8 characters long';
+            //   },
+            // }}
+            render={({ field }) => (
+              <PasswordInput
+                autoComplete="off"
+                mb={styles.spacing}
+                size={styles.size}
+                required
+                description="Password must be at least 8 characters long"
+                label="New Password"
+                {...field}
+              />
+            )}
+          />
+        )}
+
         <Group position="right" mt={styles.spacing}>
           <Button type="submit" size={styles.size}>
-            Save
+            Submit
           </Button>
         </Group>
       </form>
@@ -142,13 +203,14 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, roleOptions }: IAd
   );
 }
 
-interface IAddAccount {
+interface IEditAccount {
   styles?: IStyles;
   onSuccess: () => void;
   roleOptions: { label: string; value: number; description: string }[];
+  account: IAccount;
 }
 
-export function AddAccount({ onSuccess, styles = defaultStyles, roleOptions }: IAddAccount) {
+export function EditAccount({ account, onSuccess, styles = defaultStyles, roleOptions }: IEditAccount) {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -163,16 +225,16 @@ export function AddAccount({ onSuccess, styles = defaultStyles, roleOptions }: I
         overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add an Account"
+        title={`Editing ${account.name}`}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
         }}
       >
-        <AddAccountForm postSubmit={postSubmit} styles={styles} roleOptions={roleOptions} />
+        <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} roleOptions={roleOptions} />
       </Modal>
-      <Button size={styles.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add an Account
+      <Button size={styles.size} onClick={open} leftIcon={<Edit size={20} />}>
+        Edit
       </Button>
     </>
   );
