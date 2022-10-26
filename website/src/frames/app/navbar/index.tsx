@@ -1,6 +1,7 @@
 import { Box, Button, Group, Navbar as MantineNavbar } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Settings } from 'tabler-icons-react';
+import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
 
@@ -14,13 +15,17 @@ export function Navbar() {
     navigate('/admin/data_source/list');
   };
 
+  const { canEdit } = useAccountContext();
+
   return (
     <MantineNavbar p="md" width={{ base: 300, height: '100vh - 60px - 60px' }}>
-      <MantineNavbar.Section>
-        <Group grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
-          <CreateDashboard />
-        </Group>
-      </MantineNavbar.Section>
+      {canEdit && (
+        <MantineNavbar.Section>
+          <Group grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
+            <CreateDashboard />
+          </Group>
+        </MantineNavbar.Section>
+      )}
 
       <MantineNavbar.Section grow sx={{ overflow: 'hidden' }}>
         <Box sx={{ height: '100%', overflow: 'scroll' }}>

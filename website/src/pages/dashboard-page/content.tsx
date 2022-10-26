@@ -45,8 +45,7 @@ export function DashboardPageContent({ id }: { id: string }) {
     refresh();
   }, []);
 
-  const { account } = useAccountContext();
-  const canEdit = account.role_id >= 30; // AUTHOR | ADMIN | SUPERADMIN
+  const { canEdit } = useAccountContext();
 
   if (!dashboard) {
     return null;

@@ -5,9 +5,11 @@ import React from 'react';
 const AccountContext = React.createContext<{
   account: IAccount | null;
   loading: boolean;
+  canEdit: boolean;
 }>({
   account: null,
   loading: false,
+  canEdit: false,
 });
 
 export const AccountContextProvider = AccountContext.Provider;
@@ -20,5 +22,6 @@ export function useAccountContext() {
   return c as {
     account: IAccount;
     loading: boolean;
+    canEdit: boolean;
   };
 }
