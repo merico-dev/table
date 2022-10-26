@@ -17,8 +17,9 @@ export function RequireAuth() {
     return <Navigate to={`/login?redirect_to=${redirect_to}`} replace />;
   }
   const canEdit = account.role_id >= 30; // AUTHOR | ADMIN | SUPERADMIN
+  const isAdmin = account.role_id >= 40; // AUTHOR | ADMIN | SUPERADMIN
   return (
-    <AccountContextProvider value={{ account, loading, canEdit }}>
+    <AccountContextProvider value={{ account, loading, canEdit, isAdmin }}>
       <Outlet />
     </AccountContextProvider>
   );

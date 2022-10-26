@@ -6,10 +6,12 @@ const AccountContext = React.createContext<{
   account: IAccount | null;
   loading: boolean;
   canEdit: boolean;
+  isAdmin: boolean;
 }>({
   account: null,
   loading: false,
   canEdit: false,
+  isAdmin: false,
 });
 
 export const AccountContextProvider = AccountContext.Provider;
@@ -23,5 +25,6 @@ export function useAccountContext() {
     account: IAccount;
     loading: boolean;
     canEdit: boolean;
+    isAdmin: boolean;
   };
 }

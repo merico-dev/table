@@ -15,7 +15,7 @@ export function Navbar() {
     navigate('/admin/data_source/list');
   };
 
-  const { canEdit } = useAccountContext();
+  const { canEdit, isAdmin } = useAccountContext();
 
   return (
     <MantineNavbar p="md" width={{ base: 300, height: '100vh - 60px - 60px' }}>
@@ -37,13 +37,15 @@ export function Navbar() {
         </Box>
       </MantineNavbar.Section>
 
-      <MantineNavbar.Section>
-        <Group grow pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-          <Button size="sm" onClick={gotoSettings} leftIcon={<Settings size={20} />}>
-            Settings
-          </Button>
-        </Group>
-      </MantineNavbar.Section>
+      {isAdmin && (
+        <MantineNavbar.Section>
+          <Group grow pt="sm" sx={{ borderTop: '1px solid #eee' }}>
+            <Button size="sm" onClick={gotoSettings} leftIcon={<Settings size={20} />}>
+              Settings
+            </Button>
+          </Group>
+        </MantineNavbar.Section>
+      )}
     </MantineNavbar>
   );
 }
