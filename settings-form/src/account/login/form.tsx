@@ -56,7 +56,9 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         <Controller
           name="name"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Name" {...field} />}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+          )}
         />
 
         <Controller
