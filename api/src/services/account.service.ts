@@ -103,7 +103,7 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, reset_password: boolean, editor_role_id: ROLE_TYPES): Promise<AccountAPIModel> {
+  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, reset_password: boolean, new_password: string | undefined, editor_role_id: ROLE_TYPES): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (account.role_id >= editor_role_id) {
@@ -113,7 +113,10 @@ export class AccountService {
       throw new ApiError(BAD_REQUEST, { message: 'Can not change account permissions to similar or higher than own account' });
     }
     if (reset_password) {
-      account.password = await bcrypt.hash(DEFAULT_RESET_PASSWORD, SALT_ROUNDS);
+      if (!new_password) {
+        throw new ApiError(BAD_REQUEST, { message: 'Must provide new_password when reset_password is true' });
+      }
+      account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     }
     account.name = name;
     account.email = email === undefined ? account.email : email;

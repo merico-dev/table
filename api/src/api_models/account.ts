@@ -145,7 +145,7 @@ export class AccountListRequest {
     required: true,
     model: 'AccountSortObject',
   })
-  sort: AccountSortObject = new AccountSortObject({ field: 'create_time', order: 'ASC' });;
+  sort: AccountSortObject = new AccountSortObject({ field: 'create_time', order: 'ASC' });
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })
@@ -202,6 +202,7 @@ export class AccountCreateRequest {
   email?: string;
 
   @IsString()
+  @Length(8)
   @ApiModelProperty({
     description: 'Account password',
     required: true,
@@ -285,6 +286,15 @@ export class AccountEditRequest {
     required: true,
   })
   reset_password: boolean;
+
+  @IsOptional()
+  @IsString()
+  @Length(8)
+  @ApiModelProperty({
+    description: 'Account password',
+    required: false,
+  })
+  new_password?: string;
 }
 
 @ApiModel({
@@ -293,6 +303,7 @@ export class AccountEditRequest {
 })
 export class AccountChangePasswordRequest {
   @IsString()
+  @Length(8)
   @ApiModelProperty({
     description : 'Account old password' ,
     required : true,
@@ -300,6 +311,7 @@ export class AccountChangePasswordRequest {
   old_password: string;
 
   @IsString()
+  @Length(8)
   @ApiModelProperty({
     description : 'Account new password' ,
     required : true,

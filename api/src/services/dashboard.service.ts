@@ -40,7 +40,7 @@ export class DashboardService {
     const dashboard = new Dashboard();
     dashboard.name = name;
     dashboard.content = content;
-    let result = await dashboardRepo.save(dashboard);
+    const result = await dashboardRepo.save(dashboard);
     return result;
   }
 

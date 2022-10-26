@@ -48,5 +48,5 @@ export class QueryService {
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
     const { host } = sourceConfig.config;
     return await APIClient.request(params.method)([host, params.url_postfix].join(''), params);
-  };
+  }
 }

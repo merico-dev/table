@@ -19,7 +19,7 @@ import { redactPassword } from '../services/account.service';
 })
 @controller('/account')
 export class AccountController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'Account';
+  public static TARGET_NAME = 'Account';
   private accountService: AccountService;
   private roleService: RoleService;
 
@@ -172,11 +172,11 @@ export class AccountController implements interfaces.Controller {
       this.checkControllerActive();
       const account: Account = req.body.account;
       this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
-      const { id, name, email, role_id, reset_password } = validate(AccountEditRequest, req.body);
+      const { id, name, email, role_id, reset_password, new_password } = validate(AccountEditRequest, req.body);
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: 'Editing own account. Please use /account/update instead' });
       }
-      const result = await this.accountService.edit(id, name, email, role_id, reset_password, account.role_id);
+      const result = await this.accountService.edit(id, name, email, role_id, reset_password, new_password, account.role_id);
       res.json(result);
     } catch (err) {
       next(err);

@@ -15,7 +15,7 @@ import { ROLE_TYPES } from '../api_models/role';
 })
 @controller('/query')
 export class QueryController implements interfaces.Controller {
-  public static TARGET_NAME: string = 'Query';
+  public static TARGET_NAME = 'Query';
   private queryService: QueryService;
   private roleService: RoleService;
 

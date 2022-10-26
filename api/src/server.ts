@@ -14,6 +14,7 @@ import { bindServices } from './services';
 import { dashboardDataSource } from './data_sources/dashboard';
 import './api_models';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 dashboardDataSource.initialize()
@@ -66,4 +67,5 @@ app.listen(port, () => {
 });
 
 process.on('uncaughtException', err => {
+  logger.info(err.message);
 });
