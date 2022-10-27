@@ -12,10 +12,20 @@ import { ReadOnlyDashboardLayout } from './layout';
 
 interface IReadOnlyDashboardView {
   view: ViewModelInstance;
+  fullScreenPanelID: string;
+  setFullScreenPanelID: (v: string) => void;
 }
 
-export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }: IReadOnlyDashboardView) {
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view);
+export const ReadOnlyDashboardView = observer(function _DashboardLayout({
+  view,
+  fullScreenPanelID,
+  setFullScreenPanelID,
+}: IReadOnlyDashboardView) {
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    view,
+    fullScreenPanelID,
+    setFullScreenPanelID,
+  );
   useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider

@@ -16,9 +16,18 @@ interface IReadOnlyDashboard {
   dashboard: IDashboard;
   className?: string;
   config: IDashboardConfig;
+  fullScreenPanelID: string;
+  setFullScreenPanelID: (v: string) => void;
 }
 
-export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard', config }: IReadOnlyDashboard) {
+export function ReadOnlyDashboard({
+  context,
+  dashboard,
+  className = 'dashboard',
+  config,
+  fullScreenPanelID,
+  setFullScreenPanelID,
+}: IReadOnlyDashboard) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
   }
@@ -41,7 +50,12 @@ export function ReadOnlyDashboard({ context, dashboard, className = 'dashboard',
         >
           <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
             {model.views.visibleViews.map((view) => (
-              <ReadOnlyDashboardView key={view.id} view={view} />
+              <ReadOnlyDashboardView
+                key={view.id}
+                view={view}
+                fullScreenPanelID={fullScreenPanelID}
+                setFullScreenPanelID={setFullScreenPanelID}
+              />
             ))}
           </Box>
         </LayoutStateContext.Provider>
