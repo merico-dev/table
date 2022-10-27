@@ -13,13 +13,21 @@ import { PreviewViewComponent } from './view-component/preview';
 interface IMainDashboardView {
   view: ViewModelInstance;
   saveDashboardChanges: () => void;
+  fullScreenPanelID: string;
+  setFullScreenPanelID: (v: string) => void;
 }
 
 export const MainDashboardView = observer(function _MainDashboardView({
   view,
   saveDashboardChanges,
+  fullScreenPanelID,
+  setFullScreenPanelID,
 }: IMainDashboardView) {
-  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(view);
+  const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
+    view,
+    fullScreenPanelID,
+    setFullScreenPanelID,
+  );
   useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider
@@ -44,9 +52,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
               <Filters view={view} />
             </Box>
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
-              <MainDashboardLayout view={view} isDraggable isResizable />
-            </Box>
+            {!inFullScreen && <MainDashboardLayout view={view} isDraggable isResizable />}
           </Box>
         </PreviewViewComponent>
       </Box>

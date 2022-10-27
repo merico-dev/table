@@ -19,6 +19,8 @@ interface IDashboardProps {
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
+  fullScreenPanelID: string;
+  setFullScreenPanelID: (v: string) => void;
 }
 
 export const Dashboard = observer(function _Dashboard({
@@ -27,6 +29,8 @@ export const Dashboard = observer(function _Dashboard({
   update,
   className = 'dashboard',
   config,
+  fullScreenPanelID,
+  setFullScreenPanelID,
 }: IDashboardProps) {
   if (APIClient.baseURL !== config.apiBaseURL) {
     APIClient.baseURL = config.apiBaseURL;
@@ -74,7 +78,13 @@ export const Dashboard = observer(function _Dashboard({
           >
             <PluginContext.Provider value={pluginContext}>
               {model.views.visibleViews.map((view) => (
-                <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+                <MainDashboardView
+                  key={view.id}
+                  view={view}
+                  saveDashboardChanges={saveDashboardChanges}
+                  fullScreenPanelID={fullScreenPanelID}
+                  setFullScreenPanelID={setFullScreenPanelID}
+                />
               ))}
             </PluginContext.Provider>
           </Box>
