@@ -52,9 +52,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
               <Filters view={view} />
             </Box>
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            <Box sx={{ display: inFullScreen ? 'none' : 'block' }}>
-              <MainDashboardLayout view={view} isDraggable isResizable />
-            </Box>
+            {!inFullScreen && <MainDashboardLayout view={view} isDraggable isResizable />}
           </Box>
         </PreviewViewComponent>
       </Box>
