@@ -102,6 +102,12 @@ export const ViewsModel = types
       addAPanelToVIE() {
         self.VIE?.panels.addANewPanel();
       },
+      appendToVisibles(viewID: string) {
+        const s = new Set(self.visibleViewIDs.map((v) => v));
+        if (!s.has(viewID)) {
+          self.visibleViewIDs.push(viewID);
+        }
+      },
     };
   })
   .actions((self) => ({
