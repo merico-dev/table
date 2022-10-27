@@ -7,11 +7,15 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import useUrlState from '@ahooksjs/use-url-state';
 import { DashboardAPI } from '../../api-caller/dashboard';
-import './content.css';
 import { useAccountContext } from '../../frames/require-auth/account-context';
+import './content.css';
 
 export function DashboardPageContent({ id }: { id: string }) {
+  const [search, setSearch] = useUrlState({
+    full_screen_panel_id: '',
+  });
   const {
     data: dashboard,
     loading,
@@ -47,6 +51,14 @@ export function DashboardPageContent({ id }: { id: string }) {
 
   const { canEdit } = useAccountContext();
 
+  const setFullScreenPanelID = (id: string) => {
+    const s = {
+      ...search,
+      full_screen_panel_id: id,
+    };
+    setSearch(s);
+  };
+
   if (!dashboard) {
     return null;
   }
@@ -62,6 +74,8 @@ export function DashboardPageContent({ id }: { id: string }) {
           dashboard={dashboard}
           update={updateDashboard}
           config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
+          fullScreenPanelID={search.full_screen_panel_id}
+          setFullScreenPanelID={setFullScreenPanelID}
         />
       )}
     </div>
