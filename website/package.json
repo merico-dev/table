@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ahooksjs/use-url-state": "^3.3.11",
     "@devtable/dashboard": "4.19.0",
     "@devtable/settings-form": "4.19.0",
     "@emotion/react": "11.10.0",
