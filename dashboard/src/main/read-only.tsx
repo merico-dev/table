@@ -2,6 +2,7 @@ import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import _ from 'lodash';
 import React from 'react';
+import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ReadOnlyDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -32,6 +33,7 @@ export function ReadOnlyDashboard({
     APIClient.baseURL = config.apiBaseURL;
   }
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+  useInteractionOperationHacks(model, false);
 
   React.useEffect(() => {
     model.context.replace(context);

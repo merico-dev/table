@@ -3,6 +3,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { MainDashboardView } from '~/view';
 import { APIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -38,6 +39,7 @@ export const Dashboard = observer(function _Dashboard({
   const [layoutFrozen, freezeLayout] = React.useState(false);
 
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+  useInteractionOperationHacks(model, true);
 
   React.useEffect(() => {
     model.context.replace(context);

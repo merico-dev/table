@@ -1,7 +1,6 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
-import { LayoutStateContext, useModelContext } from '~/contexts';
+import { useModelContext } from '~/contexts';
 import { useStorageData } from '~/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
@@ -20,20 +19,9 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
 });
 
 async function run(payload: Record<string, unknown>, operation: IDashboardOperation) {
-  const model = useModelContext();
-  const { inEditMode } = useContext(LayoutStateContext);
   const config = await operation.operationData.getItem<IOpenViewOperationConfig>('config');
   const viewID = config.viewID;
-  if (viewID) {
-    console.log('appendToVisibles');
-    model.views.appendToVisibles(viewID);
-    if (inEditMode) {
-      console.log('setIDOfVIE');
-      model.views.setIDOfVIE(viewID);
-    }
-  } else {
-    console.error(new Error('[Open View] Needs to pick a view first'));
-  }
+  window.dispatchEvent(new CustomEvent('open-view', { detail: { viewID } }));
 }
 
 export const OpenView: IDashboardOperationSchema = {
