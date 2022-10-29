@@ -48,7 +48,7 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
           <MultiSelect
             label="Visible in..."
             data={model.views.options}
-            value={filter.visibleInViewsIDs}
+            value={[...filter.visibleInViewsIDs]}
             onChange={filter.setVisibleInViewsIDs}
           />
           <TextInput
