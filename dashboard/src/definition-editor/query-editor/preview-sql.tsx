@@ -1,4 +1,5 @@
 import { Prism } from '@mantine/prism';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext } from '../../contexts/model-context';
 import { explainSQL } from '../../utils/sql';
@@ -6,7 +7,7 @@ import { explainSQL } from '../../utils/sql';
 interface IPreviewSQL {
   value: string;
 }
-export function PreviewSQL({ value }: IPreviewSQL) {
+export const PreviewSQL = observer(({ value }: IPreviewSQL) => {
   const model = useModelContext();
   const context = model.context.current;
 
@@ -18,4 +19,4 @@ export function PreviewSQL({ value }: IPreviewSQL) {
       {explained}
     </Prism>
   );
-}
+});
