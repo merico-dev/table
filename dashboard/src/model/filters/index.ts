@@ -55,6 +55,9 @@ export const FiltersModel = types
       const ret = self.current.map((f) => f.config.default_value?.toString()).join('__');
       return ret;
     },
+    get firstFilterValueKey() {
+      return Object.keys(self.values)[0] ?? '';
+    },
   }))
   .actions((self) => {
     return {
@@ -73,8 +76,11 @@ export const FiltersModel = types
       setValues(values: Record<string, $TSFixMe>) {
         self.values = values;
       },
-      setValueByKey(key: string, value: Record<string, $TSFixMe>) {
-        self.values[key] = value;
+      setValueByKey(key: string, value: $TSFixMe) {
+        self.values = {
+          ...self.values,
+          [key]: value,
+        };
       },
       getValueByKey(key: string) {
         return self.values[key];

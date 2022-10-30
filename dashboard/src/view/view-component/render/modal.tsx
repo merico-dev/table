@@ -22,14 +22,6 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         e.stopPropagation();
       }}
       styles={{
-        root: {
-          position: 'relative',
-          height: 'calc(100% - 46px)',
-        },
-        overlay: {
-          // @ts-expect-error absolute !important
-          position: 'absolute !important',
-        },
         modal: {
           border: '1px solid #efefef',
         },
