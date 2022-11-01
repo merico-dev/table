@@ -12,7 +12,9 @@ interface IFilterDateRange {
 }
 
 export const FilterDateRange = observer(({ label, config, value = [null, null], onChange }: IFilterDateRange) => {
-  const formattedValue = value.map((v) => (v ? dayjs(v).toDate() : null)) as [Date | null, Date | null];
+  const formattedValue = Array.isArray(value)
+    ? (value.map((v) => (v ? dayjs(v).toDate() : null)) as [Date | null, Date | null])
+    : [null, null];
   const handleChange = (values: [Date | null, Date | null]) => {
     onChange(values.map((d) => (d ? dayjs(d).format(config.inputFormat) : d)));
   };
