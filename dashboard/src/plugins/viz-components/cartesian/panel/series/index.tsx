@@ -33,6 +33,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
       y_axis_data_key: 'value',
       yAxisIndex: 0,
       label_position: 'top',
+      display_name_on_line: false,
       stack: '',
       color: '#000',
       step: false,
