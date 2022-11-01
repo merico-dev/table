@@ -43,7 +43,7 @@ const DashboardModel = types
       return {
         data: q.data.toJSON(),
         state: q.state,
-        error: undefined,
+        error: q.error,
       };
     },
     getDataStateByID(queryID: string) {

@@ -6,6 +6,13 @@ import { formatSQL, getSQLParams } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 
+export type QueryFailureError = {
+  code: 'BAD_REQUEST';
+  detail: {
+    message: string;
+  };
+};
+
 interface IQueryByStaticSQL {
   type: DataSourceType;
   key: string;
@@ -42,20 +49,15 @@ export async function queryBySQL({ context, sqlSnippets, title, query, filterVal
   const { type, key, sql } = query;
 
   const needParams = sql.includes('$');
-  try {
-    const params = getSQLParams(context, sqlSnippets, filterValues);
-    const formattedSQL = formatSQL(sql, params);
-    if (needParams) {
-      console.groupCollapsed(`Final SQL for: ${title}`);
-      console.log(formattedSQL);
-      console.groupEnd();
-    }
-    const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
-    return res;
-  } catch (error) {
-    console.error(error);
-    return [];
+  const params = getSQLParams(context, sqlSnippets, filterValues);
+  const formattedSQL = formatSQL(sql, params);
+  if (needParams) {
+    console.groupCollapsed(`Final SQL for: ${title}`);
+    console.log(formattedSQL);
+    console.groupEnd();
   }
+  const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
+  return res;
 }
 
 export type TQuerySources = Record<string, string[]>;
