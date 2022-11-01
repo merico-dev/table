@@ -39,8 +39,7 @@ export function getSQLParams(
     return ret;
   }, {});
 
-  // sql snippets might use context, so context must be at a higher priority
-  return _.merge({}, sqlSnippetRecord, context, { filters: filterValues });
+  return _.merge({}, { context, filters: filterValues, sql_snippets: sqlSnippetRecord });
 }
 
 export function explainSQL(

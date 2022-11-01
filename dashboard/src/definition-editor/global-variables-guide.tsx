@@ -36,15 +36,11 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
     };
 
     if (showSQLSnippets) {
-      const sql_snippets = model.sqlSnippets.current.reduce((prev, curr) => {
-        prev[curr.key] = curr.value;
-        return prev;
-      }, {} as Record<string, string>);
-      ret.sql_snippets = sql_snippets;
+      ret.sql_snippets = model.sqlSnippets.record;
     }
 
     return JSON.stringify(ret, null, 2);
-  }, [contextInfo, model.sqlSnippets.current, model.filters.values, showSQLSnippets]);
+  }, [contextInfo, model.sqlSnippets.record, model.filters.values, showSQLSnippets]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>

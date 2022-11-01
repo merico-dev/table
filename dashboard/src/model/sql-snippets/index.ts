@@ -14,6 +14,12 @@ export const SQLSnippetsModel = types
     get json() {
       return self.current.map((o) => o.json);
     },
+    get record() {
+      return self.current.reduce((prev, curr) => {
+        prev[curr.key] = curr.value;
+        return prev;
+      }, {} as Record<string, string>);
+    },
   }))
   .actions((self) => {
     return {
