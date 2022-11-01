@@ -21,6 +21,7 @@ export const FilterDateRange = observer(({ label, config, value = [null, null], 
   return (
     <DateRangePicker
       label={label}
+      // @ts-expect-error value's type
       value={formattedValue}
       onChange={handleChange}
       icon={<Calendar size={16} />}
