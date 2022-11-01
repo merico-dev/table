@@ -54,7 +54,7 @@ export const FilterSettings = observer(function _FilterSettings() {
           <Stack sx={{ height: '100%' }}>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
-                <Tabs.Tab key={field.id} value={field.id}>
+                <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'scroll' }}>
                   {field.label}
                 </Tabs.Tab>
               ))}
