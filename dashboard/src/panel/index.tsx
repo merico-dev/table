@@ -1,4 +1,5 @@
 import { Box, Stack } from '@mantine/core';
+import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { PanelModelInstance } from '~/model/views/view/panels';
@@ -49,7 +50,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const model = useModelContext();
   const { inEditMode } = useContext(LayoutStateContext);
 
-  const { data, state } = model.getDataStuffByID(panel.queryID);
+  const { data, state, error } = model.getDataStuffByID(panel.queryID);
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
 
@@ -71,7 +72,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         </Box>
         {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
-        <Viz viz={panel.viz} data={data} loading={loading} height={vizHeight} />
+        <Viz viz={panel.viz} data={data} loading={loading} error={error} height={vizHeight} />
       </Box>
     </PanelContextProvider>
   );

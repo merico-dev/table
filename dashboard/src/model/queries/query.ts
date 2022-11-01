@@ -1,6 +1,6 @@
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, toGenerator, types } from 'mobx-state-tree';
-import { queryBySQL } from '../../api-caller';
+import { queryBySQL, QueryFailureError } from '../../api-caller';
 import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
@@ -70,8 +70,10 @@ export const QueryModel = types
         );
         self.state = 'idle';
       } catch (error) {
-        console.error(error);
-        self.error = error;
+        self.data.length = 0;
+        // @ts-expect-error Object is of type 'unknown'
+        const resp = error.response.data as QueryFailureError;
+        self.error = resp.detail.message;
         self.state = 'error';
       }
     }),

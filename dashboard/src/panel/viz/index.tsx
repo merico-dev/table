@@ -1,4 +1,4 @@
-import { LoadingOverlay, Text } from '@mantine/core';
+import { Center, LoadingOverlay, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 import React, { ReactNode, useContext } from 'react';
@@ -42,9 +42,10 @@ interface IViz {
   data: $TSFixMe;
   loading: boolean;
   height: string;
+  error?: string;
 }
 
-export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading }: IViz) {
+export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading, error }: IViz) {
   const { ref, width, height } = useElementSize();
   const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
@@ -67,7 +68,12 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
   }
   return (
     <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
-      {empty && (
+      {error && (
+        <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+          {error}
+        </Text>
+      )}
+      {!error && empty && (
         <Text color="gray" align="center">
           Empty Data
         </Text>
