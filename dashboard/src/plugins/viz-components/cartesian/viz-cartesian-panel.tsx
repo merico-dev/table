@@ -31,6 +31,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     smooth = false,
     step = false,
     group_by_key = '',
+    display_name_on_line = false,
     lineStyle = { type: 'solid', width: 1 },
   }: ICartesianChartSeriesItem) {
     return {
@@ -48,6 +49,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       smooth,
       step,
       group_by_key,
+      display_name_on_line,
       lineStyle,
     };
   }

@@ -48,7 +48,17 @@ function getReferenceLines(
 
 function getSeriesItemOrItems(
   { x_axis_data_key }: ICartesianChartConf,
-  { y_axis_data_key, yAxisIndex, label_position, name, group_by_key, stack, color, ...rest }: ICartesianChartSeriesItem,
+  {
+    y_axis_data_key,
+    yAxisIndex,
+    label_position,
+    name,
+    group_by_key,
+    stack,
+    color,
+    display_name_on_line,
+    ...rest
+  }: ICartesianChartSeriesItem,
   dataTemplate: $TSFixMe[][],
   data: $TSFixMe[],
   labelFormatters: Record<string, $TSFixMe>,
@@ -66,6 +76,14 @@ function getSeriesItemOrItems(
     color,
     ...rest,
   };
+  if (display_name_on_line) {
+    seriesItem.endLabel = {
+      show: true,
+      formatter: name,
+      offset: [-12, 12],
+      align: 'right',
+    };
+  }
   if (!group_by_key) {
     seriesItem.data = data.map((d) => d[y_axis_data_key]);
     return seriesItem;

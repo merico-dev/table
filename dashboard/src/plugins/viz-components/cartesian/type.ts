@@ -4,6 +4,7 @@ import { ITemplateVariable } from '~/utils/template';
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
   name: string;
+  display_name_on_line: boolean;
   showSymbol: false;
   symbolSize: number;
   y_axis_data_key: string;

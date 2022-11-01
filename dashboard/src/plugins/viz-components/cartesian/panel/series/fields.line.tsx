@@ -1,4 +1,4 @@
-import { Box, Divider, Group, NumberInput, Select, Switch } from '@mantine/core';
+import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
@@ -55,19 +55,34 @@ export function LineFields({ control, index }: ILineFields) {
             />
           )}
         />
-        <Controller
-          name={`series.${index}.smooth`}
-          control={control}
-          render={({ field }) => (
-            <Box sx={{ flexGrow: 1 }}>
-              <Switch
-                label="Smooth Line"
-                checked={field.value}
-                onChange={(event) => field.onChange(event.currentTarget.checked)}
-              />
-            </Box>
-          )}
-        />
+        <Stack>
+          <Controller
+            name={`series.${index}.smooth`}
+            control={control}
+            render={({ field }) => (
+              <Box sx={{ flexGrow: 1 }}>
+                <Switch
+                  label="Smooth Line"
+                  checked={field.value}
+                  onChange={(event) => field.onChange(event.currentTarget.checked)}
+                />
+              </Box>
+            )}
+          />
+          <Controller
+            name={`series.${index}.display_name_on_line`}
+            control={control}
+            render={({ field }) => (
+              <Box sx={{ flexGrow: 1 }}>
+                <Switch
+                  label="Display Name on Line"
+                  checked={field.value ?? false}
+                  onChange={(event) => field.onChange(event.currentTarget.checked)}
+                />
+              </Box>
+            )}
+          />
+        </Stack>
       </Group>
     </>
   );
