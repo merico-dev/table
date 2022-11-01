@@ -2,7 +2,7 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.3.11",
-    "@devtable/dashboard": "5.0.0",
-    "@devtable/settings-form": "5.0.0",
+    "@devtable/dashboard": "5.1.0",
+    "@devtable/settings-form": "5.1.0",
     "@emotion/react": "11.10.0",
     "@mantine/core": "5.5.5",
     "@mantine/dates": "5.5.5",
@@ -27,6 +27,7 @@
     "chroma-js": "^2.4.2",
     "d3-array": "3.2.0",
     "d3-regression": "1.2.8",
+    "dayjs": "1.11.6",
     "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "echarts-gl": "^2.0.9",

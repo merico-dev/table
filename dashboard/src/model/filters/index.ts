@@ -1,24 +1,30 @@
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, cast, types } from 'mobx-state-tree';
 import { FilterModel, FilterModelInstance } from './filter';
 
-function formatDefaultValue(v: any) {
+function formatDefaultValue(v: any, config: any) {
   if (v === undefined) {
     return v;
   }
   if (Array.isArray(v)) {
-    return v.map((v) => {
-      const d = new Date(v); // for date-range
-      return d ?? v;
-    });
+    try {
+      return v.map((v) => {
+        const d = dayjs.tz(v, 'UTC').format(config.inputFormat); // for date-range
+        return d ?? v;
+      });
+    } catch (error) {
+      console.error(error);
+      return v;
+    }
   }
   return v;
 }
 
 function getValuesFromFilters(filters: FilterModelInstance[]) {
   return filters.reduce((ret, filter) => {
-    ret[filter.key] = formatDefaultValue(filter.config.default_value);
+    ret[filter.key] = formatDefaultValue(filter.config.default_value, filter.config);
     return ret;
   }, {} as FilterValuesType);
 }
