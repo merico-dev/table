@@ -62,6 +62,17 @@ export interface ICartesianReferenceLine {
   variable_key: string;
 }
 
+export interface ICartesianReferenceArea {
+  name: string;
+  color: string;
+  type: 'rectangle';
+  direction: 'horizontal';
+  y_keys: {
+    upper: string;
+    lower: string;
+  };
+}
+
 export interface ICartesianChartConf {
   x_axis_data_key: string;
   x_axis_name: string;
@@ -82,6 +93,7 @@ export interface ICartesianChartConf {
   };
   variables: ITemplateVariable[];
   reference_lines: ICartesianReferenceLine[];
+  reference_areas: ICartesianReferenceArea[];
 }
 
 export const DEFAULT_CONFIG: ICartesianChartConf = {
@@ -105,4 +117,5 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   ],
   variables: [],
   reference_lines: [],
+  reference_areas: [],
 };

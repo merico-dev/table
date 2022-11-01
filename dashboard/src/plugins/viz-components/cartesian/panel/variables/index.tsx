@@ -32,7 +32,7 @@ export function VariablesField({ control, watch, data }: IVariablesField) {
   return (
     <Stack>
       {controlledFields.map((_variableItem, index) => (
-        <VariableField control={control} index={index} remove={remove} data={data} />
+        <VariableField key={index} control={control} index={index} remove={remove} data={data} />
       ))}
       <Group position="center" mt="xs">
         <Button onClick={add}>Add a Variable</Button>

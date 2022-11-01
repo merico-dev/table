@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
 import { SeriesField } from './panel/series';
@@ -158,6 +159,7 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
                 <Tabs.List>
                   <Tabs.Tab value="variables">Variables</Tabs.Tab>
                   <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
+                  <Tabs.Tab value="reference_areas">Reference Areas</Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="variables" pt="xs">
@@ -165,6 +167,9 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
                 </Tabs.Panel>
                 <Tabs.Panel value="reference_lines" pt="xs">
                   <ReferenceLinesField control={control} watch={watch} />
+                </Tabs.Panel>
+                <Tabs.Panel value="reference_areas" pt="xs">
+                  <ReferenceAreasField control={control} watch={watch} />
                 </Tabs.Panel>
               </Tabs>
             </Accordion.Panel>
