@@ -1,6 +1,11 @@
 import _, { cloneDeep, groupBy } from 'lodash';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
-import { ICartesianChartConf, ICartesianChartSeriesItem, ICartesianReferenceLine } from '../type';
+import {
+  ICartesianChartConf,
+  ICartesianChartSeriesItem,
+  ICartesianReferenceArea,
+  ICartesianReferenceLine,
+} from '../type';
 
 function getFullSeriesItemData(
   dataTemplate: $TSFixMe[][],
@@ -42,6 +47,40 @@ function getReferenceLines(
         },
         position: 'insideEndTop',
       },
+    },
+  }));
+}
+
+function getReferenceAreas(
+  reference_areas: ICartesianReferenceArea[],
+  variables: ITemplateVariable[],
+  data: $TSFixMe[],
+) {
+  const variableValueMap = variables.reduce((prev, variable) => {
+    const value = getAggregatedValue(variable, data);
+    prev[variable.name] = formatAggregatedValue(variable, value);
+    return prev;
+  }, {} as Record<string, string | number>);
+
+  return reference_areas.map((r) => ({
+    name: '',
+    type: 'line',
+    data: [],
+    markArea: {
+      itemStyle: {
+        color: r.color,
+      },
+      data: [
+        [
+          {
+            yAxis: variableValueMap[r.y_keys.upper],
+          },
+          {
+            yAxis: variableValueMap[r.y_keys.lower],
+          },
+        ],
+      ],
+      silent: true,
     },
   }));
 }
@@ -107,5 +146,7 @@ export function getSeries(
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
   const ret = conf.series.map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, labelFormatters)).flat();
-  return ret.concat(getReferenceLines(conf.reference_lines, conf.variables, data));
+  return ret
+    .concat(getReferenceLines(conf.reference_lines, conf.variables, data))
+    .concat(getReferenceAreas(conf.reference_areas, conf.variables, data));
 }

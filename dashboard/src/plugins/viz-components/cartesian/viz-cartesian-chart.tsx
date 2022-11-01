@@ -4,7 +4,14 @@ import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 /* @ts-expect-error type defs of echarts-stat */
 import { transform } from 'echarts-stat';
-import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import {
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  MarkAreaComponent,
+  MarkLineComponent,
+  TooltipComponent,
+} from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
@@ -24,6 +31,8 @@ echarts.use([
   LegendComponent,
   TooltipComponent,
   CanvasRenderer,
+  MarkLineComponent,
+  MarkAreaComponent,
 ]);
 echarts.registerTransform(transform.regression);
 
