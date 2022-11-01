@@ -9,6 +9,8 @@ interface IFilterEditorDateRange {
 
 const inputFormatOptions = [
   { label: '2022', value: 'YYYY' },
+  { label: '202201', value: 'YYYYMM' },
+  { label: '20220101', value: 'YYYYMMDD' },
   { label: '2022-01', value: 'YYYY-MM' },
   { label: '2022-01-01', value: 'YYYY-MM-DD' },
 ];
@@ -37,6 +39,7 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
       <FilterDateRange
         label="Default Value"
         config={config}
+        // @ts-expect-error type of default_value
         value={config.default_value}
         onChange={config.setDefaultValue}
       />
