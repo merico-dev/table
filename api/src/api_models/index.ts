@@ -10,6 +10,7 @@ import {
   Account, AccountLoginRequest, AccountLoginResponse, AccountFilterObject, AccountSortObject, AccountListRequest, AccountPaginationResponse,
   AccountCreateRequest, AccountUpdateRequest, AccountEditRequest, AccountChangePasswordRequest, AccountIDRequest,
 } from './account';
+import { ApiKey, ApiKeyCreateRequest, ApiKeyListRequest, ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject, ApiKeyIDRequest } from './api';
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
 import { ApiError } from './base';
@@ -47,6 +48,14 @@ export default {
   AccountEditRequest,
   AccountChangePasswordRequest,
   AccountIDRequest,
+
+  ApiKey,
+  ApiKeyCreateRequest,
+  ApiKeyListRequest,
+  ApiKeyFilterObject,
+  ApiKeyPaginationResponse,
+  ApiKeySortObject,
+  ApiKeyIDRequest,
 
   Role,
 

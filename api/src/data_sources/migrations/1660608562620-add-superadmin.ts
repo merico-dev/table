@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { ROLE_TYPES } from '../../api_models/role';
-import { SALT_ROUNDS } from '../../services/account.service';
 import Account from '../../models/account';
+import { SALT_ROUNDS } from '../../utils/constants';
 
 const password = process.env.SUPER_ADMIN_PASSWORD ?? 'secret';
 

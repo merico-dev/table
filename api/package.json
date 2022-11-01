@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node -r ts-node/register -r tsconfig-paths/register --inspect -r dotenv/config src/server.ts",
     "typeorm": "typeorm-ts-node-esm",
+    "migration:create": "npx typeorm-ts-node-esm migration:create",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
     "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
     "build": "gulp build",

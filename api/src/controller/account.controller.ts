@@ -9,9 +9,10 @@ import { AccountCreateRequest, AccountUpdateRequest } from '../api_models/accoun
 import Account from '../models/account';
 import { RoleService } from '../services/role.service';
 import { ROLE_TYPES } from '../api_models/role';
-import { ApiError, AUTH_NOT_ENABLED, BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
-import { AUTH_ENABLED } from '../utils/constants';
+import { ApiError, BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { redactPassword } from '../services/account.service';
+import { checkControllerActive } from '../utils/helpers';
+import ApiKey from '../models/apiKey';
 
 @ApiPath({
   path: '/account',
@@ -45,7 +46,7 @@ export class AccountController implements interfaces.Controller {
   @httpPost('/login')
   public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
+      checkControllerActive();
       const { name, password } = validate(AccountLoginRequest, req.body);
       const result = await this.accountService.login(name, password);
       res.json(result);
@@ -68,9 +69,9 @@ export class AccountController implements interfaces.Controller {
   @httpPost('/list')
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account: Account | null = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
       const { filter, sort, pagination } = validate(AccountListRequest, req.body);
       const result = await this.accountService.list(filter, sort, pagination);
       res.json(result);
@@ -90,11 +91,10 @@ export class AccountController implements interfaces.Controller {
   @httpGet('/get')
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account: Account | null = req.body.account;
-      if (!account) {
-        throw new ApiError(FORBIDDEN, { message: 'User not online' });
-      }
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.INACTIVE);
+      const account = this.ensureAuthIsAccount(auth!);
       const result = redactPassword(account);
       res.json(result);
     } catch (err) {
@@ -116,9 +116,10 @@ export class AccountController implements interfaces.Controller {
   @httpPost('/create')
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
+      const account = this.ensureAuthIsAccount(auth!);
       const { name, email, password, role_id } = validate(AccountCreateRequest, req.body);
       if (account.role_id <= role_id) {
         throw new ApiError(UNAUTHORIZED, { message: 'Can not add user with similar or higher role' });
@@ -144,9 +145,10 @@ export class AccountController implements interfaces.Controller {
   @httpPut('/update')
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.READER);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.READER);
+      const account = this.ensureAuthIsAccount(auth!);
       const { name, email } = validate(AccountUpdateRequest, req.body);
       const result = await this.accountService.update(account.id, name, email);
       res.json(result);
@@ -169,9 +171,10 @@ export class AccountController implements interfaces.Controller {
   @httpPut('/edit')
   public async edit(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
+      const account = this.ensureAuthIsAccount(auth!);
       const { id, name, email, role_id, reset_password, new_password } = validate(AccountEditRequest, req.body);
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: 'Editing own account. Please use /account/update instead' });
@@ -197,9 +200,10 @@ export class AccountController implements interfaces.Controller {
   @httpPost('/changepassword')
   public async changePassword(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.INACTIVE);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.INACTIVE);
+      const account = this.ensureAuthIsAccount(auth!);
       const { old_password, new_password } = validate(AccountChangePasswordRequest, req.body);
       const result = await this.accountService.changePassword(account.id, old_password, new_password);
       res.json(result);
@@ -222,9 +226,10 @@ export class AccountController implements interfaces.Controller {
   @httpPost('/delete')
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      this.checkControllerActive();
-      const account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.ADMIN);
+      checkControllerActive();
+      const auth: Account | ApiKey | null = req.body.auth;
+      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
+      const account = this.ensureAuthIsAccount(auth!);
       const { id } = validate(AccountIDRequest, req.body);
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: 'Can not delete self' });
@@ -236,9 +241,10 @@ export class AccountController implements interfaces.Controller {
     }
   }
 
-  private checkControllerActive() {
-    if (!AUTH_ENABLED) {
-      throw new ApiError(AUTH_NOT_ENABLED, { message: 'Authentication system is not enabled' });
+  private ensureAuthIsAccount(auth: Account | ApiKey): Account {
+    if (auth instanceof ApiKey) {
+      throw new ApiError(FORBIDDEN, { message: 'Must authenticate with bearer token' });
     }
+    return auth;
   }
 }
