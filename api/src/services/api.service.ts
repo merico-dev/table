@@ -1,10 +1,10 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
-import { BinaryLike, createHmac } from 'crypto';
 import bcrypt from 'bcrypt';
+import { generateApiKey } from 'generate-api-key';
 import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject } from '../api_models/api';
 import { PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
-import { SALT_ROUNDS, SECRET_KEY } from '../utils/constants';
+import { SALT_ROUNDS } from '../utils/constants';
 import logger from 'npmlog';
 
 export class ApiService {
@@ -60,7 +60,7 @@ export class ApiService {
     apiKey.name = name;
     apiKey.domain = domain;
     apiKey.role_id = role_id;
-    const key = createHmac('sha256', SECRET_KEY as BinaryLike).update(name).digest('hex');
+    const key = generateApiKey({ length: 32 }).toString();
     apiKey.key = await bcrypt.hash(key, SALT_ROUNDS);
     await apiKeyRepo.save(apiKey);
     return key;
