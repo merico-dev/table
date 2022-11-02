@@ -6,9 +6,9 @@ import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-ex
 import { validate } from '../middleware/validation';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiService } from '../services/api.service';
-import { checkControllerActive } from '../utils/helpers';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '../api_models/api';
 import permission from '../middleware/permission';
+import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
 
 @ApiPath({
   path: '/api',
@@ -36,10 +36,9 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/key/list', permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async listKeys(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      checkControllerActive();
       const { filter, sort, pagination } = validate(ApiKeyListRequest, req.body);
       const result = await this.apiService.listKeys(filter, sort, pagination);
       res.json(result);
@@ -59,10 +58,9 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/key/create', permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      checkControllerActive();
       const { name, domain, role_id } = validate(ApiKeyCreateRequest, req.body);
       const result = await this.apiService.createKey(name, domain, role_id);
       res.json(result);
@@ -82,10 +80,9 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/key/delete', permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/delete', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      checkControllerActive();
       const { id } = validate(ApiKeyIDRequest, req.body);
       await this.apiService.deleteKey(id);
       res.json({ id });
