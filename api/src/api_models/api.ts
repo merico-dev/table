@@ -1,8 +1,8 @@
-import { Type } from "class-transformer";
-import { IsIn, IsInt, IsOptional, IsString, IsUUID, Length, ValidateNested } from "class-validator";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from "./base";
-import { ROLE_TYPES } from "./role";
+import { Type } from 'class-transformer';
+import { IsIn, IsInt, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { ROLE_TYPES } from './role';
 
 @ApiModel({
   description: 'ApiKey entity',

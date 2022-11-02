@@ -1,8 +1,8 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import { BinaryLike, createHmac } from 'crypto';
 import bcrypt from 'bcrypt';
-import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject } from "../api_models/api";
-import { PaginationRequest } from "../api_models/base";
+import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject } from '../api_models/api';
+import { PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
 import { SALT_ROUNDS, SECRET_KEY } from '../utils/constants';
 import logger from 'npmlog';

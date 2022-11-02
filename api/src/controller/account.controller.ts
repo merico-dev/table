@@ -7,12 +7,12 @@ import { validate } from '../middleware/validation';
 import { AccountChangePasswordRequest, AccountEditRequest, AccountIDRequest, AccountListRequest, AccountLoginRequest } from '../api_models/account';
 import { AccountCreateRequest, AccountUpdateRequest } from '../api_models/account';
 import Account from '../models/account';
-import { RoleService } from '../services/role.service';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { redactPassword } from '../services/account.service';
 import { checkControllerActive } from '../utils/helpers';
 import ApiKey from '../models/apiKey';
+import permission from '../middleware/permission';
 
 @ApiPath({
   path: '/account',
@@ -22,14 +22,11 @@ import ApiKey from '../models/apiKey';
 export class AccountController implements interfaces.Controller {
   public static TARGET_NAME = 'Account';
   private accountService: AccountService;
-  private roleService: RoleService;
 
   public constructor(
-    @inject('Newable<AccountService>') AccountService: inverfaces.Newable<AccountService>,
-    @inject('Newable<RoleService>') RoleService: inverfaces.Newable<RoleService>
+    @inject('Newable<AccountService>') AccountService: inverfaces.Newable<AccountService>
   ) {
     this.accountService = new AccountService();
-    this.roleService = new RoleService();
   }
 
   @ApiOperationPost({
@@ -66,12 +63,10 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/list')
+  @httpPost('/list', permission(ROLE_TYPES.ADMIN))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
-      const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
       const { filter, sort, pagination } = validate(AccountListRequest, req.body);
       const result = await this.accountService.list(filter, sort, pagination);
       res.json(result);
@@ -88,12 +83,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpGet('/get')
+  @httpGet('/get', permission(ROLE_TYPES.READER))
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.INACTIVE);
       const account = this.ensureAuthIsAccount(auth!);
       const result = redactPassword(account);
       res.json(result);
@@ -113,12 +107,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/create')
+  @httpPost('/create', permission(ROLE_TYPES.ADMIN))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
       const account = this.ensureAuthIsAccount(auth!);
       const { name, email, password, role_id } = validate(AccountCreateRequest, req.body);
       if (account.role_id <= role_id) {
@@ -142,12 +135,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPut('/update')
+  @httpPut('/update', permission(ROLE_TYPES.READER))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.READER);
       const account = this.ensureAuthIsAccount(auth!);
       const { name, email } = validate(AccountUpdateRequest, req.body);
       const result = await this.accountService.update(account.id, name, email);
@@ -168,12 +160,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPut('/edit')
+  @httpPut('/edit', permission(ROLE_TYPES.ADMIN))
   public async edit(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
       const account = this.ensureAuthIsAccount(auth!);
       const { id, name, email, role_id, reset_password, new_password } = validate(AccountEditRequest, req.body);
       if (id === account.id) {
@@ -197,12 +188,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/changepassword')
+  @httpPost('/changepassword', permission(ROLE_TYPES.READER))
   public async changePassword(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.INACTIVE);
       const account = this.ensureAuthIsAccount(auth!);
       const { old_password, new_password } = validate(AccountChangePasswordRequest, req.body);
       const result = await this.accountService.changePassword(account.id, old_password, new_password);
@@ -223,12 +213,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     }
   })
-  @httpPost('/delete')
+  @httpPost('/delete', permission(ROLE_TYPES.ADMIN))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       checkControllerActive();
       const auth: Account | ApiKey | null = req.body.auth;
-      this.roleService.checkPermission(auth, ROLE_TYPES.ADMIN);
       const account = this.ensureAuthIsAccount(auth!);
       const { id } = validate(AccountIDRequest, req.body);
       if (id === account.id) {

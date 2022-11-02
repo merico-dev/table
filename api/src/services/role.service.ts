@@ -12,7 +12,7 @@ export class RoleService {
     return await roleRepo.find();
   }
 
-  checkPermission(auth: Account | ApiKey | null, minimum_required_role: ROLE_TYPES): void {
+  static checkPermission(auth: Account | ApiKey | null, minimum_required_role: ROLE_TYPES): void {
     if (!AUTH_ENABLED) {
       return;
     }
