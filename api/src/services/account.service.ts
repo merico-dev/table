@@ -8,10 +8,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import _ from 'lodash';
 import logger from 'npmlog';
 import { ROLE_TYPES } from '../api_models/role';
-
-export const SALT_ROUNDS = 12;
-const SECRET_KEY: jwt.Secret = process.env.SECRET_KEY as jwt.Secret;
-const TOKEN_VALIDITY = 7 * 24 * 3600;
+import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
@@ -23,7 +20,7 @@ export class AccountService {
       return null;
     }
     try {
-      const decoded_token = jwt.verify(token, SECRET_KEY) as JwtPayload;
+      const decoded_token = jwt.verify(token, SECRET_KEY as jwt.Secret) as JwtPayload;
       const accountRepo = dashboardDataSource.getRepository(Account);
       const account = await accountRepo.findOneByOrFail({ id: decoded_token.id });
       return redactPassword(account);
@@ -45,7 +42,7 @@ export class AccountService {
     if (account.role_id <= ROLE_TYPES.INACTIVE) {
       throw new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' });
     }
-    const token = await jwt.sign({ id: account.id }, SECRET_KEY, { expiresIn: TOKEN_VALIDITY });
+    const token = await jwt.sign({ id: account.id }, SECRET_KEY as jwt.Secret, { expiresIn: TOKEN_VALIDITY });
     return { token, account: redactPassword(account) };
   }
 

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node -r ts-node/register -r tsconfig-paths/register --inspect -r dotenv/config src/server.ts",
     "typeorm": "typeorm-ts-node-esm",
+    "migration:create": "npx typeorm-ts-node-esm migration:create",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
     "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
     "build": "gulp build",
@@ -25,6 +26,7 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "generate-api-key": "^1.0.2",
     "inversify": "^6.0.1",
     "inversify-express-utils": "^6.4.3",
     "jsonwebtoken": "^8.5.1",

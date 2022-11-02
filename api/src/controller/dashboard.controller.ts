@@ -5,9 +5,8 @@ import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDef
 import { DashboardService } from '../services/dashboard.service';
 import { validate } from '../middleware/validation';
 import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
-import { RoleService } from '../services/role.service';
-import Account from '../models/account';
 import { ROLE_TYPES } from '../api_models/role';
+import permission from '../middleware/permission';
 
 @ApiPath({
   path: '/dashboard',
@@ -17,14 +16,11 @@ import { ROLE_TYPES } from '../api_models/role';
 export class DashboardController implements interfaces.Controller {
   public static TARGET_NAME = 'Dashboard';
   private dashboardService: DashboardService;
-  private roleService: RoleService;
 
   public constructor(
-    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>,
-    @inject('Newable<RoleService>') RoleService: inverfaces.Newable<RoleService>
+    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>
   ) {
     this.dashboardService = new DashboardService();
-    this.roleService = new RoleService();
   }
 
   @ApiOperationPost({
@@ -38,11 +34,9 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpPost('/list')
+  @httpPost('/list', permission(ROLE_TYPES.READER))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.READER);
       const { filter, sort, pagination } = validate(DashboardListRequest, req.body);
       const result = await this.dashboardService.list(filter, sort, pagination);
       res.json(result);
@@ -62,11 +56,9 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpPost('/create')
+  @httpPost('/create', permission(ROLE_TYPES.AUTHOR))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { name, content } = validate(DashboardCreateRequest, req.body);
       const result = await this.dashboardService.create(name, content);
       res.json(result);
@@ -87,11 +79,9 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpGet('/details/:id')
+  @httpGet('/details/:id', permission(ROLE_TYPES.READER))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.READER);
       const id = req.params.id;
       const result = await this.dashboardService.get(id);
       res.json(result);
@@ -112,11 +102,9 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpPut('/update')
+  @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
       const result = await this.dashboardService.update(id, name, content, is_removed);
       res.json(result);
@@ -137,11 +125,9 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpPost('/delete')
+  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.account;
-      this.roleService.checkPermission(account, ROLE_TYPES.AUTHOR);
       const { id } = validate(DashboardIDRequest, req.body);
       const result = await this.dashboardService.delete(id);
       res.json(result);
