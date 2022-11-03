@@ -7,7 +7,6 @@ import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
 import { defaultStyles, IStyles } from './styles';
-import { ISettingsFormConfig } from './types';
 
 interface IAccountList {
   styles?: IStyles;

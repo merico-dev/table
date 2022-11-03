@@ -6,7 +6,6 @@ import { APIClient } from '../api-caller/request';
 import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { defaultStyles, IStyles } from './styles';
-import { ISettingsFormConfig } from './types';
 
 interface IAPIKeyList {
   styles?: IStyles;
