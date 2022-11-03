@@ -25,6 +25,11 @@ export function FilterMultiSelect({ label, config, value, onChange }: IFilterMul
       value={value}
       onChange={onChange}
       sx={{ minWidth: '14em' }}
+      styles={{
+        input: {
+          borderColor: '#e9ecef',
+        },
+      }}
     />
   );
 }

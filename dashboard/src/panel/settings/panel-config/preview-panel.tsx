@@ -23,7 +23,7 @@ export const PreviewPanel = observer(() => {
           height: '450px',
           background: 'transparent',
           borderRadius: '5px',
-          border: '1px solid #ced4da',
+          border: '1px solid #e9ecef',
           borderWidth: border.enabled ? '1px' : '0px',
         }}
       >

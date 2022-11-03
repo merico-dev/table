@@ -24,6 +24,11 @@ export function FilterSelect({ label, config, value, onChange }: IFilterSelect) 
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
+      styles={{
+        input: {
+          borderColor: '#e9ecef',
+        },
+      }}
     />
   );
 }

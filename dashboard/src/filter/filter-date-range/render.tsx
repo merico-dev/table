@@ -26,6 +26,11 @@ export const FilterDateRange = observer(({ label, config, value = [null, null], 
       onChange={handleChange}
       icon={<Calendar size={16} />}
       sx={{ minWidth: '16em' }}
+      styles={{
+        input: {
+          borderColor: '#e9ecef',
+        },
+      }}
       {...config}
     />
   );

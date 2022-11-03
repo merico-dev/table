@@ -9,5 +9,17 @@ interface IFilterTextInput extends Omit<FilterModelInstance, 'key' | 'type' | 'c
 }
 
 export function FilterTextInput({ label, config, value, onChange }: IFilterTextInput) {
-  return <TextInput label={label} value={value} onChange={onChange} {...config} />;
+  return (
+    <TextInput
+      label={label}
+      value={value}
+      onChange={onChange}
+      {...config}
+      styles={{
+        input: {
+          borderColor: '#e9ecef',
+        },
+      }}
+    />
+  );
 }

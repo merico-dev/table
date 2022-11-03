@@ -13,7 +13,18 @@ export function FilterCheckbox({ label, config: { default_value, ...rest }, valu
   return (
     <Box>
       <Text>&nbsp;</Text>
-      <Checkbox label={label} checked={value} onChange={(event) => onChange(event.currentTarget.checked)} {...rest} />
+      <Checkbox
+        label={label}
+        checked={value}
+        onChange={(event) => onChange(event.currentTarget.checked)}
+        {...rest}
+        pt=".4em"
+        styles={{
+          input: {
+            borderColor: '#e9ecef',
+          },
+        }}
+      />
     </Box>
   );
 }
