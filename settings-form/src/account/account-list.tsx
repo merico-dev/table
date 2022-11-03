@@ -1,8 +1,8 @@
-import { Box, LoadingOverlay, Table, Group } from '@mantine/core';
+import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { APICaller } from '../api-caller';
-import { APIClient } from '../api-caller/request';
+import { configureAPIClient } from '../api-caller/request';
 import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
@@ -14,6 +14,8 @@ interface IAccountList {
 }
 
 export function AccountList({ styles = defaultStyles, config }: IAccountList) {
+  configureAPIClient(config);
+
   const {
     data = [],
     loading,
@@ -52,10 +54,6 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
   const getRoleName = (id: number) => {
     return roleNameMap.get(id) ?? id;
   };
-
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
 
   return (
     <>

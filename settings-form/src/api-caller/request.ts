@@ -2,6 +2,7 @@ import axios, { Method } from 'axios';
 
 export const APIClient = {
   baseURL: 'http://localhost:31200',
+  apiKey: '',
   getRequest(method: Method) {
     return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
       const token = window.localStorage.getItem('token');
@@ -9,6 +10,7 @@ export const APIClient = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
         authorization: token ? `bearer ${token}` : '',
+        'x-api-key': this.apiKey,
         ...options.headers,
       };
 
@@ -34,3 +36,12 @@ export const APIClient = {
     };
   },
 };
+
+export function configureAPIClient(config: ISettingsFormConfig) {
+  if (APIClient.baseURL !== config.apiBaseURL) {
+    APIClient.baseURL = config.apiBaseURL;
+  }
+  if (config.apiKey) {
+    APIClient.apiKey = config.apiKey;
+  }
+}
