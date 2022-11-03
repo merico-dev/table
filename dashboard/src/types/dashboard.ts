@@ -63,7 +63,3 @@ export interface IDashboard {
   filters: FilterModelInstance[];
   version: string;
 }
-
-export interface IDashboardConfig {
-  apiBaseURL: string;
-}

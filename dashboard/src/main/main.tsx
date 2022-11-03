@@ -11,7 +11,7 @@ import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
-import { IDashboard, IDashboardConfig } from '../types/dashboard';
+import { IDashboard } from '../types/dashboard';
 import './main.css';
 
 interface IDashboardProps {

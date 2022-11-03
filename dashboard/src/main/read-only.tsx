@@ -10,7 +10,7 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
-import { IDashboard, IDashboardConfig } from '../types/dashboard';
+import { IDashboard } from '../types/dashboard';
 import './main.css';
 
 interface IReadOnlyDashboard {
