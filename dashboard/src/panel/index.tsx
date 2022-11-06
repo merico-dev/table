@@ -23,13 +23,13 @@ interface IPanel {
 }
 
 const constantBorder = {
-  border: '1px solid #ced4da',
+  border: '1px solid #e9ecef',
 };
 const hoverBorder = {
   border: '1px dashed transparent',
   transition: 'border-color 300ms ease',
   '&:hover': {
-    borderColor: '#ced4da',
+    borderColor: '#e9ecef',
   },
 };
 

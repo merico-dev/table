@@ -5,12 +5,12 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ReadOnlyDashboardView } from '~/view';
-import { APIClient } from '../api-caller/request';
+import { configureAPIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
-import { IDashboard, IDashboardConfig } from '../types/dashboard';
+import { IDashboard } from '../types/dashboard';
 import './main.css';
 
 interface IReadOnlyDashboard {
@@ -31,9 +31,8 @@ export const ReadOnlyDashboard = observer(
     fullScreenPanelID,
     setFullScreenPanelID,
   }: IReadOnlyDashboard) => {
-    if (APIClient.baseURL !== config.apiBaseURL) {
-      APIClient.baseURL = config.apiBaseURL;
-    }
+    configureAPIClient(config);
+
     const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
     useInteractionOperationHacks(model, false);
 

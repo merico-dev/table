@@ -1,12 +1,10 @@
-import { Box, LoadingOverlay, Table, Group } from '@mantine/core';
+import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
-import React from 'react';
 import { APICaller } from '../api-caller';
-import { APIClient } from '../api-caller/request';
+import { configureAPIClient } from '../api-caller/request';
 import { AddDataSource } from './add-data-source';
 import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
-import { ISettingsFormConfig } from './types';
 
 interface IDataSourceList {
   styles?: IStyles;
@@ -14,6 +12,8 @@ interface IDataSourceList {
 }
 
 export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
+  configureAPIClient(config);
+
   const {
     data = [],
     loading,
@@ -27,10 +27,6 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
       refreshDeps: [],
     },
   );
-
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
 
   return (
     <>

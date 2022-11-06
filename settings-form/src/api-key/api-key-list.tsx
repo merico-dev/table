@@ -2,11 +2,10 @@ import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { useMemo } from 'react';
 import { APICaller } from '../api-caller';
-import { APIClient } from '../api-caller/request';
+import { configureAPIClient } from '../api-caller/request';
 import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { defaultStyles, IStyles } from './styles';
-import { ISettingsFormConfig } from './types';
 
 interface IAPIKeyList {
   styles?: IStyles;
@@ -14,6 +13,8 @@ interface IAPIKeyList {
 }
 
 export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
+  configureAPIClient(config);
+
   const {
     data = [],
     loading,
@@ -52,10 +53,6 @@ export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
   const getRoleName = (id: number) => {
     return roleNameMap.get(id) ?? id;
   };
-
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
 
   return (
     <>

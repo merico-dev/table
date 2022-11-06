@@ -5,13 +5,13 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { MainDashboardView } from '~/view';
-import { APIClient } from '../api-caller/request';
+import { configureAPIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { createPluginContext, PluginContext } from '../plugins';
-import { IDashboard, IDashboardConfig } from '../types/dashboard';
+import { IDashboard } from '../types/dashboard';
 import './main.css';
 
 interface IDashboardProps {
@@ -33,9 +33,8 @@ export const Dashboard = observer(function _Dashboard({
   fullScreenPanelID,
   setFullScreenPanelID,
 }: IDashboardProps) {
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
+  configureAPIClient(config);
+
   const [layoutFrozen, freezeLayout] = React.useState(false);
 
   const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);

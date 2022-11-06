@@ -1,9 +1,8 @@
 import { Box } from '@mantine/core';
-import { APIClient } from '../../api-caller/request';
-import { LoginForm } from './form';
-import { defaultStyles, IStyles } from '../styles';
-import { ISettingsFormConfig } from '../types';
 import { ILoginResp } from '../../api-caller/account.typed';
+import { configureAPIClient } from '../../api-caller/request';
+import { defaultStyles, IStyles } from '../styles';
+import { LoginForm } from './form';
 
 interface ILogin {
   styles?: IStyles;
@@ -12,9 +11,7 @@ interface ILogin {
 }
 
 export function Login({ styles = defaultStyles, config, onSuccess }: ILogin) {
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
+  configureAPIClient(config);
 
   return (
     <>

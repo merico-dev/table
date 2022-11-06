@@ -22,7 +22,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
         position="apart"
         p="md"
         noWrap
-        sx={{ border: '1px solid #ced4da', borderRadius: '4px' }}
+        sx={{ border: '1px solid #e9ecef', borderRadius: '4px' }}
       >
         <Group align="flex-start">
           {filters.map((filter) => (
