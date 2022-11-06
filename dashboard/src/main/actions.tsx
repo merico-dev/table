@@ -2,11 +2,11 @@ import { ActionIcon, Button, Group, Menu, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { downloadJSON } from '~/utils/download';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
 import { SwitchViews } from './switch-views';
-import { ViewSchemaModal } from './view-schema-modal';
 
 const actionIconGroupStyle = {
   '> button': {
@@ -62,9 +62,10 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   const openFilters = () => setFiltersOpened(true);
   const closeFilters = () => setFiltersOpened(false);
 
-  const [schemaOpened, setSchemaOpened] = React.useState(false);
-  const openSchema = () => setSchemaOpened(true);
-  const closeSchema = () => setSchemaOpened(false);
+  const downloadSchema = () => {
+    const schema = JSON.stringify(getCurrentSchema(), null, 2);
+    downloadJSON(model.name, schema);
+  };
 
   return (
     <Group position="apart" pt={0} px={10} pb="xs">
@@ -118,8 +119,8 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
               <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
                 Download Data
               </Menu.Item>
-              <Menu.Item icon={<Code size={14} />} onClick={openSchema}>
-                View Schema
+              <Menu.Item icon={<Code size={14} />} onClick={downloadSchema}>
+                Download Schema
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -127,7 +128,6 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
-      <ViewSchemaModal opened={schemaOpened} close={closeSchema} getCurrentSchema={getCurrentSchema} />
     </Group>
   );
 });

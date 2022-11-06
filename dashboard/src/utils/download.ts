@@ -6,6 +6,11 @@ export function downloadCSV(id: string, csv: string) {
   saveAs(blob, `${id}.csv`);
 }
 
+export function downloadJSON(name: string, json: string) {
+  const blob = new Blob([json], { type: 'application/json' });
+  saveAs(blob, `${name}.json`);
+}
+
 export function downloadDataListAsZip(idDataList: Array<{ id: string; data: $TSFixMe[] }>) {
   const zip = new JSZip();
   idDataList.forEach(({ id, data }) => {
