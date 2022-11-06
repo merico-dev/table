@@ -1,8 +1,7 @@
-import { Button, Group, Menu } from '@mantine/core';
+import { ActionIcon, Button, Group, Menu, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
-import { ViewModelInstance } from '..';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
@@ -56,49 +55,51 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     <Group position="apart" pt={0} px={10} pb="xs">
       <Group position="left">{inEditMode && <SwitchViews />}</Group>
       <Group position="right">
-        {!inUseMode && (
-          <Button
-            variant="default"
-            size="xs"
-            disabled={!model.views.VIE}
-            onClick={model.views.addAPanelToVIE}
-            leftIcon={<PlaylistAdd size={20} />}
-          >
-            Add a Panel
-          </Button>
-        )}
         {inEditMode && (
-          <Button variant="default" size="xs" onClick={openFilters} leftIcon={<Filter size={20} />}>
-            Filters
-          </Button>
-        )}
-        {inEditMode && (
-          <Button variant="default" size="xs" onClick={openQueries} leftIcon={<Database size={20} />}>
-            Data Settings
-          </Button>
-        )}
-        {!inUseMode && (
-          <Button
-            variant="default"
-            size="xs"
-            onClick={saveChanges}
-            disabled={!hasChanges}
-            leftIcon={<DeviceFloppy size={20} />}
-          >
-            Save Changes
-          </Button>
-        )}
-        {!inUseMode && (
-          <Button color="red" size="xs" disabled={!hasChanges} onClick={revertChanges} leftIcon={<Recycle size={20} />}>
-            Revert Changes
-          </Button>
+          <>
+            <Button
+              variant="filled"
+              size="xs"
+              disabled={!model.views.VIE}
+              onClick={model.views.addAPanelToVIE}
+              leftIcon={<PlaylistAdd size={20} />}
+            >
+              Add a Panel
+            </Button>
+            <Group spacing={0}>
+              <Tooltip label="Filters">
+                <ActionIcon variant="default" size="md" onClick={openFilters}>
+                  <Filter size={20} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Data Settings">
+                <ActionIcon variant="default" size="md" onClick={openQueries}>
+                  <Database size={20} />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+            <Group spacing={0}>
+              <Tooltip label="Save Changes">
+                <ActionIcon variant="outline" color="green" size="md" onClick={saveChanges} disabled={!hasChanges}>
+                  <DeviceFloppy size={20} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Revert Changes">
+                <ActionIcon variant="outline" color="red" size="md" disabled={!hasChanges} onClick={revertChanges}>
+                  <Recycle size={20} />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+          </>
         )}
         {!inUseMode && (
           <Menu width={180}>
             <Menu.Target>
-              <Button variant="default" size="xs" leftIcon={<Share size={20} />}>
-                Export
-              </Button>
+              <Tooltip label="Export">
+                <ActionIcon variant="default" size="md">
+                  <Share size={20} />
+                </ActionIcon>
+              </Tooltip>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
