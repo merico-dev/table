@@ -8,6 +8,21 @@ import { FilterSettingsModal } from '../filter/filter-settings';
 import { SwitchViews } from './switch-views';
 import { ViewSchemaModal } from './view-schema-modal';
 
+const actionIconGroupStyle = {
+  '> button': {
+    '&:first-of-type': {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+      borderRightWidth: 0.5,
+    },
+    '&:last-of-type': {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+      borderLeftWidth: 0.5,
+    },
+  },
+};
+
 interface IDashboardActions {
   saveChanges: () => void;
 }
@@ -54,7 +69,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   return (
     <Group position="apart" pt={0} px={10} pb="xs">
       <Group position="left">{inEditMode && <SwitchViews />}</Group>
-      <Group position="right">
+      <Group position="right" sx={{ button: { minWidth: '40px' } }}>
         {inEditMode && (
           <>
             <Button
@@ -66,7 +81,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
             >
               Add a Panel
             </Button>
-            <Group spacing={0}>
+            <Group spacing={0} sx={actionIconGroupStyle}>
               <Tooltip label="Filters">
                 <ActionIcon variant="default" size="md" onClick={openFilters}>
                   <Filter size={20} />
@@ -78,28 +93,26 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
                 </ActionIcon>
               </Tooltip>
             </Group>
-            <Group spacing={0}>
+            <Group spacing={0} sx={actionIconGroupStyle}>
               <Tooltip label="Save Changes">
-                <ActionIcon variant="outline" color="green" size="md" onClick={saveChanges} disabled={!hasChanges}>
-                  <DeviceFloppy size={20} />
+                <ActionIcon variant="default" size="md" onClick={saveChanges} disabled={!hasChanges}>
+                  <DeviceFloppy size={20} color="green" />
                 </ActionIcon>
               </Tooltip>
               <Tooltip label="Revert Changes">
-                <ActionIcon variant="outline" color="red" size="md" disabled={!hasChanges} onClick={revertChanges}>
-                  <Recycle size={20} />
+                <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
+                  <Recycle size={20} color="red" />
                 </ActionIcon>
               </Tooltip>
             </Group>
           </>
         )}
         {!inUseMode && (
-          <Menu width={180}>
+          <Menu width={180} trigger="hover">
             <Menu.Target>
-              <Tooltip label="Export">
-                <ActionIcon variant="default" size="md">
-                  <Share size={20} />
-                </ActionIcon>
-              </Tooltip>
+              <ActionIcon variant="default" size="md">
+                <Share size={20} />
+              </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
