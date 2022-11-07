@@ -41,7 +41,7 @@ export const APIClient = {
     }
     return {
       app_id: this.app_id,
-      nonce_str: new Date().getTime(),
+      nonce_str: new Date().getTime().toString(),
       sign: cryptSign(params, this.app_secret),
     };
   },
