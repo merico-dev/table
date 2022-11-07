@@ -36,20 +36,21 @@ export const queryByStaticSQL =
 
 interface IQueryBySQL {
   context: ContextInfoType;
+  mock_context: Record<string, $TSFixMe>;
   sqlSnippets: SQLSnippetModelInstance[];
   title: string;
   query: { type: DataSourceType; key: string; sql: string };
   filterValues: FilterValuesType;
 }
 
-export async function queryBySQL({ context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {
+export async function queryBySQL({ context, mock_context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {
   if (!query.sql) {
     return [];
   }
   const { type, key, sql } = query;
 
   const needParams = sql.includes('$');
-  const params = getSQLParams(context, sqlSnippets, filterValues);
+  const params = getSQLParams(context, mock_context, sqlSnippets, filterValues);
   const formattedSQL = formatSQL(sql, params);
   if (needParams) {
     console.groupCollapsed(`Final SQL for: ${title}`);
