@@ -1,4 +1,4 @@
-import { Box, Button, Group, Modal, Stack, TextInput } from '@mantine/core';
+import { Box, Button, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
 import { closeAllModals, useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import React from 'react';
@@ -11,11 +11,10 @@ import { defaultStyles, IStyles } from './styles';
 interface IFormValues {
   name: string;
   role_id: number;
-  domain: string;
 }
 
 interface IAddAPIKeyForm {
-  postSubmit: (key: string) => void;
+  postSubmit: (app_id: string, app_secret: string) => void;
   styles?: IStyles;
   initialRoleID: number;
 }
@@ -25,11 +24,10 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
     defaultValues: {
       name: '',
       role_id: initialRoleID,
-      domain: '',
     },
   });
 
-  const addAPIKey = async ({ name, role_id, domain }: IFormValues) => {
+  const addAPIKey = async ({ name, role_id }: IFormValues) => {
     try {
       showNotification({
         id: 'for-creating',
@@ -37,14 +35,14 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         message: 'Adding API Key...',
         loading: true,
       });
-      const key = await APICaller.api_key.create(name, role_id, domain);
+      const { app_id, app_secret } = await APICaller.api_key.create(name, role_id);
       updateNotification({
         id: 'for-creating',
         title: 'Successful',
         message: 'API Key is added',
         color: 'green',
       });
-      postSubmit(key);
+      postSubmit(app_id, app_secret);
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
@@ -62,14 +60,6 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
           name="name"
           control={control}
           render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Name" {...field} />}
-        />
-
-        <Controller
-          name="domain"
-          control={control}
-          render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Domain" {...field} />
-          )}
         />
 
         <Controller
@@ -99,30 +89,33 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
-  const postSubmit = (key: string) => {
+  const postSubmit = (app_id: string, app_secret: string) => {
     close();
     modals.openModal({
       title: 'API Key is generated',
       children: (
         <Stack>
+          <Text color="dimmed">Make sure you save it - you won't be able to access it again.</Text>
+          <TextInput defaultValue={app_id} disabled label="APP ID" styles={{ input: { cursor: 'text !important' } }} />
           <TextInput
-            defaultValue={key}
+            defaultValue={app_secret}
             disabled
-            label="Generated API Key"
-            description="Make sure you save it - you won't be able to access it again."
+            label="APP Secret"
             styles={{ input: { cursor: 'text !important' } }}
           />
           <Button
             size="sm"
             onClick={() => {
               closeAllModals();
-              onSuccess();
             }}
           >
             I've saved this API Key
           </Button>
         </Stack>
       ),
+      onClose: () => {
+        onSuccess();
+      },
     });
   };
 

@@ -70,18 +70,18 @@ export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Domain</th>
+              <th>APP ID</th>
               <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {data.map((api_key) => {
-              const { id, name, domain, role_id } = api_key;
+              const { id, name, app_id, role_id } = api_key;
               return (
                 <tr key={id}>
                   <td width={200}>{name}</td>
-                  <td width={200}>{domain}</td>
+                  <td width={200}>{app_id}</td>
                   <td width={200}>{getRoleName(role_id)}</td>
                   {/* <td width={200}>{create_time}</td>
                 <td width={200}>{update_time}</td> */}
