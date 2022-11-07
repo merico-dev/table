@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 import { ROLE_TYPES } from './role';
 
 @ApiModel({
@@ -28,10 +28,16 @@ export class ApiKey {
   role_id: number;
 
   @ApiModelProperty({
-    description: 'Domain of the ApiKey',
+    description: 'AppId of the ApiKey',
     required: true,
   })
-  domain: string;
+  app_id: string;
+
+  @ApiModelProperty({
+    description: 'AppSecret of the ApiKey',
+    required: true,
+  })
+  app_secret: string;
 }
 
 @ApiModel({
@@ -41,7 +47,7 @@ export class ApiKey {
 export class ApiKeyFilterObject implements FilterRequest {
   @IsOptional()
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for name and domain',
+    description: 'search term. Uses fuzzy search for name',
     required: false,
   })
   search?: string;
@@ -52,13 +58,13 @@ export class ApiKeyFilterObject implements FilterRequest {
   name: 'ApiKeySortObject'
 })
 export class ApiKeySortObject implements SortRequest {
-  @IsIn(['name', 'domain', 'create_time'])
+  @IsIn(['name', 'create_time'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['name', 'domain', 'create_time'],
+    enum: ['name', 'create_time'],
   })
-  field: 'name' | 'domain' | 'create_time';
+  field: 'name' | 'create_time';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
@@ -105,6 +111,16 @@ export class ApiKeyListRequest {
     model: 'PaginationRequest',
   })
   pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -142,13 +158,6 @@ export class ApiKeyCreateRequest {
   })
   name: string;
 
-  @IsString()
-  @ApiModelProperty({
-    description: 'Domain of the ApiKey',
-    required: true,
-  })
-  domain: string;
-
   @IsInt()
   @IsIn([ROLE_TYPES.INACTIVE, ROLE_TYPES.READER, ROLE_TYPES.AUTHOR, ROLE_TYPES.ADMIN])
   @ApiModelProperty({
@@ -157,6 +166,16 @@ export class ApiKeyCreateRequest {
     enum: [ROLE_TYPES.INACTIVE.toString(), ROLE_TYPES.READER.toString(), ROLE_TYPES.AUTHOR.toString(), ROLE_TYPES.ADMIN.toString()],
   })
   role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -170,4 +189,14 @@ export class ApiKeyIDRequest {
     required: true,
   })
   id: string;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }

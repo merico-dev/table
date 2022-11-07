@@ -2,6 +2,7 @@ import { PaginationRequest } from '../api_models/base';
 import { DashboardFilterObject, DashboardSortObject, DashboardPaginationResponse } from '../api_models/dashboard';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
+import { escapeLikePattern } from '../utils/helpers';
 
 export class DashboardService {
   async list(filter: DashboardFilterObject | undefined, sort: DashboardSortObject, pagination: PaginationRequest): Promise<DashboardPaginationResponse> {
@@ -21,7 +22,7 @@ export class DashboardService {
       }
   
       if (filter.search) {
-        qb.andWhere('dashboard.name ilike :search', { search: `%${filter.search}%` });
+        qb.andWhere('dashboard.name ilike :search', { search: `%${escapeLikePattern(filter.search)}%` });
       }
     }
 

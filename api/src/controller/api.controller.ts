@@ -61,8 +61,8 @@ export class APIController implements interfaces.Controller {
   @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, domain, role_id } = validate(ApiKeyCreateRequest, req.body);
-      const result = await this.apiService.createKey(name, domain, role_id);
+      const { name, role_id } = validate(ApiKeyCreateRequest, req.body);
+      const result = await this.apiService.createKey(name, role_id);
       res.json(result);
     } catch (err) {
       next(err);

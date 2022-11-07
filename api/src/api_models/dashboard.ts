@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant  } from 'swagger-express-ts';
 import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Dashboard entity',
@@ -126,6 +126,16 @@ export class DashboardListRequest {
     model: 'PaginationRequest',
   })
   pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -170,6 +180,16 @@ export class DashboardCreateRequest {
     type: SwaggerDefinitionConstant.JSON,
   })
   content: Record<string, any>;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -209,6 +229,16 @@ export class DashboardUpdateRequest{
     required: false,
   })
   is_removed?: boolean;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -222,4 +252,14 @@ export class DashboardIDRequest {
     required: true,
   })
   id: string;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }

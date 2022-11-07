@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsInt, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FilterRequest, SortRequest, PaginationRequest, PaginationResponse } from './base';
+import { FilterRequest, SortRequest, PaginationRequest, PaginationResponse, Authentication } from './base';
 import { ROLE_TYPES } from './role';
 
 @ApiModel({
@@ -155,6 +155,16 @@ export class AccountListRequest {
     model: 'PaginationRequest',
   })
   pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({

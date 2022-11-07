@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
-import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardService } from '../services/dashboard.service';
 import { validate } from '../middleware/validation';
 import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
@@ -67,11 +67,11 @@ export class DashboardController implements interfaces.Controller {
     }
   }
 
-  @ApiOperationGet({
-    path: '/details/{id}',
+  @ApiOperationPost({
+    path: '/details',
     description: 'Show dashboard',
     parameters: {
-      path: { ['id']: { description: 'dashboard id' } }
+      body: { description: 'get dashboard request', required: true, model: 'DashboardIDRequest'}
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
@@ -79,10 +79,10 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpGet('/details/:id', permission(ROLE_TYPES.READER))
+  @httpPost('/details/:id', permission(ROLE_TYPES.READER))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const id = req.params.id;
+      const { id } = validate(DashboardIDRequest, req.body);
       const result = await this.dashboardService.get(id);
       res.json(result);
     } catch (err) {
@@ -117,7 +117,7 @@ export class DashboardController implements interfaces.Controller {
     path: '/delete',
     description: 'Remove dashboard',
     parameters: {
-      body: { description: 'update dashboard request', required: true, model: 'DashboardIDRequest'}
+      body: { description: 'delete dashboard request', required: true, model: 'DashboardIDRequest'}
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },

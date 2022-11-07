@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 import { Length, IsString, IsOptional, ValidateNested, IsUUID, IsIn, IsInt, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Datasource config',
@@ -144,6 +144,16 @@ export class DataSourceListRequest {
     model: 'PaginationRequest',
   })
   pagination: PaginationRequest = new PaginationRequest({ page: 1, pagesize: 20 });
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -199,6 +209,16 @@ export class DataSourceCreateRequest {
     model: 'DataSourceConfig',
   })
   config: DataSourceConfig;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({
@@ -212,4 +232,14 @@ export class DataSourceIDRequest {
     required: true,
   })
   id: string;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }

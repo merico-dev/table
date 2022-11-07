@@ -9,6 +9,7 @@ import _ from 'lodash';
 import logger from 'npmlog';
 import { ROLE_TYPES } from '../api_models/role';
 import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
+import { escapeLikePattern } from '../utils/helpers';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
@@ -58,7 +59,7 @@ export class AccountService {
       .offset(offset).limit(pagination.pagesize);
 
     if (filter?.search) {
-      qb.where('account.name ilike :nameSearch OR account.email ilike :emailSearch', { nameSearch: `%${filter.search}%`, emailSearch: `%${filter.search}%` });
+      qb.where('account.name ilike :nameSearch OR account.email ilike :emailSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%`, emailSearch: `%${escapeLikePattern(filter.search)}%` });
     }
 
     const datasources = await qb.getRawMany<Account>();
