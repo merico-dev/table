@@ -34,16 +34,17 @@ export function formatSQL(sql: string, params: Record<string, $TSFixMe> = {}) {
 }
 
 export function getSQLParams(
-  context: ContextInfoType,
+  real_context: ContextInfoType,
   mock_context: Record<string, $TSFixMe>,
   sqlSnippets: SQLSnippetModelInstance[],
   filterValues: FilterValuesType,
 ) {
+  const context = {
+    ...mock_context,
+    ...real_context,
+  };
   const params = {
-    context: {
-      ...mock_context,
-      ...context,
-    },
+    context,
     filters: filterValues,
   };
   const sqlSnippetRecord = sqlSnippets.reduce((ret: Record<string, $TSFixMe>, curr) => {
