@@ -18,8 +18,8 @@ export const QueryModel = types
   .views((self) => ({
     get formattedSQL() {
       // @ts-expect-error untyped getRoot(self)
-      const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
-      return explainSQL(self.sql, context, sqlSnippets, filterValues);
+      const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+      return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
   }))
   .views((self) => ({
@@ -54,10 +54,11 @@ export const QueryModel = types
       try {
         const title = self.id;
         // @ts-expect-error untyped getRoot(self)
-        const { context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+        const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
         self.data = yield* toGenerator(
           queryBySQL({
             context,
+            mock_context,
             sqlSnippets,
             title,
             query: {

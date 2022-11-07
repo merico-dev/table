@@ -15,11 +15,13 @@ const DashboardModel = types
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
     context: ContextModel,
+    mock_context: types.frozen<Record<string, $TSFixMe>>(),
   })
   .views((self) => ({
     get payloadForSQL() {
       return {
         context: self.context.current,
+        mock_context: self.mock_context,
         sqlSnippets: self.sqlSnippets.current,
         filterValues: self.filters.values,
       };
@@ -52,10 +54,15 @@ const DashboardModel = types
     getDataErrorByID(queryID: string) {
       return self.queries.findByID(queryID)?.error ?? [];
     },
+  }))
+  .actions((self) => ({
+    setMockContext(value: $TSFixMe) {
+      self.mock_context = value;
+    },
   }));
 
 export function createDashboardModel(
-  { id, name, filters, views, definition: { queries, sqlSnippets } }: IDashboard,
+  { id, name, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
@@ -71,6 +78,7 @@ export function createDashboardModel(
       current: sqlSnippets,
     },
     context,
+    mock_context,
     views: createDashboardViewsModel(views),
   });
 }

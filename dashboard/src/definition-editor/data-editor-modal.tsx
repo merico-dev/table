@@ -2,6 +2,7 @@ import { Modal, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { LayoutStateContext } from '../contexts/layout-state-context';
+import { EditMockContext } from './mock-context-editor';
 import { EditQueries } from './query-editor';
 import { EditSQLSnippets } from './sql-snippet-editor';
 
@@ -31,9 +32,13 @@ export const DataEditorModal = observer(function _DataEditorModal({ opened, clos
     >
       <Tabs defaultValue="Queries">
         <Tabs.List>
+          <Tabs.Tab value="Mock Context">Mock Context</Tabs.Tab>
           <Tabs.Tab value="SQL Snippets">SQL Snippets</Tabs.Tab>
           <Tabs.Tab value="Queries">Queries</Tabs.Tab>
         </Tabs.List>
+        <Tabs.Panel value="Mock Context" pt="sm">
+          <EditMockContext />
+        </Tabs.Panel>
         <Tabs.Panel value="SQL Snippets" pt="sm">
           <EditSQLSnippets />
         </Tabs.Panel>
