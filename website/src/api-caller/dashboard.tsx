@@ -43,6 +43,7 @@ export const DashboardAPI = {
         definition: {
           sqlSnippets: [],
           queries: [],
+          mock_context: {},
         },
         views: [
           {
