@@ -31,10 +31,10 @@ export const DataEditorModal = observer(function _DataEditorModal({ opened, clos
     >
       <Tabs defaultValue="Queries">
         <Tabs.List>
-          <Tabs.Tab value="SQL Snippet">SQL Snippet</Tabs.Tab>
+          <Tabs.Tab value="SQL Snippets">SQL Snippets</Tabs.Tab>
           <Tabs.Tab value="Queries">Queries</Tabs.Tab>
         </Tabs.List>
-        <Tabs.Panel value="SQL Snippet" pt="sm">
+        <Tabs.Panel value="SQL Snippets" pt="sm">
           <EditSQLSnippets />
         </Tabs.Panel>
         <Tabs.Panel value="Queries" pt="sm">
