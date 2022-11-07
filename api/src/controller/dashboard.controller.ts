@@ -79,7 +79,7 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
     }
   })
-  @httpPost('/details/:id', permission(ROLE_TYPES.READER))
+  @httpPost('/details', permission(ROLE_TYPES.READER))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = validate(DashboardIDRequest, req.body);
