@@ -2,6 +2,7 @@ import { Instance, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
+import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 import { createDashboardViewsModel, ViewsModel } from './views';
@@ -15,13 +16,13 @@ const DashboardModel = types
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
     context: ContextModel,
-    mock_context: types.frozen<Record<string, $TSFixMe>>(),
+    mock_context: MockContextModel,
   })
   .views((self) => ({
     get payloadForSQL() {
       return {
         context: self.context.current,
-        mock_context: self.mock_context,
+        mock_context: self.mock_context.current,
         sqlSnippets: self.sqlSnippets.current,
         filterValues: self.filters.values,
       };
@@ -54,11 +55,6 @@ const DashboardModel = types
     getDataErrorByID(queryID: string) {
       return self.queries.findByID(queryID)?.error ?? [];
     },
-  }))
-  .actions((self) => ({
-    setMockContext(value: $TSFixMe) {
-      self.mock_context = value;
-    },
   }));
 
 export function createDashboardModel(
@@ -77,8 +73,13 @@ export function createDashboardModel(
       original: sqlSnippets,
       current: sqlSnippets,
     },
-    context,
-    mock_context,
+    context: {
+      current: context,
+    },
+    mock_context: {
+      original: mock_context,
+      current: mock_context,
+    },
     views: createDashboardViewsModel(views),
   });
 }

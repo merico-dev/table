@@ -7,10 +7,10 @@ import { useModelContext } from '../../contexts';
 
 export const MockContextEditor = observer(function _MockContextEditor() {
   const model = useModelContext();
-  const [v, setV] = useState(() => JSON.stringify(model.mock_context, null, 4));
+  const [v, setV] = useState(() => JSON.stringify(model.mock_context.current, null, 4));
   const submit = () => {
     try {
-      model.setMockContext(JSON.parse(v));
+      model.mock_context.replace(JSON.parse(v));
     } catch (error) {
       showNotification({
         title: 'Failed',
@@ -23,11 +23,11 @@ export const MockContextEditor = observer(function _MockContextEditor() {
 
   const changed = useMemo(() => {
     try {
-      return JSON.stringify(JSON.parse(v)) !== JSON.stringify(model.mock_context);
+      return JSON.stringify(JSON.parse(v)) !== JSON.stringify(model.mock_context.current);
     } catch (error) {
       return false;
     }
-  }, [v, model.mock_context]);
+  }, [v, model.mock_context.current]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1, maxWidth: 'unset' }}>
