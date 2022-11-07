@@ -47,9 +47,11 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({
         {!inFullScreen && <DashboardActions saveChanges={_.noop} />}
         <RenderViewComponent view={view}>
           <Box className="dashboard-sticky-parent">
-            <Box className="dashboard-sticky-area">
-              <Filters view={view} />
-            </Box>
+            {!inFullScreen && (
+              <Box className="dashboard-sticky-area">
+                <Filters view={view} />
+              </Box>
+            )}
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
             {!inFullScreen && <ReadOnlyDashboardLayout view={view} />}
           </Box>
