@@ -1,4 +1,4 @@
-import { IsInt, ValidationError } from 'class-validator';
+import { IsInt, IsString, ValidationError } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 
 export interface FilterRequest {
@@ -76,4 +76,31 @@ export class ApiError {
     model: 'ApiErrorDetail',
   })
   detail: ApiErrorDetail;
+}
+
+@ApiModel({
+  description: 'Authentication object for using app_id and app_secret',
+  name: 'Authentication',
+})
+export class Authentication {
+  @IsString()
+  @ApiModelProperty({
+    description: 'app_id',
+    required: true,
+  })
+  app_id: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'nonce_str',
+    required: true,
+  })
+  nonce_str: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'sign',
+    required: true,
+  })
+  sign: string;
 }

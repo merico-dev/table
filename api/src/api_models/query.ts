@@ -1,5 +1,7 @@
-import { IsIn, IsObject, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { Authentication } from './base';
 
 @ApiModel({
   description: 'Query object',
@@ -27,6 +29,16 @@ export class QueryRequest {
     required: true,
   })
   query: string;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
 }
 
 @ApiModel({

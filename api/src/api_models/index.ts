@@ -13,10 +13,11 @@ import {
 import { ApiKey, ApiKeyCreateRequest, ApiKeyListRequest, ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject, ApiKeyIDRequest } from './api';
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
-import { ApiError } from './base';
+import { ApiError, Authentication } from './base';
 
 export default {
   ApiError,
+  Authentication,
   
   Dashboard,
   DashboardFilterObject,

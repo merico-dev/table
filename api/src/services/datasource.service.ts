@@ -5,7 +5,7 @@ import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { configureDatabaseSource } from '../utils/helpers';
+import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
 
 export class DataSourceService {
   static async getByTypeKey(type: string, key: string): Promise<DataSource> {
@@ -26,7 +26,7 @@ export class DataSourceService {
       .offset(offset).limit(pagination.pagesize);
 
     if (filter?.search) {
-      qb.where('datasource.type ilike :typeSearch OR datasource.key ilike :keySearch', { typeSearch: `%${filter.search}%`, keySearch: `%${filter.search}%` });
+      qb.where('datasource.type ilike :typeSearch OR datasource.key ilike :keySearch', { typeSearch: `%${escapeLikePattern(filter.search)}%`, keySearch: `%${escapeLikePattern(filter.search)}%` });
     }
 
     const datasources = await qb.getRawMany<DataSource>();

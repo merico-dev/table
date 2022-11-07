@@ -1,27 +1,25 @@
-import { Column, Entity } from "typeorm";
-import { BaseModel } from "./base";
+import { Column, Entity } from 'typeorm';
+import { BaseModel } from './base';
 
 @Entity()
 export default class ApiKey extends BaseModel {
   @Column('character varying', {
     nullable: false,
-    length: 100,
     name: 'name',
   })
   name: string;
 
   @Column('character varying', {
     nullable: false,
-    length: 100,
-    name: 'key',
+    name: 'app_id',
   })
-  key: string;
+  app_id: string;
 
   @Column('character varying', {
     nullable: false,
-    name: 'domain',
+    name: 'app_secret',
   })
-  domain: string;
+  app_secret: string;
 
   @Column('smallint', {
     nullable: false,

@@ -1,33 +1,25 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
-import bcrypt from 'bcrypt';
-import { generateApiKey } from 'generate-api-key';
+import crypto from 'crypto';
 import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject } from '../api_models/api';
-import { PaginationRequest } from '../api_models/base';
+import { Authentication, PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
-import { SALT_ROUNDS } from '../utils/constants';
-import logger from 'npmlog';
+import { cryptSign, escapeLikePattern } from '../utils/helpers';
 
 export class ApiService {
-  static async verifyApiKey(apiKey: string | string[] | undefined, domain: string | undefined): Promise<ApiKeyModel | null> {
-    if (!apiKey || !domain) {
+  static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | null> {
+    if (!authentication || !authentication.app_id) {
       return null;
     }
-    if (apiKey instanceof Array) {
-      apiKey = apiKey[0];
-    }
-    try {
-      const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
-      const apiKeys = await apiKeyRepo.findBy({ domain });
-      for (let i = 0; i < apiKeys.length; i++) {
-        if (await bcrypt.compare(apiKey, apiKeys[i].key)) {
-          return apiKeys[i];
-        }
-      }
-      return null;
-    } catch (err) {
-      logger.warn(err);
+    const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
+    const apiKey = await apiKeyRepo.findOneBy({ app_id: authentication.app_id });
+    if (!apiKey) {
       return null;
     }
+    const validSign = cryptSign({ app_id: authentication.app_id, nonce_str: authentication.nonce_str ,...rest }, apiKey.app_secret);
+    if (validSign === authentication.sign) {
+      return apiKey;
+    }
+    return null;
   }
 
   async listKeys(filter: ApiKeyFilterObject | undefined, sort: ApiKeySortObject, pagination: PaginationRequest): Promise<ApiKeyPaginationResponse> {
@@ -36,13 +28,13 @@ export class ApiService {
       .from(ApiKey, 'apikey')
       .select('apikey.id', 'id')
       .addSelect('apikey.name', 'name')
-      .addSelect('apikey.domain', 'domain')
-      .addSelect('apikey.role_id', 'role_id')
+      .addSelect('apikey.app_id', 'app_id')
+      .addSelect('apikey.app_secret', 'app_secret')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
     if (filter?.search) {
-      qb.where('apikey.name ilike :nameSearch OR apikey.domain ilike :domainSearch', { nameSearch: `%${filter.search}%`, domainSearch: `%${filter.search}%` });
+      qb.where('apikey.name ilike :nameSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%` });
     }
 
     const datasources = await qb.getRawMany<ApiKey>();
@@ -54,16 +46,15 @@ export class ApiService {
     };
   }
 
-  async createKey(name: string, domain: string, role_id: number): Promise<string> {
+  async createKey(name: string, role_id: number): Promise<{ app_id: string, app_secret: string }> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = new ApiKey();
     apiKey.name = name;
-    apiKey.domain = domain;
     apiKey.role_id = role_id;
-    const key = generateApiKey({ length: 32 }).toString();
-    apiKey.key = await bcrypt.hash(key, SALT_ROUNDS);
+    apiKey.app_id = crypto.randomBytes(8).toString('hex');
+    apiKey.app_secret = crypto.randomBytes(16).toString('hex');
     await apiKeyRepo.save(apiKey);
-    return key;
+    return { app_id: apiKey.app_id, app_secret: apiKey.app_secret };
   }
 
   async deleteKey(id: string): Promise<void> {

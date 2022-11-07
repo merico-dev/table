@@ -58,6 +58,7 @@ async function main() {
     }
   } catch (error) {
     logger.error('error migrating dashboards');
+    logger.error(error.message);
     process.exit(1);
   }
   logger.info('MIGRATION OF DASHBOARDS FINISHED');
