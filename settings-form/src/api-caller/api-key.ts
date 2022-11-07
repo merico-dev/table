@@ -19,13 +19,11 @@ export const api_key = {
     });
     return res;
   },
-  create: async (name: string, role_id: number, domain: string): Promise<string> => {
-    const key: string = await APIClient.getRequest('POST')('/api/key/create', {
+  create: async (name: string, role_id: number): Promise<{ app_id: string; app_secret: string }> => {
+    return APIClient.getRequest('POST')('/api/key/create', {
       name,
       role_id,
-      domain,
     });
-    return key;
   },
   delete: async (id: string): Promise<void> => {
     if (!id) {

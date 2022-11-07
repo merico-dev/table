@@ -37,7 +37,7 @@ export const APIClient = {
   app_secret: '',
   getAuthentication(params: Record<string, $TSFixMe>) {
     if (!this.app_id || !this.app_secret) {
-      return {};
+      return undefined;
     }
     return {
       app_id: this.app_id,
