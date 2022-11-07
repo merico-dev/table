@@ -3,5 +3,6 @@ type $TSFixMe = any;
 
 interface IDashboardConfig {
   apiBaseURL: string;
-  apiKey?: string;
+  app_id?: string;
+  app_secret?: string;
 }

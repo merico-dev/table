@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import visualizer from 'rollup-plugin-visualizer'
+import visualizer from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [
@@ -19,9 +19,7 @@ export default defineConfig({
       fileName: (format) => `settings-form.${format}.js`,
     },
     rollupOptions: {
-      plugins: [
-        visualizer()
-      ],
+      plugins: [visualizer()],
       external: [
         '@emotion/react',
         '@mantine/core',
@@ -30,6 +28,7 @@ export default defineConfig({
         '@mantine/notifications',
         'ahooks',
         'axios',
+        'crypto-js',
         'lodash',
         'react',
         'react-dom',
@@ -44,7 +43,8 @@ export default defineConfig({
           '@mantine/modals': '@mantine/modals',
           '@mantine/notifications': '@mantine/notifications',
           ahooks: 'ahooks',
-          'axios': 'axios',
+          axios: 'axios',
+          'crypto-js': 'crypto-js',
           lodash: '_',
           react: 'React',
           'react-dom': 'ReactDOM',
