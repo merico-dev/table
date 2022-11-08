@@ -30,6 +30,7 @@ export class ApiService {
       .addSelect('apikey.name', 'name')
       .addSelect('apikey.app_id', 'app_id')
       .addSelect('apikey.app_secret', 'app_secret')
+      .addSelect('apikey.role_id', 'role_id')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
