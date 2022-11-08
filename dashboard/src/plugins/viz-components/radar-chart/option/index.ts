@@ -57,6 +57,7 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
       },
     },
     tooltip: {
+      confine: true,
       formatter: getTooltipFormatter(conf),
     },
     legend: {
