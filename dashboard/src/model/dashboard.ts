@@ -2,6 +2,7 @@ import { Instance, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
+import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 import { createDashboardViewsModel, ViewsModel } from './views';
@@ -15,11 +16,13 @@ const DashboardModel = types
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
     context: ContextModel,
+    mock_context: MockContextModel,
   })
   .views((self) => ({
     get payloadForSQL() {
       return {
         context: self.context.current,
+        mock_context: self.mock_context.current,
         sqlSnippets: self.sqlSnippets.current,
         filterValues: self.filters.values,
       };
@@ -55,7 +58,7 @@ const DashboardModel = types
   }));
 
 export function createDashboardModel(
-  { id, name, filters, views, definition: { queries, sqlSnippets } }: IDashboard,
+  { id, name, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
@@ -70,7 +73,13 @@ export function createDashboardModel(
       original: sqlSnippets,
       current: sqlSnippets,
     },
-    context,
+    context: {
+      current: context,
+    },
+    mock_context: {
+      original: mock_context,
+      current: mock_context,
+    },
     views: createDashboardViewsModel(views),
   });
 }

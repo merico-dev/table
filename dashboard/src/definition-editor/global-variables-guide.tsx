@@ -31,7 +31,10 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
 
   const variablesString = React.useMemo(() => {
     const ret: Record<string, $TSFixMe> = {
-      context: contextInfo,
+      context: {
+        ...model.mock_context.current,
+        ...contextInfo,
+      },
       filters: model.filters.values,
     };
 
@@ -40,7 +43,7 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
     }
 
     return JSON.stringify(ret, null, 2);
-  }, [contextInfo, model.sqlSnippets.record, model.filters.values, showSQLSnippets]);
+  }, [model.mock_context.current, contextInfo, model.sqlSnippets.record, model.filters.values, showSQLSnippets]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>

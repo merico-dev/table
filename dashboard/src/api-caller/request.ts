@@ -39,10 +39,18 @@ export const APIClient = {
     if (!this.app_id || !this.app_secret) {
       return undefined;
     }
+    const nonce_str = new Date().getTime().toString();
     return {
       app_id: this.app_id,
-      nonce_str: new Date().getTime().toString(),
-      sign: cryptSign(params, this.app_secret),
+      nonce_str,
+      sign: cryptSign(
+        {
+          app_id: this.app_id,
+          nonce_str,
+          ...params,
+        },
+        this.app_secret,
+      ),
     };
   },
   getRequest(method: Method) {

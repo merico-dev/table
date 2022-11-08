@@ -39,6 +39,7 @@ export enum DashboardMode {
 export interface IDashboardDefinition {
   sqlSnippets: SQLSnippetModelInstance[];
   queries: QueryModelInstance[];
+  mock_context: Record<string, $TSFixMe>;
 }
 
 export enum EViewComponentType {

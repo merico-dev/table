@@ -34,12 +34,14 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     const views = model.views.current;
     const sqlSnippets = model.sqlSnippets.current;
     const filters = model.filters.current;
+    const mock_context = model.mock_context.current;
     return {
       filters,
       views,
       definition: {
         sqlSnippets,
         queries,
+        mock_context,
       },
     };
   }, [model]);
@@ -49,9 +51,15 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     model.views.reset();
     model.sqlSnippets.reset();
     model.queries.reset();
+    model.mock_context.reset();
   };
 
-  const hasChanges = model.views.changed || model.sqlSnippets.changed || model.queries.changed || model.filters.changed;
+  const hasChanges =
+    model.mock_context.changed ||
+    model.views.changed ||
+    model.sqlSnippets.changed ||
+    model.queries.changed ||
+    model.filters.changed;
   const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);

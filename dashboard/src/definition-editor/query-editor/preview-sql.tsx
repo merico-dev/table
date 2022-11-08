@@ -12,8 +12,8 @@ export const PreviewSQL = observer(({ value }: IPreviewSQL) => {
   const context = model.context.current;
 
   const explained = React.useMemo(() => {
-    return explainSQL(value, context, model.sqlSnippets.current, model.filters.values);
-  }, [value, context, model.sqlSnippets.current, model.filters.values]);
+    return explainSQL(value, context, model.mock_context.current, model.sqlSnippets.current, model.filters.values);
+  }, [value, context, model.mock_context.current, model.sqlSnippets.current, model.filters.values]);
   return (
     <Prism language="sql" colorScheme="light">
       {explained}
