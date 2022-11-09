@@ -4,6 +4,8 @@ import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, A
 import { Authentication, PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
 import { cryptSign, escapeLikePattern } from '../utils/helpers';
+import { PRESET_API_KEY_NAME } from '../utils/constants';
+import { ApiError, BAD_REQUEST } from '../utils/errors';
 
 export class ApiService {
   static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | null> {
@@ -48,6 +50,9 @@ export class ApiService {
   }
 
   async createKey(name: string, role_id: number): Promise<{ app_id: string, app_secret: string }> {
+    if (name === PRESET_API_KEY_NAME) {
+      throw new ApiError(BAD_REQUEST, { message: 'This name is used internally and is not available' });
+    }
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = new ApiKey();
     apiKey.name = name;
@@ -61,6 +66,9 @@ export class ApiService {
   async deleteKey(id: string): Promise<void> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = await apiKeyRepo.findOneByOrFail({ id });
+    if (apiKey.name === PRESET_API_KEY_NAME) {
+      throw new ApiError(BAD_REQUEST, { message: 'Preset apikey can not be deleted' });
+    }
     await apiKeyRepo.delete(apiKey.id);
   }
 }
