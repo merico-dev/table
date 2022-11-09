@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "dev": "node -r ts-node/register -r tsconfig-paths/register --inspect -r dotenv/config src/server.ts",
+    "dev:add-preset-apikey": "node -r ts-node/register src/scripts/configure_preset_apikey.ts",
     "typeorm": "typeorm-ts-node-esm",
     "migration:create": "npx typeorm-ts-node-esm migration:create",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
     "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
     "build": "gulp build",
     "start": "node dist/server.js",
-    "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js"
+    "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js",
+    "add-preset-apikey": "node dist/scripts/configure_preset_apikey.js"
   },
   "author": "",
   "license": "Apache-2.0",
