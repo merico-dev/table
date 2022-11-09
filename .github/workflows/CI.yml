@@ -64,7 +64,7 @@ jobs:
           echo "VITE_API_BASE_URL=/devtable/api/" > website/.env
           echo "VITE_WEBSITE_BASE_URL=/devtable/website/" >> website/.env
       - name: Build table  image
-        run: docker build -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.tag }} .
+        run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.tag }} .
       - name: Push table image
         run: docker push registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.tag }}
       - name: Build table website image
