@@ -1,0 +1,17 @@
+FROM registry.cn-hongkong.aliyuncs.com/merico/node:lts_base_v2 as builder
+
+ENV YARN_NPM_REGISTRY_SERVER=https://registry.npmmirror.com
+
+COPY . /code/table
+
+WORKDIR /code/table
+
+RUN yarn
+
+RUN yarn nx build website
+
+FROM registry.cn-hongkong.aliyuncs.com/merico/nginx:latest
+
+COPY --from=builder /code/table/website/dist  /usr/share/nginx/html
+
+CMD exec nginx -g 'daemon off;'
