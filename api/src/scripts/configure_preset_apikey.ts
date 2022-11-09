@@ -2,11 +2,10 @@ import path from 'path';
 import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import ApiKey from '../models/apiKey';
+import { PRESET_API_KEY_NAME } from '../utils/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
-
-const name = '__PRESET_APIKEY__';
 
 async function upsert() {
   console.info('Starting upsert of preset apikey');
@@ -27,10 +26,10 @@ async function upsert() {
     }
     let apikey: ApiKey | null;
     const apikeyRepo = dashboardDataSource.getRepository(ApiKey);
-    apikey = await apikeyRepo.findOneBy({ name });
+    apikey = await apikeyRepo.findOneBy({ name: PRESET_API_KEY_NAME });
     if (!apikey) {
       apikey = new ApiKey();
-      apikey.name = name;
+      apikey.name = PRESET_API_KEY_NAME;
     }
     apikey.app_id = app_id;
     apikey.app_secret = app_secret;
