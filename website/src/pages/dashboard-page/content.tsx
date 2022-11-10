@@ -63,7 +63,10 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
           context={context}
           dashboard={dashboardModel.dashboard}
           update={updateDashboard}
-          config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
+          config={{
+            apiBaseURL: import.meta.env.VITE_API_BASE_URL,
+            MERICO_EXPERT_SYSTEM_URL: import.meta.env.VITE_MERICO_EXPERT_SYSTEM_URL,
+          }}
           fullScreenPanelID={search.full_screen_panel_id}
           setFullScreenPanelID={setFullScreenPanelID}
         />
