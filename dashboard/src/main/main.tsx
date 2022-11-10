@@ -39,7 +39,7 @@ export const Dashboard = observer(function _Dashboard({
 
   const [layoutFrozen, freezeLayout] = React.useState(false);
 
-  const model = React.useMemo(() => createDashboardModel(dashboard, context, config), [dashboard]);
+  const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
   useInteractionOperationHacks(model, true);
 
   React.useEffect(() => {

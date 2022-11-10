@@ -21,7 +21,6 @@ import { createDashboardViewsModel, ViewsModel } from './views';
 
 const _DashboardModel = types
   .model({
-    config: types.frozen<Record<string, $TSFixMe>>(),
     id: types.identifier,
     name: types.string,
     filters: FiltersModel,
@@ -173,10 +172,8 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 export function createDashboardModel(
   { id, name, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
   context: ContextInfoType,
-  config: IDashboardConfig,
 ) {
   return DashboardModel.create({
-    config,
     id,
     name,
     filters: getInitialFiltersPayload(filters),
