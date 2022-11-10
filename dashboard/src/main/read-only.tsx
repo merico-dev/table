@@ -33,7 +33,7 @@ export const ReadOnlyDashboard = observer(
   }: IReadOnlyDashboard) => {
     configureAPIClient(config);
 
-    const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+    const model = React.useMemo(() => createDashboardModel(dashboard, context, config), [dashboard]);
     useInteractionOperationHacks(model, false);
 
     React.useEffect(() => {
