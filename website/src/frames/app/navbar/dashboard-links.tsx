@@ -1,8 +1,8 @@
 import { Box, Group, LoadingOverlay, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons';
-import { useRequest } from 'ahooks';
-import { useNavigate, useParams } from 'react-router-dom';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
+import { useDashboardStore } from '../models/dashboard-store';
 
 interface DashboardLinkProps {
   id: string;
@@ -51,24 +51,17 @@ function DashboardLink({ id, name, active, preset }: DashboardLinkProps) {
   );
 }
 
-export function DashboardLinks() {
-  const { id } = useParams();
-  const { data = [], loading } = useRequest(
-    async () => {
-      const { data } = await DashboardAPI.list();
-      return data;
-    },
-    {
-      refreshDeps: [id],
-    },
-  );
+function _DashboardLinks() {
+  const { store } = useDashboardStore();
 
   return (
     <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
-      <LoadingOverlay visible={loading} />
-      {data.map((d) => (
-        <DashboardLink preset={d.is_preset} key={d.id} active={id === d.id} {...d} />
+      <LoadingOverlay visible={store.loading} />
+      {store.boardList.map((d) => (
+        <DashboardLink preset={d.is_preset} key={d.id} active={store.currentBoard?.id === d.id} {...d} />
       ))}
     </Box>
   );
 }
+
+export const DashboardLinks = observer(_DashboardLinks);
