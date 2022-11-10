@@ -25,6 +25,7 @@ const defaultConfig = {
 } as Partial<ITableConf>;
 const mockPanel: IViewPanelInfo = {
   layout: { h: 100, w: 100 },
+  style: { border: { enabled: true } },
   viz: {
     type: 'table',
     conf: {
@@ -76,26 +77,25 @@ describe('viz-table.cy.ts', () => {
       );
       cy.findByText('Table Config');
     });
-    // FIXME: https://github.com/merico-dev/table/issues/353
-    // it('update config', () => {
-    //   const panelEditor: IPanelInfoEditor = {
-    //     setDescription: cy.spy(),
-    //     setQueryID: cy.spy(),
-    //     setTitle: cy.spy(),
-    //   };
-    //   const instance = vizManager.getOrCreateInstance(mockPanel);
-    //   cy.mount(
-    //     <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} panelInfoEditor={panelEditor} />,
-    //   );
-    //   cy.findByRole('searchbox', { name: /id field/i })
-    //     .should('exist')
-    //     .should('have.value', 'foo');
-    //   cy.findByLabelText('Use Original Data Columns').click();
-    //   cy.findByLabelText('save config').click();
-    //   cy.then(async () => {
-    //     const config = await instance.instanceData.getItem<ITableConf>('config');
-    //     expect(get(config, 'use_raw_columns')).to.be.true;
-    //   });
-    // });
+    it('update config', () => {
+      const panelEditor: IPanelInfoEditor = {
+        setDescription: cy.spy(),
+        setQueryID: cy.spy(),
+        setTitle: cy.spy(),
+      };
+      const instance = vizManager.getOrCreateInstance(mockPanel);
+      cy.mount(
+        <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} panelInfoEditor={panelEditor} />,
+      );
+      cy.findByRole('searchbox', { name: /id field/i })
+        .should('exist')
+        .should('have.value', 'foo');
+      cy.findByLabelText('Use Original Data Columns').click({ force: true });
+      cy.findByLabelText('save config').click();
+      cy.then(async () => {
+        const config = await instance.instanceData.getItem<ITableConf>('config');
+        expect(get(config, 'use_raw_columns')).to.be.true;
+      });
+    });
   });
 });
