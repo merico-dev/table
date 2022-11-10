@@ -59,6 +59,7 @@ export interface IDashboardView {
 export interface IDashboard {
   id: string;
   name: string;
+  is_preset?: boolean;
   definition: IDashboardDefinition;
   views: IDashboardView[];
   filters: FilterModelInstance[];
