@@ -1,10 +1,14 @@
-import { useModelContext } from '~/contexts';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
+import { IExpertSystemConf } from './type';
 
 export function VizExpertSystem({ context }: VizViewProps) {
-  const model = useModelContext();
   const { value: conf } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
-  return <div>Merico Expert System. URL: {model.config.MERICO_EXPERT_SYSTEM_URL}</div>;
+  const { width, height } = context.viewport;
+  const data = context.data as $TSFixMe[];
+
+  if (!width || !height || !conf) {
+    return null;
+  }
+  return <div>Merico Expert System. URL: {conf.expertSystemURL}</div>;
 }
