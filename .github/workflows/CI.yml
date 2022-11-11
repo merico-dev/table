@@ -52,14 +52,14 @@ jobs:
           password: ${{ secrets.REGISTRY_HONGKONG_SECRET }}
       - name: Extract branch name
         shell: bash
-        run: echo "BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+        run: echo "BRANCH=${GITHUB_REF_NAME/\//_}" >> $GITHUB_OUTPUT
         id: extract_branch
       - name: Get current date
         id: date
         run: echo "TODAY=$(date +'%y%m%d_%H%M')" >> $GITHUB_OUTPUT
       - name: Get commit
         id: commitid
-        run: echo "COMMIT_ID=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+        run: echo "COMMIT_ID=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
       - name: image tag
         id: tag
         run: echo "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUT
