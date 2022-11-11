@@ -3,6 +3,7 @@ import { PaginationRequest } from '../api_models/base';
 import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationResponse, DataSourceConfig } from '../api_models/datasource';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
+import { PRESET_PREFIX } from '../utils/constants';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
@@ -42,6 +43,9 @@ export class DataSourceService {
     if (type !== 'http') {
       await this.testDatabaseConfiguration(type, config);
     }
+    if (key.startsWith(PRESET_PREFIX)) {
+      throw new ApiError(BAD_REQUEST, { message: '__PRESET__ is an internally used prefix. Not allowed to be used for manually created datasources' });
+    }
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = new DataSource();
@@ -55,7 +59,11 @@ export class DataSourceService {
 
   async delete(id: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
-    await dataSourceRepo.delete(id);
+    const datasource = await dataSourceRepo.findOneByOrFail({ id });
+    if (datasource.key.startsWith(PRESET_PREFIX)) {
+      throw new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' });
+    }
+    await dataSourceRepo.delete(datasource);
   }
 
   private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {

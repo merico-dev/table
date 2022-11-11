@@ -1,0 +1,60 @@
+{
+  "postgresql": [
+    {
+      "key": "pg1",
+      "config": {
+        "host": "127.0.0.1",
+        "port": 5432,
+        "username": "postgres",
+        "password": "postgres",
+        "database": "dashboard"
+      }
+    }, 
+    {
+      "key": "pg2",
+      "config": {
+        "host": "127.0.0.1",
+        "port": 5432,
+        "username": "postgres",
+        "password": "postgres",
+        "database": "dashboard"
+      }
+    }
+  ],
+  "mysql": [
+    {
+      "key": "mysql1",
+      "config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "username": "root",
+        "password": "mysql",
+        "database": "dashboard"
+      }
+    },
+    {
+      "key": "mysql2",
+      "config": {
+        "host": "127.0.0.1",
+        "port": 3306,
+        "username": "root",
+        "password": "mysql",
+        "database": "dashboard"
+      }
+    }
+  ],
+  "http": [
+    {
+      "key": "http1",
+      "config": {
+        "host": "baidu.com"
+      }
+    },
+    {
+      "key": "http2",
+      "config": {
+        "host": "baidu.com"
+      }
+    }
+  ]
+}
