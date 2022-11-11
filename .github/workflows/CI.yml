@@ -62,7 +62,9 @@ jobs:
         run: echo "COMMIT_ID=${GITHUB_SHA}" >> $GITHUB_OUTPUT
       - name: image tag
         id: tag
-        run: echo "TAG=${ steps.extract_branch.outputs.BRANCH }_${ steps.date.outputs.TODAY }_${ steps.commitid.outputs.COMMIT_ID }" >> $GITHUB_OUTPUT
+        run: |
+          echo "TAG=${steps.extract_branch.outputs.BRANCH}_${steps.date.outputs.TODAY}_${steps.commitid.outputs.COMMIT_ID}"
+          echo "TAG=${steps.extract_branch.outputs.BRANCH}_${steps.date.outputs.TODAY}_${steps.commitid.outputs.COMMIT_ID}" >> $GITHUB_OUTPUT
       - name: env
         run: |
           echo "VITE_API_BASE_URL=/devtable/api/" > website/.env
