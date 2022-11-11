@@ -1,13 +1,17 @@
 import { Box, LoadingOverlay, Tabs } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
+import { defaultsDeep } from 'lodash';
+import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { callExpertSystem } from './call-expert-system';
-import { IExpertSystemConf } from './type';
+import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
 
 export function VizExpertSystem({ context }: VizViewProps) {
-  const { value: conf } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
+  const { value: confValue } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
+  const conf: IExpertSystemConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+
   const { width, height } = context.viewport;
   const contextData = (context.data as $TSFixMe[]) ?? [];
   const {
@@ -62,12 +66,14 @@ export function VizExpertSystem({ context }: VizViewProps) {
     <Box>
       <Tabs defaultValue="0">
         <Tabs.List>
-          {data.replies.map((r: any, i: number) => (
-            <Tabs.Tab value={i.toString()}>{i}</Tabs.Tab>
+          {data.replies?.map((r: any, i: number) => (
+            <Tabs.Tab key={`${r.actor}-${r.metric}`} value={i.toString()}>
+              {i}
+            </Tabs.Tab>
           ))}
         </Tabs.List>
-        {data.replies.map((r: any, i: number) => (
-          <Tabs.Panel value={i.toString()} pt={6}>
+        {data.replies?.map((r: any, i: number) => (
+          <Tabs.Panel key={`${r.actor}-${r.metric}`} value={i.toString()} pt={6}>
             <Prism my={8} language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
               {JSON.stringify(r, null, 2)}
             </Prism>

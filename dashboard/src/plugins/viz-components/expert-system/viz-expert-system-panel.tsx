@@ -3,6 +3,7 @@ import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
+import { MetricSetSelector } from './metric-set-selector';
 import { ScenarioSelector } from './scenario-selector';
 import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
 
@@ -27,6 +28,7 @@ export function VizExpertSystemPanel({ context }: VizConfigProps) {
         required
       />
       <ScenarioSelector conf={conf} setConf={setConf} />
+      <MetricSetSelector conf={conf} setConf={setConf} />
     </Stack>
   );
 }
