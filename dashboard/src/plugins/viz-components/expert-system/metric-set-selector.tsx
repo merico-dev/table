@@ -1,25 +1,25 @@
 import { Select } from '@mantine/core';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { EMetricSet, IExpertSystemConf } from './type';
 
-const metricSetOptionGroups = {
+const metricSetOptionGroups: Record<string, { label: string; value: EMetricSet; disabled?: boolean }[]> = {
   dev_load: [
-    { label: 'productivity', value: 'productivity' },
-    { label: 'pareto', value: 'pareto' },
-    { label: 'heatmap', value: 'heatmap' },
+    { label: 'productivity', value: EMetricSet.productivity },
+    { label: 'pareto', value: EMetricSet.pareto },
+    { label: 'heatmap', value: EMetricSet.heatmap },
   ],
   personal_report: [
-    { label: 'skills', value: 'skills' },
-    { label: 'commits', value: 'commits' },
-    { label: 'quality', value: 'quality' },
+    { label: 'skills', value: EMetricSet.skills },
+    { label: 'commits', value: EMetricSet.commits },
+    { label: 'quality', value: EMetricSet.quality },
   ],
   performance: [
-    { label: 'quality', value: 'quality' },
-    { label: 'quality_history', value: 'quality_history' },
-    { label: 'efficiency', value: 'efficiency' },
-    { label: 'pareto', value: 'pareto' },
+    { label: 'quality', value: EMetricSet.quality },
+    { label: 'quality_history', value: EMetricSet.quality_history },
+    { label: 'efficiency', value: EMetricSet.efficiency },
+    { label: 'pareto', value: EMetricSet.pareto },
   ],
-  comparison: [],
+  comparison: [{ label: 'efficiency', value: EMetricSet.efficiency, disabled: true }],
 };
 
 interface IMetricSetSelector {
@@ -37,6 +37,17 @@ export const MetricSetSelector = ({ conf, setConf }: IMetricSetSelector) => {
       metric_set: v,
     });
   };
+
+  useEffect(() => {
+    const match = options.find((o) => o.value === conf.metric_set);
+    if (!match) {
+      setConf({
+        ...conf,
+        metric_set: options[0].value,
+      });
+    }
+  }, [options, conf.metric_set, setConf]);
+
   return (
     <Select
       label="Metric Set"
@@ -44,6 +55,7 @@ export const MetricSetSelector = ({ conf, setConf }: IMetricSetSelector) => {
       value={conf.metric_set}
       onChange={handleChange}
       disabled={options.length === 0}
+      required
     />
   );
 };
