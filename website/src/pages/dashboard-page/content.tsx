@@ -1,34 +1,23 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-
 import { Dashboard, IDashboard, ReadOnlyDashboard } from '@devtable/dashboard';
-
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useRequest } from 'ahooks';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import useUrlState from '@ahooksjs/use-url-state';
+
 import { DashboardAPI } from '../../api-caller/dashboard';
+import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store';
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import './content.css';
 
-export function DashboardPageContent({ id }: { id: string }) {
+const _DashboardPageContent = ({ id }: { id: string }) => {
   const [search, setSearch] = useUrlState({
     full_screen_panel_id: '',
   });
-  const {
-    data: dashboard,
-    loading,
-    refresh,
-  } = useRequest(
-    async () => {
-      const resp = await DashboardAPI.details(id);
-      return resp;
-    },
-    {
-      refreshDeps: [id],
-    },
-  );
+
+  const { data: dashboardModel, loading, refresh } = useDashboardDetailQuery({ id });
 
   const [context] = React.useState({});
 
@@ -59,19 +48,20 @@ export function DashboardPageContent({ id }: { id: string }) {
     setSearch(s);
   };
 
-  if (!dashboard) {
+  if (!dashboardModel) {
     return null;
   }
 
   const ready = !loading;
-  const DashboardComponent = canEdit ? Dashboard : ReadOnlyDashboard;
+  const isDashboardEditable = canEdit && dashboardModel.isEditable;
+  const DashboardComponent = isDashboardEditable ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <DashboardComponent
           context={context}
-          dashboard={dashboard}
+          dashboard={dashboardModel.dashboard}
           update={updateDashboard}
           config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
           fullScreenPanelID={search.full_screen_panel_id}
@@ -80,4 +70,5 @@ export function DashboardPageContent({ id }: { id: string }) {
       )}
     </div>
   );
-}
+};
+export const DashboardPageContent = observer(_DashboardPageContent);
