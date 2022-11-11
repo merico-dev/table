@@ -1,5 +1,4 @@
 import { IAccount } from '@devtable/settings-form';
-import _ from 'lodash';
 import React from 'react';
 
 const AccountContext = React.createContext<{
