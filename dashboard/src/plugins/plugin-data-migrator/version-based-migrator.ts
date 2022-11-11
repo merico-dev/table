@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { IVizComponentMigrator, VizComponentMigrationContext } from '~/types/plugin';
+import { IConfigMigrator, IConfigMigrationContext } from '~/types/plugin';
 import { PluginDataMigrator } from './plugin-data-migrator';
 
 /**
@@ -10,7 +10,7 @@ import { PluginDataMigrator } from './plugin-data-migrator';
  * You can implement the `configVersions` method to
  * specify how migrations are performed.
  */
-export abstract class VersionBasedMigrator extends PluginDataMigrator implements IVizComponentMigrator {
+export abstract class VersionBasedMigrator extends PluginDataMigrator implements IConfigMigrator {
   public abstract readonly VERSION: number;
 
   public abstract configVersions(): void;
@@ -23,15 +23,15 @@ export abstract class VersionBasedMigrator extends PluginDataMigrator implements
     return super.version(version, (data) => ({ version, ...handler(data) }));
   }
 
-  async migrate({ instanceData }: VizComponentMigrationContext): Promise<void> {
-    const data = await instanceData.getItem(null);
+  async migrate({ configData }: IConfigMigrationContext): Promise<void> {
+    const data = await configData.getItem(null);
     const instanceVersion = get(data, 'version', 0);
     const updated = this.run({ from: instanceVersion, to: this.VERSION }, data);
-    await instanceData.setItem(null, updated);
+    await configData.setItem(null, updated);
   }
 
-  async needMigration({ instanceData }: VizComponentMigrationContext): Promise<boolean> {
-    const data = await instanceData.getItem(null);
+  async needMigration({ configData }: IConfigMigrationContext): Promise<boolean> {
+    const data = await configData.getItem(null);
     const instanceVersion = get(data, 'version', 0);
     return instanceVersion < this.VERSION;
   }

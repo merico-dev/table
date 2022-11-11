@@ -98,8 +98,8 @@ export interface VizConfigProps {
   context: VizConfigContext;
 }
 
-export interface VizComponentMigrationContext {
-  instanceData: PluginStorage;
+export interface IConfigMigrationContext {
+  configData: PluginStorage;
 }
 
 export interface VizComponent {
@@ -107,15 +107,15 @@ export interface VizComponent {
   displayName?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
-  migrator: IVizComponentMigrator;
+  migrator: IConfigMigrator;
   createConfig: () => AnyObject;
   triggers?: ITriggerSchema[];
 }
 
-export interface IVizComponentMigrator {
-  needMigration(ctx: VizComponentMigrationContext): Promise<boolean>;
+export interface IConfigMigrator {
+  needMigration(ctx: IConfigMigrationContext): Promise<boolean>;
 
-  migrate(ctx: VizComponentMigrationContext): Promise<void>;
+  migrate(ctx: IConfigMigrationContext): Promise<void>;
 }
 
 export interface IPluginManifest {

@@ -18,11 +18,12 @@ function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMi
   const comp = vizManager.resolveComponent(instance.type);
   const [migrated, setMigrated] = useState(false);
   useAsyncEffect(async () => {
+    const migrationContext = { configData: instance.instanceData };
     // we can have more than one component for a given viz instance
-    if ((await comp.migrator.needMigration(instance)) && !migrations.has(instance.id)) {
+    if ((await comp.migrator.needMigration(migrationContext)) && !migrations.has(instance.id)) {
       try {
         migrations.add(instance.id);
-        await comp.migrator.migrate(instance);
+        await comp.migrator.migrate(migrationContext);
         onMigrate?.();
       } finally {
         migrations.delete(instance.id);
