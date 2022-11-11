@@ -52,26 +52,26 @@ jobs:
           password: ${{ secrets.REGISTRY_HONGKONG_SECRET }}
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF_NAME})"
+        run: echo "BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
         id: extract_branch
       - name: Get current date
         id: date
-        run: echo "::set-output name=today::$(date +'%y%m%d_%H%M')"
+        run: echo "TODAY=$(date +'%y%m%d_%H%M')" >> $GITHUB_OUTPUT
       - name: Get commit
         id: commitid
-        run: echo "::set-output name=commitid::$(git rev-parse --short HEAD)"
+        run: echo "COMMIT_ID=${GITHUB_SHA}" >> $GITHUB_OUTPUT
       - name: image tag
         id: tag
-        run: echo "::set-output name=tag::$(echo ${{ steps.extract_branch.outputs.branch }}_${{ steps.date.outputs.today }}_${{ steps.commitid.outputs.commitid }})"
+        run: echo "TAG=${ steps.extract_branch.outputs.BRANCH }_${ steps.date.outputs.TODAY }_${ steps.commitid.outputs.COMMIT_ID }" >> $GITHUB_OUTPUT
       - name: env
         run: |
           echo "VITE_API_BASE_URL=/devtable/api/" > website/.env
           echo "VITE_WEBSITE_BASE_URL=/devtable/website/" >> website/.env
       - name: Build table  image
-        run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.tag }} .
+        run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }} .
       - name: Push table image
-        run: docker push registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.tag }}
+        run: docker push registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }}
       - name: Build table website image
-        run: docker build -f Dockerfile-website -t registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.tag }} .
+        run: docker build -f Dockerfile-website -t registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.TAG }} .
       - name: Push table website image
-        run: docker push registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.tag }}
+        run: docker push registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.TAG }}
