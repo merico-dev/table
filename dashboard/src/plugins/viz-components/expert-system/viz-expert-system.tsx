@@ -1,4 +1,4 @@
-import { Box, LoadingOverlay } from '@mantine/core';
+import { Box, LoadingOverlay, Tabs } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { VizViewProps } from '../../../types/plugin';
@@ -19,11 +19,20 @@ export function VizExpertSystem({ context }: VizViewProps) {
       baseURL: conf?.expertSystemURL,
       payload: {
         performance: {
-          quality: contextData.map(({ name, ...rest }) => ({
-            actor: name,
-            actor_type: 'project',
-            ...rest,
-          })),
+          quality: contextData.map(({ name, ...rest }) => {
+            const d = Object.entries(rest).reduce((ret, curr) => {
+              ret[curr[0]] = Number(curr[1]);
+              return ret;
+            }, {} as Record<string, number>);
+
+            return {
+              actor: name,
+              actor_type: 'project',
+              code: {
+                ...rest,
+              },
+            };
+          }),
         },
       },
     }),
@@ -37,7 +46,7 @@ export function VizExpertSystem({ context }: VizViewProps) {
   }
   if (loading) {
     return (
-      <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: 'relative', height }}>
         <LoadingOverlay visible />
       </Box>
     );
@@ -49,5 +58,22 @@ export function VizExpertSystem({ context }: VizViewProps) {
       </Prism>
     );
   }
-  return <div>Merico Expert System. URL: {conf.expertSystemURL}</div>;
+  return (
+    <Box>
+      <Tabs defaultValue="0">
+        <Tabs.List>
+          {data.replies.map((r: any, i: number) => (
+            <Tabs.Tab value={i.toString()}>{i}</Tabs.Tab>
+          ))}
+        </Tabs.List>
+        {data.replies.map((r: any, i: number) => (
+          <Tabs.Panel value={i.toString()} pt={6}>
+            <Prism my={8} language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
+              {JSON.stringify(r, null, 2)}
+            </Prism>
+          </Tabs.Panel>
+        ))}
+      </Tabs>
+    </Box>
+  );
 }
