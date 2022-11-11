@@ -1,4 +1,4 @@
-import { Stack, TextInput } from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizConfigProps } from '../../../types/plugin';
@@ -27,8 +27,10 @@ export function VizExpertSystemPanel({ context }: VizConfigProps) {
         label="Expert System URL"
         required
       />
-      <ScenarioSelector conf={conf} setConf={setConf} />
-      <MetricSetSelector conf={conf} setConf={setConf} />
+      <Group grow>
+        <ScenarioSelector conf={conf} setConf={setConf} />
+        <MetricSetSelector conf={conf} setConf={setConf} />
+      </Group>
     </Stack>
   );
 }
