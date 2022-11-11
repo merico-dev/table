@@ -1,6 +1,8 @@
 import { SinonStub } from 'cypress/types/sinon';
+import { ServiceLocator } from '~/service-locator';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { PluginVizConfigComponent } from '../../src/panel/plugin-adaptor';
-import { IVizManager, VizManager } from '../../src/plugins';
+import { IVizManager, tokens, VizManager } from '../../src/plugins';
 import { PluginManager } from '../../src/plugins/plugin-manager';
 import { createMockPlugin } from '../../src/plugins/test-utils';
 import { IPluginManager } from '../../src/types/plugin';
@@ -11,6 +13,11 @@ const mockPanel = {
   title: 'mock-panel-01',
   queryID: 'mock-panel-01',
   description: 'mock-panel-01',
+  style: {
+    border: {
+      enabled: true,
+    },
+  },
   viz: {
     conf: {},
     type: 'mockComp',
@@ -24,18 +31,27 @@ describe('PluginVizConfigComponent.cy.ts', () => {
   let setVizConf: Agent<SinonStub>;
 
   function mount() {
+    const configureService = () => {
+      return new ServiceLocator()
+        .provideValue(tokens.pluginManager, pm)
+        .provideValue(tokens.vizManager, vm)
+        .provideValue(tokens.instanceScope.vizInstance, vm.getOrCreateInstance(mockPanel));
+    };
     cy.mount(
-      <PluginVizConfigComponent
-        vizManager={vm}
-        setVizConf={setVizConf}
-        data={[]}
-        panel={mockPanel}
-        panelInfoEditor={{
-          setTitle: cy.stub(),
-          setDescription: cy.stub(),
-          setQueryID: cy.stub(),
-        }}
-      />,
+      <ServiceLocatorProvider configure={configureService}>
+        <PluginVizConfigComponent
+          vizManager={vm}
+          setVizConf={setVizConf}
+          data={[]}
+          panel={mockPanel}
+          panelInfoEditor={{
+            setTitle: cy.stub(),
+            setDescription: cy.stub(),
+            setQueryID: cy.stub(),
+          }}
+        />
+        ,
+      </ServiceLocatorProvider>,
     );
   }
 

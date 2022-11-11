@@ -22,6 +22,7 @@ export interface IServiceLocator {
   createScoped: () => IServiceLocator;
   get: <T>(token: Token<T>) => T | undefined;
   dispose: () => void;
+  getRequired<T>(token: Token<T>): T;
 }
 
 export class ServiceLocator implements IServiceLocator, IDisposable {
@@ -36,6 +37,10 @@ export class ServiceLocator implements IServiceLocator, IDisposable {
     const child = new ServiceLocator();
     child.parent = this;
     return child;
+  }
+
+  getRequired<T>(token: Token<T>): T {
+    return this.get(token) as T;
   }
 
   get<T>(token: Token<T>): T | undefined {

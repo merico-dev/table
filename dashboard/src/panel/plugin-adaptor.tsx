@@ -2,13 +2,14 @@ import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAsyncEffect, useCreation } from 'ahooks';
 import React, { useEffect, useState } from 'react';
+import { useServiceLocator } from '~/service-locator/use-service-locator';
+import { IVizManager, tokens } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
   VizConfigComponent,
   VizViewComponent,
 } from '../plugins/viz-manager/components';
-import { IVizManager } from '../plugins';
 import { AnyObject, IVizConfig } from '../types';
 import { VizInstance } from '../types/plugin';
 
@@ -39,7 +40,7 @@ export function PluginVizConfigComponent({
   ...props
 }: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void }) {
   const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
+  const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
   const migrated = usePluginMigration(vizManager, instance, () => {
     showNotification({
       title: `${panel.title} - Updated`,
@@ -65,7 +66,7 @@ export function PluginVizConfigComponent({
 
 export function PluginVizViewComponent(props: IViewComponentProps) {
   const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
+  const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
   const migrated = usePluginMigration(vizManager, instance, () => {
     showNotification({
       title: `${panel.title} - Updated`,

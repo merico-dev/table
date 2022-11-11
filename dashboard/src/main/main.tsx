@@ -4,13 +4,15 @@ import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
+import { IServiceLocator } from '~/service-locator';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { MainDashboardView } from '~/view';
 import { configureAPIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
-import { createPluginContext, PluginContext } from '../plugins';
+import { createPluginContext, PluginContext, tokens } from '../plugins';
 import { IDashboard } from '../types/dashboard';
 import './main.css';
 
@@ -61,6 +63,12 @@ export const Dashboard = observer(function _Dashboard({
   };
 
   const pluginContext = useCreation(createPluginContext, []);
+  const configureServices = React.useCallback((services: IServiceLocator) => {
+    return services
+      .provideValue(tokens.pluginManager, pluginContext.pluginManager)
+      .provideValue(tokens.vizManager, pluginContext.vizManager)
+      .provideValue(tokens.colorManager, pluginContext.colorManager);
+  }, []);
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
@@ -79,15 +87,17 @@ export const Dashboard = observer(function _Dashboard({
             }}
           >
             <PluginContext.Provider value={pluginContext}>
-              {model.views.visibleViews.map((view) => (
-                <MainDashboardView
-                  key={view.id}
-                  view={view}
-                  saveDashboardChanges={saveDashboardChanges}
-                  fullScreenPanelID={fullScreenPanelID}
-                  setFullScreenPanelID={setFullScreenPanelID}
-                />
-              ))}
+              <ServiceLocatorProvider configure={configureServices}>
+                {model.views.visibleViews.map((view) => (
+                  <MainDashboardView
+                    key={view.id}
+                    view={view}
+                    saveDashboardChanges={saveDashboardChanges}
+                    fullScreenPanelID={fullScreenPanelID}
+                    setFullScreenPanelID={setFullScreenPanelID}
+                  />
+                ))}
+              </ServiceLocatorProvider>
             </PluginContext.Provider>
           </Box>
         </LayoutStateContext.Provider>
