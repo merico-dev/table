@@ -64,10 +64,10 @@ export function SchemaAndValidation({ conf, data }: ISchemaAndValidation) {
   return (
     <Tabs defaultValue="structure">
       <Tabs.List>
+        <Tabs.Tab value="structure">Expected Data Structure</Tabs.Tab>
         <Tabs.Tab value="validation">
           Validation <Badge color={valid ? 'green' : 'red'}>{valid ? 'Pass' : 'Failed'}</Badge>
         </Tabs.Tab>
-        <Tabs.Tab value="structure">Expected Data Structure</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="validation" pt={6}>
         <ValidationErrors errors={errors} />
