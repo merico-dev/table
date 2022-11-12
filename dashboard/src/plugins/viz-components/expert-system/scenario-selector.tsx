@@ -10,14 +10,11 @@ const scenarioOptions = [
 
 interface IScenarioSelector {
   conf: IExpertSystemConf;
-  setConf: (val: IExpertSystemConf) => Promise<void>;
+  setConfByKey: (key: string, value: EExperSystemScenario) => void;
 }
-export const ScenarioSelector = ({ conf, setConf }: IScenarioSelector) => {
+export const ScenarioSelector = ({ conf, setConfByKey }: IScenarioSelector) => {
   const handleChange = (v: EExperSystemScenario) => {
-    setConf({
-      ...conf,
-      scenario: v,
-    });
+    setConfByKey('scenario', v);
   };
   return <Select label="Scenario" data={scenarioOptions} value={conf.scenario} onChange={handleChange} />;
 };

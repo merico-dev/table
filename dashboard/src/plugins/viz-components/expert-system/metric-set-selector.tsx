@@ -24,29 +24,23 @@ const metricSetOptionGroups: Record<string, { label: string; value: EMetricSet; 
 
 interface IMetricSetSelector {
   conf: IExpertSystemConf;
-  setConf: (val: IExpertSystemConf) => Promise<void>;
+  setConfByKey: (key: string, val: EMetricSet) => void;
 }
-export const MetricSetSelector = ({ conf, setConf }: IMetricSetSelector) => {
+export const MetricSetSelector = ({ conf, setConfByKey }: IMetricSetSelector) => {
   const options = useMemo(() => {
     return metricSetOptionGroups[conf.scenario] ?? [];
   }, [conf.scenario]);
 
   const handleChange = (v: EMetricSet) => {
-    setConf({
-      ...conf,
-      metric_set: v,
-    });
+    setConfByKey('metric_set', v);
   };
 
   useEffect(() => {
     const match = options.find((o) => o.value === conf.metric_set);
     if (!match) {
-      setConf({
-        ...conf,
-        metric_set: options[0].value,
-      });
+      setConfByKey('metric_set', options[0].value);
     }
-  }, [options, conf.metric_set, setConf]);
+  }, [options, conf.metric_set, setConfByKey]);
 
   return (
     <Select
