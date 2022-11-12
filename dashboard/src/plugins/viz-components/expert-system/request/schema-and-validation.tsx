@@ -33,7 +33,7 @@ export function SchemaAndValidation({ conf, data }: ISchemaAndValidation) {
   const { data: structure = '' } = useRequest(async () => getExpertDataStructure(conf), {
     refreshDeps: [conf.scenario, conf.metric_set],
   });
-  console.log(structure);
+
   const { valid, errors } = useMemo(() => {
     try {
       if (!schema || !schema.type) {
