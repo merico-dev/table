@@ -1,10 +1,12 @@
 import { EMetricSet, IExpertSystemConf } from '../../../type';
-import { performance_quality } from './quality';
+import { performance_quality, TDataForQuality } from './quality';
 
-function getContent(conf: IExpertSystemConf, data: any) {
+export type TPerformanceData = $TSFixMe | TDataForQuality[];
+
+function getContent(conf: IExpertSystemConf, data: TPerformanceData) {
   switch (conf.metric_set) {
     case EMetricSet.quality:
-      return performance_quality(data);
+      return performance_quality(data as TDataForQuality[]);
     case EMetricSet.quality_history:
     case EMetricSet.skills:
     case EMetricSet.pareto:
@@ -13,7 +15,7 @@ function getContent(conf: IExpertSystemConf, data: any) {
   }
 }
 
-export function buildPayloadForPerformance(conf: IExpertSystemConf, data: any) {
+export function buildPayloadForPerformance(conf: IExpertSystemConf, data: TPerformanceData) {
   return {
     performance: {
       ...getContent(conf, data),
