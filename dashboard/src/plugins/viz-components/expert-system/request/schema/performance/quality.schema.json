@@ -1,142 +1,132 @@
 {
-  "$id": "http://example.com/example.json",
-  "type": "object",
-  "default": {},
+  "type": "array",
+  "default": [],
   "title": "Root Schema",
-  "required": ["actor", "actor_type", "code"],
-  "properties": {
-    "actor": {
-      "type": "string",
-      "default": "",
-      "title": "The actor Schema",
-      "examples": ["project1"]
-    },
-    "actor_type": {
-      "type": "string",
-      "default": "",
-      "title": "The actor_type Schema",
-      "examples": ["project"]
-    },
-    "code": {
-      "type": "object",
-      "default": {},
-      "title": "The code Schema",
-      "required": ["doc_coverage", "test_coverage", "dryness", "modularity", "issues", "issues_density"],
-      "properties": {
-        "doc_coverage": {
-          "type": "number",
-          "default": 0.0,
-          "title": "The doc_coverage Schema",
-          "examples": [0.87]
-        },
-        "test_coverage": {
-          "type": "number",
-          "default": 0.0,
-          "title": "The test_coverage Schema",
-          "examples": [0.14]
-        },
-        "dryness": {
-          "type": "number",
-          "default": 0.0,
-          "title": "The dryness Schema",
-          "examples": [0.96]
-        },
-        "modularity": {
-          "type": "number",
-          "default": 0.0,
-          "title": "The modularity Schema",
-          "examples": [0.45]
-        },
-        "issues": {
-          "type": "object",
-          "default": {},
-          "title": "The issues Schema",
-          "required": ["blocker", "critical", "info", "major", "minor"],
-          "properties": {
-            "blocker": {
-              "type": "integer",
-              "default": 0,
-              "title": "The blocker Schema",
-              "examples": [65]
-            },
-            "critical": {
-              "type": "integer",
-              "default": 0,
-              "title": "The critical Schema",
-              "examples": [4546]
-            },
-            "info": {
-              "type": "integer",
-              "default": 0,
-              "title": "The info Schema",
-              "examples": [1876]
-            },
-            "major": {
-              "type": "integer",
-              "default": 0,
-              "title": "The major Schema",
-              "examples": [16049]
-            },
-            "minor": {
-              "type": "integer",
-              "default": 0,
-              "title": "The minor Schema",
-              "examples": [10324]
-            }
-          },
-          "examples": [
-            {
-              "blocker": 65,
-              "critical": 4546,
-              "info": 1876,
-              "major": 16049,
-              "minor": 10324
-            }
-          ]
-        },
-        "issues_density": {
-          "type": "number",
-          "default": 0.0,
-          "title": "The issues_density Schema",
-          "examples": [0.003]
-        }
+  "items": {
+    "type": "object",
+    "default": {},
+    "title": "A Schema",
+    "required": ["actor", "doc_coverage", "test_coverage", "dryness", "modularity", "issues_density"],
+    "properties": {
+      "actor": {
+        "type": "string",
+        "default": "",
+        "title": "The actor Schema",
+        "examples": ["project"]
       },
-      "examples": [
-        {
-          "doc_coverage": 0.87,
-          "test_coverage": 0.14,
-          "dryness": 0.96,
-          "modularity": 0.45,
-          "issues": {
-            "blocker": 65,
-            "critical": 4546,
-            "info": 1876,
-            "major": 16049,
-            "minor": 10324
+      "doc_coverage": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The doc_coverage Schema",
+        "examples": [0.5]
+      },
+      "test_coverage": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The test_coverage Schema",
+        "examples": [0.5]
+      },
+      "dryness": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The dryness Schema",
+        "examples": [0.5]
+      },
+      "modularity": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The modularity Schema",
+        "examples": [0.5]
+      },
+      "issues": {
+        "type": "object",
+        "default": {},
+        "title": "The issues Schema",
+        "required": ["blocker", "critical", "info", "major", "minor"],
+        "properties": {
+          "blocker": {
+            "type": "integer",
+            "default": 0,
+            "title": "The blocker Schema",
+            "examples": [1]
           },
-          "issues_density": 0.003
-        }
-      ]
-    }
+          "critical": {
+            "type": "integer",
+            "default": 0,
+            "title": "The critical Schema",
+            "examples": [2]
+          },
+          "info": {
+            "type": "integer",
+            "default": 0,
+            "title": "The info Schema",
+            "examples": [3]
+          },
+          "major": {
+            "type": "integer",
+            "default": 0,
+            "title": "The major Schema",
+            "examples": [4]
+          },
+          "minor": {
+            "type": "integer",
+            "default": 0,
+            "title": "The minor Schema",
+            "examples": [5]
+          }
+        },
+        "examples": [
+          {
+            "blocker": 1,
+            "critical": 2,
+            "info": 3,
+            "major": 4,
+            "minor": 5
+          }
+        ]
+      },
+      "issues_density": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The issues_density Schema",
+        "examples": [0.5]
+      }
+    },
+    "examples": [
+      {
+        "actor": "project",
+        "doc_coverage": 0.5,
+        "test_coverage": 0.5,
+        "dryness": 0.5,
+        "modularity": 0.5,
+        "issues": {
+          "blocker": 1,
+          "critical": 2,
+          "info": 3,
+          "major": 4,
+          "minor": 5
+        },
+        "issues_density": 0.5
+      }
+    ]
   },
   "examples": [
-    {
-      "actor": "project1",
-      "actor_type": "project",
-      "code": {
-        "doc_coverage": 0.87,
-        "test_coverage": 0.14,
-        "dryness": 0.96,
-        "modularity": 0.45,
+    [
+      {
+        "actor": "project",
+        "doc_coverage": 0.5,
+        "test_coverage": 0.5,
+        "dryness": 0.5,
+        "modularity": 0.5,
         "issues": {
-          "blocker": 65,
-          "critical": 4546,
-          "info": 1876,
-          "major": 16049,
-          "minor": 10324
+          "blocker": 1,
+          "critical": 2,
+          "info": 3,
+          "major": 4,
+          "minor": 5
         },
-        "issues_density": 0.003
+        "issues_density": 0.5
       }
-    }
+    ]
   ]
 }
