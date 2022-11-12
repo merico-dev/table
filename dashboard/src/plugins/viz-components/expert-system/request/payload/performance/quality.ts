@@ -1,6 +1,6 @@
 export type TDataForQuality = {
   name?: string;
-  actor?: string;
+  actor: string;
   doc_coverage: number;
   test_coverage: number;
   dryness: number;
@@ -14,6 +14,22 @@ export type TDataForQuality = {
   };
   issues_density: number;
 };
+
+export const StrDataForQuality = `
+  actor: string;
+  doc_coverage: number;
+  test_coverage: number;
+  dryness: number;
+  modularity: number;
+  issues?: {
+    blocker: number;
+    critical: number;
+    info: number;
+    major: number;
+    minor: number;
+  };
+  issues_density: number;
+`;
 
 export function performance_quality(data: TDataForQuality[]) {
   return {
