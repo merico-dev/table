@@ -23,6 +23,7 @@
     "@mantine/rte": "5.5.5",
     "@tanstack/react-table": "^8.5.13",
     "ahooks": "^3.3.11",
+    "ajv": "8.11.0",
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
     "crypto-js": "^4.1.1",
