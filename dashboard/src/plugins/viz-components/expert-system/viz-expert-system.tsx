@@ -5,7 +5,8 @@ import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
-import { callExpertSystem } from './call-expert-system';
+import { callExpertSystem } from './request/call-expert-system';
+import { buildPayload } from './request/payload';
 import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
 
 export function VizExpertSystem({ context }: VizViewProps) {
@@ -21,24 +22,7 @@ export function VizExpertSystem({ context }: VizViewProps) {
   } = useRequest(
     callExpertSystem({
       baseURL: conf?.expertSystemURL,
-      payload: {
-        performance: {
-          quality: contextData.map(({ name, ...rest }) => {
-            const d = Object.entries(rest).reduce((ret, curr) => {
-              ret[curr[0]] = Number(curr[1]);
-              return ret;
-            }, {} as Record<string, number>);
-
-            return {
-              actor: name,
-              actor_type: 'project',
-              code: {
-                ...rest,
-              },
-            };
-          }),
-        },
-      },
+      payload: buildPayload(conf, contextData),
     }),
     {
       refreshDeps: [context.data, conf?.expertSystemURL],
