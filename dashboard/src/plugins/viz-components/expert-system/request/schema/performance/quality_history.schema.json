@@ -1,0 +1,83 @@
+{
+  "type": "array",
+  "default": [],
+  "title": "Root Schema",
+  "items": {
+    "type": "object",
+    "default": {},
+    "title": "A Schema",
+    "required": ["actor", "val_type", "baseline_lower", "baseline_upper", "ref_date", "val"],
+    "properties": {
+      "actor": {
+        "type": "string",
+        "default": "",
+        "title": "The actor Schema",
+        "examples": ["Name of the subject"]
+      },
+      "val_type": {
+        "type": "string",
+        "default": "",
+        "title": "The val_type Schema",
+        "enum": [
+          "doc_coverage",
+          "test_coverage",
+          "dryness",
+          "modularity",
+          "blocker_issues",
+          "critical_issues",
+          "major_issues",
+          "minor_issues",
+          "info_issues",
+          "issues_density"
+        ],
+        "examples": ["doc_coverage"]
+      },
+      "baseline_lower": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The baseline_lower Schema",
+        "examples": [0.2]
+      },
+      "baseline_upper": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The baseline_upper Schema",
+        "examples": [0.4]
+      },
+      "ref_date": {
+        "type": "string",
+        "default": "",
+        "title": "The ref_date Schema",
+        "examples": ["2021-12-31"]
+      },
+      "val": {
+        "type": ["number", "string"],
+        "default": 0.0,
+        "title": "The val Schema",
+        "examples": [0.2]
+      }
+    },
+    "examples": [
+      {
+        "actor": "Name of the subject",
+        "val_type": "doc_coverage",
+        "baseline_lower": 0.2,
+        "baseline_upper": 0.4,
+        "ref_date": "2021-12-31",
+        "val": 0.2
+      }
+    ]
+  },
+  "examples": [
+    [
+      {
+        "actor": "Name of the subject",
+        "val_type": "doc_coverage",
+        "baseline_lower": 0.2,
+        "baseline_upper": 0.4,
+        "ref_date": "2021-12-31",
+        "val": 0.2
+      }
+    ]
+  ]
+}
