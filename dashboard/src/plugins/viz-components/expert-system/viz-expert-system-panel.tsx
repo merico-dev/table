@@ -34,7 +34,7 @@ export function VizExpertSystemPanel({ context }: VizConfigProps) {
         <MetricSetSelector conf={conf} setConfByKey={setConfByKey} />
       </Group>
 
-      <SchemaAndValidation conf={conf} />
+      <SchemaAndValidation conf={conf} data={context.data as $TSFixMe[]} />
     </Stack>
   );
 }
