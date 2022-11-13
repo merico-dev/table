@@ -1,8 +1,7 @@
 import { DataSourceOptions } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';
 import crypto from 'crypto';
-
-const DATABASE_CONNECTION_TIMEOUT_MS = 5000;
+import { DATABASE_CONNECTION_TIMEOUT_MS } from './constants';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
