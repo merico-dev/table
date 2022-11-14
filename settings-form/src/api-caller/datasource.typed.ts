@@ -4,6 +4,7 @@ export interface IDataSource {
   id: string;
   type: DataSourceType;
   key: string;
+  is_preset?: boolean;
 }
 
 export interface IDataSourceConfig {

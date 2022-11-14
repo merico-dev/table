@@ -49,13 +49,13 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, key, type }) => (
+            {data.map(({ id, key, type, is_preset }) => (
               <tr key={key}>
                 <td width={200}>{type}</td>
                 <td>{key}</td>
                 <td width={200}>
                   <Group position="left">
-                    <DeleteDataSource id={id} name={key} onSuccess={refresh} />
+                    <DeleteDataSource isProtected={is_preset} id={id} name={key} onSuccess={refresh} />
                   </Group>
                 </td>
               </tr>
