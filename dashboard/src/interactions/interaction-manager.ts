@@ -34,10 +34,6 @@ export class InteractionManager implements IVizInteractionManager {
     this.attachments = new AttachmentInstanceManager(instance, '__INTERACTIONS', constructInstance);
   }
 
-  async runMigration(): Promise<void> {
-    await this.operationManager.runMigration();
-  }
-
   async addInteraction(trigger: ITrigger, operation: IDashboardOperation): Promise<void> {
     const triggerRef = trigger.id;
     const operationRef = operation.id;

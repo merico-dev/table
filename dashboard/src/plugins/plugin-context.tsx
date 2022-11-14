@@ -1,8 +1,16 @@
 import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors';
+import { InstanceMigrator } from '~/plugins/instance-migrator';
 import { token } from '~/service-locator';
 
-import { IDashboardPlugin, IPluginManager, ISingleColor, IVizInteractionManager, VizInstance } from '~/types/plugin';
+import {
+  IDashboardPlugin,
+  IPluginManager,
+  ISingleColor,
+  IVizInteractionManager,
+  IVizOperationManager,
+  VizInstance,
+} from '~/types/plugin';
 import * as PACKAGE from '../../package.json';
 import { ColorManager, IColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
@@ -127,6 +135,8 @@ export const tokens = {
   instanceScope: {
     vizInstance: token<VizInstance>('vizInstance'),
     interactionManager: token<IVizInteractionManager>('interactionManager'),
+    migrator: token<InstanceMigrator>('migrator'),
+    operationManager: token<IVizOperationManager>('operationManager'),
   },
 };
 

@@ -1,9 +1,10 @@
 import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { useAsyncEffect, useCreation } from 'ahooks';
+import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
+import { MigrationResultType } from '~/plugins/instance-migrator';
 import { useServiceLocator } from '~/service-locator/use-service-locator';
-import { IVizManager, tokens } from '../plugins';
+import { tokens } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
@@ -11,30 +12,26 @@ import {
   VizViewComponent,
 } from '../plugins/viz-manager/components';
 import { AnyObject, IVizConfig } from '../types';
-import { VizInstance } from '../types/plugin';
 
-function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMigrate?: () => void) {
-  const migrations = useCreation(() => new Set<string>(), []);
-  const comp = vizManager.resolveComponent(instance.type);
+function usePluginMigration(onMigrate?: () => void) {
   const [migrated, setMigrated] = useState(false);
-  const interactionManager = useServiceLocator().getRequired(tokens.instanceScope.interactionManager);
+  const migrator = useServiceLocator().getRequired(tokens.instanceScope.migrator);
   useAsyncEffect(async () => {
-    const migrationContext = { configData: instance.instanceData };
-    // we can have more than one component for a given viz instance
-    if ((await comp.migrator.needMigration(migrationContext)) && !migrations.has(instance.id)) {
-      try {
-        migrations.add(instance.id);
-        await comp.migrator.migrate(migrationContext);
-        await interactionManager.runMigration();
-        onMigrate?.();
-      } finally {
-        migrations.delete(instance.id);
-        setMigrated(true);
-      }
-    } else {
-      setMigrated(true);
+    setMigrated(migrator.migrated);
+    if (migrator.migrated) {
+      return;
     }
-  }, [instance]);
+    migrator
+      .runMigration()
+      .then((result) => {
+        if (result === MigrationResultType.migrated) {
+          onMigrate?.();
+        }
+      })
+      .finally(() => {
+        setMigrated(true);
+      });
+  }, [migrator]);
   return migrated;
 }
 
@@ -42,9 +39,9 @@ export function PluginVizConfigComponent({
   setVizConf,
   ...props
 }: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void }) {
-  const { vizManager, panel } = props;
+  const { panel } = props;
   const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
-  const migrated = usePluginMigration(vizManager, instance, () => {
+  const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',
@@ -68,9 +65,8 @@ export function PluginVizConfigComponent({
 }
 
 export function PluginVizViewComponent(props: IViewComponentProps) {
-  const { vizManager, panel } = props;
-  const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
-  const migrated = usePluginMigration(vizManager, instance, () => {
+  const { panel } = props;
+  const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',

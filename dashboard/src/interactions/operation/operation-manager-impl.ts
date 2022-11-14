@@ -43,6 +43,19 @@ export class OperationManager implements IVizOperationManager {
     return this.operations.find((s) => s.id === schemaRef);
   }
 
+  async needMigration(): Promise<boolean> {
+    const instances = await this.attachments.list();
+    const tasks = instances.map(async (instance) => {
+      const migrationContext: IConfigMigrationContext = {
+        configData: instance.operationData,
+      };
+      const schema = this.tryGetSchema(instance.schemaRef);
+      const migrator = schema?.migrator;
+      return migrator && (await migrator.needMigration(migrationContext));
+    });
+    return (await Promise.all(tasks)).some((need) => need);
+  }
+
   async runMigration() {
     const instances = await this.attachments.list();
     const tasks = instances.map(async (instance) => {

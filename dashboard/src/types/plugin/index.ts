@@ -226,6 +226,7 @@ export interface IVizOperationManager {
   retrieveTrigger(operationId: string): Promise<IDashboardOperation | undefined>;
 
   runMigration(): Promise<void>;
+  needMigration(): Promise<boolean>;
 }
 
 export interface IVizInteraction {
@@ -245,8 +246,6 @@ export interface IVizInteractionManager {
   removeInteraction(interactionId: string): Promise<void>;
 
   runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void>;
-
-  runMigration(): Promise<void>;
 }
 
 export interface IValueStep {
