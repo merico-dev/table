@@ -17,6 +17,7 @@ function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMi
   const migrations = useCreation(() => new Set<string>(), []);
   const comp = vizManager.resolveComponent(instance.type);
   const [migrated, setMigrated] = useState(false);
+  const interactionManager = useServiceLocator().getRequired(tokens.instanceScope.interactionManager);
   useAsyncEffect(async () => {
     const migrationContext = { configData: instance.instanceData };
     // we can have more than one component for a given viz instance
@@ -24,6 +25,7 @@ function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMi
       try {
         migrations.add(instance.id);
         await comp.migrator.migrate(migrationContext);
+        await interactionManager.runMigration();
         onMigrate?.();
       } finally {
         migrations.delete(instance.id);

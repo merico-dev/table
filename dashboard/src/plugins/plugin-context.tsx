@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors';
 import { token } from '~/service-locator';
 
-import { IDashboardPlugin, IPluginManager, ISingleColor, VizInstance } from '~/types/plugin';
+import { IDashboardPlugin, IPluginManager, ISingleColor, IVizInteractionManager, VizInstance } from '~/types/plugin';
 import * as PACKAGE from '../../package.json';
 import { ColorManager, IColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
@@ -116,13 +116,17 @@ const BuiltInPlugin: IDashboardPlugin = {
 
 export const pluginManager = new PluginManager();
 
+/**
+ * All available tokens of services, it also serves as an overview of the
+ * plugin system
+ */
 export const tokens = {
   pluginManager: token<IPluginManager>('pluginManager'),
   vizManager: token<VizManager>('vizManager'),
   colorManager: token<IColorManager>('colorManager'),
-  interactionManager: token('interactionManager'),
   instanceScope: {
     vizInstance: token<VizInstance>('vizInstance'),
+    interactionManager: token<IVizInteractionManager>('interactionManager'),
   },
 };
 

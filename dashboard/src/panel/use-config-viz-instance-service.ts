@@ -11,7 +11,7 @@ export function useConfigVizInstanceService(panel: IPanelInfo) {
       return services
         .createScoped()
         .provideFactory(tokens.instanceScope.vizInstance, () => vizManager.getOrCreateInstance(panel))
-        .provideFactory(tokens.interactionManager, (services) => {
+        .provideFactory(tokens.instanceScope.interactionManager, (services) => {
           const instance = services.getRequired(tokens.instanceScope.vizInstance);
           return new InteractionManager(instance, component, OPERATIONS);
         });
