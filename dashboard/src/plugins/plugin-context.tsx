@@ -9,6 +9,7 @@ import {
   ISingleColor,
   IVizInteractionManager,
   IVizOperationManager,
+  IVizTriggerManager,
   VizInstance,
 } from '~/types/plugin';
 import * as PACKAGE from '../../package.json';
@@ -137,6 +138,7 @@ export const tokens = {
     interactionManager: token<IVizInteractionManager>('interactionManager'),
     migrator: token<InstanceMigrator>('migrator'),
     operationManager: token<IVizOperationManager>('operationManager'),
+    triggerManager: token<IVizTriggerManager>('triggerManager'),
   },
 };
 

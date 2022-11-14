@@ -3,6 +3,7 @@ import { toJS } from 'mobx';
 import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
 import { AnyObject } from '~/types';
 import {
+  IConfigMigrationContext,
   ITrigger,
   ITriggerSchema,
   ITriggerSnapshot,
@@ -64,7 +65,7 @@ export class VizTriggerManager implements IVizTriggerManager {
       return await this.attachments.create(id, {
         id,
         schemaRef: schema.id,
-        data: {},
+        data: schema?.createDefaultConfig?.() || {},
       });
     }
     return trigger;
@@ -84,5 +85,30 @@ export class VizTriggerManager implements IVizTriggerManager {
 
   async retrieveTrigger(id: string) {
     return await this.attachments.getInstance(id);
+  }
+
+  protected async getMigrationTasks() {
+    const triggerList = await this.getTriggerList();
+    const tasks = triggerList.map(async (trigger) => {
+      const schema = this.getTriggerSchemaList().find((s) => s.id === trigger.schemaRef);
+      const migrator = schema?.migrator;
+      const migrationContext: IConfigMigrationContext = {
+        configData: trigger.triggerData,
+      };
+      if (migrator && (await migrator.needMigration(migrationContext))) {
+        return () => migrator.migrate(migrationContext);
+      }
+      return null;
+    });
+    return Promise.all(tasks).then((tasks) => tasks.filter((t) => t) as (() => Promise<void>)[]);
+  }
+
+  async needMigration(): Promise<boolean> {
+    return (await this.getMigrationTasks()).length > 0;
+  }
+
+  async runMigration(): Promise<void> {
+    const tasks = await this.getMigrationTasks();
+    await Promise.all(tasks.map((t) => t()));
   }
 }

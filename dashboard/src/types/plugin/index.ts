@@ -165,6 +165,8 @@ export interface ITriggerSchema {
   payload: IPayloadVariableSchema[];
   configRender: React.ComponentType<ITriggerConfigProps>;
   nameRender: React.ComponentType<Omit<ITriggerConfigProps, 'sampleData'>>;
+  createDefaultConfig?: () => AnyObject;
+  migrator?: IConfigMigrator;
 }
 
 export interface ITrigger {
@@ -194,6 +196,8 @@ export interface IVizTriggerManager {
   retrieveTrigger(id: string): Promise<ITrigger | undefined>;
 
   watchTriggerSnapshotList(callback: (triggerList: ITriggerSnapshot<AnyObject>[]) => void): () => void;
+  needMigration(): Promise<boolean>;
+  runMigration(): Promise<void>;
 }
 
 export interface IDashboardOperationSchema {
