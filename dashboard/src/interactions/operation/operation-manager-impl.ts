@@ -30,12 +30,16 @@ export class OperationManager implements IVizOperationManager {
       console.warn(`Operation '${operationId}' is not defined`);
       return;
     }
-    const schema = this.operations.find((s) => s.id === operation.schemaRef);
+    const schema = this.tryGetSchema(operation.schemaRef);
     if (!schema) {
       console.warn(`Operation schema '${operation.schemaRef}' is not defined`);
       return;
     }
     await schema.run(payload, operation);
+  }
+
+  private tryGetSchema(schemaRef: string) {
+    return this.operations.find((s) => s.id === schemaRef);
   }
 
   async createOrGetOperation(id: string, schema: IDashboardOperationSchema): Promise<IDashboardOperation> {
@@ -49,7 +53,7 @@ export class OperationManager implements IVizOperationManager {
       return await this.attachments.create(id, {
         id,
         schemaRef: schema.id,
-        data: {},
+        data: schema.createDefaultConfig?.() ?? {},
       });
     }
     return operation;

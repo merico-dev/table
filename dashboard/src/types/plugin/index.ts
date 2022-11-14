@@ -201,6 +201,9 @@ export interface IDashboardOperationSchema {
   displayName: string;
   configRender: React.ComponentType<IOperationConfigProps>;
   run: (payload: Record<string, unknown>, operation: IDashboardOperation) => Promise<void>;
+  // todo: remove optional modifier
+  migrator?: IConfigMigrator;
+  createDefaultConfig?: () => AnyObject;
 }
 
 export interface IDashboardOperation {
