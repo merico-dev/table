@@ -1,8 +1,8 @@
 import { IServiceLocator } from '~/service-locator';
 import { IVizOperationManager, VizInstance } from '~/types/plugin';
 
-import { IVizManager } from '../viz-manager';
 import { tokens } from '../plugin-context';
+import { IVizManager } from '../viz-manager';
 
 export enum MigrationResultType {
   migrated = 'migrated',
@@ -11,12 +11,18 @@ export enum MigrationResultType {
   migrationFailed = 'migrationFailed',
 }
 
+export enum MigrationStatus {
+  notStarted = 'notStarted',
+  inProgress = 'inProgress',
+  done = 'done',
+}
+
 export class InstanceMigrator {
   protected vizInstance: VizInstance;
   protected operationManager: IVizOperationManager;
   protected vizManager: IVizManager;
   protected runningMigration?: Promise<MigrationResultType>;
-  migrated = false;
+  status: MigrationStatus = MigrationStatus.notStarted;
 
   constructor(serviceLocator: IServiceLocator) {
     this.vizInstance = serviceLocator.getRequired(tokens.instanceScope.vizInstance);
@@ -38,12 +44,10 @@ export class InstanceMigrator {
       return MigrationResultType.checkFailed;
     }
     if (tasks.length === 0) {
-      this.migrated = true;
       return MigrationResultType.nothingToMigrate;
     }
     try {
       await Promise.all(tasks.map((t) => t()));
-      this.migrated = true;
       return MigrationResultType.migrated;
     } catch (e) {
       console.warn('migration failed', e);
@@ -53,7 +57,11 @@ export class InstanceMigrator {
 
   async runMigration(): Promise<MigrationResultType> {
     if (!this.runningMigration) {
-      this.runningMigration = this.createMigrationTask();
+      this.status = MigrationStatus.inProgress;
+      this.runningMigration = this.createMigrationTask().then((r) => {
+        this.status = MigrationStatus.done;
+        return r;
+      });
     }
     return this.runningMigration;
   }

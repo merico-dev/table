@@ -2,9 +2,9 @@ import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
-import { MigrationResultType } from '~/plugins/instance-migrator';
+import { MigrationResultType, MigrationStatus } from '~/plugins/instance-migrator';
 import { useServiceLocator } from '~/service-locator/use-service-locator';
-import { tokens } from '../plugins';
+import { IPanelInfo, tokens } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
@@ -17,15 +17,21 @@ function usePluginMigration(onMigrate?: () => void) {
   const [migrated, setMigrated] = useState(false);
   const migrator = useServiceLocator().getRequired(tokens.instanceScope.migrator);
   useAsyncEffect(async () => {
-    setMigrated(migrator.migrated);
-    if (migrator.migrated) {
+    // if this is not the hook that creates the migration, we don't need to
+    // invoke callback.
+    // This is to prevent multiple migration notifications.
+    const shouldRunCallback = migrator.status === MigrationStatus.notStarted;
+    setMigrated(migrator.status === MigrationStatus.done);
+    if (migrator.status !== MigrationStatus.notStarted) {
       return;
     }
     migrator
       .runMigration()
       .then((result) => {
         if (result === MigrationResultType.migrated) {
-          onMigrate?.();
+          if (shouldRunCallback) {
+            onMigrate?.();
+          }
         }
       })
       .finally(() => {
@@ -35,12 +41,22 @@ function usePluginMigration(onMigrate?: () => void) {
   return migrated;
 }
 
-export function PluginVizConfigComponent({
-  setVizConf,
-  ...props
-}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void }) {
-  const { panel } = props;
+type SetVizConfType = { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void };
+
+function useSyncVizConf(setVizConf: SetVizConfType['setVizConf'], panel: IPanelInfo) {
   const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
+  useEffect(() => {
+    return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
+      setVizConf(configData);
+    });
+  }, [setVizConf, panel.viz.type]);
+  return instance;
+}
+
+export function PluginVizConfigComponent({ setVizConf, ...props }: IConfigComponentProps & SetVizConfType) {
+  const { panel } = props;
+  const instance = useSyncVizConf(setVizConf, panel);
+
   const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,
@@ -52,20 +68,16 @@ export function PluginVizConfigComponent({
     await instance.instanceData.setItem(null, panel.viz.conf);
   }, [instance, panel.viz.type]);
 
-  useEffect(() => {
-    return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
-      setVizConf(configData);
-    });
-  }, [setVizConf, panel.viz.type]);
-
   if (!migrated) {
     return <Text>Checking update...</Text>;
   }
   return <VizConfigComponent {...props} />;
 }
 
-export function PluginVizViewComponent(props: IViewComponentProps) {
-  const { panel } = props;
+export function PluginVizViewComponent(props: IViewComponentProps & SetVizConfType) {
+  const { panel, setVizConf } = props;
+  useSyncVizConf(setVizConf, panel);
+
   const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,

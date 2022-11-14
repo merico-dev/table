@@ -33,7 +33,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     vizManager.resolveComponent(viz.type);
     return (
       <ServiceLocatorProvider configure={configureService}>
-        <PluginVizViewComponent panel={panel} data={data} vizManager={vizManager} />
+        <PluginVizViewComponent setVizConf={viz.setConf} panel={panel} data={data} vizManager={vizManager} />
       </ServiceLocatorProvider>
     );
   } catch (e) {
