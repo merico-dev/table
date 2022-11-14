@@ -1,5 +1,4 @@
-import { Box, Stack } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { PanelModelInstance } from '~/model/views/view/panels';

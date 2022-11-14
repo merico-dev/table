@@ -1,46 +1,63 @@
 import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { useAsyncEffect, useCreation } from 'ahooks';
+import { useAsyncEffect } from 'ahooks';
 import React, { useEffect, useState } from 'react';
+import { MigrationResultType, MigrationStatus } from '~/plugins/instance-migrator';
+import { useServiceLocator } from '~/service-locator/use-service-locator';
+import { IPanelInfo, tokens } from '../plugins';
 import {
   IConfigComponentProps,
   IViewComponentProps,
   VizConfigComponent,
   VizViewComponent,
 } from '../plugins/viz-manager/components';
-import { IVizManager } from '../plugins';
 import { AnyObject, IVizConfig } from '../types';
-import { VizInstance } from '../types/plugin';
 
-function usePluginMigration(vizManager: IVizManager, instance: VizInstance, onMigrate?: () => void) {
-  const migrations = useCreation(() => new Set<string>(), []);
-  const comp = vizManager.resolveComponent(instance.type);
+function usePluginMigration(onMigrate?: () => void) {
   const [migrated, setMigrated] = useState(false);
+  const migrator = useServiceLocator().getRequired(tokens.instanceScope.migrator);
   useAsyncEffect(async () => {
-    // we can have more than one component for a given viz instance
-    if ((await comp.migrator.needMigration(instance)) && !migrations.has(instance.id)) {
-      try {
-        migrations.add(instance.id);
-        await comp.migrator.migrate(instance);
-        onMigrate?.();
-      } finally {
-        migrations.delete(instance.id);
-        setMigrated(true);
-      }
-    } else {
-      setMigrated(true);
+    // if this is not the hook that creates the migration, we don't need to
+    // invoke callback.
+    // This is to prevent multiple migration notifications.
+    const shouldRunCallback = migrator.status === MigrationStatus.notStarted;
+    setMigrated(migrator.status === MigrationStatus.done);
+    if (migrator.status !== MigrationStatus.notStarted) {
+      return;
     }
-  }, [instance]);
+    migrator
+      .runMigration()
+      .then((result) => {
+        if (result === MigrationResultType.migrated) {
+          if (shouldRunCallback) {
+            onMigrate?.();
+          }
+        }
+      })
+      .finally(() => {
+        setMigrated(true);
+      });
+  }, [migrator]);
   return migrated;
 }
 
-export function PluginVizConfigComponent({
-  setVizConf,
-  ...props
-}: IConfigComponentProps & { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void }) {
-  const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
-  const migrated = usePluginMigration(vizManager, instance, () => {
+type SetVizConfType = { setVizConf: (val: React.SetStateAction<IVizConfig['conf']>) => void };
+
+function useSyncVizConf(setVizConf: SetVizConfType['setVizConf'], panel: IPanelInfo) {
+  const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
+  useEffect(() => {
+    return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
+      setVizConf(configData);
+    });
+  }, [setVizConf, panel.viz.type]);
+  return instance;
+}
+
+export function PluginVizConfigComponent({ setVizConf, ...props }: IConfigComponentProps & SetVizConfType) {
+  const { panel } = props;
+  const instance = useSyncVizConf(setVizConf, panel);
+
+  const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',
@@ -51,22 +68,17 @@ export function PluginVizConfigComponent({
     await instance.instanceData.setItem(null, panel.viz.conf);
   }, [instance, panel.viz.type]);
 
-  useEffect(() => {
-    return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
-      setVizConf(configData);
-    });
-  }, [setVizConf, panel.viz.type]);
-
   if (!migrated) {
     return <Text>Checking update...</Text>;
   }
   return <VizConfigComponent {...props} />;
 }
 
-export function PluginVizViewComponent(props: IViewComponentProps) {
-  const { vizManager, panel } = props;
-  const instance = vizManager.getOrCreateInstance(panel);
-  const migrated = usePluginMigration(vizManager, instance, () => {
+export function PluginVizViewComponent(props: IViewComponentProps & SetVizConfType) {
+  const { panel, setVizConf } = props;
+  useSyncVizConf(setVizConf, panel);
+
+  const migrated = usePluginMigration(() => {
     showNotification({
       title: `${panel.title} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',

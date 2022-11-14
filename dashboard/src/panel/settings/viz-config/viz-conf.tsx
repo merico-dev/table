@@ -4,6 +4,8 @@ import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
+import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { usePanelContext } from '../../../contexts';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
 import { IPanelInfoEditor } from '../../../types/plugin';
@@ -53,16 +55,19 @@ function usePluginVizConfig() {
     setQueryID: setQueryID,
     setTitle: setTitle,
   };
+  const configureService = useConfigVizInstanceService(panel);
   try {
     vizManager.resolveComponent(panel.viz.type);
     return (
-      <PluginVizConfigComponent
-        setVizConf={viz.setConf}
-        panel={panel}
-        panelInfoEditor={panelEditor}
-        vizManager={vizManager}
-        data={data}
-      />
+      <ServiceLocatorProvider configure={configureService}>
+        <PluginVizConfigComponent
+          setVizConf={viz.setConf}
+          panel={panel}
+          panelInfoEditor={panelEditor}
+          vizManager={vizManager}
+          data={data}
+        />
+      </ServiceLocatorProvider>
     );
   } catch (e) {
     console.info(get(e, 'message'));

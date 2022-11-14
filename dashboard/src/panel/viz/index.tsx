@@ -1,14 +1,16 @@
-import { Center, LoadingOverlay, Text } from '@mantine/core';
+import { LoadingOverlay, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
-import React, { ReactNode, useContext } from 'react';
-import { usePanelContext } from '../../contexts';
-import { IViewPanelInfo, PluginContext } from '../../plugins';
-import { PluginVizViewComponent } from '../plugin-adaptor';
 
 import { observer } from 'mobx-react-lite';
+import React, { ReactNode, useContext } from 'react';
+import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
+import { usePanelContext } from '../../contexts';
+import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { IVizConfig } from '../../types';
 import { ErrorBoundary } from '../error-boundary';
+import { PluginVizViewComponent } from '../plugin-adaptor';
 import './index.css';
 
 function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
@@ -25,10 +27,15 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     layout,
     style: style.json,
   };
+  const configureService = useConfigVizInstanceService(panel);
   try {
     // ensure that the plugin is loaded
     vizManager.resolveComponent(viz.type);
-    return <PluginVizViewComponent panel={panel} data={data} vizManager={vizManager} />;
+    return (
+      <ServiceLocatorProvider configure={configureService}>
+        <PluginVizViewComponent setVizConf={viz.setConf} panel={panel} data={data} vizManager={vizManager} />
+      </ServiceLocatorProvider>
+    );
   } catch (e) {
     console.info(get(e, 'message'));
     return null;

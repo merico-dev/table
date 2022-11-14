@@ -1,22 +1,31 @@
 import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors';
-import * as PACKAGE from '../../package.json';
+import { InstanceMigrator } from '~/plugins/instance-migrator';
+import { token } from '~/service-locator';
 
-import { IDashboardPlugin, IPluginManager, ISingleColor } from '~/types/plugin';
-import { IColorManager, ColorManager } from './color-manager';
+import {
+  IDashboardPlugin,
+  IPluginManager,
+  ISingleColor,
+  IVizInteractionManager,
+  IVizOperationManager,
+  VizInstance,
+} from '~/types/plugin';
+import * as PACKAGE from '../../package.json';
+import { ColorManager, IColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
-import { VizManager } from './viz-manager';
-import { RichTextVizComponent } from './viz-components/rich-text';
-import { StatsVizComponent } from './viz-components/stats';
-import { TableVizComponent } from './viz-components/table';
-import { SunburstVizComponent } from './viz-components/sunburst';
-import { PieChartVizComponent } from './viz-components/pie-chart';
 import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { CartesianVizComponent } from './viz-components/cartesian';
+import { ParetoChartVizComponent } from './viz-components/pareto-chart';
+import { PieChartVizComponent } from './viz-components/pie-chart';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
 import { RegressionChartVizComponent } from './viz-components/regression-chart';
-import { ParetoChartVizComponent } from './viz-components/pareto-chart';
+import { RichTextVizComponent } from './viz-components/rich-text';
+import { StatsVizComponent } from './viz-components/stats';
+import { SunburstVizComponent } from './viz-components/sunburst';
+import { TableVizComponent } from './viz-components/table';
+import { VizManager } from './viz-manager';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -114,6 +123,22 @@ const BuiltInPlugin: IDashboardPlugin = {
 };
 
 export const pluginManager = new PluginManager();
+
+/**
+ * All available tokens of services, it also serves as an overview of the
+ * plugin system
+ */
+export const tokens = {
+  pluginManager: token<IPluginManager>('pluginManager'),
+  vizManager: token<VizManager>('vizManager'),
+  colorManager: token<IColorManager>('colorManager'),
+  instanceScope: {
+    vizInstance: token<VizInstance>('vizInstance'),
+    interactionManager: token<IVizInteractionManager>('interactionManager'),
+    migrator: token<InstanceMigrator>('migrator'),
+    operationManager: token<IVizOperationManager>('operationManager'),
+  },
+};
 
 export const createPluginContext = (): IPluginContextProps => {
   try {
