@@ -1,0 +1,56 @@
+{
+  "type": "array",
+  "default": [],
+  "title": "Root Schema",
+  "items": {
+    "type": "object",
+    "default": {},
+    "title": "A Schema",
+    "required": ["actor", "eloc_type", "ref_date", "eloc"],
+    "properties": {
+      "actor": {
+        "type": "string",
+        "default": "",
+        "title": "The actor Schema",
+        "examples": ["Name of the subject"]
+      },
+      "eloc_type": {
+        "type": "string",
+        "default": "",
+        "title": "The eloc_type Schema",
+        "enum": ["new", "accumulated"],
+        "examples": ["new"]
+      },
+      "ref_date": {
+        "type": "string",
+        "default": "",
+        "title": "The ref_date Schema",
+        "examples": ["2021-12-31"]
+      },
+      "eloc": {
+        "type": ["number", "string"],
+        "default": 0,
+        "title": "The eloc Schema",
+        "examples": [999]
+      }
+    },
+    "examples": [
+      {
+        "actor": "Name of the subject",
+        "eloc_type": "new",
+        "ref_date": "2021-12-31",
+        "eloc": 999
+      }
+    ]
+  },
+  "examples": [
+    [
+      {
+        "actor": "Name of the subject",
+        "eloc_type": "new",
+        "ref_date": "2021-12-31",
+        "eloc": 999
+      }
+    ]
+  ]
+}

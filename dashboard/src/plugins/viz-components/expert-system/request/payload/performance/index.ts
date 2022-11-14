@@ -1,4 +1,5 @@
 import { EMetricSet, IExpertSystemConf } from '../../../type';
+import { performance_efficiency, TDataForEfficiency } from './efficiency';
 import { performance_quality, TDataForQuality } from './quality';
 import { performance_quality_history, TDataForQualityHistory } from './quality_history';
 
@@ -10,7 +11,8 @@ function getContent(conf: IExpertSystemConf, data: TPerformanceData) {
       return performance_quality(data as TDataForQuality[]);
     case EMetricSet.quality_history:
       return performance_quality_history(data as TDataForQualityHistory[]);
-    case EMetricSet.skills:
+    case EMetricSet.efficiency:
+      return performance_efficiency(data as TDataForEfficiency[]);
     case EMetricSet.pareto:
     default:
       throw new Error('Invalid metric_set for scenario[performance]');
