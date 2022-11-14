@@ -1,5 +1,6 @@
 import { get, isFunction } from 'lodash';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class Token<T> {
   symbol: symbol;
 
