@@ -1,5 +1,5 @@
 import { IServiceLocator } from '~/service-locator';
-import { IVizOperationManager, VizInstance } from '~/types/plugin';
+import { IVizOperationManager, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
 import { tokens } from '../plugin-context';
 import { IVizManager } from '../viz-manager';
@@ -20,6 +20,7 @@ export enum MigrationStatus {
 export class InstanceMigrator {
   protected vizInstance: VizInstance;
   protected operationManager: IVizOperationManager;
+  protected triggerManager: IVizTriggerManager;
   protected vizManager: IVizManager;
   protected runningMigration?: Promise<MigrationResultType>;
   status: MigrationStatus = MigrationStatus.notStarted;
@@ -27,6 +28,7 @@ export class InstanceMigrator {
   constructor(serviceLocator: IServiceLocator) {
     this.vizInstance = serviceLocator.getRequired(tokens.instanceScope.vizInstance);
     this.operationManager = serviceLocator.getRequired(tokens.instanceScope.operationManager);
+    this.triggerManager = serviceLocator.getRequired(tokens.instanceScope.triggerManager);
     this.vizManager = serviceLocator.getRequired(tokens.vizManager);
   }
 
@@ -67,7 +69,9 @@ export class InstanceMigrator {
   }
 
   protected async runInteractionMigration() {
-    return this.operationManager.runMigration();
+    // when a new instance scoped service is need, we should refactor this
+    await this.operationManager.runMigration();
+    await this.triggerManager.runMigration();
   }
 
   protected async runInstanceMigration() {
@@ -83,8 +87,7 @@ export class InstanceMigrator {
   }
 
   private async interactionNeedMigration() {
-    // todo: add migration to trigger
-    return this.operationManager.needMigration();
+    return (await this.operationManager.needMigration()) || (await this.triggerManager.needMigration());
   }
 }
 

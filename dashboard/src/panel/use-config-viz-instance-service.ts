@@ -20,6 +20,9 @@ export function useConfigVizInstanceService(panel: IPanelInfo) {
           // todo: create operation manager with instance
           return services.getRequired(tokens.instanceScope.interactionManager).operationManager;
         })
+        .provideFactory(tokens.instanceScope.triggerManager, (services) => {
+          return services.getRequired(tokens.instanceScope.interactionManager).triggerManager;
+        })
         .provideFactory(tokens.instanceScope.migrator, (services) => new InstanceMigrator(services));
     },
     [panel.viz.type, panel.viz.conf],
