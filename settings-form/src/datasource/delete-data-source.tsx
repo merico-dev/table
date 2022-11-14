@@ -1,7 +1,9 @@
-import { Button, Text } from '@mantine/core';
+import { Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconLock } from '@tabler/icons';
 import { Trash } from 'tabler-icons-react';
+
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
 
@@ -10,9 +12,10 @@ interface IDeleteDataSource {
   name: string;
   onSuccess: () => void;
   styles?: IStyles;
+  isProtected?: boolean;
 }
 
-export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
+export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
   const modals = useModals();
 
   const doDelete = async () => {
@@ -43,6 +46,20 @@ export function DeleteDataSource({ id, name, onSuccess, styles = defaultStyles }
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
     });
+  const theme = useMantineTheme();
+  if (isProtected) {
+    return (
+      <Tooltip
+        withArrow
+        events={{ hover: true, touch: false, focus: false }}
+        label="This is a preset datasource, it can not be deleted"
+      >
+        <span>
+          <IconLock size={16} color={theme.colors.gray[7]} />
+        </span>
+      </Tooltip>
+    );
+  }
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
