@@ -28,3 +28,4 @@ dashboard/packages/**/stats.html
 _build
 
 api/src/data_sources/preset.json
+api/src/preset_dashboards

@@ -7,6 +7,8 @@ import { validate } from '../middleware/validation';
 import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
 import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
+import ApiKey from '../models/apiKey';
+import Account from '../models/account';
 
 @ApiPath({
   path: '/dashboard',
@@ -105,8 +107,9 @@ export class DashboardController implements interfaces.Controller {
   @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | null = req.body.auth;
       const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
-      const result = await this.dashboardService.update(id, name, content, is_removed);
+      const result = await this.dashboardService.update(id, name, content, is_removed, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);
@@ -128,8 +131,9 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | null = req.body.auth;
       const { id } = validate(DashboardIDRequest, req.body);
-      const result = await this.dashboardService.delete(id);
+      const result = await this.dashboardService.delete(id, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);
