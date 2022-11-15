@@ -26,7 +26,7 @@ interface ISchemaAndValidation {
   data: $TSFixMe[];
 }
 export function SchemaAndValidation({ conf, data }: ISchemaAndValidation) {
-  const { data: schema = {} } = useRequest(async () => getExpertDataSchema(conf), {
+  const { data: schema = null } = useRequest(async () => getExpertDataSchema(conf), {
     refreshDeps: [conf.scenario, conf.metric_set],
   });
 
@@ -58,20 +58,21 @@ export function SchemaAndValidation({ conf, data }: ISchemaAndValidation) {
     }
   }, [conf, data, schema]);
 
-  if (!schema) {
-    return null;
-  }
   return (
     <Tabs defaultValue="structure">
       <Tabs.List>
         <Tabs.Tab value="structure">Expected Data Structure</Tabs.Tab>
-        <Tabs.Tab value="validation">
-          Validation <Badge color={valid ? 'green' : 'red'}>{valid ? 'Pass' : 'Failed'}</Badge>
-        </Tabs.Tab>
+        {schema && (
+          <Tabs.Tab value="validation">
+            Validation <Badge color={valid ? 'green' : 'red'}>{valid ? 'Pass' : 'Failed'}</Badge>
+          </Tabs.Tab>
+        )}
       </Tabs.List>
-      <Tabs.Panel value="validation" pt={6}>
-        <ValidationErrors errors={errors} />
-      </Tabs.Panel>
+      {schema && (
+        <Tabs.Panel value="validation" pt={6}>
+          <ValidationErrors errors={errors} />
+        </Tabs.Panel>
+      )}
       <Tabs.Panel value="structure" pt={6}>
         <Prism my={8} language="typescript" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {structure}
