@@ -1,4 +1,4 @@
-import { Box, LoadingOverlay, Tabs } from '@mantine/core';
+import { Box, LoadingOverlay, Tabs, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
@@ -48,6 +48,7 @@ export function VizExpertSystem({ context }: VizViewProps) {
   }
   return (
     <Box>
+      <Text color="red">Response for debugging:</Text>
       <Tabs defaultValue="0">
         <Tabs.List>
           {data.replies?.map((r: any, i: number) => (
