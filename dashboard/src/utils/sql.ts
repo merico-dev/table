@@ -15,7 +15,7 @@ export function explainSQLSnippet(
   try {
     return new Function(...names, `return \`${snippet}\`;`)(...vals);
   } catch (error: $TSFixMe) {
-    console.error(error);
+    console.info(error);
     return error.message;
   }
 }
