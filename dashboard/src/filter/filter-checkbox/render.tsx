@@ -15,7 +15,7 @@ export function FilterCheckbox({ label, config: { default_value, ...rest }, valu
       <Text>&nbsp;</Text>
       <Checkbox
         label={label}
-        checked={value}
+        checked={value || false}
         onChange={(event) => onChange(event.currentTarget.checked)}
         {...rest}
         pt=".4em"

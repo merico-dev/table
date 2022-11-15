@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { reaction } from 'mobx';
-import { addDisposer, cast, types } from 'mobx-state-tree';
+import { cast, types } from 'mobx-state-tree';
 import { FilterModel, FilterModelInstance } from './filter';
 
 function formatDefaultValue(v: any, config: any) {
@@ -97,18 +96,7 @@ export const FiltersModel = types
         self.values = values;
       },
     };
-  })
-  .actions((self) => ({
-    afterCreate() {
-      addDisposer(
-        self,
-        reaction(() => self.triggerForRefreshValues, self.refreshValues, {
-          fireImmediately: true,
-          delay: 0,
-        }),
-      );
-    },
-  }));
+  });
 
 export * from './filter';
 

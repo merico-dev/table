@@ -1,5 +1,6 @@
 import { Button, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ViewModelInstance } from '..';
 import { useModelContext } from '../contexts/model-context';
@@ -8,7 +9,10 @@ import { Filter } from './filter';
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {
   const model = useModelContext();
 
-  const { control, handleSubmit } = useForm({ defaultValues: model.filters.values });
+  const { control, handleSubmit, reset } = useForm({ defaultValues: model.filters.values });
+  useEffect(() => {
+    reset(model.filters.values);
+  }, [model.filters.values, reset]);
 
   const filters = model.filters.visibleInView(view.id);
   if (filters.length === 0) {

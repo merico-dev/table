@@ -12,9 +12,7 @@ interface IPreviewSnippet {
 export const PreviewSnippet = observer(({ value }: IPreviewSnippet) => {
   const model = useModelContext();
   const context = model.context.current;
-  const explained = React.useMemo(() => {
-    return explainSQLSnippet(value, context, model.mock_context.current, model.filters.values);
-  }, [value, context, model.mock_context.current, model.filters.values]);
+  const explained = explainSQLSnippet(value, context, model.mock_context.current, model.filters.values);
 
   return (
     <Stack>

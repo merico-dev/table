@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { addDisposer, applyPatch, Instance, onSnapshot, types } from 'mobx-state-tree';
 import { IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
@@ -55,7 +55,36 @@ const DashboardModel = types
     getDataErrorByID(queryID: string) {
       return self.queries.findByID(queryID)?.error ?? [];
     },
-  }));
+  }))
+  .actions((self) => {
+    function setupAutoSave() {
+      const filterPayloadKey = `dashboard-${self.id}-filters`;
+      try {
+        const storedValue = localStorage.getItem(filterPayloadKey);
+        if (storedValue) {
+          const storedFilters = JSON.parse(storedValue);
+          applyPatch(self.filters, {
+            op: 'replace',
+            path: '/values',
+            value: storedFilters,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        // ignore
+      }
+      const autoSave = onSnapshot(self.filters, (snapshot) => {
+        localStorage.setItem(filterPayloadKey, JSON.stringify(snapshot.values));
+      });
+      addDisposer(self, autoSave);
+    }
+
+    return {
+      afterCreate() {
+        setupAutoSave();
+      },
+    };
+  });
 
 export function createDashboardModel(
   { id, name, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
