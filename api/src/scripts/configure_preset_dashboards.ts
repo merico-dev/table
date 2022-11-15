@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { Like } from 'typeorm';
 import { dashboardDataSource } from '../data_sources/dashboard';
@@ -17,6 +17,10 @@ async function upsert() {
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
 
     const basePath = path.join(__dirname, '../preset_dashboards');
+    if (!existsSync(basePath)) {
+      console.error('folder for preset dashboards not found. Please run the script for getting preset dashboards first');
+      process.exit(1);
+    }
     const files = readdirSync(basePath);
     const dashboardNames = files.map((file) => { return `${PRESET_PREFIX}${file.substring(0, file.lastIndexOf('.'))}` });
     const currentPresetDashboards = await dashboardRepo.findBy({ name: Like(`${PRESET_PREFIX}%`) });

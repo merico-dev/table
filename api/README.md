@@ -13,6 +13,7 @@ Add a `.env` file based on `.env.sample`
 - `PRESET_APP_ID` Pre-configured apikey app_id
 - `PRESET_APP_SECRET` Pre-configured apikey app_secret
 - `PRESET_ROLE_ID=` Pre-configured apikey role_id
+- `PRESET_DASHBOARDS_REPO=` git repository where the preset dashboards will be downloaded from
 
 
 ### up and running
