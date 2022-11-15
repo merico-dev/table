@@ -70,6 +70,7 @@ export const QueryModel = types
           }),
         );
         self.state = 'idle';
+        self.error = null;
       } catch (error) {
         self.data.length = 0;
         // @ts-expect-error Object is of type 'unknown'
