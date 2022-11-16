@@ -1,6 +1,6 @@
 import { 
   Dashboard, DashboardFilterObject, DashboardSortObject, DashboardListRequest, DashboardPaginationResponse, 
-  DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest,
+  DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest, DashboardNameRequest,
 } from './dashboard';
 import {
   DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
@@ -27,6 +27,7 @@ export default {
   DashboardCreateRequest,
   DashboardUpdateRequest,
   DashboardIDRequest,
+  DashboardNameRequest,
 
   DataSourceConfig,
   DataSource,

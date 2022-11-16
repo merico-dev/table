@@ -56,6 +56,11 @@ export class DashboardService {
     return await dashboardRepo.findOneByOrFail({ id });
   }
 
+  async getByName(name: string): Promise<Dashboard> {
+    const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
+    return await dashboardRepo.findOneByOrFail({ name });
+  }
+
   async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });

@@ -263,3 +263,27 @@ export class DashboardIDRequest {
   })
   authentication?: Authentication;
 }
+
+@ApiModel({
+  description: 'Dashboard name request',
+  name: 'DashboardNameRequest',
+})
+export class DashboardNameRequest {
+  @IsString()
+  @Length(1, 250)
+  @ApiModelProperty({
+    description: 'Dashboard name',
+    required: true,
+  })
+  name: string;
+
+  @IsOptional()
+  @Type(() => Authentication)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'authentication object for use with app_id / app_secret',
+    required: false,
+    model: 'Authentication',
+  })
+  authentication?: Authentication;
+}
