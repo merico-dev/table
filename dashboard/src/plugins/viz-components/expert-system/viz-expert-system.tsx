@@ -2,7 +2,7 @@ import { Box, LoadingOverlay, Tabs, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { callExpertSystem } from './request/call-expert-system';
@@ -25,7 +25,7 @@ export function VizExpertSystem({ context }: VizViewProps) {
       payload: buildPayload(conf, contextData),
     }),
     {
-      refreshDeps: [context.data, conf?.expertSystemURL],
+      refreshDeps: [JSON.stringify(contextData), conf?.expertSystemURL],
     },
   );
 
