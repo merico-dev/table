@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { Like } from 'typeorm';
 import { dashboardDataSource } from '../data_sources/dashboard';
