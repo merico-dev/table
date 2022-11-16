@@ -2,7 +2,6 @@ import { types } from 'mobx-state-tree';
 
 export const MockContextModel = types
   .model('MockContextModel', {
-    original: types.optional(types.frozen(), {}),
     current: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
@@ -11,9 +10,6 @@ export const MockContextModel = types
     },
     get entries() {
       return Object.entries(self.current);
-    },
-    get changed() {
-      return JSON.stringify(self.original) !== JSON.stringify(self.current);
     },
   }))
   .actions((self) => {
@@ -26,9 +22,6 @@ export const MockContextModel = types
       },
       set(key: string, value: $TSFixMe) {
         self.current[key] = value;
-      },
-      reset() {
-        self.current = self.original;
       },
     };
   });

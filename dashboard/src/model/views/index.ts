@@ -1,25 +1,15 @@
 import { randomId } from '@mantine/hooks';
-import _ from 'lodash';
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { EViewComponentType, IDashboardView } from '~/types';
+import { AnyObject, EViewComponentType, IDashboardView } from '~/types';
 import { ViewModel, ViewModelInstance } from './view';
 
 export const ViewsModel = types
   .model('ViewsModel', {
-    original: types.optional(types.array(ViewModel), []),
     current: types.optional(types.array(ViewModel), []),
     visibleViewIDs: types.array(types.string),
     idOfVIE: types.string, // VIE: view in edit
   })
   .views((self) => ({
-    get changed() {
-      if (self.original.length !== self.current.length) {
-        return true;
-      }
-      return self.original.some((o, i) => {
-        return !_.isEqual(o.json, self.current[i].json);
-      });
-    },
     get json() {
       return self.current.map((o) => o.json);
     },
@@ -53,20 +43,10 @@ export const ViewsModel = types
   }))
   .actions((self) => {
     return {
-      reset() {
-        const o = self.original.map((o) => ({
-          ...o.json,
-          panels: {
-            list: o.panels.json,
-          },
-        }));
-        self.current.length = 0;
-        self.current.unshift(...o);
-      },
       replace(current: Array<ViewModelInstance>) {
         self.current.replace(current);
       },
-      addANewView(id: string, type: EViewComponentType, config: Record<string, any>) {
+      addANewView(id: string, type: EViewComponentType, config: AnyObject) {
         self.current.push({
           id,
           name: id,
@@ -143,7 +123,6 @@ export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<I
     },
   }));
   return {
-    original: processedViews,
     current: processedViews,
     visibleViewIDs,
     idOfVIE,

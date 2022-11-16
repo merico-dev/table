@@ -47,19 +47,10 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   }, [model]);
 
   const revertChanges = () => {
-    model.filters.reset();
-    model.views.reset();
-    model.sqlSnippets.reset();
-    model.queries.reset();
-    model.mock_context.reset();
+    model.reset();
   };
 
-  const hasChanges =
-    model.mock_context.changed ||
-    model.views.changed ||
-    model.sqlSnippets.changed ||
-    model.queries.changed ||
-    model.filters.changed;
+  const hasChanges = model.changed;
   const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);

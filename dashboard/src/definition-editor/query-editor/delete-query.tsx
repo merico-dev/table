@@ -1,8 +1,8 @@
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { getParentOfType } from 'mobx-state-tree';
-import { DashboardModel, QueryModelInstance } from '~/model';
+import { useModelContext } from '~/contexts';
+import { QueryModelInstance } from '~/model';
 
 export interface IDeleteQueryProps {
   queryModel: QueryModelInstance;
@@ -10,7 +10,7 @@ export interface IDeleteQueryProps {
 
 const _DeleteQuery = (props: IDeleteQueryProps) => {
   const { queryModel } = props;
-  const dashboardModel = getParentOfType(queryModel, DashboardModel);
+  const dashboardModel = useModelContext();
   const dependingPanels = dashboardModel.findDependingPanels(queryModel.id);
   const disabled = dependingPanels.length > 0;
   const button = (

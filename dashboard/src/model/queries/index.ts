@@ -1,23 +1,12 @@
-import _ from 'lodash';
-import { cast, types } from 'mobx-state-tree';
+import { cast, detach, types } from 'mobx-state-tree';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
-import { MuteQueryModel } from './mute-query';
 import { QueryModel, QueryModelInstance } from './query';
 
 export const QueriesModel = types
   .model('QueriesModel', {
-    original: types.optional(types.array(MuteQueryModel), []),
     current: types.optional(types.array(QueryModel), []),
   })
   .views((self) => ({
-    get changed() {
-      if (self.original.length !== self.current.length) {
-        return true;
-      }
-      return self.original.some((o, i) => {
-        return !_.isEqual(o.configurations, self.current[i].configurations);
-      });
-    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;
@@ -43,16 +32,6 @@ export const QueriesModel = types
   }))
   .actions((self) => {
     return {
-      reset() {
-        const o = self.original.map((o) => ({
-          ...o,
-          state: 'idle' as const,
-          data: [],
-          error: null,
-        }));
-        self.current.length = 0;
-        self.current.unshift(...o);
-      },
       replace(current: Array<QueryModelInstance>) {
         self.current = cast(current);
       },
