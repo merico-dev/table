@@ -7,7 +7,7 @@ import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { callExpertSystem } from './request/call-expert-system';
 import { buildPayload } from './request/payload';
-import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
+import { DEFAULT_CONFIG, EExperSystemScenario, EMetricSet, IExpertSystemConf } from './type';
 
 export function VizExpertSystem({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
@@ -32,6 +32,20 @@ export function VizExpertSystem({ context }: VizViewProps) {
   if (!width || !height || !conf) {
     return null;
   }
+
+  if (conf.scenario === EExperSystemScenario.personal_report && conf.metric_set === EMetricSet.commits) {
+    return (
+      <Box sx={{ position: 'relative', height }}>
+        <Text align="center" color="red">
+          Not supported
+        </Text>
+        <Text size="sm">
+          This scenario&metric pair is not supported, since "baselines" can't be queried along with elocs
+        </Text>
+      </Box>
+    );
+  }
+
   if (loading) {
     return (
       <Box sx={{ position: 'relative', height }}>
@@ -39,6 +53,7 @@ export function VizExpertSystem({ context }: VizViewProps) {
       </Box>
     );
   }
+
   if (Array.isArray(data.errors) && data.errors.length > 0) {
     return (
       <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
