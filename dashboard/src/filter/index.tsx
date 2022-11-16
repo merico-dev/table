@@ -1,7 +1,7 @@
 import { Button, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { ViewModelInstance } from '..';
 import { useModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
@@ -9,10 +9,20 @@ import { Filter } from './filter';
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {
   const model = useModelContext();
 
-  const { control, handleSubmit, reset } = useForm({ defaultValues: model.filters.values });
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: model.filters.values,
+    // make sure the preview value is updated when filters are changed
+    reValidateMode: 'onBlur',
+  });
+  const formValue = useWatch({ control });
   useEffect(() => {
     reset(model.filters.values);
   }, [model.filters.values, reset]);
+  useEffect(() => {
+    // this form is not a controlled component,
+    // so we need to manually update the model
+    model.filters.updatePreviewValues(formValue);
+  }, [formValue]);
 
   const filters = model.filters.visibleInView(view.id);
   if (filters.length === 0) {
