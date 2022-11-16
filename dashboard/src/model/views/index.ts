@@ -1,7 +1,6 @@
 import { randomId } from '@mantine/hooks';
-import { selectRowsFn } from '@tanstack/react-table';
 import _ from 'lodash';
-import { cast, types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
 import { ViewModel, ViewModelInstance } from './view';
 
@@ -65,7 +64,7 @@ export const ViewsModel = types
         self.current.unshift(...o);
       },
       replace(current: Array<ViewModelInstance>) {
-        self.current = cast(current);
+        self.current.replace(current);
       },
       addANewView(id: string, type: EViewComponentType, config: Record<string, any>) {
         self.current.push({
@@ -134,7 +133,7 @@ export const ViewsModel = types
 
 export * from './view';
 
-export function createDashboardViewsModel(views: IDashboardView[]) {
+export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const idOfVIE = views.length > 0 ? views[0].id : '';
   const processedViews = views.map((view) => ({
@@ -143,10 +142,10 @@ export function createDashboardViewsModel(views: IDashboardView[]) {
       list: view.panels,
     },
   }));
-  return ViewsModel.create({
+  return {
     original: processedViews,
     current: processedViews,
     visibleViewIDs,
     idOfVIE,
-  });
+  };
 }

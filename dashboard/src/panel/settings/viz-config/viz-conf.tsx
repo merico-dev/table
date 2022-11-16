@@ -46,7 +46,7 @@ function usePluginVizConfig() {
     title,
     description,
     viz,
-    queryID,
+    queryID: queryID.id,
     id,
     style: style.json,
   };

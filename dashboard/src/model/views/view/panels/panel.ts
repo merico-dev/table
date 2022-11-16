@@ -1,4 +1,5 @@
-import { Instance, types } from 'mobx-state-tree';
+import { getRoot, Instance, resolveIdentifier, types } from 'mobx-state-tree';
+import { QueryModel } from '../../../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
@@ -9,7 +10,7 @@ export const PanelModel = types
     title: types.string,
     description: types.string,
     layout: PanelLayoutModel,
-    queryID: types.string,
+    queryID: types.reference(types.late(() => QueryModel)),
     viz: PanelVizModel,
     style: PanelStyleModel,
   })
@@ -21,7 +22,7 @@ export const PanelModel = types
         title,
         description,
         layout: self.layout.json,
-        queryID,
+        queryID: queryID.id,
         viz: self.viz.json,
         style: self.style.json,
       };
@@ -38,7 +39,12 @@ export const PanelModel = types
       self.description = description;
     },
     setQueryID(queryID: string) {
-      self.queryID = queryID;
+      const queryInstance = resolveIdentifier(QueryModel, getRoot(self), queryID);
+      if (queryInstance) {
+        self.queryID = queryInstance;
+      } else {
+        throw new Error(`Query with id ${queryID} does not exist`);
+      }
     },
   }))
   .actions((self) => ({}));

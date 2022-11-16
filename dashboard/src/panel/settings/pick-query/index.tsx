@@ -23,14 +23,14 @@ export const PickQuery = observer(function _PickQuery() {
         <Text>Select a Query</Text>
         <Select
           data={options}
-          value={queryID}
+          value={queryID.id}
           onChange={setQueryID}
           allowDeselect={false}
           clearable={false}
           sx={{ flexGrow: 1 }}
         />
       </Group>
-      <DataPreview id={queryID} />
+      <DataPreview id={queryID.id} />
     </Stack>
   );
 });
