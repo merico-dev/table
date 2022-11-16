@@ -7,7 +7,7 @@ import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 import { createDashboardViewsModel, ViewsModel } from './views';
 
-const DashboardModel = types
+export const DashboardModel = types
   .model({
     id: types.identifier,
     name: types.string,
@@ -54,6 +54,13 @@ const DashboardModel = types
     },
     getDataErrorByID(queryID: string) {
       return self.queries.findByID(queryID)?.error ?? [];
+    },
+  }))
+  .views((self) => ({
+    findDependingPanels(queryID: string) {
+      return self.views.current.flatMap((v) =>
+        v.panels.list.filter((p) => p.queryID.id === queryID).map((p) => p.title),
+      );
     },
   }))
   .actions((self) => {

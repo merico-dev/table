@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { types, cast } from 'mobx-state-tree';
-import { downloadCSV, makeCSV, downloadDataListAsZip } from '../../utils/download';
-import { QueryModel, QueryModelInstance } from './query';
+import { cast, types } from 'mobx-state-tree';
+import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
 import { MuteQueryModel } from './mute-query';
+import { QueryModel, QueryModelInstance } from './query';
 
 export const QueriesModel = types
   .model('QueriesModel', {
@@ -89,6 +89,12 @@ export const QueriesModel = types
           return;
         }
         return query.fetchData();
+      },
+      removeQuery(queryID: string) {
+        const targetIndex = self.current.find((q) => q.id === queryID);
+        if (targetIndex) {
+          self.current.remove(targetIndex);
+        }
       },
     };
   });
