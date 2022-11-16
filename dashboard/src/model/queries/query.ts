@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL, QueryFailureError } from '../../api-caller';
@@ -73,9 +74,7 @@ export const QueryModel = types
         self.error = null;
       } catch (error) {
         self.data.length = 0;
-        // @ts-expect-error Object is of type 'unknown'
-        const resp = error.response.data as QueryFailureError;
-        self.error = resp.detail.message;
+        self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
         self.state = 'error';
       }
     }),

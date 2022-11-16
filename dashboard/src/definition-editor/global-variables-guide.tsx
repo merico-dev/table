@@ -29,13 +29,13 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   const model = useModelContext();
   const contextInfo = model.context.current;
 
-  const variablesString = React.useMemo(() => {
+  const variablesString = (() => {
     const ret: Record<string, $TSFixMe> = {
       context: {
         ...model.mock_context.current,
         ...contextInfo,
       },
-      filters: model.filters.values,
+      filters: model.filters.previewValues,
     };
 
     if (showSQLSnippets) {
@@ -43,15 +43,26 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
     }
 
     return JSON.stringify(ret, null, 2);
-  }, [model.mock_context.current, contextInfo, model.sqlSnippets.record, model.filters.values, showSQLSnippets]);
+  })();
 
   return (
-    <Stack sx={{ border: '1px solid #eee', maxWidth: '40%', overflow: 'hidden', ...sx }}>
+    <Stack
+      sx={{
+        border: '1px solid #eee',
+        maxWidth: '40%',
+        overflow: 'hidden',
+        ...sx,
+      }}
+    >
       <Group
         position="left"
         pl="md"
         py="md"
-        sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}
+        sx={{
+          borderBottom: '1px solid #eee',
+          background: '#efefef',
+          flexGrow: 0,
+        }}
       >
         <Text weight={500}>Global Variables</Text>
       </Group>

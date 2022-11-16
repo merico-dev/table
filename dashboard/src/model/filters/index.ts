@@ -1,9 +1,19 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { cast, types } from 'mobx-state-tree';
+import {
+  addDisposer,
+  addMiddleware,
+  cast,
+  getType,
+  IAnyComplexType,
+  IAnyStateTreeNode,
+  Instance,
+  types,
+} from 'mobx-state-tree';
+import { AnyObject } from '~/types';
 import { FilterModel, FilterModelInstance } from './filter';
 
-function formatDefaultValue(v: any, config: any) {
+function formatDefaultValue(v: AnyObject, config: AnyObject) {
   if (v === undefined) {
     return v;
   }
@@ -28,11 +38,32 @@ function getValuesFromFilters(filters: FilterModelInstance[]) {
   }, {} as FilterValuesType);
 }
 
+function afterModelAction<T extends IAnyComplexType>(
+  target: IAnyStateTreeNode,
+  instanceType: T,
+  callback: (action: string, instance: Instance<T>) => void,
+) {
+  addDisposer(
+    target,
+    addMiddleware(target, (call, next) => {
+      next(call, () => {
+        if (getType(call.context) === instanceType && call.type === 'action') {
+          callback(call.name, call.context as Instance<T>);
+        }
+      });
+    }),
+  );
+}
+
 export const FiltersModel = types
   .model('FiltersModel', {
     original: types.optional(types.array(FilterModel), []),
     current: types.optional(types.array(FilterModel), []),
     values: types.optional(types.frozen(), {}),
+    /**
+     * values to be displayed in preview content, e.g. Data Settings
+     */
+    previewValues: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
     get changed() {
@@ -55,10 +86,6 @@ export const FiltersModel = types
         self.current.filter((f) => f.visibleInViewsIDs.includes(viewID)),
         'order',
       );
-    },
-    get triggerForRefreshValues() {
-      const ret = self.current.map((f) => f.config.default_value?.toString()).join('__');
-      return ret;
     },
     get firstFilterValueKey() {
       return Object.keys(self.values)[0] ?? '';
@@ -92,8 +119,30 @@ export const FiltersModel = types
       },
       refreshValues() {
         console.log('refreshing values');
-        const values = getValuesFromFilters(self.current);
-        self.values = values;
+        self.values = getValuesFromFilters(self.current);
+      },
+      updatePreviewValues(values: AnyObject) {
+        self.previewValues = values;
+      },
+    };
+  })
+  .actions((self) => {
+    function updateValuesAfterChangeFilterType() {
+      afterModelAction(self.current, FilterModel, (action, filter) => {
+        if (action === 'setType') {
+          const defaultValue = formatDefaultValue(filter.config.default_value, filter.config);
+          self.setValueByKey(filter.key, defaultValue);
+          self.updatePreviewValues({
+            ...self.previewValues,
+            [filter.key]: defaultValue,
+          });
+        }
+      });
+    }
+
+    return {
+      afterCreate() {
+        updateValuesAfterChangeFilterType();
       },
     };
   });
