@@ -5,7 +5,7 @@ const scenarioOptions = [
   { label: 'dev_load', value: EExperSystemScenario.dev_load },
   { label: 'personal_report', value: EExperSystemScenario.personal_report },
   { label: 'performance', value: EExperSystemScenario.performance },
-  { label: 'comparison', value: EExperSystemScenario.comparison, disabled: true },
+  { label: 'comparison', value: EExperSystemScenario.comparison },
 ];
 
 interface IScenarioSelector {

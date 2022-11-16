@@ -19,7 +19,7 @@ const metricSetOptionGroups: Record<string, { label: string; value: EMetricSet; 
     { label: 'efficiency', value: EMetricSet.efficiency },
     { label: 'pareto', value: EMetricSet.pareto },
   ],
-  comparison: [{ label: 'efficiency', value: EMetricSet.efficiency, disabled: true }],
+  comparison: [{ label: 'efficiency', value: EMetricSet.efficiency }],
 };
 
 interface IMetricSetSelector {
