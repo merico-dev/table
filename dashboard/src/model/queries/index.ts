@@ -70,9 +70,10 @@ export const QueriesModel = types
         return query.fetchData();
       },
       removeQuery(queryID: string) {
-        const targetIndex = self.current.find((q) => q.id === queryID);
-        if (targetIndex) {
-          self.current.remove(targetIndex);
+        const query = self.current.find((q) => q.id === queryID);
+        if (query) {
+          detach(query);
+          self.current.remove(query);
         }
       },
     };

@@ -145,7 +145,7 @@ const _DashboardModel = types
         applySnapshot(self.queries.current, self.origin.queries.current);
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
-        applySnapshot(self.mock_context.current, self.origin.mock_context.current);
+        self.mock_context.current = self.origin.mock_context.current;
       },
     };
   });
