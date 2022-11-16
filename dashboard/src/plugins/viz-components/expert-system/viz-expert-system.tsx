@@ -52,13 +52,13 @@ export function VizExpertSystem({ context }: VizViewProps) {
       <Tabs defaultValue="0">
         <Tabs.List>
           {data.replies?.map((r: any, i: number) => (
-            <Tabs.Tab key={`${r.actor}-${r.metric}`} value={i.toString()}>
+            <Tabs.Tab key={`${r.actor}-${r.metric}-${i}`} value={i.toString()}>
               {i}
             </Tabs.Tab>
           ))}
         </Tabs.List>
         {data.replies?.map((r: any, i: number) => (
-          <Tabs.Panel key={`${r.actor}-${r.metric}`} value={i.toString()} pt={6}>
+          <Tabs.Panel key={`${r.actor}-${r.metric}-${i}`} value={i.toString()} pt={6}>
             <Prism my={8} language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
               {JSON.stringify(r, null, 2)}
             </Prism>
