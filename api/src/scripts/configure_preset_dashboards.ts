@@ -3,7 +3,13 @@ import path from 'path';
 import { Like } from 'typeorm';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
+import DataSource from '../models/datasource';
 import { PRESET_PREFIX } from '../utils/constants';
+
+type Source = {
+  type: string;
+  key: string;  
+};
 
 async function upsert() {
   console.info('Starting upsert of preset dashboards');
@@ -15,13 +21,15 @@ async function upsert() {
   await queryRunner.startTransaction();
   try {
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
+    const datasourceRepo = queryRunner.manager.getRepository(DataSource);
 
     const basePath = path.join(__dirname, '../preset_dashboards');
     if (!existsSync(basePath)) {
       console.error('folder for preset dashboards not found. Please run the script for getting preset dashboards first');
       process.exit(1);
     }
-    const files = readdirSync(basePath);
+    let files = readdirSync(basePath);
+    files = files.filter((file) => { return file.endsWith('.json') });
     const dashboardNames = files.map((file) => { return `${PRESET_PREFIX}${file.substring(0, file.lastIndexOf('.'))}` });
     const currentPresetDashboards = await dashboardRepo.findBy({ name: Like(`${PRESET_PREFIX}%`) });
 
@@ -32,6 +40,11 @@ async function upsert() {
 
     for (let i = 0; i < files.length; i++) {
       const config: Record<string, any> = JSON.parse(readFileSync(path.join(basePath, files[i]), 'utf-8'));
+      for (let j = 0; j < config.definition.queries.length; j++) {
+        const { type, key } = config.definition.queries[j] as Source;
+        const formatted_key = key.startsWith(PRESET_PREFIX) ? key : `${PRESET_PREFIX}${key}`;
+        await datasourceRepo.findOneByOrFail({ type, key: formatted_key });
+      }
       const name = dashboardNames[i];
       let dashboard = await dashboardRepo.findOneBy({ name });
       if (!dashboard) {
