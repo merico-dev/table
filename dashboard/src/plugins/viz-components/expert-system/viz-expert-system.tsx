@@ -48,7 +48,9 @@ export function VizExpertSystem({ context }: VizViewProps) {
   }
   return (
     <Box>
-      <Text color="red">Response for debugging:</Text>
+      <Text size="xs" color="red" align="center" mb={-6}>
+        Response for debugging
+      </Text>
       <Tabs defaultValue="0">
         <Tabs.List>
           {data.replies?.map((r: any, i: number) => (
