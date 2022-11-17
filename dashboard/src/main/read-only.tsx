@@ -1,9 +1,12 @@
 import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { useCreation } from 'ahooks';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
+import { createPluginContext, PluginContext } from '~/plugins';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { ReadOnlyDashboardView } from '~/view';
 import { configureAPIClient } from '../api-caller/request';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -11,6 +14,7 @@ import { ModelContextProvider } from '../contexts/model-context';
 import { createDashboardModel } from '../model';
 import { ContextInfoType } from '../model/context';
 import { IDashboard } from '../types/dashboard';
+import { useTopLevelServices } from './use-top-level-services';
 import './main.css';
 
 interface IReadOnlyDashboard {
@@ -40,6 +44,8 @@ export const ReadOnlyDashboard = observer(
       model.context.replace(context);
     }, [context]);
 
+    const pluginContext = useCreation(createPluginContext, []);
+    const configureServices = useTopLevelServices(pluginContext);
     return (
       <ModalsProvider>
         <ModelContextProvider value={model}>
@@ -52,14 +58,18 @@ export const ReadOnlyDashboard = observer(
             }}
           >
             <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
-              {model.views.visibleViews.map((view) => (
-                <ReadOnlyDashboardView
-                  key={view.id}
-                  view={view}
-                  fullScreenPanelID={fullScreenPanelID}
-                  setFullScreenPanelID={setFullScreenPanelID}
-                />
-              ))}
+              <PluginContext.Provider value={pluginContext}>
+                <ServiceLocatorProvider configure={configureServices}>
+                  {model.views.visibleViews.map((view) => (
+                    <ReadOnlyDashboardView
+                      key={view.id}
+                      view={view}
+                      fullScreenPanelID={fullScreenPanelID}
+                      setFullScreenPanelID={setFullScreenPanelID}
+                    />
+                  ))}
+                </ServiceLocatorProvider>
+              </PluginContext.Provider>
             </Box>
           </LayoutStateContext.Provider>
         </ModelContextProvider>
