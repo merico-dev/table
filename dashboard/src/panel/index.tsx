@@ -49,7 +49,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const model = useModelContext();
   const { inEditMode } = useContext(LayoutStateContext);
 
-  const { data, state, error } = model.getDataStuffByID(panel.queryID.id);
+  const { data, state, error } = model.getDataStuffByID(panel.queryID);
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
 

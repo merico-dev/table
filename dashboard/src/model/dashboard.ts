@@ -108,9 +108,7 @@ const _DashboardModel = types
   }))
   .views((self) => ({
     findDependingPanels(queryID: string) {
-      return self.views.current.flatMap((v) =>
-        v.panels.list.filter((p) => p.queryID.id === queryID).map((p) => p.title),
-      );
+      return self.views.current.flatMap((v) => v.panels.list.filter((p) => p.queryID === queryID).map((p) => p.title));
     },
   }))
   .actions((self) => {
@@ -146,6 +144,9 @@ const _DashboardModel = types
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
         self.mock_context.current = self.origin.mock_context.current;
+      },
+      resetFilters() {
+        applySnapshot(self.filters.current, self.origin.filters.current);
       },
     };
   });
