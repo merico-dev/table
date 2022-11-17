@@ -46,6 +46,7 @@ export default defineConfig({
         '@mantine/rte',
         // '@tanstack/react-table'
         'ahooks',
+        'ajv',
         'axios',
         'chroma-js',
         'crypto-js',
@@ -87,6 +88,7 @@ export default defineConfig({
           '@mantine/rte': '@mantine/rte',
           '@tanstack/react-table': '@tanstack/react-table',
           ahooks: 'ahooks',
+          ajv: 'ajv',
           axios: 'axios',
           'chroma-js': 'chroma-js',
           'crypto-js': 'crypto-js',

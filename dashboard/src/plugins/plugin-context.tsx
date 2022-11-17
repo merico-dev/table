@@ -27,6 +27,7 @@ import { StatsVizComponent } from './viz-components/stats';
 import { SunburstVizComponent } from './viz-components/sunburst';
 import { TableVizComponent } from './viz-components/table';
 import { VizManager } from './viz-manager';
+import { ExpertSystemVizComponent } from './viz-components/expert-system';
 
 interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -118,6 +119,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       CartesianVizComponent,
       RadarChartVizComponent,
       RegressionChartVizComponent,
+      ExpertSystemVizComponent,
     ],
     color: [...basicColors, ...colorInterpolations],
   },
