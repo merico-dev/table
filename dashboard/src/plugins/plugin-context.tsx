@@ -102,7 +102,7 @@ const basicColors = [
 
 const colorInterpolations = [RedGreen, YellowBlue, Blue, Green, Red, Orange];
 
-const BuiltInPlugin: IDashboardPlugin = {
+const BuiltInPlugin: () => IDashboardPlugin = () => ({
   id: 'dashboard',
   version: PACKAGE.version,
   manifest: {
@@ -121,7 +121,7 @@ const BuiltInPlugin: IDashboardPlugin = {
     ],
     color: [...basicColors, ...colorInterpolations],
   },
-};
+});
 
 export const pluginManager = new PluginManager();
 
@@ -145,7 +145,7 @@ export const tokens = {
 export const createPluginContext = (): IPluginContextProps => {
   try {
     // reinstall built-in plugin on HMR
-    pluginManager.install(BuiltInPlugin);
+    pluginManager.install(BuiltInPlugin());
   } catch (e) {
     // ignore
   }
@@ -157,7 +157,7 @@ export const createPluginContext = (): IPluginContextProps => {
 export const PluginContext = createContext<IPluginContextProps>(createPluginContext());
 
 try {
-  pluginManager.install(BuiltInPlugin);
+  pluginManager.install(BuiltInPlugin());
 } catch (e) {
   // ignore
 }

@@ -22,7 +22,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     title,
     id,
     description,
-    queryID,
+    queryID: queryID.id,
     viz,
     layout,
     style: style.json,

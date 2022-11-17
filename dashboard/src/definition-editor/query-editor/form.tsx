@@ -4,12 +4,15 @@ import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { QueryModelInstance } from '../../model/queries';
 import { SelectDataSource } from '../select-data-source';
+
+import { DeleteQuery } from './delete-query';
 import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
   queryModel: QueryModelInstance;
   setCurrentID: React.Dispatch<React.SetStateAction<string>>;
 }
+
 export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID }: IQueryForm) {
   const initialID = React.useRef(queryModel.id);
   const [id, setID] = React.useState(initialID.current);
@@ -44,8 +47,9 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
 
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
-      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+      <Group position="apart" py="md" px="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Text weight={500}>Edit Query</Text>
+        <DeleteQuery queryModel={queryModel} />
       </Group>
       <Stack my={0} p="md" pr={40}>
         <Group grow>

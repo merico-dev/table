@@ -57,7 +57,6 @@ function afterModelAction<T extends IAnyComplexType>(
 
 export const FiltersModel = types
   .model('FiltersModel', {
-    original: types.optional(types.array(FilterModel), []),
     current: types.optional(types.array(FilterModel), []),
     values: types.optional(types.frozen(), {}),
     /**
@@ -66,9 +65,6 @@ export const FiltersModel = types
     previewValues: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
-    get changed() {
-      return !_.isEqual(self.original, self.current);
-    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;
@@ -93,9 +89,6 @@ export const FiltersModel = types
   }))
   .actions((self) => {
     return {
-      reset() {
-        self.current = _.cloneDeep(self.original);
-      },
       replace(current: Array<FilterModelInstance>) {
         self.current = cast(current);
       },
@@ -153,7 +146,6 @@ export type FilterValuesType = Record<string, $TSFixMe>;
 
 export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
   return {
-    original: filters,
     current: filters,
     values: getValuesFromFilters(filters),
   };

@@ -1,16 +1,11 @@
-import _ from 'lodash';
-import { types, cast } from 'mobx-state-tree';
+import { cast, types } from 'mobx-state-tree';
 import { SQLSnippetModel, SQLSnippetModelInstance } from './sql-snippet';
 
 export const SQLSnippetsModel = types
   .model('SQLSnippetsModel', {
-    original: types.optional(types.array(SQLSnippetModel), []),
     current: types.optional(types.array(SQLSnippetModel), []),
   })
   .views((self) => ({
-    get changed() {
-      return !_.isEqual(self.original, self.current);
-    },
     get json() {
       return self.current.map((o) => o.json);
     },
@@ -23,9 +18,6 @@ export const SQLSnippetsModel = types
   }))
   .actions((self) => {
     return {
-      reset() {
-        self.current = _.cloneDeep(self.original);
-      },
       replace(current: Array<SQLSnippetModelInstance>) {
         self.current = cast(current);
       },

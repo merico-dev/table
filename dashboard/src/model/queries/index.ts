@@ -1,23 +1,12 @@
-import _ from 'lodash';
-import { types, cast } from 'mobx-state-tree';
-import { downloadCSV, makeCSV, downloadDataListAsZip } from '../../utils/download';
+import { cast, detach, types } from 'mobx-state-tree';
+import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
-import { MuteQueryModel } from './mute-query';
 
 export const QueriesModel = types
   .model('QueriesModel', {
-    original: types.optional(types.array(MuteQueryModel), []),
     current: types.optional(types.array(QueryModel), []),
   })
   .views((self) => ({
-    get changed() {
-      if (self.original.length !== self.current.length) {
-        return true;
-      }
-      return self.original.some((o, i) => {
-        return !_.isEqual(o.configurations, self.current[i].configurations);
-      });
-    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;
@@ -43,16 +32,6 @@ export const QueriesModel = types
   }))
   .actions((self) => {
     return {
-      reset() {
-        const o = self.original.map((o) => ({
-          ...o,
-          state: 'idle' as const,
-          data: [],
-          error: null,
-        }));
-        self.current.length = 0;
-        self.current.unshift(...o);
-      },
       replace(current: Array<QueryModelInstance>) {
         self.current = cast(current);
       },
@@ -89,6 +68,13 @@ export const QueriesModel = types
           return;
         }
         return query.fetchData();
+      },
+      removeQuery(queryID: string) {
+        const query = self.current.find((q) => q.id === queryID);
+        if (query) {
+          detach(query);
+          self.current.remove(query);
+        }
       },
     };
   });

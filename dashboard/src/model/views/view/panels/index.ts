@@ -1,6 +1,5 @@
 import { randomId } from '@mantine/hooks';
-import _ from 'lodash';
-import { cast, types } from 'mobx-state-tree';
+import { castToSnapshot, types } from 'mobx-state-tree';
 import { TableVizComponent } from '~/plugins/viz-components/table';
 import { PanelModel, PanelModelInstance } from './panel';
 
@@ -25,7 +24,7 @@ export const PanelsModel = types
   .actions((self) => {
     return {
       replace(current: Array<PanelModelInstance>) {
-        self.list = cast(current);
+        self.list = castToSnapshot(current);
       },
       addANewPanel() {
         const id = randomId();
