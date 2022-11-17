@@ -10,11 +10,14 @@ export const PanelModel = types
     title: types.string,
     description: types.string,
     layout: PanelLayoutModel,
-    queryID: types.reference(types.late(() => QueryModel)),
+    queryID: types.string,
     viz: PanelVizModel,
     style: PanelStyleModel,
   })
   .views((self) => ({
+    get query() {
+      return resolveIdentifier(QueryModel, getRoot(self), self.queryID);
+    },
     get json() {
       const { id, title, description, queryID } = self;
       return {
@@ -22,7 +25,7 @@ export const PanelModel = types
         title,
         description,
         layout: self.layout.json,
-        queryID: queryID.id,
+        queryID: queryID,
         viz: self.viz.json,
         style: self.style.json,
       };
@@ -41,12 +44,11 @@ export const PanelModel = types
     setQueryID(queryID: string) {
       const queryInstance = resolveIdentifier(QueryModel, getRoot(self), queryID);
       if (queryInstance) {
-        self.queryID = queryInstance;
+        self.queryID = queryID;
       } else {
         throw new Error(`Query with id ${queryID} does not exist`);
       }
     },
-  }))
-  .actions((self) => ({}));
+  }));
 
 export type PanelModelInstance = Instance<typeof PanelModel>;

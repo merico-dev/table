@@ -34,8 +34,8 @@ export const FilterSettings = observer(function _FilterSettings() {
           size="xs"
           color="red"
           leftIcon={<Recycle size={20} />}
-          disabled={!model.filters.changed}
-          onClick={model.filters.reset}
+          disabled={!model.filtersChanged}
+          onClick={model.resetFilters}
         >
           Revert Changes
         </Button>
