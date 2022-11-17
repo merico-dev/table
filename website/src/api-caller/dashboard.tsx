@@ -1,12 +1,11 @@
 import { IDashboard } from '@devtable/dashboard';
-import { normalizeDBDashboard } from './dashboard.transform';
 import { IDBDashboard } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
 export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
-    const res = await post('/dashboard/list', {
+    return await post('/dashboard/list', {
       filter: {},
       sort: {
         field: 'create_time',
@@ -17,12 +16,11 @@ export const DashboardAPI = {
         pagesize: 100,
       },
     });
-    return res;
   },
   details: async (id: string): Promise<IDBDashboard> => {
     return await post(`/dashboard/details`, { id });
   },
-  update: async ({ id, name, definition, views, filters, version }: IDashboard): Promise<IDashboard> => {
+  update: async ({ id, name, definition, views, filters, version }: IDashboard): Promise<IDBDashboard> => {
     const payload = {
       id,
       name,
@@ -33,10 +31,9 @@ export const DashboardAPI = {
         version,
       },
     };
-    const res: IDBDashboard = await put('/dashboard/update', payload);
-    return normalizeDBDashboard(res);
+    return await put('/dashboard/update', payload);
   },
-  create: async (name: string, content?: IDBDashboard['content']): Promise<IDashboard> => {
+  create: async (name: string, content?: IDBDashboard['content']): Promise<IDBDashboard> => {
     if (!content) {
       content = {
         definition: {
@@ -57,11 +54,10 @@ export const DashboardAPI = {
         version: '4.14.1',
       };
     }
-    const res: IDBDashboard = await post('/dashboard/create', {
+    return await post('/dashboard/create', {
       name,
       content,
     });
-    return normalizeDBDashboard(res);
   },
   delete: async (id: string): Promise<void> => {
     if (!id) {
