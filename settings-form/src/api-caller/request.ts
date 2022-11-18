@@ -1,5 +1,6 @@
 import axios, { Method } from 'axios';
 import CryptoJS from 'crypto-js';
+import _ from 'lodash';
 
 function marshall(params: Record<string, $TSFixMe>) {
   params = params || {};
@@ -81,6 +82,9 @@ export const APIClient = {
           return res.data;
         })
         .catch((err: $TSFixMe) => {
+          if (_.has(err, 'response.data.detail.message')) {
+            return Promise.reject(new Error(err.response.data.detail.message));
+          }
           return Promise.reject(err);
         });
     };
