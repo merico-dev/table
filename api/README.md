@@ -10,9 +10,13 @@ Add a `.env` file based on `.env.sample`
 - `ENABLE_AUTH` Whether to add authentication and authorization to routes. 0 = disabled, 1 = enabled 
 - `SUPER_ADMIN_PASSWORD` The password which will be configured for the superadmin account during migration. Must be configured before migration is run. If value is not set, password will be 'secret'
 - `DATABASE_CONNECTION_TIMEOUT_MS` for configuration the time after which the db connection will timeout in milliseconds. Default is 30000ms (30 seconds)
+
+Variables for configuring preset ApiKeys. Separate values with ; ex: PRESET_API_KEY_NAME=name1;name2;name3
+- `PRESET_API_KEY_NAME=` Pre-configured apikey name
 - `PRESET_APP_ID` Pre-configured apikey app_id
 - `PRESET_APP_SECRET` Pre-configured apikey app_secret
 - `PRESET_ROLE_ID=` Pre-configured apikey role_id
+
 - `PRESET_DASHBOARDS_REPO=` git repository where the preset dashboards will be downloaded from
 
 

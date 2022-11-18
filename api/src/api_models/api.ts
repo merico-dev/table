@@ -38,6 +38,12 @@ export class ApiKey {
     required: true,
   })
   app_secret: string;
+
+  @ApiModelProperty({
+    description : 'whether the ApiKey is preset or not' ,
+    required : false,
+  })
+  is_preset: boolean;
 }
 
 @ApiModel({
@@ -58,13 +64,13 @@ export class ApiKeyFilterObject implements FilterRequest {
   name: 'ApiKeySortObject'
 })
 export class ApiKeySortObject implements SortRequest {
-  @IsIn(['name', 'create_time'])
+  @IsIn(['name', 'create_time', 'is_preset'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['name', 'create_time'],
+    enum: ['name', 'create_time', 'is_preset'],
   })
-  field: 'name' | 'create_time';
+  field: 'name' | 'create_time' | 'is_preset';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
