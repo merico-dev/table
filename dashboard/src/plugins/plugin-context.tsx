@@ -29,7 +29,7 @@ import { TableVizComponent } from './viz-components/table';
 import { VizManager } from './viz-manager';
 import { ExpertSystemVizComponent } from './viz-components/expert-system';
 
-interface IPluginContextProps {
+export interface IPluginContextProps {
   pluginManager: IPluginManager;
   vizManager: VizManager;
   colorManager: IColorManager;
