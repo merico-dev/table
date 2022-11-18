@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Text } from '@mantine/core';
 
 import { VizViewProps } from '~/types/plugin';
@@ -12,5 +12,11 @@ export function VizStats({ context }: VizViewProps) {
   const contents = useMemo(() => {
     return templateToJSX(template, variables, context.data as Record<string, number>[]);
   }, [template, variables, context.data]);
-  return <Text align={align}>{Object.values(contents).map((c) => c)}</Text>;
+  return (
+    <Text align={align}>
+      {Object.values(contents).map((c, i) => (
+        <React.Fragment key={i}>{c}</React.Fragment>
+      ))}
+    </Text>
+  );
 }
