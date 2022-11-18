@@ -21,14 +21,8 @@ export const datasource = {
     type: DataSourceType,
     key: string,
     config: IDataSourceConfig,
-  ): Promise<PaginationResponse<IDataSource> | false> => {
-    try {
-      const res = await APIClient.getRequest('POST')('/datasource/create', { type, key, config });
-      return res;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
+  ): Promise<PaginationResponse<IDataSource>> => {
+    return APIClient.getRequest('POST')('/datasource/create', { type, key, config });
   },
   delete: async (id: string): Promise<void> => {
     await APIClient.getRequest('POST')('/datasource/delete', { id });

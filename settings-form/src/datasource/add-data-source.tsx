@@ -50,24 +50,23 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       message: 'Adding data source...',
       loading: true,
     });
-    const result = await APICaller.datasource.create(type, key, config);
-    if (!result) {
+    try {
+      await APICaller.datasource.create(type, key, config);
+      updateNotification({
+        id: 'for-creating',
+        title: 'Successful',
+        message: 'Data source is added',
+        color: 'green',
+      });
+      postSubmit();
+    } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
         title: 'Failed',
-        message: 'Test connection failed with given info',
+        message: error.message,
         color: 'red',
       });
-      return;
     }
-
-    updateNotification({
-      id: 'for-creating',
-      title: 'Successful',
-      message: 'Data source is added',
-      color: 'green',
-    });
-    postSubmit();
   };
 
   return (
