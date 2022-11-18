@@ -71,6 +71,12 @@ export class DataSource {
     required: true,
   })
   key: string;
+
+  @ApiModelProperty({
+    description : 'whether the datasource is preset or not' ,
+    required : false,
+  })
+  is_preset: boolean;
 }
 
 @ApiModel({
@@ -91,13 +97,13 @@ export class DataSourceFilterObject implements FilterRequest {
   name: 'DataSourceSortObject'
 })
 export class DataSourceSortObject implements SortRequest {
-  @IsIn(['type', 'key', 'create_time'])
+  @IsIn(['type', 'key', 'create_time', 'is_preset'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['type', 'key', 'create_time'],
+    enum: ['type', 'key', 'create_time', 'is_preset'],
   })
-  field: 'type' | 'key' | 'create_time';
+  field: 'type' | 'key' | 'create_time' | 'is_preset';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({

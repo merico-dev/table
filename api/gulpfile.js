@@ -35,11 +35,15 @@ function copyPackageJson() {
   return gulp.src(['package.json', 'yarn.lock'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
 }
 
+function copyPresetDatasourcesFolder() {
+  return gulp.src(['./src/preset/data_sources/*.json'], { cwd: __dirname }).pipe(gulp.dest(distDir + '/preset/data_sources/'));
+}
+
 function copySwagger() {
   return gulp.src(['./swagger/**/*'], { cwd: __dirname }).pipe(gulp.dest(buildDir + '/swagger/'));
 }
 
-const build = gulp.parallel(copyPackageJson, copySwagger, compile);
+const build = gulp.parallel(copyPackageJson, copySwagger, compile, copyPresetDatasourcesFolder);
 
 module.exports = {
   build,

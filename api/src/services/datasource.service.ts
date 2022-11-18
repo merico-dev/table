@@ -22,6 +22,7 @@ export class DataSourceService {
       .select('datasource.id', 'id')
       .addSelect('datasource.type', 'type')
       .addSelect('datasource.key', 'key')
+      .addSelect('datasource.is_preset', 'is_preset')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
@@ -55,7 +56,11 @@ export class DataSourceService {
 
   async delete(id: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
-    await dataSourceRepo.delete(id);
+    const datasource = await dataSourceRepo.findOneByOrFail({ id });
+    if (datasource.is_preset) {
+      throw new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' });
+    }
+    await dataSourceRepo.delete(datasource.id);
   }
 
   private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {

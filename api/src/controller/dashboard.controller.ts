@@ -4,9 +4,11 @@ import { controller, httpPost, httpPut, interfaces } from 'inversify-express-uti
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardService } from '../services/dashboard.service';
 import { validate } from '../middleware/validation';
-import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest } from '../api_models/dashboard';
+import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest, DashboardNameRequest } from '../api_models/dashboard';
 import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
+import ApiKey from '../models/apiKey';
+import Account from '../models/account';
 
 @ApiPath({
   path: '/dashboard',
@@ -90,6 +92,29 @@ export class DashboardController implements interfaces.Controller {
     }
   }
 
+  @ApiOperationPost({
+    path: '/detailsByName',
+    description: 'Show dashboard',
+    parameters: {
+      body: { description: 'get dashboard by name request', required: true, model: 'DashboardNameRequest'}
+    },
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
+      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
+    }
+  })
+  @httpPost('/detailsByName', permission(ROLE_TYPES.READER))
+  public async detailsByName(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { name, is_preset } = validate(DashboardNameRequest, req.body);
+      const result = await this.dashboardService.getByName(name, is_preset);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   @ApiOperationPut({
     path: '/update',
     description: 'Update dashboard',
@@ -105,8 +130,9 @@ export class DashboardController implements interfaces.Controller {
   @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | null = req.body.auth;
       const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
-      const result = await this.dashboardService.update(id, name, content, is_removed);
+      const result = await this.dashboardService.update(id, name, content, is_removed, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);
@@ -128,8 +154,9 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | null = req.body.auth;
       const { id } = validate(DashboardIDRequest, req.body);
-      const result = await this.dashboardService.delete(id);
+      const result = await this.dashboardService.delete(id, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);

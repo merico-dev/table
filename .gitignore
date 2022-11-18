@@ -26,3 +26,6 @@ dashboard/packages/**/stats.html
 .idea/
 
 _build
+
+api/src/preset/data_sources/config.json
+api/src/preset/dashboards

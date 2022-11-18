@@ -1,7 +1,10 @@
 import { PaginationRequest } from '../api_models/base';
 import { DashboardFilterObject, DashboardSortObject, DashboardPaginationResponse } from '../api_models/dashboard';
+import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
+import { AUTH_ENABLED } from '../utils/constants';
+import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 
 export class DashboardService {
@@ -50,18 +53,30 @@ export class DashboardService {
     return await dashboardRepo.findOneByOrFail({ id });
   }
 
-  async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined): Promise<Dashboard> {
+  async getByName(name: string, is_preset: boolean): Promise<Dashboard> {
+    const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
+    return await dashboardRepo.findOneByOrFail({ name, is_preset });
+  }
+
+  async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
+    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+      throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' });
+    }
     dashboard.name = name === undefined ? dashboard.name : name;
     dashboard.content = content === undefined ? dashboard.content : content;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
     return await dashboardRepo.save(dashboard);
   }
 
-  async delete(id: string): Promise<Dashboard> {
+  async delete(id: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
+    console.log(role_id);
+    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+      throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' });
+    }
     dashboard.is_removed = true;
     return await dashboardRepo.save(dashboard);
   }

@@ -20,4 +20,10 @@ export default class DataSource extends BaseModel {
 
   @Column('jsonb', { name: 'config' })
   config: DataSourceConfig;
+
+  @Column('boolean', {
+    default: false,
+    name: 'is_preset',
+  })
+  is_preset: boolean;
 }

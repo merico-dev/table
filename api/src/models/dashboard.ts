@@ -18,4 +18,10 @@ export default class Dashboard extends BaseModel {
     name: 'is_removed',
   })
   is_removed: boolean;
+
+  @Column('boolean', {
+    default: false,
+    name: 'is_preset',
+  })
+  is_preset: boolean;
 }
