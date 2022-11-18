@@ -34,6 +34,12 @@ export class Dashboard {
   is_removed: boolean;
 
   @ApiModelProperty({
+    description : 'whether the dashboard is preset or not' ,
+    required : false,
+  })
+  is_preset: boolean;
+
+  @ApiModelProperty({
     description: 'Create time',
     required: false,
   })
@@ -73,13 +79,13 @@ export class DashboardFilterObject implements FilterRequest {
   name: 'DashboardSortObject'
 })
 export class DashboardSortObject implements SortRequest {
-  @IsIn(['name', 'create_time'])
+  @IsIn(['name', 'create_time', 'is_preset'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['name', 'create_time'],
+    enum: ['name', 'create_time', 'is_preset'],
   })
-  field: 'name' | 'create_time';
+  field: 'name' | 'create_time' | 'is_preset';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
@@ -276,6 +282,13 @@ export class DashboardNameRequest {
     required: true,
   })
   name: string;
+
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'Dashboard is_preset',
+    required: true,
+  })
+  is_preset: boolean;
 
   @IsOptional()
   @Type(() => Authentication)

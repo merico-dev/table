@@ -107,8 +107,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/detailsByName', permission(ROLE_TYPES.READER))
   public async detailsByName(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name } = validate(DashboardNameRequest, req.body);
-      const result = await this.dashboardService.getByName(name);
+      const { name, is_preset } = validate(DashboardNameRequest, req.body);
+      const result = await this.dashboardService.getByName(name, is_preset);
       res.json(result);
     } catch (err) {
       next(err);

@@ -3,7 +3,6 @@ import { PaginationRequest } from '../api_models/base';
 import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationResponse, DataSourceConfig } from '../api_models/datasource';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
-import { PRESET_PREFIX } from '../utils/constants';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
@@ -23,6 +22,7 @@ export class DataSourceService {
       .select('datasource.id', 'id')
       .addSelect('datasource.type', 'type')
       .addSelect('datasource.key', 'key')
+      .addSelect('datasource.is_preset', 'is_preset')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
@@ -43,9 +43,6 @@ export class DataSourceService {
     if (type !== 'http') {
       await this.testDatabaseConfiguration(type, config);
     }
-    if (key.startsWith(PRESET_PREFIX)) {
-      throw new ApiError(BAD_REQUEST, { message: '__PRESET__ is an internally used prefix. Not allowed to be used for manually created datasources' });
-    }
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = new DataSource();
@@ -60,10 +57,10 @@ export class DataSourceService {
   async delete(id: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const datasource = await dataSourceRepo.findOneByOrFail({ id });
-    if (datasource.key.startsWith(PRESET_PREFIX)) {
+    if (datasource.is_preset) {
       throw new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' });
     }
-    await dataSourceRepo.delete(datasource);
+    await dataSourceRepo.delete(datasource.id);
   }
 
   private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {

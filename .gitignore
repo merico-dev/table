@@ -27,5 +27,5 @@ dashboard/packages/**/stats.html
 
 _build
 
-api/src/data_sources/preset.json
-api/src/preset_dashboards
+api/src/preset/data_sources/config.json
+api/src/preset/dashboards

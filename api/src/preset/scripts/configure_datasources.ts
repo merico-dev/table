@@ -1,18 +1,12 @@
 import { DataSource as Source } from 'typeorm';
 import { Type } from 'class-transformer';
 import { IsInt, IsString, ValidateNested } from 'class-validator';
-import path from 'path';
-import { Like } from 'typeorm';
-import { DataSourceConfig } from '../api_models/datasource';
-import { dashboardDataSource } from '../data_sources/dashboard';
-import DataSource from '../models/datasource';
-import { PRESET_PREFIX } from '../utils/constants';
-import { configureDatabaseSource } from '../utils/helpers';
-import { maybeEncryptPassword } from '../utils/encryption';
-import { validate } from '../middleware/validation';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+import { DataSourceConfig } from '../../api_models/datasource';
+import { dashboardDataSource } from '../../data_sources/dashboard';
+import DataSource from '../../models/datasource';
+import { configureDatabaseSource } from '../../utils/helpers';
+import { maybeEncryptPassword } from '../../utils/encryption';
+import { validate } from '../../middleware/validation';
 
 class DatabaseSource {
   @IsString()
@@ -65,10 +59,10 @@ async function upsert() {
   await queryRunner.startTransaction();
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const data: PresetDatasources = validate(PresetDatasources, require('../data_sources/preset.json'));
+    const data: PresetDatasources = validate(PresetDatasources, require('../data_sources/config.json'));
     
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
-    await datasourceRepo.delete({ key: Like(`${PRESET_PREFIX}%`) });
+    await datasourceRepo.delete({ is_preset: true });
 
     for (const source of data.postgresql) {
       const { key } = validate(DatabaseSource, source);
@@ -77,8 +71,9 @@ async function upsert() {
       maybeEncryptPassword(config);
       const dataSource = new DataSource();
       dataSource.type = 'postgresql';
-      dataSource.key = `${PRESET_PREFIX}${key}`;
+      dataSource.key = key;
       dataSource.config = config;
+      dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
     }
 
@@ -89,8 +84,9 @@ async function upsert() {
       maybeEncryptPassword(config);
       const dataSource = new DataSource();
       dataSource.type = 'mysql';
-      dataSource.key = `${PRESET_PREFIX}${key}`;
+      dataSource.key = key;
       dataSource.config = config;
+      dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
     }
 
@@ -99,8 +95,9 @@ async function upsert() {
       const config = validate(BaseConfig, source.config);
       const dataSource = new DataSource();
       dataSource.type = 'http';
-      dataSource.key = `${PRESET_PREFIX}${key}`;
+      dataSource.key = key;
       dataSource.config = config;
+      dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
     }
     await queryRunner.commitTransaction();

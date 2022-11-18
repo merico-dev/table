@@ -1,11 +1,7 @@
-import path from 'path';
-import { ROLE_TYPES } from '../api_models/role';
-import { dashboardDataSource } from '../data_sources/dashboard';
-import ApiKey from '../models/apiKey';
-import { PRESET_API_KEY_NAME } from '../utils/constants';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+import { ROLE_TYPES } from '../../api_models/role';
+import { dashboardDataSource } from '../../data_sources/dashboard';
+import ApiKey from '../../models/apiKey';
+import { PRESET_API_KEY_NAME } from '../../utils/constants';
 
 async function upsert() {
   console.info('Starting upsert of preset apikey');

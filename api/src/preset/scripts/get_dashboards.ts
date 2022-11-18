@@ -3,13 +3,12 @@ import { existsSync, mkdirSync, rmSync } from 'fs';
 import simpleGit from 'simple-git';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
-
+require('dotenv').config({ path: path.join(__dirname, '../../../.env') });
 
 async function get() {
   console.info('Starting download of preset dashboards');
   try {
-    const basePath = path.join(__dirname, '../preset_dashboards');
+    const basePath = path.join(__dirname, '../dashboards');
     if (existsSync(basePath)) {
       rmSync(basePath, { recursive: true, force: true });
     }

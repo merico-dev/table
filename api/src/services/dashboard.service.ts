@@ -3,7 +3,7 @@ import { DashboardFilterObject, DashboardSortObject, DashboardPaginationResponse
 import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
-import { AUTH_ENABLED, PRESET_PREFIX } from '../utils/constants';
+import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 
@@ -40,9 +40,6 @@ export class DashboardService {
   }
 
   async create(name: string, content: Record<string, any>): Promise<Dashboard> {
-    if (name.startsWith(PRESET_PREFIX)) {
-      throw new ApiError(BAD_REQUEST, { message: '__PRESET__ is an internally used prefix. Not allowed to be used for manually created dashboards' });
-    }
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = new Dashboard();
     dashboard.name = name;
@@ -56,15 +53,15 @@ export class DashboardService {
     return await dashboardRepo.findOneByOrFail({ id });
   }
 
-  async getByName(name: string): Promise<Dashboard> {
+  async getByName(name: string, is_preset: boolean): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    return await dashboardRepo.findOneByOrFail({ name });
+    return await dashboardRepo.findOneByOrFail({ name, is_preset });
   }
 
   async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    if (AUTH_ENABLED && dashboard.name.startsWith(PRESET_PREFIX) && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
@@ -76,7 +73,8 @@ export class DashboardService {
   async delete(id: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    if (AUTH_ENABLED && dashboard.name.startsWith(PRESET_PREFIX) && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+    console.log(role_id);
+    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' });
     }
     dashboard.is_removed = true;
