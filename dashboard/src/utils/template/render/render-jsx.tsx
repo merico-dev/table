@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import React from 'react';
 import { aggregateValue } from '../../aggregation';
 import { InterpolateColor } from '../../color-mapping';
 import { ColorConfType, ITemplateVariable } from '../types';
@@ -30,7 +31,7 @@ function variablesToElements(variables: ITemplateVariable[], data: Record<string
 }
 
 function preserveWhiteSpaces(text: string) {
-  return text.split(' ').map((s) => <>{s}&nbsp;</>);
+  return text.split(' ').map((s, i) => <React.Fragment key={i}>{s}&nbsp;</React.Fragment>);
 }
 
 function withLineBreaks(text: string) {
