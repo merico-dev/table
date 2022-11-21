@@ -1,7 +1,9 @@
 import { ActionIcon, Button, Group, Menu, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { SnapshotOrInstance } from 'mobx-state-tree';
 import React from 'react';
 import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { ViewModelInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
@@ -26,6 +28,16 @@ const actionIconGroupStyle = {
 interface IDashboardActions {
   saveChanges: () => void;
 }
+
+// todo: how can we keep this function in sync with `createDashboardViewsModel`?
+// maybe we can use a `IExportable` interface that has a `import/export` method?
+function processExportedViews(views: SnapshotOrInstance<ViewModelInstance>[]) {
+  return views.map((view) => ({
+    ...view,
+    panels: view.panels.list,
+  }));
+}
+
 export const DashboardActions = observer(function _DashboardActions({ saveChanges }: IDashboardActions) {
   const model = useModelContext();
 
@@ -37,7 +49,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     const mock_context = model.mock_context.current;
     return {
       filters,
-      views,
+      views: processExportedViews(views),
       definition: {
         sqlSnippets,
         queries,

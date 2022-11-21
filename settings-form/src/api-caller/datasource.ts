@@ -4,7 +4,7 @@ import { PaginationResponse } from './types';
 
 export const datasource = {
   list: async (): Promise<PaginationResponse<IDataSource>> => {
-    const res = await APIClient.getRequest('POST')('/datasource/list', {
+    return await APIClient.getRequest('POST')('/datasource/list', {
       filter: {},
       sort: {
         field: 'create_time',
@@ -15,14 +15,17 @@ export const datasource = {
         pagesize: 100,
       },
     });
-    return res;
   },
   create: async (
     type: DataSourceType,
     key: string,
     config: IDataSourceConfig,
-  ): Promise<PaginationResponse<IDataSource>> => {
-    return APIClient.getRequest('POST')('/datasource/create', { type, key, config });
+  ): Promise<PaginationResponse<IDataSource> | false> => {
+    return await APIClient.getRequest('POST')('/datasource/create', {
+      type,
+      key,
+      config,
+    });
   },
   delete: async (id: string): Promise<void> => {
     await APIClient.getRequest('POST')('/datasource/delete', { id });
