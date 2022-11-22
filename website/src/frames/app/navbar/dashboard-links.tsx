@@ -1,8 +1,10 @@
 import { Box, Group, LoadingOverlay, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardStore } from '../models/dashboard-store';
+import { ActionMenu } from './action-menu';
 
 interface DashboardLinkProps {
   id: string;
@@ -16,10 +18,14 @@ function DashboardLink({ id, name, active, preset }: DashboardLinkProps) {
   const theme = useMantineTheme();
   return (
     <UnstyledButton
+      pl="xs"
+      py={0}
+      pr={0}
       sx={(theme) => ({
+        position: 'relative',
         display: 'block',
         width: '100%',
-        padding: theme.spacing.xs,
+        height: '42px',
         borderRadius: theme.radius.sm,
         color: theme.black,
 
@@ -29,10 +35,18 @@ function DashboardLink({ id, name, active, preset }: DashboardLinkProps) {
 
         backgroundColor: active ? theme.colors.gray[2] : 'transparent',
       })}
-      onClick={() => navigate(`/dashboard/${id}`)}
     >
-      <Group position="apart">
-        <Text size="sm">{name}</Text>
+      <Group position="apart" noWrap>
+        <Text
+          size="sm"
+          py="xs"
+          pr="xs"
+          // @ts-expect-error !important
+          sx={{ flexGrow: '1 !important', height: '42px' }}
+          onClick={() => navigate(`/dashboard/${id}`)}
+        >
+          {name}
+        </Text>
         {preset && (
           <Tooltip
             position="right"
@@ -46,6 +60,7 @@ function DashboardLink({ id, name, active, preset }: DashboardLinkProps) {
             </span>
           </Tooltip>
         )}
+        {!preset && active && <ActionMenu id={id} />}
       </Group>
     </UnstyledButton>
   );
