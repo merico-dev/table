@@ -1,12 +1,20 @@
-import { ActionIcon, Menu, Text } from '@mantine/core';
+import { ActionIcon, Menu } from '@mantine/core';
 import { Menu2 } from 'tabler-icons-react';
+import { useAccountContext } from '../../require-auth/account-context';
+import { DeleteDashboard } from '../header/delete-dashboard';
 
 interface IActionMenu {
   id: string;
+  preset: boolean;
 }
-export const ActionMenu = ({ id }: IActionMenu) => {
+export const ActionMenu = ({ id, preset }: IActionMenu) => {
+  const { canEdit } = useAccountContext();
+
+  if (!canEdit || preset) {
+    return null;
+  }
   return (
-    <Menu shadow="md" width={200} withinPortal trigger="hover">
+    <Menu shadow="md" width={220} withinPortal trigger="hover">
       <Menu.Target>
         <ActionIcon
           variant="subtle"
@@ -21,7 +29,7 @@ export const ActionMenu = ({ id }: IActionMenu) => {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item>Delete this dashboard</Menu.Item>
+        <DeleteDashboard id={id} />
         <Menu.Item>Overwrite with JSON file</Menu.Item>
       </Menu.Dropdown>
     </Menu>

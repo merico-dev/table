@@ -1,7 +1,6 @@
 import { Box, Group, LoadingOverlay, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardStore } from '../models/dashboard-store';
 import { ActionMenu } from './action-menu';
@@ -60,7 +59,7 @@ function DashboardLink({ id, name, active, preset }: DashboardLinkProps) {
             </span>
           </Tooltip>
         )}
-        {!preset && active && <ActionMenu id={id} />}
+        {!preset && active && <ActionMenu id={id} preset={false} />}
       </Group>
     </UnstyledButton>
   );
