@@ -1,7 +1,7 @@
 import { ActionIcon, Menu } from '@mantine/core';
 import { Menu2 } from 'tabler-icons-react';
-import { useAccountContext } from '../../require-auth/account-context';
-import { DeleteDashboard } from '../header/delete-dashboard';
+import { useAccountContext } from '../../../require-auth/account-context';
+import { DeleteDashboard } from './delete-dashboard';
 
 interface IActionMenu {
   id: string;
