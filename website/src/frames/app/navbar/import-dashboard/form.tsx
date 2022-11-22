@@ -1,11 +1,10 @@
-import { ActionIcon, Box, Button, FileInput, Group, LoadingOverlay, Modal, TextInput, Tooltip } from '@mantine/core';
+import { Box, Button, FileInput, Group, LoadingOverlay, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { FileImport } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { DashboardAPI } from '../../../../api-caller/dashboard';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
@@ -14,7 +13,7 @@ interface IFormValues {
   content: TDashboardContent_Temp;
 }
 
-function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const navigate = useNavigate();
 
   const {
@@ -135,33 +134,5 @@ function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         </Group>
       </form>
     </Box>
-  );
-}
-
-export function ImportDashboard() {
-  const [opened, setOpened] = React.useState(false);
-  const open = () => setOpened(true);
-  const close = () => setOpened(false);
-
-  return (
-    <>
-      <Modal
-        overflow="inside"
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Import a dashboard from JSON file"
-        trapFocus
-        onDragStart={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <ImportDashboardForm postSubmit={close} />
-      </Modal>
-      <Tooltip label="Import a dashboard">
-        <ActionIcon color="blue" variant="light" onClick={open}>
-          <FileImport size={17} />
-        </ActionIcon>
-      </Tooltip>
-    </>
   );
 }
