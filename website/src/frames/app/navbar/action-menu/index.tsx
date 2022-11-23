@@ -1,5 +1,5 @@
 import { ActionIcon, Menu } from '@mantine/core';
-import { FileInfo, Menu2 } from 'tabler-icons-react';
+import { Edit, FileImport, FileInfo, Menu2 } from 'tabler-icons-react';
 import { useAccountContext } from '../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
 
@@ -31,10 +31,15 @@ export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu
       </Menu.Target>
 
       <Menu.Dropdown>
-        <DeleteDashboard id={id} />
-        <Menu.Item onClick={() => openOverwriteModal(id, name)} color="blue" icon={<FileInfo size={16} />}>
+        <Menu.Item disabled icon={<Edit size={16} />}>
+          Rename
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item onClick={() => openOverwriteModal(id, name)} icon={<FileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
+        <Menu.Divider />
+        <DeleteDashboard id={id} />
       </Menu.Dropdown>
     </Menu>
   );
