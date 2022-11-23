@@ -23,7 +23,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
     },
   });
 
-  const addAccount = async ({ name, password }: IFormValues) => {
+  const login = async ({ name, password }: IFormValues) => {
     try {
       showNotification({
         id: 'for-login',
@@ -52,7 +52,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
 
   return (
     <Box mx="auto">
-      <form onSubmit={handleSubmit(addAccount)}>
+      <form onSubmit={handleSubmit(login)}>
         <Controller
           name="name"
           control={control}
