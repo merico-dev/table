@@ -1,13 +1,12 @@
-import { Button, Text } from '@mantine/core';
+import { Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Trash } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { DashboardAPI } from '../../../../api-caller/dashboard';
 
-export function DeleteDashboard() {
+export function DeleteDashboard({ id }: { id: string }) {
   const navigate = useNavigate();
-  const { id } = useParams();
   const modals = useModals();
   const doDelete = async () => {
     if (!id) {
@@ -40,8 +39,8 @@ export function DeleteDashboard() {
     return null;
   }
   return (
-    <Button size="xs" color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
+    <Menu.Item color="red" icon={<Trash size={16} />} onClick={confirmAndDelete}>
       Delete this dashboard
-    </Button>
+    </Menu.Item>
   );
 }

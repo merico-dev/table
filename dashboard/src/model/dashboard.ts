@@ -23,6 +23,7 @@ const _DashboardModel = types
   .model({
     id: types.identifier,
     name: types.string,
+    version: types.string,
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
@@ -170,12 +171,13 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 });
 
 export function createDashboardModel(
-  { id, name, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
+  { id, name, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
     id,
     name,
+    version,
     filters: getInitialFiltersPayload(filters),
     queries: {
       current: queries,

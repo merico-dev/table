@@ -29,32 +29,24 @@ interface IDashboardActions {
   saveChanges: () => void;
 }
 
-// todo: how can we keep this function in sync with `createDashboardViewsModel`?
-// maybe we can use a `IExportable` interface that has a `import/export` method?
-function processExportedViews(views: SnapshotOrInstance<ViewModelInstance>[]) {
-  return views.map((view) => ({
-    ...view,
-    panels: view.panels.list,
-  }));
-}
-
 export const DashboardActions = observer(function _DashboardActions({ saveChanges }: IDashboardActions) {
   const model = useModelContext();
 
   const getCurrentSchema = React.useCallback(() => {
-    const queries = model.queries.current;
-    const views = model.views.current;
-    const sqlSnippets = model.sqlSnippets.current;
+    const queries = model.queries.json;
+    const views = model.views.json;
+    const sqlSnippets = model.sqlSnippets.json;
     const filters = model.filters.current;
     const mock_context = model.mock_context.current;
     return {
       filters,
-      views: processExportedViews(views),
+      views,
       definition: {
         sqlSnippets,
         queries,
         mock_context,
       },
+      version: model.version,
     };
   }, [model]);
 

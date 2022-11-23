@@ -4,6 +4,7 @@ import { List, Settings } from 'tabler-icons-react';
 import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
+import { ImportDashboard } from './import-dashboard';
 
 export function Navbar() {
   const { id } = useParams();
@@ -21,7 +22,12 @@ export function Navbar() {
     <MantineNavbar p="md" width={{ base: 300, height: '100vh - 60px - 60px' }}>
       <MantineNavbar.Section>
         <Group grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
-          {canEdit && <CreateDashboard />}
+          {canEdit && (
+            <>
+              <CreateDashboard />
+              <ImportDashboard />
+            </>
+          )}
           {!canEdit && (
             <Group pl={12}>
               <List size={16} />
