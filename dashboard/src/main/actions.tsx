@@ -46,6 +46,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
         queries,
         mock_context,
       },
+      version: model.version,
     };
   }, [model]);
 
