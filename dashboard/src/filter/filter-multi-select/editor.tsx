@@ -2,7 +2,7 @@ import { ActionIcon, Button, Checkbox, Divider, Group, MultiSelect, TextInput } 
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
-import { FilterQueryField } from '../filter-query-field';
+import { PickQueryForFilter } from '../pick-query-for-filter';
 
 interface IFilterEditorMultiSelect {
   config: IFilterConfig_MultiSelect;
@@ -78,7 +78,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         onChange={(e) => config.setSelectFirstByDefault(e.currentTarget.checked)}
         label="Select the first option by default"
       />
-      <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
+      <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
     </>
   );
 });

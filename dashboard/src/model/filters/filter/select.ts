@@ -1,49 +1,21 @@
 import { Instance, types } from 'mobx-state-tree';
-import { DataSourceType } from '~/model/queries/types';
-import { FilterOptionQueryModel, IFilterOptionQuery } from './common';
-
-export const FilterConfigModel_SelectOption = types
-  .model({
-    label: types.string,
-    value: types.string,
-  })
-  .actions((self) => ({
-    setLabel(label: string) {
-      self.label = label;
-    },
-    setValue(value: string) {
-      self.value = value;
-    },
-  }));
-
-export type IFilterConfig_SelectOption = Instance<typeof FilterConfigModel_SelectOption>;
+import { FilterConfigModel_BaseSelect } from './select-base';
 
 export const FilterConfigModel_Select = types
-  .model('FilterConfigModel_Select', {
-    required: types.boolean,
-    default_value: types.string,
-    static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
-    options_query: FilterOptionQueryModel,
-    select_first_by_default: types.optional(types.boolean, false),
-  })
+  .compose(
+    'FilterConfigModel_Select',
+    types.model({
+      default_value: types.string,
+      required: types.boolean,
+    }),
+    FilterConfigModel_BaseSelect,
+  )
   .actions((self) => ({
-    addStaticOption(option: { label: string; value: string }) {
-      self.static_options.push(option);
-    },
-    removeStaticOption(index: number) {
-      self.static_options.splice(index, 1);
-    },
     setRequired(required: boolean) {
       self.required = required;
     },
     setDefaultValue(default_value: string) {
       self.default_value = default_value;
-    },
-    setOptionsQuery(options_query: IFilterOptionQuery) {
-      self.options_query = options_query;
-    },
-    setSelectFirstByDefault(v: boolean) {
-      self.select_first_by_default = v;
     },
   }));
 
@@ -54,10 +26,6 @@ export const createFilterConfig_Select = () =>
     required: false,
     default_value: '',
     static_options: [],
-    options_query: {
-      type: DataSourceType.Postgresql,
-      key: '',
-      sql: '',
-    },
+    options_query_id: '',
     select_first_by_default: false,
   });

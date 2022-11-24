@@ -1,8 +1,7 @@
 import { MultiSelect } from '@mantine/core';
-import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
-import { queryBySQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
 
@@ -14,34 +13,28 @@ interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 
 
 export const FilterMultiSelect = observer(({ label, config, value, onChange }: IFilterMultiSelect) => {
   const model = useModelContext();
-  const usingRemoteOptions = !!config.options_query.sql;
-  const { data: remoteOptions = [], loading } = useRequest(
-    async () => {
-      const payload = {
-        context: model.context.current,
-        mock_context: model.mock_context.current,
-        sqlSnippets: model.sqlSnippets.current,
-        title: label,
-        query: config.options_query,
-        filterValues: model.filters.values,
-      };
-      return queryBySQL(payload);
-    },
-    {
-      // TODO: add entries of model.filters.values to refreshDeps, by usage
-      refreshDeps: [
-        config.options_query,
-        usingRemoteOptions,
-        model.context.current,
-        model.mock_context.current,
-        model.sqlSnippets.current,
-      ],
-    },
-  );
+  const usingRemoteOptions = !!config.options_query_id;
+  const { data: remoteOptions, state } = model.getDataStuffByID(config.options_query_id);
+  const loading = state === 'loading';
+
+  useEffect(() => {
+    if (!config.select_first_by_default) {
+      return;
+    }
+    // @ts-expect-error type of remoteOptions
+    const newValue = [remoteOptions[0]?.value] ?? [];
+    if (JSON.stringify(value) === JSON.stringify(newValue)) {
+      return;
+    }
+
+    console.log('Selecting the first option by default. Previous value: ', value, ', new value: ', newValue);
+    onChange(newValue);
+  }, [config.select_first_by_default, remoteOptions, onChange, value]);
 
   return (
     <MultiSelect
       label={label}
+      // @ts-expect-error type of remoteOptions
       data={usingRemoteOptions ? remoteOptions : config.static_options}
       disabled={usingRemoteOptions ? loading : false}
       value={value}
