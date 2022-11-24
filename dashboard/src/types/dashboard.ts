@@ -1,4 +1,5 @@
 import { AnyObject } from '~/types/utils';
+import { ITemplateVariable } from '~/utils/template';
 import { FilterModelInstance } from '../model';
 import { QueryModelInstance } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
@@ -29,6 +30,7 @@ export interface IDashboardPanel {
   queryID: string;
   viz: IVizConfig;
   style: IDashboardPanelStyle;
+  variables: ITemplateVariable[];
 }
 
 export enum DashboardMode {
@@ -52,7 +54,7 @@ export interface IDashboardView {
   id: string;
   name: string;
   type: EViewComponentType;
-  config: Record<string, any>;
+  config: Record<string, AnyObject>;
   panels: IDashboardPanel[];
 }
 
@@ -62,5 +64,6 @@ export interface IDashboard {
   definition: IDashboardDefinition;
   views: IDashboardView[];
   filters: FilterModelInstance[];
+  variables: ITemplateVariable[];
   version: string;
 }

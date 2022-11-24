@@ -25,7 +25,6 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     queryID,
     viz,
     layout,
-    style: style.json,
   };
   const configureService = useConfigVizInstanceService(panel);
   try {

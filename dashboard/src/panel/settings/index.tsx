@@ -8,6 +8,7 @@ import { usePanelContext } from '../../contexts/panel-context';
 import { PanelConfig } from './panel-config';
 import { PickQuery } from './pick-query';
 import { VizConfig } from './viz-config';
+import { VariableConfig } from './variable-config/variable-config-panel';
 
 interface IPanelSettingsModal {
   opened: boolean;
@@ -55,6 +56,7 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
           <Tabs.List>
             <Tabs.Tab value="Data">Data</Tabs.Tab>
             <Tabs.Tab value="Panel">Panel</Tabs.Tab>
+            <Tabs.Tab value="Variables">Variables</Tabs.Tab>
             <Tabs.Tab value="Visualization">Visualization</Tabs.Tab>
             <Tabs.Tab value="Interactions">Interactions</Tabs.Tab>
           </Tabs.List>
@@ -64,6 +66,9 @@ export const PanelSettingsModal = observer(function _PanelSettingsModal({ opened
           </Tabs.Panel>
           <Tabs.Panel value="Panel" pt="sm">
             {value === 'Panel' && <PanelConfig />}
+          </Tabs.Panel>
+          <Tabs.Panel value="Variables" pt="sm">
+            {value === 'Variables' && <VariableConfig />}
           </Tabs.Panel>
           <Tabs.Panel value="Visualization" pt="sm">
             {value === 'Visualization' && <VizConfig />}

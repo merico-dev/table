@@ -15,17 +15,23 @@ function getColorByColorConf(conf: ColorConfType, value: number) {
   return 'black';
 }
 
+export function variable2Jsx(variable: ITemplateVariable, data: Record<string, number>[]) {
+  const { color, data_field, aggregation, size, weight } = variable;
+  const value: number = aggregateValue(data, data_field, aggregation);
+  const valueContent = formatAggregatedValue(variable, value);
+  const text = (
+    <Text sx={{ fontSize: size, display: 'inline' }} color={getColorByColorConf(color, value)} weight={weight}>
+      {valueContent}
+    </Text>
+  );
+  return text;
+}
+
 function variablesToElements(variables: ITemplateVariable[], data: Record<string, number>[]) {
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach((variable) => {
-    const { name, color, data_field, aggregation, size, weight } = variable;
-    const value: number = aggregateValue(data, data_field, aggregation);
-    const valueContent = formatAggregatedValue(variable, value);
-    ret[name] = (
-      <Text sx={{ fontSize: size, display: 'inline' }} color={getColorByColorConf(color, value)} weight={weight}>
-        {valueContent}
-      </Text>
-    );
+    const name = variable.name;
+    ret[name] = variable2Jsx(variable, data);
   });
   return ret;
 }

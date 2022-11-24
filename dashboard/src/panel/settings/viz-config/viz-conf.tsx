@@ -48,7 +48,6 @@ function usePluginVizConfig() {
     viz,
     queryID,
     id,
-    style: style.json,
   };
   const panelEditor: IPanelInfoEditor = {
     setDescription: setDescription,
