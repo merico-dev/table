@@ -29,3 +29,6 @@ _build
 
 api/src/preset/data_sources/config.json
 api/src/preset/dashboards
+
+api/.jest_cache
+api/coverage-e2e

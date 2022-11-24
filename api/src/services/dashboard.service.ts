@@ -73,7 +73,6 @@ export class DashboardService {
   async delete(id: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    console.log(role_id);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' });
     }
