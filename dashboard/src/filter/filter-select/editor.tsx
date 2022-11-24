@@ -2,7 +2,6 @@ import { ActionIcon, Button, Checkbox, Divider, Group, Select, TextInput } from 
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
-import { FilterQueryField } from '../filter-query-field';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 
 interface IFilterEditorSelect {
@@ -84,7 +83,6 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ config
         label="Select the first option by default"
       />
       <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
-      <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );
 });

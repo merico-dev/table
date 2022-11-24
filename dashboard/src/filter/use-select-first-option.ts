@@ -6,7 +6,7 @@ interface IUseSelectFirstOption {
   config: IFilterConfig_Select | IFilterConfig_MultiSelect;
   value: $TSFixMe;
   onChange: (v: $TSFixMe) => void;
-  options: { label: string; value: string }[];
+  options: $TSFixMe[];
 }
 export function useSelectFirstOption({ config, value, onChange, options }: IUseSelectFirstOption) {
   useEffect(() => {
