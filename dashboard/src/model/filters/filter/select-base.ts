@@ -21,6 +21,7 @@ export const FilterConfigModel_BaseSelect = types
   .model('FilterConfigModel_BaseSelect', {
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query: FilterOptionQueryModel,
+    options_query_id: types.optional(types.string, ''),
     select_first_by_default: types.optional(types.boolean, false),
   })
   .actions((self) => ({
@@ -35,6 +36,9 @@ export const FilterConfigModel_BaseSelect = types
     },
     setSelectFirstByDefault(v: boolean) {
       self.select_first_by_default = v;
+    },
+    setOptionsQueryID(id: string) {
+      self.options_query_id = id;
     },
   }));
 
