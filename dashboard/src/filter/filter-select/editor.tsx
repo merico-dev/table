@@ -77,6 +77,11 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ config
         Add an Option
       </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
+      <Checkbox
+        checked={config.select_first_by_default}
+        onChange={(e) => config.setSelectFirstByDefault(e.currentTarget.checked)}
+        label="Select the first option by default"
+      />
       <FilterQueryField value={config.options_query} onChange={config.setOptionsQuery} />
     </>
   );

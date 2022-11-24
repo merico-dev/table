@@ -5,6 +5,7 @@ import { useModelContext } from '~/contexts';
 import { queryBySQL } from '../../api-caller';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
+import { useSelectFirstOption } from '../use-select-first-option';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
@@ -38,6 +39,8 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       ],
     },
   );
+
+  useSelectFirstOption({ config, value, onChange, options: remoteOptions });
 
   return (
     <Select

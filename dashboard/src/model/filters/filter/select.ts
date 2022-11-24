@@ -24,6 +24,7 @@ export const FilterConfigModel_Select = types
     default_value: types.string,
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query: FilterOptionQueryModel,
+    select_first_by_default: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     addStaticOption(option: { label: string; value: string }) {
@@ -41,6 +42,9 @@ export const FilterConfigModel_Select = types
     setOptionsQuery(options_query: IFilterOptionQuery) {
       self.options_query = options_query;
     },
+    setSelectFirstByDefault(v: boolean) {
+      self.select_first_by_default = v;
+    },
   }));
 
 export type IFilterConfig_Select = Instance<typeof FilterConfigModel_Select>;
@@ -55,4 +59,5 @@ export const createFilterConfig_Select = () =>
       key: '',
       sql: '',
     },
+    select_first_by_default: false,
   });

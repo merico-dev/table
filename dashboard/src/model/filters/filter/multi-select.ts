@@ -8,6 +8,7 @@ export const FilterConfigModel_MultiSelect = types
     default_value: types.optional(types.array(types.string), []),
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query: FilterOptionQueryModel,
+    select_first_by_default: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     addStaticOption(option: { label: string; value: string }) {
@@ -22,6 +23,9 @@ export const FilterConfigModel_MultiSelect = types
     setOptionsQuery(options_query: IFilterOptionQuery) {
       self.options_query = options_query;
     },
+    setSelectFirstByDefault(v: boolean) {
+      self.select_first_by_default = v;
+    },
   }));
 
 export type IFilterConfig_MultiSelect = Instance<typeof FilterConfigModel_MultiSelect>;
@@ -35,4 +39,5 @@ export const createFilterConfig_MultiSelect = () =>
       key: '',
       sql: '',
     },
+    select_first_by_default: false,
   });
