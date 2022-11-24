@@ -1,9 +1,9 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
-import { useSelectFirstOption } from '../use-select-first-option';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
@@ -17,7 +17,19 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
   const { data: remoteOptions, state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
-  useSelectFirstOption({ config, value, onChange, options: remoteOptions });
+  useEffect(() => {
+    if (!config.select_first_by_default) {
+      return;
+    }
+    // @ts-expect-error type of remoteOptions
+    const newValue = remoteOptions[0]?.value ?? '';
+    if (value === newValue) {
+      return;
+    }
+
+    console.log('Selecting the first option by default. Previous value: ', value, ', new value: ', newValue);
+    onChange(newValue);
+  }, [config.select_first_by_default, remoteOptions, onChange, value]);
 
   return (
     <Select
