@@ -1,5 +1,4 @@
 import { Instance, types } from 'mobx-state-tree';
-import { FilterOptionQueryModel, IFilterOptionQuery } from './common';
 
 export const FilterConfigModel_SelectOption = types
   .model({
@@ -20,7 +19,6 @@ export type IFilterConfig_SelectOption = Instance<typeof FilterConfigModel_Selec
 export const FilterConfigModel_BaseSelect = types
   .model('FilterConfigModel_BaseSelect', {
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
-    options_query: FilterOptionQueryModel,
     options_query_id: types.optional(types.string, ''),
     select_first_by_default: types.optional(types.boolean, false),
   })
@@ -30,9 +28,6 @@ export const FilterConfigModel_BaseSelect = types
     },
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
-    },
-    setOptionsQuery(options_query: IFilterOptionQuery) {
-      self.options_query = options_query;
     },
     setSelectFirstByDefault(v: boolean) {
       self.select_first_by_default = v;

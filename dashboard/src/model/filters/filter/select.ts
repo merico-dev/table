@@ -1,5 +1,4 @@
 import { Instance, types } from 'mobx-state-tree';
-import { DataSourceType } from '~/model/queries/types';
 import { FilterConfigModel_BaseSelect } from './select-base';
 
 export const FilterConfigModel_Select = types
@@ -27,10 +26,6 @@ export const createFilterConfig_Select = () =>
     required: false,
     default_value: '',
     static_options: [],
-    options_query: {
-      type: DataSourceType.Postgresql,
-      key: '',
-      sql: '',
-    },
+    options_query_id: '',
     select_first_by_default: false,
   });
