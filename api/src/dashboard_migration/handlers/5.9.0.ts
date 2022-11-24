@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash';
+import { randomUUID } from 'crypto';
 
 function discardOptionsQuery({ filters }) {
   const newQueries: Array<{ id: string; key: string; sql: string; type: string }> = [];
@@ -20,7 +20,7 @@ function discardOptionsQuery({ filters }) {
       return ret;
     }
 
-    const options_query_id = uniqueId();
+    const options_query_id = `filter-${randomUUID()}`;
     ret.config.options_query_id = options_query_id;
 
     newQueries.push({
