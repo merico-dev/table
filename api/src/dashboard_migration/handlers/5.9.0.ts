@@ -20,7 +20,7 @@ function discardOptionsQuery({ filters }) {
       return ret;
     }
 
-    const options_query_id = `filter-${randomUUID()}`;
+    const options_query_id = `${f.label}__${randomUUID()}`;
     ret.config.options_query_id = options_query_id;
 
     newQueries.push({
