@@ -3,7 +3,7 @@ import { DataSourceType } from './types';
 
 export const MuteQueryModel = types
   .model('QueryModel', {
-    id: types.identifier,
+    id: types.string,
     type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
     key: types.string,
     sql: types.string,
