@@ -5,6 +5,7 @@ export type TDateRangePickerValue = [string | null, string | null];
 
 const _FilterConfigModel_DateRange = types
   .model('FilterConfigModel_DateRange', {
+    _name: 'date-range',
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
@@ -57,6 +58,7 @@ export type IFilterConfig_DateRange = Instance<typeof FilterConfigModel_DateRang
 
 export const createFilterConfig_DateRange = () =>
   FilterConfigModel_DateRange.create({
+    _name: 'date-range',
     required: false,
     inputFormat: 'YYYY-MM-DD',
     clearable: false,
