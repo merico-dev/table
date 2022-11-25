@@ -20,13 +20,25 @@ export const FilterModel = types
       DashboardFilterType.Checkbox,
       DashboardFilterType.DateRange,
     ]),
-    config: types.union(
-      FilterConfigModel_Select,
-      FilterConfigModel_MultiSelect,
-      FilterConfigModel_TextInput,
-      FilterConfigModel_Checkbox,
-      FilterConfigModel_DateRange,
-    ),
+    config: types.union({
+      dispatcher: (snapshot) => {
+        switch (snapshot._name) {
+          case DashboardFilterType.Select:
+            return FilterConfigModel_Select;
+          case DashboardFilterType.MultiSelect:
+            return FilterConfigModel_MultiSelect;
+          case DashboardFilterType.TextInput:
+            return FilterConfigModel_TextInput;
+          case DashboardFilterType.Checkbox:
+            return FilterConfigModel_Checkbox;
+          case DashboardFilterType.DateRange:
+            return FilterConfigModel_DateRange;
+          default:
+            console.error(`[filter model] invalid filter.config._name: ${snapshot._name}`);
+            return FilterConfigModel_TextInput;
+        }
+      },
+    }),
   })
   .views((self) => ({
     get plainDefaultValue() {

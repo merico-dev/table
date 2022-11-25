@@ -5,6 +5,7 @@ export const FilterConfigModel_MultiSelect = types
   .compose(
     'FilterConfigModel_MultiSelect',
     types.model({
+      _name: 'multi-select',
       default_value: types.optional(types.array(types.string), []),
     }),
     FilterConfigModel_BaseSelect,
@@ -19,6 +20,7 @@ export type IFilterConfig_MultiSelect = Instance<typeof FilterConfigModel_MultiS
 
 export const createFilterConfig_MultiSelect = () =>
   FilterConfigModel_MultiSelect.create({
+    _name: 'multi-select',
     default_value: [],
     static_options: [],
     options_query_id: '',

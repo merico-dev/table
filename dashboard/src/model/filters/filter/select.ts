@@ -5,6 +5,7 @@ export const FilterConfigModel_Select = types
   .compose(
     'FilterConfigModel_Select',
     types.model({
+      _name: 'select',
       default_value: types.string,
       required: types.boolean,
     }),
@@ -23,6 +24,7 @@ export type IFilterConfig_Select = Instance<typeof FilterConfigModel_Select>;
 
 export const createFilterConfig_Select = () =>
   FilterConfigModel_Select.create({
+    _name: 'select',
     required: false,
     default_value: '',
     static_options: [],
