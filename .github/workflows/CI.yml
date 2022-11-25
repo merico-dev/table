@@ -33,7 +33,10 @@ jobs:
       - run: nx affected --target=build
       - run: nx affected --target=check
       - run: nx affected --target=test --configuration=ci
+
+  # only runs on the main branch
   build_images:
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     steps:
