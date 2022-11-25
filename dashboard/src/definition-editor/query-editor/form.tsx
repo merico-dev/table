@@ -41,8 +41,9 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
   };
 
   const submitIDChanges = () => {
-    setCurrentID(id);
     queryModel.setID(id);
+    console.log('submitIDChanges', id);
+    setCurrentID(id);
   };
 
   return (

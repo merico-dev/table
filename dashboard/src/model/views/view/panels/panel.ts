@@ -1,8 +1,9 @@
-import { getRoot, Instance, resolveIdentifier, types } from 'mobx-state-tree';
-import { QueryModel } from '../../../queries';
+import { getParentOfType, Instance, types } from 'mobx-state-tree';
+import { QueryModelInstance } from '../../../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
+import { DashboardModel } from '~/model';
 
 export const PanelModel = types
   .model({
@@ -15,8 +16,8 @@ export const PanelModel = types
     style: PanelStyleModel,
   })
   .views((self) => ({
-    get query() {
-      return resolveIdentifier(QueryModel, getRoot(self), self.queryID);
+    get query(): QueryModelInstance | undefined {
+      return getParentOfType(self, DashboardModel).queries.findByID(self.queryID) as QueryModelInstance | undefined;
     },
     get json() {
       const { id, title, description, queryID } = self;
@@ -42,7 +43,9 @@ export const PanelModel = types
       self.description = description;
     },
     setQueryID(queryID: string) {
-      const queryInstance = resolveIdentifier(QueryModel, getRoot(self), queryID);
+      const queryInstance = getParentOfType(self, DashboardModel).queries.findByID(queryID) as
+        | QueryModelInstance
+        | undefined;
       if (queryInstance) {
         self.queryID = queryID;
       } else {
