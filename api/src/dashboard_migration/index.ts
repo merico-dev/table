@@ -1,6 +1,5 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
-import { ApiError, SERVER_ERROR } from '../utils/errors';
 import logger from 'npmlog';
 
 // NOTE: Keep versions in order
@@ -12,7 +11,6 @@ const versions = [
   '4.5.2',
   '4.5.3',
   '4.10.0',
-  '4.14.1',
   '5.9.0',
   '5.9.1',
   // ... future versions
