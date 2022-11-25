@@ -8,7 +8,8 @@ import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 
 export function VizStats({ context }: VizViewProps) {
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
-  const { template, variables, align } = conf;
+  const { variables } = context;
+  const { template, align } = conf;
   const contents = useMemo(() => {
     return templateToJSX(template, variables, context.data as Record<string, number>[]);
   }, [template, variables, context.data]);

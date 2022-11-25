@@ -64,6 +64,7 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
             <TextArrayInput
               label="Value Range"
               value={value.color.valueRange}
+              type="number"
               onChange={(v) => handleChange('color.valueRange', v)}
             />
             <ColorArrayInput
