@@ -3,6 +3,7 @@ import { IVizOperationManager, IVizTriggerManager, VizInstance } from '~/types/p
 
 import { tokens } from '../plugin-context';
 import { IVizManager } from '../viz-manager';
+import { PanelModelInstance } from '~/model/views/view/panels';
 
 export enum MigrationResultType {
   migrated = 'migrated',
@@ -23,9 +24,11 @@ export class InstanceMigrator {
   protected triggerManager: IVizTriggerManager;
   protected vizManager: IVizManager;
   protected runningMigration?: Promise<MigrationResultType>;
+  protected panelModel: PanelModelInstance;
   status: MigrationStatus = MigrationStatus.notStarted;
 
   constructor(serviceLocator: IServiceLocator) {
+    this.panelModel = serviceLocator.getRequired(tokens.instanceScope.panelModel);
     this.vizInstance = serviceLocator.getRequired(tokens.instanceScope.vizInstance);
     this.operationManager = serviceLocator.getRequired(tokens.instanceScope.operationManager);
     this.triggerManager = serviceLocator.getRequired(tokens.instanceScope.triggerManager);
@@ -76,7 +79,7 @@ export class InstanceMigrator {
 
   protected async runInstanceMigration() {
     const comp = this.vizManager.resolveComponent(this.vizInstance.type);
-    const migrationCtx = { configData: this.vizInstance.instanceData };
+    const migrationCtx = { configData: this.vizInstance.instanceData, panelModel: this.panelModel };
     await comp.migrator.migrate(migrationCtx);
   }
 

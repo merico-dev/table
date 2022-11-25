@@ -38,7 +38,7 @@ function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
 function usePluginVizConfig() {
   const {
     data,
-    panel: { viz, title, queryID, description, setDescription, setTitle, setQueryID, id, style },
+    panel: { variables, viz, title, queryID, description, setDescription, setTitle, setQueryID, id },
   } = usePanelContext();
   const { vizManager } = useContext(PluginContext);
 
@@ -60,6 +60,7 @@ function usePluginVizConfig() {
     return (
       <ServiceLocatorProvider configure={configureService}>
         <PluginVizConfigComponent
+          variables={variables}
           setVizConf={viz.setConf}
           panel={panel}
           panelInfoEditor={panelEditor}
