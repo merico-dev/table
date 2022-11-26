@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
+import { useSuggestedWidth } from '../use-suggested-width';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
@@ -31,15 +32,21 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
     onChange(newValue);
   }, [config.select_first_by_default, remoteOptions, onChange, value]);
 
+  const options = usingRemoteOptions ? remoteOptions : config.static_options;
+  const width = useSuggestedWidth(label, options);
+
   return (
     <Select
       label={label}
       // @ts-expect-error type of remoteOptions
-      data={usingRemoteOptions ? remoteOptions : config.static_options}
+      data={options}
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
       styles={{
+        root: {
+          width,
+        },
         input: {
           borderColor: '#e9ecef',
         },
