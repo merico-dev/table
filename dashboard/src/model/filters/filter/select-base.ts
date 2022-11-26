@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, getRoot, types } from 'mobx-state-tree';
 
 export const FilterConfigModel_SelectOption = types
   .model({
@@ -22,6 +22,20 @@ export const FilterConfigModel_BaseSelect = types
     options_query_id: types.optional(types.string, ''),
     select_first_by_default: types.optional(types.boolean, false),
   })
+  .views((self) => ({
+    get options() {
+      const { options_query_id, static_options } = self;
+      if (!options_query_id) {
+        return static_options;
+      }
+      // @ts-expect-error untyped getRoot(self)
+      const { data, state, error } = getRoot(self).getDataStuffByID(options_query_id);
+      if (state === 'idle') {
+        return data;
+      }
+      return [];
+    },
+  }))
   .actions((self) => ({
     addStaticOption(option: { label: string; value: string }) {
       self.static_options.push(option);

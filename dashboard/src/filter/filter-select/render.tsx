@@ -14,28 +14,26 @@ interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'conf
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
   const model = useModelContext();
   const usingRemoteOptions = !!config.options_query_id;
-  const { data: remoteOptions, state } = model.getDataStuffByID(config.options_query_id);
+  const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
   useEffect(() => {
     if (!config.select_first_by_default) {
       return;
     }
-    // @ts-expect-error type of remoteOptions
-    const newValue = remoteOptions[0]?.value ?? '';
+    const newValue = config.options[0]?.value ?? '';
     if (value === newValue) {
       return;
     }
 
     console.log('Selecting the first option by default. Previous value: ', value, ', new value: ', newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, remoteOptions, onChange, value]);
+  }, [config.select_first_by_default, config.options, onChange, value]);
 
   return (
     <Select
       label={label}
-      // @ts-expect-error type of remoteOptions
-      data={usingRemoteOptions ? remoteOptions : config.static_options}
+      data={config.options}
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
