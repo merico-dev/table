@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_Select } from '../../model/filters/filter/select';
+import { FilterSelectItem } from '../select-item';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
@@ -39,6 +40,12 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
           borderColor: '#e9ecef',
         },
       }}
+      sx={{
+        '.mantine-Select-item[data-selected] .mantine-Text-root[data-role=description]': {
+          color: 'rgba(255,255,255,.7)',
+        },
+      }}
+      itemComponent={FilterSelectItem}
     />
   );
 });

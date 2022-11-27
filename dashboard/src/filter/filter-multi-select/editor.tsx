@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
 import { PickQueryForFilter } from '../pick-query-for-filter';
+import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 
 interface IFilterEditorMultiSelect {
   config: IFilterConfig_MultiSelect;
@@ -79,6 +80,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         label="Select the first option by default"
       />
       <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
+      <ExpectedStructureForSelect />
     </>
   );
 });

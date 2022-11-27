@@ -2,7 +2,7 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "5.9.2",
+  "version": "5.10.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.3.11",
-    "@devtable/dashboard": "5.9.2",
-    "@devtable/settings-form": "5.9.2",
+    "@devtable/dashboard": "5.10.0",
+    "@devtable/settings-form": "5.10.0",
     "@emotion/react": "11.10.0",
     "@mantine/core": "5.5.5",
     "@mantine/dates": "5.5.5",
