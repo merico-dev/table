@@ -21,14 +21,11 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
     if (!config.select_first_by_default) {
       return;
     }
-    const newValue = config.options[0]?.value ?? '';
-    if (JSON.stringify(value) === JSON.stringify(newValue)) {
-      return;
-    }
+    const newValue = [config.options[0]?.value] ?? [];
 
-    console.log('Selecting the first option by default. Previous value: ', value, ', new value: ', newValue);
+    console.log('Selecting the first option by default. New value: ', newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, config.options, onChange, value]);
+  }, [config.select_first_by_default, config.options, onChange]);
 
   return (
     <MultiSelect

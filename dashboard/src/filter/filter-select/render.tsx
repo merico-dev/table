@@ -22,13 +22,10 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       return;
     }
     const newValue = config.options[0]?.value ?? '';
-    if (value === newValue) {
-      return;
-    }
 
-    console.log('Selecting the first option by default. Previous value: ', value, ', new value: ', newValue);
+    console.log('Selecting the first option by default. New value: ', newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, config.options, onChange, value]);
+  }, [config.select_first_by_default, config.options, onChange]);
 
   return (
     <Select
