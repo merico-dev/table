@@ -97,6 +97,9 @@ export function VizParetoChart({ context }: VizViewProps) {
           fontWeight: 'bold',
           align: 'right',
         },
+        splitLine: {
+          show: false,
+        },
       },
     ],
     yAxis: [
@@ -106,6 +109,9 @@ export function VizParetoChart({ context }: VizViewProps) {
         nameTextStyle: {
           fontWeight: 'bold',
           align: 'right',
+        },
+        splitLine: {
+          show: false,
         },
       },
       {
@@ -118,6 +124,9 @@ export function VizParetoChart({ context }: VizViewProps) {
         axisLabel: {
           show: true,
           formatter: formatPercentage,
+        },
+        splitLine: {
+          show: false,
         },
       },
     ],
