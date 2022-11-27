@@ -19,6 +19,9 @@ export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<stri
       },
       nameLocation: 'end',
       nameGap: 15,
+      splitLine: {
+        show: false,
+      },
     };
   });
 }

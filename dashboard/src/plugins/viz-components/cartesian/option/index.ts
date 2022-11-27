@@ -36,6 +36,9 @@ const defaultOption = {
       nameTextStyle: {
         fontWeight: 'bold',
       },
+      splitLine: {
+        show: false,
+      },
     },
   ],
   grid: {
