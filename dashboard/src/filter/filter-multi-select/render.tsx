@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
+import { FilterSelectItem } from '../select-item';
 
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;
@@ -40,6 +41,7 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
           borderColor: '#e9ecef',
         },
       }}
+      itemComponent={FilterSelectItem}
     />
   );
 });
