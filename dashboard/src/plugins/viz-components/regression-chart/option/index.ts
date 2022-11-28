@@ -36,9 +36,16 @@ export function getOption(conf: IRegressionChartConf, data: $TSFixMe[]) {
     xAxis: {
       type: 'category',
       name: conf.x_axis.name ?? '',
+      axisTick: {
+        show: true,
+        alignWithLabel: true,
+      },
     },
     yAxis: {
       name: conf.y_axis.name ?? '',
+      axisLine: {
+        show: true,
+      },
     },
     series: [
       {

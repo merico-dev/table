@@ -100,6 +100,10 @@ export function VizParetoChart({ context }: VizViewProps) {
         splitLine: {
           show: false,
         },
+        axisTick: {
+          show: true,
+          alignWithLabel: true,
+        },
       },
     ],
     yAxis: [
@@ -109,6 +113,9 @@ export function VizParetoChart({ context }: VizViewProps) {
         nameTextStyle: {
           fontWeight: 'bold',
           align: 'right',
+        },
+        axisLine: {
+          show: true,
         },
         splitLine: {
           show: false,

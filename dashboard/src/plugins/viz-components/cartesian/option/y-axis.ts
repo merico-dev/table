@@ -13,6 +13,9 @@ export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<stri
         show: true,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
+      axisLine: {
+        show: true,
+      },
       nameTextStyle: {
         fontWeight: 'bold',
         align: nameAlignment,
