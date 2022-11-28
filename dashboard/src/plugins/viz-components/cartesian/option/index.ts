@@ -7,6 +7,7 @@ import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
+import { ITemplateVariable } from '~/utils/template';
 
 const defaultOption = {
   legend: {
@@ -54,7 +55,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: ICartesianChartConf, data: $TSFixMe[]) {
+export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
   const labelFormatters = conf.y_axes.reduce(
     (ret: Record<string, (params: $TSFixMe) => string>, { label_formatter }: IYAxisConf, index: number) => {
       ret[index] = function formatter(payload: $TSFixMe) {
@@ -86,7 +87,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[]) {
 
   const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
 
-  const series = getSeries(conf, xAxisData, data, labelFormatters);
+  const series = getSeries(conf, xAxisData, data, labelFormatters, variables);
 
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 

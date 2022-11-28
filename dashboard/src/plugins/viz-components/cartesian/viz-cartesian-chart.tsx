@@ -16,7 +16,12 @@ import {
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
+<<<<<<< HEAD
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+=======
+import { VizViewProps } from '~/types/plugin';
+import { ITemplateVariable, templateToJSX } from '~/utils/template';
+>>>>>>> c08ba05 (chore(dashboard): make cartesian chart use variables from panel config)
 import { useStorageData } from '~/plugins/hooks';
 import { ITriggerSnapshot, IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { templateToJSX } from '~/utils/template';
@@ -60,12 +65,14 @@ function Chart({
   width,
   height,
   interactionManager,
+  variables,
 }: {
   conf: ICartesianChartConf;
   data: $TSFixMe[];
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
+  variables: ITemplateVariable[];
 }) {
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
 
@@ -76,7 +83,7 @@ function Chart({
   };
 
   const option = React.useMemo(() => {
-    return getOption(conf, data);
+    return getOption(conf, data, variables);
   }, [conf, data]);
 
   if (!width || !height) {
@@ -99,6 +106,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   });
 
   const { value: confValue } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
+  const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
@@ -106,7 +114,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
   const templates = React.useMemo(() => {
     const {
-      stats: { templates, variables },
+      stats: { templates },
     } = conf;
     return {
       top: templateToJSX(templates.top, variables, data),
@@ -122,7 +130,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         </Text>
       )}
 
-      <Chart width={width} height={finalHeight} data={data} conf={conf} interactionManager={interactionManager} />
+      <Chart variables={variables} width={width} height={finalHeight} data={data} conf={conf} interactionManager={interactionManager}/>
 
       {templateNotEmpty(conf.stats.templates.bottom) && (
         <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">

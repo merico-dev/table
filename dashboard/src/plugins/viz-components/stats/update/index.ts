@@ -87,7 +87,6 @@ export class VizStatsMigrator extends VersionBasedMigrator {
     });
     this.version(2, (data: $TSFixMe, { panelModel }) => {
       const { config } = data;
-      console.log('config', config);
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
         if (!panelModel.variables.find((vv) => vv.name === v.name)) {
