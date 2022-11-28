@@ -104,6 +104,10 @@ export function VizBoxplotChart({ context }: VizViewProps) {
       {
         type: 'category',
         name: x_axis.name,
+        axisTick: {
+          show: true,
+          alignWithLabel: true,
+        },
       },
     ],
     yAxis: [

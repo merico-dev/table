@@ -6,6 +6,10 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
       data: xAxisData,
       name: conf.x_axis_name ?? '',
       id: 'main-x-axis',
+      axisTick: {
+        show: true,
+        alignWithLabel: true,
+      },
       ...conf.x_axis,
     },
     ...regressionXAxes,

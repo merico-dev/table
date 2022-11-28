@@ -39,6 +39,10 @@ const defaultOption = {
       splitLine: {
         show: false,
       },
+      axisTick: {
+        show: true,
+        alignWithLabel: true,
+      },
     },
   ],
   grid: {
