@@ -114,6 +114,9 @@ export function VizParetoChart({ context }: VizViewProps) {
           fontWeight: 'bold',
           align: 'right',
         },
+        axisLine: {
+          show: true,
+        },
         splitLine: {
           show: false,
         },

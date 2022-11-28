@@ -113,6 +113,9 @@ export function VizBoxplotChart({ context }: VizViewProps) {
     yAxis: [
       {
         name: y_axis.name,
+        axisLine: {
+          show: true,
+        },
       },
     ],
     series: [
