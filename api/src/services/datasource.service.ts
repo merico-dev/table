@@ -8,9 +8,9 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
 
 export class DataSourceService {
-  static async getByTypeKey(type: string, key: string): Promise<DataSource> {
+  static async getByTypeKeyPreset(type: string, key: string, is_preset: boolean): Promise<DataSource> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
-    const result = await dataSourceRepo.findOneByOrFail({ type, key });
+    const result = await dataSourceRepo.findOneByOrFail({ type, key, is_preset });
     maybeDecryptPassword(result);
     return result;
   }

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 import { Authentication } from './base';
 
@@ -22,6 +22,13 @@ export class QueryRequest {
     required: true,
   })
   key: string;
+
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'whether the datasource is preset or not',
+    required: true,
+  })
+  is_preset: boolean;
 
   @IsString()
   @ApiModelProperty({

@@ -37,8 +37,8 @@ export class QueryController implements interfaces.Controller {
   @httpPost('/', permission(ROLE_TYPES.READER))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { type, key, query } = validate(QueryRequest, req.body);
-      const result = await this.queryService.query(type, key, query);
+      const { type, key, is_preset, query } = validate(QueryRequest, req.body);
+      const result = await this.queryService.query(type, key, is_preset, query);
       res.json(result);
     } catch (error) {
       next(error);
