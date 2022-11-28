@@ -69,9 +69,13 @@ async function upsert() {
       const config = validate(DatabaseConfig, source.config);
       await testDatabaseConfiguration(key, 'postgresql', config);
       maybeEncryptPassword(config);
-      const dataSource = new DataSource();
-      dataSource.type = 'postgresql';
-      dataSource.key = key;
+      let dataSource: DataSource | null;
+      dataSource = await datasourceRepo.findOneBy({ type: 'postgresql', key });
+      if (!dataSource) {
+        dataSource = new DataSource();
+        dataSource.type = 'postgresql';
+        dataSource.key = key;
+      }
       dataSource.config = config;
       dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
@@ -82,9 +86,13 @@ async function upsert() {
       const config = validate(DatabaseConfig, source.config);
       await testDatabaseConfiguration(key, 'mysql', config);
       maybeEncryptPassword(config);
-      const dataSource = new DataSource();
-      dataSource.type = 'mysql';
-      dataSource.key = key;
+      let dataSource: DataSource | null;
+      dataSource = await datasourceRepo.findOneBy({ type: 'mysql', key });
+      if (!dataSource) {
+        dataSource = new DataSource();
+        dataSource.type = 'mysql';
+        dataSource.key = key;
+      }
       dataSource.config = config;
       dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
@@ -93,9 +101,13 @@ async function upsert() {
     for (const source of data.http) {
       const { key } = validate(DatabaseSource, source);
       const config = validate(BaseConfig, source.config);
-      const dataSource = new DataSource();
-      dataSource.type = 'http';
-      dataSource.key = key;
+      let dataSource: DataSource | null;
+      dataSource = await datasourceRepo.findOneBy({ type: 'http', key });
+      if (!dataSource) {
+        dataSource = new DataSource();
+        dataSource.type = 'http';
+        dataSource.key = key;
+      }
       dataSource.config = config;
       dataSource.is_preset = true;
       await datasourceRepo.save(dataSource);
