@@ -1,5 +1,5 @@
 import { Mock } from 'vitest';
-import { PluginDataMigrator } from './plugin-data-migrator';
+import { IMigrationEnv, PluginDataMigrator } from './plugin-data-migrator';
 
 describe('PluginDataMigrator', () => {
   let migrator: PluginDataMigrator;
@@ -11,18 +11,19 @@ describe('PluginDataMigrator', () => {
       migrator.version(i, handler);
     }
   });
+  const mockEnv = vi.fn() as unknown as IMigrationEnv;
   test('migrate to next version', () => {
     handler.mockReturnValue({ fooBar: 'bar' });
-    const v2 = migrator.run({ from: 1, to: 2 }, { foo: 'foo', bar: true });
+    const v2 = migrator.run({ from: 1, to: 2 }, { foo: 'foo', bar: true }, mockEnv);
     expect(v2).toEqual({ fooBar: 'bar' });
-    expect(handler).toHaveBeenCalledWith({ foo: 'foo', bar: true });
+    expect(handler).toHaveBeenCalledWith({ foo: 'foo', bar: true }, mockEnv);
     expect(handler).toHaveBeenCalledTimes(1);
   });
   test('migrate to next 3 version', () => {
     handler.mockReturnValue({ fooBar: 'bar' });
-    const v4 = migrator.run({ from: 1, to: 4 }, { foo: 'foo', bar: true });
+    const v4 = migrator.run({ from: 1, to: 4 }, { foo: 'foo', bar: true }, mockEnv);
     expect(v4).toEqual({ fooBar: 'bar' });
-    expect(handler).toHaveBeenCalledWith({ foo: 'foo', bar: true });
+    expect(handler).toHaveBeenCalledWith({ foo: 'foo', bar: true }, mockEnv);
     expect(handler).toHaveBeenCalledTimes(3);
   });
   test('migrate to non-existing version', () => {
@@ -33,6 +34,7 @@ describe('PluginDataMigrator', () => {
           foo: 'foo',
           bar: true,
         },
+        mockEnv,
       ),
     ).toThrow(/not found/gi);
   });
@@ -44,12 +46,13 @@ describe('PluginDataMigrator', () => {
           foo: 'foo',
           bar: true,
         },
+        mockEnv,
       ),
     ).toThrow(/not found/gi);
   });
 
   test('migrate to the same version should not throw', () => {
-    const result = migrator.run({ from: 2, to: 2 }, { foo: 'foo', bar: true });
+    const result = migrator.run({ from: 2, to: 2 }, { foo: 'foo', bar: true }, mockEnv);
     expect(result).toEqual({ foo: 'foo', bar: true });
     expect(handler).toHaveBeenCalledTimes(0);
   });
@@ -62,6 +65,7 @@ describe('PluginDataMigrator', () => {
           foo: 'foo',
           bar: true,
         },
+        mockEnv,
       ),
     ).toThrow(/downgrade/gi);
   });
