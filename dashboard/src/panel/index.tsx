@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { PanelModelInstance } from '~/model/views/view/panels';
-import { ViewModelInstance } from '..';
+import { ViewModelInstance } from '~/model';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { PanelContextProvider } from '../contexts/panel-context';
 import './index.css';

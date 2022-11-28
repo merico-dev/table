@@ -1,4 +1,4 @@
-import { getParentOfType, Instance, types } from 'mobx-state-tree';
+import { getParentOfType, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { QueryModelInstance } from '../../../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
