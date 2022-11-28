@@ -1,6 +1,6 @@
-import { Group, Select, TextInput, Text, ColorSwatch } from '@mantine/core';
+import { ColorSwatch, Group, Select, Text, TextInput } from '@mantine/core';
 import React, { useContext } from 'react';
-import { PluginContext } from '../../../plugins';
+import { PluginContext } from '../../../plugins/plugin-context';
 
 interface IMantineColorSelector {
   value?: string;

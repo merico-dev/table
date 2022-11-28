@@ -6,7 +6,7 @@ import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { ITemplateVariable } from '~/utils/template';
 import { AnyObject } from '~/types';
-import { cloneDeep, omit } from 'lodash';
+import { cloneDeep, get, omit } from 'lodash';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -14,7 +14,7 @@ function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateV
   return cloned;
 }
 
-class VizCartesianMigrator extends VersionBasedMigrator {
+export class VizCartesianMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
 
   configVersions(): void {
@@ -28,6 +28,12 @@ class VizCartesianMigrator extends VersionBasedMigrator {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
+        if (!panelModel.variables.find((vv) => vv.name === v.name)) {
+          panelModel.addVariable(v);
+        }
+      });
+      const statVariables = (get(config, 'stats.variables') || []) as ITemplateVariable[];
+      statVariables.forEach((v) => {
         if (!panelModel.variables.find((vv) => vv.name === v.name)) {
           panelModel.addVariable(v);
         }

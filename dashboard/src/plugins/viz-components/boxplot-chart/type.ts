@@ -1,5 +1,3 @@
-import { ITemplateVariable } from '~/utils/template';
-
 export interface IBoxplotReferenceLine {
   name: string;
   template: string;
@@ -16,7 +14,6 @@ export interface IBoxplotChartConf {
     data_key: string;
   };
   color: string;
-  variables: ITemplateVariable[];
   reference_lines: IBoxplotReferenceLine[];
 }
 
@@ -30,6 +27,5 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     data_key: 'value',
   },
   color: '#228be6',
-  variables: [],
   reference_lines: [],
 };
