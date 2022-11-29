@@ -28,6 +28,12 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ config
         onChange={(e) => config.setRequired(e.currentTarget.checked)}
         label="Required"
       />
+      <TextInput
+        label="Width"
+        value={config.width}
+        onChange={(e) => config.setWidth(e.currentTarget.value)}
+        placeholder="200px"
+      />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
         <Select

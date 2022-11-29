@@ -8,6 +8,7 @@ export const FilterConfigModel_Select = types
       _name: 'select',
       default_value: types.string,
       required: types.boolean,
+      width: types.optional(types.string, ''),
     }),
     FilterConfigModel_BaseSelect,
   )
@@ -17,6 +18,9 @@ export const FilterConfigModel_Select = types
     },
     setDefaultValue(default_value: string) {
       self.default_value = default_value;
+    },
+    setWidth(v: string) {
+      self.width = v;
     },
   }));
 
