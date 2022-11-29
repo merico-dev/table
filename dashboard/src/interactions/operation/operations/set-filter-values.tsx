@@ -1,6 +1,7 @@
-import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
+import { Trash } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins';
@@ -33,11 +34,22 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
     setDictionary(model.filters.firstFilterValueKey, '');
   };
 
+  const remove = (filterKey: string) => {
+    const newDict = {
+      ...dictionary,
+    };
+    delete newDict[filterKey];
+    set({
+      dictionary: newDict,
+    });
+  };
+
+  console.log(model.filters.values);
   return (
     <Stack spacing={10}>
       <Text>Mapping Rules</Text>
       {Object.entries(dictionary).map(([filterKey, payloadKey], i) => (
-        <Group noWrap key={i}>
+        <Group noWrap key={payloadKey}>
           <TextInput
             label="Payload key"
             value={payloadKey}
@@ -54,6 +66,9 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
             }}
             label="Filter key"
           />
+          <ActionIcon onClick={() => remove(filterKey)} sx={{ marginTop: '22px' }}>
+            <Trash size={14} color="red" />
+          </ActionIcon>
         </Group>
       ))}
       <Button size="xs" onClick={append}>
