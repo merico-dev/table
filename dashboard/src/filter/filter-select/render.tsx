@@ -36,6 +36,9 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       value={value}
       onChange={onChange}
       styles={{
+        root: {
+          width: config.width ? config.width : '200px',
+        },
         input: {
           borderColor: '#e9ecef',
         },

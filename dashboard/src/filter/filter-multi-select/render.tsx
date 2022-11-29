@@ -28,15 +28,20 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
     onChange(newValue);
   }, [config.select_first_by_default, config.options, onChange]);
 
+  const minWidth = config.min_width ? config.min_width : '200px';
+  const disabled = usingRemoteOptions ? loading : false;
   return (
     <MultiSelect
       label={label}
       data={config.options}
-      disabled={usingRemoteOptions ? loading : false}
+      disabled={disabled}
       value={value}
       onChange={onChange}
-      sx={{ minWidth: '14em' }}
       styles={{
+        root: {
+          minWidth,
+          maxWidth: disabled ? minWidth : 'unset',
+        },
         input: {
           borderColor: '#e9ecef',
         },

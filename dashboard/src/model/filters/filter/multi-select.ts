@@ -7,12 +7,16 @@ export const FilterConfigModel_MultiSelect = types
     types.model({
       _name: 'multi-select',
       default_value: types.optional(types.array(types.string), []),
+      min_width: types.optional(types.string, ''),
     }),
     FilterConfigModel_BaseSelect,
   )
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
+    },
+    setMinWidth(v: string) {
+      self.min_width = v;
     },
   }));
 
