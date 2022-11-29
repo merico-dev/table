@@ -49,7 +49,7 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
     <Stack spacing={10}>
       <Text>Mapping Rules</Text>
       {Object.entries(dictionary).map(([filterKey, payloadKey], i) => (
-        <Group noWrap key={payloadKey}>
+        <Group noWrap key={filterKey}>
           <TextInput
             label="Payload key"
             value={payloadKey}
