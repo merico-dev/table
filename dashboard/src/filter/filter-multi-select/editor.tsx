@@ -24,6 +24,12 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
+      <TextInput
+        label="Min-width"
+        value={config.min_width}
+        onChange={(e) => config.setMinWidth(e.currentTarget.value)}
+        placeholder="200px"
+      />
       <Divider label="Configure options" labelPosition="center" />
       {staticOptionFields.length > 0 && (
         <MultiSelect
