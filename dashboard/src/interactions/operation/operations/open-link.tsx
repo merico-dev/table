@@ -1,8 +1,7 @@
 import { Stack, Switch, TextInput } from '@mantine/core';
-import { cloneDeepWith, defaults, template } from 'lodash';
+import { defaults } from 'lodash';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useStorageData, VersionBasedMigrator } from '~/plugins';
-import { AnyObject } from '~/types';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 export interface IOpenLinkOperationConfig {
@@ -54,20 +53,9 @@ function OpenLinkSettings(props: IOperationConfigProps) {
   );
 }
 
-function urlEncodeFields(payload: AnyObject) {
-  const result: AnyObject = cloneDeepWith(payload, (value) => {
-    if (typeof value === 'string') {
-      return encodeURIComponent(value);
-    }
-  });
-  return result;
-}
-
 async function run(payload: Record<string, unknown>, operation: IDashboardOperation) {
   const { urlTemplate, openInNewTab } = await operation.operationData.getItem<IOpenLinkOperationConfig>('config');
-  const compiled = template(urlTemplate || '');
-  const url = compiled(urlEncodeFields(payload));
-  window.open(url, openInNewTab ? '_blank' : '_self', 'noopener');
+  window.dispatchEvent(new CustomEvent('open-link', { detail: { urlTemplate, openInNewTab, payload } }));
 }
 
 class Migrator extends VersionBasedMigrator {

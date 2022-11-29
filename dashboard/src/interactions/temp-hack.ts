@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { DashboardModelInstance } from '..';
-import _ from 'lodash';
+import { AnyObject, DashboardModelInstance } from '..';
+import _, { cloneDeepWith, template } from 'lodash';
 
 export function useInteractionOperationHacks(model: DashboardModelInstance, inEditMode: boolean) {
   useEffect(() => {
@@ -39,6 +39,42 @@ export function useInteractionOperationHacks(model: DashboardModelInstance, inEd
 
     return () => {
       window.removeEventListener('set-filter-values', handler);
+    };
+  }, [model]);
+
+  useEffect(() => {
+    const handler = (e: $TSFixMe) => {
+      console.log(e);
+      const { urlTemplate, openInNewTab, enableEncoding = false, payload } = e.detail;
+      if (!urlTemplate) {
+        console.error(new Error('[Open Link] URL is empty'));
+        return;
+      }
+
+      function urlEncodeFields(payload: AnyObject) {
+        const result: AnyObject = cloneDeepWith(payload, (value) => {
+          if (enableEncoding && typeof value === 'string') {
+            return encodeURIComponent(value);
+          }
+        });
+        return result;
+      }
+
+      const compiled = template(urlTemplate || '');
+      const url = compiled(
+        urlEncodeFields({
+          ...payload,
+          filters: model.filters.values,
+          context: model.context.current,
+        }),
+      );
+
+      window.open(url, openInNewTab ? '_blank' : '_self', 'noopener');
+    };
+    window.addEventListener('open-link', handler);
+
+    return () => {
+      window.removeEventListener('open-link', handler);
     };
   }, [model]);
 }
