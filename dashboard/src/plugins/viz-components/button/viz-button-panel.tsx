@@ -1,4 +1,4 @@
-import { MantineSize, Select, Stack } from '@mantine/core';
+import { Checkbox, CheckIcon, MantineSize, Select, Stack } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -38,6 +38,11 @@ export function VizButtonPanel({ context }: VizConfigProps) {
       />
       <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
       <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
+      <Checkbox
+        label="Compact"
+        checked={conf.compact}
+        onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
+      />
     </Stack>
   );
 }
