@@ -1,4 +1,4 @@
-import { Button } from '@mantine/core';
+import { Button, Center } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
@@ -10,5 +10,11 @@ export function VizButton({ context }: VizViewProps) {
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { content, ...mantineProps } = conf;
-  return <Button {...mantineProps}>{content}</Button>;
+
+  const { width, height } = context.viewport;
+  return (
+    <Center sx={{ width, height }}>
+      <Button {...mantineProps}>{content}</Button>
+    </Center>
+  );
 }
