@@ -1,7 +1,17 @@
+import { ButtonVariant, MantineColor, MantineSize } from '@mantine/core';
+
 export interface IButtonConf {
-  hello: string;
+  content: string;
+  variant: ButtonVariant;
+  color: MantineColor;
+  size: MantineSize;
+  compact: boolean;
 }
 
 export const DEFAULT_CONFIG: IButtonConf = {
-  hello: 'world',
+  content: 'Button',
+  variant: 'filled',
+  color: 'blue',
+  size: 'xs',
+  compact: false,
 };
