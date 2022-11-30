@@ -1,13 +1,13 @@
 import { CheckIcon, ColorSwatch, Group, Stack, Text, useMantineTheme } from '@mantine/core';
 import { useCallback } from 'react';
 
-interface IColorSwatches {
+interface IMantineColorSwatches {
   value: string;
   onChange: (v: string) => void;
   label: string;
 }
 
-export const ColorSwatches = ({ value, onChange, label }: IColorSwatches) => {
+export const MantineColorSwatches = ({ value, onChange, label }: IMantineColorSwatches) => {
   const theme = useMantineTheme();
 
   const getClickHandler = useCallback(

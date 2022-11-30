@@ -1,7 +1,7 @@
 import { Select, Stack } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
-import { ColorSwatches } from '~/panel/settings/common/color-swatches';
+import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
@@ -35,7 +35,7 @@ export function VizButtonPanel({ context }: VizConfigProps) {
         value={conf.variant}
         onChange={(v: string) => setConfByKey('variant', v)}
       />
-      <ColorSwatches label="Color" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
+      <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
     </Stack>
   );
 }
