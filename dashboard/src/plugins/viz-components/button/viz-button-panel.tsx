@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, MantineSize, Select, Stack } from '@mantine/core';
+import { Checkbox, CheckIcon, MantineSize, Select, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -42,6 +42,13 @@ export function VizButtonPanel({ context }: VizConfigProps) {
         label="Compact"
         checked={conf.compact}
         onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
+      />
+      <TextInput
+        label="Content Template"
+        description="Filter values & context entries are supported"
+        value={conf.content}
+        onChange={(e) => setConfByKey('content', e.currentTarget.value)}
+        required
       />
     </Stack>
   );
