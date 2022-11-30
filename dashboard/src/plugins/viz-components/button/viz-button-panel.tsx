@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, MantineSize, Select, Stack, TextInput } from '@mantine/core';
+import { Checkbox, CheckIcon, Divider, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -30,19 +30,6 @@ export function VizButtonPanel({ context }: VizConfigProps) {
 
   return (
     <Stack>
-      <Select
-        label="Variant"
-        data={variantOptions}
-        value={conf.variant}
-        onChange={(v: string) => setConfByKey('variant', v)}
-      />
-      <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
-      <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
-      <Checkbox
-        label="Compact"
-        checked={conf.compact}
-        onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
-      />
       <TextInput
         label="Content Template"
         description="Filter values & context entries are supported"
@@ -50,6 +37,24 @@ export function VizButtonPanel({ context }: VizConfigProps) {
         onChange={(e) => setConfByKey('content', e.currentTarget.value)}
         required
       />
+      <Divider mt="xs" mb={0} label="Styles" labelPosition="center" variant="dashed" />
+      <Select
+        label="Variant"
+        data={variantOptions}
+        value={conf.variant}
+        onChange={(v: string) => setConfByKey('variant', v)}
+      />
+      <SimpleGrid cols={2}>
+        <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
+        <Stack>
+          <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
+          <Checkbox
+            label="Compact"
+            checked={conf.compact}
+            onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
+          />
+        </Stack>
+      </SimpleGrid>
     </Stack>
   );
 }
