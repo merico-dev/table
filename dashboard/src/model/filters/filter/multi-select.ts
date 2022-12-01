@@ -5,7 +5,7 @@ export const FilterConfigModel_MultiSelect = types
   .compose(
     'FilterConfigModel_MultiSelect',
     types.model({
-      _name: 'multi-select',
+      _name: types.literal('multi-select'),
       default_value: types.optional(types.array(types.string), []),
       min_width: types.optional(types.string, ''),
     }),

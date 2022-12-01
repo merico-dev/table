@@ -2,7 +2,7 @@ import { Instance, types } from 'mobx-state-tree';
 
 export const FilterConfigModel_TextInput = types
   .model('FilterConfigModel_TextInput', {
-    _name: 'text-input',
+    _name: types.literal('text-input'),
     required: types.boolean,
     default_value: types.string,
   })

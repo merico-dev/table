@@ -5,7 +5,7 @@ export const FilterConfigModel_Select = types
   .compose(
     'FilterConfigModel_Select',
     types.model({
-      _name: 'select',
+      _name: types.literal('select'),
       default_value: types.string,
       required: types.boolean,
       width: types.optional(types.string, ''),

@@ -2,7 +2,7 @@ import { Instance, types } from 'mobx-state-tree';
 
 export const FilterConfigModel_Checkbox = types
   .model('FilterConfigModel_Checkbox', {
-    _name: 'checkbox',
+    _name: types.literal('checkbox'),
     default_value: types.boolean,
   })
   .actions((self) => ({
