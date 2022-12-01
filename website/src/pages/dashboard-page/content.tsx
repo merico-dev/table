@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Dashboard, IDashboard, ReadOnlyDashboard } from '@devtable/dashboard';
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
@@ -11,8 +11,10 @@ import { DashboardAPI } from '../../api-caller/dashboard';
 import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store';
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import './content.css';
+import { useParams } from 'react-router-dom';
 
 const _DashboardPageContent = ({ id }: { id: string }) => {
+  const { mode } = useParams();
   const [search, setSearch] = useUrlState({
     full_screen_panel_id: '',
   });
@@ -54,7 +56,8 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
 
   const ready = !loading;
   const isDashboardEditable = canEdit && dashboardModel.isEditable;
-  const DashboardComponent = isDashboardEditable ? Dashboard : ReadOnlyDashboard;
+
+  const DashboardComponent = mode === 'edit' && isDashboardEditable ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />

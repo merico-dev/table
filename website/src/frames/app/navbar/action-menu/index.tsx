@@ -1,5 +1,6 @@
 import { ActionIcon, Menu } from '@mantine/core';
-import { Edit, FileImport, FileInfo, Menu2 } from 'tabler-icons-react';
+import { useNavigate } from 'react-router-dom';
+import { Edit, FileImport, FileInfo, Menu2, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
 
@@ -10,7 +11,12 @@ interface IActionMenu {
   openOverwriteModal: (id: string, name: string) => void;
 }
 export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu) => {
+  const navigate = useNavigate();
   const { canEdit } = useAccountContext();
+
+  const visitDashboardDesign = () => {
+    navigate(`/dashboard/${id}/edit`);
+  };
 
   if (!canEdit || preset) {
     return null;
@@ -31,6 +37,10 @@ export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu
       </Menu.Target>
 
       <Menu.Dropdown>
+        <Menu.Item icon={<Paint size={16} />} onClick={visitDashboardDesign}>
+          Design
+        </Menu.Item>
+        <Menu.Divider />
         <Menu.Item disabled icon={<Edit size={16} />}>
           Rename
         </Menu.Item>
