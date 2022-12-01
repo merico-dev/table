@@ -14,11 +14,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
 
   const { width, height } = context.viewport;
   const contextData = (context.data as $TSFixMe[]) ?? [];
-  const {
-    data = {},
-    error,
-    loading,
-  } = useRequest(callExpertSystem({ conf, data: contextData }), {
+  const { data, error, loading } = useRequest(callExpertSystem({ conf, data: contextData }), {
     refreshDeps: [JSON.stringify(contextData), conf?.expertSystemURL],
   });
 
@@ -34,34 +30,15 @@ export function VizMericoGQM({ context }: VizViewProps) {
     );
   }
 
-  if (Array.isArray(data.errors) && data.errors.length > 0) {
-    return (
-      <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-        {JSON.stringify(data.errors, null, 2)}
-      </Prism>
-    );
+  if (!data || !Array.isArray(data.replies) || data.replies.length === 0) {
+    return null;
   }
+
   return (
     <Box>
-      <Text size="xs" color="red" align="center" mb={-6}>
-        Response for debugging
-      </Text>
-      <Tabs defaultValue="0">
-        <Tabs.List>
-          {data.replies?.map((r: any, i: number) => (
-            <Tabs.Tab key={`${r.actor}-${r.metric}-${i}`} value={i.toString()}>
-              {i}
-            </Tabs.Tab>
-          ))}
-        </Tabs.List>
-        {data.replies?.map((r: any, i: number) => (
-          <Tabs.Panel key={`${r.actor}-${r.metric}-${i}`} value={i.toString()} pt={6}>
-            <Prism my={8} language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-              {JSON.stringify(r, null, 2)}
-            </Prism>
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+      {data.replies.map((r, i) => (
+        <div key={i} dangerouslySetInnerHTML={{ __html: r.interpretation.html }} />
+      ))}
     </Box>
   );
 }

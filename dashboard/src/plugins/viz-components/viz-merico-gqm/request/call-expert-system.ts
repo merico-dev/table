@@ -10,6 +10,26 @@ interface IExpertSystemPayload {
   }>;
 }
 
+interface IExpertSystemReply {
+  dashboard: string;
+  panel: string;
+  actor: string;
+  interpretation: {
+    json: {
+      hint: string;
+      message: string;
+    };
+    html: string;
+  };
+}
+
+interface IExpertSystemResponse {
+  query_id: string;
+  submitted: string;
+  replied: string;
+  replies: Array<IExpertSystemReply>;
+}
+
 async function req(baseURL: string, url: string, data: IExpertSystemPayload, options: $TSFixMe = {}) {
   const headers = {
     'X-Requested-With': 'XMLHttpRequest',
@@ -44,10 +64,10 @@ interface ICallExpertSystem {
 
 export const callExpertSystem =
   ({ conf, data }: ICallExpertSystem) =>
-  async () => {
+  async (): Promise<IExpertSystemResponse | undefined> => {
     const { expertSystemURL, goal, question } = conf;
     if (!expertSystemURL || !goal || !question) {
-      return {};
+      return undefined;
     }
 
     const payload: IExpertSystemPayload = {
