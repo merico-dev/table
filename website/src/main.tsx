@@ -22,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<RequireAuth />}>
             <Route path="/" element={<App />}>
               <Route path="dashboard/:id" element={<DashboardPage />} />
+              <Route path="dashboard/:id/:mode" element={<DashboardPage />} />
               <Route path="*" element={<DashboardPage />} />
             </Route>
             <Route path="/admin" element={<AdminFrame />}>
