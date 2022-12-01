@@ -12,7 +12,7 @@ import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
 
 function doesVizRequiresData(type: string) {
-  const vizTypes = ['richText'];
+  const vizTypes = ['richText', 'button'];
   return !vizTypes.includes(type);
 }
 

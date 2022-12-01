@@ -1,10 +1,10 @@
-import { Button, Group, Stack } from '@mantine/core';
+import { Alert, Button, Group, LoadingOverlay, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { useAsyncEffect, useCreation } from 'ahooks';
+import { useAsyncEffect, useCreation, useRequest } from 'ahooks';
 import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
-import { Trash } from 'tabler-icons-react';
+import { AlertCircle, Trash } from 'tabler-icons-react';
 import { usePanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { useTriggerConfigModel } from '~/interactions/components/trigger-config-model';
@@ -96,8 +96,23 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
     setVersion((it) => it + 1);
   }
 
+  const { data = 0, loading } = useRequest(async () => {
+    try {
+      const list = await interactionManager.triggerManager.getTriggerSchemaList();
+      return list.length;
+    } catch (error) {
+      return 0;
+    }
+  });
+
   return (
     <Stack>
+      <LoadingOverlay visible={loading} />
+      {data === 0 && (
+        <Alert icon={<AlertCircle size={16} />} title="Unavailable" color="gray">
+          This visualization does not have available interactions to choose from
+        </Alert>
+      )}
       {interactions.map((it) => (
         <InteractionItem
           onRemove={handleRemoveInteraction}
@@ -109,7 +124,7 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
           key={it.id}
         />
       ))}
-      <Button style={{ width: 'fit-content' }} onClick={() => createNewInteraction()}>
+      <Button style={{ width: 'fit-content' }} onClick={() => createNewInteraction()} disabled={data === 0}>
         Add interaction
       </Button>
     </Stack>

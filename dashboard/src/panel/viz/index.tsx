@@ -42,7 +42,7 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
   }
 }
 
-const typesDontNeedData = ['richText'];
+const typesDontNeedData = ['richText', 'button'];
 
 interface IViz {
   viz: IVizConfig;
