@@ -18,9 +18,9 @@ class VizMericoGQMMigrator extends VersionBasedMigrator {
 }
 
 export const MericoGQMVizComponent: VizComponent = {
-  displayName: 'Merico Expert System',
+  displayName: 'Merico GQM',
   migrator: new VizMericoGQMMigrator(),
-  name: 'expertSystem',
+  name: 'mericoGQM',
   viewRender: VizMericoGQM,
   configRender: VizMericoGQMPanel,
   createConfig: (): IMericoGQMConf => DEFAULT_CONFIG,

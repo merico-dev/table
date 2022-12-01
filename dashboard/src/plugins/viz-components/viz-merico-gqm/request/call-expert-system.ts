@@ -1,6 +1,16 @@
 import axios from 'axios';
+import { AnyObject } from '~/types';
+import { IMericoGQMConf } from '../type';
 
-async function req(baseURL: string, url: string, data: $TSFixMe[], options: $TSFixMe = {}) {
+interface IExpertSystemPayload {
+  dashboard: string;
+  panels: Array<{
+    name: string;
+    data: AnyObject[];
+  }>;
+}
+
+async function req(baseURL: string, url: string, data: IExpertSystemPayload, options: $TSFixMe = {}) {
   const headers = {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
@@ -28,15 +38,28 @@ async function req(baseURL: string, url: string, data: $TSFixMe[], options: $TSF
 
 interface ICallExpertSystem {
   baseURL?: string;
-  payload: $TSFixMe;
+  conf: IMericoGQMConf;
+  data: AnyObject[];
 }
 
 export const callExpertSystem =
-  ({ baseURL, payload }: ICallExpertSystem) =>
+  ({ conf, data }: ICallExpertSystem) =>
   async () => {
-    if (!baseURL) {
+    const { expertSystemURL, goal, question } = conf;
+    if (!expertSystemURL || !goal || !question) {
       return {};
     }
-    const res = await req(baseURL, '/expert/v2/scenario', payload, {});
+
+    const payload: IExpertSystemPayload = {
+      dashboard: goal,
+      panels: [
+        {
+          name: question,
+          data,
+        },
+      ],
+    };
+
+    const res = await req(expertSystemURL, '/expert/v2/devtable', payload, {});
     return res;
   };
