@@ -7,11 +7,11 @@ import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { callExpertSystem } from './request/call-expert-system';
 import { buildPayload } from './request/payload';
-import { DEFAULT_CONFIG, EExperSystemScenario, EMetricSet, IExpertSystemConf } from './type';
+import { DEFAULT_CONFIG, EExperSystemScenario, EMetricSet, IMericoGQMConf } from './type';
 
-export function VizExpertSystem({ context }: VizViewProps) {
-  const { value: confValue } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
-  const conf: IExpertSystemConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+export function VizMericoGQM({ context }: VizViewProps) {
+  const { value: confValue } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
+  const conf: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { width, height } = context.viewport;
   const contextData = (context.data as $TSFixMe[]) ?? [];

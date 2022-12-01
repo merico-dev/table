@@ -1,10 +1,10 @@
-import { EExperSystemScenario, IExpertSystemConf } from '../../type';
+import { EExperSystemScenario, IMericoGQMConf } from '../../type';
 import { buildPayloadForComparison } from './comparison';
 import { buildPayloadForDevLoad } from './dev_load';
 import { buildPayloadForPerformance } from './performance';
 import { buildPayloadForPersonalReport } from './personal_report';
 
-export function buildPayload(conf: IExpertSystemConf, data: any) {
+export function buildPayload(conf: IMericoGQMConf, data: any) {
   switch (conf.scenario) {
     case EExperSystemScenario.performance:
       return buildPayloadForPerformance(conf, data);

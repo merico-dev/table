@@ -19,13 +19,13 @@ export enum EMetricSet {
   // pareto = 'pareto',
 }
 
-export interface IExpertSystemConf {
+export interface IMericoGQMConf {
   expertSystemURL: string;
   scenario: EExperSystemScenario;
   metric_set: EMetricSet;
 }
 
-export const DEFAULT_CONFIG: IExpertSystemConf = {
+export const DEFAULT_CONFIG: IMericoGQMConf = {
   expertSystemURL: '',
   scenario: EExperSystemScenario.performance,
   metric_set: EMetricSet.quality,

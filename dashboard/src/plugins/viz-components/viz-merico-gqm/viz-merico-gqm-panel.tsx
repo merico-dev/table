@@ -6,13 +6,13 @@ import { useStorageData } from '../../hooks';
 import { MetricSetSelector } from './metric-set-selector';
 import { SchemaAndValidation } from './request/schema-and-validation';
 import { ScenarioSelector } from './scenario-selector';
-import { DEFAULT_CONFIG, IExpertSystemConf } from './type';
+import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-export function VizExpertSystemPanel({ context }: VizConfigProps) {
-  const { value: confValue, set: setConf } = useStorageData<IExpertSystemConf>(context.instanceData, 'config');
-  const conf: IExpertSystemConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+export function VizMericoGQMPanel({ context }: VizConfigProps) {
+  const { value: confValue, set: setConf } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
+  const conf: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const setConfByKey = (key: string, value: IExpertSystemConf[keyof IExpertSystemConf]) => {
+  const setConfByKey = (key: string, value: IMericoGQMConf[keyof IMericoGQMConf]) => {
     setConf({
       ...conf,
       [key]: value,

@@ -1,6 +1,6 @@
 import { Select } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { EMetricSet, IExpertSystemConf } from './type';
+import { EMetricSet, IMericoGQMConf } from './type';
 
 const metricSetOptionGroups: Record<string, { label: string; value: EMetricSet; disabled?: boolean }[]> = {
   dev_load: [
@@ -23,7 +23,7 @@ const metricSetOptionGroups: Record<string, { label: string; value: EMetricSet; 
 };
 
 interface IMetricSetSelector {
-  conf: IExpertSystemConf;
+  conf: IMericoGQMConf;
   setConfByKey: (key: string, val: EMetricSet) => void;
 }
 export const MetricSetSelector = ({ conf, setConfByKey }: IMetricSetSelector) => {

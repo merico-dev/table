@@ -1,4 +1,4 @@
-import { EMetricSet, IExpertSystemConf } from '../../../type';
+import { EMetricSet, IMericoGQMConf } from '../../../type';
 import { performance_efficiency, TDataForEfficiency } from './efficiency';
 import { performance_pareto, TDataForPareto } from './pareto';
 import { performance_quality, TDataForQuality } from './quality';
@@ -6,7 +6,7 @@ import { performance_quality_history, TDataForQualityHistory } from './quality_h
 
 export type TPerformanceData = $TSFixMe | TDataForQuality[];
 
-function getContent(conf: IExpertSystemConf, data: TPerformanceData) {
+function getContent(conf: IMericoGQMConf, data: TPerformanceData) {
   switch (conf.metric_set) {
     case EMetricSet.quality:
       return performance_quality(data as TDataForQuality[]);
@@ -21,7 +21,7 @@ function getContent(conf: IExpertSystemConf, data: TPerformanceData) {
   }
 }
 
-export function buildPayloadForPerformance(conf: IExpertSystemConf, data: TPerformanceData) {
+export function buildPayloadForPerformance(conf: IMericoGQMConf, data: TPerformanceData) {
   return {
     performance: {
       ...getContent(conf, data),

@@ -1,11 +1,11 @@
-import { EMetricSet, IExpertSystemConf } from '../../../type';
+import { EMetricSet, IMericoGQMConf } from '../../../type';
 import { personal_report_quality, TDataForPersonalReportQuality } from './quality';
 import { personal_report_commits, TDataForCommits } from './commits';
 import { personal_report_skills, TDataForSkills } from './skills';
 
 export type TPersonalReportData = $TSFixMe | TDataForSkills[] | TDataForPersonalReportQuality[] | TDataForCommits[];
 
-function getContent(conf: IExpertSystemConf, data: TPersonalReportData) {
+function getContent(conf: IMericoGQMConf, data: TPersonalReportData) {
   switch (conf.metric_set) {
     case EMetricSet.skills:
       return personal_report_skills(data as TDataForSkills[]);
@@ -18,7 +18,7 @@ function getContent(conf: IExpertSystemConf, data: TPersonalReportData) {
   }
 }
 
-export function buildPayloadForPersonalReport(conf: IExpertSystemConf, data: TPersonalReportData) {
+export function buildPayloadForPersonalReport(conf: IMericoGQMConf, data: TPersonalReportData) {
   return {
     personal_report: {
       ...getContent(conf, data),

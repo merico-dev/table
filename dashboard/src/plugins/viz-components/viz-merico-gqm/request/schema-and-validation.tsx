@@ -2,7 +2,7 @@ import { Badge, Group, Tabs, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { useMemo } from 'react';
-import { IExpertSystemConf } from '../type';
+import { IMericoGQMConf } from '../type';
 import { getExpertDataSchema, getExpertDataStructure } from './schema';
 import Ajv from 'ajv';
 const ajv = new Ajv();
@@ -22,7 +22,7 @@ function ValidationErrors({ errors }: { errors: string | null | undefined | Arra
 }
 
 interface ISchemaAndValidation {
-  conf: IExpertSystemConf;
+  conf: IMericoGQMConf;
   data: $TSFixMe[];
 }
 export function SchemaAndValidation({ conf, data }: ISchemaAndValidation) {

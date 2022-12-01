@@ -1,5 +1,5 @@
 import { Select } from '@mantine/core';
-import { EExperSystemScenario, IExpertSystemConf } from './type';
+import { EExperSystemScenario, IMericoGQMConf } from './type';
 
 const scenarioOptions = [
   { label: 'dev_load', value: EExperSystemScenario.dev_load },
@@ -9,7 +9,7 @@ const scenarioOptions = [
 ];
 
 interface IScenarioSelector {
-  conf: IExpertSystemConf;
+  conf: IMericoGQMConf;
   setConfByKey: (key: string, value: EExperSystemScenario) => void;
 }
 export const ScenarioSelector = ({ conf, setConfByKey }: IScenarioSelector) => {

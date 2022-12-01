@@ -1,9 +1,9 @@
-import { EMetricSet, IExpertSystemConf } from '../../../type';
+import { EMetricSet, IMericoGQMConf } from '../../../type';
 import { comparison_efficiency, TDataForComparisonEfficiency } from './efficiency';
 
 export type TComparisonData = $TSFixMe | TDataForComparisonEfficiency[];
 
-function getContent(conf: IExpertSystemConf, data: TComparisonData) {
+function getContent(conf: IMericoGQMConf, data: TComparisonData) {
   switch (conf.metric_set) {
     case EMetricSet.efficiency:
       return comparison_efficiency(data as TDataForComparisonEfficiency[]);
@@ -12,7 +12,7 @@ function getContent(conf: IExpertSystemConf, data: TComparisonData) {
   }
 }
 
-export function buildPayloadForComparison(conf: IExpertSystemConf, data: TComparisonData) {
+export function buildPayloadForComparison(conf: IMericoGQMConf, data: TComparisonData) {
   return {
     comparison: {
       ...getContent(conf, data),
