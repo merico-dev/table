@@ -17,6 +17,7 @@ import { ColorManager, IColorManager } from './color-manager';
 import { PluginManager } from './plugin-manager';
 import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
+import { ButtonVizComponent } from './viz-components/button';
 import { CartesianVizComponent } from './viz-components/cartesian';
 import { ParetoChartVizComponent } from './viz-components/pareto-chart';
 import { PieChartVizComponent } from './viz-components/pie-chart';
@@ -26,10 +27,8 @@ import { RichTextVizComponent } from './viz-components/rich-text';
 import { StatsVizComponent } from './viz-components/stats';
 import { SunburstVizComponent } from './viz-components/sunburst';
 import { TableVizComponent } from './viz-components/table';
+import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
-import { ExpertSystemVizComponent } from './viz-components/expert-system';
-import { VizButton } from './viz-components/button/viz-button';
-import { ButtonVizComponent } from './viz-components/button';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -121,7 +120,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       CartesianVizComponent,
       RadarChartVizComponent,
       RegressionChartVizComponent,
-      ExpertSystemVizComponent,
+      MericoGQMVizComponent,
       ButtonVizComponent,
     ],
     color: [...basicColors, ...colorInterpolations],
