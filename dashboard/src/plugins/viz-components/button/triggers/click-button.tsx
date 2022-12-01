@@ -6,18 +6,7 @@ export const ClickButton: ITriggerSchema = {
   displayName: 'Click Button',
   nameRender: ClickButtonName,
   configRender: ClickButtonSettings,
-  payload: [
-    {
-      name: 'filters',
-      description: 'Filter values',
-      valueType: 'object',
-    },
-    {
-      name: 'context',
-      description: 'Context values',
-      valueType: 'object',
-    },
-  ],
+  payload: [],
 };
 
 export interface IClickButtonConfig {
