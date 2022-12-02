@@ -1,26 +1,17 @@
 import { connectionHook } from './jest.util';
-import { RoleService } from '~/services/role.service';
-import Account from '~/models/account';
-import { dashboardDataSource } from '~/data_sources/dashboard';
-import ApiKey from '~/models/apiKey';
-import { ROLE_TYPES } from '~/api_models/role';
-import { ApiError, FORBIDDEN, UNAUTHORIZED } from '~/utils/errors';
+import request from 'supertest';
+import { app } from '~/server';
 
 describe('RoleService', () => {
   connectionHook();
-  let roleService: RoleService;
-  let account: Account;
-  let apikey: ApiKey;
-
-  beforeAll(async () => {
-    roleService = new RoleService();
-    account = await dashboardDataSource.getRepository(Account).findOneBy({ name: 'superadmin' });
-    apikey = await dashboardDataSource.getRepository(ApiKey).findOneBy({ name: 'preset' });
-  });
+  const server = request(app);
 
   it('list', async () => {
-    const roles = await roleService.list();
-    expect(roles).toMatchObject([
+    const response = await server
+      .get('/role/list')
+      .send()
+
+    expect(response.body).toMatchObject([
       {
         id: 10,
         name: 'INACTIVE',
@@ -46,28 +37,6 @@ describe('RoleService', () => {
         name: 'SUPERADMIN', 
         description: 'Can do everything' 
       }
-    ])
-  });
-
-  describe('checkPermission', () => {
-    it('should successfully check permission with account', async () => {
-      RoleService.checkPermission(account, ROLE_TYPES.INACTIVE);
-    });
-
-    it('should successfully check permission with apikey', async () => {
-      RoleService.checkPermission(apikey, ROLE_TYPES.INACTIVE);
-    });
-
-    it('should throw if no auth', async () => {
-      expect(() => {
-        RoleService.checkPermission(null, ROLE_TYPES.INACTIVE);
-      }).toThrowError(new ApiError(UNAUTHORIZED, { message: 'Not authenticated' }));
-    });
-
-    it('should throw if not enough privileges', async () => {
-      expect(() => {
-        RoleService.checkPermission(apikey, ROLE_TYPES.SUPERADMIN);
-      }).toThrowError(new ApiError(FORBIDDEN, { message: 'Insufficient privileges' }));
-    });
+    ]);
   });
 });

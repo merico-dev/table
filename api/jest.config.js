@@ -18,4 +18,5 @@ module.exports = {
   },
   roots: ['<rootDir>/tests/'],
   cacheDirectory: '<rootDir>/.jest_cache',
+  globalTeardown: './test-teardown-globals.js',
 };

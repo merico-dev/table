@@ -1,7 +1,7 @@
-import { DataSource } from 'typeorm';
 import { dashboardDataSource } from '../../src/data_sources/dashboard';
 
 module.exports = async (globalConfig) => {
+  process.env.ENABLE_AUTH = '1';
   console.log('-----------  setup e2e, clean all data before test run  -----------------');
   if (!dashboardDataSource.isInitialized) {
     await dashboardDataSource.initialize();

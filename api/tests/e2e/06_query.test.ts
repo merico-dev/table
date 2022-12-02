@@ -1,20 +1,50 @@
 import { connectionHook } from './jest.util';
-import { QueryService } from '~/services/query.service';
-import { HttpParams } from '~/api_models/query';
+import { HttpParams, QueryRequest } from '~/api_models/query';
 import * as validation from '~/middleware/validation';
+import { app } from '~/server';
+import request from 'supertest';
+import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 
 describe('QueryService', () => {
   connectionHook();
-  let queryService: QueryService;
+  let superadminLogin: AccountLoginResponse;
+  const server = request(app);
+
+  const validate = jest.spyOn(validation, 'validate');
 
   beforeAll(async () => {
-    queryService = new QueryService();
+    const query: AccountLoginRequest = {
+      name: 'superadmin',
+      password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
+    };
+    validate.mockReturnValueOnce(query);
+
+    const response = await server
+      .post('/account/login')
+      .send(query);
+
+    superadminLogin = response.body;
+  });
+
+  beforeEach(() => {
+    validate.mockReset();
   });
 
   describe('query', () => {
     it('should query pg successfully', async () => {
-      const results = await queryService.query('postgresql', 'preset', 'SELECT * FROM role ORDER BY id ASC');
-      expect(results).toMatchObject([
+      const query: QueryRequest = {
+        type: 'postgresql',
+        key: 'preset',
+        query: 'SELECT * FROM role ORDER BY id ASC'
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/query')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject([
         {
           id: 10,
           name: 'INACTIVE',
@@ -44,16 +74,26 @@ describe('QueryService', () => {
     });
 
     it('should query http successfully with GET', async () => {
-      const query: HttpParams = {
+      const httpParams: HttpParams = {
         method: 'GET',
         data: {},
         headers: { 'Content-Type': 'application/json' },
         url_postfix: '/posts/1'
       };
-      const validate = jest.spyOn(validation, 'validate');
+      const query: QueryRequest = {
+        type: 'http',
+        key: 'jsonplaceholder',
+        query: JSON.stringify(httpParams)
+      };
       validate.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
-      expect(results).toMatchObject({
+      validate.mockReturnValueOnce(httpParams);
+
+      const response = await server
+        .post('/query')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+        
+      expect(response.body).toMatchObject({
         userId: 1,
         id: 1,
         title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
@@ -65,42 +105,72 @@ describe('QueryService', () => {
     });
 
     it('should query http successfully with POST', async () => {
-      const query: HttpParams = {
+      const httpParams: HttpParams = {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
         url_postfix: '/posts'
       };
-      const validate = jest.spyOn(validation, 'validate');
+      const query: QueryRequest = {
+        type: 'http',
+        key: 'jsonplaceholder',
+        query: JSON.stringify(httpParams)
+      };
       validate.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
-      expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
+      validate.mockReturnValueOnce(httpParams);
+
+      const response = await server
+        .post('/query')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
     });
 
     it('should query http successfully with PUT', async () => {
-      const query: HttpParams = {
+      const httpParams: HttpParams = {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
         url_postfix: '/posts/1'
       };
-      const validate = jest.spyOn(validation, 'validate');
+      const query: QueryRequest = {
+        type: 'http',
+        key: 'jsonplaceholder',
+        query: JSON.stringify(httpParams)
+      };
       validate.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
-      expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
+      validate.mockReturnValueOnce(httpParams);
+
+      const response = await server
+        .post('/query')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
     });
 
     it('should query http successfully with DELETE', async () => {
-      const query: HttpParams = {
+      const httpParams: HttpParams = {
         method: 'DELETE',
         data: {},
         headers: { 'Content-Type': 'application/json' },
         url_postfix: '/posts/1'
       };
-      const validate = jest.spyOn(validation, 'validate');
+      const query: QueryRequest = {
+        type: 'http',
+        key: 'jsonplaceholder',
+        query: JSON.stringify(httpParams)
+      };
       validate.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
-      expect(results).toMatchObject({});
+      validate.mockReturnValueOnce(httpParams);
+
+      const response = await server
+        .post('/query')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({});
     });
   });
 });

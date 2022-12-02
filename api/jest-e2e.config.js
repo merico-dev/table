@@ -7,7 +7,7 @@ module.exports = {
   globalSetup: '<rootDir>/tests/e2e/jest.setup.ts',
   testRegex: '(/tests/e2e/.*(test|spec|e2e))\\.(jsx?|tsx?)$',
   roots: ['<rootDir>/tests/e2e/'],
-  testSequencer: './e2e.sequencer.js',
+  testSequencer: './test.sequencer.js',
   testTimeout: 60000,
   globals: {
     'ts-jest': {

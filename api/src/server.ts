@@ -17,16 +17,6 @@ import './api_models';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
-dashboardDataSource.initialize()
-.then(() => {
-  logger.info('Dashboard Data Source initialization successful!');
-  require('./dashboard_migration');
-})
-.catch((err) => {
-  logger.error(`Dashboard Data Source initialization failed: ${err}`, err);
-  process.exit(1);
-});
-
 const corsOrigins = process.env.CORS_ALLOW_ORIGIN ? process.env.CORS_ALLOW_ORIGIN.split(';') : ['http://localhost'];
 const requestMaxSize = process.env.EXPRESS_REQUEST_MAX_SIZE ?? '1mb';
 
@@ -62,12 +52,20 @@ server.setErrorConfig((app: any) => {
   app.use(errorMiddleware);
 });
 
-const app = server.build();
+export const app = server.build();
 const port = process.env.SERVER_PORT || 31200;
-app.listen(port, () => {
-  logger.info(`Listening on port ${port}`);
-});
 
-process.on('uncaughtException', err => {
-  logger.info(err.message);
-});
+if (process.env.NODE_ENV !== 'test') {
+  (async function init() {
+    await dashboardDataSource.initialize();
+    require('./dashboard_migration');
+
+    app.listen(port, () => {
+      logger.info(`Listening on port ${port}`);
+    });
+    
+    process.on('uncaughtException', err => {
+      logger.info(err.message);
+    });
+  })();
+}

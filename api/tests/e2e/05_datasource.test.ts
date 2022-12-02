@@ -1,40 +1,39 @@
 import { connectionHook } from './jest.util';
-import { DataSourceService } from '~/services/datasource.service';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import { DataSourceConfig } from '~/api_models/datasource';
-import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { ApiError, BAD_REQUEST } from '~/utils/errors';
+import { DataSourceConfig, DataSourceCreateRequest, DataSourceIDRequest, DataSourceListRequest } from '~/api_models/datasource';
 import { maybeDecryptPassword, maybeEncryptPassword } from '~/utils/encryption';
-
-const parseDBUrl = (connectionString: string): { username: string, password: string, host: string, port: number, database: string } => {
-  const parts1 = connectionString.split(':');
-  const username = parts1[0];
-  const password = parts1[1].split('@')[0];
-  const database = connectionString.substring(connectionString.lastIndexOf('/') + 1);
-  let host: string;
-  let port: number;
-  if (parts1.length === 3) {
-    host = parts1[1].split('@')[1];
-    port = parseInt(parts1[2].split('/')[0]);
-  } else {
-    host = parts1[1].split('@')[1].split('/')[0];
-    port = 5432;
-  }
-  return { username, password, host, port, database };
-}
+import { parseDBUrl } from '../utils';
+import * as validation from '~/middleware/validation';
+import { app } from '~/server';
+import request from 'supertest';
+import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 
 describe('DataSourceService', () => {
   connectionHook();
-  let datasourceService: DataSourceService;
+  let superadminLogin: AccountLoginResponse;
   let postgresConfig: DataSourceConfig;
   let presetDatasource: DataSource;
   let pgDatasource: DataSource;
   let httpDatasource: DataSource;
+  const server = request(app);
+
+  const validate = jest.spyOn(validation, 'validate');
 
   beforeAll(async () => {
-    datasourceService = new DataSourceService();
-    const connectionString = process.env.TEST_PG_URL.substring(13);
+    const query: AccountLoginRequest = {
+      name: 'superadmin',
+      password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
+    };
+    validate.mockReturnValueOnce(query);
+
+    const response = await server
+      .post('/account/login')
+      .send(query);
+
+    superadminLogin = response.body;
+
+    const connectionString = process.env.TEST_PG_URL;
     const { username, password, host, port, database } = parseDBUrl(connectionString);
     const presetData = new DataSource();
     presetData.type = 'postgresql';
@@ -53,10 +52,13 @@ describe('DataSourceService', () => {
     postgresConfig = { ...presetData.config, password };
   });
 
+  beforeEach(() => {
+    validate.mockReset();
+  });
+
   describe('create', () => {
     it('should create successfully', async () => {
-      pgDatasource = await datasourceService.create('postgresql', 'pg', postgresConfig);
-      expect(pgDatasource).toMatchObject({
+      const pgQuery: DataSourceCreateRequest = {
         type: 'postgresql',
         key: 'pg',
         config: {
@@ -66,125 +68,251 @@ describe('DataSourceService', () => {
           database: postgresConfig.database,
           port: postgresConfig.port
         },
+      };
+      validate.mockReturnValueOnce(pgQuery);
+
+      const pgResponse = await server
+        .post('/datasource/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(pgQuery);
+
+      pgDatasource = pgResponse.body;
+      expect(pgResponse.body).toMatchObject({
+        type: 'postgresql',
+        key: 'pg',
+        config: {
+          host: postgresConfig.host,
+          username: postgresConfig.username,
+          password: postgresConfig.password,
+          database: postgresConfig.database,
+          port: 5432
+        },
         id: pgDatasource.id,
         create_time: pgDatasource.create_time,
         update_time: pgDatasource.update_time,
         is_preset: false
       });
 
-      httpDatasource = await datasourceService.create('http', 'jsonplaceholder', { host: 'http://jsonplaceholder.typicode.com' });
-      expect(httpDatasource).toMatchObject({
+      const httpQuery: DataSourceCreateRequest = {
         type: 'http',
         key: 'jsonplaceholder',
         config: {
           host: 'http://jsonplaceholder.typicode.com'
         },
+      };
+      validate.mockReturnValueOnce(httpQuery);
+
+      const httpResponse = await server
+        .post('/datasource/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(httpQuery);
+
+      httpDatasource = httpResponse.body;
+      expect(httpResponse.body).toMatchObject({
+        type: 'http',
+        key: 'jsonplaceholder',
+        config: { host: 'http://jsonplaceholder.typicode.com' },
         id: httpDatasource.id,
         create_time: httpDatasource.create_time,
         update_time: httpDatasource.update_time,
         is_preset: false
-      })
+      });
     });
 
     it('should fail if duplicate', async () => {
-      await expect(datasourceService.create('postgresql', 'pg', postgresConfig)).rejects.toThrowError(QueryFailedError);
+      const query: DataSourceCreateRequest = {
+        type: 'postgresql',
+        key: 'pg',
+        config: {
+          host: postgresConfig.host,
+          username: postgresConfig.username,
+          password: postgresConfig.password,
+          database: postgresConfig.database,
+          port: postgresConfig.port
+        },
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+      
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: {
+          message: 'duplicate key value violates unique constraint "data_source_type_key_idx"'
+        }
+      });
     });
 
     it('should fail if config incorrect', async () => {
-      await expect(datasourceService.create('postgresql', 'pg', { ...postgresConfig, port: 22 })).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Testing datasource connection failed' }));
+      const query: DataSourceCreateRequest = {
+        type: 'postgresql',
+        key: 'pg',
+        config: {
+          host: postgresConfig.host,
+          username: postgresConfig.username,
+          password: postgresConfig.password,
+          database: postgresConfig.database,
+          port: 22
+        },
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+      
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'Testing datasource connection failed' }
+      });
     });
   });
 
   describe('list', () => {
     it('no filters', async () => {
-      const datasources = await datasourceService.list(undefined, { field: 'create_time', order: 'ASC' }, { page: 1, pagesize: 20 });
-      expect(datasources).toMatchObject({
+      const query: DataSourceListRequest = {
+        pagination: { page: 1, pagesize: 20 },
+        sort: { field: 'key', order: 'ASC' }
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/list')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+      
+      expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
         data: [
           {
-            id: datasources.data[0].id,
-            type: 'postgresql',
-            key: 'preset',
-            is_preset: true
+            id: response.body.data[0].id,
+            type: 'http',
+            key: 'jsonplaceholder',
+            is_preset: false
           },
           {
-            id: datasources.data[1].id,
+            id: response.body.data[1].id,
             type: 'postgresql',
             key: 'pg',
             is_preset: false
           },
           {
-            id: datasources.data[2].id,
-            type: 'http',
-            key: 'jsonplaceholder',
-            is_preset: false
+            id: response.body.data[2].id,
+            type: 'postgresql',
+            key: 'preset',
+            is_preset: true
           }
         ]
       });
     });
 
     it('with search filter', async () => {
-      const datasources = await datasourceService.list({ search: 'preset' }, { field: 'create_time', order: 'ASC' }, { page: 1, pagesize: 20 });
-      expect(datasources).toMatchObject({
+      const query: DataSourceListRequest = {
+        filter: { search: 'preset' },
+        pagination: { page: 1, pagesize: 20 },
+        sort: { field: 'key', order: 'ASC' }
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/list')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+      
+      expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
         data: [
           {
-            id: datasources.data[0].id,
+            id: response.body.data[0].id,
             type: 'postgresql',
             key: 'preset',
             is_preset: true
           }
         ]
       });
-    });
-  });
-
-  describe('getByTypeKey', () => {
-    it('should return successfully', async () => {
-      const pg = await DataSourceService.getByTypeKey(presetDatasource.type, presetDatasource.key);
-      expect(pg).toMatchObject(presetDatasource);
-
-      const http = await DataSourceService.getByTypeKey(httpDatasource.type, httpDatasource.key);
-      expect(http).toMatchObject(httpDatasource);
-    });
-
-    it('should fail if not found', async () => {
-      await expect(DataSourceService.getByTypeKey('xxx', 'xxx')).rejects.toThrowError(EntityNotFoundError);
     });
   });
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      await datasourceService.delete(pgDatasource.id);
-      const datasources = await datasourceService.list(undefined, { field: 'create_time', order: 'ASC' }, { page: 1, pagesize: 20 });
-      expect(datasources).toMatchObject({
+      const deleteQuery: DataSourceIDRequest = {
+        id: pgDatasource.id
+      };
+      validate.mockReturnValueOnce(deleteQuery);
+
+      await server
+        .post('/datasource/delete')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(deleteQuery);
+
+      const query: DataSourceListRequest = {
+        pagination: { page: 1, pagesize: 20 },
+        sort: { field: 'key', order: 'ASC' }
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/list')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+      
+      expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
         data: [
           {
-            id: datasources.data[0].id,
-            type: 'postgresql',
-            key: 'preset',
-            is_preset: true
-          },
-          {
-            id: datasources.data[1].id,
+            id: response.body.data[0].id,
             type: 'http',
             key: 'jsonplaceholder',
             is_preset: false
+          },
+          {
+            id: response.body.data[1].id,
+            type: 'postgresql',
+            key: 'preset',
+            is_preset: true
           }
         ]
       });
     });
 
     it('should fail if not found', async () => {
-      await expect(datasourceService.delete(pgDatasource.id)).rejects.toThrowError(EntityNotFoundError);
+      const query: DataSourceIDRequest = {
+        id: pgDatasource.id
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/delete')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body.code).toEqual('NOT_FOUND');
+      expect(response.body.detail.message).toContain('Could not find any entity of type "DataSource" matching');
+      expect(response.body.detail.message).toContain(pgDatasource.id);
     });
 
     it('should fail if is preset datasource', async () => {
-      await expect(datasourceService.delete(presetDatasource.id)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' }));
+      const query: DataSourceIDRequest = {
+        id: presetDatasource.id
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .post('/datasource/delete')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'Can not delete preset datasources' }
+      });
     });
   });
 });
