@@ -3,7 +3,7 @@ import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizCartesianChart } from './viz-cartesian-chart';
 import { VizCartesianPanel } from './viz-cartesian-panel';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { ClickEchart } from './triggers/click-echart';
+import { ClickEchartSeries } from './triggers/click-echart';
 
 class VizCartesianMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -25,5 +25,5 @@ export const CartesianVizComponent: VizComponent = {
   viewRender: VizCartesianChart,
   configRender: VizCartesianPanel,
   createConfig: (): ICartesianChartConf => DEFAULT_CONFIG,
-  triggers: [ClickEchart],
+  triggers: [ClickEchartSeries],
 };

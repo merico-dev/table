@@ -1,1 +1,1 @@
-export { ClickEchart as ClickButton } from './click-echart';
+export { ClickEchartSeries } from './click-echart';

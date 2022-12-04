@@ -21,8 +21,20 @@ import { useStorageData } from '~/plugins/hooks';
 import { ITriggerSnapshot, IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { templateToJSX } from '~/utils/template';
 import { getOption } from './option';
-import { ClickEchart } from './triggers/click-echart';
+import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import { EChartsInstance } from 'echarts-for-react';
+import _ from 'lodash';
+
+interface IClickEchartsSeries {
+  type: 'click';
+  seriesType: 'line' | 'scatter' | 'bar';
+  componentSubType: 'line' | 'scatter' | 'bar';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: string; // string-typed number
+}
 
 echarts.use([
   DataZoomComponent,
@@ -55,10 +67,11 @@ function Chart({
   height: number;
   interactionManager: IVizInteractionManager;
 }) {
-  const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchart.id);
-  const onChartClick = () => {
+  const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
+
+  const handleSeriesClick = (params: IClickEchartsSeries) => {
     triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, {});
+      interactionManager.runInteraction(t.id, { ...params });
     });
   };
 
@@ -74,9 +87,7 @@ function Chart({
       echarts={echarts}
       option={option}
       style={{ width, height }}
-      onEvents={{
-        click: onChartClick,
-      }}
+      onEvents={{ click: handleSeriesClick }}
     />
   );
 }

@@ -23,7 +23,7 @@ export const VariableList = (props: IVariableListProps) => {
       <Text size="xs" color="dimmed" mb="sm">
         {title}
       </Text>
-      <Stack style={{ maxHeight: '300px' }}>
+      <Stack style={{ maxHeight: '500px' }}>
         {variables.map((it) => {
           return (
             <Text key={it.name} size="sm">
