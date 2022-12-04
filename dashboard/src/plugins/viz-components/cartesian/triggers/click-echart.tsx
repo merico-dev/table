@@ -54,5 +54,5 @@ export function ClickEchartSeriesSettings(props: ITriggerConfigProps) {
 }
 
 function ClickEchartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click this chart</Text>;
+  return <Text>Click chart's series</Text>;
 }
