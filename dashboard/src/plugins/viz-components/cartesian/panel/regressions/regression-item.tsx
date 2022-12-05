@@ -1,5 +1,4 @@
-import { ActionIcon, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
-import React from 'react';
+import { Button, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
@@ -34,7 +33,7 @@ interface IRegressionField {
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {
   const method = regressionItem.transform.config.method;
   return (
-    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Controller
         name={`regressions.${index}.name`}
         control={control}
@@ -105,14 +104,15 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
-      <ActionIcon
+      <Button
+        leftIcon={<Trash size={16} />}
         color="red"
-        variant="subtle"
+        variant="light"
         onClick={() => remove(index)}
-        sx={{ position: 'absolute', top: 15, right: 5 }}
+        sx={{ top: 15, right: 5 }}
       >
-        <Trash size={16} />
-      </ActionIcon>
+        Delete this Regression Line
+      </Button>
     </Stack>
   );
 }

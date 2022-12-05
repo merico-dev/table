@@ -114,67 +114,63 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion multiple defaultValue={['X Axis', 'Y Axes']}>
-          <Accordion.Item value="X Axis">
-            <Accordion.Control>X Axis</Accordion.Control>
-            <Accordion.Panel>
-              <XAxisField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Y Axes">
-            <Accordion.Control>Y Axes</Accordion.Control>
-            <Accordion.Panel>
-              <YAxesField control={control} watch={watch} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Series">
-            <Accordion.Control>Series</Accordion.Control>
-            <Accordion.Panel>
-              <SeriesField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Regression Lines">
-            <Accordion.Control>Regression Lines</Accordion.Control>
-            <Accordion.Panel>
-              <RegressionsField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Stats">
-            <Accordion.Control>Stats</Accordion.Control>
-            <Accordion.Panel>
-              <StatsField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Advanced">
-            <Accordion.Control>
-              <Group position="apart">
-                Advanced
-                <Text align="right" size={12} color="grey">
-                  Use variables in reference lines
-                </Text>
-              </Group>
-            </Accordion.Control>
-            <Accordion.Panel>
-              <Tabs defaultValue="variables">
-                <Tabs.List>
-                  <Tabs.Tab value="variables">Variables</Tabs.Tab>
-                  <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
-                  <Tabs.Tab value="reference_areas">Reference Areas</Tabs.Tab>
-                </Tabs.List>
+        <Tabs
+          defaultValue="Series"
+          orientation="vertical"
+          styles={{
+            tab: {
+              paddingLeft: '6px',
+              paddingRight: '6px',
+            },
+            panel: {
+              paddingTop: '6px',
+              paddingLeft: '12px',
+            },
+          }}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
+            <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
+            <Tabs.Tab value="Series">Series</Tabs.Tab>
+            <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
+            <Tabs.Tab value="Stats">Stats</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
+            <Tabs.Tab value="Variables">Variables</Tabs.Tab>
+          </Tabs.List>
 
-                <Tabs.Panel value="variables" pt="xs">
-                  <VariablesField control={control} watch={watch} data={data} />
-                </Tabs.Panel>
-                <Tabs.Panel value="reference_lines" pt="xs">
-                  <ReferenceLinesField control={control} watch={watch} />
-                </Tabs.Panel>
-                <Tabs.Panel value="reference_areas" pt="xs">
-                  <ReferenceAreasField control={control} watch={watch} />
-                </Tabs.Panel>
-              </Tabs>
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+          <Tabs.Panel value="X Axis">
+            <XAxisField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Y Axes">
+            <YAxesField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Series">
+            <SeriesField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Regression Lines">
+            <RegressionsField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Stats">
+            <StatsField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Reference Lines">
+            <ReferenceLinesField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Reference Areas">
+            <ReferenceAreasField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Variables">
+            <VariablesField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+        </Tabs>
       </form>
     </Stack>
   );
