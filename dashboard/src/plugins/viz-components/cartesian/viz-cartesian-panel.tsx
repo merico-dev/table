@@ -134,7 +134,9 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="Series">Series</Tabs.Tab>
             <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
-            <Tabs.Tab value="Advanced">Advanced</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
+            <Tabs.Tab value="Variables">Variables</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
@@ -157,24 +159,16 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <StatsField control={control} watch={watch} data={data} />
           </Tabs.Panel>
 
-          <Tabs.Panel value="Advanced">
-            <Tabs defaultValue="variables">
-              <Tabs.List>
-                <Tabs.Tab value="variables">Variables</Tabs.Tab>
-                <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
-                <Tabs.Tab value="reference_areas">Reference Areas</Tabs.Tab>
-              </Tabs.List>
+          <Tabs.Panel value="Reference Lines">
+            <ReferenceLinesField control={control} watch={watch} />
+          </Tabs.Panel>
 
-              <Tabs.Panel value="variables" pt="xs">
-                <VariablesField control={control} watch={watch} data={data} />
-              </Tabs.Panel>
-              <Tabs.Panel value="reference_lines" pt="xs">
-                <ReferenceLinesField control={control} watch={watch} />
-              </Tabs.Panel>
-              <Tabs.Panel value="reference_areas" pt="xs">
-                <ReferenceAreasField control={control} watch={watch} />
-              </Tabs.Panel>
-            </Tabs>
+          <Tabs.Panel value="Reference Areas">
+            <ReferenceAreasField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Variables">
+            <VariablesField control={control} watch={watch} data={data} />
           </Tabs.Panel>
         </Tabs>
       </form>
