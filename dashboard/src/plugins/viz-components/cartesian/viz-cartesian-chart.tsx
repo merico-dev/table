@@ -1,7 +1,8 @@
 import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import * as echarts from 'echarts/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
+import * as echarts from 'echarts/core';
+import { Box, Text } from '@mantine/core';
 /* @ts-expect-error type defs of echarts-stat */
 import { transform } from 'echarts-stat';
 import {
@@ -15,12 +16,25 @@ import {
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
-import { VizViewProps } from '~/types/plugin';
-import { templateToJSX } from '~/utils/template';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
+import { ITriggerSnapshot, IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { templateToJSX } from '~/utils/template';
 import { getOption } from './option';
+import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { Box, Text } from '@mantine/core';
+import { EChartsInstance } from 'echarts-for-react';
+import _ from 'lodash';
+
+interface IClickEchartsSeries {
+  type: 'click';
+  seriesType: 'line' | 'scatter' | 'bar';
+  componentSubType: 'line' | 'scatter' | 'bar';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: string; // string-typed number
+}
 
 echarts.use([
   DataZoomComponent,
@@ -45,12 +59,22 @@ function Chart({
   data,
   width,
   height,
+  interactionManager,
 }: {
   conf: ICartesianChartConf;
   data: $TSFixMe[];
   width: number;
   height: number;
+  interactionManager: IVizInteractionManager;
 }) {
+  const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
+
+  const handleSeriesClick = (params: IClickEchartsSeries) => {
+    triggers.forEach((t) => {
+      interactionManager.runInteraction(t.id, { ...params });
+    });
+  };
+
   const option = React.useMemo(() => {
     return getOption(conf, data);
   }, [conf, data]);
@@ -58,10 +82,22 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={{ click: handleSeriesClick }}
+    />
+  );
 }
 
-export function VizCartesianChart({ context }: VizViewProps) {
+export function VizCartesianChart({ context, instance }: VizViewProps) {
+  const interactionManager = useCurrentInteractionManager({
+    vizManager: context.vizManager,
+    instance,
+  });
+
   const { value: confValue } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
@@ -86,7 +122,7 @@ export function VizCartesianChart({ context }: VizViewProps) {
         </Text>
       )}
 
-      <Chart width={width} height={finalHeight} data={data} conf={conf} />
+      <Chart width={width} height={finalHeight} data={data} conf={conf} interactionManager={interactionManager} />
 
       {templateNotEmpty(conf.stats.templates.bottom) && (
         <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">
