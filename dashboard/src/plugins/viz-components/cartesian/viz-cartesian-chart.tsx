@@ -1,8 +1,8 @@
+import { Box, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
-import { Box, Text } from '@mantine/core';
 /* @ts-expect-error type defs of echarts-stat */
 import { transform } from 'echarts-stat';
 import {
@@ -16,20 +16,13 @@ import {
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
-<<<<<<< HEAD
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
-=======
-import { VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, templateToJSX } from '~/utils/template';
->>>>>>> c08ba05 (chore(dashboard): make cartesian chart use variables from panel config)
 import { useStorageData } from '~/plugins/hooks';
-import { ITriggerSnapshot, IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { templateToJSX } from '~/utils/template';
+import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { EChartsInstance } from 'echarts-for-react';
-import _ from 'lodash';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -130,7 +123,14 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         </Text>
       )}
 
-      <Chart variables={variables} width={width} height={finalHeight} data={data} conf={conf} interactionManager={interactionManager}/>
+      <Chart
+        variables={variables}
+        width={width}
+        height={finalHeight}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
 
       {templateNotEmpty(conf.stats.templates.bottom) && (
         <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">
