@@ -137,9 +137,10 @@ const _DashboardModel = types
     }
 
     return {
-      afterCreate() {
-        setupAutoSave();
-      },
+      // FIXME: https://github.com/merico-dev/table/issues/440
+      // afterCreate() {
+      //   setupAutoSave();
+      // },
       reset() {
         applySnapshot(self.filters.current, self.origin.filters.current);
         applySnapshot(self.queries.current, self.origin.queries.current);
