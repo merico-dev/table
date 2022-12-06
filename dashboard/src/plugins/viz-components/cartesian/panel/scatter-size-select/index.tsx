@@ -1,5 +1,6 @@
-import { Select } from '@mantine/core';
+import { Group, Select, SimpleGrid } from '@mantine/core';
 import { forwardRef } from 'react';
+import { InterpolationScatterSizeField } from './interpolation';
 import { StaticScatterSizeField } from './static';
 import { DEFAULT_SCATTER_SIZE, TScatterSize } from './types';
 
@@ -26,10 +27,18 @@ export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect
       onChange({ ...DEFAULT_SCATTER_SIZE[type] });
     };
     return (
-      <>
-        <Select ref={ref} label={label} data={typeOptions} value={value.type} onChange={changeType} />
+      <SimpleGrid cols={2}>
+        <Select
+          ref={ref}
+          label={label}
+          data={typeOptions}
+          value={value.type}
+          onChange={changeType}
+          sx={{ flexGrow: 1 }}
+        />
         <StaticScatterSizeField value={value} onChange={onChange} />
-      </>
+        <InterpolationScatterSizeField value={value} onChange={onChange} />
+      </SimpleGrid>
     );
   },
 );

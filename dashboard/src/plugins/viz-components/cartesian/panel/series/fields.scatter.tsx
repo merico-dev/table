@@ -10,12 +10,10 @@ interface IScatterFields {
 
 export function ScatterFields({ control, index }: IScatterFields) {
   return (
-    <Group grow align="center">
-      <Controller
-        name={`series.${index}.symbolSize`}
-        control={control}
-        render={({ field }) => <ScatterSizeSelect label="Size" {...field} />}
-      />
-    </Group>
+    <Controller
+      name={`series.${index}.symbolSize`}
+      control={control}
+      render={({ field }) => <ScatterSizeSelect label="Size" {...field} />}
+    />
   );
 }
