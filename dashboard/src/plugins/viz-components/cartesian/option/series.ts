@@ -1,5 +1,6 @@
 import _, { cloneDeep, groupBy } from 'lodash';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { getEchartsSymbolSize } from '../panel/scatter-size-select/get-echarts-symbol-size';
 import {
   ICartesianChartConf,
   ICartesianChartSeriesItem,
@@ -96,6 +97,7 @@ function getSeriesItemOrItems(
     stack,
     color,
     display_name_on_line,
+    symbolSize,
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: $TSFixMe[][],
@@ -113,6 +115,7 @@ function getSeriesItemOrItems(
     yAxisIndex,
     stack,
     color,
+    symbolSize: getEchartsSymbolSize(symbolSize),
     ...rest,
   };
   if (display_name_on_line) {
