@@ -1,9 +1,10 @@
-import { getParentOfType, Instance, types } from 'mobx-state-tree';
+import { getParentOfType, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { QueryModelInstance } from '../../../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
 import { DashboardModel } from '~/model';
+import { VariableModel } from '~/model/variables';
 
 export const PanelModel = types
   .model({
@@ -14,6 +15,7 @@ export const PanelModel = types
     queryID: types.string,
     viz: PanelVizModel,
     style: PanelStyleModel,
+    variables: types.optional(types.array(VariableModel), []),
   })
   .views((self) => ({
     get query(): QueryModelInstance | undefined {
@@ -29,6 +31,7 @@ export const PanelModel = types
         queryID: queryID,
         viz: self.viz.json,
         style: self.style.json,
+        variables: self.variables.map((v) => v.json),
       };
     },
   }))
@@ -51,6 +54,12 @@ export const PanelModel = types
       } else {
         throw new Error(`Query with id ${queryID} does not exist`);
       }
+    },
+    addVariable(variable: SnapshotIn<typeof VariableModel>) {
+      self.variables.push(variable);
+    },
+    removeVariable(variable: Instance<typeof VariableModel>) {
+      self.variables.remove(variable);
     },
   }));
 

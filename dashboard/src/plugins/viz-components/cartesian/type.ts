@@ -1,5 +1,4 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { ITemplateVariable } from '~/utils/template';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -89,9 +88,7 @@ export interface ICartesianChartConf {
       top: string;
       bottom: string;
     };
-    variables: ITemplateVariable[];
   };
-  variables: ITemplateVariable[];
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
 }
@@ -99,7 +96,7 @@ export interface ICartesianChartConf {
 export const DEFAULT_CONFIG: ICartesianChartConf = {
   regressions: [],
   series: [],
-  stats: { templates: { bottom: '', top: '' }, variables: [] },
+  stats: { templates: { bottom: '', top: '' } },
   x_axis: {
     axisLabel: {
       rotate: 0,
@@ -115,7 +112,6 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       label_formatter: defaultNumbroFormat,
     },
   ],
-  variables: [],
   reference_lines: [],
   reference_areas: [],
 };

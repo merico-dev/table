@@ -29,6 +29,7 @@ import { SunburstVizComponent } from './viz-components/sunburst';
 import { TableVizComponent } from './viz-components/table';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
+import { PanelModelInstance } from '~/model/views/view/panels';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -138,6 +139,7 @@ export const tokens = {
   vizManager: token<VizManager>('vizManager'),
   colorManager: token<IColorManager>('colorManager'),
   instanceScope: {
+    panelModel: token<PanelModelInstance>('panelModel'),
     vizInstance: token<VizInstance>('vizInstance'),
     interactionManager: token<IVizInteractionManager>('interactionManager'),
     migrator: token<InstanceMigrator>('migrator'),

@@ -11,7 +11,6 @@ import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
 import { SeriesField } from './panel/series';
 import { StatsField } from './panel/stats';
-import { VariablesField } from './panel/variables';
 import { XAxisField } from './panel/x-axis';
 import { YAxesField } from './panel/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
@@ -65,7 +64,6 @@ function normalizeStats(stats?: ICartesianChartConf['stats']) {
         top: '',
         bottom: '',
       },
-      variables: [],
     };
   }
   return stats;
@@ -81,6 +79,7 @@ function normalizeConf({ series, stats, ...rest }: ICartesianChartConf): ICartes
 
 export function VizCartesianPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
+  const { variables } = context;
   const data = context.data as $TSFixMe[];
   const conf: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ICartesianChartConf = useMemo(() => {
@@ -136,7 +135,6 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
             <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
-            <Tabs.Tab value="Variables">Variables</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
@@ -160,15 +158,11 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">
-            <ReferenceLinesField control={control} watch={watch} />
+            <ReferenceLinesField variables={variables} control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Areas">
-            <ReferenceAreasField control={control} watch={watch} />
-          </Tabs.Panel>
-
-          <Tabs.Panel value="Variables">
-            <VariablesField control={control} watch={watch} data={data} />
+            <ReferenceAreasField variables={variables} control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </form>

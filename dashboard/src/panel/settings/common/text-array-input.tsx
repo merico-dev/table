@@ -7,9 +7,13 @@ interface ITextArrayInput {
   label: React.ReactNode;
   value: string[] | number[];
   onChange: (value: string[] | number[]) => void;
+  /**
+   * @default 'text'
+   */
+  type?: 'text' | 'number';
 }
 
-function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: $TSFixMe) {
+function _TextArrayInput({ label, value, onChange, type }: ITextArrayInput, ref: $TSFixMe) {
   const [values, setValues] = React.useState(Array.isArray(value) ? [...value] : []);
 
   const add = React.useCallback(() => {
@@ -27,11 +31,18 @@ function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: $TSFi
   );
 
   const changed = React.useMemo(() => {
-    return !_.isEqual(values, value);
+    return !_.isEqual(values.map(String), value.map(String));
   }, [values, value]);
 
   const submit = () => {
-    onChange(values.map((s) => s.toString()));
+    onChange(
+      values.map((s) => {
+        if (type === 'number') {
+          return Number(s);
+        }
+        return s.toString();
+      }) as string[] | number[],
+    );
   };
 
   return (
@@ -45,6 +56,7 @@ function _TextArrayInput({ label, value, onChange }: ITextArrayInput, ref: $TSFi
       <Group>
         {values.map((v, i) => (
           <TextInput
+            type={type}
             value={v}
             onChange={(event: React.FormEvent<HTMLInputElement>) => {
               const newValue = event.currentTarget.value;

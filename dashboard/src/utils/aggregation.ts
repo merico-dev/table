@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { quantile } from 'd3-array';
+import { AnyObject } from '~/types';
 
 export type AggregationType =
   | {
@@ -24,8 +25,18 @@ function median(numbers: number[]) {
   return sorted[middle];
 }
 
+function tryReadNumber(obj: AnyObject, key: string) {
+  const value = obj[key];
+  const num = Number(value);
+  if (isFinite(num)) {
+    return num;
+  } else {
+    return 0;
+  }
+}
+
 export function aggregateValue(data: Record<string, number>[], data_field: string, aggregation: AggregationType) {
-  const numbers = data.map((d) => d[data_field]);
+  const numbers = data.map((d) => tryReadNumber(d, data_field));
   switch (aggregation.type) {
     case 'sum':
       return _.sum(numbers);

@@ -2,8 +2,14 @@ import { omit } from 'lodash';
 import { IPanelInfoEditor, VizConfigContext, VizContext, VizInstance, VizViewContext } from '~/types/plugin';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
+import { ITemplateVariable } from '~/utils/template';
 
-function createCommonContext(instance: VizInstance, data: $TSFixMe, vizManager: IVizManager): VizContext {
+function createCommonContext(
+  instance: VizInstance,
+  data: $TSFixMe,
+  vizManager: IVizManager,
+  variables: ITemplateVariable[],
+): VizContext {
   return {
     vizManager,
     /**
@@ -26,6 +32,7 @@ function createCommonContext(instance: VizInstance, data: $TSFixMe, vizManager: 
       },
     },
     data,
+    variables,
   };
 }
 
@@ -34,13 +41,14 @@ export type IViewComponentProps<TDebug = Record<string, unknown>> = {
   panel: IViewPanelInfo;
   data: $TSFixMe;
   vizManager: IVizManager;
+  variables: ITemplateVariable[];
 } & TDebug;
 export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
-  const { panel, vizManager, data } = props;
+  const { panel, vizManager, data, variables } = props;
   const comp = vizManager.resolveComponent(panel.viz.type);
   const instance = vizManager.getOrCreateInstance(panel);
   const context: VizViewContext = {
-    ...createCommonContext(instance, data, vizManager),
+    ...createCommonContext(instance, data, vizManager, variables),
     viewport: { width: panel.layout.w, height: panel.layout.h },
   };
   const Comp = comp.viewRender;
@@ -50,14 +58,15 @@ export type IConfigComponentProps<TDebug = Record<string, unknown>> = {
   panel: IPanelInfo;
   panelInfoEditor: IPanelInfoEditor;
   vizManager: IVizManager;
+  variables: ITemplateVariable[];
   data: $TSFixMe;
 } & TDebug;
 export const VizConfigComponent = <T,>(props: IConfigComponentProps<T>) => {
-  const { vizManager, panel, panelInfoEditor, data } = props;
+  const { vizManager, panel, panelInfoEditor, data, variables } = props;
   const vizComp = vizManager.resolveComponent(panel.viz.type);
   const instance = vizManager.getOrCreateInstance(panel);
   const context: VizConfigContext = {
-    ...createCommonContext(instance, data, vizManager),
+    ...createCommonContext(instance, data, vizManager, variables),
     panelInfoEditor: panelInfoEditor,
   };
   const Comp = vizComp.configRender;

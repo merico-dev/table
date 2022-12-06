@@ -17,6 +17,7 @@ import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
+
 import { createDashboardViewsModel, ViewsModel } from './views';
 
 const _DashboardModel = types

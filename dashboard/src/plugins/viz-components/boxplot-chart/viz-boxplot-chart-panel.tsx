@@ -10,11 +10,11 @@ import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { ReferenceLinesField } from './reference-lines';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
-import { VariablesField } from './variables';
 
 export function VizBoxplotChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
+  const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IBoxplotChartConf>({ defaultValues });
@@ -94,17 +94,13 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
               </Group>
             </Accordion.Control>
             <Accordion.Panel>
-              <Tabs defaultValue="variables">
+              <Tabs defaultValue="reference_lines">
                 <Tabs.List>
-                  <Tabs.Tab value="variables">Variables</Tabs.Tab>
                   <Tabs.Tab value="reference_lines">Reference Lines</Tabs.Tab>
                 </Tabs.List>
 
-                <Tabs.Panel value="variables" pt="xs">
-                  <VariablesField control={control} watch={watch} data={data} />
-                </Tabs.Panel>
                 <Tabs.Panel value="reference_lines" pt="xs">
-                  <ReferenceLinesField control={control} watch={watch} />
+                  <ReferenceLinesField variables={variables} control={control} watch={watch} />
                 </Tabs.Panel>
               </Tabs>
             </Accordion.Panel>

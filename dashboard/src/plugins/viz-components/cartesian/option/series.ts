@@ -143,10 +143,11 @@ export function getSeries(
   xAxisData: $TSFixMe[],
   data: $TSFixMe[],
   labelFormatters: Record<string, $TSFixMe>,
+  variables: ITemplateVariable[],
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
   const ret = conf.series.map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, labelFormatters)).flat();
   return ret
-    .concat(getReferenceLines(conf.reference_lines, conf.variables, data))
-    .concat(getReferenceAreas(conf.reference_areas, conf.variables, data));
+    .concat(getReferenceLines(conf.reference_lines, variables, data))
+    .concat(getReferenceAreas(conf.reference_areas, variables, data));
 }

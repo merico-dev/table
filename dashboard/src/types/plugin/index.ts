@@ -2,6 +2,8 @@ import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
 import { IVizManager } from '~/plugins';
 import { AnyObject } from '~/types';
+import { ITemplateVariable } from '~/utils/template';
+import { PanelModelInstance } from '~/model/views/view/panels';
 
 /**
  * Basic information of a viz component instance
@@ -71,6 +73,7 @@ export interface VizContext {
   pluginData: PluginStorage;
   instanceData: PluginStorage;
   colorPalette: ColorPalette;
+  variables: ITemplateVariable[];
   locale: string;
   msgChannels: IMessageChannels;
   data: unknown;
@@ -102,19 +105,27 @@ export interface IConfigMigrationContext {
   configData: PluginStorage;
 }
 
+export interface IConfigMigrationExecContext extends IConfigMigrationContext {
+  panelModel: PanelModelInstance;
+}
+
 export interface VizComponent {
   name: string;
   displayName?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
-  migrator: IConfigMigrator;
+  migrator: IPanelScopeConfigMigrator;
   createConfig: () => AnyObject;
   triggers?: ITriggerSchema[];
 }
 
-export interface IConfigMigrator {
+export interface IPanelScopeConfigMigrator {
   needMigration(ctx: IConfigMigrationContext): Promise<boolean>;
 
+  migrate(ctx: IConfigMigrationExecContext): Promise<void>;
+}
+
+export interface IConfigMigrator extends IPanelScopeConfigMigrator {
   migrate(ctx: IConfigMigrationContext): Promise<void>;
 }
 

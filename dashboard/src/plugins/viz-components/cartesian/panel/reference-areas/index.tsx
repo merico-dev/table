@@ -4,13 +4,15 @@ import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
 import { ReferenceAreaField } from './reference-area';
+import { ITemplateVariable } from '~/utils/template';
 
 interface IReferenceAreasField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
+  variables: ITemplateVariable[];
 }
 
-export function ReferenceAreasField({ control, watch }: IReferenceAreasField) {
+export function ReferenceAreasField({ control, watch, variables }: IReferenceAreasField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'reference_areas',
@@ -35,7 +37,6 @@ export function ReferenceAreasField({ control, watch }: IReferenceAreasField) {
       },
     });
 
-  const variables = watch('variables');
   const variableOptions = useMemo(() => {
     return variables.map((v) => ({
       label: v.name,

@@ -16,7 +16,7 @@ import './index.css';
 function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
-    panel: { viz, title, id, description, queryID, style },
+    panel: { viz, title, id, description, queryID, variables },
   } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
@@ -25,7 +25,6 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     queryID,
     viz,
     layout,
-    style: style.json,
   };
   const configureService = useConfigVizInstanceService(panel);
   try {
@@ -33,7 +32,13 @@ function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNo
     vizManager.resolveComponent(viz.type);
     return (
       <ServiceLocatorProvider configure={configureService}>
-        <PluginVizViewComponent setVizConf={viz.setConf} panel={panel} data={data} vizManager={vizManager} />
+        <PluginVizViewComponent
+          setVizConf={viz.setConf}
+          panel={panel}
+          data={data}
+          variables={variables}
+          vizManager={vizManager}
+        />
       </ServiceLocatorProvider>
     );
   } catch (e) {

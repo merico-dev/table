@@ -4,19 +4,16 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
 import { TemplateInput } from '~/utils/template';
 import { useStorageData } from '~/plugins/hooks';
-import { VariablesField } from './panel/variables';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import _, { defaultsDeep } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 
 export function VizStatsPanel({ context }: VizConfigProps) {
-  const data = (context.data as Record<string, number>[]) || [];
   const { value: conf, set: setConf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
 
   const defaultValues = React.useMemo(() => {
-    const { align, template = '', variables = [] } = defaultsDeep({}, conf, DEFAULT_CONFIG);
+    const { align, template = '' } = defaultsDeep({}, conf, DEFAULT_CONFIG);
     return {
-      variables,
       template,
       align,
     };
@@ -28,7 +25,7 @@ export function VizStatsPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['variables', 'template']);
+  watch(['template']);
   const values = getValues();
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf);
@@ -48,10 +45,6 @@ export function VizStatsPanel({ context }: VizConfigProps) {
           control={control}
           render={({ field }) => <TemplateInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />}
         />
-        <Text pb="sm" pt="md" size="sm">
-          Variables
-        </Text>
-        <VariablesField control={control} watch={watch} data={data} />
       </form>
     </Stack>
   );

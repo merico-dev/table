@@ -59,9 +59,10 @@ function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: 
 
 export function VizBoxplotChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
+  const { variables } = context;
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
-  const { x_axis, y_axis, color, variables, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
+  const { x_axis, y_axis, color, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
 
   const { xAxisData, boxplotData } = useMemo(() => {
     const grouped = _.groupBy(data, x_axis.data_key);
