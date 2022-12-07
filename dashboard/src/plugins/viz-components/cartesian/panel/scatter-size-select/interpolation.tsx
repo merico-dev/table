@@ -14,6 +14,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useBoolean } from 'ahooks';
+import { uniqBy } from 'lodash';
 import { toJS } from 'mobx';
 import { ReactNode, useState } from 'react';
 import { Bulb, InfoCircle, Plus } from 'tabler-icons-react';
@@ -54,7 +55,16 @@ const Field = ({ value, onChange }: IField) => {
 
   const handleOk = () => {
     setFalse();
-    onChange(toJS(localValue));
+    const { type, data_key, points } = localValue;
+    const newPoints = uniqBy(points, (v) => v.value).sort((a, b) => a.value - b.value);
+    const newValue = {
+      type,
+      data_key,
+      points: newPoints,
+    };
+
+    setLocalValue(newValue);
+    onChange(newValue);
   };
 
   const handleCancel = () => {
@@ -157,7 +167,7 @@ const Field = ({ value, onChange }: IField) => {
                 variant="filled"
                 color="blue"
                 onClick={addPoint}
-                sx={{ alignSelf: 'center', transform: 'translateY(12px)' }}
+                sx={{ alignSelf: 'center', transform: 'translateY(12px) !important' }}
               >
                 <Plus size={20} />
               </ActionIcon>
