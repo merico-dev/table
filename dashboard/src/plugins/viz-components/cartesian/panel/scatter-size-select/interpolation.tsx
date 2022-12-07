@@ -27,12 +27,12 @@ const InputGroup = ({ children }: { children: ReactNode }) => {
       noWrap
       spacing={0}
       sx={{
-        '> .mantine-NumberInput-root:first-child input': {
+        '> .mantine-NumberInput-root:first-of-type input': {
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
           borderRightWidth: 0.5,
         },
-        '> .mantine-NumberInput-root:last-child input': {
+        '> .mantine-NumberInput-root:last-of-type input': {
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
           borderLeftWidth: 0.5,
