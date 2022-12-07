@@ -1,8 +1,22 @@
-import { ActionIcon, Box, Button, Divider, Group, Modal, NumberInput, SimpleGrid, Stack } from '@mantine/core';
+import {
+  ActionIcon,
+  Alert,
+  Box,
+  Button,
+  Code,
+  Divider,
+  Group,
+  List,
+  Modal,
+  NumberInput,
+  SimpleGrid,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { toJS } from 'mobx';
 import { ReactNode, useState } from 'react';
-import { Plus } from 'tabler-icons-react';
+import { Bulb, InfoCircle, Plus } from 'tabler-icons-react';
 import { TestSizeInterpolation } from './test-interpolation';
 import { TScatterSize, TScatterSize_Interpolation } from './types';
 
@@ -95,6 +109,21 @@ const Field = ({ value, onChange }: IField) => {
       >
         {modalOpened && (
           <Stack>
+            <Alert icon={<Bulb size={16} />} title="How does it work?">
+              <List type="ordered">
+                <List.Item>
+                  <Group spacing={6}>
+                    get value by <Code sx={{ alignSelf: 'end' }}>data_key</Code>
+                  </Group>
+                </List.Item>
+                <List.Item>
+                  <Group spacing={6}>
+                    map value by <Code sx={{ alignSelf: 'end' }}>anchor points</Code> (from values to sizes)
+                  </Group>
+                </List.Item>
+              </List>
+            </Alert>
+            <Divider mt={10} mb={0} label="Anchor Points" labelPosition="center" variant="dashed" />
             <SimpleGrid cols={4}>
               {localValue.points.map((p, i) => (
                 <InputGroup key={i}>
