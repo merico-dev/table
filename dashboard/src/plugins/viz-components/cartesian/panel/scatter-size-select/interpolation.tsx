@@ -1,20 +1,42 @@
-import { Box, Button, Group, Modal, Stack, Text } from '@mantine/core';
+import { ActionIcon, Box, Button, Divider, Group, Modal, NumberInput, SimpleGrid, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
-import { useState } from 'react';
 import { toJS } from 'mobx';
-import { TScatterSize } from './types';
+import { ReactNode, useState } from 'react';
+import { Plus } from 'tabler-icons-react';
+import { TestSizeInterpolation } from './test-interpolation';
+import { TScatterSize, TScatterSize_Interpolation } from './types';
 
-interface IInterpolationScatterSizeField {
-  value: TScatterSize;
-  onChange: (v: TScatterSize) => void;
+const InputGroup = ({ children }: { children: ReactNode }) => {
+  return (
+    <Group
+      noWrap
+      spacing={0}
+      sx={{
+        '> .mantine-NumberInput-root:first-child input': {
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          borderRightWidth: 0.5,
+        },
+        '> .mantine-NumberInput-root:last-child input': {
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          borderLeftWidth: 0.5,
+        },
+      }}
+    >
+      {children}
+    </Group>
+  );
+};
+
+interface IField {
+  value: TScatterSize_Interpolation;
+  onChange: (v: TScatterSize_Interpolation) => void;
 }
-export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolationScatterSizeField) => {
-  const [modalOpened, { setTrue, setFalse }] = useBoolean();
-  const [localValue, setLocalValue] = useState(value);
 
-  if (value.type !== 'interpolation') {
-    return null;
-  }
+const Field = ({ value, onChange }: IField) => {
+  const [modalOpened, { setTrue, setFalse }] = useBoolean();
+  const [localValue, setLocalValue] = useState<TScatterSize_Interpolation>(value);
 
   const handleOk = () => {
     setFalse();
@@ -26,6 +48,36 @@ export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolatio
     setLocalValue(value);
   };
 
+  const addPoint = () => {
+    const points = [
+      ...localValue.points,
+      {
+        size: 1,
+        value: 1,
+      },
+    ];
+    setLocalValue({
+      ...localValue,
+      points,
+    });
+  };
+
+  const getChangeHandler =
+    (index: number, key: 'size' | 'value'): React.FocusEventHandler<HTMLInputElement> =>
+    (e) => {
+      const newPoints = [...localValue.points];
+      const v = Number(e.currentTarget.value);
+      if (Number.isNaN(v)) {
+        return;
+      }
+
+      newPoints[index][key] = v;
+      setLocalValue({
+        ...localValue,
+        points: newPoints,
+      });
+    };
+
   return (
     <>
       <Box sx={{ width: '50%' }}>
@@ -33,10 +85,27 @@ export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolatio
           Setup
         </Button>
       </Box>
-      <Modal size={508} title="Setup size interpolation" opened={modalOpened} onClose={setFalse}>
+      <Modal size={800} title="Setup size interpolation" opened={modalOpened} onClose={setFalse}>
         {modalOpened && (
           <Stack>
-            <Text>TODO</Text>
+            <SimpleGrid cols={4}>
+              {localValue.points.map((p, i) => (
+                <InputGroup key={i}>
+                  <NumberInput description="Size" value={p.size} onBlur={getChangeHandler(i, 'size')} hideControls />
+                  <NumberInput description="Value" value={p.value} onBlur={getChangeHandler(i, 'value')} hideControls />
+                </InputGroup>
+              ))}
+              <ActionIcon
+                variant="filled"
+                color="blue"
+                onClick={addPoint}
+                sx={{ alignSelf: 'center', transform: 'translateY(9px)' }}
+              >
+                <Plus size={20} />
+              </ActionIcon>
+            </SimpleGrid>
+            <Divider mt={20} mb={0} label="Quick test" labelPosition="center" variant="dashed" />
+            <TestSizeInterpolation points={localValue.points} />
             <Group position="right">
               <Button onClick={handleCancel} variant="subtle">
                 Cancel
@@ -48,4 +117,17 @@ export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolatio
       </Modal>
     </>
   );
+};
+
+interface IInterpolationScatterSizeField {
+  value: TScatterSize;
+  onChange: (v: TScatterSize) => void;
+}
+
+export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolationScatterSizeField) => {
+  if (value.type !== 'interpolation') {
+    return null;
+  }
+
+  return <Field value={value} onChange={onChange} />;
 };

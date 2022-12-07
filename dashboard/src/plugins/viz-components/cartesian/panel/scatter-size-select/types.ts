@@ -3,11 +3,15 @@ export type TScatterSize_Static = {
   size: number;
 };
 
+export type TSizeInterpolationPoint = {
+  size: number;
+  value: number;
+};
+
 export type TScatterSize_Interpolation = {
   type: 'interpolation';
   data_key: string;
-  size_range: number[];
-  value_range: number[];
+  points: TSizeInterpolationPoint[];
 };
 
 export type TScatterSize = TScatterSize_Static | TScatterSize_Interpolation;
@@ -20,7 +24,6 @@ export const DEFAULT_SCATTER_SIZE = {
   interpolation: {
     type: 'interpolation',
     data_key: '',
-    size_range: [],
-    value_range: [],
+    points: [],
   } as TScatterSize_Interpolation,
 };
