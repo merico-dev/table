@@ -1,4 +1,4 @@
-import { Group, Select, SimpleGrid } from '@mantine/core';
+import { Select, SimpleGrid } from '@mantine/core';
 import { forwardRef } from 'react';
 import { InterpolationScatterSizeField } from './interpolation';
 import { StaticScatterSizeField } from './static';

@@ -1,4 +1,3 @@
-import { Group } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
 import { ScatterSizeSelect } from '../scatter-size-select';

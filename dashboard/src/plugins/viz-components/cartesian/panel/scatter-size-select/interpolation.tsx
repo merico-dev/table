@@ -11,13 +11,11 @@ import {
   NumberInput,
   SimpleGrid,
   Stack,
-  Text,
 } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { uniqBy } from 'lodash';
-import { toJS } from 'mobx';
 import { ReactNode, useState } from 'react';
-import { Bulb, InfoCircle, Plus } from 'tabler-icons-react';
+import { Bulb, Plus } from 'tabler-icons-react';
 import { TestSizeInterpolation } from './test-interpolation';
 import { TScatterSize, TScatterSize_Interpolation } from './types';
 
