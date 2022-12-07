@@ -17,6 +17,8 @@ export const DEFAULT_SCATTER_SIZE = {
   } as TScatterSize_Static,
   dynamic: {
     type: 'dynamic',
-    func_content: 'return 10',
+    func_content: ['function getSize(rowData, params) {', '    // your code goes here', '    // return 10', '}'].join(
+      '\n',
+    ),
   } as TScatterSize_Dynamic,
 };

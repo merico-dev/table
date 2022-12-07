@@ -1,8 +1,10 @@
-import { Box, Button, Divider, Group, Modal, Stack, Textarea } from '@mantine/core';
+import { Box, Button, Divider, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
+import { Recycle } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
-import { TScatterSize, TScatterSize_Dynamic } from './types';
+import { DynamicSizeFunctionEditor } from './dynamic-size-function-editor';
+import { DEFAULT_SCATTER_SIZE, TScatterSize, TScatterSize_Dynamic } from './types';
 
 interface IField {
   value: TScatterSize_Dynamic;
@@ -31,14 +33,15 @@ const Field = ({ value, onChange, data }: IField) => {
     setLocalValue(value);
   };
 
-  const changeFuncContent = (e: $TSFixMe) => {
-    if (!e.currentTarget?.value) {
-      return;
-    }
+  const changeFuncContent = (func_content: TScatterSize_Dynamic['func_content']) => {
     setLocalValue((prev) => ({
       ...prev,
-      func_content: e.currentTarget.value,
+      func_content,
     }));
+  };
+
+  const resetFuncContent = () => {
+    changeFuncContent(DEFAULT_SCATTER_SIZE.dynamic.func_content);
   };
 
   return (
@@ -59,12 +62,17 @@ const Field = ({ value, onChange, data }: IField) => {
         {modalOpened && (
           <Stack>
             <Divider mt={10} mb={-10} label="Dynamic by a custom function" labelPosition="center" variant="dashed" />
-            <Textarea value={localValue.func_content} onBlur={changeFuncContent} />
-            <Group position="right">
-              <Button onClick={handleCancel} variant="subtle">
-                Cancel
+            <DynamicSizeFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
+            <Group position="apart">
+              <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+                Rest
               </Button>
-              <Button onClick={handleOk}>OK</Button>
+              <Group position="right">
+                <Button onClick={handleCancel} variant="subtle">
+                  Cancel
+                </Button>
+                <Button onClick={handleOk}>OK</Button>
+              </Group>
             </Group>
           </Stack>
         )}

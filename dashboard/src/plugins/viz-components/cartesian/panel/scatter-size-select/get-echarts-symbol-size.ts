@@ -14,6 +14,6 @@ export function getEchartsSymbolSize({ type, ...rest }: TScatterSize, data: AnyO
   const rows = keyBy(data, x_axis_data_key);
   return (_value: number, params: $TSFixMe) => {
     const row = rows[params.name];
-    return new Function(func_content)(row, params);
+    return new Function(`return ${func_content}`)()(row, params);
   };
 }
