@@ -108,7 +108,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
 
       {type === 'bar' && <BarFields index={index} control={control} />}
 
-      {type === 'scatter' && <ScatterFields index={index} control={control} />}
+      {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
 
       <Controller
         name={`series.${index}.label_position`}

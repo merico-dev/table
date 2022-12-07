@@ -16,6 +16,8 @@ import { useBoolean } from 'ahooks';
 import { uniqBy } from 'lodash';
 import { ReactNode, useState } from 'react';
 import { Bulb, Plus } from 'tabler-icons-react';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { AnyObject } from '~/types';
 import { TestSizeInterpolation } from './test-interpolation';
 import { TScatterSize, TScatterSize_Interpolation } from './types';
 
@@ -45,9 +47,10 @@ const InputGroup = ({ children }: { children: ReactNode }) => {
 interface IField {
   value: TScatterSize_Interpolation;
   onChange: (v: TScatterSize_Interpolation) => void;
+  data: AnyObject[];
 }
 
-const Field = ({ value, onChange }: IField) => {
+const Field = ({ value, onChange, data }: IField) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<TScatterSize_Interpolation>(value);
 
@@ -68,6 +71,13 @@ const Field = ({ value, onChange }: IField) => {
   const handleCancel = () => {
     setFalse();
     setLocalValue(value);
+  };
+
+  const changeDataKey = (data_key: string) => {
+    setLocalValue((prev) => ({
+      ...prev,
+      data_key,
+    }));
   };
 
   const addPoint = () => {
@@ -121,16 +131,29 @@ const Field = ({ value, onChange }: IField) => {
               <List type="ordered">
                 <List.Item>
                   <Group spacing={6}>
-                    get value by <Code sx={{ alignSelf: 'end' }}>data_key</Code>
+                    get value by <Code sx={{ alignSelf: 'end' }}>Data Key</Code>
                   </Group>
                 </List.Item>
                 <List.Item>
                   <Group spacing={6}>
-                    map value by <Code sx={{ alignSelf: 'end' }}>anchor points</Code> (from values to sizes)
+                    map value by <Code sx={{ alignSelf: 'end' }}>Anchor Points</Code> (from values to sizes)
                   </Group>
                 </List.Item>
               </List>
             </Alert>
+            <Divider mt={10} mb={-10} label="Data" labelPosition="center" variant="dashed" />
+            <Stack spacing={10}>
+              <Group noWrap align="end">
+                <DataFieldSelector
+                  data={data}
+                  label="Data Key"
+                  value={localValue.data_key}
+                  onChange={changeDataKey}
+                  sx={{ width: '300px' }}
+                />
+                <Button size="sm">See current values</Button>
+              </Group>
+            </Stack>
             <Divider mt={10} mb={0} label="Anchor Points" labelPosition="center" variant="dashed" />
             <SimpleGrid cols={4}>
               {localValue.points.map((p, i) => (
@@ -188,12 +211,13 @@ const Field = ({ value, onChange }: IField) => {
 interface IInterpolationScatterSizeField {
   value: TScatterSize;
   onChange: (v: TScatterSize) => void;
+  data: AnyObject[];
 }
 
-export const InterpolationScatterSizeField = ({ value, onChange }: IInterpolationScatterSizeField) => {
+export const InterpolationScatterSizeField = ({ value, onChange, data }: IInterpolationScatterSizeField) => {
   if (value.type !== 'interpolation') {
     return null;
   }
 
-  return <Field value={value} onChange={onChange} />;
+  return <Field value={value} onChange={onChange} data={data} />;
 };

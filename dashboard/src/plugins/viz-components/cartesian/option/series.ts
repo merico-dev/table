@@ -115,7 +115,7 @@ function getSeriesItemOrItems(
     yAxisIndex,
     stack,
     color,
-    symbolSize: getEchartsSymbolSize(symbolSize),
+    symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key),
     ...rest,
   };
   if (display_name_on_line) {
