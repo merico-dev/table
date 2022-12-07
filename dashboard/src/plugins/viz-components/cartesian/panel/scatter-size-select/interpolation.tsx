@@ -85,21 +85,50 @@ const Field = ({ value, onChange }: IField) => {
           Setup
         </Button>
       </Box>
-      <Modal size={800} title="Setup size interpolation" opened={modalOpened} onClose={setFalse}>
+      <Modal
+        size={800}
+        title="Setup size interpolation"
+        opened={modalOpened}
+        onClose={setFalse}
+        closeOnClickOutside={false}
+        withCloseButton={false}
+      >
         {modalOpened && (
           <Stack>
             <SimpleGrid cols={4}>
               {localValue.points.map((p, i) => (
                 <InputGroup key={i}>
-                  <NumberInput description="Size" value={p.size} onBlur={getChangeHandler(i, 'size')} hideControls />
-                  <NumberInput description="Value" value={p.value} onBlur={getChangeHandler(i, 'value')} hideControls />
+                  <NumberInput
+                    label="Value"
+                    value={p.value}
+                    onBlur={getChangeHandler(i, 'value')}
+                    hideControls
+                    styles={{
+                      label: {
+                        fontSize: '12px',
+                        color: 'rgb(255, 107, 107)',
+                      },
+                    }}
+                  />
+                  <NumberInput
+                    label="Size"
+                    value={p.size}
+                    onBlur={getChangeHandler(i, 'size')}
+                    hideControls
+                    styles={{
+                      label: {
+                        fontSize: '12px',
+                        color: 'rgb(51, 154, 240)',
+                      },
+                    }}
+                  />
                 </InputGroup>
               ))}
               <ActionIcon
                 variant="filled"
                 color="blue"
                 onClick={addPoint}
-                sx={{ alignSelf: 'center', transform: 'translateY(9px)' }}
+                sx={{ alignSelf: 'center', transform: 'translateY(12px)' }}
               >
                 <Plus size={20} />
               </ActionIcon>
