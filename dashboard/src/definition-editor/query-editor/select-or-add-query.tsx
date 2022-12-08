@@ -32,6 +32,7 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID 
     model.queries.append(
       cast({
         id,
+        name: id,
         type: DataSourceType.Postgresql,
         key: '',
         sql: '',
