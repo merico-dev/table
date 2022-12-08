@@ -81,7 +81,7 @@ const Field = ({ value, onChange, data }: IField) => {
   );
 };
 
-interface IDynamicScatterSizeField {
+export interface IDynamicScatterSizeField {
   value: TScatterSize;
   onChange: (v: TScatterSize) => void;
   data: AnyObject[];
