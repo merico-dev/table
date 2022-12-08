@@ -1,11 +1,13 @@
 import { DataSource as Source } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
 import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationResponse, DataSourceConfig } from '../api_models/datasource';
+import { Job } from '../api_models/job';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
+import { JobService, RenameJobParams } from './job.service';
 
 export class DataSourceService {
   static async getByTypeKey(type: string, key: string): Promise<DataSource> {
@@ -51,6 +53,21 @@ export class DataSourceService {
     dataSource.config = config;
     const result = await dataSourceRepo.save(dataSource);
     maybeDecryptPassword(result);
+    return result;
+  }
+
+  async rename(id: string, key: string): Promise<Job> {
+    const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
+    const dataSource = await dataSourceRepo.findOneByOrFail({ id });
+    if (dataSource.key === key) {
+      throw new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' })
+    }
+    const jobParams: RenameJobParams = {
+      type: dataSource.type,
+      old_key: dataSource.key,
+      new_key: key,
+    };
+    const result = await JobService.addRenameDataSourceJob(jobParams);
     return result;
   }
 
