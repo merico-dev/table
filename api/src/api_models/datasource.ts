@@ -249,3 +249,24 @@ export class DataSourceIDRequest {
   })
   authentication?: Authentication;
 }
+
+@ApiModel({
+  description: 'DataSource Rename request',
+  name: 'DataSourceRenameRequest',
+})
+export class DataSourceRenameRequest {
+  @IsUUID()
+  @ApiModelProperty({
+    description: 'DataSource uuid',
+    required: true,
+  })
+  id: string;
+
+  @IsString()
+  @Length(1, 250)
+  @ApiModelProperty({
+    description: 'DataSource key',
+    required: true,
+  })
+  key: string;
+}

@@ -4,7 +4,7 @@ import {
 } from './dashboard';
 import {
   DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
-  DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest,
+  DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest, DataSourceRenameRequest
 } from './datasource';
 import {
   Account, AccountLoginRequest, AccountLoginResponse, AccountFilterObject, AccountSortObject, AccountListRequest, AccountPaginationResponse,
@@ -13,6 +13,7 @@ import {
 import { ApiKey, ApiKeyCreateRequest, ApiKeyListRequest, ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject, ApiKeyIDRequest } from './api';
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
+import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job'
 import { ApiError, Authentication } from './base';
 
 export default {
@@ -37,6 +38,7 @@ export default {
   DataSourcePaginationResponse,
   DataSourceCreateRequest,
   DataSourceIDRequest,
+  DataSourceRenameRequest,
 
   Account,
   AccountLoginRequest,
@@ -63,4 +65,11 @@ export default {
 
   QueryRequest,
   HttpParams,
+
+  Job,
+  JobFilterObject,
+  JobListRequest,
+  JobPaginationResponse,
+  JobSortObject,
+  JobRunRequest
 }

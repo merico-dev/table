@@ -1,11 +1,11 @@
 import * as express from 'express';
 import _ from 'lodash';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpPost, interfaces } from 'inversify-express-utils';
-import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DataSourceService } from '../services/datasource.service';
 import { validate } from '../middleware/validation';
-import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, DataSourceConfig } from '../api_models/datasource';
+import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, DataSourceConfig, DataSourceRenameRequest } from '../api_models/datasource';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
@@ -62,9 +62,31 @@ export class DataSourceController implements interfaces.Controller {
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       // eslint-disable-next-line prefer-const
-      let {type, key, config } = validate(DataSourceCreateRequest, req.body);
+      let { type, key, config } = validate(DataSourceCreateRequest, req.body);
       config = this.validateConfig(type, config);
       const result = await this.dataSourceService.create(type, key, config);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @ApiOperationPut({
+    path: '/rename',
+    description: 'rename datasource',
+    parameters: {
+      body: { description: 'datasource rename request', required: true, model: 'DataSourceRenameRequest'}
+    },
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Job' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
+    }
+  })
+  @httpPut('/rename', permission(ROLE_TYPES.ADMIN))
+  public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { id, key } = validate(DataSourceRenameRequest, req.body);
+      const result = await this.dataSourceService.rename(id, key);
       res.json(result);
     } catch (err) {
       next(err);
@@ -75,7 +97,7 @@ export class DataSourceController implements interfaces.Controller {
     path: '/delete',
     description: 'Remove datasource',
     parameters: {
-      body: { description: 'update datasource request', required: true, model: 'DataSourceIDRequest'}
+      body: { description: 'datasource ID request', required: true, model: 'DataSourceIDRequest'}
     },
     responses: {
       200: { description: 'SUCCESS' },

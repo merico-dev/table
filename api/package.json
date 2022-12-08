@@ -13,17 +13,20 @@
     "migration:create": "npx typeorm-ts-node-esm migration:create",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
     "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
+    "dev:cli:rename-datasource": "node -r ts-node/register src/cli/renameDataSource.ts",
     "build": "gulp build",
     "start": "node dist/server.js",
     "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js",
     "add-preset-apikey": "node dist/preset/scripts/configure_apikey.js",
     "add-preset-datasources": "node dist/preset/scripts/configure_datasources.js",
     "get-preset-dashboards": "node dist/preset/scripts/get_dashboards.js",
-    "add-preset-dashboards": "node dist/preset/scripts/configure_dashboards.js"
+    "add-preset-dashboards": "node dist/preset/scripts/configure_dashboards.js",
+    "cli:rename-datasource": "node dist/cli/renameDataSource.js"
   },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "argparse": "^2.0.1",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
