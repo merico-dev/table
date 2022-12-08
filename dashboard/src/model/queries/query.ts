@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { reaction } from 'mobx';
-import { addDisposer, flow, getRoot, Instance, toGenerator, types } from 'mobx-state-tree';
+import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL, QueryFailureError } from '../../api-caller';
 import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
@@ -92,3 +92,4 @@ export const QueryModel = types
   }));
 
 export type QueryModelInstance = Instance<typeof QueryModel>;
+export type QueryModelSnapshotIn = SnapshotIn<QueryModelInstance>;
