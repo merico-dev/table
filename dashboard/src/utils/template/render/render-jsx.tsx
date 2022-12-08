@@ -10,7 +10,11 @@ function getColorByColorConf(conf: ColorConfType, value: number) {
     return conf.staticColor;
   }
   if (conf.type === 'continuous') {
-    return new InterpolateColor(conf).getColor(value);
+    try {
+      return new InterpolateColor(conf).getColor(value);
+    } catch (error) {
+      return 'black';
+    }
   }
   return 'black';
 }
