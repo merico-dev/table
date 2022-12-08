@@ -10,19 +10,9 @@ import { PreviewSQL } from './preview-sql';
 
 interface IQueryForm {
   queryModel: QueryModelInstance;
-  setCurrentID: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID }: IQueryForm) {
-  const initialID = React.useRef(queryModel.id);
-  const [id, setID] = React.useState(initialID.current);
-  React.useEffect(() => {
-    if (initialID.current !== queryModel.id) {
-      setID(queryModel.id);
-      initialID.current = queryModel.id;
-    }
-  }, [initialID, queryModel.id]);
-
+export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
   const [sql, setSQL] = React.useState(queryModel.sql);
 
   React.useEffect(() => {
@@ -40,11 +30,6 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
     queryModel.setSQL(sql);
   };
 
-  const submitIDChanges = () => {
-    queryModel.setID(id);
-    setCurrentID(id);
-  };
-
   return (
     <Stack sx={{ border: '1px solid #eee', flexGrow: 1 }}>
       <Group position="apart" py="md" px="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
@@ -54,25 +39,14 @@ export const QueryForm = observer(function _QueryForm({ queryModel, setCurrentID
       <Stack my={0} p="md" pr={40}>
         <Group grow>
           <TextInput
-            placeholder="An ID unique in this dashboard"
-            label="ID"
+            placeholder="A unique name"
+            label="Name"
             required
             sx={{ flex: 1 }}
-            value={id}
+            value={queryModel.name}
             onChange={(e) => {
-              setID(e.currentTarget.value);
+              queryModel.setName(e.currentTarget.value);
             }}
-            rightSection={
-              <ActionIcon
-                mr={5}
-                variant="filled"
-                color="blue"
-                disabled={id === queryModel.id}
-                onClick={submitIDChanges}
-              >
-                <DeviceFloppy size={18} />
-              </ActionIcon>
-            }
           />
           <SelectDataSource
             value={{

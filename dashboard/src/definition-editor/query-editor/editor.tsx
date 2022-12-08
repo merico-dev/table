@@ -5,9 +5,8 @@ import { QueryForm } from './form';
 
 interface IQueryEditor {
   id: string;
-  setID: React.Dispatch<React.SetStateAction<string>>;
 }
-export const QueryEditor = observer(function _QueryEditor({ id, setID }: IQueryEditor) {
+export const QueryEditor = observer(function _QueryEditor({ id }: IQueryEditor) {
   const model = useModelContext();
   const query = React.useMemo(() => {
     return model.queries.findByID(id);
@@ -19,5 +18,5 @@ export const QueryEditor = observer(function _QueryEditor({ id, setID }: IQueryE
   if (!query) {
     return <span>Invalid Query ID</span>;
   }
-  return <QueryForm queryModel={query} setCurrentID={setID} />;
+  return <QueryForm queryModel={query} />;
 });

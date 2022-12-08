@@ -23,20 +23,9 @@ export const QueryModel = types
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
   }))
-  .views((self) => ({
-    get json() {
-      const { id, type, key, sql } = self;
-      return {
-        id,
-        type,
-        key,
-        sql,
-      };
-    },
-  }))
   .actions((self) => ({
-    setID(id: string) {
-      self.id = id;
+    setName(name: string) {
+      self.name = name;
     },
     setKey(key: string) {
       self.key = key;
@@ -62,11 +51,7 @@ export const QueryModel = types
             mock_context,
             sqlSnippets,
             title,
-            query: {
-              type: self.type,
-              key: self.key,
-              sql: self.sql,
-            },
+            query: self.json,
             filterValues,
           }),
         );

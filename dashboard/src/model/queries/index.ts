@@ -21,7 +21,7 @@ export const QueriesModel = types
         .filter((d) => d.id)
         .map((d) => ({
           value: d.id,
-          label: d.id,
+          label: d.name,
         }));
     },
   }))
@@ -45,8 +45,8 @@ export const QueriesModel = types
         self.current.splice(index, 1, replacement);
       },
       downloadAllData() {
-        const idDataList = self.current.map(({ id, data }) => ({
-          id,
+        const idDataList = self.current.map(({ name, data }) => ({
+          id: name,
           data: data.toJSON(),
         }));
         downloadDataListAsZip(idDataList);
@@ -56,9 +56,9 @@ export const QueriesModel = types
           console.log(`[downloadDataByQueryID] query not found`);
           return;
         }
-        const { id, data } = query;
+        const { name, data } = query;
         const csv = makeCSV(data);
-        downloadCSV(id, csv);
+        downloadCSV(name, csv);
       },
       refetchDataByQueryID(queryID: string) {
         const query = self.findByID(queryID);
