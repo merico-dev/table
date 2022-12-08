@@ -4,6 +4,7 @@ import React from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
+import { DEFAULT_SCATTER_SIZE } from '../scatter-size-select/types';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
@@ -30,7 +31,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
       type: 'bar',
       name: randomId(),
       showSymbol: false,
-      symbolSize: 5,
+      symbolSize: DEFAULT_SCATTER_SIZE.static,
       y_axis_data_key: 'value',
       yAxisIndex: 0,
       label_position: 'top',
