@@ -27,9 +27,7 @@ export class QueryService {
     const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
     const configuration = configureDatabaseSource('postgresql', sourceConfig.config);
     const source = new DataSource(configuration);
-    await source.initialize();
-    const result = await source.query(sql);
-    await source.destroy();
+    const result = await this.executeQuery(source, sql);
     return result;
   }
 
@@ -37,10 +35,19 @@ export class QueryService {
     const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
     const configuration = configureDatabaseSource('mysql', sourceConfig.config);
     const source = new DataSource(configuration);
-    await source.initialize();
-    const result = await source.query(sql);
-    await source.destroy();
+    const result = await this.executeQuery(source, sql);
     return result;
+  }
+
+  private async executeQuery(source: DataSource, sql): Promise<any> {
+    try {
+      await source.initialize();
+      return await source.query(sql);
+    } catch(err) {
+      throw err;
+    } finally {
+      await source.destroy();
+    }
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {
