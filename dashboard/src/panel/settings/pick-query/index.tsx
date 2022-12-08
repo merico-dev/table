@@ -27,7 +27,8 @@ export const PickQuery = observer(function _PickQuery() {
           onChange={setQueryID}
           allowDeselect={false}
           clearable={false}
-          sx={{ flexGrow: 1 }}
+          // @ts-expect-error important
+          sx={{ flexGrow: '1 !important' }}
         />
       </Group>
       <DataPreview id={queryID} />
