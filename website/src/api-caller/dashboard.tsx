@@ -51,7 +51,7 @@ export const DashboardAPI = {
           },
         ],
         filters: [],
-        version: '5.9.1',
+        version: '6.7.0',
       };
     }
     return await post('/dashboard/create', {

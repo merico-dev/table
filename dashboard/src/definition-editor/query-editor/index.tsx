@@ -22,7 +22,7 @@ export const EditQueries = observer(function _EditQueries() {
       <Group position="apart" grow align="stretch" noWrap>
         <Stack sx={{ flexGrow: 1, maxWidth: 'calc(60% - 16px)' }}>
           <SelectOrAddQuery id={id} setID={setID} />
-          <QueryEditor id={id} setID={setID} />
+          <QueryEditor id={id} />
         </Stack>
         <GlobalVariablesGuide />
       </Group>
