@@ -21,6 +21,7 @@
     "@mantine/notifications": "5.5.5",
     "@mantine/prism": "5.5.5",
     "@mantine/rte": "5.5.5",
+    "@monaco-editor/react": "4.4.6",
     "@tanstack/react-table": "^8.5.13",
     "ahooks": "^3.3.11",
     "ajv": "8.11.0",

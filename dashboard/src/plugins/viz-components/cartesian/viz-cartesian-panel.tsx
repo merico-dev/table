@@ -9,6 +9,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
+import { DEFAULT_SCATTER_SIZE } from './panel/scatter-size-select/types';
 import { SeriesField } from './panel/series';
 import { StatsField } from './panel/stats';
 import { XAxisField } from './panel/x-axis';
@@ -20,7 +21,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     type,
     name,
     showSymbol,
-    symbolSize = 5,
+    symbolSize = DEFAULT_SCATTER_SIZE.static,
     y_axis_data_key = 'value',
     yAxisIndex = 0,
     label_position = 'top',
@@ -34,7 +35,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     display_name_on_line = false,
     lineStyle = { type: 'solid', width: 1 },
   }: ICartesianChartSeriesItem) {
-    return {
+    const ret = {
       type,
       name,
       showSymbol,
@@ -52,6 +53,13 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       display_name_on_line,
       lineStyle,
     };
+    if (typeof symbolSize === 'number') {
+      ret.symbolSize = {
+        ...DEFAULT_SCATTER_SIZE.static,
+        size: symbolSize,
+      };
+    }
+    return ret;
   }
 
   return series.map(setDefaults);

@@ -1,31 +1,20 @@
-import { Group, Slider, Stack, Text } from '@mantine/core';
-import React from 'react';
 import { Control, Controller } from 'react-hook-form';
+import { AnyObject } from '~/types';
 import { ICartesianChartConf } from '../../type';
-
-const symbolSizeOptions = Array.from(new Array(9), (_, i) => ({
-  label: String(i + 1),
-  value: i + 1,
-}));
+import { ScatterSizeSelect } from '../scatter-size-select';
 
 interface IScatterFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
+  data: AnyObject[];
 }
 
-export function ScatterFields({ control, index }: IScatterFields) {
+export function ScatterFields({ control, index, data }: IScatterFields) {
   return (
-    <Group grow align="center">
-      <Controller
-        name={`series.${index}.symbolSize`}
-        control={control}
-        render={({ field }) => (
-          <Stack sx={{ flexGrow: 1 }} pb={16} spacing={4}>
-            <Text size="sm">Size</Text>
-            <Slider min={1} max={10} marks={symbolSizeOptions} {...field} sx={{ width: '100%' }} />
-          </Stack>
-        )}
-      />
-    </Group>
+    <Controller
+      name={`series.${index}.symbolSize`}
+      control={control}
+      render={({ field }) => <ScatterSizeSelect label="Size" data={data} {...field} />}
+    />
   );
 }

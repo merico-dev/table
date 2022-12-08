@@ -45,6 +45,7 @@ export default defineConfig({
         '@mantine/prism',
         '@mantine/rte',
         // '@tanstack/react-table'
+        '@monaco-editor/react',
         'ahooks',
         'ajv',
         'axios',
@@ -86,6 +87,7 @@ export default defineConfig({
           '@mantine/notifications': '@mantine/notifications',
           '@mantine/prism': '@mantine/prism',
           '@mantine/rte': '@mantine/rte',
+          '@monaco-editor/react': '@monaco-editor/react',
           '@tanstack/react-table': '@tanstack/react-table',
           ahooks: 'ahooks',
           ajv: 'ajv',

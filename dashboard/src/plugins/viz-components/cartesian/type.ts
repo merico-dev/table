@@ -1,11 +1,12 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { TScatterSize } from './panel/scatter-size-select/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
   name: string;
   display_name_on_line: boolean;
   showSymbol: false;
-  symbolSize: number;
+  symbolSize: TScatterSize;
   y_axis_data_key: string;
   yAxisIndex: number;
   label_position?: string;
