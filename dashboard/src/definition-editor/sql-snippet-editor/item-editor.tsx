@@ -1,4 +1,4 @@
-import { Button, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, Group, Stack, Textarea, TextInput } from '@mantine/core';
 import { Trash } from 'tabler-icons-react';
 import { SQLSnippetModelInstance } from '~/model';
 import { PreviewSnippet } from './preview-snippet';
@@ -9,15 +9,22 @@ interface ISQLSnippetItemEditor {
 }
 export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) => {
   return (
-    <Stack my={0} p="md" pr={40}>
-      <TextInput
-        label="Key"
-        required
-        value={item.key}
-        onChange={(e) => {
-          item.setKey(e.currentTarget.value);
-        }}
-      />
+    <Stack my={0} p={0} pt="md" pr={40}>
+      <Group sx={{ alignItems: 'end' }}>
+        <TextInput
+          label="Key"
+          required
+          value={item.key}
+          onChange={(e) => {
+            item.setKey(e.currentTarget.value);
+          }}
+          // @ts-expect-error important
+          sx={{ flexGrow: '1 !important' }}
+        />
+        <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={remove}>
+          Delete this SQL Snippet
+        </Button>
+      </Group>
       <Textarea
         minRows={3}
         label="Value"
@@ -29,10 +36,6 @@ export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) =>
         className="code-textarea"
       />
       <PreviewSnippet value={item.value} />
-
-      <Button mt={20} leftIcon={<Trash size={16} />} color="red" variant="light" onClick={remove}>
-        Delete this SQL Snippet
-      </Button>
     </Stack>
   );
 };
