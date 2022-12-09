@@ -13,13 +13,8 @@ interface ISQLSnippetItemEditor {
 }
 export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: ISQLSnippetItemEditor) => {
   // tab
-  const [tab, setTab] = useState<string>('SQL');
-  const changeTab = (t: string) => {
-    if (t === 'Submit') {
-      return;
-    }
-    setTab(t);
-  };
+  const [tab, setTab] = useState<string | null>('SQL');
+
   // key
   const [key, setKey] = useState(item.key);
   const submitKeyChange = () => {
@@ -62,15 +57,19 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           Delete this SQL Snippet
         </Button>
       </Group>
-      <Tabs value={tab} onTabChange={changeTab}>
-        <Tabs.List>
+      <Tabs value={tab} onTabChange={setTab}>
+        <Tabs.List sx={{ position: 'relative' }}>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
-          <Tabs.Tab value="Submit" ml="auto" onClick={submitValueChange} disabled={!valueChanged}>
-            <ActionIcon>
-              <DeviceFloppy size={18} color="#40c057" />
-            </ActionIcon>
-          </Tabs.Tab>
+          <ActionIcon
+            color="blue"
+            variant="filled"
+            onClick={submitValueChange}
+            disabled={!valueChanged}
+            sx={{ position: 'absolute', top: 0, right: 10 }}
+          >
+            <DeviceFloppy size={18} />
+          </ActionIcon>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
           <MinimalMonacoEditor height="400px" value={value} onChange={setValue} />
