@@ -2,12 +2,14 @@ import { ActionIcon, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { cast } from 'mobx-state-tree';
+import { useState } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
 import { SQLSnippetItemEditor } from './item-editor';
 
 export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
   const model = useModelContext();
+  const [tab, setTab] = useState<string | null>(model.sqlSnippets.firstKey ?? null);
 
   const addSnippet = () =>
     model.sqlSnippets.append(
@@ -18,7 +20,7 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
     );
 
   return (
-    <Tabs defaultValue={model.sqlSnippets.firstKey}>
+    <Tabs defaultValue={tab} value={tab} onTabChange={setTab}>
       <Tabs.List>
         {model.sqlSnippets.current.map((item, index) => (
           <Tabs.Tab key={item.key} value={item.key}>
