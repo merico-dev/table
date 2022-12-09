@@ -9,8 +9,9 @@ import { PreviewSnippet } from './preview-snippet';
 interface ISQLSnippetItemEditor {
   item: SQLSnippetModelInstance;
   remove: () => void;
+  onKeyChanged: (newKey: string) => void;
 }
-export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemEditor) => {
+export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: ISQLSnippetItemEditor) => {
   // tab
   const [tab, setTab] = useState<string>('SQL');
   const changeTab = (t: string) => {
@@ -23,6 +24,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemE
   const [key, setKey] = useState(item.key);
   const submitKeyChange = () => {
     item.setKey(key);
+    onKeyChanged(key);
   };
   const keyChanged = key !== item.key;
   const isADuplicatedKey = item.isADuplicatedKey(key);
