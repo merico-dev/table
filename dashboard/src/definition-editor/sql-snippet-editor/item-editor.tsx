@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { SQLSnippetModelInstance } from '~/model';
@@ -9,7 +10,15 @@ interface ISQLSnippetItemEditor {
   item: SQLSnippetModelInstance;
   remove: () => void;
 }
-export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) => {
+export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemEditor) => {
+  // tab
+  const [tab, setTab] = useState<string>('SQL');
+  const changeTab = (t: string) => {
+    if (t === 'Submit') {
+      return;
+    }
+    setTab(t);
+  };
   // key
   const [key, setKey] = useState(item.key);
   const submitKeyChange = () => {
@@ -45,13 +54,13 @@ export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) =>
           Delete this SQL Snippet
         </Button>
       </Group>
-      <Tabs defaultValue="SQL">
+      <Tabs value={tab} onTabChange={changeTab}>
         <Tabs.List>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
           <Tabs.Tab value="Submit" ml="auto" onClick={submitValueChange} disabled={!valueChanged}>
-            <ActionIcon color="green" disabled={!valueChanged}>
-              <DeviceFloppy size={18} />
+            <ActionIcon>
+              <DeviceFloppy size={18} color="#40c057" />
             </ActionIcon>
           </Tabs.Tab>
         </Tabs.List>
@@ -64,4 +73,4 @@ export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) =>
       </Tabs>
     </Stack>
   );
-};
+});
