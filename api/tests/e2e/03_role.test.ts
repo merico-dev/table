@@ -2,7 +2,7 @@ import { connectionHook } from './jest.util';
 import request from 'supertest';
 import { app } from '~/server';
 
-describe('RoleService', () => {
+describe('RoleController', () => {
   connectionHook();
   const server = request(app);
 

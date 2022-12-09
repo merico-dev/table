@@ -19,3 +19,10 @@ export function createAuthStruct(key: ApiKey, rest: any): Authentication {
     sign: cryptSign({ app_id: key.app_id, nonce_str: 'preset', ...rest }, key.app_secret)
   };
 }
+
+function timeout(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+export async function sleep(ms: number) {
+  await timeout(ms);
+}

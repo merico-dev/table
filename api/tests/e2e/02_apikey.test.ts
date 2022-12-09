@@ -9,7 +9,7 @@ import * as validation from '~/middleware/validation';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '~/api_models/api';
 import { has } from 'lodash';
 
-describe('ApiService', () => {
+describe('APIController', () => {
   connectionHook();
   let presetKey: ApiKey;
   let deletedKeyId: string;

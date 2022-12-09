@@ -1,15 +1,16 @@
 import { connectionHook } from './jest.util';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import { DataSourceConfig, DataSourceCreateRequest, DataSourceIDRequest, DataSourceListRequest } from '~/api_models/datasource';
+import { DataSourceConfig, DataSourceCreateRequest, DataSourceIDRequest, DataSourceListRequest, DataSourceRenameRequest } from '~/api_models/datasource';
 import { maybeDecryptPassword, maybeEncryptPassword } from '~/utils/encryption';
 import { parseDBUrl } from '../utils';
 import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
+import { notFoundId } from './constants';
 
-describe('DataSourceService', () => {
+describe('DataSourceController', () => {
   connectionHook();
   let superadminLogin: AccountLoginResponse;
   let postgresConfig: DataSourceConfig;
@@ -239,6 +240,69 @@ describe('DataSourceService', () => {
     });
   });
 
+  describe('rename', () => {
+    it('should fail if not found', async () => {
+      const query: DataSourceRenameRequest = {
+        id: notFoundId,
+        key: 'not_found'
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .put('/datasource/rename')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body.code).toEqual('NOT_FOUND');
+      expect(response.body.detail.message).toContain('Could not find any entity of type "DataSource" matching');
+      expect(response.body.detail.message).toContain(notFoundId);
+    });
+
+    it('should fail if new key is same as old one', async () => {
+      const query: DataSourceRenameRequest = {
+        id: httpDatasource.id,
+        key: httpDatasource.key
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .put('/datasource/rename')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'New key is the same as the old one' }
+      });
+    });
+
+    it('should rename successfully', async () => {
+      const query: DataSourceRenameRequest = {
+        id: httpDatasource.id,
+        key: 'jsonplaceholder_renamed'
+      };
+      validate.mockReturnValueOnce(query);
+
+      const response = await server
+        .put('/datasource/rename')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(query);
+
+      expect(response.body).toMatchObject({
+        type: 'RENAME_DATASOURCE',
+        status: 'INIT',
+        params: {
+          type: 'http',
+          old_key: 'jsonplaceholder',
+          new_key: 'jsonplaceholder_renamed'
+        },
+        id: response.body.id,
+        create_time: response.body.create_time,
+        update_time: response.body.update_time
+      });
+    });
+  });
+
   describe('delete', () => {
     it('should delete successfully', async () => {
       const deleteQuery: DataSourceIDRequest = {
@@ -269,7 +333,7 @@ describe('DataSourceService', () => {
           {
             id: response.body.data[0].id,
             type: 'http',
-            key: 'jsonplaceholder',
+            key: 'jsonplaceholder_renamed',
             is_preset: false
           },
           {

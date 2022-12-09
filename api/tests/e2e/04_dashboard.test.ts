@@ -9,7 +9,7 @@ import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account'
 import { notFoundId } from './constants';
 import ApiKey from '~/models/apiKey';
 
-describe('DashboardService', () => {
+describe('DashboardController', () => {
   connectionHook();
   let presetDashboard: Dashboard;
   let superadminLogin: AccountLoginResponse;

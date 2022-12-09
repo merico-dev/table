@@ -5,7 +5,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 
-describe('QueryService', () => {
+describe('QueryController', () => {
   connectionHook();
   let superadminLogin: AccountLoginResponse;
   const server = request(app);
@@ -82,7 +82,7 @@ describe('QueryService', () => {
       };
       const query: QueryRequest = {
         type: 'http',
-        key: 'jsonplaceholder',
+        key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams)
       };
       validate.mockReturnValueOnce(query);
@@ -113,7 +113,7 @@ describe('QueryService', () => {
       };
       const query: QueryRequest = {
         type: 'http',
-        key: 'jsonplaceholder',
+        key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams)
       };
       validate.mockReturnValueOnce(query);
@@ -136,7 +136,7 @@ describe('QueryService', () => {
       };
       const query: QueryRequest = {
         type: 'http',
-        key: 'jsonplaceholder',
+        key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams)
       };
       validate.mockReturnValueOnce(query);
@@ -159,7 +159,7 @@ describe('QueryService', () => {
       };
       const query: QueryRequest = {
         type: 'http',
-        key: 'jsonplaceholder',
+        key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams)
       };
       validate.mockReturnValueOnce(query);
