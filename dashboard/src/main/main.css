@@ -19,3 +19,7 @@
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
+
+.minimal-monaco-editor .monaco-editor {
+  padding-top: 14px;
+}

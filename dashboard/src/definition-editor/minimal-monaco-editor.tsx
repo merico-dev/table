@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import Editor from '@monaco-editor/react';
 
 interface IMinimalMonacoEditor {
@@ -18,25 +17,24 @@ export const MinimalMonacoEditor = ({
   };
   const readonly = !onChange;
   return (
-    <Box sx={{ '.monaco-editor': { paddingTop: '15px;' } }}>
-      <Editor
-        height={height}
-        defaultLanguage={defaultLanguage}
-        value={value}
-        onChange={handleChange}
-        theme="vs-dark"
-        options={{
-          lineNumbers: 'off',
-          folding: false,
-          lineDecorationsWidth: 20,
-          lineNumbersMinChars: 0,
-          wordWrap: 'on',
-          minimap: {
-            enabled: false,
-          },
-          readonly,
-        }}
-      />
-    </Box>
+    <Editor
+      className="minimal-monaco-editor"
+      height={height}
+      defaultLanguage={defaultLanguage}
+      value={value}
+      onChange={readonly ? handleChange : undefined}
+      theme="vs-dark"
+      options={{
+        lineNumbers: 'off',
+        folding: false,
+        lineDecorationsWidth: 20,
+        lineNumbersMinChars: 0,
+        wordWrap: 'on',
+        minimap: {
+          enabled: false,
+        },
+        readOnly: readonly || !onChange,
+      }}
+    />
   );
 };
