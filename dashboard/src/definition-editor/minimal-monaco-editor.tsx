@@ -13,6 +13,7 @@ export const MinimalMonacoEditor = ({
   defaultLanguage = 'sql',
 }: IMinimalMonacoEditor) => {
   const handleChange = (v: string | undefined) => {
+    console.log('changing');
     onChange?.(v ?? '');
   };
   const readonly = !onChange;
@@ -22,7 +23,7 @@ export const MinimalMonacoEditor = ({
       height={height}
       defaultLanguage={defaultLanguage}
       value={value}
-      onChange={readonly ? handleChange : undefined}
+      onChange={readonly ? undefined : handleChange}
       theme="vs-dark"
       options={{
         lineNumbers: 'off',

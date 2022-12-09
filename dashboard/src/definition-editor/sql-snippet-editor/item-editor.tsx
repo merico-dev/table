@@ -10,11 +10,19 @@ interface ISQLSnippetItemEditor {
   remove: () => void;
 }
 export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) => {
+  // key
   const [key, setKey] = useState(item.key);
   const submitKeyChange = () => {
     item.setKey(key);
   };
   const keyChanged = key !== item.key;
+
+  // value
+  const [value, setValue] = useState(item.value);
+  const submitValueChange = () => {
+    item.setValue(value);
+  };
+  const valueChanged = value !== item.value;
   return (
     <Stack my={0} p={0} pt="md" pr={20}>
       <Group sx={{ alignItems: 'end' }} spacing={40}>
@@ -41,12 +49,17 @@ export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) =>
         <Tabs.List>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+          <Tabs.Tab value="Submit" ml="auto" onClick={submitValueChange} disabled={!valueChanged}>
+            <ActionIcon color="green" disabled={!valueChanged}>
+              <DeviceFloppy size={18} />
+            </ActionIcon>
+          </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
-          <MinimalMonacoEditor height="400px" value={item.value} onChange={item.setValue} />
+          <MinimalMonacoEditor height="400px" value={value} onChange={setValue} />
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
-          <PreviewSnippet value={item.value} />
+          <PreviewSnippet value={value} />
         </Tabs.Panel>
       </Tabs>
     </Stack>
