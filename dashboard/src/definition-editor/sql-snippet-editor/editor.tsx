@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { cast } from 'mobx-state-tree';
 import { Plus, Trash } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
+import { SQLSnippetItemEditor } from './item-editor';
 import { PreviewSnippet } from './preview-snippet';
 
 export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
@@ -31,37 +32,7 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
       </Tabs.List>
       {model.sqlSnippets.current.map((item, index) => (
         <Tabs.Panel value={index.toString()}>
-          <Stack key={index} my={0} p="md" pr={40}>
-            <TextInput
-              label="Key"
-              required
-              value={item.key}
-              onChange={(e) => {
-                item.setKey(e.currentTarget.value);
-              }}
-            />
-            <Textarea
-              minRows={3}
-              label="Value"
-              required
-              value={item.value}
-              onChange={(e) => {
-                item.setValue(e.currentTarget.value);
-              }}
-              className="code-textarea"
-            />
-            <PreviewSnippet value={item.value} />
-
-            <Button
-              mt={20}
-              leftIcon={<Trash size={16} />}
-              color="red"
-              variant="light"
-              onClick={() => model.sqlSnippets.remove(index)}
-            >
-              Delete this SQL Snippet
-            </Button>
-          </Stack>
+          <SQLSnippetItemEditor key={index.toString()} item={item} remove={() => model.sqlSnippets.remove(index)} />
         </Tabs.Panel>
       ))}
     </Tabs>
