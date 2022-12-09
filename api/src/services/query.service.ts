@@ -46,7 +46,9 @@ export class QueryService {
     } catch(err) {
       throw err;
     } finally {
-      await source.destroy();
+      if (source.isInitialized) {
+        await source.destroy();
+      }
     }
   }
 

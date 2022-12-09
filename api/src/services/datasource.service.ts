@@ -87,8 +87,7 @@ export class DataSourceService {
       await source.initialize();
     } catch (error) {
       throw new ApiError(BAD_REQUEST, { message: 'Testing datasource connection failed' });      
-    } finally {
-      await source.destroy();
     }
+    await source.destroy();
   }
 }
