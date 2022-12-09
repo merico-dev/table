@@ -25,6 +25,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemE
     item.setKey(key);
   };
   const keyChanged = key !== item.key;
+  const isADuplicatedKey = item.isADuplicatedKey(key);
 
   // value
   const [value, setValue] = useState(item.value);
@@ -36,8 +37,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemE
     <Stack my={0} p={0} pt="md" pr={20}>
       <Group sx={{ alignItems: 'end' }} spacing={40}>
         <TextInput
-          label="Key"
-          required
+          label={isADuplicatedKey ? 'This key is occupied by another snippet' : 'Key'}
           value={key}
           onChange={(e) => {
             setKey(e.currentTarget.value);
@@ -45,10 +45,16 @@ export const SQLSnippetItemEditor = observer(({ item, remove }: ISQLSnippetItemE
           // @ts-expect-error important
           sx={{ flexGrow: '1 !important' }}
           rightSection={
-            <ActionIcon color="blue" variant="subtle" onClick={submitKeyChange} disabled={!keyChanged}>
+            <ActionIcon
+              color="blue"
+              variant="subtle"
+              onClick={submitKeyChange}
+              disabled={!keyChanged || isADuplicatedKey}
+            >
               <DeviceFloppy size={16} />
             </ActionIcon>
           }
+          error={isADuplicatedKey}
         />
         <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={remove}>
           Delete this SQL Snippet
