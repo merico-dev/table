@@ -19,3 +19,12 @@
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
+
+.minimal-monaco-editor {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  padding-top: 14px;
+}
+.minimal-monaco-editor .monaco-editor {
+}

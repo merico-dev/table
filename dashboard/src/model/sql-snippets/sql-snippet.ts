@@ -1,4 +1,5 @@
-import { Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, types } from 'mobx-state-tree';
+import { SQLSnippetsModelInstance } from './types';
 
 export const SQLSnippetModel = types
   .model('SQLSnippetModel', {
@@ -12,6 +13,20 @@ export const SQLSnippetModel = types
         key,
         value,
       };
+    },
+    isADuplicatedKey(newKey: string) {
+      if (!newKey) {
+        return false;
+      }
+      if (newKey === self.key) {
+        return false;
+      }
+      const parent = getParent<SQLSnippetsModelInstance>(self, 2);
+      const match = parent.findByKey(newKey);
+      if (match) {
+        return true;
+      }
+      return false;
     },
   }))
   .actions((self) => ({

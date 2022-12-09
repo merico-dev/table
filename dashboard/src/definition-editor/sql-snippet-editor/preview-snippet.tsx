@@ -1,9 +1,7 @@
-import { Stack, Text } from '@mantine/core';
-import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { useModelContext } from '../../contexts/model-context';
 import { explainSQLSnippet } from '../../utils/sql';
+import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 
 interface IPreviewSnippet {
   value: string;
@@ -14,12 +12,5 @@ export const PreviewSnippet = observer(({ value }: IPreviewSnippet) => {
   const context = model.context.current;
   const explained = explainSQLSnippet(value, context, model.mock_context.current, model.filters.values);
 
-  return (
-    <Stack>
-      <Text>Preview</Text>
-      <Prism language="sql" noCopy colorScheme="dark">
-        {explained}
-      </Prism>
-    </Stack>
-  );
+  return <MinimalMonacoEditor height="400px" value={explained} />;
 });
