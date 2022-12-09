@@ -1,5 +1,6 @@
-import { Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
-import { Trash } from 'tabler-icons-react';
+import { ActionIcon, Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
+import { useState } from 'react';
+import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { SQLSnippetModelInstance } from '~/model';
 import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
@@ -9,18 +10,28 @@ interface ISQLSnippetItemEditor {
   remove: () => void;
 }
 export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) => {
+  const [key, setKey] = useState(item.key);
+  const submitKeyChange = () => {
+    item.setKey(key);
+  };
+  const keyChanged = key !== item.key;
   return (
     <Stack my={0} p={0} pt="md" pr={20}>
-      <Group sx={{ alignItems: 'end' }}>
+      <Group sx={{ alignItems: 'end' }} spacing={40}>
         <TextInput
           label="Key"
           required
-          value={item.key}
+          value={key}
           onChange={(e) => {
-            item.setKey(e.currentTarget.value);
+            setKey(e.currentTarget.value);
           }}
           // @ts-expect-error important
           sx={{ flexGrow: '1 !important' }}
+          rightSection={
+            <ActionIcon color="blue" variant="subtle" onClick={submitKeyChange} disabled={!keyChanged}>
+              <DeviceFloppy size={16} />
+            </ActionIcon>
+          }
         />
         <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={remove}>
           Delete this SQL Snippet
