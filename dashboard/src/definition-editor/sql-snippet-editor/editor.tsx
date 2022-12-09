@@ -21,7 +21,9 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
     <Tabs defaultValue={'0'}>
       <Tabs.List>
         {model.sqlSnippets.current.map((item, index) => (
-          <Tabs.Tab value={item.key}>{item.key}</Tabs.Tab>
+          <Tabs.Tab key={item.key} value={item.key}>
+            {item.key}
+          </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={addSnippet} value="add">
           <ActionIcon>
@@ -30,7 +32,7 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
         </Tabs.Tab>
       </Tabs.List>
       {model.sqlSnippets.current.map((item, index) => (
-        <Tabs.Panel value={item.key}>
+        <Tabs.Panel key={item.key} value={item.key}>
           <SQLSnippetItemEditor item={item} remove={() => model.sqlSnippets.remove(index)} />
         </Tabs.Panel>
       ))}
