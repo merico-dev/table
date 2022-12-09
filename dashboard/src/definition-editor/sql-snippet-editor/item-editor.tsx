@@ -1,6 +1,7 @@
-import { Button, Group, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
 import { Trash } from 'tabler-icons-react';
 import { SQLSnippetModelInstance } from '~/model';
+import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
 
 interface ISQLSnippetItemEditor {
@@ -9,7 +10,7 @@ interface ISQLSnippetItemEditor {
 }
 export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) => {
   return (
-    <Stack my={0} p={0} pt="md" pr={40}>
+    <Stack my={0} p={0} pt="md" pr={20}>
       <Group sx={{ alignItems: 'end' }}>
         <TextInput
           label="Key"
@@ -25,17 +26,18 @@ export const SQLSnippetItemEditor = ({ item, remove }: ISQLSnippetItemEditor) =>
           Delete this SQL Snippet
         </Button>
       </Group>
-      <Textarea
-        minRows={3}
-        label="Value"
-        required
-        value={item.value}
-        onChange={(e) => {
-          item.setValue(e.currentTarget.value);
-        }}
-        className="code-textarea"
-      />
-      <PreviewSnippet value={item.value} />
+      <Tabs defaultValue="SQL">
+        <Tabs.List>
+          <Tabs.Tab value="SQL">SQL</Tabs.Tab>
+          <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="SQL" pt="sm">
+          <MinimalMonacoEditor height="400px" value={item.value} onChange={item.setValue} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Preview" pt="sm">
+          <PreviewSnippet value={item.value} />
+        </Tabs.Panel>
+      </Tabs>
     </Stack>
   );
 };
