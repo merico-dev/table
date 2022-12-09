@@ -20,6 +20,10 @@
   -ms-overflow-style: none;
 }
 
+.minimal-monaco-editor {
+  border-radius: 4px;
+  overflow: hidden;
+}
 .minimal-monaco-editor .monaco-editor {
   padding-top: 14px;
 }
