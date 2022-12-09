@@ -15,6 +15,12 @@ export const SQLSnippetsModel = types
         return prev;
       }, {} as Record<string, string>);
     },
+    get firstKey() {
+      if (self.current.length === 0) {
+        return undefined;
+      }
+      return self.current[0].key;
+    },
     findByKey(key: string) {
       return self.current.find((item) => item.key === key);
     },

@@ -18,7 +18,7 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
     );
 
   return (
-    <Tabs defaultValue={'0'}>
+    <Tabs defaultValue={model.sqlSnippets.firstKey}>
       <Tabs.List>
         {model.sqlSnippets.current.map((item, index) => (
           <Tabs.Tab key={item.key} value={item.key}>
