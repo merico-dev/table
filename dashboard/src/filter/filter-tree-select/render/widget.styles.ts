@@ -15,6 +15,9 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     backgroundColor: '#fff',
     transition: 'border-color 100ms ease',
     borderColor: '#e9ecef',
+    '&.rc-tree-select.rc-tree-select-open': {
+      borderColor: '#228be6 !important',
+    },
     '.rc-tree-select-selector': {
       height: 'auto',
       lineHeight: 1.55,
@@ -74,7 +77,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       fontSize: '14px',
       padding: 0,
       marginLeft: 'calc(10px / 2)',
-      appearance: 'none',
+      // appearance: 'none',
       color: 'inherit',
       lineHeight: '34px',
       cursor: 'pointer',
@@ -87,6 +90,9 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     fontSize: theme.fontSizes.xs,
     zIndex: 300,
     paddingTop: '6px',
+    '&.rc-tree-select-dropdown-slide-up-leave-active': {
+      display: 'none',
+    },
     '.rc-tree-select-tree-list': {
       backgroundColor: '#fff',
       border: '1px solid #e9ecef',
