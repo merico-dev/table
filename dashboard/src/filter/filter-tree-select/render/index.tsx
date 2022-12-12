@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
-import { FilterModelInstance } from '../../model';
-import { IFilterConfig_TreeSelect } from '../../model/filters/filter/tree-select';
+import { FilterModelInstance } from '../../../model';
+import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
+import { FilterTreeSelectWidget } from './widget';
 
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TreeSelect;
@@ -30,29 +30,12 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
   return (
-    <TreeSelect
-      open
-      allowClear
-      className="check-select"
-      transitionName="rc-tree-select-dropdown-slide-up"
-      choiceTransitionName="rc-tree-select-selection__choice-zoom"
+    <FilterTreeSelectWidget
       style={{ minWidth, maxWidth: disabled ? minWidth : 'unset', borderColor: '#e9ecef' }}
-      // dropdownStyle={{ height: 200, overflow: 'auto' }}
-      treeLine
-      maxTagTextLength={10}
       value={value}
-      autoClearSearchValue
-      treeData={config.options}
-      treeNodeFilterProp="title"
-      treeCheckable
-      showCheckedStrategy={SHOW_PARENT}
       onChange={onChange}
-      onSelect={console.log}
-      maxTagCount="responsive"
-      maxTagPlaceholder={(valueList) => {
-        console.log('Max Tag Rest Value:', valueList);
-        return `${valueList.length} rest...`;
-      }}
+      treeData={config.options}
+      label={label}
     />
   );
 });
