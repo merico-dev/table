@@ -10,7 +10,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     display: 'flex',
     flexWrap: 'nowrap',
     border: '1px solid #ced4da',
-    paddingLeft: '12px',
+    paddingLeft: '0px',
     paddingRight: '30px', // for the clear icon
     backgroundColor: '#fff',
     transition: 'border-color 100ms ease',
@@ -18,7 +18,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     '.rc-tree-select-selector': {
       height: 'auto',
       lineHeight: 1.55,
-      // appearance: 'none',
+      paddingLeft: '12px',
       resize: 'none',
       boxSizing: 'border-box',
       fontSize: '14px',
@@ -83,5 +83,29 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
   },
   label: { fontSize: theme.fontSizes.sm, fontWeight: 500, color: '#212529' },
 
-  dropdown: { fontSize: theme.fontSizes.xs, zIndex: 300 },
+  dropdown: {
+    fontSize: theme.fontSizes.xs,
+    zIndex: 300,
+    paddingTop: '6px',
+    '.rc-tree-select-tree-list': {
+      backgroundColor: '#fff',
+      border: '1px solid #e9ecef',
+      padding: 0,
+      boxShadow: '0 1px 3px rgb(0 0 0 / 5%), rgb(0 0 0 / 5%) 0px 10px 15px -5px, rgb(0 0 0 / 4%) 0px 7px 7px -5px',
+      borderRadius: '4px',
+    },
+    '.rc-tree-select-tree-treenode': {
+      boxSizing: 'border-box',
+      textAlign: 'left',
+      width: '100%',
+      padding: '8px 12px',
+      cursor: 'pointer',
+      fontSize: '14px',
+      color: '#000',
+      borderRadius: '4px',
+      '&[data-hovered]': {
+        backgroundColor: '#f1f3f5',
+      },
+    },
+  },
 }));

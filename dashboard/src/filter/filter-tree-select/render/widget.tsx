@@ -1,7 +1,6 @@
+import { CloseButton, DefaultProps, MantineNumberSize, Selectors, Stack, Text } from '@mantine/core';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
-import { DefaultProps, Selectors, MantineNumberSize, Text, Stack, CloseButton } from '@mantine/core';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
-import { TreeSelectRightIcon } from './right-icon';
 
 // This type will contain a union with all selectors defined in useStyles,
 // in this case it will be `'root' | 'title' | 'description'`
