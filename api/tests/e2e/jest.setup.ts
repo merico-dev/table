@@ -3,6 +3,7 @@ import { dashboardDataSource } from '../../src/data_sources/dashboard';
 module.exports = async (globalConfig) => {
   process.env.ENABLE_AUTH = '1';
   console.log('-----------  setup e2e, clean all data before test run  -----------------');
+  dashboardDataSource.setOptions({ url: process.env.TEST_PG_URL! });
   if (!dashboardDataSource.isInitialized) {
     await dashboardDataSource.initialize();
   }

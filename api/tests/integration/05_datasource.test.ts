@@ -1,10 +1,10 @@
-import { connectionHook } from './jest.util';
+import { connectionHook, sleep } from './jest.util';
 import { DataSourceService } from '~/services/datasource.service';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
-import { pgSourceConfig } from './constants';
+import { notFoundId, pgSourceConfig } from './constants';
 import { maybeDecryptPassword } from '~/utils/encryption';
 
 describe('DataSourceService', () => {
@@ -118,6 +118,42 @@ describe('DataSourceService', () => {
 
     it('should fail if not found', async () => {
       await expect(DataSourceService.getByTypeKey('xxx', 'xxx')).rejects.toThrowError(EntityNotFoundError);
+    });
+  });
+
+  describe('rename', () => {
+    it('should fail if new key is same as old key', async () => {
+      await expect(datasourceService.rename(pgDatasource.id, pgDatasource.key)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' }));
+    });
+
+    it('should fail if entity not found', async () => {
+      await expect(datasourceService.rename(notFoundId, '')).rejects.toThrowError(EntityNotFoundError);
+    });
+
+    it('should rename successfully', async () => {
+      const newPGKey = pgDatasource.key + '_renamed';
+      const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey);
+      expect(pgResult).toMatchObject({
+        type: 'RENAME_DATASOURCE',
+        status: 'INIT',
+        params: { type: pgDatasource.type, old_key: pgDatasource.key, new_key: newPGKey },
+        id: pgResult.id,
+        create_time: pgResult.create_time,
+        update_time: pgResult.update_time
+      });
+
+      const newHTTPKey = httpDatasource.key + '_renamed';
+      const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey);
+      expect(httpResult).toMatchObject({
+        type: 'RENAME_DATASOURCE',
+        status: 'INIT',
+        params: { type: httpDatasource.type, old_key: httpDatasource.key, new_key: newHTTPKey },
+        id: httpResult.id,
+        create_time: httpResult.create_time,
+        update_time: httpResult.update_time
+      });
+
+      await sleep(3000);
     });
   });
 

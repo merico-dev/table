@@ -142,7 +142,22 @@ export const dashboards: Dashboard[] = [
     name: 'dashboard1',
     is_preset: false,
     is_removed: true,
-    content: {},
+    content: {
+      definition: {
+        queries: [
+          {
+            id: 'pgQuery1',
+            type: 'postgresql',
+            key: 'pg'
+          },
+          {
+            id: 'httpQuery1',
+            type: 'http',
+            key: 'jsonplaceholder'
+          }
+        ]
+      }
+    },
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -151,7 +166,22 @@ export const dashboards: Dashboard[] = [
     name: 'dashboard2',
     is_preset: true,
     is_removed: false,
-    content: {},
+    content: {
+      definition: {
+        queries: [
+          {
+            id: 'pgQuery2',
+            type: 'postgresql',
+            key: 'pg'
+          },
+          {
+            id: 'httpQuery2',
+            type: 'http',
+            key: 'jsonplaceholder'
+          }
+        ]
+      }
+    },
     create_time: new Date(),
     update_time: new Date(),
   }
