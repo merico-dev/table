@@ -49,49 +49,56 @@ export class JobService {
     const dashboardRepo = runner.manager.getRepository(Dashboard);
     const jobRepo = runner.manager.getRepository(Job);
 
-    const jobs = await jobRepo.createQueryBuilder('job')
+    let jobs = await jobRepo.createQueryBuilder('job')
       .where('type = :type', { type: JobType.RENAME_DATASOURCE })
       .andWhere('status = :status', { status: JobStatus.INIT })
       .orderBy('create_time', 'ASC')
       .getMany();
     
-    for (const job of jobs) {
-      await runner.startTransaction();
-      try {
-        const params = job.params as RenameJobParams;
-
-        const datasource = await datasourceRepo.findOneByOrFail({ type: params.type, key: params.old_key });
-        datasource.key = params.new_key;
-        await datasourceRepo.save(datasource);
-
-        const result: { affected_dashboards: { dashboardId: string, queries: string[] }[] } = { affected_dashboards: [] };
-
-        const dashboards = await runner.manager.createQueryBuilder()
-          .from(Dashboard, 'dashboard')
-          .where(`content @> '{"definition":{"queries":[{"type": "${params.type}", "key": "${params.old_key}"}]}}' `)
-          .getRawMany<Dashboard>();
-
-        for (const dashboard of dashboards) {
-          const queries: string[] = [];
-          for (let i = 0; i < dashboard.content.definition.queries.length; i++) {
-            const query = dashboard.content.definition.queries[i];
-            if (query.type !== params.type || query.key !== params.old_key) continue;
-            query.key = params.new_key;
-            await dashboardRepo.save(dashboard);
-            queries.push(query.id);
+    while (jobs.length) {
+      for (const job of jobs) {
+        await runner.startTransaction();
+        try {
+          const params = job.params as RenameJobParams;
+  
+          const datasource = await datasourceRepo.findOneByOrFail({ type: params.type, key: params.old_key });
+          datasource.key = params.new_key;
+          await datasourceRepo.save(datasource);
+  
+          const result: { affected_dashboards: { dashboardId: string, queries: string[] }[] } = { affected_dashboards: [] };
+  
+          const dashboards = await runner.manager.createQueryBuilder()
+            .from(Dashboard, 'dashboard')
+            .where(`content @> '{"definition":{"queries":[{"type": "${params.type}", "key": "${params.old_key}"}]}}' `)
+            .getRawMany<Dashboard>();
+  
+          for (const dashboard of dashboards) {
+            const queries: string[] = [];
+            for (let i = 0; i < dashboard.content.definition.queries.length; i++) {
+              const query = dashboard.content.definition.queries[i];
+              if (query.type !== params.type || query.key !== params.old_key) continue;
+              query.key = params.new_key;
+              await dashboardRepo.save(dashboard);
+              queries.push(query.id);
+            }
+            result.affected_dashboards.push({ dashboardId: dashboard.id, queries });
           }
-          result.affected_dashboards.push({ dashboardId: dashboard.id, queries });
+          job.status = JobStatus.SUCCESS;
+          job.result = result;
+          await jobRepo.save(job);
+          await runner.commitTransaction();
+        } catch (error) {
+          runner.rollbackTransaction();
+          job.status = JobStatus.FAILED;
+          job.result = { error };
+          await jobRepo.save(job);
         }
-        job.status = JobStatus.SUCCESS;
-        job.result = result;
-        await jobRepo.save(job);
-        await runner.commitTransaction();
-      } catch (error) {
-        runner.rollbackTransaction();
-        job.status = JobStatus.FAILED;
-        job.result = { error };
-        await jobRepo.save(job);
       }
+      jobs = await jobRepo.createQueryBuilder('job')
+      .where('type = :type', { type: JobType.RENAME_DATASOURCE })
+      .andWhere('status = :status', { status: JobStatus.INIT })
+      .orderBy('create_time', 'ASC')
+      .getMany();
     }
     await runner.release();
     this.processingRenameDataSource = false;
