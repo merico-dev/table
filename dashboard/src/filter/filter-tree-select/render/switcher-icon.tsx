@@ -1,14 +1,15 @@
 import { TreeNodeProps } from 'rc-tree-select/lib/TreeNode';
 
-const CaretIcon = ({ rotate }: { rotate: string }) => {
+const CaretIcon = ({ rotate, onClick }: { rotate: string; onClick: () => void }) => {
   return (
     <svg
+      onClick={onClick}
       className="caret-icon"
       viewBox="0 0 1024 1024"
       focusable="false"
       data-icon="caret-down"
-      width="1em"
-      height="1em"
+      width="14px"
+      height="14px"
       fill="currentColor"
       aria-hidden="true"
       transform={`rotate(${rotate})`}
@@ -23,11 +24,7 @@ export const SwitcherIcon = ({ expanded, isLeaf, value, onClick, ...rest }: Tree
     console.log(rest);
   }
   if (isLeaf) {
-    return <span style={{ width: '1em', display: 'inline-block' }} />;
+    return <span style={{ width: '14px', display: 'inline-block' }} />;
   }
-  return (
-    <span onClick={onClick} {...rest}>
-      <CaretIcon rotate={expanded ? '0' : '-90'} />
-    </span>
-  );
+  return <CaretIcon rotate={expanded ? '0' : '-90'} onClick={onClick} {...rest} />;
 };

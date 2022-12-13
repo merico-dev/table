@@ -116,10 +116,60 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       '&[data-hovered]': {
         backgroundColor: '#f1f3f5',
       },
-      'svg.caret-icon': {
-        transition: 'transform 200ms ease',
+      '&.rc-tree-select-tree-treenode-checkbox-checked': {
+        '.rc-tree-select-tree-iconEle svg path:last-of-type': {
+          stroke: 'rgb(64, 192, 87)',
+          animation: 'check 200ms linear forwards',
+        },
+      },
+      '.rc-tree-select-tree-switcher': {
+        height: '16px',
+        alignSelf: 'center',
+        paddingRight: '2px',
+        transition: 'color 200ms ease',
+        '&:hover': {
+          color: '#228be6',
+          'svg.caret-icon': {
+            color: '#228be6',
+          },
+        },
+        'svg.caret-icon': {
+          color: '#ced4da',
+          transition: 'all 200ms ease',
+        },
       },
       '.rc-tree-select-tree-node-content-wrapper': {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        overflow: 'hidden',
+        alignItems: 'center',
+        gap: '2px',
+        transition: 'color 200ms ease',
+        '&:hover': {
+          color: '#228be6',
+        },
+      },
+      '.rc-tree-select-tree-iconEle': {
+        height: '16px',
+        'svg rect': {
+          stroke: '#ced4da',
+        },
+        'svg path:last-of-type': {
+          transform: 'scale(1.2)',
+          transformOrigin: 'center center',
+          strokeDasharray: 10,
+          strokeDashoffset: -10,
+        },
+        '@keyframes check': {
+          '0%': {
+            strokeDashoffset: 10,
+          },
+          '100%': {
+            strokeDashoffset: 0,
+          },
+        },
+      },
+      '.rc-tree-select-tree-title': {
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
