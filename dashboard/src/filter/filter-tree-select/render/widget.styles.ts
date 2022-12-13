@@ -18,6 +18,12 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     borderColor: '#e9ecef',
     '&.rc-tree-select.rc-tree-select-open': {
       borderColor: '#228be6 !important',
+      '.rc-tree-select-selection-overflow-item-rest': {
+        display: 'none',
+      },
+      '.rc-tree-select-selection-overflow-item-suffix': {
+        display: 'block',
+      },
     },
     '.rc-tree-select-selector': {
       height: 'auto',
@@ -53,7 +59,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       alignItems: 'center',
       backgroundColor: '#f1f3f5',
       color: '#495057',
-      height: '22px',
+      height: '24px',
       paddingLeft: '12px',
       paddingRight: '12px',
       fontWeight: 500,
@@ -65,9 +71,10 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       margin: 'calc(10px / 2 - 2px) calc(10px / 2)',
     },
     '.rc-tree-select-selection-overflow-item-rest': {
-      display: 'none',
+      cursor: 'pointer',
     },
     '.rc-tree-select-selection-overflow-item-suffix': {
+      display: 'none',
       backgroundColor: 'transparent',
       width: '100%',
       maxWidth: '100%',
