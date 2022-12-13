@@ -124,6 +124,15 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         whiteSpace: 'nowrap',
         overflow: 'hidden',
       },
+      '.rc-tree-select-tree-indent': {
+        display: 'inline-block',
+        height: 0,
+        verticalAlign: 'bottom',
+      },
+      '.rc-tree-select-tree-indent-unit': {
+        display: 'inline-block',
+        width: '10px',
+      },
     },
   },
 }));
