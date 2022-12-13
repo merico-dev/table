@@ -48,11 +48,11 @@ export const FilterTreeSelectWidget = ({
     <Stack spacing={3}>
       <Group position="apart">
         <Text className={classes.label}>{label}</Text>
-        {value?.length > 0 && (
+        {/* {value?.length > 0 && (
           <Tooltip label={`${value.length} selected`}>
             <Badge>{value.length}</Badge>
           </Tooltip>
-        )}
+        )} */}
       </Group>
       <TreeSelect
         allowClear
