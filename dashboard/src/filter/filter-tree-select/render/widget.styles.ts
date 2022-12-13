@@ -125,13 +125,13 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         overflow: 'hidden',
       },
       '.rc-tree-select-tree-indent': {
-        display: 'inline-block',
+        flexGrow: 0,
         height: 0,
         verticalAlign: 'bottom',
       },
       '.rc-tree-select-tree-indent-unit': {
         display: 'inline-block',
-        width: '10px',
+        width: '1em',
       },
     },
   },

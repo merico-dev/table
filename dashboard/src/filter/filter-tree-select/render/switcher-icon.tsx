@@ -23,7 +23,7 @@ export const SwitcherIcon = ({ expanded, isLeaf, value, onClick, ...rest }: Tree
     console.log(rest);
   }
   if (isLeaf) {
-    return null;
+    return <span style={{ width: '1em', display: 'inline-block' }} />;
   }
   return (
     <span onClick={onClick} {...rest}>
