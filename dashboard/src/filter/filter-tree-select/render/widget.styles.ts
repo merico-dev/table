@@ -113,7 +113,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       display: 'flex',
       flexWrap: 'nowrap',
       overflow: 'hidden',
-      '&[data-hovered]': {
+      '&:hover': {
         backgroundColor: '#f1f3f5',
       },
       '&.rc-tree-select-tree-treenode-checkbox-checked': {
