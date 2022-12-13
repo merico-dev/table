@@ -1,4 +1,5 @@
 import { createStyles, MantineNumberSize } from '@mantine/core';
+import { easeIn } from 'popmotion';
 
 export interface TreeSelectWidgetStylesParams {
   radius?: MantineNumberSize;
@@ -109,8 +110,19 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       fontSize: '14px',
       color: '#000',
       borderRadius: '4px',
+      display: 'flex',
+      flexWrap: 'nowrap',
+      overflow: 'hidden',
       '&[data-hovered]': {
         backgroundColor: '#f1f3f5',
+      },
+      'svg.caret-icon': {
+        transition: 'transform 200ms ease',
+      },
+      '.rc-tree-select-tree-node-content-wrapper': {
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
       },
     },
   },

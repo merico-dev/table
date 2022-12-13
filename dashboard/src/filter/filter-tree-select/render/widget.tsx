@@ -1,5 +1,6 @@
 import { CloseButton, DefaultProps, MantineNumberSize, Selectors, Stack, Text } from '@mantine/core';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
+import { SwitcherIcon } from './switcher-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
 
 // This type will contain a union with all selectors defined in useStyles,
@@ -46,6 +47,8 @@ export const FilterTreeSelectWidget = ({
         // dropdownStyle={{ height: 200, overflow: 'auto' }}
         treeLine
         clearIcon={() => <CloseButton />}
+        // @ts-expect-error rc-tree-selecct's TreeNodeProps
+        switcherIcon={SwitcherIcon}
         maxTagTextLength={10}
         value={value}
         autoClearSearchValue
