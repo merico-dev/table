@@ -117,9 +117,14 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         backgroundColor: '#f1f3f5',
       },
       '&.rc-tree-select-tree-treenode-checkbox-checked': {
-        '.rc-tree-select-tree-iconEle svg path:last-of-type': {
+        '.rc-tree-select-tree-iconEle .checkbox-icon .checkmark-checked': {
           stroke: 'rgb(64, 192, 87)',
           animation: 'check 200ms linear forwards',
+        },
+      },
+      '&.rc-tree-select-tree-treenode-checkbox-indeterminate': {
+        '.rc-tree-select-tree-iconEle .checkbox-icon .checkmark-indeterminate': {
+          fill: 'rgb(64, 192, 87)',
         },
       },
       '.rc-tree-select-tree-switcher': {
@@ -151,10 +156,14 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       },
       '.rc-tree-select-tree-iconEle': {
         height: '16px',
-        'svg rect': {
+        'svg .border': {
           stroke: '#ced4da',
         },
-        'svg path:last-of-type': {
+        '.checkbox-icon .checkmark-indeterminate': {
+          fill: 'transparent',
+          transition: 'fill 200ms ease',
+        },
+        '.checkbox-icon .checkmark-checked': {
           transform: 'scale(1.2)',
           transformOrigin: 'center center',
           strokeDasharray: 10,

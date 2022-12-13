@@ -1,6 +1,27 @@
 import { TreeNodeProps } from 'rc-tree-select/lib/TreeNode';
-import { SquareCheck } from 'tabler-icons-react';
+
+const CheckboxIcon = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <svg
+      onClick={onClick}
+      className="checkbox-icon"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <rect className="border" x="4" y="4" width="16" height="16" rx="2" />
+      <rect className="checkmark-indeterminate" x="8" y="8" width="8" height="8" rx="2" stroke="none" />
+      <path className="checkmark-checked" d="M9 12l2 2l4 -4" />
+    </svg>
+  );
+};
 
 export const TreeIcon = ({ expanded, selected, value, onClick, ...rest }: TreeNodeProps) => {
-  return <SquareCheck className="checkbox-icon" size={16} onClick={onClick} {...rest} />;
+  return <CheckboxIcon onClick={onClick} {...rest} />;
 };
