@@ -38,7 +38,6 @@ export const FilterTreeSelectWidget = ({
     <Stack spacing={3}>
       <Text className={classes.label}>{label}</Text>
       <TreeSelect
-        open
         allowClear
         className={cx(classes.root, 'check-select')}
         dropdownClassName={cx(classes.dropdown, '')}
@@ -63,8 +62,7 @@ export const FilterTreeSelectWidget = ({
         onSelect={console.log}
         maxTagCount={0}
         maxTagPlaceholder={(valueList) => {
-          console.log('Max Tag Rest Value:', valueList);
-          return `${valueList.length} selected...`;
+          return `${valueList.length} selected`;
         }}
       />
     </Stack>

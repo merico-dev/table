@@ -22,6 +22,6 @@ const CheckboxIcon = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-export const TreeIcon = ({ expanded, selected, value, onClick, ...rest }: TreeNodeProps) => {
+export const TreeIcon = ({ onClick, ...rest }: TreeNodeProps) => {
   return <CheckboxIcon onClick={onClick} {...rest} />;
 };
