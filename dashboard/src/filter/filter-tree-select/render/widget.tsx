@@ -1,4 +1,14 @@
-import { CloseButton, DefaultProps, MantineNumberSize, Selectors, Stack, Text } from '@mantine/core';
+import {
+  Badge,
+  CloseButton,
+  DefaultProps,
+  Group,
+  MantineNumberSize,
+  Selectors,
+  Stack,
+  Text,
+  Tooltip,
+} from '@mantine/core';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
@@ -36,7 +46,14 @@ export const FilterTreeSelectWidget = ({
 
   return (
     <Stack spacing={3}>
-      <Text className={classes.label}>{label}</Text>
+      <Group position="apart">
+        <Text className={classes.label}>{label}</Text>
+        {value?.length > 0 && (
+          <Tooltip label={`${value.length} selected`}>
+            <Badge>{value.length}</Badge>
+          </Tooltip>
+        )}
+      </Group>
       <TreeSelect
         allowClear
         className={cx(classes.root, 'check-select')}
@@ -53,9 +70,8 @@ export const FilterTreeSelectWidget = ({
         treeIcon={TreeIcon}
         maxTagTextLength={10}
         value={value}
-        autoClearSearchValue
         treeData={treeData}
-        treeNodeFilterProp="title"
+        treeNodeFilterProp="label"
         treeCheckable
         showCheckedStrategy={SHOW_PARENT}
         onChange={onChange}

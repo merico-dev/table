@@ -37,6 +37,9 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     '.rc-tree-select-selection-search-mirror': {
       display: 'none',
     },
+    '.rc-tree-select-selection-search': {
+      flexGrow: 1,
+    },
     '.rc-tree-select-selection-overflow': {
       display: 'flex',
       minHeight: '34px',
@@ -61,13 +64,17 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       maxWidth: 'calc(100% - 20px)',
       margin: 'calc(10px / 2 - 2px) calc(10px / 2)',
     },
-    '.rc-tree-select-selection-overflow-item-suffix': {
+    '.rc-tree-select-selection-overflow-item-rest': {
       display: 'none',
     },
-    '.rc-tree-select-clear': {
-      marginRight: '-24px',
-      alignSelf: 'center',
-      cursor: 'pointer',
+    '.rc-tree-select-selection-overflow-item-suffix': {
+      backgroundColor: 'transparent',
+      width: '100%',
+      maxWidth: '100%',
+      height: '28px',
+      margin: 0,
+      paddingLeft: 0,
+      paddingRight: 0,
     },
     input: {
       flex: 1,
@@ -77,12 +84,22 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       outline: 0,
       fontSize: '14px',
       padding: 0,
-      marginLeft: 'calc(10px / 2)',
+      marginLeft: 0,
       // appearance: 'none',
       color: 'inherit',
-      lineHeight: '34px',
+      height: '28px',
+      lineHeight: '32px',
       cursor: 'pointer',
       width: '100%',
+      '&::-webkit-search-decoration, &::-webkit-search-cancel-button, &::-webkit-search-results-button, &::-webkit-search-results-decoration':
+        {
+          display: 'none',
+        },
+    },
+    '.rc-tree-select-clear': {
+      marginRight: '-24px',
+      alignSelf: 'center',
+      cursor: 'pointer',
     },
   },
   label: { fontSize: theme.fontSizes.sm, fontWeight: 500, color: '#212529' },
