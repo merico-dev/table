@@ -3,18 +3,10 @@ import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../../model';
 import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
+import { generateData } from './mock-data';
 import { FilterTreeSelectWidget } from './widget';
 
-const mockTreeData = [
-  { key: 1, pId: 0, label: 'test1', value: 'test1' },
-  { key: 121, pId: 0, label: 'test2', value: 'test2' },
-  { key: 11, pId: 1, label: 'test11', value: 'test11' },
-  { key: 12, pId: 1, label: 'test12', value: 'test12' },
-  { key: 111, pId: 11, label: 'test111', value: 'test111' },
-  { key: 112, pId: 11, label: 'test112', value: 'test112' },
-  { key: 113, pId: 11, label: 'test113', value: 'test113' },
-  { key: 114, pId: 11, label: 'test114', value: 'test114' },
-];
+const mockTreeData = generateData();
 
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TreeSelect;
