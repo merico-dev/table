@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
+import { useState } from 'react';
 import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
@@ -44,20 +45,26 @@ export const FilterTreeSelectWidget = ({
 }: IFilterTreeSelectWidget) => {
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
 
+  const [showTooltip, setShowTooltip] = useState(value?.length > 0);
+  const handleDropdownVisibleChange = (visible: boolean) => {
+    setShowTooltip(visible);
+  };
+  const tooltipVisible = showTooltip && value?.length > 0;
   return (
     <Stack spacing={3}>
       <Group position="apart">
         <Text className={classes.label}>{label}</Text>
-        {/* {value?.length > 0 && (
+        {tooltipVisible && (
           <Tooltip label={`${value.length} selected`}>
             <Badge>{value.length}</Badge>
           </Tooltip>
-        )} */}
+        )}
       </Group>
       <TreeSelect
         allowClear
         className={cx(classes.root, 'check-select')}
         dropdownClassName={cx(classes.dropdown, '')}
+        onDropdownVisibleChange={handleDropdownVisibleChange}
         transitionName="rc-tree-select-dropdown-slide-up"
         choiceTransitionName="rc-tree-select-selection__choice-zoom"
         style={style}
