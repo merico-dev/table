@@ -1,12 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../../model';
 import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
-import { generateData } from './mock-data';
+import { queryDataToTree } from './query-data-to-tree';
 import { FilterTreeSelectWidget } from './widget';
-
-const mockTreeData = generateData();
 
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TreeSelect;
@@ -17,8 +15,16 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const model = useModelContext();
   const usingRemoteOptions = !!config.options_query_id;
-  const { state } = model.getDataStuffByID(config.options_query_id);
+  const { state, data } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
+
+  const treeData = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+    // @ts-expect-error type of data
+    return queryDataToTree(data);
+  }, [data]);
 
   useEffect(() => {
     if (!config.select_first_by_default) {
@@ -38,7 +44,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       value={value}
       onChange={onChange}
       // treeData={config.options}
-      treeData={mockTreeData}
+      treeData={treeData}
       label={label}
     />
   );
