@@ -45,6 +45,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     },
     '.rc-tree-select-selection-search': {
       flexGrow: 1,
+      width: 'auto !important',
     },
     '.rc-tree-select-selection-overflow': {
       display: 'flex',
@@ -118,12 +119,15 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     '&.rc-tree-select-dropdown-slide-up-leave-active': {
       display: 'none',
     },
-    '.rc-tree-select-tree-list': {
+    '.rc-tree-select-tree-list, .rc-tree-select-empty': {
       backgroundColor: '#fff',
       border: '1px solid #e9ecef',
       padding: 0,
       boxShadow: '0 1px 3px rgb(0 0 0 / 5%), rgb(0 0 0 / 5%) 0px 10px 15px -5px, rgb(0 0 0 / 4%) 0px 7px 7px -5px',
       borderRadius: '4px',
+    },
+    '.rc-tree-select-empty': {
+      padding: '8px 12px',
     },
     '.rc-tree-select-tree-treenode': {
       boxSizing: 'border-box',
