@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { createFilterConfig_Checkbox, FilterConfigModel_Checkbox } from './checkbox';
 import { DashboardFilterType } from './common';
 import { createFilterConfig_DateRange, FilterConfigModel_DateRange } from './date-range';
@@ -80,3 +80,4 @@ export const FilterModel = types
   }));
 
 export type FilterModelInstance = Instance<typeof FilterModel>;
+export type FilterModelSnapshotOut = SnapshotOut<FilterModelInstance>;

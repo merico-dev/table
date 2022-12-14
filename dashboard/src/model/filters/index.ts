@@ -11,15 +11,16 @@ import {
   types,
 } from 'mobx-state-tree';
 import { AnyObject } from '~/types';
-import { FilterModel, FilterModelInstance } from './filter';
+import { FilterModel, FilterModelInstance, FilterModelSnapshotOut } from './filter';
 
-function formatDefaultValue(v: AnyObject, config: AnyObject) {
+function formatDefaultValue(v: AnyObject, config: FilterModelSnapshotOut['config']) {
   if (v === undefined) {
     return v;
   }
-  if (Array.isArray(v)) {
+  if (config._name === 'date-range') {
     try {
-      return v.map((v) => {
+      const dateTimeStrings = v as [string | null, string | null];
+      return dateTimeStrings.map((v) => {
         const d = dayjs.tz(v, 'UTC').format(config.inputFormat); // for date-range
         return d ?? v;
       });
@@ -28,6 +29,7 @@ function formatDefaultValue(v: AnyObject, config: AnyObject) {
       return v;
     }
   }
+
   return v;
 }
 
