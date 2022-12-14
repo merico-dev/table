@@ -8,11 +8,13 @@ import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';
 import { FilterEditorSelect } from '../filter-select/editor';
 import { FilterEditorTextInput } from '../filter-text-input/editor';
+import { FilterEditorTreeSelect } from '../filter-tree-select/editor';
 import { PreviewFilter } from './preview-filter';
 
 const editors = {
   select: FilterEditorSelect,
   'multi-select': FilterEditorMultiSelect,
+  'tree-select': FilterEditorTreeSelect,
   'text-input': FilterEditorTextInput,
   checkbox: FilterEditorCheckbox,
   'date-range': FilterEditorDateRange,
@@ -21,6 +23,7 @@ const editors = {
 const filterTypeOptions = [
   { label: 'Select', value: 'select' },
   { label: 'Multi Select', value: 'multi-select' },
+  { label: 'Tree Select', value: 'tree-select' },
   { label: 'Text Input', value: 'text-input' },
   { label: 'Checkbox', value: 'checkbox' },
   { label: 'Date Range', value: 'date-range' },

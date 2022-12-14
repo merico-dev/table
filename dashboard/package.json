@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "6.8.0",
+  "version": "6.9.0",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -33,8 +33,10 @@
   "dependencies": {
     "@types/chroma-js": "^2.1.4",
     "file-saver": "2.0.5",
+    "performant-array-to-tree": "1.11.0",
     "popmotion": "^11.0.3",
     "@monaco-editor/react": "4.4.6",
+    "rc-tree-select": "5.5.5",
     "stickybits": "3.7.11"
   },
   "devDependencies": {

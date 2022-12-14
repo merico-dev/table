@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { IFilterConfig_TreeSelect } from '~/model/filters/filter/tree-select';
 import { FilterModelInstance } from '../model';
 import { IFilterConfig_Checkbox } from '../model/filters/filter/checkbox';
 import { IFilterConfig_DateRange } from '../model/filters/filter/date-range';
@@ -12,6 +13,7 @@ import { FilterDateRange } from './filter-date-range/render';
 import { FilterMultiSelect } from './filter-multi-select/render';
 import { FilterSelect } from './filter-select/render';
 import { FilterTextInput } from './filter-text-input/render';
+import { FilterTreeSelect } from './filter-tree-select/render';
 
 interface IFilter {
   filter: FilterModelInstance;
@@ -32,6 +34,8 @@ const RenderFilter = observer(
         return <FilterSelect {...rest} {...formFieldProps} config={config as IFilterConfig_Select} />;
       case 'multi-select':
         return <FilterMultiSelect {...rest} {...formFieldProps} config={config as IFilterConfig_MultiSelect} />;
+      case 'tree-select':
+        return <FilterTreeSelect {...rest} {...formFieldProps} config={config as IFilterConfig_TreeSelect} />;
       case 'text-input':
         return <FilterTextInput {...rest} {...formFieldProps} config={config as IFilterConfig_TextInput} />;
       case 'date-range':
