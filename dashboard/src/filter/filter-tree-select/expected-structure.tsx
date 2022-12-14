@@ -7,8 +7,7 @@ const structure = `
 {
   label: string;
   value: string;
-  parentValue: string;
-  description?: string; // optional
+  parent_value: string;
 }
 `;
 

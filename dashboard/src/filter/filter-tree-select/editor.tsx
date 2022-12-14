@@ -2,7 +2,7 @@ import { Checkbox, Divider, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { IFilterConfig_TreeSelect } from '../../model/filters/filter/tree-select';
 import { PickQueryForFilter } from '../pick-query-for-filter';
-import { ExpectedStructureForTreeSelect } from '../pick-query-for-filter/expected-structure-for-tree-select';
+import { ExpectedStructureForTreeSelect } from './expected-structure';
 
 interface IFilterEditorTreeSelect {
   config: IFilterConfig_TreeSelect;
