@@ -1,6 +1,7 @@
 import { ICartesianChartConf } from '../type';
 
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
+  const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   return [
     {
       data: xAxisData,
@@ -10,6 +11,7 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
         show: true,
         alignWithLabel: true,
       },
+      type: allNumbers ? 'value' : 'category',
       ...conf.x_axis,
     },
     ...regressionXAxes,

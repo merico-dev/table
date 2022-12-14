@@ -31,6 +31,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       name: '',
       template: '',
       variable_key: '',
+      orientation: 'horizontal',
     });
 
   const variableOptions = useMemo(() => {

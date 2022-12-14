@@ -60,6 +60,7 @@ export interface ICartesianReferenceLine {
   name: string;
   template: string;
   variable_key: string;
+  orientation: 'horizontal' | 'vertical';
 }
 
 export interface ICartesianReferenceArea {

@@ -3,6 +3,11 @@ import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
 
+const orientationOptions = [
+  { label: 'Horizontal', value: 'horizontal' },
+  { label: 'Vertical', value: 'vertical' },
+];
+
 interface IReferenceLineField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
@@ -32,6 +37,13 @@ export function ReferenceLineField({ control, index, remove, variableOptions }: 
         control={control}
         render={({ field }) => (
           <TextInput label="Content Template" placeholder="Average: ${avg}" required sx={{ flex: 1 }} {...field} />
+        )}
+      />
+      <Controller
+        name={`reference_lines.${index}.orientation`}
+        control={control}
+        render={({ field }) => (
+          <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
         )}
       />
       <Button
