@@ -1,5 +1,6 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { TScatterSize } from './panel/scatter-size-select/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -81,6 +82,7 @@ export interface ICartesianChartConf {
   x_axis: {
     axisLabel: {
       rotate: number;
+      formatter: IXAxisLabelFormatter;
     };
   };
   series: ICartesianChartSeriesItem[];
@@ -102,6 +104,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   x_axis: {
     axisLabel: {
       rotate: 0,
+      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },
   x_axis_data_key: '',

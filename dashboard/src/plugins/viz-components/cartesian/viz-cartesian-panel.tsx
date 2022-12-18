@@ -13,6 +13,7 @@ import { DEFAULT_SCATTER_SIZE } from './panel/scatter-size-select/types';
 import { SeriesField } from './panel/series';
 import { StatsField } from './panel/stats';
 import { XAxisField } from './panel/x-axis';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 import { YAxesField } from './panel/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem, ICartesianReferenceLine } from './type';
 
