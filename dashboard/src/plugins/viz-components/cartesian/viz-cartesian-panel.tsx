@@ -13,8 +13,28 @@ import { DEFAULT_SCATTER_SIZE } from './panel/scatter-size-select/types';
 import { SeriesField } from './panel/series';
 import { StatsField } from './panel/stats';
 import { XAxisField } from './panel/x-axis';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 import { YAxesField } from './panel/y-axes';
-import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem } from './type';
+import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem, ICartesianReferenceLine } from './type';
+
+function withRefLineDefaults(reference_lines: ICartesianReferenceLine[]) {
+  function setDefaults({
+    name = '',
+    template = '',
+    variable_key = '',
+    orientation = 'horizontal',
+  }: ICartesianReferenceLine) {
+    const ret = {
+      name,
+      template,
+      variable_key,
+      orientation,
+    };
+    return ret;
+  }
+
+  return reference_lines.map(setDefaults);
+}
 
 function withDefaults(series: ICartesianChartSeriesItem[]) {
   function setDefaults({
@@ -77,10 +97,11 @@ function normalizeStats(stats?: ICartesianChartConf['stats']) {
   return stats;
 }
 
-function normalizeConf({ series, stats, ...rest }: ICartesianChartConf): ICartesianChartConf {
+function normalizeConf({ series, stats, reference_lines, ...rest }: ICartesianChartConf): ICartesianChartConf {
   return {
     series: withDefaults(series ?? []),
     stats: normalizeStats(stats),
+    reference_lines: withRefLineDefaults(reference_lines ?? []),
     ...rest,
   };
 }

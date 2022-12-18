@@ -1,6 +1,9 @@
+import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
 
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
+  const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
+  const { axisLabel } = conf.x_axis;
   return [
     {
       data: xAxisData,
@@ -10,7 +13,11 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
         show: true,
         alignWithLabel: true,
       },
-      ...conf.x_axis,
+      type: allNumbers ? 'value' : 'category',
+      axisLabel: {
+        ...axisLabel,
+        formatter: getEchartsXAxisLabel(axisLabel.formatter),
+      },
     },
     ...regressionXAxes,
   ];

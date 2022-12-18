@@ -13,7 +13,14 @@ export function getEchartsSymbolSize({ type, ...rest }: TScatterSize, data: AnyO
   const { func_content } = rest as TScatterSize_Dynamic;
   const rows = keyBy(data, x_axis_data_key);
   return (_value: number, params: $TSFixMe) => {
-    const row = rows[params.name];
+    let row;
+    if (params.name) {
+      // xAxis's type is category
+      row = rows[params.name];
+    } else {
+      // xAxis's type is value
+      row = data[params.dataIndex];
+    }
     try {
       return new Function(`return ${func_content}`)()(row, params);
     } catch (error) {

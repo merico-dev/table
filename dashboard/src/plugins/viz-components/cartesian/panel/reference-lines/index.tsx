@@ -1,10 +1,10 @@
-import { ActionIcon, Button, Group, Stack, Tabs } from '@mantine/core';
+import { ActionIcon, Tabs } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
+import { ITemplateVariable } from '~/utils/template';
 import { ICartesianChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
-import { ITemplateVariable } from '~/utils/template';
 
 interface IReferenceLinesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -31,6 +31,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       name: '',
       template: '',
       variable_key: '',
+      orientation: 'horizontal',
     });
 
   const variableOptions = useMemo(() => {
@@ -67,7 +68,13 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       </Tabs.List>
       {controlledFields.map((field, index) => (
         <Tabs.Panel key={index} value={index.toString()}>
-          <ReferenceLineField control={control} index={index} remove={remove} variableOptions={variableOptions} />
+          <ReferenceLineField
+            control={control}
+            index={index}
+            remove={remove}
+            watch={watch}
+            variableOptions={variableOptions}
+          />
         </Tabs.Panel>
       ))}
     </Tabs>

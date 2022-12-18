@@ -7,6 +7,7 @@ import { ClickEchartSeries } from './triggers/click-echart';
 import { ITemplateVariable } from '~/utils/template';
 import { AnyObject } from '~/types';
 import { cloneDeep, get, omit } from 'lodash';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -14,8 +15,22 @@ function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateV
   return cloned;
 }
 
+function updateToSchema3(legacyConf: $TSFixMe): ICartesianChartConf {
+  const { rotate, formatter = DEFAULT_X_AXIS_LABEL_FORMATTER } = legacyConf.x_axis.axisLabel;
+  return {
+    ...legacyConf,
+    x_axis: {
+      ...legacyConf.x_axis,
+      axisLabel: {
+        rotate,
+        formatter,
+      },
+    },
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -39,6 +54,12 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         }
       });
       return { config: updateSchema2(config) };
+    });
+    this.version(3, (data: $TSFixMe) => {
+      return {
+        version: 3,
+        config: updateToSchema3(data.config),
+      };
     });
   }
 }

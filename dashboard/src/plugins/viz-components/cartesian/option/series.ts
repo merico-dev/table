@@ -29,27 +29,32 @@ function getReferenceLines(
     return prev;
   }, {} as Record<string, string | number>);
 
-  return reference_lines.map((r) => ({
-    name: 'refs',
-    type: 'scatter',
-    data: [],
-    markLine: {
-      data: [
-        {
-          name: r.name,
-          yAxis: Number(variableValueMap[r.variable_key]),
+  return reference_lines.map((r) => {
+    const isHorizontal = r.orientation === 'horizontal';
+    const keyOfAxis = isHorizontal ? 'yAxis' : 'xAxis';
+    const position = isHorizontal ? 'insideEndTop' : 'end';
+    return {
+      name: 'refs',
+      type: 'scatter',
+      data: [],
+      markLine: {
+        data: [
+          {
+            name: r.name,
+            [keyOfAxis]: Number(variableValueMap[r.variable_key]),
+          },
+        ],
+        silent: true,
+        symbol: ['none', 'none'],
+        label: {
+          formatter: function () {
+            return templateToString(r.template, variables, data);
+          },
+          position,
         },
-      ],
-      silent: true,
-      symbol: ['none', 'none'],
-      label: {
-        formatter: function () {
-          return templateToString(r.template, variables, data);
-        },
-        position: 'insideEndTop',
       },
-    },
-  }));
+    };
+  });
 }
 
 function getReferenceAreas(

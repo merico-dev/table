@@ -1,5 +1,19 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import { AnyObject } from '~/types';
+import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../type';
+
+function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
+  const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');
+  if (!basis) {
+    return '';
+  }
+  const { name, axisType, axisValue, axisIndex } = basis;
+  if (axisType === 'xAxis.category') {
+    return name;
+  }
+  return getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter)(axisValue, axisIndex);
+}
 
 export function getTooltip(conf: ICartesianChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
   const yAxisIndexMap = conf.series.reduce(
@@ -15,6 +29,7 @@ export function getTooltip(conf: ICartesianChartConf, labelFormatters: Record<st
       if (arr.length === 0) {
         return '';
       }
+      const xAxisLabel = getXAxisLabel(arr, conf);
       const lines = arr.map(({ seriesName, value }) => {
         if (Array.isArray(value) && value.length === 2) {
           // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
@@ -27,7 +42,7 @@ export function getTooltip(conf: ICartesianChartConf, labelFormatters: Record<st
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
         return `${seriesName}: <strong>${formatter({ value })}</strong>`;
       });
-      lines.unshift(`<strong>${arr[0].name}</strong>`);
+      lines.unshift(`<strong>${xAxisLabel}</strong>`);
       return lines.join('<br />');
     },
   };
