@@ -1,5 +1,5 @@
-import { Button, Group, Select, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { Button, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
 
@@ -11,11 +11,13 @@ const orientationOptions = [
 interface IReferenceLineField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
+  watch: UseFormWatch<ICartesianChartConf>;
   remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
 }
 
-export function ReferenceLineField({ control, index, remove, variableOptions }: IReferenceLineField) {
+export function ReferenceLineField({ control, index, remove, watch, variableOptions }: IReferenceLineField) {
+  const orientation = watch(`reference_lines.${index}.orientation`);
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
@@ -46,6 +48,11 @@ export function ReferenceLineField({ control, index, remove, variableOptions }: 
           <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
         )}
       />
+      {orientation === 'vertical' && (
+        <Text mt={-10} color="dimmed" size={12}>
+          Works only when xAxis values are numbers
+        </Text>
+      )}
       <Button
         leftIcon={<Trash size={16} />}
         color="red"
