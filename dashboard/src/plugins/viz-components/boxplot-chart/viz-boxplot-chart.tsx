@@ -19,6 +19,7 @@ import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type
 import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import numbro from 'numbro';
 
 echarts.use([
   DataZoomComponent,
@@ -111,8 +112,7 @@ export function VizBoxplotChart({ context }: VizViewProps) {
 
         const value = params[0].value as IBoxplotDataItem;
         const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
-          // @ts-expect-error name is string while others are number
-          return `${key}: <strong>${_.round(value[key], 2)}</strong>`;
+          return `${key}: <strong>${numbro(value[key]).format(y_axis.label_formatter)}</strong>`;
         });
         lines.unshift(`<strong>${value.name}</strong>`);
         return lines.join('<br />');
@@ -133,6 +133,11 @@ export function VizBoxplotChart({ context }: VizViewProps) {
         name: y_axis.name,
         axisLine: {
           show: true,
+        },
+        axisLabel: {
+          formatter: function (value: number) {
+            return numbro(value).format(y_axis.label_formatter);
+          },
         },
       },
     ],

@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Divider, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -10,6 +10,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { ReferenceLinesField } from './reference-lines';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
+import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 
 export function VizBoxplotChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
@@ -69,6 +70,14 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
                   )}
                 />
               </Group>
+              <Stack>
+                <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
+                <Controller
+                  name={'y_axis.label_formatter'}
+                  control={control}
+                  render={({ field }) => <NumbroFormatSelector {...field} />}
+                />
+              </Stack>
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Style">
