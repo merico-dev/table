@@ -1,3 +1,6 @@
+/**
+ * FIXME(leto): folderize this file
+ */
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import { BoxplotChart } from 'echarts/charts';
@@ -20,6 +23,8 @@ import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import numbro from 'numbro';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { ClickEchartSeries } from '../cartesian/triggers';
 
 echarts.use([
   DataZoomComponent,
@@ -85,7 +90,31 @@ function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: 
   }));
 }
 
-export function VizBoxplotChart({ context }: VizViewProps) {
+interface IClickBoxplotSeries {
+  type: 'click';
+  seriesType: 'boxplot';
+  componentSubType: 'boxplot';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: IBoxplotDataItem;
+}
+
+export function VizBoxplotChart({ context, instance }: VizViewProps) {
+  // interactions
+  const interactionManager = useCurrentInteractionManager({
+    vizManager: context.vizManager,
+    instance,
+  });
+  const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
+
+  const handleSeriesClick = (params: IClickBoxplotSeries) => {
+    triggers.forEach((t) => {
+      interactionManager.runInteraction(t.id, { ...params });
+    });
+  };
+
+  // options
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];
@@ -183,5 +212,12 @@ export function VizBoxplotChart({ context }: VizViewProps) {
   if (!conf || !width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={{ click: handleSeriesClick }}
+    />
+  );
 }
