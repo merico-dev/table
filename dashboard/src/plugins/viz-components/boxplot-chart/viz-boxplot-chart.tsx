@@ -16,6 +16,9 @@ import { VizViewProps } from '~/types/plugin';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
+import { AnyObject } from '~/types';
+import { aggregateValue } from '~/utils/aggregation';
+import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 
 echarts.use([
   DataZoomComponent,
@@ -26,6 +29,30 @@ echarts.use([
   TooltipComponent,
   CanvasRenderer,
 ]);
+
+interface IBoxplotDataItem {
+  name: string;
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+}
+const BOXPLOT_DATA_ITEM_KEYS: Array<keyof IBoxplotDataItem> = ['min', 'q1', 'median', 'q3', 'max'];
+
+function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
+  const ret = Object.entries(groupedData).map(([name, data]) => {
+    return {
+      name,
+      min: aggregateValue(data, data_key, { type: 'min', config: {} }),
+      q1: aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.25 } }),
+      median: aggregateValue(data, data_key, { type: 'median', config: {} }),
+      q3: aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.75 } }),
+      max: aggregateValue(data, data_key, { type: 'max', config: {} }),
+    } as IBoxplotDataItem;
+  });
+  return ret;
+}
 
 function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: $TSFixMe[]) {
   const variableValueMap = variables.reduce((prev, variable) => {
@@ -64,12 +91,9 @@ export function VizBoxplotChart({ context }: VizViewProps) {
   const { width, height } = context.viewport;
   const { x_axis, y_axis, color, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
 
-  const { xAxisData, boxplotData } = useMemo(() => {
+  const boxplotData = useMemo(() => {
     const grouped = _.groupBy(data, x_axis.data_key);
-    return {
-      xAxisData: Object.keys(grouped),
-      boxplotData: Object.values(grouped).map((group) => group.map((item) => item[y_axis.data_key])),
-    };
+    return calcBoxplotData(grouped, y_axis.data_key);
   }, [data, x_axis.data_key, y_axis.data_key]);
 
   const option = {
@@ -77,19 +101,22 @@ export function VizBoxplotChart({ context }: VizViewProps) {
       {
         source: boxplotData,
       },
-      {
-        transform: {
-          type: 'boxplot',
-          config: {
-            itemNameFormatter: function (params: { value: number }) {
-              return xAxisData[params.value] ?? params.value;
-            },
-          },
-        },
-      },
     ],
     tooltip: {
       trigger: 'axis',
+      formatter: function (params: TopLevelFormatterParams) {
+        if (!Array.isArray(params) || params.length === 0) {
+          return;
+        }
+
+        const value = params[0].value as IBoxplotDataItem;
+        const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
+          // @ts-expect-error name is string while others are number
+          return `${key}: <strong>${_.round(value[key], 2)}</strong>`;
+        });
+        lines.unshift(`<strong>${value.name}</strong>`);
+        return lines.join('<br />');
+      },
     },
     xAxis: [
       {
@@ -118,7 +145,13 @@ export function VizBoxplotChart({ context }: VizViewProps) {
           borderColor: '#454545',
         },
         boxWidth: [10, 40],
-        datasetIndex: 1,
+        datasetIndex: 0,
+        encode: {
+          y: BOXPLOT_DATA_ITEM_KEYS,
+          x: 'name',
+          itemName: ['name'],
+          tooltip: BOXPLOT_DATA_ITEM_KEYS,
+        },
       },
       ...getReferenceLines(reference_lines, variables, data),
     ],
