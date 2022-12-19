@@ -1,3 +1,5 @@
+import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+
 export interface IBoxplotReferenceLine {
   name: string;
   template: string;
@@ -12,6 +14,7 @@ export interface IBoxplotChartConf {
   y_axis: {
     name: string;
     data_key: string;
+    label_formatter: TNumbroFormat;
   };
   color: string;
   reference_lines: IBoxplotReferenceLine[];
@@ -25,6 +28,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   y_axis: {
     name: 'Y Axis',
     data_key: 'value',
+    label_formatter: defaultNumbroFormat,
   },
   color: '#228be6',
   reference_lines: [],

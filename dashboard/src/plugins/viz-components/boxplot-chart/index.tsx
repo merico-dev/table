@@ -5,13 +5,25 @@ import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { ITemplateVariable } from '~/utils/template';
 import { omit } from 'lodash';
+import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
 }
 
+function updateToSchema3(legacyConf: $TSFixMe): IBoxplotChartConf {
+  const { label_formatter = defaultNumbroFormat, ...rest } = legacyConf.y_axis;
+  return {
+    ...legacyConf,
+    y_axis: {
+      ...rest,
+      label_formatter,
+    },
+  };
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -29,6 +41,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
         }
       });
       return { config: updateSchema2(config) };
+    });
+    this.version(3, (data: $TSFixMe) => {
+      const { config } = data;
+      return { version: 3, config: updateToSchema3(config) };
     });
   }
 }
