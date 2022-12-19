@@ -18,7 +18,7 @@ export const DEFAULT_SCATTER_SIZE = {
   dynamic: {
     type: 'dynamic',
     func_content: [
-      'function getSize({ rowData, params, variables }) {',
+      'function getSize({ rowData, params, variables }, { lodash, interpolate }) {',
       '    // your code goes here',
       '    // return 10',
       '}',

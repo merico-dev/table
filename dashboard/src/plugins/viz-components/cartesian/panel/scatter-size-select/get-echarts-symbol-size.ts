@@ -1,4 +1,5 @@
-import { keyBy } from 'lodash';
+import lodash, { keyBy } from 'lodash';
+import { interpolate } from 'popmotion';
 import { AnyObject } from '~/types';
 import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
 
@@ -27,7 +28,10 @@ export function getEchartsSymbolSize(
       rowData = data[params.dataIndex];
     }
     try {
-      return new Function(`return ${func_content}`)()({ rowData, params, variables: variableValueMap });
+      return new Function(`return ${func_content}`)()(
+        { rowData, params, variables: variableValueMap },
+        { lodash, interpolate },
+      );
     } catch (error) {
       // @ts-expect-error Object is of type 'unknown'.
       console.error(`[getEchartsSymbolSize] failed parsing custom function, error: ${error.message}`);
