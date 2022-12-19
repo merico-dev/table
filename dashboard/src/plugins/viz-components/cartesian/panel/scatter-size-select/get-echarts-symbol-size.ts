@@ -2,7 +2,12 @@ import { keyBy } from 'lodash';
 import { AnyObject } from '~/types';
 import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
 
-export function getEchartsSymbolSize({ type, ...rest }: TScatterSize, data: AnyObject[], x_axis_data_key: string) {
+export function getEchartsSymbolSize(
+  { type, ...rest }: TScatterSize,
+  data: AnyObject[],
+  x_axis_data_key: string,
+  variableValueMap: Record<string, string | number>,
+) {
   if (!type) {
     return 10;
   }
@@ -13,16 +18,16 @@ export function getEchartsSymbolSize({ type, ...rest }: TScatterSize, data: AnyO
   const { func_content } = rest as TScatterSize_Dynamic;
   const rows = keyBy(data, x_axis_data_key);
   return (_value: number, params: $TSFixMe) => {
-    let row;
+    let rowData;
     if (params.name) {
       // xAxis's type is category
-      row = rows[params.name];
+      rowData = rows[params.name];
     } else {
       // xAxis's type is value
-      row = data[params.dataIndex];
+      rowData = data[params.dataIndex];
     }
     try {
-      return new Function(`return ${func_content}`)()(row, params);
+      return new Function(`return ${func_content}`)()({ rowData, params, variables: variableValueMap });
     } catch (error) {
       // @ts-expect-error Object is of type 'unknown'.
       console.error(`[getEchartsSymbolSize] failed parsing custom function, error: ${error.message}`);

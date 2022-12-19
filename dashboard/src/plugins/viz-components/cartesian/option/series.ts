@@ -95,6 +95,7 @@ function getSeriesItemOrItems(
   }: ICartesianChartSeriesItem,
   dataTemplate: $TSFixMe[][],
   data: $TSFixMe[],
+  variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {
   const seriesItem: $TSFixMe = {
@@ -108,7 +109,7 @@ function getSeriesItemOrItems(
     yAxisIndex,
     stack,
     color,
-    symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key),
+    symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
     ...rest,
   };
   if (display_name_on_line) {
@@ -143,7 +144,9 @@ export function getSeries(
   variableValueMap: Record<string, string | number>,
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
-  const ret = conf.series.map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, labelFormatters)).flat();
+  const ret = conf.series
+    .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, variableValueMap, labelFormatters))
+    .flat();
   return ret
     .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))
     .concat(getReferenceAreas(conf.reference_areas, variableValueMap));
