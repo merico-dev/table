@@ -88,16 +88,6 @@ export function VizBoxplotChart({ context }: VizViewProps) {
         },
       },
     ],
-    dataZoom: [
-      {
-        type: 'inside',
-        xAxisIndex: [0],
-      },
-      {
-        type: 'inside',
-        yAxisIndex: [0],
-      },
-    ],
     tooltip: {
       trigger: 'axis',
     },
