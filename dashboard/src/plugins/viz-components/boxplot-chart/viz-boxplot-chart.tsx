@@ -1,3 +1,6 @@
+/**
+ * FIXME(leto): folderize this file
+ */
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import { BoxplotChart } from 'echarts/charts';
@@ -10,16 +13,18 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _, { defaults } from 'lodash';
-import { useMemo } from 'react';
-import { VizViewProps } from '~/types/plugin';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
-import { useStorageData } from '~/plugins/hooks';
-import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
-import { AnyObject } from '~/types';
-import { aggregateValue } from '~/utils/aggregation';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import _, { defaults } from 'lodash';
 import numbro from 'numbro';
+import { useMemo } from 'react';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { useStorageData } from '~/plugins/hooks';
+import { AnyObject } from '~/types';
+import { VizViewProps } from '~/types/plugin';
+import { aggregateValue } from '~/utils/aggregation';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { ClickBoxplotSeries } from './triggers';
+import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 
 echarts.use([
   DataZoomComponent,
@@ -85,7 +90,31 @@ function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: 
   }));
 }
 
-export function VizBoxplotChart({ context }: VizViewProps) {
+interface IClickBoxplotSeries {
+  type: 'click';
+  seriesType: 'boxplot';
+  componentSubType: 'boxplot';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: IBoxplotDataItem;
+}
+
+export function VizBoxplotChart({ context, instance }: VizViewProps) {
+  // interactions
+  const interactionManager = useCurrentInteractionManager({
+    vizManager: context.vizManager,
+    instance,
+  });
+  const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickBoxplotSeries.id);
+
+  const handleSeriesClick = (params: IClickBoxplotSeries) => {
+    triggers.forEach((t) => {
+      interactionManager.runInteraction(t.id, { ...params });
+    });
+  };
+
+  // options
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];
@@ -183,5 +212,12 @@ export function VizBoxplotChart({ context }: VizViewProps) {
   if (!conf || !width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={{ click: handleSeriesClick }}
+    />
+  );
 }

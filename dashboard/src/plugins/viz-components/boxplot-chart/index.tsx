@@ -6,6 +6,7 @@ import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { ITemplateVariable } from '~/utils/template';
 import { omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { ClickBoxplotSeries } from './triggers';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -56,4 +57,5 @@ export const BoxplotChartVizComponent: VizComponent = {
   viewRender: VizBoxplotChart,
   configRender: VizBoxplotChartPanel,
   createConfig: (): IBoxplotChartConf => DEFAULT_CONFIG,
+  triggers: [ClickBoxplotSeries],
 };
