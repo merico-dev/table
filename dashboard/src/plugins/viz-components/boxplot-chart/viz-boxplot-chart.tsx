@@ -13,18 +13,18 @@ import {
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _, { defaults } from 'lodash';
-import { useMemo } from 'react';
-import { VizViewProps } from '~/types/plugin';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
-import { useStorageData } from '~/plugins/hooks';
-import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
-import { AnyObject } from '~/types';
-import { aggregateValue } from '~/utils/aggregation';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import _, { defaults } from 'lodash';
 import numbro from 'numbro';
+import { useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
-import { ClickEchartSeries } from '../cartesian/triggers';
+import { useStorageData } from '~/plugins/hooks';
+import { AnyObject } from '~/types';
+import { VizViewProps } from '~/types/plugin';
+import { aggregateValue } from '~/utils/aggregation';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { ClickBoxplotSeries } from './triggers';
+import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotReferenceLine } from './type';
 
 echarts.use([
   DataZoomComponent,
@@ -106,7 +106,7 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     vizManager: context.vizManager,
     instance,
   });
-  const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
+  const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickBoxplotSeries.id);
 
   const handleSeriesClick = (params: IClickBoxplotSeries) => {
     triggers.forEach((t) => {
