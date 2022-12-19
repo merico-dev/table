@@ -1,8 +1,9 @@
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { ClickParetoSeries } from './triggers';
+import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
 import { VizParetoChartPanel } from './viz-pareto-chart-panel';
-import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 
 class VizParetoChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -24,4 +25,5 @@ export const ParetoChartVizComponent: VizComponent = {
   viewRender: VizParetoChart,
   configRender: VizParetoChartPanel,
   createConfig: (): IParetoChartConf => DEFAULT_CONFIG,
+  triggers: [ClickParetoSeries],
 };

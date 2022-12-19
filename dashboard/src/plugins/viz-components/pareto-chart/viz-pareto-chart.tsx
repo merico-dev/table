@@ -11,6 +11,9 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart, LineChart } from 'echarts/charts';
 import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { ClickEchartSeries } from '../cartesian/triggers';
+import { ClickParetoSeries } from './triggers';
 
 function formatPercentage(value: number) {
   return numbro(value).format({
@@ -50,7 +53,31 @@ function tooltipFormatter(params: TopLevelFormatterParams) {
 
 echarts.use([BarChart, LineChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
-export function VizParetoChart({ context }: VizViewProps) {
+interface IClickParetoSeries {
+  type: 'click';
+  seriesType: 'line' | 'bar';
+  componentSubType: 'line' | 'bar';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: [string, number];
+}
+
+export function VizParetoChart({ context, instance }: VizViewProps) {
+  // interactions
+  const interactionManager = useCurrentInteractionManager({
+    vizManager: context.vizManager,
+    instance,
+  });
+  const triggers = useTriggerSnapshotList<IParetoChartConf>(interactionManager.triggerManager, ClickParetoSeries.id);
+
+  const handleSeriesClick = (params: IClickParetoSeries) => {
+    triggers.forEach((t) => {
+      interactionManager.runInteraction(t.id, { ...params });
+    });
+  };
+
+  // options
   const { value: conf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
@@ -170,5 +197,12 @@ export function VizParetoChart({ context }: VizViewProps) {
   if (!conf || !width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={{ click: handleSeriesClick }}
+    />
+  );
 }
