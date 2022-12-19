@@ -105,6 +105,7 @@ export function VizBoxplotChart({ context }: VizViewProps) {
     ],
     tooltip: {
       trigger: 'axis',
+      confine: true,
       formatter: function (params: TopLevelFormatterParams) {
         if (!Array.isArray(params) || params.length === 0) {
           return;
