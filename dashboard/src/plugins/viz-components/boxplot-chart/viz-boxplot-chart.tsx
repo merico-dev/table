@@ -112,10 +112,28 @@ export function VizBoxplotChart({ context }: VizViewProps) {
 
         const value = params[0].value as IBoxplotDataItem;
         const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
-          return `${key}: <strong>${numbro(value[key]).format(y_axis.label_formatter)}</strong>`;
+          return `
+          <tr>
+            <td>${_.capitalize(key)}</td>
+            <td style="text-align: right;">
+              ${numbro(value[key]).format(y_axis.label_formatter)}
+            </td>
+          </tr>`;
         });
-        lines.unshift(`<strong>${value.name}</strong>`);
-        return lines.join('<br />');
+
+        const template = `
+<table>
+  <thead>
+    <tr>
+      <th colspan="2" style="text-align: left;">${value.name}</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${lines.join('')}
+  </tbody>
+</table>
+        `;
+        return template;
       },
     },
     xAxis: [
