@@ -21,14 +21,9 @@ function getFullSeriesItemData(
 function getReferenceLines(
   reference_lines: ICartesianReferenceLine[],
   variables: ITemplateVariable[],
+  variableValueMap: Record<string, string | number>,
   data: $TSFixMe[],
 ) {
-  const variableValueMap = variables.reduce((prev, variable) => {
-    const value = getAggregatedValue(variable, data);
-    prev[variable.name] = formatAggregatedValue(variable, value);
-    return prev;
-  }, {} as Record<string, string | number>);
-
   return reference_lines.map((r) => {
     const isHorizontal = r.orientation === 'horizontal';
     const keyOfAxis = isHorizontal ? 'yAxis' : 'xAxis';
@@ -59,15 +54,8 @@ function getReferenceLines(
 
 function getReferenceAreas(
   reference_areas: ICartesianReferenceArea[],
-  variables: ITemplateVariable[],
-  data: $TSFixMe[],
+  variableValueMap: Record<string, string | number>,
 ) {
-  const variableValueMap = variables.reduce((prev, variable) => {
-    const value = getAggregatedValue(variable, data);
-    prev[variable.name] = formatAggregatedValue(variable, value);
-    return prev;
-  }, {} as Record<string, string | number>);
-
   return reference_areas.map((r) => ({
     name: '',
     type: 'line',
@@ -152,10 +140,11 @@ export function getSeries(
   data: $TSFixMe[],
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
+  variableValueMap: Record<string, string | number>,
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
   const ret = conf.series.map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, labelFormatters)).flat();
   return ret
-    .concat(getReferenceLines(conf.reference_lines, variables, data))
-    .concat(getReferenceAreas(conf.reference_areas, variables, data));
+    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))
+    .concat(getReferenceAreas(conf.reference_areas, variableValueMap));
 }
