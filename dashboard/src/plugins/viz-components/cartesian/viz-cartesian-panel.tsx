@@ -54,6 +54,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     group_by_key = '',
     display_name_on_line = false,
     lineStyle = { type: 'solid', width: 1 },
+    hide_in_legend = false,
   }: ICartesianChartSeriesItem) {
     const ret = {
       type,
@@ -72,6 +73,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       group_by_key,
       display_name_on_line,
       lineStyle,
+      hide_in_legend,
     };
     if (typeof symbolSize === 'number') {
       ret.symbolSize = {

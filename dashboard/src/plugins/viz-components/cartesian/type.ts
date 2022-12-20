@@ -22,6 +22,7 @@ export interface ICartesianChartSeriesItem {
     type: 'solid' | 'dashed' | 'dotted';
     width: number;
   };
+  hide_in_legend: boolean;
 }
 
 export interface IYAxisConf {

@@ -8,14 +8,9 @@ import { getTooltip } from './tooltip';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { getLegend } from './legend';
 
 const defaultOption = {
-  legend: {
-    show: true,
-    bottom: 0,
-    left: 'center',
-    type: 'scroll',
-  },
   dataZoom: [
     {
       type: 'inside',
@@ -104,6 +99,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
+    legend: getLegend(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
