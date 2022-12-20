@@ -50,7 +50,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
         </Group>
         <Group sx={{ alignSelf: 'flex-end' }}>
           <Button color="blue" size="sm" type="submit">
-            Submit
+            Search
           </Button>
         </Group>
       </Group>
