@@ -1,4 +1,15 @@
-import { ActionIcon, Button, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Checkbox,
+  Divider,
+  Group,
+  SegmentedControl,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
@@ -103,13 +114,10 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
-
       {type === 'line' && <LineFields index={index} control={control} />}
-
       {type === 'bar' && <BarFields index={index} control={control} />}
-
       {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
-
+      <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
       <Controller
         name={`series.${index}.label_position`}
         control={control}
@@ -123,6 +131,19 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
+      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Controller
+        name={`series.${index}.hide_in_legend`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            label="Hide in legend"
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+          />
+        )}
+      />
+      <Divider mb={-10} mt={10} variant="dashed" />
       <Button
         leftIcon={<Trash size={16} />}
         color="red"

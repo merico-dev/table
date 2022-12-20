@@ -46,6 +46,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
         type: 'solid',
         width: 1,
       },
+      hide_in_legend: false,
     });
 
   const yAxes = watch('y_axes');

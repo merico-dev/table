@@ -20,11 +20,13 @@ export function getLegend(conf: ICartesianChartConf) {
     type: 'scroll',
   };
 
-  ret.data = conf.series.map(({ name, type }) => {
-    return {
-      name,
-      icon: getIcon(type),
-    };
-  });
+  ret.data = conf.series
+    .filter((s) => !s.hide_in_legend)
+    .map(({ name, type }) => {
+      return {
+        name,
+        icon: getIcon(type),
+      };
+    });
   return ret;
 }

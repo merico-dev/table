@@ -91,6 +91,7 @@ function getSeriesItemOrItems(
     color,
     display_name_on_line,
     symbolSize,
+    hide_in_legend,
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: $TSFixMe[][],
