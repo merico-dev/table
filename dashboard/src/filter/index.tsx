@@ -1,6 +1,6 @@
 import { Button, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { FilterModelInstance, ViewModelInstance } from '..';
 import { useModelContext } from '../contexts/model-context';
@@ -25,6 +25,8 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
   }, [formValue]);
 
   const filters = model.filters.visibleInView(view.id);
+  const allAutoSubmit = useMemo(() => filters.every((f) => f.auto_submit), [filters]);
+
   if (filters.length === 0) {
     return null;
   }
@@ -41,9 +43,8 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
       <Group
         className="dashboard-filters"
         position="apart"
-        p="md"
         noWrap
-        sx={{ border: '1px solid #e9ecef', borderRadius: '4px' }}
+        sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
       >
         <Group align="flex-start">
           {filters.map((filter) => (
@@ -57,11 +58,13 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
             />
           ))}
         </Group>
-        <Group sx={{ alignSelf: 'flex-end' }}>
-          <Button color="blue" size="sm" type="submit">
-            Search
-          </Button>
-        </Group>
+        {!allAutoSubmit && (
+          <Group sx={{ alignSelf: 'flex-end' }}>
+            <Button color="blue" size="sm" type="submit">
+              Search
+            </Button>
+          </Group>
+        )}
       </Group>
     </form>
   );
