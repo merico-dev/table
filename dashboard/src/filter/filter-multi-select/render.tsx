@@ -26,7 +26,7 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
 
     console.log('Selecting the first option by default. New value: ', newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, config.options, onChange]);
+  }, [config.select_first_by_default, config.options]); // excluding onChange from deps, since it's always re-created
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;

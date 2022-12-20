@@ -23,6 +23,7 @@ export const FilterSettings = observer(function _FilterSettings() {
       type: DashboardFilterType.TextInput,
       config: createFilterConfig_TextInput(),
       visibleInViewsIDs: ['Main'],
+      auto_submit: false,
     } as FilterModelInstance;
     model.filters.append(filter);
   };

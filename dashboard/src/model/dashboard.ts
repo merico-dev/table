@@ -44,7 +44,7 @@ const _DashboardModel = types
     get queriesChanged() {
       const fields = 'queries.current';
       const snapshot = (getSnapshot(get(self, fields)) as AnyObject[]).map((it: $TSFixMe) =>
-        pick(it, ['id', 'key', 'type', 'sql']),
+        pick(it, ['id', 'name', 'key', 'type', 'sql']),
       );
       return !isEqual(snapshot, get(self.origin, fields));
     },

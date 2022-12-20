@@ -8,6 +8,5 @@ export function queryDataToTree(queryData: ITreeDataQueryOption[]) {
     childrenField: 'children',
     dataField: null,
   });
-  console.log(tree);
   return tree;
 }

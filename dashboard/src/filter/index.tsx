@@ -1,8 +1,8 @@
 import { Button, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { ViewModelInstance } from '..';
+import { FilterModelInstance, ViewModelInstance } from '..';
 import { useModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
 
@@ -25,18 +25,26 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
   }, [formValue]);
 
   const filters = model.filters.visibleInView(view.id);
+  const allAutoSubmit = useMemo(() => filters.every((f) => f.auto_submit), [filters]);
+
   if (filters.length === 0) {
     return null;
   }
+
+  const getChangeHandler = (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any) => {
+    onChange(v);
+    if (filter.auto_submit) {
+      model.filters.setValueByKey(filter.key, v);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(model.filters.setValues)}>
       <Group
         className="dashboard-filters"
         position="apart"
-        p="md"
         noWrap
-        sx={{ border: '1px solid #e9ecef', borderRadius: '4px' }}
+        sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
       >
         <Group align="flex-start">
           {filters.map((filter) => (
@@ -44,15 +52,19 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
               key={filter.id}
               name={filter.key}
               control={control}
-              render={({ field }) => <Filter filter={filter} {...field} />}
+              render={({ field }) => (
+                <Filter filter={filter} value={field.value} onChange={getChangeHandler(filter, field.onChange)} />
+              )}
             />
           ))}
         </Group>
-        <Group sx={{ alignSelf: 'flex-end' }}>
-          <Button color="blue" size="sm" type="submit">
-            Submit
-          </Button>
-        </Group>
+        {!allAutoSubmit && (
+          <Group sx={{ alignSelf: 'flex-end' }}>
+            <Button color="blue" size="sm" type="submit">
+              Search
+            </Button>
+          </Group>
+        )}
       </Group>
     </form>
   );
