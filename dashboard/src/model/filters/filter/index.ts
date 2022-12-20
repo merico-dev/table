@@ -14,6 +14,7 @@ export const FilterModel = types
     label: types.string,
     order: types.number,
     visibleInViewsIDs: types.array(types.string),
+    auto_submit: types.optional(types.boolean, false),
     type: types.enumeration('DashboardFilterType', [
       DashboardFilterType.Select,
       DashboardFilterType.MultiSelect,
@@ -76,6 +77,9 @@ export const FilterModel = types
     setVisibleInViewsIDs(ids: string[]) {
       self.visibleInViewsIDs.length = 0;
       self.visibleInViewsIDs.push(...ids);
+    },
+    setAutoSubmit(v: boolean) {
+      self.auto_submit = v;
     },
   }));
 

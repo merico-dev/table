@@ -13,7 +13,7 @@ export function FilterTextInput({ label, config, value, onChange }: IFilterTextI
     <TextInput
       label={label}
       value={value || ''}
-      onChange={onChange}
+      onChange={(e) => onChange(e.currentTarget.value)}
       {...config}
       styles={{
         input: {

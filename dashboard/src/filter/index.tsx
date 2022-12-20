@@ -2,7 +2,7 @@ import { Button, Group } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { ViewModelInstance } from '..';
+import { FilterModelInstance, ViewModelInstance } from '..';
 import { useModelContext } from '../contexts/model-context';
 import { Filter } from './filter';
 
@@ -29,6 +29,13 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
     return null;
   }
 
+  const getChangeHandler = (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any) => {
+    onChange(v);
+    if (filter.auto_submit) {
+      model.filters.setValueByKey(filter.key, v);
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(model.filters.setValues)}>
       <Group
@@ -44,7 +51,9 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
               key={filter.id}
               name={filter.key}
               control={control}
-              render={({ field }) => <Filter filter={filter} {...field} />}
+              render={({ field }) => (
+                <Filter filter={filter} value={field.value} onChange={getChangeHandler(filter, field.onChange)} />
+              )}
             />
           ))}
         </Group>

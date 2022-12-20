@@ -1,4 +1,15 @@
-import { Box, MultiSelect, NumberInput, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import {
+  Box,
+  Checkbox,
+  Group,
+  MultiSelect,
+  NumberInput,
+  Select,
+  SimpleGrid,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext } from '~/contexts';
@@ -47,7 +58,23 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
           Edit
         </Text>
         <Stack sx={{ maxWidth: '30em' }}>
-          <NumberInput label="Placement Order" required value={filter.order} onChange={filter.setOrder} hideControls />
+          <Group noWrap>
+            <NumberInput
+              label="Placement Order"
+              required
+              value={filter.order}
+              onChange={filter.setOrder}
+              hideControls
+              // @ts-expect-error important
+              sx={{ flexGrow: '1 !important' }}
+            />
+            <Checkbox
+              label="Submit automatically"
+              checked={filter.auto_submit}
+              onChange={(e) => filter.setAutoSubmit(e.currentTarget.checked)}
+              mt={22}
+            />
+          </Group>
           <MultiSelect
             label="Visible in..."
             data={model.views.options}
