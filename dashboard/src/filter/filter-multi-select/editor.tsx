@@ -35,7 +35,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         <MultiSelect
           label="Default Selection"
           data={optionsForDefaultValue}
-          value={config.default_value}
+          value={[...config.default_value]}
           onChange={config.setDefaultValue}
         />
       )}
