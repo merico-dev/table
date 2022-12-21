@@ -87,8 +87,9 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
   );
 
   const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
+  const valueTypedXAxis = xAxisData.every((d) => !Number.isNaN(Number(d)));
 
-  const series = getSeries(conf, xAxisData, data, labelFormatters, variables, variableValueMap);
+  const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
 
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 

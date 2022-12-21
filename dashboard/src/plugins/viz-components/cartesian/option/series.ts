@@ -95,6 +95,7 @@ function getSeriesItemOrItems(
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: $TSFixMe[][],
+  valueTypedXAxis: boolean,
   data: $TSFixMe[],
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
@@ -122,7 +123,11 @@ function getSeriesItemOrItems(
     };
   }
   if (!group_by_key) {
-    seriesItem.data = data.map((d) => d[y_axis_data_key]);
+    if (valueTypedXAxis) {
+      seriesItem.data = getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
+    } else {
+      seriesItem.data = data.map((d) => d[y_axis_data_key]);
+    }
     return seriesItem;
   }
 
@@ -139,6 +144,7 @@ function getSeriesItemOrItems(
 export function getSeries(
   conf: ICartesianChartConf,
   xAxisData: $TSFixMe[],
+  valueTypedXAxis: boolean,
   data: $TSFixMe[],
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
@@ -146,7 +152,7 @@ export function getSeries(
 ) {
   const dataTemplate = xAxisData.map((v) => [v, 0]);
   const ret = conf.series
-    .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, variableValueMap, labelFormatters))
+    .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, valueTypedXAxis, data, variableValueMap, labelFormatters))
     .flat();
   return ret
     .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))
