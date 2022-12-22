@@ -64,6 +64,12 @@ interface IClickParetoSeries {
 }
 
 export function VizParetoChart({ context, instance }: VizViewProps) {
+  // options
+  const { value: conf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
+  const data = context.data as $TSFixMe[];
+  const { width, height } = context.viewport;
+  const { x_axis, data_key, bar, line } = defaults({}, conf, DEFAULT_CONFIG);
+
   // interactions
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -71,17 +77,16 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   });
   const triggers = useTriggerSnapshotList<IParetoChartConf>(interactionManager.triggerManager, ClickParetoSeries.id);
 
+  const rowDataMap = useMemo(() => {
+    return _.keyBy(data, x_axis.data_key);
+  }, [data, x_axis.data_key]);
+
   const handleSeriesClick = (params: IClickParetoSeries) => {
+    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
     triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params });
+      interactionManager.runInteraction(t.id, { ...params, rowData });
     });
   };
-
-  // options
-  const { value: conf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
-  const { width, height } = context.viewport;
-  const { x_axis, data_key, bar, line } = defaults({}, conf, DEFAULT_CONFIG);
 
   const { barData, lineData } = useMemo(() => {
     const barData = data.map((d) => [d[x_axis.data_key], Number(d[data_key])]).sort((a, b) => b[1] - a[1]);

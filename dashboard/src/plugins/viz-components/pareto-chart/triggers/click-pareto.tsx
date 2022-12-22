@@ -27,6 +27,11 @@ export const ClickParetoSeries: ITriggerSchema = {
       description: `Color`,
       valueType: 'string',
     },
+    {
+      name: 'rowData',
+      description: `Data of the row`,
+      valueType: 'object',
+    },
   ],
 };
 
