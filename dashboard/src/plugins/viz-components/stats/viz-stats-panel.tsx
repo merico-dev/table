@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Select, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
@@ -7,6 +7,12 @@ import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import _, { defaultsDeep } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
+
+const horizontalAlignmentOptions = [
+  { label: 'Left', value: 'left' },
+  { label: 'Center', value: 'center' },
+  { label: 'Right', value: 'right' },
+];
 
 export function VizStatsPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
@@ -25,7 +31,7 @@ export function VizStatsPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['template']);
+  watch(['template', 'align']);
   const values = getValues();
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf);
@@ -44,6 +50,11 @@ export function VizStatsPanel({ context }: VizConfigProps) {
           name="template"
           control={control}
           render={({ field }) => <TemplateInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />}
+        />
+        <Controller
+          name="align"
+          control={control}
+          render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
         />
       </form>
     </Stack>
