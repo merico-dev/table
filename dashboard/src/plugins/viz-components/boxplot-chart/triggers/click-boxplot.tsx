@@ -32,6 +32,11 @@ export const ClickBoxplotSeries: ITriggerSchema = {
       description: `Record of 'name', 'min', 'q1', 'median', 'q3', 'max'`,
       valueType: 'object',
     },
+    {
+      name: 'rowData',
+      description: `Data of the row`,
+      valueType: 'object',
+    },
   ],
 };
 
