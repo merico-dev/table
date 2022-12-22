@@ -6,6 +6,7 @@ export interface IButtonConf {
   color: MantineColor;
   size: MantineSize;
   compact: boolean;
+  horizontal_align: 'left' | 'center' | 'right';
 }
 
 export const DEFAULT_CONFIG: IButtonConf = {
@@ -14,4 +15,5 @@ export const DEFAULT_CONFIG: IButtonConf = {
   color: 'blue',
   size: 'xs',
   compact: false,
+  horizontal_align: 'left',
 };

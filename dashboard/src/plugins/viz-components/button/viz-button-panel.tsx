@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, Divider, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Checkbox, CheckIcon, Divider, Group, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -15,6 +15,12 @@ const variantOptions = [
   { label: 'Default', value: 'default' },
   { label: 'Subtle', value: 'subtle' },
   { label: 'Gradient', value: 'gradient', disabled: true },
+];
+
+const alignmentOptions = [
+  { label: 'Left', value: 'left' },
+  { label: 'Center', value: 'center' },
+  { label: 'Right', value: 'right' },
 ];
 
 export function VizButtonPanel({ context }: VizConfigProps) {
@@ -38,22 +44,31 @@ export function VizButtonPanel({ context }: VizConfigProps) {
         required
       />
       <Divider mt="xs" mb={0} label="Styles" labelPosition="center" variant="dashed" />
-      <Select
-        label="Variant"
-        data={variantOptions}
-        value={conf.variant}
-        onChange={(v: string) => setConfByKey('variant', v)}
-      />
       <SimpleGrid cols={2}>
+        <Select
+          label="Variant"
+          data={variantOptions}
+          value={conf.variant}
+          onChange={(v: string) => setConfByKey('variant', v)}
+        />
         <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
-        <Stack>
-          <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
-          <Checkbox
-            label="Compact"
-            checked={conf.compact}
-            onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
-          />
-        </Stack>
+      </SimpleGrid>
+      <SimpleGrid cols={2}>
+        <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
+        <Checkbox
+          label="Compact"
+          checked={conf.compact}
+          onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
+          mt={26}
+        />
+      </SimpleGrid>
+      <SimpleGrid cols={2}>
+        <Select
+          label="Horizontal Alignment"
+          data={alignmentOptions}
+          value={conf.horizontal_align}
+          onChange={(v: string) => setConfByKey('horizontal_align', v)}
+        />
       </SimpleGrid>
     </Stack>
   );
