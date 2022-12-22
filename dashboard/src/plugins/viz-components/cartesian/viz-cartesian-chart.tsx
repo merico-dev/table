@@ -23,6 +23,7 @@ import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import _ from 'lodash';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -67,11 +68,16 @@ function Chart({
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
+  const rowDataMap = useMemo(() => {
+    return _.keyBy(data, conf.x_axis_data_key);
+  }, [data, conf.x_axis_data_key]);
+
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
 
   const handleSeriesClick = (params: IClickEchartsSeries) => {
+    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
     triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params });
+      interactionManager.runInteraction(t.id, { ...params, rowData });
     });
   };
 

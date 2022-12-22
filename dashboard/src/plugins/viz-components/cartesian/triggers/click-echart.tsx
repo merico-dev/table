@@ -8,17 +8,7 @@ export const ClickEchartSeries: ITriggerSchema = {
   configRender: ClickEchartSeriesSettings,
   payload: [
     {
-      name: 'type',
-      description: `Always 'click'`,
-      valueType: 'string',
-    },
-    {
       name: 'seriesType',
-      description: `'line' | 'scatter' | 'bar'`,
-      valueType: 'string',
-    },
-    {
-      name: 'componentSubType',
       description: `'line' | 'scatter' | 'bar'`,
       valueType: 'string',
     },
@@ -41,6 +31,11 @@ export const ClickEchartSeries: ITriggerSchema = {
       name: 'value',
       description: `String-typed number, or series' actual value`,
       valueType: 'string',
+    },
+    {
+      name: 'rowData',
+      description: `Data of the row`,
+      valueType: 'object',
     },
   ],
 };

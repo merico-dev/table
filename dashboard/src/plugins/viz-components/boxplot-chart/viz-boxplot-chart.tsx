@@ -101,6 +101,12 @@ interface IClickBoxplotSeries {
 }
 
 export function VizBoxplotChart({ context, instance }: VizViewProps) {
+  const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
+  const { variables } = context;
+  const data = context.data as $TSFixMe[];
+  const { width, height } = context.viewport;
+  const { x_axis, y_axis, color, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
+
   // interactions
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -108,18 +114,16 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
   });
   const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickBoxplotSeries.id);
 
+  const rowDataMap = useMemo(() => {
+    return _.keyBy(data, x_axis.data_key);
+  }, [data, x_axis.data_key]);
+
   const handleSeriesClick = (params: IClickBoxplotSeries) => {
+    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
     triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params });
+      interactionManager.runInteraction(t.id, { ...params, rowData });
     });
   };
-
-  // options
-  const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
-  const { variables } = context;
-  const data = context.data as $TSFixMe[];
-  const { width, height } = context.viewport;
-  const { x_axis, y_axis, color, reference_lines } = defaults({}, conf, DEFAULT_CONFIG);
 
   const boxplotData = useMemo(() => {
     const grouped = _.groupBy(data, x_axis.data_key);
