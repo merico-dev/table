@@ -47,7 +47,6 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
       interactionManager.runInteraction(t.id, {});
     });
   };
-  console.log(vertical_align, verticalAlignments[vertical_align]);
   return (
     <Center
       sx={{
