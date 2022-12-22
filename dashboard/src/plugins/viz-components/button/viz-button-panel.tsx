@@ -1,4 +1,4 @@
-import { Checkbox, CheckIcon, Divider, Group, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
+import { Checkbox, Divider, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -17,10 +17,16 @@ const variantOptions = [
   { label: 'Gradient', value: 'gradient', disabled: true },
 ];
 
-const alignmentOptions = [
+const horizontalAlignmentOptions = [
   { label: 'Left', value: 'left' },
   { label: 'Center', value: 'center' },
   { label: 'Right', value: 'right' },
+];
+
+const verticalAlignmentOptions = [
+  { label: 'Top', value: 'top' },
+  { label: 'Center', value: 'center' },
+  { label: 'Bottom', value: 'bottom' },
 ];
 
 export function VizButtonPanel({ context }: VizConfigProps) {
@@ -65,9 +71,15 @@ export function VizButtonPanel({ context }: VizConfigProps) {
       <SimpleGrid cols={2}>
         <Select
           label="Horizontal Alignment"
-          data={alignmentOptions}
+          data={horizontalAlignmentOptions}
           value={conf.horizontal_align}
           onChange={(v: string) => setConfByKey('horizontal_align', v)}
+        />
+        <Select
+          label="Vertical Alignment"
+          data={verticalAlignmentOptions}
+          value={conf.vertical_align}
+          onChange={(v: string) => setConfByKey('vertical_align', v)}
         />
       </SimpleGrid>
     </Stack>
