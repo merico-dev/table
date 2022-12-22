@@ -15,6 +15,16 @@ class VizButtonMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
+    this.version(2, ({ horizontal_align = 'left', vertical_align = 'center', ...rest }: any) => {
+      return {
+        version: 2,
+        config: {
+          ...rest,
+          horizontal_align,
+          vertical_align,
+        },
+      };
+    });
   }
 }
 

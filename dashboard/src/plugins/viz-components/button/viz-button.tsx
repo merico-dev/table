@@ -10,6 +10,18 @@ import { ClickButton } from './triggers';
 import { IClickButtonConfig } from './triggers/click-button';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 
+const horizontalAlignments = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end',
+};
+
+const verticalAlignments = {
+  top: 'flex-start',
+  center: 'center',
+  bottom: 'flex-end',
+};
+
 export const VizButton = observer(({ context, instance }: VizViewProps) => {
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -21,7 +33,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
   const { value: confValue } = useStorageData<IButtonConf>(context.instanceData, 'config');
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { content, ...mantineProps } = conf;
+  const { content, horizontal_align, vertical_align, ...mantineProps } = conf;
 
   const { width, height } = context.viewport;
 
@@ -35,8 +47,16 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
       interactionManager.runInteraction(t.id, {});
     });
   };
+  console.log(vertical_align, verticalAlignments[vertical_align]);
   return (
-    <Center sx={{ width, height }}>
+    <Center
+      sx={{
+        width,
+        height,
+        justifyContent: horizontalAlignments[horizontal_align],
+        alignItems: verticalAlignments[vertical_align],
+      }}
+    >
       <Button {...mantineProps} onClick={handleClick}>
         {template(content)(params)}
       </Button>
