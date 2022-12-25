@@ -50,7 +50,11 @@ async function main() {
 
     for (let i = 0; i < dashboards.length; i += 1) {
       const db = dashboards[i];
-      let handler = await findHandler(db.content.version as string);
+      const version = db.content.version as string;
+      if (version && !versions.includes(version)) {
+        throw new Error(`MIGRATION FAILED, dashboard [${db.name}]'s version [${version}] is not migratable`);
+      }
+      let handler = await findHandler(version);
       while (handler) {
         db.content = handler.main(db.content);
         await dashboardRepo.save(db);
