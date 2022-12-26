@@ -53,7 +53,7 @@ export const APIClient = {
       ),
     };
   },
-  getRequest(method: Method) {
+  getRequest(method: Method, signal?: AbortSignal) {
     return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
       const token = window.localStorage.getItem('token');
       const headers = {
@@ -68,7 +68,8 @@ export const APIClient = {
         method,
         url,
         params: method === 'GET' ? data : options.params,
-        headers: headers,
+        headers,
+        signal,
       };
 
       if (['POST', 'PUT'].includes(method)) {

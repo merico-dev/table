@@ -23,54 +23,67 @@ export const QueryModel = types
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
   }))
-  .actions((self) => ({
-    setName(name: string) {
-      self.name = name;
-    },
-    setKey(key: string) {
-      self.key = key;
-    },
-    setType(type: DataSourceType) {
-      self.type = type;
-    },
-    setSQL(sql: string) {
-      self.sql = sql;
-    },
-    fetchData: flow(function* () {
-      if (!self.valid) {
-        return;
-      }
-      self.state = 'loading';
-      try {
-        const title = self.id;
-        // @ts-expect-error untyped getRoot(self)
-        const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
-        self.data = yield* toGenerator(
-          queryBySQL({
-            context,
-            mock_context,
-            sqlSnippets,
-            title,
-            query: self.json,
-            filterValues,
-          }),
-        );
-        self.state = 'idle';
-        self.error = null;
-      } catch (error) {
-        self.data.length = 0;
-        self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
-        self.state = 'error';
-      }
-    }),
+  .volatile(() => ({
+    controller: new AbortController(),
   }))
+  .actions((self) => {
+    return {
+      setName(name: string) {
+        self.name = name;
+      },
+      setKey(key: string) {
+        self.key = key;
+      },
+      setType(type: DataSourceType) {
+        self.type = type;
+      },
+      setSQL(sql: string) {
+        self.sql = sql;
+      },
+      fetchData: flow(function* () {
+        if (!self.valid) {
+          return;
+        }
+        self.controller?.abort();
+        self.controller = new AbortController();
+        self.state = 'loading';
+        try {
+          const title = self.id;
+          // @ts-expect-error untyped getRoot(self)
+          const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+          self.data = yield* toGenerator(
+            queryBySQL(
+              {
+                context,
+                mock_context,
+                sqlSnippets,
+                title,
+                query: self.json,
+                filterValues,
+              },
+              self.controller.signal,
+            ),
+          );
+          self.state = 'idle';
+          self.error = null;
+        } catch (error) {
+          self.data.length = 0;
+          self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
+          self.state = 'error';
+        }
+      }),
+      beforeDestroy() {
+        self.controller?.abort();
+      },
+    };
+  })
   .actions((self) => ({
     afterCreate() {
       addDisposer(
         self,
         reaction(() => `${self.id}--${self.key}--${self.type}--${self.formattedSQL}`, self.fetchData, {
           fireImmediately: true,
-          delay: 500,
+          delay: 0,
         }),
       );
     },
