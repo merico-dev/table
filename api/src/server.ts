@@ -28,6 +28,7 @@ dashboardDataSource.initialize()
 });
 
 const corsOrigins = process.env.CORS_ALLOW_ORIGIN ? process.env.CORS_ALLOW_ORIGIN.split(';') : ['http://localhost'];
+const requestMaxSize = process.env.EXPRESS_REQUEST_MAX_SIZE ?? '1mb';
 
 const container = new Container();
 
@@ -36,6 +37,7 @@ bindServices(container);
 
 const server = new InversifyExpressServer(container);
 server.setConfig((app: any) => {
+  app.use(express.json({limit: requestMaxSize}));
   app.use(bodyparser.json());
   app.use(cors({
     origin: corsOrigins,

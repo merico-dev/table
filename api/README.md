@@ -19,6 +19,8 @@ Variables for configuring preset ApiKeys. Separate values with ; ex: PRESET_API_
 
 - `PRESET_DASHBOARDS_REPO=` git repository where the preset dashboards will be downloaded from
 
+- `EXPRESS_REQUEST_MAX_SIZE` maximum request size for the express server. Default is 1mb
+
 
 ### up and running
 1. `yarn install`
