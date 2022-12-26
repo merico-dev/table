@@ -13,27 +13,6 @@ export type QueryFailureError = {
   };
 };
 
-interface IQueryByStaticSQL {
-  type: DataSourceType;
-  key: string;
-  sql: string;
-}
-
-export const queryByStaticSQL =
-  ({ type, key, sql }: IQueryByStaticSQL) =>
-  async () => {
-    if (!type || !key || !sql) {
-      return [];
-    }
-    try {
-      const res = await APIClient.getRequest('POST')('/query', { type, key, query: sql });
-      return res;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  };
-
 interface IQueryBySQL {
   context: ContextInfoType;
   mock_context: Record<string, $TSFixMe>;
@@ -43,7 +22,10 @@ interface IQueryBySQL {
   filterValues: FilterValuesType;
 }
 
-export async function queryBySQL({ context, mock_context, sqlSnippets, title, query, filterValues }: IQueryBySQL) {
+export async function queryBySQL(
+  { context, mock_context, sqlSnippets, title, query, filterValues }: IQueryBySQL,
+  signal: AbortSignal,
+) {
   if (!query.sql) {
     return [];
   }
@@ -57,7 +39,7 @@ export async function queryBySQL({ context, mock_context, sqlSnippets, title, qu
     console.log(formattedSQL);
     console.groupEnd();
   }
-  const res = await APIClient.getRequest('POST')('/query', { type, key, query: formattedSQL });
+  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: formattedSQL }, {});
   return res;
 }
 
