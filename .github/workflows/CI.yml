@@ -71,7 +71,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
               echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           else
-              echo "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUTecho "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUT
+              echo "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUT
           fi
       - name: env
         run: |
