@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
@@ -67,9 +68,11 @@ export const QueryModel = types
           self.state = 'idle';
           self.error = null;
         } catch (error) {
-          self.data.length = 0;
-          self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
-          self.state = 'error';
+          if (!axios.isCancel(error)) {
+            self.data.length = 0;
+            self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
+            self.state = 'error';
+          }
         }
       }),
       beforeDestroy() {
