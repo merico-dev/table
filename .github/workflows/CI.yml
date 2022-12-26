@@ -5,6 +5,7 @@ name: Node.js CI
 
 on:
   push:
+    tags: v*
     branches: ['main']
   pull_request:
     branches: ['main']
@@ -34,9 +35,9 @@ jobs:
       - run: nx affected --target=check
       - run: nx affected --target=test --configuration=ci
 
-  # only runs on the main branch
+  # only runs on the main branch or tags
   build_images:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -66,7 +67,13 @@ jobs:
         run: echo "COMMIT_ID=${GITHUB_SHA:0:7}" >> $GITHUB_OUTPUT
       - name: image tag
         id: tag
-        run: echo "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUT
+        run: |
+          # if triggered by tag, use tag as image tag
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+              echo "TAG=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          else
+              echo "TAG=${{ steps.extract_branch.outputs.BRANCH }}_${{ steps.date.outputs.TODAY }}_${{ steps.commitid.outputs.COMMIT_ID }}" >> $GITHUB_OUTPUT
+          fi
       - name: env
         run: |
           echo "VITE_API_BASE_URL=/devtable-api/" > website/.env
