@@ -1,15 +1,11 @@
-/**
- * NOTE: this file is almost a duplicate of stats/panel/variables.tsx
- * FIXME: remove this when variables' fields are defined in utils/template
- */
 import { Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { TemplateInput } from '~/utils/template';
-import { ICartesianChartConf } from '../../type';
+import { IScatterChartConf } from '../../type';
 
 interface IVariablesField {
-  control: Control<ICartesianChartConf, $TSFixMe>;
-  watch: UseFormWatch<ICartesianChartConf>;
+  control: Control<IScatterChartConf, $TSFixMe>;
+  watch: UseFormWatch<IScatterChartConf>;
   data: $TSFixMe[];
 }
 

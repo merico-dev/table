@@ -30,6 +30,7 @@ import { TableVizComponent } from './viz-components/table';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
 import { PanelModelInstance } from '~/model/views/view/panels';
+import { ScatterChartVizComponent } from './viz-components/scatter-chart';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -119,6 +120,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       BoxplotChartVizComponent,
       ParetoChartVizComponent,
       CartesianVizComponent,
+      ScatterChartVizComponent,
       RadarChartVizComponent,
       RegressionChartVizComponent,
       MericoGQMVizComponent,
