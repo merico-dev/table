@@ -11,7 +11,7 @@ export const VizText = observer(({ context }: VizViewProps) => {
   const model = useModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const { variables } = context;
-  const { func_content, horizontal_align } = conf;
+  const { func_content, horizontal_align, font_size, font_weight } = conf;
 
   const content = useMemo(() => {
     return new Function(`return ${func_content}`)()({
@@ -22,5 +22,9 @@ export const VizText = observer(({ context }: VizViewProps) => {
     });
   }, [func_content, context.data, variables, model.filters.values, model.context.current]);
 
-  return <Text align={horizontal_align}>{content}</Text>;
+  return (
+    <Text align={horizontal_align} weight={font_weight} sx={{ fontSize: font_size }}>
+      {content}
+    </Text>
+  );
 });
