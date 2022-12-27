@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ITemplateVariable } from '~/utils/template';
-import { ICartesianChartConf } from '../../type';
+import { IScatterChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
-  control: Control<ICartesianChartConf, $TSFixMe>;
-  watch: UseFormWatch<ICartesianChartConf>;
+  control: Control<IScatterChartConf, $TSFixMe>;
+  watch: UseFormWatch<IScatterChartConf>;
   variables: ITemplateVariable[];
 }
 
