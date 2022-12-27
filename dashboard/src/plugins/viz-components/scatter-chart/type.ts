@@ -18,6 +18,8 @@ export interface IScatterChartConf {
     y_data_key: string;
     name_data_key: string;
     symbolSize: TScatterSize;
+    label_position: string;
+    color: string;
   };
   stats: {
     templates: {
@@ -37,6 +39,8 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       type: 'static',
       size: 10,
     },
+    color: '#000000',
+    label_position: 'right',
   },
   stats: {
     templates: {
