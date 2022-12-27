@@ -50,6 +50,7 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
         onChange={setMark}
         step={25}
         placeholder="Pick a font size"
+        px="1em"
         ref={ref}
       />
     </Stack>
