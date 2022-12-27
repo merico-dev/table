@@ -2,7 +2,7 @@ import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizText } from './viz-text';
 import { VizTextPanel } from './viz-text-panel';
-import { DEFAULT_CONFIG, ITextConf } from './type';
+import { DEFAULT_CONFIG, IVizTextConf } from './type';
 
 class VizTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,5 +23,5 @@ export const TextVizComponent: VizComponent = {
   name: 'text',
   viewRender: VizText,
   configRender: VizTextPanel,
-  createConfig: (): ITextConf => DEFAULT_CONFIG,
+  createConfig: (): IVizTextConf => DEFAULT_CONFIG,
 };

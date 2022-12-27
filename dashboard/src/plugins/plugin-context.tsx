@@ -31,6 +31,7 @@ import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { ScatterChartVizComponent } from './viz-components/scatter-chart';
+import { TextVizComponent } from './viz-components/text';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -113,6 +114,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
     viz: [
       TableVizComponent,
       StatsVizComponent,
+      TextVizComponent,
       RichTextVizComponent,
       SunburstVizComponent,
       PieChartVizComponent,
