@@ -18,7 +18,7 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
 }
 
 export const ScatterChartVizComponent: VizComponent = {
-  displayName: 'ScatterChart',
+  displayName: 'Scatter Chart',
   migrator: new VizScatterChartMigrator(),
   name: 'scatterChart',
   viewRender: VizScatterChart,
