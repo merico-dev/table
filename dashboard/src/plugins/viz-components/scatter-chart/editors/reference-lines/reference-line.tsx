@@ -1,7 +1,7 @@
 import { Button, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { ICartesianChartConf } from '../../type';
+import { IScatterChartConf } from '../../type';
 
 const orientationOptions = [
   { label: 'Horizontal', value: 'horizontal' },
@@ -9,9 +9,9 @@ const orientationOptions = [
 ];
 
 interface IReferenceLineField {
-  control: Control<ICartesianChartConf, $TSFixMe>;
+  control: Control<IScatterChartConf, $TSFixMe>;
   index: number;
-  watch: UseFormWatch<ICartesianChartConf>;
+  watch: UseFormWatch<IScatterChartConf>;
   remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
 }
