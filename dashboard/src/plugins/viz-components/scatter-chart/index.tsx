@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartPanel } from './viz-scatter-chart-panel';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
+import { ClickScatterChartSeries } from './triggers';
 
 class VizScatterChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -24,4 +25,5 @@ export const ScatterChartVizComponent: VizComponent = {
   viewRender: VizScatterChart,
   configRender: VizScatterChartPanel,
   createConfig: (): IScatterChartConf => DEFAULT_CONFIG,
+  triggers: [ClickScatterChartSeries],
 };

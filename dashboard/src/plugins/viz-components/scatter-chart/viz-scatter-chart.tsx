@@ -14,19 +14,18 @@ import {
   TooltipComponent,
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import { defaults } from 'lodash';
+import _, { defaults } from 'lodash';
 import React, { useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
+import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
+import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
-import _ from 'lodash';
-import { ClickEchartSeries } from '../cartesian/triggers';
-import { AnyObject } from '~/types';
 
-interface IClickEchartsSeries {
+interface IClickScatterChartSeries {
   type: 'click';
   seriesType: 'scatter';
   componentSubType: 'scatter';
@@ -70,10 +69,14 @@ function Chart({
     return _.keyBy(data, conf.x_axis.data_key);
   }, [data, conf.x_axis.data_key]);
 
-  const triggers = useTriggerSnapshotList<IScatterChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
+  const triggers = useTriggerSnapshotList<IScatterChartConf>(
+    interactionManager.triggerManager,
+    ClickScatterChartSeries.id,
+  );
 
-  const handleSeriesClick = (params: IClickEchartsSeries) => {
-    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
+  const handleSeriesClick = (params: IClickScatterChartSeries) => {
+    const x = params.value[0];
+    const rowData = _.get(rowDataMap, x, { error: 'rowData is not found' });
     triggers.forEach((t) => {
       interactionManager.runInteraction(t.id, { ...params, rowData });
     });
