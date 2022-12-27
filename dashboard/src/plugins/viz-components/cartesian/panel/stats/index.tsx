@@ -13,7 +13,8 @@ interface IVariablesField {
   data: $TSFixMe[];
 }
 
-export function StatsField({ control }: IVariablesField) {
+export function StatsField({ control, watch }: IVariablesField) {
+  watch('stats');
   return (
     <Stack>
       <Stack spacing={0}>
