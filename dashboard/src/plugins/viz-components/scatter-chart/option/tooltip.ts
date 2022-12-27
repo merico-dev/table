@@ -1,5 +1,4 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
-import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';

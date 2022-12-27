@@ -1,4 +1,3 @@
-import { YAXisComponentOption } from 'echarts';
 import { AnyObject } from '~/types';
 import { ITemplateVariable, templateToString } from '~/utils/template';
 import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesian/type';
