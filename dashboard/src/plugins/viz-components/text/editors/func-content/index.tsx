@@ -1,6 +1,6 @@
 import { Button, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
-import { useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { DEFAULT_TEXT_FUNC_CONTENT } from '../../type';
@@ -11,7 +11,7 @@ interface IFuncContentField {
   onChange: (v: string) => void;
 }
 
-export const FuncContentField = ({ value, onChange }: IFuncContentField) => {
+export const FuncContentField = forwardRef(({ value, onChange }: IFuncContentField, _ref: any) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<string>(value);
 
@@ -28,6 +28,10 @@ export const FuncContentField = ({ value, onChange }: IFuncContentField) => {
   const resetFuncContent = () => {
     setLocalValue(DEFAULT_TEXT_FUNC_CONTENT);
   };
+
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   return (
     <>
@@ -61,4 +65,4 @@ export const FuncContentField = ({ value, onChange }: IFuncContentField) => {
       </Modal>
     </>
   );
-};
+});
