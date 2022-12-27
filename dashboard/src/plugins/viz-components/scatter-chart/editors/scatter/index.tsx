@@ -28,7 +28,7 @@ interface IScatterField {
   data: $TSFixMe[];
 }
 export function ScatterField({ data, control, watch }: IScatterField) {
-  watch(['x_axis']);
+  watch(['scatter']);
   return (
     <Stack>
       <Group grow noWrap>
