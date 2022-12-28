@@ -71,7 +71,12 @@ export function VizTable({ context, instance }: VizViewProps) {
     const valueCols = finalColumns.map((c) => {
       return columnHelper.accessor(c.value_field, {
         cell: (cell) => (
-          <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} />
+          <CellValue
+            tableCellContext={getCellContext(cell.cell)}
+            value={cell.getValue()}
+            type={c.value_type}
+            func_content={c.func_content}
+          />
         ),
         header: c.label,
         enableSorting: true,

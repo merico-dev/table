@@ -69,10 +69,20 @@ function PercentageCell(props: ICellValue) {
   return <CellRender {...props}>{num}</CellRender>;
 }
 
+function CustomCell(props: ICellValue) {
+  const value = props.value;
+  const func_content = props.func_content;
+  if (!func_content) {
+    return value;
+  }
+  return new Function(`return ${func_content}`)()({ value });
+}
+
 interface ICellValue {
   value: $TSFixMe;
   type: ValueType;
   tableCellContext: ITableCellContext;
+  func_content?: string;
 }
 
 export function CellValue(props: ICellValue) {
@@ -85,5 +95,7 @@ export function CellValue(props: ICellValue) {
       return <NumberCell {...props} />;
     case ValueType.percentage:
       return <PercentageCell {...props} />;
+    case ValueType.custom:
+      return <CustomCell {...props} />;
   }
 }
