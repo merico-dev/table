@@ -5,9 +5,9 @@ import { useMemo } from 'react';
 import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { getTooltip } from './tooltip';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
-
-const BOXPLOT_DATA_ITEM_KEYS: Array<keyof IBoxplotDataItem> = ['min', 'q1', 'median', 'q3', 'max'];
+import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -71,40 +71,7 @@ export function getOption({ config, data, variables }: IGetOption) {
         source: boxplotData,
       },
     ],
-    tooltip: {
-      trigger: 'axis',
-      confine: true,
-      formatter: function (params: TopLevelFormatterParams) {
-        if (!Array.isArray(params) || params.length === 0) {
-          return;
-        }
-
-        const value = params[0].value as IBoxplotDataItem;
-        const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
-          return `
-          <tr>
-            <td>${_.capitalize(key)}</td>
-            <td style="text-align: right;">
-              ${numbro(value[key]).format(y_axis.label_formatter)}
-            </td>
-          </tr>`;
-        });
-
-        const template = `
-<table>
-  <thead>
-    <tr>
-      <th colspan="2" style="text-align: left;">${value.name}</th>
-    </tr>
-  </thead>
-  <tbody>
-    ${lines.join('')}
-  </tbody>
-</table>
-        `;
-        return template;
-      },
-    },
+    tooltip: getTooltip({ config }),
     xAxis: [
       {
         type: 'category',
