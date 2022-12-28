@@ -1,4 +1,4 @@
-import { Group, Select } from '@mantine/core';
+import { Group, Select, Stack } from '@mantine/core';
 import { useLatest } from 'ahooks';
 import { isObject, isString } from 'lodash';
 import { useContext, useState } from 'react';
@@ -82,7 +82,7 @@ export const BackgroundColorSelect = (props: IBackgroundColorSelectProps) => {
     props.onChange?.(value);
   };
   return (
-    <Group align="end">
+    <Stack align="stretch">
       <Select label="Cell background" value={colorType || 'none'} onChange={handleColorTypeChange} data={ColorTypes} />
       {colorType === 'static' && <MantineColorSelector value={staticColor} onChange={handleStaticColorChange} />}
       {colorType === 'interpolation' && (
@@ -92,6 +92,6 @@ export const BackgroundColorSelect = (props: IBackgroundColorSelectProps) => {
           onChange={handleInterpolationColorChange}
         />
       )}
-    </Group>
+    </Stack>
   );
 };

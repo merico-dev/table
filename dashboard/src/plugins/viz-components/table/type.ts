@@ -5,15 +5,18 @@ export enum ValueType {
   number = 'number',
   eloc = 'eloc',
   percentage = 'percentage',
+  custom = 'custom',
 }
 
 export type CellBackgroundColorType = string | IColorInterpolationConfig;
 
 export interface IColumnConf {
+  id: string;
   label: string;
   value_field: string;
   value_type: ValueType;
   cellBackgroundColor?: CellBackgroundColorType;
+  func_content?: string;
 }
 
 export interface ITableConf {
@@ -26,6 +29,13 @@ export interface ITableConf {
   striped: boolean;
   highlightOnHover: boolean;
 }
+
+export const DEFAULT_CELL_FUNC_CONTENT = [
+  'function text({ value }) {',
+  '    // your code goes here',
+  '    return value',
+  '}',
+].join('\n');
 
 export const DEFAULT_CONFIG: ITableConf = {
   columns: [],
