@@ -10,6 +10,7 @@ export enum ValueType {
 export type CellBackgroundColorType = string | IColorInterpolationConfig;
 
 export interface IColumnConf {
+  id: string;
   label: string;
   value_field: string;
   value_type: ValueType;

@@ -10,12 +10,15 @@ interface IColumnsField {
   data: AnyObject[];
 }
 export const ColumnsField = ({ form, data }: IColumnsField) => {
-  const addColumn = () =>
+  const addColumn = () => {
+    const id = randomId();
     form.insertListItem('columns', {
-      label: randomId(),
+      id,
+      label: id,
       value_field: 'value',
       value_type: ValueType.string,
     });
+  };
   return (
     <>
       <Switch
