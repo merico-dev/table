@@ -1,13 +1,12 @@
-import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import _ from 'lodash';
 import numbro from 'numbro';
 import { useMemo } from 'react';
 import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
-import { getTooltip } from './tooltip';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
+import { getTooltip } from './tooltip';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -60,10 +59,8 @@ interface IGetOption {
 }
 export function getOption({ config, data, variables }: IGetOption) {
   const { x_axis, y_axis, color, reference_lines } = config;
-  const boxplotData = useMemo(() => {
-    const grouped = _.groupBy(data, x_axis.data_key);
-    return calcBoxplotData(grouped, y_axis.data_key);
-  }, [data, x_axis.data_key, y_axis.data_key]);
+  const grouped = _.groupBy(data, x_axis.data_key);
+  const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
 
   return {
     dataset: [
