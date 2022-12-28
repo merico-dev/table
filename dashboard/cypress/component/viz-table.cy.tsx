@@ -87,14 +87,11 @@ describe('viz-table.cy.ts', () => {
       cy.mount(
         <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} panelInfoEditor={panelEditor} />,
       );
-      cy.findByRole('searchbox', { name: /id field/i })
-        .should('exist')
-        .should('have.value', 'foo');
       cy.findByLabelText('Use Original Data Columns').click({ force: true });
-      cy.findByLabelText('save config').click();
+      cy.get('button[type="submit"]', { timeout: 2000 }).should('be.enabled').click();
       cy.then(async () => {
-        const config = await instance.instanceData.getItem<ITableConf>('config');
-        expect(get(config, 'use_raw_columns')).to.be.true;
+        const { use_raw_columns } = await instance.instanceData.getItem<ITableConf>('config');
+        expect(use_raw_columns).to.be.false;
       });
     });
   });
