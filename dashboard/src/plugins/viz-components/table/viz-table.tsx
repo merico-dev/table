@@ -52,6 +52,7 @@ export function VizTable({ context, instance }: VizViewProps) {
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
       return Object.keys(data[0]).map((k) => ({
+        id: k,
         label: k,
         value_field: k,
         value_type: ValueType.string,

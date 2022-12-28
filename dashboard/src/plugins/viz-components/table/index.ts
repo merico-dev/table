@@ -20,7 +20,7 @@ class VizTableMigrator extends VersionBasedMigrator {
     this.version(2, (data: ITableConf) => {
       const { columns, ...rest } = data;
       return {
-        version: 1,
+        version: 2,
         config: {
           ...rest,
           columns: columns.map(({ id, ...restColumn }) => ({

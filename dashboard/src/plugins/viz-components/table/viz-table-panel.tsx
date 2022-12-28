@@ -1,5 +1,6 @@
 import { ActionIcon, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { randomId } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
 import { defaults } from 'lodash';
 import { useEffect } from 'react';
@@ -12,6 +13,17 @@ import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
 import { DEFAULT_CONFIG, ITableConf } from './type';
 
+// FIXME: migrator to version 2 in index.ts doesn't work
+function tempMigration({ columns, ...rest }: ITableConf) {
+  return {
+    ...rest,
+    columns: columns.map(({ id, ...restColumn }) => ({
+      id: id ?? randomId(),
+      ...restColumn,
+    })),
+  };
+}
+
 export function VizTablePanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   const form = useForm({
@@ -20,7 +32,7 @@ export function VizTablePanel({ context }: VizConfigProps) {
   useEffect(() => {
     const updated = defaults({}, conf, form.values, DEFAULT_CONFIG);
     if (conf) {
-      form.setValues(updated);
+      form.setValues(tempMigration(updated));
     }
   }, [conf]);
   const data = (context.data || []) as AnyObject[];
