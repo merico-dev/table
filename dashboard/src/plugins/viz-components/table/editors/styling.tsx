@@ -1,41 +1,71 @@
 import { Group, Stack, Switch, TextInput } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { ITableConf } from '../type';
 
 interface IStylingFields {
-  form: UseFormReturnType<ITableConf>;
+  control: Control<ITableConf, $TSFixMe>;
+  watch: UseFormWatch<ITableConf>;
+  data: $TSFixMe[];
 }
-export function StylingFields({ form }: IStylingFields) {
+export function StylingFields({ control, watch, data }: IStylingFields) {
   return (
     <Stack spacing="xs">
       <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
-        <TextInput
-          label="Horizontal Spacing"
-          placeholder="10px, 1em, 1rem, 100%..."
-          required
-          sx={{ flex: 1 }}
-          {...form.getInputProps('horizontalSpacing')}
+        <Controller
+          name="horizontalSpacing"
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              label="Horizontal Spacing"
+              placeholder="10px, 1em, 1rem, 100%..."
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
+          )}
         />
-        <TextInput
-          label="Vertical Spacing"
-          placeholder="10px, 1em, 1rem, 100%..."
-          required
-          sx={{ flex: 1 }}
-          {...form.getInputProps('verticalSpacing')}
+        <Controller
+          name="verticalSpacing"
+          control={control}
+          render={({ field }) => (
+            <TextInput
+              label="Vertical Spacing"
+              placeholder="10px, 1em, 1rem, 100%..."
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
+          )}
         />
       </Group>
       <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>
-        <TextInput
-          label="Font Size"
-          placeholder="10px, 1em, 1rem, 100%..."
-          required
-          sx={{ flex: 1 }}
-          {...form.getInputProps('fontSize')}
+        <Controller
+          name="fontSize"
+          control={control}
+          render={({ field }) => (
+            <TextInput label="Font Size" placeholder="10px, 1em, 1rem, 100%..." required sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Group position="apart" grow>
-        <Switch label="Striped" {...form.getInputProps('striped', { type: 'checkbox' })} />
-        <Switch label="Highlight on hover" {...form.getInputProps('highlightOnHover', { type: 'checkbox' })} />
+        <Controller
+          name="striped"
+          control={control}
+          render={({ field }) => (
+            <Switch label="Striped" checked={field.value} onChange={(e) => field.onChange(e.currentTarget.checked)} />
+          )}
+        />
+        <Controller
+          name="highlightOnHover"
+          control={control}
+          render={({ field }) => (
+            <Switch
+              label="Highlight on hover"
+              checked={field.value}
+              onChange={(e) => field.onChange(e.currentTarget.checked)}
+            />
+          )}
+        />
       </Group>
     </Stack>
   );

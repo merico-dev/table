@@ -1,61 +1,67 @@
 import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form';
-import _ from 'lodash';
-import { useEffect } from 'react';
+import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { BackgroundColorSelect } from '../../components/background-color-select';
-import { DEFAULT_CELL_FUNC_CONTENT, ITableConf, ValueType } from '../../type';
+import { DEFAULT_CELL_FUNC_CONTENT, IColumnConf, ITableConf, ValueType } from '../../type';
 import { ValueTypeSelector } from '../../value-type-selector';
 import { FuncContentEditor } from './func_content-editor';
 
 interface IColumnField {
-  form: UseFormReturnType<ITableConf>;
+  control: Control<ITableConf, $TSFixMe>;
+  watch: UseFormWatch<ITableConf>;
   index: number;
+  remove: UseFieldArrayRemove;
+  column: IColumnConf;
   data: AnyObject[];
 }
-export const ColumnField = ({ form, index, data }: IColumnField) => {
-  const value_type = _.get(form.values, `columns.${index}.value_type`);
-  useEffect(() => {
-    if (value_type === ValueType.custom) {
-      const handleChange = form.getInputProps(`columns.${index}.func_content`).onChange;
-      handleChange(DEFAULT_CELL_FUNC_CONTENT);
-    }
-  }, [value_type, form]);
+export const ColumnField = ({ control, index, watch, remove, column, data }: IColumnField) => {
+  const value_type = watch(`columns.${index}.value_type`);
 
   return (
     <Stack my={0} sx={{ position: 'relative' }}>
       <Group grow>
-        <TextInput
-          label="Label"
-          required
-          id={`col-label-${index}`}
-          sx={{ flex: 1 }}
-          {...form.getInputProps(`columns.${index}.label`)}
+        <Controller
+          name={`columns.${index}.label`}
+          control={control}
+          render={({ field }) => (
+            <TextInput label="Label" required id={`col-label-${index}`} sx={{ flex: 1 }} {...field} />
+          )}
         />
-        <DataFieldSelector
-          label="Value Field"
-          required
-          data={data}
-          {...form.getInputProps(`columns.${index}.value_field`)}
+        <Controller
+          name={`columns.${index}.value_field`}
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Value Field" required data={data} {...field} />}
         />
       </Group>
       <Group grow>
-        <ValueTypeSelector label="Value Type" sx={{ flex: 1 }} {...form.getInputProps(`columns.${index}.value_type`)} />
+        <Controller
+          name={`columns.${index}.value_type`}
+          control={control}
+          render={({ field }) => <ValueTypeSelector label="Value Type" sx={{ flex: 1 }} {...field} />}
+        />
         {value_type === ValueType.custom && (
-          <FuncContentEditor {...form.getInputProps(`columns.${index}.func_content`)} />
+          <Controller
+            name={`columns.${index}.func_content`}
+            control={control}
+            render={({ field }) => (
+              <FuncContentEditor
+                value={field.value ?? DEFAULT_CELL_FUNC_CONTENT}
+                onChange={(v?: string) => field.onChange(v ?? '')}
+              />
+            )}
+          />
         )}
       </Group>
-      <BackgroundColorSelect {...form.getInputProps(`columns.${index}.cellBackgroundColor`)} />
+      <Controller
+        name={`columns.${index}.cellBackgroundColor`}
+        control={control}
+        render={({ field }) => <BackgroundColorSelect {...field} />}
+      />
 
       <Divider mb={4} mt={12} variant="dashed" />
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => form.removeListItem('columns', index)}
-      >
+      <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={() => remove(index)}>
         Delete this column
       </Button>
     </Stack>

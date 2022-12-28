@@ -1,9 +1,9 @@
 import { ActionIcon, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { Controller, useForm } from 'react-hook-form';
 import { randomId } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
-import { defaults } from 'lodash';
-import { useEffect } from 'react';
+import { defaults, defaultsDeep, isEqual } from 'lodash';
+import { useEffect, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins/hooks';
@@ -25,27 +25,37 @@ function tempMigration({ columns, ...rest }: ITableConf) {
 }
 
 export function VizTablePanel({ context }: VizConfigProps) {
-  const { value: conf, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
-  const form = useForm({
-    initialValues: DEFAULT_CONFIG,
-  });
-  useEffect(() => {
-    const updated = defaults({}, conf, form.values, DEFAULT_CONFIG);
-    if (conf) {
-      form.setValues(tempMigration(updated));
-    }
+  const { value: confValue, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
+  // const { variables } = context;
+  const data = context.data as $TSFixMe[];
+  const conf: ITableConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues: ITableConf = useMemo(() => {
+    return tempMigration(conf);
   }, [conf]);
-  const data = (context.data || []) as AnyObject[];
+
+  useEffect(() => {
+    const configMalformed = !isEqual(conf, defaultValues);
+    if (configMalformed) {
+      console.log('config malformed, resetting to defaults', conf, defaultValues);
+      void setConf(defaultValues);
+    }
+  }, [conf, defaultValues]);
+
+  const { control, handleSubmit, watch, getValues, reset } = useForm<ITableConf>({ defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
+
+  const values = getValues();
+  const changed = useMemo(() => {
+    return !isEqual(values, conf);
+  }, [values, conf]);
 
   return (
-    <form
-      onSubmit={form.onSubmit(async (val) => {
-        await setConf(val);
-      })}
-    >
+    <form onSubmit={handleSubmit(setConf)}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Text>Table Config</Text>
-        <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">
+        <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue" disabled={!changed}>
           <DeviceFloppy size={20} />
         </ActionIcon>
       </Group>
@@ -71,20 +81,24 @@ export function VizTablePanel({ context }: VizConfigProps) {
         </Tabs.List>
 
         <Tabs.Panel value="Data">
-          <DataFieldSelector label="ID Field" required data={data} {...form.getInputProps('id_field')} />
+          <Controller
+            name="id_field"
+            control={control}
+            render={({ field }) => <DataFieldSelector label="ID Field" required data={data} {...field} />}
+          />
         </Tabs.Panel>
         <Tabs.Panel value="Style">
-          <StylingFields form={form} />
+          <StylingFields control={control} watch={watch} data={data} />
         </Tabs.Panel>
         <Tabs.Panel value="Columns">
-          <ColumnsField form={form} data={data} />
+          <ColumnsField control={control} watch={watch} data={data} />
         </Tabs.Panel>
         <Tabs.Panel value="Config JSON">
           <Text weight={500} mb="md">
             Current Configuration:
           </Text>
           <Prism language="json" colorScheme="dark" noCopy>
-            {JSON.stringify(form.values, null, 2)}
+            {JSON.stringify(getValues(), null, 2)}
           </Prism>
         </Tabs.Panel>
       </Tabs>

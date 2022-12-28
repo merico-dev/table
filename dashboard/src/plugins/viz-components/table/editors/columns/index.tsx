@@ -1,34 +1,50 @@
-import { ActionIcon, Button, Divider, Group, Stack, Switch, Tabs, Text } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form';
+import { ActionIcon, Divider, Stack, Switch, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
+import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
 
 interface IColumnsField {
-  form: UseFormReturnType<ITableConf>;
+  control: Control<ITableConf, $TSFixMe>;
+  watch: UseFormWatch<ITableConf>;
   data: AnyObject[];
 }
-export const ColumnsField = ({ form, data }: IColumnsField) => {
+export const ColumnsField = ({ control, watch, data }: IColumnsField) => {
+  const { fields, append, remove, update } = useFieldArray({
+    control,
+    name: 'columns',
+  });
+
   const addColumn = () => {
     const id = randomId();
-    form.insertListItem('columns', {
+    append({
       id,
       label: id,
       value_field: 'value',
       value_type: ValueType.string,
     });
   };
+
+  watch('columns');
+  const use_raw_columns = watch('use_raw_columns');
   return (
     <>
-      <Switch
-        mt={20}
-        label="Use Original Data Columns"
-        {...form.getInputProps('use_raw_columns', { type: 'checkbox' })}
+      <Controller
+        name="use_raw_columns"
+        control={control}
+        render={({ field }) => (
+          <Switch
+            mt={20}
+            label="Use Original Data Columns"
+            checked={field.value}
+            onChange={(e) => field.onChange(e.currentTarget.checked)}
+          />
+        )}
       />
       <Divider mt={20} mb={10} variant="dashed" />
-      {!form.values.use_raw_columns && (
+      {!use_raw_columns && (
         <Stack>
           <Text my={0}>Custom Columns</Text>
           <Tabs
@@ -45,7 +61,7 @@ export const ColumnsField = ({ form, data }: IColumnsField) => {
             }}
           >
             <Tabs.List>
-              {form.values.columns.map((_item, index) => (
+              {fields.map((_item, index) => (
                 <Tabs.Tab key={_item.id} value={index.toString()}>
                   {index + 1}
                   {/* {field.name.trim() ? field.name : index + 1} */}
@@ -57,9 +73,17 @@ export const ColumnsField = ({ form, data }: IColumnsField) => {
                 </ActionIcon>
               </Tabs.Tab>
             </Tabs.List>
-            {form.values.columns.map((_item, index) => (
-              <Tabs.Panel key={_item.id} value={index.toString()}>
-                <ColumnField key={index} form={form} index={index} data={data} />
+            {fields.map((column, index) => (
+              <Tabs.Panel key={column.id} value={index.toString()}>
+                <ColumnField
+                  key={index}
+                  control={control}
+                  watch={watch}
+                  index={index}
+                  column={column}
+                  data={data}
+                  remove={remove}
+                />
               </Tabs.Panel>
             ))}
           </Tabs>
