@@ -3,6 +3,13 @@ import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoGQMConf } from '../type';
 
+function throwIfNotEmpty(error: unknown, path: string) {
+  const message = _.get(error, path, '');
+  if (message) {
+    throw new Error(message);
+  }
+}
+
 interface IExpertSystemPayload {
   dashboard: string;
   panels: Array<{
@@ -82,13 +89,11 @@ export const callExpertSystem =
     };
 
     try {
-      const res = await req(expertSystemURL, '/expert/v2/devtable', payload, {});
+      const res = await req(expertSystemURL, `/expert/v3/devtable/${conf.path}`, payload, {});
       return res;
     } catch (error) {
-      const message = _.get(error, 'response.data.detail', '');
-      if (message) {
-        throw new Error(message);
-      }
+      throwIfNotEmpty(error, 'response.data.detail');
+      throwIfNotEmpty(error, 'response.data.error');
       console.error(error);
       throw error;
     }

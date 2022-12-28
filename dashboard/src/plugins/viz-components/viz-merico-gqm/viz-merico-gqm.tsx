@@ -31,10 +31,11 @@ export function VizMericoGQM({ context }: VizViewProps) {
   }
   if (error) {
     return (
-      <Center sx={{ width, height }}>
-        <Stack spacing={20}>
+      // 25px is panel's title height, 20px is stack spacing
+      <Center sx={{ width, height: height - 25 - 20 }}>
+        <Stack align="center" spacing={20}>
           <MericoGQMErrorFigure />
-          <Text size={14} color="#3D3E45">
+          <Text align="center" size={14} color="#3D3E45">
             {error.message}
           </Text>
         </Stack>
