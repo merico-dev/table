@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { QueryModelInstance } from '../../model/queries';
+import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 import { SelectDataSource } from '../select-data-source';
 
 import { DeleteQuery } from './delete-query';
@@ -61,31 +62,19 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
         </Group>
         <Tabs defaultValue="SQL">
           <Tabs.List>
-            <Tabs.Tab value="SQL">SQL</Tabs.Tab>
+            <Tabs.Tab value="SQL">
+              <Group spacing={14}>
+                SQL
+                <ActionIcon mr={5} variant="filled" color="blue" disabled={!sqlChanged} onClick={submitSQLChanges}>
+                  <DeviceFloppy size={20} />
+                </ActionIcon>
+              </Group>
+            </Tabs.Tab>
             <Tabs.Tab value="Preview">Preview</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="SQL" pt="sm">
             <Box sx={{ position: 'relative' }}>
-              <Textarea
-                autosize
-                minRows={12}
-                maxRows={24}
-                className="code-textarea"
-                value={sql}
-                onChange={(e) => {
-                  setSQL(e.currentTarget.value);
-                }}
-              />
-              <ActionIcon
-                mr={5}
-                variant="filled"
-                color="blue"
-                sx={{ position: 'absolute', right: 10, top: 10 }}
-                disabled={!sqlChanged}
-                onClick={submitSQLChanges}
-              >
-                <DeviceFloppy size={20} />
-              </ActionIcon>
+              <MinimalMonacoEditor height="600px" value={sql} onChange={setSQL} />
             </Box>
           </Tabs.Panel>
           <Tabs.Panel value="Preview" pt="sm">
