@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoGQMConf } from '../type';
 
@@ -80,6 +81,15 @@ export const callExpertSystem =
       ],
     };
 
-    const res = await req(expertSystemURL, '/expert/v2/devtable', payload, {});
-    return res;
+    try {
+      const res = await req(expertSystemURL, '/expert/v2/devtable', payload, {});
+      return res;
+    } catch (error) {
+      const message = _.get(error, 'response.data.detail', '');
+      if (message) {
+        throw new Error(message);
+      }
+      console.error(error);
+      throw error;
+    }
   };

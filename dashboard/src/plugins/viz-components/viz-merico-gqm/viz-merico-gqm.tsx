@@ -1,10 +1,10 @@
-import { Box, LoadingOverlay, Tabs, Text } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { Box, Center, LoadingOverlay, Stack, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
+import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
@@ -27,6 +27,18 @@ export function VizMericoGQM({ context }: VizViewProps) {
       <Box sx={{ position: 'relative', height }}>
         <LoadingOverlay visible />
       </Box>
+    );
+  }
+  if (error) {
+    return (
+      <Center sx={{ width, height }}>
+        <Stack spacing={20}>
+          <MericoGQMErrorFigure />
+          <Text size={14} color="#3D3E45">
+            {error.message}
+          </Text>
+        </Stack>
+      </Center>
     );
   }
 
