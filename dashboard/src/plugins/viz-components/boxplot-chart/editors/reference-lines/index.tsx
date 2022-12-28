@@ -1,7 +1,7 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { IBoxplotChartConf } from '../type';
+import { IBoxplotChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 import { ITemplateVariable } from '~/utils/template';
 

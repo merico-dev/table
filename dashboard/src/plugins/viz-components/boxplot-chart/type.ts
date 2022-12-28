@@ -33,3 +33,12 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   color: '#228be6',
   reference_lines: [],
 };
+
+export interface IBoxplotDataItem {
+  name: string;
+  min: number;
+  q1: number;
+  median: number;
+  q3: number;
+  max: number;
+}

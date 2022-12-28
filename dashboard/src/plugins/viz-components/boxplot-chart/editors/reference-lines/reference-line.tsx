@@ -1,7 +1,7 @@
 import { ActionIcon, Group, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { IBoxplotChartConf } from '../type';
+import { IBoxplotChartConf } from '../../type';
 
 interface IReferenceLineField {
   control: Control<IBoxplotChartConf, $TSFixMe>;

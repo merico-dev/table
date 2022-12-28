@@ -1,15 +1,15 @@
-import { ActionIcon, Divider, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
-import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ReferenceLinesField } from './reference-lines';
+import { ReferenceLinesField } from './editors/reference-lines';
+import { XAxisField } from './editors/x-axis';
+import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 
 export function VizBoxplotChartPanel({ context }: VizConfigProps) {
@@ -59,44 +59,10 @@ export function VizBoxplotChartPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="X Axis">
-            <Group grow noWrap>
-              <Controller
-                name="x_axis.name"
-                control={control}
-                render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-              />
-              <Controller
-                name="x_axis.data_key"
-                control={control}
-                render={({ field }) => (
-                  <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                )}
-              />
-            </Group>
+            <XAxisField control={control} data={data} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Y Axis">
-            <Group grow noWrap>
-              <Controller
-                name="y_axis.name"
-                control={control}
-                render={({ field }) => <TextInput label="Y Axis Name" sx={{ flex: 1 }} {...field} />}
-              />
-              <Controller
-                name="y_axis.data_key"
-                control={control}
-                render={({ field }) => (
-                  <DataFieldSelector label="Y Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                )}
-              />
-            </Group>
-            <Stack>
-              <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
-              <Controller
-                name={'y_axis.label_formatter'}
-                control={control}
-                render={({ field }) => <NumbroFormatSelector {...field} />}
-              />
-            </Stack>
+            <YAxisField control={control} data={data} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Style">
             <Stack spacing={4}>
