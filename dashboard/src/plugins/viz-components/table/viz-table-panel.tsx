@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Prism } from '@mantine/prism';
 import { defaults } from 'lodash';
@@ -31,30 +31,51 @@ export function VizTablePanel({ context }: VizConfigProps) {
         await setConf(val);
       })}
     >
-      <Stack mt="md" spacing={10}>
-        <Group position="apart" sx={{ position: 'relative' }}>
-          <Text>Table Config</Text>
-          <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+      <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+        <Text>Table Config</Text>
+        <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue">
+          <DeviceFloppy size={20} />
+        </ActionIcon>
+      </Group>
+      <Tabs
+        defaultValue="Columns"
+        orientation="vertical"
+        styles={{
+          tab: {
+            paddingLeft: '6px',
+            paddingRight: '6px',
+          },
+          panel: {
+            paddingTop: '6px',
+            paddingLeft: '12px',
+          },
+        }}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="Data">Data</Tabs.Tab>
+          <Tabs.Tab value="Style">Style</Tabs.Tab>
+          <Tabs.Tab value="Columns">Columns</Tabs.Tab>
+          <Tabs.Tab value="Config JSON">Config JSON</Tabs.Tab>
+        </Tabs.List>
 
-        <Divider mt={10} mb={-10} variant="dashed" label="Data" labelPosition="center" />
-        <DataFieldSelector label="ID Field" required data={data} {...form.getInputProps('id_field')} />
-
-        <Divider mt={10} mb={-10} variant="dashed" label="Style" labelPosition="center" />
-        <StylingFields form={form} />
-
-        <Divider mt={10} mb={0} variant="dashed" label="Columns" labelPosition="center" />
-        <ColumnsField form={form} data={data} />
-
-        <Text weight={500} mb="md">
-          Current Configuration:
-        </Text>
-        <Prism language="json" colorScheme="dark" noCopy>
-          {JSON.stringify(form.values, null, 2)}
-        </Prism>
-      </Stack>
+        <Tabs.Panel value="Data">
+          <DataFieldSelector label="ID Field" required data={data} {...form.getInputProps('id_field')} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Style">
+          <StylingFields form={form} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Columns">
+          <ColumnsField form={form} data={data} />
+        </Tabs.Panel>
+        <Tabs.Panel value="Config JSON">
+          <Text weight={500} mb="md">
+            Current Configuration:
+          </Text>
+          <Prism language="json" colorScheme="dark" noCopy>
+            {JSON.stringify(form.values, null, 2)}
+          </Prism>
+        </Tabs.Panel>
+      </Tabs>
     </form>
   );
 }

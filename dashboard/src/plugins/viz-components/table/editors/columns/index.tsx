@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Switch, Text } from '@mantine/core';
+import { Button, Divider, Group, Stack, Switch, Text } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { AnyObject } from '~/types';
@@ -18,12 +18,15 @@ export const ColumnsField = ({ form, data }: IColumnsField) => {
     });
   return (
     <>
-      <Switch label="Use Original Data Columns" {...form.getInputProps('use_raw_columns', { type: 'checkbox' })} />
+      <Switch
+        mt={20}
+        label="Use Original Data Columns"
+        {...form.getInputProps('use_raw_columns', { type: 'checkbox' })}
+      />
+      <Divider mt={20} mb={10} variant="dashed" />
       {!form.values.use_raw_columns && (
         <Stack>
-          <Text mt="xl" mb={0}>
-            Custom Columns
-          </Text>
+          <Text my={0}>Custom Columns</Text>
           {form.values.columns.map((_item, index) => (
             <ColumnField key={index} form={form} index={index} data={data} />
           ))}
