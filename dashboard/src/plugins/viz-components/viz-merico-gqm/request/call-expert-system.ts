@@ -1,13 +1,19 @@
 import axios from 'axios';
+import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoGQMConf } from '../type';
 
+function throwIfNotEmpty(error: unknown, path: string) {
+  const message = _.get(error, path, '');
+  if (message) {
+    throw new Error(message);
+  }
+}
+
 interface IExpertSystemPayload {
   dashboard: string;
-  panels: Array<{
-    name: string;
-    data: AnyObject[];
-  }>;
+  panel: string;
+  data: AnyObject[];
 }
 
 interface IExpertSystemReply {
@@ -72,14 +78,17 @@ export const callExpertSystem =
 
     const payload: IExpertSystemPayload = {
       dashboard: goal,
-      panels: [
-        {
-          name: question,
-          data,
-        },
-      ],
+      panel: question,
+      data,
     };
 
-    const res = await req(expertSystemURL, '/expert/v2/devtable', payload, {});
-    return res;
+    try {
+      const res = await req(expertSystemURL, `/expert/v3/devtable/${conf.path}`, payload, {});
+      return res;
+    } catch (error) {
+      throwIfNotEmpty(error, 'response.data.detail');
+      throwIfNotEmpty(error, 'response.data.error');
+      console.error(error);
+      throw error;
+    }
   };

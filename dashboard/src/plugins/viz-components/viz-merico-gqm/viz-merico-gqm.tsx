@@ -1,12 +1,14 @@
-import { Box, LoadingOverlay, Tabs, Text } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+import { Box, Center, LoadingOverlay, Stack, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
+import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
+
+const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
 
 export function VizMericoGQM({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
@@ -29,15 +31,32 @@ export function VizMericoGQM({ context }: VizViewProps) {
       </Box>
     );
   }
+  if (error) {
+    return (
+      // 25px is panel's title height, 20px is stack spacing
+      <Center sx={{ width, height: height - 25 - 20 }}>
+        <Stack align="center" spacing={20}>
+          <MericoGQMErrorFigure />
+          <Text align="center" size={14} color="#3D3E45" sx={{ lineHeight: '32px' }}>
+            {error.message}
+          </Text>
+        </Stack>
+      </Center>
+    );
+  }
 
   if (!data || !Array.isArray(data.replies) || data.replies.length === 0) {
     return null;
   }
 
   return (
-    <Box>
+    <Box sx={BaseStyle}>
       {data.replies.map((r, i) => (
-        <div key={i} dangerouslySetInnerHTML={{ __html: r.interpretation.html }} />
+        <div
+          key={i}
+          dangerouslySetInnerHTML={{ __html: r.interpretation.html }}
+          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
+        />
       ))}
     </Box>
   );
