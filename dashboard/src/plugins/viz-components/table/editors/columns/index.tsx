@@ -1,6 +1,7 @@
-import { Button, Divider, Group, Stack, Switch, Text } from '@mantine/core';
+import { ActionIcon, Button, Divider, Group, Stack, Switch, Tabs, Text } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
+import { Plus } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
@@ -30,12 +31,38 @@ export const ColumnsField = ({ form, data }: IColumnsField) => {
       {!form.values.use_raw_columns && (
         <Stack>
           <Text my={0}>Custom Columns</Text>
-          {form.values.columns.map((_item, index) => (
-            <ColumnField key={index} form={form} index={index} data={data} />
-          ))}
-          <Group position="center" mt="xs">
-            <Button onClick={addColumn}>Add a Column</Button>
-          </Group>
+          <Tabs
+            defaultValue={'0'}
+            styles={{
+              tab: {
+                paddingTop: '0px',
+                paddingBottom: '0px',
+              },
+              panel: {
+                padding: '0px',
+                paddingTop: '6px',
+              },
+            }}
+          >
+            <Tabs.List>
+              {form.values.columns.map((_item, index) => (
+                <Tabs.Tab key={_item.id} value={index.toString()}>
+                  {index + 1}
+                  {/* {field.name.trim() ? field.name : index + 1} */}
+                </Tabs.Tab>
+              ))}
+              <Tabs.Tab onClick={addColumn} value="add">
+                <ActionIcon>
+                  <Plus size={18} color="#228be6" />
+                </ActionIcon>
+              </Tabs.Tab>
+            </Tabs.List>
+            {form.values.columns.map((_item, index) => (
+              <Tabs.Panel key={_item.id} value={index.toString()}>
+                <ColumnField key={index} form={form} index={index} data={data} />
+              </Tabs.Panel>
+            ))}
+          </Tabs>
         </Stack>
       )}
     </>

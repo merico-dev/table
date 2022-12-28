@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Divider, Group, Stack, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
@@ -14,8 +14,8 @@ interface IColumnField {
 }
 export const ColumnField = ({ form, index, data }: IColumnField) => {
   return (
-    <Stack my={0} pr={40} sx={{ position: 'relative' }}>
-      <Group position="apart" grow>
+    <Stack my={0} sx={{ position: 'relative' }}>
+      <Group grow>
         <TextInput
           label="Label"
           required
@@ -29,17 +29,19 @@ export const ColumnField = ({ form, index, data }: IColumnField) => {
           data={data}
           {...form.getInputProps(`columns.${index}.value_field`)}
         />
-        <ValueTypeSelector label="Value Type" sx={{ flex: 1 }} {...form.getInputProps(`columns.${index}.value_type`)} />
-        <BackgroundColorSelect {...form.getInputProps(`columns.${index}.cellBackgroundColor`)} />
       </Group>
-      <ActionIcon
+      <ValueTypeSelector label="Value Type" sx={{ flex: 1 }} {...form.getInputProps(`columns.${index}.value_type`)} />
+      <BackgroundColorSelect {...form.getInputProps(`columns.${index}.cellBackgroundColor`)} />
+
+      <Divider mb={4} mt={12} variant="dashed" />
+      <Button
+        leftIcon={<Trash size={16} />}
         color="red"
-        variant="subtle"
+        variant="light"
         onClick={() => form.removeListItem('columns', index)}
-        sx={{ position: 'absolute', top: 15, right: 5 }}
       >
-        <Trash size={16} />
-      </ActionIcon>
+        Delete this column
+      </Button>
     </Stack>
   );
 };
