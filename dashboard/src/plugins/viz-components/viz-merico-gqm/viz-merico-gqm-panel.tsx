@@ -18,14 +18,24 @@ export function VizMericoGQMPanel({ context }: VizConfigProps) {
 
   return (
     <Stack>
-      <TextInput
-        value={conf.expertSystemURL}
-        onChange={(e) => {
-          setConfByKey('expertSystemURL', e.currentTarget.value);
-        }}
-        label="Expert System URL"
-        required
-      />
+      <Group grow>
+        <TextInput
+          value={conf.expertSystemURL}
+          onChange={(e) => {
+            setConfByKey('expertSystemURL', e.currentTarget.value);
+          }}
+          label="Expert System URL"
+          required
+        />
+        <TextInput
+          label="Path"
+          value={conf.path}
+          onChange={(e) => {
+            setConfByKey('path', e.currentTarget.value);
+          }}
+          required
+        />
+      </Group>
       <Group grow>
         <TextInput
           label="Goal"

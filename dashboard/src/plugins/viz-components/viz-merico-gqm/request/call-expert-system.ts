@@ -12,10 +12,8 @@ function throwIfNotEmpty(error: unknown, path: string) {
 
 interface IExpertSystemPayload {
   dashboard: string;
-  panels: Array<{
-    name: string;
-    data: AnyObject[];
-  }>;
+  panel: string;
+  data: AnyObject[];
 }
 
 interface IExpertSystemReply {
@@ -80,12 +78,8 @@ export const callExpertSystem =
 
     const payload: IExpertSystemPayload = {
       dashboard: goal,
-      panels: [
-        {
-          name: question,
-          data,
-        },
-      ],
+      panel: question,
+      data,
     };
 
     try {
