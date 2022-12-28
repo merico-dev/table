@@ -98,7 +98,11 @@ export function getOption({ config, data, variables }: IGetOption) {
         type: 'boxplot',
         itemStyle: {
           color,
-          borderColor: '#454545',
+          borderColor: '#2F8CC0',
+          borderWidth: 2,
+        },
+        emphasis: {
+          disabled: true,
         },
         boxWidth: [10, 40],
         datasetIndex: 0,
