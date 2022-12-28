@@ -8,6 +8,8 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
+const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
+
 export function VizMericoGQM({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
   const conf: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -35,7 +37,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
       <Center sx={{ width, height: height - 25 - 20 }}>
         <Stack align="center" spacing={20}>
           <MericoGQMErrorFigure />
-          <Text align="center" size={14} color="#3D3E45">
+          <Text align="center" size={14} color="#3D3E45" sx={{ lineHeight: '32px' }}>
             {error.message}
           </Text>
         </Stack>
@@ -48,9 +50,13 @@ export function VizMericoGQM({ context }: VizViewProps) {
   }
 
   return (
-    <Box>
+    <Box sx={BaseStyle}>
       {data.replies.map((r, i) => (
-        <div key={i} dangerouslySetInnerHTML={{ __html: r.interpretation.html }} />
+        <div
+          key={i}
+          dangerouslySetInnerHTML={{ __html: r.interpretation.html }}
+          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
+        />
       ))}
     </Box>
   );
