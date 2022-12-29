@@ -129,12 +129,12 @@ export function getOption({ config, data, variables }: IGetOption) {
       {
         name: y_axis.name,
         type: 'scatter',
-        symbolSize: 6,
+        symbolSize: 5,
         itemStyle: {
           color,
         },
         emphasis: {
-          scale: 1.2,
+          scale: 2,
         },
         datasetIndex: 1,
       },

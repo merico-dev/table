@@ -1,19 +1,34 @@
-import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import _ from 'lodash';
 import numbro from 'numbro';
-import { IBoxplotChartConf, IBoxplotDataItem } from '../type';
+import { AnyObject } from '~/types';
+import { IBoxplotChartConf } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 
-const getFormatter = (config: IBoxplotChartConf) => (params: TopLevelFormatterParams) => {
-  if (!Array.isArray(params) || params.length === 0) {
-    return;
+function getScatterTooltipContent(value: [string, number]) {
+  const template = `
+    <table>
+      <tbody>
+        <tr>
+          <th style="text-align: left;">${value[0]}</th>
+          <td style="text-align: right;">${value[1]}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+  return template;
+}
+
+const getFormatter = (config: IBoxplotChartConf) => (params: AnyObject) => {
+  const { componentSubType, value } = params;
+
+  if (componentSubType === 'scatter') {
+    return getScatterTooltipContent(value as [string, number]);
   }
 
-  const value = params[0].value as IBoxplotDataItem;
   const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
     return `
     <tr>
-      <td>${_.capitalize(key)}</td>
+      <th style="text-align: left;">${_.capitalize(key)}</th>
       <td style="text-align: right;">
         ${numbro(value[key]).format(config.y_axis.label_formatter)}
       </td>
@@ -37,7 +52,7 @@ const getFormatter = (config: IBoxplotChartConf) => (params: TopLevelFormatterPa
 
 export function getTooltip({ config }: { config: IBoxplotChartConf }) {
   return {
-    trigger: 'axis',
+    trigger: 'item',
     confine: true,
     formatter: getFormatter(config),
   };
