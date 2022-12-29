@@ -1,6 +1,5 @@
-import _ from 'lodash';
+import _, { maxBy, minBy } from 'lodash';
 import numbro from 'numbro';
-import { useMemo } from 'react';
 import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
@@ -10,13 +9,23 @@ import { getTooltip } from './tooltip';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
+    const q1 = aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.25 } });
+    const q3 = aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.75 } });
+    const median = aggregateValue(data, data_key, { type: 'median', config: {} });
+    const IQR = q3 - q1;
+    const minLimit = q1 - 1.5 * IQR;
+    const maxLimit = q1 + 1.5 * IQR;
+    const dataPoints = data.map((d) => [name, d[data_key]] as [string, number]);
+    const validPoints = dataPoints.filter((p) => minLimit <= p[1] && p[1] <= maxLimit);
+    const outliers = dataPoints.filter((p) => p[1] < minLimit || p[1] > maxLimit);
     return {
       name,
-      min: aggregateValue(data, data_key, { type: 'min', config: {} }),
-      q1: aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.25 } }),
-      median: aggregateValue(data, data_key, { type: 'median', config: {} }),
-      q3: aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.75 } }),
-      max: aggregateValue(data, data_key, { type: 'max', config: {} }),
+      min: minBy(validPoints, (p) => p[1])?.[1] ?? -1,
+      q1,
+      median,
+      q3,
+      max: maxBy(validPoints, (p) => p[1])?.[1] ?? -1,
+      outliers,
     } as IBoxplotDataItem;
   });
   return ret;
@@ -61,11 +70,15 @@ export function getOption({ config, data, variables }: IGetOption) {
   const { x_axis, y_axis, color, reference_lines } = config;
   const grouped = _.groupBy(data, x_axis.data_key);
   const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
+  const outliersData = boxplotData.map((b) => b.outliers).flat();
 
   return {
     dataset: [
       {
         source: boxplotData,
+      },
+      {
+        source: outliersData,
       },
     ],
     tooltip: getTooltip({ config }),
@@ -112,6 +125,18 @@ export function getOption({ config, data, variables }: IGetOption) {
           itemName: ['name'],
           tooltip: BOXPLOT_DATA_ITEM_KEYS,
         },
+      },
+      {
+        name: y_axis.name,
+        type: 'scatter',
+        symbolSize: 5,
+        itemStyle: {
+          color,
+        },
+        emphasis: {
+          scale: 2,
+        },
+        datasetIndex: 1,
       },
       ...getReferenceLines(reference_lines, variables, data),
     ],

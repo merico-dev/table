@@ -41,4 +41,5 @@ export interface IBoxplotDataItem {
   median: number;
   q3: number;
   max: number;
+  outliers: Array<[string, number]>;
 }
