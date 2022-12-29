@@ -43,7 +43,6 @@ export default defineConfig({
         '@mantine/modals',
         '@mantine/notifications',
         '@mantine/prism',
-        '@mantine/rte',
         '@mantine/tiptap',
         // '@tanstack/react-table'
         '@monaco-editor/react',
@@ -90,7 +89,6 @@ export default defineConfig({
           '@mantine/modals': '@mantine/modals',
           '@mantine/notifications': '@mantine/notifications',
           '@mantine/prism': '@mantine/prism',
-          '@mantine/rte': '@mantine/rte',
           '@mantine/tiptap': '@mantine/tiptap',
           '@monaco-editor/react': '@monaco-editor/react',
           '@tanstack/react-table': '@tanstack/react-table',
