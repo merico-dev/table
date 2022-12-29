@@ -9,7 +9,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 interface ICustomRichTextEditor {
   value: string;
@@ -36,6 +36,10 @@ export const CustomRichTextEditor = forwardRef(({ value, onChange, styles = {} }
       onChange?.(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    editor?.commands.setContent(value);
+  }, [value, editor]);
 
   return (
     <RichTextEditor editor={editor} styles={styles}>
