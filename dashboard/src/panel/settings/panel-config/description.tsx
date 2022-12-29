@@ -1,9 +1,9 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
-import { RichTextEditor } from '@mantine/rte';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { usePanelContext } from '../../../contexts/panel-context';
+import { CustomRichTextEditor } from '../common/custom-rich-text-editor';
 
 export const EditDescription = observer(() => {
   const { panel } = usePanelContext();
@@ -26,7 +26,7 @@ export const EditDescription = observer(() => {
           <DeviceFloppy size={20} />
         </ActionIcon>
       </Group>
-      <RichTextEditor value={value} onChange={onChange} sx={{ flexGrow: 1 }} sticky p="0" />
+      <CustomRichTextEditor value={value} onChange={onChange} styles={{ root: { flexGrow: 1 } }} />
     </Stack>
   );
 });
