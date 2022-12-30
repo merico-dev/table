@@ -7,9 +7,12 @@ import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 function getScatterTooltipContent(value: [string, number]) {
   const template = `
     <table>
+    <thead>
+      <th colspan="2" style="text-align: left;">${value[0]}</th>
+    </thead>
       <tbody>
         <tr>
-          <th style="text-align: left;">${value[0]}</th>
+          <th style="text-align: left;">Outlier</th>
           <td style="text-align: right;">${value[1]}</td>
         </tr>
       </tbody>
