@@ -5,6 +5,7 @@ import { aggregateValue } from '~/utils/aggregation';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
+import { getLegend } from './legend';
 import { getTooltip } from './tooltip';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
@@ -81,6 +82,7 @@ export function getOption({ config, data, variables }: IGetOption) {
         source: outliersData,
       },
     ],
+    legend: getLegend({ config }),
     tooltip: getTooltip({ config }),
     xAxis: [
       {
@@ -107,7 +109,7 @@ export function getOption({ config, data, variables }: IGetOption) {
     ],
     series: [
       {
-        name: y_axis.name,
+        name: 'Box',
         type: 'boxplot',
         itemStyle: {
           color,
@@ -127,11 +129,11 @@ export function getOption({ config, data, variables }: IGetOption) {
         },
       },
       {
-        name: y_axis.name,
+        name: 'Outlier',
         type: 'scatter',
         symbolSize: 5,
         itemStyle: {
-          color,
+          color: '#2F8CC0',
         },
         emphasis: {
           scale: 2,
