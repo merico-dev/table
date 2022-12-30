@@ -8,7 +8,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
   const options = React.useMemo(() => {
     return model.queries.current.map((d) => ({
       value: d.id,
-      label: d.id,
+      label: d.name,
     }));
   }, [model.queries.current]);
   const empty = options.length === 0;
