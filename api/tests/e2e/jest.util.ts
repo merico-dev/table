@@ -5,7 +5,7 @@ import { cryptSign } from "~/utils/helpers";
 
 export function connectionHook(): void {
   beforeAll(async () => {
-    dashboardDataSource.setOptions({ url: process.env.TEST_PG_URL! });
+    dashboardDataSource.setOptions({ url: process.env.END_2_END_TEST_PG_URL! });
     await dashboardDataSource.initialize();
   });
   afterAll(async () => {

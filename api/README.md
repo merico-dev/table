@@ -21,6 +21,9 @@ Variables for configuring preset ApiKeys. Separate values with ; ex: PRESET_API_
 
 - `EXPRESS_REQUEST_MAX_SIZE` maximum request size for the express server. Default is 1mb
 
+Test database connections
+- `END_2_END_TEST_PG_URL` e2e test postgres connection URL
+- `INTEGRATION_TEST_PG_URL` integration test postgres connection URL
 
 ### up and running
 1. `yarn install`
