@@ -30,9 +30,7 @@ describe('JobController', () => {
     };
     validate.mockReturnValueOnce(query);
 
-    const response = await server
-      .post('/account/login')
-      .send(query);
+    const response = await server.post('/account/login').send(query);
 
     superadminLogin = response.body;
 
@@ -44,16 +42,16 @@ describe('JobController', () => {
             {
               id: 'pgQuery',
               type: 'postgresql',
-              key: 'jobPG'
+              key: 'jobPG',
             },
             {
               id: 'httpQuery',
               type: 'http',
-              key: 'jobHTTP'
-            }
-          ]
-        }
-      }
+              key: 'jobHTTP',
+            },
+          ],
+        },
+      },
     };
     validate.mockReturnValueOnce(dashboardQuery);
 
@@ -74,7 +72,7 @@ describe('JobController', () => {
         username,
         password,
         database,
-        port
+        port,
       },
     };
     validate.mockReturnValueOnce(pgQuery);
@@ -83,14 +81,14 @@ describe('JobController', () => {
       .post('/datasource/create')
       .set('Authorization', `Bearer ${superadminLogin.token}`)
       .send(pgQuery);
-    
+
     pgDatasource = pgResponse.body;
 
     const httpQuery: DataSourceCreateRequest = {
       type: 'http',
       key: 'jobHTTP',
       config: {
-        host: 'http://jsonplaceholder.typicode.com'
+        host: 'http://jsonplaceholder.typicode.com',
       },
     };
     validate.mockReturnValueOnce(httpQuery);
@@ -111,7 +109,7 @@ describe('JobController', () => {
     it('rename jobPG', async () => {
       const query: DataSourceRenameRequest = {
         id: pgDatasource.id,
-        key: pgDatasource.key + '_renamed'
+        key: pgDatasource.key + '_renamed',
       };
       validate.mockReturnValueOnce(query);
 
@@ -126,11 +124,11 @@ describe('JobController', () => {
         params: {
           type: 'postgresql',
           old_key: pgDatasource.key,
-          new_key: pgDatasource.key + '_renamed'
+          new_key: pgDatasource.key + '_renamed',
         },
         id: response.body.id,
         create_time: response.body.create_time,
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
       pgDatasource.key = pgDatasource.key + '_renamed';
 
@@ -140,7 +138,7 @@ describe('JobController', () => {
     it('rename jobHTTP', async () => {
       const query: DataSourceRenameRequest = {
         id: httpDatasource.id,
-        key: httpDatasource.key + '_renamed'
+        key: httpDatasource.key + '_renamed',
       };
       validate.mockReturnValueOnce(query);
 
@@ -155,11 +153,11 @@ describe('JobController', () => {
         params: {
           type: 'http',
           old_key: httpDatasource.key,
-          new_key: httpDatasource.key + '_renamed'
+          new_key: httpDatasource.key + '_renamed',
         },
         id: response.body.id,
         create_time: response.body.create_time,
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
       httpDatasource.key = httpDatasource.key + '_renamed';
       await sleep(2000);
@@ -170,7 +168,7 @@ describe('JobController', () => {
     it('no filters', async () => {
       const query: JobListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' }
+        sort: { field: 'create_time', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -190,11 +188,11 @@ describe('JobController', () => {
             params: {
               type: 'http',
               new_key: 'jsonplaceholder_renamed',
-              old_key: 'jsonplaceholder'
+              old_key: 'jsonplaceholder',
             },
             result: { affected_dashboards: [] },
             create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time
+            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
@@ -203,40 +201,40 @@ describe('JobController', () => {
             params: {
               type: 'postgresql',
               new_key: 'jobPG_renamed',
-              old_key: 'jobPG'
+              old_key: 'jobPG',
             },
             result: {
               affected_dashboards: [
                 {
-                  queries: [ 'pgQuery' ],
-                  dashboardId: dashboard.id
-                }
-              ]
+                  queries: ['pgQuery'],
+                  dashboardId: dashboard.id,
+                },
+              ],
             },
             create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time
+            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
-            params: { 
+            params: {
               type: 'http',
               new_key: 'jobHTTP_renamed',
-              old_key: 'jobHTTP'
+              old_key: 'jobHTTP',
             },
             result: {
               affected_dashboards: [
                 {
-                  queries: [ 'httpQuery' ],
-                  dashboardId: dashboard.id
-                }
-              ]
+                  queries: ['httpQuery'],
+                  dashboardId: dashboard.id,
+                },
+              ],
             },
             create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time
-          }
-        ]
+            update_time: response.body.data[2].update_time,
+          },
+        ],
       });
     });
   });
@@ -246,7 +244,7 @@ describe('JobController', () => {
       const query: DashboardListRequest = {
         filter: { search: 'jobDashboard' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -268,22 +266,22 @@ describe('JobController', () => {
                   {
                     id: 'pgQuery',
                     type: 'postgresql',
-                    key: 'jobPG_renamed'
+                    key: 'jobPG_renamed',
                   },
                   {
                     id: 'httpQuery',
                     type: 'http',
-                    key: 'jobHTTP_renamed'
-                  }
-                ]
-              }
+                    key: 'jobHTTP_renamed',
+                  },
+                ],
+              },
             },
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
-        ]
+        ],
       });
     });
   });
@@ -297,7 +295,7 @@ describe('JobController', () => {
       job1.params = {
         type: 'postgresql',
         new_key: 'jobPG_renamed',
-        old_key: 'jobPG'
+        old_key: 'jobPG',
       };
       await jobRepo.save(job1);
 
@@ -307,21 +305,18 @@ describe('JobController', () => {
       job2.params = {
         type: 'postgresql',
         new_key: 'jobPG',
-        old_key: 'jobPG_renamed'
+        old_key: 'jobPG_renamed',
       };
       await jobRepo.save(job2);
     });
 
     it('run jobs', async () => {
       const query: JobRunRequest = {
-        type: 'RENAME_DATASOURCE'
+        type: 'RENAME_DATASOURCE',
       };
       validate.mockReturnValueOnce(query);
 
-      await server
-        .post('/job/run')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
+      await server.post('/job/run').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
       await sleep(2000);
     });
@@ -329,7 +324,7 @@ describe('JobController', () => {
     it('list jobs', async () => {
       const query: JobListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' }
+        sort: { field: 'create_time', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -349,11 +344,11 @@ describe('JobController', () => {
             params: {
               type: 'http',
               new_key: 'jsonplaceholder_renamed',
-              old_key: 'jsonplaceholder'
+              old_key: 'jsonplaceholder',
             },
             result: { affected_dashboards: [] },
             create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time
+            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
@@ -362,38 +357,38 @@ describe('JobController', () => {
             params: {
               type: 'postgresql',
               new_key: 'jobPG_renamed',
-              old_key: 'jobPG'
+              old_key: 'jobPG',
             },
             result: {
               affected_dashboards: [
                 {
-                  queries: [ 'pgQuery' ],
-                  dashboardId: dashboard.id
-                }
-              ]
+                  queries: ['pgQuery'],
+                  dashboardId: dashboard.id,
+                },
+              ],
             },
             create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time
+            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
-            params: { 
+            params: {
               type: 'http',
               new_key: 'jobHTTP_renamed',
-              old_key: 'jobHTTP'
+              old_key: 'jobHTTP',
             },
             result: {
               affected_dashboards: [
                 {
-                  queries: [ 'httpQuery' ],
-                  dashboardId: dashboard.id
-                }
-              ]
+                  queries: ['httpQuery'],
+                  dashboardId: dashboard.id,
+                },
+              ],
             },
             create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time
+            update_time: response.body.data[2].update_time,
           },
           {
             id: response.body.data[3].id,
@@ -402,11 +397,11 @@ describe('JobController', () => {
             params: {
               type: 'postgresql',
               new_key: 'jobPG_renamed',
-              old_key: 'jobPG'
+              old_key: 'jobPG',
             },
             result: response.body.data[3].result,
             create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time
+            update_time: response.body.data[3].update_time,
           },
           {
             id: response.body.data[4].id,
@@ -415,20 +410,20 @@ describe('JobController', () => {
             params: {
               type: 'postgresql',
               new_key: 'jobPG',
-              old_key: 'jobPG_renamed'
+              old_key: 'jobPG_renamed',
             },
             result: {
               affected_dashboards: [
                 {
-                  queries: [ 'pgQuery' ],
-                  dashboardId: dashboard.id
-                }
-              ]
+                  queries: ['pgQuery'],
+                  dashboardId: dashboard.id,
+                },
+              ],
             },
             create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time
+            update_time: response.body.data[4].update_time,
           },
-        ]
+        ],
       });
     });
   });

@@ -15,7 +15,7 @@ describe('Utils', () => {
           database: 'test',
           password: 'test',
           port: 0,
-          username: 'test'
+          username: 'test',
         },
         id: crypto.randomUUID(),
         is_preset: false,
@@ -31,7 +31,7 @@ describe('Utils', () => {
         database: 'test',
         password: 'test',
         port: 0,
-        username: 'test'
+        username: 'test',
       });
 
       maybeDecryptPassword(source);
@@ -40,7 +40,7 @@ describe('Utils', () => {
         database: 'test',
         password: 'test',
         port: 0,
-        username: 'test'
+        username: 'test',
       });
     });
   });
@@ -62,7 +62,7 @@ describe('Utils', () => {
         password: 'test',
         database: 'test',
         type: 'postgres',
-        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS
+        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,
       });
 
       const mysqlresult: DataSourceOptions = configureDatabaseSource('mysql', config);
@@ -73,7 +73,7 @@ describe('Utils', () => {
         password: 'test',
         database: 'test',
         type: 'mysql',
-        connectTimeout: DATABASE_CONNECTION_TIMEOUT_MS
+        connectTimeout: DATABASE_CONNECTION_TIMEOUT_MS,
       });
     });
 
@@ -100,9 +100,9 @@ describe('Utils', () => {
         a: 1,
         b: 'test',
         c: true,
-        d: { 
+        d: {
           d1: 'test',
-          d2: false
+          d2: false,
         },
         e: [1, 'test', true, { e1: 'test', e2: false }],
       };

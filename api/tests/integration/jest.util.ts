@@ -1,5 +1,5 @@
-import { omit } from "lodash";
-import { dashboardDataSource } from "~/data_sources/dashboard";
+import { omit } from 'lodash';
+import { dashboardDataSource } from '~/data_sources/dashboard';
 
 export function connectionHook(): void {
   beforeAll(async () => {
@@ -12,11 +12,13 @@ export function connectionHook(): void {
 }
 
 export function omitTime(data: any[]): any[] {
-  return data.map((x) => { return omit(x, ['create_time', 'update_time']) });
+  return data.map((x) => {
+    return omit(x, ['create_time', 'update_time']);
+  });
 }
 
 function timeout(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 export async function sleep(ms: number) {
   await timeout(ms);

@@ -1,7 +1,13 @@
 import { connectionHook } from './jest.util';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import { DataSourceConfig, DataSourceCreateRequest, DataSourceIDRequest, DataSourceListRequest, DataSourceRenameRequest } from '~/api_models/datasource';
+import {
+  DataSourceConfig,
+  DataSourceCreateRequest,
+  DataSourceIDRequest,
+  DataSourceListRequest,
+  DataSourceRenameRequest,
+} from '~/api_models/datasource';
 import { maybeDecryptPassword, maybeEncryptPassword } from '~/utils/encryption';
 import { parseDBUrl } from '../utils';
 import * as validation from '~/middleware/validation';
@@ -28,9 +34,7 @@ describe('DataSourceController', () => {
     };
     validate.mockReturnValueOnce(query);
 
-    const response = await server
-      .post('/account/login')
-      .send(query);
+    const response = await server.post('/account/login').send(query);
 
     superadminLogin = response.body;
 
@@ -45,7 +49,7 @@ describe('DataSourceController', () => {
       username,
       password,
       database,
-      port
+      port,
     };
     maybeEncryptPassword(presetData.config);
     presetDatasource = await dashboardDataSource.getRepository(DataSource).save(presetData);
@@ -67,7 +71,7 @@ describe('DataSourceController', () => {
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          port: postgresConfig.port
+          port: postgresConfig.port,
         },
       };
       validate.mockReturnValueOnce(pgQuery);
@@ -86,19 +90,19 @@ describe('DataSourceController', () => {
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          port: 5432
+          port: 5432,
         },
         id: pgDatasource.id,
         create_time: pgDatasource.create_time,
         update_time: pgDatasource.update_time,
-        is_preset: false
+        is_preset: false,
       });
 
       const httpQuery: DataSourceCreateRequest = {
         type: 'http',
         key: 'jsonplaceholder',
         config: {
-          host: 'http://jsonplaceholder.typicode.com'
+          host: 'http://jsonplaceholder.typicode.com',
         },
       };
       validate.mockReturnValueOnce(httpQuery);
@@ -116,7 +120,7 @@ describe('DataSourceController', () => {
         id: httpDatasource.id,
         create_time: httpDatasource.create_time,
         update_time: httpDatasource.update_time,
-        is_preset: false
+        is_preset: false,
       });
     });
 
@@ -129,7 +133,7 @@ describe('DataSourceController', () => {
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          port: postgresConfig.port
+          port: postgresConfig.port,
         },
       };
       validate.mockReturnValueOnce(query);
@@ -138,12 +142,12 @@ describe('DataSourceController', () => {
         .post('/datasource/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "data_source_type_key_idx"'
-        }
+          message: 'duplicate key value violates unique constraint "data_source_type_key_idx"',
+        },
       });
     });
 
@@ -156,7 +160,7 @@ describe('DataSourceController', () => {
           username: postgresConfig.username,
           password: postgresConfig.password,
           database: postgresConfig.database,
-          port: 22
+          port: 22,
         },
       };
       validate.mockReturnValueOnce(query);
@@ -165,10 +169,10 @@ describe('DataSourceController', () => {
         .post('/datasource/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Testing datasource connection failed' }
+        detail: { message: 'Testing datasource connection failed' },
       });
     });
   });
@@ -177,7 +181,7 @@ describe('DataSourceController', () => {
     it('no filters', async () => {
       const query: DataSourceListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' }
+        sort: { field: 'key', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -185,7 +189,7 @@ describe('DataSourceController', () => {
         .post('/datasource/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
@@ -194,21 +198,21 @@ describe('DataSourceController', () => {
             id: response.body.data[0].id,
             type: 'http',
             key: 'jsonplaceholder',
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
             type: 'postgresql',
             key: 'pg',
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[2].id,
             type: 'postgresql',
             key: 'preset',
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
 
@@ -216,7 +220,7 @@ describe('DataSourceController', () => {
       const query: DataSourceListRequest = {
         filter: { search: 'preset' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' }
+        sort: { field: 'key', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -224,7 +228,7 @@ describe('DataSourceController', () => {
         .post('/datasource/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -233,9 +237,9 @@ describe('DataSourceController', () => {
             id: response.body.data[0].id,
             type: 'postgresql',
             key: 'preset',
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
   });
@@ -244,7 +248,7 @@ describe('DataSourceController', () => {
     it('should fail if not found', async () => {
       const query: DataSourceRenameRequest = {
         id: notFoundId,
-        key: 'not_found'
+        key: 'not_found',
       };
       validate.mockReturnValueOnce(query);
 
@@ -261,7 +265,7 @@ describe('DataSourceController', () => {
     it('should fail if new key is same as old one', async () => {
       const query: DataSourceRenameRequest = {
         id: httpDatasource.id,
-        key: httpDatasource.key
+        key: httpDatasource.key,
       };
       validate.mockReturnValueOnce(query);
 
@@ -272,14 +276,14 @@ describe('DataSourceController', () => {
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'New key is the same as the old one' }
+        detail: { message: 'New key is the same as the old one' },
       });
     });
 
     it('should rename successfully', async () => {
       const query: DataSourceRenameRequest = {
         id: httpDatasource.id,
-        key: 'jsonplaceholder_renamed'
+        key: 'jsonplaceholder_renamed',
       };
       validate.mockReturnValueOnce(query);
 
@@ -294,11 +298,11 @@ describe('DataSourceController', () => {
         params: {
           type: 'http',
           old_key: 'jsonplaceholder',
-          new_key: 'jsonplaceholder_renamed'
+          new_key: 'jsonplaceholder_renamed',
         },
         id: response.body.id,
         create_time: response.body.create_time,
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
     });
   });
@@ -306,18 +310,15 @@ describe('DataSourceController', () => {
   describe('delete', () => {
     it('should delete successfully', async () => {
       const deleteQuery: DataSourceIDRequest = {
-        id: pgDatasource.id
+        id: pgDatasource.id,
       };
       validate.mockReturnValueOnce(deleteQuery);
 
-      await server
-        .post('/datasource/delete')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(deleteQuery);
+      await server.post('/datasource/delete').set('Authorization', `Bearer ${superadminLogin.token}`).send(deleteQuery);
 
       const query: DataSourceListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' }
+        sort: { field: 'key', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -325,7 +326,7 @@ describe('DataSourceController', () => {
         .post('/datasource/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -334,21 +335,21 @@ describe('DataSourceController', () => {
             id: response.body.data[0].id,
             type: 'http',
             key: 'jsonplaceholder_renamed',
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
             type: 'postgresql',
             key: 'preset',
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
 
     it('should fail if not found', async () => {
       const query: DataSourceIDRequest = {
-        id: pgDatasource.id
+        id: pgDatasource.id,
       };
       validate.mockReturnValueOnce(query);
 
@@ -364,7 +365,7 @@ describe('DataSourceController', () => {
 
     it('should fail if is preset datasource', async () => {
       const query: DataSourceIDRequest = {
-        id: presetDatasource.id
+        id: presetDatasource.id,
       };
       validate.mockReturnValueOnce(query);
 
@@ -375,7 +376,7 @@ describe('DataSourceController', () => {
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Can not delete preset datasources' }
+        detail: { message: 'Can not delete preset datasources' },
       });
     });
   });

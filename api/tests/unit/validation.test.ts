@@ -1,7 +1,26 @@
-import { AccountChangePasswordRequest, AccountCreateRequest, AccountEditRequest, AccountIDRequest, AccountListRequest, AccountLoginRequest, AccountUpdateRequest } from '~/api_models/account';
+import {
+  AccountChangePasswordRequest,
+  AccountCreateRequest,
+  AccountEditRequest,
+  AccountIDRequest,
+  AccountListRequest,
+  AccountLoginRequest,
+  AccountUpdateRequest,
+} from '~/api_models/account';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '~/api_models/api';
-import { DashboardCreateRequest, DashboardIDRequest, DashboardListRequest, DashboardNameRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
-import { DataSourceCreateRequest, DataSourceIDRequest, DataSourceListRequest, DataSourceRenameRequest } from '~/api_models/datasource';
+import {
+  DashboardCreateRequest,
+  DashboardIDRequest,
+  DashboardListRequest,
+  DashboardNameRequest,
+  DashboardUpdateRequest,
+} from '~/api_models/dashboard';
+import {
+  DataSourceCreateRequest,
+  DataSourceIDRequest,
+  DataSourceListRequest,
+  DataSourceRenameRequest,
+} from '~/api_models/datasource';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
 import { QueryRequest } from '~/api_models/query';
 import { ApiError } from '~/utils/errors';
@@ -18,16 +37,18 @@ describe('validation', () => {
           name: 'test',
           password: 'test',
         };
-  
+
         const result = validate(AccountLoginRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountLoginRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountLoginRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountLoginRequest, data)
+          validate(AccountLoginRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -35,15 +56,15 @@ describe('validation', () => {
               value: undefined,
               property: 'name',
               children: [],
-              constraints: { isString: 'name must be a string' }
+              constraints: { isString: 'name must be a string' },
             },
             {
               target: {},
               value: undefined,
               property: 'password',
               children: [],
-              constraints: { isString: 'password must be a string' }
-            }
+              constraints: { isString: 'password must be a string' },
+            },
           ]);
         }
       });
@@ -56,7 +77,7 @@ describe('validation', () => {
           sort: { field: 'create_time', order: 'ASC' },
           filter: { search: '' },
         };
-  
+
         const result = validate(AccountListRequest, data);
         expect(result).toMatchObject(data);
       });
@@ -71,18 +92,20 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = { 
-          pagination: { incorrect_page:1, incorrect_pageSize: 20 },
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(AccountListRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountListRequest, data)
+          validate(AccountListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
                 sort: { field: 'create_time', order: 'ASC' },
-                pagination: { incorrect_page: 1, incorrect_pageSize: 20 }
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
               property: 'pagination',
@@ -92,17 +115,17 @@ describe('validation', () => {
                   value: undefined,
                   property: 'page',
                   children: [],
-                  constraints: { isInt: 'page must be an integer number' }
+                  constraints: { isInt: 'page must be an integer number' },
                 },
                 {
                   target: { incorrect_page: 1, incorrect_pageSize: 20 },
                   value: undefined,
                   property: 'pagesize',
                   children: [],
-                  constraints: { isInt: 'pagesize must be an integer number' }
-                }
-              ]
-            }
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });
@@ -115,16 +138,18 @@ describe('validation', () => {
           password: 'test1234',
           role_id: ROLE_TYPES.AUTHOR,
         };
-  
+
         const result = validate(AccountCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountCreateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountCreateRequest, data)
+          validate(AccountCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -134,8 +159,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
+                isString: 'name must be a string',
+              },
             },
             {
               target: {},
@@ -144,8 +169,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'password must be longer than or equal to 8 characters',
-                isString: 'password must be a string'
-              }
+                isString: 'password must be a string',
+              },
             },
             {
               target: {},
@@ -154,9 +179,9 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isIn: 'role_id must be one of the following values: 10, 20, 30, 40',
-                isInt: 'role_id must be an integer number'
-              }
-            }
+                isInt: 'role_id must be an integer number',
+              },
+            },
           ]);
         }
       });
@@ -167,16 +192,18 @@ describe('validation', () => {
         const data: AccountUpdateRequest = {
           name: 'test',
         };
-  
+
         const result = validate(AccountUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountUpdateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountUpdateRequest, data)
+          validate(AccountUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -186,9 +213,9 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
-            }
+                isString: 'name must be a string',
+              },
+            },
           ]);
         }
       });
@@ -202,16 +229,18 @@ describe('validation', () => {
           reset_password: false,
           role_id: ROLE_TYPES.AUTHOR,
         };
-  
+
         const result = validate(AccountEditRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountEditRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountEditRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountEditRequest, data)
+          validate(AccountEditRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -219,7 +248,7 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
+              constraints: { isUuid: 'id must be a UUID' },
             },
             {
               target: {},
@@ -228,8 +257,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
+                isString: 'name must be a string',
+              },
             },
             {
               target: {},
@@ -238,16 +267,16 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isIn: 'role_id must be one of the following values: 10, 20, 30, 40',
-                isInt: 'role_id must be an integer number'
-              }
+                isInt: 'role_id must be an integer number',
+              },
             },
             {
               target: {},
               value: undefined,
               property: 'reset_password',
               children: [],
-              constraints: { isBoolean: 'reset_password must be a boolean value' }
-            }
+              constraints: { isBoolean: 'reset_password must be a boolean value' },
+            },
           ]);
         }
       });
@@ -259,16 +288,18 @@ describe('validation', () => {
           new_password: 'test1234_new',
           old_password: 'test1234',
         };
-  
+
         const result = validate(AccountChangePasswordRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountChangePasswordRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountChangePasswordRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountChangePasswordRequest, data)
+          validate(AccountChangePasswordRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -278,8 +309,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'old_password must be longer than or equal to 8 characters',
-                isString: 'old_password must be a string'
-              }
+                isString: 'old_password must be a string',
+              },
             },
             {
               target: {},
@@ -288,9 +319,9 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'new_password must be longer than or equal to 8 characters',
-                isString: 'new_password must be a string'
-              }
-            }
+                isString: 'new_password must be a string',
+              },
+            },
           ]);
         }
       });
@@ -301,16 +332,18 @@ describe('validation', () => {
         const data: AccountIDRequest = {
           id: crypto.randomUUID(),
         };
-  
+
         const result = validate(AccountIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountIDRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(AccountIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(AccountIDRequest, data)
+          validate(AccountIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -318,8 +351,8 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
-            }
+              constraints: { isUuid: 'id must be a UUID' },
+            },
           ]);
         }
       });
@@ -334,7 +367,7 @@ describe('validation', () => {
           sort: { field: 'create_time', order: 'ASC' },
           filter: { search: '' },
         };
-  
+
         const result = validate(ApiKeyListRequest, data);
         expect(result).toMatchObject(data);
       });
@@ -349,18 +382,20 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = { 
-          pagination: { incorrect_page:1, incorrect_pageSize: 20 },
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(ApiKeyListRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(ApiKeyListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(ApiKeyListRequest, data)
+          validate(ApiKeyListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
                 sort: { field: 'create_time', order: 'ASC' },
-                pagination: { incorrect_page: 1, incorrect_pageSize: 20 }
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
               property: 'pagination',
@@ -370,17 +405,17 @@ describe('validation', () => {
                   value: undefined,
                   property: 'page',
                   children: [],
-                  constraints: { isInt: 'page must be an integer number' }
+                  constraints: { isInt: 'page must be an integer number' },
                 },
                 {
                   target: { incorrect_page: 1, incorrect_pageSize: 20 },
                   value: undefined,
                   property: 'pagesize',
                   children: [],
-                  constraints: { isInt: 'pagesize must be an integer number' }
-                }
-              ]
-            }
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });
@@ -392,16 +427,18 @@ describe('validation', () => {
           name: 'test',
           role_id: ROLE_TYPES.AUTHOR,
         };
-  
+
         const result = validate(ApiKeyCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ApiKeyCreateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(ApiKeyCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(ApiKeyCreateRequest, data)
+          validate(ApiKeyCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -411,8 +448,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
+                isString: 'name must be a string',
+              },
             },
             {
               target: {},
@@ -421,9 +458,9 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isIn: 'role_id must be one of the following values: 10, 20, 30, 40',
-                isInt: 'role_id must be an integer number'
-              }
-            }
+                isInt: 'role_id must be an integer number',
+              },
+            },
           ]);
         }
       });
@@ -434,16 +471,18 @@ describe('validation', () => {
         const data: ApiKeyIDRequest = {
           id: crypto.randomUUID(),
         };
-  
+
         const result = validate(ApiKeyIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ApiKeyIDRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(ApiKeyIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(ApiKeyIDRequest, data)
+          validate(ApiKeyIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -451,8 +490,8 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
-            }
+              constraints: { isUuid: 'id must be a UUID' },
+            },
           ]);
         }
       });
@@ -467,7 +506,7 @@ describe('validation', () => {
           sort: { field: 'create_time', order: 'ASC' },
           filter: { search: '', selection: 'ALL' },
         };
-  
+
         const result = validate(DashboardListRequest, data);
         expect(result).toMatchObject(data);
       });
@@ -482,18 +521,20 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = { 
-          pagination: { incorrect_page:1, incorrect_pageSize: 20 },
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DashboardListRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DashboardListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DashboardListRequest, data)
+          validate(DashboardListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
                 sort: { field: 'create_time', order: 'ASC' },
-                pagination: { incorrect_page: 1, incorrect_pageSize: 20 }
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
               property: 'pagination',
@@ -503,17 +544,17 @@ describe('validation', () => {
                   value: undefined,
                   property: 'page',
                   children: [],
-                  constraints: { isInt: 'page must be an integer number' }
+                  constraints: { isInt: 'page must be an integer number' },
                 },
                 {
                   target: { incorrect_page: 1, incorrect_pageSize: 20 },
                   value: undefined,
                   property: 'pagesize',
                   children: [],
-                  constraints: { isInt: 'pagesize must be an integer number' }
-                }
-              ]
-            }
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });
@@ -525,16 +566,18 @@ describe('validation', () => {
           name: 'test',
           content: {},
         };
-  
+
         const result = validate(DashboardCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardCreateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DashboardCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DashboardCreateRequest, data)
+          validate(DashboardCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -544,16 +587,16 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
+                isString: 'name must be a string',
+              },
             },
             {
               target: {},
               value: undefined,
               property: 'content',
               children: [],
-              constraints: { isObject: 'content must be an object' }
-            }
+              constraints: { isObject: 'content must be an object' },
+            },
           ]);
         }
       });
@@ -564,16 +607,18 @@ describe('validation', () => {
         const data: DashboardIDRequest = {
           id: crypto.randomUUID(),
         };
-  
+
         const result = validate(DashboardIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardIDRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DashboardIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DashboardIDRequest, data)
+          validate(DashboardIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -581,8 +626,8 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
-            }
+              constraints: { isUuid: 'id must be a UUID' },
+            },
           ]);
         }
       });
@@ -594,16 +639,18 @@ describe('validation', () => {
           name: 'test',
           is_preset: false,
         };
-  
+
         const result = validate(DashboardNameRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardNameRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DashboardNameRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DashboardNameRequest, data)
+          validate(DashboardNameRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -613,16 +660,16 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string'
-              }
+                isString: 'name must be a string',
+              },
             },
             {
               target: {},
               value: undefined,
               property: 'is_preset',
               children: [],
-              constraints: { isBoolean: 'is_preset must be a boolean value' }
-            }
+              constraints: { isBoolean: 'is_preset must be a boolean value' },
+            },
           ]);
         }
       });
@@ -636,16 +683,18 @@ describe('validation', () => {
           is_removed: true,
           name: 'test',
         };
-  
+
         const result = validate(DashboardUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardUpdateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DashboardUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DashboardUpdateRequest, data)
+          validate(DashboardUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -653,8 +702,8 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
-            }
+              constraints: { isUuid: 'id must be a UUID' },
+            },
           ]);
         }
       });
@@ -669,7 +718,7 @@ describe('validation', () => {
           sort: { field: 'create_time', order: 'ASC' },
           filter: { search: '' },
         };
-  
+
         const result = validate(DataSourceListRequest, data);
         expect(result).toMatchObject(data);
       });
@@ -684,18 +733,20 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = { 
-          pagination: { incorrect_page:1, incorrect_pageSize: 20 },
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DataSourceListRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DataSourceListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DataSourceListRequest, data)
+          validate(DataSourceListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
                 sort: { field: 'create_time', order: 'ASC' },
-                pagination: { incorrect_page: 1, incorrect_pageSize: 20 }
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
               property: 'pagination',
@@ -705,17 +756,17 @@ describe('validation', () => {
                   value: undefined,
                   property: 'page',
                   children: [],
-                  constraints: { isInt: 'page must be an integer number' }
+                  constraints: { isInt: 'page must be an integer number' },
                 },
                 {
                   target: { incorrect_page: 1, incorrect_pageSize: 20 },
                   value: undefined,
                   property: 'pagesize',
                   children: [],
-                  constraints: { isInt: 'pagesize must be an integer number' }
-                }
-              ]
-            }
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });
@@ -734,16 +785,18 @@ describe('validation', () => {
           key: 'test',
           type: 'postgresql',
         };
-  
+
         const result = validate(DataSourceCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceCreateRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DataSourceCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DataSourceCreateRequest, data)
+          validate(DataSourceCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -753,8 +806,8 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isIn: 'type must be one of the following values: postgresql, mysql, http',
-                isString: 'type must be a string'
-              }
+                isString: 'type must be a string',
+              },
             },
             {
               target: {},
@@ -763,16 +816,16 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'key must be longer than or equal to 1 characters',
-                isString: 'key must be a string'
-              }
+                isString: 'key must be a string',
+              },
             },
             {
               target: {},
               value: undefined,
               property: 'config',
               children: [],
-              constraints: { isObject: 'config must be an object' }
-            }
+              constraints: { isObject: 'config must be an object' },
+            },
           ]);
         }
       });
@@ -784,16 +837,18 @@ describe('validation', () => {
           id: crypto.randomUUID(),
           key: 'test_new',
         };
-  
+
         const result = validate(DataSourceRenameRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceRenameRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DataSourceRenameRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DataSourceRenameRequest, data)
+          validate(DataSourceRenameRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -801,7 +856,7 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
+              constraints: { isUuid: 'id must be a UUID' },
             },
             {
               target: {},
@@ -810,9 +865,9 @@ describe('validation', () => {
               children: [],
               constraints: {
                 isLength: 'key must be longer than or equal to 1 characters',
-                isString: 'key must be a string'
-              }
-            }
+                isString: 'key must be a string',
+              },
+            },
           ]);
         }
       });
@@ -823,16 +878,18 @@ describe('validation', () => {
         const data: DataSourceIDRequest = {
           id: crypto.randomUUID(),
         };
-  
+
         const result = validate(DataSourceIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceIDRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(DataSourceIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(DataSourceIDRequest, data)
+          validate(DataSourceIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -840,8 +897,8 @@ describe('validation', () => {
               value: undefined,
               property: 'id',
               children: [],
-              constraints: { isUuid: 'id must be a UUID' }
-            }
+              constraints: { isUuid: 'id must be a UUID' },
+            },
           ]);
         }
       });
@@ -856,7 +913,7 @@ describe('validation', () => {
           sort: { field: 'create_time', order: 'ASC' },
           filter: { search: '' },
         };
-  
+
         const result = validate(JobListRequest, data);
         expect(result).toMatchObject(data);
       });
@@ -871,18 +928,20 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = { 
-          pagination: { incorrect_page:1, incorrect_pageSize: 20 },
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(JobListRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(JobListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(JobListRequest, data)
+          validate(JobListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
                 sort: { field: 'create_time', order: 'ASC' },
-                pagination: { incorrect_page: 1, incorrect_pageSize: 20 }
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
               property: 'pagination',
@@ -892,17 +951,17 @@ describe('validation', () => {
                   value: undefined,
                   property: 'page',
                   children: [],
-                  constraints: { isInt: 'page must be an integer number' }
+                  constraints: { isInt: 'page must be an integer number' },
                 },
                 {
                   target: { incorrect_page: 1, incorrect_pageSize: 20 },
                   value: undefined,
                   property: 'pagesize',
                   children: [],
-                  constraints: { isInt: 'pagesize must be an integer number' }
-                }
-              ]
-            }
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });
@@ -913,16 +972,18 @@ describe('validation', () => {
         const data: JobRunRequest = {
           type: 'RENAME_DATASOURCE',
         };
-  
+
         const result = validate(JobRunRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(JobRunRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(JobRunRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(JobRunRequest, data)
+          validate(JobRunRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -931,9 +992,9 @@ describe('validation', () => {
               property: 'type',
               children: [],
               constraints: {
-                isIn: 'type must be one of the following values: RENAME_DATASOURCE'
-              }
-            }
+                isIn: 'type must be one of the following values: RENAME_DATASOURCE',
+              },
+            },
           ]);
         }
       });
@@ -948,16 +1009,18 @@ describe('validation', () => {
           key: 'test',
           query: '',
         };
-  
+
         const result = validate(QueryRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(QueryRequest, data)).toThrow(new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }));
+        expect(() => validate(QueryRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
         try {
-          validate(QueryRequest, data)
+          validate(QueryRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -966,23 +1029,23 @@ describe('validation', () => {
               property: 'type',
               children: [],
               constraints: {
-                isIn: 'type must be one of the following values: postgresql, mysql, http'
-              }
+                isIn: 'type must be one of the following values: postgresql, mysql, http',
+              },
             },
             {
               target: {},
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isString: 'key must be a string' }
+              constraints: { isString: 'key must be a string' },
             },
             {
               target: {},
               value: undefined,
               property: 'query',
               children: [],
-              constraints: { isString: 'query must be a string' }
-            }
+              constraints: { isString: 'query must be a string' },
+            },
           ]);
         }
       });

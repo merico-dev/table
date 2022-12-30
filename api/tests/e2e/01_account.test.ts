@@ -1,7 +1,16 @@
 import { connectionHook } from './jest.util';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import Account from '~/models/account';
-import { Account as AccountAPIModel, AccountChangePasswordRequest, AccountCreateRequest, AccountEditRequest, AccountIDRequest, AccountListRequest, AccountLoginRequest, AccountUpdateRequest } from '~/api_models/account';
+import {
+  Account as AccountAPIModel,
+  AccountChangePasswordRequest,
+  AccountCreateRequest,
+  AccountEditRequest,
+  AccountIDRequest,
+  AccountListRequest,
+  AccountLoginRequest,
+  AccountUpdateRequest,
+} from '~/api_models/account';
 import { ROLE_TYPES } from '~/api_models/role';
 import { AccountLoginResponse } from '~/api_models/account';
 import { omit } from 'lodash';
@@ -37,9 +46,7 @@ describe('AccountController', () => {
       };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/account/login')
-        .send(query);
+      const response = await server.post('/account/login').send(query);
 
       superadminLogin = response.body;
       superadminLogin.account.create_time = new Date(superadminLogin.account.create_time);
@@ -52,8 +59,8 @@ describe('AccountController', () => {
           update_time: superadmin.update_time,
           name: superadmin.name,
           email: superadmin.email,
-          role_id: superadmin.role_id
-        }
+          role_id: superadmin.role_id,
+        },
       });
     });
 
@@ -64,13 +71,11 @@ describe('AccountController', () => {
       };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/account/login')
-        .send(query);
+      const response = await server.post('/account/login').send(query);
 
       expect(response.body).toMatchObject({
         code: 'INVALID_CREDENTIALS',
-        detail: { message: 'Invalid credentials' }
+        detail: { message: 'Invalid credentials' },
       });
     });
   });
@@ -81,7 +86,7 @@ describe('AccountController', () => {
         name: 'account1',
         password: 'account1',
         email: 'account1@test.com',
-        role_id: ROLE_TYPES.ADMIN
+        role_id: ROLE_TYPES.ADMIN,
       };
       validate.mockReturnValueOnce(createQuery1);
 
@@ -89,7 +94,7 @@ describe('AccountController', () => {
         .post('/account/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery1);
-      
+
       createResponse1.body.create_time = new Date(createResponse1.body.create_time);
       createResponse1.body.update_time = new Date(createResponse1.body.update_time);
       expect(createResponse1.body).toMatchObject({
@@ -98,7 +103,7 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         id: createResponse1.body.id,
         create_time: createResponse1.body.create_time,
-        update_time: createResponse1.body.update_time
+        update_time: createResponse1.body.update_time,
       });
       account1 = createResponse1.body;
 
@@ -108,9 +113,7 @@ describe('AccountController', () => {
       };
       validate.mockReturnValueOnce(loginQuery1);
 
-      const loginResponse1 = await server
-        .post('/account/login')
-        .send(loginQuery1);
+      const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
       account1Login = loginResponse1.body;
       account1Login.account.create_time = new Date(account1Login.account.create_time);
@@ -123,15 +126,15 @@ describe('AccountController', () => {
           update_time: account1.update_time,
           name: account1.name,
           email: account1.email,
-          role_id: account1.role_id
-        }
+          role_id: account1.role_id,
+        },
       });
 
       const createQuery2: AccountCreateRequest = {
         name: 'account2',
         password: 'account2',
         email: 'account2@test.com',
-        role_id: ROLE_TYPES.ADMIN
+        role_id: ROLE_TYPES.ADMIN,
       };
       validate.mockReturnValueOnce(createQuery2);
 
@@ -139,7 +142,7 @@ describe('AccountController', () => {
         .post('/account/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery2);
-      
+
       createReponse2.body.create_time = new Date(createReponse2.body.create_time);
       createReponse2.body.update_time = new Date(createReponse2.body.update_time);
       expect(createReponse2.body).toMatchObject({
@@ -148,7 +151,7 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         id: createReponse2.body.id,
         create_time: createReponse2.body.create_time,
-        update_time: createReponse2.body.update_time
+        update_time: createReponse2.body.update_time,
       });
       account2 = createReponse2.body;
 
@@ -158,9 +161,7 @@ describe('AccountController', () => {
       };
       validate.mockReturnValueOnce(loginQuery2);
 
-      const loginResponse2 = await server
-        .post('/account/login')
-        .send(loginQuery2);
+      const loginResponse2 = await server.post('/account/login').send(loginQuery2);
 
       account2Login = loginResponse2.body;
       account2Login.account.create_time = new Date(account2Login.account.create_time);
@@ -173,8 +174,8 @@ describe('AccountController', () => {
           update_time: account2.update_time,
           name: account2.name,
           email: account2.email,
-          role_id: account2.role_id
-        }
+          role_id: account2.role_id,
+        },
       });
     });
 
@@ -183,7 +184,7 @@ describe('AccountController', () => {
         name: 'account1',
         password: 'account1',
         email: 'account1@test.com',
-        role_id: ROLE_TYPES.ADMIN
+        role_id: ROLE_TYPES.ADMIN,
       };
       validate.mockReturnValueOnce(query);
 
@@ -195,8 +196,8 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "account_name_idx"'
-        }
+          message: 'duplicate key value violates unique constraint "account_name_idx"',
+        },
       });
     });
   });
@@ -205,7 +206,7 @@ describe('AccountController', () => {
     it('no filters', async () => {
       const query: AccountListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -222,21 +223,21 @@ describe('AccountController', () => {
             id: response.body.data[0].id,
             name: 'account1',
             email: 'account1@test.com',
-            role_id: ROLE_TYPES.ADMIN
+            role_id: ROLE_TYPES.ADMIN,
           },
           {
             id: response.body.data[1].id,
             name: 'account2',
             email: 'account2@test.com',
-            role_id: ROLE_TYPES.ADMIN
+            role_id: ROLE_TYPES.ADMIN,
           },
           {
             id: response.body.data[2].id,
             name: 'superadmin',
             email: null,
-            role_id: ROLE_TYPES.SUPERADMIN
-          }
-        ]
+            role_id: ROLE_TYPES.SUPERADMIN,
+          },
+        ],
       });
     });
 
@@ -244,7 +245,7 @@ describe('AccountController', () => {
       const query: AccountListRequest = {
         filter: { search: 'account' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -261,15 +262,15 @@ describe('AccountController', () => {
             id: account1.id,
             name: account1.name,
             email: account1.email,
-            role_id: account1.role_id
+            role_id: account1.role_id,
           },
           {
             id: account2.id,
             name: account2.name,
             email: account2.email,
-            role_id: account2.role_id
-          }
-        ]
+            role_id: account2.role_id,
+          },
+        ],
       });
     });
   });
@@ -289,7 +290,7 @@ describe('AccountController', () => {
         .put('/account/edit')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       response.body.create_time = new Date(response.body.create_time);
       response.body.update_time = new Date(response.body.update_time);
       expect(response.body).toMatchObject({
@@ -298,7 +299,7 @@ describe('AccountController', () => {
         update_time: response.body.update_time,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
-        role_id: ROLE_TYPES.AUTHOR
+        role_id: ROLE_TYPES.AUTHOR,
       });
       account1 = response.body;
     });
@@ -321,8 +322,8 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not edit account with similar or higher permissions than own account'
-        }
+          message: 'Can not edit account with similar or higher permissions than own account',
+        },
       });
     });
 
@@ -344,8 +345,8 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Editing own account. Please use /account/update instead'
-        }
+          message: 'Editing own account. Please use /account/update instead',
+        },
       });
     });
 
@@ -367,8 +368,8 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not change account permissions to similar or higher than own account'
-        }
+          message: 'Can not change account permissions to similar or higher than own account',
+        },
       });
     });
 
@@ -389,7 +390,7 @@ describe('AccountController', () => {
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Must provide new_password when reset_password is true' }
+        detail: { message: 'Must provide new_password when reset_password is true' },
       });
     });
 
@@ -417,19 +418,17 @@ describe('AccountController', () => {
         update_time: response.body.update_time,
         name: 'account1_edited_password',
         email: 'account1_edited_password@test.com',
-        role_id: ROLE_TYPES.ADMIN
+        role_id: ROLE_TYPES.ADMIN,
       });
       account1 = response.body;
 
       const loginQuery: AccountLoginRequest = {
         name: 'account1_edited_password',
-        password: 'account1_edited_password'
+        password: 'account1_edited_password',
       };
       validate.mockReturnValueOnce(loginQuery);
 
-      const loginResponse = await server
-        .post('/account/login')
-        .send(loginQuery);
+      const loginResponse = await server.post('/account/login').send(loginQuery);
 
       loginResponse.body.account.create_time = new Date(loginResponse.body.account.create_time);
       loginResponse.body.account.update_time = new Date(loginResponse.body.account.update_time);
@@ -441,8 +440,8 @@ describe('AccountController', () => {
           update_time: loginResponse.body.account.update_time,
           name: account1.name,
           email: account1.email,
-          role_id: account1.role_id
-        }
+          role_id: account1.role_id,
+        },
       });
     });
   });
@@ -450,7 +449,7 @@ describe('AccountController', () => {
   describe('delete', () => {
     it('should fail because of permission', async () => {
       const query: AccountIDRequest = {
-        id: account1.id
+        id: account1.id,
       };
       validate.mockReturnValueOnce(query);
 
@@ -462,14 +461,14 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not delete account with similar or higher permissions than own account'
-        }
+          message: 'Can not delete account with similar or higher permissions than own account',
+        },
       });
     });
 
     it('should delete successfully', async () => {
       const query: AccountIDRequest = {
-        id: account1.id
+        id: account1.id,
       };
       validate.mockReturnValueOnce(query);
 
@@ -477,13 +476,13 @@ describe('AccountController', () => {
         .post('/account/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body).toMatchObject({ id: account1.id });
     });
 
     it('should fail because not found', async () => {
       const query: AccountIDRequest = {
-        id: account1.id
+        id: account1.id,
       };
       validate.mockReturnValueOnce(query);
 
@@ -491,7 +490,7 @@ describe('AccountController', () => {
         .post('/account/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "Account" matching');
       expect(response.body.detail.message).toContain(account1.id);
@@ -502,7 +501,7 @@ describe('AccountController', () => {
     it('should update successfully', async () => {
       const query: AccountUpdateRequest = {
         name: 'account2_updated',
-        email: 'account2_updated@test.com'
+        email: 'account2_updated@test.com',
       };
       validate.mockReturnValueOnce(query);
 
@@ -519,7 +518,7 @@ describe('AccountController', () => {
         update_time: response.body.update_time,
         name: 'account2_updated',
         email: 'account2_updated@test.com',
-        role_id: ROLE_TYPES.ADMIN
+        role_id: ROLE_TYPES.ADMIN,
       });
       account2 = response.body;
     });
@@ -527,7 +526,7 @@ describe('AccountController', () => {
     it('should fail if not found', async () => {
       const query: AccountUpdateRequest = {
         name: 'account1_updated',
-        email: 'account1_updated@test.com'
+        email: 'account1_updated@test.com',
       };
       validate.mockReturnValueOnce(query);
 
@@ -542,7 +541,7 @@ describe('AccountController', () => {
     it('updating superadmin should fail', async () => {
       const query: AccountUpdateRequest = {
         name: 'superadmin_updated',
-        email: 'superadmin_updated@test.com'
+        email: 'superadmin_updated@test.com',
       };
       validate.mockReturnValueOnce(query);
 
@@ -551,31 +550,33 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      expect(response.body).toMatchObject({ code: 'BAD_REQUEST', detail: { message: 'Can not edit superadmin details' } });
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'Can not edit superadmin details' },
+      });
     });
   });
 
   describe('get', () => {
     it('should return successfully', async () => {
-      const response = await server
-        .get('/account/get')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send();
+      const response = await server.get('/account/get').set('Authorization', `Bearer ${superadminLogin.token}`).send();
 
       response.body.create_time = new Date(response.body.create_time);
       response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(omit({
-        ...superadmin, 
-        create_time: superadmin.create_time, 
-        update_time: superadmin.update_time
-      }, 'password'));
+      expect(response.body).toMatchObject(
+        omit(
+          {
+            ...superadmin,
+            create_time: superadmin.create_time,
+            update_time: superadmin.update_time,
+          },
+          'password',
+        ),
+      );
     });
 
     it('should fail if not found', async () => {
-      const response = await server
-        .get('/account/get')
-        .set('Authorization', `Bearer ${account1Login.token}`)
-        .send();
+      const response = await server.get('/account/get').set('Authorization', `Bearer ${account1Login.token}`).send();
 
       expect(response.body).toMatchObject({ code: 'UNAUTHORIZED', detail: { message: 'Not authenticated' } });
     });
@@ -585,7 +586,7 @@ describe('AccountController', () => {
     it('should fail if password mismatch', async () => {
       const query: AccountChangePasswordRequest = {
         old_password: 'account2_old',
-        new_password: 'account2_new'
+        new_password: 'account2_new',
       };
       validate.mockReturnValueOnce(query);
 
@@ -595,20 +596,18 @@ describe('AccountController', () => {
         .send(query);
 
       expect(response.body).toMatchObject({
-        code: 'PASSWORD_MISMATCH'
+        code: 'PASSWORD_MISMATCH',
       });
     });
 
     it('should change password successfully', async () => {
       const loginQuery1: AccountLoginRequest = {
         name: account2.name,
-        password: 'account2'
+        password: 'account2',
       };
       validate.mockReturnValueOnce(loginQuery1);
 
-      const loginResponse1 = await server
-        .post('/account/login')
-        .send(loginQuery1);
+      const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
       loginResponse1.body.account.create_time = new Date(loginResponse1.body.account.create_time);
       expect(loginResponse1.body).toMatchObject({
@@ -619,13 +618,13 @@ describe('AccountController', () => {
           update_time: loginResponse1.body.account.update_time,
           name: account2.name,
           email: account2.email,
-          role_id: account2.role_id
-        }
+          role_id: account2.role_id,
+        },
       });
 
       const changeQuery: AccountChangePasswordRequest = {
         old_password: 'account2',
-        new_password: 'account2_new'
+        new_password: 'account2_new',
       };
       validate.mockReturnValueOnce(changeQuery);
 
@@ -641,33 +640,29 @@ describe('AccountController', () => {
         update_time: changeResponse.body.update_time,
         name: account2.name,
         email: account2.email,
-        role_id: account2.role_id
+        role_id: account2.role_id,
       });
 
       const loginQuery2: AccountLoginRequest = {
         name: account2.name,
-        password: 'account2'
+        password: 'account2',
       };
       validate.mockReturnValueOnce(loginQuery2);
 
-      const loginResponse2 = await server
-        .post('/account/login')
-        .send(loginQuery2);
+      const loginResponse2 = await server.post('/account/login').send(loginQuery2);
 
       expect(loginResponse2.body).toMatchObject({
         code: 'INVALID_CREDENTIALS',
-        detail: { message: 'Invalid credentials' }
+        detail: { message: 'Invalid credentials' },
       });
 
       const loginQuery3: AccountLoginRequest = {
         name: account2.name,
-        password: 'account2_new'
+        password: 'account2_new',
       };
       validate.mockReturnValueOnce(loginQuery3);
 
-      const loginResponse3 = await server
-        .post('/account/login')
-        .send(loginQuery3);
+      const loginResponse3 = await server.post('/account/login').send(loginQuery3);
 
       loginResponse3.body.account.create_time = new Date(loginResponse3.body.account.create_time);
       expect(loginResponse3.body).toMatchObject({
@@ -678,8 +673,8 @@ describe('AccountController', () => {
           update_time: loginResponse3.body.account.update_time,
           name: account2.name,
           email: account2.email,
-          role_id: account2.role_id
-        }
+          role_id: account2.role_id,
+        },
       });
     });
   });

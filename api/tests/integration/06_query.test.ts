@@ -18,28 +18,29 @@ describe('QueryService', () => {
         {
           id: 10,
           name: 'INACTIVE',
-          description: 'Disabled user. Can not login'
+          description: 'Disabled user. Can not login',
         },
-        { 
-          id: 20, 
-          name: 'READER', 
-          description: 'Can view dashboards' 
+        {
+          id: 20,
+          name: 'READER',
+          description: 'Can view dashboards',
         },
         {
           id: 30,
           name: 'AUTHOR',
-          description: 'Can view and create dashboards'
+          description: 'Can view and create dashboards',
         },
         {
           id: 40,
           name: 'ADMIN',
-          description: 'Can view and create dashboards. Can add and delete datasources. Can add users except other admins'
+          description:
+            'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
         },
-        { 
-          id: 50, 
-          name: 'SUPERADMIN', 
-          description: 'Can do everything' 
-        }
+        {
+          id: 50,
+          name: 'SUPERADMIN',
+          description: 'Can do everything',
+        },
       ]);
     });
 
@@ -48,7 +49,7 @@ describe('QueryService', () => {
         method: 'GET',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -57,10 +58,11 @@ describe('QueryService', () => {
         userId: 1,
         id: 1,
         title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-        body: 'quia et suscipit\n' +
+        body:
+          'quia et suscipit\n' +
           'suscipit recusandae consequuntur expedita et cum\n' +
           'reprehenderit molestiae ut ut quas totam\n' +
-          'nostrum rerum est autem sunt rem eveniet architecto'
+          'nostrum rerum est autem sunt rem eveniet architecto',
       });
     });
 
@@ -69,7 +71,7 @@ describe('QueryService', () => {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts'
+        url_postfix: '/posts',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -82,7 +84,7 @@ describe('QueryService', () => {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -95,7 +97,7 @@ describe('QueryService', () => {
         method: 'DELETE',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);

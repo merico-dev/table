@@ -1,4 +1,6 @@
-export const parseDBUrl = (connectionString: string): { username: string, password: string, host: string, port: number, database: string } => {
+export const parseDBUrl = (
+  connectionString: string,
+): { username: string; password: string; host: string; port: number; database: string } => {
   const parts1 = connectionString.substring(13).split(':');
   const username = parts1[0];
   const password = parts1[1].split('@')[0];
@@ -13,4 +15,4 @@ export const parseDBUrl = (connectionString: string): { username: string, passwo
     port = 5432;
   }
   return { username, password, host, port, database };
-}
+};

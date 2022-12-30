@@ -34,7 +34,11 @@ describe('DashboardService', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const results = await dashboardService.list(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await dashboardService.list(
+        undefined,
+        { field: 'name', order: 'ASC' },
+        { page: 1, pagesize: 20 },
+      );
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -48,20 +52,20 @@ describe('DashboardService', () => {
                   {
                     id: 'pgQuery1',
                     type: 'postgresql',
-                    key: 'pg'
+                    key: 'pg',
                   },
                   {
                     id: 'httpQuery1',
                     type: 'http',
-                    key: 'jsonplaceholder'
-                  }
-                ]
-              }
+                    key: 'jsonplaceholder',
+                  },
+                ],
+              },
             },
             create_time: dashboards[0].create_time,
             update_time: dashboards[0].update_time,
             is_removed: true,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: dashboards[1].id,
@@ -72,20 +76,20 @@ describe('DashboardService', () => {
                   {
                     id: 'pgQuery2',
                     type: 'postgresql',
-                    key: 'pg'
+                    key: 'pg',
                   },
                   {
                     id: 'httpQuery2',
                     type: 'http',
-                    key: 'jsonplaceholder'
-                  }
-                ]
-              }
+                    key: 'jsonplaceholder',
+                  },
+                ],
+              },
             },
             create_time: dashboards[1].create_time,
             update_time: dashboards[1].update_time,
             is_removed: false,
-            is_preset: true
+            is_preset: true,
           },
           {
             id: dashboard3.id,
@@ -94,14 +98,18 @@ describe('DashboardService', () => {
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
 
     it('with search filter', async () => {
-      const results = await dashboardService.list({ search: '3' }, { field: 'create_time', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await dashboardService.list(
+        { search: '3' },
+        { field: 'create_time', order: 'ASC' },
+        { page: 1, pagesize: 20 },
+      );
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -113,14 +121,18 @@ describe('DashboardService', () => {
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
 
     it('with selection ALL filter', async () => {
-      const results = await dashboardService.list({ selection: 'ALL' }, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await dashboardService.list(
+        { selection: 'ALL' },
+        { field: 'name', order: 'ASC' },
+        { page: 1, pagesize: 20 },
+      );
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -132,7 +144,7 @@ describe('DashboardService', () => {
             create_time: dashboards[0].create_time,
             update_time: dashboards[0].update_time,
             is_removed: true,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: dashboards[1].id,
@@ -141,7 +153,7 @@ describe('DashboardService', () => {
             create_time: dashboards[1].create_time,
             update_time: dashboards[1].update_time,
             is_removed: false,
-            is_preset: true
+            is_preset: true,
           },
           {
             id: dashboard3.id,
@@ -150,14 +162,18 @@ describe('DashboardService', () => {
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
 
     it('with selection ACTIVE filter', async () => {
-      const results = await dashboardService.list({ selection: 'ACTIVE' }, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await dashboardService.list(
+        { selection: 'ACTIVE' },
+        { field: 'name', order: 'ASC' },
+        { page: 1, pagesize: 20 },
+      );
       expect(results).toMatchObject({
         total: 2,
         offset: 0,
@@ -169,7 +185,7 @@ describe('DashboardService', () => {
             create_time: dashboards[1].create_time,
             update_time: dashboards[1].update_time,
             is_removed: false,
-            is_preset: true
+            is_preset: true,
           },
           {
             id: dashboard3.id,
@@ -178,14 +194,18 @@ describe('DashboardService', () => {
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
 
     it('with selection REMOVED filter', async () => {
-      const results = await dashboardService.list({ selection: 'REMOVED' }, { field: 'create_time', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await dashboardService.list(
+        { selection: 'REMOVED' },
+        { field: 'create_time', order: 'ASC' },
+        { page: 1, pagesize: 20 },
+      );
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -197,9 +217,9 @@ describe('DashboardService', () => {
             create_time: dashboards[0].create_time,
             update_time: dashboards[0].update_time,
             is_removed: true,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
   });
@@ -222,37 +242,55 @@ describe('DashboardService', () => {
     });
 
     it('should fail', async () => {
-      await expect(dashboardService.getByName(dashboard3.name, !dashboard3.is_preset)).rejects.toThrowError(EntityNotFoundError);
+      await expect(dashboardService.getByName(dashboard3.name, !dashboard3.is_preset)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
   });
 
   describe('update', () => {
     it('should update successfully', async () => {
-      const updatedDashboard = await dashboardService.update(dashboard3.id, 'dashboard3_updated', undefined, true, ROLE_TYPES.SUPERADMIN);
+      const updatedDashboard = await dashboardService.update(
+        dashboard3.id,
+        'dashboard3_updated',
+        undefined,
+        true,
+        ROLE_TYPES.SUPERADMIN,
+      );
       expect(updatedDashboard).toMatchObject({
         ...dashboard3,
         name: 'dashboard3_updated',
         is_removed: true,
-        update_time: updatedDashboard.update_time
+        update_time: updatedDashboard.update_time,
       });
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(EntityNotFoundError);
+      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
 
     it('should update preset dashboard successfully', async () => {
-      const updatedDashboard = await dashboardService.update(dashboards[1].id, 'dashboard2_updated', undefined, false, ROLE_TYPES.SUPERADMIN);
+      const updatedDashboard = await dashboardService.update(
+        dashboards[1].id,
+        'dashboard2_updated',
+        undefined,
+        false,
+        ROLE_TYPES.SUPERADMIN,
+      );
       expect(updatedDashboard).toMatchObject({
         ...dashboards[1],
         name: 'dashboard2_updated',
         is_removed: false,
-        update_time: updatedDashboard.update_time
+        update_time: updatedDashboard.update_time,
       });
     });
 
     it('should fail if not SUPERADMIN', async () => {
-      await expect(dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, ROLE_TYPES.ADMIN)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' }));
+      await expect(
+        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, ROLE_TYPES.ADMIN),
+      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' }));
     });
   });
 
@@ -263,26 +301,30 @@ describe('DashboardService', () => {
         ...dashboard3,
         name: 'dashboard3_updated',
         is_removed: true,
-        update_time: deletedDashboard.update_time
+        update_time: deletedDashboard.update_time,
       });
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.delete(notFoundId, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(EntityNotFoundError);
+      await expect(dashboardService.delete(notFoundId, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
 
-    it ('should delete preset dashboard successfully if SUPERADMIN', async () => {
+    it('should delete preset dashboard successfully if SUPERADMIN', async () => {
       const deletedDashboard = await dashboardService.delete(dashboards[1].id, ROLE_TYPES.SUPERADMIN);
       expect(deletedDashboard).toMatchObject({
         ...dashboards[1],
         name: 'dashboard2_updated',
         is_removed: true,
-        update_time: deletedDashboard.update_time
+        update_time: deletedDashboard.update_time,
       });
     });
 
     it('should fail to delete preset dashboard if not SUPERADMIN', async () => {
-      await expect(dashboardService.delete(dashboards[1].id, ROLE_TYPES.ADMIN)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' }));
+      await expect(dashboardService.delete(dashboards[1].id, ROLE_TYPES.ADMIN)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' }),
+      );
     });
   });
 });

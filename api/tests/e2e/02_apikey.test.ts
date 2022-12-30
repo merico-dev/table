@@ -39,14 +39,12 @@ describe('APIController', () => {
       const createRequest1: ApiKeyCreateRequest = {
         name: 'key1',
         role_id: ROLE_TYPES.AUTHOR,
-        authentication: authentication1
+        authentication: authentication1,
       };
       validate.mockReturnValueOnce(createRequest1);
 
-      const response1 = await server
-        .post('/api/key/create')
-        .send(createRequest1);
-      
+      const response1 = await server.post('/api/key/create').send(createRequest1);
+
       expect(has(response1.body, 'app_id')).toBe(true);
       expect(has(response1.body, 'app_secret')).toBe(true);
 
@@ -56,18 +54,16 @@ describe('APIController', () => {
       const createRequest2: ApiKeyCreateRequest = {
         name: 'key2',
         role_id: ROLE_TYPES.ADMIN,
-        authentication: authentication2
+        authentication: authentication2,
       };
       validate.mockReturnValueOnce(createRequest2);
 
-      const response2 = await server
-        .post('/api/key/create')
-        .send(createRequest2);
+      const response2 = await server.post('/api/key/create').send(createRequest2);
 
       expect(has(response2.body, 'app_id')).toBe(true);
       expect(has(response2.body, 'app_secret')).toBe(true);
     });
-    
+
     it('should fail with duplicate key', async () => {
       const authentication = createAuthStruct(presetKey, { name: 'key1', role_id: ROLE_TYPES.AUTHOR });
       validate.mockReturnValueOnce(authentication);
@@ -75,19 +71,17 @@ describe('APIController', () => {
       const createRequest: ApiKeyCreateRequest = {
         name: 'key1',
         role_id: ROLE_TYPES.AUTHOR,
-        authentication
+        authentication,
       };
       validate.mockReturnValueOnce(createRequest);
 
-      const response = await server
-        .post('/api/key/create')
-        .send(createRequest);
+      const response = await server.post('/api/key/create').send(createRequest);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "api_key_name_preset_idx"'
-        }
+          message: 'duplicate key value violates unique constraint "api_key_name_preset_idx"',
+        },
       });
     });
   });
@@ -96,21 +90,19 @@ describe('APIController', () => {
     it('no filters', async () => {
       const authentication = createAuthStruct(presetKey, {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       });
       validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
-        authentication
+        authentication,
       };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/api/key/list')
-        .send(query);
-      
+      const response = await server.post('/api/key/list').send(query);
+
       expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
@@ -121,7 +113,7 @@ describe('APIController', () => {
             app_id: response.body.data[0].app_id,
             app_secret: response.body.data[0].app_secret,
             role_id: ROLE_TYPES.AUTHOR,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
@@ -129,7 +121,7 @@ describe('APIController', () => {
             app_id: response.body.data[1].app_id,
             app_secret: response.body.data[1].app_secret,
             role_id: ROLE_TYPES.ADMIN,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: presetKey.id,
@@ -137,9 +129,9 @@ describe('APIController', () => {
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
             role_id: ROLE_TYPES.SUPERADMIN,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
       deletedKeyId = response.body.data[1].id;
     });
@@ -148,7 +140,7 @@ describe('APIController', () => {
       const authentication = createAuthStruct(presetKey, {
         filter: { search: 'preset' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       });
       validate.mockReturnValueOnce(authentication);
 
@@ -156,13 +148,11 @@ describe('APIController', () => {
         filter: { search: 'preset' },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
-        authentication
+        authentication,
       };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/api/key/list')
-        .send(query);
+      const response = await server.post('/api/key/list').send(query);
 
       expect(response.body).toMatchObject({
         total: 1,
@@ -174,9 +164,9 @@ describe('APIController', () => {
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
             role_id: ROLE_TYPES.SUPERADMIN,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
   });
@@ -188,34 +178,30 @@ describe('APIController', () => {
 
       const deleteQuery: ApiKeyIDRequest = {
         id: deletedKeyId,
-        authentication: authentication1
+        authentication: authentication1,
       };
       validate.mockReturnValueOnce(deleteQuery);
 
-      const deleteResponse = await server
-        .post('/api/key/delete')
-        .send(deleteQuery);
-      
+      const deleteResponse = await server.post('/api/key/delete').send(deleteQuery);
+
       expect(deleteResponse.body).toMatchObject({
-        id: deletedKeyId
+        id: deletedKeyId,
       });
 
       const authentication2 = createAuthStruct(presetKey, {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       });
       validate.mockReturnValueOnce(authentication2);
 
       const listQuery: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
-        authentication: authentication2
+        authentication: authentication2,
       };
       validate.mockReturnValueOnce(listQuery);
 
-      const listResponse = await server
-        .post('/api/key/list')
-        .send(listQuery);
+      const listResponse = await server.post('/api/key/list').send(listQuery);
 
       expect(listResponse.body).toMatchObject({
         total: 2,
@@ -227,7 +213,7 @@ describe('APIController', () => {
             app_id: listResponse.body.data[0].app_id,
             app_secret: listResponse.body.data[0].app_secret,
             role_id: ROLE_TYPES.AUTHOR,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: presetKey.id,
@@ -235,9 +221,9 @@ describe('APIController', () => {
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
             role_id: ROLE_TYPES.SUPERADMIN,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
 
@@ -247,13 +233,11 @@ describe('APIController', () => {
 
       const query: ApiKeyIDRequest = {
         id: deletedKeyId,
-        authentication
-      }
+        authentication,
+      };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/api/key/delete')
-        .send(query);
+      const response = await server.post('/api/key/delete').send(query);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "ApiKey" matching');
@@ -266,17 +250,15 @@ describe('APIController', () => {
 
       const query: ApiKeyIDRequest = {
         id: presetKey.id,
-        authentication
-      }
+        authentication,
+      };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/api/key/delete')
-        .send(query);
+      const response = await server.post('/api/key/delete').send(query);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Preset apikey can not be deleted' }
+        detail: { message: 'Preset apikey can not be deleted' },
       });
     });
   });

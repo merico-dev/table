@@ -50,7 +50,7 @@ export const accounts: Account[] = [
     role_id: ROLE_TYPES.SUPERADMIN,
     create_time: new Date(),
     update_time: new Date(),
-  }
+  },
 ];
 
 export const apiKeys: ApiKey[] = [
@@ -103,7 +103,7 @@ export const apiKeys: ApiKey[] = [
     app_secret: 'apiKey5_appsecret',
     create_time: new Date(),
     update_time: new Date(),
-  }
+  },
 ];
 
 export const pgSourceConfig = parseDBUrl(process.env.INTEGRATION_TEST_PG_URL!);
@@ -129,11 +129,11 @@ export const dataSources: DataSource[] = [
     key: 'jsonplaceholder',
     is_preset: true,
     config: {
-      host: 'http://jsonplaceholder.typicode.com'
+      host: 'http://jsonplaceholder.typicode.com',
     },
     create_time: new Date(),
     update_time: new Date(),
-  }
+  },
 ];
 
 export const dashboards: Dashboard[] = [
@@ -148,15 +148,15 @@ export const dashboards: Dashboard[] = [
           {
             id: 'pgQuery1',
             type: 'postgresql',
-            key: 'pg'
+            key: 'pg',
           },
           {
             id: 'httpQuery1',
             type: 'http',
-            key: 'jsonplaceholder'
-          }
-        ]
-      }
+            key: 'jsonplaceholder',
+          },
+        ],
+      },
     },
     create_time: new Date(),
     update_time: new Date(),
@@ -172,19 +172,19 @@ export const dashboards: Dashboard[] = [
           {
             id: 'pgQuery2',
             type: 'postgresql',
-            key: 'pg'
+            key: 'pg',
           },
           {
             id: 'httpQuery2',
             type: 'http',
-            key: 'jsonplaceholder'
-          }
-        ]
-      }
+            key: 'jsonplaceholder',
+          },
+        ],
+      },
     },
     create_time: new Date(),
     update_time: new Date(),
-  }
+  },
 ];
 
 export const notFoundId = '3e7acce4-b8cd-4c01-b009-d2ea33a07258';

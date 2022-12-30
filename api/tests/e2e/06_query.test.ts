@@ -19,9 +19,7 @@ describe('QueryController', () => {
     };
     validate.mockReturnValueOnce(query);
 
-    const response = await server
-      .post('/account/login')
-      .send(query);
+    const response = await server.post('/account/login').send(query);
 
     superadminLogin = response.body;
   });
@@ -35,41 +33,39 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'postgresql',
         key: 'preset',
-        query: 'SELECT * FROM role ORDER BY id ASC'
+        query: 'SELECT * FROM role ORDER BY id ASC',
       };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/query')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
+      const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
       expect(response.body).toMatchObject([
         {
           id: 10,
           name: 'INACTIVE',
-          description: 'Disabled user. Can not login'
+          description: 'Disabled user. Can not login',
         },
-        { 
-          id: 20, 
-          name: 'READER', 
-          description: 'Can view dashboards' 
+        {
+          id: 20,
+          name: 'READER',
+          description: 'Can view dashboards',
         },
         {
           id: 30,
           name: 'AUTHOR',
-          description: 'Can view and create dashboards'
+          description: 'Can view and create dashboards',
         },
         {
           id: 40,
           name: 'ADMIN',
-          description: 'Can view and create dashboards. Can add and delete datasources. Can add users except other admins'
+          description:
+            'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
         },
-        { 
-          id: 50, 
-          name: 'SUPERADMIN', 
-          description: 'Can do everything' 
-        }
+        {
+          id: 50,
+          name: 'SUPERADMIN',
+          description: 'Can do everything',
+        },
       ]);
     });
 
@@ -78,29 +74,27 @@ describe('QueryController', () => {
         method: 'GET',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify(httpParams)
+        query: JSON.stringify(httpParams),
       };
       validate.mockReturnValueOnce(query);
       validate.mockReturnValueOnce(httpParams);
 
-      const response = await server
-        .post('/query')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
-        
+      const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
+
       expect(response.body).toMatchObject({
         userId: 1,
         id: 1,
         title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-        body: 'quia et suscipit\n' +
+        body:
+          'quia et suscipit\n' +
           'suscipit recusandae consequuntur expedita et cum\n' +
           'reprehenderit molestiae ut ut quas totam\n' +
-          'nostrum rerum est autem sunt rem eveniet architecto'
+          'nostrum rerum est autem sunt rem eveniet architecto',
       });
     });
 
@@ -109,20 +103,17 @@ describe('QueryController', () => {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts'
+        url_postfix: '/posts',
       };
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify(httpParams)
+        query: JSON.stringify(httpParams),
       };
       validate.mockReturnValueOnce(query);
       validate.mockReturnValueOnce(httpParams);
 
-      const response = await server
-        .post('/query')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
+      const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
       expect(response.body).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
     });
@@ -132,20 +123,17 @@ describe('QueryController', () => {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify(httpParams)
+        query: JSON.stringify(httpParams),
       };
       validate.mockReturnValueOnce(query);
       validate.mockReturnValueOnce(httpParams);
 
-      const response = await server
-        .post('/query')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
+      const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
       expect(response.body).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
     });
@@ -155,20 +143,17 @@ describe('QueryController', () => {
         method: 'DELETE',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1'
+        url_postfix: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify(httpParams)
+        query: JSON.stringify(httpParams),
       };
       validate.mockReturnValueOnce(query);
       validate.mockReturnValueOnce(httpParams);
 
-      const response = await server
-        .post('/query')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
+      const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
       expect(response.body).toMatchObject({});
     });

@@ -4,12 +4,8 @@ module.exports = {
   },
   testTimeout: 15000,
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  moduleDirectories: [
-    'node_modules',
-  ],
-  collectCoverageFrom: [
-    './src/**/*.ts',
-  ],
+  moduleDirectories: ['node_modules'],
+  collectCoverageFrom: ['./src/**/*.ts'],
   coverageReporters: ['text', 'text-summary', 'lcov', 'json'],
   clearMocks: true,
   bail: 1,

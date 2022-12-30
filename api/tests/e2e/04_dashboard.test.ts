@@ -4,7 +4,13 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import * as validation from '~/middleware/validation';
 import request from 'supertest';
 import { app } from '~/server';
-import { DashboardCreateRequest, DashboardIDRequest, DashboardListRequest, DashboardNameRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
+import {
+  DashboardCreateRequest,
+  DashboardIDRequest,
+  DashboardListRequest,
+  DashboardNameRequest,
+  DashboardUpdateRequest,
+} from '~/api_models/dashboard';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { notFoundId } from './constants';
 import ApiKey from '~/models/apiKey';
@@ -27,9 +33,7 @@ describe('DashboardController', () => {
     };
     validate.mockReturnValueOnce(query);
 
-    const response = await server
-      .post('/account/login')
-      .send(query);
+    const response = await server.post('/account/login').send(query);
 
     superadminLogin = response.body;
 
@@ -50,7 +54,7 @@ describe('DashboardController', () => {
     it('should create successfully', async () => {
       const request1: DashboardCreateRequest = {
         name: 'dashboard1',
-        content: {}
+        content: {},
       };
       validate.mockReturnValueOnce(request1);
 
@@ -69,12 +73,12 @@ describe('DashboardController', () => {
         create_time: response1.body.create_time,
         update_time: response1.body.update_time,
         is_removed: false,
-        is_preset: false
+        is_preset: false,
       });
 
       const request2: DashboardCreateRequest = {
         name: 'dashboard2',
-        content: {}
+        content: {},
       };
       validate.mockReturnValueOnce(request2);
 
@@ -93,14 +97,14 @@ describe('DashboardController', () => {
         create_time: response2.body.create_time,
         update_time: response2.body.update_time,
         is_removed: false,
-        is_preset: false
+        is_preset: false,
       });
     });
 
     it('should fail if duplicate name', async () => {
       const request: DashboardCreateRequest = {
         name: 'dashboard1',
-        content: {}
+        content: {},
       };
       validate.mockReturnValueOnce(request);
 
@@ -112,15 +116,15 @@ describe('DashboardController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "dashboard_name_preset_idx"'
-        }
+          message: 'duplicate key value violates unique constraint "dashboard_name_preset_idx"',
+        },
       });
     });
 
     it('should fail if name empty', async () => {
       const request: DashboardCreateRequest = {
         name: undefined,
-        content: {}
+        content: {},
       };
       validate.mockReturnValueOnce(request);
 
@@ -132,8 +136,8 @@ describe('DashboardController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'null value in column "name" of relation "dashboard" violates not-null constraint'
-        }
+          message: 'null value in column "name" of relation "dashboard" violates not-null constraint',
+        },
       });
     });
   });
@@ -142,7 +146,7 @@ describe('DashboardController', () => {
     it('no filters', async () => {
       const query: DashboardListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -162,7 +166,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
@@ -171,7 +175,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[1].create_time,
             update_time: response.body.data[1].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: presetDashboard.id,
@@ -180,9 +184,9 @@ describe('DashboardController', () => {
             create_time: response.body.data[2].create_time,
             update_time: response.body.data[2].update_time,
             is_removed: true,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
 
@@ -190,7 +194,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { search: 'dashboard' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -210,7 +214,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
@@ -219,9 +223,9 @@ describe('DashboardController', () => {
             create_time: response.body.data[1].create_time,
             update_time: response.body.data[1].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
-        ]
+        ],
       });
     });
 
@@ -229,7 +233,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { selection: 'ALL' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -249,7 +253,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
@@ -258,7 +262,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[1].create_time,
             update_time: response.body.data[1].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: presetDashboard.id,
@@ -267,9 +271,9 @@ describe('DashboardController', () => {
             create_time: response.body.data[2].create_time,
             update_time: response.body.data[2].update_time,
             is_removed: true,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
 
@@ -277,7 +281,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { selection: 'ACTIVE' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -297,7 +301,7 @@ describe('DashboardController', () => {
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: false,
-            is_preset: false
+            is_preset: false,
           },
           {
             id: response.body.data[1].id,
@@ -306,9 +310,9 @@ describe('DashboardController', () => {
             create_time: response.body.data[1].create_time,
             update_time: response.body.data[1].update_time,
             is_removed: false,
-            is_preset: false
-          }
-        ]
+            is_preset: false,
+          },
+        ],
       });
     });
 
@@ -316,7 +320,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { selection: 'REMOVED' },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' }
+        sort: { field: 'name', order: 'ASC' },
       };
       validate.mockReturnValueOnce(query);
 
@@ -336,9 +340,9 @@ describe('DashboardController', () => {
             create_time: response.body.data[0].create_time,
             update_time: response.body.data[0].update_time,
             is_removed: true,
-            is_preset: true
-          }
-        ]
+            is_preset: true,
+          },
+        ],
       });
     });
   });
@@ -346,10 +350,10 @@ describe('DashboardController', () => {
   describe('details', () => {
     it('should return successfully', async () => {
       const query: DashboardIDRequest = {
-        id: dashboard1.id
+        id: dashboard1.id,
       };
       validate.mockReturnValueOnce(query);
-      
+
       const response = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -362,10 +366,10 @@ describe('DashboardController', () => {
 
     it('should fail', async () => {
       const query: DashboardIDRequest = {
-        id: notFoundId
+        id: notFoundId,
       };
       validate.mockReturnValueOnce(query);
-      
+
       const response = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -381,8 +385,8 @@ describe('DashboardController', () => {
     it('should return successfully', async () => {
       const query: DashboardNameRequest = {
         name: dashboard1.name,
-        is_preset: dashboard1.is_preset
-      }
+        is_preset: dashboard1.is_preset,
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -398,15 +402,15 @@ describe('DashboardController', () => {
     it('should fail', async () => {
       const query: DashboardNameRequest = {
         name: dashboard1.name,
-        is_preset: !dashboard1.is_preset
-      }
+        is_preset: !dashboard1.is_preset,
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/detailsByName')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      
+
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "Dashboard" matching');
       expect(response.body.detail.message).toContain(`"name": "${dashboard1.name}"`);
@@ -420,8 +424,8 @@ describe('DashboardController', () => {
         id: dashboard2.id,
         name: 'dashboard2_updated',
         is_removed: true,
-        content: { tmp: 'tmp' }
-      }
+        content: { tmp: 'tmp' },
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -435,7 +439,7 @@ describe('DashboardController', () => {
         name: 'dashboard2_updated',
         is_removed: true,
         content: { tmp: 'tmp' },
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
     });
 
@@ -443,7 +447,7 @@ describe('DashboardController', () => {
       const query: DashboardUpdateRequest = {
         id: notFoundId,
         name: 'not_found',
-      }
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -461,8 +465,8 @@ describe('DashboardController', () => {
         id: presetDashboard.id,
         name: 'preset_updated',
         is_removed: false,
-        content: { tmp: 'tmp' }
-      }
+        content: { tmp: 'tmp' },
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -476,7 +480,7 @@ describe('DashboardController', () => {
         name: 'preset_updated',
         is_removed: false,
         content: { tmp: 'tmp' },
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
     });
 
@@ -494,17 +498,15 @@ describe('DashboardController', () => {
         name: 'preset_updated',
         is_removed: false,
         content: { tmp: 'tmp' },
-        authentication
-      }
+        authentication,
+      };
       validate.mockReturnValueOnce(query);
-      
-      const response = await server
-        .put('/dashboard/update')
-        .send(query);
+
+      const response = await server.put('/dashboard/update').send(query);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Only superadmin can edit preset dashboards' }
+        detail: { message: 'Only superadmin can edit preset dashboards' },
       });
     });
   });
@@ -512,8 +514,8 @@ describe('DashboardController', () => {
   describe('delete', () => {
     it('should delete successfully', async () => {
       const query: DashboardIDRequest = {
-        id: dashboard1.id
-      }
+        id: dashboard1.id,
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -525,14 +527,14 @@ describe('DashboardController', () => {
       expect(response.body).toMatchObject({
         ...dashboard1,
         is_removed: true,
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
     });
 
     it('should fail if not found', async () => {
       const query: DashboardIDRequest = {
-        id: notFoundId
-      }
+        id: notFoundId,
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -545,10 +547,10 @@ describe('DashboardController', () => {
       expect(response.body.detail.message).toContain(notFoundId);
     });
 
-    it ('should delete preset dashboard successfully if SUPERADMIN', async () => {
+    it('should delete preset dashboard successfully if SUPERADMIN', async () => {
       const query: DashboardIDRequest = {
-        id: presetDashboard.id
-      }
+        id: presetDashboard.id,
+      };
       validate.mockReturnValueOnce(query);
 
       const response = await server
@@ -561,7 +563,7 @@ describe('DashboardController', () => {
         ...presetDashboard,
         name: 'preset_updated',
         is_removed: true,
-        update_time: response.body.update_time
+        update_time: response.body.update_time,
       });
     });
 
@@ -571,17 +573,15 @@ describe('DashboardController', () => {
 
       const query: DashboardUpdateRequest = {
         id: presetDashboard.id,
-        authentication
-      }
+        authentication,
+      };
       validate.mockReturnValueOnce(query);
 
-      const response = await server
-        .post('/dashboard/delete')
-        .send(query);
+      const response = await server.post('/dashboard/delete').send(query);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Only superadmin can delete preset dashboards' }
+        detail: { message: 'Only superadmin can delete preset dashboards' },
       });
     });
   });
