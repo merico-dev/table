@@ -16,6 +16,7 @@
     "dev:cli:rename-datasource": "node -r ts-node/register src/cli/renameDataSource.ts",
     "test:e2e": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest -i --ci --coverage --forceExit --detectOpenHandles --config=./jest-e2e.config.js tests/e2e/ --logHeapUsage",
     "test:i": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest --ci --coverage --forceExit --detectOpenHandles --config=./jest-i.config.js tests/integration/ --logHeapUsage",
+    "test:u": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest --ci --coverage --forceExit --detectOpenHandles --config=./jest-u.config.js tests/unit/ --logHeapUsage",
     "build": "gulp build",
     "start": "node dist/server.js",
     "migrate": "typeorm migration:run -d dist/data_sources/dashboard.js",
