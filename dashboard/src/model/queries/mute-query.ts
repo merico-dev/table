@@ -31,26 +31,10 @@ export const MuteQueryModel = types
         group: _.capitalize(k.split('.')[0]),
       }));
     },
-    get conditionNames() {
-      if (self.run_by.length === 0) {
-        return { context: [], filters: [] };
-      }
-      // @ts-expect-error untyped getRoot(self)
-      const { keyLabelMap } = getRoot(self).filters;
-      const contextNames = self.run_by.filter((k) => k.startsWith('context.')).map((k) => k.split('context.')[0]);
-      const filterNames = self.run_by
-        .filter((k) => k.startsWith('filters.'))
-        .map((k) => _.get({ filters: keyLabelMap }, k))
-        .filter((v) => !!v);
-      return {
-        context: contextNames,
-        filters: filterNames,
-      };
-    },
-    get runByConditionsMet() {
+    get unmetRunByConditions() {
       const { run_by } = self;
       if (run_by.length === 0) {
-        return true;
+        return [];
       }
       // @ts-expect-error untyped getRoot(self)
       const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
@@ -62,13 +46,36 @@ export const MuteQueryModel = types
         filters: filterValues,
       };
 
-      return run_by.every((c) => {
+      return run_by.filter((c) => {
         const value = _.get(payload, c);
         if (Array.isArray(value)) {
-          return value.length > 0;
+          return value.length === 0;
         }
-        return !!value;
+        return !value;
       });
+    },
+  }))
+  .views((self) => ({
+    get runByConditionsMet() {
+      return self.unmetRunByConditions.length === 0;
+    },
+    get conditionNames() {
+      if (self.unmetRunByConditions.length === 0) {
+        return { context: [], filters: [] };
+      }
+      // @ts-expect-error untyped getRoot(self)
+      const { keyLabelMap } = getRoot(self).filters;
+      const contextNames = self.unmetRunByConditions
+        .filter((k) => k.startsWith('context.'))
+        .map((k) => k.split('context.')[0]);
+      const filterNames = self.unmetRunByConditions
+        .filter((k) => k.startsWith('filters.'))
+        .map((k) => _.get({ filters: keyLabelMap }, k))
+        .filter((v) => !!v);
+      return {
+        context: contextNames,
+        filters: filterNames,
+      };
     },
   }));
 
