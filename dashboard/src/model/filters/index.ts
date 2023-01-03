@@ -88,6 +88,12 @@ export const FiltersModel = types
     get firstFilterValueKey() {
       return Object.keys(self.values)[0] ?? '';
     },
+    get keyLabelMap() {
+      return self.current.reduce((ret, f) => {
+        ret[f.key] = f.label;
+        return ret;
+      }, {} as Record<string, string>);
+    },
   }))
   .actions((self) => {
     return {

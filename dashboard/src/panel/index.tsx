@@ -50,6 +50,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const { inEditMode } = useContext(LayoutStateContext);
 
   const { data, state, error } = model.getDataStuffByID(panel.queryID);
+  const query = model.queries.findByID(panel.queryID);
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
 
@@ -71,7 +72,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         </Box>
         {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
-        <Viz viz={panel.viz} data={data} loading={loading} error={error} height={vizHeight} />
+        <Viz viz={panel.viz} data={data} loading={loading} error={error} height={vizHeight} query={query} />
       </Box>
     </PanelContextProvider>
   );
