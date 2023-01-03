@@ -59,6 +59,20 @@ export const QueryModel = types
       });
     },
   }))
+  .views((self) => ({
+    get stateMessage() {
+      if (self.state !== 'idle') {
+        return '';
+      }
+      if (!self.runByConditionsMet) {
+        return "Query condition(s) doesn't met";
+      }
+      if (self.data.length > 0) {
+        return '';
+      }
+      return 'Empty Data';
+    },
+  }))
   .volatile(() => ({
     controller: new AbortController(),
   }))
@@ -81,10 +95,14 @@ export const QueryModel = types
         self.run_by.push(...v);
       },
       fetchData: flow(function* () {
-        if (!self.valid || !self.runByConditionsMet) {
+        if (!self.valid) {
           return;
         }
         self.controller?.abort();
+        if (!self.runByConditionsMet) {
+          return;
+        }
+
         self.controller = new AbortController();
         self.state = 'loading';
         try {

@@ -4,6 +4,7 @@ import { get } from 'lodash';
 
 import { observer } from 'mobx-react-lite';
 import React, { ReactNode, useContext } from 'react';
+import { QueryModelInstance } from '~/model';
 import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { usePanelContext } from '../../contexts';
@@ -55,11 +56,11 @@ interface IViz {
   loading: boolean;
   height: string;
   error?: string;
+  query?: QueryModelInstance;
 }
 
-export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading, error }: IViz) {
+export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading, error, query }: IViz) {
   const { ref, width, height } = useElementSize();
-  const empty = React.useMemo(() => !Array.isArray(data) || data.length === 0, [data]);
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
   const dontNeedData = typesDontNeedData.includes(viz.type);
@@ -78,19 +79,22 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
       </div>
     );
   }
+  const showError = !!error;
+  const showStateMessage = !showError && !!query?.stateMessage;
+  const showViz = !showError && !showStateMessage;
   return (
     <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
-      {error && (
+      {showError && (
         <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
           {error}
         </Text>
       )}
-      {!error && empty && (
+      {showStateMessage && (
         <Text color="gray" align="center">
-          Empty Data
+          {query.stateMessage}
         </Text>
       )}
-      {!empty && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
+      {showViz && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
     </div>
   );
 });
