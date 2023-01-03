@@ -36,7 +36,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
       <MultiSelect
         label="Run query when these are truthy"
         data={queryModel.conditionOptions}
-        value={queryModel.run_by}
+        value={[...queryModel.run_by]}
         onChange={queryModel.setRunBy}
       />
 
