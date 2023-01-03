@@ -1,7 +1,7 @@
-import _, { maxBy, minBy } from 'lodash';
+import { quantile } from 'd3-array';
+import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
-import { aggregateValue } from '~/utils/aggregation';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
@@ -10,22 +10,25 @@ import { getTooltip } from './tooltip';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
-    const q1 = aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.25 } });
-    const q3 = aggregateValue(data, data_key, { type: 'quantile', config: { p: 0.75 } });
-    const median = aggregateValue(data, data_key, { type: 'median', config: {} });
+    const numbers: number[] = data.map((d) => d[data_key]).sort((a, b) => a - b);
+    const q1 = quantile(numbers, 0.25) ?? 0;
+    const median = quantile(numbers, 0.5) ?? 0;
+    const q3 = quantile(numbers, 0.75) ?? 0;
+
     const IQR = q3 - q1;
     const minLimit = q1 - 1.5 * IQR;
-    const maxLimit = q1 + 1.5 * IQR;
-    const dataPoints = data.map((d) => [name, d[data_key]] as [string, number]);
-    const validPoints = dataPoints.filter((p) => minLimit <= p[1] && p[1] <= maxLimit);
-    const outliers = dataPoints.filter((p) => p[1] < minLimit || p[1] > maxLimit);
+    const maxLimit = q3 + 1.5 * IQR;
+
+    const min = Math.max(numbers[0], minLimit);
+    const max = Math.min(_.last(numbers) ?? 0, maxLimit);
+    const outliers = numbers.filter((n) => n < min || n > max).map((n) => [name, n]);
     return {
       name,
-      min: minBy(validPoints, (p) => p[1])?.[1] ?? -1,
+      min,
       q1,
       median,
       q3,
-      max: maxBy(validPoints, (p) => p[1])?.[1] ?? -1,
+      max,
       outliers,
     } as IBoxplotDataItem;
   });
