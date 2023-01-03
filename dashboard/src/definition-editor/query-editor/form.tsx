@@ -35,7 +35,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
       <Tabs defaultValue="SQL">
-        <Tabs.List>
+        <Tabs.List grow>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           <Tabs.Tab value="SQL">
             <Group spacing={14}>
