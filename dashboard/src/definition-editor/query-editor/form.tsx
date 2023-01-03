@@ -6,6 +6,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { QueryModelInstance } from '../../model/queries';
 import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 import { QueryConfigurations } from './configurations';
+import { DataPreview } from './data-preview';
 
 import { PreviewSQL } from './preview-sql';
 
@@ -16,6 +17,9 @@ interface IQueryForm {
 export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
   const { width } = useViewportSize();
   const tabsOrientation = width >= 1440 ? 'vertical' : 'horizontal';
+  const subTabsOrientation = width >= 1440 ? 'horizontal' : 'vertical';
+  const tabsStyles = width >= 1440 ? { tabLabel: { width: '100%' } } : {};
+  const tabsPadding = width >= 1440 ? 'sm' : 0;
 
   const [sql, setSQL] = React.useState(queryModel.sql);
 
@@ -36,7 +40,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
 
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue="SQL" orientation={tabsOrientation} styles={{ tabLabel: { width: '100%' } }}>
+      <Tabs defaultValue="SQL" orientation={tabsOrientation} styles={tabsStyles}>
         <Tabs.List grow={tabsOrientation === 'horizontal'}>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           <Tabs.Tab value="SQL">
@@ -47,18 +51,30 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
               </ActionIcon>
             </Group>
           </Tabs.Tab>
-          <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+          <Tabs.Tab value="Data">Data</Tabs.Tab>
         </Tabs.List>
-        <Tabs.Panel value="Configurations" p="sm">
+
+        <Tabs.Panel value="Configurations" p={tabsPadding}>
           <QueryConfigurations queryModel={queryModel} />
         </Tabs.Panel>
-        <Tabs.Panel value="SQL" p="sm">
-          <Box sx={{ position: 'relative' }}>
-            <MinimalMonacoEditor height="600px" value={sql} onChange={setSQL} />
-          </Box>
+
+        <Tabs.Panel value="SQL" p={tabsPadding}>
+          <Tabs defaultValue="Edit" orientation={subTabsOrientation}>
+            <Tabs.List>
+              <Tabs.Tab value="Edit">Edit</Tabs.Tab>
+              <Tabs.Tab value="Preview">Preview</Tabs.Tab>
+            </Tabs.List>
+            <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
+              <MinimalMonacoEditor height="600px" value={sql} onChange={setSQL} />
+            </Tabs.Panel>
+            <Tabs.Panel value="Preview" p="sm">
+              <PreviewSQL value={queryModel.sql} />
+            </Tabs.Panel>
+          </Tabs>
         </Tabs.Panel>
-        <Tabs.Panel value="Preview" p="sm">
-          <PreviewSQL value={queryModel.sql} />
+
+        <Tabs.Panel value="Data" p={tabsPadding}>
+          <DataPreview id={queryModel.id} />
         </Tabs.Panel>
       </Tabs>
     </Stack>

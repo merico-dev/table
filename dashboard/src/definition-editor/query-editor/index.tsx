@@ -2,7 +2,6 @@ import { AppShell, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { GlobalVariablesGuide } from '../global-variables-guide';
-import { DataPreview } from './data-preview';
 import { QueryEditor } from './editor';
 import { SelectOrAddQuery } from './select-or-add-query';
 
@@ -26,7 +25,6 @@ export const EditQueries = observer(function _EditQueries() {
         </Stack>
         <GlobalVariablesGuide />
       </Group>
-      <DataPreview id={id} />
     </AppShell>
   );
 });

@@ -46,7 +46,7 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
     model.queries.refetchDataByQueryID(id);
   };
   return (
-    <Stack my="xl" sx={{ border: '1px solid #eee' }}>
+    <Stack sx={{ border: '1px solid #eee' }}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Group position="left">
           <Text weight={500}>Preview Data</Text>
