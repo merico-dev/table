@@ -16,6 +16,7 @@ function getXAxisLabel(params: AnyObject[], conf: IScatterChartConf) {
 }
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
+  const { scatter } = conf;
   return {
     formatter: function (params: TopLevelFormatterParams) {
       const yLabelFormatter = labelFormatters[0] ?? labelFormatters.default;
@@ -25,14 +26,19 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       }
       const xAxisLabel = getXAxisLabel(arr, conf);
       // @ts-expect-error type of value
-      const lines = arr.map(({ value }: { value: [string | number, string | number, string] }) => {
+      const lines = arr.map(({ value }: { value: AnyObject }) => {
         return `
         <tr>
-          <th style="text-align: right;">${value[2]}</th>
+          <th style="text-align: right;">${value[scatter.name_data_key]}</th>
           <td style="text-align: right; padding-right: .5em;">${xAxisLabel}</td>
           <td style="text-align: right; padding-right: .5em;">
-            ${yLabelFormatter(value[1])}
+            ${yLabelFormatter(value[scatter.y_data_key])}
           </td>
+          ${conf.tooltip.metrics
+            .map((m) => {
+              return `<td style="text-align: right; padding-right: .5em;">${value[m.data_key]}</td>`;
+            })
+            .join('')}
         </tr>`;
       });
 
@@ -43,6 +49,11 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
     <th></th>
     <th style="text-align: left;">${conf.x_axis.name}</th>
     <th style="text-align: left;">${conf.y_axes[0].name}</th>
+    ${conf.tooltip.metrics
+      .map((m) => {
+        return `<th style="text-align: left;">${m.name}</th>`;
+      })
+      .join('')}
   </tr>
 </thead>
 <tbody>

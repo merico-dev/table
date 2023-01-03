@@ -75,22 +75,18 @@ function getSeriesItemOrItems(
     label: {
       show: !!scatter.label_position,
       position: scatter.label_position,
-      formatter: ({ value }: { value: [string | number, string | number, string] }) => {
-        return value[2]; // [x, y, name]
+      formatter: ({ value }: { value: AnyObject }) => {
+        return value[scatter.name_data_key]; // [x, y, name]
       },
     },
     type: 'scatter',
     name: '',
     xAxisId: 'main-x-axis',
     yAxisIndex: 0,
+    datasetIndex: 0,
     color: scatter.color,
     symbolSize: getEchartsSymbolSize(scatter.symbolSize, data, x_axis.data_key, variableValueMap),
-    data: data.map((d) => {
-      const x = d[x_axis.data_key];
-      const y = d[scatter.y_data_key];
-      const name = d[scatter.name_data_key];
-      return [x, y, name];
-    }),
+    encode: { x: x_axis.data_key, y: scatter.y_data_key },
   };
 }
 
