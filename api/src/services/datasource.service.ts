@@ -8,6 +8,7 @@ import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption'
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
 import { JobService, RenameJobParams } from './job.service';
+import { QueryService } from './query.service';
 
 export class DataSourceService {
   static async getByTypeKey(type: string, key: string): Promise<DataSource> {
@@ -78,6 +79,7 @@ export class DataSourceService {
       throw new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' });
     }
     await dataSourceRepo.delete(datasource.id);
+    await QueryService.removeDBConnection(datasource.type, datasource.key);
   }
 
   private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {

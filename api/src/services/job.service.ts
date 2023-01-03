@@ -5,6 +5,7 @@ import Dashboard from '../models/dashboard';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
+import { QueryService } from './query.service';
 
 enum JobType {
   RENAME_DATASOURCE = 'RENAME_DATASOURCE',
@@ -61,6 +62,8 @@ export class JobService {
         try {
           const params = job.params as RenameJobParams;
   
+          await QueryService.removeDBConnection(params.type, params.old_key);
+
           const datasource = await datasourceRepo.findOneByOrFail({ type: params.type, key: params.old_key });
           datasource.key = params.new_key;
           await datasourceRepo.save(datasource);
