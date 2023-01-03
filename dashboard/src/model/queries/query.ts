@@ -23,41 +23,6 @@ export const QueryModel = types
       const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
-    get conditionOptions() {
-      // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
-      const contextOptions = Object.keys({ ...mock_context, ...context }).map((k) => `context.${k}`);
-      const filterOptions = Object.keys(filterValues).map((k) => `filters.${k}`);
-      const keys = [...contextOptions, ...filterOptions];
-      return keys.map((k) => ({
-        label: k.split('.')[1],
-        value: k,
-        group: _.capitalize(k.split('.')[0]),
-      }));
-    },
-    get runByConditionsMet() {
-      const { run_by } = self;
-      if (run_by.length === 0) {
-        return true;
-      }
-      // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
-      const payload = {
-        context: {
-          ...mock_context,
-          ...context,
-        },
-        filters: filterValues,
-      };
-
-      return run_by.every((c) => {
-        const value = _.get(payload, c);
-        if (Array.isArray(value)) {
-          return value.length > 0;
-        }
-        return !!value;
-      });
-    },
   }))
   .views((self) => ({
     get stateMessage() {
@@ -65,7 +30,22 @@ export const QueryModel = types
         return '';
       }
       if (!self.runByConditionsMet) {
-        return "Query condition(s) doesn't met";
+        const { context, filters } = self.conditionNames;
+        if (context.length === 0 && filters.length === 0) {
+          return 'Waiting';
+        }
+        const arr = [];
+        if (context.length > 0) {
+          arr.push(`context: ${context.join(', ')}`);
+        }
+        if (filters.length > 0) {
+          arr.push(`filter${filters.length > 1 ? 's' : ''}: ${filters.join(', ')}`);
+        }
+        if (arr.length === 2) {
+          arr.splice(1, 0, 'and');
+        }
+        arr.unshift('Waiting for');
+        return arr.join(' ');
       }
       if (self.data.length > 0) {
         return '';
