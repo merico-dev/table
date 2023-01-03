@@ -8,12 +8,18 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 
 export class DashboardService {
-  async list(filter: DashboardFilterObject | undefined, sort: DashboardSortObject, pagination: PaginationRequest): Promise<DashboardPaginationResponse> {
+  async list(
+    filter: DashboardFilterObject | undefined,
+    sort: DashboardSortObject,
+    pagination: PaginationRequest,
+  ): Promise<DashboardPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
-    const qb = dashboardDataSource.manager.createQueryBuilder()
+    const qb = dashboardDataSource.manager
+      .createQueryBuilder()
       .from(Dashboard, 'dashboard')
       .orderBy(sort.field, sort.order)
-      .offset(offset).limit(pagination.pagesize);
+      .offset(offset)
+      .limit(pagination.pagesize);
 
     if (filter !== undefined) {
       if (filter.selection === 'ALL') {
@@ -23,7 +29,7 @@ export class DashboardService {
       } else {
         qb.where('dashboard.is_removed = false');
       }
-  
+
       if (filter.search) {
         qb.andWhere('dashboard.name ilike :search', { search: `%${escapeLikePattern(filter.search)}%` });
       }
@@ -58,7 +64,13 @@ export class DashboardService {
     return await dashboardRepo.findOneByOrFail({ name, is_preset });
   }
 
-  async update(id: string, name: string | undefined, content: Record<string, any> | undefined, is_removed: boolean | undefined, role_id?: ROLE_TYPES): Promise<Dashboard> {
+  async update(
+    id: string,
+    name: string | undefined,
+    content: Record<string, any> | undefined,
+    is_removed: boolean | undefined,
+    role_id?: ROLE_TYPES,
+  ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
@@ -73,7 +85,6 @@ export class DashboardService {
   async delete(id: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    console.log(role_id);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' });
     }

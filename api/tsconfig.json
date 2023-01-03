@@ -16,7 +16,7 @@
     "resolveJsonModule": true,
     "strictNullChecks": true
   },
-  "exclude": ["node_modules", "build", "_build"],
+  "exclude": ["node_modules", "build", "_build", "tests"],
   "rules": {
     "no-unused-expression": true,
     "no-floating-promises": true
