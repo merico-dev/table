@@ -43,7 +43,7 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID 
   };
 
   return (
-    <Group pb="xl" grow sx={{ width: '100%' }}>
+    <Group grow sx={{ width: '100%' }}>
       <Group position="left" sx={{ flexGrow: 1, maxWidth: '600px', alignItems: 'baseline' }}>
         <Text>Select a Query</Text>
         <Select

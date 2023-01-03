@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { Button, Tooltip } from '@mantine/core';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
@@ -14,14 +14,16 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   const dependingPanels = dashboardModel.findDependingPanels(queryModel.id);
   const disabled = dependingPanels.length > 0;
   const button = (
-    <ActionIcon
+    <Button
       color="red"
       size="sm"
       disabled={disabled}
       onClick={() => dashboardModel.queries.removeQuery(queryModel.id)}
+      leftIcon={<IconTrash />}
+      sx={{ alignSelf: 'flex-end' }}
     >
-      <IconTrash />
-    </ActionIcon>
+      Delete this Query
+    </Button>
   );
   if (disabled) {
     return (
@@ -30,7 +32,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
         withArrow
         events={{ hover: true, focus: false, touch: false }}
       >
-        <span>{button}</span>
+        {button}
       </Tooltip>
     );
   }
