@@ -13,8 +13,11 @@ export class QueryService {
     return `${type}_${key}`;
   }
 
-  static addDBConnection(type: string, key: string, source: DataSource): void {
+  static async addDBConnection(type: string, key: string, source: DataSource): Promise<void> {
     const hash = this.createDBConnectionHash(type, key);
+    if (!source.isInitialized) {
+      await source.initialize();
+    }
     this.dbConnections[hash] = source;
   }
 
@@ -56,10 +59,9 @@ export class QueryService {
       const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
       const configuration = configureDatabaseSource('postgresql', sourceConfig.config);
       source = new DataSource(configuration);
-      QueryService.addDBConnection('postgresql', key, source);
+      await QueryService.addDBConnection('postgresql', key, source);
     }
-    const result = await this.executeQuery(source, sql);
-    return result;
+    return await source.query(sql)
   }
 
   private async mysqlQuery(key: string, sql: string): Promise<object[]> {
@@ -68,17 +70,9 @@ export class QueryService {
       const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
       const configuration = configureDatabaseSource('mysql', sourceConfig.config);
       source = new DataSource(configuration);
-      QueryService.addDBConnection('mysql', key, source);
+      await QueryService.addDBConnection('mysql', key, source);
     }
-    const result = await this.executeQuery(source, sql);
-    return result;
-  }
-
-  private async executeQuery(source: DataSource, sql): Promise<any> {
-    if (!source.isInitialized) {
-      await source.initialize();
-    }
-    return await source.query(sql);
+    return await source.query(sql)
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {
