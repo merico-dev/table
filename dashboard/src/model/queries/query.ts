@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { get } from 'lodash';
+import _, { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL, QueryFailureError } from '../../api-caller';
@@ -23,6 +23,41 @@ export const QueryModel = types
       const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
+    get conditionOptions() {
+      // @ts-expect-error untyped getRoot(self)
+      const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
+      const contextOptions = Object.keys({ ...mock_context, ...context }).map((k) => `context.${k}`);
+      const filterOptions = Object.keys(filterValues).map((k) => `filters.${k}`);
+      const keys = [...contextOptions, ...filterOptions];
+      return keys.map((k) => ({
+        label: k.split('.')[1],
+        value: k,
+        group: _.capitalize(k.split('.')[0]),
+      }));
+    },
+    get runByConditionsMet() {
+      const { run_by } = self;
+      if (run_by.length === 0) {
+        return true;
+      }
+      // @ts-expect-error untyped getRoot(self)
+      const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
+      const payload = {
+        context: {
+          ...mock_context,
+          ...context,
+        },
+        filters: filterValues,
+      };
+
+      return run_by.every((c) => {
+        const value = _.get(payload, c);
+        if (Array.isArray(value)) {
+          return value.length > 0;
+        }
+        return !!value;
+      });
+    },
   }))
   .volatile(() => ({
     controller: new AbortController(),
@@ -41,8 +76,12 @@ export const QueryModel = types
       setSQL(sql: string) {
         self.sql = sql;
       },
+      setRunBy(v: string[]) {
+        self.run_by.length = 0;
+        self.run_by.push(...v);
+      },
       fetchData: flow(function* () {
-        if (!self.valid) {
+        if (!self.valid || !self.runByConditionsMet) {
           return;
         }
         self.controller?.abort();

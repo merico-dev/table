@@ -5,6 +5,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { QueryModelInstance } from '../../model/queries';
 import { MinimalMonacoEditor } from '../minimal-monaco-editor';
 import { SelectDataSource } from '../select-data-source';
+import { QueryConfigurations } from './configurations';
 
 import { DeleteQuery } from './delete-query';
 import { PreviewSQL } from './preview-sql';
@@ -62,6 +63,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
         </Group>
         <Tabs defaultValue="SQL">
           <Tabs.List>
+            <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
             <Tabs.Tab value="SQL">
               <Group spacing={14}>
                 SQL
@@ -72,6 +74,9 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
             </Tabs.Tab>
             <Tabs.Tab value="Preview">Preview</Tabs.Tab>
           </Tabs.List>
+          <Tabs.Panel value="Configurations" pt="sm">
+            <QueryConfigurations queryModel={queryModel} />
+          </Tabs.Panel>
           <Tabs.Panel value="SQL" pt="sm">
             <Box sx={{ position: 'relative' }}>
               <MinimalMonacoEditor height="600px" value={sql} onChange={setSQL} />

@@ -8,14 +8,15 @@ export const MuteQueryModel = types
     type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
     key: types.string,
     sql: types.string,
+    run_by: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get valid() {
       return self.id && self.type && self.key && self.sql && self.name;
     },
     get json() {
-      const { id, name, type, key, sql } = self;
-      return { id, name, type, key, sql };
+      const { id, name, type, key, sql, run_by } = self;
+      return { id, name, type, key, sql, run_by };
     },
   }));
 
