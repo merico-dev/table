@@ -10,6 +10,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { ScatterField } from './editors/scatter';
 import { StatsField } from './editors/stats';
+import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
@@ -88,6 +89,7 @@ export function VizScatterChartPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
             <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
             <Tabs.Tab value="Scatter">Scatter</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
             {/* <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab> */}
@@ -103,6 +105,10 @@ export function VizScatterChartPanel({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Scatter">
             <ScatterField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Tooltip">
+            <TooltipField control={control} watch={watch} data={data} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Stats">

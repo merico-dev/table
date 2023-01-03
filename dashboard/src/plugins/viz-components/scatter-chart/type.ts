@@ -4,6 +4,12 @@ import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '..
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
+export interface IScatterTooltipMetric {
+  id: string;
+  data_key: string;
+  name: string;
+}
+
 export interface IScatterChartConf {
   x_axis: {
     data_key: string;
@@ -26,6 +32,9 @@ export interface IScatterChartConf {
       top: string;
       bottom: string;
     };
+  };
+  tooltip: {
+    metrics: IScatterTooltipMetric[];
   };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
@@ -64,6 +73,9 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       label_formatter: defaultNumbroFormat,
     },
   ],
+  tooltip: {
+    metrics: [],
+  },
   reference_lines: [],
   reference_areas: [],
 };
