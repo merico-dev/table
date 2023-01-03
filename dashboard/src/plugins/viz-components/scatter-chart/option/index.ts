@@ -95,6 +95,11 @@ export function getOption(conf: IScatterChartConf, data: $TSFixMe[], variables: 
     xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(conf, labelFormatters),
     series,
+    dataset: [
+      {
+        source: data,
+      },
+    ],
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(),

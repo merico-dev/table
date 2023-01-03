@@ -6,13 +6,23 @@ import { DEFAULT_CONFIG, IScatterChartConf } from './type';
 import { ClickScatterChartSeries } from './triggers';
 
 class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 
   configVersions(): void {
     this.version(1, (data: any) => {
       return {
         version: 1,
         config: data,
+      };
+    });
+    this.version(2, (data: any) => {
+      const { tooltip = { metrics: [] }, ...rest } = data;
+      return {
+        version: 2,
+        config: {
+          ...rest,
+          tooltip,
+        },
       };
     });
   }
