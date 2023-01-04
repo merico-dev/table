@@ -25,7 +25,6 @@ export function VizMericoGQMPanel({ context }: VizConfigProps) {
             setConfByKey('expertSystemURL', e.currentTarget.value);
           }}
           label="Expert System URL"
-          required
         />
         <TextInput
           label="Path"

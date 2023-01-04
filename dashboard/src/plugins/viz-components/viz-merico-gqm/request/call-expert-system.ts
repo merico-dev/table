@@ -71,8 +71,8 @@ interface ICallExpertSystem {
 export const callExpertSystem =
   ({ conf, data }: ICallExpertSystem) =>
   async (): Promise<IExpertSystemResponse | undefined> => {
-    const { expertSystemURL, goal, question } = conf;
-    if (!expertSystemURL || !goal || !question) {
+    const { expertSystemURL, path, goal, question } = conf;
+    if (!path || !goal || !question) {
       return undefined;
     }
 
@@ -83,7 +83,8 @@ export const callExpertSystem =
     };
 
     try {
-      const res = await req(expertSystemURL, `/expert/v3/devtable/${conf.path}`, payload, {});
+      const baseURL = expertSystemURL.startsWith('http') ? expertSystemURL : window.location.origin;
+      const res = await req(baseURL, `/expert/v3/devtable/${path}`, payload, {});
       return res;
     } catch (error) {
       throwIfNotEmpty(error, 'response.data.detail');
