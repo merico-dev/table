@@ -1,3 +1,6 @@
+export const version = (await import('../package.json')).version;
+console.log(`[@devtable/dashboard] version: ${version}`);
+
 export * from './main';
 export * from './view';
 export * from './panel';
