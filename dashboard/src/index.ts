@@ -1,4 +1,4 @@
-export const version = (await import('../package.json')).version;
+export const version = import('../package.json').then((p) => p.version);
 console.log(`[@devtable/dashboard] version: ${version}`);
 
 export * from './main';
