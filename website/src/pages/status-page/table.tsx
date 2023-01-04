@@ -1,13 +1,14 @@
-import { Box, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
 
 export const StatusTable = () => {
   return (
     <Table
+      ml={20}
       mt={30}
       highlightOnHover
       sx={{
         width: '400px',
-        'thead, tbody': {
+        'thead tr, tbody tr': {
           tr: {
             'th, td': {
               padding: '.6em 1em',
@@ -17,7 +18,7 @@ export const StatusTable = () => {
         'thead th:first-of-type': { textAlign: 'left' },
         tbody: {
           'tr:not(:first-of-type)': { borderTop: '1px solid #dee2e6' },
-          th: { textAlign: 'left', fontWeight: 'semibold' },
+          th: { textAlign: 'left' },
         },
       }}
     >
