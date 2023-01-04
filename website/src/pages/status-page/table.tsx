@@ -1,5 +1,6 @@
 import { LoadingOverlay, Table } from '@mantine/core';
 import { version as dashboard_version } from '@devtable/dashboard';
+import { version as settings_form_version } from '@devtable/settings-form';
 import _ from 'lodash';
 import { useRequest } from 'ahooks';
 import { StatusAPI } from '../../api-caller/status';
@@ -43,6 +44,10 @@ export const StatusTable = () => {
         <tr>
           <th>@devtable/dashboard</th>
           <td>{dashboard_version}</td>
+        </tr>
+        <tr>
+          <th>@devtable/settings-form</th>
+          <td>{settings_form_version}</td>
         </tr>
         <tr>
           <th>@devtable/website</th>
