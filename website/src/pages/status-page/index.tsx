@@ -1,4 +1,5 @@
 import { Anchor, Box, Breadcrumbs, Group } from '@mantine/core';
+import { StatusTable } from './table';
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -15,6 +16,8 @@ export function StatusPage() {
       <Group position="apart" sx={{ width: '100%' }}>
         <Breadcrumbs>{items}</Breadcrumbs>
       </Group>
+
+      <StatusTable />
     </Box>
   );
 }
