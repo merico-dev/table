@@ -17,9 +17,6 @@ export default ({ mode }) => {
 
   return defineConfig({
     base: env.VITE_WEBSITE_BASE_URL,
-    define: {
-      '@devtable/website:version': JSON.stringify(process.env.npm_package_version),
-    },
     plugins: [
       react(),
       tsconfigPaths({
