@@ -15,10 +15,8 @@ export const StatusTable = () => {
       sx={{
         width: '400px',
         'thead tr, tbody tr': {
-          tr: {
-            'th, td': {
-              padding: '.6em 1em',
-            },
+          'th, td': {
+            padding: '.6em 1em',
           },
         },
         'thead th:first-of-type': { textAlign: 'left' },
