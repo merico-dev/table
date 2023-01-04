@@ -37,9 +37,10 @@ export function VizMericoGQM({ context }: VizViewProps) {
       <Center sx={{ width, height: height - 25 - 20 }}>
         <Stack align="center" spacing={20}>
           <MericoGQMErrorFigure />
-          <Text align="center" size={14} color="#3D3E45" sx={{ lineHeight: '32px' }}>
-            {error.message}
-          </Text>
+          <div
+            dangerouslySetInnerHTML={{ __html: error.message }}
+            style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
+          />
         </Stack>
       </Center>
     );
