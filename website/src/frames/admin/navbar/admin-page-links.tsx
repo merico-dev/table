@@ -37,6 +37,7 @@ const links = [
   { name: 'Data Sources', to: '/admin/data_source/list' },
   { name: 'Accounts', to: '/admin/account/list' },
   { name: 'API Keys', to: '/admin/api_key/list' },
+  { name: 'Status', to: '/admin/status' },
 ];
 
 export function AdminPageLinks() {

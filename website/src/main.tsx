@@ -11,6 +11,7 @@ import { AccountsPage } from './pages/account-page';
 import { LoginPage } from './pages/login-page';
 import { RequireAuth } from './frames/require-auth';
 import { APIKeyPage } from './pages/api-key-page';
+import { StatusPage } from './pages/status-page';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -29,6 +30,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route path="data_source/list" element={<DataSourcePage />} />
               <Route path="account/list" element={<AccountsPage />} />
               <Route path="api_key/list" element={<APIKeyPage />} />
+              <Route path="status" element={<StatusPage />} />
               <Route path="*" element={<DataSourcePage />} />
             </Route>
           </Route>
