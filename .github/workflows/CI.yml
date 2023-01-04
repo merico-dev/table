@@ -86,3 +86,11 @@ jobs:
         run: docker build -f Dockerfile-website -t registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.TAG }} .
       - name: Push table website image
         run: docker push registry.cn-hongkong.aliyuncs.com/merico/table-website:${{ steps.tag.outputs.TAG }}
+      - name: Trigger GitLab CI pipeline
+        # only runs if the previous step was successful
+        if: success()
+        uses: eic/trigger-gitlab-ci@v2
+        with:
+          token: ${{ secrets.GITLAB_TOKEN }}
+          project_id: ${{ secrets.GITLAB_PROJECT_ID }}
+          ref_name: main
