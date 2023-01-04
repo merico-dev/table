@@ -1,6 +1,6 @@
 import { LoadingOverlay, Table } from '@mantine/core';
-import { version as dashboard_version } from '@devtable/dashboard';
-import { version as settings_form_version } from '@devtable/settings-form';
+import { getVersion as get_dashboard_version } from '@devtable/dashboard';
+import { getVersion as get_settings_form_version } from '@devtable/settings-form';
 import _ from 'lodash';
 import { useRequest } from 'ahooks';
 import { StatusAPI } from '../../api-caller/status';
@@ -8,6 +8,8 @@ import { StatusAPI } from '../../api-caller/status';
 export const StatusTable = () => {
   const { data: api_version, loading } = useRequest(StatusAPI.version);
   const website_version = _.get(window, '@devtable/website:version', 'unknown');
+  const { data: dashboard_version } = useRequest(get_dashboard_version);
+  const { data: settings_form_version } = useRequest(get_settings_form_version);
   return (
     <Table
       ml={20}
