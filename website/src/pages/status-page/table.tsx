@@ -1,4 +1,6 @@
 import { Table } from '@mantine/core';
+import { version } from '@devtable/dashboard';
+import _ from 'lodash';
 
 export const StatusTable = () => {
   return (
@@ -35,11 +37,11 @@ export const StatusTable = () => {
         </tr>
         <tr>
           <th>@devtable/dashboard</th>
-          <td>1.2.3</td>
+          <td>{version}</td>
         </tr>
         <tr>
           <th>@devtable/website</th>
-          <td>1.2.3</td>
+          <td>{_.get(window, '@devtable/website:version', 'unknown')}</td>
         </tr>
       </tbody>
     </Table>
