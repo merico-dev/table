@@ -1,5 +1,15 @@
 import { ICartesianChartConf } from '../type';
 
+function getStyle(type: 'line' | 'bar' | 'scatter') {
+  if (type !== 'line') {
+    return {};
+  }
+  return {
+    itemStyle: {
+      opacity: 0,
+    },
+  };
+}
 function getIcon(type: 'line' | 'bar' | 'scatter') {
   switch (type) {
     case 'line':
@@ -26,6 +36,7 @@ export function getLegend(conf: ICartesianChartConf) {
       return {
         name,
         icon: getIcon(type),
+        ...getStyle(type),
       };
     });
   return ret;
