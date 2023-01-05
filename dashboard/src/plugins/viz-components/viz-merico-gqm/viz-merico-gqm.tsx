@@ -8,6 +8,21 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
+const GQMError = ({ error, width, height }: { error: { message: string }; width: number; height: number }) => {
+  return (
+    // 25px is panel's title height, 20px is stack spacing
+    <Center sx={{ width, height: height - 25 - 20 }}>
+      <Stack align="center" spacing={20}>
+        <MericoGQMErrorFigure />
+        <div
+          dangerouslySetInnerHTML={{ __html: error.message }}
+          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
+        />
+      </Stack>
+    </Center>
+  );
+};
+
 const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
 
 export function VizMericoGQM({ context }: VizViewProps) {
@@ -32,18 +47,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
     );
   }
   if (error) {
-    return (
-      // 25px is panel's title height, 20px is stack spacing
-      <Center sx={{ width, height: height - 25 - 20 }}>
-        <Stack align="center" spacing={20}>
-          <MericoGQMErrorFigure />
-          <div
-            dangerouslySetInnerHTML={{ __html: error.message }}
-            style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
-          />
-        </Stack>
-      </Center>
-    );
+    return <GQMError error={error} width={width} height={height} />;
   }
 
   if (!data || !Array.isArray(data.replies) || data.replies.length === 0) {
