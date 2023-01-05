@@ -8,22 +8,37 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
+const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
+
+const ErrorMessage = ({ message }: { message: string }) => {
+  return (
+    <Box sx={BaseStyle}>
+      <div
+        dangerouslySetInnerHTML={{ __html: message }}
+        style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
+      />
+    </Box>
+  );
+};
+
 const GQMError = ({ error, width, height }: { error: { message: string }; width: number; height: number }) => {
+  const msg = error.message;
+  const inHTML = msg.startsWith('<');
+
+  if (inHTML) {
+    return <ErrorMessage message={msg} />;
+  }
+
   return (
     // 25px is panel's title height, 20px is stack spacing
     <Center sx={{ width, height: height - 25 - 20 }}>
       <Stack align="center" spacing={20}>
         <MericoGQMErrorFigure />
-        <div
-          dangerouslySetInnerHTML={{ __html: error.message }}
-          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
-        />
+        <ErrorMessage message={msg} />
       </Stack>
     </Center>
   );
 };
-
-const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
 
 export function VizMericoGQM({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
