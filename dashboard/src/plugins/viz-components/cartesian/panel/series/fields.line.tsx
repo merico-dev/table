@@ -1,7 +1,8 @@
 import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
-import React from 'react';
-import { Control, Controller } from 'react-hook-form';
-import { ICartesianChartConf } from '../../type';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { AnyObject } from '~/types';
+import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { ScatterSizeSelect } from '../scatter-size-select';
 
 const stepOptions = [
   { label: 'off', value: 'false' },
@@ -18,10 +19,13 @@ const lineTypeOptions = [
 
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
+  seriesItem: ICartesianChartSeriesItem;
   index: number;
+  data: AnyObject[];
 }
 
-export function LineFields({ control, index }: ILineFields) {
+export function LineFields({ control, index, seriesItem, data }: ILineFields) {
+  const showSymbol = seriesItem.showSymbol;
   return (
     <>
       <Divider mb={-15} variant="dashed" label="Line Settings" labelPosition="center" />
@@ -84,6 +88,28 @@ export function LineFields({ control, index }: ILineFields) {
           />
         </Stack>
       </Group>
+      <Stack>
+        <Controller
+          name={`series.${index}.showSymbol`}
+          control={control}
+          render={({ field }) => (
+            <Box mt={10} mb={-10} sx={{ flexGrow: 1 }}>
+              <Switch
+                label="Show Symbol on Line"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+              />
+            </Box>
+          )}
+        />
+        {showSymbol && (
+          <Controller
+            name={`series.${index}.symbolSize`}
+            control={control}
+            render={({ field }) => <ScatterSizeSelect label="Symbol Size" data={data} {...field} />}
+          />
+        )}
+      </Stack>
     </>
   );
 }
