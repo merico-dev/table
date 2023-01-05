@@ -17,7 +17,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
   const { width, height } = context.viewport;
   const contextData = (context.data as $TSFixMe[]) ?? [];
   const { data, error, loading } = useRequest(callExpertSystem({ conf, data: contextData }), {
-    refreshDeps: [JSON.stringify(contextData), conf?.expertSystemURL],
+    refreshDeps: [contextData, conf],
   });
 
   if (!width || !height || !conf) {
