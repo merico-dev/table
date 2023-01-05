@@ -114,7 +114,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
-      {type === 'line' && <LineFields index={index} control={control} />}
+      {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} data={data} />}
       {type === 'bar' && <BarFields index={index} control={control} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
       <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />

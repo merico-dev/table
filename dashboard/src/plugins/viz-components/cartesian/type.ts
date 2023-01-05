@@ -6,7 +6,7 @@ export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
   name: string;
   display_name_on_line: boolean;
-  showSymbol: false;
+  showSymbol: boolean;
   symbolSize: TScatterSize;
   y_axis_data_key: string;
   yAxisIndex: number;
