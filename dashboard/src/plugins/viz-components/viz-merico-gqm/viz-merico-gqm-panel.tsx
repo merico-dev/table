@@ -1,58 +1,67 @@
-import { Group, Stack, TextInput } from '@mantine/core';
-import { defaultsDeep } from 'lodash';
-import { useMemo } from 'react';
+import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
+import { defaultsDeep, isEqual } from 'lodash';
+import { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
 export function VizMericoGQMPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
-  const conf: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const setConfByKey = (key: string, value: IMericoGQMConf[keyof IMericoGQMConf]) => {
-    setConf({
-      ...conf,
-      [key]: value,
-    });
-  };
+  const { control, handleSubmit, watch, getValues, reset } = useForm<IMericoGQMConf>({ defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
+
+  watch(['expertSystemURL', 'goal', 'path', 'question']);
+
+  const values = getValues();
+  const changed = useMemo(() => {
+    return !isEqual(values, defaultValues);
+  }, [values, defaultValues]);
 
   return (
-    <Stack>
-      <Group grow>
-        <TextInput
-          value={conf.expertSystemURL}
-          onChange={(e) => {
-            setConfByKey('expertSystemURL', e.currentTarget.value);
-          }}
-          label="Expert System URL"
-        />
-        <TextInput
-          label="Path"
-          value={conf.path}
-          onChange={(e) => {
-            setConfByKey('path', e.currentTarget.value);
-          }}
-          required
-        />
-      </Group>
-      <Group grow>
-        <TextInput
-          label="Goal"
-          value={conf.goal}
-          onChange={(e) => {
-            setConfByKey('goal', e.currentTarget.value);
-          }}
-          required
-        />
-        <TextInput
-          label="Question"
-          value={conf.question}
-          onChange={(e) => {
-            setConfByKey('question', e.currentTarget.value);
-          }}
-          required
-        />
-      </Group>
-    </Stack>
+    <form onSubmit={handleSubmit(setConf)}>
+      <Stack>
+        <Group grow>
+          <Controller
+            name="expertSystemURL"
+            control={control}
+            render={({ field }) => <TextInput label="Expert System URL" {...field} />}
+          />
+          <Controller
+            name="path"
+            control={control}
+            render={({ field }) => <TextInput label="Path" required {...field} />}
+          />
+        </Group>
+        <Group grow>
+          <Controller
+            name="goal"
+            control={control}
+            render={({ field }) => <TextInput label="Goal" required {...field} />}
+          />
+          <Controller
+            name="question"
+            control={control}
+            render={({ field }) => <TextInput label="Question" required {...field} />}
+          />
+        </Group>
+        <Divider variant="dashed" mt={16} mb={8} />
+        <Button
+          type="submit"
+          variant="filled"
+          color="blue"
+          leftIcon={<DeviceFloppy size={20} />}
+          disabled={!changed}
+          sx={{ alignSelf: 'flex-end' }}
+        >
+          Submit Changes
+        </Button>
+      </Stack>
+    </form>
   );
 }
