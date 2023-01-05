@@ -1,3 +1,9 @@
+export const getVersion = () =>
+  import('../package.json').then(({ version }) => {
+    console.log(`[@devtable/dashboard] version: ${version}`);
+    return version;
+  });
+
 export * from './main';
 export * from './view';
 export * from './panel';

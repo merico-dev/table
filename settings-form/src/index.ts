@@ -1,3 +1,9 @@
+export const getVersion = () =>
+  import('../package.json').then(({ version }) => {
+    console.log(`[@devtable/dashboard] version: ${version}`);
+    return version;
+  });
+
 export * from './datasource';
 export * from './account';
 export * from './api-key';

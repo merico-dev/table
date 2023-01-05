@@ -41,6 +41,10 @@ server.setConfig((app: any) => {
   app.get('/ping', (req: express.Request, res: express.Response) => {
     res.send('pong 1');
   });
+
+  app.get('/version', (req: express.Request, res: express.Response) => {
+    res.send(process.env.npm_package_version);
+  });
   app.use(
     swagger.express({
       definition: {
