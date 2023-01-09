@@ -69,7 +69,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
-    legend: getLegend(conf),
+    legend: getLegend(series),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

@@ -1,6 +1,6 @@
-import { ICartesianChartConf } from '../type';
+export type TEchartsSeriesType = 'line' | 'bar' | 'scatter';
 
-function getStyle(type: 'line' | 'bar' | 'scatter') {
+function getStyle(type: TEchartsSeriesType) {
   if (type !== 'line') {
     return {};
   }
@@ -10,7 +10,7 @@ function getStyle(type: 'line' | 'bar' | 'scatter') {
     },
   };
 }
-function getIcon(type: 'line' | 'bar' | 'scatter') {
+function getIcon(type: TEchartsSeriesType) {
   switch (type) {
     case 'line':
       // returning 'line' won't work, it will render empty icon
@@ -22,7 +22,14 @@ function getIcon(type: 'line' | 'bar' | 'scatter') {
   }
 }
 
-export function getLegend(conf: ICartesianChartConf) {
+interface IEchartsSeriesItem {
+  name: string;
+  color?: string;
+  type: TEchartsSeriesType;
+  hide_in_legend: boolean;
+}
+
+export function getLegend(series: IEchartsSeriesItem[]) {
   const ret: Record<string, any> = {
     show: true,
     bottom: 0,
@@ -30,7 +37,7 @@ export function getLegend(conf: ICartesianChartConf) {
     type: 'scroll',
   };
 
-  ret.data = conf.series
+  ret.data = series
     .filter((s) => !s.hide_in_legend)
     .map(({ name, type }) => {
       return {
@@ -39,5 +46,6 @@ export function getLegend(conf: ICartesianChartConf) {
         ...getStyle(type),
       };
     });
+
   return ret;
 }
