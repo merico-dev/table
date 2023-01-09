@@ -3,6 +3,7 @@ import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { getEchartsXAxisLabel } from '../../cartesian/panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 import { getLegend } from './legend';
@@ -94,6 +95,10 @@ export function getOption({ config, data, variables }: IGetOption) {
         axisTick: {
           show: true,
           alignWithLabel: true,
+        },
+        axisLabel: {
+          ...x_axis.axisLabel,
+          formatter: getEchartsXAxisLabel(x_axis.axisLabel.formatter),
         },
       },
     ],
