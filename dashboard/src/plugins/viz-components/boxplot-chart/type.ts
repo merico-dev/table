@@ -1,4 +1,8 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import {
+  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  IXAxisLabelFormatter,
+} from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -10,6 +14,10 @@ export interface IBoxplotChartConf {
   x_axis: {
     name: string;
     data_key: string;
+    axisLabel: {
+      rotate: number;
+      formatter: IXAxisLabelFormatter;
+    };
   };
   y_axis: {
     name: string;
@@ -24,6 +32,10 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   x_axis: {
     name: 'X Axis',
     data_key: '',
+    axisLabel: {
+      rotate: 0,
+      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+    },
   },
   y_axis: {
     name: 'Y Axis',

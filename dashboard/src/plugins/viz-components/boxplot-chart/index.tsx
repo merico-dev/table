@@ -7,6 +7,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { ClickBoxplotSeries } from './triggers';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -23,8 +24,24 @@ function updateToSchema3(legacyConf: $TSFixMe): IBoxplotChartConf {
   };
 }
 
+function updateToSchema4(legacyConf: $TSFixMe): IBoxplotChartConf {
+  const defaultXAxisLabel = {
+    rotate: 0,
+    formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+  };
+
+  const { axisLabel = defaultXAxisLabel, ...rest } = legacyConf.x_axis;
+  return {
+    ...legacyConf,
+    x_axis: {
+      ...rest,
+      axisLabel,
+    },
+  };
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -46,6 +63,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
     this.version(3, (data: $TSFixMe) => {
       const { config } = data;
       return { version: 3, config: updateToSchema3(config) };
+    });
+    this.version(4, (data: $TSFixMe) => {
+      const { config } = data;
+      return { version: 4, config: updateToSchema4(config) };
     });
   }
 }
