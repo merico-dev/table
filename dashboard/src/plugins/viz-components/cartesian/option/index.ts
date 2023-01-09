@@ -1,14 +1,15 @@
 import _, { defaultsDeep } from 'lodash';
-import numbro from 'numbro';
-import { ICartesianChartConf, IYAxisConf } from '../type';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
+import { getLegend } from './legend';
 import { getRegressionConfs } from './regression';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getLabelFormatters } from './utils/label-formatter';
+import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
-import { getLegend } from './legend';
 
 const defaultOption = {
   dataZoom: [
@@ -51,46 +52,14 @@ const defaultOption = {
 };
 
 export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
-  const variableValueMap = variables.reduce((prev, variable) => {
-    const value = getAggregatedValue(variable, data);
-    prev[variable.name] = formatAggregatedValue(variable, value);
-    return prev;
-  }, {} as Record<string, string | number>);
-
-  const labelFormatters = conf.y_axes.reduce(
-    (ret: Record<string, (params: $TSFixMe) => string>, { label_formatter }: IYAxisConf, index: number) => {
-      ret[index] = function formatter(payload: $TSFixMe) {
-        let value = payload;
-        if (typeof payload === 'object') {
-          if (Array.isArray(payload.value) && payload.value.length === 2) {
-            // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
-            value = payload.value[1];
-          } else {
-            value = payload.value;
-          }
-        }
-        if (!label_formatter) {
-          return value;
-        }
-        try {
-          return numbro(value).format(label_formatter);
-        } catch (error) {
-          console.error(error);
-          return value;
-        }
-      };
-      return ret;
-    },
-    {
-      default: ({ value }: $TSFixMe) => value,
-    },
-  );
-
+  // preparation
+  const variableValueMap = getVariableValueMap(data, variables);
+  const labelFormatters = getLabelFormatters(conf);
   const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
   const valueTypedXAxis = xAxisData.every((d) => !Number.isNaN(Number(d)));
 
+  // options
   const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
-
   const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
 
   const customOptions = {
@@ -100,7 +69,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
-    legend: getLegend(conf),
+    legend: getLegend(series),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

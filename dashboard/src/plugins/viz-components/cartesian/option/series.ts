@@ -31,6 +31,7 @@ function getReferenceLines(
     return {
       name: 'refs',
       type: 'scatter',
+      hide_in_legend: true,
       data: [],
       markLine: {
         data: [
@@ -59,6 +60,7 @@ function getReferenceAreas(
   return reference_areas.map((r) => ({
     name: '',
     type: 'line',
+    hide_in_legend: true,
     data: [],
     markArea: {
       itemStyle: {
@@ -112,6 +114,7 @@ function getSeriesItemOrItems(
     stack,
     color,
     symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
+    hide_in_legend,
     ...rest,
   };
   if (display_name_on_line) {
