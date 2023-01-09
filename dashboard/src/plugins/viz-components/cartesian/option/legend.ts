@@ -1,4 +1,4 @@
-export type TEchartsSeriesType = 'line' | 'bar' | 'scatter';
+import { IEchartsSeriesItem, TEchartsSeriesType } from './utils/types';
 
 function getStyle(type: TEchartsSeriesType) {
   if (type !== 'line') {
@@ -20,13 +20,6 @@ function getIcon(type: TEchartsSeriesType) {
     case 'scatter':
       return 'circle';
   }
-}
-
-interface IEchartsSeriesItem {
-  name: string;
-  color?: string;
-  type: TEchartsSeriesType;
-  hide_in_legend: boolean;
 }
 
 export function getLegend(series: IEchartsSeriesItem[]) {

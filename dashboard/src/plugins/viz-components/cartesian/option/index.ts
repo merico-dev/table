@@ -1,5 +1,5 @@
 import _, { defaultsDeep } from 'lodash';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils/template';
 import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
@@ -67,7 +67,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
     yAxis: getYAxes(conf, labelFormatters),
     dataset: [...regressionDataSets],
     series: [...series, ...regressionSeries],
-    tooltip: getTooltip(conf, labelFormatters),
+    tooltip: getTooltip(conf, series, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(series),
   };
