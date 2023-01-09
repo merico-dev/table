@@ -1,4 +1,4 @@
-import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
@@ -27,7 +27,7 @@ export function getTooltip(
   }, {} as Record<string, number>);
 
   return {
-    formatter: function (params: TopLevelFormatterParams) {
+    formatter: function (params: CallbackDataParams[]) {
       const arr = Array.isArray(params) ? params : [params];
       if (arr.length === 0) {
         return '';
@@ -43,9 +43,22 @@ export function getTooltip(
         }
         const yAxisIndex = yAxisIndexMap[seriesName];
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
-        return `${seriesName}: <strong>${formatter({ value })}</strong>`;
+        return `
+          <tr>
+            <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
+            <td style="text-align: right; padding: 0 1em;">${formatter({ value })}</td>
+          </tr>
+        `;
       });
-      lines.unshift(`<strong>${xAxisLabel}</strong>`);
+
+      return `
+      <table>
+        <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">${xAxisLabel}</caption>
+        <tbody>
+          ${lines.join('')}
+        </tbody>
+      </table>
+      `;
       return lines.join('<br />');
     },
   };
