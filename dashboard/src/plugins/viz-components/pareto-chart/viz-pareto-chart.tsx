@@ -1,19 +1,18 @@
-import _ from 'lodash';
-import { defaults } from 'lodash';
-import { useMemo } from 'react';
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { BarChart, LineChart } from 'echarts/charts';
 import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, LineChart } from 'echarts/charts';
-import numbro from 'numbro';
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
+import _, { defaults } from 'lodash';
+import numbro from 'numbro';
+import { useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
-import { ClickEchartSeries } from '../cartesian/triggers';
+import { VizViewProps } from '../../../types/plugin';
+import { useStorageData } from '../../hooks';
+import { getEchartsDataZoomOption } from '../cartesian/panel/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ClickParetoSeries } from './triggers';
+import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 
 function formatPercentage(value: number) {
   return numbro(value).format({
@@ -68,7 +67,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   const { value: conf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
-  const { x_axis, data_key, bar, line } = defaults({}, conf, DEFAULT_CONFIG);
+  const { x_axis, data_key, bar, line, dataZoom } = defaults({}, conf, DEFAULT_CONFIG);
 
   // interactions
   const interactionManager = useCurrentInteractionManager({
@@ -105,16 +104,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   }, [x_axis.data_key, data_key, data]);
 
   const option = {
-    dataZoom: [
-      {
-        type: 'inside',
-        xAxisIndex: [0],
-      },
-      {
-        type: 'inside',
-        yAxisIndex: [0],
-      },
-    ],
+    dataZoom: getEchartsDataZoomOption(dataZoom),
     tooltip: {
       trigger: 'axis',
       formatter: tooltipFormatter,

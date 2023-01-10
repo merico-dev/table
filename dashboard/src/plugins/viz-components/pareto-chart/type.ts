@@ -1,3 +1,5 @@
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
+
 export interface IParetoChartConf {
   x_axis: {
     name: string;
@@ -12,6 +14,7 @@ export interface IParetoChartConf {
     name: string;
     color: string;
   };
+  dataZoom: TEchartsDataZoomConfig;
 }
 
 export const DEFAULT_CONFIG: IParetoChartConf = {
@@ -28,4 +31,5 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     name: 'Value',
     color: 'red',
   },
+  dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
 };
