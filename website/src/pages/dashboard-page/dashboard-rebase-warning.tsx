@@ -1,9 +1,10 @@
-import { Notification, Text } from '@mantine/core';
+import { Divider, Group, Notification, Text } from '@mantine/core';
 import { IconExclamationMark } from '@tabler/icons';
 import { useBoolean, useRequest } from 'ahooks';
 import { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-store';
+import dayjs from 'dayjs';
 
 interface IDashboardRebaseWarning {
   id: string;
@@ -37,16 +38,24 @@ export function DashboardRebaseWarning({ id, current }: IDashboardRebaseWarning)
     return null;
   }
 
+  const latestUpdatedAt = dayjs(latest.update_time).format('YYYY-MM-DD HH:mm:ss (UTC)');
   return (
     <Notification
-      icon={<IconExclamationMark size={18} />}
       color="red"
-      title="Version Alert"
+      title={<Text size={16}>Version Alert</Text>}
       onClose={setFalse}
       sx={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }}
     >
-      <Text color="dark">A newer version of this dashboard has been submitted</Text>
-      <Text>Please refresh the page before making any changes</Text>
+      <Text mt={10} color="dark">
+        A newer version of this dashboard has been submitted
+      </Text>
+      <Text color="red" fw="bold">
+        Please refresh the page before making any changes
+      </Text>
+      <Divider my={10} variant="dotted" />
+      <Text size={12} ta="right">
+        Latest version: {latestUpdatedAt}
+      </Text>
     </Notification>
   );
 }
