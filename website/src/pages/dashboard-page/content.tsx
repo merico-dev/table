@@ -12,6 +12,7 @@ import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import './content.css';
 import { useParams } from 'react-router-dom';
+import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 
 const _DashboardPageContent = ({ id }: { id: string }) => {
   const { mode } = useParams();
@@ -57,9 +58,11 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
   const ready = !loading;
   const isDashboardEditable = canEdit && dashboardModel.isEditable;
 
-  const DashboardComponent = mode === 'edit' && isDashboardEditable ? Dashboard : ReadOnlyDashboard;
+  const inEditMode = mode === 'edit';
+  const DashboardComponent = inEditMode && isDashboardEditable ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
+      {inEditMode && <DashboardRebaseWarning id={id} current={dashboardModel} />}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <DashboardComponent
