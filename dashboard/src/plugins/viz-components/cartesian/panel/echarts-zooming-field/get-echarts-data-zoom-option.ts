@@ -7,6 +7,7 @@ export function getEchartsDataZoomOption(conf: TEchartsDataZoomConfig) {
       type: 'inside',
       xAxisIndex: [0],
       filterMode: 'none',
+      minSpan: 1,
     });
   }
   if (conf.y_axis_scroll) {
@@ -14,6 +15,7 @@ export function getEchartsDataZoomOption(conf: TEchartsDataZoomConfig) {
       type: 'inside',
       yAxisIndex: [0],
       filterMode: 'none',
+      minSpan: 1,
     });
   }
   if (conf.x_axis_slider) {
@@ -26,6 +28,7 @@ export function getEchartsDataZoomOption(conf: TEchartsDataZoomConfig) {
       height: 15,
       moveHandleSize: 0,
       showDataShadow: false,
+      minSpan: 1,
     });
   }
   return ret;
