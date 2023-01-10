@@ -25,6 +25,8 @@ export const DashboardDetailModel = types
     },
   }));
 
+export type DashboardDetailModelInstance = Instance<typeof DashboardDetailModel>;
+
 const DashboardDetailQuery = types
   .model('DashboardDetailQuery', {
     data: types.maybe(DashboardDetailModel),
