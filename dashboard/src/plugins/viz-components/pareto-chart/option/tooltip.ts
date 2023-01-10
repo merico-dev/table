@@ -15,10 +15,23 @@ function tooltipFormatter(params: CallbackDataParams) {
       return value;
     }
     const formatter = index === 0 ? (v: number) => v : formatPercentage;
-    return `${seriesName}: <strong>${formatter(value as number)}</strong>`;
+    return `
+    <tr>
+      <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
+      <td style="text-align: left; padding: 0 1em;">${formatter(value as number)}</td>
+    </tr>
+  `;
   });
-  lines.unshift(`<strong>${arr[0].name}</strong>`);
-  return lines.join('<br />');
+  return `
+    <table>
+      <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+        ${arr[0].name}
+      </caption>
+      <tbody>
+        ${lines.join('')}
+      </tbody>
+    </table>
+  `;
 }
 
 export function getTooltip(conf: IParetoChartConf) {
