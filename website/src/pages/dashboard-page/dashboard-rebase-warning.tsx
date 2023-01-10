@@ -1,10 +1,9 @@
-import { Divider, Group, Notification, Text } from '@mantine/core';
-import { IconExclamationMark } from '@tabler/icons';
+import { Divider, Notification, Text } from '@mantine/core';
 import { useBoolean, useRequest } from 'ahooks';
+import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-store';
-import dayjs from 'dayjs';
 
 interface IDashboardRebaseWarning {
   id: string;
