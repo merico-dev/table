@@ -1,5 +1,6 @@
 import _, { defaultsDeep } from 'lodash';
 import { ITemplateVariable } from '~/utils/template';
+import { getEchartsDataZoomOption } from '../panel/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
@@ -12,16 +13,6 @@ import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 
 const defaultOption = {
-  dataZoom: [
-    {
-      type: 'inside',
-      xAxisIndex: [0],
-    },
-    {
-      type: 'inside',
-      yAxisIndex: [0],
-    },
-  ],
   tooltip: {
     trigger: 'axis',
   },
@@ -70,6 +61,7 @@ export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables
     tooltip: getTooltip(conf, series, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(series),
+    dataZoom: getEchartsDataZoomOption(conf.dataZoom),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

@@ -8,6 +8,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { AnyObject } from '~/types';
 import { cloneDeep, get, omit } from 'lodash';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -29,8 +30,16 @@ function updateToSchema3(legacyConf: $TSFixMe): ICartesianChartConf {
   };
 }
 
+function updateToSchema4(legacyConf: $TSFixMe): ICartesianChartConf {
+  const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
+  return {
+    ...rest,
+    dataZoom,
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -59,6 +68,12 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
       return {
         version: 3,
         config: updateToSchema3(data.config),
+      };
+    });
+    this.version(4, (data: $TSFixMe) => {
+      return {
+        version: 4,
+        config: updateToSchema4(data.config),
       };
     });
   }
