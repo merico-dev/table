@@ -5,11 +5,12 @@ export function getYAxes(conf: IParetoChartConf) {
   return [
     {
       name: conf.bar.name,
-      nameGap: 30,
+      nameGap: 20,
       nameTextStyle: {
         fontWeight: 'bold',
         align: 'right',
       },
+      position: 'left',
       axisLine: {
         show: true,
       },
@@ -19,10 +20,14 @@ export function getYAxes(conf: IParetoChartConf) {
     },
     {
       name: conf.line.name,
-      nameGap: 30,
+      nameGap: 20,
       nameTextStyle: {
         fontWeight: 'bold',
         align: 'center',
+      },
+      position: 'right',
+      axisLine: {
+        show: true,
       },
       axisLabel: {
         show: true,

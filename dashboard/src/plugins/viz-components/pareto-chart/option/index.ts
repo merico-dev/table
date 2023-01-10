@@ -13,6 +13,13 @@ export function getOption(conf: IParetoChartConf, data: $TSFixMe[], _variables: 
     xAxis: getXAxis(conf),
     yAxis: getYAxes(conf),
     series: getSeries(conf, data),
+    grid: {
+      top: 50,
+      left: 30,
+      right: 15,
+      bottom: 25,
+      containLabel: true,
+    },
   };
   return option;
 }
