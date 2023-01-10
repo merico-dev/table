@@ -1,4 +1,4 @@
-import { Box, Divider, Group, Stack, Switch } from '@mantine/core';
+import { Box, Divider, Group, Stack, Switch, Tooltip } from '@mantine/core';
 import { forwardRef } from 'react';
 import { TEchartsDataZoomConfig } from './types';
 
@@ -43,13 +43,16 @@ export const EchartsZoomingField = forwardRef(({ value, onChange }: IEchartsZoom
             onChange={(event) => getSetter('x_axis_slider')(event.currentTarget.checked)}
           />
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
-          <Switch
-            label="Slider for Y Axis"
-            checked={value.y_axis_slider}
-            onChange={(event) => getSetter('y_axis_slider')(event.currentTarget.checked)}
-          />
-        </Box>
+        <Tooltip label="Not available for now, will overlap y-axis's label">
+          <Box sx={{ flexGrow: 1 }}>
+            <Switch
+              label="Slider for Y Axis"
+              disabled={!value.y_axis_slider}
+              checked={value.y_axis_slider}
+              onChange={(event) => getSetter('y_axis_slider')(event.currentTarget.checked)}
+            />
+          </Box>
+        </Tooltip>
       </Group>
     </Stack>
   );
