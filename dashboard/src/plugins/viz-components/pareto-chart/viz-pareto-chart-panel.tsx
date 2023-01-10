@@ -9,6 +9,7 @@ import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
+import { EchartsZoomingField } from '../cartesian/panel/echarts-zooming-field';
 
 export function VizParetoChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
@@ -20,7 +21,7 @@ export function VizParetoChartPanel({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis', 'data_key', 'bar', 'line']);
+  watch(['x_axis', 'data_key', 'bar', 'line', 'dataZoom']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
@@ -90,6 +91,8 @@ export function VizParetoChartPanel({ context }: VizConfigProps) {
             />
           </Stack>
         </Group>
+        <Divider my="md" label="Zooming" labelPosition="center" />
+        <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />
       </form>
     </Stack>
   );

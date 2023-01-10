@@ -4,9 +4,18 @@ import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartPanel } from './viz-scatter-chart-panel';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
 import { ClickScatterChartSeries } from './triggers';
+import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+
+function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
+  const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
+  return {
+    ...rest,
+    dataZoom,
+  };
+}
 
 class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -23,6 +32,12 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
           ...rest,
           tooltip,
         },
+      };
+    });
+    this.version(3, (data: any) => {
+      return {
+        version: 3,
+        config: updateToSchema3(data),
       };
     });
   }

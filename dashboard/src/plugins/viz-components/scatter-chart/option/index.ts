@@ -9,18 +9,9 @@ import { getYAxes } from './y-axis';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
 import { getLegend } from './legend';
 import { IYAxisConf } from '../../cartesian/type';
+import { getEchartsDataZoomOption } from '../../cartesian/panel/echarts-zooming-field/get-echarts-data-zoom-option';
 
 const defaultOption = {
-  dataZoom: [
-    {
-      type: 'inside',
-      xAxisIndex: [0],
-    },
-    {
-      type: 'inside',
-      yAxisIndex: [0],
-    },
-  ],
   tooltip: {
     trigger: 'axis',
   },
@@ -103,6 +94,7 @@ export function getOption(conf: IScatterChartConf, data: $TSFixMe[], variables: 
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(),
+    dataZoom: getEchartsDataZoomOption(conf.dataZoom),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

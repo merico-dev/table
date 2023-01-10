@@ -46,7 +46,7 @@ export function getTooltip(
         return `
           <tr>
             <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-            <td style="text-align: right; padding: 0 1em;">${formatter({ value })}</td>
+            <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
           </tr>
         `;
       });
@@ -59,7 +59,6 @@ export function getTooltip(
         </tbody>
       </table>
       `;
-      return lines.join('<br />');
     },
   };
 }

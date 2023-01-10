@@ -1,4 +1,5 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
 import { TScatterSize } from './panel/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
 
@@ -96,6 +97,7 @@ export interface ICartesianChartConf {
   };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
+  dataZoom: TEchartsDataZoomConfig;
 }
 
 export const DEFAULT_CONFIG: ICartesianChartConf = {
@@ -120,4 +122,5 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   ],
   reference_lines: [],
   reference_areas: [],
+  dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
 };

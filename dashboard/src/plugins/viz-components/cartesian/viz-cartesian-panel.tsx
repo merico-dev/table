@@ -1,11 +1,12 @@
 import { Accordion, ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { EchartsZoomingField } from './panel/echarts-zooming-field';
 import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
@@ -135,6 +136,7 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
     return !isEqual(values, conf);
   }, [values, conf]);
 
+  watch(['dataZoom']);
   return (
     <Stack mt="md" spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
@@ -166,6 +168,7 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
             <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
+            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
@@ -194,6 +197,10 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Reference Areas">
             <ReferenceAreasField variables={variables} control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Zooming">
+            <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />
           </Tabs.Panel>
         </Tabs>
       </form>
