@@ -1,4 +1,5 @@
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
 
 import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
@@ -38,6 +39,7 @@ export interface IScatterChartConf {
   };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
+  dataZoom: TEchartsDataZoomConfig;
 }
 
 export const DEFAULT_CONFIG: IScatterChartConf = {
@@ -78,4 +80,5 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
   },
   reference_lines: [],
   reference_areas: [],
+  dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
 };
