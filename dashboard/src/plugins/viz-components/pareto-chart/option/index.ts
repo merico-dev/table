@@ -20,7 +20,7 @@ export function getOption(conf: IParetoChartConf, data: $TSFixMe[], _variables: 
       top: 50,
       left: 30,
       right: 15,
-      bottom: 25,
+      bottom: 5,
       containLabel: true,
     },
   };
