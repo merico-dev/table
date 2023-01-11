@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
@@ -39,8 +40,19 @@ function v4(legacyConf: $TSFixMe): IParetoChartConf {
   };
 }
 
+function v5(legacyConf: $TSFixMe): IParetoChartConf {
+  const { label_formatter = defaultNumbroFormat } = legacyConf.bar;
+  return {
+    ...legacyConf,
+    bar: {
+      ...legacyConf.bar,
+      label_formatter,
+    },
+  };
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -65,6 +77,12 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
       return {
         version: 4,
         config: v4(data.config),
+      };
+    });
+    this.version(5, (data: any) => {
+      return {
+        version: 5,
+        config: v5(data.config),
       };
     });
   }

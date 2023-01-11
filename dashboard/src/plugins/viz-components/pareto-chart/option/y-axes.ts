@@ -1,7 +1,7 @@
 import { IParetoChartConf } from '../type';
-import { formatPercentage } from './utils';
+import { TParetoFormatters } from './utils';
 
-export function getYAxes(conf: IParetoChartConf) {
+export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) {
   return [
     {
       name: conf.bar.name,
@@ -13,6 +13,10 @@ export function getYAxes(conf: IParetoChartConf) {
       position: 'left',
       axisLine: {
         show: true,
+      },
+      axisLabel: {
+        show: true,
+        formatter: formatters.bar,
       },
       splitLine: {
         show: false,
@@ -31,7 +35,7 @@ export function getYAxes(conf: IParetoChartConf) {
       },
       axisLabel: {
         show: true,
-        formatter: formatPercentage,
+        formatter: formatters.lineValue,
       },
       splitLine: {
         show: false,

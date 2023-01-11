@@ -3,16 +3,19 @@ import { getEchartsDataZoomOption } from '../../cartesian/panel/echarts-zooming-
 import { IParetoChartConf } from '../type';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getFormatters } from './utils';
 import { getXAxis } from './x-axis';
 import { getYAxes } from './y-axes';
 
 export function getOption(conf: IParetoChartConf, data: $TSFixMe[], _variables: ITemplateVariable[]) {
+  const formatters = getFormatters(conf);
+
   const option = {
     dataZoom: getEchartsDataZoomOption(conf.dataZoom),
-    tooltip: getTooltip(conf),
+    tooltip: getTooltip(conf, formatters),
     xAxis: getXAxis(conf),
-    yAxis: getYAxes(conf),
-    series: getSeries(conf, data),
+    yAxis: getYAxes(conf, formatters),
+    series: getSeries(conf, data, formatters),
     grid: {
       top: 50,
       left: 30,

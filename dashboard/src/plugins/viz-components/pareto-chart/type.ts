@@ -1,3 +1,4 @@
+import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
@@ -22,6 +23,7 @@ export interface IParetoChartConf {
   bar: {
     name: string;
     color: string;
+    label_formatter: TNumbroFormat;
   };
   line: {
     name: string;
@@ -47,6 +49,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
   bar: {
     name: 'Value',
     color: '#228be6',
+    label_formatter: defaultNumbroFormat,
   },
   line: {
     name: 'Value',

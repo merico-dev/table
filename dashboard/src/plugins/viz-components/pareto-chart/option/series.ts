@@ -2,19 +2,9 @@ import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
 import { getMarkLine } from './mark-line';
 import { TLineDataItem } from './types';
-import { formatPercentage } from './utils';
+import { TParetoFormatters } from './utils';
 
-function formatterForLine(payload: $TSFixMe) {
-  const value = payload.value[1];
-  try {
-    return formatPercentage(value);
-  } catch (error) {
-    console.error(error);
-    return value;
-  }
-}
-
-export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
+export function getSeries(conf: IParetoChartConf, data: AnyObject[], formatters: TParetoFormatters) {
   const barData = data.map((d) => [d[conf.x_axis.data_key], Number(d[conf.data_key])]).sort((a, b) => b[1] - a[1]);
   const sum = barData.reduce((sum, curr) => sum + curr[1], 0);
   const lineData = barData
@@ -33,6 +23,11 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
       itemStyle: {
         color: conf.bar.color,
       },
+      label: {
+        show: false,
+        position: 'top',
+        formatter: formatters.bar,
+      },
       yAxisIndex: 0,
       data: barData,
     },
@@ -49,7 +44,7 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
       label: {
         show: false,
         position: 'top',
-        formatter: formatterForLine,
+        formatter: formatters.line,
       },
       yAxisIndex: 1,
       data: lineData,

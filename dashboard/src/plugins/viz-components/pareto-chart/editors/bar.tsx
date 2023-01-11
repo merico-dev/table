@@ -1,6 +1,7 @@
-import { Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
+import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
 
@@ -21,6 +22,14 @@ export function BarField({ data, control, watch }: IBarField) {
       <Stack spacing={2}>
         <Text size="sm">Color</Text>
         <Controller name="bar.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
+      </Stack>
+      <Stack>
+        <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
+        <Controller
+          name="bar.label_formatter"
+          control={control}
+          render={({ field }) => <NumbroFormatSelector {...field} />}
+        />
       </Stack>
     </Stack>
   );
