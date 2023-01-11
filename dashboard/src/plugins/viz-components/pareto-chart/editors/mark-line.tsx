@@ -1,8 +1,53 @@
-import { Stack, Text, Textarea } from '@mantine/core';
+import { Box, Button, Collapse, Stack, Text, Textarea } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
+import { useState } from 'react';
+import { Prism } from '@mantine/prism';
+
+const structure = `
+{
+  // 80-20 line stuff
+  percentage: {
+    x: string; // 80%
+    y: string; // 20%
+  };
+  count: {
+    left: number; // 2
+    right: number; // 8
+  };
+
+  // chart configs
+  x_axis: {
+    name: string;
+  };
+  bar: {
+    name: string;
+  };
+  line: {
+    name: string;
+  };
+}
+`;
+
+export const DescribeParetoParams = () => {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    <>
+      <Button variant="subtle" compact onClick={() => setOpened((o) => !o)}>
+        {opened ? 'Close' : 'Click to see params for Label Template'}
+      </Button>
+
+      <Collapse in={opened}>
+        <Prism language="typescript" noCopy colorScheme="dark">
+          {structure}
+        </Prism>
+      </Collapse>
+    </>
+  );
+};
 
 interface IMarkLineField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -13,13 +58,6 @@ export function MarkLineField({ data, control, watch }: IMarkLineField) {
   watch(['markLine']);
   return (
     <Stack>
-      <Controller
-        name="markLine.label_template"
-        control={control}
-        render={({ field }) => (
-          <Textarea autosize minRows={2} maxRows={4} label="Label Template" sx={{ flex: 1 }} {...field} />
-        )}
-      />
       <Stack spacing={2}>
         <Text size="sm">Color</Text>
         <Controller
@@ -27,6 +65,16 @@ export function MarkLineField({ data, control, watch }: IMarkLineField) {
           control={control}
           render={({ field }) => <MantineColorSelector {...field} />}
         />
+      </Stack>
+      <Stack spacing={4}>
+        <Controller
+          name="markLine.label_template"
+          control={control}
+          render={({ field }) => (
+            <Textarea autosize minRows={2} maxRows={4} label="Label Template" sx={{ flex: 1 }} {...field} />
+          )}
+        />
+        <DescribeParetoParams />
       </Stack>
     </Stack>
   );

@@ -1,8 +1,8 @@
 import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
+import { getMarkLine } from './mark-line';
+import { TLineDataItem } from './types';
 import { formatPercentage } from './utils';
-
-type TLineDataItem = [string | number, number];
 
 function formatterForLine(payload: $TSFixMe) {
   const value = payload.value[1];
@@ -12,34 +12,6 @@ function formatterForLine(payload: $TSFixMe) {
     console.error(error);
     return value;
   }
-}
-
-function getMarkLine(conf: IParetoChartConf, lineData: TLineDataItem[]) {
-  const markLineXAxis = lineData.find((row) => row[1] >= 0.8)?.[0];
-  if (markLineXAxis === undefined) {
-    return {};
-  }
-
-  return {
-    name: '',
-    silent: true,
-    symbol: 'triangle',
-    symbolRotate: 180,
-    symbolSize: [10, 8],
-    data: [
-      {
-        name: '',
-        symbol: 'none',
-        xAxis: markLineXAxis,
-        lineStyle: {
-          color: conf.markLine.color,
-        },
-        label: {
-          formatter: '',
-        },
-      },
-    ],
-  };
 }
 
 export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
@@ -75,7 +47,7 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
         width: 1,
       },
       label: {
-        show: true,
+        show: false,
         position: 'top',
         formatter: formatterForLine,
       },
