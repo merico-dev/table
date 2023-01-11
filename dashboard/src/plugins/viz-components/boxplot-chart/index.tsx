@@ -1,13 +1,13 @@
-import { TVizMigratorData, VizComponent } from '~/types/plugin';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
-import { VizBoxplotChart } from './viz-boxplot-chart';
-import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
-import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
-import { ITemplateVariable } from '~/utils/template';
 import { omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { ClickBoxplotSeries } from './triggers';
+import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { ITemplateVariable } from '~/utils/template';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import { ClickBoxplotSeries } from './triggers';
+import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
+import { VizBoxplotChart } from './viz-boxplot-chart';
+import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -44,13 +44,13 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 4;
 
   configVersions(): void {
-    this.version(1, (data: $TSFixMe) => {
+    this.version(1, (data) => {
       return {
         version: 1,
         config: data,
       };
     });
-    this.version(2, (data: TVizMigratorData, { panelModel }) => {
+    this.version(2, (data, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
@@ -60,11 +60,11 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       });
       return { ...data, version: 2, config: updateSchema2(config) };
     });
-    this.version(3, (data: TVizMigratorData) => {
+    this.version(3, (data) => {
       const { config } = data;
       return { ...data, version: 3, config: updateToSchema3(config) };
     });
-    this.version(4, (data: TVizMigratorData) => {
+    this.version(4, (data) => {
       const { config } = data;
       return { ...data, version: 4, config: updateToSchema4(config) };
     });

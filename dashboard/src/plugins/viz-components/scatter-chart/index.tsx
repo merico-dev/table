@@ -1,4 +1,4 @@
-import { TVizMigratorData, VizComponent } from '../../../types/plugin';
+import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartPanel } from './viz-scatter-chart-panel';
@@ -24,7 +24,7 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: TVizMigratorData) => {
+    this.version(2, (data) => {
       const { tooltip = { metrics: [] }, ...rest } = data.config;
       return {
         ...data,
@@ -35,7 +35,7 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
         },
       };
     });
-    this.version(3, (data: TVizMigratorData) => {
+    this.version(3, (data) => {
       return {
         ...data,
         version: 3,

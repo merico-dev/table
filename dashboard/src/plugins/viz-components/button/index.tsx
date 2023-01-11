@@ -1,9 +1,9 @@
-import { TVizMigratorData, VizComponent } from '../../../types/plugin';
+import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { ClickButton } from './triggers';
+import { DEFAULT_CONFIG, IButtonConf } from './type';
 import { VizButton } from './viz-button';
 import { VizButtonPanel } from './viz-button-panel';
-import { DEFAULT_CONFIG, IButtonConf } from './type';
-import { ClickButton } from './triggers';
 
 class VizButtonMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
@@ -15,7 +15,7 @@ class VizButtonMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: TVizMigratorData) => {
+    this.version(2, (data) => {
       const { horizontal_align = 'left', vertical_align = 'center', ...rest } = data.config;
       return {
         ...data,

@@ -4,7 +4,6 @@ import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { cloneDeep, get, omit, set } from 'lodash';
-import { TVizMigratorData } from '~/types/plugin';
 
 interface ILegacyStatsConf {
   align: 'center';
@@ -83,10 +82,11 @@ export class VizStatsMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
 
   configVersions(): void {
-    this.version(1, (data: $TSFixMe) => {
-      return { config: updateSchema1(data) };
+    this.version(1, (data) => {
+      // @ts-expect-error data's type
+      return { version: 1, config: updateSchema1(data) };
     });
-    this.version(2, (data: TVizMigratorData, { panelModel }) => {
+    this.version(2, (data, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {

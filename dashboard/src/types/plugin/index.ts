@@ -273,11 +273,3 @@ export interface IColorInterpolationConfig {
   steps: IValueStep[];
   interpolation: string;
 }
-
-export type TVizMigratorData = {
-  version: number;
-  config: any;
-  [TRIGGERS_KEY]: AnyObject;
-  __INTERACTIONS: AnyObject;
-  __OPERATIONS: AnyObject;
-};

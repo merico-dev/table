@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { TVizMigratorData, VizComponent } from '~/types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ITableConf } from './type';
 import { VizTable } from './viz-table';
@@ -11,13 +11,14 @@ class VizTableMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
 
   configVersions(): void {
+    // @ts-expect-error data's type
     this.version(1, (data: Record<string, unknown>) => {
       return {
         version: 1,
         config: data,
       };
     });
-    this.version(2, (data: TVizMigratorData) => {
+    this.version(2, (data) => {
       const { columns, ...rest } = data.config as ITableConf;
       return {
         ...data,

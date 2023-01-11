@@ -1,13 +1,27 @@
 import { last, orderBy } from 'lodash';
+import { TRIGGERS_KEY } from '~/interactions';
 import { PanelModelInstance } from '~/model/views/view/panels';
+import { AnyObject } from '~/types';
 
 export interface IMigrationEnv {
   panelModel: PanelModelInstance;
 }
 
+export interface IInitialMigrationRet {
+  version: 1;
+  config: any;
+}
+
+export interface IMigrationData {
+  config: any;
+  [TRIGGERS_KEY]: AnyObject;
+  __INTERACTIONS: AnyObject;
+  __OPERATIONS: AnyObject;
+}
+
 export interface IMigration {
   version: number;
-  handler: (data: $TSFixMe, env: IMigrationEnv) => $TSFixMe;
+  handler: (data: IMigrationData, env: IMigrationEnv) => IMigrationData | IInitialMigrationRet;
 }
 
 export class PluginDataMigrator {
