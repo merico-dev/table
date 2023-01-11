@@ -82,10 +82,11 @@ export class VizStatsMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
 
   configVersions(): void {
-    this.version(1, (data: $TSFixMe) => {
-      return { config: updateSchema1(data) };
+    this.version(1, (data) => {
+      // @ts-expect-error data's type
+      return { version: 1, config: updateSchema1(data) };
     });
-    this.version(2, (data: $TSFixMe, { panelModel }) => {
+    this.version(2, (data, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
@@ -93,7 +94,7 @@ export class VizStatsMigrator extends VersionBasedMigrator {
           panelModel.addVariable(fixVariableType(v));
         }
       });
-      return { config: updateSchema2(config) };
+      return { ...data, version: 2, config: updateSchema2(config) };
     });
   }
 }

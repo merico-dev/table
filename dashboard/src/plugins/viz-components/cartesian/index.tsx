@@ -48,7 +48,7 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: $TSFixMe, { panelModel }) => {
+    this.version(2, (data, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
@@ -62,16 +62,18 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
           panelModel.addVariable(v);
         }
       });
-      return { config: updateSchema2(config) };
+      return { ...data, version: 2, config: updateSchema2(config) };
     });
-    this.version(3, (data: $TSFixMe) => {
+    this.version(3, (data) => {
       return {
+        ...data,
         version: 3,
         config: updateToSchema3(data.config),
       };
     });
-    this.version(4, (data: $TSFixMe) => {
+    this.version(4, (data) => {
       return {
+        ...data,
         version: 4,
         config: updateToSchema4(data.config),
       };

@@ -4,6 +4,7 @@ import { IVizManager } from '~/plugins';
 import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { PanelModelInstance } from '~/model/views/view/panels';
+import { TRIGGERS_KEY } from '~/interactions';
 
 /**
  * Basic information of a viz component instance

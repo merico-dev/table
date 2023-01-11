@@ -61,26 +61,30 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: any) => {
+    this.version(2, (data) => {
       return {
+        ...data,
         version: 2,
         config: v2(data.config),
       };
     });
-    this.version(3, (data: any) => {
+    this.version(3, (data) => {
       return {
+        ...data,
         version: 3,
         config: v3(data.config),
       };
     });
-    this.version(4, (data: any) => {
+    this.version(4, (data) => {
       return {
+        ...data,
         version: 4,
         config: v4(data.config),
       };
     });
-    this.version(5, (data: any) => {
+    this.version(5, (data) => {
       return {
+        ...data,
         version: 5,
         config: v5(data.config),
       };

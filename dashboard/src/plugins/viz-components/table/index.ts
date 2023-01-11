@@ -11,15 +11,17 @@ class VizTableMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
 
   configVersions(): void {
+    // @ts-expect-error data's type
     this.version(1, (data: Record<string, unknown>) => {
       return {
         version: 1,
         config: data,
       };
     });
-    this.version(2, (data: ITableConf) => {
-      const { columns, ...rest } = data;
+    this.version(2, (data) => {
+      const { columns, ...rest } = data.config as ITableConf;
       return {
+        ...data,
         version: 2,
         config: {
           ...rest,
