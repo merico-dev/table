@@ -14,7 +14,7 @@ function formatterForLine(payload: $TSFixMe) {
   }
 }
 
-function getMarkLine(lineData: TLineDataItem[]) {
+function getMarkLine(conf: IParetoChartConf, lineData: TLineDataItem[]) {
   const markLineXAxis = lineData.find((row) => row[1] >= 0.8)?.[0];
   if (markLineXAxis === undefined) {
     return {};
@@ -32,7 +32,7 @@ function getMarkLine(lineData: TLineDataItem[]) {
         symbol: 'none',
         xAxis: markLineXAxis,
         lineStyle: {
-          color: 'rgba(0,0,0,0.3)',
+          color: conf.markLine.color,
         },
         label: {
           formatter: '',
@@ -53,7 +53,7 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
     }, [] as TLineDataItem[])
     .map((row) => [row[0], row[1] / sum] as TLineDataItem);
 
-  const markLine = getMarkLine(lineData);
+  const markLine = getMarkLine(conf, lineData);
   return [
     {
       name: conf.bar.name,

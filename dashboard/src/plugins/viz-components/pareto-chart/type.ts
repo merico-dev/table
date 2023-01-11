@@ -1,5 +1,10 @@
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
 
+export const DEFAULT_PARETO_MARK_LINE = {
+  label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
+  color: 'rgba(0,0,0,0.3)',
+};
+
 export interface IParetoChartConf {
   x_axis: {
     name: string;
@@ -15,6 +20,10 @@ export interface IParetoChartConf {
     color: string;
   };
   dataZoom: TEchartsDataZoomConfig;
+  markLine: {
+    label_template: string;
+    color: string;
+  };
 }
 
 export const DEFAULT_CONFIG: IParetoChartConf = {
@@ -32,4 +41,5 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     color: 'red',
   },
   dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
+  markLine: DEFAULT_PARETO_MARK_LINE,
 };

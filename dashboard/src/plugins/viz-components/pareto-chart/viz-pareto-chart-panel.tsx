@@ -9,6 +9,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { EchartsZoomingField } from '../cartesian/panel/echarts-zooming-field';
 import { BarField } from './editors/bar';
 import { LineField } from './editors/line';
+import { MarkLineField } from './editors/mark-line';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
@@ -57,6 +58,7 @@ export function VizParetoChartPanel({ context }: VizConfigProps) {
           <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
           <Tabs.Tab value="Bar">Bar</Tabs.Tab>
           <Tabs.Tab value="Line">Line</Tabs.Tab>
+          <Tabs.Tab value="80-20 Line">80-20 Line</Tabs.Tab>
           <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
         </Tabs.List>
 
@@ -74,6 +76,10 @@ export function VizParetoChartPanel({ context }: VizConfigProps) {
 
         <Tabs.Panel value="Line">
           <LineField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="80-20 Line">
+          <MarkLineField control={control} watch={watch} data={data} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Zooming">
