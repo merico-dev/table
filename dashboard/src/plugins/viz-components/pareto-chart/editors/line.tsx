@@ -18,7 +18,7 @@ export function LineField({ data, control, watch }: ILineField) {
         control={control}
         render={({ field }) => <TextInput label="Line Name" sx={{ flex: 1 }} {...field} />}
       />
-      <Stack spacing={4}>
+      <Stack spacing={2}>
         <Text size="sm">Color</Text>
         <Controller name="line.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
       </Stack>

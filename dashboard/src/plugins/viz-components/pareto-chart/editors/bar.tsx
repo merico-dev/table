@@ -18,7 +18,7 @@ export function BarField({ data, control, watch }: IBarField) {
         control={control}
         render={({ field }) => <TextInput label="Bar Name" sx={{ flex: 1 }} {...field} />}
       />
-      <Stack spacing={4}>
+      <Stack spacing={2}>
         <Text size="sm">Color</Text>
         <Controller name="bar.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
       </Stack>
