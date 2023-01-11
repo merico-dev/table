@@ -93,7 +93,7 @@ export class VizStatsMigrator extends VersionBasedMigrator {
           panelModel.addVariable(fixVariableType(v));
         }
       });
-      return { config: updateSchema2(config) };
+      return { ...data, version: 2, config: updateSchema2(config) };
     });
   }
 }

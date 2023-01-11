@@ -62,16 +62,18 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
           panelModel.addVariable(v);
         }
       });
-      return { config: updateSchema2(config) };
+      return { ...data, version: 2, config: updateSchema2(config) };
     });
     this.version(3, (data: $TSFixMe) => {
       return {
+        ...data,
         version: 3,
         config: updateToSchema3(data.config),
       };
     });
     this.version(4, (data: $TSFixMe) => {
       return {
+        ...data,
         version: 4,
         config: updateToSchema4(data.config),
       };

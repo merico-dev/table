@@ -25,8 +25,9 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
       };
     });
     this.version(2, (data: any) => {
-      const { tooltip = { metrics: [] }, ...rest } = data;
+      const { tooltip = { metrics: [] }, ...rest } = data.config;
       return {
+        ...data,
         version: 2,
         config: {
           ...rest,
@@ -36,8 +37,9 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
     });
     this.version(3, (data: any) => {
       return {
+        ...data,
         version: 3,
-        config: updateToSchema3(data),
+        config: updateToSchema3(data.config),
       };
     });
   }

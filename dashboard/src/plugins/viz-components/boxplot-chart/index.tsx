@@ -58,15 +58,15 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
           panelModel.addVariable(v);
         }
       });
-      return { config: updateSchema2(config) };
+      return { ...data, version: 2, config: updateSchema2(config) };
     });
     this.version(3, (data: $TSFixMe) => {
       const { config } = data;
-      return { version: 3, config: updateToSchema3(config) };
+      return { ...data, version: 3, config: updateToSchema3(config) };
     });
     this.version(4, (data: $TSFixMe) => {
       const { config } = data;
-      return { version: 4, config: updateToSchema4(config) };
+      return { ...data, version: 4, config: updateToSchema4(config) };
     });
   }
 }

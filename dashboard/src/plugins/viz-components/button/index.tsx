@@ -6,7 +6,7 @@ import { DEFAULT_CONFIG, IButtonConf } from './type';
 import { ClickButton } from './triggers';
 
 class VizButtonMigrator extends VersionBasedMigrator {
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -15,8 +15,10 @@ class VizButtonMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, ({ horizontal_align = 'left', vertical_align = 'center', ...rest }: any) => {
+    this.version(2, (data: any) => {
+      const { horizontal_align = 'left', vertical_align = 'center', ...rest } = data.config;
       return {
+        ...data,
         version: 2,
         config: {
           ...rest,
