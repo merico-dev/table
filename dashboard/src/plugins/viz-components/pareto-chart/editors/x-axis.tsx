@@ -2,6 +2,7 @@ import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/co
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
+import { XAxisLabelFormatterField } from '../../cartesian/panel/x-axis/x-axis-label-formatter';
 import { IParetoChartConf } from '../type';
 
 interface IXAxisField {
@@ -27,7 +28,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           render={({ field }) => <TextInput label="Name" sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      {/* <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} label="Tick Label" labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
@@ -56,7 +57,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           control={control}
           render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
         />
-      </Group> */}
+      </Group>
     </Stack>
   );
 }

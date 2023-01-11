@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
@@ -22,8 +24,23 @@ function v3(legacyConf: $TSFixMe): IParetoChartConf {
   };
 }
 
+function v4(legacyConf: $TSFixMe): IParetoChartConf {
+  const finalAxisLabel = _.defaultsDeep({}, legacyConf.x_axis.axisLabel, {
+    rotate: 0,
+    formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+  });
+
+  return {
+    ...legacyConf,
+    x_axis: {
+      ...legacyConf.x_axis,
+      axisLabel: finalAxisLabel,
+    },
+  };
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -35,13 +52,19 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
     this.version(2, (data: any) => {
       return {
         version: 2,
-        config: v2(data),
+        config: v2(data.config),
       };
     });
     this.version(3, (data: any) => {
       return {
         version: 3,
-        config: v3(data),
+        config: v3(data.config),
+      };
+    });
+    this.version(4, (data: any) => {
+      return {
+        version: 4,
+        config: v4(data.config),
       };
     });
   }
