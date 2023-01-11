@@ -2,6 +2,8 @@ import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
 import { formatPercentage } from './utils';
 
+type TLineDataItem = [string | number, number];
+
 function formatterForLine(payload: $TSFixMe) {
   const value = payload.value[1];
   try {
@@ -12,6 +14,34 @@ function formatterForLine(payload: $TSFixMe) {
   }
 }
 
+function getMarkLine(lineData: TLineDataItem[]) {
+  const markLineXAxis = lineData.find((row) => row[1] >= 0.8)?.[0];
+  if (markLineXAxis === undefined) {
+    return {};
+  }
+
+  return {
+    name: '',
+    silent: true,
+    symbol: 'triangle',
+    symbolRotate: 180,
+    symbolSize: [10, 8],
+    data: [
+      {
+        name: '',
+        symbol: 'none',
+        xAxis: markLineXAxis,
+        lineStyle: {
+          color: 'rgba(0,0,0,0.3)',
+        },
+        label: {
+          formatter: '',
+        },
+      },
+    ],
+  };
+}
+
 export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
   const barData = data.map((d) => [d[conf.x_axis.data_key], Number(d[conf.data_key])]).sort((a, b) => b[1] - a[1]);
   const sum = barData.reduce((sum, curr) => sum + curr[1], 0);
@@ -20,9 +50,10 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
       const prevValue = index === 0 ? 0 : ret[index - 1][1];
       ret.push([curr[0], prevValue + curr[1]]);
       return ret;
-    }, [] as [$TSFixMe, number][])
-    .map((row) => [row[0], row[1] / sum]);
+    }, [] as TLineDataItem[])
+    .map((row) => [row[0], row[1] / sum] as TLineDataItem);
 
+  const markLine = getMarkLine(lineData);
   return [
     {
       name: conf.bar.name,
@@ -50,6 +81,7 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
       },
       yAxisIndex: 1,
       data: lineData,
+      markLine,
     },
   ];
 }
