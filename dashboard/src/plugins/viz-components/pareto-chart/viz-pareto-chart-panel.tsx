@@ -1,15 +1,18 @@
-import { Accordion, ActionIcon, Divider, Group, Stack, Tabs, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Group, Tabs, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
-import { DEFAULT_CONFIG, IParetoChartConf } from './type';
+import { VizConfigProps } from '~/types/plugin';
 import { EchartsZoomingField } from '../cartesian/panel/echarts-zooming-field';
+import { BarField } from './editors/bar';
+import { LineField } from './editors/line';
+import { MarkLineField } from './editors/mark-line';
+import { XAxisField } from './editors/x-axis';
+import { YAxisField } from './editors/y-axis';
+import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 
 export function VizParetoChartPanel({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
@@ -28,72 +31,61 @@ export function VizParetoChartPanel({ context }: VizConfigProps) {
   }, [values, conf]);
 
   return (
-    <Stack mt="md" spacing="xs">
-      <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+    <form onSubmit={handleSubmit(setConf)}>
+      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+        <Text>Chart Config</Text>
+        <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
+          <DeviceFloppy size={20} />
+        </ActionIcon>
+      </Group>
 
-        <Group grow noWrap>
-          <Controller
-            name="x_axis.name"
-            control={control}
-            render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-          />
-          <Controller
-            name="x_axis.data_key"
-            control={control}
-            render={({ field }) => (
-              <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-            )}
-          />
-        </Group>
-        <Controller
-          name="data_key"
-          control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Y Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
-        />
-        <Divider my="md" label="Bar" labelPosition="center" />
-        <Group grow noWrap>
-          <Controller
-            name="bar.name"
-            control={control}
-            render={({ field }) => <TextInput label="Bar Name" sx={{ flex: 1 }} {...field} />}
-          />
-          <Stack spacing={4}>
-            <Text size="sm">Bar's Color</Text>
-            <Controller
-              name="bar.color"
-              control={control}
-              render={({ field }) => <MantineColorSelector {...field} />}
-            />
-          </Stack>
-        </Group>
+      <Tabs
+        defaultValue="X Axis"
+        orientation="vertical"
+        styles={{
+          tab: {
+            paddingLeft: '6px',
+            paddingRight: '6px',
+          },
+          panel: {
+            paddingTop: '6px',
+            paddingLeft: '12px',
+          },
+        }}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
+          <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+          <Tabs.Tab value="Bar">Bar</Tabs.Tab>
+          <Tabs.Tab value="Line">Line</Tabs.Tab>
+          <Tabs.Tab value="80-20 Line">80-20 Line</Tabs.Tab>
+          <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+        </Tabs.List>
 
-        <Divider my="md" label="Line" labelPosition="center" />
-        <Group grow noWrap>
-          <Controller
-            name="line.name"
-            control={control}
-            render={({ field }) => <TextInput label="Line Name" sx={{ flex: 1 }} {...field} />}
-          />
-          <Stack spacing={4}>
-            <Text size="sm">Line's Color</Text>
-            <Controller
-              name="line.color"
-              control={control}
-              render={({ field }) => <MantineColorSelector {...field} />}
-            />
-          </Stack>
-        </Group>
-        <Divider my="md" label="Zooming" labelPosition="center" />
-        <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />
-      </form>
-    </Stack>
+        <Tabs.Panel value="X Axis">
+          <XAxisField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Y Axis">
+          <YAxisField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Bar">
+          <BarField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Line">
+          <LineField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="80-20 Line">
+          <MarkLineField control={control} watch={watch} data={data} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Zooming">
+          <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />
+        </Tabs.Panel>
+      </Tabs>
+    </form>
   );
 }

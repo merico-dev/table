@@ -1,18 +1,10 @@
 import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
-import { formatPercentage } from './utils';
+import { getMarkLine } from './mark-line';
+import { TLineDataItem } from './types';
+import { TParetoFormatters } from './utils';
 
-function formatterForLine(payload: $TSFixMe) {
-  const value = payload.value[1];
-  try {
-    return formatPercentage(value);
-  } catch (error) {
-    console.error(error);
-    return value;
-  }
-}
-
-export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
+export function getSeries(conf: IParetoChartConf, data: AnyObject[], formatters: TParetoFormatters) {
   const barData = data.map((d) => [d[conf.x_axis.data_key], Number(d[conf.data_key])]).sort((a, b) => b[1] - a[1]);
   const sum = barData.reduce((sum, curr) => sum + curr[1], 0);
   const lineData = barData
@@ -20,15 +12,21 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
       const prevValue = index === 0 ? 0 : ret[index - 1][1];
       ret.push([curr[0], prevValue + curr[1]]);
       return ret;
-    }, [] as [$TSFixMe, number][])
-    .map((row) => [row[0], row[1] / sum]);
+    }, [] as TLineDataItem[])
+    .map((row) => [row[0], row[1] / sum] as TLineDataItem);
 
+  const markLine = getMarkLine(conf, lineData);
   return [
     {
       name: conf.bar.name,
       type: 'bar',
       itemStyle: {
         color: conf.bar.color,
+      },
+      label: {
+        show: false,
+        position: 'top',
+        formatter: formatters.bar,
       },
       yAxisIndex: 0,
       data: barData,
@@ -44,12 +42,13 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[]) {
         width: 1,
       },
       label: {
-        show: true,
+        show: false,
         position: 'top',
-        formatter: formatterForLine,
+        formatter: formatters.line,
       },
       yAxisIndex: 1,
       data: lineData,
+      markLine,
     },
   ];
 }

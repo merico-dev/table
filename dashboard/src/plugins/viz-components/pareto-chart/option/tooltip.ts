@@ -1,8 +1,8 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { IParetoChartConf } from '../type';
-import { formatPercentage } from './utils';
+import { TParetoFormatters } from './utils';
 
-function tooltipFormatter(params: CallbackDataParams) {
+const getTooltipFormatter = (formatters: TParetoFormatters) => (params: CallbackDataParams) => {
   const arr = Array.isArray(params) ? params : [params];
   if (arr.length === 0) {
     return '';
@@ -14,7 +14,7 @@ function tooltipFormatter(params: CallbackDataParams) {
     if (!seriesName) {
       return value;
     }
-    const formatter = index === 0 ? (v: number) => v : formatPercentage;
+    const formatter = index === 0 ? formatters.bar : formatters.lineValue;
     return `
     <tr>
       <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
@@ -32,11 +32,11 @@ function tooltipFormatter(params: CallbackDataParams) {
       </tbody>
     </table>
   `;
-}
+};
 
-export function getTooltip(conf: IParetoChartConf) {
+export function getTooltip(conf: IParetoChartConf, formatters: TParetoFormatters) {
   return {
     trigger: 'axis',
-    formatter: tooltipFormatter,
+    formatter: getTooltipFormatter(formatters),
   };
 }
