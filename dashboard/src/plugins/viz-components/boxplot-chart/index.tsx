@@ -1,4 +1,4 @@
-import { VizComponent } from '~/types/plugin';
+import { TVizMigratorData, VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
@@ -50,7 +50,7 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: $TSFixMe, { panelModel }) => {
+    this.version(2, (data: TVizMigratorData, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
@@ -60,11 +60,11 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       });
       return { ...data, version: 2, config: updateSchema2(config) };
     });
-    this.version(3, (data: $TSFixMe) => {
+    this.version(3, (data: TVizMigratorData) => {
       const { config } = data;
       return { ...data, version: 3, config: updateToSchema3(config) };
     });
-    this.version(4, (data: $TSFixMe) => {
+    this.version(4, (data: TVizMigratorData) => {
       const { config } = data;
       return { ...data, version: 4, config: updateToSchema4(config) };
     });

@@ -1,4 +1,4 @@
-import { VizComponent } from '~/types/plugin';
+import { TVizMigratorData, VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizCartesianChart } from './viz-cartesian-chart';
 import { VizCartesianPanel } from './viz-cartesian-panel';
@@ -48,7 +48,7 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: $TSFixMe, { panelModel }) => {
+    this.version(2, (data: TVizMigratorData, { panelModel }) => {
       const { config } = data;
       const variables = (config.variables || []) as ITemplateVariable[];
       variables.forEach((v) => {
@@ -64,14 +64,14 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
       });
       return { ...data, version: 2, config: updateSchema2(config) };
     });
-    this.version(3, (data: $TSFixMe) => {
+    this.version(3, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 3,
         config: updateToSchema3(data.config),
       };
     });
-    this.version(4, (data: $TSFixMe) => {
+    this.version(4, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 4,

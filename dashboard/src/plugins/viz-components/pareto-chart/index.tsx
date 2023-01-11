@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { VizComponent } from '../../../types/plugin';
+import { TVizMigratorData, VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
@@ -61,28 +61,28 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: data,
       };
     });
-    this.version(2, (data: any) => {
+    this.version(2, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 2,
         config: v2(data.config),
       };
     });
-    this.version(3, (data: any) => {
+    this.version(3, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 3,
         config: v3(data.config),
       };
     });
-    this.version(4, (data: any) => {
+    this.version(4, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 4,
         config: v4(data.config),
       };
     });
-    this.version(5, (data: any) => {
+    this.version(5, (data: TVizMigratorData) => {
       return {
         ...data,
         version: 5,
