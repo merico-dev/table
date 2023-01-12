@@ -1,12 +1,18 @@
-import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Button, Divider, Group, Mark, NumberInput, Stack, Text, TextInput, Tooltip } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+import { InfoCircle, QuestionMark, Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { BackgroundColorSelect } from '../../components/background-color-select';
 import { DEFAULT_CELL_FUNC_CONTENT, IColumnConf, ITableConf, ValueType } from '../../type';
 import { ValueTypeSelector } from '../../value-type-selector';
 import { FuncContentEditor } from './func_content-editor';
+
+const PostFixPX = () => (
+  <Text color="dimmed" size={12}>
+    px
+  </Text>
+);
 
 interface IColumnField {
   control: Control<ITableConf, $TSFixMe>;
@@ -53,6 +59,16 @@ export const ColumnField = ({ control, index, watch, remove, column, data }: ICo
             )}
           />
         )}
+      </Group>
+      <Divider mb={-10} variant="dashed" label="Style" labelPosition="center" />
+      <Group grow>
+        <NumberInput hideControls label="Min Width" rightSection={<PostFixPX />} disabled />
+        <Controller
+          name={`columns.${index}.width`}
+          control={control}
+          render={({ field }) => <NumberInput hideControls label="Width" rightSection={<PostFixPX />} {...field} />}
+        />
+        <NumberInput hideControls label="Max Width" rightSection={<PostFixPX />} disabled />
       </Group>
       <Controller
         name={`columns.${index}.cellBackgroundColor`}

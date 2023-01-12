@@ -12,7 +12,6 @@ const useCellStyles = createStyles((theme, params: { clickable?: boolean }) => (
     justifyContent: 'flex-start',
     '.table-cell-text': {
       whiteSpace: 'nowrap',
-      marginLeft: theme.spacing.xs,
       cursor: params.clickable ? 'pointer' : 'default',
       textDecoration: params.clickable ? 'underline' : 'none',
     },
@@ -45,7 +44,7 @@ function CellRender(props: PropsWithChildren<ICellValue>) {
       }}
     >
       <Text className="table-cell-text" onClick={props.tableCellContext.getClickHandler()}>
-        <span>{props.children}</span>
+        <span title={props.children as string}>{props.children}</span>
       </Text>
     </div>
   );
