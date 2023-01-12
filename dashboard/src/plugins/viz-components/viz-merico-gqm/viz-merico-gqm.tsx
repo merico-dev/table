@@ -8,7 +8,23 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
+const BaseStyle = {
+  height: '100%',
+  overflowY: 'scroll',
+  ul: { paddingLeft: '2em', margin: '6px 0 0' },
+  p: { margin: 0 },
+  a: {
+    WebkitTapHighlightColor: 'transparent',
+    color: 'rgb(34, 139, 230)',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+    '&:active, &:hover': {
+      outlineWidth: 0,
+    },
+  },
+};
 
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
