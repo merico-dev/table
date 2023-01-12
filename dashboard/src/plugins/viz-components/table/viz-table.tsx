@@ -12,7 +12,6 @@ import {
 import { get, isString } from 'lodash';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
-import { TextContainer } from '~/components/text-container';
 import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
 import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
 import { MultiStepValueMapper } from '~/plugins/color-manager/multi-step-value-mapper';
