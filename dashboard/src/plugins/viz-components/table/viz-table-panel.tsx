@@ -77,7 +77,6 @@ export function VizTablePanel({ context }: VizConfigProps) {
           <Tabs.Tab value="Data">Data</Tabs.Tab>
           <Tabs.Tab value="Style">Style</Tabs.Tab>
           <Tabs.Tab value="Columns">Columns</Tabs.Tab>
-          <Tabs.Tab value="Config JSON">Config JSON</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">
@@ -92,14 +91,6 @@ export function VizTablePanel({ context }: VizConfigProps) {
         </Tabs.Panel>
         <Tabs.Panel value="Columns">
           <ColumnsField control={control} watch={watch} data={data} />
-        </Tabs.Panel>
-        <Tabs.Panel value="Config JSON">
-          <Text weight={500} mb="md">
-            Current Configuration:
-          </Text>
-          <Prism language="json" colorScheme="dark" noCopy>
-            {JSON.stringify(getValues(), null, 2)}
-          </Prism>
         </Tabs.Panel>
       </Tabs>
     </form>
