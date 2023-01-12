@@ -1,4 +1,4 @@
-import { Box, Center, LoadingOverlay, Stack, Text } from '@mantine/core';
+import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
@@ -8,7 +8,7 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-const BaseStyle = {
+const BaseStyle: Sx = {
   height: '100%',
   overflowY: 'scroll',
   ul: { paddingLeft: '2em', margin: '6px 0 0' },
