@@ -1,13 +1,11 @@
-import { ActionIcon, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
+import { ActionIcon, Group, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { Prism } from '@mantine/prism';
-import { defaults, defaultsDeep, isEqual } from 'lodash';
+import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins/hooks';
-import { AnyObject } from '~/types';
 import { VizConfigProps } from '~/types/plugin';
 import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
