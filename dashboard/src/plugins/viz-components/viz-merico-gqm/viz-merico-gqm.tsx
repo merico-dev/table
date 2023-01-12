@@ -86,7 +86,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
   }
 
   return (
-    <Box sx={BaseStyle}>
+    <Box sx={BaseStyle} data-enable-scrollbar>
       {data.replies.map((r, i) => (
         <div
           key={i}

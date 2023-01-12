@@ -11,11 +11,11 @@
   padding: 0 10px;
 }
 
-*::-webkit-scrollbar {
+*:not([data-enable-scrollbar])::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
-* {
+*:not([data-enable-scrollbar]) {
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
