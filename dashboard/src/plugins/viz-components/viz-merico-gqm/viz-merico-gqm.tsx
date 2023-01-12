@@ -1,4 +1,4 @@
-import { Box, Center, LoadingOverlay, Stack, Text } from '@mantine/core';
+import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
@@ -8,7 +8,23 @@ import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-const BaseStyle = { ul: { paddingLeft: '2em', margin: '6px 0 0' }, p: { margin: 0 } };
+const BaseStyle: Sx = {
+  height: '100%',
+  overflowY: 'scroll',
+  ul: { paddingLeft: '2em', margin: '6px 0 0' },
+  p: { margin: 0 },
+  a: {
+    WebkitTapHighlightColor: 'transparent',
+    color: 'rgb(34, 139, 230)',
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+    '&:active, &:hover': {
+      outlineWidth: 0,
+    },
+  },
+};
 
 const ErrorMessage = ({ message }: { message: string }) => {
   return (
@@ -70,7 +86,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
   }
 
   return (
-    <Box sx={BaseStyle}>
+    <Box sx={BaseStyle} data-enable-scrollbar>
       {data.replies.map((r, i) => (
         <div
           key={i}
