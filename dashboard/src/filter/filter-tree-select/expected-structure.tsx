@@ -8,6 +8,7 @@ const structure = `
   label: string;
   value: string;
   parent_value: string;
+  description?: string;
 }
 `;
 

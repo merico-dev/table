@@ -119,6 +119,9 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
     '&.rc-tree-select-dropdown-slide-up-leave-active': {
       display: 'none',
     },
+    '.rc-tree-select-tree-list .rc-tree-select-tree-list-holder': {
+      maxHeight: '500px !important',
+    },
     '.rc-tree-select-tree-list, .rc-tree-select-empty': {
       backgroundColor: '#fff',
       border: '1px solid #e9ecef',
@@ -176,7 +179,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         flexWrap: 'nowrap',
         overflow: 'hidden',
         alignItems: 'center',
-        gap: '2px',
+        gap: '8px',
         transition: 'color 200ms ease',
         '&:hover': {
           color: '#228be6',
@@ -210,6 +213,13 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
+        '.rc-tree-select-tree-title-desc': {
+          fontSize: '12px',
+          maxWidth: '100%',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        },
       },
       '.rc-tree-select-tree-indent': {
         flexGrow: 0,
