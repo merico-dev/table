@@ -43,6 +43,42 @@ export function useInteractionOperationHacks(model: DashboardModelInstance, inEd
   }, [model]);
 
   useEffect(() => {
+    function getEmptyValueByType(v: string | number | boolean | Array<any> | AnyObject) {
+      if (Array.isArray(v)) {
+        return [];
+      }
+      if (typeof v === 'object') {
+        return {};
+      }
+      if (typeof v === 'boolean') {
+        return false;
+      }
+      if (typeof v === 'string') {
+        return '';
+      }
+      if (typeof v === 'number') {
+        return 0;
+      }
+      return v;
+    }
+    const handler = (e: $TSFixMe) => {
+      console.log(e);
+      const { filter_keys } = e.detail as { filter_keys: string[] };
+      filter_keys.forEach((k) => {
+        const currentValue = _.get(model.filters.values, k);
+        const newValue = getEmptyValueByType(currentValue);
+        console.log(`${k}: ${newValue}`);
+        model.filters.setValueByKey(k, newValue);
+      });
+    };
+    window.addEventListener('clear-filter-values', handler);
+
+    return () => {
+      window.removeEventListener('clear-filter-values', handler);
+    };
+  }, [model]);
+
+  useEffect(() => {
     const handler = (e: $TSFixMe) => {
       console.log(e);
       const { urlTemplate, openInNewTab, enableEncoding = false, payload } = e.detail;
