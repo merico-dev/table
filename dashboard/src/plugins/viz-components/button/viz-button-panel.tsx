@@ -1,6 +1,19 @@
-import { Checkbox, Divider, MantineSize, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
-import { defaultsDeep } from 'lodash';
-import { useMemo } from 'react';
+import {
+  ActionIcon,
+  Checkbox,
+  Divider,
+  Group,
+  MantineSize,
+  Select,
+  SimpleGrid,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
+import { defaultsDeep, isEqual } from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { DeviceFloppy } from 'tabler-icons-react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
 import { MantineSizeSelector } from '~/panel/settings/common/mantine-size-selector';
 import { VizConfigProps } from '../../../types/plugin';
@@ -31,57 +44,96 @@ const verticalAlignmentOptions = [
 
 export function VizButtonPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IButtonConf>(context.instanceData, 'config');
+  const { variables } = context;
+  const data = context.data as $TSFixMe[];
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues = conf;
 
-  const setConfByKey = (key: string, value: IButtonConf[keyof IButtonConf]) => {
-    setConf({
-      ...conf,
-      [key]: value,
-    });
-  };
+  useEffect(() => {
+    const configMalformed = !isEqual(conf, defaultValues);
+    if (configMalformed) {
+      console.log('config malformed, resetting to defaults', conf, defaultValues);
+      void setConf(defaultValues);
+    }
+  }, [conf, defaultValues]);
 
+  const { control, handleSubmit, watch, getValues, reset } = useForm<IButtonConf>({ defaultValues });
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
+
+  const values = getValues();
+  const changed = useMemo(() => {
+    return !isEqual(values, conf);
+  }, [values, conf]);
+
+  watch(['content', 'variant', 'color', 'size', 'compact', 'horizontal_align', 'vertical_align']);
   return (
-    <Stack>
-      <TextInput
-        label="Content Template"
-        description="Filter values & context entries are supported"
-        value={conf.content}
-        onChange={(e) => setConfByKey('content', e.currentTarget.value)}
-        required
-      />
-      <Divider mt="xs" mb={0} label="Styles" labelPosition="center" variant="dashed" />
-      <SimpleGrid cols={2}>
-        <Select
-          label="Variant"
-          data={variantOptions}
-          value={conf.variant}
-          onChange={(v: string) => setConfByKey('variant', v)}
+    <form onSubmit={handleSubmit(setConf)}>
+      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+        <Text>Chart Config</Text>
+        <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
+          <DeviceFloppy size={20} />
+        </ActionIcon>
+      </Group>
+      <Stack>
+        <Controller
+          control={control}
+          name="content"
+          render={({ field }) => (
+            <TextInput
+              label="Content Template"
+              description="Filter values & context entries are supported"
+              {...field}
+              required
+            />
+          )}
         />
-        <MantineColorSwatches label="Theme" value={conf.color} onChange={(v: string) => setConfByKey('color', v)} />
-      </SimpleGrid>
-      <SimpleGrid cols={2}>
-        <MantineSizeSelector label="Size" value={conf.size} onChange={(v: MantineSize) => setConfByKey('size', v)} />
-        <Checkbox
-          label="Compact"
-          checked={conf.compact}
-          onChange={(event) => setConfByKey('compact', event.currentTarget.checked)}
-          mt={26}
-        />
-      </SimpleGrid>
-      <SimpleGrid cols={2}>
-        <Select
-          label="Horizontal Alignment"
-          data={horizontalAlignmentOptions}
-          value={conf.horizontal_align}
-          onChange={(v: string) => setConfByKey('horizontal_align', v)}
-        />
-        <Select
-          label="Vertical Alignment"
-          data={verticalAlignmentOptions}
-          value={conf.vertical_align}
-          onChange={(v: string) => setConfByKey('vertical_align', v)}
-        />
-      </SimpleGrid>
-    </Stack>
+        <Divider mt="xs" mb={0} label="Styles" labelPosition="center" variant="dashed" />
+        <SimpleGrid cols={2}>
+          <Controller
+            control={control}
+            name="variant"
+            render={({ field }) => <Select label="Variant" data={variantOptions} {...field} />}
+          />
+          <Controller
+            control={control}
+            name="color"
+            render={({ field }) => <MantineColorSwatches label="Theme" {...field} />}
+          />
+        </SimpleGrid>
+        <SimpleGrid cols={2}>
+          <Controller
+            control={control}
+            name="size"
+            render={({ field }) => <MantineSizeSelector label="Size" {...field} />}
+          />
+          <Controller
+            control={control}
+            name="compact"
+            render={({ field }) => (
+              <Checkbox
+                label="Compact"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+                mt={26}
+              />
+            )}
+          />
+        </SimpleGrid>
+        <SimpleGrid cols={2}>
+          <Controller
+            control={control}
+            name="horizontal_align"
+            render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
+          />
+          <Controller
+            control={control}
+            name="vertical_align"
+            render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
+          />
+        </SimpleGrid>
+      </Stack>
+    </form>
   );
 }
