@@ -1,6 +1,9 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 import logger from 'npmlog';
+import { DashboardChangelogService } from '../services/dashboard_changelog.service';
+import _ from 'lodash';
+import DashboardChangelog from '../models/dashboard_changelog';
 
 // NOTE: Keep versions in order
 const versions = [
@@ -45,6 +48,7 @@ async function main() {
     if (!dashboardDataSource.isInitialized) {
       await dashboardDataSource.initialize();
     }
+    const dashboardChangelogRepo = dashboardDataSource.getRepository(DashboardChangelog);
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboards = await dashboardRepo.find();
 
@@ -56,8 +60,16 @@ async function main() {
       }
       let handler = await findHandler(version);
       while (handler) {
+        const originalDashboard = _.cloneDeep(db);
         db.content = handler.main(db.content);
-        await dashboardRepo.save(db);
+        const updatedDashboard = await dashboardRepo.save(db);
+        const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(updatedDashboard));
+        if (diff) {
+          const changelog = new DashboardChangelog();
+          changelog.dashboard_id = db.id;
+          changelog.diff = diff;
+          await dashboardChangelogRepo.save(changelog);
+        }
         logger.info(`MIGRATED ${db.id} TO VERSION ${db.content.version}`);
         handler = await findHandler(db.content.version as string);
       }

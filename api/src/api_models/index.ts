@@ -14,6 +14,7 @@ import { ApiKey, ApiKeyCreateRequest, ApiKeyListRequest, ApiKeyFilterObject, Api
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
 import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job'
+import { DashboardChangelog, DashboardChangelogFilterObject, DashboardChangelogListRequest, DashboardChangelogPaginationResponse, DashboardChangelogSortObject } from './dashboard_changelog';
 import { ApiError, Authentication } from './base';
 
 export default {
@@ -71,5 +72,11 @@ export default {
   JobListRequest,
   JobPaginationResponse,
   JobSortObject,
-  JobRunRequest
+  JobRunRequest,
+
+  DashboardChangelog,
+  DashboardChangelogFilterObject,
+  DashboardChangelogListRequest,
+  DashboardChangelogPaginationResponse,
+  DashboardChangelogSortObject
 }

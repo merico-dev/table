@@ -1,11 +1,14 @@
+import _ from 'lodash';
 import { PaginationRequest } from '../api_models/base';
 import { DashboardFilterObject, DashboardSortObject, DashboardPaginationResponse } from '../api_models/dashboard';
 import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
+import DashboardChangelog from '../models/dashboard_changelog';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
+import { DashboardChangelogService } from './dashboard_changelog.service';
 
 export class DashboardService {
   async list(
@@ -73,13 +76,23 @@ export class DashboardService {
   ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
+    const originalDashboard = _.cloneDeep(dashboard);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
     dashboard.content = content === undefined ? dashboard.content : content;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
-    return await dashboardRepo.save(dashboard);
+    const result = await dashboardRepo.save(dashboard);
+    const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
+    if (diff) {
+      const dashboardChangelogRepo = dashboardDataSource.getRepository(DashboardChangelog);
+      const changelog = new DashboardChangelog();
+      changelog.dashboard_id = dashboard.id;
+      changelog.diff = diff;
+      await dashboardChangelogRepo.save(changelog);
+    }
+    return result;
   }
 
   async delete(id: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
@@ -88,7 +101,17 @@ export class DashboardService {
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' });
     }
+    const originalDashboard = _.cloneDeep(dashboard);
     dashboard.is_removed = true;
-    return await dashboardRepo.save(dashboard);
+    const result = await dashboardRepo.save(dashboard);
+    const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
+    if (diff) {
+      const dashboardChangelogRepo = dashboardDataSource.getRepository(DashboardChangelog);
+      const changelog = new DashboardChangelog();
+      changelog.dashboard_id = dashboard.id;
+      changelog.diff = diff;
+      await dashboardChangelogRepo.save(changelog);
+    }
+    return result;
   }
 }
