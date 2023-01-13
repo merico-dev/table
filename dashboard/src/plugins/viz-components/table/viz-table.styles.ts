@@ -35,5 +35,10 @@ export const baseTableSX: Sx = {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
     },
+    // for index column
+    '&:first-of-type': {
+      paddingLeft: 2,
+      paddingRight: 2,
+    },
   },
 };

@@ -1,10 +1,34 @@
+import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../../model';
 import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
+import { ITreeDataQueryOption, ITreeDataRenderItem } from '../types';
 import { queryDataToTree } from './query-data-to-tree';
 import { FilterTreeSelectWidget } from './widget';
+
+function addLabelToData(data: ITreeDataQueryOption[]) {
+  return data.map((d) => {
+    const { label, description, ...rest } = d;
+    const ret: ITreeDataRenderItem = {
+      ...rest,
+      description,
+      label,
+    };
+    if (description) {
+      ret.label = (
+        <div>
+          <Text title={d.label}>{d.label}</Text>
+          <Text className="rc-tree-select-tree-title-desc" color="dimmed" title={d.description}>
+            {d.description}
+          </Text>
+        </div>
+      );
+    }
+    return ret;
+  });
+}
 
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TreeSelect;
@@ -22,8 +46,10 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
     if (!data) {
       return [];
     }
-    // @ts-expect-error type of data
-    return queryDataToTree(data);
+
+    // @ts-expect-error typeof data
+    const dataWithCustomLabel = addLabelToData(data);
+    return queryDataToTree(dataWithCustomLabel);
   }, [data]);
 
   useEffect(() => {
