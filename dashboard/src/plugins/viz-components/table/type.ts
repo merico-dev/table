@@ -17,6 +17,9 @@ export interface IColumnConf {
   value_type: ValueType;
   cellBackgroundColor?: CellBackgroundColorType;
   func_content?: string;
+  width?: number;
+  min_width?: number;
+  max_width?: number;
 }
 
 export interface ITableConf {

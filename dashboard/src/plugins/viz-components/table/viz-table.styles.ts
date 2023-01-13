@@ -1,4 +1,4 @@
-import { createStyles } from '@mantine/core';
+import { createStyles, Sx } from '@mantine/core';
 
 export const useTableStyles = createStyles((theme) => ({
   root: {
@@ -26,3 +26,14 @@ export const useTableStyles = createStyles((theme) => ({
     top: 0,
   },
 }));
+
+export const baseTableSX: Sx = {
+  tableLayout: 'fixed',
+  'th, td': {
+    padding: '2px 10px',
+    div: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+  },
+};

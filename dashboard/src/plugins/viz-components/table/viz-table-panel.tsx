@@ -1,13 +1,11 @@
-import { ActionIcon, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
+import { ActionIcon, Group, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { Prism } from '@mantine/prism';
-import { defaults, defaultsDeep, isEqual } from 'lodash';
+import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins/hooks';
-import { AnyObject } from '~/types';
 import { VizConfigProps } from '~/types/plugin';
 import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
@@ -77,7 +75,6 @@ export function VizTablePanel({ context }: VizConfigProps) {
           <Tabs.Tab value="Data">Data</Tabs.Tab>
           <Tabs.Tab value="Style">Style</Tabs.Tab>
           <Tabs.Tab value="Columns">Columns</Tabs.Tab>
-          <Tabs.Tab value="Config JSON">Config JSON</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">
@@ -92,14 +89,6 @@ export function VizTablePanel({ context }: VizConfigProps) {
         </Tabs.Panel>
         <Tabs.Panel value="Columns">
           <ColumnsField control={control} watch={watch} data={data} />
-        </Tabs.Panel>
-        <Tabs.Panel value="Config JSON">
-          <Text weight={500} mb="md">
-            Current Configuration:
-          </Text>
-          <Prism language="json" colorScheme="dark" noCopy>
-            {JSON.stringify(getValues(), null, 2)}
-          </Prism>
         </Tabs.Panel>
       </Tabs>
     </form>

@@ -17,7 +17,7 @@ import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers'
 import { MultiStepValueMapper } from '~/plugins/color-manager/multi-step-value-mapper';
 import { HeadCell } from '~/plugins/viz-components/table/components/head-cell';
 import { ClickCellContent, IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
-import { useTableStyles } from '~/plugins/viz-components/table/viz-table.styles';
+import { baseTableSX, useTableStyles } from '~/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
 import { ITriggerSnapshot, IVizInteractionManager, VizInstance, VizViewProps } from '~/types/plugin';
 import { IColorManager, IVizManager, PluginContext, useStorageData } from '../..';
@@ -81,6 +81,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         header: c.label,
         enableSorting: true,
         meta: c,
+        size: c.width,
       });
     });
     const indexCol = columnHelper.display({
@@ -122,7 +123,7 @@ export function VizTable({ context, instance }: VizViewProps) {
       style={{ height, width }}
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >
-      <Table sx={{ maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
+      <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
