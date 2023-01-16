@@ -29,7 +29,10 @@ export const FAKE_OPERATIONS: IDashboardOperationSchema[] = [
 export const testVizComponent: VizComponent = {
   configRender: () => null,
   createConfig() {
-    return {};
+    return {
+      version: 1,
+      config: {},
+    };
   },
   migrator: null as unknown as VizComponent['migrator'],
   viewRender: () => null,
