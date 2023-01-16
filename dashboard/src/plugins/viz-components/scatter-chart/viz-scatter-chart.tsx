@@ -74,13 +74,22 @@ function Chart({
     ClickScatterChartSeries.id,
   );
 
-  const handleSeriesClick = (params: IClickScatterChartSeries) => {
-    const x = params.value[0];
-    const rowData = _.get(rowDataMap, x, { error: 'rowData is not found' });
-    triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params, rowData });
-    });
-  };
+  const handleSeriesClick = useCallback(
+    (params: IClickScatterChartSeries) => {
+      const x = params.value[0];
+      const rowData = _.get(rowDataMap, x, { error: 'rowData is not found' });
+      triggers.forEach((t) => {
+        interactionManager.runInteraction(t.id, { ...params, rowData });
+      });
+    },
+    [rowDataMap, triggers, interactionManager],
+  );
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleSeriesClick,
+    };
+  }, [handleSeriesClick]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -89,14 +98,7 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={{ click: handleSeriesClick }}
-    />
-  );
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
 }
 
 export function VizScatterChart({ context, instance }: VizViewProps) {

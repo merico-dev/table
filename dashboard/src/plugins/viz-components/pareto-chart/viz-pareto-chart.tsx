@@ -4,7 +4,7 @@ import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } f
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
@@ -44,22 +44,24 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
     return _.keyBy(data, conf.x_axis.data_key);
   }, [data, conf.x_axis.data_key]);
 
-  const handleSeriesClick = (params: IClickParetoSeries) => {
-    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
-    triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params, rowData });
-    });
-  };
+  const handleSeriesClick = useCallback(
+    (params: IClickParetoSeries) => {
+      const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
+      triggers.forEach((t) => {
+        interactionManager.runInteraction(t.id, { ...params, rowData });
+      });
+    },
+    [rowDataMap, triggers, interactionManager],
+  );
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleSeriesClick,
+    };
+  }, [handleSeriesClick]);
 
   if (!conf || !width || !height) {
     return null;
   }
-  return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={{ click: handleSeriesClick }}
-    />
-  );
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
 }

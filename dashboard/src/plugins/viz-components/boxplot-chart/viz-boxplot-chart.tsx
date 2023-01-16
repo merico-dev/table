@@ -11,7 +11,7 @@ import {
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
@@ -57,24 +57,26 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     return _.keyBy(data, config.x_axis.data_key);
   }, [data, config.x_axis.data_key]);
 
-  const handleSeriesClick = (params: IClickBoxplotSeries) => {
-    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
-    triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params, rowData });
-    });
-  };
+  const handleSeriesClick = useCallback(
+    (params: IClickBoxplotSeries) => {
+      const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
+      triggers.forEach((t) => {
+        interactionManager.runInteraction(t.id, { ...params, rowData });
+      });
+    },
+    [rowDataMap, triggers, interactionManager],
+  );
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleSeriesClick,
+    };
+  }, [handleSeriesClick]);
 
   const option = useMemo(() => getOption({ config, data, variables }), [config, data, variables]);
 
   if (!conf || !width || !height) {
     return null;
   }
-  return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={{ click: handleSeriesClick }}
-    />
-  );
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
 }

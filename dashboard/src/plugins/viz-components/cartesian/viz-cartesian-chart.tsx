@@ -15,7 +15,7 @@ import {
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
@@ -74,12 +74,21 @@ function Chart({
 
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
 
-  const handleSeriesClick = (params: IClickEchartsSeries) => {
-    const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
-    triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { ...params, rowData });
-    });
-  };
+  const handleSeriesClick = useCallback(
+    (params: IClickEchartsSeries) => {
+      const rowData = _.get(rowDataMap, params.name, { error: 'rowData is not found' });
+      triggers.forEach((t) => {
+        interactionManager.runInteraction(t.id, { ...params, rowData });
+      });
+    },
+    [rowDataMap, triggers, interactionManager],
+  );
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleSeriesClick,
+    };
+  }, [handleSeriesClick]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
@@ -88,14 +97,7 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={{ click: handleSeriesClick }}
-    />
-  );
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
 }
 
 export function VizCartesianChart({ context, instance }: VizViewProps) {
