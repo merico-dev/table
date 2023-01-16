@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { cloneDeep, omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
@@ -77,6 +77,11 @@ export const BoxplotChartVizComponent: VizComponent = {
   name: 'boxplot',
   viewRender: VizBoxplotChart,
   configRender: VizBoxplotChartPanel,
-  createConfig: (): IBoxplotChartConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 4,
+      config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
+    };
+  },
   triggers: [ClickBoxplotSeries],
 };

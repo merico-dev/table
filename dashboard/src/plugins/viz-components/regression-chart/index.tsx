@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizRegressionChart } from './viz-regression-chart';
 import { VizRegressionChartPanel } from './viz-regression-chart-panel';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
+import { cloneDeep } from 'lodash';
 
 class VizRegressionChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,5 +24,10 @@ export const RegressionChartVizComponent: VizComponent = {
   name: 'regressionChart',
   viewRender: VizRegressionChart,
   configRender: VizRegressionChartPanel,
-  createConfig: (): IRegressionChartConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG) as IRegressionChartConf,
+    };
+  },
 };

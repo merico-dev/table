@@ -5,6 +5,7 @@ import { VizScatterChartPanel } from './viz-scatter-chart-panel';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+import { cloneDeep } from 'lodash';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -51,6 +52,11 @@ export const ScatterChartVizComponent: VizComponent = {
   name: 'scatterChart',
   viewRender: VizScatterChart,
   configRender: VizScatterChartPanel,
-  createConfig: (): IScatterChartConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 3,
+      config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
+    };
+  },
   triggers: [ClickScatterChartSeries],
 };

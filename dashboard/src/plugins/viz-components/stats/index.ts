@@ -7,7 +7,7 @@ import { VizStatsPanel } from './viz-stats-panel';
 export const StatsVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 1,
+      version: 2,
       config: DEFAULT_CONFIG,
     };
   },

@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { ClickButton } from './triggers';
@@ -36,6 +37,11 @@ export const ButtonVizComponent: VizComponent = {
   name: 'button',
   viewRender: VizButton,
   configRender: VizButtonPanel,
-  createConfig: (): IButtonConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 2,
+      config: cloneDeep(DEFAULT_CONFIG) as IButtonConf,
+    };
+  },
   triggers: [ClickButton],
 };

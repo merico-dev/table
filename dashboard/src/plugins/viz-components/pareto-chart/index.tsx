@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { cloneDeep } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
@@ -98,6 +98,11 @@ export const ParetoChartVizComponent: VizComponent = {
   name: 'paretoChart',
   viewRender: VizParetoChart,
   configRender: VizParetoChartPanel,
-  createConfig: (): IParetoChartConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 5,
+      config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
+    };
+  },
   triggers: [ClickParetoSeries],
 };

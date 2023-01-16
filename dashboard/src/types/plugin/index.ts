@@ -116,7 +116,10 @@ export interface VizComponent {
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IPanelScopeConfigMigrator;
-  createConfig: () => AnyObject;
+  createConfig: () => {
+    version: number;
+    config: AnyObject;
+  };
   triggers?: ITriggerSchema[];
 }
 

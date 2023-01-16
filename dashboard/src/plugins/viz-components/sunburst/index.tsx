@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
 import { VizSunburstPanel } from './viz-sunburst-panel';
+import { cloneDeep } from 'lodash';
 
 class VizSunburstMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,5 +24,10 @@ export const SunburstVizComponent: VizComponent = {
   name: 'sunburst',
   viewRender: VizSunburst,
   configRender: VizSunburstPanel,
-  createConfig: (): ISunburstConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG) as ISunburstConf,
+    };
+  },
 };

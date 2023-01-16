@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizMericoGQM } from './viz-merico-gqm';
 import { VizMericoGQMPanel } from './viz-merico-gqm-panel';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
+import { cloneDeep } from 'lodash';
 
 class VizMericoGQMMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,5 +24,10 @@ export const MericoGQMVizComponent: VizComponent = {
   name: 'mericoGQM',
   viewRender: VizMericoGQM,
   configRender: VizMericoGQMPanel,
-  createConfig: (): IMericoGQMConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG) as IMericoGQMConf,
+    };
+  },
 };
