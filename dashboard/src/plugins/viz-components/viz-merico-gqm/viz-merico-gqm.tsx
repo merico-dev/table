@@ -2,6 +2,7 @@ import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
+import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { MericoGQMErrorFigure } from './error-figure';
@@ -11,19 +12,7 @@ import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 const BaseStyle: Sx = {
   height: '100%',
   overflowY: 'scroll',
-  ul: { paddingLeft: '2em', margin: '6px 0 0' },
-  p: { margin: 0 },
-  a: {
-    WebkitTapHighlightColor: 'transparent',
-    color: 'rgb(34, 139, 230)',
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-    '&:active, &:hover': {
-      outlineWidth: 0,
-    },
-  },
+  ...CommonHTMLContentStyle,
 };
 
 const ErrorMessage = ({ message }: { message: string }) => {
@@ -88,11 +77,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
   return (
     <Box sx={BaseStyle} data-enable-scrollbar>
       {data.replies.map((r, i) => (
-        <div
-          key={i}
-          dangerouslySetInnerHTML={{ __html: r.interpretation.html }}
-          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
-        />
+        <div key={i} dangerouslySetInnerHTML={{ __html: r.interpretation.html }} />
       ))}
     </Box>
   );
