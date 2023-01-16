@@ -1,4 +1,4 @@
-import { defaults } from 'lodash';
+import { cloneDeep, defaults } from 'lodash';
 import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
@@ -28,5 +28,10 @@ export const RichTextVizComponent: VizComponent = {
   name: 'richText',
   viewRender: VizRichText,
   configRender: VizRichTextPanel,
-  createConfig: (): IRichTextConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG) as IRichTextConf,
+    };
+  },
 };

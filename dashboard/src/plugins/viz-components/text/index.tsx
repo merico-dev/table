@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizText } from './viz-text';
 import { VizTextPanel } from './viz-text-panel';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
+import { cloneDeep } from 'lodash';
 
 class VizTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,5 +24,10 @@ export const TextVizComponent: VizComponent = {
   name: 'text',
   viewRender: VizText,
   configRender: VizTextPanel,
-  createConfig: (): IVizTextConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 1,
+      config: cloneDeep(DEFAULT_CONFIG) as IVizTextConf,
+    };
+  },
 };

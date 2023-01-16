@@ -87,6 +87,11 @@ export const CartesianVizComponent: VizComponent = {
   name: 'cartesian',
   viewRender: VizCartesianChart,
   configRender: VizCartesianPanel,
-  createConfig: (): ICartesianChartConf => DEFAULT_CONFIG,
+  createConfig() {
+    return {
+      version: 4,
+      config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
+    };
+  },
   triggers: [ClickEchartSeries],
 };
