@@ -1,7 +1,7 @@
 import { DataSourceOptions } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';
 import crypto from 'crypto';
-import { DATABASE_CONNECTION_TIMEOUT_MS } from './constants';
+import { DATABASE_CONNECTION_TIMEOUT_MS, DATABASE_POOL_SIZE } from './constants';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
@@ -17,13 +17,15 @@ export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: Da
         ...commonConfig,
         type: 'mysql',
         connectTimeout: DATABASE_CONNECTION_TIMEOUT_MS,
+        poolSize: DATABASE_POOL_SIZE,
       };
 
     case 'postgresql':
       return {
         ...commonConfig,
         type: 'postgres',
-        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,
+        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,  
+        poolSize: DATABASE_POOL_SIZE,
       };
   }
 }
