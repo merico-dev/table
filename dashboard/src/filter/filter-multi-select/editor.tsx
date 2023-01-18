@@ -40,7 +40,7 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         />
       )}
       {staticOptionFields.map((_optionField, optionIndex) => (
-        <Group sx={{ position: 'relative' }} pr="40px">
+        <Group key={optionIndex} sx={{ position: 'relative' }} pr="40px">
           <TextInput
             label="Label"
             required
