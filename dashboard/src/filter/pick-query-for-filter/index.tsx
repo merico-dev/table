@@ -6,10 +6,7 @@ import { useModelContext } from '~/contexts';
 export const PickQueryForFilter = observer(({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
   const model = useModelContext();
   const options = React.useMemo(() => {
-    return model.queries.current.map((d) => ({
-      value: d.id,
-      label: d.name,
-    }));
+    return model.queries.options;
   }, [model.queries.current]);
   const empty = options.length === 0;
   return (
@@ -19,7 +16,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
       value={value}
       onChange={onChange}
       allowDeselect={false}
-      clearable={false}
+      clearable
       sx={{ flexGrow: 1 }}
       disabled={empty}
       error={empty ? 'You need to add a query in Data Settings' : undefined}

@@ -46,8 +46,8 @@ export const FilterConfigModel_BaseSelect = types
     setSelectFirstByDefault(v: boolean) {
       self.select_first_by_default = v;
     },
-    setOptionsQueryID(id: string) {
-      self.options_query_id = id;
+    setOptionsQueryID(id: string | null) {
+      self.options_query_id = id ?? '';
     },
   }));
 
