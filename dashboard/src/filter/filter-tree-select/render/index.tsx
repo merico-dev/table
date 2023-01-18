@@ -52,17 +52,17 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
     return queryDataToTree(dataWithCustomLabel);
   }, [data]);
 
-  // useEffect(() => {
-  //   const { default_selection_count } = config;
-  //   if (!default_selection_count) {
-  //     return;
-  //   }
-  //   // TODO: select from first level of treeData
-  //   const newValue = config.options.slice(0, default_selection_count).map((o) => o.value);
+  useEffect(() => {
+    const { default_selection_count } = config;
+    if (!default_selection_count) {
+      return;
+    }
+    // TODO: select from first level of treeData
+    const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
-  //   console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
-  //   onChange(newValue);
-  // }, [config.default_selection_count, config.options, onChange]);
+    console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
+    onChange(newValue);
+  }, [config.default_selection_count, treeData, onChange]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
