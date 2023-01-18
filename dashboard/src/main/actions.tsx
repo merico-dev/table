@@ -70,64 +70,63 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
     downloadJSON(model.name, schema);
   };
 
+  if (inUseMode) {
+    return null;
+  }
+
   return (
     <Group position="apart" pt={0} px={10} pb="xs">
       <Group position="left">{inEditMode && <SwitchViews />}</Group>
       <Group position="right" sx={{ button: { minWidth: '40px' } }}>
-        {inEditMode && (
-          <>
-            <Button
-              variant="filled"
-              size="xs"
-              disabled={!model.views.VIE}
-              onClick={model.views.addAPanelToVIE}
-              leftIcon={<PlaylistAdd size={20} />}
-            >
-              Add a Panel
-            </Button>
-            <Group spacing={0} sx={actionIconGroupStyle}>
-              <Tooltip label="Filters">
-                <ActionIcon variant="default" size="md" onClick={openFilters}>
-                  <Filter size={20} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Data Settings">
-                <ActionIcon variant="default" size="md" onClick={openQueries}>
-                  <Database size={20} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-            <Group spacing={0} sx={actionIconGroupStyle}>
-              <Tooltip label="Save Changes">
-                <ActionIcon variant="default" size="md" onClick={saveChanges} disabled={!hasChanges}>
-                  <DeviceFloppy size={20} color="green" />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Revert Changes">
-                <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
-                  <Recycle size={20} color="red" />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-          </>
-        )}
-        {!inUseMode && (
-          <Menu width={180} trigger="hover">
-            <Menu.Target>
-              <ActionIcon variant="default" size="md">
-                <Share size={20} />
-              </ActionIcon>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
-                Download Data
-              </Menu.Item>
-              <Menu.Item icon={<Code size={14} />} onClick={downloadSchema}>
-                Download Schema
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        )}
+        <Button
+          variant="filled"
+          size="xs"
+          disabled={!model.views.VIE}
+          onClick={model.views.addAPanelToVIE}
+          leftIcon={<PlaylistAdd size={20} />}
+        >
+          Add a Panel
+        </Button>
+        <Group spacing={0} sx={actionIconGroupStyle}>
+          <Tooltip label="Filters">
+            <ActionIcon variant="default" size="md" onClick={openFilters}>
+              <Filter size={20} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Data Settings">
+            <ActionIcon variant="default" size="md" onClick={openQueries}>
+              <Database size={20} />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
+        <Group spacing={0} sx={actionIconGroupStyle}>
+          <Tooltip label="Save Changes">
+            <ActionIcon variant="default" size="md" onClick={saveChanges} disabled={!hasChanges}>
+              <DeviceFloppy size={20} color="green" />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Revert Changes">
+            <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
+              <Recycle size={20} color="red" />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
+
+        <Menu width={180} trigger="hover">
+          <Menu.Target>
+            <ActionIcon variant="default" size="md">
+              <Share size={20} />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item icon={<Download size={14} />} onClick={model.queries.downloadAllData}>
+              Download Data
+            </Menu.Item>
+            <Menu.Item icon={<Code size={14} />} onClick={downloadSchema}>
+              Download Schema
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
