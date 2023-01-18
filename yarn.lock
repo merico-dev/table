@@ -10273,11 +10273,6 @@ statuses@2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
-stickybits@3.7.11:
-  version "3.7.11"
-  resolved "https://registry.yarnpkg.com/stickybits/-/stickybits-3.7.11.tgz#4609f3a91ef4209987c1a45b313e5f682b248bf6"
-  integrity sha512-WO+ns7BYZqGS4jWVTg5JNhIvNV4LGbUtNTSck4zAkWRQzA1IfxwIkMGc0BbdGy4PGIjK7kKo5CZcN6Sd5dHVlw==
-
 stream-exhaust@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/stream-exhaust/-/stream-exhaust-1.0.2.tgz#acdac8da59ef2bc1e17a2c0ccf6c320d120e555d"
@@ -10904,10 +10899,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typeorm@^0.3.6:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.3.7.tgz#5776ed5058f0acb75d64723b39ff458d21de64c1"
-  integrity sha512-MsPJeP6Zuwfe64c++l80+VRqpGEGxf0CkztIEnehQ+CMmQPSHjOnFbFxwBuZ2jiLqZTjLk2ZqQdVF0RmvxNF3Q==
+typeorm@^0.3.11:
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.3.11.tgz#09b6ab0b0574bf33c1faf7344bab6c363cf28921"
+  integrity sha512-pzdOyWbVuz/z8Ww6gqvBW4nylsM0KLdUCDExr2gR20/x1khGSVxQkjNV/3YqliG90jrWzrknYbYscpk8yxFJVg==
   dependencies:
     "@sqltools/formatter" "^1.2.2"
     app-root-path "^3.0.0"
