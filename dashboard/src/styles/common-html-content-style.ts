@@ -17,4 +17,11 @@ export const CommonHTMLContentStyle: Sx = {
       outlineWidth: 0,
     },
   },
+  table: {
+    tr: {
+      'th, td': {
+        padding: '0 .5em',
+      },
+    },
+  },
 };
