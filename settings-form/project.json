@@ -1,5 +1,5 @@
 {
-  "root": "settings-form",
+  "name": "settings-form",
   "projectType": "library",
   "targets": {
     "build": {
