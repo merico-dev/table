@@ -57,7 +57,7 @@ export const ReadOnlyDashboard = observer(
               inUseMode: true,
             }}
           >
-            <Box className={`${className} dashboard-root dashboard-sticky-parent`}>
+            <Box className={`${className} dashboard-root`}>
               <PluginContext.Provider value={pluginContext}>
                 <ServiceLocatorProvider configure={configureServices}>
                   {model.views.visibleViews.map((view) => (
