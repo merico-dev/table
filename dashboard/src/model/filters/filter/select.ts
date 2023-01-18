@@ -33,5 +33,5 @@ export const createFilterConfig_Select = () =>
     default_value: '',
     static_options: [],
     options_query_id: '',
-    select_first_by_default: false,
+    default_selection_count: 0,
   });

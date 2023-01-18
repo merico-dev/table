@@ -53,14 +53,16 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
   }, [data]);
 
   useEffect(() => {
-    if (!config.select_first_by_default) {
+    const { default_selection_count } = config;
+    if (!default_selection_count) {
       return;
     }
-    const newValue = [config.options[0]?.value] ?? [];
+    // TODO: select from first level of treeData
+    const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
-    console.log('Selecting the first option by default. New value: ', newValue);
+    console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, config.options, onChange]);
+  }, [config.default_selection_count, treeData, onChange]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;

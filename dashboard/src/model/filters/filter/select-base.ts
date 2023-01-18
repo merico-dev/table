@@ -20,16 +20,20 @@ export const FilterConfigModel_BaseSelect = types
   .model('FilterConfigModel_BaseSelect', {
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query_id: types.optional(types.string, ''),
-    select_first_by_default: types.optional(types.boolean, false),
+    default_selection_count: types.optional(types.number, 0),
   })
   .views((self) => ({
+    get usingQuery() {
+      return !!self.options_query_id;
+    },
+  }))
+  .views((self) => ({
     get options() {
-      const { options_query_id, static_options } = self;
-      if (!options_query_id) {
-        return static_options;
+      if (!self.usingQuery) {
+        return self.static_options;
       }
       // @ts-expect-error untyped getRoot(self)
-      const { data, state, error } = getRoot(self).getDataStuffByID(options_query_id);
+      const { data, state, error } = getRoot(self).getDataStuffByID(self.options_query_id);
       if (state === 'idle') {
         return data;
       }
@@ -43,11 +47,11 @@ export const FilterConfigModel_BaseSelect = types
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
     },
-    setSelectFirstByDefault(v: boolean) {
-      self.select_first_by_default = v;
+    setDefaultSelectionCount(v: number) {
+      self.default_selection_count = v;
     },
-    setOptionsQueryID(id: string) {
-      self.options_query_id = id;
+    setOptionsQueryID(id: string | null) {
+      self.options_query_id = id ?? '';
     },
   }));
 
