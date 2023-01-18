@@ -34,9 +34,10 @@ const GQMError = ({ error, width, height }: { error: { message: string }; width:
     return <ErrorMessage message={msg} />;
   }
 
+  // 25px is panel's title height, 20px is stack spacing, 30px for scrollbar
+  const h = height - 25 - 20 - 30;
   return (
-    // 25px is panel's title height, 20px is stack spacing
-    <Center sx={{ width, height: height - 25 - 20 }}>
+    <Center sx={{ width: '100%', height: h }}>
       <Stack align="center" spacing={20}>
         <MericoGQMErrorFigure />
         <ErrorMessage message={msg} />
