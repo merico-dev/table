@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Flex, Group, Stack, TextInput } from '@mantine/core';
+import { Divider, Flex, Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { EViewComponentType } from '~/types';
@@ -11,11 +11,12 @@ export const ViewModalConfigFields = observer(() => {
   if (!VIE || VIE.type !== EViewComponentType.Modal) {
     return null;
   }
+  const actualModalTitle = VIE.config.custom_modal_title.enabled ? 'TODO' : VIE.name;
   return (
     <Stack>
       <Divider mt={8} label="Modal settings" labelPosition="center" />
       <Flex gap={10}>
-        <TextInput label="Modal Title" defaultValue="test test" disabled readOnly sx={{ flexGrow: 1 }} />
+        <TextInput label="Modal Title" defaultValue={actualModalTitle} disabled readOnly sx={{ flexGrow: 1 }} />
         <CustomModalTitleField
           value={VIE.config.custom_modal_title}
           onChange={(v: ICustomModalTitle) => {
