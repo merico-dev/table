@@ -13,6 +13,7 @@ Add a `.env` file based on `.env.sample`
 - `ENABLE_AUTH` Whether to add authentication and authorization to routes. 0 = disabled, 1 = enabled
 - `SUPER_ADMIN_PASSWORD` The password which will be configured for the superadmin account during migration. Must be configured before migration is run. If value is not set, password will be 'secret'
 - `DATABASE_CONNECTION_TIMEOUT_MS` for configuration the time after which the db connection will timeout in milliseconds. Default is 30000ms (30 seconds)
+- `DATABASE_POOL_SIZE` for configuration the maximum number of clients in the pool 
 
 Variables for configuring preset ApiKeys. Separate values with ; ex: PRESET_API_KEY_NAME=name1;name2;name3
 
