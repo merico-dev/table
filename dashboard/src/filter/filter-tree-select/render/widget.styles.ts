@@ -120,7 +120,7 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       display: 'none',
     },
     '.rc-tree-select-tree-list .rc-tree-select-tree-list-holder': {
-      maxHeight: '500px !important',
+      // maxHeight: '500px !important'
     },
     '.rc-tree-select-tree-list, .rc-tree-select-empty': {
       backgroundColor: '#fff',
