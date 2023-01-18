@@ -19,14 +19,15 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
   const loading = state === 'loading';
 
   useEffect(() => {
-    if (!config.select_first_by_default) {
+    const { default_selection_count } = config;
+    if (!default_selection_count) {
       return;
     }
-    const newValue = [config.options[0]?.value] ?? [];
+    const newValue = config.options.slice(0, default_selection_count).map((o: any) => o.value);
 
-    console.log('Selecting the first option by default. New value: ', newValue);
+    console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
-  }, [config.select_first_by_default, config.options]); // excluding onChange from deps, since it's always re-created
+  }, [config.default_selection_count, config.options]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;

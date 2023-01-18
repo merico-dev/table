@@ -20,7 +20,7 @@ export const FilterConfigModel_BaseSelect = types
   .model('FilterConfigModel_BaseSelect', {
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query_id: types.optional(types.string, ''),
-    select_first_by_default: types.optional(types.boolean, false),
+    default_selection_count: types.optional(types.number, 0),
   })
   .views((self) => ({
     get options() {
@@ -43,8 +43,8 @@ export const FilterConfigModel_BaseSelect = types
     removeStaticOption(index: number) {
       self.static_options.splice(index, 1);
     },
-    setSelectFirstByDefault(v: boolean) {
-      self.select_first_by_default = v;
+    setDefaultSelectionCount(v: number) {
+      self.default_selection_count = v;
     },
     setOptionsQueryID(id: string | null) {
       self.options_query_id = id ?? '';

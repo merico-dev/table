@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Checkbox, Divider, Group, MultiSelect, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Divider, Group, MultiSelect, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
@@ -80,10 +80,10 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
         Add an Option
       </Button>
       <Divider label="Or fetch options from database" labelPosition="center" />
-      <Checkbox
-        checked={config.select_first_by_default}
-        onChange={(e) => config.setSelectFirstByDefault(e.currentTarget.checked)}
-        label="Select the first option by default"
+      <NumberInput
+        value={config.default_selection_count}
+        onChange={config.setDefaultSelectionCount}
+        label="Select first N options by default"
       />
       <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <ExpectedStructureForSelect />
