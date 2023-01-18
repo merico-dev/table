@@ -5,5 +5,7 @@ export interface ICustomModalTitle {
 
 export const DEFAULT_CUSTOM_MODAL_TITLE = {
   enabled: false,
-  func_content: ['function label(value, index) {', '    // your code goes here', '    // return value', '}'].join('\n'),
+  func_content: ['function text({ filters, context}) {', '    // your code goes here', '    return "text"', '}'].join(
+    '\n',
+  ),
 };
