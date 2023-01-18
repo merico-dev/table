@@ -23,13 +23,17 @@ export const FilterConfigModel_BaseSelect = types
     default_selection_count: types.optional(types.number, 0),
   })
   .views((self) => ({
+    get usingQuery() {
+      return !!self.options_query_id;
+    },
+  }))
+  .views((self) => ({
     get options() {
-      const { options_query_id, static_options } = self;
-      if (!options_query_id) {
-        return static_options;
+      if (!self.usingQuery) {
+        return self.static_options;
       }
       // @ts-expect-error untyped getRoot(self)
-      const { data, state, error } = getRoot(self).getDataStuffByID(options_query_id);
+      const { data, state, error } = getRoot(self).getDataStuffByID(self.options_query_id);
       if (state === 'idle') {
         return data;
       }

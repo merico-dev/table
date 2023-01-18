@@ -1,4 +1,4 @@
-import { Checkbox, Divider, NumberInput, TextInput } from '@mantine/core';
+import { Divider, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { IFilterConfig_TreeSelect } from '../../model/filters/filter/tree-select';
 import { PickQueryForFilter } from '../pick-query-for-filter';
