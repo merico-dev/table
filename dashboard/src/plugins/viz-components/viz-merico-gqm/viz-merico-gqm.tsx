@@ -67,7 +67,11 @@ export function VizMericoGQM({ context }: VizViewProps) {
     );
   }
   if (error) {
-    return <GQMError error={error} width={width} height={height} />;
+    return (
+      <Box sx={BaseStyle} data-enable-scrollbar>
+        <GQMError error={error} width={width} height={height} />
+      </Box>
+    );
   }
 
   if (!data || !Array.isArray(data.replies) || data.replies.length === 0) {
