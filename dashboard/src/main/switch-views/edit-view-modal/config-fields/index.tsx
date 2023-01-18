@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { ViewDivisionConfigFields } from './config.division';
-import { ViewModalConfigFields } from './config.modal';
+import { ViewModalConfigFields } from './modal';
 
 export const ConfigFields = observer(() => {
   return (

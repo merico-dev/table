@@ -1,7 +1,9 @@
-import { Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Flex, Group, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { EViewComponentType } from '~/types';
+import { CustomModalTitleField } from './modal-title-editor';
+import { ICustomModalTitle } from './modal-title-editor/types';
 
 export const ViewModalConfigFields = observer(() => {
   const model = useModelContext();
@@ -12,6 +14,15 @@ export const ViewModalConfigFields = observer(() => {
   return (
     <Stack>
       <Divider mt={8} label="Modal settings" labelPosition="center" />
+      <Flex gap={10}>
+        <TextInput label="Modal Title" defaultValue="test test" disabled readOnly sx={{ flexGrow: 1 }} />
+        <CustomModalTitleField
+          value={VIE.config.custom_modal_title}
+          onChange={(v: ICustomModalTitle) => {
+            VIE.updateConfig('custom_modal_title', v);
+          }}
+        />
+      </Flex>
       <Group grow>
         <TextInput
           label="Width"
