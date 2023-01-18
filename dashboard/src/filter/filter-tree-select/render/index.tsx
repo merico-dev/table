@@ -40,34 +40,36 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const model = useModelContext();
-  const usingRemoteOptions = !!config.options_query_id;
-  const { state, data } = model.getDataStuffByID(config.options_query_id);
+  const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
+
+  const data = config.data;
 
   const treeData = useMemo(() => {
     if (!data) {
       return [];
     }
 
-    // @ts-expect-error typeof data
     const dataWithCustomLabel = addLabelToData(data);
     return queryDataToTree(dataWithCustomLabel);
-  }, [JSON.stringify(data)]); // FIXME: no stringify
+  }, [data]);
 
   useEffect(() => {
     const { default_selection_count } = config;
     if (!default_selection_count) {
       return;
     }
-    const options = cloneDeep(treeData);
-    // TODO: select from first level of treeData
-    const newValue = options.slice(0, default_selection_count).map((o) => o.value);
+    const newValue = cloneDeep(treeData)
+      .slice(0, default_selection_count)
+      .map((o) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
   }, [config.default_selection_count, treeData]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
+
+  const usingRemoteOptions = !!config.options_query_id;
   const disabled = usingRemoteOptions ? loading : false;
   return (
     <FilterTreeSelectWidget
