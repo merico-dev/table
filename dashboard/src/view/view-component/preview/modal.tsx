@@ -20,7 +20,7 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
       styles={{
         root: {
           position: 'relative',
-          height: 'calc(100% - 46px)',
+          height: 'calc(100% - 44px)',
         },
         overlay: {
           // @ts-expect-error absolute !important
@@ -30,10 +30,7 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
           border: '1px solid #efefef',
         },
         body: {
-          '> div': {
-            maxHeight: view.config.height,
-            overflow: 'scroll',
-          },
+          maxHeight: 'calc(100vh - 325px)',
         },
       }}
       withinPortal={false}

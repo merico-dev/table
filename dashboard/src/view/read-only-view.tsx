@@ -6,7 +6,6 @@ import { Filters } from '~/filter';
 import { DashboardActions } from '~/main/actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
-import { useStickyAreaStyle } from '~/main/use-sticky-area-style';
 import { ViewModelInstance } from '..';
 import { ReadOnlyDashboardLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
@@ -27,7 +26,6 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({
     fullScreenPanelID,
     setFullScreenPanelID,
   );
-  useStickyAreaStyle();
   return (
     <DashboardActionContext.Provider
       value={{
@@ -46,9 +44,9 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
         {!inFullScreen && <DashboardActions saveChanges={_.noop} />}
         <RenderViewComponent view={view}>
-          <Box className="dashboard-sticky-parent">
+          <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (
-              <Box className="dashboard-sticky-area">
+              <Box className="dashboard-sticky-area" sx={{ position: 'sticky', top: '0px' }}>
                 <Filters view={view} />
               </Box>
             )}

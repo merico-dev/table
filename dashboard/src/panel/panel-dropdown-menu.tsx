@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
-import { ViewModelInstance } from '..';
+import { EViewComponentType, ViewModelInstance } from '..';
 import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
@@ -39,6 +39,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
   const enterFullScreen = React.useCallback(() => {
     viewPanelInFullScreen(id);
   }, [id, viewPanelInFullScreen]);
+  const showFullScreenOption = !inFullScreen && view.type !== EViewComponentType.Modal;
   return (
     <>
       <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }}>
@@ -53,7 +54,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
             <Menu.Item onClick={() => model.queries.downloadDataByQueryID(query)} icon={<Download size={14} />}>
               Download Data
             </Menu.Item>
-            {!inFullScreen && (
+            {showFullScreenOption && (
               <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>
                 Full Screen
               </Menu.Item>

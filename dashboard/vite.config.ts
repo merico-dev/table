@@ -87,7 +87,6 @@ export default defineConfig({
         'react-grid-layout',
         'react-hook-form',
         'react-virtual',
-        'stickybits',
         'tabler-icons-react',
       ],
       output: {
@@ -144,7 +143,6 @@ export default defineConfig({
           'react-grid-layout': 'react-grid-layout',
           'react-hook-form': 'react-hook-form',
           'react-virtual': 'react-virtual',
-          stickybits: 'stickybits',
           'tabler-icons-react': 'tabler-icons-react',
         },
       },
