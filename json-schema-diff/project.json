@@ -1,0 +1,34 @@
+{
+  "name": "json-schema-diff",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "json-schema-diff/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/./json-schema-diff",
+        "main": "json-schema-diff/src/index.ts",
+        "tsConfig": "json-schema-diff/tsconfig.lib.json",
+        "assets": ["json-schema-diff/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["json-schema-diff/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/json-schema-diff"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../coverage/json-schema-diff"
+      }
+    }
+  },
+  "tags": []
+}
