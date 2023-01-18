@@ -2,6 +2,7 @@ import { Box, Center, LoadingOverlay, Stack, Sx, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
+import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { MericoGQMErrorFigure } from './error-figure';
@@ -11,19 +12,7 @@ import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 const BaseStyle: Sx = {
   height: '100%',
   overflowY: 'scroll',
-  ul: { paddingLeft: '2em', margin: '6px 0 0' },
-  p: { margin: 0 },
-  a: {
-    WebkitTapHighlightColor: 'transparent',
-    color: 'rgb(34, 139, 230)',
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-    '&:active, &:hover': {
-      outlineWidth: 0,
-    },
-  },
+  ...CommonHTMLContentStyle,
 };
 
 const ErrorMessage = ({ message }: { message: string }) => {
@@ -45,9 +34,10 @@ const GQMError = ({ error, width, height }: { error: { message: string }; width:
     return <ErrorMessage message={msg} />;
   }
 
+  // 25px is panel's title height, 20px is stack spacing, 30px for scrollbar
+  const h = height - 25 - 20 - 30;
   return (
-    // 25px is panel's title height, 20px is stack spacing
-    <Center sx={{ width, height: height - 25 - 20 }}>
+    <Center sx={{ width: '100%', height: h }}>
       <Stack align="center" spacing={20}>
         <MericoGQMErrorFigure />
         <ErrorMessage message={msg} />
@@ -78,7 +68,11 @@ export function VizMericoGQM({ context }: VizViewProps) {
     );
   }
   if (error) {
-    return <GQMError error={error} width={width} height={height} />;
+    return (
+      <Box sx={BaseStyle} data-enable-scrollbar>
+        <GQMError error={error} width={width} height={height} />
+      </Box>
+    );
   }
 
   if (!data || !Array.isArray(data.replies) || data.replies.length === 0) {
@@ -88,11 +82,7 @@ export function VizMericoGQM({ context }: VizViewProps) {
   return (
     <Box sx={BaseStyle} data-enable-scrollbar>
       {data.replies.map((r, i) => (
-        <div
-          key={i}
-          dangerouslySetInnerHTML={{ __html: r.interpretation.html }}
-          style={{ fontSize: '14px', lineHeight: '32px', color: '#3D3E45' }}
-        />
+        <div key={i} dangerouslySetInnerHTML={{ __html: r.interpretation.html }} />
       ))}
     </Box>
   );

@@ -9,6 +9,9 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import _ from 'lodash';
+import { useMemo } from 'react';
+import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 
 interface IReadonlyRichText {
   value: string;
@@ -33,8 +36,12 @@ export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
     editable: false,
   });
 
+  const finalStyles = useMemo(() => {
+    return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
+  }, [styles]);
+
   return (
-    <RichTextEditor editor={editor} styles={styles}>
+    <RichTextEditor editor={editor} styles={finalStyles}>
       <RichTextEditor.Content />
     </RichTextEditor>
   );

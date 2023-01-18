@@ -9,7 +9,9 @@ import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { forwardRef, useEffect } from 'react';
+import _ from 'lodash';
+import { forwardRef, useEffect, useMemo } from 'react';
+import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 
 interface ICustomRichTextEditor {
   value: string;
@@ -41,8 +43,12 @@ export const CustomRichTextEditor = forwardRef(({ value, onChange, styles = {} }
     editor?.commands.setContent(value);
   }, [value, editor]);
 
+  const finalStyles = useMemo(() => {
+    return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
+  }, [styles]);
+
   return (
-    <RichTextEditor editor={editor} styles={styles}>
+    <RichTextEditor editor={editor} styles={finalStyles}>
       <RichTextEditor.Toolbar sticky stickyOffset={60}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.ColorPicker
