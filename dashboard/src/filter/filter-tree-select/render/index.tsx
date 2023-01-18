@@ -1,4 +1,6 @@
 import { Stack, Text } from '@mantine/core';
+import { useWhyDidYouUpdate } from 'ahooks';
+import { cloneDeep } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
@@ -50,19 +52,20 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
     // @ts-expect-error typeof data
     const dataWithCustomLabel = addLabelToData(data);
     return queryDataToTree(dataWithCustomLabel);
-  }, [data]);
+  }, [JSON.stringify(data)]); // FIXME: no stringify
 
   useEffect(() => {
     const { default_selection_count } = config;
     if (!default_selection_count) {
       return;
     }
+    const options = cloneDeep(treeData);
     // TODO: select from first level of treeData
-    const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
+    const newValue = options.slice(0, default_selection_count).map((o) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
-  }, [config.default_selection_count, treeData, onChange]);
+  }, [config.default_selection_count, treeData]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
