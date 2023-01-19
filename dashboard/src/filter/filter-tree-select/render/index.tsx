@@ -60,9 +60,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       onChange([]);
       return;
     }
-    const newValue = cloneDeep(treeData)
-      .slice(0, default_selection_count)
-      .map((o) => o.value);
+    const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
