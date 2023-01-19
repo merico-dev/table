@@ -3,16 +3,18 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { ViewModelInstance } from '~/model';
+import { IViewConfigModel_Modal } from '~/model/views/view/modal';
 
 export const PreviewViewModal = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+  const config = view.config as IViewConfigModel_Modal;
   return (
     <Modal
-      size={view.config.width}
+      size={config.width}
       overflow="inside"
       opened={true}
       onClose={_.noop}
       withCloseButton={false}
-      title={view.name}
+      title={config.custom_modal_title.value}
       trapFocus
       onDragStart={(e) => {
         e.stopPropagation();

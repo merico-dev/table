@@ -3,20 +3,22 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
+import { IViewConfigModel_Modal } from '~/model/views/view/modal';
 
 export const RenderViewModal = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const model = useModelContext();
+  const config = view.config as IViewConfigModel_Modal;
   const opened = model.views.visibleViewIDs.includes(view.id);
   const close = () => model.views.rmVisibleViewID(view.id);
   return (
     <Modal
-      size={view.config.width}
+      size={config.width}
       centered
       overflow="inside"
       opened={opened}
       onClose={close}
       withCloseButton={false}
-      title={view.name}
+      title={config.custom_modal_title.value}
       trapFocus
       onDragStart={(e) => {
         e.stopPropagation();
@@ -26,7 +28,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
           border: '1px solid #efefef',
         },
         body: {
-          maxHeight: view.config.height,
+          maxHeight: config.height,
           overflow: 'scroll',
         },
       }}

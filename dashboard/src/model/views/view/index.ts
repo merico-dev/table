@@ -1,13 +1,15 @@
 import { Instance, types } from 'mobx-state-tree';
 import { EViewComponentType } from '~/types';
+import { ViewConfigModel_Division, createViewConfig_Division } from './division';
+import { ViewConfigModel_Modal, createViewConfig_Modal } from './modal';
 import { PanelsModel } from './panels';
 
 export const ViewModel = types
   .model({
     id: types.identifier,
     name: types.string,
-    type: types.string,
-    config: types.frozen(),
+    type: types.enumeration('EViewComponentType', [EViewComponentType.Division, EViewComponentType.Modal]),
+    config: types.union(ViewConfigModel_Division, ViewConfigModel_Modal),
     panels: PanelsModel,
   })
   .views((self) => ({
@@ -17,7 +19,7 @@ export const ViewModel = types
         id,
         name,
         type,
-        config,
+        config: config.json,
         panels: self.panels.json,
       };
     },
@@ -30,24 +32,15 @@ export const ViewModel = types
       if (self.type === type) {
         return;
       }
-      if (type === EViewComponentType.Modal) {
-        self.config = {
-          width: '600px',
-          height: '400px',
-        };
-      } else {
-        self.config = {};
+      switch (type) {
+        case EViewComponentType.Division:
+          self.config = createViewConfig_Division();
+          break;
+        case EViewComponentType.Modal:
+          self.config = createViewConfig_Modal();
+          break;
       }
       self.type = type;
-    },
-    setConfig(config: Record<string, any>) {
-      self.config = config;
-    },
-    updateConfig(key: string, value: $TSFixMe) {
-      self.config = {
-        ...self.config,
-        [key]: value,
-      };
     },
   }))
   .actions((self) => ({}));
