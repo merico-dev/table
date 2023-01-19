@@ -13,6 +13,9 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
   const [value, setValue] = React.useState(defaultValue);
 
   React.useEffect(() => {
+    if (!filter.usingDefaultValue) {
+      return;
+    }
     setValue(defaultValue);
   }, [defaultValue]);
 
