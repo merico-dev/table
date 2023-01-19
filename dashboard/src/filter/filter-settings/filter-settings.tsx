@@ -50,6 +50,7 @@ export const FilterSettings = observer(function _FilterSettings() {
             display: 'block',
           },
         }}
+        keepMounted={false}
       >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
