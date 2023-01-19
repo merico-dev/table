@@ -1,5 +1,4 @@
-import { Stack, Text } from '@mantine/core';
-import { useWhyDidYouUpdate } from 'ahooks';
+import { Text } from '@mantine/core';
 import { cloneDeep } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
@@ -40,23 +39,25 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const model = useModelContext();
-  const { state } = model.getDataStuffByID(config.options_query_id);
+  const { state, dataProxy, len } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
-  const data = config.data;
-
   const treeData = useMemo(() => {
-    if (!data) {
+    if (!dataProxy) {
       return [];
     }
-
+    const data: any[] = [...dataProxy];
     const dataWithCustomLabel = addLabelToData(data);
     return queryDataToTree(dataWithCustomLabel);
-  }, [data]);
+  }, [dataProxy, len]);
 
   useEffect(() => {
     const { default_selection_count } = config;
     if (!default_selection_count) {
+      return;
+    }
+    if (treeData.length === 0) {
+      onChange([]);
       return;
     }
     const newValue = cloneDeep(treeData)

@@ -1,4 +1,4 @@
-import { getRoot, cast, Instance, types } from 'mobx-state-tree';
+import { cast, Instance, types } from 'mobx-state-tree';
 import { FilterConfigModel_BaseSelect } from './select-base';
 
 export const FilterConfigModel_TreeSelect = types
@@ -11,13 +11,6 @@ export const FilterConfigModel_TreeSelect = types
     }),
     FilterConfigModel_BaseSelect,
   )
-  .views((self) => ({
-    get data() {
-      // @ts-expect-error getRoot type
-      const { data } = getRoot(self).getDataStuffByID(self.options_query_id);
-      return data;
-    },
-  }))
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {
       self.default_value = cast(default_value);
