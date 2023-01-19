@@ -6,7 +6,8 @@
     "api",
     "dashboard",
     "settings-form",
-    "website"
+    "website",
+    "json-schema-diff"
   ],
   "devDependencies": {
     "@nrwl/devkit": "15.5.2",
