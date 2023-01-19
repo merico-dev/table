@@ -1,4 +1,5 @@
-import { Stack, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
+import { cloneDeep } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
@@ -38,33 +39,36 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const model = useModelContext();
-  const usingRemoteOptions = !!config.options_query_id;
-  const { state, data } = model.getDataStuffByID(config.options_query_id);
+  const { state, dataProxy, len } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
   const treeData = useMemo(() => {
-    if (!data) {
+    if (!dataProxy) {
       return [];
     }
-
-    // @ts-expect-error typeof data
+    const data: any[] = [...dataProxy];
     const dataWithCustomLabel = addLabelToData(data);
     return queryDataToTree(dataWithCustomLabel);
-  }, [data]);
+  }, [dataProxy, len]);
 
   useEffect(() => {
     const { default_selection_count } = config;
     if (!default_selection_count) {
       return;
     }
-    // TODO: select from first level of treeData
+    if (treeData.length === 0) {
+      onChange([]);
+      return;
+    }
     const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
     onChange(newValue);
-  }, [config.default_selection_count, treeData, onChange]);
+  }, [config.default_selection_count, treeData]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
+
+  const usingRemoteOptions = !!config.options_query_id;
   const disabled = usingRemoteOptions ? loading : false;
   return (
     <FilterTreeSelectWidget

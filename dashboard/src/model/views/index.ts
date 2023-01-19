@@ -1,7 +1,9 @@
 import { randomId } from '@mantine/hooks';
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { AnyObject, EViewComponentType, IDashboardView } from '~/types';
+import { EViewComponentType, IDashboardView } from '~/types';
 import { ViewModel, ViewModelInstance } from './view';
+import { IViewConfigModel_DivisionIn } from './view/division';
+import { IViewConfigModel_ModalIn } from './view/modal';
 
 export const ViewsModel = types
   .model('ViewsModel', {
@@ -46,7 +48,11 @@ export const ViewsModel = types
       replace(current: Array<ViewModelInstance>) {
         self.current.replace(current);
       },
-      addANewView(id: string, type: EViewComponentType, config: AnyObject) {
+      addANewView(
+        id: string,
+        type: EViewComponentType,
+        config: IViewConfigModel_DivisionIn | IViewConfigModel_ModalIn,
+      ) {
         self.current.push({
           id,
           name: id,
@@ -92,7 +98,7 @@ export const ViewsModel = types
   .actions((self) => ({
     addARandomNewView() {
       const id = randomId();
-      self.addANewView(id, EViewComponentType.Division, {});
+      self.addANewView(id, EViewComponentType.Division, { _name: EViewComponentType.Division });
       self.setIDOfVIE(id);
     },
     removeVIE() {
@@ -116,12 +122,19 @@ export * from './view';
 export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const idOfVIE = views.length > 0 ? views[0].id : '';
-  const processedViews = views.map((view) => ({
-    ...view,
-    panels: {
-      list: view.panels,
-    },
-  }));
+  const processedViews = views.map((view) => {
+    const { _name = view.type } = view.config;
+    return {
+      ...view,
+      config: {
+        ...view.config,
+        _name,
+      },
+      panels: {
+        list: view.panels,
+      },
+    };
+  });
   return {
     current: processedViews,
     visibleViewIDs,

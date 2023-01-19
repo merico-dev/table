@@ -40,6 +40,9 @@ export const FilterModel = types
       }
       return v;
     },
+    get usingDefaultValue() {
+      return self.type !== DashboardFilterType.TreeSelect;
+    },
   }))
   .actions((self) => ({
     setKey(key: string) {
