@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import { cloneDeep, omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
@@ -40,8 +42,19 @@ function updateToSchema4(legacyConf: $TSFixMe): IBoxplotChartConf {
   };
 }
 
+function v5(legacyConf: $TSFixMe): IBoxplotChartConf {
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -68,6 +81,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 4, config: updateToSchema4(config) };
     });
+    this.version(5, (data) => {
+      const { config } = data;
+      return { ...data, version: 5, config: v5(config) };
+    });
   }
 }
 
@@ -79,7 +96,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartPanel,
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },

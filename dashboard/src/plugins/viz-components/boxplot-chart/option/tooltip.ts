@@ -1,19 +1,21 @@
 import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
+import { getXAxisLabelStyleInTooltip } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { IBoxplotChartConf } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 
-function getScatterTooltipContent(value: [string, number]) {
+function getScatterTooltipContent(config: IBoxplotChartConf, value: [string, number]) {
+  const xAxisLabelStyle = getXAxisLabelStyleInTooltip(config.x_axis.axisLabel.overflow);
   const template = `
+    <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+      <div style="${xAxisLabelStyle}">${value[0]}</div>
+    </div>
     <table>
-    <thead>
-      <th colspan="2" style="text-align: left;">${value[0]}</th>
-    </thead>
       <tbody>
         <tr>
-          <th style="text-align: left;">Outlier</th>
-          <td style="text-align: right;">${value[1]}</td>
+          <th style="text-align: right; padding: 0 1em;">Outlier</th>
+          <td style="text-align: left; padding: 0 1em;">${value[1]}</td>
         </tr>
       </tbody>
     </table>
@@ -25,26 +27,25 @@ const getFormatter = (config: IBoxplotChartConf) => (params: AnyObject) => {
   const { componentSubType, value } = params;
 
   if (componentSubType === 'scatter') {
-    return getScatterTooltipContent(value as [string, number]);
+    return getScatterTooltipContent(config, value as [string, number]);
   }
 
   const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {
     return `
     <tr>
-      <th style="text-align: left;">${_.capitalize(key)}</th>
-      <td style="text-align: right;">
+      <th style="text-align: right; padding: 0 1em;">${_.capitalize(key)}</th>
+      <td style="text-align: left; padding: 0 1em;">
         ${numbro(value[key]).format(config.y_axis.label_formatter)}
       </td>
     </tr>`;
   });
 
+  const xAxisLabelStyle = getXAxisLabelStyleInTooltip(config.x_axis.axisLabel.overflow);
   const template = `
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2" style="text-align: left;">${value.name}</th>
-        </tr>
-      </thead>
+    <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+      <div style="${xAxisLabelStyle}">${value.name}</div>
+    </div>
+    <table style="width: auto">
       <tbody>
         ${lines.join('')}
       </tbody>
