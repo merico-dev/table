@@ -78,7 +78,7 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       metrics.push(...additionalMetrics);
 
       const template = `
-      <table>
+      <table style="width: auto">
         <thead><tr>${headers.join('')}</tr></thead>
         <tbody>${metrics.join('')}</tbody>
       </table>

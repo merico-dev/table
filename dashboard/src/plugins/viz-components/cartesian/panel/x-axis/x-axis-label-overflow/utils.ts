@@ -18,5 +18,11 @@ export function getXAxisLabelStyleInTooltip(overflow: IXAxisLabelOverflow) {
 
   const whiteSpace = tooltip.overflow === 'truncate' ? 'nowrap' : 'initial';
 
-  return `max-width: ${tooltip.width}px; word-break: ${wordBreak}; white-space: ${whiteSpace}; overflow: hidden; text-overflow: ellipsis`;
+  return `
+    max-width: ${tooltip.width}px;
+    word-break: ${wordBreak};
+    white-space: ${whiteSpace};
+    overflow: hidden;
+    text-overflow: ellipsis
+  `;
 }
