@@ -4,6 +4,7 @@ import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
@@ -51,8 +52,19 @@ function v5(legacyConf: $TSFixMe): IParetoChartConf {
   };
 }
 
+function v6(legacyConf: $TSFixMe): IParetoChartConf {
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 5;
+  readonly VERSION = 6;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -89,6 +101,13 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: v5(data.config),
       };
     });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: v6(data.config),
+      };
+    });
   }
 }
 
@@ -100,7 +119,7 @@ export const ParetoChartVizComponent: VizComponent = {
   configRender: VizParetoChartPanel,
   createConfig() {
     return {
-      version: 5,
+      version: 6,
       config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
     };
   },

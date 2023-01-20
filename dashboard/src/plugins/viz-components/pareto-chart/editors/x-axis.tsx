@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { XAxisLabelFormatterField } from '../../cartesian/panel/x-axis/x-axis-label-formatter';
+import { XAxisLabelOverflowField } from '../../cartesian/panel/x-axis/x-axis-label-overflow';
 import { IParetoChartConf } from '../type';
 
 interface IXAxisField {
@@ -58,6 +59,11 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
         />
       </Group>
+      <Controller
+        name="x_axis.axisLabel.overflow"
+        control={control}
+        render={({ field }) => <XAxisLabelOverflowField {...field} />}
+      />
     </Stack>
   );
 }

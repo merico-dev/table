@@ -1,8 +1,10 @@
 import { getEchartsXAxisLabel } from '../../cartesian/panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getXAxisLabelOptionInXAxis } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { IParetoChartConf } from '../type';
 
 export function getXAxis(conf: IParetoChartConf) {
   const { name, axisLabel } = conf.x_axis;
+  const overflowOption = getXAxisLabelOptionInXAxis(axisLabel.overflow);
   return [
     {
       type: 'category',
@@ -22,6 +24,7 @@ export function getXAxis(conf: IParetoChartConf) {
       },
       axisLabel: {
         ...axisLabel,
+        ...overflowOption,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
     },
