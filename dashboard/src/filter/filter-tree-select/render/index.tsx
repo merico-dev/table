@@ -72,6 +72,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
   const disabled = usingRemoteOptions ? loading : false;
   return (
     <FilterTreeSelectWidget
+      disabled={disabled}
       style={{ minWidth, maxWidth: disabled ? minWidth : 'unset', borderColor: '#e9ecef' }}
       value={value}
       onChange={onChange}

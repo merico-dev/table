@@ -109,6 +109,14 @@ export default createStyles((theme, { radius = 4 }: TreeSelectWidgetStylesParams
       alignSelf: 'center',
       cursor: 'pointer',
     },
+    '&.rc-tree-select-disabled': {
+      backgroundColor: 'rgb(241, 243, 245)',
+      color: 'rgb(144, 146, 150)',
+      opacity: 0.6,
+      '&, .rc-tree-select-selector, input': {
+        cursor: 'not-allowed',
+      },
+    },
   },
   label: { fontSize: theme.fontSizes.sm, fontWeight: 500, color: '#212529' },
 
