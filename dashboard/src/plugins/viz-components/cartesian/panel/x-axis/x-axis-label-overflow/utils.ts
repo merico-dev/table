@@ -1,6 +1,6 @@
 import { IXAxisLabelOverflow } from './types';
 
-export function getXAxisLabelOptionInXAxis({ x_axis }: IXAxisLabelOverflow) {
+export function getXAxisLabelOptionInXAxis(x_axis: IXAxisLabelOverflow['x_axis']) {
   return {
     width: x_axis.width,
     overflow: x_axis.overflow,
@@ -8,21 +8,26 @@ export function getXAxisLabelOptionInXAxis({ x_axis }: IXAxisLabelOverflow) {
   };
 }
 
-export function getXAxisLabelStyleInTooltip(overflow: IXAxisLabelOverflow) {
-  const { tooltip, x_axis } = overflow;
+export function getXAxisLabelStyleInTooltip(tooltip: IXAxisLabelOverflow['tooltip']) {
   const wordBreak = {
     truncate: 'initial',
-    break: 'break-line',
+    break: 'break-all',
     breakAll: 'break-word',
   }[tooltip.overflow];
 
   const whiteSpace = tooltip.overflow === 'truncate' ? 'nowrap' : 'initial';
+
+  const textOverflow = {
+    truncate: 'ellipsis',
+    break: 'clip',
+    breakAll: 'clip',
+  }[tooltip.overflow];
 
   return `
     max-width: ${tooltip.width}px;
     word-break: ${wordBreak};
     white-space: ${whiteSpace};
     overflow: hidden;
-    text-overflow: ellipsis
+    text-overflow: ${textOverflow};
   `;
 }

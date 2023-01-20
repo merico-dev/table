@@ -51,7 +51,7 @@ export function getTooltip(
         `;
       });
 
-      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow);
+      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow.tooltip);
       const xAxisLabel = getXAxisLabel(arr, conf);
       return `
       <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">

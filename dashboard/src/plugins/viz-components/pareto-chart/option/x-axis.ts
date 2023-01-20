@@ -4,7 +4,7 @@ import { IParetoChartConf } from '../type';
 
 export function getXAxis(conf: IParetoChartConf) {
   const { name, axisLabel } = conf.x_axis;
-  const overflowOption = getXAxisLabelOptionInXAxis(axisLabel.overflow);
+  const overflowOption = getXAxisLabelOptionInXAxis(axisLabel.overflow.x_axis);
   return [
     {
       type: 'category',

@@ -5,7 +5,7 @@ import { ICartesianChartConf } from '../type';
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
-  const overflowOption = getXAxisLabelOptionInXAxis(overflow);
+  const overflowOption = getXAxisLabelOptionInXAxis(overflow.x_axis);
   return [
     {
       data: xAxisData,

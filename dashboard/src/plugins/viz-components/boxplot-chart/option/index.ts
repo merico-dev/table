@@ -78,7 +78,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
   const outliersData = boxplotData.map((b) => b.outliers).flat();
 
-  const overflowOption = getXAxisLabelOptionInXAxis(x_axis.axisLabel.overflow);
+  const overflowOption = getXAxisLabelOptionInXAxis(x_axis.axisLabel.overflow.x_axis);
   return {
     dataset: [
       {
