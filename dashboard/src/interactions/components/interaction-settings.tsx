@@ -1,4 +1,4 @@
-import { Alert, Button, Group, LoadingOverlay, Stack } from '@mantine/core';
+import { ActionIcon, Alert, Button, Group, LoadingOverlay, Stack } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { useAsyncEffect, useCreation, useRequest } from 'ahooks';
 import { throttle } from 'lodash';
@@ -64,9 +64,9 @@ const InteractionItem = observer(
             variables={operationVariables}
             operationManager={manager.operationManager}
           />
-          <Button aria-label="delete-interaction" variant="outline" color="red" onClick={() => onRemove(item)}>
-            <Trash />
-          </Button>
+          <ActionIcon aria-label="delete-interaction" variant="filled" color="red" onClick={() => onRemove(item)}>
+            <Trash size={16} />
+          </ActionIcon>
         </Group>
       );
     }
