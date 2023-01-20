@@ -33,7 +33,6 @@ export function getTooltip(
       if (arr.length === 0) {
         return '';
       }
-      const xAxisLabel = getXAxisLabel(arr, conf);
       const lines = arr.map(({ seriesName, value }) => {
         if (Array.isArray(value) && value.length === 2) {
           // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
@@ -45,17 +44,18 @@ export function getTooltip(
         const yAxisIndex = yAxisIndexMap[seriesName];
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
         return `
-          <tr>
+        <tr>
             <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
             <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
-          </tr>
+            </tr>
         `;
       });
 
       const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow);
+      const xAxisLabel = getXAxisLabel(arr, conf);
       return `
-      <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd; ${xAxisLabelStyle}">
-        ${xAxisLabel}
+      <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+        <div style="${xAxisLabelStyle}">${xAxisLabel}</div>
       </div>
       <table style="width: auto">
         <tbody>

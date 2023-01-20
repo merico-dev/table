@@ -26,8 +26,8 @@ const getTooltipFormatter = (conf: IParetoChartConf, formatters: TParetoFormatte
   const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow);
   const xAxisLabel = arr[0].name;
   return `
-    <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd; ${xAxisLabelStyle}">
-      ${xAxisLabel}
+    <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+      <div style="${xAxisLabelStyle}">${xAxisLabel}</div>
     </div>
     <table style="width: auto">
       <tbody>
