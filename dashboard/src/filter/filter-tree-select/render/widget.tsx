@@ -28,9 +28,11 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   value: string[];
   onChange: (v: string[]) => void;
   treeData: $TSFixMe;
+  disabled: boolean;
 }
 
 export const FilterTreeSelectWidget = ({
+  disabled,
   // styling props
   classNames,
   styles,
@@ -61,6 +63,7 @@ export const FilterTreeSelectWidget = ({
         )}
       </Group>
       <TreeSelect
+        disabled={disabled}
         allowClear
         className={cx(classes.root, 'check-select')}
         dropdownClassName={cx(classes.dropdown, '')}

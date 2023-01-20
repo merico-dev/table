@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { IScatterChartConf } from '../../type';
+import { ScatterLabelOverflowField } from './label-overflow';
 import { ScatterSizeSelect } from './scatter-size-select';
 
 const labelPositions = [
@@ -69,6 +70,11 @@ export function ScatterField({ data, control, watch }: IScatterField) {
           render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
         />
       </Group>
+      <Controller
+        name={`scatter.label_overflow`}
+        control={control}
+        render={({ field }) => <ScatterLabelOverflowField {...field} />}
+      />
     </Stack>
   );
 }

@@ -4,6 +4,10 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import {
+  DEFAULT_X_AXIS_LABEL_OVERFLOW,
+  IXAxisLabelOverflow,
+} from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
@@ -17,6 +21,7 @@ export interface IParetoChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
+      overflow: IXAxisLabelOverflow;
     };
   };
   data_key: string;
@@ -43,6 +48,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
     },
   },
   data_key: 'value',

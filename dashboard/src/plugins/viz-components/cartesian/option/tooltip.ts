@@ -1,6 +1,7 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getXAxisLabelStyleInTooltip } from '../panel/x-axis/x-axis-label-overflow/utils';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 
@@ -32,7 +33,6 @@ export function getTooltip(
       if (arr.length === 0) {
         return '';
       }
-      const xAxisLabel = getXAxisLabel(arr, conf);
       const lines = arr.map(({ seriesName, value }) => {
         if (Array.isArray(value) && value.length === 2) {
           // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
@@ -44,16 +44,20 @@ export function getTooltip(
         const yAxisIndex = yAxisIndexMap[seriesName];
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
         return `
-          <tr>
+        <tr>
             <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
             <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
-          </tr>
+            </tr>
         `;
       });
 
+      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow.tooltip);
+      const xAxisLabel = getXAxisLabel(arr, conf);
       return `
-      <table>
-        <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">${xAxisLabel}</caption>
+      <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+        <div style="${xAxisLabelStyle}">${xAxisLabel}</div>
+      </div>
+      <table style="width: auto">
         <tbody>
           ${lines.join('')}
         </tbody>

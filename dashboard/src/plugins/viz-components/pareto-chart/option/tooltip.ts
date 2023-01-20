@@ -1,8 +1,9 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
+import { getXAxisLabelStyleInTooltip } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { IParetoChartConf } from '../type';
 import { TParetoFormatters } from './utils';
 
-const getTooltipFormatter = (formatters: TParetoFormatters) => (params: CallbackDataParams) => {
+const getTooltipFormatter = (conf: IParetoChartConf, formatters: TParetoFormatters) => (params: CallbackDataParams) => {
   const arr = Array.isArray(params) ? params : [params];
   if (arr.length === 0) {
     return '';
@@ -22,11 +23,13 @@ const getTooltipFormatter = (formatters: TParetoFormatters) => (params: Callback
     </tr>
   `;
   });
+  const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow.tooltip);
+  const xAxisLabel = arr[0].name;
   return `
-    <table>
-      <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
-        ${arr[0].name}
-      </caption>
+    <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
+      <div style="${xAxisLabelStyle}">${xAxisLabel}</div>
+    </div>
+    <table style="width: auto">
       <tbody>
         ${lines.join('')}
       </tbody>
@@ -37,6 +40,6 @@ const getTooltipFormatter = (formatters: TParetoFormatters) => (params: Callback
 export function getTooltip(conf: IParetoChartConf, formatters: TParetoFormatters) {
   return {
     trigger: 'axis',
-    formatter: getTooltipFormatter(formatters),
+    formatter: getTooltipFormatter(conf, formatters),
   };
 }

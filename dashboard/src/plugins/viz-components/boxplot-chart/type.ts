@@ -3,6 +3,10 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import {
+  DEFAULT_X_AXIS_LABEL_OVERFLOW,
+  IXAxisLabelOverflow,
+} from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -17,6 +21,7 @@ export interface IBoxplotChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
+      overflow: IXAxisLabelOverflow;
     };
   };
   y_axis: {
@@ -35,6 +40,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
     },
   },
   y_axis: {
