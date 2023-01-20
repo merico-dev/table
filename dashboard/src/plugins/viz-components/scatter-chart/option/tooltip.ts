@@ -1,6 +1,7 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
+import { getXAxisLabelStyleInTooltip } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
 
@@ -39,10 +40,15 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       }
       const xAxisLabel = getXAxisLabel(arr, conf);
 
+      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip);
       const headers = arr.map(
         // @ts-expect-error type of value
         ({ value }: { value: AnyObject }) =>
-          `<th style="text-align: right; padding-right: 1em">${value[scatter.name_data_key]}</th>`,
+          `
+          <th style="text-align: right; padding-right: 1em">
+            <div style="${xAxisLabelStyle}">${value[scatter.name_data_key]}</div>
+          </th>
+          `,
       );
       headers.unshift('<th></th>');
 
@@ -56,9 +62,10 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
           ${arr
             // @ts-expect-error type of value
             .map(({ value }: { value: AnyObject }) => {
-              return `<td style="text-align: right; padding: 0 1em;">${yLabelFormatter(
-                value[scatter.y_data_key],
-              )}</td>`;
+              return `
+              <td style="text-align: right; padding: 0 1em;">
+                ${yLabelFormatter(value[scatter.y_data_key])}
+              </td>`;
             })
             .join('')}
         </tr>`,

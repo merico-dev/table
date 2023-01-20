@@ -1,11 +1,11 @@
+import _, { cloneDeep } from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+import { ClickScatterChartSeries } from './triggers';
+import { DEFAULT_CONFIG, DEFAULT_SCATTER_CHART_LABEL_OVERFLOW, IScatterChartConf } from './type';
 import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartPanel } from './viz-scatter-chart-panel';
-import { DEFAULT_CONFIG, IScatterChartConf } from './type';
-import { ClickScatterChartSeries } from './triggers';
-import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
-import { cloneDeep } from 'lodash';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -15,8 +15,17 @@ function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   };
 }
 
+function v4(legacyConf: $TSFixMe): IScatterChartConf {
+  const patch = {
+    scatter: {
+      label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -43,6 +52,10 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
         config: updateToSchema3(data.config),
       };
     });
+    this.version(4, (data) => {
+      const { config } = data;
+      return { ...data, version: 5, config: v4(config) };
+    });
   }
 }
 
@@ -54,7 +67,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartPanel,
   createConfig() {
     return {
-      version: 3,
+      version: 4,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },

@@ -1,5 +1,6 @@
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_X_AXIS_LABEL_OVERFLOW, IOverflow } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
 import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
@@ -9,6 +10,11 @@ export interface IScatterTooltipMetric {
   id: string;
   data_key: string;
   name: string;
+}
+
+export interface IScatterLabelOverflow {
+  label: IOverflow;
+  tooltip: IOverflow;
 }
 
 export interface IScatterChartConf {
@@ -27,6 +33,7 @@ export interface IScatterChartConf {
     symbolSize: TScatterSize;
     label_position: string;
     color: string;
+    label_overflow: IScatterLabelOverflow;
   };
   stats: {
     templates: {
@@ -42,6 +49,11 @@ export interface IScatterChartConf {
   dataZoom: TEchartsDataZoomConfig;
 }
 
+export const DEFAULT_SCATTER_CHART_LABEL_OVERFLOW = {
+  label: DEFAULT_X_AXIS_LABEL_OVERFLOW.x_axis,
+  tooltip: DEFAULT_X_AXIS_LABEL_OVERFLOW.tooltip,
+};
+
 export const DEFAULT_CONFIG: IScatterChartConf = {
   scatter: {
     y_data_key: '',
@@ -52,6 +64,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     },
     color: '#000000',
     label_position: 'right',
+    label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
   },
   stats: {
     templates: {
