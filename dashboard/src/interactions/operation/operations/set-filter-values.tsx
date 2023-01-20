@@ -1,6 +1,5 @@
-import { ActionIcon, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Flex, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
 import { Trash } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
@@ -44,18 +43,18 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
     });
   };
 
-  console.log(model.filters.values);
   return (
     <Stack spacing={10}>
       <Text>Mapping Rules</Text>
-      {Object.entries(dictionary).map(([filterKey, payloadKey], i) => (
-        <Group noWrap key={filterKey}>
+      {Object.entries(dictionary).map(([filterKey, payloadKey]) => (
+        <Flex justify="space-between" gap={10} key={filterKey}>
           <TextInput
             label="Payload key"
             value={payloadKey}
             onChange={(e) => {
               setDictionary(filterKey, e.currentTarget.value);
             }}
+            sx={{ flexGrow: 1 }}
           />
           {/* <Text sx={{ flexGrow: 0, flexShrink: 0 }}>as</Text> */}
           <DataFieldSelector
@@ -65,13 +64,14 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
               setDictionary(key, payloadKey);
             }}
             label="Filter key"
+            sx={{ flexGrow: 1 }}
           />
-          <ActionIcon onClick={() => remove(filterKey)} sx={{ marginTop: '22px' }}>
+          <ActionIcon onClick={() => remove(filterKey)} sx={{ marginTop: '26px', flexGrow: 0 }}>
             <Trash size={14} color="red" />
           </ActionIcon>
-        </Group>
+        </Flex>
       ))}
-      <Button size="xs" onClick={append}>
+      <Button size="xs" onClick={append} sx={{ alignSelf: 'center', width: '300px' }}>
         Add one mapping rule
       </Button>
     </Stack>

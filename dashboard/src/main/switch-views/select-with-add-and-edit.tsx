@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Select, Text } from '@mantine/core';
+import { ActionIcon, Flex, Group, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
 import { Settings } from 'tabler-icons-react';
@@ -58,7 +58,7 @@ export const SelectWithAddAndEdit = observer(
       }
     };
     return (
-      <Group position="left" spacing={0} sx={{ minWidth: '260px' }}>
+      <Flex gap={0} sx={{ minWidth: '400px' }}>
         <Select
           value={value}
           onChange={handleChange}
@@ -94,7 +94,7 @@ export const SelectWithAddAndEdit = observer(
         >
           <Settings size={20} />
         </ActionIcon>
-      </Group>
+      </Flex>
     );
   },
 );
