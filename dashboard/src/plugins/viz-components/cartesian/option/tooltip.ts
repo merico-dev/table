@@ -1,6 +1,7 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getXAxisLabelStyleInTooltip } from '../panel/x-axis/x-axis-label-max-length/utils';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 
@@ -51,9 +52,10 @@ export function getTooltip(
         `;
       });
 
+      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.max_length);
       return `
       <table>
-        <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">${xAxisLabel}</caption>
+        <caption style="text-align: left; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd; ${xAxisLabelStyle}">${xAxisLabel}</caption>
         <tbody>
           ${lines.join('')}
         </tbody>
