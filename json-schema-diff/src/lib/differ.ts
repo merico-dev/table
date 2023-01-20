@@ -23,13 +23,15 @@ const stringDiffer = ({ accessor, src, other, node }: DiffParams) => {
         type: 'remove',
         schemaType: node.type,
       } as RemoveField);
-    } else {
+    } else if (accessor.in(other)) {
       differences.push({
         path: accessor.path,
         type: 'add',
         value: accessor.get(other),
         schemaType: node.type,
       } as AddFiled);
+    } else {
+      // do nothing
     }
   }
 

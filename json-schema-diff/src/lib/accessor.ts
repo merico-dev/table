@@ -1,5 +1,5 @@
 import { IAccessor } from './types/core';
-import { has } from 'lodash-es';
+import { get, has, set } from 'lodash-es';
 
 export class Accessor implements IAccessor {
   constructor(public key: string) {}
@@ -13,11 +13,11 @@ export class Accessor implements IAccessor {
   }
 
   get(obj: any) {
-    return obj[this.key];
+    return get(obj, this.key);
   }
 
   set(obj: any, value: any) {
-    obj[this.key] = value;
+    set(obj, this.key, value);
   }
 }
 
