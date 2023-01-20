@@ -1,5 +1,13 @@
 import { IXAxisLabelOverflow } from './types';
 
+export function getXAxisLabelOptionInXAxis({ x_axis }: IXAxisLabelOverflow) {
+  return {
+    width: x_axis.width,
+    overflow: x_axis.overflow,
+    ellipsis: x_axis.ellipsis,
+  };
+}
+
 export function getXAxisLabelStyleInTooltip(overflow: IXAxisLabelOverflow) {
   const { tooltip, x_axis } = overflow;
   const wordBreak = {

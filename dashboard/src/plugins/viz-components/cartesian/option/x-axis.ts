@@ -1,9 +1,11 @@
 import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getXAxisLabelOptionInXAxis } from '../panel/x-axis/x-axis-label-overflow/utils';
 import { ICartesianChartConf } from '../type';
 
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
+  const overflowOption = getXAxisLabelOptionInXAxis(overflow);
   return [
     {
       data: xAxisData,
@@ -16,9 +18,7 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
       type: allNumbers ? 'value' : 'category',
       axisLabel: {
         ...axisLabel,
-        width: overflow.x_axis.width,
-        overflow: overflow.x_axis.overflow,
-        ellipsis: overflow.x_axis.ellipsis,
+        ...overflowOption,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
     },
