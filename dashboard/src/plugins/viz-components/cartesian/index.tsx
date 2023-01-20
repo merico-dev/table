@@ -6,9 +6,10 @@ import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { ITemplateVariable } from '~/utils/template';
 import { AnyObject } from '~/types';
-import { cloneDeep, get, omit } from 'lodash';
+import _, { cloneDeep, get, omit } from 'lodash';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
+import { DEFAULT_X_AXIS_LABEL_MAX_LENGTH } from './panel/x-axis/x-axis-label-max-length/types';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -38,8 +39,19 @@ function updateToSchema4(legacyConf: $TSFixMe): ICartesianChartConf {
   };
 }
 
+function v5(legacyConf: $TSFixMe): ICartesianChartConf {
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        max_length: DEFAULT_X_AXIS_LABEL_MAX_LENGTH,
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -78,6 +90,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: updateToSchema4(data.config),
       };
     });
+    this.version(5, (data) => {
+      return {
+        ...data,
+        version: 5,
+        config: v5(data.config),
+      };
+    });
   }
 }
 
@@ -89,7 +108,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

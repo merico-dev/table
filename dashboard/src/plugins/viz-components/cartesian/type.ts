@@ -2,6 +2,7 @@ import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numb
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
 import { TScatterSize } from './panel/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_X_AXIS_LABEL_MAX_LENGTH, IXAxisLabelMaxLength } from './panel/x-axis/x-axis-label-max-length/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -85,6 +86,7 @@ export interface ICartesianChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
+      max_length: IXAxisLabelMaxLength;
     };
   };
   series: ICartesianChartSeriesItem[];
@@ -108,6 +110,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      max_length: DEFAULT_X_AXIS_LABEL_MAX_LENGTH,
     },
   },
   x_axis_data_key: '',

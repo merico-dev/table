@@ -3,7 +3,7 @@ import { ICartesianChartConf } from '../type';
 
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
-  const { axisLabel } = conf.x_axis;
+  const { max_length, ...axisLabel } = conf.x_axis.axisLabel;
   return [
     {
       data: xAxisData,
@@ -16,6 +16,9 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
       type: allNumbers ? 'value' : 'category',
       axisLabel: {
         ...axisLabel,
+        width: max_length.x_axis.length,
+        overflow: max_length.x_axis.overflow,
+        ellipsis: max_length.x_axis.ellipsis,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
     },
