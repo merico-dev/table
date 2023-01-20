@@ -9,7 +9,7 @@ import { AnyObject } from '~/types';
 import _, { cloneDeep, get, omit } from 'lodash';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_MAX_LENGTH } from './panel/x-axis/x-axis-label-max-length/types';
+import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from './panel/x-axis/x-axis-label-overflow/types';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -43,7 +43,7 @@ function v5(legacyConf: $TSFixMe): ICartesianChartConf {
   const patch = {
     x_axis: {
       axisLabel: {
-        max_length: DEFAULT_X_AXIS_LABEL_MAX_LENGTH,
+        overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
       },
     },
   };

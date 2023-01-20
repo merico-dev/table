@@ -1,25 +1,25 @@
-export interface IXAxisLabelMaxLength {
+export interface IXAxisLabelOverflow {
   x_axis: {
-    length: number;
+    width: number;
     overflow: 'truncate' | 'break' | 'breakAll';
     ellipsis: '...';
   };
   tooltip: {
-    length: number;
+    width: number;
     overflow: 'truncate' | 'break' | 'breakAll';
     ellipsis: '...';
   };
 }
 
-export const DEFAULT_X_AXIS_LABEL_MAX_LENGTH: IXAxisLabelMaxLength = {
+export const DEFAULT_X_AXIS_LABEL_OVERFLOW: IXAxisLabelOverflow = {
   x_axis: {
-    length: 60,
+    width: 60,
     overflow: 'truncate',
     ellipsis: '...',
   },
   tooltip: {
-    length: 60,
-    overflow: 'truncate',
+    width: 200,
+    overflow: 'break',
     ellipsis: '...',
   },
 };

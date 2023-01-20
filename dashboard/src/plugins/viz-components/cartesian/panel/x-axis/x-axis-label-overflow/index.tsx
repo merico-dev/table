@@ -1,8 +1,7 @@
-import { Text, Group, Stack, Divider, NumberInput, Select, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
-import { cloneDeep } from 'lodash';
 import { forwardRef } from 'react';
-import { IXAxisLabelMaxLength } from './types';
+import { IXAxisLabelOverflow } from './types';
 
 const overflowOptions = [
   { label: 'Truncate', value: 'truncate' },
@@ -10,12 +9,12 @@ const overflowOptions = [
   { label: 'Break Word', value: 'breakAll' },
 ];
 
-interface IXAxisLabelMaxLengthField {
-  value: IXAxisLabelMaxLength;
-  onChange: (v: IXAxisLabelMaxLength) => void;
+interface IXAxisLabelOverflowField {
+  value: IXAxisLabelOverflow;
+  onChange: (v: IXAxisLabelOverflow) => void;
 }
 
-export const XAxisLabelMaxLengthField = forwardRef(({ value, onChange }: IXAxisLabelMaxLengthField, ref: any) => {
+export const XAxisLabelOverflowField = forwardRef(({ value, onChange }: IXAxisLabelOverflowField, ref: any) => {
   const getChangeHandler = (path: string) => (v: any) => {
     const newV = _.cloneDeep(value);
     _.set(newV, path, v);
@@ -40,8 +39,8 @@ export const XAxisLabelMaxLengthField = forwardRef(({ value, onChange }: IXAxisL
           <NumberInput
             label="Max Width"
             hideControls
-            value={value.x_axis.length}
-            onChange={getChangeHandler('x_axis.length')}
+            value={value.x_axis.width}
+            onChange={getChangeHandler('x_axis.width')}
           />
           <Select
             label="Overflow"
@@ -68,8 +67,8 @@ export const XAxisLabelMaxLengthField = forwardRef(({ value, onChange }: IXAxisL
           <NumberInput
             label="Max Width"
             hideControls
-            value={value.tooltip.length}
-            onChange={getChangeHandler('tooltip.length')}
+            value={value.tooltip.width}
+            onChange={getChangeHandler('tooltip.width')}
           />
           <Select
             label="Overflow"
