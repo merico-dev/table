@@ -107,7 +107,8 @@ export const QueryModel = types
         } catch (error) {
           if (!axios.isCancel(error)) {
             self.data.length = 0;
-            self.error = get(error, 'response.data.detail.message', 'unknown error') as QueryFailureError;
+            const fallback = get(error, 'message', 'unkown error');
+            self.error = get(error, 'response.data.detail.message', fallback) as QueryFailureError;
             self.state = 'error';
           }
         }
