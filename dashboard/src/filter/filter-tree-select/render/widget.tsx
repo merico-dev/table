@@ -81,7 +81,7 @@ export const FilterTreeSelectWidget = ({
         maxTagTextLength={10}
         value={value}
         treeData={treeData}
-        treeNodeFilterProp="label"
+        treeNodeFilterProp="filterBasis"
         treeCheckable
         showCheckedStrategy={SHOW_PARENT}
         onChange={onChange}

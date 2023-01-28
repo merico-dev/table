@@ -10,4 +10,5 @@ export interface ITreeDataRenderItem {
   value: string;
   parent_value: string;
   description?: string;
+  filterBasis: string;
 }
