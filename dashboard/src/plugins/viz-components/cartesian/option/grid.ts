@@ -10,7 +10,7 @@ export function getGrid(conf: ICartesianChartConf) {
     top += 20;
   }
 
-  let bottom = 25;
+  let bottom = 5;
   if (conf.x_axis_name) {
     bottom += 15;
   }

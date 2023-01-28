@@ -10,7 +10,7 @@ export function getGrid(conf: IScatterChartConf) {
     top += 20;
   }
 
-  let bottom = 25;
+  let bottom = 5;
   if (conf.x_axis.name) {
     bottom += 15;
   }
