@@ -35,7 +35,7 @@ const defaultOption = {
   ],
   grid: {
     top: 10,
-    left: 30,
+    left: 20,
     right: 15,
     bottom: 25,
     containLabel: true,

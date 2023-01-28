@@ -14,6 +14,7 @@ function addLabelToData(data: ITreeDataQueryOption[]) {
     const { label, description, ...rest } = d;
     const ret: ITreeDataRenderItem = {
       ...rest,
+      filterBasis: `${label}___${description ?? ''}`,
       description,
       label,
     };

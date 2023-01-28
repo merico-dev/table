@@ -50,6 +50,10 @@ echarts.use([
 ]);
 echarts.registerTransform(transform.regression);
 
+function templateNotEmpty(str: string) {
+  return str.trim().length > 0;
+}
+
 function Chart({
   conf,
   data,
@@ -112,8 +116,8 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
-  const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
-  const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
+  const { ref: topStatsRef, width: topStatsWidth, height: topStatsHeight } = useElementSize();
+  const { ref: bottomStatsRef, width: bottomStatsWidth, height: bottomStatsHeight } = useElementSize();
   const templates = React.useMemo(() => {
     const {
       stats: { templates },
@@ -123,13 +127,25 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
       bottom: templateToJSX(templates.bottom, variables, data),
     };
   }, [conf, data]);
-  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+
+  const finalHeight = useMemo(() => {
+    let ret = height;
+    if (topStatsWidth) {
+      ret -= topStatsHeight;
+    }
+    if (bottomStatsWidth) {
+      ret -= bottomStatsHeight;
+    }
+    return Math.max(0, ret);
+  }, [topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
 
   return (
     <Box>
-      <Text ref={topStatsRef} align="left" size="xs" pl="sm">
-        {Object.values(templates.top).map((c) => c)}
-      </Text>
+      {templateNotEmpty(conf.stats.templates.top) && (
+        <Text ref={topStatsRef} align="left" size="xs" pl="sm">
+          {Object.values(templates.top).map((c) => c)}
+        </Text>
+      )}
 
       <Chart
         variables={variables}
@@ -140,9 +156,11 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
         interactionManager={interactionManager}
       />
 
-      <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">
-        {Object.values(templates.bottom).map((c) => c)}
-      </Text>
+      {templateNotEmpty(conf.stats.templates.bottom) && (
+        <Text ref={bottomStatsRef} align="left" size="xs" pl="sm">
+          {Object.values(templates.bottom).map((c) => c)}
+        </Text>
+      )}
     </Box>
   );
 }

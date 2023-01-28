@@ -111,8 +111,8 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
-  const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
-  const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
+  const { ref: topStatsRef, width: topStatsWidth, height: topStatsHeight } = useElementSize();
+  const { ref: bottomStatsRef, width: bottomStatsWidth, height: bottomStatsHeight } = useElementSize();
   const templates = React.useMemo(() => {
     const {
       stats: { templates },
@@ -122,7 +122,19 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
       bottom: templateToJSX(templates.bottom, variables, data),
     };
   }, [conf, data]);
-  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+
+  const finalHeight = useMemo(() => {
+    let ret = height;
+    if (topStatsWidth) {
+      ret -= topStatsHeight;
+    }
+    if (bottomStatsWidth) {
+      console.log({ bottomStatsWidth });
+      ret -= bottomStatsHeight;
+    }
+    return Math.max(0, ret);
+  }, [topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
+
   return (
     <Box>
       {templateNotEmpty(conf.stats.templates.top) && (
