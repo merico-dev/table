@@ -1,4 +1,5 @@
 import { Box, Button, Divider, Group, NumberInput, PasswordInput, TextInput } from '@mantine/core';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig } from '../../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../../styles';
@@ -16,7 +17,7 @@ interface IAddDataSourceForm {
 }
 
 export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: IAddDataSourceForm) {
-  const { control, handleSubmit } = useForm<IFormValues>({
+  const { control, setValue, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       type,
       key: '',
@@ -29,6 +30,9 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
       },
     },
   });
+  useEffect(() => {
+    setValue('type', type);
+  }, [setValue, type]);
 
   return (
     <Box mx="auto">
