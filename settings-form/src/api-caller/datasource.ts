@@ -1,4 +1,4 @@
-import { DataSourceType, IDataSource, IDataSourceConfig } from './datasource.typed';
+import { DataSourceType, IDataSource, TDataSourceConfig } from './datasource.typed';
 import { APIClient } from './request';
 import { PaginationResponse } from './types';
 
@@ -19,7 +19,7 @@ export const datasource = {
   create: async (
     type: DataSourceType,
     key: string,
-    config: IDataSourceConfig,
+    config: TDataSourceConfig,
   ): Promise<PaginationResponse<IDataSource> | false> => {
     return await APIClient.getRequest('POST')('/datasource/create', {
       type,

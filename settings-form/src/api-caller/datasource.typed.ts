@@ -7,10 +7,12 @@ export interface IDataSource {
   is_preset?: boolean;
 }
 
-export interface IDataSourceConfig {
+export type TDataSourceConfig_DB = {
   host: string;
   port: number;
   username: string;
   password: string;
   database: string;
-}
+};
+
+export type TDataSourceConfig = TDataSourceConfig_DB;
