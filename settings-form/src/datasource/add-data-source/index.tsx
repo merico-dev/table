@@ -6,6 +6,7 @@ import { APICaller } from '../../api-caller';
 import { DataSourceType } from '../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../styles';
 import { AddDataSourceForm_DB } from './forms/database';
+import { AddDataSourceForm_HTTP } from './forms/http';
 import { IFormValues } from './types';
 
 interface IAddDataSourceForm {
@@ -43,6 +44,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
   };
 
   const isDBType = type === 'postgresql' || type === 'mysql';
+  const isHTTPType = type === 'http';
   return (
     <Box mx="auto">
       <SegmentedControl
@@ -58,6 +60,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
         onChange={(v: DataSourceType) => setType(v)}
       />
       {isDBType && <AddDataSourceForm_DB submit={addDataSource} styles={styles} type={type} />}
+      {isHTTPType && <AddDataSourceForm_HTTP submit={addDataSource} styles={styles} />}
     </Box>
   );
 }

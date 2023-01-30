@@ -15,4 +15,12 @@ export type TDataSourceConfig_DB = {
   database: string;
 };
 
-export type TDataSourceConfig = TDataSourceConfig_DB;
+export type TDataSourceConfig_HTTP = {
+  host: string;
+  processing: {
+    pre: TFunctionString;
+    post: TFunctionString;
+  };
+};
+
+export type TDataSourceConfig = TDataSourceConfig_DB | TDataSourceConfig_HTTP;

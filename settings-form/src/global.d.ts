@@ -6,3 +6,5 @@ interface ISettingsFormConfig {
   app_id?: string;
   app_secret?: string;
 }
+
+type TFunctionString = string;
