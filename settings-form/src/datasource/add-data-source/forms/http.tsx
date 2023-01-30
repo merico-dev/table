@@ -6,8 +6,13 @@ import { defaultStyles, IStyles } from '../../styles';
 import { FunctionStringField } from '../components/function-string-field';
 
 export const DEFAULT_HTTP_PROCESSING = {
-  pre: ``,
-  post: ``,
+  pre: [
+    'function pre_process({ method, url, params, headers, data }, utils) {',
+    '    // your code goes here',
+    '    return { method, url, params, headers, data }',
+    '}',
+  ].join('\n'),
+  post: ['function pre_process(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
 };
 
 interface IFormValues {
