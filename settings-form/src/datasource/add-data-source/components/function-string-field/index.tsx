@@ -10,11 +10,12 @@ interface IFunctionStringField {
   onChange: (v: TFunctionString) => void;
   defaultValue: TFunctionString;
   label: string;
+  modalTitle: string;
   styles: IStyles;
 }
 
 export const FunctionStringField = forwardRef(
-  ({ value, onChange, label, defaultValue, styles }: IFunctionStringField, _ref: any) => {
+  ({ value, onChange, label, modalTitle, defaultValue, styles }: IFunctionStringField, _ref: any) => {
     const [modalOpened, { setTrue, setFalse }] = useBoolean();
     const [localValue, setLocalValue] = useState<string>(value);
 
@@ -43,7 +44,7 @@ export const FunctionStringField = forwardRef(
         </Button>
         <Modal
           size={800}
-          title={label}
+          title={modalTitle}
           opened={modalOpened}
           onClose={setFalse}
           closeOnClickOutside={false}

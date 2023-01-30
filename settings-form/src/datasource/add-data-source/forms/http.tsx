@@ -77,6 +77,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             render={({ field }) => (
               <FunctionStringField
                 label="Pre Processing"
+                modalTitle="This function will run before sending the request (for scenarios like encryption)"
                 defaultValue={DEFAULT_HTTP_PROCESSING.pre}
                 {...field}
                 styles={styles}
@@ -89,6 +90,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             render={({ field }) => (
               <FunctionStringField
                 label="Post Processing"
+                modalTitle="This function will run after sending the request (for scenarios like decryption)"
                 defaultValue={DEFAULT_HTTP_PROCESSING.post}
                 {...field}
                 styles={styles}
