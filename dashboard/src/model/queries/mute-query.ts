@@ -9,6 +9,8 @@ export const MuteQueryModel = types
     type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
     key: types.string,
     sql: types.string,
+    pre_process: types.optional(types.string, ''),
+    post_process: types.optional(types.string, ''),
     run_by: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
@@ -16,8 +18,8 @@ export const MuteQueryModel = types
       return self.id && self.type && self.key && self.sql && self.name;
     },
     get json() {
-      const { id, name, type, key, sql, run_by } = self;
-      return { id, name, type, key, sql, run_by };
+      const { id, name, type, key, sql, run_by, pre_process, post_process } = self;
+      return { id, name, type, key, sql, run_by, pre_process, post_process };
     },
     get conditionOptions() {
       // @ts-expect-error untyped getRoot(self)

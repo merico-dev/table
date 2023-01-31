@@ -26,6 +26,9 @@ export const QueryModel = types
     get typedAsSQL() {
       return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
     },
+    get typedAsHTTP() {
+      return [DataSourceType.HTTP].includes(self.type);
+    },
   }))
   .views((self) => ({
     get stateMessage() {
@@ -76,6 +79,12 @@ export const QueryModel = types
       setRunBy(v: string[]) {
         self.run_by.length = 0;
         self.run_by.push(...v);
+      },
+      setPreProcess(v: string) {
+        self.pre_process = v;
+      },
+      setPostProcess(v: string) {
+        self.post_process = v;
       },
       fetchData: flow(function* () {
         if (!self.valid) {
