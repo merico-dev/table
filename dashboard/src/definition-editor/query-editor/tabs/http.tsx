@@ -26,7 +26,6 @@ export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelI
     <Tabs defaultValue="pre_process" orientation={subTabsOrientation}>
       <Tabs.List>
         <Tabs.Tab value="pre_process">Build Request</Tabs.Tab>
-        <Tabs.Tab value="preview pre_process">Preview Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="pre_process" sx={{ position: 'relative' }} p="sm">
@@ -36,9 +35,6 @@ export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelI
           onChange={queryModel.setPreProcess}
           defaultValue={DEFAULT_HTTP_REQ_PROCESSING.pre}
         />
-      </Tabs.Panel>
-      <Tabs.Panel value="preview pre_process" sx={{ position: 'relative' }} p="sm">
-        TODO
       </Tabs.Panel>
       <Tabs.Panel value="post_process" p="sm">
         <InlineFunctionInput
