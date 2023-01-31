@@ -20,7 +20,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
 
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue="SQL" orientation={tabsOrientation} styles={tabsStyles}>
+      <Tabs defaultValue={queryModel.typedAsHTTP ? 'HTTP' : 'SQL'} orientation={tabsOrientation} styles={tabsStyles}>
         <Tabs.List grow={tabsOrientation === 'horizontal'}>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
