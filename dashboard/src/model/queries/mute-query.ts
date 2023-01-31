@@ -89,6 +89,32 @@ export const MuteQueryModel = types
         filters: filterNames,
       };
     },
-  }));
+  }))
+  .actions((self) => {
+    return {
+      setName(name: string) {
+        self.name = name;
+      },
+      setKey(key: string) {
+        self.key = key;
+      },
+      setType(type: DataSourceType) {
+        self.type = type;
+      },
+      setSQL(sql: string) {
+        self.sql = sql;
+      },
+      setRunBy(v: string[]) {
+        self.run_by.length = 0;
+        self.run_by.push(...v);
+      },
+      setPreProcess(v: string) {
+        self.pre_process = v;
+      },
+      setPostProcess(v: string) {
+        self.post_process = v;
+      },
+    };
+  });
 
 export type MuteQueryModelInstance = Instance<typeof MuteQueryModel>;

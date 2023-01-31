@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _, { get } from 'lodash';
+import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryBySQL, QueryFailureError } from '../../api-caller';
@@ -64,28 +64,6 @@ export const QueryModel = types
   }))
   .actions((self) => {
     return {
-      setName(name: string) {
-        self.name = name;
-      },
-      setKey(key: string) {
-        self.key = key;
-      },
-      setType(type: DataSourceType) {
-        self.type = type;
-      },
-      setSQL(sql: string) {
-        self.sql = sql;
-      },
-      setRunBy(v: string[]) {
-        self.run_by.length = 0;
-        self.run_by.push(...v);
-      },
-      setPreProcess(v: string) {
-        self.pre_process = v;
-      },
-      setPostProcess(v: string) {
-        self.post_process = v;
-      },
       fetchData: flow(function* () {
         if (!self.valid) {
           return;
