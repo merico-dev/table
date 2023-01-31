@@ -29,6 +29,11 @@ export const QueryModel = types
     get typedAsHTTP() {
       return [DataSourceType.HTTP].includes(self.type);
     },
+    get datasource() {
+      const { key, type } = self;
+      // @ts-expect-error untyped getRoot(self)
+      return getRoot(self).datasources.find({ type, key });
+    },
   }))
   .views((self) => ({
     get stateMessage() {
@@ -103,8 +108,8 @@ export const QueryModel = types
         }
       }),
       runHTTP: flow(function* () {
-        console.log('runHTTP');
-        if (!self.valid) {
+        console.log('runHTTP, ', self.datasource);
+        if (!self.valid || !self.datasource) {
           return;
         }
         self.controller?.abort();
@@ -124,6 +129,7 @@ export const QueryModel = types
                 mock_context,
                 query: self.json,
                 filterValues,
+                datasource: self.datasource,
               },
               self.controller.signal,
             ),
@@ -131,6 +137,7 @@ export const QueryModel = types
           self.state = 'idle';
           self.error = null;
         } catch (error) {
+          console.error(error);
           if (!axios.isCancel(error)) {
             self.data.length = 0;
             const fallback = get(error, 'message', 'unkown error');
@@ -156,7 +163,7 @@ export const QueryModel = types
         reaction(
           () => {
             if (self.typedAsHTTP) {
-              return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}`;
+              return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
             }
             return `${self.id}--${self.key}--${self.formattedSQL}`;
           },

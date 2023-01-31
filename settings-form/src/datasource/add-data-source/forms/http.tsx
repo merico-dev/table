@@ -12,7 +12,7 @@ export const DEFAULT_HTTP_PROCESSING = {
     '    return { method, url, params, headers, data }',
     '}',
   ].join('\n'),
-  post: ['function pre_process(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
+  post: ['function post_process(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
 };
 
 interface IFormValues {
