@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import { useCreation } from 'ahooks';
+import { useCreation, useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
@@ -15,6 +15,7 @@ import { useTopLevelServices } from './use-top-level-services';
 import { createPluginContext, PluginContext } from '../plugins';
 import { IDashboard } from '../types/dashboard';
 import './main.css';
+import { listDataSources } from '~/api-caller';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -37,14 +38,20 @@ export const Dashboard = observer(function _Dashboard({
 }: IDashboardProps) {
   configureAPIClient(config);
 
+  const { data: datasources = [] } = useRequest(listDataSources);
+
   const [layoutFrozen, freezeLayout] = React.useState(false);
 
-  const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+  const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
   useInteractionOperationHacks(model, true);
 
   React.useEffect(() => {
     model.context.replace(context);
   }, [context]);
+
+  React.useEffect(() => {
+    model.datasources.replace(datasources);
+  }, [datasources]);
 
   const saveDashboardChanges = async () => {
     const queries = [...model.queries.json];

@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import { useCreation } from 'ahooks';
+import { useCreation, useRequest } from 'ahooks';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -16,6 +16,7 @@ import { ContextInfoType } from '../model/context';
 import { IDashboard } from '../types/dashboard';
 import { useTopLevelServices } from './use-top-level-services';
 import './main.css';
+import { listDataSources } from '~/api-caller';
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
@@ -37,12 +38,18 @@ export const ReadOnlyDashboard = observer(
   }: IReadOnlyDashboard) => {
     configureAPIClient(config);
 
-    const model = React.useMemo(() => createDashboardModel(dashboard, context), [dashboard]);
+    const { data: datasources = [] } = useRequest(listDataSources);
+
+    const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
     useInteractionOperationHacks(model, false);
 
     React.useEffect(() => {
       model.context.replace(context);
     }, [context]);
+
+    React.useEffect(() => {
+      model.datasources.replace(datasources);
+    }, [datasources]);
 
     const pluginContext = useCreation(createPluginContext, []);
     const configureServices = useTopLevelServices(pluginContext);
