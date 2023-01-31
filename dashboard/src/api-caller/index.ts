@@ -1,3 +1,4 @@
+import { buildHTTPRequest, explainHTTPRequest, getHTTPReqeustBuilderParams } from '~/utils/http-query';
 import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType } from '../model/queries/types';
@@ -40,6 +41,29 @@ export async function queryBySQL(
     console.groupEnd();
   }
   const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: formattedSQL }, {});
+  return res;
+}
+
+interface IQueryByHTTP {
+  context: ContextInfoType;
+  mock_context: Record<string, $TSFixMe>;
+  query: { type: DataSourceType; key: string; name: string; pre_process: string; post_process: string };
+  filterValues: FilterValuesType;
+}
+
+export async function queryByHTTP({ context, mock_context, query, filterValues }: IQueryByHTTP, signal: AbortSignal) {
+  const { type, key, name, pre_process, post_process } = query;
+
+  const config = explainHTTPRequest(pre_process, context, mock_context, filterValues);
+  console.groupCollapsed(`Request config for: ${name}`);
+  console.log(config);
+  console.groupEnd();
+
+  // TODO: use datasource.processing.pre
+  const finalQuery = JSON.stringify(config);
+  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: finalQuery }, {});
+  // TODO: use datasource.processing.post
+  // TODO: use post_process
   return res;
 }
 

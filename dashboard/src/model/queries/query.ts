@@ -2,7 +2,7 @@ import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryBySQL, QueryFailureError } from '../../api-caller';
+import { queryByHTTP, queryBySQL, QueryFailureError } from '../../api-caller';
 import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
@@ -64,7 +64,7 @@ export const QueryModel = types
   }))
   .actions((self) => {
     return {
-      fetchData: flow(function* () {
+      runSQL: flow(function* () {
         if (!self.valid) {
           return;
         }
@@ -76,7 +76,6 @@ export const QueryModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          const title = self.id;
           // @ts-expect-error untyped getRoot(self)
           const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
           self.data = yield* toGenerator(
@@ -85,7 +84,7 @@ export const QueryModel = types
                 context,
                 mock_context,
                 sqlSnippets,
-                title,
+                title: self.name,
                 query: self.json,
                 filterValues,
               },
@@ -103,6 +102,48 @@ export const QueryModel = types
           }
         }
       }),
+      runHTTP: flow(function* () {
+        console.log('runHTTP');
+        if (!self.valid) {
+          return;
+        }
+        self.controller?.abort();
+        if (!self.runByConditionsMet) {
+          return;
+        }
+
+        self.controller = new AbortController();
+        self.state = 'loading';
+        try {
+          // @ts-expect-error untyped getRoot(self)
+          const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
+          self.data = yield* toGenerator(
+            queryByHTTP(
+              {
+                context,
+                mock_context,
+                query: self.json,
+                filterValues,
+              },
+              self.controller.signal,
+            ),
+          );
+          self.state = 'idle';
+          self.error = null;
+        } catch (error) {
+          if (!axios.isCancel(error)) {
+            self.data.length = 0;
+            const fallback = get(error, 'message', 'unkown error');
+            self.error = get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.state = 'error';
+          }
+        }
+      }),
+    };
+  })
+  .actions((self) => {
+    return {
+      fetchData: self.typedAsHTTP ? self.runHTTP : self.runSQL,
       beforeDestroy() {
         self.controller?.abort();
       },
@@ -112,10 +153,19 @@ export const QueryModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => `${self.id}--${self.key}--${self.type}--${self.formattedSQL}`, self.fetchData, {
-          fireImmediately: true,
-          delay: 0,
-        }),
+        reaction(
+          () => {
+            if (self.typedAsHTTP) {
+              return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}`;
+            }
+            return `${self.id}--${self.key}--${self.formattedSQL}`;
+          },
+          self.fetchData,
+          {
+            fireImmediately: true,
+            delay: 0,
+          },
+        ),
       );
     },
   }));
