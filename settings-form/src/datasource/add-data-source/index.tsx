@@ -25,7 +25,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
     });
     try {
       console.log({ type, key, config });
-      // await APICaller.datasource.create(type, key, config);
+      await APICaller.datasource.create(type, key, config);
       updateNotification({
         id: 'for-creating',
         title: 'Successful',

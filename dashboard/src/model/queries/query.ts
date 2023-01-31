@@ -23,6 +23,9 @@ export const QueryModel = types
       const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
+    get typedAsSQL() {
+      return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
+    },
   }))
   .views((self) => ({
     get stateMessage() {
