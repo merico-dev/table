@@ -15,7 +15,14 @@ export const MuteQueryModel = types
   })
   .views((self) => ({
     get valid() {
-      return self.id && self.type && self.key && self.sql && self.name;
+      const infoValid = self.id && self.type && self.key && self.name;
+      if (!infoValid) {
+        return false;
+      }
+      if (self.type === DataSourceType.HTTP) {
+        return !!self.pre_process;
+      }
+      return !!self.sql;
     },
     get json() {
       const { id, name, type, key, sql, run_by, pre_process, post_process } = self;
