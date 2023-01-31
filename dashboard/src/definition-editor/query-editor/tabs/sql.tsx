@@ -5,10 +5,7 @@ import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { MinimalMonacoEditor } from '~/definition-editor/minimal-monaco-editor';
 import { QueryModelInstance } from '~/model';
-import { DataSourceType } from '~/model/queries/types';
 import { PreviewSQL } from '../preview-sql';
-
-const isTypeValid = (type: DataSourceType) => [DataSourceType.Postgresql, DataSourceType.MySQL].includes(type);
 
 export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
   // form stuff
