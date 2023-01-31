@@ -74,7 +74,7 @@ describe('QueryController', () => {
         method: 'GET',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',
@@ -103,7 +103,7 @@ describe('QueryController', () => {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts',
+        url: '/posts',
       };
       const query: QueryRequest = {
         type: 'http',
@@ -123,7 +123,7 @@ describe('QueryController', () => {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',
@@ -143,7 +143,7 @@ describe('QueryController', () => {
         method: 'DELETE',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const query: QueryRequest = {
         type: 'http',

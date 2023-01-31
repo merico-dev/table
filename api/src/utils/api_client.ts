@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { HttpParams } from '../api_models/query';
 
 export const APIClient = {
-  request(method: string) {
-    return (url: string, options: HttpParams) => {
+  request(host: string) {
+    return (options: HttpParams) => {
       const headers = {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',
@@ -11,13 +11,14 @@ export const APIClient = {
       };
 
       const conf: AxiosRequestConfig = {
-        method,
-        url,
-        params: options.url_postfix,
+        baseURL: host,
+        method: options.method,
+        url: options.url,
+        params: options.params,
         headers: headers,
       };
 
-      if (method !== 'GET') {
+      if (options.method !== 'GET') {
         conf.data = JSON.stringify(options.data);
       }
       return axios(conf)

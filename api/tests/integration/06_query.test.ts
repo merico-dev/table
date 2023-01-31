@@ -49,7 +49,7 @@ describe('QueryService', () => {
         method: 'GET',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -71,7 +71,7 @@ describe('QueryService', () => {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts',
+        url: '/posts',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -84,7 +84,7 @@ describe('QueryService', () => {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
@@ -97,7 +97,7 @@ describe('QueryService', () => {
         method: 'DELETE',
         data: {},
         headers: { 'Content-Type': 'application/json' },
-        url_postfix: '/posts/1',
+        url: '/posts/1',
       };
       const validate = jest.spyOn(validation, 'validate');
       validate.mockReturnValueOnce(query);
