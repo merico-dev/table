@@ -11,8 +11,10 @@ import {
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
+import { IDataSource } from '~/api-caller/types';
 import { AnyObject, IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
+import { DataSourcesModel } from './datasources';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
@@ -25,6 +27,7 @@ const _DashboardModel = types
     id: types.identifier,
     name: types.string,
     version: types.string,
+    datasources: DataSourcesModel,
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
@@ -44,7 +47,7 @@ const _DashboardModel = types
     get queriesChanged() {
       const fields = 'queries.current';
       const snapshot = (getSnapshot(get(self, fields)) as AnyObject[]).map((it: $TSFixMe) =>
-        pick(it, ['id', 'name', 'key', 'type', 'sql', 'run_by']),
+        pick(it, ['id', 'name', 'key', 'type', 'sql', 'run_by', 'pre_process', 'post_process']),
       );
       return !isEqual(snapshot, get(self.origin, fields));
     },
@@ -178,12 +181,16 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 
 export function createDashboardModel(
   { id, name, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
+  datasources: IDataSource[],
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
     id,
     name,
     version,
+    datasources: {
+      list: datasources,
+    },
     filters: getInitialFiltersPayload(filters),
     queries: {
       current: queries,

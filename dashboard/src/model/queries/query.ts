@@ -1,8 +1,8 @@
 import axios from 'axios';
-import _, { get } from 'lodash';
+import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryBySQL, QueryFailureError } from '../../api-caller';
+import { queryByHTTP, queryBySQL, QueryFailureError } from '../../api-caller';
 import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
@@ -22,6 +22,17 @@ export const QueryModel = types
       // @ts-expect-error untyped getRoot(self)
       const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
+    },
+    get typedAsSQL() {
+      return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
+    },
+    get typedAsHTTP() {
+      return [DataSourceType.HTTP].includes(self.type);
+    },
+    get datasource() {
+      const { key, type } = self;
+      // @ts-expect-error untyped getRoot(self)
+      return getRoot(self).datasources.find({ type, key });
     },
   }))
   .views((self) => ({
@@ -58,23 +69,7 @@ export const QueryModel = types
   }))
   .actions((self) => {
     return {
-      setName(name: string) {
-        self.name = name;
-      },
-      setKey(key: string) {
-        self.key = key;
-      },
-      setType(type: DataSourceType) {
-        self.type = type;
-      },
-      setSQL(sql: string) {
-        self.sql = sql;
-      },
-      setRunBy(v: string[]) {
-        self.run_by.length = 0;
-        self.run_by.push(...v);
-      },
-      fetchData: flow(function* () {
+      runSQL: flow(function* () {
         if (!self.valid) {
           return;
         }
@@ -86,7 +81,6 @@ export const QueryModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          const title = self.id;
           // @ts-expect-error untyped getRoot(self)
           const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
           self.data = yield* toGenerator(
@@ -95,7 +89,7 @@ export const QueryModel = types
                 context,
                 mock_context,
                 sqlSnippets,
-                title,
+                title: self.name,
                 query: self.json,
                 filterValues,
               },
@@ -113,6 +107,50 @@ export const QueryModel = types
           }
         }
       }),
+      runHTTP: flow(function* () {
+        console.log('runHTTP, ', self.datasource);
+        if (!self.valid || !self.datasource) {
+          return;
+        }
+        self.controller?.abort();
+        if (!self.runByConditionsMet) {
+          return;
+        }
+
+        self.controller = new AbortController();
+        self.state = 'loading';
+        try {
+          // @ts-expect-error untyped getRoot(self)
+          const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
+          self.data = yield* toGenerator(
+            queryByHTTP(
+              {
+                context,
+                mock_context,
+                query: self.json,
+                filterValues,
+                datasource: self.datasource,
+              },
+              self.controller.signal,
+            ),
+          );
+          self.state = 'idle';
+          self.error = null;
+        } catch (error) {
+          console.error(error);
+          if (!axios.isCancel(error)) {
+            self.data.length = 0;
+            const fallback = get(error, 'message', 'unkown error');
+            self.error = get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.state = 'error';
+          }
+        }
+      }),
+    };
+  })
+  .actions((self) => {
+    return {
+      fetchData: self.typedAsHTTP ? self.runHTTP : self.runSQL,
       beforeDestroy() {
         self.controller?.abort();
       },
@@ -122,10 +160,19 @@ export const QueryModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => `${self.id}--${self.key}--${self.type}--${self.formattedSQL}`, self.fetchData, {
-          fireImmediately: true,
-          delay: 0,
-        }),
+        reaction(
+          () => {
+            if (self.typedAsHTTP) {
+              return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
+            }
+            return `${self.id}--${self.key}--${self.formattedSQL}`;
+          },
+          self.fetchData,
+          {
+            fireImmediately: true,
+            delay: 0,
+          },
+        ),
       );
     },
   }));

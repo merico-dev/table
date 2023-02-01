@@ -63,6 +63,13 @@ export class HttpParams {
 
   @IsObject()
   @ApiModelProperty({
+    description: 'Request url parameters',
+    required: true,
+  })
+  params: Record<string, any>;
+
+  @IsObject()
+  @ApiModelProperty({
     description: 'Http headers to add to the request',
     required: true,
   })
@@ -70,8 +77,8 @@ export class HttpParams {
 
   @IsString()
   @ApiModelProperty({
-    description: 'Request URL postfix. Can be used to target a specific endpoint on the configured hostname or to add url parameters',
+    description: 'Request URL path. Can be used to target a specific endpoint on the configured hostname or to add url parameters',
     required: true,
   })
-  url_postfix: string;
+  url: string;
 }

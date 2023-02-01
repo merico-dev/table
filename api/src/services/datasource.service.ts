@@ -26,6 +26,7 @@ export class DataSourceService {
       .addSelect('datasource.type', 'type')
       .addSelect('datasource.key', 'key')
       .addSelect('datasource.is_preset', 'is_preset')
+      .addSelect('datasource.config', 'config')
       .orderBy(sort.field, sort.order)
       .offset(offset).limit(pagination.pagesize);
 
@@ -38,7 +39,10 @@ export class DataSourceService {
     return {
       total,
       offset,
-      data: datasources,
+      data: datasources.map(d => ({
+        ...d,
+        config: d.type !== 'http' ? {} : d.config
+      })),
     };
   }
 

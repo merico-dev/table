@@ -118,8 +118,15 @@ export class DataSourceController implements interfaces.Controller {
   private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig): DataSourceConfig {
     switch (type) {
       case 'http':
-        return _.omit(config, ['port', 'username', 'password', 'database']);
-      
+        if (
+          !_.has(config, 'host') ||
+          !_.has(config, 'processing') ||
+          !_.has(config, 'processing.pre') ||
+          !_.has(config, 'processing.post')
+        )
+          throw new ApiError(BAD_REQUEST, { message: 'HTTP config must contain [host, processing]' });
+        return config;
+
       default:
         if (
           !_.has(config, 'port') ||

@@ -4,6 +4,26 @@ import { Type } from 'class-transformer';
 import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
+  description: 'Authentication object for using app_id and app_secret',
+  name: 'Authentication',
+})
+export class DataSourceProcessingConfig {
+  @IsString()
+  @ApiModelProperty({
+    description: 'pre',
+    required: true,
+  })
+  pre: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'post',
+    required: true,
+  })
+  post: string;
+}
+
+@ApiModel({
   description: 'Datasource config',
   name: 'DataSourceConfig',
 })
@@ -14,6 +34,16 @@ export class DataSourceConfig {
     required: true,
   })
   host: string;
+
+  @IsObject()
+  @Type(() => DataSourceConfig)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Processings for each HTTP request',
+    required: false,
+    model: 'DataSourceProcessingConfig',
+  })
+  processing?: DataSourceProcessingConfig;
 
   @IsOptional()
   @IsInt()

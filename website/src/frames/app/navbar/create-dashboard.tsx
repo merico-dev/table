@@ -57,7 +57,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       color: 'green',
     });
     postSubmit();
-    navigate(`/dashboard/${id}`);
+    navigate(`/dashboard/${id}/edit`);
   };
 
   const dashboardNameSet = React.useMemo(() => {
