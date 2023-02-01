@@ -121,6 +121,7 @@ export function VizTable({ context, instance }: VizViewProps) {
     <div
       ref={tableContainerRef}
       style={{ height, width }}
+      data-enable-scrollbar
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >
       <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
