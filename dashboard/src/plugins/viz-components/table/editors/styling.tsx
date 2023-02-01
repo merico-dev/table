@@ -8,6 +8,7 @@ interface IStylingFields {
   data: $TSFixMe[];
 }
 export function StylingFields({ control, watch, data }: IStylingFields) {
+  watch(['horizontalSpacing', 'verticalSpacing', 'fontSize', 'striped', 'highlightOnHover']);
   return (
     <Stack spacing="xs">
       <Group position="apart" mb="lg" grow sx={{ '> *': { flexGrow: 1 } }}>

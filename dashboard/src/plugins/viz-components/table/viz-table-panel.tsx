@@ -49,6 +49,7 @@ export function VizTablePanel({ context }: VizConfigProps) {
     return !isEqual(values, conf);
   }, [values, conf]);
 
+  watch(['id_field']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>

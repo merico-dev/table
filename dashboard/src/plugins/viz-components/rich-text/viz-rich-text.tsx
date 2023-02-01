@@ -13,6 +13,7 @@ export function VizRichText({ context }: VizViewProps) {
         styles={{
           root: {
             border: 'none',
+            height: '100%',
           },
           content: {
             padding: 0,
