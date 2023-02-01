@@ -20,6 +20,7 @@ export function getSeries(conf: IParetoChartConf, data: AnyObject[], formatters:
     {
       name: conf.bar.name,
       type: 'bar',
+      barMaxWidth: 20,
       itemStyle: {
         color: conf.bar.color,
       },

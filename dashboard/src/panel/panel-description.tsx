@@ -5,6 +5,13 @@ import { InfoCircle } from 'tabler-icons-react';
 import { LayoutStateContext, usePanelContext } from '../contexts';
 import { ReadonlyRichText } from './settings/common/readonly-rich-text-editor';
 
+function isRichTextContentEmpty(str: string) {
+  if (!str) {
+    return true;
+  }
+  return ['<p><br></p>', '<p></p>'].includes(str);
+}
+
 export const DescriptionPopover = observer(() => {
   const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
@@ -14,7 +21,7 @@ export const DescriptionPopover = observer(() => {
     freezeLayout(opened);
   }, [opened]);
 
-  if (!panel.description || panel.description === '<p></p>') {
+  if (isRichTextContentEmpty(panel.description)) {
     return null;
   }
 
