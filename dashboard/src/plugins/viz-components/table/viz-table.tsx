@@ -1,4 +1,4 @@
-import { Table, TableProps } from '@mantine/core';
+import { Table, TableProps, Text } from '@mantine/core';
 import {
   Cell,
   createColumnHelper,
@@ -126,6 +126,15 @@ export function VizTable({ context, instance }: VizViewProps) {
     >
       <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
+          {totalSize > 0 && (
+            <tr>
+              <th colSpan={table.getHeaderGroups()[0].headers.length} style={{ textAlign: 'right', paddingTop: 0 }}>
+                <Text size={14} color="dimmed" fw="normal">
+                  Total: {totalSize}
+                </Text>
+              </th>
+            </tr>
+          )}
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
