@@ -11,7 +11,12 @@
   padding: 0 10px;
 }
 
-*:not([data-enable-scrollbar])::-webkit-scrollbar {
+.mantine-RichTextEditor-root {
+  overflow-y: scroll !important;
+  -ms-overflow-style: initial !important;
+}
+
+*:not(.mantine-RichTextEditor-root):not([data-enable-scrollbar])::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
