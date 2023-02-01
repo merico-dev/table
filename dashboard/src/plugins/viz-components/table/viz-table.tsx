@@ -84,13 +84,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         size: c.width,
       });
     });
-    const indexCol = columnHelper.display({
-      id: '#index',
-      cell: (ctx) => ctx.row.index + 1,
-      header: '#',
-      size: 10 * (data.length.toString().length + 1),
-    });
-    return [indexCol, ...valueCols];
+    return valueCols;
   }, [finalColumns, getCellContext]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
