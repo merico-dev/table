@@ -14,7 +14,7 @@ export const DescriptionPopover = observer(() => {
     freezeLayout(opened);
   }, [opened]);
 
-  if (!panel.description || panel.description === '<p><br></p>') {
+  if (!panel.description || panel.description === '<p></p>') {
     return null;
   }
 
