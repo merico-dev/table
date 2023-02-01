@@ -18,15 +18,17 @@ export const StatusTable = () => {
       highlightOnHover
       sx={{
         width: '400px',
-        'thead tr, tbody tr': {
-          'th, td': {
-            padding: '.6em 1em',
+        '&': {
+          'thead tr, tbody tr': {
+            'th, td': {
+              padding: '.6em 1em',
+            },
           },
-        },
-        'thead th:first-of-type': { textAlign: 'left' },
-        tbody: {
-          'tr:not(:first-of-type)': { borderTop: '1px solid #dee2e6' },
-          th: { textAlign: 'left' },
+          'thead th:first-of-type': { textAlign: 'left' },
+          tbody: {
+            'tr:not(:first-of-type)': { borderTop: '1px solid #dee2e6' },
+            th: { textAlign: 'left' },
+          },
         },
       }}
     >

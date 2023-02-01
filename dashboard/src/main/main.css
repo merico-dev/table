@@ -1,5 +1,6 @@
 .dashboard-root {
   overflow: scroll;
+  overflow-x: hidden;
   padding: 0 0 10px;
   height: 100%;
 }

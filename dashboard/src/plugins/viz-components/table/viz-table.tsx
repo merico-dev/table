@@ -1,4 +1,4 @@
-import { Table, TableProps } from '@mantine/core';
+import { Table, TableProps, Text } from '@mantine/core';
 import {
   Cell,
   createColumnHelper,
@@ -84,13 +84,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         size: c.width,
       });
     });
-    const indexCol = columnHelper.display({
-      id: '#index',
-      cell: (ctx) => ctx.row.index + 1,
-      header: '#',
-      size: 10 * (data.length.toString().length + 1),
-    });
-    return [indexCol, ...valueCols];
+    return valueCols;
   }, [finalColumns, getCellContext]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -126,6 +120,16 @@ export function VizTable({ context, instance }: VizViewProps) {
     >
       <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
+          <div className={classes.thead_background} />
+          {totalSize > 0 && (
+            <tr>
+              <th colSpan={table.getHeaderGroups()[0].headers.length} style={{ textAlign: 'right', paddingTop: 0 }}>
+                <Text size={14} color="dimmed" fw="normal">
+                  Total: {totalSize}
+                </Text>
+              </th>
+            </tr>
+          )}
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
