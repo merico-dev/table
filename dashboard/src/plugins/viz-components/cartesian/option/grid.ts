@@ -14,6 +14,9 @@ export function getGrid(conf: ICartesianChartConf) {
   if (conf.x_axis_name) {
     bottom += 15;
   }
+  if (conf.series.some((s) => !s.hide_in_legend)) {
+    bottom += 20;
+  }
 
   return {
     top,
