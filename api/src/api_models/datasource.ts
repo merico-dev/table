@@ -4,8 +4,8 @@ import { Type } from 'class-transformer';
 import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
-  description: 'Authentication object for using app_id and app_secret',
-  name: 'Authentication',
+  description: 'Processing config of DataSource',
+  name: 'DataSourceProcessingConfig',
 })
 export class DataSourceProcessingConfig {
   @IsString()
@@ -36,7 +36,7 @@ export class DataSourceConfig {
   host: string;
 
   @IsObject()
-  @Type(() => DataSourceConfig)
+  @Type(() => DataSourceProcessingConfig)
   @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'Processings for each HTTP request',
