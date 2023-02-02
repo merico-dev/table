@@ -119,12 +119,11 @@ export class DataSourceController implements interfaces.Controller {
     switch (type) {
       case 'http':
         if (
-          !_.has(config, 'host') ||
           !_.has(config, 'processing') ||
           !_.has(config, 'processing.pre') ||
           !_.has(config, 'processing.post')
         )
-          throw new ApiError(BAD_REQUEST, { message: 'HTTP config must contain [host, processing]' });
+          throw new ApiError(BAD_REQUEST, { message: 'Pre processing and post processing are both required for HTTP datasource' });
         return config;
 
       default:
