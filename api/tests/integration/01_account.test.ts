@@ -7,6 +7,7 @@ import { Account as AccountApiModel, AccountLoginResponse } from '~/api_models/a
 import { ApiError, BAD_REQUEST, INVALID_CREDENTIALS, PASSWORD_MISMATCH } from '~/utils/errors';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import Account from '~/models/account';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('AccountService', () => {
   connectionHook();
@@ -42,7 +43,7 @@ describe('AccountService', () => {
 
   describe('login', () => {
     it('should be successfull', async () => {
-      account5Login = await accountService.login('account5', 'account5');
+      account5Login = await accountService.login('account5', 'account5', DEFAULT_LANGUAGE);
       expect(account5Login).toMatchObject({
         token: account5Login.token,
         account: {
@@ -57,7 +58,7 @@ describe('AccountService', () => {
     });
 
     it('should fail', async () => {
-      await expect(accountService.login('incorrect name', 'incorrect password')).rejects.toThrowError(
+      await expect(accountService.login('incorrect name', 'incorrect password', DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' }),
       );
     });
@@ -95,7 +96,7 @@ describe('AccountService', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      account5 = await accountService.update(account5.id, 'account5_updated', 'account5_updated@test.test');
+      account5 = await accountService.update(account5.id, 'account5_updated', 'account5_updated@test.test', DEFAULT_LANGUAGE);
       expect(account5).toMatchObject({
         id: account5.id,
         create_time: account5.create_time,
@@ -107,11 +108,11 @@ describe('AccountService', () => {
     });
 
     it('should fail', async () => {
-      await expect(accountService.update(notFoundId, 'xxxx', 'xxxx@xxx.xxx')).rejects.toThrowError(EntityNotFoundError);
+      await expect(accountService.update(notFoundId, 'xxxx', 'xxxx@xxx.xxx', DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('updating superadmin should fail', async () => {
-      await expect(accountService.update(accounts[4].id, undefined, undefined)).rejects.toThrowError(
+      await expect(accountService.update(accounts[4].id, undefined, undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Can not edit superadmin details' }),
       );
     });
@@ -127,6 +128,7 @@ describe('AccountService', () => {
         false,
         undefined,
         ROLE_TYPES.SUPERADMIN,
+        DEFAULT_LANGUAGE,
       );
       expect(account5).toMatchObject({
         id: account5.id,
@@ -148,6 +150,7 @@ describe('AccountService', () => {
           false,
           undefined,
           ROLE_TYPES.READER,
+          DEFAULT_LANGUAGE,
         ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
@@ -166,6 +169,7 @@ describe('AccountService', () => {
           false,
           undefined,
           ROLE_TYPES.AUTHOR,
+          DEFAULT_LANGUAGE,
         ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
@@ -184,6 +188,7 @@ describe('AccountService', () => {
           true,
           undefined,
           ROLE_TYPES.SUPERADMIN,
+          DEFAULT_LANGUAGE,
         ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Must provide new_password when reset_password is true' }),
@@ -193,7 +198,7 @@ describe('AccountService', () => {
 
   describe('changePassword', () => {
     it('should change password successfully', async () => {
-      let login = await accountService.login(account5.name, 'account5');
+      let login = await accountService.login(account5.name, 'account5', DEFAULT_LANGUAGE);
       expect(login).toMatchObject({
         token: login.token,
         account: {
@@ -208,11 +213,11 @@ describe('AccountService', () => {
 
       await accountService.changePassword(account5.id, 'account5', 'account5_changed');
 
-      await expect(accountService.login(account5.name, 'account5')).rejects.toThrowError(
+      await expect(accountService.login(account5.name, 'account5', DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' }),
       );
 
-      login = await accountService.login(account5.name, 'account5_changed');
+      login = await accountService.login(account5.name, 'account5_changed', DEFAULT_LANGUAGE);
       expect(login).toMatchObject({
         token: login.token,
         account: {
@@ -279,7 +284,7 @@ describe('AccountService', () => {
         ],
       });
 
-      await accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN);
+      await accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
 
       results = await accountService.list(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
       expect(results).toMatchObject({
@@ -321,11 +326,11 @@ describe('AccountService', () => {
     });
 
     it('should fail because not found', async () => {
-      await expect(accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(EntityNotFoundError);
+      await expect(accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should fail because of permission', async () => {
-      await expect(accountService.delete(accounts[4].id, ROLE_TYPES.INACTIVE)).rejects.toThrowError(
+      await expect(accountService.delete(accounts[4].id, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
           message: 'Can not delete account with similar or higher permissions than own account',
         }),

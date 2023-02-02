@@ -132,7 +132,7 @@ export class DashboardController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id, name, content, is_removed } = validate(DashboardUpdateRequest, req.body);
-      const result = await this.dashboardService.update(id, name, content, is_removed, auth?.role_id);
+      const result = await this.dashboardService.update(id, name, content, is_removed, req.locale, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);
@@ -156,7 +156,7 @@ export class DashboardController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id } = validate(DashboardIDRequest, req.body);
-      const result = await this.dashboardService.delete(id, auth?.role_id);
+      const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
       res.json(result);
     } catch (err) {
       next(err);

@@ -84,7 +84,7 @@ export class APIController implements interfaces.Controller {
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = validate(ApiKeyIDRequest, req.body);
-      await this.apiService.deleteKey(id);
+      await this.apiService.deleteKey(id, req.locale);
       res.json({ id });
     } catch (err) {
       next(err);

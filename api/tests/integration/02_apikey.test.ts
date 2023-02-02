@@ -7,6 +7,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { cryptSign } from '~/utils/helpers';
 import ApiKey from '~/models/apiKey';
 import { dashboardDataSource } from '~/data_sources/dashboard';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('ApiService', () => {
   connectionHook();
@@ -133,7 +134,7 @@ describe('ApiService', () => {
         ],
       });
 
-      await apiService.deleteKey(currentKeys.data[0].id);
+      await apiService.deleteKey(currentKeys.data[0].id, DEFAULT_LANGUAGE);
       deletedKeyId = currentKeys.data[0].id;
 
       currentKeys = await apiService.listKeys(
@@ -149,11 +150,11 @@ describe('ApiService', () => {
     });
 
     it('should fail if not found', async () => {
-      await expect(apiService.deleteKey(deletedKeyId)).rejects.toThrowError(EntityNotFoundError);
+      await expect(apiService.deleteKey(deletedKeyId, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should fail if key is preset', async () => {
-      await expect(apiService.deleteKey(apiKeys[3].id)).rejects.toThrowError(
+      await expect(apiService.deleteKey(apiKeys[3].id, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Preset apikey can not be deleted' }),
       );
     });

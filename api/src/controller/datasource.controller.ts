@@ -9,6 +9,7 @@ import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, Da
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
+import i18n from '../utils/i18n';
 
 @ApiPath({
   path: '/datasource',
@@ -63,8 +64,8 @@ export class DataSourceController implements interfaces.Controller {
     try {
       // eslint-disable-next-line prefer-const
       let { type, key, config } = validate(DataSourceCreateRequest, req.body);
-      config = this.validateConfig(type, config);
-      const result = await this.dataSourceService.create(type, key, config);
+      config = this.validateConfig(type, config, req.locale);
+      const result = await this.dataSourceService.create(type, key, config, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
@@ -86,7 +87,7 @@ export class DataSourceController implements interfaces.Controller {
   public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, key } = validate(DataSourceRenameRequest, req.body);
-      const result = await this.dataSourceService.rename(id, key);
+      const result = await this.dataSourceService.rename(id, key, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
@@ -108,14 +109,14 @@ export class DataSourceController implements interfaces.Controller {
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = validate(DataSourceIDRequest, req.body);
-      await this.dataSourceService.delete(id);
+      await this.dataSourceService.delete(id, req.locale);
       res.json();
     } catch (err) {
       next(err);
     }
   }
 
-  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig): DataSourceConfig {
+  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig, locale: string): DataSourceConfig {
     switch (type) {
       case 'http':
         if (
@@ -132,7 +133,7 @@ export class DataSourceController implements interfaces.Controller {
           !_.has(config, 'username') ||
           !_.has(config, 'password') ||
           !_.has(config, 'database')
-        ) throw new ApiError(BAD_REQUEST, { message: 'Mysql|Postgresql config must contain [port, username, password, database]' });
+        ) throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Mysql|Postgresql config must contain [port, username, password, database]', locale }) });
         return config;
     }
   }

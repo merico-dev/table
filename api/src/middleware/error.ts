@@ -4,6 +4,7 @@ import {
   ApiError, SERVER_ERROR, BAD_REQUEST, ErrorStatusCode, VALIDATION_FAILED, NOT_FOUND
 } from '../utils/errors';
 import logger from 'npmlog';
+import i18n from '../utils/i18n';
 
 export default async function errorHandler(err, req, res, next) {
   let error: ApiError = err;
@@ -30,6 +31,7 @@ export default async function errorHandler(err, req, res, next) {
     });
   }
   logger.error(`${status}: ${error}`);
+  error.code = i18n.__({ phrase: error.code, locale: req.locale });
   res.status(status);
   res.send(error);
 }

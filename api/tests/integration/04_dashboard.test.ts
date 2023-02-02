@@ -6,6 +6,7 @@ import { ROLE_TYPES } from '~/api_models/role';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('DashboardService', () => {
   connectionHook();
@@ -255,6 +256,7 @@ describe('DashboardService', () => {
         'dashboard3_updated',
         undefined,
         true,
+        DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
       expect(updatedDashboard).toMatchObject({
@@ -266,7 +268,7 @@ describe('DashboardService', () => {
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
+      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
         EntityNotFoundError,
       );
     });
@@ -277,6 +279,7 @@ describe('DashboardService', () => {
         'dashboard2_updated',
         undefined,
         false,
+        DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
       expect(updatedDashboard).toMatchObject({
@@ -289,14 +292,14 @@ describe('DashboardService', () => {
 
     it('should fail if not SUPERADMIN', async () => {
       await expect(
-        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, ROLE_TYPES.ADMIN),
+        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, DEFAULT_LANGUAGE, ROLE_TYPES.ADMIN),
       ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' }));
     });
   });
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      const deletedDashboard = await dashboardService.delete(dashboard3.id, ROLE_TYPES.SUPERADMIN);
+      const deletedDashboard = await dashboardService.delete(dashboard3.id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
       expect(deletedDashboard).toMatchObject({
         ...dashboard3,
         name: 'dashboard3_updated',
@@ -306,13 +309,13 @@ describe('DashboardService', () => {
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.delete(notFoundId, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
+      await expect(dashboardService.delete(notFoundId, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
         EntityNotFoundError,
       );
     });
 
     it('should delete preset dashboard successfully if SUPERADMIN', async () => {
-      const deletedDashboard = await dashboardService.delete(dashboards[1].id, ROLE_TYPES.SUPERADMIN);
+      const deletedDashboard = await dashboardService.delete(dashboards[1].id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
       expect(deletedDashboard).toMatchObject({
         ...dashboards[1],
         name: 'dashboard2_updated',
@@ -322,7 +325,7 @@ describe('DashboardService', () => {
     });
 
     it('should fail to delete preset dashboard if not SUPERADMIN', async () => {
-      await expect(dashboardService.delete(dashboards[1].id, ROLE_TYPES.ADMIN)).rejects.toThrowError(
+      await expect(dashboardService.delete(dashboards[1].id, DEFAULT_LANGUAGE, ROLE_TYPES.ADMIN)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Only superadmin can delete preset dashboards' }),
       );
     });

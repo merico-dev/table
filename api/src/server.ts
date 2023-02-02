@@ -12,6 +12,8 @@ import logger from 'npmlog';
 import { bindControllers } from './controller';
 import { bindServices } from './services';
 import { dashboardDataSource } from './data_sources/dashboard';
+import i18n from './utils/i18n';
+import localization from './middleware/localization';
 import './api_models';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -34,7 +36,9 @@ server.setConfig((app: any) => {
       origin: corsOrigins,
     }),
   );
+  app.use(i18n.init);
   app.use(authorizationMiddleware);
+  app.use(localization);
   app.use('/api-docs/swagger', express.static('swagger'));
   app.use('/api-docs/swagger/assets', express.static('swagger/assets'));
 

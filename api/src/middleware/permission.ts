@@ -7,7 +7,7 @@ import { RoleService } from '../services/role.service';
 export default function permission(requiredRole: ROLE_TYPES) {
   return (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const auth: Account | ApiKey | null = req.body.auth;
-    RoleService.checkPermission(auth, requiredRole)
+    RoleService.checkPermission(auth, requiredRole, req.locale);
     next();
   }
 }

@@ -7,6 +7,7 @@ import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
+import i18n from '../utils/i18n';
 import { JobService, RenameJobParams } from './job.service';
 import { QueryService } from './query.service';
 
@@ -46,9 +47,9 @@ export class DataSourceService {
     };
   }
 
-  async create(type: 'mysql' | 'postgresql' | 'http', key: string, config: DataSourceConfig): Promise<DataSource> {
+  async create(type: 'mysql' | 'postgresql' | 'http', key: string, config: DataSourceConfig, locale: string): Promise<DataSource> {
     if (type !== 'http') {
-      await this.testDatabaseConfiguration(type, config);
+      await this.testDatabaseConfiguration(type, config, locale);
     }
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
@@ -61,11 +62,11 @@ export class DataSourceService {
     return result;
   }
 
-  async rename(id: string, key: string): Promise<Job> {
+  async rename(id: string, key: string, locale: string): Promise<Job> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = await dataSourceRepo.findOneByOrFail({ id });
     if (dataSource.key === key) {
-      throw new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' })
+      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'New key is the same as the old one', locale }) });
     }
     const jobParams: RenameJobParams = {
       type: dataSource.type,
@@ -76,23 +77,23 @@ export class DataSourceService {
     return result;
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string, locale: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const datasource = await dataSourceRepo.findOneByOrFail({ id });
     if (datasource.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' });
+      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Can not delete preset datasources', locale }) });
     }
     await dataSourceRepo.delete(datasource.id);
     await QueryService.removeDBConnection(datasource.type, datasource.key);
   }
 
-  private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {
+  private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig, locale: string): Promise<void> {
     const configuration = configureDatabaseSource(type, config);
     const source = new Source(configuration);
     try {
       await source.initialize();
     } catch (error) {
-      throw new ApiError(BAD_REQUEST, { message: 'Testing datasource connection failed' });      
+      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Testing datasource connection failed', locale }) });      
     }
     await source.destroy();
   }
