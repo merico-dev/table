@@ -9,7 +9,7 @@ import { FilterSelectItem } from '../select-item';
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_Select;
   value: $TSFixMe;
-  onChange: (v: $TSFixMe) => void;
+  onChange: (v: string, forceSubmit?: boolean) => void;
 }
 
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
@@ -26,7 +26,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
     const newValue = config.options[0]?.value ?? '';
 
     console.log('Selecting the first option by default. New value: ', newValue);
-    onChange(newValue);
+    onChange(newValue, true);
   }, [config.default_selection_count, config.options]); // excluding onChange from deps, since it's always re-created
 
   return (

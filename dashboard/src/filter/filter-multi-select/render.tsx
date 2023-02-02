@@ -9,7 +9,7 @@ import { FilterSelectItem } from '../select-item';
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;
   value: $TSFixMe;
-  onChange: (v: $TSFixMe) => void;
+  onChange: (v: string[], forceSubmit?: boolean) => void;
 }
 
 export const FilterMultiSelect = observer(({ label, config, value, onChange }: IFilterMultiSelect) => {
@@ -26,7 +26,7 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
     const newValue = config.options.slice(0, default_selection_count).map((o: any) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
-    onChange(newValue);
+    onChange(newValue, true);
   }, [config.default_selection_count, config.options]);
 
   const minWidth = config.min_width ? config.min_width : '200px';

@@ -35,7 +35,7 @@ function addLabelToData(data: ITreeDataQueryOption[]) {
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TreeSelect;
   value: $TSFixMe;
-  onChange: (v: $TSFixMe) => void;
+  onChange: (v: string[], forceSubmit?: boolean) => void;
 }
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
@@ -58,13 +58,13 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       return;
     }
     if (treeData.length === 0) {
-      onChange([]);
+      onChange([], true);
       return;
     }
     const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
     console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
-    onChange(newValue);
+    onChange(newValue, true);
   }, [config.default_selection_count, treeData]);
 
   const minWidth = config.min_width ? config.min_width : '200px';

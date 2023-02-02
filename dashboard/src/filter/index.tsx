@@ -31,12 +31,13 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
     return null;
   }
 
-  const getChangeHandler = (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any) => {
-    onChange(v);
-    if (filter.should_auto_submit) {
-      model.filters.setValueByKey(filter.key, v);
-    }
-  };
+  const getChangeHandler =
+    (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
+      onChange(v);
+      if (filter.should_auto_submit || forceSubmit) {
+        model.filters.setValueByKey(filter.key, v);
+      }
+    };
 
   return (
     <form onSubmit={handleSubmit(model.filters.setValues)}>
