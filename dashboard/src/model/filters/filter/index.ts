@@ -43,6 +43,17 @@ export const FilterModel = types
     get usingDefaultValue() {
       return self.type !== DashboardFilterType.TreeSelect;
     },
+    get auto_submit_supported() {
+      return [DashboardFilterType.Select, DashboardFilterType.Checkbox, DashboardFilterType.DateRange].includes(
+        self.type,
+      );
+    },
+  }))
+  .views((self) => ({
+    // FIXME: this is a temp workaround. auto_submit should be moved into config
+    get should_auto_submit() {
+      return self.auto_submit_supported && self.auto_submit;
+    },
   }))
   .actions((self) => ({
     setKey(key: string) {
@@ -82,7 +93,7 @@ export const FilterModel = types
       self.visibleInViewsIDs.push(...ids);
     },
     setAutoSubmit(v: boolean) {
-      self.auto_submit = v;
+      self.auto_submit = self.auto_submit_supported && v;
     },
   }));
 

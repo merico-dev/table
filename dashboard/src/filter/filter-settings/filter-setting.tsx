@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -68,12 +69,14 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
               // @ts-expect-error important
               sx={{ flexGrow: '1 !important' }}
             />
-            <Checkbox
-              label="Submit automatically"
-              checked={filter.auto_submit}
-              onChange={(e) => filter.setAutoSubmit(e.currentTarget.checked)}
-              mt={22}
-            />
+            {filter.auto_submit_supported && (
+              <Checkbox
+                label="Submit automatically"
+                checked={filter.auto_submit}
+                onChange={(e) => filter.setAutoSubmit(e.currentTarget.checked)}
+                mt={22}
+              />
+            )}
           </Group>
           <MultiSelect
             label="Visible in..."
