@@ -15,6 +15,7 @@ import { getYAxes } from './y-axis';
 const defaultOption = {
   tooltip: {
     trigger: 'axis',
+    confine: true,
   },
   xAxis: [
     {

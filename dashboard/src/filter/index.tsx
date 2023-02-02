@@ -25,18 +25,19 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
   }, [formValue]);
 
   const filters = model.filters.visibleInView(view.id);
-  const allAutoSubmit = useMemo(() => filters.every((f) => f.auto_submit), [filters]);
+  const allAutoSubmit = useMemo(() => filters.every((f) => f.should_auto_submit), [filters]);
 
   if (filters.length === 0) {
     return null;
   }
 
-  const getChangeHandler = (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any) => {
-    onChange(v);
-    if (filter.auto_submit) {
-      model.filters.setValueByKey(filter.key, v);
-    }
-  };
+  const getChangeHandler =
+    (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
+      onChange(v);
+      if (filter.should_auto_submit || forceSubmit) {
+        model.filters.setValueByKey(filter.key, v);
+      }
+    };
 
   return (
     <form onSubmit={handleSubmit(model.filters.setValues)}>
