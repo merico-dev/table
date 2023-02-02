@@ -137,7 +137,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
       ret -= bottomStatsHeight;
     }
     return Math.max(0, ret);
-  }, [topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
+  }, [height, topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
 
   return (
     <Box>
