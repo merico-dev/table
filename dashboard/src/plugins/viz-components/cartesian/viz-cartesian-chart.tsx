@@ -129,11 +129,10 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
       ret -= topStatsHeight;
     }
     if (bottomStatsWidth) {
-      console.log({ bottomStatsWidth });
       ret -= bottomStatsHeight;
     }
     return Math.max(0, ret);
-  }, [topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
+  }, [height, topStatsWidth, topStatsHeight, bottomStatsWidth, bottomStatsHeight]);
 
   return (
     <Box>
