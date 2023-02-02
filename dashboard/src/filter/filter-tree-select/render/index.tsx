@@ -58,12 +58,13 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       return;
     }
     if (treeData.length === 0) {
+      console.log('[filter.tree-select] Resetting to empty');
       onChange([], true);
       return;
     }
     const newValue = treeData.slice(0, default_selection_count).map((o) => o.value);
 
-    console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
+    console.log(`[filter.tree-select] Selecting first ${default_selection_count} option(s)`);
     onChange(newValue, true);
   }, [config.default_selection_count, treeData]);
 
@@ -76,7 +77,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       disabled={disabled}
       style={{ minWidth, maxWidth: disabled ? minWidth : 'unset', borderColor: '#e9ecef' }}
       value={value}
-      onChange={onChange}
+      onChange={(v: string[]) => onChange(v, false)}
       // treeData={config.options}
       treeData={treeData}
       label={label}
