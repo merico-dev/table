@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import ReactFlow, { addEdge, Background, useNodesState, useEdgesState, MiniMap, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { observer } from 'mobx-react-lite';
+import { makeNodes } from './utils';
+import { useModelContext } from '~/contexts';
 
 const initialNodes = [
   {
@@ -85,7 +87,8 @@ const initialEdges = [
 ];
 
 export const InteractionsViewer = observer(() => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const model = useModelContext();
+  const [nodes, setNodes, onNodesChange] = useNodesState(makeNodes(model));
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback((connection: any) => {

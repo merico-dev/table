@@ -23,7 +23,7 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
       opened={opened}
       onClose={close}
       closeOnClickOutside={false}
-      closeOnEscape={false}
+      closeOnEscape={true}
       title="Interactions"
       trapFocus
       onDragStart={(e) => {
