@@ -1,9 +1,8 @@
 import { ActionIcon, Button, Group, Menu, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { SnapshotOrInstance } from 'mobx-state-tree';
 import React from 'react';
-import { Code, Database, DeviceFloppy, Download, Filter, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
-import { ViewModelInstance } from '~/model';
+import { Code, Database, DeviceFloppy, Download, Filter, Link, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { downloadJSON } from '~/utils/download';
 import { LayoutStateContext, useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
@@ -65,6 +64,10 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   const openFilters = () => setFiltersOpened(true);
   const closeFilters = () => setFiltersOpened(false);
 
+  const [interactionsOpened, setInteractionsOpened] = React.useState(false);
+  const openInteractions = () => setInteractionsOpened(true);
+  const closeInteractions = () => setInteractionsOpened(false);
+
   const downloadSchema = () => {
     const schema = JSON.stringify(getCurrentSchema(), null, 2);
     downloadJSON(model.name, schema);
@@ -96,6 +99,11 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
           <Tooltip label="Data Settings">
             <ActionIcon variant="default" size="md" onClick={openQueries}>
               <Database size={20} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Interactions Viewer">
+            <ActionIcon variant="default" size="md" onClick={openInteractions}>
+              <Link size={20} />
             </ActionIcon>
           </Tooltip>
         </Group>
@@ -130,6 +138,7 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
       </Group>
       <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
       <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
+      <InteractionsViewerModal opened={interactionsOpened} close={closeInteractions} />
     </Group>
   );
 });
