@@ -111,6 +111,7 @@ export function VizTable({ context, instance }: VizViewProps) {
   const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
+  const totalRows = rows.length;
   return (
     <div
       ref={tableContainerRef}
@@ -120,11 +121,11 @@ export function VizTable({ context, instance }: VizViewProps) {
     >
       <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
-          {totalSize > 0 && (
+          {totalRows > 0 && (
             <tr>
               <th colSpan={table.getHeaderGroups()[0].headers.length} style={{ textAlign: 'right', paddingTop: 0 }}>
                 <Text size={14} color="dimmed" fw="normal">
-                  Total: {totalSize}
+                  Total: {totalRows}
                 </Text>
               </th>
             </tr>
