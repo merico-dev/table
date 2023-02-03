@@ -154,7 +154,7 @@ describe('AccountService', () => {
         ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
-          message: 'Can not edit account with similar or higher permissions than own account',
+          message: 'Can not edit account with similar or higher privileges than own account',
         }),
       );
     });
@@ -173,7 +173,7 @@ describe('AccountService', () => {
         ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
-          message: 'Can not change account permissions to similar or higher than own account',
+          message: 'Can not change account privileges to similar or higher than own account',
         }),
       );
     });
@@ -332,7 +332,7 @@ describe('AccountService', () => {
     it('should fail because of permission', async () => {
       await expect(accountService.delete(accounts[4].id, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
-          message: 'Can not delete account with similar or higher permissions than own account',
+          message: 'Can not delete account with similar or higher privileges than own account',
         }),
       );
     });

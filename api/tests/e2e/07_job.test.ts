@@ -89,6 +89,10 @@ describe('JobController', () => {
       key: 'jobHTTP',
       config: {
         host: 'http://jsonplaceholder.typicode.com',
+        processing: {
+          pre: '',
+          post: ''
+        },
       },
     };
     validate.mockReturnValueOnce(httpQuery);

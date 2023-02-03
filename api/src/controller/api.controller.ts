@@ -1,5 +1,4 @@
 import * as express from 'express';
-import _ from 'lodash';
 import { inject, interfaces as inverfaces } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';

@@ -13,7 +13,7 @@ import { redactPassword } from '../services/account.service';
 import permission from '../middleware/permission';
 import ensureAuthIsAccount from '../middleware/ensureAuthIsAccount';
 import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 
 @ApiPath({
   path: '/account',
@@ -110,7 +110,7 @@ export class AccountController implements interfaces.Controller {
       const account: Account = req.body.auth;
       const { name, email, password, role_id } = validate(AccountCreateRequest, req.body);
       if (account.role_id <= role_id) {
-        throw new ApiError(UNAUTHORIZED, { message: i18n.__({ phrase: 'Can not add user with similar or higher role', locale: req.locale }) });
+        throw new ApiError(UNAUTHORIZED, { message: translate('ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES', req.locale) });
       }
       const result = await this.accountService.create(name, email, password, role_id);
       res.json(result);
@@ -159,7 +159,7 @@ export class AccountController implements interfaces.Controller {
       const account: Account = req.body.auth;
       const { id, name, email, role_id, reset_password, new_password } = validate(AccountEditRequest, req.body);
       if (id === account.id) {
-        throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Editing own account. Please use /account/update instead', locale: req.locale }) });
+        throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SELF', req.locale) });
       }
       const result = await this.accountService.edit(id, name, email, role_id, reset_password, new_password, account.role_id, req.locale);
       res.json(result);
@@ -208,7 +208,7 @@ export class AccountController implements interfaces.Controller {
       const account: Account = req.body.auth;
       const { id } = validate(AccountIDRequest, req.body);
       if (id === account.id) {
-        throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Can not delete self', locale: req.locale }) });
+        throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_DELETE_SELF', req.locale) });
       }
       await this.accountService.delete(id, account.role_id, req.locale);
       res.json({ id });

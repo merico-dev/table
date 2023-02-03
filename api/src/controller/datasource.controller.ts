@@ -9,7 +9,7 @@ import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, Da
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 
 @ApiPath({
   path: '/datasource',
@@ -124,7 +124,7 @@ export class DataSourceController implements interfaces.Controller {
           !_.has(config, 'processing.pre') ||
           !_.has(config, 'processing.post')
         )
-          throw new ApiError(BAD_REQUEST, { message: 'Pre processing and post processing are both required for HTTP datasource' });
+          throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_HTTP_REQUIRED_FIELDS', locale) });
         return config;
 
       default:
@@ -133,7 +133,7 @@ export class DataSourceController implements interfaces.Controller {
           !_.has(config, 'username') ||
           !_.has(config, 'password') ||
           !_.has(config, 'database')
-        ) throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Mysql|Postgresql config must contain [port, username, password, database]', locale }) });
+        ) throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_DB_REQUIRED_FIELDS', locale ) });
         return config;
     }
   }

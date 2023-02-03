@@ -5,7 +5,7 @@ import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
 import { DEFAULT_LANGUAGE } from '../utils/constants';
-import i18n from '../utils/i18n';
+import i18n, { translate } from '../utils/i18n';
 
 export enum ConfigResourceTypes {
   GLOBAL = 'GLOBAL',
@@ -61,7 +61,7 @@ export class ConfigService {
     const keyConfig = ConfigService.keyConfig[key];
     if (keyConfig.requiresAuth) {
       if (!auth) {
-        throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Must be authenticated for this config', locale }) });
+        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale ) });
       }
       where.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
       where.resource_id = auth.id; 
@@ -86,6 +86,6 @@ export class ConfigService {
   }
 
   private validateKey(keyConfig: KeyConfigProperties, value: string, locale: string) {
-    if (keyConfig.acceptedValues && !keyConfig.acceptedValues.includes(value)) throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Incorrect value', locale }), acceptedValues: keyConfig.acceptedValues });
+    if (keyConfig.acceptedValues && !keyConfig.acceptedValues.includes(value)) throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INCORRECT_VALUE', locale ), acceptedValues: keyConfig.acceptedValues });
   }
 }

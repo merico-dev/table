@@ -174,7 +174,7 @@ describe('ConfigController', () => {
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Incorrect value', acceptedValues: [ 'en', 'zh' ] }
+        detail: { message: 'Incorrect config value', acceptedValues: [ 'en', 'zh' ] }
       });
     });
 

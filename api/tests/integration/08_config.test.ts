@@ -92,7 +92,7 @@ describe('ConfigService', () => {
     });
 
     it('should fail if incorrect value', async () => {
-      await expect(configService.update('lang', 'incorrect_lang', account, DEFAULT_LANGUAGE)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Incorrect value', acceptedValues: ConfigService.keyConfig['lang'].acceptedValues }));
+      await expect(configService.update('lang', 'incorrect_lang', account, DEFAULT_LANGUAGE)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Incorrect config value', acceptedValues: ConfigService.keyConfig['lang'].acceptedValues }));
     });
 
     it('should fail if not authenticated', async () => {

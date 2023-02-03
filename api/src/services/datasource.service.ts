@@ -7,7 +7,7 @@ import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 import { JobService, RenameJobParams } from './job.service';
 import { QueryService } from './query.service';
 
@@ -66,7 +66,7 @@ export class DataSourceService {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = await dataSourceRepo.findOneByOrFail({ id });
     if (dataSource.key === key) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'New key is the same as the old one', locale }) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_RENAME_SAME_KEY', locale ) });
     }
     const jobParams: RenameJobParams = {
       type: dataSource.type,
@@ -81,7 +81,7 @@ export class DataSourceService {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const datasource = await dataSourceRepo.findOneByOrFail({ id });
     if (datasource.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Can not delete preset datasources', locale }) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_NO_DELETE_PRESET', locale ) });
     }
     await dataSourceRepo.delete(datasource.id);
     await QueryService.removeDBConnection(datasource.type, datasource.key);
@@ -93,7 +93,7 @@ export class DataSourceService {
     try {
       await source.initialize();
     } catch (error) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Testing datasource connection failed', locale }) });      
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_CONNECTION_TEST_FAILED', locale ) });      
     }
     await source.destroy();
   }

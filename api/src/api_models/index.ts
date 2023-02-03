@@ -3,7 +3,7 @@ import {
   DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest, DashboardNameRequest,
 } from './dashboard';
 import {
-  DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
+  DataSourceProcessingConfig, DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
   DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest, DataSourceRenameRequest
 } from './datasource';
 import {
@@ -32,6 +32,7 @@ export default {
   DashboardIDRequest,
   DashboardNameRequest,
 
+  DataSourceProcessingConfig,
   DataSourceConfig,
   DataSource,
   DataSourceFilterObject,

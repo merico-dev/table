@@ -27,6 +27,8 @@ import { ApiError } from '~/utils/errors';
 import { validate } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
 import { ROLE_TYPES } from '~/api_models/role';
+import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import * as crypto from 'crypto';
 
 describe('validation', () => {
@@ -777,6 +779,10 @@ describe('validation', () => {
         const data: DataSourceCreateRequest = {
           config: {
             host: '',
+            processing: {
+              pre: '',
+              post: ''
+            },
             database: '',
             password: '',
             port: 0,
@@ -1046,6 +1052,76 @@ describe('validation', () => {
               children: [],
               constraints: { isString: 'query must be a string' },
             },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('ConfigController', () => {
+    describe('ConfigGetRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: ConfigGetRequest = {
+          key: 'lang',
+        };
+        const result = validate(ConfigGetRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validate(ConfigGetRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(ConfigGetRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'key',
+              children: [],
+              constraints: { isIn: 'key must be one of the following values: lang' }
+            }
+          ]);
+        }
+      });
+    });
+
+    describe('ConfigUpdateRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: ConfigUpdateRequest = {
+          key: 'lang',
+          value: DEFAULT_LANGUAGE
+        };
+        const result = validate(ConfigUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validate(ConfigUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(ConfigUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'key',
+              children: [],
+              constraints: { isIn: 'key must be one of the following values: lang' }
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'value',
+              children: [],
+              constraints: { isString: 'value must be a string' }
+            }
           ]);
         }
       });

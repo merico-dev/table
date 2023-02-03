@@ -35,6 +35,10 @@ describe('DataSourceService', () => {
 
       httpDatasource = await datasourceService.create('http', 'jsonplaceholder_2', {
         host: 'http://jsonplaceholder.typicode.com',
+        processing: {
+          pre: '',
+          post: ''
+        },
       }, DEFAULT_LANGUAGE);
       expect(httpDatasource).toMatchObject({
         type: 'http',

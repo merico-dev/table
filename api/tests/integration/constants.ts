@@ -130,6 +130,10 @@ export const dataSources: DataSource[] = [
     is_preset: true,
     config: {
       host: 'http://jsonplaceholder.typicode.com',
+      processing: {
+        pre: '',
+        post: ''
+      },
     },
     create_time: new Date(),
     update_time: new Date(),

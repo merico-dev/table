@@ -73,6 +73,7 @@ describe('QueryController', () => {
       const httpParams: HttpParams = {
         method: 'GET',
         data: {},
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };
@@ -102,6 +103,7 @@ describe('QueryController', () => {
       const httpParams: HttpParams = {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts',
       };
@@ -122,6 +124,7 @@ describe('QueryController', () => {
       const httpParams: HttpParams = {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };
@@ -142,6 +145,7 @@ describe('QueryController', () => {
       const httpParams: HttpParams = {
         method: 'DELETE',
         data: {},
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };

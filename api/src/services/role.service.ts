@@ -5,7 +5,7 @@ import Account from '../models/account';
 import { ApiError, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { AUTH_ENABLED } from '../utils/constants';
 import ApiKey from '../models/apiKey';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 
 export class RoleService {
   async list(): Promise<Role[]> {
@@ -18,10 +18,10 @@ export class RoleService {
       return;
     }
     if (!auth) {
-      throw new ApiError(UNAUTHORIZED, { message: i18n.__({ phrase: 'Not authenticated', locale }) });
+      throw new ApiError(UNAUTHORIZED, { message: translate('UNAUTHORIZED', locale ) });
     }
     if (auth.role_id < minimum_required_role) {
-      throw new ApiError(FORBIDDEN, { message: i18n.__({ phrase: 'Insufficient privileges', locale }) });
+      throw new ApiError(FORBIDDEN, { message: translate('FORBIDDEN', locale ) });
     }
   }
 }

@@ -9,7 +9,7 @@ import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { DashboardChangelogService } from './dashboard_changelog.service';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 
 export class DashboardService {
   async list(
@@ -80,7 +80,7 @@ export class DashboardService {
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     const originalDashboard = _.cloneDeep(dashboard);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Only superadmin can edit preset dashboards', locale }) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale ) });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
     dashboard.content = content === undefined ? dashboard.content : content;
@@ -101,7 +101,7 @@ export class DashboardService {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Only superadmin can delete preset dashboards', locale }) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_DELETE_PRESET_REQUIRES_SUPERADMIN', locale ) });
     }
     const originalDashboard = _.cloneDeep(dashboard);
     dashboard.is_removed = true;

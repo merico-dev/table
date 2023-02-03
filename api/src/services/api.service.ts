@@ -6,7 +6,7 @@ import ApiKey from '../models/apiKey';
 import { cryptSign, escapeLikePattern } from '../utils/helpers';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { ConfigResourceTypes, ConfigService } from './config.service';
-import i18n from '../utils/i18n';
+import { translate } from '../utils/i18n';
 
 export class ApiService {
   static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | null> {
@@ -66,7 +66,7 @@ export class ApiService {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = await apiKeyRepo.findOneByOrFail({ id });
     if (apiKey.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: i18n.__({ phrase: 'Preset apikey can not be deleted', locale }) });
+      throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NO_DELETE_PRESET', locale ) });
     }
     await apiKeyRepo.delete(apiKey.id);
     await ConfigService.delete('lang', ConfigResourceTypes.APIKEY, apiKey.id);

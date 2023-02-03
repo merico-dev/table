@@ -103,6 +103,10 @@ describe('DataSourceController', () => {
         key: 'jsonplaceholder',
         config: {
           host: 'http://jsonplaceholder.typicode.com',
+          processing: {
+            pre: '',
+            post: ''
+          },
         },
       };
       validate.mockReturnValueOnce(httpQuery);
@@ -116,7 +120,7 @@ describe('DataSourceController', () => {
       expect(httpResponse.body).toMatchObject({
         type: 'http',
         key: 'jsonplaceholder',
-        config: { host: 'http://jsonplaceholder.typicode.com' },
+        config: { host: 'http://jsonplaceholder.typicode.com', processing: { pre: '', post: '' } },
         id: httpDatasource.id,
         create_time: httpDatasource.create_time,
         update_time: httpDatasource.update_time,

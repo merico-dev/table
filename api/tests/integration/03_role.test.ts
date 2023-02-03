@@ -69,7 +69,7 @@ describe('RoleService', () => {
     it('should throw if not enough privileges', async () => {
       expect(() => {
         RoleService.checkPermission(apikey, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
-      }).toThrowError(new ApiError(FORBIDDEN, { message: 'Insufficient privileges' }));
+      }).toThrowError(new ApiError(FORBIDDEN, { message: 'Access denied' }));
     });
   });
 });
