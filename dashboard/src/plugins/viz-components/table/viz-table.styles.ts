@@ -26,9 +26,16 @@ export const useTableStyles = createStyles((theme) => ({
     top: 0,
     transform: 'translateY(-1px)',
     zIndex: 10,
-    'th, td': {
-      padding: 0,
+    '&::after': {
+      content: '" "',
+      display: 'block',
       background: 'white',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      zIndex: -1,
     },
   },
   thead_background: {

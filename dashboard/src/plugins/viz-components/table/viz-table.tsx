@@ -120,7 +120,6 @@ export function VizTable({ context, instance }: VizViewProps) {
     >
       <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
         <thead className={classes.thead}>
-          <div className={classes.thead_background} />
           {totalSize > 0 && (
             <tr>
               <th colSpan={table.getHeaderGroups()[0].headers.length} style={{ textAlign: 'right', paddingTop: 0 }}>
