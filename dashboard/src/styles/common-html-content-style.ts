@@ -31,6 +31,9 @@ export const CommonHTMLContentStyle: Sx = {
       transition: 'color 300ms ease',
       userSelect: 'none',
     },
+    'summary::-webkit-details-marker': {
+      display: 'none',
+    },
     'summary:hover': {
       color: 'black',
       '&::before': {
