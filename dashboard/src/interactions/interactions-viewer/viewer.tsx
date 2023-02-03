@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 import ReactFlow, { addEdge, Background, useNodesState, useEdgesState, MiniMap, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { observer } from 'mobx-react-lite';
-import { makeNodes } from './utils';
+import { makeNodesAndEdges } from './data';
 import { useModelContext } from '~/contexts';
+import _ from 'lodash';
 
 const initialNodes = [
   {
@@ -88,20 +89,15 @@ const initialEdges = [
 
 export const InteractionsViewer = observer(() => {
   const model = useModelContext();
-  const [nodes, setNodes, onNodesChange] = useNodesState(makeNodes(model));
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
-  const onConnect = useCallback((connection: any) => {
-    setEdges((eds) => addEdge(connection, eds));
-  }, []);
+  const { edges, nodes } = makeNodesAndEdges(model);
 
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
+      onNodesChange={_.noop}
+      onEdgesChange={_.noop}
+      onConnect={_.noop}
       className="react-flow-subflows-example"
       fitView
     >
