@@ -21,14 +21,23 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
           console.log(config);
           edgeNodes.push({
             id: k,
-            data: { label: `Visit: ${config.urlTemplate}` },
+            data: { label: config.urlTemplate },
             position: { x: pi * 200, y: -100 },
             style: { minWidth: 200, width: 'auto', maxWidth: 600, textAlign: 'left' },
           });
           edges.push({
-            // id: `OPERATION--${k}`,
+            id: `OPERATION--${k}`,
             source: p.id,
             target: k,
+            label: 'Visit',
+          });
+          return;
+        case 'builtin:op:open_view':
+          edges.push({
+            id: `OPERATION--${k}`,
+            source: p.id,
+            target: config.viewID,
+            label: 'Open View',
           });
           return;
         default:
