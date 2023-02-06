@@ -38,7 +38,7 @@ describe('DataSourceController', () => {
 
     superadminLogin = response.body;
 
-    const connectionString = process.env.END_2_END_TEST_PG_URL;
+    const connectionString = process.env.END_2_END_TEST_PG_URL!;
     const { username, password, host, port, database } = parseDBUrl(connectionString);
     const presetData = new DataSource();
     presetData.type = 'postgresql';

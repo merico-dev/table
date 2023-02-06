@@ -4,6 +4,8 @@ import _ from 'lodash';
 import { dashboardDataSource } from '../../data_sources/dashboard';
 import Dashboard from '../../models/dashboard';
 import DataSource from '../../models/datasource';
+import { DashboardChangelogService } from '../../services/dashboard_changelog.service';
+import DashboardChangelog from '../../models/dashboard_changelog';
 
 type Source = {
   type: string;
@@ -19,6 +21,7 @@ async function upsert() {
   await queryRunner.connect();
   await queryRunner.startTransaction();
   try {
+    const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
 
@@ -49,6 +52,7 @@ async function upsert() {
       }
       const name = dashboardNames[i];
       let dashboard = await dashboardRepo.findOneBy({ name, is_preset: true });
+      const originalDashboard: Dashboard | null = _.cloneDeep(dashboard);
       if (!dashboard) {
         dashboard = new Dashboard();
         dashboard.name = name;
@@ -56,6 +60,15 @@ async function upsert() {
       }
       dashboard.content = config;
       await dashboardRepo.save(dashboard);
+      if (originalDashboard) {
+        const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
+        if (diff) {
+          const changelog = new DashboardChangelog();
+          changelog.dashboard_id = originalDashboard.id;
+          changelog.diff = diff;
+          await dashboardChangelogRepo.save(changelog);
+        }
+      }
     }
     if (!_.isEmpty(errors)) {
       throw { message: `Missing preset datasources: ${JSON.stringify(errors)}` };
