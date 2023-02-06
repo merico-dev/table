@@ -1,10 +1,10 @@
-import { MarkerType } from 'reactflow';
+import { Edge, MarkerType, Node } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
 
 function makeEdgesFromPanels(views: ViewsModelInstance) {
-  const edgeNodes: any[] = [
+  const edgeNodes: Node[] = [
     {
       id: 'OPEN_LINK',
       data: { label: 'Open Link' },
@@ -12,7 +12,7 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
       style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 2000, height: 40 },
     },
   ];
-  const edges: any[] = [];
+  const edges: Edge[] = [];
   const panels: PanelModelInstance[] = [];
   views.current.forEach((v, i) => {
     const list = v.panels.list.filter((p) => '__INTERACTIONS' in p.viz.conf);
