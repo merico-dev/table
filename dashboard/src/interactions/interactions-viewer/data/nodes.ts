@@ -1,32 +1,25 @@
-import { Node, Position } from 'reactflow';
+import { Position } from 'reactflow';
 import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
 import { EViewComponentType } from '~/types';
 import {
+  calc,
+  calcTotal,
   FilterGap,
   FilterHeight,
   FilterPaddingB,
+  FilterPaddingL,
+  FilterPaddingR,
   FilterPaddingT,
   FilterWidth,
   PanelGapY,
   PanelHeight,
   PanelWidth,
-  ViewGap,
   ViewPaddingB,
   ViewPaddingT,
   ViewPaddingX,
   ViewWidth,
 } from './metrics';
 import { TFlowNode } from './types';
-
-function calc(index: number, unit: number, gap: number) {
-  const ret = index * unit + index * gap;
-  return ret;
-}
-
-function calcTotal(count: number, unit: number, gap: number) {
-  const ret = count * unit + (count - 1) * gap;
-  return ret;
-}
 
 function makePanelNodes(views: ViewsModelInstance) {
   const panelNodes: TFlowNode[] = [];
@@ -61,16 +54,16 @@ const ViewBackground = {
 
 function makeViewNodes(views: ViewsModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {
-    const x = calc(i, ViewWidth, ViewGap);
-    // const y = calc(i, ViewHeight, ViewGap);
     const height = calcTotal(v.panels.list.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
     return {
       id: v.id,
       _node_type: 'view-root',
+      _view_level: 0,
+      _sub_view_ids: [],
       data: { label: `${ViewTypeName[v.type]}:${v.name}` },
-      position: { x, y: 0 },
+      position: { x: 0, y: 0 },
       sourcePosition: Position.Right,
-      targetPosition: Position.Top,
+      targetPosition: Position.Left,
       className: 'light',
       style: {
         backgroundColor: ViewBackground[v.type],
@@ -85,29 +78,29 @@ function makeViewNodes(views: ViewsModelInstance) {
 
 function makeFilterNodes(filters: FiltersModelInstance) {
   const filterNodes: TFlowNode[] = [];
-  const width = calcTotal(filters.current.length, FilterWidth, FilterGap) + FilterGap * 2;
+  const height = calcTotal(filters.current.length, FilterHeight, FilterGap) + FilterPaddingT + FilterPaddingB;
   filterNodes.push({
     id: 'FILTER',
     _node_type: 'filter-root',
     data: { label: 'Filters' },
-    position: { x: 0, y: -300 },
+    position: { x: 2000, y: 100 },
     className: 'light',
     style: {
       backgroundColor: 'rgba(255, 128, 0, 0.2)',
-      width,
-      height: FilterHeight + FilterPaddingT + FilterPaddingB,
+      width: FilterWidth + FilterPaddingL + FilterPaddingR,
+      height,
     },
   });
-  filters.current.forEach((f, i) => {
-    const x = calc(i, FilterWidth, FilterGap) + FilterGap;
+  filters.inOrder.map((f, i) => {
+    const y = calc(i, FilterHeight, FilterGap) + FilterPaddingT;
     filterNodes.push({
       id: f.key,
       _node_type: 'filter',
       parentNode: 'FILTER',
       data: { label: f.label },
-      position: { x, y: FilterPaddingT },
+      position: { x: FilterPaddingL, y },
       sourcePosition: Position.Right,
-      targetPosition: Position.Bottom,
+      targetPosition: Position.Left,
       style: {
         width: FilterWidth,
         height: FilterHeight,

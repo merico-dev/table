@@ -1,4 +1,4 @@
-import { Edge, Position } from 'reactflow';
+import { Edge, MarkerType, Position } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
@@ -10,10 +10,10 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
       id: 'OPEN_LINK',
       _node_type: 'open-link-root',
       data: { label: 'Open Link' },
-      position: { x: 0, y: 1000 },
+      position: { x: 2000, y: 0 },
       sourcePosition: Position.Right,
-      targetPosition: Position.Top,
-      style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 2000, height: 40 },
+      targetPosition: Position.Left,
+      style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 100, height: 40 },
     },
   ];
   const edges: Edge[] = [];
@@ -24,7 +24,6 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
   });
   panels.forEach((p, pi) => {
     const { __INTERACTIONS, __OPERATIONS, __TRIGGERS } = p.viz.conf;
-    console.log(__OPERATIONS);
     Object.entries(__OPERATIONS).forEach(([k, v]) => {
       const { schemaRef, data } = v as AnyObject;
       const { config } = data as AnyObject;
@@ -39,7 +38,9 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
             source: p.id,
             target: 'OPEN_LINK',
             label,
-            labelStyle: { color: 'blue' },
+            style: {
+              stroke: 'rgba(0,120,255,0.8)',
+            },
           });
           return;
         case 'builtin:op:open_view':
@@ -48,6 +49,10 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
             source: p.id,
             target: config.viewID,
             label: 'Open View',
+            style: {
+              stroke: 'rgba(0,0,0,0.8)',
+            },
+            type: 'step',
           });
           return;
         case 'builtin:op:set_filter_values':
@@ -57,6 +62,9 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
               source: p.id,
               target: filterKey,
               label: 'Set',
+              type: 'step',
+              labelStyle: { fill: 'black' },
+              style: { stroke: 'orange' },
             });
           });
           return;
@@ -68,6 +76,8 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
               target: filterKey,
               label: 'Clear',
               labelStyle: { fill: 'red' },
+              style: { stroke: 'orange' },
+              type: 'step',
             });
           });
           return;
