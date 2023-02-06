@@ -1,6 +1,6 @@
+import { Node } from 'reactflow';
 import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
-import { AnyObject, EViewComponentType } from '~/types';
-import { OpenLink } from '../../operation/operations/open-link';
+import { EViewComponentType } from '~/types';
 
 const FilterWidth = 200;
 const FilterHeight = 40;
@@ -32,7 +32,7 @@ function calcTotal(count: number, unit: number, gap: number) {
 }
 
 function makePanelNodes(views: ViewsModelInstance) {
-  const panelNodes: any[] = [];
+  const panelNodes: Node[] = [];
   views.current.forEach((v, i) => {
     v.panels.list.forEach((p, pi) => {
       const y = calc(pi, PanelHeight, PanelGapY) + ViewPaddingT;
@@ -60,7 +60,7 @@ const ViewBackground = {
 };
 
 function makeViewNodes(views: ViewsModelInstance) {
-  const viewNodes = views.current.map((v, i) => {
+  const viewNodes: Node[] = views.current.map((v, i) => {
     const x = calc(i, ViewWidth, ViewGap);
     // const y = calc(i, ViewHeight, ViewGap);
     const height = calcTotal(v.panels.list.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
@@ -81,7 +81,7 @@ function makeViewNodes(views: ViewsModelInstance) {
 }
 
 function makeFilterNodes(filters: FiltersModelInstance) {
-  const filterNodes: any[] = [];
+  const filterNodes: Node[] = [];
   filterNodes.push({
     id: 'FILTER',
     data: { label: 'Filters' },
