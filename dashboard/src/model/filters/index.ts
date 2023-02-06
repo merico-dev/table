@@ -147,7 +147,7 @@ export const FiltersModel = types
       },
     };
   });
-
+export type FiltersModelInstance = Instance<typeof FiltersModel>;
 export * from './filter';
 
 export type FilterValuesType = Record<string, $TSFixMe>;

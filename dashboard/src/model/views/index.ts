@@ -117,6 +117,7 @@ export const ViewsModel = types
     },
   }));
 
+export type ViewsModelInstance = Instance<typeof ViewsModel>;
 export * from './view';
 
 export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {

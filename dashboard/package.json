@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "7.5.2",
+  "version": "7.6.1",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -36,7 +36,8 @@
     "file-saver": "2.0.5",
     "performant-array-to-tree": "1.11.0",
     "popmotion": "^11.0.3",
-    "rc-tree-select": "5.5.5"
+    "rc-tree-select": "5.5.5",
+    "reactflow": "^11.5.3"
   },
   "devDependencies": {
     "@mantine/core": "5.9.5",
