@@ -1,7 +1,6 @@
-import _ from 'lodash';
-import { Edge } from 'reactflow';
+import { Edge, Position } from 'reactflow';
 import { calc, ViewGapX, ViewGapY, ViewHeight, ViewWidth } from './metrics';
-import { TFlowNode } from './types';
+import { TFlowNode, TFlowNode_View } from './types';
 
 interface ICommonProps {
   nodeMap: Record<string, TFlowNode>;
@@ -42,32 +41,46 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
       return;
     }
     const s = nodeMap[e.source];
-    const t = nodeMap[e.target];
+    const t = nodeMap[e.target] as TFlowNode_View;
     if (s && t && s.parentNode) {
-      const sp = nodeMap[s.parentNode];
-      if (sp._node_type !== 'view-root' || t._node_type !== 'view-root') {
-        return;
-      }
+      const sp = nodeMap[s.parentNode] as TFlowNode_View;
       const sy = s.position.y;
       const sh = Number(s.style!.height);
-      const th = Number(t.style!.height);
+      const th = Number(t.style.height);
       const spx = sp.position.x;
       const spy = sp.position.y;
-      const spw = Number(sp.style!.width);
-      const sph = Number(sp.style!.height);
+      const spw = Number(sp.style.width);
       const ids = sp._sub_view_ids;
-      const index = ids.findIndex((s) => s === t.id);
 
-      t.position.x = spx + spw + ViewGapX + 40 * index;
+      t.position.x = spx + spw + ViewGapX;
+
+      const atLeft = sp._view_level === 0 && t._sub_view_ids.length === 0;
+      if (atLeft) {
+        s.sourcePosition = Position.Left;
+        t.targetPosition = Position.Right;
+        t.position.x *= -1;
+      }
 
       if (ids.length < 2) {
         t.position.y = spy + sy - th / 2 + sh / 2;
         e.type = 'straight';
       } else {
-        const newY = ids.slice(0, index).reduce((acc, id) => {
-          const n = nodeMap[id];
+        const index = ids.findIndex((i) => i === t.id);
+        const newY = ids.reduce((acc, id, i) => {
+          if (i >= index) {
+            return acc;
+          }
+          const n = nodeMap[id] as TFlowNode_View;
+          // skip right side
+          if (atLeft && n._sub_view_ids.length > 0) {
+            return acc;
+          }
+          // skip left side
+          if (!atLeft && n._sub_view_ids.length === 0) {
+            return acc;
+          }
           const y = 0;
-          const h = Number(n.style!.height);
+          const h = Number(n.style.height);
           return acc + y + h + ViewGapY;
         }, spy);
         t.position.y = newY;
