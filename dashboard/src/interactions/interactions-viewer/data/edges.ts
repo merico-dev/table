@@ -1,14 +1,18 @@
-import { Edge, MarkerType, Node } from 'reactflow';
+import { Edge, Position } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
+import { TFlowNode } from './types';
 
 function makeEdgesFromPanels(views: ViewsModelInstance) {
-  const edgeNodes: Node[] = [
+  const edgeNodes: TFlowNode[] = [
     {
       id: 'OPEN_LINK',
+      _node_type: 'open-link-root',
       data: { label: 'Open Link' },
       position: { x: 0, y: 1000 },
+      sourcePosition: Position.Right,
+      targetPosition: Position.Top,
       style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 2000, height: 40 },
     },
   ];
@@ -49,7 +53,7 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
         case 'builtin:op:set_filter_values':
           Object.keys(config.dictionary).forEach((filterKey) => {
             edges.push({
-              id: `OPERATION--${k}`,
+              id: `OPERATION--${k}--${filterKey}`,
               source: p.id,
               target: filterKey,
               label: 'Set',
