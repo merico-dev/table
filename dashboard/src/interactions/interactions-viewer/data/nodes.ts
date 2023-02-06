@@ -26,7 +26,7 @@ function makePanelNodes(views: ViewsModelInstance) {
   views.current.forEach((v, i) => {
     v.panels.list.forEach((p, pi) => {
       const y = calc(pi, PanelHeight, PanelGapY) + ViewPaddingT;
-      const label = `Panel:${p.title}`;
+      const label = p.title.trim() ? `${p.title}` : p.viz.type;
       panelNodes.push({
         id: p.id,
         _node_type: 'panel',
@@ -76,44 +76,8 @@ function makeViewNodes(views: ViewsModelInstance) {
   return viewNodes;
 }
 
-function makeFilterNodes(filters: FiltersModelInstance) {
-  const filterNodes: TFlowNode[] = [];
-  const height = calcTotal(filters.current.length, FilterHeight, FilterGap) + FilterPaddingT + FilterPaddingB;
-  filterNodes.push({
-    id: 'FILTER',
-    _node_type: 'filter-root',
-    data: { label: 'Filters' },
-    position: { x: 2000, y: 100 },
-    className: 'light',
-    style: {
-      backgroundColor: 'rgba(255, 128, 0, 0.2)',
-      width: FilterWidth + FilterPaddingL + FilterPaddingR,
-      height,
-    },
-  });
-  filters.inOrder.map((f, i) => {
-    const y = calc(i, FilterHeight, FilterGap) + FilterPaddingT;
-    filterNodes.push({
-      id: f.key,
-      _node_type: 'filter',
-      parentNode: 'FILTER',
-      data: { label: f.label },
-      position: { x: FilterPaddingL, y },
-      sourcePosition: Position.Right,
-      targetPosition: Position.Left,
-      style: {
-        width: FilterWidth,
-        height: FilterHeight,
-      },
-    });
-  });
-
-  return filterNodes;
-}
-
 export function makeNodes(model: DashboardModelInstance) {
   const viewNodes = makeViewNodes(model.views);
   const panelNodes = makePanelNodes(model.views);
-  const filterNodes = makeFilterNodes(model.filters);
-  return [...viewNodes, ...panelNodes, ...filterNodes];
+  return [...viewNodes, ...panelNodes];
 }

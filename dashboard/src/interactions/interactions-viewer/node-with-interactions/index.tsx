@@ -12,17 +12,12 @@ export const InteractionNode = memo(({ data, isConnectable, ...rest }: { data: a
   }, [data.interactions]);
   return (
     <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        style={{}}
-        onConnect={(params) => console.log('handle onConnect', params)}
-        isConnectable={isConnectable}
-      />
+      {/* <Handle type="target" position={Position.Left} isConnectable={isConnectable} /> */}
+
       <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
         <ChevronsUpRight size={12} />
       </Box>
-      <HoverCard shadow="md" withinPortal>
+      <HoverCard shadow="xl" withinPortal>
         <HoverCard.Target>
           <Text>{data.label}</Text>
         </HoverCard.Target>
@@ -36,14 +31,8 @@ export const InteractionNode = memo(({ data, isConnectable, ...rest }: { data: a
           </List>
         </HoverCard.Dropdown>
       </HoverCard>
-      <Handle type="source" position={Position.Right} id="a" style={{ top: 10 }} isConnectable={isConnectable} />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="b"
-        style={{ bottom: 10, top: 'auto' }}
-        isConnectable={isConnectable}
-      />
+
+      <Handle type="source" position={Position.Right} isConnectable={isConnectable} />
     </>
   );
 });

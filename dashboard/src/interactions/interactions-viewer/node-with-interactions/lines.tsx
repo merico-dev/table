@@ -7,18 +7,18 @@ import { TInteraction, TInteractionLine } from './types';
 
 export const IconMap: Record<string, ReactNode> = {
   'builtin:op:open-link': (
-    <ThemeIcon color="blue" size={24} radius="xl">
-      <IconCircleDashed size={16} />
+    <ThemeIcon color="blue" size={20} radius="xl">
+      <IconCircleDashed size={14} />
     </ThemeIcon>
   ),
   'builtin:op:set_filter_values': (
-    <ThemeIcon color="orange" size={24} radius="xl">
-      <IconCircleDot size={16} />
+    <ThemeIcon color="orange" size={20} radius="xl">
+      <IconCircleDot size={14} />
     </ThemeIcon>
   ),
   'builtin:op:clear_filter_values': (
-    <ThemeIcon color="orange" size={24} radius="xl">
-      <IconCircleOff size={16} />
+    <ThemeIcon color="orange" size={20} radius="xl">
+      <IconCircleOff size={14} />
     </ThemeIcon>
   ),
 };
@@ -38,6 +38,33 @@ export function getInteractionLines(interactions: TInteraction[]) {
             </Group>
           ),
         });
+        return;
+      case 'builtin:op:set_filter_values':
+        i.filters.forEach(({ key, label }) => {
+          ret.push({
+            key: i.schemaRef + key,
+            icon: IconMap[i.schemaRef],
+            text: (
+              <Group spacing={4}>
+                <Text>Set Filter: {label}</Text>
+              </Group>
+            ),
+          });
+        });
+        return;
+      case 'builtin:op:clear_filter_values':
+        i.filters.forEach(({ key, label }) => {
+          ret.push({
+            key: i.schemaRef + key,
+            icon: IconMap[i.schemaRef],
+            text: (
+              <Group spacing={4}>
+                <Text>Clear Filter: {label}</Text>
+              </Group>
+            ),
+          });
+        });
+        return;
     }
   });
   return ret;

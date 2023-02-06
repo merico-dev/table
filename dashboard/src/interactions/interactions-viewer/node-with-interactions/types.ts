@@ -8,11 +8,11 @@ export type TInteraction =
     }
   | {
       schemaRef: 'builtin:op:set_filter_values';
-      keys: [];
+      filters: { key: string; label: string }[];
     }
   | {
       schemaRef: 'builtin:op:clear_filter_values';
-      keys: [];
+      filters: { key: string; label: string }[];
     };
 
 export type TInteractionLine = {
