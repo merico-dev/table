@@ -33,6 +33,9 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
         body: {
           height: '90vh',
         },
+        modal: {
+          transform: 'none !important',
+        },
       }}
     >
       <InteractionsViewer />
