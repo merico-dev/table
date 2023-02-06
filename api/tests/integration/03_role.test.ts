@@ -5,6 +5,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import ApiKey from '~/models/apiKey';
 import { ROLE_TYPES } from '~/api_models/role';
 import { ApiError, FORBIDDEN, UNAUTHORIZED } from '~/utils/errors';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('RoleService', () => {
   connectionHook();
@@ -52,23 +53,23 @@ describe('RoleService', () => {
 
   describe('checkPermission', () => {
     it('should successfully check permission with account', async () => {
-      RoleService.checkPermission(account, ROLE_TYPES.INACTIVE);
+      RoleService.checkPermission(account, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE);
     });
 
     it('should successfully check permission with apikey', async () => {
-      RoleService.checkPermission(apikey, ROLE_TYPES.INACTIVE);
+      RoleService.checkPermission(apikey, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE);
     });
 
     it('should throw if no auth', async () => {
       expect(() => {
-        RoleService.checkPermission(null, ROLE_TYPES.INACTIVE);
+        RoleService.checkPermission(null, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE);
       }).toThrowError(new ApiError(UNAUTHORIZED, { message: 'Not authenticated' }));
     });
 
     it('should throw if not enough privileges', async () => {
       expect(() => {
-        RoleService.checkPermission(apikey, ROLE_TYPES.SUPERADMIN);
-      }).toThrowError(new ApiError(FORBIDDEN, { message: 'Insufficient privileges' }));
+        RoleService.checkPermission(apikey, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      }).toThrowError(new ApiError(FORBIDDEN, { message: 'Access denied' }));
     });
   });
 });

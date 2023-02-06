@@ -1,5 +1,4 @@
 import * as express from 'express';
-import _ from 'lodash';
 import { inject, interfaces as inverfaces } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
@@ -84,7 +83,7 @@ export class APIController implements interfaces.Controller {
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = validate(ApiKeyIDRequest, req.body);
-      await this.apiService.deleteKey(id);
+      await this.apiService.deleteKey(id, req.locale);
       res.json({ id });
     } catch (err) {
       next(err);

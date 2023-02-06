@@ -322,7 +322,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not edit account with similar or higher permissions than own account',
+          message: 'Can not edit account with similar or higher privileges than own account',
         },
       });
     });
@@ -345,7 +345,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Editing own account. Please use /account/update instead',
+          message: 'Can not edit own account. Use /account/update instead',
         },
       });
     });
@@ -368,7 +368,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not change account permissions to similar or higher than own account',
+          message: 'Can not change account privileges to similar or higher than own account',
         },
       });
     });
@@ -461,7 +461,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not delete account with similar or higher permissions than own account',
+          message: 'Can not delete account with similar or higher privileges than own account',
         },
       });
     });

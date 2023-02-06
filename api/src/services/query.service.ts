@@ -1,4 +1,3 @@
-import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
@@ -49,7 +48,7 @@ export class QueryService {
         return await this.httpQuery(key, query);
       
       default:
-        throw new ApiError(BAD_REQUEST, { message: 'unsupported datasource type' });
+        return null;
     }
   }
 
@@ -61,7 +60,7 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('postgresql', key, source);
     }
-    return await source.query(sql)
+    return await source.query(sql);
   }
 
   private async mysqlQuery(key: string, sql: string): Promise<object[]> {
@@ -72,7 +71,7 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('mysql', key, source);
     }
-    return await source.query(sql)
+    return await source.query(sql);
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {

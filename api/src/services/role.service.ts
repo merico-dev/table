@@ -5,6 +5,7 @@ import Account from '../models/account';
 import { ApiError, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { AUTH_ENABLED } from '../utils/constants';
 import ApiKey from '../models/apiKey';
+import { translate } from '../utils/i18n';
 
 export class RoleService {
   async list(): Promise<Role[]> {
@@ -12,15 +13,15 @@ export class RoleService {
     return await roleRepo.find();
   }
 
-  static checkPermission(auth: Account | ApiKey | null, minimum_required_role: ROLE_TYPES): void {
+  static checkPermission(auth: Account | ApiKey | null, minimum_required_role: ROLE_TYPES, locale: string): void {
     if (!AUTH_ENABLED) {
       return;
     }
     if (!auth) {
-      throw new ApiError(UNAUTHORIZED, { message: 'Not authenticated' });
+      throw new ApiError(UNAUTHORIZED, { message: translate('UNAUTHORIZED', locale ) });
     }
     if (auth.role_id < minimum_required_role) {
-      throw new ApiError(FORBIDDEN, { message: 'Insufficient privileges' });
+      throw new ApiError(FORBIDDEN, { message: translate('FORBIDDEN', locale ) });
     }
   }
 }

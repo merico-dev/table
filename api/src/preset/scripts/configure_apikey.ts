@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { ROLE_TYPES } from '../../api_models/role';
 import { dashboardDataSource } from '../../data_sources/dashboard';
 import ApiKey from '../../models/apiKey';

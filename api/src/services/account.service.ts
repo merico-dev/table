@@ -10,6 +10,8 @@ import logger from 'npmlog';
 import { ROLE_TYPES } from '../api_models/role';
 import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
 import { escapeLikePattern } from '../utils/helpers';
+import { ConfigResourceTypes, ConfigService } from './config.service';
+import { translate } from '../utils/i18n';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
@@ -31,19 +33,19 @@ export class AccountService {
     }
   }
 
-  async login(name: string, password: string): Promise<AccountLoginResponse> {
+  async login(name: string, password: string, locale: string): Promise<AccountLoginResponse> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOne({ where: [{ name }, { email: name }] });
     if (!account) {
-      throw new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' });
+      throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale ) });
     }
     if (!(await bcrypt.compare(password, account.password))) {
-      throw new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' });
+      throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale ) });
     }
     if (account.role_id <= ROLE_TYPES.INACTIVE) {
-      throw new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' });
+      throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale ) });
     }
-    const token = await jwt.sign({ id: account.id }, SECRET_KEY as jwt.Secret, { expiresIn: TOKEN_VALIDITY });
+    const token = jwt.sign({ id: account.id }, SECRET_KEY as jwt.Secret, { expiresIn: TOKEN_VALIDITY });
     return { token, account: redactPassword(account) };
   }
 
@@ -88,11 +90,11 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async update(id: string, name: string | undefined, email: string | undefined): Promise<AccountAPIModel> {
+  async update(id: string, name: string | undefined, email: string | undefined, locale: string): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (account.role_id == ROLE_TYPES.SUPERADMIN) {
-      throw new ApiError(BAD_REQUEST, { message: 'Can not edit superadmin details' });
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale ) });
     }
     account.name = name ?? account.name;
     account.email = email === undefined ? account.email : email;
@@ -100,18 +102,18 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, reset_password: boolean, new_password: string | undefined, editor_role_id: ROLE_TYPES): Promise<AccountAPIModel> {
+  async edit(id: string, name: string, email: string | undefined, role_id: ROLE_TYPES, reset_password: boolean, new_password: string | undefined, editor_role_id: ROLE_TYPES, locale: string): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (account.role_id >= editor_role_id) {
-      throw new ApiError(BAD_REQUEST, { message: 'Can not edit account with similar or higher permissions than own account' });
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SIMILAR_OR_HIGHER_PRIVILEGES', locale ) });
     }
     if (role_id >= editor_role_id) {
-      throw new ApiError(BAD_REQUEST, { message: 'Can not change account permissions to similar or higher than own account' });
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_CHANGE_SIMILAR_OR_HIGHER_PRIVILEGES', locale ) });
     }
     if (reset_password) {
       if (!new_password) {
-        throw new ApiError(BAD_REQUEST, { message: 'Must provide new_password when reset_password is true' });
+        throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EMPTY_RESET_PASSWORD', locale ) });
       }
       account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     }
@@ -133,12 +135,13 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async delete(id: string, role_id: ROLE_TYPES): Promise<void> {
+  async delete(id: string, role_id: ROLE_TYPES, locale: string): Promise<void> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (account.role_id >= role_id) {
-      throw new ApiError(BAD_REQUEST, { message: 'Can not delete account with similar or higher permissions than own account' });
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_DELETE_SIMILAR_OR_HIGHER_PRIVILEGES', locale ) });
     }
     await accountRepo.delete(account.id);
+    await ConfigService.delete('lang', ConfigResourceTypes.ACCOUNT, account.id);
   }
 }

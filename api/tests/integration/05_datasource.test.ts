@@ -6,6 +6,7 @@ import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId, pgSourceConfig } from './constants';
 import { maybeDecryptPassword } from '~/utils/encryption';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('DataSourceService', () => {
   connectionHook();
@@ -21,7 +22,7 @@ describe('DataSourceService', () => {
 
   describe('create', () => {
     it('should create successfully', async () => {
-      pgDatasource = await datasourceService.create('postgresql', 'pg_2', pgSourceConfig);
+      pgDatasource = await datasourceService.create('postgresql', 'pg_2', pgSourceConfig, DEFAULT_LANGUAGE);
       expect(pgDatasource).toMatchObject({
         type: 'postgresql',
         key: 'pg_2',
@@ -34,7 +35,11 @@ describe('DataSourceService', () => {
 
       httpDatasource = await datasourceService.create('http', 'jsonplaceholder_2', {
         host: 'http://jsonplaceholder.typicode.com',
-      });
+        processing: {
+          pre: '',
+          post: ''
+        },
+      }, DEFAULT_LANGUAGE);
       expect(httpDatasource).toMatchObject({
         type: 'http',
         key: 'jsonplaceholder_2',
@@ -47,17 +52,17 @@ describe('DataSourceService', () => {
     });
 
     it('should fail if duplicate', async () => {
-      await expect(datasourceService.create('postgresql', 'pg_2', pgSourceConfig)).rejects.toThrowError(
+      await expect(datasourceService.create('postgresql', 'pg_2', pgSourceConfig, DEFAULT_LANGUAGE)).rejects.toThrowError(
         QueryFailedError,
       );
-      await expect(datasourceService.create('http', 'jsonplaceholder_2', pgSourceConfig)).rejects.toThrowError(
+      await expect(datasourceService.create('http', 'jsonplaceholder_2', pgSourceConfig, DEFAULT_LANGUAGE)).rejects.toThrowError(
         QueryFailedError,
       );
     });
 
     it('should fail if config incorrect', async () => {
       await expect(
-        datasourceService.create('postgresql', 'pg_2', { ...pgSourceConfig, port: 22 }),
+        datasourceService.create('postgresql', 'pg_2', { ...pgSourceConfig, port: 22 }, DEFAULT_LANGUAGE),
       ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Testing datasource connection failed' }));
     });
   });
@@ -139,18 +144,18 @@ describe('DataSourceService', () => {
 
   describe('rename', () => {
     it('should fail if new key is same as old key', async () => {
-      await expect(datasourceService.rename(pgDatasource.id, pgDatasource.key)).rejects.toThrowError(
+      await expect(datasourceService.rename(pgDatasource.id, pgDatasource.key, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' }),
       );
     });
 
     it('should fail if entity not found', async () => {
-      await expect(datasourceService.rename(notFoundId, '')).rejects.toThrowError(EntityNotFoundError);
+      await expect(datasourceService.rename(notFoundId, '', DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should rename successfully', async () => {
       const newPGKey = pgDatasource.key + '_renamed';
-      const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey);
+      const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey, DEFAULT_LANGUAGE);
       expect(pgResult).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -161,7 +166,7 @@ describe('DataSourceService', () => {
       });
 
       const newHTTPKey = httpDatasource.key + '_renamed';
-      const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey);
+      const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey, DEFAULT_LANGUAGE);
       expect(httpResult).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -177,8 +182,8 @@ describe('DataSourceService', () => {
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      await datasourceService.delete(pgDatasource.id);
-      await datasourceService.delete(httpDatasource.id);
+      await datasourceService.delete(pgDatasource.id, DEFAULT_LANGUAGE);
+      await datasourceService.delete(httpDatasource.id, DEFAULT_LANGUAGE);
       const datasources = await datasourceService.list(
         undefined,
         { field: 'create_time', order: 'ASC' },
@@ -205,12 +210,12 @@ describe('DataSourceService', () => {
     });
 
     it('should fail if not found', async () => {
-      await expect(datasourceService.delete(pgDatasource.id)).rejects.toThrowError(EntityNotFoundError);
-      await expect(datasourceService.delete(httpDatasource.id)).rejects.toThrowError(EntityNotFoundError);
+      await expect(datasourceService.delete(pgDatasource.id, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
+      await expect(datasourceService.delete(httpDatasource.id, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should fail if is preset datasource', async () => {
-      await expect(datasourceService.delete(dataSources[0].id)).rejects.toThrowError(
+      await expect(datasourceService.delete(dataSources[0].id, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Can not delete preset datasources' }),
       );
     });

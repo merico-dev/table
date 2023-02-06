@@ -8,6 +8,7 @@ import { RoleController } from './role.controller';
 import { APIController } from './api.controller';
 import { JobController } from './job.controller';
 import { DashboardChangelogController } from './dashboard_changelog.controller';
+import { ConfigController } from './config.controller';
 
 export function bindControllers(container: Container) {
   container.bind<interfaces.Controller>(TYPE.Controller).to(DashboardController).inSingletonScope().whenTargetNamed(DashboardController.TARGET_NAME);
@@ -18,4 +19,5 @@ export function bindControllers(container: Container) {
   container.bind<interfaces.Controller>(TYPE.Controller).to(APIController).inSingletonScope().whenTargetNamed(APIController.TARGET_NAME);
   container.bind<interfaces.Controller>(TYPE.Controller).to(JobController).inSingletonScope().whenTargetNamed(JobController.TARGET_NAME);
   container.bind<interfaces.Controller>(TYPE.Controller).to(DashboardChangelogController).inSingletonScope().whenTargetNamed(DashboardChangelogController.TARGET_NAME);
+  container.bind<interfaces.Controller>(TYPE.Controller).to(ConfigController).inSingletonScope().whenTargetNamed(ConfigController.TARGET_NAME);
 }

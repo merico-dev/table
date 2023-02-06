@@ -3,7 +3,7 @@ import {
   DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest, DashboardNameRequest,
 } from './dashboard';
 import {
-  DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
+  DataSourceProcessingConfig, DataSourceConfig, DataSource, DataSourceFilterObject, DataSourceSortObject, DataSourceListRequest,
   DataSourcePaginationResponse, DataSourceCreateRequest, DataSourceIDRequest, DataSourceRenameRequest
 } from './datasource';
 import {
@@ -13,7 +13,8 @@ import {
 import { ApiKey, ApiKeyCreateRequest, ApiKeyListRequest, ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject, ApiKeyIDRequest } from './api';
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
-import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job'
+import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job';
+import { Config, ConfigGetRequest, ConfigUpdateRequest } from './config';
 import { DashboardChangelog, DashboardChangelogFilterObject, DashboardChangelogListRequest, DashboardChangelogPaginationResponse, DashboardChangelogSortObject } from './dashboard_changelog';
 import { ApiError, Authentication } from './base';
 
@@ -31,6 +32,7 @@ export default {
   DashboardIDRequest,
   DashboardNameRequest,
 
+  DataSourceProcessingConfig,
   DataSourceConfig,
   DataSource,
   DataSourceFilterObject,
@@ -78,5 +80,9 @@ export default {
   DashboardChangelogFilterObject,
   DashboardChangelogListRequest,
   DashboardChangelogPaginationResponse,
-  DashboardChangelogSortObject
+  DashboardChangelogSortObject,
+
+  Config,
+  ConfigGetRequest,
+  ConfigUpdateRequest
 }

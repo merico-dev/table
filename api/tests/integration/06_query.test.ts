@@ -48,6 +48,7 @@ describe('QueryService', () => {
       const query: HttpParams = {
         method: 'GET',
         data: {},
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };
@@ -70,6 +71,7 @@ describe('QueryService', () => {
       const query: HttpParams = {
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts',
       };
@@ -83,6 +85,7 @@ describe('QueryService', () => {
       const query: HttpParams = {
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };
@@ -96,6 +99,7 @@ describe('QueryService', () => {
       const query: HttpParams = {
         method: 'DELETE',
         data: {},
+        params: {},
         headers: { 'Content-Type': 'application/json' },
         url: '/posts/1',
       };
