@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import { Edge, MarkerType, Position } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
 import { TFlowNode } from './types';
 
-function makeEdgesFromPanels(views: ViewsModelInstance) {
+function makeEdgesFromPanels(views: ViewsModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
   const edgeNodes: TFlowNode[] = [
     {
       id: 'OPEN_LINK',
@@ -23,24 +24,23 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
     panels.push(...list);
   });
   panels.forEach((p, pi) => {
+    const n = staticNodeMap[p.id];
+    n.data.interactions = _.get(n, 'data.interactions', []);
     const { __INTERACTIONS, __OPERATIONS, __TRIGGERS } = p.viz.conf;
     Object.entries(__OPERATIONS).forEach(([k, v]) => {
       const { schemaRef, data } = v as AnyObject;
       const { config } = data as AnyObject;
       switch (schemaRef) {
         case 'builtin:op:open-link':
-          let label = config.urlTemplate.substring(0, 20);
+          let shortURLTemplate = config.urlTemplate.substring(0, 100);
           if (config.urlTemplate.length >= 20) {
-            label += '...';
+            shortURLTemplate += '...';
           }
-          edges.push({
-            id: `OPERATION--${k}`,
-            source: p.id,
-            target: 'OPEN_LINK',
-            label,
-            style: {
-              stroke: 'rgba(0,120,255,0.8)',
-            },
+          n.type = 'interaction';
+          n.data.interactions.push({
+            schemaRef,
+            urlTemplate: config.urlTemplate,
+            shortURLTemplate,
           });
           return;
         case 'builtin:op:open_view':
@@ -56,17 +56,11 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
           });
           return;
         case 'builtin:op:set_filter_values':
-          Object.keys(config.dictionary).forEach((filterKey) => {
-            edges.push({
-              id: `OPERATION--${k}--${filterKey}`,
-              source: p.id,
-              target: filterKey,
-              label: 'Set',
-              type: 'step',
-              labelStyle: { fill: 'black' },
-              style: { stroke: 'orange' },
-            });
-          });
+          // n.type = 'interaction';
+          // n.data.interactions.push({
+          //   schemaRef,
+          //   keys: Object.keys(config.dictionary),
+          // });
           return;
         case 'builtin:op:clear_filter_values':
           (config.filter_keys as string[]).forEach((filterKey) => {
@@ -90,7 +84,7 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
   return { edges, edgeNodes };
 }
 
-export function makeEdges(model: DashboardModelInstance) {
-  const { edges, edgeNodes } = makeEdgesFromPanels(model.views);
+export function makeEdges(model: DashboardModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
+  const { edges, edgeNodes } = makeEdgesFromPanels(model.views, staticNodeMap);
   return { edges, edgeNodes };
 }
