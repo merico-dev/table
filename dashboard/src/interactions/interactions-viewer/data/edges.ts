@@ -1,9 +1,17 @@
+import { MarkerType } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
 
 function makeEdgesFromPanels(views: ViewsModelInstance) {
-  const edgeNodes: any[] = [];
+  const edgeNodes: any[] = [
+    {
+      id: 'OPEN_LINK',
+      data: { label: 'Open Link' },
+      position: { x: 0, y: 1000 },
+      style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 2000, height: 40 },
+    },
+  ];
   const edges: any[] = [];
   const panels: PanelModelInstance[] = [];
   views.current.forEach((v, i) => {
@@ -18,18 +26,16 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
       const { config } = data as AnyObject;
       switch (schemaRef) {
         case 'builtin:op:open-link':
-          console.log(config);
-          edgeNodes.push({
-            id: k,
-            data: { label: config.urlTemplate },
-            position: { x: pi * 200, y: -100 },
-            style: { minWidth: 200, width: 'auto', maxWidth: 600, textAlign: 'left' },
-          });
+          let label = config.urlTemplate.substring(0, 20);
+          if (config.urlTemplate.length >= 20) {
+            label += '...';
+          }
           edges.push({
             id: `OPERATION--${k}`,
             source: p.id,
-            target: k,
-            label: 'Visit',
+            target: 'OPEN_LINK',
+            label,
+            labelStyle: { color: 'blue' },
           });
           return;
         case 'builtin:op:open_view':
@@ -38,6 +44,27 @@ function makeEdgesFromPanels(views: ViewsModelInstance) {
             source: p.id,
             target: config.viewID,
             label: 'Open View',
+          });
+          return;
+        case 'builtin:op:set_filter_values':
+          Object.keys(config.dictionary).forEach((filterKey) => {
+            edges.push({
+              id: `OPERATION--${k}`,
+              source: p.id,
+              target: filterKey,
+              label: 'Set',
+            });
+          });
+          return;
+        case 'builtin:op:clear_filter_values':
+          (config.filter_keys as string[]).forEach((filterKey) => {
+            edges.push({
+              id: `OPERATION--${k}--${filterKey}`,
+              source: p.id,
+              target: filterKey,
+              label: 'Clear',
+              labelStyle: { fill: 'red' },
+            });
           });
           return;
         default:

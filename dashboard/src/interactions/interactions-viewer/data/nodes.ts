@@ -2,6 +2,12 @@ import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from
 import { AnyObject, EViewComponentType } from '~/types';
 import { OpenLink } from '../../operation/operations/open-link';
 
+const FilterWidth = 200;
+const FilterHeight = 40;
+const FilterPaddingT = 40;
+const FilterPaddingB = 25;
+const FilterGap = 25;
+
 const ViewPaddingX = 25;
 const ViewPaddingT = 40;
 const ViewPaddingB = 25;
@@ -11,7 +17,7 @@ const ViewHeight = 150;
 const ViewGap = 150;
 
 const PanelWidth = 300;
-const PanelHeight = 50;
+const PanelHeight = 40;
 const PanelGapX = 25;
 const PanelGapY = 25;
 
@@ -75,7 +81,33 @@ function makeViewNodes(views: ViewsModelInstance) {
 }
 
 function makeFilterNodes(filters: FiltersModelInstance) {
-  return [];
+  const filterNodes: any[] = [];
+  filterNodes.push({
+    id: 'FILTER',
+    data: { label: 'Filters' },
+    position: { x: 0, y: -300 },
+    className: 'light',
+    style: {
+      backgroundColor: 'rgba(255, 128, 0, 0.2)',
+      width: calcTotal(filters.current.length, FilterWidth, FilterGap) + FilterGap * 2,
+      height: FilterHeight + FilterPaddingT + FilterPaddingB,
+    },
+  });
+  filters.current.forEach((f, i) => {
+    const x = calc(i, FilterWidth, FilterGap) + FilterGap;
+    filterNodes.push({
+      id: f.key,
+      parentNode: 'FILTER',
+      data: { label: f.label },
+      position: { x, y: FilterPaddingT },
+      style: {
+        width: FilterWidth,
+        height: FilterHeight,
+      },
+    });
+  });
+
+  return filterNodes;
 }
 
 export function makeNodes(model: DashboardModelInstance) {
