@@ -5,18 +5,11 @@ import { PanelModelInstance } from '~/model/views/view/panels';
 import { AnyObject } from '~/types';
 import { TFlowNode } from './types';
 
-function makeEdgesFromPanels(views: ViewsModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
-  const edgeNodes: TFlowNode[] = [
-    {
-      id: 'OPEN_LINK',
-      _node_type: 'open-link-root',
-      data: { label: 'Open Link' },
-      position: { x: 2000, y: 0 },
-      sourcePosition: Position.Right,
-      targetPosition: Position.Left,
-      style: { backgroundColor: 'rgba(0,120,255,0.2)', width: 100, height: 40 },
-    },
-  ];
+function makeEdgesFromPanels(
+  views: ViewsModelInstance,
+  staticNodeMap: _.Dictionary<TFlowNode>,
+  filterLabelMap: Record<string, string>,
+) {
   const edges: Edge[] = [];
   const panels: PanelModelInstance[] = [];
   views.current.forEach((v, i) => {
@@ -56,23 +49,17 @@ function makeEdgesFromPanels(views: ViewsModelInstance, staticNodeMap: _.Diction
           });
           return;
         case 'builtin:op:set_filter_values':
-          // n.type = 'interaction';
-          // n.data.interactions.push({
-          //   schemaRef,
-          //   keys: Object.keys(config.dictionary),
-          // });
+          n.type = 'interaction';
+          n.data.interactions.push({
+            schemaRef,
+            filters: Object.keys(config.dictionary).map((k) => ({ key: k, label: filterLabelMap[k] })),
+          });
           return;
         case 'builtin:op:clear_filter_values':
-          (config.filter_keys as string[]).forEach((filterKey) => {
-            edges.push({
-              id: `OPERATION--${k}--${filterKey}`,
-              source: p.id,
-              target: filterKey,
-              label: 'Clear',
-              labelStyle: { fill: 'red' },
-              style: { stroke: 'orange' },
-              type: 'step',
-            });
+          n.type = 'interaction';
+          n.data.interactions.push({
+            schemaRef,
+            filters: (config.filter_keys as string[]).map((k) => ({ key: k, label: filterLabelMap[k] })),
           });
           return;
         default:
@@ -81,10 +68,11 @@ function makeEdgesFromPanels(views: ViewsModelInstance, staticNodeMap: _.Diction
     });
   });
 
-  return { edges, edgeNodes };
+  return edges;
 }
 
 export function makeEdges(model: DashboardModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
-  const { edges, edgeNodes } = makeEdgesFromPanels(model.views, staticNodeMap);
-  return { edges, edgeNodes };
+  const filterLabelMap = model.filters.keyLabelMap;
+  const edges = makeEdgesFromPanels(model.views, staticNodeMap, filterLabelMap);
+  return { edges, edgeNodes: [] };
 }
