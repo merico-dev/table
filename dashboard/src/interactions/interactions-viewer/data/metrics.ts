@@ -23,7 +23,7 @@ export const ViewPaddingY = ViewPaddingT + ViewPaddingB;
 export const ViewWidth = 350;
 export const ViewHeight = 150;
 export const ViewGapX = 150;
-export const ViewGapY = 50;
+export const ViewGapY = 150;
 
 export const PanelWidth = 300;
 export const PanelHeight = 40;

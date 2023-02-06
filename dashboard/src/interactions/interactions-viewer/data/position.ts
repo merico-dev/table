@@ -71,9 +71,6 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
           return acc + y + h + ViewGapY;
         }, spy);
         t.position.y = newY;
-        if (t.data.label === 'Modal:GP0201下钻') {
-          console.log(t.position.y, spy, sp.data.label, newY);
-        }
       }
     }
   });
@@ -97,8 +94,7 @@ function positionStrayViews({ nodeMap, nodes, edges }: ICommonProps) {
     });
 }
 
-export function reposition({ nodes, edges }: { nodes: TFlowNode[]; edges: Edge[] }) {
-  const nodeMap = _.keyBy(nodes, (n) => n.id);
+export function reposition({ nodeMap, nodes, edges }: ICommonProps) {
   const commonProps = { nodeMap, nodes, edges };
   fillViewProps(commonProps);
   alignViews(commonProps);
