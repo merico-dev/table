@@ -3,7 +3,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import { Header } from './header';
 import './index.css';
-import { DashboardStoreProvider } from './models/dashboard-store';
+import { DashboardStoreProvider } from './models/dashboard-store-context';
 import { Navbar } from './navbar';
 
 export function App() {

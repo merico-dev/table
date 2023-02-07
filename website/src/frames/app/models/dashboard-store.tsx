@@ -1,9 +1,7 @@
 import { useCreation, useRequest } from 'ahooks';
-import _ from 'lodash';
-import { cast, getSnapshot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { string } from 'mobx-state-tree/dist/internal';
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { autorun } from 'mobx';
+import { addDisposer, cast, flow, getSnapshot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { useEffect } from 'react';
 import { DashboardAPI } from '../../../api-caller/dashboard';
 import { normalizeDBDashboard } from '../../../api-caller/dashboard.transform';
 
@@ -97,57 +95,24 @@ export const DashboardStore = types
     setCurrent(id?: string) {
       self.current = self.list.find((b) => b.id === id);
     },
+  }))
+  .actions((self) => ({
+    load: flow(function* () {
+      self.setLoading(true);
+      try {
+        const { data } = yield* toGenerator(DashboardAPI.list());
+        if (!Array.isArray(data)) {
+          throw new Error('not found');
+        }
+        self.setList(data);
+        self.setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }),
+  }))
+  .actions((self) => ({
+    afterCreate() {
+      addDisposer(self, autorun(self.load));
+    },
   }));
-
-export const DashboardStoreContext = React.createContext<Instance<typeof DashboardStore> | null>(null);
-
-function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
-  const { id } = useParams();
-  const { data = [], loading } = useRequest(
-    async () => {
-      const { data } = await DashboardAPI.list();
-      return data;
-    },
-    {
-      refreshDeps: [id],
-    },
-  );
-  useEffect(() => {
-    store.setList(data);
-    store.setLoading(loading);
-    store.setCurrent(id);
-  }, [data, loading, id]);
-  return null;
-}
-
-/**
- * Heavily relies on react router to get the id from the url
- * @param children
- * @constructor
- */
-export function DashboardStoreProvider({ children }: { children: React.ReactNode }) {
-  const store = useCreation(
-    () =>
-      DashboardStore.create({
-        list: [],
-        loading: false,
-      }),
-    [],
-  );
-  return (
-    <DashboardStoreContext.Provider value={store}>
-      <HooksHolder store={store} />
-      {children}
-    </DashboardStoreContext.Provider>
-  );
-}
-
-export const useDashboardStore = () => {
-  const store = React.useContext(DashboardStoreContext);
-  if (!store) {
-    throw new Error('DashboardStore is not initialized');
-  }
-  return {
-    store,
-  };
-};

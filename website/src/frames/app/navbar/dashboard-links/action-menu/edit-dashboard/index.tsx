@@ -1,6 +1,6 @@
 import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useDashboardStore } from '../../../../models/dashboard-store';
+import { useDashboardStore } from '../../../../models/dashboard-store-context';
 import { EditDashboardForm } from './form';
 
 export const EditDashboardModal = observer(
