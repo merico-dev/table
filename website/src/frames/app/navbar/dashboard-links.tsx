@@ -1,4 +1,4 @@
-import { Box, Group, LoadingOverlay, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { Accordion, Box, Group, LoadingOverlay, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
 import { IconLock } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
@@ -88,7 +88,27 @@ function _DashboardLinks() {
   return (
     <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={store.loading} />
-      {store.list.map((d) => (
+      <Accordion chevronPosition="left" defaultValue="TODO">
+        {Object.entries(store.groupedList).map(([group, list]) => {
+          return (
+            <Accordion.Item key={group} value={group}>
+              <Accordion.Control>{group}</Accordion.Control>
+              <Accordion.Panel>
+                {[...list].map((d) => (
+                  <DashboardLink
+                    preset={d.is_preset}
+                    key={d.id}
+                    active={store.current?.id === d.id}
+                    {...d}
+                    openOverwriteModal={openOverwriteModal}
+                  />
+                ))}
+              </Accordion.Panel>
+            </Accordion.Item>
+          );
+        })}
+      </Accordion>
+      {[...store.strayList].map((d) => (
         <DashboardLink
           preset={d.is_preset}
           key={d.id}

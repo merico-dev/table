@@ -1,5 +1,7 @@
 import { useCreation, useRequest } from 'ahooks';
+import _ from 'lodash';
 import { cast, getSnapshot, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { string } from 'mobx-state-tree/dist/internal';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { DashboardAPI } from '../../../api-caller/dashboard';
@@ -9,6 +11,7 @@ export const DashboardDetailModel = types
   .model('DashboardListItem', {
     id: types.identifier,
     name: types.string,
+    group: types.string,
     is_preset: types.maybe(types.boolean),
     content: types.frozen<Record<string, $TSFixMe>>(),
     // for simplicity, use string for the date time type for now
@@ -59,6 +62,22 @@ export const DashboardStore = types
     current: types.maybe(types.safeReference(DashboardDetailModel)),
     loading: types.boolean,
   })
+  .views((self) => ({
+    get groupedList() {
+      return self.list
+        .filter((d) => d.group)
+        .reduce((ret, d) => {
+          if (!ret[d.group]) {
+            ret[d.group] = [];
+          }
+          ret[d.group].push(d);
+          return ret;
+        }, {} as Record<string, DashboardDetailModelInstance[]>);
+    },
+    get strayList() {
+      return self.list.filter((d) => !d.group);
+    },
+  }))
   .actions((self) => ({
     setList(list: SnapshotIn<typeof DashboardDetailModel>[]) {
       self.list = cast(list);
