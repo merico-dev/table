@@ -43,7 +43,6 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
         color: 'green',
       });
       postSubmit();
-      window.location.reload();
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',

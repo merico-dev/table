@@ -1,7 +1,7 @@
 import { Accordion, Box, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useDashboardStore } from '../../models/dashboard-store';
+import { useDashboardStore } from '../../models/dashboard-store-context';
 import { EditDashboardModal } from './action-menu/edit-dashboard';
 import { OverwriteWithJSONModal } from './action-menu/overwrite-with-json';
 import { DashboardLink } from './dashboard-link';
@@ -30,10 +30,11 @@ function _DashboardLinks() {
     setName(name);
     setEditModalOpened(true);
   };
-  const closeEditModal = () => {
+  const closeEditModalAndReload = () => {
     setID('');
     setName('');
     setEditModalOpened(false);
+    store.load();
   };
 
   const [activeAccordion, setActiveAccordion] = useState<string | null>(store.currentGroup);
@@ -42,7 +43,17 @@ function _DashboardLinks() {
   return (
     <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={store.loading} />
-      <Accordion chevronPosition="left" value={activeAccordion} onChange={setActiveAccordion}>
+      <Accordion
+        chevronPosition="left"
+        value={activeAccordion}
+        onChange={setActiveAccordion}
+        styles={{
+          content: {
+            paddingLeft: 0,
+            paddingRight: 0,
+          },
+        }}
+      >
         {Object.entries(store.groupedList).map(([group, list]) => {
           return (
             <Accordion.Item key={group} value={group}>
@@ -73,7 +84,7 @@ function _DashboardLinks() {
           openEditModal={openEditModal}
         />
       ))}
-      <EditDashboardModal id={id} opened={editModalOpened} close={closeEditModal} />
+      <EditDashboardModal id={id} opened={editModalOpened} closeAndReload={closeEditModalAndReload} />
       <OverwriteWithJSONModal id={id} name={name} opened={overwriteModalOpened} close={closeOverwriteModal} />
     </Box>
   );

@@ -4,7 +4,7 @@ import { useDashboardStore } from '../../../../models/dashboard-store-context';
 import { EditDashboardForm } from './form';
 
 export const EditDashboardModal = observer(
-  ({ id, opened, close }: { id: string; opened: boolean; close: () => void }) => {
+  ({ id, opened, closeAndReload }: { id: string; opened: boolean; closeAndReload: () => void }) => {
     const { store } = useDashboardStore();
     const dashboard = store.getByID(id);
     if (!id || !dashboard) {
@@ -22,7 +22,7 @@ export const EditDashboardModal = observer(
           e.stopPropagation();
         }}
       >
-        <EditDashboardForm dashboard={dashboard} postSubmit={close} />
+        <EditDashboardForm dashboard={dashboard} postSubmit={closeAndReload} />
       </Modal>
     );
   },
