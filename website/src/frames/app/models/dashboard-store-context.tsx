@@ -1,6 +1,5 @@
-import { useCreation } from 'ahooks';
 import { Instance } from 'mobx-state-tree';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { DashboardStore } from './dashboard-store';
 
@@ -20,7 +19,7 @@ function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
  * @constructor
  */
 export function DashboardStoreProvider({ children }: { children: React.ReactNode }) {
-  const store = useCreation(
+  const store = useMemo(
     () =>
       DashboardStore.create({
         list: [],
