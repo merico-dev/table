@@ -2,8 +2,8 @@ import { Box, Button, FileInput, Group, LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
@@ -11,12 +11,16 @@ interface IFormValues {
   content: TDashboardContent_Temp;
 }
 
-export function OverwriteWithJSONForm({ id, name, postSubmit }: { id: string; name: string; postSubmit: () => void }) {
-  const navigate = useNavigate();
+export function OverwriteWithJSONForm({
+  dashboard,
+  postSubmit,
+}: {
+  dashboard: DashboardDetailModelInstance;
+  postSubmit: () => void;
+}) {
   const [pending, setPending] = useState(false);
 
   const {
-    control,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -41,8 +45,9 @@ export function OverwriteWithJSONForm({ id, name, postSubmit }: { id: string; na
       if (!content) {
         throw new Error('please use a valid json file');
       }
+      const { id, name, group } = dashboard;
       // @ts-expect-error type mismatch
-      await DashboardAPI.update({ id, name, ...content });
+      await DashboardAPI.update({ id, name, group, ...content });
       updateNotification({
         id: 'for-updating',
         title: 'Successful',
@@ -50,7 +55,6 @@ export function OverwriteWithJSONForm({ id, name, postSubmit }: { id: string; na
         color: 'green',
       });
       postSubmit();
-      window.location.reload();
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',

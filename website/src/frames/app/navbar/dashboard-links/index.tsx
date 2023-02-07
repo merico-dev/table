@@ -85,7 +85,7 @@ function _DashboardLinks() {
         />
       ))}
       <EditDashboardModal id={id} opened={editModalOpened} closeAndReload={closeEditModalAndReload} />
-      <OverwriteWithJSONModal id={id} name={name} opened={overwriteModalOpened} close={closeOverwriteModal} />
+      <OverwriteWithJSONModal id={id} opened={overwriteModalOpened} close={closeOverwriteModal} />
     </Box>
   );
 }
