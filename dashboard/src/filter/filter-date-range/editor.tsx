@@ -30,6 +30,11 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           disabled={config.max_days > 0}
           label="Clearable"
         />
+        <Checkbox
+          checked={config.allowSingleDateInRange}
+          onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
+          label="Allow choosing 1 day"
+        />
       </Group>
       <Select
         data={inputFormatOptions}

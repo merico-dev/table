@@ -11,6 +11,7 @@ const _FilterConfigModel_DateRange = types
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
     clearable: types.boolean,
     max_days: types.optional(types.number, 0),
+    allowSingleDateInRange: types.optional(types.boolean, false),
   })
   .views((self) => ({
     getMaxDate(startDate: Date | null) {
@@ -47,6 +48,9 @@ const _FilterConfigModel_DateRange = types
       if (v > 0) {
         self.clearable = true;
       }
+    },
+    setAllowSingleDateInRange(v: boolean) {
+      self.allowSingleDateInRange = v;
     },
   }));
 
