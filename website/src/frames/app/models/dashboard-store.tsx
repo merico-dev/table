@@ -57,9 +57,14 @@ export const useDashboardDetailQuery = ({ id }: { id: string }) => {
 export const DashboardStore = types
   .model('DashboardStore', {
     list: types.array(DashboardDetailModel),
-    current: types.maybe(types.safeReference(DashboardDetailModel)),
+    currentID: types.optional(types.string, ''),
     loading: types.boolean,
   })
+  .views((self) => ({
+    get current() {
+      return self.list.find((b) => b.id === self.currentID);
+    },
+  }))
   .views((self) => ({
     getByID(id: string) {
       return self.list.find((d) => d.id === id);
@@ -92,8 +97,8 @@ export const DashboardStore = types
     setLoading(loading: boolean) {
       self.loading = loading;
     },
-    setCurrent(id?: string) {
-      self.current = self.list.find((b) => b.id === id);
+    setCurrentID(id?: string) {
+      self.currentID = id ?? '';
     },
   }))
   .actions((self) => ({

@@ -8,7 +8,7 @@ export const DashboardStoreContext = React.createContext<Instance<typeof Dashboa
 function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
   const { id } = useParams();
   useEffect(() => {
-    store.setCurrent(id);
+    store.setCurrentID(id);
   }, [id]);
   return null;
 }

@@ -63,7 +63,7 @@ function _DashboardLinks() {
                   <DashboardLink
                     preset={d.is_preset}
                     key={d.id}
-                    active={store.current?.id === d.id}
+                    active={store.currentID === d.id}
                     {...d}
                     openOverwriteModal={openOverwriteModal}
                     openEditModal={openEditModal}
@@ -78,7 +78,7 @@ function _DashboardLinks() {
         <DashboardLink
           preset={d.is_preset}
           key={d.id}
-          active={store.current?.id === d.id}
+          active={store.currentID === d.id}
           {...d}
           openOverwriteModal={openOverwriteModal}
           openEditModal={openEditModal}
