@@ -1,16 +1,16 @@
 import { ActionIcon, Menu } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import { Edit, FileImport, FileInfo, Menu2, Paint } from 'tabler-icons-react';
-import { useAccountContext } from '../../../require-auth/account-context';
+import { Edit, FileImport, Menu2, Paint } from 'tabler-icons-react';
+import { useAccountContext } from '../../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
 
 interface IActionMenu {
   id: string;
-  name: string;
   preset: boolean;
-  openOverwriteModal: (id: string, name: string) => void;
+  openOverwriteModal: (id: string) => void;
+  openEditModal: (id: string) => void;
 }
-export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu) => {
+export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
   const navigate = useNavigate();
   const { canEdit } = useAccountContext();
 
@@ -41,11 +41,11 @@ export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item disabled icon={<Edit size={16} />}>
-          Rename
+        <Menu.Item onClick={() => openEditModal(id)} icon={<Edit size={16} />}>
+          Edit
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openOverwriteModal(id, name)} icon={<FileImport size={16} />}>
+        <Menu.Item onClick={() => openOverwriteModal(id)} icon={<FileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
         <Menu.Divider />

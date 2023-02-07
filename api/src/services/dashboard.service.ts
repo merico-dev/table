@@ -21,7 +21,7 @@ export class DashboardService {
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(Dashboard, 'dashboard')
-      .orderBy(sort.field, sort.order)
+      .orderBy(`"${sort.field}"`, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -35,7 +35,7 @@ export class DashboardService {
       }
 
       if (filter.search) {
-        qb.andWhere('dashboard.name ilike :search', { search: `%${escapeLikePattern(filter.search)}%` });
+        qb.andWhere('dashboard.name ilike :nameSearch OR dashboard.group ilike :groupSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%`, groupSearch: `%${escapeLikePattern(filter.search)}%` });
       }
     }
 
@@ -49,11 +49,12 @@ export class DashboardService {
     };
   }
 
-  async create(name: string, content: Record<string, any>): Promise<Dashboard> {
+  async create(name: string, content: Record<string, any>, group: string): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = new Dashboard();
     dashboard.name = name;
     dashboard.content = content;
+    dashboard.group = group;
     const result = await dashboardRepo.save(dashboard);
     return result;
   }
@@ -73,6 +74,7 @@ export class DashboardService {
     name: string | undefined,
     content: Record<string, any> | undefined,
     is_removed: boolean | undefined,
+    group: string | undefined,
     locale: string,
     role_id?: ROLE_TYPES,
   ): Promise<Dashboard> {
@@ -85,6 +87,7 @@ export class DashboardService {
     dashboard.name = name === undefined ? dashboard.name : name;
     dashboard.content = content === undefined ? dashboard.content : content;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
+    dashboard.group = group === undefined ? dashboard.group: group;
     const result = await dashboardRepo.save(dashboard);
     const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
     if (diff) {

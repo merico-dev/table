@@ -52,6 +52,7 @@ describe('JobController', () => {
           ],
         },
       },
+      group: 'job',
     };
     validate.mockReturnValueOnce(dashboardQuery);
 

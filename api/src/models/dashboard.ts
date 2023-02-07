@@ -24,4 +24,11 @@ export default class Dashboard extends BaseModel {
     name: 'is_preset',
   })
   is_preset: boolean;
+
+  @Column('character varying', {
+    nullable: false,
+    default: '',
+    name: 'group',
+  })
+  group: string;
 }

@@ -1,14 +1,17 @@
-import { Box, Button, Group, Modal, Select, TextInput } from '@mantine/core';
+import { Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { DashboardAPI } from '../../../api-caller/dashboard';
+import { useDashboardStore } from '../models/dashboard-store-context';
 
 interface IFormValues {
   name: string;
+  group: string;
   idToDuplicate: string;
 }
 
@@ -36,11 +39,12 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   } = useForm<IFormValues>({
     defaultValues: {
       name: '',
+      group: '',
       idToDuplicate: '',
     },
   });
 
-  const createDashboard = async ({ name, idToDuplicate }: IFormValues) => {
+  const createDashboard = async ({ name, group, idToDuplicate }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
@@ -49,7 +53,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     });
     const dashboard = options.find((o) => o.value === idToDuplicate);
     const content = dashboard?.content;
-    const { id } = await DashboardAPI.create(name, content);
+    const { id } = await DashboardAPI.create(name, group, content);
     updateNotification({
       id: 'for-creating',
       title: 'Successful',
@@ -67,49 +71,55 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(createDashboard)}>
-        <Controller
-          name="name"
-          control={control}
-          rules={{
-            validate: (v) => !dashboardNameSet.has(v) || 'This name is occupied',
-          }}
-          render={({ field }) => (
-            <TextInput
-              mb="md"
-              required
-              label="Name"
-              placeholder="Name the dashboard"
-              {...field}
-              error={errors.name?.message}
-            />
-          )}
-        />
-        <Controller
-          name="idToDuplicate"
-          control={control}
-          render={({ field }) => (
-            <Select
-              my="md"
-              data={options}
-              disabled={loading || options.length === 0}
-              label="Choose a dashboard to duplicate (optional)"
-              {...field}
-            />
-          )}
-        />
+        <Stack>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              validate: (v) => !dashboardNameSet.has(v) || 'This name is occupied',
+            }}
+            render={({ field }) => (
+              <TextInput
+                required
+                label="Name"
+                placeholder="Name the dashboard"
+                {...field}
+                error={errors.name?.message}
+              />
+            )}
+          />
+          <Controller name="group" control={control} render={({ field }) => <TextInput label="Group" {...field} />} />
+          <Controller
+            name="idToDuplicate"
+            control={control}
+            render={({ field }) => (
+              <Select
+                data={options}
+                disabled={loading || options.length === 0}
+                label="Choose a dashboard to duplicate (optional)"
+                {...field}
+              />
+            )}
+          />
 
-        <Group position="right" mt="md">
-          <Button type="submit">Confirm</Button>
-        </Group>
+          <Group position="right" mt="md">
+            <Button type="submit">Confirm</Button>
+          </Group>
+        </Stack>
       </form>
     </Box>
   );
 }
 
-export function CreateDashboard() {
+export const CreateDashboard = observer(() => {
+  const { store } = useDashboardStore();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
-  const close = () => setOpened(false);
+
+  const closeAndReload = () => {
+    setOpened(false);
+    store.load();
+  };
 
   return (
     <>
@@ -123,11 +133,11 @@ export function CreateDashboard() {
           e.stopPropagation();
         }}
       >
-        <CreateDashboardForm postSubmit={close} />
+        <CreateDashboardForm postSubmit={closeAndReload} />
       </Modal>
       <Button size="xs" onClick={open} leftIcon={<PlaylistAdd size={20} />}>
         Add a new dashboard
       </Button>
     </>
   );
-}
+});

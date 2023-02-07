@@ -21,15 +21,15 @@ describe('DashboardService', () => {
 
   describe('create', () => {
     it('should create successfully', async () => {
-      dashboard3 = await dashboardService.create('dashboard3', {});
+      dashboard3 = await dashboardService.create('dashboard3', {}, '2');
     });
 
     it('should fail if duplicate name', async () => {
-      await expect(dashboardService.create('dashboard3', {})).rejects.toThrowError(QueryFailedError);
+      await expect(dashboardService.create('dashboard3', {}, '2')).rejects.toThrowError(QueryFailedError);
     });
 
     it('should fail if name empty', async () => {
-      await expect(dashboardService.create(undefined, {})).rejects.toThrowError(QueryFailedError);
+      await expect(dashboardService.create(undefined, {}, '2')).rejects.toThrowError(QueryFailedError);
     });
   });
 
@@ -67,6 +67,7 @@ describe('DashboardService', () => {
             update_time: dashboards[0].update_time,
             is_removed: true,
             is_preset: false,
+            group: '1',
           },
           {
             id: dashboards[1].id,
@@ -91,6 +92,7 @@ describe('DashboardService', () => {
             update_time: dashboards[1].update_time,
             is_removed: false,
             is_preset: true,
+            group: '1',
           },
           {
             id: dashboard3.id,
@@ -100,6 +102,7 @@ describe('DashboardService', () => {
             update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -123,6 +126,7 @@ describe('DashboardService', () => {
             update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -146,6 +150,7 @@ describe('DashboardService', () => {
             update_time: dashboards[0].update_time,
             is_removed: true,
             is_preset: false,
+            group: '1',
           },
           {
             id: dashboards[1].id,
@@ -155,6 +160,7 @@ describe('DashboardService', () => {
             update_time: dashboards[1].update_time,
             is_removed: false,
             is_preset: true,
+            group: '1',
           },
           {
             id: dashboard3.id,
@@ -164,6 +170,7 @@ describe('DashboardService', () => {
             update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -187,6 +194,7 @@ describe('DashboardService', () => {
             update_time: dashboards[1].update_time,
             is_removed: false,
             is_preset: true,
+            group: '1',
           },
           {
             id: dashboard3.id,
@@ -196,6 +204,7 @@ describe('DashboardService', () => {
             update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -219,6 +228,7 @@ describe('DashboardService', () => {
             update_time: dashboards[0].update_time,
             is_removed: true,
             is_preset: false,
+            group: '1',
           },
         ],
       });
@@ -256,6 +266,7 @@ describe('DashboardService', () => {
         'dashboard3_updated',
         undefined,
         true,
+        '2_updated',
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
@@ -263,12 +274,13 @@ describe('DashboardService', () => {
         ...dashboard3,
         name: 'dashboard3_updated',
         is_removed: true,
+        group: '2_updated',
         update_time: updatedDashboard.update_time,
       });
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
+      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, '2_updated', DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
         EntityNotFoundError,
       );
     });
@@ -279,6 +291,7 @@ describe('DashboardService', () => {
         'dashboard2_updated',
         undefined,
         false,
+        '1_updated',
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
@@ -286,13 +299,14 @@ describe('DashboardService', () => {
         ...dashboards[1],
         name: 'dashboard2_updated',
         is_removed: false,
+        group: '1_updated',
         update_time: updatedDashboard.update_time,
       });
     });
 
     it('should fail if not SUPERADMIN', async () => {
       await expect(
-        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, DEFAULT_LANGUAGE, ROLE_TYPES.ADMIN),
+        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, '1_updated', DEFAULT_LANGUAGE, ROLE_TYPES.ADMIN),
       ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' }));
     });
   });
@@ -304,6 +318,7 @@ describe('DashboardService', () => {
         ...dashboard3,
         name: 'dashboard3_updated',
         is_removed: true,
+        group: '2_updated',
         update_time: deletedDashboard.update_time,
       });
     });
@@ -320,6 +335,7 @@ describe('DashboardService', () => {
         ...dashboards[1],
         name: 'dashboard2_updated',
         is_removed: true,
+        group: '1_updated',
         update_time: deletedDashboard.update_time,
       });
     });
