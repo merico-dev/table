@@ -1,4 +1,4 @@
-import { Accordion, Box, LoadingOverlay } from '@mantine/core';
+import { Accordion, Box, Divider, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useDashboardStore } from '../../models/dashboard-store-context';
@@ -39,12 +39,17 @@ function _DashboardLinks() {
       <LoadingOverlay visible={store.loading} />
       <Accordion
         chevronPosition="left"
+        variant="separated"
         value={activeAccordion}
         onChange={setActiveAccordion}
         styles={{
+          control: {
+            padding: '12px 4px',
+          },
           content: {
             paddingLeft: 0,
             paddingRight: 0,
+            paddingBottom: 0,
           },
         }}
       >
@@ -68,6 +73,7 @@ function _DashboardLinks() {
           );
         })}
       </Accordion>
+      <Divider mt={20} variant="dashed" label="Ungrouped" labelPosition="center" />
       {[...store.strayList].map((d) => (
         <DashboardLink
           preset={d.is_preset}
