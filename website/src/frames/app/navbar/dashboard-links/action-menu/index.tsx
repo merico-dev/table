@@ -1,7 +1,7 @@
 import { ActionIcon, Menu } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { Edit, FileImport, FileInfo, Menu2, Paint } from 'tabler-icons-react';
-import { useAccountContext } from '../../../require-auth/account-context';
+import { useAccountContext } from '../../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
 import { EditDashboardModal } from './edit-dashboard';
 

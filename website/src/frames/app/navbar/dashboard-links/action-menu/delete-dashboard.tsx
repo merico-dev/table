@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useNavigate } from 'react-router-dom';
 import { Trash } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../../api-caller/dashboard';
+import { DashboardAPI } from '../../../../../api-caller/dashboard';
 
 export function DeleteDashboard({ id }: { id: string }) {
   const navigate = useNavigate();

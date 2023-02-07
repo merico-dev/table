@@ -3,7 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { DashboardAPI } from '../../../../../api-caller/dashboard';
+import { DashboardAPI } from '../../../../../../api-caller/dashboard';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 

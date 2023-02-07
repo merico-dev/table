@@ -2,8 +2,8 @@ import { Box, Button, Group, LoadingOverlay, Stack, TextInput } from '@mantine/c
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DashboardAPI } from '../../../../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../../models/dashboard-store';
+import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
 
 interface IFormValues {
   name: string;
