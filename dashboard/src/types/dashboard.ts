@@ -61,6 +61,7 @@ export interface IDashboardView {
 export interface IDashboard {
   id: string;
   name: string;
+  group: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
   filters: FilterModelInstance[];
