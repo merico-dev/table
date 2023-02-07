@@ -4,13 +4,17 @@ import { useDashboardStore } from '../../../../models/dashboard-store-context';
 import { EditDashboardForm } from './form';
 
 export const EditDashboardModal = observer(
-  ({ id, opened, closeAndReload }: { id: string; opened: boolean; closeAndReload: () => void }) => {
+  ({ id, opened, close }: { id: string; opened: boolean; close: () => void }) => {
     const { store } = useDashboardStore();
     const dashboard = store.getByID(id);
     if (!id || !dashboard) {
       return null;
     }
 
+    const postSubmit = () => {
+      close();
+      store.load();
+    };
     return (
       <Modal
         overflow="inside"
@@ -22,7 +26,7 @@ export const EditDashboardModal = observer(
           e.stopPropagation();
         }}
       >
-        <EditDashboardForm dashboard={dashboard} postSubmit={closeAndReload} />
+        <EditDashboardForm dashboard={dashboard} postSubmit={postSubmit} />
       </Modal>
     );
   },

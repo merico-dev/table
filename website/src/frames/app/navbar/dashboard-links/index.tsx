@@ -30,11 +30,10 @@ function _DashboardLinks() {
     setName(name);
     setEditModalOpened(true);
   };
-  const closeEditModalAndReload = () => {
+  const closeEditModal = () => {
     setID('');
     setName('');
     setEditModalOpened(false);
-    store.load();
   };
 
   const [activeAccordion, setActiveAccordion] = useState<string | null>(store.currentGroup);
@@ -84,7 +83,7 @@ function _DashboardLinks() {
           openEditModal={openEditModal}
         />
       ))}
-      <EditDashboardModal id={id} opened={editModalOpened} closeAndReload={closeEditModalAndReload} />
+      <EditDashboardModal id={id} opened={editModalOpened} close={closeEditModal} />
       <OverwriteWithJSONModal id={id} opened={overwriteModalOpened} close={closeOverwriteModal} />
     </Box>
   );
