@@ -1,11 +1,13 @@
 import { Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { DashboardAPI } from '../../../api-caller/dashboard';
+import { useDashboardStore } from '../models/dashboard-store-context';
 
 interface IFormValues {
   name: string;
@@ -109,10 +111,15 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   );
 }
 
-export function CreateDashboard() {
+export const CreateDashboard = observer(() => {
+  const { store } = useDashboardStore();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
-  const close = () => setOpened(false);
+
+  const closeAndReload = () => {
+    setOpened(false);
+    store.load();
+  };
 
   return (
     <>
@@ -126,11 +133,11 @@ export function CreateDashboard() {
           e.stopPropagation();
         }}
       >
-        <CreateDashboardForm postSubmit={close} />
+        <CreateDashboardForm postSubmit={closeAndReload} />
       </Modal>
       <Button size="xs" onClick={open} leftIcon={<PlaylistAdd size={20} />}>
         Add a new dashboard
       </Button>
     </>
   );
-}
+});
