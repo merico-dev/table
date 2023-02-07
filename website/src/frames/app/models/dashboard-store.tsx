@@ -55,19 +55,19 @@ export const useDashboardDetailQuery = ({ id }: { id: string }) => {
 
 export const DashboardStore = types
   .model('DashboardStore', {
-    boardList: types.array(DashboardDetailModel),
-    currentBoard: types.maybe(types.safeReference(DashboardDetailModel)),
+    list: types.array(DashboardDetailModel),
+    current: types.maybe(types.safeReference(DashboardDetailModel)),
     loading: types.boolean,
   })
   .actions((self) => ({
-    setBoardList(boardList: SnapshotIn<typeof DashboardDetailModel>[]) {
-      self.boardList = cast(boardList);
+    setList(list: SnapshotIn<typeof DashboardDetailModel>[]) {
+      self.list = cast(list);
     },
     setLoading(loading: boolean) {
       self.loading = loading;
     },
-    setCurrentBoard(id?: string) {
-      self.currentBoard = self.boardList.find((b) => b.id === id);
+    setCurrent(id?: string) {
+      self.current = self.list.find((b) => b.id === id);
     },
   }));
 
@@ -85,9 +85,9 @@ function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
     },
   );
   useEffect(() => {
-    store.setBoardList(data);
+    store.setList(data);
     store.setLoading(loading);
-    store.setCurrentBoard(id);
+    store.setCurrent(id);
   }, [data, loading, id]);
   return null;
 }
@@ -101,7 +101,7 @@ export function DashboardStoreProvider({ children }: { children: React.ReactNode
   const store = useCreation(
     () =>
       DashboardStore.create({
-        boardList: [],
+        list: [],
         loading: false,
       }),
     [],

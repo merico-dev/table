@@ -88,11 +88,11 @@ function _DashboardLinks() {
   return (
     <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={store.loading} />
-      {store.boardList.map((d) => (
+      {store.list.map((d) => (
         <DashboardLink
           preset={d.is_preset}
           key={d.id}
-          active={store.currentBoard?.id === d.id}
+          active={store.current?.id === d.id}
           {...d}
           openOverwriteModal={openOverwriteModal}
         />
