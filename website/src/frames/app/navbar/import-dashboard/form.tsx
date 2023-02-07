@@ -42,7 +42,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const { id } = await DashboardAPI.create(name, content);
+      const { id } = await DashboardAPI.create(name, '', content);
       updateNotification({
         id: 'for-creating',
         title: 'Successful',
