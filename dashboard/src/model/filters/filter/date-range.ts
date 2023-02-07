@@ -10,7 +10,25 @@ const _FilterConfigModel_DateRange = types
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
     clearable: types.boolean,
+    max_days: types.optional(types.number, 0),
+    allowSingleDateInRange: types.optional(types.boolean, false),
   })
+  .views((self) => ({
+    getMaxDate(startDate: Date | null) {
+      const { max_days } = self;
+      if (!max_days || !startDate) {
+        return undefined;
+      }
+      return dayjs(startDate).startOf('day').add(max_days, 'days').toDate();
+    },
+    getMinDate(endDate: Date | null) {
+      const { max_days } = self;
+      if (!max_days || !endDate) {
+        return undefined;
+      }
+      return dayjs(endDate).startOf('day').subtract(max_days, 'days').toDate();
+    },
+  }))
   .actions((self) => ({
     setRequired(required: boolean) {
       self.required = required;
@@ -24,6 +42,15 @@ const _FilterConfigModel_DateRange = types
     setDefaultValue(v: TDateRangePickerValue) {
       self.default_value.length = 0;
       self.default_value.push(...v);
+    },
+    setMaxDays(v: number) {
+      self.max_days = v;
+      if (v > 0) {
+        self.clearable = true;
+      }
+    },
+    setAllowSingleDateInRange(v: boolean) {
+      self.allowSingleDateInRange = v;
     },
   }));
 

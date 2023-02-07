@@ -1,4 +1,4 @@
-import { Checkbox, Group, Select } from '@mantine/core';
+import { Checkbox, Group, NumberInput, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { IFilterConfig_DateRange } from '../../model/filters/filter/date-range';
 import { FilterDateRange } from './render';
@@ -27,7 +27,13 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         <Checkbox
           checked={config.clearable}
           onChange={(e) => config.setClearable(e.currentTarget.checked)}
+          disabled={config.max_days > 0}
           label="Clearable"
+        />
+        <Checkbox
+          checked={config.allowSingleDateInRange}
+          onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
+          label="Allow choosing 1 day"
         />
       </Group>
       <Select
@@ -42,6 +48,23 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         // @ts-expect-error type of default_value
         value={config.default_value}
         onChange={config.setDefaultValue}
+      />
+      <NumberInput
+        label="Max Days"
+        description={
+          <Group position="apart">
+            <Text>Set 0 to disable.</Text>
+            <Group spacing={4}>
+              <Text>This feature requires</Text>
+              <Text color="blue">Clearable</Text>
+              <Text>to be checked</Text>
+            </Group>
+          </Group>
+        }
+        min={0}
+        value={config.max_days}
+        onChange={config.setMaxDays}
+        hideControls
       />
     </>
   );
