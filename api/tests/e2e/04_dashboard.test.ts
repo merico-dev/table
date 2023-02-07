@@ -55,6 +55,7 @@ describe('DashboardController', () => {
       const request1: DashboardCreateRequest = {
         name: 'dashboard1',
         content: {},
+        group: '1',
       };
       validate.mockReturnValueOnce(request1);
 
@@ -74,11 +75,13 @@ describe('DashboardController', () => {
         update_time: response1.body.update_time,
         is_removed: false,
         is_preset: false,
+        group: '1',
       });
 
       const request2: DashboardCreateRequest = {
         name: 'dashboard2',
         content: {},
+        group: '2',
       };
       validate.mockReturnValueOnce(request2);
 
@@ -98,6 +101,7 @@ describe('DashboardController', () => {
         update_time: response2.body.update_time,
         is_removed: false,
         is_preset: false,
+        group: '2',
       });
     });
 
@@ -105,6 +109,7 @@ describe('DashboardController', () => {
       const request: DashboardCreateRequest = {
         name: 'dashboard1',
         content: {},
+        group: '1',
       };
       validate.mockReturnValueOnce(request);
 
@@ -124,6 +129,7 @@ describe('DashboardController', () => {
     it('should fail if name empty', async () => {
       const request: DashboardCreateRequest = {
         name: undefined,
+        group: undefined,
         content: {},
       };
       validate.mockReturnValueOnce(request);
@@ -167,6 +173,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
+            group: '1',
           },
           {
             id: response.body.data[1].id,
@@ -176,6 +183,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
           {
             id: presetDashboard.id,
@@ -185,6 +193,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[2].update_time,
             is_removed: true,
             is_preset: true,
+            group: '',
           },
         ],
       });
@@ -215,6 +224,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
+            group: '1',
           },
           {
             id: response.body.data[1].id,
@@ -224,6 +234,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -254,6 +265,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
+            group: '1',
           },
           {
             id: response.body.data[1].id,
@@ -263,6 +275,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
           {
             id: presetDashboard.id,
@@ -272,6 +285,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[2].update_time,
             is_removed: true,
             is_preset: true,
+            group: '',
           },
         ],
       });
@@ -302,6 +316,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
+            group: '1',
           },
           {
             id: response.body.data[1].id,
@@ -311,6 +326,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
+            group: '2',
           },
         ],
       });
@@ -341,6 +357,7 @@ describe('DashboardController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: true,
             is_preset: true,
+            group: '',
           },
         ],
       });
@@ -396,7 +413,7 @@ describe('DashboardController', () => {
 
       response.body.create_time = new Date(response.body.create_time);
       response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(response.body);
+      expect(response.body).toMatchObject(dashboard1);
     });
 
     it('should fail', async () => {
@@ -425,6 +442,7 @@ describe('DashboardController', () => {
         name: 'dashboard2_updated',
         is_removed: true,
         content: { tmp: 'tmp' },
+        group: '2_updated',
       };
       validate.mockReturnValueOnce(query);
 
@@ -440,6 +458,7 @@ describe('DashboardController', () => {
         is_removed: true,
         content: { tmp: 'tmp' },
         update_time: response.body.update_time,
+        group: '2_updated',
       });
     });
 
@@ -466,6 +485,7 @@ describe('DashboardController', () => {
         name: 'preset_updated',
         is_removed: false,
         content: { tmp: 'tmp' },
+        group: 'preset',
       };
       validate.mockReturnValueOnce(query);
 
@@ -481,6 +501,7 @@ describe('DashboardController', () => {
         is_removed: false,
         content: { tmp: 'tmp' },
         update_time: response.body.update_time,
+        group: 'preset',
       });
     });
 
@@ -563,6 +584,7 @@ describe('DashboardController', () => {
         ...presetDashboard,
         name: 'preset_updated',
         is_removed: true,
+        group: 'preset',
         update_time: response.body.update_time,
       });
     });

@@ -94,7 +94,7 @@ describe('DashboardChangelogController', () => {
       expect(response.body.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[0].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(response.body.data[0].diff).toContain('@@ -2,8 +2,10 @@');
+      expect(response.body.data[0].diff).toContain('@@ -2,9 +2,11 @@');
       expect(response.body.data[0].diff).toContain('-\t"name": "dashboard2",\n' +
       '-\t"content": {},\n' +
       '-\t"is_removed": false,\n' +
@@ -103,13 +103,15 @@ describe('DashboardChangelogController', () => {
       '+\t\t"tmp": "tmp"\n' +
       '+\t},\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": false\n' +
+      ' \t"is_preset": false,\n' +
+      '-\t"group": "2"\n' +
+      '+\t"group": "2_updated"\n' +
       ' }\n');
 
       expect(response.body.data[1].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[1].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(response.body.data[1].diff).toContain('@@ -2,8 +2,10 @@');
+      expect(response.body.data[1].diff).toContain('@@ -2,9 +2,11 @@');
       expect(response.body.data[1].diff).toContain('-\t"name": "preset",\n' +
       '-\t"content": {},\n' +
       '-\t"is_removed": true,\n' +
@@ -118,30 +120,34 @@ describe('DashboardChangelogController', () => {
       '+\t\t"tmp": "tmp"\n' +
       '+\t},\n' +
       '+\t"is_removed": false,\n' +
-      ' \t"is_preset": true\n' +
+      ' \t"is_preset": true,\n' +
+      '-\t"group": ""\n' +
+      '+\t"group": "preset"\n' +
       ' }\n');
 
       expect(response.body.data[2].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[2].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(response.body.data[2].diff).toContain('@@ -4,6 +4,6 @@');
+      expect(response.body.data[2].diff).toContain('@@ -4,7 +4,7 @@');
       expect(response.body.data[2].diff).toContain(' \t"name": "dashboard1",\n' +
       ' \t"content": {},\n' +
       '-\t"is_removed": false,\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": false\n' +
+      ' \t"is_preset": false,\n' +
+      ' \t"group": "1"\n' +
       ' }\n');
 
       expect(response.body.data[3].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[3].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(response.body.data[3].diff).toContain('@@ -6,6 +6,6 @@');
+      expect(response.body.data[3].diff).toContain('@@ -6,7 +6,7 @@');
       expect(response.body.data[3].diff).toContain(' \t"content": {\n' +
       ' \t\t"tmp": "tmp"\n' +
       ' \t},\n' +
       '-\t"is_removed": false,\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": true\n' +
+      ' \t"is_preset": true,\n' +
+      ' \t"group": "preset"\n' +
       ' }\n');
 
       expect(response.body.data[4].diff).toContain('diff --git a/data.json b/data.json');
@@ -214,7 +220,7 @@ describe('DashboardChangelogController', () => {
       expect(response.body.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[0].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(response.body.data[0].diff).toContain('@@ -2,8 +2,10 @@');
+      expect(response.body.data[0].diff).toContain('@@ -2,9 +2,11 @@');
       expect(response.body.data[0].diff).toContain('-\t"name": "dashboard2",\n' +
       '-\t"content": {},\n' +
       '-\t"is_removed": false,\n' +
@@ -223,7 +229,9 @@ describe('DashboardChangelogController', () => {
       '+\t\t"tmp": "tmp"\n' +
       '+\t},\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": false\n' +
+      ' \t"is_preset": false,\n' +
+      '-\t"group": "2"\n' +
+      '+\t"group": "2_updated"\n' +
       ' }\n');
     });
   });

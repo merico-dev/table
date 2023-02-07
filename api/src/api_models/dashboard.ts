@@ -40,6 +40,12 @@ export class Dashboard {
   is_preset: boolean;
 
   @ApiModelProperty({
+    description: 'Dashboard group',
+    required: false,
+  })
+  group: string;
+
+  @ApiModelProperty({
     description: 'Create time',
     required: false,
   })
@@ -59,7 +65,7 @@ export class Dashboard {
 export class DashboardFilterObject implements FilterRequest {
   @IsOptional()
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search',
+    description: 'search term. Uses fuzzy search for name and group',
     required: false,
   })
   search?: string;
@@ -79,13 +85,13 @@ export class DashboardFilterObject implements FilterRequest {
   name: 'DashboardSortObject'
 })
 export class DashboardSortObject implements SortRequest {
-  @IsIn(['name', 'create_time', 'is_preset'])
+  @IsIn(['name', 'create_time', 'is_preset', 'group'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['name', 'create_time', 'is_preset'],
+    enum: ['name', 'create_time', 'is_preset', 'group'],
   })
-  field: 'name' | 'create_time' | 'is_preset';
+  field: 'name' | 'create_time' | 'is_preset' | 'group';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
@@ -187,6 +193,13 @@ export class DashboardCreateRequest {
   })
   content: Record<string, any>;
 
+  @IsString()
+  @ApiModelProperty({
+    description: 'Dashboard group',
+    required: true,
+  })
+  group: string;
+
   @IsOptional()
   @Type(() => Authentication)
   @ValidateNested({ each: true })
@@ -235,6 +248,14 @@ export class DashboardUpdateRequest{
     required: false,
   })
   is_removed?: boolean;
+
+  @IsOptional()
+  @IsString()
+  @ApiModelProperty({
+    description: 'Dashboard group',
+    required: false,
+  })
+  group?: string;
 
   @IsOptional()
   @Type(() => Authentication)

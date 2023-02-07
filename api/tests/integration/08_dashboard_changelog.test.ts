@@ -94,13 +94,15 @@ describe('DashboardChangelogService', () => {
       expect(results.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(results.data[0].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(results.data[0].diff).toContain('@@ -2,8 +2,8 @@');
+      expect(results.data[0].diff).toContain('@@ -2,9 +2,9 @@');
       expect(results.data[0].diff).toContain('-\t"name": "dashboard3",\n' +
       '+\t"name": "dashboard3_updated",\n' +
       ' \t"content": {},\n' +
       '-\t"is_removed": false,\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": false\n' +
+      ' \t"is_preset": false,\n' +
+      '-\t"group": "2"\n' +
+      '+\t"group": "2_updated"\n' +
       ' }\n');
 
       expect(results.data[1].diff).toContain('diff --git a/data.json b/data.json');
@@ -116,13 +118,14 @@ describe('DashboardChangelogService', () => {
       expect(results.data[2].diff).toContain('diff --git a/data.json b/data.json');
       expect(results.data[2].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(results.data[2].diff).toContain('@@ -19,6 +19,6 @@');
+      expect(results.data[2].diff).toContain('@@ -19,7 +19,7 @@');
       expect(results.data[2].diff).toContain(' \t\t\t]\n' +
       ' \t\t}\n' +
       ' \t},\n' +
       '-\t"is_removed": false,\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": true\n' +
+      ' \t"is_preset": true,\n' +
+      ' \t"group": "1_updated"\n' +
       ' }\n');
 
       expect(results.data[3].diff).toContain('diff --git a/data.json b/data.json');
@@ -255,13 +258,15 @@ describe('DashboardChangelogService', () => {
       expect(results.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(results.data[0].diff).toContain('--- a/data.json\n' +
       '+++ b/data.json');
-      expect(results.data[0].diff).toContain('@@ -2,8 +2,8 @@');
+      expect(results.data[0].diff).toContain('@@ -2,9 +2,9 @@');
       expect(results.data[0].diff).toContain('-\t"name": "dashboard3",\n' +
       '+\t"name": "dashboard3_updated",\n' +
       ' \t"content": {},\n' +
       '-\t"is_removed": false,\n' +
       '+\t"is_removed": true,\n' +
-      ' \t"is_preset": false\n' +
+      ' \t"is_preset": false,\n' +
+      '-\t"group": "2"\n' +
+      '+\t"group": "2_updated"\n' +
       ' }\n');
     });
   });
