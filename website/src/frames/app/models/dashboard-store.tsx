@@ -80,6 +80,12 @@ export const DashboardStore = types
     get strayList() {
       return self.list.filter((d) => !d.group);
     },
+    get currentGroup() {
+      if (!self.current) {
+        return '';
+      }
+      return self.current.group;
+    },
   }))
   .actions((self) => ({
     setList(list: SnapshotIn<typeof DashboardDetailModel>[]) {

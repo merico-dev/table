@@ -1,6 +1,6 @@
 import { Accordion, Box, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDashboardStore } from '../../models/dashboard-store';
 import { EditDashboardModal } from './action-menu/edit-dashboard';
 import { OverwriteWithJSONModal } from './action-menu/overwrite-with-json';
@@ -36,10 +36,13 @@ function _DashboardLinks() {
     setEditModalOpened(false);
   };
 
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(store.currentGroup);
+  useEffect(() => setActiveAccordion(store.currentGroup), [store.currentGroup]);
+
   return (
     <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={store.loading} />
-      <Accordion chevronPosition="left" defaultValue="TODO">
+      <Accordion chevronPosition="left" value={activeAccordion} onChange={setActiveAccordion}>
         {Object.entries(store.groupedList).map(([group, list]) => {
           return (
             <Accordion.Item key={group} value={group}>
