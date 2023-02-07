@@ -10,29 +10,24 @@ function _DashboardLinks() {
   const { store } = useDashboardStore();
 
   const [id, setID] = useState('');
-  const [name, setName] = useState('');
 
   const [overwriteModalOpened, setOverwriteModalOpened] = useState(false);
-  const openOverwriteModal = (id: string, name: string) => {
+  const openOverwriteModal = (id: string) => {
     setID(id);
-    setName(name);
     setOverwriteModalOpened(true);
   };
   const closeOverwriteModal = () => {
     setID('');
-    setName('');
     setOverwriteModalOpened(false);
   };
 
   const [editModalOpened, setEditModalOpened] = useState(false);
-  const openEditModal = (id: string, name: string) => {
+  const openEditModal = (id: string) => {
     setID(id);
-    setName(name);
     setEditModalOpened(true);
   };
   const closeEditModal = () => {
     setID('');
-    setName('');
     setEditModalOpened(false);
   };
 

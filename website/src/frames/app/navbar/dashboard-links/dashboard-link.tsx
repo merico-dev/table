@@ -8,8 +8,8 @@ interface DashboardLinkProps {
   name: string;
   active: boolean;
   preset?: boolean;
-  openOverwriteModal: (id: string, name: string) => void;
-  openEditModal: (id: string, name: string) => void;
+  openOverwriteModal: (id: string) => void;
+  openEditModal: (id: string) => void;
 }
 
 export function DashboardLink({ id, name, active, preset, openOverwriteModal, openEditModal }: DashboardLinkProps) {
@@ -60,13 +60,7 @@ export function DashboardLink({ id, name, active, preset, openOverwriteModal, op
           </Tooltip>
         )}
         {!preset && active && (
-          <ActionMenu
-            id={id}
-            name={name}
-            preset={false}
-            openOverwriteModal={openOverwriteModal}
-            openEditModal={openEditModal}
-          />
+          <ActionMenu id={id} preset={false} openOverwriteModal={openOverwriteModal} openEditModal={openEditModal} />
         )}
       </Group>
     </UnstyledButton>
