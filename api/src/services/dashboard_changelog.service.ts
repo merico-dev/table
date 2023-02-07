@@ -19,6 +19,8 @@ export class DashboardChangelogService {
     }
     const git: SimpleGit = simpleGit(options);
     await git.init();
+    await git.addConfig('user.name', 'Devtable');
+    await git.addConfig('user.email', 'Devtable@merico.dev');
     const filename = path.join(dir, 'data.json');
     await fs.writeJson(filename, oldDashboard, { spaces: '\t' });
     await git.add(filename);
