@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDashboardStore } from '../models/dashboard-store';
 import { ActionMenu } from './action-menu';
+import { EditDashboardModal } from './action-menu/edit-dashboard';
 import { OverwriteWithJSONModal } from './action-menu/overwrite-with-json';
 
 interface DashboardLinkProps {
@@ -13,9 +14,10 @@ interface DashboardLinkProps {
   active: boolean;
   preset?: boolean;
   openOverwriteModal: (id: string, name: string) => void;
+  openEditModal: (id: string, name: string) => void;
 }
 
-function DashboardLink({ id, name, active, preset, openOverwriteModal }: DashboardLinkProps) {
+function DashboardLink({ id, name, active, preset, openOverwriteModal, openEditModal }: DashboardLinkProps) {
   const navigate = useNavigate();
   const theme = useMantineTheme();
   return (
@@ -62,7 +64,15 @@ function DashboardLink({ id, name, active, preset, openOverwriteModal }: Dashboa
             </span>
           </Tooltip>
         )}
-        {!preset && active && <ActionMenu id={id} name={name} preset={false} openOverwriteModal={openOverwriteModal} />}
+        {!preset && active && (
+          <ActionMenu
+            id={id}
+            name={name}
+            preset={false}
+            openOverwriteModal={openOverwriteModal}
+            openEditModal={openEditModal}
+          />
+        )}
       </Group>
     </UnstyledButton>
   );
@@ -71,18 +81,31 @@ function DashboardLink({ id, name, active, preset, openOverwriteModal }: Dashboa
 function _DashboardLinks() {
   const { store } = useDashboardStore();
 
-  const [opened, setOpened] = useState(false);
   const [id, setID] = useState('');
   const [name, setName] = useState('');
+
+  const [overwriteModalOpened, setOverwriteModalOpened] = useState(false);
   const openOverwriteModal = (id: string, name: string) => {
     setID(id);
     setName(name);
-    setOpened(true);
+    setOverwriteModalOpened(true);
   };
   const closeOverwriteModal = () => {
     setID('');
     setName('');
-    setOpened(false);
+    setOverwriteModalOpened(false);
+  };
+
+  const [editModalOpened, setEditModalOpened] = useState(false);
+  const openEditModal = (id: string, name: string) => {
+    setID(id);
+    setName(name);
+    setEditModalOpened(true);
+  };
+  const closeEditModal = () => {
+    setID('');
+    setName('');
+    setEditModalOpened(false);
   };
 
   return (
@@ -101,6 +124,7 @@ function _DashboardLinks() {
                     active={store.current?.id === d.id}
                     {...d}
                     openOverwriteModal={openOverwriteModal}
+                    openEditModal={openEditModal}
                   />
                 ))}
               </Accordion.Panel>
@@ -115,9 +139,11 @@ function _DashboardLinks() {
           active={store.current?.id === d.id}
           {...d}
           openOverwriteModal={openOverwriteModal}
+          openEditModal={openEditModal}
         />
       ))}
-      <OverwriteWithJSONModal id={id} name={name} opened={opened} close={closeOverwriteModal} />
+      <EditDashboardModal id={id} opened={editModalOpened} close={closeEditModal} />
+      <OverwriteWithJSONModal id={id} name={name} opened={overwriteModalOpened} close={closeOverwriteModal} />
     </Box>
   );
 }

@@ -20,10 +20,11 @@ export const DashboardAPI = {
   details: async (id: string): Promise<IDBDashboard> => {
     return await post(`/dashboard/details`, { id });
   },
-  update: async ({ id, name, definition, views, filters, version }: IDashboard): Promise<IDBDashboard> => {
+  update: async ({ id, name, group, definition, views, filters, version }: IDashboard): Promise<IDBDashboard> => {
     const payload = {
       id,
       name,
+      group,
       content: {
         definition,
         views,

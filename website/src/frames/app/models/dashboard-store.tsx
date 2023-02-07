@@ -63,6 +63,9 @@ export const DashboardStore = types
     loading: types.boolean,
   })
   .views((self) => ({
+    getByID(id: string) {
+      return self.list.find((d) => d.id === id);
+    },
     get groupedList() {
       return self.list
         .filter((d) => d.group)

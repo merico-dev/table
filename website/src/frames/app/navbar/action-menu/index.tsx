@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { Edit, FileImport, FileInfo, Menu2, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
+import { EditDashboardModal } from './edit-dashboard';
 
 interface IActionMenu {
   id: string;
   name: string;
   preset: boolean;
   openOverwriteModal: (id: string, name: string) => void;
+  openEditModal: (id: string, name: string) => void;
 }
-export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu) => {
+export const ActionMenu = ({ id, name, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
   const navigate = useNavigate();
   const { canEdit } = useAccountContext();
 
@@ -41,8 +43,8 @@ export const ActionMenu = ({ id, name, preset, openOverwriteModal }: IActionMenu
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item disabled icon={<Edit size={16} />}>
-          Rename
+        <Menu.Item onClick={() => openEditModal(id, name)} icon={<Edit size={16} />}>
+          Edit
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={() => openOverwriteModal(id, name)} icon={<FileImport size={16} />}>
