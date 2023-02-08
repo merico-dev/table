@@ -9,7 +9,7 @@
         "password": "postgres",
         "database": "dashboard"
       }
-    }, 
+    },
     {
       "key": "pg2",
       "config": {

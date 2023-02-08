@@ -4,7 +4,13 @@ import { controller, httpPost, httpPut, interfaces } from 'inversify-express-uti
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardService } from '../services/dashboard.service';
 import { validate } from '../middleware/validation';
-import { DashboardListRequest, DashboardCreateRequest, DashboardUpdateRequest, DashboardIDRequest, DashboardNameRequest } from '../api_models/dashboard';
+import {
+  DashboardListRequest,
+  DashboardCreateRequest,
+  DashboardUpdateRequest,
+  DashboardIDRequest,
+  DashboardNameRequest,
+} from '../api_models/dashboard';
 import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
 import ApiKey from '../models/apiKey';
@@ -12,16 +18,14 @@ import Account from '../models/account';
 
 @ApiPath({
   path: '/dashboard',
-  name: 'Dashboard'
+  name: 'Dashboard',
 })
 @controller('/dashboard')
 export class DashboardController implements interfaces.Controller {
   public static TARGET_NAME = 'Dashboard';
   private dashboardService: DashboardService;
 
-  public constructor(
-    @inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>
-  ) {
+  public constructor(@inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>) {
     this.dashboardService = new DashboardService();
   }
 
@@ -29,12 +33,16 @@ export class DashboardController implements interfaces.Controller {
     path: '/list',
     description: 'List saved dashboards',
     parameters: {
-      body: { description: 'dashboard list request', required: true, model: 'DashboardListRequest' }
+      body: { description: 'dashboard list request', required: true, model: 'DashboardListRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DashboardPaginationResponse' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'DashboardPaginationResponse',
+      },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/list', permission(ROLE_TYPES.READER))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -51,12 +59,12 @@ export class DashboardController implements interfaces.Controller {
     path: '/create',
     description: 'Create a new dashboard',
     parameters: {
-      body: { description: 'new dashboard request', required: true, model: 'DashboardCreateRequest'}
+      body: { description: 'new dashboard request', required: true, model: 'DashboardCreateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/create', permission(ROLE_TYPES.AUTHOR))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -73,13 +81,13 @@ export class DashboardController implements interfaces.Controller {
     path: '/details',
     description: 'Show dashboard',
     parameters: {
-      body: { description: 'get dashboard request', required: true, model: 'DashboardIDRequest'}
+      body: { description: 'get dashboard request', required: true, model: 'DashboardIDRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/details', permission(ROLE_TYPES.READER))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -96,13 +104,13 @@ export class DashboardController implements interfaces.Controller {
     path: '/detailsByName',
     description: 'Show dashboard',
     parameters: {
-      body: { description: 'get dashboard by name request', required: true, model: 'DashboardNameRequest'}
+      body: { description: 'get dashboard by name request', required: true, model: 'DashboardNameRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/detailsByName', permission(ROLE_TYPES.READER))
   public async detailsByName(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -119,20 +127,28 @@ export class DashboardController implements interfaces.Controller {
     path: '/update',
     description: 'Update dashboard',
     parameters: {
-      body: { description: 'update dashboard request', required: true, model: 'DashboardUpdateRequest'}
+      body: { description: 'update dashboard request', required: true, model: 'DashboardUpdateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id, name, content, is_removed, group } = validate(DashboardUpdateRequest, req.body);
-      const result = await this.dashboardService.update(id, name, content, is_removed, group, req.locale, auth?.role_id);
+      const result = await this.dashboardService.update(
+        id,
+        name,
+        content,
+        is_removed,
+        group,
+        req.locale,
+        auth?.role_id,
+      );
       res.json(result);
     } catch (err) {
       next(err);
@@ -143,13 +159,13 @@ export class DashboardController implements interfaces.Controller {
     path: '/delete',
     description: 'Remove dashboard',
     parameters: {
-      body: { description: 'delete dashboard request', required: true, model: 'DashboardIDRequest'}
+      body: { description: 'delete dashboard request', required: true, model: 'DashboardIDRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Dashboard' },
-      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      404: { description: 'NOT FOUND', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

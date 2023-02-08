@@ -49,33 +49,29 @@ describe('ConfigController', () => {
       };
       validate.mockReturnValueOnce(request1);
 
-      const response1 = await server
-        .post('/config/get')
-        .send(request1);
+      const response1 = await server.post('/config/get').send(request1);
 
       expect(response1.body).toMatchObject({
         key: 'lang',
-        value: 'en'
+        value: 'en',
       });
 
       const authentication = createAuthStruct(apiKey, {
-        key: 'lang'
+        key: 'lang',
       });
       validate.mockReturnValueOnce(authentication);
 
       const request2: ConfigGetRequest = {
         key: 'lang',
-        authentication
+        authentication,
       };
       validate.mockReturnValueOnce(request2);
 
-      const response2 = await server
-        .post('/config/get')
-        .send(request2);
+      const response2 = await server.post('/config/get').send(request2);
 
       expect(response2.body).toMatchObject({
         key: 'lang',
-        value: 'en'
+        value: 'en',
       });
     });
 
@@ -92,7 +88,7 @@ describe('ConfigController', () => {
 
       expect(response1.body).toMatchObject({
         key: 'lang',
-        value: 'zh'
+        value: 'zh',
       });
     });
   });
@@ -124,7 +120,7 @@ describe('ConfigController', () => {
       const request2: ConfigUpdateRequest = {
         key: 'lang',
         value: 'zh',
-        authentication
+        authentication,
       };
       validate.mockReturnValueOnce(request2);
 
@@ -135,7 +131,8 @@ describe('ConfigController', () => {
         value: 'zh',
       });
 
-      const dbConfigs = await dashboardDataSource.manager.createQueryBuilder()
+      const dbConfigs = await dashboardDataSource.manager
+        .createQueryBuilder()
         .from(Config, 'config')
         .select('config.resource_type', 'resource_type')
         .addSelect('config.resource_id', 'resource_id')
@@ -149,14 +146,14 @@ describe('ConfigController', () => {
           resource_type: 'ACCOUNT',
           resource_id: superadminLogin.account.id,
           key: 'lang',
-          value: 'en'
+          value: 'en',
         },
         {
           resource_type: 'APIKEY',
           resource_id: apiKey.id,
           key: 'lang',
-          value: 'zh'
-        }
+          value: 'zh',
+        },
       ]);
     });
 
@@ -174,7 +171,7 @@ describe('ConfigController', () => {
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Incorrect config value', acceptedValues: [ 'en', 'zh' ] }
+        detail: { message: 'Incorrect config value', acceptedValues: ['en', 'zh'] },
       });
     });
 
@@ -185,13 +182,11 @@ describe('ConfigController', () => {
       };
       validate.mockReturnValueOnce(request);
 
-      const response = await server
-        .post('/config/update')
-        .send(request);
+      const response = await server.post('/config/update').send(request);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
-        detail: { message: 'Must be authenticated for this config' }
+        detail: { message: 'Must be authenticated for this config' },
       });
     });
   });

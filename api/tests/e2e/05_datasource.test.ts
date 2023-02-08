@@ -105,7 +105,7 @@ describe('DataSourceController', () => {
           host: 'http://jsonplaceholder.typicode.com',
           processing: {
             pre: '',
-            post: ''
+            post: '',
           },
         },
       };

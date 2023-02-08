@@ -1,4 +1,4 @@
-import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant  } from 'swagger-express-ts';
+import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
@@ -9,8 +9,8 @@ import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, S
 })
 export class Dashboard {
   @ApiModelProperty({
-    description : 'Dashboard ID in uuid format' ,
-    required : false,
+    description: 'Dashboard ID in uuid format',
+    required: false,
   })
   id: string;
 
@@ -28,14 +28,14 @@ export class Dashboard {
   content: object | null;
 
   @ApiModelProperty({
-    description : 'whether the dashboard is removed or not' ,
-    required : false,
+    description: 'whether the dashboard is removed or not',
+    required: false,
   })
   is_removed: boolean;
 
   @ApiModelProperty({
-    description : 'whether the dashboard is preset or not' ,
-    required : false,
+    description: 'whether the dashboard is preset or not',
+    required: false,
   })
   is_preset: boolean;
 
@@ -82,7 +82,7 @@ export class DashboardFilterObject implements FilterRequest {
 
 @ApiModel({
   description: 'Dashboard sort object',
-  name: 'DashboardSortObject'
+  name: 'DashboardSortObject',
 })
 export class DashboardSortObject implements SortRequest {
   @IsIn(['name', 'create_time', 'is_preset', 'group'])
@@ -215,11 +215,11 @@ export class DashboardCreateRequest {
   description: 'dashboard update request object',
   name: 'DashboardUpdateRequest',
 })
-export class DashboardUpdateRequest{
+export class DashboardUpdateRequest {
   @IsUUID()
   @ApiModelProperty({
-    description : 'Dashboard ID in uuid format' ,
-    required : true,
+    description: 'Dashboard ID in uuid format',
+    required: true,
   })
   id: string;
 

@@ -40,8 +40,8 @@ export class ApiKey {
   app_secret: string;
 
   @ApiModelProperty({
-    description : 'whether the ApiKey is preset or not' ,
-    required : false,
+    description: 'whether the ApiKey is preset or not',
+    required: false,
   })
   is_preset: boolean;
 }
@@ -61,7 +61,7 @@ export class ApiKeyFilterObject implements FilterRequest {
 
 @ApiModel({
   description: 'ApiKey sort object',
-  name: 'ApiKeySortObject'
+  name: 'ApiKeySortObject',
 })
 export class ApiKeySortObject implements SortRequest {
   @IsIn(['name', 'create_time', 'is_preset'])
@@ -169,7 +169,12 @@ export class ApiKeyCreateRequest {
   @ApiModelProperty({
     description: 'ApiKey role ID',
     required: true,
-    enum: [ROLE_TYPES.INACTIVE.toString(), ROLE_TYPES.READER.toString(), ROLE_TYPES.AUTHOR.toString(), ROLE_TYPES.ADMIN.toString()],
+    enum: [
+      ROLE_TYPES.INACTIVE.toString(),
+      ROLE_TYPES.READER.toString(),
+      ROLE_TYPES.AUTHOR.toString(),
+      ROLE_TYPES.ADMIN.toString(),
+    ],
   })
   role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
 

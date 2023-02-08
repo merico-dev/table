@@ -4,7 +4,11 @@ import DashboardChangelog from '../models/dashboard_changelog';
 import fs from 'fs-extra';
 import path from 'path';
 import simpleGit, { SimpleGit, SimpleGitOptions } from 'simple-git';
-import { DashboardChangelogFilterObject, DashboardChangelogPaginationResponse, DashboardChangelogSortObject } from '../api_models/dashboard_changelog';
+import {
+  DashboardChangelogFilterObject,
+  DashboardChangelogPaginationResponse,
+  DashboardChangelogSortObject,
+} from '../api_models/dashboard_changelog';
 import { PaginationRequest } from '../api_models/base';
 
 export class DashboardChangelogService {
@@ -12,11 +16,11 @@ export class DashboardChangelogService {
     const time = new Date().getTime();
     const dir = path.join(__dirname, `${time}_${oldDashboard.id}`);
     await fs.ensureDir(dir);
-    
+
     const options: Partial<SimpleGitOptions> = {
       baseDir: dir,
       binary: 'git',
-    }
+    };
     const git: SimpleGit = simpleGit(options);
     await git.init();
     await git.addConfig('user.name', 'Devtable');

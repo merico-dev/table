@@ -16,11 +16,15 @@ async function upsert() {
 
     const names: string[] = process.env.PRESET_API_KEY_NAME ? process.env.PRESET_API_KEY_NAME.split(';') : [];
     const app_ids: string[] = process.env.PRESET_API_KEY_APP_ID ? process.env.PRESET_API_KEY_APP_ID.split(';') : [];
-    const app_secrets: string[] = process.env.PRESET_API_KEY_APP_SECRET ? process.env.PRESET_API_KEY_APP_SECRET.split(';') : [];
+    const app_secrets: string[] = process.env.PRESET_API_KEY_APP_SECRET
+      ? process.env.PRESET_API_KEY_APP_SECRET.split(';')
+      : [];
     const role_ids: string[] = process.env.PRESET_API_KEY_ROLE_ID ? process.env.PRESET_API_KEY_ROLE_ID.split(';') : [];
 
     if (names.length !== app_ids.length || names.length !== app_secrets.length || names.length !== role_ids.length) {
-      console.error('Configuration mismatch. Make sure that for each key the name, app_id, app_secret, and role_id are configured');
+      console.error(
+        'Configuration mismatch. Make sure that for each key the name, app_id, app_secret, and role_id are configured',
+      );
       process.exit(1);
     }
 
@@ -31,14 +35,21 @@ async function upsert() {
       const role_id = parseInt(role_ids[i]);
 
       if (!name || !app_id || !app_secret) {
-        console.error('Must configure PRESET_API_KEY_NAME, PRESET_API_KEY_APP_ID and PRESET_API_KEY_APP_SECRET in .env');
+        console.error(
+          'Must configure PRESET_API_KEY_NAME, PRESET_API_KEY_APP_ID and PRESET_API_KEY_APP_SECRET in .env',
+        );
         process.exit(1);
       }
       if (!(role_id in ROLE_TYPES)) {
-        console.error('PRESET_ROLE_ID must be one of:', Object.values(ROLE_TYPES).filter((x) => typeof x === 'string').map((x) => ({ [ROLE_TYPES[x]]: x })));
+        console.error(
+          'PRESET_ROLE_ID must be one of:',
+          Object.values(ROLE_TYPES)
+            .filter((x) => typeof x === 'string')
+            .map((x) => ({ [ROLE_TYPES[x]]: x })),
+        );
         process.exit(1);
       }
-      
+
       let apikey: ApiKey | null;
       apikey = await apikeyRepo.findOneBy({ name, is_preset: true });
       if (!apikey) {

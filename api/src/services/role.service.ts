@@ -18,10 +18,10 @@ export class RoleService {
       return;
     }
     if (!auth) {
-      throw new ApiError(UNAUTHORIZED, { message: translate('UNAUTHORIZED', locale ) });
+      throw new ApiError(UNAUTHORIZED, { message: translate('UNAUTHORIZED', locale) });
     }
     if (auth.role_id < minimum_required_role) {
-      throw new ApiError(FORBIDDEN, { message: translate('FORBIDDEN', locale ) });
+      throw new ApiError(FORBIDDEN, { message: translate('FORBIDDEN', locale) });
     }
   }
 }

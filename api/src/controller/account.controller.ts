@@ -1,10 +1,22 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
 import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
-import { ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import {
+  ApiOperationGet,
+  ApiOperationPost,
+  ApiOperationPut,
+  ApiPath,
+  SwaggerDefinitionConstant,
+} from 'swagger-express-ts';
 import { AccountService } from '../services/account.service';
 import { validate } from '../middleware/validation';
-import { AccountChangePasswordRequest, AccountEditRequest, AccountIDRequest, AccountListRequest, AccountLoginRequest } from '../api_models/account';
+import {
+  AccountChangePasswordRequest,
+  AccountEditRequest,
+  AccountIDRequest,
+  AccountListRequest,
+  AccountLoginRequest,
+} from '../api_models/account';
 import { AccountCreateRequest, AccountUpdateRequest } from '../api_models/account';
 import Account from '../models/account';
 import { ROLE_TYPES } from '../api_models/role';
@@ -17,16 +29,14 @@ import { translate } from '../utils/i18n';
 
 @ApiPath({
   path: '/account',
-  name: 'Account'
+  name: 'Account',
 })
 @controller('/account')
 export class AccountController implements interfaces.Controller {
   public static TARGET_NAME = 'Account';
   private accountService: AccountService;
 
-  public constructor(
-    @inject('Newable<AccountService>') AccountService: inverfaces.Newable<AccountService>
-  ) {
+  public constructor(@inject('Newable<AccountService>') AccountService: inverfaces.Newable<AccountService>) {
     this.accountService = new AccountService();
   }
 
@@ -34,12 +44,16 @@ export class AccountController implements interfaces.Controller {
     path: '/login',
     description: 'Account login',
     parameters: {
-      body: { description: 'Login account using credentials', required: true, model: 'AccountLoginRequest' }
+      body: { description: 'Login account using credentials', required: true, model: 'AccountLoginRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'AccountLoginResponse' },
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'AccountLoginResponse',
+      },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/login', ensureAuthEnabled)
   public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -56,12 +70,16 @@ export class AccountController implements interfaces.Controller {
     path: '/list',
     description: 'List accounts. Only admins can view all users',
     parameters: {
-      body: { description: 'account list request', required: true, model: 'AccountListRequest' }
+      body: { description: 'account list request', required: true, model: 'AccountListRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'AccountPaginationResponse' },
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'AccountPaginationResponse',
+      },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -80,7 +98,7 @@ export class AccountController implements interfaces.Controller {
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Account' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpGet('/get', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -97,12 +115,12 @@ export class AccountController implements interfaces.Controller {
     path: '/create',
     description: 'create a new account',
     parameters: {
-      body: { description: 'new account request', required: true, model: 'AccountCreateRequest' }
+      body: { description: 'new account request', required: true, model: 'AccountCreateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Account' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/create', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -110,7 +128,9 @@ export class AccountController implements interfaces.Controller {
       const account: Account = req.body.auth;
       const { name, email, password, role_id } = validate(AccountCreateRequest, req.body);
       if (account.role_id <= role_id) {
-        throw new ApiError(UNAUTHORIZED, { message: translate('ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES', req.locale) });
+        throw new ApiError(UNAUTHORIZED, {
+          message: translate('ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES', req.locale),
+        });
       }
       const result = await this.accountService.create(name, email, password, role_id);
       res.json(result);
@@ -123,12 +143,12 @@ export class AccountController implements interfaces.Controller {
     path: '/update',
     description: 'update account',
     parameters: {
-      body: { description: 'update own account', required: true, model: 'AccountUpdateRequest' }
+      body: { description: 'update own account', required: true, model: 'AccountUpdateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Account' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPut('/update', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -146,12 +166,12 @@ export class AccountController implements interfaces.Controller {
     path: '/edit',
     description: 'Edit other account',
     parameters: {
-      body: { description: 'edit other account', required: true, model: 'AccountEditRequest' }
+      body: { description: 'edit other account', required: true, model: 'AccountEditRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Account' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPut('/edit', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
   public async edit(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -161,7 +181,16 @@ export class AccountController implements interfaces.Controller {
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SELF', req.locale) });
       }
-      const result = await this.accountService.edit(id, name, email, role_id, reset_password, new_password, account.role_id, req.locale);
+      const result = await this.accountService.edit(
+        id,
+        name,
+        email,
+        role_id,
+        reset_password,
+        new_password,
+        account.role_id,
+        req.locale,
+      );
       res.json(result);
     } catch (err) {
       next(err);
@@ -172,12 +201,12 @@ export class AccountController implements interfaces.Controller {
     path: '/changepassword',
     description: 'Change account password',
     parameters: {
-      body: { description: 'change password', required: true, model: 'AccountChangePasswordRequest' }
+      body: { description: 'change password', required: true, model: 'AccountChangePasswordRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Account' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/changepassword', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
   public async changePassword(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -195,12 +224,12 @@ export class AccountController implements interfaces.Controller {
     path: '/delete',
     description: 'Delete account',
     parameters: {
-      body: { description: 'delete account', required: true, model: 'AccountIDRequest' }
+      body: { description: 'delete account', required: true, model: 'AccountIDRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'AccountIDRequest' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/delete', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

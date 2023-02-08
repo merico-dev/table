@@ -1,6 +1,11 @@
 import { DataSource as Source } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
-import { DataSourceFilterObject, DataSourceSortObject, DataSourcePaginationResponse, DataSourceConfig } from '../api_models/datasource';
+import {
+  DataSourceFilterObject,
+  DataSourceSortObject,
+  DataSourcePaginationResponse,
+  DataSourceConfig,
+} from '../api_models/datasource';
 import { Job } from '../api_models/job';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
@@ -19,9 +24,14 @@ export class DataSourceService {
     return result;
   }
 
-  async list(filter: DataSourceFilterObject | undefined, sort: DataSourceSortObject, pagination: PaginationRequest): Promise<DataSourcePaginationResponse> {
+  async list(
+    filter: DataSourceFilterObject | undefined,
+    sort: DataSourceSortObject,
+    pagination: PaginationRequest,
+  ): Promise<DataSourcePaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
-    const qb = dashboardDataSource.manager.createQueryBuilder()
+    const qb = dashboardDataSource.manager
+      .createQueryBuilder()
       .from(DataSource, 'datasource')
       .select('datasource.id', 'id')
       .addSelect('datasource.type', 'type')
@@ -29,10 +39,14 @@ export class DataSourceService {
       .addSelect('datasource.is_preset', 'is_preset')
       .addSelect('datasource.config', 'config')
       .orderBy(sort.field, sort.order)
-      .offset(offset).limit(pagination.pagesize);
+      .offset(offset)
+      .limit(pagination.pagesize);
 
     if (filter?.search) {
-      qb.where('datasource.type ilike :typeSearch OR datasource.key ilike :keySearch', { typeSearch: `%${escapeLikePattern(filter.search)}%`, keySearch: `%${escapeLikePattern(filter.search)}%` });
+      qb.where('datasource.type ilike :typeSearch OR datasource.key ilike :keySearch', {
+        typeSearch: `%${escapeLikePattern(filter.search)}%`,
+        keySearch: `%${escapeLikePattern(filter.search)}%`,
+      });
     }
 
     const datasources = await qb.getRawMany<DataSource>();
@@ -40,14 +54,19 @@ export class DataSourceService {
     return {
       total,
       offset,
-      data: datasources.map(d => ({
+      data: datasources.map((d) => ({
         ...d,
-        config: d.type !== 'http' ? {} : d.config
+        config: d.type !== 'http' ? {} : d.config,
       })),
     };
   }
 
-  async create(type: 'mysql' | 'postgresql' | 'http', key: string, config: DataSourceConfig, locale: string): Promise<DataSource> {
+  async create(
+    type: 'mysql' | 'postgresql' | 'http',
+    key: string,
+    config: DataSourceConfig,
+    locale: string,
+  ): Promise<DataSource> {
     if (type !== 'http') {
       await this.testDatabaseConfiguration(type, config, locale);
     }
@@ -66,7 +85,7 @@ export class DataSourceService {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = await dataSourceRepo.findOneByOrFail({ id });
     if (dataSource.key === key) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_RENAME_SAME_KEY', locale ) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_RENAME_SAME_KEY', locale) });
     }
     const jobParams: RenameJobParams = {
       type: dataSource.type,
@@ -81,19 +100,23 @@ export class DataSourceService {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const datasource = await dataSourceRepo.findOneByOrFail({ id });
     if (datasource.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_NO_DELETE_PRESET', locale ) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_NO_DELETE_PRESET', locale) });
     }
     await dataSourceRepo.delete(datasource.id);
     await QueryService.removeDBConnection(datasource.type, datasource.key);
   }
 
-  private async testDatabaseConfiguration(type: 'mysql' | 'postgresql', config: DataSourceConfig, locale: string): Promise<void> {
+  private async testDatabaseConfiguration(
+    type: 'mysql' | 'postgresql',
+    config: DataSourceConfig,
+    locale: string,
+  ): Promise<void> {
     const configuration = configureDatabaseSource(type, config);
     const source = new Source(configuration);
     try {
       await source.initialize();
     } catch (error) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_CONNECTION_TEST_FAILED', locale ) });      
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_CONNECTION_TEST_FAILED', locale) });
     }
     await source.destroy();
   }

@@ -1,8 +1,6 @@
 import { QueryFailedError, EntityNotFoundError } from 'typeorm';
 import { ValidationError } from 'class-validator';
-import {
-  ApiError, SERVER_ERROR, BAD_REQUEST, ErrorStatusCode, VALIDATION_FAILED, NOT_FOUND
-} from '../utils/errors';
+import { ApiError, SERVER_ERROR, BAD_REQUEST, ErrorStatusCode, VALIDATION_FAILED, NOT_FOUND } from '../utils/errors';
 import logger from 'npmlog';
 
 export default async function errorHandler(err, req, res, next) {
@@ -25,8 +23,8 @@ export default async function errorHandler(err, req, res, next) {
       message: JSON.stringify(err),
     });
   } else {
-    error = new ApiError(SERVER_ERROR, { 
-      message: err.message 
+    error = new ApiError(SERVER_ERROR, {
+      message: err.message,
     });
   }
   logger.error(`${status}: ${error}`);

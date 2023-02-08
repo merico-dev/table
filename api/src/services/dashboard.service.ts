@@ -35,7 +35,10 @@ export class DashboardService {
       }
 
       if (filter.search) {
-        qb.andWhere('dashboard.name ilike :nameSearch OR dashboard.group ilike :groupSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%`, groupSearch: `%${escapeLikePattern(filter.search)}%` });
+        qb.andWhere('dashboard.name ilike :nameSearch OR dashboard.group ilike :groupSearch', {
+          nameSearch: `%${escapeLikePattern(filter.search)}%`,
+          groupSearch: `%${escapeLikePattern(filter.search)}%`,
+        });
       }
     }
 
@@ -82,12 +85,12 @@ export class DashboardService {
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     const originalDashboard = _.cloneDeep(dashboard);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale ) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale) });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
     dashboard.content = content === undefined ? dashboard.content : content;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
-    dashboard.group = group === undefined ? dashboard.group: group;
+    dashboard.group = group === undefined ? dashboard.group : group;
     const result = await dashboardRepo.save(dashboard);
     const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
     if (diff) {
@@ -104,7 +107,7 @@ export class DashboardService {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_DELETE_PRESET_REQUIRES_SUPERADMIN', locale ) });
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_DELETE_PRESET_REQUIRES_SUPERADMIN', locale) });
     }
     const originalDashboard = _.cloneDeep(dashboard);
     dashboard.is_removed = true;

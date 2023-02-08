@@ -8,16 +8,14 @@ import { ConfigGetRequest, ConfigUpdateRequest } from '../api_models/config';
 
 @ApiPath({
   path: '/config',
-  name: 'Config'
+  name: 'Config',
 })
 @controller('/config')
 export class ConfigController implements interfaces.Controller {
   public static TARGET_NAME = 'Config';
   private configService: ConfigService;
 
-  public constructor(
-    @inject('Newable<ConfigService>') ConfigService: inverfaces.Newable<ConfigService>
-  ) {
+  public constructor(@inject('Newable<ConfigService>') ConfigService: inverfaces.Newable<ConfigService>) {
     this.configService = new ConfigService();
   }
 
@@ -25,12 +23,12 @@ export class ConfigController implements interfaces.Controller {
     path: '/get',
     description: 'Get config',
     parameters: {
-      body: { description: 'Config get request', required: true, model: 'ConfigGetRequest' }
+      body: { description: 'Config get request', required: true, model: 'ConfigGetRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Config' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/get')
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -47,12 +45,12 @@ export class ConfigController implements interfaces.Controller {
     path: '/update',
     description: 'Update config',
     parameters: {
-      body: { description: 'Config update request', required: true, model: 'ConfigUpdateRequest' }
+      body: { description: 'Config update request', required: true, model: 'ConfigUpdateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Config' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/update')
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

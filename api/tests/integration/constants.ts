@@ -1,8 +1,8 @@
-import { ROLE_TYPES } from '../../src/api_models/role';
-import Account from '../../src/models/account';
-import ApiKey from '../../src/models/apiKey';
-import DataSource from '../../src/models/datasource';
-import Dashboard from '../../src/models/dashboard';
+import { ROLE_TYPES } from '~/api_models/role';
+import Account from '~/models/account';
+import ApiKey from '~/models/apiKey';
+import DataSource from '~/models/datasource';
+import Dashboard from '~/models/dashboard';
 import { parseDBUrl } from '../utils';
 
 export const accounts: Account[] = [
@@ -132,7 +132,7 @@ export const dataSources: DataSource[] = [
       host: 'http://jsonplaceholder.typicode.com',
       processing: {
         pre: '',
-        post: ''
+        post: '',
       },
     },
     create_time: new Date(),

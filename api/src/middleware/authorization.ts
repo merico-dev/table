@@ -25,4 +25,4 @@ export default async function authorization(req: express.Request, res: express.R
     }
   }
   next();
-} 
+}

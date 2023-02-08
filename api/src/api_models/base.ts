@@ -13,7 +13,7 @@ export interface SortRequest {
 
 @ApiModel({
   description: 'Pagination object',
-  name: 'PaginationRequest'
+  name: 'PaginationRequest',
 })
 export class PaginationRequest {
   @IsInt()
@@ -43,7 +43,7 @@ export interface PaginationResponse<T> {
 
 @ApiModel({
   description: 'Api Error Details',
-  name: 'ApiErrorDetail'
+  name: 'ApiErrorDetail',
 })
 class ApiErrorDetail {
   @ApiModelProperty({

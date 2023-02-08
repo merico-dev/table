@@ -60,7 +60,7 @@ async function upsert() {
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const data: PresetDatasources = validate(PresetDatasources, require('../data_sources/config.json'));
-    
+
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
     await datasourceRepo.delete({ is_preset: true });
 
@@ -123,13 +123,17 @@ async function upsert() {
   }
 }
 
-async function testDatabaseConfiguration(key: string, type: 'mysql' | 'postgresql', config: DataSourceConfig): Promise<void> {
+async function testDatabaseConfiguration(
+  key: string,
+  type: 'mysql' | 'postgresql',
+  config: DataSourceConfig,
+): Promise<void> {
   const configuration = configureDatabaseSource(type, config);
   const source = new Source(configuration);
   try {
     await source.initialize();
   } catch (error) {
-    throw new Error(`${key} has incorrect configuration: ${error.message}`);      
+    throw new Error(`${key} has incorrect configuration: ${error.message}`);
   }
   await source.destroy();
 }

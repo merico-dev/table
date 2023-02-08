@@ -1,5 +1,5 @@
 import { connectionHook } from './jest.util';
-import { ApiService } from '../../src/services/api.service';
+import { ApiService } from '~/services/api.service';
 import { notFoundId } from './constants';
 import { ROLE_TYPES } from '~/api_models/role';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';

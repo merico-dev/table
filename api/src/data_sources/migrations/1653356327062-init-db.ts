@@ -1,7 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class initDb1653356327062 implements MigrationInterface {
-
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "pgcrypto"');
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
@@ -20,5 +19,4 @@ export class initDb1653356327062 implements MigrationInterface {
     await queryRunner.query(`DROP EXTENSION IF EXISTS "pgcrypto"`);
     await queryRunner.query(`DROP EXTENSION IF EXISTS "uuid-ossp"`);
   }
-
 }

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios';
 import { HttpParams } from '../api_models/query';
 
 export const APIClient = {
@@ -27,7 +27,7 @@ export const APIClient = {
         })
         .catch((err: any) => {
           return Promise.reject(err);
-        })
-    }
+        });
+    };
   },
-}
+};

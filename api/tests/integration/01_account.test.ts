@@ -1,5 +1,5 @@
 import { connectionHook } from './jest.util';
-import { AccountService } from '../../src/services/account.service';
+import { AccountService } from '~/services/account.service';
 import { notFoundId } from './constants';
 import { ROLE_TYPES } from '~/api_models/role';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
@@ -96,7 +96,12 @@ describe('AccountService', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      account5 = await accountService.update(account5.id, 'account5_updated', 'account5_updated@test.test', DEFAULT_LANGUAGE);
+      account5 = await accountService.update(
+        account5.id,
+        'account5_updated',
+        'account5_updated@test.test',
+        DEFAULT_LANGUAGE,
+      );
       expect(account5).toMatchObject({
         id: account5.id,
         create_time: account5.create_time,
@@ -108,7 +113,9 @@ describe('AccountService', () => {
     });
 
     it('should fail', async () => {
-      await expect(accountService.update(notFoundId, 'xxxx', 'xxxx@xxx.xxx', DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
+      await expect(accountService.update(notFoundId, 'xxxx', 'xxxx@xxx.xxx', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
 
     it('updating superadmin should fail', async () => {
@@ -326,7 +333,9 @@ describe('AccountService', () => {
     });
 
     it('should fail because not found', async () => {
-      await expect(accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
+      await expect(accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
 
     it('should fail because of permission', async () => {

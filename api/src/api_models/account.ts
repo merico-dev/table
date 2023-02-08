@@ -6,7 +6,7 @@ import { ROLE_TYPES } from './role';
 
 @ApiModel({
   description: 'Account entity',
-  name: 'Account'
+  name: 'Account',
 })
 export class Account {
   @ApiModelProperty({
@@ -48,7 +48,7 @@ export class Account {
 
 @ApiModel({
   description: 'Login request object',
-  name: 'AccountLoginRequest'
+  name: 'AccountLoginRequest',
 })
 export class AccountLoginRequest {
   @IsString()
@@ -68,7 +68,7 @@ export class AccountLoginRequest {
 
 @ApiModel({
   description: 'Login entity',
-  name: 'AccountLoginResponse'
+  name: 'AccountLoginResponse',
 })
 export class AccountLoginResponse {
   @Type(() => Account)
@@ -99,7 +99,7 @@ export class AccountFilterObject implements FilterRequest {
 
 @ApiModel({
   description: 'Account sort object',
-  name: 'AccountSortObject'
+  name: 'AccountSortObject',
 })
 export class AccountSortObject implements SortRequest {
   @IsIn(['name', 'email', 'create_time'])
@@ -224,7 +224,12 @@ export class AccountCreateRequest {
   @ApiModelProperty({
     description: 'Account ID',
     required: true,
-    enum: [ROLE_TYPES.INACTIVE.toString(), ROLE_TYPES.READER.toString(), ROLE_TYPES.AUTHOR.toString(), ROLE_TYPES.ADMIN.toString()],
+    enum: [
+      ROLE_TYPES.INACTIVE.toString(),
+      ROLE_TYPES.READER.toString(),
+      ROLE_TYPES.AUTHOR.toString(),
+      ROLE_TYPES.ADMIN.toString(),
+    ],
   })
   role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
 }
@@ -259,8 +264,8 @@ export class AccountUpdateRequest {
 export class AccountEditRequest {
   @IsUUID()
   @ApiModelProperty({
-    description : 'Account ID in uuid format' ,
-    required : true,
+    description: 'Account ID in uuid format',
+    required: true,
   })
   id: string;
 
@@ -286,7 +291,12 @@ export class AccountEditRequest {
   @ApiModelProperty({
     description: 'Account ID',
     required: true,
-    enum: [ROLE_TYPES.INACTIVE.toString(), ROLE_TYPES.READER.toString(), ROLE_TYPES.AUTHOR.toString(), ROLE_TYPES.ADMIN.toString()],
+    enum: [
+      ROLE_TYPES.INACTIVE.toString(),
+      ROLE_TYPES.READER.toString(),
+      ROLE_TYPES.AUTHOR.toString(),
+      ROLE_TYPES.ADMIN.toString(),
+    ],
   })
   role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
 
@@ -309,22 +319,22 @@ export class AccountEditRequest {
 
 @ApiModel({
   description: 'Account change password request object',
-  name: 'AccountChangePasswordRequest'
+  name: 'AccountChangePasswordRequest',
 })
 export class AccountChangePasswordRequest {
   @IsString()
   @Length(8)
   @ApiModelProperty({
-    description : 'Account old password' ,
-    required : true,
+    description: 'Account old password',
+    required: true,
   })
   old_password: string;
 
   @IsString()
   @Length(8)
   @ApiModelProperty({
-    description : 'Account new password' ,
-    required : true,
+    description: 'Account new password',
+    required: true,
   })
   new_password: string;
 }

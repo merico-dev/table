@@ -11,7 +11,7 @@ module.exports = async (globalConfig) => {
   await dashboardDataSource.dropDatabase();
 
   for (let i = 1; i <= globalConfig.maxWorkers; i++) {
-    const dbPrefix = process.env.END_2_END_TEST_PG_URL.split('/').pop();
+    const dbPrefix = process.env.END_2_END_TEST_PG_URL!.split('/').pop();
     const workerDatabaseName = `${dbPrefix}_${i}`;
     console.log(`dropping database ${workerDatabaseName}`);
     await dashboardDataSource.query(`DROP DATABASE IF EXISTS ${workerDatabaseName}`);

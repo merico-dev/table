@@ -18,7 +18,7 @@ const project = ts.createProject({
   allowJs: true,
   checkJs: false,
   skipLibCheck: true,
-  strictNullChecks: true
+  strictNullChecks: true,
 });
 
 function compile() {
@@ -36,7 +36,9 @@ function copyPackageJson() {
 }
 
 function copyPresetDatasourcesFolder() {
-  return gulp.src(['./src/preset/data_sources/*.json'], { cwd: __dirname }).pipe(gulp.dest(distDir + '/preset/data_sources/'));
+  return gulp
+    .src(['./src/preset/data_sources/*.json'], { cwd: __dirname })
+    .pipe(gulp.dest(distDir + '/preset/data_sources/'));
 }
 
 function copySwagger() {

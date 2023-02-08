@@ -9,7 +9,7 @@ import DashboardChangelog from '../../models/dashboard_changelog';
 
 type Source = {
   type: string;
-  key: string;  
+  key: string;
 };
 
 async function upsert() {
@@ -27,17 +27,29 @@ async function upsert() {
 
     const basePath = path.join(__dirname, '../dashboards');
     if (!existsSync(basePath)) {
-      console.error('folder for preset dashboards not found. Please run the script for getting preset dashboards first');
+      console.error(
+        'folder for preset dashboards not found. Please run the script for getting preset dashboards first',
+      );
       process.exit(1);
     }
     let files = readdirSync(basePath);
-    files = files.filter((file) => { return file.endsWith('.json') });
-    const dashboardNames = files.map((file) => { return file.substring(0, file.lastIndexOf('.')) });
+    files = files.filter((file) => {
+      return file.endsWith('.json');
+    });
+    const dashboardNames = files.map((file) => {
+      return file.substring(0, file.lastIndexOf('.'));
+    });
     const currentPresetDashboards = await dashboardRepo.findBy({ is_preset: true });
 
-    const removed = currentPresetDashboards.filter((dashboard) => { return !dashboardNames.includes(dashboard.name) });
+    const removed = currentPresetDashboards.filter((dashboard) => {
+      return !dashboardNames.includes(dashboard.name);
+    });
     if (removed.length) {
-      await dashboardRepo.delete(removed.map((r) => { return r.id }));
+      await dashboardRepo.delete(
+        removed.map((r) => {
+          return r.id;
+        }),
+      );
     }
 
     const errors: { [type: string]: string[] } = {};

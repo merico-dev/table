@@ -10,7 +10,7 @@ import { DashboardChangelogService } from '../services/dashboard_changelog.servi
 
 @ApiPath({
   path: '/dashboard_changelog',
-  name: 'DashboardChangelog'
+  name: 'DashboardChangelog',
 })
 @controller('/dashboard_changelog')
 export class DashboardChangelogController implements interfaces.Controller {
@@ -18,7 +18,8 @@ export class DashboardChangelogController implements interfaces.Controller {
   private dashboardChangelogService: DashboardChangelogService;
 
   public constructor(
-    @inject('Newable<DashboardChangelogService>') DashboardChangelogService: inverfaces.Newable<DashboardChangelogService>
+    @inject('Newable<DashboardChangelogService>')
+    DashboardChangelogService: inverfaces.Newable<DashboardChangelogService>,
   ) {
     this.dashboardChangelogService = new DashboardChangelogService();
   }
@@ -27,12 +28,16 @@ export class DashboardChangelogController implements interfaces.Controller {
     path: '/list',
     description: 'List dashboard changelogs',
     parameters: {
-      body: { description: 'dashboard changelog list request', required: true, model: 'DashboardChangelogListRequest' }
+      body: { description: 'dashboard changelog list request', required: true, model: 'DashboardChangelogListRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DashboardChangelogPaginationResponse' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'DashboardChangelogPaginationResponse',
+      },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/list', permission(ROLE_TYPES.READER))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
