@@ -1,4 +1,4 @@
-import { Table, TableProps, Text } from '@mantine/core';
+import { Box, Table, TableProps, Text } from '@mantine/core';
 import {
   Cell,
   createColumnHelper,
@@ -79,6 +79,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         enableSorting: true,
         meta: c,
         size: c.width,
+        minSize: c.width,
       });
     });
     return valueCols;
@@ -109,6 +110,9 @@ export function VizTable({ context, instance }: VizViewProps) {
   const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
 
   const totalRows = rows.length;
+  const showInfoBar = totalRows > 0;
+  const tableHeight = showInfoBar ? height - 22 : height;
+  const theadTop = showInfoBar ? 22 : 0;
   return (
     <div
       ref={tableContainerRef}
@@ -116,17 +120,15 @@ export function VizTable({ context, instance }: VizViewProps) {
       data-enable-scrollbar
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >
-      <Table sx={{ ...baseTableSX, maxHeight: height }} {...(rest as TableProps)} striped={conf.striped}>
-        <thead className={classes.thead}>
-          {totalRows > 0 && (
-            <tr>
-              <th colSpan={table.getHeaderGroups()[0].headers.length} style={{ textAlign: 'right', paddingTop: 0 }}>
-                <Text size={14} color="dimmed" fw="normal">
-                  Total: {totalRows}
-                </Text>
-              </th>
-            </tr>
-          )}
+      {totalRows > 0 && (
+        <Box className={classes.info_bar} sx={{ height: 22 }}>
+          <Text align="right" pr={6} size={14} color="dimmed" fw="normal">
+            Total: {totalRows}
+          </Text>
+        </Box>
+      )}
+      <Table sx={{ ...baseTableSX, maxHeight: tableHeight }} {...(rest as TableProps)} striped={conf.striped}>
+        <thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

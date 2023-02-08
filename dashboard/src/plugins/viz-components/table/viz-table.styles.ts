@@ -3,6 +3,7 @@ import { createStyles, Sx } from '@mantine/core';
 export const useTableStyles = createStyles((theme) => ({
   root: {
     overflow: 'auto',
+    position: 'relative',
     '& .table-head-cell': {
       display: 'flex',
       flexFlow: 'row nowrap',
@@ -23,7 +24,7 @@ export const useTableStyles = createStyles((theme) => ({
   thead: {
     background: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
     position: 'sticky',
-    top: 0,
+    top: 24,
     transform: 'translateY(-1px)',
     zIndex: 10,
     '&::after': {
@@ -38,14 +39,13 @@ export const useTableStyles = createStyles((theme) => ({
       zIndex: -1,
     },
   },
-  thead_background: {
-    position: 'absolute',
+  info_bar: {
+    position: 'sticky',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    zIndex: 10,
     background: 'white',
-    zIndex: -1,
   },
 }));
 
