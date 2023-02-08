@@ -280,9 +280,9 @@ describe('DashboardService', () => {
     });
 
     it('should fail if not found', async () => {
-      await expect(dashboardService.update(notFoundId, 'xxxx', {}, false, '2_updated', DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN)).rejects.toThrowError(
-        EntityNotFoundError,
-      );
+      await expect(
+        dashboardService.update(notFoundId, 'xxxx', {}, false, '2_updated', DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN),
+      ).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should update preset dashboard successfully', async () => {
@@ -306,7 +306,15 @@ describe('DashboardService', () => {
 
     it('should fail if not SUPERADMIN', async () => {
       await expect(
-        dashboardService.update(dashboards[1].id, 'dashboard2_updated', {}, false, '1_updated', DEFAULT_LANGUAGE, ROLE_TYPES.ADMIN),
+        dashboardService.update(
+          dashboards[1].id,
+          'dashboard2_updated',
+          {},
+          false,
+          '1_updated',
+          DEFAULT_LANGUAGE,
+          ROLE_TYPES.ADMIN,
+        ),
       ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Only superadmin can edit preset dashboards' }));
     });
   });

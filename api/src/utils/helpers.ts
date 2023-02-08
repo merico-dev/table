@@ -9,9 +9,9 @@ export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: Da
     port: config.port,
     username: config.username,
     password: config.password,
-    database: config.database
-  }
-  switch(type) {
+    database: config.database,
+  };
+  switch (type) {
     case 'mysql':
       return {
         ...commonConfig,
@@ -24,7 +24,7 @@ export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: Da
       return {
         ...commonConfig,
         type: 'postgres',
-        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,  
+        connectTimeoutMS: DATABASE_CONNECTION_TIMEOUT_MS,
         poolSize: DATABASE_POOL_SIZE,
       };
   }

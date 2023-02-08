@@ -11,16 +11,14 @@ import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
 
 @ApiPath({
   path: '/api',
-  name: 'API'
+  name: 'API',
 })
 @controller('/api')
 export class APIController implements interfaces.Controller {
   public static TARGET_NAME = 'API';
   private apiService: ApiService;
-  
-  public constructor(
-    @inject('Newable<ApiService>') ApiService: inverfaces.Newable<ApiService>
-  ) {
+
+  public constructor(@inject('Newable<ApiService>') ApiService: inverfaces.Newable<ApiService>) {
     this.apiService = new ApiService();
   }
 
@@ -28,12 +26,16 @@ export class APIController implements interfaces.Controller {
     path: '/key/list',
     description: 'List apikeys. Only admins can view',
     parameters: {
-      body: { description: 'apikey list request', required: true, model: 'ApiKeyListRequest' }
+      body: { description: 'apikey list request', required: true, model: 'ApiKeyListRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiKeyPaginationResponse' },
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'ApiKeyPaginationResponse',
+      },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/key/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async listKeys(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -50,12 +52,12 @@ export class APIController implements interfaces.Controller {
     path: '/key/create',
     description: 'create a new apikey',
     parameters: {
-      body: { description: 'new apikey request', required: true, model: 'ApiKeyCreateRequest' }
+      body: { description: 'new apikey request', required: true, model: 'ApiKeyCreateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.STRING },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -72,12 +74,12 @@ export class APIController implements interfaces.Controller {
     path: '/key/delete',
     description: 'Delete apikey',
     parameters: {
-      body: { description: 'delete apikey', required: true, model: 'ApiKeyIDRequest' }
+      body: { description: 'delete apikey', required: true, model: 'ApiKeyIDRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiKeyIDRequest' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/key/delete', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

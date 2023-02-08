@@ -23,11 +23,12 @@ import {
 } from '~/api_models/datasource';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
 import { QueryRequest } from '~/api_models/query';
+import { ROLE_TYPES } from '~/api_models/role';
+import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
+import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
 import { ApiError } from '~/utils/errors';
 import { validate } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
-import { ROLE_TYPES } from '~/api_models/role';
-import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import * as crypto from 'crypto';
 
@@ -567,6 +568,7 @@ describe('validation', () => {
         const data: DashboardCreateRequest = {
           name: 'test',
           content: {},
+          group: '',
         };
 
         const result = validate(DashboardCreateRequest, data);
@@ -598,6 +600,13 @@ describe('validation', () => {
               property: 'content',
               children: [],
               constraints: { isObject: 'content must be an object' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'group',
+              children: [],
+              constraints: { isString: 'group must be a string' },
             },
           ]);
         }
@@ -781,7 +790,7 @@ describe('validation', () => {
             host: '',
             processing: {
               pre: '',
-              post: ''
+              post: '',
             },
             database: '',
             password: '',
@@ -1082,8 +1091,8 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang' }
-            }
+              constraints: { isIn: 'key must be one of the following values: lang' },
+            },
           ]);
         }
       });
@@ -1093,7 +1102,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: ConfigUpdateRequest = {
           key: 'lang',
-          value: DEFAULT_LANGUAGE
+          value: DEFAULT_LANGUAGE,
         };
         const result = validate(ConfigUpdateRequest, data);
         expect(result).toMatchObject(data);
@@ -1113,15 +1122,76 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang' }
+              constraints: { isIn: 'key must be one of the following values: lang' },
             },
             {
               target: {},
               value: undefined,
               property: 'value',
               children: [],
-              constraints: { isString: 'value must be a string' }
-            }
+              constraints: { isString: 'value must be a string' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardChangelogListRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: DashboardChangelogListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: { field: 'create_time', order: 'ASC' },
+          filter: { search: '' },
+        };
+
+        const result = validate(DashboardChangelogListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validate(DashboardChangelogListRequest, data);
+        expect(result).toMatchObject({
+          sort: { field: 'create_time', order: 'ASC' },
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validate(DashboardChangelogListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardChangelogListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: { field: 'create_time', order: 'ASC' },
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
           ]);
         }
       });

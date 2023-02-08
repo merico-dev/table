@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
-import { dashboardDataSource } from '../../../src/data_sources/dashboard';
-import { SALT_ROUNDS } from '../../../src/utils/constants';
+import { dashboardDataSource } from '~/data_sources/dashboard';
+import { SALT_ROUNDS } from '~/utils/constants';
 import { accounts, apiKeys, dataSources, dashboards } from '../constants';
-import Account from '../../../src/models/account';
-import ApiKey from '../../../src/models/apiKey';
-import DataSource from '../../../src/models/datasource';
-import Dashboard from '../../../src/models/dashboard';
-import { maybeEncryptPassword } from '../../../src/utils/encryption';
+import Account from '~/models/account';
+import ApiKey from '~/models/apiKey';
+import DataSource from '~/models/datasource';
+import Dashboard from '~/models/dashboard';
+import { maybeEncryptPassword } from '~/utils/encryption';
 
 export async function seed() {
   if (!dashboardDataSource.isInitialized) {

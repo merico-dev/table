@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "types": ["reflect-metadata", "swagger-express-ts", "node"],
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true
+  },
+  "rules": {
+    "no-unused-expression": true,
+    "no-floating-promises": true
+  }
+}

@@ -14,22 +14,22 @@ export enum ConfigResourceTypes {
 }
 
 type KeyConfig = {
-  [key: string]: KeyConfigProperties,
-}
+  [key: string]: KeyConfigProperties;
+};
 
 type KeyConfigProperties = {
-  requiresAuth: boolean,
-  default: string,
-  acceptedValues?: string[]
-}
+  requiresAuth: boolean;
+  default: string;
+  acceptedValues?: string[];
+};
 
 export class ConfigService {
   static keyConfig: KeyConfig = {
-    'lang': {
+    lang: {
       requiresAuth: true,
       default: DEFAULT_LANGUAGE,
-      acceptedValues: i18n.getLocales()
-    }
+      acceptedValues: i18n.getLocales(),
+    },
   };
 
   static async delete(key: string, resource_type: ConfigResourceTypes, resource_id: string): Promise<void> {
@@ -37,7 +37,7 @@ export class ConfigService {
     await configRepo.delete({ key, resource_id, resource_type });
   }
 
-  async get(key: string, auth: Account | ApiKey | undefined): Promise<{ key: string, value: string }> {
+  async get(key: string, auth: Account | ApiKey | undefined): Promise<{ key: string; value: string }> {
     const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
     const keyConfig = ConfigService.keyConfig[key];
     if (keyConfig.requiresAuth) {
@@ -45,7 +45,7 @@ export class ConfigService {
         return { key, value: keyConfig.default };
       }
       where.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
-      where.resource_id = auth.id; 
+      where.resource_id = auth.id;
     }
 
     const configRepo = dashboardDataSource.getRepository(Config);
@@ -56,15 +56,20 @@ export class ConfigService {
     return { key, value: config.value };
   }
 
-  async update(key: string, value: string, auth: Account | ApiKey | undefined, locale: string): Promise<{ key: string, value: string }> {
+  async update(
+    key: string,
+    value: string,
+    auth: Account | ApiKey | undefined,
+    locale: string,
+  ): Promise<{ key: string; value: string }> {
     const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
     const keyConfig = ConfigService.keyConfig[key];
     if (keyConfig.requiresAuth) {
       if (!auth) {
-        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale ) });
+        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale) });
       }
       where.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
-      where.resource_id = auth.id; 
+      where.resource_id = auth.id;
     }
 
     this.validateKey(keyConfig, value, locale);
@@ -77,7 +82,7 @@ export class ConfigService {
       config.resource_type = ConfigResourceTypes.GLOBAL;
       if (keyConfig.requiresAuth) {
         config.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
-        config.resource_id = auth!.id; 
+        config.resource_id = auth!.id;
       }
     }
     config.value = value;
@@ -86,6 +91,10 @@ export class ConfigService {
   }
 
   private validateKey(keyConfig: KeyConfigProperties, value: string, locale: string) {
-    if (keyConfig.acceptedValues && !keyConfig.acceptedValues.includes(value)) throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INCORRECT_VALUE', locale ), acceptedValues: keyConfig.acceptedValues });
+    if (keyConfig.acceptedValues && !keyConfig.acceptedValues.includes(value))
+      throw new ApiError(BAD_REQUEST, {
+        message: translate('CONFIG_INCORRECT_VALUE', locale),
+        acceptedValues: keyConfig.acceptedValues,
+      });
   }
 }

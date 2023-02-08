@@ -1,8 +1,8 @@
-import { Type } from "class-transformer";
-import { IsIn, IsOptional, IsString, ValidateNested } from "class-validator";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
-import { ConfigService } from "../services/config.service";
-import { Authentication } from "./base";
+import { Type } from 'class-transformer';
+import { IsIn, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { ConfigService } from '../services/config.service';
+import { Authentication } from './base';
 
 @ApiModel({
   description: 'Config entity',

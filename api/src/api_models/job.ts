@@ -9,8 +9,8 @@ import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, S
 })
 export class Job {
   @ApiModelProperty({
-    description : 'Job ID in uuid format' ,
-    required : false,
+    description: 'Job ID in uuid format',
+    required: false,
   })
   id: string;
 
@@ -68,7 +68,7 @@ export class JobFilterObject implements FilterRequest {
 
 @ApiModel({
   description: 'Job sort object',
-  name: 'JobSortObject'
+  name: 'JobSortObject',
 })
 export class JobSortObject implements SortRequest {
   @IsIn(['type', 'create_time', 'status'])

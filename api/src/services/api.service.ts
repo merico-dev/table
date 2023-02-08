@@ -1,6 +1,11 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import crypto from 'crypto';
-import { ApiKey as ApiKeyModel,  ApiKeyFilterObject, ApiKeyPaginationResponse, ApiKeySortObject } from '../api_models/api';
+import {
+  ApiKey as ApiKeyModel,
+  ApiKeyFilterObject,
+  ApiKeyPaginationResponse,
+  ApiKeySortObject,
+} from '../api_models/api';
 import { Authentication, PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
 import { cryptSign, escapeLikePattern } from '../utils/helpers';
@@ -18,16 +23,24 @@ export class ApiService {
     if (!apiKey) {
       return null;
     }
-    const validSign = cryptSign({ app_id: authentication.app_id, nonce_str: authentication.nonce_str ,...rest }, apiKey.app_secret);
+    const validSign = cryptSign(
+      { app_id: authentication.app_id, nonce_str: authentication.nonce_str, ...rest },
+      apiKey.app_secret,
+    );
     if (validSign === authentication.sign) {
       return apiKey;
     }
     return null;
   }
 
-  async listKeys(filter: ApiKeyFilterObject | undefined, sort: ApiKeySortObject, pagination: PaginationRequest): Promise<ApiKeyPaginationResponse> {
+  async listKeys(
+    filter: ApiKeyFilterObject | undefined,
+    sort: ApiKeySortObject,
+    pagination: PaginationRequest,
+  ): Promise<ApiKeyPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
-    const qb = dashboardDataSource.manager.createQueryBuilder()
+    const qb = dashboardDataSource.manager
+      .createQueryBuilder()
       .from(ApiKey, 'apikey')
       .select('apikey.id', 'id')
       .addSelect('apikey.name', 'name')
@@ -36,7 +49,8 @@ export class ApiService {
       .addSelect('apikey.role_id', 'role_id')
       .addSelect('apikey.is_preset', 'is_preset')
       .orderBy(sort.field, sort.order)
-      .offset(offset).limit(pagination.pagesize);
+      .offset(offset)
+      .limit(pagination.pagesize);
 
     if (filter?.search) {
       qb.where('apikey.name ilike :nameSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%` });
@@ -51,7 +65,7 @@ export class ApiService {
     };
   }
 
-  async createKey(name: string, role_id: number): Promise<{ app_id: string, app_secret: string }> {
+  async createKey(name: string, role_id: number): Promise<{ app_id: string; app_secret: string }> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = new ApiKey();
     apiKey.name = name;
@@ -66,7 +80,7 @@ export class ApiService {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     const apiKey = await apiKeyRepo.findOneByOrFail({ id });
     if (apiKey.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NO_DELETE_PRESET', locale ) });
+      throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NO_DELETE_PRESET', locale) });
     }
     await apiKeyRepo.delete(apiKey.id);
     await ConfigService.delete('lang', ConfigResourceTypes.APIKEY, apiKey.id);

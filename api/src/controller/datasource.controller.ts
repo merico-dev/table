@@ -5,7 +5,13 @@ import { controller, httpPost, httpPut, interfaces } from 'inversify-express-uti
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DataSourceService } from '../services/datasource.service';
 import { validate } from '../middleware/validation';
-import { DataSourceListRequest, DataSourceCreateRequest, DataSourceIDRequest, DataSourceConfig, DataSourceRenameRequest } from '../api_models/datasource';
+import {
+  DataSourceListRequest,
+  DataSourceCreateRequest,
+  DataSourceIDRequest,
+  DataSourceConfig,
+  DataSourceRenameRequest,
+} from '../api_models/datasource';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
@@ -13,16 +19,14 @@ import { translate } from '../utils/i18n';
 
 @ApiPath({
   path: '/datasource',
-  name: 'DataSource'
+  name: 'DataSource',
 })
 @controller('/datasource')
 export class DataSourceController implements interfaces.Controller {
   public static TARGET_NAME = 'DataSource';
   private dataSourceService: DataSourceService;
 
-  public constructor(
-    @inject('Newable<DataSourceService>') DataSourceService: inverfaces.Newable<DataSourceService>
-  ) {
+  public constructor(@inject('Newable<DataSourceService>') DataSourceService: inverfaces.Newable<DataSourceService>) {
     this.dataSourceService = new DataSourceService();
   }
 
@@ -30,12 +34,16 @@ export class DataSourceController implements interfaces.Controller {
     path: '/list',
     description: 'List datasources',
     parameters: {
-      body: { description: 'datasource list request', required: true, model: 'DataSourceListRequest' }
+      body: { description: 'datasource list request', required: true, model: 'DataSourceListRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSourcePaginationResponse' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'DataSourcePaginationResponse',
+      },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/list', permission(ROLE_TYPES.READER))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -52,12 +60,12 @@ export class DataSourceController implements interfaces.Controller {
     path: '/create',
     description: 'Create a new datasource',
     parameters: {
-      body: { description: 'new datasource request', required: true, model: 'DataSourceCreateRequest'}
+      body: { description: 'new datasource request', required: true, model: 'DataSourceCreateRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/create', permission(ROLE_TYPES.ADMIN))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -76,12 +84,12 @@ export class DataSourceController implements interfaces.Controller {
     path: '/rename',
     description: 'rename datasource',
     parameters: {
-      body: { description: 'datasource rename request', required: true, model: 'DataSourceRenameRequest'}
+      body: { description: 'datasource rename request', required: true, model: 'DataSourceRenameRequest' },
     },
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Job' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPut('/rename', permission(ROLE_TYPES.ADMIN))
   public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -98,12 +106,12 @@ export class DataSourceController implements interfaces.Controller {
     path: '/delete',
     description: 'Remove datasource',
     parameters: {
-      body: { description: 'datasource ID request', required: true, model: 'DataSourceIDRequest'}
+      body: { description: 'datasource ID request', required: true, model: 'DataSourceIDRequest' },
     },
     responses: {
       200: { description: 'SUCCESS' },
-      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError'},
-    }
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
   })
   @httpPost('/delete', permission(ROLE_TYPES.ADMIN))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
@@ -116,14 +124,14 @@ export class DataSourceController implements interfaces.Controller {
     }
   }
 
-  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig, locale: string): DataSourceConfig {
+  private validateConfig(
+    type: 'mysql' | 'postgresql' | 'http',
+    config: DataSourceConfig,
+    locale: string,
+  ): DataSourceConfig {
     switch (type) {
       case 'http':
-        if (
-          !_.has(config, 'processing') ||
-          !_.has(config, 'processing.pre') ||
-          !_.has(config, 'processing.post')
-        )
+        if (!_.has(config, 'processing') || !_.has(config, 'processing.pre') || !_.has(config, 'processing.post'))
           throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_HTTP_REQUIRED_FIELDS', locale) });
         return config;
 
@@ -133,7 +141,8 @@ export class DataSourceController implements interfaces.Controller {
           !_.has(config, 'username') ||
           !_.has(config, 'password') ||
           !_.has(config, 'database')
-        ) throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_DB_REQUIRED_FIELDS', locale ) });
+        )
+          throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_DB_REQUIRED_FIELDS', locale) });
         return config;
     }
   }

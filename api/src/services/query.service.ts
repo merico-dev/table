@@ -43,10 +43,10 @@ export class QueryService {
 
       case 'mysql':
         return await this.mysqlQuery(key, query);
-      
+
       case 'http':
         return await this.httpQuery(key, query);
-      
+
       default:
         return null;
     }

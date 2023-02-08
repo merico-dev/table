@@ -5,12 +5,12 @@ export enum ROLE_TYPES {
   READER = 20,
   AUTHOR = 30,
   ADMIN = 40,
-  SUPERADMIN = 50
+  SUPERADMIN = 50,
 }
 
 @ApiModel({
   description: 'Role entity',
-  name: 'Role'
+  name: 'Role',
 })
 export class Role {
   @ApiModelProperty({

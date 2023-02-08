@@ -15,16 +15,12 @@ async function generateSuperadminAccount() {
 }
 
 export class addSuperadmin1660608562620 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    const account = await generateSuperadminAccount();
+    await queryRunner.manager.insert(Account, account);
+  }
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-      const account = await generateSuperadminAccount();
-      await queryRunner.manager.insert(Account, account);
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      queryRunner.query(
-        `DELETE FROM account WHERE name = 'superadmin'`
-      );
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.query(`DELETE FROM account WHERE name = 'superadmin'`);
+  }
 }

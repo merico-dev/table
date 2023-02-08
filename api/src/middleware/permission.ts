@@ -9,5 +9,5 @@ export default function permission(requiredRole: ROLE_TYPES) {
     const auth: Account | ApiKey | null = req.body.auth;
     RoleService.checkPermission(auth, requiredRole, req.locale);
     next();
-  }
+  };
 }

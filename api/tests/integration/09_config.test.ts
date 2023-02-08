@@ -57,13 +57,13 @@ describe('ConfigService', () => {
       const result1 = await configService.get('lang', undefined);
       expect(result1).toMatchObject({
         key: 'lang',
-        value: 'en'
+        value: 'en',
       });
 
       const result2 = await configService.get('lang', apiKey);
       expect(result2).toMatchObject({
         key: 'lang',
-        value: 'en'
+        value: 'en',
       });
     });
 
@@ -71,7 +71,7 @@ describe('ConfigService', () => {
       const result = await configService.get('lang', account);
       expect(result).toMatchObject({
         key: 'lang',
-        value: 'zh'
+        value: 'zh',
       });
     });
   });
@@ -81,28 +81,36 @@ describe('ConfigService', () => {
       const result1 = await configService.update('lang', 'en', account, DEFAULT_LANGUAGE);
       expect(result1).toMatchObject({
         key: 'lang',
-        value: 'en'
+        value: 'en',
       });
 
       const result2 = await configService.update('lang', 'zh', apiKey, DEFAULT_LANGUAGE);
       expect(result2).toMatchObject({
         key: 'lang',
-        value: 'zh'
+        value: 'zh',
       });
     });
 
     it('should fail if incorrect value', async () => {
-      await expect(configService.update('lang', 'incorrect_lang', account, DEFAULT_LANGUAGE)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Incorrect config value', acceptedValues: ConfigService.keyConfig['lang'].acceptedValues }));
+      await expect(configService.update('lang', 'incorrect_lang', account, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, {
+          message: 'Incorrect config value',
+          acceptedValues: ConfigService.keyConfig['lang'].acceptedValues,
+        }),
+      );
     });
 
     it('should fail if not authenticated', async () => {
-      await expect(configService.update('lang', 'en', undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Must be authenticated for this config' }));
+      await expect(configService.update('lang', 'en', undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Must be authenticated for this config' }),
+      );
     });
   });
 
   describe('delete', () => {
     it('should delete', async () => {
-      const qb = dashboardDataSource.manager.createQueryBuilder()
+      const qb = dashboardDataSource.manager
+        .createQueryBuilder()
         .from(Config, 'config')
         .select('config.key', 'key')
         .addSelect('config.value', 'value')
@@ -117,14 +125,14 @@ describe('ConfigService', () => {
           resource_type: ConfigResourceTypes.ACCOUNT,
           resource_id: account.id,
           key: 'lang',
-          value: 'en'
+          value: 'en',
         },
         {
           resource_type: ConfigResourceTypes.APIKEY,
           resource_id: apiKey.id,
           key: 'lang',
-          value: 'zh'
-        }
+          value: 'zh',
+        },
       ]);
 
       await accountService.delete(account.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);

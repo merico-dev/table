@@ -10,16 +10,14 @@ import permission from '../middleware/permission';
 
 @ApiPath({
   path: '/query',
-  name: 'Query'
+  name: 'Query',
 })
 @controller('/query')
 export class QueryController implements interfaces.Controller {
   public static TARGET_NAME = 'Query';
   private queryService: QueryService;
 
-  public constructor(
-    @inject('Newable<QueryService>') QueryService: inversaces.Newable<QueryService>
-  ) {
+  public constructor(@inject('Newable<QueryService>') QueryService: inversaces.Newable<QueryService>) {
     this.queryService = new QueryService();
   }
 
@@ -27,12 +25,12 @@ export class QueryController implements interfaces.Controller {
     path: '/',
     description: 'Execute query against selected datasource',
     parameters: {
-      body: { description: 'Query object', required: true, model: 'QueryRequest' }
+      body: { description: 'Query object', required: true, model: 'QueryRequest' },
     },
     responses: {
       200: { description: 'Query result' },
       500: { description: 'ApiError', model: 'ApiError' },
-    }
+    },
   })
   @httpPost('/', permission(ROLE_TYPES.READER))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {

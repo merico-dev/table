@@ -2,7 +2,7 @@ import { Validator } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { ApiError, VALIDATION_FAILED } from '../utils/errors';
 
-type Constructor<T> = {new(): T};
+type Constructor<T> = { new (): T };
 
 export function validate<T extends object>(type: Constructor<T>, body: any): T {
   const validator = new Validator();

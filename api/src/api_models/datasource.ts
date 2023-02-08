@@ -84,8 +84,8 @@ export class DataSourceConfig {
 })
 export class DataSource {
   @ApiModelProperty({
-    description : 'datasource ID in uuid format' ,
-    required : false,
+    description: 'datasource ID in uuid format',
+    required: false,
   })
   id: string;
 
@@ -103,8 +103,8 @@ export class DataSource {
   key: string;
 
   @ApiModelProperty({
-    description : 'whether the datasource is preset or not' ,
-    required : false,
+    description: 'whether the datasource is preset or not',
+    required: false,
   })
   is_preset: boolean;
 }
@@ -124,7 +124,7 @@ export class DataSourceFilterObject implements FilterRequest {
 
 @ApiModel({
   description: 'DataSource sort object',
-  name: 'DataSourceSortObject'
+  name: 'DataSourceSortObject',
 })
 export class DataSourceSortObject implements SortRequest {
   @IsIn(['type', 'key', 'create_time', 'is_preset'])
