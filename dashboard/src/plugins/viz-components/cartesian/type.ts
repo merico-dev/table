@@ -32,6 +32,8 @@ export interface IYAxisConf {
   nameAlignment: 'left' | 'center' | 'right';
   position: 'left' | 'right';
   label_formatter: TNumbroFormat;
+  min: string;
+  max: string;
 }
 
 export interface IRegressionTransform {
@@ -121,6 +123,8 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       position: 'left',
       nameAlignment: 'center',
       label_formatter: defaultNumbroFormat,
+      min: '',
+      max: '',
     },
   ],
   reference_lines: [],
