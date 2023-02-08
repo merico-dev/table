@@ -1,5 +1,5 @@
 import { Button, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IScatterChartConf } from '../../type';
@@ -18,9 +18,11 @@ interface IYAxisField {
   control: Control<IScatterChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
+  watch: UseFormWatch<IScatterChartConf>;
 }
 
-export function YAxisField({ control, index, remove }: IYAxisField) {
+export function YAxisField({ control, index, remove, watch }: IYAxisField) {
+  const [output] = watch([`y_axes.${index}.label_formatter.output`]);
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
       <Divider mb={-15} mt={15} variant="dashed" label="Name" labelPosition="center" />
@@ -56,6 +58,25 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
           render={({ field }) => <NumbroFormatSelector {...field} />}
         />
       </Stack>
+
+      {output === 'percent' && (
+        <Stack>
+          <Divider mb={-15} variant="dashed" label="Value Range" labelPosition="center" />
+          <Group grow>
+            <Controller
+              name={`y_axes.${index}.min`}
+              control={control}
+              render={({ field }) => <TextInput label="Min" {...field} />}
+            />
+            <Controller
+              name={`y_axes.${index}.max`}
+              control={control}
+              render={({ field }) => <TextInput label="Max" {...field} />}
+            />
+          </Group>
+        </Stack>
+      )}
+
       <Button
         mt={20}
         leftIcon={<Trash size={16} />}

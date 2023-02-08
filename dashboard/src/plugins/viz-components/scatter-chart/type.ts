@@ -86,6 +86,8 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       position: 'left',
       nameAlignment: 'center',
       label_formatter: defaultNumbroFormat,
+      min: '',
+      max: '',
     },
   ],
   tooltip: {
