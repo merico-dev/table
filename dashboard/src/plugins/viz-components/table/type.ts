@@ -1,4 +1,5 @@
 import { IColorInterpolationConfig } from '~/types/plugin';
+import { IClickCellContentConfig } from './triggers/click-cell-content';
 
 export enum ValueType {
   string = 'string',
@@ -58,3 +59,5 @@ export interface ITableCellContext {
 
   bgColor: string | undefined;
 }
+
+export type TriggerConfigType = IClickCellContentConfig;
