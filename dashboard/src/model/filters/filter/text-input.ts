@@ -6,6 +6,14 @@ export const FilterConfigModel_TextInput = types
     required: types.boolean,
     default_value: types.string,
   })
+  .views((self) => ({
+    truthy(value: any) {
+      if (typeof value !== 'string') {
+        return false;
+      }
+      return !!value.trim();
+    },
+  }))
   .actions((self) => ({
     setRequired(required: boolean) {
       self.required = required;
