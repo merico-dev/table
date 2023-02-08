@@ -18,11 +18,9 @@ interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  watch: UseFormWatch<ICartesianChartConf>;
 }
 
-function YAxisField({ control, index, remove, watch }: IYAxisField) {
-  const [output] = watch([`y_axes.${index}.label_formatter.output`]);
+function YAxisField({ control, index, remove }: IYAxisField) {
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
       <Divider mb={-15} mt={15} variant="dashed" label="Name" labelPosition="center" />
@@ -59,23 +57,21 @@ function YAxisField({ control, index, remove, watch }: IYAxisField) {
         />
       </Stack>
 
-      {output === 'percent' && (
-        <Stack>
-          <Divider mb={-15} variant="dashed" label="Value Range" labelPosition="center" />
-          <Group grow>
-            <Controller
-              name={`y_axes.${index}.min`}
-              control={control}
-              render={({ field }) => <TextInput label="Min" {...field} />}
-            />
-            <Controller
-              name={`y_axes.${index}.max`}
-              control={control}
-              render={({ field }) => <TextInput label="Max" {...field} />}
-            />
-          </Group>
-        </Stack>
-      )}
+      <Stack>
+        <Divider mb={-15} variant="dashed" label="Value Range" labelPosition="center" />
+        <Group grow>
+          <Controller
+            name={`y_axes.${index}.min`}
+            control={control}
+            render={({ field }) => <TextInput label="Min" {...field} />}
+          />
+          <Controller
+            name={`y_axes.${index}.max`}
+            control={control}
+            render={({ field }) => <TextInput label="Max" {...field} />}
+          />
+        </Group>
+      </Stack>
 
       <Button
         mt={20}
@@ -143,7 +139,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
       </Tabs.List>
       {controlledFields.map((field, index) => (
         <Tabs.Panel key={index} value={index.toString()}>
-          <YAxisField control={control} index={index} remove={remove} watch={watch} />
+          <YAxisField control={control} index={index} remove={remove} />
         </Tabs.Panel>
       ))}
     </Tabs>
