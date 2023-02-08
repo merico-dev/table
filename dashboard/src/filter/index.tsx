@@ -34,7 +34,6 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
     }
     return requiredFilters.some((f) => !f.requiredAndPass(formValue[f.key]));
   }, [formValue, requiredFilters]);
-  console.log(formValue);
 
   if (filters.length === 0) {
     return null;
