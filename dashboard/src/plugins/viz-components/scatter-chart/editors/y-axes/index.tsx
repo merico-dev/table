@@ -57,7 +57,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
       </Tabs.List>
       {controlledFields.map((field, index) => (
         <Tabs.Panel key={index} value={index.toString()}>
-          <YAxisField control={control} index={index} remove={remove} watch={watch} />
+          <YAxisField control={control} index={index} remove={remove} />
         </Tabs.Panel>
       ))}
     </Tabs>
