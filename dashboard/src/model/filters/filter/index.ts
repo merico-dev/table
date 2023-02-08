@@ -6,6 +6,7 @@ import { createFilterConfig_MultiSelect, FilterConfigModel_MultiSelect } from '.
 import { createFilterConfig_TreeSelect, FilterConfigModel_TreeSelect } from './tree-select';
 import { createFilterConfig_Select, FilterConfigModel_Select } from './select';
 import { createFilterConfig_TextInput, FilterConfigModel_TextInput } from './text-input';
+import _ from 'lodash';
 
 export const FilterModel = types
   .model('FilterModel', {
@@ -53,6 +54,14 @@ export const FilterModel = types
     // FIXME: this is a temp workaround. auto_submit should be moved into config
     get should_auto_submit() {
       return self.auto_submit_supported && self.auto_submit;
+    },
+    requiredAndPass(value: any) {
+      const required = _.get(self.config, 'required', false);
+      if (!required) {
+        return false;
+      }
+      const handler = _.get(self.config, 'truthy', () => true);
+      return handler(value);
     },
   }))
   .actions((self) => ({

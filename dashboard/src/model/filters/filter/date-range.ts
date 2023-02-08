@@ -14,6 +14,11 @@ const _FilterConfigModel_DateRange = types
     allowSingleDateInRange: types.optional(types.boolean, false),
   })
   .views((self) => ({
+    truthy(value: any) {
+      return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
+    },
+  }))
+  .views((self) => ({
     getMaxDate(startDate: Date | null) {
       const { max_days } = self;
       if (!max_days || !startDate) {

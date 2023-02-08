@@ -1,4 +1,5 @@
 import { Button, Group } from '@mantine/core';
+import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
@@ -26,6 +27,14 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
 
   const filters = model.filters.visibleInView(view.id);
   const allAutoSubmit = useMemo(() => filters.every((f) => f.should_auto_submit), [filters]);
+  const requiredFilters = useMemo(() => filters.filter((f) => _.get(f, 'config.required', false)), [filters]);
+  const searchButtonDisabled = useMemo(() => {
+    if (requiredFilters.length === 0) {
+      return false;
+    }
+    return requiredFilters.some((f) => !f.requiredAndPass(formValue[f.key]));
+  }, [formValue, requiredFilters]);
+  console.log(formValue);
 
   if (filters.length === 0) {
     return null;
@@ -61,7 +70,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
         </Group>
         {!allAutoSubmit && (
           <Group sx={{ alignSelf: 'flex-end' }}>
-            <Button color="blue" size="sm" type="submit">
+            <Button color="blue" size="sm" type="submit" disabled={searchButtonDisabled}>
               Search
             </Button>
           </Group>

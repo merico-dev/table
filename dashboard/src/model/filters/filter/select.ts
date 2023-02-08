@@ -12,6 +12,11 @@ export const FilterConfigModel_Select = types
     }),
     FilterConfigModel_BaseSelect,
   )
+  .views((self) => ({
+    truthy(value: any) {
+      return !!value;
+    },
+  }))
   .actions((self) => ({
     setRequired(required: boolean) {
       self.required = required;
