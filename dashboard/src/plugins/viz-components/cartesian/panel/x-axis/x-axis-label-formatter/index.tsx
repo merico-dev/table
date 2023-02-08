@@ -1,6 +1,6 @@
 import { Button, Checkbox, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
@@ -12,7 +12,7 @@ interface IXAxisLabelFormatterField {
   data: AnyObject[];
 }
 
-export const XAxisLabelFormatterField = ({ value, onChange, data }: IXAxisLabelFormatterField) => {
+export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisLabelFormatterField, _ref: any) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<IXAxisLabelFormatter>(value);
 
@@ -93,4 +93,4 @@ export const XAxisLabelFormatterField = ({ value, onChange, data }: IXAxisLabelF
       </Modal>
     </>
   );
-};
+});
