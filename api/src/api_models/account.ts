@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsInt, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
-import { FilterRequest, SortRequest, PaginationRequest, PaginationResponse, Authentication } from './base';
+import { SortRequest, PaginationRequest, PaginationResponse, Authentication, FilterObject } from './base';
 import { ROLE_TYPES } from './role';
 
 @ApiModel({
@@ -88,13 +88,26 @@ export class AccountLoginResponse {
   description: 'Account filter object',
   name: 'AccountFilterObject',
 })
-export class AccountFilterObject implements FilterRequest {
+export class AccountFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for name and email fields',
+    description: 'Filter based on name',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  name?: FilterObject;
+
+  @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Filter based on email',
+    required: false,
+    model: 'FilterObject',
+  })
+  email?: FilterObject;
 }
 
 @ApiModel({

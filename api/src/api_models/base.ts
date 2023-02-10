@@ -1,9 +1,24 @@
-import { IsInt, IsString, ValidationError } from 'class-validator';
+import { IsBoolean, IsInt, IsString, ValidationError } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 
-export interface FilterRequest {
-  search?: string;
-  selection?: string;
+@ApiModel({
+  description: 'Filter object',
+  name: 'FilterObject',
+})
+export class FilterObject {
+  @IsString()
+  @ApiModelProperty({
+    description: 'Value to be used in the filter',
+    required: true,
+  })
+  value: string;
+
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'Wether the filter should use fuzzy matching or exact matching',
+    required: true,
+  })
+  isFuzzy: boolean;
 }
 
 export interface SortRequest {

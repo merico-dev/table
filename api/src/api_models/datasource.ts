@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
 import { Length, IsString, IsOptional, ValidateNested, IsUUID, IsIn, IsInt, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Processing config of DataSource',
@@ -114,13 +114,26 @@ export class DataSource {
   description: 'DataSource filter object',
   name: 'DataSourceFilterObject',
 })
-export class DataSourceFilterObject implements FilterRequest {
+export class DataSourceFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for type and key fields',
+    description: 'Filter based on type',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  type?: FilterObject;
+
+  @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Filter based on key',
+    required: false,
+    model: 'FilterObject',
+  })
+  key?: FilterObject;
 }
 
 @ApiModel({

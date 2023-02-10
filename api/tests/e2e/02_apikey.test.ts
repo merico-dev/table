@@ -136,16 +136,16 @@ describe('APIController', () => {
       deletedKeyId = response.body.data[1].id;
     });
 
-    it('with search filter', async () => {
+    it('with filter', async () => {
       const authentication = createAuthStruct(presetKey, {
-        filter: { search: 'preset' },
+        filter: { name: { value: 'preset', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       });
       validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
-        filter: { search: 'preset' },
+        filter: { name: { value: 'preset', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
         authentication,

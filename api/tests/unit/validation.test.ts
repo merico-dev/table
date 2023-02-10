@@ -78,7 +78,7 @@ describe('validation', () => {
         const data: AccountListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '' },
+          filter: { name: { value: '', isFuzzy: true }, email: { value: '', isFuzzy: true } },
         };
 
         const result = validate(AccountListRequest, data);
@@ -368,7 +368,7 @@ describe('validation', () => {
         const data: ApiKeyListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '' },
+          filter: { name: { value: '', isFuzzy: true } },
         };
 
         const result = validate(ApiKeyListRequest, data);
@@ -507,7 +507,7 @@ describe('validation', () => {
         const data: DashboardListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '', selection: 'ALL' },
+          filter: { group: { value: '', isFuzzy: true }, name: { value: '', isFuzzy: true }, is_removed: false },
         };
 
         const result = validate(DashboardListRequest, data);
@@ -727,7 +727,7 @@ describe('validation', () => {
         const data: DataSourceListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '' },
+          filter: { key: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
         const result = validate(DataSourceListRequest, data);
@@ -926,7 +926,7 @@ describe('validation', () => {
         const data: JobListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '' },
+          filter: { status: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
         const result = validate(JobListRequest, data);
@@ -1141,7 +1141,7 @@ describe('validation', () => {
         const data: DashboardChangelogListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: { field: 'create_time', order: 'ASC' },
-          filter: { search: '' },
+          filter: { dashboard_id: { value: '', isFuzzy: true } },
         };
 
         const result = validate(DashboardChangelogListRequest, data);

@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
-import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 import { ROLE_TYPES } from './role';
 
 @ApiModel({
@@ -50,13 +50,16 @@ export class ApiKey {
   description: 'ApiKey filter object',
   name: 'ApiKeyFilterObject',
 })
-export class ApiKeyFilterObject implements FilterRequest {
+export class ApiKeyFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for name',
+    description: 'Filter based on name',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  name?: FilterObject;
 }
 
 @ApiModel({

@@ -55,11 +55,12 @@ import {
   DashboardChangelogPaginationResponse,
   DashboardChangelogSortObject,
 } from './dashboard_changelog';
-import { ApiError, Authentication } from './base';
+import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
   ApiError,
   Authentication,
+  FilterObject,
 
   Dashboard,
   DashboardFilterObject,

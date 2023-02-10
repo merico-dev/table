@@ -113,7 +113,7 @@ describe('DataSourceService', () => {
 
     it('with search filter', async () => {
       const datasources = await datasourceService.list(
-        { search: 'pg_2' },
+        { key: { value: 'pg_2', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );

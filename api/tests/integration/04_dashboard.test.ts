@@ -108,9 +108,9 @@ describe('DashboardService', () => {
       });
     });
 
-    it('with search filter', async () => {
+    it('with filter', async () => {
       const results = await dashboardService.list(
-        { search: '3' },
+        { group: { value: '2', isFuzzy: true }, name: { value: '3', isFuzzy: true }, is_removed: false },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );
@@ -127,108 +127,6 @@ describe('DashboardService', () => {
             is_removed: false,
             is_preset: false,
             group: '2',
-          },
-        ],
-      });
-    });
-
-    it('with selection ALL filter', async () => {
-      const results = await dashboardService.list(
-        { selection: 'ALL' },
-        { field: 'name', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
-      expect(results).toMatchObject({
-        total: 3,
-        offset: 0,
-        data: [
-          {
-            id: dashboards[0].id,
-            name: 'dashboard1',
-            content: {},
-            create_time: dashboards[0].create_time,
-            update_time: dashboards[0].update_time,
-            is_removed: true,
-            is_preset: false,
-            group: '1',
-          },
-          {
-            id: dashboards[1].id,
-            name: 'dashboard2',
-            content: {},
-            create_time: dashboards[1].create_time,
-            update_time: dashboards[1].update_time,
-            is_removed: false,
-            is_preset: true,
-            group: '1',
-          },
-          {
-            id: dashboard3.id,
-            name: 'dashboard3',
-            content: {},
-            create_time: dashboard3.create_time,
-            update_time: dashboard3.update_time,
-            is_removed: false,
-            is_preset: false,
-            group: '2',
-          },
-        ],
-      });
-    });
-
-    it('with selection ACTIVE filter', async () => {
-      const results = await dashboardService.list(
-        { selection: 'ACTIVE' },
-        { field: 'name', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
-      expect(results).toMatchObject({
-        total: 2,
-        offset: 0,
-        data: [
-          {
-            id: dashboards[1].id,
-            name: 'dashboard2',
-            content: {},
-            create_time: dashboards[1].create_time,
-            update_time: dashboards[1].update_time,
-            is_removed: false,
-            is_preset: true,
-            group: '1',
-          },
-          {
-            id: dashboard3.id,
-            name: 'dashboard3',
-            content: {},
-            create_time: dashboard3.create_time,
-            update_time: dashboard3.update_time,
-            is_removed: false,
-            is_preset: false,
-            group: '2',
-          },
-        ],
-      });
-    });
-
-    it('with selection REMOVED filter', async () => {
-      const results = await dashboardService.list(
-        { selection: 'REMOVED' },
-        { field: 'create_time', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
-      expect(results).toMatchObject({
-        total: 1,
-        offset: 0,
-        data: [
-          {
-            id: dashboards[0].id,
-            name: 'dashboard1',
-            content: {},
-            create_time: dashboards[0].create_time,
-            update_time: dashboards[0].update_time,
-            is_removed: true,
-            is_preset: false,
-            group: '1',
           },
         ],
       });

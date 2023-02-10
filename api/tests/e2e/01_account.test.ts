@@ -243,7 +243,7 @@ describe('AccountController', () => {
 
     it('with search filter', async () => {
       const query: AccountListRequest = {
-        filter: { search: 'account' },
+        filter: { name: { value: 'account', isFuzzy: true }, email: { value: 'account', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       };

@@ -248,7 +248,7 @@ describe('DashboardChangelogService', () => {
 
     it('with search filter', async () => {
       const results = await dashboardChangelogService.list(
-        { search: changelogDashboardId },
+        { dashboard_id: { value: changelogDashboardId, isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );

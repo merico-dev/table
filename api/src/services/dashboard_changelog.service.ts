@@ -48,12 +48,13 @@ export class DashboardChangelogService {
       .addSelect('dashboard_id', 'dashboard_id')
       .addSelect('diff', 'diff')
       .addSelect('create_time', 'create_time')
+      .where('true')
       .orderBy(sort.field, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.search) {
-      qb.andWhere('dc.dashboard_id = :search', { search: filter.search });
+    if (filter?.dashboard_id) {
+      qb.andWhere('dc.dashboard_id = :dashboard_id', { dashboard_id: filter.dashboard_id.value });
     }
 
     const dashboardChangelogs = await qb.getRawMany<DashboardChangelog>();

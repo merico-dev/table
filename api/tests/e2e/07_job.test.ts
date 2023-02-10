@@ -247,7 +247,11 @@ describe('JobController', () => {
   describe('check Dashboard', () => {
     it('dashboard content queries should be updated', async () => {
       const query: DashboardListRequest = {
-        filter: { search: 'jobDashboard' },
+        filter: {
+          name: { value: 'jobDashboard', isFuzzy: true },
+          group: { value: '', isFuzzy: true },
+          is_removed: false,
+        },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       };
@@ -285,6 +289,7 @@ describe('JobController', () => {
             update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
+            group: 'job',
           },
         ],
       });
