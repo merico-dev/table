@@ -18,6 +18,10 @@ export function App() {
           main: {
             height: 'calc(100vh - 60px)',
             overflow: 'scroll',
+            paddingTop: 'calc(var(--mantine-header-height, 0px) + 16px)',
+            paddingRight: 0,
+            paddingLeft: 'calc(var(--mantine-navbar-width, 0px) + 4px)',
+            paddingBottom: 'calc(var(--mantine-footer-height, 0px) + 10px)',
           },
         }}
       >
