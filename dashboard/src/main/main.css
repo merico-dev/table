@@ -1,8 +1,17 @@
 .dashboard-root {
   overflow: scroll;
   overflow-x: hidden;
-  padding: 0 0 10px;
+  padding: 0;
   height: 100%;
+}
+
+.dashboard-view {
+  position: relative;
+  height: 100%;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: initial !important;
 }
 
 .dashboard-sticky-area {
@@ -17,7 +26,7 @@
   -ms-overflow-style: initial !important;
 }
 
-*:not(.mantine-RichTextEditor-root):not([data-enable-scrollbar])::-webkit-scrollbar {
+*:not(.mantine-RichTextEditor-root):not(.dashboard-view):not(.mantine-Modal-body):not([data-enable-scrollbar])::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
