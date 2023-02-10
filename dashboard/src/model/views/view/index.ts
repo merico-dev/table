@@ -3,13 +3,18 @@ import { EViewComponentType } from '~/types';
 import { ViewConfigModel_Division, createViewConfig_Division } from './division';
 import { ViewConfigModel_Modal, createViewConfig_Modal } from './modal';
 import { PanelsModel } from './panels';
+import { createViewConfig_Tabs, ViewConfigModel_Tabs } from './tabs';
 
 export const ViewModel = types
   .model({
     id: types.identifier,
     name: types.string,
-    type: types.enumeration('EViewComponentType', [EViewComponentType.Division, EViewComponentType.Modal]),
-    config: types.union(ViewConfigModel_Division, ViewConfigModel_Modal),
+    type: types.enumeration<EViewComponentType>('EViewComponentType', [
+      EViewComponentType.Division,
+      EViewComponentType.Modal,
+      EViewComponentType.Tabs,
+    ]),
+    config: types.union(ViewConfigModel_Division, ViewConfigModel_Modal, ViewConfigModel_Tabs),
     panels: PanelsModel,
   })
   .views((self) => ({
@@ -38,6 +43,9 @@ export const ViewModel = types
           break;
         case EViewComponentType.Modal:
           self.config = createViewConfig_Modal();
+          break;
+        case EViewComponentType.Tabs:
+          self.config = createViewConfig_Tabs();
           break;
       }
       self.type = type;

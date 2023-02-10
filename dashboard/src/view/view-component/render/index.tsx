@@ -10,6 +10,9 @@ export const RenderViewComponent = observer(({ view, children }: { view: ViewMod
     case EViewComponentType.Modal:
       return <RenderViewModal view={view}>{children}</RenderViewModal>;
     case EViewComponentType.Division:
+      return <RenderViewDivision>{children}</RenderViewDivision>;
+    case EViewComponentType.Tabs:
+      return <RenderViewDivision>{children}</RenderViewDivision>;
     default:
       return <RenderViewDivision>{children}</RenderViewDivision>;
   }

@@ -47,7 +47,7 @@ export interface IDashboardDefinition {
 export enum EViewComponentType {
   Division = 'div',
   Modal = 'modal',
-  // Tabs = 'tabs',
+  Tabs = 'tabs',
 }
 
 export interface IDashboardView {
