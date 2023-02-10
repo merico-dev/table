@@ -35,6 +35,7 @@ export class DataSourceConfig {
   })
   host: string;
 
+  @IsOptional()
   @IsObject()
   @Type(() => DataSourceProcessingConfig)
   @ValidateNested({ each: true })
