@@ -9,12 +9,10 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
   return (
     <Box className="render-view-tabs">
       <Tabs
+        variant={config.variant}
+        orientation={config.orientation}
         defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
         styles={{
-          // tab: {
-          //   paddingTop: '0px',
-          //   paddingBottom: '0px',
-          // },
           panel: {
             padding: '16px',
           },

@@ -7,6 +7,31 @@ import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 
+const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
+  const ret: Record<string, any> = {
+    tab: {},
+    panel: {
+      padding: '16px',
+    },
+  };
+
+  if (variant === 'pills' && orientation === 'horizontal') {
+    ret.tab.paddingTop = '1px';
+    ret.tab.paddingBottom = '1px';
+  }
+  if (orientation === 'vertical') {
+    ret.tab['&.add-a-tab'] = {
+      paddingTop: '1px',
+      paddingBottom: '1px',
+    };
+    ret.tab['&.add-a-tab .mantine-Tabs-tabLabel'] = {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    };
+  }
+  return ret;
+};
+
 export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const model = useModelContext();
   const options = useMemo(
@@ -18,16 +43,10 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
   return (
     <Box className="preview-view-tabs">
       <Tabs
+        variant={config.variant}
+        orientation={config.orientation}
         defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
-        styles={{
-          // tab: {
-          //   paddingTop: '0px',
-          //   paddingBottom: '0px',
-          // },
-          panel: {
-            padding: '16px',
-          },
-        }}
+        styles={getStyles(config)}
       >
         <Tabs.List>
           {config.tabs.map((t) => (
@@ -35,7 +54,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
               {t.name ?? t.id}
             </Tabs.Tab>
           ))}
-          <Tabs.Tab onClick={config.addTab} value="add">
+          <Tabs.Tab onClick={config.addTab} value="add" className="add-a-tab">
             <ActionIcon>
               <Plus size={18} color="#228be6" />
             </ActionIcon>

@@ -1,3 +1,4 @@
+import { TabsOrientation, TabsVariant } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '~/types';
@@ -8,6 +9,16 @@ const TabModel = types
     name: types.string,
     view_id: types.string,
   })
+  .views((self) => ({
+    get json() {
+      const { id, name, view_id } = self;
+      return {
+        id,
+        name,
+        view_id,
+      };
+    },
+  }))
   .actions((self) => ({
     setName(v: string) {
       self.name = v;
@@ -24,17 +35,30 @@ export const ViewConfigModel_Tabs = types
   .model('ViewModel_Tabs', {
     _name: types.literal(EViewComponentType.Modal),
     tabs: types.optional(types.array(TabModel), []),
+    variant: types.optional(types.enumeration<TabsVariant>('variant', ['default', 'outline', 'pills']), 'default'),
+    orientation: types.optional(
+      types.enumeration<TabsOrientation>('orientation', ['horizontal', 'vertical']),
+      'horizontal',
+    ),
   })
   .views((self) => ({
     get json() {
-      const { _name, tabs } = self;
+      const { _name, variant, orientation, tabs } = self;
       return {
         _name,
-        tabs,
+        variant,
+        orientation,
+        tabs: tabs.map((t) => t.json),
       };
     },
   }))
   .actions((self) => ({
+    setVariant(v: TabsVariant) {
+      self.variant = v;
+    },
+    setOrientation(v: TabsOrientation) {
+      self.orientation = v;
+    },
     setTabs(v: TabModelSnapshotIn[]) {
       self.tabs.length = 0;
       self.tabs = cast(v);
