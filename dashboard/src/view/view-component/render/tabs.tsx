@@ -1,8 +1,11 @@
 import { Box, Sx, Tabs } from '@mantine/core';
+import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
+import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
+import { ReadOnlyDashboardView } from '~/view';
 
 const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
   if (t.color) {
@@ -12,6 +15,7 @@ const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
 };
 
 export const RenderViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+  const model = useModelContext();
   const config = view.config as IViewConfigModel_Tabs;
   return (
     <Box className="render-view-tabs">
@@ -21,22 +25,28 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
         defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
         styles={{
           panel: {
-            padding: '16px',
+            padding: '16px 0px',
           },
         }}
       >
         <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
-            <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)}>
+            <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)} disabled={!t.view_id}>
               {t.name ?? t.id}
             </Tabs.Tab>
           ))}
         </Tabs.List>
-        {config.tabs.map((t) => (
-          <Tabs.Panel key={t.id} value={t.id}>
-            {t.view_id}
-          </Tabs.Panel>
-        ))}
+        {config.tabs.map((t) => {
+          const tabView = model.views.findByID(t.view_id);
+          if (!tabView) {
+            return null;
+          }
+          return (
+            <Tabs.Panel key={t.id} value={t.id}>
+              <ReadOnlyDashboardView view={tabView} fullScreenPanelID="" setFullScreenPanelID={_.noop} />
+            </Tabs.Panel>
+          );
+        })}
       </Tabs>
       {children}
     </Box>
