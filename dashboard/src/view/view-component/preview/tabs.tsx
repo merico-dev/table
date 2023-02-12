@@ -1,10 +1,10 @@
-import { ActionIcon, Box, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { ActionIcon, Box, ColorInput, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 
 const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
@@ -32,6 +32,13 @@ const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
   return ret;
 };
 
+const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
+  if (t.color) {
+    return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
+  }
+  return {};
+};
+
 export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const model = useModelContext();
   const options = useMemo(
@@ -50,7 +57,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
       >
         <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
-            <Tabs.Tab key={t.id} value={t.id}>
+            <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)}>
               {t.name ?? t.id}
             </Tabs.Tab>
           ))}
@@ -65,6 +72,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             <Stack sx={{ width: '300px' }}>
               <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
               <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
+              <ColorInput label="Color" value={t.color} onChange={t.setColor} />
             </Stack>
           </Tabs.Panel>
         ))}

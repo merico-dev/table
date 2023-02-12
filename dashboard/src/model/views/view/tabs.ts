@@ -8,14 +8,16 @@ const TabModel = types
     id: types.identifier,
     name: types.string,
     view_id: types.string,
+    color: types.optional(types.string, ''),
   })
   .views((self) => ({
     get json() {
-      const { id, name, view_id } = self;
+      const { id, name, view_id, color } = self;
       return {
         id,
         name,
         view_id,
+        color,
       };
     },
   }))
@@ -26,9 +28,13 @@ const TabModel = types
     setViewID(v: string) {
       self.view_id = v;
     },
+    setColor(v: string) {
+      self.color = v;
+    },
   }));
 
 type TabModelInstance = Instance<typeof TabModel>;
+export type ViewConfigModel_Tabs_Tab_Instance = TabModelInstance;
 type TabModelSnapshotIn = SnapshotIn<TabModelInstance>;
 
 export const ViewConfigModel_Tabs = types
@@ -44,11 +50,12 @@ export const ViewConfigModel_Tabs = types
   })
   .views((self) => ({
     get json() {
-      const { _name, variant, orientation, tabs } = self;
+      const { _name, variant, orientation, tabs, grow } = self;
       return {
         _name,
         variant,
         orientation,
+        grow,
         tabs: tabs.map((t) => t.json),
       };
     },

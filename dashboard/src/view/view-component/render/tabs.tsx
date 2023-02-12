@@ -1,8 +1,15 @@
-import { Box, Tabs } from '@mantine/core';
+import { Box, Sx, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
+
+const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
+  if (t.color) {
+    return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
+  }
+  return {};
+};
 
 export const RenderViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const config = view.config as IViewConfigModel_Tabs;
@@ -20,7 +27,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
       >
         <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
-            <Tabs.Tab key={t.id} value={t.id}>
+            <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)}>
               {t.name ?? t.id}
             </Tabs.Tab>
           ))}
