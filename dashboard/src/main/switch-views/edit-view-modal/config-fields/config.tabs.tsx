@@ -1,4 +1,4 @@
-import { Divider, Select, Stack } from '@mantine/core';
+import { Divider, Select, Stack, Switch } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
@@ -47,6 +47,7 @@ export const ViewTabsConfigFields = observer(() => {
         onChange={config.setOrientation}
         data={tabOrientationOptions}
       />
+      <Switch label="Grow Tabs" checked={config.grow} onChange={(e) => config.setGrow(e.currentTarget.checked)} />
     </Stack>
   );
 });

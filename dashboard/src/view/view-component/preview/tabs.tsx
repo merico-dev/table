@@ -48,7 +48,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
         defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
         styles={getStyles(config)}
       >
-        <Tabs.List>
+        <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
             <Tabs.Tab key={t.id} value={t.id}>
               {t.name ?? t.id}

@@ -40,6 +40,7 @@ export const ViewConfigModel_Tabs = types
       types.enumeration<TabsOrientation>('orientation', ['horizontal', 'vertical']),
       'horizontal',
     ),
+    grow: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get json() {
@@ -58,6 +59,9 @@ export const ViewConfigModel_Tabs = types
     },
     setOrientation(v: TabsOrientation) {
       self.orientation = v;
+    },
+    setGrow(v: boolean) {
+      self.grow = v;
     },
     setTabs(v: TabModelSnapshotIn[]) {
       self.tabs.length = 0;

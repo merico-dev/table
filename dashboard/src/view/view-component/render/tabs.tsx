@@ -18,7 +18,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
           },
         }}
       >
-        <Tabs.List>
+        <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
             <Tabs.Tab key={t.id} value={t.id}>
               {t.name ?? t.id}
