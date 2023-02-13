@@ -19,5 +19,5 @@
 }
 .panel-settings-tabs .mantine-Tabs-body {
   flex: 1;
-  overflow: scroll;
+  overflow: auto;
 }

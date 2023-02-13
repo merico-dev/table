@@ -29,7 +29,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         },
         body: {
           maxHeight: config.height,
-          overflow: 'scroll',
+          overflow: 'auto',
         },
       }}
       transitionDuration={0}

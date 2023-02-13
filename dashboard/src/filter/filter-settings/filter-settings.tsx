@@ -59,7 +59,7 @@ export const FilterSettings = observer(function _FilterSettings() {
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
-                <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'scroll' }}>
+                <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'auto' }}>
                   {field.label}
                 </Tabs.Tab>
               ))}
@@ -69,7 +69,7 @@ export const FilterSettings = observer(function _FilterSettings() {
             {model.filters.current.map((filter, index) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
                 <Stack sx={{ height: '100%' }} spacing="sm">
-                  <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'scroll' }}>
+                  <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
                     <FilterSetting filter={filter} index={index} />
                   </Box>
                   <Group position="right" pt={10}>

@@ -38,7 +38,7 @@ export function Navbar() {
       </MantineNavbar.Section>
 
       <MantineNavbar.Section grow sx={{ overflow: 'hidden' }}>
-        <Box sx={{ height: '100%', overflow: 'scroll' }}>
+        <Box sx={{ height: '100%', overflow: 'auto' }}>
           <DashboardLinks />
         </Box>
       </MantineNavbar.Section>
