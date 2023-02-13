@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { Edge, MarkerType, Position } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
 import { PanelModelInstance } from '~/model/views/view/panels';
-import { AnyObject } from '~/types';
+import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
+import { AnyObject, EViewComponentType } from '~/types';
 import { TFlowNode } from './types';
 
 function makeEdgesFromPanels(
@@ -15,6 +16,20 @@ function makeEdgesFromPanels(
   views.current.forEach((v, i) => {
     const list = v.panels.list.filter((p) => '__INTERACTIONS' in p.viz.conf);
     panels.push(...list);
+    if (v.type === EViewComponentType.Tabs) {
+      const config = v.config as IViewConfigModel_Tabs;
+      config.tabs.forEach((t) => {
+        edges.push({
+          id: t.id,
+          source: v.id,
+          target: t.view_id,
+          style: {
+            stroke: 'rgba(0,0,0,0.8)',
+          },
+          type: 'step',
+        });
+      });
+    }
   });
   panels.forEach((p, pi) => {
     const n = staticNodeMap[p.id];

@@ -1,4 +1,5 @@
 import { Edge, Position } from 'reactflow';
+import { EViewComponentType } from '~/types';
 import { calc, ViewGapX, ViewGapY, ViewHeight, ViewWidth } from './metrics';
 import { TFlowNode, TFlowNode_View } from './types';
 
@@ -8,6 +9,21 @@ interface ICommonProps {
   edges: Edge[];
 }
 
+function wrapViewsInTabs({ nodeMap, nodes, edges }: ICommonProps) {
+  nodes.forEach((n) => {
+    if (n._node_type !== 'view-root' || n._view_type !== EViewComponentType.Tabs) {
+      return;
+    }
+    n.position.y = n.position.y - ViewGapY;
+    n.sourcePosition = Position.Bottom;
+    n._tab_view_ids.reduce((acc, curr) => {
+      const view = nodeMap[curr];
+      view.position.y = acc;
+      const h = view.style!.height as number;
+      return acc + h + ViewGapY;
+    }, 0);
+  });
+}
 function fillViewProps({ nodeMap, nodes, edges }: ICommonProps) {
   edges
     .filter((e) => e.label === 'Open View')
@@ -112,6 +128,7 @@ export function reposition({ nodeMap, nodes, edges }: ICommonProps) {
   fillViewProps(commonProps);
   alignViews(commonProps);
   positionStrayViews(commonProps);
+  wrapViewsInTabs(commonProps);
   return {
     nodes,
     edges,

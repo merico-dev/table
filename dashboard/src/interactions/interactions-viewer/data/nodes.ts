@@ -1,5 +1,6 @@
 import { Position } from 'reactflow';
 import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 import {
   calc,
@@ -46,20 +47,29 @@ function makePanelNodes(views: ViewsModelInstance) {
 const ViewTypeName = {
   [EViewComponentType.Division]: 'Div',
   [EViewComponentType.Modal]: 'Modal',
+  [EViewComponentType.Tabs]: 'Tabs',
 };
 const ViewBackground = {
   [EViewComponentType.Division]: 'rgba(255, 0, 0, 0.2)',
   [EViewComponentType.Modal]: 'rgba(0, 0, 0, 0.2)',
+  [EViewComponentType.Tabs]: 'rgba(255, 200, 100, 0.4)',
 };
 
 function makeViewNodes(views: ViewsModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {
     const height = calcTotal(v.panels.list.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
+    let _tab_view_ids: string[] = [];
+    if (v.type === EViewComponentType.Tabs) {
+      const config = v.config as IViewConfigModel_Tabs;
+      _tab_view_ids = config.tabs.map((t) => t.view_id);
+    }
     return {
       id: v.id,
       _node_type: 'view-root',
+      _view_type: v.type,
       _view_level: 0,
       _sub_view_ids: [],
+      _tab_view_ids,
       data: { label: `${ViewTypeName[v.type]}:${v.name}` },
       position: { x: 0, y: 0 },
       sourcePosition: Position.Right,
