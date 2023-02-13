@@ -49,7 +49,7 @@ export const CustomRichTextEditor = forwardRef(({ value, onChange, styles = {} }
 
   return (
     <RichTextEditor editor={editor} styles={finalStyles}>
-      <RichTextEditor.Toolbar sticky stickyOffset={60}>
+      <RichTextEditor.Toolbar sticky stickyOffset={0}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.ColorPicker
             colors={[

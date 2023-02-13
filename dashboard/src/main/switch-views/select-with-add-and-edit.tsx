@@ -15,8 +15,10 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, type, ...othe
     return (
       <div ref={ref} {...others}>
         <Group noWrap position="apart">
-          <Text size="sm">{label}</Text>
-          <Text size="xs" color="dimmed">
+          <Text size="sm" data-role="label">
+            {label}
+          </Text>
+          <Text size="xs" color="dimmed" data-role="description">
             {type}
           </Text>
         </Group>
@@ -66,7 +68,12 @@ export const SelectWithAddAndEdit = observer(
           itemComponent={SelectItem}
           data={optionsWithAction}
           nothingFound="Empty"
-          sx={{ flexGrow: 1 }}
+          sx={{
+            flexGrow: 1,
+            '.mantine-Select-item[data-selected] .mantine-Text-root[data-role=description]': {
+              color: 'rgba(255,255,255,.7)',
+            },
+          }}
           styles={{
             input: {
               borderTopRightRadius: 0,

@@ -5,23 +5,20 @@ import { Filters } from '~/filter';
 import { DashboardActions } from '~/main/actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
-import { ViewModelInstance } from '..';
+import { useFullScreenPanelContext, ViewModelInstance } from '..';
 import { MainDashboardLayout } from './layout';
 import { PreviewViewComponent } from './view-component/preview';
 
 interface IMainDashboardView {
   view: ViewModelInstance;
   saveDashboardChanges: () => void;
-  fullScreenPanelID: string;
-  setFullScreenPanelID: (v: string) => void;
 }
 
 export const MainDashboardView = observer(function _MainDashboardView({
   view,
   saveDashboardChanges,
-  fullScreenPanelID,
-  setFullScreenPanelID,
 }: IMainDashboardView) {
+  const { fullScreenPanelID, setFullScreenPanelID } = useFullScreenPanelContext();
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
     view,
     fullScreenPanelID,

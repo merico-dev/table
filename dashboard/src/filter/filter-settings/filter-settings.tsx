@@ -54,6 +54,9 @@ export const FilterSettings = observer(function _FilterSettings() {
       >
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
+            <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
+              Add a Filter
+            </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
                 <Tabs.Tab key={field.id} value={field.id} sx={{ maxWidth: '100%', overflow: 'scroll' }}>
@@ -61,9 +64,6 @@ export const FilterSettings = observer(function _FilterSettings() {
                 </Tabs.Tab>
               ))}
             </Tabs.List>
-            <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
-              Add a Filter
-            </Button>
           </Stack>
           <Box sx={{ flexGrow: 1, height: '100%' }}>
             {model.filters.current.map((filter, index) => (

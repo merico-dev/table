@@ -7,6 +7,7 @@ import { ConfigFields } from './config-fields';
 const viewComponentTypeOptions = [
   { label: 'Division', value: EViewComponentType.Division },
   { label: 'Modal', value: EViewComponentType.Modal },
+  { label: 'Tabs', value: EViewComponentType.Tabs },
 ];
 
 export const EditViewForm = observer(() => {
@@ -24,7 +25,7 @@ export const EditViewForm = observer(() => {
           VIE.setName(e.currentTarget.value);
         }}
       />
-      <Select label="Type" value={VIE.type} onChange={VIE.setType} data={viewComponentTypeOptions} />
+      <Select label="Type" withinPortal value={VIE.type} onChange={VIE.setType} data={viewComponentTypeOptions} />
       <ConfigFields />
     </Stack>
   );

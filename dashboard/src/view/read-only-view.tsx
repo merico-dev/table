@@ -6,21 +6,16 @@ import { Filters } from '~/filter';
 import { DashboardActions } from '~/main/actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
-import { ViewModelInstance } from '..';
+import { useFullScreenPanelContext, ViewModelInstance } from '..';
 import { ReadOnlyDashboardLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
 
 interface IReadOnlyDashboardView {
   view: ViewModelInstance;
-  fullScreenPanelID: string;
-  setFullScreenPanelID: (v: string) => void;
 }
 
-export const ReadOnlyDashboardView = observer(function _DashboardLayout({
-  view,
-  fullScreenPanelID,
-  setFullScreenPanelID,
-}: IReadOnlyDashboardView) {
+export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }: IReadOnlyDashboardView) {
+  const { fullScreenPanelID, setFullScreenPanelID } = useFullScreenPanelContext();
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
     view,
     fullScreenPanelID,
