@@ -16,8 +16,8 @@ const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
   };
 
   if (variant === 'pills' && orientation === 'horizontal') {
-    ret.tab.paddingTop = '1px';
-    ret.tab.paddingBottom = '1px';
+    ret.tab.paddingTop = '6px';
+    ret.tab.paddingBottom = '6px';
   }
   if (orientation === 'vertical') {
     ret.tab['&.add-a-tab'] = {
@@ -72,7 +72,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             <Stack sx={{ width: '300px' }}>
               <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
               <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
-              <ColorInput label="Color" value={t.color} onChange={t.setColor} />
+              <ColorInput label="Color" value={t.color} onChange={t.setColor} disabled={config.variant !== 'default'} />
             </Stack>
           </Tabs.Panel>
         ))}
