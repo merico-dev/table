@@ -28,6 +28,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
             padding: '16px 0px',
           },
         }}
+        keepMounted={false}
       >
         <Tabs.List grow={config.grow}>
           {config.tabs.map((t) => (
