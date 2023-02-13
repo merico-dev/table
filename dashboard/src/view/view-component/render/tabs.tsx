@@ -1,5 +1,4 @@
 import { Box, Sx, Tabs } from '@mantine/core';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useModelContext } from '~/contexts';
@@ -44,7 +43,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
           }
           return (
             <Tabs.Panel key={t.id} value={t.id}>
-              <ReadOnlyDashboardView view={tabView} fullScreenPanelID="" setFullScreenPanelID={_.noop} />
+              <ReadOnlyDashboardView view={tabView} />
             </Tabs.Panel>
           );
         })}

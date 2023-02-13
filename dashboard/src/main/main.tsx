@@ -16,6 +16,7 @@ import { createPluginContext, PluginContext } from '../plugins';
 import { IDashboard } from '../types/dashboard';
 import './main.css';
 import { listDataSources } from '~/api-caller';
+import { FullScreenPanelContext } from '~/contexts';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -73,35 +74,36 @@ export const Dashboard = observer(function _Dashboard({
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
-        <LayoutStateContext.Provider
+        <FullScreenPanelContext.Provider
           value={{
-            layoutFrozen,
-            freezeLayout,
-            inEditMode: true,
-            inUseMode: false,
+            fullScreenPanelID,
+            setFullScreenPanelID,
           }}
         >
-          <Box
-            className={`${className} dashboard-root`}
-            sx={{
-              position: 'relative',
+          <LayoutStateContext.Provider
+            value={{
+              layoutFrozen,
+              freezeLayout,
+              inEditMode: true,
+              inUseMode: false,
             }}
           >
-            <PluginContext.Provider value={pluginContext}>
-              <ServiceLocatorProvider configure={configureServices}>
-                {model.views.visibleViews.map((view) => (
-                  <MainDashboardView
-                    key={view.id}
-                    view={view}
-                    saveDashboardChanges={saveDashboardChanges}
-                    fullScreenPanelID={fullScreenPanelID}
-                    setFullScreenPanelID={setFullScreenPanelID}
-                  />
-                ))}
-              </ServiceLocatorProvider>
-            </PluginContext.Provider>
-          </Box>
-        </LayoutStateContext.Provider>
+            <Box
+              className={`${className} dashboard-root`}
+              sx={{
+                position: 'relative',
+              }}
+            >
+              <PluginContext.Provider value={pluginContext}>
+                <ServiceLocatorProvider configure={configureServices}>
+                  {model.views.visibleViews.map((view) => (
+                    <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+                  ))}
+                </ServiceLocatorProvider>
+              </PluginContext.Provider>
+            </Box>
+          </LayoutStateContext.Provider>
+        </FullScreenPanelContext.Provider>
       </ModelContextProvider>
     </ModalsProvider>
   );

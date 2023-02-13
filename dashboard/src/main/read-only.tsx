@@ -17,6 +17,7 @@ import { IDashboard } from '../types/dashboard';
 import { useTopLevelServices } from './use-top-level-services';
 import './main.css';
 import { listDataSources } from '~/api-caller';
+import { FullScreenPanelContext } from '~/contexts';
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
@@ -56,29 +57,31 @@ export const ReadOnlyDashboard = observer(
     return (
       <ModalsProvider>
         <ModelContextProvider value={model}>
-          <LayoutStateContext.Provider
+          <FullScreenPanelContext.Provider
             value={{
-              layoutFrozen: true,
-              freezeLayout: _.noop,
-              inEditMode: false,
-              inUseMode: true,
+              fullScreenPanelID,
+              setFullScreenPanelID,
             }}
           >
-            <Box className={`${className} dashboard-root`}>
-              <PluginContext.Provider value={pluginContext}>
-                <ServiceLocatorProvider configure={configureServices}>
-                  {model.views.visibleViews.map((view) => (
-                    <ReadOnlyDashboardView
-                      key={view.id}
-                      view={view}
-                      fullScreenPanelID={fullScreenPanelID}
-                      setFullScreenPanelID={setFullScreenPanelID}
-                    />
-                  ))}
-                </ServiceLocatorProvider>
-              </PluginContext.Provider>
-            </Box>
-          </LayoutStateContext.Provider>
+            <LayoutStateContext.Provider
+              value={{
+                layoutFrozen: true,
+                freezeLayout: _.noop,
+                inEditMode: false,
+                inUseMode: true,
+              }}
+            >
+              <Box className={`${className} dashboard-root`}>
+                <PluginContext.Provider value={pluginContext}>
+                  <ServiceLocatorProvider configure={configureServices}>
+                    {model.views.visibleViews.map((view) => (
+                      <ReadOnlyDashboardView key={view.id} view={view} />
+                    ))}
+                  </ServiceLocatorProvider>
+                </PluginContext.Provider>
+              </Box>
+            </LayoutStateContext.Provider>
+          </FullScreenPanelContext.Provider>
         </ModelContextProvider>
       </ModalsProvider>
     );
