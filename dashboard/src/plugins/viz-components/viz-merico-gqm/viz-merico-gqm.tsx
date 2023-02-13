@@ -11,7 +11,7 @@ import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
 const BaseStyle: Sx = {
   height: '100%',
-  overflowY: 'scroll',
+  overflowY: 'auto',
   ...CommonHTMLContentStyle,
 };
 

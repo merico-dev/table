@@ -1,5 +1,5 @@
 .dashboard-root {
-  overflow: scroll;
+  overflow: auto;
   overflow-x: hidden;
   padding: 0;
   height: 100%;
@@ -9,7 +9,7 @@
   position: relative;
   height: 100%;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   -ms-overflow-style: initial !important;
 }
@@ -22,15 +22,16 @@
 }
 
 .mantine-RichTextEditor-root {
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
   -ms-overflow-style: initial !important;
 }
 
-*:not(.mantine-RichTextEditor-root):not(.dashboard-view):not(.mantine-Modal-body):not([data-enable-scrollbar])::-webkit-scrollbar {
+.dashboard-root
+  *:not(.mantine-RichTextEditor-root):not(.dashboard-view):not(.mantine-Modal-body):not([data-enable-scrollbar])::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
-*:not([data-enable-scrollbar]) {
+.dashboard-root *:not([data-enable-scrollbar]) {
   overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
