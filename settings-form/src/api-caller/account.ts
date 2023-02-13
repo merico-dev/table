@@ -13,9 +13,7 @@ export const account = {
   },
   list: async (): Promise<PaginationResponse<IAccount>> => {
     const res = await APIClient.getRequest('POST')('/account/list', {
-      filter: {
-        search: '',
-      },
+      filter: {},
       sort: {
         field: 'name',
         order: 'ASC',

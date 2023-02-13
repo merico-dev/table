@@ -48,12 +48,15 @@ export class ApiService {
       .addSelect('apikey.app_secret', 'app_secret')
       .addSelect('apikey.role_id', 'role_id')
       .addSelect('apikey.is_preset', 'is_preset')
+      .where('true')
       .orderBy(sort.field, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.search) {
-      qb.where('apikey.name ilike :nameSearch', { nameSearch: `%${escapeLikePattern(filter.search)}%` });
+    if (filter?.name) {
+      filter.name.isFuzzy
+        ? qb.andWhere('apikey.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
+        : qb.andWhere('apikey.name = :name', { name: filter.name.value });
     }
 
     const datasources = await qb.getRawMany<ApiKey>();

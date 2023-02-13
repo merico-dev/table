@@ -199,9 +199,9 @@ describe('DashboardController', () => {
       });
     });
 
-    it('with search filter', async () => {
+    it('with filters', async () => {
       const query: DashboardListRequest = {
-        filter: { search: 'dashboard' },
+        filter: { name: { value: 'dashboard', isFuzzy: true }, group: { value: '', isFuzzy: true }, is_removed: false },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       };
@@ -240,60 +240,9 @@ describe('DashboardController', () => {
       });
     });
 
-    it('with selection ALL filter', async () => {
+    it('with is_removed false filter', async () => {
       const query: DashboardListRequest = {
-        filter: { selection: 'ALL' },
-        pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
-      };
-      validate.mockReturnValueOnce(query);
-
-      const response = await server
-        .post('/dashboard/list')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
-
-      expect(response.body).toMatchObject({
-        total: 3,
-        offset: 0,
-        data: [
-          {
-            id: response.body.data[0].id,
-            name: 'dashboard1',
-            content: {},
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
-            is_removed: false,
-            is_preset: false,
-            group: '1',
-          },
-          {
-            id: response.body.data[1].id,
-            name: 'dashboard2',
-            content: {},
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
-            is_removed: false,
-            is_preset: false,
-            group: '2',
-          },
-          {
-            id: presetDashboard.id,
-            name: 'preset',
-            content: {},
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
-            is_removed: true,
-            is_preset: true,
-            group: '',
-          },
-        ],
-      });
-    });
-
-    it('with selection ACTIVE filter', async () => {
-      const query: DashboardListRequest = {
-        filter: { selection: 'ACTIVE' },
+        filter: { is_removed: false },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       };
@@ -332,9 +281,9 @@ describe('DashboardController', () => {
       });
     });
 
-    it('with selection REMOVED filter', async () => {
+    it('with is_removed true filter', async () => {
       const query: DashboardListRequest = {
-        filter: { selection: 'REMOVED' },
+        filter: { is_removed: true },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'name', order: 'ASC' },
       };

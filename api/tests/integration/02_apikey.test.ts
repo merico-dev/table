@@ -91,7 +91,7 @@ describe('ApiService', () => {
 
     it('with search filter', async () => {
       const keys = await apiService.listKeys(
-        { search: '6' },
+        { name: { value: '6', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );
@@ -115,7 +115,7 @@ describe('ApiService', () => {
   describe('deleteKey', () => {
     it('should delete successfully', async () => {
       let currentKeys = await apiService.listKeys(
-        { search: '6' },
+        { name: { value: '6', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );
@@ -138,7 +138,7 @@ describe('ApiService', () => {
       deletedKeyId = currentKeys.data[0].id;
 
       currentKeys = await apiService.listKeys(
-        { search: '6' },
+        { name: { value: '6', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );

@@ -21,24 +21,24 @@ export class DashboardService {
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(Dashboard, 'dashboard')
+      .where('true')
       .orderBy(`"${sort.field}"`, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
     if (filter !== undefined) {
-      if (filter.selection === 'ALL') {
-        qb.where('dashboard.is_removed in (true, false)');
-      } else if (filter.selection === 'REMOVED') {
-        qb.where('dashboard.is_removed = true');
-      } else {
-        qb.where('dashboard.is_removed = false');
+      if (filter.name) {
+        filter.name.isFuzzy
+          ? qb.andWhere('dashboard.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
+          : qb.andWhere('dashboard.name = :name', { name: filter.name.value });
       }
-
-      if (filter.search) {
-        qb.andWhere('dashboard.name ilike :nameSearch OR dashboard.group ilike :groupSearch', {
-          nameSearch: `%${escapeLikePattern(filter.search)}%`,
-          groupSearch: `%${escapeLikePattern(filter.search)}%`,
-        });
+      if (filter.group) {
+        filter.group.isFuzzy
+          ? qb.andWhere('dashboard.group ilike :group', { group: `%${escapeLikePattern(filter.group.value)}%` })
+          : qb.andWhere('dashboard.group = :group', { name: filter.group.value });
+      }
+      if (filter.is_removed !== undefined) {
+        qb.andWhere('dashboard.is_removed = :is_removed', { is_removed: filter.is_removed });
       }
     }
 

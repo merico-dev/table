@@ -38,15 +38,22 @@ export class DataSourceService {
       .addSelect('datasource.key', 'key')
       .addSelect('datasource.is_preset', 'is_preset')
       .addSelect('datasource.config', 'config')
+      .where('true')
       .orderBy(sort.field, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.search) {
-      qb.where('datasource.type ilike :typeSearch OR datasource.key ilike :keySearch', {
-        typeSearch: `%${escapeLikePattern(filter.search)}%`,
-        keySearch: `%${escapeLikePattern(filter.search)}%`,
-      });
+    if (filter !== undefined) {
+      if (filter.type) {
+        filter.type.isFuzzy
+          ? qb.andWhere('datasource.type ilike :type', { type: `%${escapeLikePattern(filter.type.value)}%` })
+          : qb.andWhere('datasource.type = :type', { type: filter.type.value });
+      }
+      if (filter.key) {
+        filter.key.isFuzzy
+          ? qb.andWhere('datasource.key ilike :key', { key: `%${escapeLikePattern(filter.key.value)}%` })
+          : qb.andWhere('datasource.key = :key', { key: filter.key.value });
+      }
     }
 
     const datasources = await qb.getRawMany<DataSource>();

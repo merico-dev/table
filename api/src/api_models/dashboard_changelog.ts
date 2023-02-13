@@ -1,7 +1,7 @@
-import { Type } from "class-transformer";
-import { IsIn, IsOptional, ValidateNested } from "class-validator";
-import { ApiModel, ApiModelProperty } from "swagger-express-ts";
-import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from "./base";
+import { Type } from 'class-transformer';
+import { IsIn, IsOptional, ValidateNested } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'DashboardChangelog entity',
@@ -9,8 +9,8 @@ import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, S
 })
 export class DashboardChangelog {
   @ApiModelProperty({
-    description : 'changelog ID in uuid format' ,
-    required : false,
+    description: 'changelog ID in uuid format',
+    required: false,
   })
   id: string;
 
@@ -37,18 +37,21 @@ export class DashboardChangelog {
   description: 'DashboardChangelog filter object',
   name: 'DashboardChangelogFilterObject',
 })
-export class DashboardChangelogFilterObject implements FilterRequest {
+export class DashboardChangelogFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses exact match search on dashboard_id',
+    description: 'Filter based on dashboard_id. isFuzzy is ignored and always filters on exact match',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  dashboard_id?: FilterObject;
 }
 
 @ApiModel({
   description: 'DashboardChangelog sort object',
-  name: 'DashboardChangelogSortObject'
+  name: 'DashboardChangelogSortObject',
 })
 export class DashboardChangelogSortObject implements SortRequest {
   @IsIn(['dashboard_id', 'create_time'])
@@ -57,7 +60,7 @@ export class DashboardChangelogSortObject implements SortRequest {
     required: true,
     enum: ['dashboard_id', 'create_time'],
   })
-  field: 'dashboard_id' | 'create_time' ;
+  field: 'dashboard_id' | 'create_time';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({

@@ -68,15 +68,22 @@ export class AccountService {
       .addSelect('account.name', 'name')
       .addSelect('account.email', 'email')
       .addSelect('account.role_id', 'role_id')
+      .where('true')
       .orderBy(sort.field, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.search) {
-      qb.where('account.name ilike :nameSearch OR account.email ilike :emailSearch', {
-        nameSearch: `%${escapeLikePattern(filter.search)}%`,
-        emailSearch: `%${escapeLikePattern(filter.search)}%`,
-      });
+    if (filter !== undefined) {
+      if (filter.name) {
+        filter.name.isFuzzy
+          ? qb.andWhere('account.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
+          : qb.andWhere('account.name = :name', { name: filter.name.value });
+      }
+      if (filter.email) {
+        filter.email.isFuzzy
+          ? qb.andWhere('account.email ilike :email', { email: `%${escapeLikePattern(filter.email.value)}%` })
+          : qb.andWhere('account.email = :email', { email: filter.email.value });
+      }
     }
 
     const datasources = await qb.getRawMany<Account>();

@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsOptional, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Job entity',
@@ -57,13 +57,26 @@ export class Job {
   description: 'Job filter object',
   name: 'JobFilterObject',
 })
-export class JobFilterObject implements FilterRequest {
+export class JobFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for type and status fields',
+    description: 'Filter based on type. Separate values with ;',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  type?: FilterObject;
+
+  @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Filter based on status. Separate values with ;',
+    required: false,
+    model: 'FilterObject',
+  })
+  status?: FilterObject;
 }
 
 @ApiModel({

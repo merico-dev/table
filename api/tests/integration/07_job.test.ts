@@ -239,7 +239,7 @@ describe('JobService', () => {
 
     it('with SUCCESS search filter', async () => {
       const results = await jobService.list(
-        { search: 'SUCCESS' },
+        { status: { value: 'SUCCESS', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );
@@ -351,7 +351,7 @@ describe('JobService', () => {
 
     it('with FAILED search filter', async () => {
       const results = await jobService.list(
-        { search: 'FAILED' },
+        { status: { value: 'FAILED', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         { field: 'create_time', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );

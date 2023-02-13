@@ -1,7 +1,7 @@
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Authentication, FilterRequest, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 
 @ApiModel({
   description: 'Dashboard entity',
@@ -62,22 +62,34 @@ export class Dashboard {
   description: 'Dashboard filter object',
   name: 'DashboardFilterObject',
 })
-export class DashboardFilterObject implements FilterRequest {
+export class DashboardFilterObject {
   @IsOptional()
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'search term. Uses fuzzy search for name and group',
+    description: 'Filter based on name',
     required: false,
+    model: 'FilterObject',
   })
-  search?: string;
+  name?: FilterObject;
 
   @IsOptional()
-  @IsIn(['ACTIVE', 'REMOVED', 'ALL'])
+  @Type(() => FilterObject)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'Types of dashboards to select',
+    description: 'Filter based on group',
     required: false,
-    enum: ['ACTIVE', 'REMOVED', 'ALL'],
+    model: 'FilterObject',
   })
-  selection?: 'ACTIVE' | 'REMOVED' | 'ALL';
+  group?: FilterObject;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'filter based on is_removed',
+    required: false,
+  })
+  is_removed?: boolean;
 }
 
 @ApiModel({

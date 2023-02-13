@@ -390,7 +390,7 @@ describe('AccountService', () => {
 
     it('with search filter', async () => {
       const results = await accountService.list(
-        { search: 'account' },
+        { name: { value: 'account', isFuzzy: true }, email: { value: 'account', isFuzzy: true } },
         { field: 'name', order: 'ASC' },
         { page: 1, pagesize: 20 },
       );

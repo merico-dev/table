@@ -199,9 +199,9 @@ describe('DashboardChangelogController', () => {
       changelogDashboardId = response.body.data[0].dashboard_id;
     });
 
-    it('with search filters', async () => {
+    it('with filters', async () => {
       const query: DashboardChangelogListRequest = {
-        filter: { search: changelogDashboardId },
+        filter: { dashboard_id: { value: changelogDashboardId, isFuzzy: false } },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'create_time', order: 'ASC' },
       };

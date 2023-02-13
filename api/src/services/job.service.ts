@@ -137,15 +137,26 @@ export class JobService {
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(Job, 'job')
+      .where('true')
       .orderBy(sort.field, sort.order)
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.search) {
-      qb.where('job.type ilike :typeSearch OR job.status ilike :keySearch', {
-        typeSearch: `%${escapeLikePattern(filter.search)}%`,
-        keySearch: `%${escapeLikePattern(filter.search)}%`,
-      });
+    if (filter !== undefined) {
+      if (filter.type) {
+        filter.type.isFuzzy
+          ? qb.andWhere('job.type ilike ANY(:type)', {
+              type: filter.type.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
+            })
+          : qb.andWhere('job.type = ANY(:type)', { type: filter.type.value.split(';') });
+      }
+      if (filter.status) {
+        filter.status.isFuzzy
+          ? qb.andWhere('job.status ilike ANY(:status)', {
+              status: filter.status.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
+            })
+          : qb.andWhere('job.status = ANY(:status)', { status: filter.status.value.split(';') });
+      }
     }
 
     const jobs = await qb.getRawMany<Job>();

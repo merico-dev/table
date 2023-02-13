@@ -220,9 +220,9 @@ describe('DataSourceController', () => {
       });
     });
 
-    it('with search filter', async () => {
+    it('with filter', async () => {
       const query: DataSourceListRequest = {
-        filter: { search: 'preset' },
+        filter: { key: { value: 'preset', isFuzzy: true }, type: { value: 'sql', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
         sort: { field: 'key', order: 'ASC' },
       };
