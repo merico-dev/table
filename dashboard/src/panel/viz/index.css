@@ -1,6 +1,6 @@
 .viz-root {
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
   flex-grow: 1;
   background-color: white;
 }
