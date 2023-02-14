@@ -1,6 +1,7 @@
 import { Stack, Tabs } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import { QueryModelInstance } from '../../model/queries';
 import { QueryConfigurations } from './configurations';
 import { DataPreview } from './data-preview';
@@ -18,9 +19,16 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
   const tabsStyles = width >= 1440 ? { tabLabel: { width: '100%' } } : {};
   const tabsPadding = width >= 1440 ? 'sm' : 0;
 
+  const defaultTab = useMemo(() => {
+    if (!queryModel.datasource) {
+      return 'Configurations';
+    }
+    return queryModel.typedAsHTTP ? 'HTTP' : 'SQL';
+  }, [queryModel.datasource, queryModel.typedAsHTTP]);
+
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue={queryModel.typedAsHTTP ? 'HTTP' : 'SQL'} orientation={tabsOrientation} styles={tabsStyles}>
+      <Tabs defaultValue={defaultTab} orientation={tabsOrientation} styles={tabsStyles}>
         <Tabs.List grow={tabsOrientation === 'horizontal'}>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
