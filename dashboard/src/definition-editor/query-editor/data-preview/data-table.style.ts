@@ -2,6 +2,7 @@ import { Sx } from '@mantine/core';
 
 export const TableStyle: Sx = {
   width: 'fit-content',
+  minWidth: '100%',
   tableLayout: 'fixed',
 
   tr: {
