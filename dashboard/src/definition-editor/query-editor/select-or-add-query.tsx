@@ -44,7 +44,7 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID 
 
   return (
     <Group grow sx={{ width: '100%' }}>
-      <Group position="left" sx={{ flexGrow: 1, alignItems: 'baseline' }}>
+      <Group pl={16} position="left" sx={{ flexGrow: 1, alignItems: 'baseline' }}>
         <Text>Select a Query</Text>
         <Select
           data={model.queries.options}
@@ -53,7 +53,8 @@ export const SelectOrAddQuery = observer(function _SelectOrAddQuery({ id, setID 
           onChange={setID}
           allowDeselect={false}
           clearable={false}
-          sx={{ flexGrow: 1, maxWidth: '500px' }}
+          // @ts-expect-error important
+          sx={{ flexGrow: '1 !important', maxWidth: '500px' }}
         />
         <Text>or</Text>
         <Group position="center" mt="md">

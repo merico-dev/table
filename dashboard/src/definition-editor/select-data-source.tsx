@@ -48,6 +48,7 @@ export const SelectDataSource = observer(function _SelectDataSource({ value, onC
       data={dataSourceOptions}
       itemComponent={DataSourceLabel}
       sx={{ flex: 1 }}
+      required
       disabled={loading}
       value={value.key}
       onChange={(key) => {
