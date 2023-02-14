@@ -86,6 +86,10 @@ export class AccountService {
       }
     }
 
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(s.field, s.order);
+    });
+
     const datasources = await qb.getRawMany<Account>();
     const total = await qb.getCount();
     return {
