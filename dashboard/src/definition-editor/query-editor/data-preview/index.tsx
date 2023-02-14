@@ -6,7 +6,7 @@ import { ArrowBarToRight, Refresh } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { useModelContext } from '../../../contexts';
 import { QueryStateMessage } from '../query-state-message';
-import './index.css';
+import { TableStyle } from './index.style';
 
 function DataTable({ data }: { data: AnyObject[] }) {
   const columns = useMemo(() => {
@@ -31,7 +31,7 @@ function DataTable({ data }: { data: AnyObject[] }) {
     return <Box sx={{ height: '5em' }} />;
   }
   return (
-    <Table sx={{ tableLayout: 'fixed' }}>
+    <Table sx={TableStyle}>
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
