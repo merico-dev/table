@@ -1,4 +1,4 @@
-import { Stack, Tabs } from '@mantine/core';
+import { Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
@@ -33,7 +33,11 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
           {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
-          <Tabs.Tab value="Data">Data</Tabs.Tab>
+          <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
+            <Tooltip label={!queryModel.datasource ? 'Need to pick a Data Source first' : ''} withinPortal>
+              <Text>Data</Text>
+            </Tooltip>
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Configurations" pt={0} p={tabsPadding}>
