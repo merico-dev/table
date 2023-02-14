@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { Refresh } from 'tabler-icons-react';
+import { Download, Refresh } from 'tabler-icons-react';
 import { useModelContext } from '../../../contexts';
 import { QueryStateMessage } from '../query-state-message';
 import { DataTable } from './data-table';
@@ -13,6 +13,9 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
   const refresh = () => {
     model.queries.refetchDataByQueryID(id);
   };
+  const download = () => {
+    model.queries.downloadDataByQueryID(id);
+  };
   const firstTenRows = useMemo(() => {
     if (!Array.isArray(data)) {
       return [];
@@ -20,6 +23,7 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
     return data.slice(0, 10);
   }, [data]);
 
+  const dataEmpty = !Array.isArray(data) || data.length === 0;
   return (
     <Stack sx={{ border: '1px solid #eee' }}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
@@ -31,9 +35,14 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
             </Text>
           )}
         </Group>
-        <ActionIcon mr={15} variant="subtle" color="blue" disabled={loading} onClick={refresh}>
-          <Refresh size={15} />
-        </ActionIcon>
+        <Group pr={15}>
+          <ActionIcon variant="subtle" color="blue" disabled={loading} onClick={refresh}>
+            <Refresh size={15} />
+          </ActionIcon>
+          <ActionIcon variant="subtle" color="blue" disabled={loading || dataEmpty} onClick={download}>
+            <Download size={15} />
+          </ActionIcon>
+        </Group>
       </Group>
       <Box sx={{ position: 'relative', overflow: 'auto' }}>
         <LoadingOverlay visible={loading} />

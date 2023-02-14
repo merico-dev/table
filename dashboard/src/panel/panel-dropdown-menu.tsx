@@ -51,7 +51,10 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
             <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>
               Refresh
             </Menu.Item>
-            <Menu.Item onClick={() => model.queries.downloadDataByQueryID(query)} icon={<Download size={14} />}>
+            <Menu.Item
+              onClick={() => model.queries.downloadDataByQueryID(query?.id ?? '')}
+              icon={<Download size={14} />}
+            >
               Download Data
             </Menu.Item>
             {showFullScreenOption && (
