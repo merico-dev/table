@@ -6,7 +6,9 @@ import { PaginationResponse } from './types';
 export const DashboardAPI = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
     return await post('/dashboard/list', {
-      filter: {},
+      filter: {
+        is_removed: false,
+      },
       sort: [
         {
           field: 'create_time',
