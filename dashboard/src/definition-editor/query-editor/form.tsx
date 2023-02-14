@@ -28,7 +28,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
 
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue={defaultTab} orientation={tabsOrientation} styles={tabsStyles}>
+      <Tabs defaultValue={defaultTab} orientation={tabsOrientation} styles={tabsStyles} keepMounted={false}>
         <Tabs.List grow={tabsOrientation === 'horizontal'}>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
@@ -55,7 +55,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
           </Tabs.Panel>
         )}
 
-        <Tabs.Panel value="Data" pt={0} p={tabsPadding}>
+        <Tabs.Panel value="Data" pt={0} p={tabsPadding} sx={{ overflow: 'hidden' }}>
           <DataPreview id={queryModel.id} />
         </Tabs.Panel>
       </Tabs>
