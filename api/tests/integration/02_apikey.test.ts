@@ -32,7 +32,7 @@ describe('ApiService', () => {
 
   describe('listKeys', () => {
     it('no filters', async () => {
-      const keys = await apiService.listKeys(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const keys = await apiService.listKeys(undefined, [{ field: 'name', order: 'ASC' }], { page: 1, pagesize: 20 });
       expect(keys).toMatchObject({
         total: 6,
         offset: 0,
@@ -92,7 +92,7 @@ describe('ApiService', () => {
     it('with search filter', async () => {
       const keys = await apiService.listKeys(
         { name: { value: '6', isFuzzy: true } },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(keys).toMatchObject({
@@ -116,7 +116,7 @@ describe('ApiService', () => {
     it('should delete successfully', async () => {
       let currentKeys = await apiService.listKeys(
         { name: { value: '6', isFuzzy: true } },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(currentKeys).toMatchObject({
@@ -139,7 +139,7 @@ describe('ApiService', () => {
 
       currentKeys = await apiService.listKeys(
         { name: { value: '6', isFuzzy: true } },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(currentKeys).toMatchObject({

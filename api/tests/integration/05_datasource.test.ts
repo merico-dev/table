@@ -74,11 +74,10 @@ describe('DataSourceService', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const datasources = await datasourceService.list(
-        undefined,
-        { field: 'create_time', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
+      const datasources = await datasourceService.list(undefined, [{ field: 'create_time', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      });
       expect(datasources).toMatchObject({
         total: 4,
         offset: 0,
@@ -114,7 +113,7 @@ describe('DataSourceService', () => {
     it('with search filter', async () => {
       const datasources = await datasourceService.list(
         { key: { value: 'pg_2', isFuzzy: true }, type: { value: '', isFuzzy: true } },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(datasources).toMatchObject({
@@ -191,11 +190,10 @@ describe('DataSourceService', () => {
     it('should delete successfully', async () => {
       await datasourceService.delete(pgDatasource.id, DEFAULT_LANGUAGE);
       await datasourceService.delete(httpDatasource.id, DEFAULT_LANGUAGE);
-      const datasources = await datasourceService.list(
-        undefined,
-        { field: 'create_time', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
+      const datasources = await datasourceService.list(undefined, [{ field: 'create_time', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      });
       expect(datasources).toMatchObject({
         total: 2,
         offset: 0,

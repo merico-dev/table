@@ -6,10 +6,12 @@ export const datasource = {
   list: async (): Promise<PaginationResponse<IDataSource>> => {
     return await APIClient.getRequest('POST')('/datasource/list', {
       filter: {},
-      sort: {
-        field: 'create_time',
-        order: 'ASC',
-      },
+      sort: [
+        {
+          field: 'create_time',
+          order: 'ASC',
+        },
+      ],
       pagination: {
         page: 1,
         pagesize: 100,

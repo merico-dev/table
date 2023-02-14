@@ -140,7 +140,7 @@ export class DashboardListRequest {
     required: true,
     model: 'DashboardSortObject',
   })
-  sort: DashboardSortObject = new DashboardSortObject({ field: 'create_time', order: 'ASC' });
+  sort: DashboardSortObject[] = [new DashboardSortObject({ field: 'create_time', order: 'ASC' })];
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

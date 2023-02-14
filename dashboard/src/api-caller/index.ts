@@ -82,10 +82,12 @@ export async function listDataSources(): Promise<IDataSource[]> {
   try {
     const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {
       filter: {},
-      sort: {
-        field: 'create_time',
-        order: 'ASC',
-      },
+      sort: [
+        {
+          field: 'create_time',
+          order: 'ASC',
+        },
+      ],
       pagination: {
         page: 1,
         pagesize: 100,

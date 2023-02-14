@@ -110,7 +110,7 @@ export class ApiKeyListRequest {
     required: true,
     model: 'ApiKeySortObject',
   })
-  sort: ApiKeySortObject = new ApiKeySortObject({ field: 'create_time', order: 'ASC' });
+  sort: ApiKeySortObject[] = [new ApiKeySortObject({ field: 'create_time', order: 'ASC' })];
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

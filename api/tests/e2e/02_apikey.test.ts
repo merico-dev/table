@@ -90,13 +90,13 @@ describe('APIController', () => {
     it('no filters', async () => {
       const authentication = createAuthStruct(presetKey, {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       });
       validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
         authentication,
       };
       validate.mockReturnValueOnce(query);
@@ -140,14 +140,14 @@ describe('APIController', () => {
       const authentication = createAuthStruct(presetKey, {
         filter: { name: { value: 'preset', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       });
       validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
         filter: { name: { value: 'preset', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
         authentication,
       };
       validate.mockReturnValueOnce(query);
@@ -190,13 +190,13 @@ describe('APIController', () => {
 
       const authentication2 = createAuthStruct(presetKey, {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       });
       validate.mockReturnValueOnce(authentication2);
 
       const listQuery: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
         authentication: authentication2,
       };
       validate.mockReturnValueOnce(listQuery);

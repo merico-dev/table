@@ -247,7 +247,7 @@ describe('AccountService', () => {
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      let results = await accountService.list(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      let results = await accountService.list(undefined, [{ field: 'name', order: 'ASC' }], { page: 1, pagesize: 20 });
       expect(results).toMatchObject({
         total: 6,
         offset: 0,
@@ -293,7 +293,7 @@ describe('AccountService', () => {
 
       await accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
 
-      results = await accountService.list(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      results = await accountService.list(undefined, [{ field: 'name', order: 'ASC' }], { page: 1, pagesize: 20 });
       expect(results).toMatchObject({
         total: 5,
         offset: 0,
@@ -349,7 +349,10 @@ describe('AccountService', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const results = await accountService.list(undefined, { field: 'name', order: 'ASC' }, { page: 1, pagesize: 20 });
+      const results = await accountService.list(undefined, [{ field: 'name', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      });
       expect(results).toMatchObject({
         total: 5,
         offset: 0,
@@ -391,7 +394,7 @@ describe('AccountService', () => {
     it('with search filter', async () => {
       const results = await accountService.list(
         { name: { value: 'account', isFuzzy: true }, email: { value: 'account', isFuzzy: true } },
-        { field: 'name', order: 'ASC' },
+        [{ field: 'name', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(results).toMatchObject({

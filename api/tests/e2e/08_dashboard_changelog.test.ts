@@ -33,7 +33,7 @@ describe('DashboardChangelogController', () => {
     it('no filters', async () => {
       const query: DashboardChangelogListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' },
+        sort: [{ field: 'create_time', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -203,7 +203,7 @@ describe('DashboardChangelogController', () => {
       const query: DashboardChangelogListRequest = {
         filter: { dashboard_id: { value: changelogDashboardId, isFuzzy: false } },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' },
+        sort: [{ field: 'create_time', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 

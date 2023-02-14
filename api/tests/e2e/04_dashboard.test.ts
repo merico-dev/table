@@ -152,7 +152,7 @@ describe('DashboardController', () => {
     it('no filters', async () => {
       const query: DashboardListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -203,7 +203,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { name: { value: 'dashboard', isFuzzy: true }, group: { value: '', isFuzzy: true }, is_removed: false },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -244,7 +244,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { is_removed: false },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -285,7 +285,7 @@ describe('DashboardController', () => {
       const query: DashboardListRequest = {
         filter: { is_removed: true },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 

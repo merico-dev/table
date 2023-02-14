@@ -77,7 +77,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: AccountListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { name: { value: '', isFuzzy: true }, email: { value: '', isFuzzy: true } },
         };
 
@@ -89,7 +89,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(AccountListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -107,7 +107,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
@@ -367,7 +367,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: ApiKeyListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { name: { value: '', isFuzzy: true } },
         };
 
@@ -379,7 +379,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(ApiKeyListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -397,7 +397,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
@@ -506,7 +506,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { group: { value: '', isFuzzy: true }, name: { value: '', isFuzzy: true }, is_removed: false },
         };
 
@@ -518,7 +518,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(DashboardListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -536,7 +536,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
@@ -726,7 +726,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DataSourceListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { key: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
@@ -738,7 +738,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(DataSourceListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -756,7 +756,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
@@ -925,7 +925,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: JobListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { status: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
@@ -937,7 +937,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(JobListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -955,7 +955,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },
@@ -1140,7 +1140,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardChangelogListRequest = {
           pagination: { page: 1, pagesize: 20 },
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           filter: { dashboard_id: { value: '', isFuzzy: true } },
         };
 
@@ -1152,7 +1152,7 @@ describe('validation', () => {
         const data = {};
         const result = validate(DashboardChangelogListRequest, data);
         expect(result).toMatchObject({
-          sort: { field: 'create_time', order: 'ASC' },
+          sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
         });
       });
@@ -1170,7 +1170,7 @@ describe('validation', () => {
           expect(error.detail.errors).toMatchObject([
             {
               target: {
-                sort: { field: 'create_time', order: 'ASC' },
+                sort: [{ field: 'create_time', order: 'ASC' }],
                 pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
               },
               value: { incorrect_page: 1, incorrect_pageSize: 20 },

@@ -8,10 +8,12 @@ export const api_key = {
       filter: {
         search: '',
       },
-      sort: {
-        field: 'name',
-        order: 'ASC',
-      },
+      sort: [
+        {
+          field: 'name',
+          order: 'ASC',
+        },
+      ],
       pagination: {
         page: 1,
         pagesize: 100,

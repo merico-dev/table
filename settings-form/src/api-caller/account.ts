@@ -14,10 +14,12 @@ export const account = {
   list: async (): Promise<PaginationResponse<IAccount>> => {
     const res = await APIClient.getRequest('POST')('/account/list', {
       filter: {},
-      sort: {
-        field: 'name',
-        order: 'ASC',
-      },
+      sort: [
+        {
+          field: 'name',
+          order: 'ASC',
+        },
+      ],
       pagination: {
         page: 1,
         pagesize: 100,
