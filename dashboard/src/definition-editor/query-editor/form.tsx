@@ -34,7 +34,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
           {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
           <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
-            <Tooltip label={!queryModel.datasource ? 'Need to pick a Data Source first' : ''} withinPortal>
+            <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>
               <Text>Data</Text>
             </Tooltip>
           </Tabs.Tab>
