@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Refresh } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
+import { QueryStateMessage } from './query-state-message';
 
 function DataTable({ data }: { data: $TSFixMe[] }) {
   if (data.length === 0) {
@@ -62,6 +63,7 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
       </Group>
       <Box sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading} />
+        <QueryStateMessage queryID={id} />
         <DataTable data={data} />
       </Box>
     </Stack>
