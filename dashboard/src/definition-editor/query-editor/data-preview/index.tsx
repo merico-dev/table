@@ -1,67 +1,10 @@
-import { ActionIcon, Box, Group, LoadingOverlay, Stack, Table, Text } from '@mantine/core';
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React, { useMemo } from 'react';
-import { ArrowBarToRight, Refresh } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
+import { useMemo } from 'react';
+import { Refresh } from 'tabler-icons-react';
 import { useModelContext } from '../../../contexts';
 import { QueryStateMessage } from '../query-state-message';
-import { TableStyle } from './index.style';
-
-function DataTable({ data }: { data: AnyObject[] }) {
-  const columns = useMemo(() => {
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
-    }
-    const columnHelper = createColumnHelper<AnyObject>();
-    return Object.keys(data[0]).map((k) => {
-      return columnHelper.accessor(k, {
-        cell: (info) => info.getValue(),
-      });
-    });
-  }, [data]);
-
-  const table = useReactTable({
-    data,
-    columns,
-    columnResizeMode: 'onChange',
-    getCoreRowModel: getCoreRowModel(),
-  });
-  if (data.length === 0) {
-    return <Box sx={{ height: '5em' }} />;
-  }
-  return (
-    <Table sx={TableStyle}>
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id} style={{ width: header.getSize() }}>
-                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                <ActionIcon
-                  onMouseDown={header.getResizeHandler()}
-                  onTouchStart={header.getResizeHandler()}
-                  className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
-                >
-                  <ArrowBarToRight />
-                </ActionIcon>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
-}
+import { DataTable } from './data-table';
 
 export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {
   const model = useModelContext();
