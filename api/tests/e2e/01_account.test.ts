@@ -206,7 +206,7 @@ describe('AccountController', () => {
     it('no filters', async () => {
       const query: AccountListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -245,7 +245,7 @@ describe('AccountController', () => {
       const query: AccountListRequest = {
         filter: { name: { value: 'account', isFuzzy: true }, email: { value: 'account', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 

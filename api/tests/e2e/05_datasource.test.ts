@@ -185,7 +185,7 @@ describe('DataSourceController', () => {
     it('no filters', async () => {
       const query: DataSourceListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' },
+        sort: [{ field: 'key', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -224,7 +224,7 @@ describe('DataSourceController', () => {
       const query: DataSourceListRequest = {
         filter: { key: { value: 'preset', isFuzzy: true }, type: { value: 'sql', isFuzzy: true } },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' },
+        sort: [{ field: 'key', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -322,7 +322,7 @@ describe('DataSourceController', () => {
 
       const query: DataSourceListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'key', order: 'ASC' },
+        sort: [{ field: 'key', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 

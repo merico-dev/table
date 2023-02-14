@@ -57,7 +57,7 @@ export class AccountService {
 
   async list(
     filter: AccountFilterObject | undefined,
-    sort: AccountSortObject,
+    sort: AccountSortObject[],
     pagination: PaginationRequest,
   ): Promise<AccountPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -69,7 +69,7 @@ export class AccountService {
       .addSelect('account.email', 'email')
       .addSelect('account.role_id', 'role_id')
       .where('true')
-      .orderBy(sort.field, sort.order)
+      .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 

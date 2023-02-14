@@ -35,11 +35,10 @@ describe('DashboardService', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const results = await dashboardService.list(
-        undefined,
-        { field: 'name', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
+      const results = await dashboardService.list(undefined, [{ field: 'name', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      });
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -111,7 +110,7 @@ describe('DashboardService', () => {
     it('with filter', async () => {
       const results = await dashboardService.list(
         { group: { value: '2', isFuzzy: true }, name: { value: '3', isFuzzy: true }, is_removed: false },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
       expect(results).toMatchObject({

@@ -37,7 +37,7 @@ export class DashboardChangelogService {
 
   async list(
     filter: DashboardChangelogFilterObject | undefined,
-    sort: DashboardChangelogSortObject,
+    sort: DashboardChangelogSortObject[],
     pagination: PaginationRequest,
   ): Promise<DashboardChangelogPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -49,13 +49,17 @@ export class DashboardChangelogService {
       .addSelect('diff', 'diff')
       .addSelect('create_time', 'create_time')
       .where('true')
-      .orderBy(sort.field, sort.order)
+      .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
     if (filter?.dashboard_id) {
       qb.andWhere('dc.dashboard_id = :dashboard_id', { dashboard_id: filter.dashboard_id.value });
     }
+
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(s.field, s.order);
+    });
 
     const dashboardChangelogs = await qb.getRawMany<DashboardChangelog>();
     const total = await qb.getCount();

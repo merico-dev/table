@@ -26,7 +26,7 @@ export class DataSourceService {
 
   async list(
     filter: DataSourceFilterObject | undefined,
-    sort: DataSourceSortObject,
+    sort: DataSourceSortObject[],
     pagination: PaginationRequest,
   ): Promise<DataSourcePaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -39,7 +39,7 @@ export class DataSourceService {
       .addSelect('datasource.is_preset', 'is_preset')
       .addSelect('datasource.config', 'config')
       .where('true')
-      .orderBy(sort.field, sort.order)
+      .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -55,6 +55,10 @@ export class DataSourceService {
           : qb.andWhere('datasource.key = :key', { key: filter.key.value });
       }
     }
+
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(s.field, s.order);
+    });
 
     const datasources = await qb.getRawMany<DataSource>();
     const total = await qb.getCount();

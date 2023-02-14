@@ -97,7 +97,7 @@ export class DashboardChangelogListRequest {
     required: true,
     model: 'DashboardChangelogSortObject',
   })
-  sort: DashboardChangelogSortObject = new DashboardChangelogSortObject({ field: 'create_time', order: 'ASC' });
+  sort: DashboardChangelogSortObject[] = [new DashboardChangelogSortObject({ field: 'create_time', order: 'ASC' })];
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

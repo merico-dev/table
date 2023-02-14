@@ -173,7 +173,7 @@ describe('JobController', () => {
     it('no filters', async () => {
       const query: JobListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' },
+        sort: [{ field: 'create_time', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -253,7 +253,7 @@ describe('JobController', () => {
           is_removed: false,
         },
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'name', order: 'ASC' },
+        sort: [{ field: 'name', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 
@@ -334,7 +334,7 @@ describe('JobController', () => {
     it('list jobs', async () => {
       const query: JobListRequest = {
         pagination: { page: 1, pagesize: 20 },
-        sort: { field: 'create_time', order: 'ASC' },
+        sort: [{ field: 'create_time', order: 'ASC' }],
       };
       validate.mockReturnValueOnce(query);
 

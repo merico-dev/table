@@ -12,11 +12,10 @@ describe('DashboardChangelogService', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const results = await dashboardChangelogService.list(
-        undefined,
-        { field: 'create_time', order: 'ASC' },
-        { page: 1, pagesize: 20 },
-      );
+      const results = await dashboardChangelogService.list(undefined, [{ field: 'create_time', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      });
 
       expect(results).toMatchObject({
         total: 11,
@@ -249,7 +248,7 @@ describe('DashboardChangelogService', () => {
     it('with search filter', async () => {
       const results = await dashboardChangelogService.list(
         { dashboard_id: { value: changelogDashboardId, isFuzzy: true } },
-        { field: 'create_time', order: 'ASC' },
+        [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
 

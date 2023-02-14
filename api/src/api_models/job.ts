@@ -127,7 +127,7 @@ export class JobListRequest {
     required: true,
     model: 'JobSortObject',
   })
-  sort: JobSortObject = new JobSortObject({ field: 'create_time', order: 'ASC' });
+  sort: JobSortObject[] = [new JobSortObject({ field: 'create_time', order: 'ASC' })];
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

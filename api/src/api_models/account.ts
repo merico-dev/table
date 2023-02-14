@@ -158,7 +158,7 @@ export class AccountListRequest {
     required: true,
     model: 'AccountSortObject',
   })
-  sort: AccountSortObject = new AccountSortObject({ field: 'create_time', order: 'ASC' });
+  sort: AccountSortObject[] = [new AccountSortObject({ field: 'create_time', order: 'ASC' })];
 
   @Type(() => PaginationRequest)
   @ValidateNested({ each: true })

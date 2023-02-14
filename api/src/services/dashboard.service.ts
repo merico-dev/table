@@ -14,7 +14,7 @@ import { translate } from '../utils/i18n';
 export class DashboardService {
   async list(
     filter: DashboardFilterObject | undefined,
-    sort: DashboardSortObject,
+    sort: DashboardSortObject[],
     pagination: PaginationRequest,
   ): Promise<DashboardPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -22,7 +22,7 @@ export class DashboardService {
       .createQueryBuilder()
       .from(Dashboard, 'dashboard')
       .where('true')
-      .orderBy(`"${sort.field}"`, sort.order)
+      .orderBy(`"${sort[0].field}"`, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -41,6 +41,10 @@ export class DashboardService {
         qb.andWhere('dashboard.is_removed = :is_removed', { is_removed: filter.is_removed });
       }
     }
+
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(`"${s.field}"`, s.order);
+    });
 
     const dashboards = await qb.getRawMany<Dashboard>();
     const total = await qb.getCount();

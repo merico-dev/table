@@ -35,7 +35,7 @@ export class ApiService {
 
   async listKeys(
     filter: ApiKeyFilterObject | undefined,
-    sort: ApiKeySortObject,
+    sort: ApiKeySortObject[],
     pagination: PaginationRequest,
   ): Promise<ApiKeyPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -49,7 +49,7 @@ export class ApiService {
       .addSelect('apikey.role_id', 'role_id')
       .addSelect('apikey.is_preset', 'is_preset')
       .where('true')
-      .orderBy(sort.field, sort.order)
+      .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -58,6 +58,10 @@ export class ApiService {
         ? qb.andWhere('apikey.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
         : qb.andWhere('apikey.name = :name', { name: filter.name.value });
     }
+
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(s.field, s.order);
+    });
 
     const datasources = await qb.getRawMany<ApiKey>();
     const total = await qb.getCount();

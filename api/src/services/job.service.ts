@@ -130,7 +130,7 @@ export class JobService {
 
   async list(
     filter: JobFilterObject | undefined,
-    sort: JobSortObject,
+    sort: JobSortObject[],
     pagination: PaginationRequest,
   ): Promise<JobPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
@@ -138,7 +138,7 @@ export class JobService {
       .createQueryBuilder()
       .from(Job, 'job')
       .where('true')
-      .orderBy(sort.field, sort.order)
+      .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -158,6 +158,10 @@ export class JobService {
           : qb.andWhere('job.status = ANY(:status)', { status: filter.status.value.split(';') });
       }
     }
+
+    sort.slice(1).forEach((s) => {
+      qb.addOrderBy(s.field, s.order);
+    });
 
     const jobs = await qb.getRawMany<Job>();
     const total = await qb.getCount();
