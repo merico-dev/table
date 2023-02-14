@@ -12,9 +12,9 @@ export const EditQueries = observer(function _EditQueries() {
     <AppShell
       sx={{
         height: '90vh',
-        maxHeight: 'calc(100vh - 225px)',
+        maxHeight: 'calc(100vh - 241px)',
         '.mantine-AppShell-body': { height: '100%' },
-        main: { height: '100%', width: '100%', padding: 0, margin: 0 },
+        main: { minHeight: 'unset', height: '100%', width: '100%', padding: 0, margin: 0 },
       }}
       padding="md"
     >

@@ -1,6 +1,7 @@
-import { Stack, Tabs } from '@mantine/core';
+import { Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import { QueryModelInstance } from '../../model/queries';
 import { QueryConfigurations } from './configurations';
 import { DataPreview } from './data-preview';
@@ -18,14 +19,25 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
   const tabsStyles = width >= 1440 ? { tabLabel: { width: '100%' } } : {};
   const tabsPadding = width >= 1440 ? 'sm' : 0;
 
+  const defaultTab = useMemo(() => {
+    if (!queryModel.datasource) {
+      return 'Configurations';
+    }
+    return queryModel.typedAsHTTP ? 'HTTP' : 'SQL';
+  }, [queryModel.datasource, queryModel.typedAsHTTP]);
+
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue={queryModel.typedAsHTTP ? 'HTTP' : 'SQL'} orientation={tabsOrientation} styles={tabsStyles}>
+      <Tabs defaultValue={defaultTab} orientation={tabsOrientation} styles={tabsStyles} keepMounted={false}>
         <Tabs.List grow={tabsOrientation === 'horizontal'}>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
           {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
-          <Tabs.Tab value="Data">Data</Tabs.Tab>
+          <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
+            <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>
+              <Text>Data</Text>
+            </Tooltip>
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Configurations" pt={0} p={tabsPadding}>
@@ -43,7 +55,7 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
           </Tabs.Panel>
         )}
 
-        <Tabs.Panel value="Data" pt={0} p={tabsPadding}>
+        <Tabs.Panel value="Data" pt={0} p={tabsPadding} sx={{ overflow: 'hidden' }}>
           <DataPreview id={queryModel.id} />
         </Tabs.Panel>
       </Tabs>

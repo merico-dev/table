@@ -49,7 +49,8 @@ export const QueriesModel = types
         }));
         downloadDataListAsZip(idDataList);
       },
-      downloadDataByQueryID(query?: QueryModelInstance) {
+      downloadDataByQueryID(id: string) {
+        const query = self.findByID(id);
         if (!query) {
           console.log(`[downloadDataByQueryID] query not found`);
           return;
