@@ -56,7 +56,7 @@ export function ReferenceLineField({
         name={`reference_lines.${index}.template`}
         control={control}
         render={({ field }) => (
-          <TextInput label="Content Template" placeholder="Average: ${avg}" required sx={{ flex: 1 }} {...field} />
+          <TextInput label="Content Template" placeholder="Average: ${avg}" sx={{ flex: 1 }} {...field} />
         )}
       />
       <Group grow>

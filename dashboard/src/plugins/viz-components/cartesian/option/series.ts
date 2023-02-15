@@ -47,6 +47,9 @@ function getReferenceLines(
         lineStyle: r.lineStyle,
         label: {
           formatter: function () {
+            if (!r.template) {
+              return '';
+            }
             return templateToString(r.template, variables, data);
           },
           position,
