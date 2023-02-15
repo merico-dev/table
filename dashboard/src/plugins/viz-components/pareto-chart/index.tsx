@@ -63,8 +63,20 @@ function v6(legacyConf: $TSFixMe): IParetoChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v7(legacyConf: $TSFixMe): IParetoChartConf {
+  const patch = {
+    bar: {
+      nameAlignment: 'left',
+    },
+    line: {
+      nameAlignment: 'right',
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 6;
+  readonly VERSION = 7;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -108,6 +120,13 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: v6(data.config),
       };
     });
+    this.version(7, (data) => {
+      return {
+        ...data,
+        version: 7,
+        config: v7(data.config),
+      };
+    });
   }
 }
 
@@ -119,7 +138,7 @@ export const ParetoChartVizComponent: VizComponent = {
   configRender: VizParetoChartPanel,
   createConfig() {
     return {
-      version: 6,
+      version: 7,
       config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
     };
   },

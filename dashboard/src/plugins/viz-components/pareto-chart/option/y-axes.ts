@@ -8,7 +8,7 @@ export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) 
       nameGap: 20,
       nameTextStyle: {
         fontWeight: 'bold',
-        align: 'right',
+        align: conf.bar.nameAlignment,
       },
       position: 'left',
       axisLine: {
@@ -27,7 +27,7 @@ export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) 
       nameGap: 20,
       nameTextStyle: {
         fontWeight: 'bold',
-        align: 'center',
+        align: conf.line.nameAlignment,
       },
       position: 'right',
       axisLine: {
