@@ -1,11 +1,11 @@
 import { ColorInput } from '@mantine/core';
 import { TSeriesColor, TSeriesColor_Static } from './types';
 
-interface IStaticScatterSizeField {
+interface IStaticSeriesColorField {
   value: TSeriesColor;
   onChange: (v: TSeriesColor) => void;
 }
-export const StaticScatterSizeField = ({ value, onChange }: IStaticScatterSizeField) => {
+export const StaticSeriesColorField = ({ value, onChange }: IStaticSeriesColorField) => {
   if (value.type !== 'static') {
     return null;
   }
@@ -16,5 +16,5 @@ export const StaticScatterSizeField = ({ value, onChange }: IStaticScatterSizeFi
       color,
     });
   };
-  return <ColorInput format="rgb" value={value.color} onChange={handleChange} />;
+  return <ColorInput label=" " format="rgb" value={value.color} onChange={handleChange} />;
 };

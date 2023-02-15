@@ -2,7 +2,7 @@ import { Select, SimpleGrid } from '@mantine/core';
 import { forwardRef } from 'react';
 import { AnyObject } from '~/types';
 import { DynamicSeriesColorField } from './dynamic';
-import { StaticScatterSizeField } from './static';
+import { StaticSeriesColorField } from './static';
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './types';
 
 const typeOptions = [
@@ -24,7 +24,7 @@ interface ISeriesColorSelect {
 }
 
 export const SeriesColorSelect = forwardRef<HTMLInputElement, ISeriesColorSelect>(
-  ({ label = 'Size', value, onChange, data }: ISeriesColorSelect, ref) => {
+  ({ label = 'Color', value, onChange, data }: ISeriesColorSelect, ref) => {
     const changeType = (type: 'static' | 'dynamic') => {
       onChange({ ...DEFAULT_SERIES_COLOR[type] });
     };
@@ -38,7 +38,7 @@ export const SeriesColorSelect = forwardRef<HTMLInputElement, ISeriesColorSelect
           onChange={changeType}
           sx={{ flexGrow: 1 }}
         />
-        <StaticScatterSizeField value={value} onChange={onChange} />
+        <StaticSeriesColorField value={value} onChange={onChange} />
         <DynamicSeriesColorField value={value} onChange={onChange} data={data} />
       </SimpleGrid>
     );

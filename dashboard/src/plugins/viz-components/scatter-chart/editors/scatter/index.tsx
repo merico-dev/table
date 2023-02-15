@@ -2,6 +2,7 @@ import { Divider, Group, Select, Stack, Text } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
+import { SeriesColorSelect } from '~/plugins/viz-components/scatter-chart/editors/scatter/series-color-select';
 import { IScatterChartConf } from '../../type';
 import { ScatterLabelOverflowField } from './label-overflow';
 import { ScatterSizeSelect } from './scatter-size-select';
@@ -54,14 +55,11 @@ export function ScatterField({ data, control, watch }: IScatterField) {
         control={control}
         render={({ field }) => <ScatterSizeSelect label="Size" data={data} {...field} />}
       />
-      <Stack spacing={4}>
-        <Text size="sm">Color</Text>
-        <Controller
-          name={`scatter.color`}
-          control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
-        />
-      </Stack>
+      <Controller
+        name={`scatter.color`}
+        control={control}
+        render={({ field }) => <SeriesColorSelect data={data} {...field} />}
+      />
       <Divider mb={-15} label="Label" labelPosition="center" />
       <Group grow noWrap>
         <Controller

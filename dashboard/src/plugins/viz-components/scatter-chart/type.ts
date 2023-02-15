@@ -1,5 +1,6 @@
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 import { DEFAULT_X_AXIS_LABEL_OVERFLOW, IOverflow } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
 import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
@@ -32,7 +33,7 @@ export interface IScatterChartConf {
     name_data_key: string;
     symbolSize: TScatterSize;
     label_position: string;
-    color: string;
+    color: TSeriesColor;
     label_overflow: IScatterLabelOverflow;
   };
   stats: {
@@ -62,7 +63,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       type: 'static',
       size: 10,
     },
-    color: '#000000',
+    color: DEFAULT_SERIES_COLOR.static,
     label_position: 'right',
     label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
   },
