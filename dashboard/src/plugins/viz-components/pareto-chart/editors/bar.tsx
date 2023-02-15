@@ -1,9 +1,15 @@
-import { Divider, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
+
+const nameAlignmentOptions = [
+  { label: 'left', value: 'left' },
+  { label: 'center', value: 'center' },
+  { label: 'right', value: 'right' },
+];
 
 interface IBarField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -14,11 +20,20 @@ export function BarField({ data, control, watch }: IBarField) {
   watch(['bar']);
   return (
     <Stack>
-      <Controller
-        name="bar.name"
-        control={control}
-        render={({ field }) => <TextInput label="Bar Name" sx={{ flex: 1 }} {...field} />}
-      />
+      <Group grow>
+        <Controller
+          name="bar.name"
+          control={control}
+          render={({ field }) => <TextInput label="Bar Name" sx={{ flex: 1 }} {...field} />}
+        />
+        <Controller
+          name="bar.nameAlignment"
+          control={control}
+          render={({ field }) => (
+            <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
+          )}
+        />
+      </Group>
       <Stack spacing={2}>
         <Text size="sm">Color</Text>
         <Controller name="bar.color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />

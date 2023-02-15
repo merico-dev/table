@@ -27,11 +27,13 @@ export interface IParetoChartConf {
   data_key: string;
   bar: {
     name: string;
+    nameAlignment: 'left' | 'center' | 'right';
     color: string;
     label_formatter: TNumbroFormat;
   };
   line: {
     name: string;
+    nameAlignment: 'left' | 'center' | 'right';
     color: string;
   };
   dataZoom: TEchartsDataZoomConfig;
@@ -54,11 +56,13 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
   data_key: 'value',
   bar: {
     name: 'Value',
+    nameAlignment: 'left',
     color: '#228be6',
     label_formatter: defaultNumbroFormat,
   },
   line: {
     name: 'Value',
+    nameAlignment: 'right',
     color: 'red',
   },
   dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
