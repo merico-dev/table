@@ -1,5 +1,6 @@
 import { AnyObject } from '~/types';
 import { ITemplateVariable, templateToString } from '~/utils/template';
+import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
 import { getXAxisLabelOptionInXAxis } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesian/type';
 import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
@@ -86,7 +87,9 @@ function getSeriesItemOrItems(
     xAxisId: 'main-x-axis',
     yAxisIndex: 0,
     datasetIndex: 0,
-    color: scatter.color,
+    itemStyle: {
+      color: getSeriesColor(scatter.color, variableValueMap),
+    },
     symbolSize: getEchartsSymbolSize(scatter.symbolSize, data, x_axis.data_key, variableValueMap),
     encode: { x: x_axis.data_key, y: scatter.y_data_key },
   };

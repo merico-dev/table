@@ -1,5 +1,5 @@
 import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
-import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import { AnyObject } from '~/types';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { ScatterSizeSelect } from '../scatter-size-select';

@@ -2,6 +2,7 @@ import _, { cloneDeep } from 'lodash';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/types';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_SCATTER_CHART_LABEL_OVERFLOW, IScatterChartConf } from './type';
 import { VizScatterChart } from './viz-scatter-chart';
@@ -24,8 +25,25 @@ function v4(legacyConf: $TSFixMe): IScatterChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v6(legacyConf: $TSFixMe): IScatterChartConf {
+  const { color } = legacyConf.scatter;
+  if (typeof color === 'string') {
+    return {
+      ...legacyConf,
+      scatter: {
+        ...legacyConf.scatter,
+        color: {
+          ...DEFAULT_SERIES_COLOR.static,
+          color,
+        },
+      },
+    };
+  }
+  return legacyConf;
+}
+
 class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 6;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -56,6 +74,10 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 5, config: v4(config) };
     });
+    this.version(6, (data) => {
+      const { config } = data;
+      return { ...data, version: 6, config: v6(config) };
+    });
   }
 }
 
@@ -67,7 +89,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartPanel,
   createConfig() {
     return {
-      version: 4,
+      version: 6,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },
