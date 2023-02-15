@@ -98,7 +98,7 @@ export function ReferenceLineField({
           />
         )}
       </Group>
-      <Divider variant="dashed" label="Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
       <Group grow>
         <Controller
           name={`reference_lines.${index}.lineStyle.type`}
