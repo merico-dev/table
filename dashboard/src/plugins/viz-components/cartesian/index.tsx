@@ -10,6 +10,7 @@ import _, { cloneDeep, get, omit } from 'lodash';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
 import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from './panel/x-axis/x-axis-label-overflow/types';
+import { random } from 'chroma-js';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -50,8 +51,31 @@ function v5(legacyConf: $TSFixMe): ICartesianChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v6(legacyConf: $TSFixMe): ICartesianChartConf {
+  const reference_lines = legacyConf.reference_lines.map((l: AnyObject) => {
+    const {
+      lineStyle = {
+        type: 'dashed',
+        width: 1,
+        color: random().css(),
+      },
+      show_in_legend = false,
+    } = l;
+
+    return {
+      ...l,
+      lineStyle,
+      show_in_legend,
+    };
+  });
+  return {
+    ...legacyConf,
+    reference_lines,
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 5;
+  readonly VERSION = 6;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -97,6 +121,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v5(data.config),
       };
     });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: v6(data.config),
+      };
+    });
   }
 }
 
@@ -108,7 +139,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 5,
+      version: 6,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

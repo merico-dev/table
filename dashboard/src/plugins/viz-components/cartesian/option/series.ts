@@ -29,9 +29,10 @@ function getReferenceLines(
     const keyOfAxis = isHorizontal ? 'yAxis' : 'xAxis';
     const position = isHorizontal ? 'insideEndTop' : 'end';
     return {
-      name: 'refs',
-      type: 'scatter',
-      hide_in_legend: true,
+      name: r.name,
+      type: 'line',
+      hide_in_legend: !r.show_in_legend,
+      yAxisIndex: 0,
       data: [],
       markLine: {
         data: [
@@ -42,6 +43,7 @@ function getReferenceLines(
         ],
         silent: true,
         symbol: ['none', 'none'],
+        lineStyle: r.lineStyle,
         label: {
           formatter: function () {
             return templateToString(r.template, variables, data);

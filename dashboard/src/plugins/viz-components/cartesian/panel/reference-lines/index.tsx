@@ -1,9 +1,10 @@
 import { ActionIcon, Tabs } from '@mantine/core';
+import { random } from 'chroma-js';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ITemplateVariable } from '~/utils/template';
-import { ICartesianChartConf } from '../../type';
+import { ICartesianChartConf, ICartesianReferenceLine } from '../../type';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
@@ -26,13 +27,21 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     };
   });
 
-  const add = () =>
-    append({
+  const add = () => {
+    const item: ICartesianReferenceLine = {
       name: '',
       template: '',
       variable_key: '',
       orientation: 'horizontal',
-    });
+      lineStyle: {
+        type: 'dashed',
+        width: 1,
+        color: random().css(),
+      },
+      show_in_legend: false,
+    };
+    append(item);
+  };
 
   const variableOptions = useMemo(() => {
     return variables.map((v) => ({

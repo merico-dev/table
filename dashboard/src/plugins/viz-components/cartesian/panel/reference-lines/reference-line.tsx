@@ -1,7 +1,14 @@
-import { Button, Group, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
+import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { ICartesianChartConf } from '../../type';
+
+const lineTypeOptions = [
+  { label: 'solid', value: 'solid' },
+  { label: 'dashed', value: 'dashed' },
+  { label: 'dotted', value: 'dotted' },
+];
 
 const orientationOptions = [
   { label: 'Horizontal', value: 'horizontal' },
@@ -53,6 +60,39 @@ export function ReferenceLineField({ control, index, remove, watch, variableOpti
           Works only when xAxis values are numbers
         </Text>
       )}
+      <Divider variant="dashed" label="Style" labelPosition="center" />
+      <Group grow>
+        <Controller
+          name={`reference_lines.${index}.lineStyle.type`}
+          control={control}
+          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+        />
+        <Controller
+          name={`reference_lines.${index}.lineStyle.width`}
+          control={control}
+          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+        />
+      </Group>
+      <Stack spacing={4}>
+        <Text size="sm">Color</Text>
+        <Controller
+          name={`reference_lines.${index}.lineStyle.color`}
+          control={control}
+          render={({ field }) => <MantineColorSelector {...field} />}
+        />
+      </Stack>
+      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Controller
+        name={`reference_lines.${index}.show_in_legend`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            label="Show in legend"
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+          />
+        )}
+      />
       <Button
         leftIcon={<Trash size={16} />}
         color="red"
