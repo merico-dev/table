@@ -1,7 +1,9 @@
 import { ActionIcon, Tabs } from '@mantine/core';
+import { random } from 'chroma-js';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
+import { ICartesianReferenceLine } from '~/plugins/viz-components/cartesian/type';
 import { ITemplateVariable } from '~/utils/template';
 import { IScatterChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
@@ -26,13 +28,22 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     };
   });
 
-  const add = () =>
-    append({
+  const add = () => {
+    const item: ICartesianReferenceLine = {
       name: '',
       template: '',
       variable_key: '',
       orientation: 'horizontal',
-    });
+      lineStyle: {
+        type: 'dashed',
+        width: 1,
+        color: random().css(),
+      },
+      show_in_legend: false,
+      yAxisIndex: 0,
+    };
+    append(item);
+  };
 
   const variableOptions = useMemo(() => {
     return variables.map((v) => ({
@@ -40,6 +51,16 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       value: v.name,
     }));
   }, [variables]);
+
+  const yAxes = watch('y_axes');
+
+  const yAxisOptions = useMemo(() => {
+    return yAxes.map(({ name }, index) => ({
+      label: name,
+      value: index.toString(),
+    }));
+  }, [yAxes]);
+
   return (
     <Tabs
       defaultValue="0"
@@ -74,6 +95,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
             remove={remove}
             watch={watch}
             variableOptions={variableOptions}
+            yAxisOptions={yAxisOptions}
           />
         </Tabs.Panel>
       ))}
