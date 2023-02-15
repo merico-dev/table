@@ -23,12 +23,14 @@ function withRefLineDefaults(reference_lines: ICartesianReferenceLine[]) {
     template = '',
     variable_key = '',
     orientation = 'horizontal',
+    ...rest
   }: ICartesianReferenceLine) {
     const ret = {
       name,
       template,
       variable_key,
       orientation,
+      ...rest,
     };
     return ret;
   }
