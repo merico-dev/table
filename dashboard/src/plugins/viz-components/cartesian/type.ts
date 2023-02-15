@@ -67,6 +67,7 @@ export interface ICartesianReferenceLine {
   template: string;
   variable_key: string;
   orientation: 'horizontal' | 'vertical';
+  yAxisIndex: number;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
     width: number;

@@ -32,8 +32,9 @@ function getReferenceLines(
       name: r.name,
       type: 'line',
       hide_in_legend: !r.show_in_legend,
-      yAxisIndex: 0,
+      yAxisIndex: r.yAxisIndex,
       data: [],
+      lineStyle: r.lineStyle,
       markLine: {
         data: [
           {

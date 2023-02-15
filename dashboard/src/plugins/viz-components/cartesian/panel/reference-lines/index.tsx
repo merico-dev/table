@@ -39,6 +39,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
         color: random().css(),
       },
       show_in_legend: false,
+      yAxisIndex: 0,
     };
     append(item);
   };
@@ -49,6 +50,16 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       value: v.name,
     }));
   }, [variables]);
+
+  const yAxes = watch('y_axes');
+
+  const yAxisOptions = useMemo(() => {
+    return yAxes.map(({ name }, index) => ({
+      label: name,
+      value: index.toString(),
+    }));
+  }, [yAxes]);
+
   return (
     <Tabs
       defaultValue="0"
@@ -83,6 +94,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
             remove={remove}
             watch={watch}
             variableOptions={variableOptions}
+            yAxisOptions={yAxisOptions}
           />
         </Tabs.Panel>
       ))}

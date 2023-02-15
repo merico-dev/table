@@ -21,9 +21,20 @@ interface IReferenceLineField {
   watch: UseFormWatch<ICartesianChartConf>;
   remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
+  yAxisOptions: {
+    label: string;
+    value: string;
+  }[];
 }
 
-export function ReferenceLineField({ control, index, remove, watch, variableOptions }: IReferenceLineField) {
+export function ReferenceLineField({
+  control,
+  index,
+  remove,
+  watch,
+  variableOptions,
+  yAxisOptions,
+}: IReferenceLineField) {
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
@@ -48,18 +59,45 @@ export function ReferenceLineField({ control, index, remove, watch, variableOpti
           <TextInput label="Content Template" placeholder="Average: ${avg}" required sx={{ flex: 1 }} {...field} />
         )}
       />
-      <Controller
-        name={`reference_lines.${index}.orientation`}
-        control={control}
-        render={({ field }) => (
-          <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
+      <Group grow>
+        <Stack>
+          <Controller
+            name={`reference_lines.${index}.orientation`}
+            control={control}
+            render={({ field }) => (
+              <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
+            )}
+          />
+          {orientation === 'vertical' && (
+            <Text mt={-10} color="dimmed" size={12}>
+              Works only when xAxis values are numbers
+            </Text>
+          )}
+        </Stack>
+        {orientation === 'horizontal' && (
+          <Controller
+            name={`reference_lines.${index}.yAxisIndex`}
+            control={control}
+            render={({ field: { value, onChange, ...rest } }) => (
+              <Select
+                label="Y Axis"
+                data={yAxisOptions}
+                disabled={yAxisOptions.length === 0}
+                {...rest}
+                value={value?.toString() ?? ''}
+                onChange={(value: string | null) => {
+                  if (!value) {
+                    onChange(0);
+                    return;
+                  }
+                  onChange(Number(value));
+                }}
+                sx={{ flex: 1 }}
+              />
+            )}
+          />
         )}
-      />
-      {orientation === 'vertical' && (
-        <Text mt={-10} color="dimmed" size={12}>
-          Works only when xAxis values are numbers
-        </Text>
-      )}
+      </Group>
       <Divider variant="dashed" label="Style" labelPosition="center" />
       <Group grow>
         <Controller
