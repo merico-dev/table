@@ -6,15 +6,24 @@ import { VizSunburstEditor } from './viz-sunburst-editor';
 import { cloneDeep } from 'lodash';
 
 function v2(legacy: any): ISunburstConf {
-  const { label_field, value_field } = legacy;
+  const { label_field, value_field, ...rest } = legacy;
   return {
+    ...rest,
     label_key: label_field,
     value_key: value_field,
   };
 }
 
+function v3(legacy: any): ISunburstConf {
+  const { group_key = '', ...rest } = legacy;
+  return {
+    ...rest,
+    group_key,
+  };
+}
+
 class VizSunburstMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -30,6 +39,13 @@ class VizSunburstMigrator extends VersionBasedMigrator {
         config: v2(data.config),
       };
     });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: v3(data.config),
+      };
+    });
   }
 }
 
@@ -41,7 +57,7 @@ export const SunburstVizComponent: VizComponent = {
   configRender: VizSunburstEditor,
   createConfig() {
     return {
-      version: 2,
+      version: 3,
       config: cloneDeep(DEFAULT_CONFIG) as ISunburstConf,
     };
   },

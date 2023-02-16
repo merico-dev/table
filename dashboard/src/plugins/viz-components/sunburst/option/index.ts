@@ -1,6 +1,7 @@
 import { defaultsDeep, maxBy } from 'lodash';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
 import { ISunburstConf } from '../type';
+import { buildSunburstData } from './data';
 
 const defaultOption = {
   tooltip: {
@@ -22,11 +23,7 @@ export function getOption(conf: ISunburstConf, data: $TSFixMe[], variables: ITem
     return prev;
   }, {} as Record<string, string | number>);
 
-  const { label_key, value_key } = conf;
-  const chartData = data.map((d) => ({
-    name: d[label_key],
-    value: Number(d[value_key]),
-  }));
+  const chartData = buildSunburstData(conf, data);
 
   const max = maxBy(chartData, (d) => d.value)?.value ?? 1;
 

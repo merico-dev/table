@@ -26,7 +26,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
     return !_.isEqual(values, conf);
   }, [values, conf]);
 
-  watch(['label_key', 'value_key']);
+  watch(['label_key', 'value_key', 'group_key']);
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
@@ -46,6 +46,11 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
           name="value_key"
           control={control}
           render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+        />
+        <Controller
+          name="group_key"
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Group Key" data={data} clearable {...field} />}
         />
       </Stack>
     </form>
