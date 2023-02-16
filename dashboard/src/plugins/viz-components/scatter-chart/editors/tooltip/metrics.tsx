@@ -45,7 +45,7 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <InfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
-          Condigure additional metrics to show in tooltip
+          Configure additional metrics to show in tooltip
         </Text>
       </Group>
       <Divider variant="dashed" my={10} />
