@@ -1,42 +1,53 @@
 import { Group, Stack, Text, ActionIcon } from '@mantine/core';
-import { defaults } from 'lodash';
-import { useForm } from '@mantine/form';
-import { useEffect } from 'react';
+import { defaults, defaultsDeep } from 'lodash';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
+import _ from 'lodash';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
-  const { value: conf, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
-  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
+  const { value: confValue, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
+  const { variables } = context;
   const data = context.data as $TSFixMe[];
-  const form = useForm({
-    initialValues: {
-      label_field: label_field,
-      value_field: value_field,
-    },
-  });
+  const conf: ISunburstConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues: ISunburstConf = useMemo(() => _.clone(conf), [conf]);
 
+  const { control, handleSubmit, watch, getValues, reset } = useForm<ISunburstConf>({ defaultValues });
   useEffect(() => {
-    form.setValues({ label_field, value_field });
-  }, [label_field, value_field]);
+    reset(defaultValues);
+  }, [defaultValues]);
+
+  const values = getValues();
+  const changed = useMemo(() => {
+    return !_.isEqual(values, conf);
+  }, [values, conf]);
+
+  watch(['label_key', 'value_key']);
 
   return (
-    <Stack mt="md" spacing="xs">
-      <form onSubmit={form.onSubmit(setConf)}>
-        <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
+    <form onSubmit={handleSubmit(setConf)}>
+      <Stack mt="md" spacing="xs">
+        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Sunburst Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue">
+          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
-          <DataFieldSelector label="Label Field" required data={data} {...form.getInputProps('label_field')} />
-          <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps('value_field')} />
-        </Stack>
-      </form>
-    </Stack>
+        <Controller
+          name="label_key"
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
+        />
+        <Controller
+          name="value_key"
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+        />
+      </Stack>
+    </form>
   );
 }
