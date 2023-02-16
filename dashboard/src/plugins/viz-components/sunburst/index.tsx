@@ -26,7 +26,7 @@ class VizSunburstMigrator extends VersionBasedMigrator {
     this.version(2, (data) => {
       return {
         ...data,
-        version: 1,
+        version: 2,
         config: v2(data.config),
       };
     });
