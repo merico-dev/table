@@ -8,7 +8,7 @@ import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
-export function VizSunburstPanel({ context }: VizConfigProps) {
+export function VizSunburstEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
   const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
   const data = context.data as $TSFixMe[];

@@ -2,7 +2,7 @@ import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
-import { VizSunburstPanel } from './viz-sunburst-panel';
+import { VizSunburstEditor } from './viz-sunburst-editor';
 import { cloneDeep } from 'lodash';
 
 class VizSunburstMigrator extends VersionBasedMigrator {
@@ -23,7 +23,7 @@ export const SunburstVizComponent: VizComponent = {
   migrator: new VizSunburstMigrator(),
   name: 'sunburst',
   viewRender: VizSunburst,
-  configRender: VizSunburstPanel,
+  configRender: VizSunburstEditor,
   createConfig() {
     return {
       version: 1,
