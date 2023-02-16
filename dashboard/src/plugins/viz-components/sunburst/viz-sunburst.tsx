@@ -22,5 +22,8 @@ export function VizSunburst({ context }: VizViewProps) {
 
   const option = useMemo(() => getOption(conf, data, variables), [conf, data, variables]);
 
+  if (!width || !height) {
+    return null;
+  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }

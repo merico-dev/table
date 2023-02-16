@@ -9,3 +9,8 @@ export const DEFAULT_CONFIG: ISunburstConf = {
   value_key: '',
   group_key: '',
 };
+
+export type SunburstItemType = {
+  name: string;
+  value?: string | number | null;
+} & Record<string, any>;
