@@ -1,13 +1,12 @@
-import { Group, Stack, Text, ActionIcon } from '@mantine/core';
-import { defaults, defaultsDeep } from 'lodash';
-import { Controller, useForm } from 'react-hook-form';
-import { useEffect, useMemo } from 'react';
+import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import _, { defaultsDeep } from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
+import { VizConfigProps } from '~/types/plugin';
+import { DataField } from './editors/data-field';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
-import _ from 'lodash';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
@@ -28,6 +27,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
 
   watch(['label_key', 'value_key', 'group_key']);
 
+  const [tab, setTab] = useState<string | null>('Data');
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack mt="md" spacing="xs">
@@ -37,21 +37,30 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Controller
-          name="label_key"
-          control={control}
-          render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
-        />
-        <Controller
-          name="value_key"
-          control={control}
-          render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
-        />
-        <Controller
-          name="group_key"
-          control={control}
-          render={({ field }) => <DataFieldSelector label="Group Key" data={data} clearable {...field} />}
-        />
+        <Tabs
+          value={tab}
+          onTabChange={setTab}
+          orientation="vertical"
+          styles={{
+            tab: {
+              paddingLeft: '6px',
+              paddingRight: '6px',
+            },
+            panel: {
+              paddingTop: '6px',
+              paddingLeft: '12px',
+            },
+          }}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="Data">Data</Tabs.Tab>
+            <Tabs.Tab value="Levels">Levels</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="Data">
+            <DataField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
     </form>
   );
