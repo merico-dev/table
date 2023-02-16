@@ -8,52 +8,19 @@ import { useMemo } from 'react';
 import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
+import { getOption } from './option';
 
 echarts.use([SunburstChart, CanvasRenderer]);
 
-const defaultOption = {
-  tooltip: {
-    show: true,
-  },
-  series: {
-    type: 'sunburst',
-    radius: [0, '90%'],
-    emphasis: {
-      focus: 'ancestor',
-    },
-  },
-};
-
 export function VizSunburst({ context }: VizViewProps) {
-  const { value: conf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
+  const { variables } = context;
+  const { value: confValue } = useStorageData<ISunburstConf>(context.instanceData, 'config');
+  const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
-  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
 
-  const chartData = useMemo(() => {
-    return data.map((d) => ({
-      name: d[label_field],
-      value: Number(d[value_field]),
-    }));
-  }, [data, label_field, value_field]);
-  const max = useMemo(() => maxBy(chartData, (d) => d.value)?.value ?? 1, [chartData]);
-  const labelOption = useMemo(
-    () => ({
-      series: {
-        label: {
-          formatter: ({ name, value }: $TSFixMe) => {
-            if (value / max < 0.2) {
-              return ' ';
-            }
-            return name;
-          },
-        },
-      },
-    }),
-    [max],
-  );
-  const option = merge({}, defaultOption, labelOption, { series: { data: chartData } });
+  const option = useMemo(() => getOption(conf, data, variables), [conf, data, variables]);
 
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }
