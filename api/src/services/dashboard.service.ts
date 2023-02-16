@@ -69,7 +69,7 @@ export class DashboardService {
 
   async getByName(name: string, is_preset: boolean): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    return await dashboardRepo.findOneByOrFail({ name, is_preset });
+    return await dashboardRepo.findOneByOrFail({ name, is_preset, is_removed: false });
   }
 
   async update(
