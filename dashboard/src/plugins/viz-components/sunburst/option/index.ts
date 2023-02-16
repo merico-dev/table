@@ -2,32 +2,7 @@ import { defaultsDeep, maxBy } from 'lodash';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
 import { ISunburstConf } from '../type';
 import { buildSunburstData } from './data';
-
-interface ILabelFormatter {
-  treePathInfo: {
-    name: string;
-    dataIndex: number;
-    value: number;
-  }[];
-  name: string;
-  value: number;
-}
-
-const getLabelFormatter =
-  (tolerance: number) =>
-  ({ treePathInfo, name, value }: ILabelFormatter) => {
-    if (treePathInfo.length === 1) {
-      return name;
-    }
-    try {
-      const p = treePathInfo[treePathInfo.length - 2].value;
-      if (value / p < tolerance) {
-        return ' ';
-      }
-    } catch (error) {
-      return name;
-    }
-  };
+import { getLevels } from './levels';
 
 const defaultOption = {
   tooltip: {
@@ -39,41 +14,6 @@ const defaultOption = {
     emphasis: {
       focus: 'ancestor',
     },
-    levels: [
-      {},
-      {
-        r0: '15%',
-        r: '35%',
-        itemStyle: {
-          borderWidth: 2,
-        },
-        label: {
-          rotate: 'tangential',
-          formatter: getLabelFormatter(0.1),
-        },
-      },
-      {
-        r0: '35%',
-        r: '70%',
-        label: {
-          align: 'right',
-          formatter: getLabelFormatter(0.05),
-        },
-      },
-      {
-        r0: '70%',
-        r: '72%',
-        label: {
-          position: 'outside',
-          padding: 3,
-          silent: false,
-          formatter: getLabelFormatter(0.01),
-        },
-        itemStyle: {
-          borderWidth: 3,
-        },
-      },
-    ],
   },
 };
 
@@ -91,6 +31,7 @@ export function getOption(conf: ISunburstConf, data: $TSFixMe[], variables: ITem
   const customOptions = {
     series: {
       data: chartData,
+      levels: getLevels(conf),
     },
   };
   return defaultsDeep({}, customOptions, defaultOption);

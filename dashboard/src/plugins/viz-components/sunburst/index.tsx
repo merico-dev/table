@@ -22,8 +22,16 @@ function v3(legacy: any): ISunburstConf {
   };
 }
 
+function v4(legacy: any): ISunburstConf {
+  const { levels = [], ...rest } = legacy;
+  return {
+    ...rest,
+    levels,
+  };
+}
+
 class VizSunburstMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -46,6 +54,13 @@ class VizSunburstMigrator extends VersionBasedMigrator {
         config: v3(data.config),
       };
     });
+    this.version(4, (data) => {
+      return {
+        ...data,
+        version: 4,
+        config: v4(data.config),
+      };
+    });
   }
 }
 
@@ -57,7 +72,7 @@ export const SunburstVizComponent: VizComponent = {
   configRender: VizSunburstEditor,
   createConfig() {
     return {
-      version: 3,
+      version: 4,
       config: cloneDeep(DEFAULT_CONFIG) as ISunburstConf,
     };
   },

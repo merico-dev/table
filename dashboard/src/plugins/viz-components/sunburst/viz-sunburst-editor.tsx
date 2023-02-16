@@ -6,6 +6,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { DataField } from './editors/data-field';
+import { LevelsField } from './editors/levels';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
@@ -25,7 +26,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
     return !_.isEqual(values, conf);
   }, [values, conf]);
 
-  watch(['label_key', 'value_key', 'group_key']);
+  watch(['label_key', 'value_key', 'group_key', 'levels']);
 
   const [tab, setTab] = useState<string | null>('Data');
   return (
@@ -59,6 +60,9 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Data">
             <DataField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Levels">
+            <LevelsField control={control} watch={watch} data={data} />
           </Tabs.Panel>
         </Tabs>
       </Stack>
