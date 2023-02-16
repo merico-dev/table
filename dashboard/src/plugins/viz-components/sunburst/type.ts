@@ -1,9 +1,9 @@
 export interface ISunburstConf {
-  label_field: string;
-  value_field: string;
+  label_key: string;
+  value_key: string;
 }
 
 export const DEFAULT_CONFIG: ISunburstConf = {
-  label_field: '',
-  value_field: '',
+  label_key: '',
+  value_key: '',
 };

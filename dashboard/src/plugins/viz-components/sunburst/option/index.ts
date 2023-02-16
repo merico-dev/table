@@ -22,10 +22,10 @@ export function getOption(conf: ISunburstConf, data: $TSFixMe[], variables: ITem
     return prev;
   }, {} as Record<string, string | number>);
 
-  const { label_field, value_field } = conf;
+  const { label_key, value_key } = conf;
   const chartData = data.map((d) => ({
-    name: d[label_field],
-    value: Number(d[value_field]),
+    name: d[label_key],
+    value: Number(d[value_key]),
   }));
 
   const max = maxBy(chartData, (d) => d.value)?.value ?? 1;
