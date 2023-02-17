@@ -1,4 +1,17 @@
-import { ActionIcon, Box, ColorInput, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Center,
+  ColorInput,
+  Overlay,
+  Select,
+  Stack,
+  Sx,
+  Tabs,
+  TextInput,
+} from '@mantine/core';
+import { IconArrowsLeftRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
@@ -6,6 +19,7 @@ import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
+import { ReadOnlyDashboardView } from '~/view';
 
 const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
   const ret: Record<string, any> = {
@@ -67,15 +81,41 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             </ActionIcon>
           </Tabs.Tab>
         </Tabs.List>
-        {config.tabs.map((t) => (
-          <Tabs.Panel key={t.id} value={t.id}>
-            <Stack sx={{ width: '300px' }}>
-              <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
-              <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
-              <ColorInput label="Color" value={t.color} onChange={t.setColor} disabled={config.variant !== 'default'} />
-            </Stack>
-          </Tabs.Panel>
-        ))}
+        {config.tabs.map((t) => {
+          const tabView = model.views.findByID(t.view_id);
+          return (
+            <Tabs.Panel key={t.id} value={t.id} sx={{ position: 'relative' }}>
+              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}>
+                <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={-1} />
+
+                <Stack mx="auto" mt={100} sx={{ width: '300px' }}>
+                  <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
+                  <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
+                  <ColorInput
+                    label="Color"
+                    value={t.color}
+                    onChange={t.setColor}
+                    disabled={config.variant !== 'default'}
+                  />
+
+                  {tabView && (
+                    <Button
+                      mt={20}
+                      variant="gradient"
+                      leftIcon={<IconArrowsLeftRight size={18} />}
+                      gradient={{ from: 'cyan', to: 'indigo' }}
+                      onClick={() => model.views.setIDOfVIE(tabView.id)}
+                    >
+                      Swith to View: {tabView.name}
+                    </Button>
+                  )}
+                </Stack>
+              </Box>
+
+              {tabView && <ReadOnlyDashboardView view={tabView} />}
+            </Tabs.Panel>
+          );
+        })}
       </Tabs>
       {children}
     </Box>

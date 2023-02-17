@@ -4,7 +4,7 @@ import React from 'react';
 import { Code, Database, DeviceFloppy, Download, Filter, Link, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { downloadJSON } from '~/utils/download';
-import { LayoutStateContext, useModelContext } from '../contexts';
+import { useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
 import { SwitchViews } from './switch-views';
@@ -34,9 +34,10 @@ const actionIconGroupStyle = {
 
 interface IDashboardActions {
   saveChanges: () => void;
+  inUseMode: boolean;
 }
 
-export const DashboardActions = observer(function _DashboardActions({ saveChanges }: IDashboardActions) {
+export const DashboardActions = observer(function _DashboardActions({ saveChanges, inUseMode }: IDashboardActions) {
   const model = useModelContext();
 
   const getCurrentSchema = React.useCallback(() => {
@@ -62,7 +63,6 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
   };
 
   const hasChanges = model.changed;
-  const { inEditMode, inUseMode } = React.useContext(LayoutStateContext);
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
   const openQueries = () => setDataEditorOpened(true);
@@ -87,7 +87,9 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
 
   return (
     <Group position="apart" pt={0} px={10} pb="xs">
-      <Group position="left">{inEditMode && <SwitchViews />}</Group>
+      <Group position="left">
+        <SwitchViews />
+      </Group>
       <Group position="right" sx={{ button: { minWidth: '40px' } }}>
         <Button
           variant="filled"

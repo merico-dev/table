@@ -33,7 +33,7 @@ export const MainDashboardView = observer(function _MainDashboardView({
     >
       <Box className="dashboard-view" data-enable-scrollbar>
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && <DashboardActions saveChanges={saveDashboardChanges} />}
+        {!inFullScreen && <DashboardActions saveChanges={saveDashboardChanges} inUseMode={false} />}
         <PreviewViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (
