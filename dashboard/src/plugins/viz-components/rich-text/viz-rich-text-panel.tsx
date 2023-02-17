@@ -14,8 +14,6 @@ export function VizRichTextPanel({ context }: VizConfigProps) {
     return defaults({}, conf, DEFAULT_CONFIG);
   }, [conf]);
 
-  console.log({ conf, defaultValues });
-
   const { control, handleSubmit, watch, reset } = useForm<IRichTextConf>({ defaultValues });
   watch('content');
 
