@@ -19,9 +19,12 @@ function formatDefaultValue(v: AnyObject, config: FilterModelSnapshotOut['config
   }
   if (config._name === 'date-range') {
     try {
-      const dateTimeStrings = v as [string | null, string | null];
+      const [...dateTimeStrings] = v as [string | null, string | null];
       return dateTimeStrings.map((v) => {
-        const d = dayjs.tz(v, 'UTC').format(config.inputFormat); // for date-range
+        if (v === null) {
+          return v;
+        }
+        const d = dayjs.tz(v, 'UTC').format(config.inputFormat);
         return d ?? v;
       });
     } catch (error) {
