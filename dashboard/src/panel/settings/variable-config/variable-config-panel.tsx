@@ -56,10 +56,10 @@ const _VariableEditor = (props: { variable: Instance<typeof VariableModel>; uiMo
       <Stack data-testid="variable-editor" align="stretch" className={classes.config}>
         <Group position="right">
           <ActionIcon variant="filled" disabled={!draft.changed} color="primary" onClick={draft.commit}>
-            <IconDeviceFloppy />
+            <IconDeviceFloppy size={18} />
           </ActionIcon>
           <ActionIcon color="red" onClick={() => props.uiModel.remove(props.variable)}>
-            <IconTrash />
+            <IconTrash size={18} />
           </ActionIcon>
         </Group>
         <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
