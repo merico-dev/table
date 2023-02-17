@@ -46,6 +46,7 @@ type SetVizConfType = { setVizConf: (val: React.SetStateAction<IVizConfig['conf'
 function useSyncVizConf(setVizConf: SetVizConfType['setVizConf'], panel: IPanelInfo) {
   const instance = useServiceLocator().getRequired(tokens.instanceScope.vizInstance);
   useEffect(() => {
+    instance.instanceData.setItem(null, panel.viz.conf);
     return instance.instanceData.watchItem<AnyObject>(null, (configData) => {
       setVizConf(configData);
     });
