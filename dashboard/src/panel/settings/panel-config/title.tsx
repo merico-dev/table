@@ -24,8 +24,8 @@ export const EditTitle = observer(() => {
       value={localTitle}
       onChange={setLocalTitle}
       label={
-        <Group align="apart">
-          <Text sx={{ flexGrow: 1 }}>Panel Title</Text>
+        <Group>
+          <Text>Panel Title</Text>
           <ActionIcon variant="subtle" color="blue" disabled={!changed} onClick={submit}>
             <DeviceFloppy size={20} />
           </ActionIcon>

@@ -2,22 +2,22 @@ import { ActionIcon, Divider, Group, Tabs, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
-import { IScatterChartConf } from '../../type';
-import { TooltipMetricField } from './metric';
+import { ISunburstConf } from '../../type';
+import { LevelField } from './level';
 
-interface ITooltipMetricsField {
-  control: Control<IScatterChartConf, $TSFixMe>;
-  watch: UseFormWatch<IScatterChartConf>;
+interface ILevelsField {
+  control: Control<ISunburstConf, $TSFixMe>;
+  watch: UseFormWatch<ISunburstConf>;
   data: $TSFixMe[];
 }
 
-export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsField) => {
+export const LevelsField = ({ control, watch, data }: ILevelsField) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'tooltip.metrics',
+    name: 'levels',
   });
 
-  const watchFieldArray = watch('tooltip.metrics');
+  const watchFieldArray = watch('levels');
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -25,14 +25,21 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
     };
   });
 
-  const addMetric = () =>
+  const addLevel = () =>
     append({
       id: Date.now().toString(),
-      data_key: '',
-      name: '',
+      r0: '',
+      r: '',
+      label: {
+        show_label_tolerance: 0.001,
+        rotate: '0',
+        align: 'center',
+        position: 'inside',
+        padding: 0,
+      },
     });
 
-  const firstID = watch('tooltip.metrics.0.id');
+  const firstID = watch('levels.0.id');
   const [tab, setTab] = useState<string | null>(() => firstID ?? null);
   useEffect(() => {
     if (firstID) {
@@ -45,7 +52,7 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <InfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
-          Configure additional metrics to show in tooltip
+          Configure ring style on each level
         </Text>
       </Group>
       <Divider variant="dashed" my={10} />
@@ -66,10 +73,10 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
         <Tabs.List>
           {controlledFields.map((m, i) => (
             <Tabs.Tab key={m.id} value={m.id}>
-              {m.name ? m.name : i}
+              {i}
             </Tabs.Tab>
           ))}
-          <Tabs.Tab onClick={addMetric} value="add">
+          <Tabs.Tab onClick={addLevel} value="add">
             <ActionIcon>
               <Plus size={18} color="#228be6" />
             </ActionIcon>
@@ -77,7 +84,7 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
         </Tabs.List>
         {controlledFields.map((m, index) => (
           <Tabs.Panel key={m.id} value={m.id}>
-            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} data={data} />
+            <LevelField key={m.id} control={control} index={index} remove={remove} data={data} />
           </Tabs.Panel>
         ))}
       </Tabs>
