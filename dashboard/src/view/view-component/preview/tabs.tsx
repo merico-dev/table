@@ -1,4 +1,17 @@
-import { ActionIcon, Box, Center, ColorInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Center,
+  ColorInput,
+  Overlay,
+  Select,
+  Stack,
+  Sx,
+  Tabs,
+  TextInput,
+} from '@mantine/core';
+import { IconArrowsLeftRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
@@ -84,6 +97,18 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
                     onChange={t.setColor}
                     disabled={config.variant !== 'default'}
                   />
+
+                  {tabView && (
+                    <Button
+                      mt={20}
+                      variant="gradient"
+                      leftIcon={<IconArrowsLeftRight size={18} />}
+                      gradient={{ from: 'cyan', to: 'indigo' }}
+                      onClick={() => model.views.setIDOfVIE(tabView.id)}
+                    >
+                      Swith to View: {tabView.name}
+                    </Button>
+                  )}
                 </Stack>
               </Box>
 
