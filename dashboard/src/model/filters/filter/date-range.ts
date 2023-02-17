@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { Instance, types } from 'mobx-state-tree';
+import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
 export type TDateRangePickerValue = [string | null, string | null];
 
 const _FilterConfigModel_DateRange = types
@@ -35,6 +35,18 @@ const _FilterConfigModel_DateRange = types
     },
   }))
   .actions((self) => ({
+    setFilterValue(v: TDateRangePickerValue) {
+      try {
+        const filter = getParent(self);
+        const root = getRoot(self);
+        // @ts-expect-error type of getRoot & getPraent
+        root.filters.setValueByKey(filter.key, v);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  }))
+  .actions((self) => ({
     setRequired(required: boolean) {
       self.required = required;
     },
@@ -47,6 +59,7 @@ const _FilterConfigModel_DateRange = types
     setDefaultValue(v: TDateRangePickerValue) {
       self.default_value.length = 0;
       self.default_value.push(...v);
+      self.setFilterValue(v);
     },
     setMaxDays(v: number) {
       self.max_days = v;
