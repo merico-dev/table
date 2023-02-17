@@ -1,18 +1,9 @@
 import { ISunburstConf } from '../type';
-
-interface ILabelFormatter {
-  treePathInfo: {
-    name: string;
-    dataIndex: number;
-    value: number;
-  }[];
-  name: string;
-  value: number;
-}
+import { IEchartsSunburstLabelFormatter } from './types';
 
 const getLabelFormatter =
   (tolerance: number) =>
-  ({ treePathInfo, name, value }: ILabelFormatter) => {
+  ({ treePathInfo, name, value }: IEchartsSunburstLabelFormatter) => {
     if (treePathInfo.length === 1 || !tolerance) {
       return name;
     }

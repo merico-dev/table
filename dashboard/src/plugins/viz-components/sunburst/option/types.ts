@@ -8,3 +8,15 @@ export type TreeItemIn = {
 export type TreeItemOut = TreeItemIn & {
   children: TreeItemOut[];
 };
+
+export interface IEchartsSunburstLabelFormatter {
+  treePathInfo: {
+    name: string;
+    dataIndex: number;
+    value: number;
+  }[];
+  name: string;
+  value: number;
+  marker: string;
+  color: string;
+}

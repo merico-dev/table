@@ -3,6 +3,7 @@ import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/
 import { ISunburstConf } from '../type';
 import { buildSunburstData } from './data';
 import { getLevels } from './levels';
+import { getTooltip } from './tooltip';
 
 const defaultOption = {
   tooltip: {
@@ -33,6 +34,7 @@ export function getOption(conf: ISunburstConf, data: $TSFixMe[], variables: ITem
       data: chartData,
       levels: getLevels(conf),
     },
+    tooltip: getTooltip(),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
