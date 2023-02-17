@@ -30,7 +30,7 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
     >
       <Box className="dashboard-view" data-enable-scrollbar>
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && <DashboardActions saveChanges={_.noop} />}
+        {!inFullScreen && <DashboardActions saveChanges={_.noop} inUseMode={true} />}
         <RenderViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (
