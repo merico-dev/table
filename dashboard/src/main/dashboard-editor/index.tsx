@@ -21,9 +21,10 @@ import { DashboardEditorNavbar } from './navbar';
 
 const AppShellStyles = {
   root: {
-    minHeight: '100vh',
+    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
+    overflow: 'hidden',
   },
   body: {
     flexGrow: 1,
@@ -32,7 +33,8 @@ const AppShellStyles = {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 60,
+    paddingTop: 60 + 10,
+    height: '100vh',
   },
 } as const;
 
