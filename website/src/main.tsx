@@ -12,6 +12,8 @@ import { LoginPage } from './pages/login-page';
 import { RequireAuth } from './frames/require-auth';
 import { APIKeyPage } from './pages/api-key-page';
 import { StatusPage } from './pages/status-page';
+import { DashboardEditorPage } from './pages/dashboard-editor-page';
+import { DashboardEditorFrame } from './frames/dashboard-editor-frame';
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -23,8 +25,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<RequireAuth />}>
             <Route path="/" element={<App />}>
               <Route path="dashboard/:id" element={<DashboardPage />} />
-              <Route path="dashboard/:id/:mode" element={<DashboardPage />} />
               <Route path="*" element={<DashboardPage />} />
+            </Route>
+            <Route path="/dashboard/:id/edit" element={<DashboardEditorFrame />}>
+              <Route path="" element={<DashboardEditorPage />} />
             </Route>
             <Route path="/admin" element={<AdminFrame />}>
               <Route path="data_source/list" element={<DataSourcePage />} />
