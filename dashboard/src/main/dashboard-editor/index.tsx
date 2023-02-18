@@ -17,6 +17,7 @@ import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { DashboardEditorHeader } from './header';
+import { DashboardEditorNavbar } from './navbar';
 
 const AppShellStyles = {
   root: {
@@ -107,6 +108,7 @@ export const Dashboard = observer(function _Dashboard({
             <AppShell
               padding={0}
               header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+              navbar={<DashboardEditorNavbar />}
               styles={AppShellStyles}
             >
               <Box
