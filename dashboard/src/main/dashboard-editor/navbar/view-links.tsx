@@ -1,4 +1,5 @@
-import { Box, Group, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import { ActionIcon, Box, Button, Divider, Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import { IconPlus } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
@@ -84,6 +85,23 @@ export const ViewLinks = observer(() => {
           type={v.type}
         />
       ))}
+      <Divider variant="dashed" />
+      <Button
+        variant="subtle"
+        rightIcon={<IconPlus size={14} />}
+        size="sm"
+        px="xs"
+        color="blue"
+        onClick={model.views.addARandomNewView}
+        sx={{ width: '100%', borderRadius: 0 }}
+        styles={{
+          inner: {
+            justifyContent: 'space-between',
+          },
+        }}
+      >
+        Add a View
+      </Button>
     </Box>
   );
 });
