@@ -15,6 +15,7 @@ import { IDataSource } from '~/api-caller/types';
 import { AnyObject, IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { DataSourcesModel } from './datasources';
+import { EditorModel } from './editor';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
@@ -34,6 +35,7 @@ const _DashboardModel = types
     views: ViewsModel,
     context: ContextModel,
     mock_context: MockContextModel,
+    editor: EditorModel,
     /**
      * this field should be excluded from snapshot
      */
@@ -205,6 +207,7 @@ export function createDashboardModel(
       current: mock_context,
     },
     views: createDashboardViewsModel(views),
+    editor: {},
   });
 }
 

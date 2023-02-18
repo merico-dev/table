@@ -18,6 +18,7 @@ import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
+import { Settings } from './settings';
 
 const AppShellStyles = {
   root: {
@@ -128,6 +129,7 @@ export const Dashboard = observer(function _Dashboard({
                 </PluginContext.Provider>
               </Box>
             </AppShell>
+            <Settings />
           </LayoutStateContext.Provider>
         </FullScreenPanelContext.Provider>
       </ModelContextProvider>

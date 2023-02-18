@@ -1,13 +1,16 @@
 import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
 import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons';
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
+import { useModelContext } from '~/contexts';
 import { DataEditorModal } from '~/definition-editor';
 import { FilterSettingsModal } from '~/filter/filter-settings';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { ViewLinks } from './view-links';
 
-export function DashboardEditorNavbar() {
+export const DashboardEditorNavbar = observer(() => {
+  const model = useModelContext();
   const [dataEditorOpened, setDataEditorOpened] = useState(false);
   const openQueries = () => setDataEditorOpened(true);
   const closeQueries = () => setDataEditorOpened(false);
@@ -58,11 +61,11 @@ export function DashboardEditorNavbar() {
 
       <MantineNavbar.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-          <Button size="sm" leftIcon={<IconSettings size={20} />}>
+          <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open('_FILTER_')}>
             Settings
           </Button>
         </Group>
       </MantineNavbar.Section>
     </MantineNavbar>
   );
-}
+});
