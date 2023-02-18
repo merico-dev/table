@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { AppShell, Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
@@ -16,6 +16,24 @@ import { IDashboard } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
+import { DashboardEditorHeader } from './header';
+
+const AppShellStyles = {
+  root: {
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  body: {
+    flexGrow: 1,
+  },
+  main: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 60,
+  },
+} as const;
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -86,20 +104,22 @@ export const Dashboard = observer(function _Dashboard({
               inEditMode: true,
             }}
           >
-            <Box
-              className={`${className} dashboard-root`}
-              sx={{
-                position: 'relative',
-              }}
-            >
-              <PluginContext.Provider value={pluginContext}>
-                <ServiceLocatorProvider configure={configureServices}>
-                  {model.views.visibleViews.map((view) => (
-                    <DashboardViewEditor key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
-                  ))}
-                </ServiceLocatorProvider>
-              </PluginContext.Provider>
-            </Box>
+            <AppShell padding={0} header={<DashboardEditorHeader />} styles={AppShellStyles}>
+              <Box
+                className={`${className} dashboard-root`}
+                sx={{
+                  position: 'relative',
+                }}
+              >
+                <PluginContext.Provider value={pluginContext}>
+                  <ServiceLocatorProvider configure={configureServices}>
+                    {model.views.visibleViews.map((view) => (
+                      <DashboardViewEditor key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+                    ))}
+                  </ServiceLocatorProvider>
+                </PluginContext.Provider>
+              </Box>
+            </AppShell>
           </LayoutStateContext.Provider>
         </FullScreenPanelContext.Provider>
       </ModelContextProvider>
