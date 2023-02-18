@@ -7,17 +7,17 @@ import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { createPluginContext, PluginContext } from '~/plugins';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
-import { ReadOnlyDashboardView } from '~/view';
-import { configureAPIClient } from '../api-caller/request';
-import { LayoutStateContext } from '../contexts/layout-state-context';
-import { ModelContextProvider } from '../contexts/model-context';
-import { createDashboardModel } from '../model';
-import { ContextInfoType } from '../model/context';
-import { IDashboard } from '../types/dashboard';
-import { useTopLevelServices } from './use-top-level-services';
-import './main.css';
+import { DashboardViewRender } from '~/view';
+import { configureAPIClient } from '../../api-caller/request';
+import { LayoutStateContext } from '../../contexts/layout-state-context';
+import { ModelContextProvider } from '../../contexts/model-context';
+import { createDashboardModel } from '../../model';
+import { ContextInfoType } from '../../model/context';
+import { IDashboard } from '../../types/dashboard';
+import { useTopLevelServices } from '../use-top-level-services';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
+import './index.css';
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
@@ -75,7 +75,7 @@ export const ReadOnlyDashboard = observer(
                 <PluginContext.Provider value={pluginContext}>
                   <ServiceLocatorProvider configure={configureServices}>
                     {model.views.visibleViews.map((view) => (
-                      <ReadOnlyDashboardView key={view.id} view={view} />
+                      <DashboardViewRender key={view.id} view={view} />
                     ))}
                   </ServiceLocatorProvider>
                 </PluginContext.Provider>

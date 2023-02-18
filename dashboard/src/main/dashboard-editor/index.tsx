@@ -5,18 +5,17 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
-import { MainDashboardView } from '~/view';
-import { configureAPIClient } from '../api-caller/request';
-import { LayoutStateContext } from '../contexts/layout-state-context';
-import { ModelContextProvider } from '../contexts/model-context';
-import { createDashboardModel } from '../model';
-import { ContextInfoType } from '../model/context';
-import { useTopLevelServices } from './use-top-level-services';
-import { createPluginContext, PluginContext } from '../plugins';
-import { IDashboard } from '../types/dashboard';
-import './main.css';
+import { DashboardViewEditor } from '~/view';
+import { configureAPIClient } from '~/api-caller/request';
+import { LayoutStateContext } from '~/contexts/layout-state-context';
+import { ModelContextProvider } from '~/contexts/model-context';
+import { createDashboardModel, ContextInfoType } from '~/model';
+import { useTopLevelServices } from '../use-top-level-services';
+import { createPluginContext, PluginContext } from '~/plugins';
+import { IDashboard } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
+import './index.css';
 
 interface IDashboardProps {
   context: ContextInfoType;
@@ -97,7 +96,7 @@ export const Dashboard = observer(function _Dashboard({
               <PluginContext.Provider value={pluginContext}>
                 <ServiceLocatorProvider configure={configureServices}>
                   {model.views.visibleViews.map((view) => (
-                    <MainDashboardView key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+                    <DashboardViewEditor key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
                   ))}
                 </ServiceLocatorProvider>
               </PluginContext.Provider>

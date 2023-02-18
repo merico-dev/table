@@ -1,2 +1,2 @@
-export * from './main-view';
-export * from './read-only-view';
+export * from './view-editor';
+export * from './view-render';

@@ -1,20 +1,23 @@
 import { Box } from '@mantine/core';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { Filters } from '~/filter';
-import { DashboardActions } from '~/main/actions';
+import { DashboardActions } from '~/view/dashboard-actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
 import { useFullScreenPanelContext, ViewModelInstance } from '..';
-import { ReadOnlyDashboardLayout } from './layout';
-import { RenderViewComponent } from './view-component/render';
+import { MainDashboardLayout } from './layout';
+import { PreviewViewComponent } from './view-component/preview';
 
-interface IReadOnlyDashboardView {
+interface IDashboardViewEditor {
   view: ViewModelInstance;
+  saveDashboardChanges: () => void;
 }
 
-export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }: IReadOnlyDashboardView) {
+export const DashboardViewEditor = observer(function _DashboardViewEditor({
+  view,
+  saveDashboardChanges,
+}: IDashboardViewEditor) {
   const { fullScreenPanelID, setFullScreenPanelID } = useFullScreenPanelContext();
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
     view,
@@ -30,8 +33,8 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
     >
       <Box className="dashboard-view" data-enable-scrollbar>
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && <DashboardActions saveChanges={_.noop} inUseMode={true} />}
-        <RenderViewComponent view={view}>
+        {!inFullScreen && <DashboardActions saveChanges={saveDashboardChanges} inUseMode={false} />}
+        <PreviewViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (
               <Box className="dashboard-sticky-area" sx={{ position: 'sticky', top: '0px' }}>
@@ -39,9 +42,9 @@ export const ReadOnlyDashboardView = observer(function _DashboardLayout({ view }
               </Box>
             )}
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {!inFullScreen && <ReadOnlyDashboardLayout view={view} />}
+            {!inFullScreen && <MainDashboardLayout view={view} isDraggable isResizable />}
           </Box>
-        </RenderViewComponent>
+        </PreviewViewComponent>
       </Box>
     </DashboardActionContext.Provider>
   );

@@ -7,7 +7,7 @@ import { downloadJSON } from '~/utils/download';
 import { useModelContext } from '../contexts';
 import { DataEditorModal } from '../definition-editor';
 import { FilterSettingsModal } from '../filter/filter-settings';
-import { SwitchViews } from './switch-views';
+import { SwitchViews } from '../main/dashboard-editor/switch-views';
 
 const actionIconGroupStyle = {
   '> button': {

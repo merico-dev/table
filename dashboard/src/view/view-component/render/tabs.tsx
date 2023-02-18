@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
-import { ReadOnlyDashboardView } from '~/view';
+import { DashboardViewRender } from '~/view';
 
 const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
   if (t.color) {
@@ -43,7 +43,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
           }
           return (
             <Tabs.Panel key={t.id} value={t.id}>
-              <ReadOnlyDashboardView view={tabView} />
+              <DashboardViewRender view={tabView} />
             </Tabs.Panel>
           );
         })}
