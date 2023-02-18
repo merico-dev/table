@@ -84,7 +84,6 @@ export const Dashboard = observer(function _Dashboard({
               layoutFrozen,
               freezeLayout,
               inEditMode: true,
-              inUseMode: false,
             }}
           >
             <Box

@@ -68,7 +68,6 @@ export const ReadOnlyDashboard = observer(
                 layoutFrozen: true,
                 freezeLayout: _.noop,
                 inEditMode: false,
-                inUseMode: true,
               }}
             >
               <Box className={`${className} dashboard-root`}>
