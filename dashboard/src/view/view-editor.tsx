@@ -2,7 +2,6 @@ import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { Filters } from '~/filter';
-import { DashboardActions } from '~/view/dashboard-actions';
 import { FullScreenPanel } from '~/main/full-screen-panel';
 import { usePanelFullScreen } from '~/main/use-panel-full-screen';
 import { useFullScreenPanelContext, ViewModelInstance } from '..';
@@ -29,7 +28,6 @@ export const DashboardViewEditor = observer(function _DashboardViewEditor({ view
     >
       <Box className="dashboard-view" data-enable-scrollbar>
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && <DashboardActions inUseMode={false} />}
         <PreviewViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (
