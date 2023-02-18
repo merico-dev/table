@@ -36,21 +36,26 @@ function tryReadNumber(obj: AnyObject, key: string) {
 }
 
 export function aggregateValue(data: Record<string, number>[], data_field: string, aggregation: AggregationType) {
-  const numbers = data.map((d) => tryReadNumber(d, data_field));
-  switch (aggregation.type) {
-    case 'sum':
-      return _.sum(numbers);
-    case 'mean':
-      return _.mean(numbers);
-    case 'median':
-      return median(numbers);
-    case 'max':
-      return _.max(numbers) ?? 0;
-    case 'min':
-      return _.min(numbers) ?? 0;
-    case 'quantile':
-      return quantile(numbers, aggregation.config.p) ?? 0;
-    default:
-      return data[0]?.[data_field];
+  try {
+    const numbers = data.map((d) => tryReadNumber(d, data_field));
+    switch (aggregation.type) {
+      case 'sum':
+        return _.sum(numbers);
+      case 'mean':
+        return _.mean(numbers);
+      case 'median':
+        return median(numbers);
+      case 'max':
+        return _.max(numbers) ?? 0;
+      case 'min':
+        return _.min(numbers) ?? 0;
+      case 'quantile':
+        return quantile(numbers, aggregation.config.p) ?? 0;
+      default:
+        return numbers;
+    }
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
