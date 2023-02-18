@@ -1,19 +1,14 @@
 import { ActionIcon, Button, Group, Header as MantineHeader, Text, Tooltip } from '@mantine/core';
-import {
-  IconCode,
-  IconDeviceFloppy,
-  IconDownload,
-  IconFileDownload,
-  IconPlaylistAdd,
-  IconRecycle,
-} from '@tabler/icons';
+import { IconArrowLeft, IconCode, IconDeviceFloppy, IconDownload, IconPlaylistAdd, IconRecycle } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useModelContext } from '~/contexts';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { downloadJSON } from '~/utils/download';
 
 export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveDashboardChanges: () => void }) => {
+  const navigate = useNavigate();
   const model = useModelContext();
 
   const getCurrentSchema = useCallback(() => {
@@ -43,13 +38,22 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
     downloadJSON(model.name, schema);
   };
 
+  const goBack = () => {
+    navigate(`/dashboard/${model.id}`);
+  };
+
   const hasChanges = model.changed;
 
   return (
     <MantineHeader height={60} px="md" py={0}>
-      <Group position="apart" sx={{ height: 60 }}>
+      <Group position="apart" sx={{ height: 60, position: 'relative' }}>
         <Group>
-          <Text size="xl">{model.name}</Text>
+          <Button size="xs" color="green" leftIcon={<IconArrowLeft size={20} />} onClick={goBack}>
+            <Group spacing={4}>
+              End Editing
+              <Text td="underline">{model.name}</Text>
+            </Group>
+          </Button>
         </Group>
         <Group position="right">
           <Button
