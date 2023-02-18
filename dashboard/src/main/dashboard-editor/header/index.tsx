@@ -67,12 +67,12 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
           </Button>
 
           <Group spacing={0} sx={ActionIconGroupStyle}>
-            <Tooltip label="Download Schema">
+            <Tooltip label="Download Schema" withinPortal>
               <ActionIcon variant="default" size="md" onClick={downloadSchema}>
                 <IconCode size={18} />
               </ActionIcon>
             </Tooltip>
-            <Tooltip label="Download Data">
+            <Tooltip label="Download Data" withinPortal>
               <ActionIcon variant="default" size="md" onClick={model.queries.downloadAllData}>
                 <IconDownload size={18} />
               </ActionIcon>
@@ -80,12 +80,12 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
           </Group>
 
           <Group spacing={0} sx={ActionIconGroupStyle}>
-            <Tooltip label="Save Changes">
+            <Tooltip label="Save Changes" withinPortal>
               <ActionIcon variant="default" size="md" onClick={saveDashboardChanges} disabled={!hasChanges}>
                 <IconDeviceFloppy size={20} color="green" />
               </ActionIcon>
             </Tooltip>
-            <Tooltip label="Revert Changes">
+            <Tooltip label="Revert Changes" withinPortal>
               <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
                 <IconRecycle size={20} color="red" />
               </ActionIcon>
