@@ -50,9 +50,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={addYAxis} value="add">
-          <ActionIcon>
-            <Plus size={18} color="#228be6" />
-          </ActionIcon>
+          <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (

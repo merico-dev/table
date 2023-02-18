@@ -76,9 +76,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             </Tabs.Tab>
           ))}
           <Tabs.Tab onClick={config.addTab} value="add" className="add-a-tab">
-            <ActionIcon>
-              <Plus size={18} color="#228be6" />
-            </ActionIcon>
+            <Plus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
         {config.tabs.map((t) => {

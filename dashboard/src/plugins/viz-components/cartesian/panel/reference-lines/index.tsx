@@ -81,9 +81,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={add} value="add">
-          <ActionIcon>
-            <Plus size={18} color="#228be6" />
-          </ActionIcon>
+          <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (

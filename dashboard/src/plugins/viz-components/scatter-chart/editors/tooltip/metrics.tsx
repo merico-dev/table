@@ -70,9 +70,7 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
             </Tabs.Tab>
           ))}
           <Tabs.Tab onClick={addMetric} value="add">
-            <ActionIcon>
-              <Plus size={18} color="#228be6" />
-            </ActionIcon>
+            <Plus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
         {controlledFields.map((m, index) => (

@@ -40,9 +40,7 @@ export const SQLSnippetsEditor = observer(function _SQLSnippetsEditor() {
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={addSnippet} value="add">
-          <ActionIcon>
-            <Plus size={18} color="#228be6" />
-          </ActionIcon>
+          <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
       {model.sqlSnippets.current.map((item, index) => (
