@@ -1,5 +1,12 @@
-import { ActionIcon, Group, Header as MantineHeader, Text, Tooltip } from '@mantine/core';
-import { IconCode, IconDeviceFloppy, IconDownload, IconFileDownload, IconRecycle } from '@tabler/icons';
+import { ActionIcon, Button, Group, Header as MantineHeader, Text, Tooltip } from '@mantine/core';
+import {
+  IconCode,
+  IconDeviceFloppy,
+  IconDownload,
+  IconFileDownload,
+  IconPlaylistAdd,
+  IconRecycle,
+} from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useModelContext } from '~/contexts';
@@ -45,6 +52,16 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
           <Text size="xl">{model.name}</Text>
         </Group>
         <Group position="right">
+          <Button
+            variant="filled"
+            size="xs"
+            disabled={!model.views.VIE}
+            onClick={model.views.addAPanelToVIE}
+            leftIcon={<IconPlaylistAdd size={20} />}
+          >
+            Add a Panel
+          </Button>
+
           <Group spacing={0} sx={ActionIconGroupStyle}>
             <Tooltip label="Download Schema">
               <ActionIcon variant="default" size="md" onClick={downloadSchema}>
