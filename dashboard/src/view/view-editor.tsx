@@ -11,13 +11,9 @@ import { PreviewViewComponent } from './view-component/preview';
 
 interface IDashboardViewEditor {
   view: ViewModelInstance;
-  saveDashboardChanges: () => void;
 }
 
-export const DashboardViewEditor = observer(function _DashboardViewEditor({
-  view,
-  saveDashboardChanges,
-}: IDashboardViewEditor) {
+export const DashboardViewEditor = observer(function _DashboardViewEditor({ view }: IDashboardViewEditor) {
   const { fullScreenPanelID, setFullScreenPanelID } = useFullScreenPanelContext();
   const { viewPanelInFullScreen, exitFullScreen, inFullScreen, fullScreenPanel } = usePanelFullScreen(
     view,
@@ -33,7 +29,7 @@ export const DashboardViewEditor = observer(function _DashboardViewEditor({
     >
       <Box className="dashboard-view" data-enable-scrollbar>
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
-        {!inFullScreen && <DashboardActions saveChanges={saveDashboardChanges} inUseMode={false} />}
+        {!inFullScreen && <DashboardActions inUseMode={false} />}
         <PreviewViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
             {!inFullScreen && (

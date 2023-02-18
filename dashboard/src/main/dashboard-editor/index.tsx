@@ -104,7 +104,11 @@ export const Dashboard = observer(function _Dashboard({
               inEditMode: true,
             }}
           >
-            <AppShell padding={0} header={<DashboardEditorHeader />} styles={AppShellStyles}>
+            <AppShell
+              padding={0}
+              header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+              styles={AppShellStyles}
+            >
               <Box
                 className={`${className} dashboard-root`}
                 sx={{
@@ -114,7 +118,7 @@ export const Dashboard = observer(function _Dashboard({
                 <PluginContext.Provider value={pluginContext}>
                   <ServiceLocatorProvider configure={configureServices}>
                     {model.views.visibleViews.map((view) => (
-                      <DashboardViewEditor key={view.id} view={view} saveDashboardChanges={saveDashboardChanges} />
+                      <DashboardViewEditor key={view.id} view={view} />
                     ))}
                   </ServiceLocatorProvider>
                 </PluginContext.Provider>

@@ -1,7 +1,7 @@
 import { ActionIcon, Button, Group, Menu, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Code, Database, DeviceFloppy, Download, Filter, Link, PlaylistAdd, Recycle, Share } from 'tabler-icons-react';
+import { Code, Database, Download, Filter, Link, PlaylistAdd, Share } from 'tabler-icons-react';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { downloadJSON } from '~/utils/download';
@@ -11,11 +11,10 @@ import { FilterSettingsModal } from '../filter/filter-settings';
 import { SwitchViews } from '../main/dashboard-editor/switch-views';
 
 interface IDashboardActions {
-  saveChanges: () => void;
   inUseMode: boolean;
 }
 
-export const DashboardActions = observer(function _DashboardActions({ saveChanges, inUseMode }: IDashboardActions) {
+export const DashboardActions = observer(function _DashboardActions({ inUseMode }: IDashboardActions) {
   const model = useModelContext();
 
   const getCurrentSchema = React.useCallback(() => {
@@ -35,12 +34,6 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
       version: model.version,
     };
   }, [model]);
-
-  const revertChanges = () => {
-    model.reset();
-  };
-
-  const hasChanges = model.changed;
 
   const [dataEditorOpened, setDataEditorOpened] = React.useState(false);
   const openQueries = () => setDataEditorOpened(true);
@@ -92,18 +85,6 @@ export const DashboardActions = observer(function _DashboardActions({ saveChange
           <Tooltip label="Interactions Viewer">
             <ActionIcon variant="default" size="md" onClick={openInteractions}>
               <Link size={20} />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-        <Group spacing={0} sx={ActionIconGroupStyle}>
-          <Tooltip label="Save Changes">
-            <ActionIcon variant="default" size="md" onClick={saveChanges} disabled={!hasChanges}>
-              <DeviceFloppy size={20} color="green" />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label="Revert Changes">
-            <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
-              <Recycle size={20} color="red" />
             </ActionIcon>
           </Tooltip>
         </Group>
