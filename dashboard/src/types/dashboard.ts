@@ -50,6 +50,24 @@ export enum EViewComponentType {
   Tabs = 'tabs',
 }
 
+export const ViewComponentTypeName = {
+  [EViewComponentType.Division]: 'Division',
+  [EViewComponentType.Tabs]: 'Tabs',
+  [EViewComponentType.Modal]: 'Modal',
+};
+
+export const ViewComponentTypeBackground = {
+  [EViewComponentType.Division]: 'rgba(255, 0, 0, 0.2)',
+  [EViewComponentType.Modal]: 'rgba(0, 0, 0, 0.2)',
+  [EViewComponentType.Tabs]: 'rgba(255, 200, 100, 0.4)',
+};
+
+export const ViewComponentTypeColor = {
+  [EViewComponentType.Division]: '#ff4000',
+  [EViewComponentType.Modal]: '#000',
+  [EViewComponentType.Tabs]: '#ffad18',
+};
+
 export interface IDashboardView {
   id: string;
   name: string;

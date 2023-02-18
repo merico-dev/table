@@ -1,12 +1,11 @@
 import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
 import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DataEditorModal } from '~/definition-editor';
 import { FilterSettingsModal } from '~/filter/filter-settings';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
-import { SwitchViews } from '../switch-views';
+import { ViewLinks } from './view-links';
 
 export function DashboardEditorNavbar() {
   const [dataEditorOpened, setDataEditorOpened] = useState(false);
@@ -50,8 +49,11 @@ export function DashboardEditorNavbar() {
         <InteractionsViewerModal opened={interactionsOpened} close={closeInteractions} />
       </MantineNavbar.Section>
 
-      <MantineNavbar.Section grow mt={10} sx={{ width: '100%', overflow: 'auto' }}>
-        <SwitchViews />
+      <MantineNavbar.Section grow sx={{ width: '100%', overflow: 'auto' }}>
+        <Text mt={15} mb={-5} align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
+          Views
+        </Text>
+        <ViewLinks />
       </MantineNavbar.Section>
 
       <MantineNavbar.Section>
