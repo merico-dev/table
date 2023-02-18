@@ -6,7 +6,7 @@ function variablesToStrings(variables: ITemplateVariable[], data: Record<string,
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach((variable) => {
     const { name, data_field, aggregation } = variable;
-    const value: number = aggregateValue(data, data_field, aggregation);
+    const value = aggregateValue(data, data_field, aggregation);
     ret[name] = formatAggregatedValue(variable, value);
   });
   return ret;

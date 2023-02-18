@@ -5,14 +5,18 @@ import { InterpolateColor } from '../../color-mapping';
 import { ColorConfType, ITemplateVariable } from '../types';
 import { formatAggregatedValue } from '../utils';
 
-function getColorByColorConf(conf: ColorConfType, value: number) {
+function getColorByColorConf(conf: ColorConfType, value: number | number[] | null) {
   if (conf.type === 'static') {
     return conf.staticColor;
   }
   if (conf.type === 'continuous') {
     try {
+      if (Array.isArray(value) || value === null) {
+        throw new Error(`[getColorByColorConf] Invalid type of aggregated value: ${value}`);
+      }
       return new InterpolateColor(conf).getColor(value);
     } catch (error) {
+      console.error(error);
       return 'black';
     }
   }
@@ -21,7 +25,7 @@ function getColorByColorConf(conf: ColorConfType, value: number) {
 
 export function variable2Jsx(variable: ITemplateVariable, data: Record<string, number>[]) {
   const { color, data_field, aggregation, size, weight } = variable;
-  const value: number = aggregateValue(data, data_field, aggregation);
+  const value = aggregateValue(data, data_field, aggregation);
   const valueContent = formatAggregatedValue(variable, value);
   const text = (
     <Text sx={{ fontSize: size, display: 'inline' }} color={getColorByColorConf(color, value)} weight={weight}>
