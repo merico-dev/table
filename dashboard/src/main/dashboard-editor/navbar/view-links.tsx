@@ -4,7 +4,7 @@ import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useModelContext } from '~/contexts';
-import { EditViewModal } from '../switch-views/edit-view-modal';
+import { EditViewModal } from './edit-view-modal';
 
 interface IViewLink {
   onClick: () => void;
