@@ -19,7 +19,7 @@ export function getAggregatedValue({ data_field, aggregation }: ITemplateVariabl
   return aggregateValue(data, data_field, aggregation);
 }
 
-export function formatAggregatedValue({ formatter }: ITemplateVariable, value: number | string) {
+export function formatAggregatedValue({ formatter }: ITemplateVariable, value: number | string | number[] | null) {
   if (!['string', 'number'].includes(typeof value)) {
     return getNonStatsDataText(value);
   }
