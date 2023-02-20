@@ -34,8 +34,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
     });
     setPending(true);
     try {
-      // @ts-expect-error type mismatch
-      await DashboardAPI.update({ id: dashboard.id, name, group, ...dashboard.content });
+      await DashboardAPI.rename({ id: dashboard.id, name, group });
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

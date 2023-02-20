@@ -38,6 +38,14 @@ export const DashboardAPI = {
     };
     return await put('/dashboard/update', payload);
   },
+  rename: async ({ id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>): Promise<IDBDashboard> => {
+    const payload = {
+      id,
+      name,
+      group,
+    };
+    return await put('/dashboard/update', payload);
+  },
   create: async (name: string, group: string, content?: IDBDashboard['content']): Promise<IDBDashboard> => {
     if (!content) {
       content = {
