@@ -10,10 +10,14 @@ export const SQLSnippetsModel = types
       return self.current.map((o) => o.json);
     },
     get options() {
-      return self.current.map((o) => ({
-        label: o.key,
-        value: o.value,
-      }));
+      return self.current.map(
+        (o) =>
+          ({
+            label: o.key,
+            value: o.value,
+            _type: 'sql_snippet',
+          } as const),
+      );
     },
     get record() {
       return self.current.reduce((prev, curr) => {

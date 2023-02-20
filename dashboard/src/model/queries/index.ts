@@ -17,10 +17,14 @@ export const QueriesModel = types
       return self.current.find((query) => query.id === id);
     },
     get options() {
-      return self.current.map((d) => ({
-        value: d.id,
-        label: d.name,
-      }));
+      return self.current.map(
+        (d) =>
+          ({
+            value: d.id,
+            label: d.name,
+            _type: 'query',
+          } as const),
+      );
     },
   }))
   .views((self) => ({

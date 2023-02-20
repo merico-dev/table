@@ -1,19 +1,24 @@
-import { Box, Group, NavLink, Text, UnstyledButton } from '@mantine/core';
+import { Box, NavLink } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
 import { useModelContext } from '~/contexts';
 import { NavOptionType } from '~/model/editor';
 
 interface ISettingsNavLink {
-  onClick: () => void;
+  onClick: (option: NavOptionType, parentID?: string) => void;
   option: NavOptionType;
 }
 
 function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
   return (
-    <NavLink key={option.label} active={false} label={option.label} onClick={onClick}>
+    <NavLink
+      key={option.label}
+      active={false}
+      label={option.label}
+      onClick={() => onClick(option)}
+      icon={option.Icon ? <option.Icon size={18} /> : null}
+    >
       {option.children?.map((o) => (
-        <SettingsNavLink key={o.value} option={o} onClick={onClick} />
+        <SettingsNavLink key={o.value} option={o} onClick={(o) => onClick(o, option.value)} />
       ))}
     </NavLink>
   );
@@ -21,11 +26,10 @@ function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
 
 export const SettingsNavLinks = observer(() => {
   const model = useModelContext();
-  const getClickHandler = useCallback((id: string) => console.log, [model]);
   return (
     <Box pt="sm" sx={{ position: 'relative' }}>
       {model.editor.navOptions.map((v) => (
-        <SettingsNavLink key={v.value} option={v} onClick={() => console.log} />
+        <SettingsNavLink key={v.value} option={v} onClick={model.editor.navigate} />
       ))}
     </Box>
   );

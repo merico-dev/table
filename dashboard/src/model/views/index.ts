@@ -43,11 +43,15 @@ export const ViewsModel = types
       }));
     },
     get editorOptions() {
-      return self.current.map((v) => ({
-        label: v.name,
-        value: v.id,
-        children: v.panels.editorOptions,
-      }));
+      return self.current.map(
+        (v) =>
+          ({
+            label: v.name,
+            value: v.id,
+            _type: 'view',
+            children: v.panels.editorOptions,
+          } as const),
+      );
     },
   }))
   .actions((self) => {

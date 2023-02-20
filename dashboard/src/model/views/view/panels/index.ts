@@ -21,10 +21,14 @@ export const PanelsModel = types
       return self.list.find((query) => query.id === id);
     },
     get editorOptions() {
-      return self.list.map((o) => ({
-        label: o.title ?? o.id,
-        value: o.id,
-      }));
+      return self.list.map(
+        (o) =>
+          ({
+            label: o.title ?? o.id,
+            value: o.id,
+            _type: 'panel',
+          } as const),
+      );
     },
   }))
   .actions((self) => {
