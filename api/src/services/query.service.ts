@@ -4,6 +4,9 @@ import { DataSource } from 'typeorm';
 import { configureDatabaseSource } from '../utils/helpers';
 import { validate } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
+import { spawnSync } from 'child_process';
+import path from 'path';
+import { ApiError, BAD_REQUEST } from '../utils/errors';
 
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
@@ -52,7 +55,7 @@ export class QueryService {
     }
   }
 
-  private async postgresqlQuery(key: string, sql: string): Promise<object[]> {
+  private async postgresqlQuery(key: string, sql: string): Promise<any[]> {
     let source = QueryService.getDBConnection('postgresql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
@@ -60,10 +63,10 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('postgresql', key, source);
     }
-    return await source.query(sql);
+    return await this.executeQuery(source, sql);
   }
 
-  private async mysqlQuery(key: string, sql: string): Promise<object[]> {
+  private async mysqlQuery(key: string, sql: string): Promise<any[]> {
     let source = QueryService.getDBConnection('mysql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
@@ -71,7 +74,16 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('mysql', key, source);
     }
-    return await source.query(sql);
+    return await this.executeQuery(source, sql);
+  }
+
+  private async executeQuery(source: DataSource, raw_sql: string): Promise<any[]> {
+    const parsed = spawnSync('python3', [path.join(__dirname, 'python_scripts', 'sql_parser.py'), raw_sql]);
+    const [sql, is_valid] = parsed.stdout.toString().split('_;_');
+    if (is_valid.trim() === 'True') {
+      return await source.query(sql);
+    }
+    throw new ApiError(BAD_REQUEST, { message: 'Only readonly statements allowed' });
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {
