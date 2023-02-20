@@ -12,11 +12,21 @@ import { ViewLinks } from './view-links';
 export const DashboardEditorNavbar = observer(() => {
   const model = useModelContext();
   const [dataEditorOpened, setDataEditorOpened] = useState(false);
-  const openQueries = () => setDataEditorOpened(true);
+  const openQueries = () => {
+    if (!model.queries.firstID) {
+      return;
+    }
+    model.editor.open(['_QUERIES_', model.queries.firstID]);
+  };
   const closeQueries = () => setDataEditorOpened(false);
 
   const [filtersOpened, setFiltersOpened] = useState(false);
-  const openFilters = () => setFiltersOpened(true);
+  const openFilters = () => {
+    if (!model.filters.firstID) {
+      return;
+    }
+    model.editor.open(['_FILTERS_', model.filters.firstID]);
+  };
   const closeFilters = () => setFiltersOpened(false);
 
   const [interactionsOpened, setInteractionsOpened] = useState(false);
@@ -32,7 +42,7 @@ export const DashboardEditorNavbar = observer(() => {
           sx={{ ...ActionIconGroupStyle, button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' } }}
         >
           <Tooltip label="Filters" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openFilters}>
+            <ActionIcon variant="default" radius={0} size="md" disabled={!model.filters.firstID} onClick={openFilters}>
               <IconFilter size={20} />
             </ActionIcon>
           </Tooltip>
@@ -61,7 +71,7 @@ export const DashboardEditorNavbar = observer(() => {
 
       <MantineNavbar.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
-          <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open('_FILTER_')}>
+          <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
             Settings
           </Button>
         </Group>
