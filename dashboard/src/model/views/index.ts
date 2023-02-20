@@ -42,6 +42,13 @@ export const ViewsModel = types
         type: v.type as EViewComponentType,
       }));
     },
+    get editorOptions() {
+      return self.current.map((v) => ({
+        label: v.name,
+        value: v.id,
+        children: v.panels.editorOptions,
+      }));
+    },
   }))
   .actions((self) => {
     return {

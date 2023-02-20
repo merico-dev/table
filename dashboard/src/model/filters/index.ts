@@ -79,6 +79,12 @@ export const FiltersModel = types
     get inOrder() {
       return _.sortBy(self.current, 'order');
     },
+    get options() {
+      return self.current.map((f) => ({
+        label: f.label ?? f.id,
+        value: f.id,
+      }));
+    },
     get empty() {
       return self.current.length === 0;
     },

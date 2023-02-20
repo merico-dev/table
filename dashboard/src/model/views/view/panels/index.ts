@@ -20,6 +20,12 @@ export const PanelsModel = types
     findByID(id: string) {
       return self.list.find((query) => query.id === id);
     },
+    get editorOptions() {
+      return self.list.map((o) => ({
+        label: o.title ?? o.id,
+        value: o.id,
+      }));
+    },
   }))
   .actions((self) => {
     return {

@@ -9,6 +9,12 @@ export const SQLSnippetsModel = types
     get json() {
       return self.current.map((o) => o.json);
     },
+    get options() {
+      return self.current.map((o) => ({
+        label: o.key,
+        value: o.value,
+      }));
+    },
     get record() {
       return self.current.reduce((prev, curr) => {
         prev[curr.key] = curr.value;
@@ -42,4 +48,5 @@ export const SQLSnippetsModel = types
     };
   });
 
+export type SQLSnippetsModelInstance = Instance<typeof SQLSnippetsModel>;
 export * from './sql-snippet';

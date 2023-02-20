@@ -1,4 +1,4 @@
-import { cast, detach, types } from 'mobx-state-tree';
+import { cast, detach, Instance, types } from 'mobx-state-tree';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
 
@@ -77,4 +77,5 @@ export const QueriesModel = types
     };
   });
 
+export type QueriesModelInstance = Instance<typeof QueriesModel>;
 export * from './query';
