@@ -1,6 +1,7 @@
 import { AppShell, Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
+import { SettingsContent } from './content';
 import { SettingsNavbar } from './navbar';
 
 const SettingsAppShellStyles = {
@@ -43,7 +44,7 @@ export const Settings = observer(() => {
       zIndex={400}
     >
       <AppShell padding={0} navbar={<SettingsNavbar />} styles={SettingsAppShellStyles}>
-        {editor.path}
+        <SettingsContent />
       </AppShell>
     </Modal>
   );

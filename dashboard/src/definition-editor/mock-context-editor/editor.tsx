@@ -39,7 +39,7 @@ export const MockContextEditor = observer(function _MockContextEditor() {
       >
         <Text weight={500}>Mock Context</Text>
       </Group>
-      <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative' }}>
+      <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative', alignItems: 'flex-start' }}>
         <Stack spacing={10} sx={{ maxWidth: 'unset !important' }}>
           <Text>A valid json string is required</Text>
           <JsonInput
