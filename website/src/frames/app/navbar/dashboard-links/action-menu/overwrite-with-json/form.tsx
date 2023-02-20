@@ -33,7 +33,7 @@ export function OverwriteWithJSONForm({
     },
   });
 
-  const createDashboard = async ({ content }: IFormValues) => {
+  const updateDashboardWithJSON = async ({ content }: IFormValues) => {
     showNotification({
       id: 'for-updating',
       title: 'Pending',
@@ -104,7 +104,7 @@ export function OverwriteWithJSONForm({
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={pending} />
-      <form onSubmit={handleSubmit(createDashboard)}>
+      <form onSubmit={handleSubmit(updateDashboardWithJSON)}>
         <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
         <Group position="right" mt="md">
           <Button type="submit" disabled={disabled}>
