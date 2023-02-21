@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { SQLSnippetModelInstance } from '~/model';
 import { MinimalMonacoEditor } from '../minimal-monaco-editor';
@@ -29,6 +29,11 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   const submitValueChange = () => {
     item.setValue(value);
   };
+
+  useEffect(() => {
+    setKey(item.key);
+    setValue(item.value);
+  }, [item]);
   const valueChanged = value !== item.value;
   return (
     <Stack my={0} p={0} pt="md" pr={20}>

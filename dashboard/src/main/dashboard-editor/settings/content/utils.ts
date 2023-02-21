@@ -7,3 +7,7 @@ export function isMockContext(path: ValidEditorPathType) {
 export function isFilter(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_FILTERS_';
 }
+
+export function isSQLSnippet(path: ValidEditorPathType) {
+  return path.length === 2 && path[0] === '_SQL_SNIPPETS_';
+}

@@ -46,6 +46,12 @@ export const SQLSnippetsModel = types
       remove(index: number) {
         self.current.splice(index, 1);
       },
+      removeByKey(key: string) {
+        const index = self.current.findIndex((s) => s.key === key);
+        if (index >= 0) {
+          self.current.splice(index, 1);
+        }
+      },
       replaceByIndex(index: number, replacement: SQLSnippetModelInstance) {
         self.current.splice(index, 1, replacement);
       },

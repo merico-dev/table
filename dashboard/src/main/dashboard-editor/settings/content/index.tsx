@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { EditMockContext } from '~/definition-editor/mock-context-editor';
 import { EditFilter } from './edit-filter';
-import { isMockContext, isFilter } from './utils';
+import { EditSQLSnippet } from './edit-sql-snippet';
+import { isMockContext, isFilter, isSQLSnippet } from './utils';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
@@ -13,6 +14,9 @@ const Content = observer(() => {
   }
   if (isFilter(path)) {
     return <EditFilter id={path[1]} />;
+  }
+  if (isSQLSnippet(path)) {
+    return <EditSQLSnippet id={path[1]} />;
   }
   return <Box>{editor.path}</Box>;
 });
