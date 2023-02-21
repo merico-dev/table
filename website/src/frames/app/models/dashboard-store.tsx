@@ -1,13 +1,16 @@
-import { autorun } from 'mobx';
+import { autorun, reaction } from 'mobx';
 import { addDisposer, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { DashboardAPI } from '../../../api-caller/dashboard';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
+import { DashboardDetailModel } from './dashboard-detail-model';
 
 export const DashboardStore = types
   .model('DashboardStore', {
     list: types.array(DashboardBriefModel),
     currentID: types.optional(types.string, ''),
+    currentDetail: types.maybe(DashboardDetailModel),
     loading: types.boolean,
+    detailsLoading: types.boolean,
   })
   .views((self) => ({
     get current() {
@@ -46,6 +49,9 @@ export const DashboardStore = types
     setLoading(loading: boolean) {
       self.loading = loading;
     },
+    setDetailLoading(loading: boolean) {
+      self.detailsLoading = loading;
+    },
     setCurrentID(id?: string) {
       self.currentID = id ?? '';
     },
@@ -64,9 +70,26 @@ export const DashboardStore = types
         console.error(error);
       }
     }),
+    loadCurrentDetail: flow(function* () {
+      self.setDetailLoading(true);
+      try {
+        const data = yield* toGenerator(DashboardAPI.details(self.currentID));
+        if (!('content' in data)) {
+          throw new Error('not found');
+        }
+        self.currentDetail = DashboardDetailModel.create(data);
+        self.setDetailLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }),
   }))
   .actions((self) => ({
     afterCreate() {
       addDisposer(self, autorun(self.load));
+      addDisposer(
+        self,
+        reaction(() => self.currentID, self.loadCurrentDetail),
+      );
     },
   }));

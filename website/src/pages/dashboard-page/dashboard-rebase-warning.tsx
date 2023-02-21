@@ -3,7 +3,7 @@ import { useBoolean, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-store';
+import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 
 interface IDashboardRebaseWarning {
   id: string;
