@@ -1,7 +1,23 @@
+import { AnyObject } from '@devtable/dashboard';
 import Ajv from 'ajv';
 import { DashboardJSONTypeDef } from './dashboard-json-type-def';
 
-export function validateDashboardJSONContent(content: string) {
+export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
+  if (e.target === null) {
+    throw new Error('FileReader failed with null result');
+  }
+
+  if (typeof e.target.result !== 'string') {
+    throw new Error(`Unparsable file content of type: ${typeof e.target.result}`);
+  }
+
+  const content = JSON.parse(e.target.result);
+  validateDashboardJSONContent(content);
+
+  return content;
+}
+
+function validateDashboardJSONContent(content: AnyObject) {
   try {
     const ajv = new Ajv();
     const valid = ajv.validate(DashboardJSONTypeDef, content);

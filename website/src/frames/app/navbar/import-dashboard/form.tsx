@@ -1,4 +1,4 @@
-import { Box, Button, FileInput, Group, LoadingOverlay, Text, TextInput } from '@mantine/core';
+import { Box, Button, FileInput, Group, LoadingOverlay, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import { useEffect, useState } from 'react';
@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { DashboardAPI } from '../../../../api-caller/dashboard';
-import { validateDashboardJSONContent } from '../../../../utils/validate-dashboard-json';
+import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
@@ -83,17 +83,8 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
     fileReader.readAsText(file, 'UTF-8');
     fileReader.onload = (e) => {
       try {
-        if (e.target === null) {
-          throw new Error('FileReader failed with null result');
-        }
-
-        const content = e.target.result;
-        if (typeof content !== 'string') {
-          throw new Error(`Unparsable file content of type: ${typeof content}`);
-        }
-        validateDashboardJSONContent(content);
-
-        setValue('content', JSON.parse(content));
+        const content = validateDashboardJSONFile(e);
+        setValue('content', content);
         clearErrors('content');
       } catch (error: $TSFixMe | ErrorOptions) {
         console.error(error);

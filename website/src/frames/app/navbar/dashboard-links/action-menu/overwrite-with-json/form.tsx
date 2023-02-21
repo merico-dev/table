@@ -3,7 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
-import { validateDashboardJSONContent } from '../../../../../../utils/validate-dashboard-json';
+import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
 import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
@@ -78,17 +78,8 @@ export function OverwriteWithJSONForm({
     fileReader.readAsText(file, 'UTF-8');
     fileReader.onload = (e) => {
       try {
-        if (e.target === null) {
-          throw new Error('FileReader failed with null result');
-        }
-
-        const content = e.target.result;
-        if (typeof content !== 'string') {
-          throw new Error(`Unparsable file content of type: ${typeof content}`);
-        }
-        validateDashboardJSONContent(content);
-
-        setValue('content', JSON.parse(content));
+        const content = validateDashboardJSONFile(e);
+        setValue('content', content);
         clearErrors('content');
       } catch (error: $TSFixMe | ErrorOptions) {
         console.error(error);
