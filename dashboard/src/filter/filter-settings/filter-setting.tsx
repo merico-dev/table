@@ -1,16 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Flex,
-  Stack,
-  Text,
-  TextInput,
-  Tooltip,
-} from '@mantine/core';
+import { Box, Checkbox, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext } from '~/contexts';

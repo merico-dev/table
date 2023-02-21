@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { NavActionType, NavOptionType } from '~/model/editor';
+import { NavActionType } from '~/model/editor';
 import { AddAFilter } from './add-a-filter';
 
 interface IAddItemButton {

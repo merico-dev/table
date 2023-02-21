@@ -6,7 +6,7 @@ import { DashboardAPI } from '../../../../../../api-caller/dashboard';
 import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
 import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
-type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
+type TDashboardContent_Temp = Record<string, $TSFixMe> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
 interface IFormValues {
   content: TDashboardContent_Temp;

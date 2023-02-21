@@ -14,7 +14,7 @@ import { useAccountContext } from '../../frames/require-auth/account-context';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
 
-export const DashboardPageContent = observer(({ id }: { id: string }) => {
+export const DashboardPageContent = observer(() => {
   const { store } = useDashboardStore();
   const { mode } = useParams();
   const [search, setSearch] = useUrlState({
