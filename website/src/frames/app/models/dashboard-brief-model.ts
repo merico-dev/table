@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 
 export const DashboardBriefModel = types
   .model('DashboardBriefModel', {
@@ -16,3 +16,5 @@ export const DashboardBriefModel = types
       return !self.is_preset;
     },
   }));
+
+export type DashboardBriefModelInstance = Instance<typeof DashboardBriefModel>;

@@ -1,11 +1,11 @@
 import { autorun } from 'mobx';
 import { addDisposer, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { DashboardAPI } from '../../../api-caller/dashboard';
-import { DashboardDetailModel, DashboardDetailModelInstance } from './dashboard-detail-model';
+import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 
 export const DashboardStore = types
   .model('DashboardStore', {
-    list: types.array(DashboardDetailModel),
+    list: types.array(DashboardBriefModel),
     currentID: types.optional(types.string, ''),
     loading: types.boolean,
   })
@@ -27,7 +27,7 @@ export const DashboardStore = types
           }
           ret[d.group].push(d);
           return ret;
-        }, {} as Record<string, DashboardDetailModelInstance[]>);
+        }, {} as Record<string, DashboardBriefModelInstance[]>);
     },
     get strayList() {
       return self.list.filter((d) => !d.group);
@@ -40,7 +40,7 @@ export const DashboardStore = types
     },
   }))
   .actions((self) => ({
-    setList(list: SnapshotIn<typeof DashboardDetailModel>[]) {
+    setList(list: SnapshotIn<typeof DashboardBriefModel>[]) {
       self.list = cast(list);
     },
     setLoading(loading: boolean) {
