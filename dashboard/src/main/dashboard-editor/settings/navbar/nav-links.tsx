@@ -2,6 +2,7 @@ import { Box, NavLink } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { NavOptionType } from '~/model/editor';
+import { AddItemButton } from './add-item-button';
 
 interface ISettingsNavLink {
   onClick: (option: NavOptionType, parentID?: string) => void;
@@ -17,9 +18,13 @@ function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
       onClick={() => onClick(option)}
       icon={option.Icon ? <option.Icon size={18} /> : null}
     >
-      {option.children?.map((o) => (
-        <SettingsNavLink key={o.value} option={o} onClick={(o) => onClick(o, option.value)} />
-      ))}
+      {option.children?.map((o) =>
+        o._type === 'ACTION' ? (
+          <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} />
+        ) : (
+          <SettingsNavLink key={o.value} option={o} onClick={(o) => onClick(o, option.value)} />
+        ),
+      )}
     </NavLink>
   );
 }

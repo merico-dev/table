@@ -12,13 +12,22 @@ type PartialRootInstanceType = {
   queries: QueriesModelInstance;
 };
 
-export type NavOptionType = {
+export type NavActionType = {
+  label: string;
+  value: string;
+  _type: 'ACTION';
+  _action_type?: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_';
+  Icon: null;
+  children: null;
+};
+export type NavLinkType = {
   label: string;
   value: string;
   _type: 'GROUP' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: TablerIcon;
   children?: NavOptionType[];
 };
+export type NavOptionType = NavLinkType | NavActionType;
 
 export type ValidEditorPathType =
   | ['_MOCK_CONTEXT_']
@@ -32,6 +41,7 @@ export type ValidEditorPathType =
 function getPathFromOption(o: NavOptionType, parentID?: string): ValidEditorPathType | null {
   switch (o._type) {
     case 'GROUP':
+    case 'ACTION':
       return null;
     case 'mock_context':
       return ['_MOCK_CONTEXT_'];
@@ -71,7 +81,10 @@ export const EditorModel = types
           label: 'Filters',
           value: '_FILTERS_',
           Icon: IconFilter,
-          children: filters.options,
+          children: [
+            ...filters.options,
+            { label: 'add_a_filter', value: 'ADD', _type: 'ACTION', _action_type: '_Add_A_Filter_' },
+          ],
           _type: 'GROUP',
         },
         {
