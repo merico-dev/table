@@ -1,6 +1,7 @@
 import { MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
+import { DashboardStoreProvider } from '../app/models/dashboard-store-context';
 import { useAccountContext } from '../require-auth/account-context';
 
 export function DashboardEditorFrame() {
@@ -9,12 +10,12 @@ export function DashboardEditorFrame() {
     return <Navigate to="/" replace />;
   }
   return (
-    <div>
+    <DashboardStoreProvider>
       <MantineProvider>
         <NotificationsProvider>
           <Outlet />
         </NotificationsProvider>
       </MantineProvider>
-    </div>
+    </DashboardStoreProvider>
   );
 }
