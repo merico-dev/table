@@ -3,7 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
+import { DashboardDetailModelInstance } from '../../../../models/dashboard-detail-model';
 
 interface IFormValues {
   name: string;

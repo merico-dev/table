@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
 import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
-import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
+import { DashboardDetailModelInstance } from '../../../../models/dashboard-detail-model';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
