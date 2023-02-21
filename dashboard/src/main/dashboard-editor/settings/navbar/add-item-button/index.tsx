@@ -4,6 +4,7 @@ import { NavActionType } from '~/model/editor';
 import { AddAFilter } from './add-a-filter';
 import { AddAQuery } from './add-a-query';
 import { AddASQLSnippet } from './add-a-sql-snippet';
+import { AddAView } from './add-a-view';
 
 interface IAddItemButton {
   action_type: NavActionType['_action_type'];
@@ -22,6 +23,10 @@ export const AddItemButton = observer(({ action_type }: IAddItemButton) => {
 
   if (action_type === '_Add_A_QUERY_') {
     return <AddAQuery />;
+  }
+
+  if (action_type === '_Add_A_VIEW_') {
+    return <AddAView />;
   }
   return null;
 });

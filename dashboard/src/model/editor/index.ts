@@ -106,7 +106,7 @@ export const EditorModel = types
           label: 'Views',
           value: '_VIEWS_',
           Icon: IconBoxMultiple,
-          children: views.editorOptions,
+          children: [...views.editorOptions, getActionOption('_Add_A_VIEW_')],
           _type: 'GROUP',
         },
       ];
