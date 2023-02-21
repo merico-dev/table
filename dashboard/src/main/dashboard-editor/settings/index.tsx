@@ -42,6 +42,11 @@ export const Settings = observer(() => {
       withCloseButton={false}
       withinPortal
       zIndex={400}
+      styles={{
+        modal: {
+          padding: '0 !important',
+        },
+      }}
     >
       <AppShell padding={0} navbar={<SettingsNavbar />} styles={SettingsAppShellStyles}>
         <SettingsContent />
