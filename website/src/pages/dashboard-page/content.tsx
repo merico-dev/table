@@ -13,6 +13,7 @@ import { useAccountContext } from '../../frames/require-auth/account-context';
 import './content.css';
 import { useParams } from 'react-router-dom';
 import { DashboardRebaseWarning } from './dashboard-rebase-warning';
+import { ErrorBoundary } from '../../utils/error-boundary';
 
 const _DashboardPageContent = ({ id }: { id: string }) => {
   const { mode } = useParams();
@@ -65,14 +66,16 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
       {inEditMode && <DashboardRebaseWarning id={id} current={dashboardModel} />}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
-        <DashboardComponent
-          context={context}
-          dashboard={dashboardModel.dashboard}
-          update={updateDashboard}
-          config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
-          fullScreenPanelID={search.full_screen_panel_id}
-          setFullScreenPanelID={setFullScreenPanelID}
-        />
+        <ErrorBoundary>
+          <DashboardComponent
+            context={context}
+            dashboard={dashboardModel.dashboard}
+            update={updateDashboard}
+            config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
+            fullScreenPanelID={search.full_screen_panel_id}
+            setFullScreenPanelID={setFullScreenPanelID}
+          />
+        </ErrorBoundary>
       )}
     </div>
   );
