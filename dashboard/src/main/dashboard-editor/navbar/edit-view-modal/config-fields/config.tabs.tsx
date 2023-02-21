@@ -1,6 +1,6 @@
 import { Divider, Select, Stack, Switch } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 
@@ -30,13 +30,11 @@ const tabOrientationOptions = [
   },
 ];
 
-export const ViewTabsConfigFields = observer(() => {
-  const model = useModelContext();
-  const VIE = model.views.VIE;
-  if (!VIE || VIE.type !== EViewComponentType.Tabs) {
+export const ViewTabsConfigFields = observer(({ view }: { view: ViewModelInstance }) => {
+  if (!view || view.type !== EViewComponentType.Tabs) {
     return null;
   }
-  const config = VIE.config as IViewConfigModel_Tabs;
+  const config = view.config as IViewConfigModel_Tabs;
   return (
     <Stack>
       <Divider mt={8} mb={0} label="Tabs settings" labelPosition="center" />

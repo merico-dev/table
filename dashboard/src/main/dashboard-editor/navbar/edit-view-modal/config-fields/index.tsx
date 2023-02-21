@@ -1,14 +1,15 @@
 import { observer } from 'mobx-react-lite';
+import { ViewModelInstance } from '~/model';
 import { ViewDivisionConfigFields } from './config.division';
 import { ViewTabsConfigFields } from './config.tabs';
 import { ViewModalConfigFields } from './modal';
 
-export const ConfigFields = observer(() => {
+export const ConfigFields = observer(({ view }: { view: ViewModelInstance }) => {
   return (
     <>
-      <ViewDivisionConfigFields />
-      <ViewModalConfigFields />
-      <ViewTabsConfigFields />
+      <ViewDivisionConfigFields view={view} />
+      <ViewModalConfigFields view={view} />
+      <ViewTabsConfigFields view={view} />
     </>
   );
 });

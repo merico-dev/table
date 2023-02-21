@@ -1,18 +1,16 @@
 import { Divider, Flex, Group, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Modal } from '~/model/views/view/modal';
 import { EViewComponentType } from '~/types';
 import { CustomModalTitleField } from './modal-title-editor';
 
-export const ViewModalConfigFields = observer(() => {
-  const model = useModelContext();
-  const VIE = model.views.VIE;
-  if (!VIE || VIE.type !== EViewComponentType.Modal) {
+export const ViewModalConfigFields = observer(({ view }: { view: ViewModelInstance }) => {
+  if (!view || view.type !== EViewComponentType.Modal) {
     return null;
   }
-  const config = VIE.config as IViewConfigModel_Modal;
+  const config = view.config as IViewConfigModel_Modal;
   const title = config.custom_modal_title.value;
   return (
     <Stack>

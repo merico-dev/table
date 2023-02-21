@@ -4,7 +4,8 @@ import { useModelContext } from '~/contexts';
 import { EditMockContext } from '~/definition-editor/mock-context-editor';
 import { EditFilter } from './edit-filter';
 import { EditSQLSnippet } from './edit-sql-snippet';
-import { isMockContext, isFilter, isSQLSnippet } from './utils';
+import { EditView } from './edit-view';
+import { isMockContext, isFilter, isSQLSnippet, isView } from './utils';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
@@ -17,6 +18,9 @@ const Content = observer(() => {
   }
   if (isSQLSnippet(path)) {
     return <EditSQLSnippet id={path[1]} />;
+  }
+  if (isView(path)) {
+    return <EditView id={path[1]} />;
   }
   return <Box>{editor.path}</Box>;
 });

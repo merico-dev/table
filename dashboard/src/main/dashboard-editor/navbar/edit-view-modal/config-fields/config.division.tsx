@@ -1,12 +1,10 @@
-import { Divider, Text, Stack, TextInput } from '@mantine/core';
+import { Divider, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { ViewModelInstance } from '~/model';
 import { EViewComponentType } from '~/types';
 
-export const ViewDivisionConfigFields = observer(() => {
-  const model = useModelContext();
-  const VIE = model.views.VIE;
-  if (!VIE || VIE.type !== EViewComponentType.Division) {
+export const ViewDivisionConfigFields = observer(({ view }: { view: ViewModelInstance }) => {
+  if (!view || view.type !== EViewComponentType.Division) {
     return null;
   }
   return (

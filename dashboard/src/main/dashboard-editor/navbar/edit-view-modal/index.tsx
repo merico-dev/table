@@ -47,7 +47,7 @@ export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
         e.stopPropagation();
       }}
     >
-      <EditViewForm />
+      <EditViewForm view={model.views.VIE} />
     </Modal>
   );
 });
