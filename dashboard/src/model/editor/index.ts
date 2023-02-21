@@ -99,7 +99,7 @@ export const EditorModel = types
           label: 'Queries',
           value: '_QUERIES_',
           Icon: IconDatabase,
-          children: queries.options,
+          children: [...queries.options, getActionOption('_Add_A_QUERY_')],
           _type: 'GROUP',
         },
         {

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { NavActionType } from '~/model/editor';
 import { AddAFilter } from './add-a-filter';
+import { AddAQuery } from './add-a-query';
 import { AddASQLSnippet } from './add-a-sql-snippet';
 
 interface IAddItemButton {
@@ -17,6 +18,10 @@ export const AddItemButton = observer(({ action_type }: IAddItemButton) => {
 
   if (action_type === '_Add_A_SQL_SNIPPET_') {
     return <AddASQLSnippet />;
+  }
+
+  if (action_type === '_Add_A_QUERY_') {
+    return <AddAQuery />;
   }
   return null;
 });
