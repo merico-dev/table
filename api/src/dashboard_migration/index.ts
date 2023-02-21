@@ -48,24 +48,33 @@ async function migrateOneDashboard(
   dashboardChangelogRepo: Repository<DashboardChangelog>,
   dashboardRepo: Repository<Dashboard>,
 ) {
-  const version = dashboard.content.version as string;
-  if (version && !versions.includes(version)) {
-    throw new Error(`MIGRATION FAILED, dashboard [${dashboard.name}]'s version [${version}] is not migratable`);
-  }
-  let handler = await findHandler(version);
-  while (handler) {
-    const originalDashboard = _.cloneDeep(dashboard);
-    dashboard.content = handler.main(dashboard.content);
-    const updatedDashboard = await dashboardRepo.save(dashboard);
-    const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(updatedDashboard));
-    if (diff) {
-      const changelog = new DashboardChangelog();
-      changelog.dashboard_id = dashboard.id;
-      changelog.diff = diff;
-      await dashboardChangelogRepo.save(changelog);
+  try {
+    const version = dashboard.content.version as string;
+    if (version && !versions.includes(version)) {
+      throw new Error(`MIGRATION FAILED, dashboard [${dashboard.name}]'s version [${version}] is not migratable`);
     }
-    logger.info(`MIGRATED ${dashboard.id} TO VERSION ${dashboard.content.version}`);
-    handler = await findHandler(dashboard.content.version as string);
+    let handler = await findHandler(version);
+    while (handler) {
+      const originalDashboard = _.cloneDeep(dashboard);
+      dashboard.content = handler.main(dashboard.content);
+      const updatedDashboard = await dashboardRepo.save(dashboard);
+      const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(updatedDashboard));
+      if (diff) {
+        const changelog = new DashboardChangelog();
+        changelog.dashboard_id = dashboard.id;
+        changelog.diff = diff;
+        await dashboardChangelogRepo.save(changelog);
+      }
+      logger.info(`MIGRATED ${dashboard.id} TO VERSION ${dashboard.content.version}`);
+      handler = await findHandler(dashboard.content.version as string);
+    }
+  } catch (error) {
+    /**
+     * NOTE(LETO): happens when dashboard's content is not migratable
+     * Skip to provide a chance to fix it
+     */
+    logger.error(`error migrating dashboard. ID: ${dashboard.id}  name: ${dashboard.name}`);
+    logger.error(error.message);
   }
 }
 
