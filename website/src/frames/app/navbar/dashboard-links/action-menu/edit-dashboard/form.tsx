@@ -3,7 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
+import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
 interface IFormValues {
   name: string;
@@ -11,7 +11,7 @@ interface IFormValues {
 }
 
 interface IEditDashboardForm {
-  dashboard: DashboardDetailModelInstance;
+  dashboard: DashboardBriefModelInstance;
   postSubmit: () => void;
 }
 
@@ -66,11 +66,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
             name="name"
             render={({ field }) => <TextInput label="Name" required {...field} />}
           />
-          <Controller
-            control={control}
-            name="group"
-            render={({ field }) => <TextInput label="Group" required {...field} />}
-          />
+          <Controller control={control} name="group" render={({ field }) => <TextInput label="Group" {...field} />} />
           <Group position="right" mt="md">
             <Button type="submit" disabled={disabled}>
               Confirm

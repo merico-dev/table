@@ -4,7 +4,9 @@ import { useRequest } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
 import { DashboardAPI } from '../../../../api-caller/dashboard';
+import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
@@ -31,7 +33,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
     },
   });
 
-  const createDashboard = async ({ name, content }: IFormValues) => {
+  const createDashboardWithJSON = async ({ name, content }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
@@ -77,30 +79,25 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
     if (!file) {
       return;
     }
-    try {
-      const fileReader = new FileReader();
-      fileReader.readAsText(file, 'UTF-8');
-      fileReader.onload = (e) => {
-        if (e.target === null) {
-          throw new Error('fileReader failed with null result');
-        }
-
-        const content = e.target.result;
-
-        console.groupCollapsed('content of the chosen file');
-        console.log(content);
-        console.groupEnd();
-
-        if (typeof content !== 'string') {
-          throw new Error(`unparsable file content of type: ${typeof content}`);
-        }
-
-        setValue('content', JSON.parse(content));
-      };
-      clearErrors('content');
-    } catch (error: $TSFixMe | ErrorOptions) {
-      setError('content', error);
-    }
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, 'UTF-8');
+    fileReader.onload = (e) => {
+      try {
+        const content = validateDashboardJSONFile(e);
+        setValue('content', content);
+        clearErrors('content');
+      } catch (error: $TSFixMe | ErrorOptions) {
+        console.error(error);
+        setError('content', { type: 'custom', message: error.message });
+      }
+    };
+    fileReader.onabort = () => console.log('🟨 abort');
+    fileReader.onerror = () => {
+      if (fileReader.error) {
+        console.error(fileReader.error);
+        setError('content', { type: 'custom', message: fileReader.error.message });
+      }
+    };
   }, [file]);
 
   const [name, content] = watch(['name', 'content']);
@@ -108,7 +105,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={loading} />
-      <form onSubmit={handleSubmit(createDashboard)}>
+      <form onSubmit={handleSubmit(createDashboardWithJSON)}>
         <Controller
           name="name"
           control={control}

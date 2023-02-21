@@ -24,6 +24,7 @@ export function DashboardStoreProvider({ children }: { children: React.ReactNode
       DashboardStore.create({
         list: [],
         loading: false,
+        detailsLoading: false,
       }),
     [],
   );

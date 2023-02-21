@@ -42,7 +42,7 @@ export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IA
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={() => openEditModal(id)} icon={<Edit size={16} />}>
-          Edit
+          Rename
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={() => openOverwriteModal(id)} icon={<FileImport size={16} />}>

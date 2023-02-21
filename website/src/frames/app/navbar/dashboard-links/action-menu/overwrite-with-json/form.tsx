@@ -3,7 +3,8 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
+import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
+import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
@@ -15,7 +16,7 @@ export function OverwriteWithJSONForm({
   dashboard,
   postSubmit,
 }: {
-  dashboard: DashboardDetailModelInstance;
+  dashboard: DashboardBriefModelInstance;
   postSubmit: () => void;
 }) {
   const [pending, setPending] = useState(false);
@@ -73,30 +74,25 @@ export function OverwriteWithJSONForm({
     if (!file) {
       return;
     }
-    try {
-      const fileReader = new FileReader();
-      fileReader.readAsText(file, 'UTF-8');
-      fileReader.onload = (e) => {
-        if (e.target === null) {
-          throw new Error('fileReader failed with null result');
-        }
-
-        const content = e.target.result;
-
-        console.groupCollapsed('content of the chosen file');
-        console.log(content);
-        console.groupEnd();
-
-        if (typeof content !== 'string') {
-          throw new Error(`unparsable file content of type: ${typeof content}`);
-        }
-
-        setValue('content', JSON.parse(content));
-      };
-      clearErrors('content');
-    } catch (error: $TSFixMe | ErrorOptions) {
-      setError('content', error);
-    }
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, 'UTF-8');
+    fileReader.onload = (e) => {
+      try {
+        const content = validateDashboardJSONFile(e);
+        setValue('content', content);
+        clearErrors('content');
+      } catch (error: $TSFixMe | ErrorOptions) {
+        console.error(error);
+        setError('content', { type: 'custom', message: error.message });
+      }
+    };
+    fileReader.onabort = () => console.log('🟨 abort');
+    fileReader.onerror = () => {
+      if (fileReader.error) {
+        console.error(fileReader.error);
+        setError('content', { type: 'custom', message: fileReader.error.message });
+      }
+    };
   }, [file]);
 
   const [content] = watch(['content']);

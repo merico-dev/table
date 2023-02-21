@@ -1,13 +1,19 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FileImport } from 'tabler-icons-react';
+import { useDashboardStore } from '../../models/dashboard-store-context';
 import { ImportDashboardForm } from './form';
 
-export function ImportDashboard() {
+export const ImportDashboard = observer(() => {
+  const { store } = useDashboardStore();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
-
+  const closeOnSuccess = () => {
+    close();
+    store.load();
+  };
   return (
     <>
       <Modal
@@ -20,7 +26,7 @@ export function ImportDashboard() {
           e.stopPropagation();
         }}
       >
-        <ImportDashboardForm postSubmit={close} />
+        <ImportDashboardForm postSubmit={closeOnSuccess} />
       </Modal>
       <Tooltip label="Import a dashboard">
         <ActionIcon color="blue" variant="light" onClick={open}>
@@ -29,4 +35,4 @@ export function ImportDashboard() {
       </Tooltip>
     </>
   );
-}
+});
