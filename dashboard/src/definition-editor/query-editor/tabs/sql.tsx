@@ -42,7 +42,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
         <Tabs.Tab value="Preview">Preview</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
-        <MinimalMonacoEditor height="600px" value={sql} onChange={setSQL} />
+        <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} />
       </Tabs.Panel>
       <Tabs.Panel value="Preview" p="sm">
         <PreviewSQL value={queryModel.sql} />

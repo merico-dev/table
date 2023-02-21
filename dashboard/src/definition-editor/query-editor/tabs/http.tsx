@@ -18,7 +18,7 @@ export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelI
     return null;
   }
   return (
-    <Tabs defaultValue="pre_process" orientation="vertical">
+    <Tabs defaultValue="pre_process" orientation="vertical" sx={{ flexGrow: 1 }}>
       <Tabs.List>
         <Tabs.Tab value="pre_process">Build Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>

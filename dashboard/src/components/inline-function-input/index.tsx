@@ -33,19 +33,21 @@ export const InlineFunctionInput = forwardRef(
     const hasChanges = localValue !== value;
 
     return (
-      <Stack spacing={4}>
+      <Stack spacing={4} sx={{ height: '100%' }}>
         <Text size={14}>{label}</Text>
         <FunctionEditor value={localValue} onChange={setLocalValue} />
-        <Group mt={10} position="apart">
-          <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
+        <Group mt={10} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
+          <Button onClick={resetFuncContent} size="xs" color="red" leftIcon={<Recycle size={16} />}>
             Reset to default
           </Button>
           {hasChanges && (
             <Group position="right">
-              <Button onClick={handleCancel} variant="subtle">
+              <Button onClick={handleCancel} variant="subtle" size="xs">
                 Cancel
               </Button>
-              <Button onClick={handleOk}>OK</Button>
+              <Button size="xs" onClick={handleOk}>
+                OK
+              </Button>
             </Group>
           )}
         </Group>
