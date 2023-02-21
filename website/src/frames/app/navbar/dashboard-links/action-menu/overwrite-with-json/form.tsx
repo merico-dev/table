@@ -3,6 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { validateDashboardJSONContent } from '../../../../../../utils/validate-dashboard-json';
 import { DashboardDetailModelInstance } from '../../../../models/dashboard-store';
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
@@ -73,30 +74,34 @@ export function OverwriteWithJSONForm({
     if (!file) {
       return;
     }
-    try {
-      const fileReader = new FileReader();
-      fileReader.readAsText(file, 'UTF-8');
-      fileReader.onload = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, 'UTF-8');
+    fileReader.onload = (e) => {
+      try {
         if (e.target === null) {
-          throw new Error('fileReader failed with null result');
+          throw new Error('FileReader failed with null result');
         }
 
         const content = e.target.result;
-
-        console.groupCollapsed('content of the chosen file');
-        console.log(content);
-        console.groupEnd();
-
         if (typeof content !== 'string') {
-          throw new Error(`unparsable file content of type: ${typeof content}`);
+          throw new Error(`Unparsable file content of type: ${typeof content}`);
         }
+        validateDashboardJSONContent(content);
 
         setValue('content', JSON.parse(content));
-      };
-      clearErrors('content');
-    } catch (error: $TSFixMe | ErrorOptions) {
-      setError('content', error);
-    }
+        clearErrors('content');
+      } catch (error: $TSFixMe | ErrorOptions) {
+        console.error(error);
+        setError('content', { type: 'custom', message: error.message });
+      }
+    };
+    fileReader.onabort = () => console.log('🟨 abort');
+    fileReader.onerror = () => {
+      if (fileReader.error) {
+        console.error(fileReader.error);
+        setError('content', { type: 'custom', message: fileReader.error.message });
+      }
+    };
   }, [file]);
 
   const [content] = watch(['content']);
