@@ -11,7 +11,11 @@ export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
     throw new Error(`Unparsable file content of type: ${typeof e.target.result}`);
   }
 
-  const content = JSON.parse(e.target.result);
+  let content = JSON.parse(e.target.result);
+  if ('content' in content) {
+    content = content.content;
+  }
+
   validateDashboardJSONContent(content);
 
   return content;
