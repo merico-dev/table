@@ -62,7 +62,7 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
   const DashboardComponent = inEditMode && isDashboardEditable ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
-      {inEditMode && <DashboardRebaseWarning id={id} current={store.currentDetail} />}
+      {inEditMode && <DashboardRebaseWarning />}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <ErrorBoundary>
