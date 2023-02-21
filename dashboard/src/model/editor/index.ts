@@ -16,7 +16,7 @@ export type NavActionType = {
   label: string;
   value: string;
   _type: 'ACTION';
-  _action_type?: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_';
+  _action_type: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_';
   Icon: null;
   children: null;
 };
@@ -28,6 +28,10 @@ export type NavLinkType = {
   children?: NavOptionType[];
 };
 export type NavOptionType = NavLinkType | NavActionType;
+
+function getActionOption(_action_type: NavActionType['_action_type']): NavActionType {
+  return { label: _action_type, value: _action_type, _type: 'ACTION', _action_type, Icon: null, children: null };
+}
 
 export type ValidEditorPathType =
   | ['_MOCK_CONTEXT_']
@@ -81,17 +85,14 @@ export const EditorModel = types
           label: 'Filters',
           value: '_FILTERS_',
           Icon: IconFilter,
-          children: [
-            ...filters.options,
-            { label: 'add_a_filter', value: 'ADD', _type: 'ACTION', _action_type: '_Add_A_Filter_' },
-          ],
+          children: [...filters.options, getActionOption('_Add_A_Filter_')],
           _type: 'GROUP',
         },
         {
           label: 'SQL Snipepts',
           value: '_SQL_SNIPPETS_',
           Icon: IconCopy,
-          children: sqlSnippets.options,
+          children: [...sqlSnippets.options, getActionOption('_Add_A_SQL_SNIPPET_')],
           _type: 'GROUP',
         },
         {

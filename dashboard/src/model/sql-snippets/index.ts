@@ -14,7 +14,7 @@ export const SQLSnippetsModel = types
         (o) =>
           ({
             label: o.key,
-            value: o.value,
+            value: o.key,
             _type: 'sql_snippet',
           } as const),
       );
