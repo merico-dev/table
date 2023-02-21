@@ -1,28 +1,28 @@
 import { LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
-import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store';
+import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardEditor } from './dashboard-editor';
 import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 import './index.css';
 
-const LoadAndRenderDashboardEditor = observer(({ id }: { id: string }) => {
-  const { data: dashboardModel, loading, refresh } = useDashboardDetailQuery({ id });
+const LoadAndRenderDashboardEditor = observer(() => {
+  const { store } = useDashboardStore();
 
-  if (!dashboardModel) {
+  if (!store.currentDetail) {
     return null;
   }
 
-  const isDashboardEditable = dashboardModel.isEditable;
+  const isDashboardEditable = store.currentDetail.isEditable;
   if (!isDashboardEditable) {
     return <span>TODO: redirect to index page if !isDashboardEditable</span>;
   }
-  const ready = !loading;
+  const ready = !store.detailsLoading;
   return (
     <div className="load-and-render-dashboard-editor">
-      <DashboardRebaseWarning id={id} current={dashboardModel} />
+      <DashboardRebaseWarning />
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
-      {ready && <DashboardEditor dashboardModel={dashboardModel} refresh={refresh} />}
+      {ready && <DashboardEditor dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
     </div>
   );
 });
@@ -32,5 +32,5 @@ export function DashboardEditorPage() {
   if (!id) {
     return <span>TODO: redirect to index page</span>;
   }
-  return <LoadAndRenderDashboardEditor id={id} />;
+  return <LoadAndRenderDashboardEditor />;
 }
