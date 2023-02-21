@@ -4,6 +4,7 @@ import logger from 'npmlog';
 import { DashboardChangelogService } from '../services/dashboard_changelog.service';
 import _ from 'lodash';
 import DashboardChangelog from '../models/dashboard_changelog';
+import { Repository } from 'typeorm';
 
 // NOTE: Keep versions in order
 const versions = [
@@ -42,6 +43,32 @@ async function findHandler(currentVersion: string | undefined) {
   return import(`./handlers/${nextVersion}`);
 }
 
+async function migrateOneDashboard(
+  dashboard: Dashboard,
+  dashboardChangelogRepo: Repository<DashboardChangelog>,
+  dashboardRepo: Repository<Dashboard>,
+) {
+  const version = dashboard.content.version as string;
+  if (version && !versions.includes(version)) {
+    throw new Error(`MIGRATION FAILED, dashboard [${dashboard.name}]'s version [${version}] is not migratable`);
+  }
+  let handler = await findHandler(version);
+  while (handler) {
+    const originalDashboard = _.cloneDeep(dashboard);
+    dashboard.content = handler.main(dashboard.content);
+    const updatedDashboard = await dashboardRepo.save(dashboard);
+    const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(updatedDashboard));
+    if (diff) {
+      const changelog = new DashboardChangelog();
+      changelog.dashboard_id = dashboard.id;
+      changelog.diff = diff;
+      await dashboardChangelogRepo.save(changelog);
+    }
+    logger.info(`MIGRATED ${dashboard.id} TO VERSION ${dashboard.content.version}`);
+    handler = await findHandler(dashboard.content.version as string);
+  }
+}
+
 async function main() {
   logger.info('STARTING MIGRATION OF DASHBOARDS');
   try {
@@ -53,26 +80,7 @@ async function main() {
     const dashboards = await dashboardRepo.find();
 
     for (let i = 0; i < dashboards.length; i += 1) {
-      const db = dashboards[i];
-      const version = db.content.version as string;
-      if (version && !versions.includes(version)) {
-        throw new Error(`MIGRATION FAILED, dashboard [${db.name}]'s version [${version}] is not migratable`);
-      }
-      let handler = await findHandler(version);
-      while (handler) {
-        const originalDashboard = _.cloneDeep(db);
-        db.content = handler.main(db.content);
-        const updatedDashboard = await dashboardRepo.save(db);
-        const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(updatedDashboard));
-        if (diff) {
-          const changelog = new DashboardChangelog();
-          changelog.dashboard_id = db.id;
-          changelog.diff = diff;
-          await dashboardChangelogRepo.save(changelog);
-        }
-        logger.info(`MIGRATED ${db.id} TO VERSION ${db.content.version}`);
-        handler = await findHandler(db.content.version as string);
-      }
+      migrateOneDashboard(dashboards[i], dashboardChangelogRepo, dashboardRepo);
     }
   } catch (error) {
     logger.error('error migrating dashboards');
