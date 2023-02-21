@@ -13,9 +13,8 @@ import { useDashboardStore } from '../../frames/app/models/dashboard-store-conte
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
-import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 
-const _DashboardPageContent = ({ id }: { id: string }) => {
+export const DashboardPageContent = observer(({ id }: { id: string }) => {
   const { store } = useDashboardStore();
   const { mode } = useParams();
   const [search, setSearch] = useUrlState({
@@ -62,7 +61,6 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
   const DashboardComponent = inEditMode && isDashboardEditable ? Dashboard : ReadOnlyDashboard;
   return (
     <div className="dashboard-page-content">
-      {inEditMode && <DashboardRebaseWarning />}
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <ErrorBoundary>
@@ -78,5 +76,4 @@ const _DashboardPageContent = ({ id }: { id: string }) => {
       )}
     </div>
   );
-};
-export const DashboardPageContent = observer(_DashboardPageContent);
+});

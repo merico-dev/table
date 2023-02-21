@@ -1,30 +1,37 @@
 import { Divider, Notification, Text } from '@mantine/core';
 import { useBoolean, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
+import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-store';
+import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 
-interface IDashboardRebaseWarning {
-  id: string;
-  current: DashboardDetailModelInstance;
-}
-export function DashboardRebaseWarning({ id, current }: IDashboardRebaseWarning) {
+export const DashboardRebaseWarning = observer(() => {
+  const { store } = useDashboardStore();
   const [show, { setFalse, set }] = useBoolean(false);
 
-  const { data: latest = { update_time: 0 }, loading } = useRequest(async () => DashboardAPI.details(id), {
-    refreshDeps: [id],
-    pollingInterval: 60000,
+  const { data: latest = { update_time: 0 }, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
+    refreshDeps: [store.currentID],
+    pollingInterval: 6000,
   });
 
   useEffect(() => {
-    if (loading) {
+    if (loading || !store.currentDetail || store.detailsLoading) {
+      return;
+    }
+    if (!latest?.update_time || !store.currentDetail.update_time) {
       return;
     }
 
-    const needsRebasing = latest?.update_time !== current.update_time;
-    set(needsRebasing);
-  }, [latest, current]);
+    try {
+      const next = new Date(latest.update_time).getTime();
+      const current = new Date(store.currentDetail.update_time).getTime();
+      const needsRebasing = next > current;
+      set(needsRebasing);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [latest, loading, store.currentDetail, store.detailsLoading]);
 
   if (loading) {
     return null;
@@ -57,4 +64,4 @@ export function DashboardRebaseWarning({ id, current }: IDashboardRebaseWarning)
       </Text>
     </Notification>
   );
-}
+});
