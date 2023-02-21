@@ -9,7 +9,7 @@ import 'react-resizable/css/styles.css';
 
 import { useParams } from 'react-router-dom';
 import { DashboardAPI } from '../../api-caller/dashboard';
-import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store';
+import { useDashboardDetailQuery } from '../../frames/app/models/use-dashboard-detail-query';
 import { useAccountContext } from '../../frames/require-auth/account-context';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
