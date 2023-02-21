@@ -1,19 +1,19 @@
-import { observer } from 'mobx-react-lite';
-import React, { useMemo } from 'react';
+import useUrlState from '@ahooksjs/use-url-state';
 import { Dashboard, IDashboard, ReadOnlyDashboard } from '@devtable/dashboard';
 import { LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import useUrlState from '@ahooksjs/use-url-state';
 
+import { useParams } from 'react-router-dom';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { useDashboardDetailQuery } from '../../frames/app/models/dashboard-store';
 import { useAccountContext } from '../../frames/require-auth/account-context';
-import './content.css';
-import { useParams } from 'react-router-dom';
-import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 import { ErrorBoundary } from '../../utils/error-boundary';
+import './content.css';
+import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 
 const _DashboardPageContent = ({ id }: { id: string }) => {
   const { mode } = useParams();
