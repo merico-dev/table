@@ -12,28 +12,40 @@ const Content = observer(() => {
   const editor = useModelContext().editor;
   const path = editor.path;
   if (isMockContext(path)) {
-    return <EditMockContext />;
+    return (
+      <Box p="xs" pl={20}>
+        <EditMockContext />;
+      </Box>
+    );
   }
   if (isFilter(path)) {
-    return <EditFilter id={path[1]} />;
+    return (
+      <Box p="xs" pl={20}>
+        <EditFilter id={path[1]} />
+      </Box>
+    );
   }
   if (isSQLSnippet(path)) {
-    return <EditSQLSnippet id={path[1]} />;
+    return (
+      <Box p="xs" pl={20}>
+        <EditSQLSnippet id={path[1]} />
+      </Box>
+    );
   }
   if (isQuery(path)) {
     return <EditQuery id={path[1]} />;
   }
   if (isView(path)) {
-    return <EditView id={path[1]} />;
+    return (
+      <Box p="xs" pl={20}>
+        <EditView id={path[1]} />
+      </Box>
+    );
   }
   return <Box>{editor.path}</Box>;
 });
 
 export const SettingsContent = observer(() => {
   const editor = useModelContext().editor;
-  return (
-    <Box p="xs" pl={20}>
-      <Content />
-    </Box>
-  );
+  return <Content />;
 });

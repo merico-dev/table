@@ -1,5 +1,4 @@
 import { ActionIcon, Group, Tabs } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
@@ -26,15 +25,11 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
     queryModel.setSQL(sql);
   };
 
-  // UI stuff
-  const { width } = useViewportSize();
-  const subTabsOrientation = width >= 1440 ? 'horizontal' : 'vertical';
-
   if (!queryModel.typedAsSQL) {
     return null;
   }
   return (
-    <Tabs defaultValue="Edit" orientation={subTabsOrientation}>
+    <Tabs defaultValue="Edit" orientation="vertical" sx={{ flexGrow: 1 }}>
       <Tabs.List>
         <Tabs.Tab value="Edit">
           <Group spacing={14} position="apart">

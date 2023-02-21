@@ -1,5 +1,4 @@
-import { Stack, Tabs, Text, Tooltip } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
+import { Stack, Sx, Tabs, Text, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '../../model/queries';
@@ -9,16 +8,17 @@ import { TabPanel_HTTP } from './tabs/http';
 
 import { TabPanel_SQL } from './tabs/sql';
 
+const TabPanelStyle: Sx = {
+  display: 'flex',
+  height: 'calc(100% - 44px)', // Tabs.List
+  padding: 0,
+};
+
 interface IQueryForm {
   queryModel: QueryModelInstance;
 }
 
 export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
-  const { width } = useViewportSize();
-  const tabsOrientation = width >= 1440 ? 'vertical' : 'horizontal';
-  const tabsStyles = width >= 1440 ? { tabLabel: { width: '100%' } } : {};
-  const tabsPadding = width >= 1440 ? 'sm' : 0;
-
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
       return 'Configurations';
@@ -28,8 +28,8 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
 
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
-      <Tabs defaultValue={defaultTab} orientation={tabsOrientation} styles={tabsStyles} keepMounted={false}>
-        <Tabs.List grow={tabsOrientation === 'horizontal'}>
+      <Tabs defaultValue={defaultTab} orientation="horizontal" keepMounted={false} sx={{ flexGrow: 1 }}>
+        <Tabs.List grow>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
           {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
           {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
@@ -40,22 +40,22 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="Configurations" pt={0} p={tabsPadding}>
+        <Tabs.Panel value="Configurations" pt={0} p={0}>
           <QueryConfigurations queryModel={queryModel} />
         </Tabs.Panel>
 
         {queryModel.typedAsSQL && (
-          <Tabs.Panel value="SQL" pt={0} p={tabsPadding}>
+          <Tabs.Panel value="SQL" sx={TabPanelStyle}>
             <TabPanel_SQL queryModel={queryModel} />
           </Tabs.Panel>
         )}
         {queryModel.typedAsHTTP && (
-          <Tabs.Panel value="HTTP" pt={0} p={tabsPadding}>
+          <Tabs.Panel value="HTTP" sx={TabPanelStyle}>
             <TabPanel_HTTP queryModel={queryModel} />
           </Tabs.Panel>
         )}
 
-        <Tabs.Panel value="Data" pt={0} p={tabsPadding} sx={{ overflow: 'hidden' }}>
+        <Tabs.Panel value="Data" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>
           <DataPreview id={queryModel.id} />
         </Tabs.Panel>
       </Tabs>
