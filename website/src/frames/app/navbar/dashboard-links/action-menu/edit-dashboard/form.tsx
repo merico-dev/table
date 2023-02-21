@@ -66,11 +66,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
             name="name"
             render={({ field }) => <TextInput label="Name" required {...field} />}
           />
-          <Controller
-            control={control}
-            name="group"
-            render={({ field }) => <TextInput label="Group" required {...field} />}
-          />
+          <Controller control={control} name="group" render={({ field }) => <TextInput label="Group" {...field} />} />
           <Group position="right" mt="md">
             <Button type="submit" disabled={disabled}>
               Confirm
