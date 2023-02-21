@@ -2,7 +2,8 @@ import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { EditMockContext } from '~/definition-editor/mock-context-editor';
-import { isMockContext } from './utils';
+import { EditFilter } from './edit-filter';
+import { isMockContext, isFilter } from './utils';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
@@ -10,13 +11,16 @@ const Content = observer(() => {
   if (isMockContext(path)) {
     return <EditMockContext />;
   }
+  if (isFilter(path)) {
+    return <EditFilter id={path[1]} />;
+  }
   return <Box>{editor.path}</Box>;
 });
 
 export const SettingsContent = observer(() => {
   const editor = useModelContext().editor;
   return (
-    <Box p="xs">
+    <Box p="xs" pl={20}>
       <Content />
     </Box>
   );

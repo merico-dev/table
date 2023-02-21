@@ -66,18 +66,18 @@ export const FilterSettings = observer(function _FilterSettings() {
             </Tabs.List>
           </Stack>
           <Box sx={{ flexGrow: 1, height: '100%' }}>
-            {model.filters.current.map((filter, index) => (
+            {model.filters.current.map((filter) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
                 <Stack sx={{ height: '100%' }} spacing="sm">
                   <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
-                    <FilterSetting filter={filter} index={index} />
+                    <FilterSetting filter={filter} />
                   </Box>
                   <Group position="right" pt={10}>
                     <Button
                       size="xs"
                       color="red"
                       leftIcon={<Trash size={20} />}
-                      onClick={() => model.filters.remove(index)}
+                      onClick={() => model.filters.removeByID(filter.id)}
                     >
                       Delete this filter
                     </Button>

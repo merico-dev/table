@@ -20,7 +20,7 @@ export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPrevi
   }, [defaultValue]);
 
   return (
-    <Box sx={{ maxWidth: '30em' }}>
+    <Box sx={{ maxWidth: '480px' }}>
       <Text pb="md" color="gray">
         Preview
       </Text>
