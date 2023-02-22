@@ -3,9 +3,9 @@ import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { useModelContext } from '../../contexts';
+import { useModelContext } from '~/contexts';
 
-export const MockContextEditor = observer(function _MockContextEditor() {
+export const EditMockContext = observer(() => {
   const model = useModelContext();
   const [v, setV] = useState(() => JSON.stringify(model.mock_context.current, null, 4));
   const submit = () => {
@@ -30,7 +30,7 @@ export const MockContextEditor = observer(function _MockContextEditor() {
   }, [v, model.mock_context.current]);
 
   return (
-    <Stack sx={{ border: '1px solid #eee', flexGrow: 1, maxWidth: 'unset' }}>
+    <Stack sx={{ border: '1px solid #eee', borderLeft: 'none', borderRight: 'none', flexGrow: 1, maxWidth: 'unset' }}>
       <Group
         position="left"
         pl="md"

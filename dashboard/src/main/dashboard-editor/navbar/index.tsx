@@ -3,31 +3,24 @@ import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons'
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useModelContext } from '~/contexts';
-import { DataEditorModal } from '~/definition-editor';
-import { FilterSettingsModal } from '~/filter/filter-settings';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { ViewLinks } from './view-links';
 
 export const DashboardEditorNavbar = observer(() => {
   const model = useModelContext();
-  const [dataEditorOpened, setDataEditorOpened] = useState(false);
   const openQueries = () => {
     if (!model.queries.firstID) {
       return;
     }
     model.editor.open(['_QUERIES_', model.queries.firstID]);
   };
-  const closeQueries = () => setDataEditorOpened(false);
-
-  const [filtersOpened, setFiltersOpened] = useState(false);
   const openFilters = () => {
     if (!model.filters.firstID) {
       return;
     }
     model.editor.open(['_FILTERS_', model.filters.firstID]);
   };
-  const closeFilters = () => setFiltersOpened(false);
 
   const [interactionsOpened, setInteractionsOpened] = useState(false);
   const openInteractions = () => setInteractionsOpened(true);
@@ -57,8 +50,6 @@ export const DashboardEditorNavbar = observer(() => {
             </ActionIcon>
           </Tooltip>
         </Group>
-        <FilterSettingsModal opened={filtersOpened} close={closeFilters} />
-        <DataEditorModal opened={dataEditorOpened} close={closeQueries} />
         <InteractionsViewerModal opened={interactionsOpened} close={closeInteractions} />
       </MantineNavbar.Section>
 
