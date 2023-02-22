@@ -1,5 +1,14 @@
 import { ActionIcon, Button, Group, Header as MantineHeader, Text, Tooltip } from '@mantine/core';
-import { IconArrowLeft, IconCode, IconDeviceFloppy, IconDownload, IconPlaylistAdd, IconRecycle } from '@tabler/icons';
+import { useModals } from '@mantine/modals';
+import {
+  IconAlertTriangle,
+  IconArrowLeft,
+  IconCode,
+  IconDeviceFloppy,
+  IconDownload,
+  IconPlaylistAdd,
+  IconRecycle,
+} from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +50,24 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
   const goBack = () => {
     navigate(`/dashboard/${model.id}`);
   };
+  const modals = useModals();
+
+  const goBackWithConfirmation = () => {
+    modals.openConfirmModal({
+      title: (
+        <Group position="left">
+          <IconAlertTriangle size={18} color="red" />
+          <Text>There are unsaved changes</Text>
+        </Group>
+      ),
+      labels: { confirm: 'Discard', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: goBack,
+      zIndex: 320,
+      withCloseButton: false,
+    });
+  };
 
   const hasChanges = model.changed;
 
@@ -48,7 +75,12 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
     <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
       <Group position="apart" sx={{ height: 60, position: 'relative' }}>
         <Group>
-          <Button size="xs" color="green" leftIcon={<IconArrowLeft size={20} />} onClick={goBack}>
+          <Button
+            size="xs"
+            color={hasChanges ? 'red' : 'green'}
+            leftIcon={<IconArrowLeft size={20} />}
+            onClick={hasChanges ? goBackWithConfirmation : goBack}
+          >
             <Group spacing={4}>
               End Editing
               <Text td="underline">{model.name}</Text>
