@@ -1,7 +1,7 @@
 import { Tabs } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { InlineFunctionInput } from '~/components/inline-function-input';
+import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
 import { QueryModelInstance } from '~/model';
 
 export const DEFAULT_HTTP_REQ_PROCESSING = {
@@ -15,18 +15,15 @@ export const DEFAULT_HTTP_REQ_PROCESSING = {
 };
 
 export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
-  // UI stuff
-  const { width } = useViewportSize();
-  const subTabsOrientation = width >= 1440 ? 'horizontal' : 'vertical';
-
   if (!queryModel.typedAsHTTP) {
     return null;
   }
   return (
-    <Tabs defaultValue="pre_process" orientation={subTabsOrientation}>
+    <Tabs defaultValue="pre_process" orientation="vertical" sx={{ flexGrow: 1 }}>
       <Tabs.List>
         <Tabs.Tab value="pre_process">Build Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
+        <GlobalVariablesModal />
       </Tabs.List>
       <Tabs.Panel value="pre_process" sx={{ position: 'relative' }} p="sm">
         <InlineFunctionInput

@@ -10,7 +10,7 @@ import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { usePanelContext } from '../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { IVizConfig } from '../../types';
-import { ErrorBoundary } from '../error-boundary';
+import { ErrorBoundary } from '~/utils/error-boundary';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 import './index.css';
 

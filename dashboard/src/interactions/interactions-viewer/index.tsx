@@ -37,6 +37,7 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
           transform: 'none !important',
         },
       }}
+      zIndex={300}
     >
       <InteractionsViewer />
     </Modal>

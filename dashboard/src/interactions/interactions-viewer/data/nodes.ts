@@ -1,7 +1,7 @@
 import { Position } from 'reactflow';
 import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
 import {
   calc,
   calcTotal,
@@ -49,11 +49,7 @@ const ViewTypeName = {
   [EViewComponentType.Modal]: 'Modal',
   [EViewComponentType.Tabs]: 'Tabs',
 };
-const ViewBackground = {
-  [EViewComponentType.Division]: 'rgba(255, 0, 0, 0.2)',
-  [EViewComponentType.Modal]: 'rgba(0, 0, 0, 0.2)',
-  [EViewComponentType.Tabs]: 'rgba(255, 200, 100, 0.4)',
-};
+const ViewBackground = ViewComponentTypeBackground;
 
 function makeViewNodes(views: ViewsModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {

@@ -14,9 +14,9 @@ export const FunctionEditor = ({ value, onChange }: IFunctionEditor) => {
   };
 
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative', flexGrow: 1 }}>
       <Editor
-        height="500px"
+        height="100%"
         defaultLanguage="javascript"
         value={value}
         onChange={changeContent}

@@ -107,7 +107,14 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
     return (
       <>
         <OperationModalButton model={model} onClick={openModal} />
-        <Modal size={600} opened={modalOpen} onClose={closeModal} title="Operation Settings" closeButtonLabel="close">
+        <Modal
+          size={600}
+          opened={modalOpen}
+          onClose={closeModal}
+          title="Operation Settings"
+          closeButtonLabel="close"
+          zIndex={320}
+        >
           <Stack>
             <OperationSchemaSelect model={model} />
             <OperationSettings model={model} />

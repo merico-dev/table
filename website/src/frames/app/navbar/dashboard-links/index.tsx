@@ -35,7 +35,7 @@ function _DashboardLinks() {
   useEffect(() => setActiveAccordion(store.currentGroup), [store.currentGroup]);
 
   return (
-    <Box pt="sm" sx={{ position: 'relative', minHeight: '60px' }}>
+    <Box pt="sm" pr="sm" sx={{ position: 'relative', minHeight: '60px' }}>
       <LoadingOverlay visible={store.loading} />
       <Accordion
         chevronPosition="left"

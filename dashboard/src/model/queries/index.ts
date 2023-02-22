@@ -1,4 +1,4 @@
-import { cast, detach, types } from 'mobx-state-tree';
+import { cast, detach, Instance, types } from 'mobx-state-tree';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
 
@@ -17,10 +17,14 @@ export const QueriesModel = types
       return self.current.find((query) => query.id === id);
     },
     get options() {
-      return self.current.map((d) => ({
-        value: d.id,
-        label: d.name,
-      }));
+      return self.current.map(
+        (d) =>
+          ({
+            value: d.id,
+            label: d.name,
+            _type: 'query',
+          } as const),
+      );
     },
   }))
   .views((self) => ({
@@ -77,4 +81,5 @@ export const QueriesModel = types
     };
   });
 
+export type QueriesModelInstance = Instance<typeof QueriesModel>;
 export * from './query';

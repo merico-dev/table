@@ -76,8 +76,21 @@ export const FiltersModel = types
       }
       return self.current[0].id;
     },
+    findByID(id: string) {
+      return self.current.find((f) => f.id === id);
+    },
     get inOrder() {
       return _.sortBy(self.current, 'order');
+    },
+    get options() {
+      return self.current.map(
+        (f) =>
+          ({
+            label: f.label ?? f.id,
+            value: f.id,
+            _type: 'filter',
+          } as const),
+      );
     },
     get empty() {
       return self.current.length === 0;
@@ -108,6 +121,12 @@ export const FiltersModel = types
       },
       remove(index: number) {
         self.current.splice(index, 1);
+      },
+      removeByID(id: string) {
+        const index = self.current.findIndex((f) => f.id === id);
+        if (index >= 0) {
+          self.current.splice(index, 1);
+        }
       },
       setValues(values: Record<string, $TSFixMe>) {
         self.values = values;

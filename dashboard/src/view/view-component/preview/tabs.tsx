@@ -19,7 +19,7 @@ import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
-import { ReadOnlyDashboardView } from '~/view';
+import { DashboardViewRender } from '~/view';
 
 const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
   const ret: Record<string, any> = {
@@ -76,9 +76,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             </Tabs.Tab>
           ))}
           <Tabs.Tab onClick={config.addTab} value="add" className="add-a-tab">
-            <ActionIcon>
-              <Plus size={18} color="#228be6" />
-            </ActionIcon>
+            <Plus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
         {config.tabs.map((t) => {
@@ -112,7 +110,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
                 </Stack>
               </Box>
 
-              {tabView && <ReadOnlyDashboardView view={tabView} />}
+              {tabView && <DashboardViewRender view={tabView} />}
             </Tabs.Panel>
           );
         })}

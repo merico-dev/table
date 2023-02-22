@@ -1,5 +1,6 @@
 import { Box, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
+import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
@@ -26,6 +27,17 @@ export const FilterSettings = observer(function _FilterSettings() {
       auto_submit: false,
     } as FilterModelInstance;
     model.filters.append(filter);
+  };
+
+  const modals = useModals();
+  const removeWithConfirmation = (id: string) => {
+    modals.openConfirmModal({
+      title: 'Delete this filter?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => model.filters.removeByID(id),
+      zIndex: 320,
+    });
   };
 
   return (
@@ -66,18 +78,18 @@ export const FilterSettings = observer(function _FilterSettings() {
             </Tabs.List>
           </Stack>
           <Box sx={{ flexGrow: 1, height: '100%' }}>
-            {model.filters.current.map((filter, index) => (
+            {model.filters.current.map((filter) => (
               <Tabs.Panel key={filter.id} value={filter.id} sx={{ height: '100%' }}>
                 <Stack sx={{ height: '100%' }} spacing="sm">
                   <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>
-                    <FilterSetting filter={filter} index={index} />
+                    <FilterSetting filter={filter} />
                   </Box>
                   <Group position="right" pt={10}>
                     <Button
                       size="xs"
                       color="red"
                       leftIcon={<Trash size={20} />}
-                      onClick={() => model.filters.remove(index)}
+                      onClick={() => removeWithConfirmation(filter.id)}
                     >
                       Delete this filter
                     </Button>

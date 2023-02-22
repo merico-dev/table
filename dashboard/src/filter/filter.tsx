@@ -7,7 +7,7 @@ import { IFilterConfig_DateRange } from '../model/filters/filter/date-range';
 import { IFilterConfig_MultiSelect } from '../model/filters/filter/multi-select';
 import { IFilterConfig_Select } from '../model/filters/filter/select';
 import { IFilterConfig_TextInput } from '../model/filters/filter/text-input';
-import { ErrorBoundary } from '../panel/error-boundary';
+import { ErrorBoundary } from '../utils/error-boundary';
 import { FilterCheckbox } from './filter-checkbox/render';
 import { FilterDateRange } from './filter-date-range/render';
 import { FilterMultiSelect } from './filter-multi-select/render';

@@ -9,6 +9,16 @@ export const SQLSnippetsModel = types
     get json() {
       return self.current.map((o) => o.json);
     },
+    get options() {
+      return self.current.map(
+        (o) =>
+          ({
+            label: o.key,
+            value: o.key,
+            _type: 'sql_snippet',
+          } as const),
+      );
+    },
     get record() {
       return self.current.reduce((prev, curr) => {
         prev[curr.key] = curr.value;
@@ -36,10 +46,17 @@ export const SQLSnippetsModel = types
       remove(index: number) {
         self.current.splice(index, 1);
       },
+      removeByKey(key: string) {
+        const index = self.current.findIndex((s) => s.key === key);
+        if (index >= 0) {
+          self.current.splice(index, 1);
+        }
+      },
       replaceByIndex(index: number, replacement: SQLSnippetModelInstance) {
         self.current.splice(index, 1, replacement);
       },
     };
   });
 
+export type SQLSnippetsModelInstance = Instance<typeof SQLSnippetsModel>;
 export * from './sql-snippet';

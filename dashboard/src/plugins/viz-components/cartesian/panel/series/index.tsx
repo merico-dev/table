@@ -80,9 +80,7 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={addSeries} value="add">
-          <ActionIcon>
-            <Plus size={18} color="#228be6" />
-          </ActionIcon>
+          <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((seriesItem, index) => (

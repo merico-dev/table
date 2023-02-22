@@ -19,9 +19,9 @@ export function Navbar() {
   const { canEdit, isAdmin } = useAccountContext();
 
   return (
-    <MantineNavbar p="md" width={{ base: 300, height: '100vh - 60px - 60px' }}>
-      <MantineNavbar.Section>
-        <Group grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
+    <MantineNavbar width={{ base: 300, height: '100vh - 60px - 60px' }}>
+      <MantineNavbar.Section pt="md">
+        <Group px="md" grow pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
           {canEdit && (
             <>
               <CreateDashboard />
@@ -37,15 +37,15 @@ export function Navbar() {
         </Group>
       </MantineNavbar.Section>
 
-      <MantineNavbar.Section grow sx={{ overflow: 'hidden' }}>
+      <MantineNavbar.Section grow sx={{ overflow: 'hidden' }} pl="md" pr={0}>
         <Box sx={{ height: '100%', overflow: 'auto' }}>
           <DashboardLinks />
         </Box>
       </MantineNavbar.Section>
 
       {isAdmin && (
-        <MantineNavbar.Section>
-          <Group grow pt="sm" sx={{ borderTop: '1px solid #eee' }}>
+        <MantineNavbar.Section pb="md">
+          <Group grow pt="sm" px="md" sx={{ borderTop: '1px solid #eee' }}>
             <Button size="sm" onClick={gotoSettings} leftIcon={<Settings size={20} />}>
               Settings
             </Button>

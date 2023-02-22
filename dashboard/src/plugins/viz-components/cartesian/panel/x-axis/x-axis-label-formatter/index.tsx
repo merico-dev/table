@@ -63,6 +63,7 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
         onClose={setFalse}
         closeOnClickOutside={false}
         withCloseButton={false}
+        zIndex={320}
       >
         {modalOpened && (
           <Stack>

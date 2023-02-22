@@ -9,18 +9,14 @@ interface IPreviewFilter {
   filter: FilterModelInstance;
 }
 export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
-  const defaultValue = filter.plainDefaultValue;
-  const [value, setValue] = React.useState(defaultValue);
+  const [value, setValue] = React.useState(filter.plainDefaultValue);
 
   React.useEffect(() => {
-    if (!filter.usingDefaultValue) {
-      return;
-    }
-    setValue(defaultValue);
-  }, [defaultValue]);
+    setValue(filter.plainDefaultValue);
+  }, [filter]);
 
   return (
-    <Box sx={{ maxWidth: '30em' }}>
+    <Box sx={{ maxWidth: '480px' }}>
       <Text pb="md" color="gray">
         Preview
       </Text>

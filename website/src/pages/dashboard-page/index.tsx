@@ -7,5 +7,5 @@ export function DashboardPage() {
   if (!id) {
     return <PleaseChooseADashboard />;
   }
-  return <DashboardPageContent id={id} />;
+  return <DashboardPageContent />;
 }

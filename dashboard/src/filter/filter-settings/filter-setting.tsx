@@ -1,16 +1,4 @@
-import {
-  Box,
-  Checkbox,
-  Group,
-  MultiSelect,
-  NumberInput,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-  Tooltip,
-} from '@mantine/core';
+import { Box, Checkbox, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext } from '~/contexts';
@@ -43,22 +31,21 @@ const filterTypeOptions = [
 
 interface IFilterSetting {
   filter: FilterModelInstance;
-  index: number;
 }
 
-export const FilterSetting = observer(function _FilterSetting({ filter, index }: IFilterSetting) {
+export const FilterSetting = observer(function _FilterSetting({ filter }: IFilterSetting) {
   const model = useModelContext();
   const FilterEditor = React.useMemo(() => {
     return editors[filter.type];
   }, [filter.type]);
 
   return (
-    <SimpleGrid cols={2}>
-      <Box pl="md">
+    <Group grow spacing={20} align="top">
+      <Box sx={{ maxWidth: '600px' }}>
         <Text pb="md" color="gray">
           Edit
         </Text>
-        <Stack sx={{ maxWidth: '30em' }}>
+        <Stack>
           <Group noWrap>
             <NumberInput
               label="Placement Order"
@@ -104,10 +91,10 @@ export const FilterSetting = observer(function _FilterSetting({ filter, index }:
           />
           <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={filter.setType} />
           {/* @ts-expect-error type mismatch */}
-          <FilterEditor config={filter.config} index={index} />
+          <FilterEditor config={filter.config} />
         </Stack>
       </Box>
       <PreviewFilter filter={filter} />
-    </SimpleGrid>
+    </Group>
   );
 });

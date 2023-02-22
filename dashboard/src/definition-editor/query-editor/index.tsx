@@ -1,7 +1,7 @@
 import { AppShell, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { GlobalVariablesGuide } from '../global-variables-guide';
+import { GlobalVariablesGuide } from '../../main/dashboard-editor/settings/content/view-global-vars/global-variables-guide';
 import { QueryEditor } from './editor';
 import { SelectOrAddQuery } from './select-or-add-query';
 

@@ -77,9 +77,7 @@ export const LevelsField = ({ control, watch, data }: ILevelsField) => {
             </Tabs.Tab>
           ))}
           <Tabs.Tab onClick={addLevel} value="add">
-            <ActionIcon>
-              <Plus size={18} color="#228be6" />
-            </ActionIcon>
+            <Plus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
         {controlledFields.map((m, index) => (

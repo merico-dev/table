@@ -44,6 +44,7 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
         onClose={setFalse}
         closeOnClickOutside={false}
         withCloseButton={false}
+        zIndex={320}
       >
         {modalOpened && (
           <Stack>

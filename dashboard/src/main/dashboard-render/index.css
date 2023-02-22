@@ -1,0 +1,46 @@
+.dashboard-root {
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 0;
+  height: 100%;
+}
+
+.dashboard-view {
+  position: relative;
+  height: 100%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: initial !important;
+}
+
+.dashboard-sticky-area {
+  z-index: 100;
+  background: white;
+  margin: 0;
+  padding: 0 10px;
+}
+
+.mantine-RichTextEditor-root {
+  overflow-y: auto !important;
+  -ms-overflow-style: initial !important;
+}
+
+.dashboard-root
+  *:not(.mantine-RichTextEditor-root):not(.dashboard-view):not(.mantine-Modal-body):not([data-enable-scrollbar])::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+.dashboard-root *:not([data-enable-scrollbar]) {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+.minimal-monaco-editor {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+  padding-top: 14px;
+}
+.minimal-monaco-editor .monaco-editor {
+}

@@ -1,5 +1,5 @@
 import { getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { DEFAULT_CUSTOM_MODAL_TITLE } from '~/main/switch-views/edit-view-modal/config-fields/modal/modal-title-editor/types';
+import { DEFAULT_CUSTOM_MODAL_TITLE } from '~/main/dashboard-editor/settings/content/edit-view/edit-view-form/config-fields/modal/modal-title-editor/types';
 import { EViewComponentType } from '~/types';
 
 const CustomModalTitleModel = types

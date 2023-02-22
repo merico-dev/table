@@ -8,14 +8,10 @@ import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { usePanelContext } from '../contexts/panel-context';
-import { PanelSettingsModal } from './settings';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }) => {
   const model = useModelContext();
   const modals = useModals();
-  const [opened, setOpened] = React.useState(false);
-  const open = () => setOpened(true);
-  const close = () => setOpened(false);
 
   const { panel } = usePanelContext();
   const { id, query } = panel;
@@ -28,12 +24,17 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
     view.panels.duplicateByID(id);
   };
 
+  const openPanelEditor = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
+  };
+
   const remove = () =>
     modals.openConfirmModal({
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => view.panels.removeByID(id),
+      zIndex: 320,
     });
 
   const enterFullScreen = React.useCallback(() => {
@@ -58,14 +59,14 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
               Download Data
             </Menu.Item>
             {showFullScreenOption && (
-              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>
+              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled={inEditMode}>
                 Full Screen
               </Menu.Item>
             )}
             {inEditMode && (
               <>
                 <Divider label="Edit" labelPosition="center" />
-                <Menu.Item onClick={open} icon={<Settings size={14} />}>
+                <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
                   Settings
                 </Menu.Item>
                 <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
@@ -79,7 +80,6 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
           </Menu.Dropdown>
         </Menu>
       </Box>
-      {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
     </>
   );
 });

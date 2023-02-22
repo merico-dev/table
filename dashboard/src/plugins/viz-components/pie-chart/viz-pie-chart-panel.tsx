@@ -1,40 +1,51 @@
-import { Group, Stack, ActionIcon, Text } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { defaults } from 'lodash';
-import { useEffect } from 'react';
+import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import _, { defaultsDeep } from 'lodash';
+import { useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
+import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 export function VizPieChartPanel({ context }: VizConfigProps) {
-  const { value: conf, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const { label_field, value_field } = defaults({}, conf, DEFAULT_CONFIG);
+  const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
+  const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
 
-  const form = useForm({
-    initialValues: {
-      label_field,
-      value_field,
-    },
-  });
+  const { control, handleSubmit, watch, getValues, reset } = useForm<IPieChartConf>({ defaultValues });
   useEffect(() => {
-    form.setValues({ label_field, value_field });
-  }, [label_field, value_field]);
+    reset(defaultValues);
+  }, [defaultValues]);
+
+  const values = getValues();
+  const changed = useMemo(() => {
+    return !_.isEqual(values, conf);
+  }, [values, conf]);
+
+  watch(['label_field', 'value_field']);
 
   return (
     <Stack mt="md" spacing="xs">
-      <form onSubmit={form.onSubmit(setConf)}>
-        <Group position="apart" mb="lg" sx={{ position: 'relative' }}>
-          <Text>Pie Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue">
+      <form onSubmit={handleSubmit(setConf)}>
+        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
+          <Text>Pie Chart Config</Text>
+          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
         <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
-          <DataFieldSelector label="Label Field" required data={data} {...form.getInputProps('label_field')} />
-          <DataFieldSelector label="Value Field" required data={data} {...form.getInputProps('value_field')} />
+          <Controller
+            control={control}
+            name="label_field"
+            render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
+          />
+          <Controller
+            control={control}
+            name="value_field"
+            render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+          />
         </Stack>
       </form>
     </Stack>
