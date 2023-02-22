@@ -1,10 +1,8 @@
 import { ActionIcon, Box, Button, Divider, Group, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { IconAdjustments, IconPlus } from '@tabler/icons';
-import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useModelContext } from '~/contexts';
-import { EditViewModal } from './edit-view-modal';
 
 interface IViewLink {
   onClick: () => void;
@@ -55,7 +53,9 @@ function ViewLink({ onClick, name, active, openSettings }: IViewLink) {
 export const ViewLinks = observer(() => {
   const model = useModelContext();
   const getClickHandler = useCallback((id: string) => () => model.views.setIDOfVIE(id), [model]);
-  const [settingsVisible, { setTrue, setFalse }] = useBoolean(false);
+  const openSettings = (id: string) => {
+    model.editor.open(['_VIEWS_', id]);
+  };
   return (
     <Box pt="sm" sx={{ position: 'relative' }}>
       {model.views.options.map((v) => (
@@ -64,7 +64,7 @@ export const ViewLinks = observer(() => {
           active={model.views.idOfVIE === v.value}
           name={v.label}
           onClick={getClickHandler(v.value)}
-          openSettings={setTrue}
+          openSettings={() => openSettings(v.value)}
         />
       ))}
       <Divider variant="dashed" />
@@ -84,7 +84,6 @@ export const ViewLinks = observer(() => {
       >
         Add a View
       </Button>
-      <EditViewModal opened={settingsVisible} close={setFalse} />
     </Box>
   );
 });
