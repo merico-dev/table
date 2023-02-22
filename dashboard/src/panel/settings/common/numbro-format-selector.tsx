@@ -2,7 +2,7 @@ import { Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
 import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
-import { ErrorBoundary } from '../../error-boundary';
+import { ErrorBoundary } from '~/utils/error-boundary';
 
 export type TNumbroFormat = {
   mantissa: number;

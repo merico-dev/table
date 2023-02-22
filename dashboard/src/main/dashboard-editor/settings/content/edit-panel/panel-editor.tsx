@@ -4,12 +4,12 @@ import { ReactNode, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
 import { PanelModelInstance } from '~/model/views/view/panels';
-import { ErrorBoundary } from '~/panel/error-boundary';
-import { PanelConfig } from '~/panel/settings/panel-config';
-import { PreviewPanel } from '~/panel/settings/panel-config/preview-panel';
-import { PickQuery } from '~/panel/settings/pick-query';
-import { VariableConfig } from '~/panel/settings/variable-config/variable-config-panel';
-import { EditVizConf } from '~/panel/settings/viz-config/viz-conf';
+import { ErrorBoundary } from '~/utils/error-boundary';
+import { PanelConfig } from '~/main/dashboard-editor/settings/content/edit-panel/panel-config';
+import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-panel/preview-panel';
+import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
+import { VariableConfig } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-config-panel';
+import { EditVizConf } from '~/main/dashboard-editor/settings/content/edit-panel/viz-conf';
 
 const TabsStyles = {
   root: {

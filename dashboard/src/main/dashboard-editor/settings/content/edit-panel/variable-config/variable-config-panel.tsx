@@ -5,9 +5,12 @@ import { IconDeviceFloppy, IconTrash } from '@tabler/icons';
 import { getSnapshot, Instance } from 'mobx-state-tree';
 import { createDraft, VariableModel } from '~/model/variables';
 import { useCreation } from 'ahooks';
-import { useConfigUIModel, VariableConfigUIModel } from '~/panel/settings/variable-config/model';
-import { TemplateVariableField } from '~/panel/settings/variable-config/variable-field';
-import { useStyles } from '~/panel/settings/variable-config/styles';
+import {
+  useConfigUIModel,
+  VariableConfigUIModel,
+} from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/model';
+import { TemplateVariableField } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-field';
+import { useStyles } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/styles';
 import { usePanelContext } from '~/contexts';
 import { ITemplateVariable, variable2Jsx } from '~/utils/template';
 import { AnyObject } from '~/types';

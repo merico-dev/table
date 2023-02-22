@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { useModelContext, usePanelContext } from '../../../contexts';
-import { Viz } from '../../viz';
+import { useModelContext, usePanelContext } from '../../../../../contexts';
+import { Viz } from '../../../../../panel/viz';
 
 export const PreviewViz = observer(({ height }: { height: string }) => {
   const model = useModelContext();

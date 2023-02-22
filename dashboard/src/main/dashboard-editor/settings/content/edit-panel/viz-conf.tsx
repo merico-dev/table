@@ -6,10 +6,10 @@ import React, { createElement, useContext, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
-import { usePanelContext } from '../../../contexts';
-import { IPanelInfo, IVizManager, PluginContext } from '../../../plugins';
-import { IPanelInfoEditor } from '../../../types/plugin';
-import { PluginVizConfigComponent } from '../../plugin-adaptor';
+import { usePanelContext } from '../../../../../contexts';
+import { IPanelInfo, IVizManager, PluginContext } from '../../../../../plugins';
+import { IPanelInfoEditor } from '../../../../../types/plugin';
+import { PluginVizConfigComponent } from '../../../../../panel/plugin-adaptor';
 
 const types = [] as $TSFixMe[];
 
