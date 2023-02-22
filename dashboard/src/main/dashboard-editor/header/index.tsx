@@ -38,10 +38,6 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
     };
   }, [model]);
 
-  const revertChanges = () => {
-    model.reset();
-  };
-
   const downloadSchema = () => {
     const schema = JSON.stringify(getCurrentSchema(), null, 2);
     downloadJSON(model.name, schema);
@@ -64,6 +60,23 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
       confirmProps: { color: 'red' },
       onCancel: () => console.log('Cancel'),
       onConfirm: goBack,
+      zIndex: 320,
+      withCloseButton: false,
+    });
+  };
+
+  const revertWithConfirmation = () => {
+    modals.openConfirmModal({
+      title: (
+        <Group position="left">
+          <IconAlertTriangle size={18} color="red" />
+          <Text>You are reverting changes</Text>
+        </Group>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => model.reset(),
       zIndex: 320,
       withCloseButton: false,
     });
@@ -118,7 +131,7 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
               </ActionIcon>
             </Tooltip>
             <Tooltip label="Revert Changes" withinPortal>
-              <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertChanges}>
+              <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertWithConfirmation}>
                 <IconRecycle size={20} color="red" />
               </ActionIcon>
             </Tooltip>
