@@ -7,11 +7,15 @@ import { EditPanel } from './edit-panel';
 import { EditQuery } from './edit-query';
 import { EditSQLSnippet } from './edit-sql-snippet';
 import { EditView } from './edit-view';
-import { isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
+import { isGlobalVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
+import { ViewGlobalVars } from './view-global-vars';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
   const path = editor.path;
+  if (isGlobalVars(path)) {
+    return <ViewGlobalVars />;
+  }
   if (isMockContext(path)) {
     return (
       <Box p="xs" pl={20}>

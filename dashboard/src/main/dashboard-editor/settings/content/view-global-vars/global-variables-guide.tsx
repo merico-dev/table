@@ -2,7 +2,7 @@ import { Group, Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useModelContext } from '../contexts/model-context';
+import { useModelContext } from '../../../../../contexts/model-context';
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
@@ -48,25 +48,14 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   return (
     <Stack
       sx={{
-        border: '1px solid #eee',
-        maxWidth: '40%',
         overflow: 'hidden',
         ...sx,
       }}
     >
-      <Group
-        position="left"
-        pl="md"
-        py="md"
-        sx={{
-          borderBottom: '1px solid #eee',
-          background: '#efefef',
-          flexGrow: 0,
-        }}
-      >
-        <Text weight={500}>Global Variables</Text>
-      </Group>
-      <Stack px="md" pb="md" sx={{ width: '100%' }}>
+      <Stack sx={{ width: '100%' }}>
+        <Text weight={500} sx={{ flexGrow: 0 }}>
+          Guide
+        </Text>
         <Prism language="sql" sx={{ width: '100%' }} noCopy colorScheme="dark">
           {example}
         </Prism>

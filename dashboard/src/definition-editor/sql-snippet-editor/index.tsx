@@ -1,5 +1,5 @@
 import { Box, Group } from '@mantine/core';
-import { GlobalVariablesGuide } from '../global-variables-guide';
+import { GlobalVariablesGuide } from '../../main/dashboard-editor/settings/content/view-global-vars/global-variables-guide';
 import { SQLSnippetsEditor } from './editor';
 
 export function EditSQLSnippets() {

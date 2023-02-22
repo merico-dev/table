@@ -38,7 +38,7 @@ export const SettingsNavLinks = observer(() => {
   const model = useModelContext();
 
   return (
-    <Box pt="sm" sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative' }}>
       {model.editor.navOptions.map((v) => (
         <SettingsNavLink key={v.value} option={v} />
       ))}

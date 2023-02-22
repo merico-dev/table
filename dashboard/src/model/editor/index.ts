@@ -1,4 +1,12 @@
-import { IconBoxMultiple, IconCodeDots, IconCopy, IconDatabase, IconFilter, TablerIcon } from '@tabler/icons';
+import {
+  IconBoxMultiple,
+  IconCodeDots,
+  IconCopy,
+  IconDatabase,
+  IconFilter,
+  IconVariable,
+  TablerIcon,
+} from '@tabler/icons';
 import { getRoot, Instance, types } from 'mobx-state-tree';
 import { FiltersModelInstance } from '../filters';
 import { QueriesModelInstance } from '../queries';
@@ -23,7 +31,7 @@ export type NavActionType = {
 export type NavLinkType = {
   label: string;
   value: string;
-  _type: 'GROUP' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
+  _type: 'GROUP' | 'global_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: TablerIcon;
   parentID?: string; // for panel only
   children?: NavOptionType[];
@@ -35,6 +43,7 @@ function getActionOption(_action_type: NavActionType['_action_type']): NavAction
 }
 
 export type ValidEditorPathType =
+  | ['_GLOBAL_VARS_']
   | ['_MOCK_CONTEXT_']
   | ['_FILTERS_', string]
   | ['_SQL_SNIPPETS_', string]
@@ -48,6 +57,8 @@ function getPathFromOption(o: NavOptionType): ValidEditorPathType | null {
     case 'GROUP':
     case 'ACTION':
       return null;
+    case 'global_variables':
+      return ['_GLOBAL_VARS_'];
     case 'mock_context':
       return ['_MOCK_CONTEXT_'];
     case 'filter':
@@ -76,6 +87,12 @@ export const EditorModel = types
     get navOptions() {
       const { filters, views, sqlSnippets, queries } = getRoot(self) as PartialRootInstanceType;
       const ret: Array<NavOptionType> = [
+        {
+          label: 'Global Variables',
+          value: '_GLOBAL_VARS_',
+          _type: 'global_variables',
+          Icon: IconVariable,
+        },
         {
           label: 'Mock Context',
           value: '_MOCK_CONTEXT_',
