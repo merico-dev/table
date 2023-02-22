@@ -9,7 +9,6 @@ import { TabPanel_HTTP } from './tabs/http';
 import { TabPanel_SQL } from './tabs/sql';
 
 const TabPanelStyle: Sx = {
-  display: 'flex',
   height: 'calc(100% - 44px)', // Tabs.List
   padding: 0,
 };
@@ -46,12 +45,16 @@ export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm
 
         {queryModel.typedAsSQL && (
           <Tabs.Panel value="SQL" sx={TabPanelStyle}>
-            <TabPanel_SQL queryModel={queryModel} />
+            <Stack sx={{ height: '100%' }}>
+              <TabPanel_SQL queryModel={queryModel} />
+            </Stack>
           </Tabs.Panel>
         )}
         {queryModel.typedAsHTTP && (
           <Tabs.Panel value="HTTP" sx={TabPanelStyle}>
-            <TabPanel_HTTP queryModel={queryModel} />
+            <Stack sx={{ height: '100%' }}>
+              <TabPanel_HTTP queryModel={queryModel} />
+            </Stack>
           </Tabs.Panel>
         )}
 
