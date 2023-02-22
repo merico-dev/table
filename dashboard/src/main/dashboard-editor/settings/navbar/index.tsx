@@ -9,8 +9,8 @@ export const SettingsNavbar = observer(() => {
 
   return (
     <MantineNavbar p={0} width={{ base: 200, height: '100vh - 60px - 60px' }}>
-      <MantineNavbar.Section pb="sm" sx={{ borderBottom: '1px solid #eee' }}>
-        <Text mt={15} mb={-5} align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
+      <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
+        <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           Settings
         </Text>
       </MantineNavbar.Section>
