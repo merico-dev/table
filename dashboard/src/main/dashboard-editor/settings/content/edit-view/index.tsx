@@ -2,7 +2,7 @@ import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Trash } from 'tabler-icons-react';
 import { useModelContext } from '~/contexts';
-import { EditViewForm } from '~/main/dashboard-editor/navbar/edit-view-modal/form';
+import { EditViewForm } from '~/main/dashboard-editor/settings/content/edit-view/edit-view-form';
 
 export const EditView = observer(({ id }: { id: string }) => {
   const model = useModelContext();
