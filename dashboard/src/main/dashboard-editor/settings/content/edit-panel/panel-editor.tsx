@@ -1,4 +1,4 @@
-import { Box, Group, LoadingOverlay, Tabs } from '@mantine/core';
+import { Box, Group, LoadingOverlay, Tabs, Tooltip, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
@@ -49,8 +49,12 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const model = useModelContext();
   const [tab, setTab] = useState<string | null>('Visualization');
   const { data, state, error } = model.getDataStuffByID(panel.queryID);
+  const query = model.queries.findByID(panel.queryID);
+
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
+  const dataNotReady = loading || error || query?.stateMessage;
+
   return (
     <PanelContextProvider value={{ panel, data, loading, error }}>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
@@ -59,11 +63,15 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
             Data
           </Tabs.Tab>
           <Tabs.Tab value="Panel">Panel</Tabs.Tab>
-          <Tabs.Tab value="Variables" disabled={loading || error}>
-            Variables
+          <Tabs.Tab value="Variables" disabled={dataNotReady}>
+            <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={500}>
+              <Text>Variables</Text>
+            </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Visualization" disabled={loading || error}>
-            Visualization
+          <Tabs.Tab value="Visualization" disabled={dataNotReady}>
+            <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={500}>
+              <Text>Visualization</Text>
+            </Tooltip>
           </Tabs.Tab>
           <Tabs.Tab value="Interactions">Interactions</Tabs.Tab>
         </Tabs.List>
