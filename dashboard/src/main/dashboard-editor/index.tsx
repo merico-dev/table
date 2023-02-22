@@ -45,8 +45,6 @@ interface IDashboardProps {
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
-  fullScreenPanelID: string;
-  setFullScreenPanelID: (v: string) => void;
 }
 
 export const Dashboard = observer(function _Dashboard({
@@ -55,8 +53,6 @@ export const Dashboard = observer(function _Dashboard({
   update,
   className = 'dashboard',
   config,
-  fullScreenPanelID,
-  setFullScreenPanelID,
 }: IDashboardProps) {
   configureAPIClient(config);
 
@@ -95,43 +91,36 @@ export const Dashboard = observer(function _Dashboard({
   return (
     <ModalsProvider>
       <ModelContextProvider value={model}>
-        <FullScreenPanelContext.Provider
+        <LayoutStateContext.Provider
           value={{
-            fullScreenPanelID,
-            setFullScreenPanelID,
+            layoutFrozen,
+            freezeLayout,
+            inEditMode: true,
           }}
         >
-          <LayoutStateContext.Provider
-            value={{
-              layoutFrozen,
-              freezeLayout,
-              inEditMode: true,
-            }}
-          >
-            <PluginContext.Provider value={pluginContext}>
-              <ServiceLocatorProvider configure={configureServices}>
-                <AppShell
-                  padding={0}
-                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
-                  navbar={<DashboardEditorNavbar />}
-                  styles={AppShellStyles}
+          <PluginContext.Provider value={pluginContext}>
+            <ServiceLocatorProvider configure={configureServices}>
+              <AppShell
+                padding={0}
+                header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+                navbar={<DashboardEditorNavbar />}
+                styles={AppShellStyles}
+              >
+                <Box
+                  className={`${className} dashboard-root`}
+                  sx={{
+                    position: 'relative',
+                  }}
                 >
-                  <Box
-                    className={`${className} dashboard-root`}
-                    sx={{
-                      position: 'relative',
-                    }}
-                  >
-                    {model.views.visibleViews.map((view) => (
-                      <DashboardViewEditor key={view.id} view={view} />
-                    ))}
-                  </Box>
-                </AppShell>
-                <Settings />
-              </ServiceLocatorProvider>
-            </PluginContext.Provider>
-          </LayoutStateContext.Provider>
-        </FullScreenPanelContext.Provider>
+                  {model.views.visibleViews.map((view) => (
+                    <DashboardViewEditor key={view.id} view={view} />
+                  ))}
+                </Box>
+              </AppShell>
+              <Settings />
+            </ServiceLocatorProvider>
+          </PluginContext.Provider>
+        </LayoutStateContext.Provider>
       </ModelContextProvider>
     </ModalsProvider>
   );
