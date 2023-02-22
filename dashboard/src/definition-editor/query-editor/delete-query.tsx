@@ -1,4 +1,5 @@
 import { Button, Tooltip } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
@@ -13,13 +14,25 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   const dashboardModel = useModelContext();
   const dependingPanels = dashboardModel.findDependingPanels(queryModel.id);
   const disabled = dependingPanels.length > 0;
+
+  const modals = useModals();
+  const remove = () => {
+    modals.openConfirmModal({
+      title: 'Delete this query?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => dashboardModel.queries.removeQuery(queryModel.id),
+      zIndex: 320,
+    });
+  };
+
   const button = (
     <Button
       color="red"
-      size="sm"
+      size="xs"
       disabled={disabled}
-      onClick={() => dashboardModel.queries.removeQuery(queryModel.id)}
-      leftIcon={<IconTrash />}
+      onClick={remove}
+      leftIcon={<IconTrash size={16} />}
       sx={{ alignSelf: 'flex-end' }}
     >
       Delete this Query
