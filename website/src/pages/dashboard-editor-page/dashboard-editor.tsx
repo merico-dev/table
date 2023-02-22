@@ -7,7 +7,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import { DashboardAPI } from '../../api-caller/dashboard';
-import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-store';
+import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 
 export const DashboardEditor = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
