@@ -3,10 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { EditMockContext } from '~/definition-editor/mock-context-editor';
 import { EditFilter } from './edit-filter';
+import { EditPanel } from './edit-panel';
 import { EditQuery } from './edit-query';
 import { EditSQLSnippet } from './edit-sql-snippet';
 import { EditView } from './edit-view';
-import { isMockContext, isFilter, isSQLSnippet, isQuery, isView } from './utils';
+import { isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
@@ -41,6 +42,9 @@ const Content = observer(() => {
         <EditView id={path[1]} />
       </Box>
     );
+  }
+  if (isPanel(path)) {
+    return <EditPanel viewID={path[1]} panelID={path[3]} />;
   }
   return <Box>{editor.path}</Box>;
 });

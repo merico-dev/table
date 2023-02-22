@@ -108,28 +108,28 @@ export const Dashboard = observer(function _Dashboard({
               inEditMode: true,
             }}
           >
-            <AppShell
-              padding={0}
-              header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
-              navbar={<DashboardEditorNavbar />}
-              styles={AppShellStyles}
-            >
-              <Box
-                className={`${className} dashboard-root`}
-                sx={{
-                  position: 'relative',
-                }}
-              >
-                <PluginContext.Provider value={pluginContext}>
-                  <ServiceLocatorProvider configure={configureServices}>
+            <PluginContext.Provider value={pluginContext}>
+              <ServiceLocatorProvider configure={configureServices}>
+                <AppShell
+                  padding={0}
+                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+                  navbar={<DashboardEditorNavbar />}
+                  styles={AppShellStyles}
+                >
+                  <Box
+                    className={`${className} dashboard-root`}
+                    sx={{
+                      position: 'relative',
+                    }}
+                  >
                     {model.views.visibleViews.map((view) => (
                       <DashboardViewEditor key={view.id} view={view} />
                     ))}
-                  </ServiceLocatorProvider>
-                </PluginContext.Provider>
-              </Box>
-            </AppShell>
-            <Settings />
+                  </Box>
+                </AppShell>
+                <Settings />
+              </ServiceLocatorProvider>
+            </PluginContext.Provider>
           </LayoutStateContext.Provider>
         </FullScreenPanelContext.Provider>
       </ModelContextProvider>

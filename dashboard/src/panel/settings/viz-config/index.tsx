@@ -8,7 +8,7 @@ export function VizConfig() {
       <Stack sx={{ width: '40%', flexShrink: 0, flexGrow: 0, overflow: 'auto', height: '100%' }}>
         <EditVizConf />
       </Stack>
-      <Box sx={{ height: '100%', flexGrow: 1, maxWidth: '60%' }}>
+      <Box sx={{ height: '100%', overflow: 'hidden', flexGrow: 1, maxWidth: '60%' }}>
         <PreviewViz />
       </Box>
     </Group>

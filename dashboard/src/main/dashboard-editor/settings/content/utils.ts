@@ -19,3 +19,7 @@ export function isQuery(path: ValidEditorPathType) {
 export function isView(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_VIEWS_';
 }
+
+export function isPanel(path: ValidEditorPathType) {
+  return path.length === 4 && path[0] === '_VIEWS_' && path[2] === '_PANELS_';
+}
