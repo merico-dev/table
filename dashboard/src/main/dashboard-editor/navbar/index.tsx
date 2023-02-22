@@ -17,6 +17,7 @@ export const DashboardEditorNavbar = observer(() => {
   };
   const openFilters = () => {
     if (!model.filters.firstID) {
+      model.editor.open(['_FILTERS_', '']);
       return;
     }
     model.editor.open(['_FILTERS_', model.filters.firstID]);
@@ -35,7 +36,7 @@ export const DashboardEditorNavbar = observer(() => {
           sx={{ ...ActionIconGroupStyle, button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' } }}
         >
           <Tooltip label="Filters" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" disabled={!model.filters.firstID} onClick={openFilters}>
+            <ActionIcon variant="default" radius={0} size="md" onClick={openFilters}>
               <IconFilter size={20} />
             </ActionIcon>
           </Tooltip>

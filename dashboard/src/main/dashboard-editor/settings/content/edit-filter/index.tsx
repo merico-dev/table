@@ -8,6 +8,9 @@ import { FilterSetting } from '~/filter/filter-settings/filter-setting';
 export const EditFilter = observer(({ id }: { id: string }) => {
   const modals = useModals();
   const model = useModelContext();
+  if (id === '') {
+    return null;
+  }
   const filter = model.filters.findByID(id);
   if (!filter) {
     return <Text size={14}>Filter by ID[{id}] is not found</Text>;
