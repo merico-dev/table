@@ -5,15 +5,20 @@ import { NavOptionType } from '~/model/editor';
 import { AddItemButton } from './add-item-button';
 
 interface ISettingsNavLink {
-  onClick: (option: NavOptionType, parentID?: string) => void;
   option: NavOptionType;
 }
 
-function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
+const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
+  const editor = useModelContext().editor;
+  const isActive = editor.isOptionActive;
+  const active = isActive(editor.path, option);
+  const isOpened = editor.isOptionOpened;
+  const onClick = editor.navigate;
   return (
     <NavLink
       key={option.label}
-      active={false}
+      active={active}
+      defaultOpened={isOpened(option)}
       label={option.label}
       onClick={() => onClick(option)}
       icon={option.Icon ? <option.Icon size={18} /> : null}
@@ -22,19 +27,20 @@ function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
         o._type === 'ACTION' ? (
           <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} />
         ) : (
-          <SettingsNavLink key={o.value} option={o} onClick={onClick} />
+          <SettingsNavLink key={o.value} option={o} />
         ),
       )}
     </NavLink>
   );
-}
+});
 
 export const SettingsNavLinks = observer(() => {
   const model = useModelContext();
+
   return (
     <Box pt="sm" sx={{ position: 'relative' }}>
       {model.editor.navOptions.map((v) => (
-        <SettingsNavLink key={v.value} option={v} onClick={model.editor.navigate} />
+        <SettingsNavLink key={v.value} option={v} />
       ))}
     </Box>
   );

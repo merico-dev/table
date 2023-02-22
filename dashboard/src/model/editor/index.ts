@@ -114,6 +114,24 @@ export const EditorModel = types
 
       return ret;
     },
+    isOptionActive(path: ValidEditorPathType, option: NavOptionType) {
+      if (path.length === 0) {
+        return false;
+      }
+
+      return path[path.length - 1] === option.value;
+    },
+    isOptionOpened(option: NavOptionType) {
+      const { path } = self;
+      if (path.length === 0) {
+        return false;
+      }
+      if (!option.children || option.children.length === 0) {
+        return false;
+      }
+      // @ts-expect-error ValidEditorPathType vs string
+      return path.includes(option.value);
+    },
   }))
   .actions((self) => ({
     setPath(v: ValidEditorPathType) {
