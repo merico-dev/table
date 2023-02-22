@@ -1,4 +1,5 @@
 import { ActionIcon, Button, Group, Stack, Tabs, TextInput } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
@@ -35,6 +36,18 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
     setValue(item.value);
   }, [item]);
   const valueChanged = value !== item.value;
+
+  const modals = useModals();
+  const removeWithConfirmation = () => {
+    modals.openConfirmModal({
+      title: 'Delete this SQL snippet?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: remove,
+      zIndex: 320,
+    });
+  };
+
   return (
     <Stack my={0} p={0} pt="md" pr={20}>
       <Group sx={{ alignItems: 'end' }} spacing={40}>
@@ -58,7 +71,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           }
           error={isADuplicatedKey}
         />
-        <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={remove}>
+        <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
           Delete this SQL Snippet
         </Button>
       </Group>
