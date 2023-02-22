@@ -1,5 +1,5 @@
 import { randomId } from '@mantine/hooks';
-import { castToSnapshot, types } from 'mobx-state-tree';
+import { castToSnapshot, getParent, types } from 'mobx-state-tree';
 import { TableVizComponent } from '~/plugins/viz-components/table';
 import { PanelModel, PanelModelInstance } from './panel';
 
@@ -21,12 +21,15 @@ export const PanelsModel = types
       return self.list.find((query) => query.id === id);
     },
     get editorOptions() {
+      // @ts-expect-error type of getParent
+      const parentID = getParent(self, 1).id;
       return self.list.map(
         (o) =>
           ({
             label: o.title ?? o.id,
             value: o.id,
             _type: 'panel',
+            parentID,
           } as const),
       );
     },

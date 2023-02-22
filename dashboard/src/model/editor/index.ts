@@ -25,6 +25,7 @@ export type NavLinkType = {
   value: string;
   _type: 'GROUP' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: TablerIcon;
+  parentID?: string; // for panel only
   children?: NavOptionType[];
 };
 export type NavOptionType = NavLinkType | NavActionType;
@@ -42,7 +43,7 @@ export type ValidEditorPathType =
   | ['_VIEWS_', string, '_PANELS_', string]
   | [];
 
-function getPathFromOption(o: NavOptionType, parentID?: string): ValidEditorPathType | null {
+function getPathFromOption(o: NavOptionType): ValidEditorPathType | null {
   switch (o._type) {
     case 'GROUP':
     case 'ACTION':
@@ -58,11 +59,11 @@ function getPathFromOption(o: NavOptionType, parentID?: string): ValidEditorPath
     case 'view':
       return ['_VIEWS_', o.value];
     case 'panel':
-      if (!parentID) {
+      if (!o.parentID) {
         console.error('[getPathFromOption] parentID is required');
         return null;
       }
-      return ['_VIEWS_', parentID, '_PANELS_', o.value];
+      return ['_VIEWS_', o.parentID, '_PANELS_', o.value];
   }
 }
 
@@ -130,8 +131,8 @@ export const EditorModel = types
     close() {
       self.setSettingsOpen(false);
     },
-    navigate(o: NavOptionType, parentID?: string) {
-      const path = getPathFromOption(o, parentID);
+    navigate(o: NavOptionType) {
+      const path = getPathFromOption(o);
       if (path) {
         self.setPath(path);
       }

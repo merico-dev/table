@@ -22,7 +22,7 @@ function SettingsNavLink({ option, onClick }: ISettingsNavLink) {
         o._type === 'ACTION' ? (
           <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} />
         ) : (
-          <SettingsNavLink key={o.value} option={o} onClick={(o) => onClick(o, option.value)} />
+          <SettingsNavLink key={o.value} option={o} onClick={onClick} />
         ),
       )}
     </NavLink>
