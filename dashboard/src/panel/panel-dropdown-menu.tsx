@@ -58,7 +58,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
               Download Data
             </Menu.Item>
             {showFullScreenOption && (
-              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />}>
+              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled={inEditMode}>
                 Full Screen
               </Menu.Item>
             )}
