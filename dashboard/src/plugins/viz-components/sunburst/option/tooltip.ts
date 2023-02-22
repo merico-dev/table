@@ -3,8 +3,6 @@ import { IEchartsSunburstLabelFormatter } from './types';
 
 function getFormatter() {
   return ({ treePathInfo, name, value, color, marker, ...rest }: IEchartsSunburstLabelFormatter) => {
-    console.log({ rest });
-
     const path = treePathInfo.slice(0, treePathInfo.length - 1); // exclude last one, which is current item
 
     const metrics = [
