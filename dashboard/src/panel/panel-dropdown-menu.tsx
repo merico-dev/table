@@ -8,14 +8,10 @@ import { useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { usePanelContext } from '../contexts/panel-context';
-import { PanelSettingsModal } from './settings';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }) => {
   const model = useModelContext();
   const modals = useModals();
-  const [opened, setOpened] = React.useState(false);
-  const open = () => setOpened(true);
-  const close = () => setOpened(false);
 
   const { panel } = usePanelContext();
   const { id, query } = panel;
@@ -26,6 +22,10 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
     view.panels.duplicateByID(id);
+  };
+
+  const openPanelEditor = () => {
+    model.editor.open(['_VIEWS_', view.id, '_PANELS_', id]);
   };
 
   const remove = () =>
@@ -65,7 +65,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
             {inEditMode && (
               <>
                 <Divider label="Edit" labelPosition="center" />
-                <Menu.Item onClick={open} icon={<Settings size={14} />}>
+                <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
                   Settings
                 </Menu.Item>
                 <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
@@ -79,7 +79,6 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
           </Menu.Dropdown>
         </Menu>
       </Box>
-      {inEditMode && <PanelSettingsModal opened={opened} close={close} />}
     </>
   );
 });
