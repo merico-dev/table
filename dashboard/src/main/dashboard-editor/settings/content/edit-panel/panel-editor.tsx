@@ -1,6 +1,6 @@
 import { Box, Group, LoadingOverlay, Tabs, Tooltip, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
 import { PanelModelInstance } from '~/model/views/view/panels';
@@ -47,13 +47,17 @@ function doesVizRequiresData(type: string) {
 
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
   const model = useModelContext();
-  const [tab, setTab] = useState<string | null>('Visualization');
+  const [tab, setTab] = useState<string | null>('Data');
   const { data, state, error } = model.getDataStuffByID(panel.queryID);
   const query = model.queries.findByID(panel.queryID);
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
   const dataNotReady = loading || error || query?.stateMessage;
+
+  useEffect(() => {
+    setTab(dataNotReady ? 'Data' : 'Visualization');
+  }, [dataNotReady]);
 
   return (
     <PanelContextProvider value={{ panel, data, loading, error }}>
