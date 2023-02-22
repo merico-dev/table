@@ -62,10 +62,12 @@ export const DashboardEditorNavbar = observer(() => {
         <InteractionsViewerModal opened={interactionsOpened} close={closeInteractions} />
       </MantineNavbar.Section>
 
-      <MantineNavbar.Section grow sx={{ width: '100%', overflow: 'auto' }}>
-        <Text mt={15} mb={-5} align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
+      <MantineNavbar.Section py={5} sx={{ borderBottom: '1px solid #eee' }}>
+        <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           Views
         </Text>
+      </MantineNavbar.Section>
+      <MantineNavbar.Section grow sx={{ overflow: 'auto' }}>
         <ViewLinks />
       </MantineNavbar.Section>
 

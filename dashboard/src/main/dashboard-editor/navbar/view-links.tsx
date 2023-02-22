@@ -57,7 +57,7 @@ export const ViewLinks = observer(() => {
     model.editor.open(['_VIEWS_', id]);
   };
   return (
-    <Box pt="sm" sx={{ position: 'relative' }}>
+    <Box sx={{ position: 'relative' }}>
       {model.views.options.map((v) => (
         <ViewLink
           key={v.value}
