@@ -1,4 +1,5 @@
 import { randomId } from '@mantine/hooks';
+import _ from 'lodash';
 import { castToSnapshot, getParent, types } from 'mobx-state-tree';
 import { TableVizComponent } from '~/plugins/viz-components/table';
 import { PanelModel, PanelModelInstance } from './panel';
@@ -26,7 +27,7 @@ export const PanelsModel = types
       return self.list.map(
         (o) =>
           ({
-            label: o.title ?? o.id,
+            label: o.title ? o.title : _.capitalize(o.viz.type),
             value: o.id,
             _type: 'panel',
             parentID,
