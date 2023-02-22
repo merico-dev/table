@@ -1,5 +1,6 @@
 import { Box, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
+import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
 import { useModelContext } from '../../contexts';
@@ -26,6 +27,17 @@ export const FilterSettings = observer(function _FilterSettings() {
       auto_submit: false,
     } as FilterModelInstance;
     model.filters.append(filter);
+  };
+
+  const modals = useModals();
+  const removeWithConfirmation = (id: string) => {
+    modals.openConfirmModal({
+      title: 'Delete this filter?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => model.filters.removeByID(id),
+      zIndex: 320,
+    });
   };
 
   return (
@@ -77,7 +89,7 @@ export const FilterSettings = observer(function _FilterSettings() {
                       size="xs"
                       color="red"
                       leftIcon={<Trash size={20} />}
-                      onClick={() => model.filters.removeByID(filter.id)}
+                      onClick={() => removeWithConfirmation(filter.id)}
                     >
                       Delete this filter
                     </Button>
