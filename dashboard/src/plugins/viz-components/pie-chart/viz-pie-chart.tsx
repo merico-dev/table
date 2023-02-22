@@ -73,5 +73,8 @@ export function VizPieChart({ context }: VizViewProps) {
 
   const option = merge({}, defaultOption, labelOptions, { series: { data: chartData } });
 
+  if (!width || !height) {
+    return null;
+  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
 }
