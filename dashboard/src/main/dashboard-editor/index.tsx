@@ -34,7 +34,7 @@ const AppShellStyles = {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 60 + 10,
+    paddingTop: 60,
     height: '100vh',
   },
 } as const;

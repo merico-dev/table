@@ -22,7 +22,7 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
       styles={{
         root: {
           position: 'relative',
-          height: 'calc(100% - 44px)',
+          height: '100%',
         },
         overlay: {
           // @ts-expect-error absolute !important
