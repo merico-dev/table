@@ -45,6 +45,7 @@ export const FuncContentField = forwardRef(({ value, onChange }: IFuncContentFie
         onClose={setFalse}
         closeOnClickOutside={false}
         withCloseButton={false}
+        zIndex={320}
       >
         {modalOpened && (
           <Stack>

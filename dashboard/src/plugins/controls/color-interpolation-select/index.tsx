@@ -49,7 +49,7 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
       <Button variant="outline" onClick={setTrue}>
         {interpolation?.displayName}
       </Button>
-      <Modal size={508} title="Setup color interpolation" opened={modalOpened} onClose={setFalse}>
+      <Modal size={508} title="Setup color interpolation" opened={modalOpened} onClose={setFalse} zIndex={320}>
         {modalOpened && (
           <Stack data-testid="color-interpolation-modal">
             <Select

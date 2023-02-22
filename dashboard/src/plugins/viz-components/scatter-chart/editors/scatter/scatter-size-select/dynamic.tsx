@@ -58,6 +58,7 @@ const Field = ({ value, onChange, data }: IField) => {
         onClose={setFalse}
         closeOnClickOutside={false}
         withCloseButton={false}
+        zIndex={320}
       >
         {modalOpened && (
           <Stack>

@@ -61,6 +61,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
         onClose={setFalse}
         closeOnClickOutside={false}
         withCloseButton={false}
+        zIndex={320}
       >
         {modalOpened && (
           <Stack>

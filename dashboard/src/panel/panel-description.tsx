@@ -33,7 +33,7 @@ export const DescriptionPopover = observer(() => {
         title={panel.title}
         withCloseButton={false}
         withinPortal
-        zIndex={500}
+        zIndex={310}
       >
         <ReadonlyRichText value={panel.description} styles={{ root: { border: 'none' }, content: { padding: 0 } }} />
       </Modal>

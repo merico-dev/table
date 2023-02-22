@@ -34,6 +34,7 @@ export const EditViewModal = observer(({ opened, close }: IEditViewModal) => {
           width: '100%',
         },
       }}
+      zIndex={300}
       title={
         <Group position="apart">
           <Text sx={{ flexGrow: 1 }}>Editing {model.views.VIE?.name}</Text>

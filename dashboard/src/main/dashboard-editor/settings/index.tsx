@@ -41,7 +41,7 @@ export const Settings = observer(() => {
       transitionDuration={0}
       withCloseButton={false}
       withinPortal
-      zIndex={400}
+      zIndex={300}
       styles={{
         modal: {
           padding: '0 !important',

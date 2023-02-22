@@ -31,6 +31,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
         label={`This query is used in the following panels: ${dependingPanels.join(', ')}`}
         withArrow
         events={{ hover: true, focus: false, touch: false }}
+        withinPortal
       >
         {button}
       </Tooltip>

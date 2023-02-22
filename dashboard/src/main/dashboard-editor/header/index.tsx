@@ -45,7 +45,7 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
   const hasChanges = model.changed;
 
   return (
-    <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 300 }}>
+    <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
       <Group position="apart" sx={{ height: 60, position: 'relative' }}>
         <Group>
           <Button size="xs" color="green" leftIcon={<IconArrowLeft size={20} />} onClick={goBack}>
