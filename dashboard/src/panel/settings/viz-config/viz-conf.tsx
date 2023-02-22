@@ -1,4 +1,4 @@
-import { ActionIcon, JsonInput, Select } from '@mantine/core';
+import { ActionIcon, Group, JsonInput, Select, Stack } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
@@ -117,7 +117,7 @@ export const EditVizConf = observer(() => {
   const finalPanel = pluginPanel || builtInPanel;
   const selectData = useVizSelectData();
   return (
-    <>
+    <Stack align="stretch" sx={{ height: '100%', overflow: 'hidden' }}>
       <Select
         label="Visualization"
         value={type}
@@ -133,6 +133,6 @@ export const EditVizConf = observer(() => {
       {!finalPanel && (
         <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />
       )}
-    </>
+    </Stack>
   );
 });

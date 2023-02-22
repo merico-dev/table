@@ -1,12 +1,15 @@
 import { observer } from 'mobx-react-lite';
-import { usePanelContext } from '../../../contexts';
+import { useModelContext, usePanelContext } from '../../../contexts';
 import { Viz } from '../../viz';
 
 export const PreviewViz = observer(() => {
+  const model = useModelContext();
   const {
     data,
     loading,
-    panel: { viz },
+    error,
+    panel: { viz, queryID },
   } = usePanelContext();
-  return <Viz viz={viz} data={data} loading={loading} height="100%" />;
+  const query = model.queries.findByID(queryID);
+  return <Viz viz={viz} data={data} loading={loading} error={error} query={query} height="100%" />;
 });

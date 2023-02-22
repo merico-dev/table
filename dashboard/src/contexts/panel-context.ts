@@ -5,6 +5,7 @@ const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;
   data: any;
   loading: boolean;
+  error?: string;
 }>({
   panel: null,
   data: [],
@@ -22,5 +23,6 @@ export function usePanelContext() {
     panel: PanelModelInstance;
     data: any;
     loading: boolean;
+    error?: string;
   };
 }

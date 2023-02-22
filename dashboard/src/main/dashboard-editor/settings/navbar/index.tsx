@@ -8,7 +8,7 @@ export const SettingsNavbar = observer(() => {
   const model = useModelContext();
 
   return (
-    <MantineNavbar p={0} width={{ base: 300 }}>
+    <MantineNavbar p={0} width={{ base: 200 }}>
       <MantineNavbar.Section grow sx={{ width: '100%', overflow: 'auto' }}>
         <Text mt={15} mb={-5} align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
           Settings

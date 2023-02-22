@@ -13,9 +13,5 @@ export const EditPanel = observer(({ viewID, panelID }: { viewID: string; panelI
   if (!panel) {
     return <Text size={14}>Panel by ID[{panelID}] is not found</Text>;
   }
-  return (
-    // <Box sx={{ height: '100%', overflow: 'auto' }}>
-    <PanelEditor panel={panel} />
-    // </Box>
-  );
+  return <PanelEditor panel={panel} />;
 });
