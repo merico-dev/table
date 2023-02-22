@@ -34,6 +34,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => view.panels.removeByID(id),
+      zIndex: 320,
     });
 
   const enterFullScreen = React.useCallback(() => {
