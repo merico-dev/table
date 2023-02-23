@@ -1,6 +1,7 @@
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import { castToSnapshot, getParent, types } from 'mobx-state-tree';
+import { NavOptionType } from '~/model/editor';
 import { TableVizComponent } from '~/plugins/viz-components/table';
 import { PanelModel, PanelModelInstance } from './panel';
 
@@ -24,15 +25,26 @@ export const PanelsModel = types
     get editorOptions() {
       // @ts-expect-error type of getParent
       const parentID = getParent(self, 1).id;
-      return self.list.map(
+      const ret = self.list.map(
         (o) =>
           ({
             label: o.title ? o.title : _.capitalize(o.viz.type),
             value: o.id,
             _type: 'panel',
             parentID,
-          } as const),
+          } as NavOptionType),
       );
+      const _action_type = '_Add_A_PANEL_';
+      ret.push({
+        label: _action_type,
+        value: _action_type,
+        _type: 'ACTION',
+        _action_type,
+        parentID,
+        Icon: null,
+        children: null,
+      } as const);
+      return ret;
     },
   }))
   .actions((self) => {
@@ -41,7 +53,7 @@ export const PanelsModel = types
         self.list = castToSnapshot(current);
       },
       addANewPanel() {
-        const id = randomId();
+        const id = new Date().getTime().toString();
         self.list.push({
           id,
           layout: {
@@ -50,8 +62,8 @@ export const PanelsModel = types
             w: 3,
             h: 15,
           },
-          title: `Panel - ${id}`,
-          description: '<p><br></p>',
+          title: id,
+          description: '<p></p>',
           queryID: '',
           viz: {
             type: TableVizComponent.name,

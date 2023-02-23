@@ -61,12 +61,13 @@ export const ViewsModel = types
       },
       addANewView(
         id: string,
+        name: string,
         type: EViewComponentType,
         config: IViewConfigModel_DivisionIn | IViewConfigModel_ModalIn,
       ) {
         self.current.push({
           id,
-          name: id,
+          name: name,
           type,
           config,
           panels: {
@@ -108,8 +109,10 @@ export const ViewsModel = types
   })
   .actions((self) => ({
     addARandomNewView() {
-      const id = randomId();
-      self.addANewView(id, EViewComponentType.Division, { _name: EViewComponentType.Division });
+      const id = new Date().getTime().toString();
+      self.addANewView(id, EViewComponentType.Division, EViewComponentType.Division, {
+        _name: EViewComponentType.Division,
+      });
       self.setIDOfVIE(id);
     },
     removeVIE() {
