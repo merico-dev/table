@@ -1,4 +1,5 @@
 import axios, { Method } from 'axios';
+import _ from 'lodash';
 
 const getRequest = (method: Method) => {
   return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
@@ -27,6 +28,9 @@ const getRequest = (method: Method) => {
         return res.data;
       })
       .catch((err: $TSFixMe) => {
+        if (_.has(err, 'response.data.detail.message')) {
+          return Promise.reject(new Error(err.response.data.detail.message));
+        }
         return Promise.reject(err);
       });
   };
