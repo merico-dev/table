@@ -1,5 +1,6 @@
 import _, { cloneDeep, groupBy } from 'lodash';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { aggregateValue, AggregationType } from '~/utils/aggregation';
+import { ITemplateVariable, templateToString } from '~/utils/template';
 import { getEchartsSymbolSize } from '../panel/scatter-size-select/get-echarts-symbol-size';
 import {
   ICartesianChartConf,
@@ -95,6 +96,7 @@ function getSeriesItemOrItems(
     label_position,
     name,
     group_by_key,
+    aggregation_on_group,
     stack,
     color,
     display_name_on_line,
@@ -131,7 +133,7 @@ function getSeriesItemOrItems(
       align: 'right',
     };
   }
-  if (!group_by_key) {
+  if (!group_by_key || group_by_key === x_axis_data_key) {
     if (valueTypedXAxis) {
       seriesItem.data = getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
     } else {
@@ -143,9 +145,19 @@ function getSeriesItemOrItems(
   const keyedData = groupBy(data, group_by_key);
   return Object.entries(keyedData).map(([groupName, _data]) => {
     const ret = cloneDeep(seriesItem);
-    ret.data = getFullSeriesItemData(dataTemplate, _data, x_axis_data_key, y_axis_data_key);
     ret.name = groupName;
     ret.color = undefined;
+
+    if (!aggregation_on_group) {
+      ret.data = _data.map((d) => [d[x_axis_data_key], d[y_axis_data_key]]);
+      return ret;
+    }
+
+    const grouped_by_x = groupBy(_data, x_axis_data_key);
+    ret.data = Object.entries(grouped_by_x).map(([x, records]) => {
+      const y = aggregateValue(records, y_axis_data_key, aggregation_on_group);
+      return [x, y];
+    });
     return ret;
   });
 }
