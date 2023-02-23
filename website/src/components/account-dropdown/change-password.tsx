@@ -54,15 +54,10 @@ function ChangePasswordForm({ account, postSubmit, styles = defaultStyles }: ICh
       });
       postSubmit();
     } catch (error: $TSFixMe) {
-      // TEMP
-      let msg = error.message;
-      if (msg === 'request body is incorrect') {
-        msg = 'Password must be at least 8 characters long';
-      }
       updateNotification({
         id: 'for-updating',
         title: 'Failed',
-        message: msg,
+        message: error.message,
         color: 'red',
       });
     } finally {
