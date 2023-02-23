@@ -33,7 +33,7 @@ export function AdminFrame() {
       }}
     >
       <MantineProvider>
-        <NotificationsProvider>
+        <NotificationsProvider position="top-right">
           <Outlet />
         </NotificationsProvider>
       </MantineProvider>

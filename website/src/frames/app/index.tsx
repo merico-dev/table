@@ -26,7 +26,7 @@ export function App() {
         }}
       >
         <MantineProvider>
-          <NotificationsProvider>
+          <NotificationsProvider position="top-right">
             <Outlet />
           </NotificationsProvider>
         </MantineProvider>
