@@ -22,11 +22,13 @@ describe('ApiService', () => {
 
   describe('createKey', () => {
     it('should create successfully', async () => {
-      await apiService.createKey('apiKey6', ROLE_TYPES.ADMIN);
+      await apiService.createKey('apiKey6', ROLE_TYPES.ADMIN, DEFAULT_LANGUAGE);
     });
 
     it('should fail if duplicate name', async () => {
-      await expect(apiService.createKey('apiKey6', ROLE_TYPES.ADMIN)).rejects.toThrowError(QueryFailedError);
+      await expect(apiService.createKey('apiKey6', ROLE_TYPES.ADMIN, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'An ApiKey with that name already exists' }),
+      );
     });
   });
 

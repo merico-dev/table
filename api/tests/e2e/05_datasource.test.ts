@@ -150,7 +150,7 @@ describe('DataSourceController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "data_source_type_key_idx"',
+          message: 'A data source with that type and key already exists',
         },
       });
     });

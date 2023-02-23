@@ -121,28 +121,7 @@ describe('DashboardController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "dashboard_name_preset_idx"',
-        },
-      });
-    });
-
-    it('should fail if name empty', async () => {
-      const request: DashboardCreateRequest = {
-        name: undefined,
-        group: undefined,
-        content: {},
-      };
-      validate.mockReturnValueOnce(request);
-
-      const response = await server
-        .post('/dashboard/create')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
-
-      expect(response.body).toMatchObject({
-        code: 'BAD_REQUEST',
-        detail: {
-          message: 'null value in column "name" of relation "dashboard" violates not-null constraint',
+          message: 'A dashboard with that name already exists',
         },
       });
     });

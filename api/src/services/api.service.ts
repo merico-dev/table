@@ -72,8 +72,11 @@ export class ApiService {
     };
   }
 
-  async createKey(name: string, role_id: number): Promise<{ app_id: string; app_secret: string }> {
+  async createKey(name: string, role_id: number, locale: string): Promise<{ app_id: string; app_secret: string }> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
+    if (await apiKeyRepo.exist({ where: { name, is_preset: false } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NAME_ALREADY_EXISTS', locale) });
+    }
     const apiKey = new ApiKey();
     apiKey.name = name;
     apiKey.role_id = role_id;

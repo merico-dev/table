@@ -192,16 +192,17 @@ describe('validation', () => {
 
     describe('AccountUpdateRequest', () => {
       it('Should have no validation errors', () => {
-        const data: AccountUpdateRequest = {
-          name: 'test',
-        };
+        const data: AccountUpdateRequest = {};
 
         const result = validate(AccountUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
-        const data = {};
+        const data: AccountUpdateRequest = {
+          name: '',
+          email: '',
+        };
         expect(() => validate(AccountUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
@@ -210,13 +211,27 @@ describe('validation', () => {
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
-              target: {},
-              value: undefined,
+              target: {
+                email: '',
+                name: '',
+              },
+              value: '',
               property: 'name',
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string',
+              },
+            },
+            {
+              target: {
+                email: '',
+                name: '',
+              },
+              value: '',
+              property: 'email',
+              children: [],
+              constraints: {
+                isLength: 'email must be longer than or equal to 1 characters',
               },
             },
           ]);
@@ -228,9 +243,6 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: AccountEditRequest = {
           id: crypto.randomUUID(),
-          name: 'test',
-          reset_password: false,
-          role_id: ROLE_TYPES.AUTHOR,
         };
 
         const result = validate(AccountEditRequest, data);
@@ -238,7 +250,11 @@ describe('validation', () => {
       });
 
       it('Should have validation errors', () => {
-        const data = {};
+        const data: AccountEditRequest = {
+          id: null,
+          name: '',
+          role_id: 0,
+        };
         expect(() => validate(AccountEditRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
@@ -247,38 +263,41 @@ describe('validation', () => {
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
-              target: {},
-              value: undefined,
+              target: {
+                id: null,
+                name: '',
+                role_id: 0,
+              },
+              value: null,
               property: 'id',
               children: [],
               constraints: { isUuid: 'id must be a UUID' },
             },
             {
-              target: {},
-              value: undefined,
+              target: {
+                id: null,
+                name: '',
+                role_id: 0,
+              },
+              value: '',
               property: 'name',
               children: [],
               constraints: {
                 isLength: 'name must be longer than or equal to 1 characters',
-                isString: 'name must be a string',
               },
             },
             {
-              target: {},
-              value: undefined,
+              target: {
+                id: null,
+                name: '',
+                role_id: 0,
+              },
+              value: 0,
               property: 'role_id',
               children: [],
               constraints: {
                 isIn: 'role_id must be one of the following values: 10, 20, 30, 40',
-                isInt: 'role_id must be an integer number',
               },
-            },
-            {
-              target: {},
-              value: undefined,
-              property: 'reset_password',
-              children: [],
-              constraints: { isBoolean: 'reset_password must be a boolean value' },
             },
           ]);
         }

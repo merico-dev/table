@@ -80,7 +80,7 @@ describe('APIController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "api_key_name_preset_idx"',
+          message: 'An ApiKey with that name already exists',
         },
       });
     });

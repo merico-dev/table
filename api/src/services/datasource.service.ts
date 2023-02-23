@@ -83,6 +83,9 @@ export class DataSourceService {
     }
     maybeEncryptPassword(config);
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
+    if (await dataSourceRepo.exist({ where: { type, key } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_TYPE_KEY_ALREADY_EXISTS', locale) });
+    }
     const dataSource = new DataSource();
     dataSource.type = type;
     dataSource.key = key;

@@ -99,8 +99,18 @@ export class AccountService {
     };
   }
 
-  async create(name: string, email: string | undefined, password: string, role_id: number): Promise<AccountAPIModel> {
+  async create(
+    name: string,
+    email: string | undefined,
+    password: string,
+    role_id: number,
+    locale: string,
+  ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
+    const where = [{ name }, { email }];
+    if (await accountRepo.exist({ where })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
+    }
     const account = new Account();
     account.name = name;
     account.email = email;
@@ -124,6 +134,15 @@ export class AccountService {
   ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
+    if (name === undefined && email === undefined) {
+      return redactPassword(account);
+    }
+    const where: { [field: string]: string }[] = [];
+    name !== undefined && account.name !== name ? where.push({ name }) : null;
+    email !== undefined && account.email !== email ? where.push({ email }) : null;
+    if (where.length && (await accountRepo.exist({ where }))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
+    }
     if (account.role_id == ROLE_TYPES.SUPERADMIN) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale) });
     }
@@ -135,20 +154,29 @@ export class AccountService {
 
   async edit(
     id: string,
-    name: string,
+    name: string | undefined,
     email: string | undefined,
-    role_id: ROLE_TYPES,
-    reset_password: boolean,
+    role_id: ROLE_TYPES | undefined,
+    reset_password: boolean | undefined,
     new_password: string | undefined,
     editor_role_id: ROLE_TYPES,
     locale: string,
   ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
+    if (name === undefined && email === undefined && role_id === undefined && reset_password === undefined) {
+      return redactPassword(account);
+    }
+    const where: { [field: string]: string }[] = [];
+    name !== undefined && account.name !== name ? where.push({ name }) : null;
+    email !== undefined && account.email !== email ? where.push({ email }) : null;
+    if (where.length && (await accountRepo.exist({ where }))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
+    }
     if (account.role_id >= editor_role_id) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SIMILAR_OR_HIGHER_PRIVILEGES', locale) });
     }
-    if (role_id >= editor_role_id) {
+    if (role_id && role_id >= editor_role_id) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_CHANGE_SIMILAR_OR_HIGHER_PRIVILEGES', locale) });
     }
     if (reset_password) {
@@ -157,9 +185,9 @@ export class AccountService {
       }
       account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     }
-    account.name = name;
+    account.name = name === undefined ? account.name : name;
     account.email = email === undefined ? account.email : email;
-    account.role_id = role_id;
+    account.role_id = role_id === undefined ? account.role_id : role_id;
     const result = await accountRepo.save(account);
     return redactPassword(result);
   }
