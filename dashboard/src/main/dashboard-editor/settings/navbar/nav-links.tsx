@@ -25,7 +25,7 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
     >
       {option.children?.map((o) =>
         o._type === 'ACTION' ? (
-          <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} />
+          <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} parentID={o.parentID} />
         ) : (
           <SettingsNavLink key={o.value} option={o} />
         ),

@@ -24,7 +24,8 @@ export type NavActionType = {
   label: string;
   value: string;
   _type: 'ACTION';
-  _action_type: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_';
+  _action_type: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_' | '_Add_A_PANEL_';
+  parentID?: string; // for panel only
   Icon: null;
   children: null;
 };
