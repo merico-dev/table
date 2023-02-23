@@ -1,8 +1,10 @@
 import { Group, Menu, Text, UnstyledButton } from '@mantine/core';
+import { useBoolean } from 'ahooks';
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AddressBook, ChevronRight, Logout, ShieldLock } from 'tabler-icons-react';
 import { useAccountContext } from '../../frames/require-auth/account-context';
+import { UpdateProfileModal } from './update-profile';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   username: string;
@@ -51,6 +53,7 @@ export function AccountDropdown() {
     window.localStorage.removeItem('token');
     navigate('/login');
   };
+  const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
   return (
     <Group position="center">
       <Menu withinPortal>
@@ -60,7 +63,10 @@ export function AccountDropdown() {
         <Menu.Dropdown>
           <Menu.Label>Account Settings</Menu.Label>
 
-          <Menu.Item icon={<AddressBook size={14} />}>Profile</Menu.Item>
+          <Menu.Item icon={<AddressBook size={14} />} onClick={openProfile}>
+            Profile
+          </Menu.Item>
+
           <Menu.Item icon={<ShieldLock size={14} />}>Password</Menu.Item>
 
           <Menu.Divider />
@@ -70,6 +76,7 @@ export function AccountDropdown() {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
+      <UpdateProfileModal account={account} opened={profileOpened} onClose={closeProfile} />
     </Group>
   );
 }
