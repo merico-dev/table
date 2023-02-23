@@ -52,6 +52,8 @@ export function AccountDropdown() {
   const navigate = useNavigate();
   const logout = () => {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('redirect_to');
+    window.localStorage.removeItem('last_visited_dashboard_id');
     navigate('/login');
   };
   const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
