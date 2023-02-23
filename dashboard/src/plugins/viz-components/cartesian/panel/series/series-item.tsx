@@ -13,8 +13,10 @@ import {
 import React from 'react';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
+import { AggregationSelector } from '~/panel/settings/common/aggregation-selector';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
+import { DefaultAggregation } from '~/utils/aggregation';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';
@@ -51,6 +53,7 @@ interface ISeriesItemField {
 
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
   const type = seriesItem.type;
+  const group_by_key = seriesItem.group_by_key;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Stack>
@@ -114,6 +117,20 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
+      {group_by_key && (
+        <Controller
+          name={`series.${index}.aggregation_on_group`}
+          control={control}
+          render={({ field }) => (
+            <AggregationSelector
+              label="Aggregation on Group"
+              value={field.value ?? DefaultAggregation}
+              onChange={field.onChange}
+              pt={0}
+            />
+          )}
+        />
+      )}
       {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} data={data} />}
       {type === 'bar' && <BarFields index={index} control={control} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
