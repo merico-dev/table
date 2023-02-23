@@ -1,4 +1,5 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { AggregationType } from '~/utils/aggregation';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
 import { TScatterSize } from './panel/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
@@ -20,6 +21,7 @@ export interface ICartesianChartSeriesItem {
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
   group_by_key: string;
+  aggregation_on_group?: AggregationType;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
     width: number;

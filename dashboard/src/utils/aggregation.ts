@@ -13,6 +13,10 @@ export type AggregationType =
         p: number;
       };
     };
+export const DefaultAggregation: AggregationType = {
+  type: 'none',
+  config: {},
+};
 
 function median(numbers: number[]) {
   const sorted = Array.from(numbers).sort((a, b) => a - b);

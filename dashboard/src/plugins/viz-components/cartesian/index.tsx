@@ -11,6 +11,7 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-form
 import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from './panel/x-axis/x-axis-label-overflow/types';
 import { random } from 'chroma-js';
+import { DefaultAggregation } from '~/utils/aggregation';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -89,8 +90,23 @@ function v7(legacyConf: $TSFixMe): ICartesianChartConf {
   };
 }
 
+function v8(legacyConf: $TSFixMe): ICartesianChartConf {
+  const series = legacyConf.series.map((l: AnyObject) => {
+    const { aggregation_on_group = DefaultAggregation } = l;
+
+    return {
+      ...l,
+      aggregation_on_group,
+    };
+  });
+  return {
+    ...legacyConf,
+    series,
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 8;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -150,6 +166,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v7(data.config),
       };
     });
+    this.version(8, (data) => {
+      return {
+        ...data,
+        version: 8,
+        config: v8(data.config),
+      };
+    });
   }
 }
 
@@ -161,7 +184,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 7,
+      version: 8,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

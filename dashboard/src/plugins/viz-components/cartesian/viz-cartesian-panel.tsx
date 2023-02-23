@@ -6,6 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { DefaultAggregation } from '~/utils/aggregation';
 import { EchartsZoomingField } from './panel/echarts-zooming-field';
 import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './panel/reference-lines';
@@ -54,6 +55,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
     smooth = false,
     step = false,
     group_by_key = '',
+    aggregation_on_group = DefaultAggregation,
     display_name_on_line = false,
     lineStyle = { type: 'solid', width: 1 },
     hide_in_legend = false,
@@ -73,6 +75,7 @@ function withDefaults(series: ICartesianChartSeriesItem[]) {
       smooth,
       step,
       group_by_key,
+      aggregation_on_group,
       display_name_on_line,
       lineStyle,
       hide_in_legend,

@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select } from '@mantine/core';
+import { Group, NumberInput, Select, SpacingValue, Sx, SystemProp } from '@mantine/core';
 import React, { useEffect } from 'react';
 import { AggregationType } from '../../../utils/aggregation';
 
@@ -16,9 +16,10 @@ interface IAggregationSelector {
   value: AggregationType;
   onChange: (v: AggregationType) => void;
   label: string;
+  pt?: SystemProp<SpacingValue>;
 }
 
-function _AggregationSelector({ label, value, onChange }: IAggregationSelector, ref: $TSFixMe) {
+function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregationSelector, ref: $TSFixMe) {
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {
@@ -47,7 +48,7 @@ function _AggregationSelector({ label, value, onChange }: IAggregationSelector, 
     });
   };
   return (
-    <Group grow noWrap pt="sm">
+    <Group grow noWrap pt={pt}>
       <Select ref={ref} label={label} data={options} value={value.type} onChange={changeType} />
       {value.type === 'quantile' && (
         <NumberInput
