@@ -59,10 +59,14 @@ describe('DataSourceService', () => {
     it('should fail if duplicate', async () => {
       await expect(
         datasourceService.create('postgresql', 'pg_2', pgSourceConfig, DEFAULT_LANGUAGE),
-      ).rejects.toThrowError(QueryFailedError);
+      ).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'A data source with that type and key already exists' }),
+      );
       await expect(
         datasourceService.create('http', 'jsonplaceholder_2', pgSourceConfig, DEFAULT_LANGUAGE),
-      ).rejects.toThrowError(QueryFailedError);
+      ).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'A data source with that type and key already exists' }),
+      );
     });
 
     it('should fail if config incorrect', async () => {

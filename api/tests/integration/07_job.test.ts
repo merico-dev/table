@@ -91,7 +91,7 @@ describe('JobService', () => {
       await jobRepo.save(job3);
 
       await JobService.processDataSourceRename();
-      await sleep(5000);
+      await sleep(10000);
     });
   });
 

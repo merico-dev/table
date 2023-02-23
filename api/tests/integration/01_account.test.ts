@@ -23,7 +23,13 @@ describe('AccountService', () => {
 
   describe('create', () => {
     it('should create successfully', async () => {
-      account5 = await accountService.create('account5', 'account5@test.com', 'account5', ROLE_TYPES.ADMIN);
+      account5 = await accountService.create(
+        'account5',
+        'account5@test.com',
+        'account5',
+        ROLE_TYPES.ADMIN,
+        DEFAULT_LANGUAGE,
+      );
       expect(account5).toMatchObject({
         id: account5.id,
         name: 'account5',
@@ -36,8 +42,10 @@ describe('AccountService', () => {
 
     it('should fail', async () => {
       await expect(
-        accountService.create('account5', 'account5@test.com', 'account5', ROLE_TYPES.ADMIN),
-      ).rejects.toThrowError(QueryFailedError);
+        accountService.create('account5', 'account5@test.com', 'account5', ROLE_TYPES.ADMIN, DEFAULT_LANGUAGE),
+      ).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'An account with that name or email already exists' }),
+      );
     });
   });
 
@@ -119,9 +127,9 @@ describe('AccountService', () => {
     });
 
     it('updating superadmin should fail', async () => {
-      await expect(accountService.update(accounts[4].id, undefined, undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(
-        new ApiError(BAD_REQUEST, { message: 'Can not edit superadmin details' }),
-      );
+      await expect(
+        accountService.update(accounts[4].id, 'superadmin', undefined, DEFAULT_LANGUAGE),
+      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Can not edit superadmin details' }));
     });
   });
 

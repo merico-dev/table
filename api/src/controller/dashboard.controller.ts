@@ -70,7 +70,7 @@ export class DashboardController implements interfaces.Controller {
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { name, content, group } = validate(DashboardCreateRequest, req.body);
-      const result = await this.dashboardService.create(name, content, group);
+      const result = await this.dashboardService.create(name, content, group, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

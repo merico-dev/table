@@ -252,13 +252,14 @@ export class AccountCreateRequest {
   name: 'AccountUpdateRequest',
 })
 export class AccountUpdateRequest {
+  @IsOptional()
   @IsString()
   @Length(1, 100)
   @ApiModelProperty({
     description: 'Account name',
-    required: true,
+    required: false,
   })
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -282,13 +283,14 @@ export class AccountEditRequest {
   })
   id: string;
 
+  @IsOptional()
   @IsString()
   @Length(1, 100)
   @ApiModelProperty({
     description: 'Account name',
-    required: true,
+    required: false,
   })
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
@@ -299,11 +301,12 @@ export class AccountEditRequest {
   })
   email?: string;
 
+  @IsOptional()
   @IsInt()
   @IsIn([ROLE_TYPES.INACTIVE, ROLE_TYPES.READER, ROLE_TYPES.AUTHOR, ROLE_TYPES.ADMIN])
   @ApiModelProperty({
     description: 'Account ID',
-    required: true,
+    required: false,
     enum: [
       ROLE_TYPES.INACTIVE.toString(),
       ROLE_TYPES.READER.toString(),
@@ -311,14 +314,15 @@ export class AccountEditRequest {
       ROLE_TYPES.ADMIN.toString(),
     ],
   })
-  role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+  role_id?: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
 
+  @IsOptional()
   @IsBoolean()
   @ApiModelProperty({
     description: 'Reset account password',
-    required: true,
+    required: false,
   })
-  reset_password: boolean;
+  reset_password?: boolean;
 
   @IsOptional()
   @IsString()

@@ -63,7 +63,7 @@ export class APIController implements interfaces.Controller {
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { name, role_id } = validate(ApiKeyCreateRequest, req.body);
-      const result = await this.apiService.createKey(name, role_id);
+      const result = await this.apiService.createKey(name, role_id, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

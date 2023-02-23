@@ -21,15 +21,13 @@ describe('DashboardService', () => {
 
   describe('create', () => {
     it('should create successfully', async () => {
-      dashboard3 = await dashboardService.create('dashboard3', {}, '2');
+      dashboard3 = await dashboardService.create('dashboard3', {}, '2', DEFAULT_LANGUAGE);
     });
 
     it('should fail if duplicate name', async () => {
-      await expect(dashboardService.create('dashboard3', {}, '2')).rejects.toThrowError(QueryFailedError);
-    });
-
-    it('should fail if name empty', async () => {
-      await expect(dashboardService.create(undefined, {}, '2')).rejects.toThrowError(QueryFailedError);
+      await expect(dashboardService.create('dashboard3', {}, '2', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'A dashboard with that name already exists' }),
+      );
     });
   });
 

@@ -132,7 +132,7 @@ export class AccountController implements interfaces.Controller {
           message: translate('ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES', req.locale),
         });
       }
-      const result = await this.accountService.create(name, email, password, role_id);
+      const result = await this.accountService.create(name, email, password, role_id, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

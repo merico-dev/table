@@ -56,8 +56,11 @@ export class DashboardService {
     };
   }
 
-  async create(name: string, content: Record<string, any>, group: string): Promise<Dashboard> {
+  async create(name: string, content: Record<string, any>, group: string, locale: string): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
+    if (await dashboardRepo.exist({ where: { name, is_preset: false, is_removed: false } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_NAME_ALREADY_EXISTS', locale) });
+    }
     const dashboard = new Dashboard();
     dashboard.name = name;
     dashboard.content = content;
@@ -87,6 +90,14 @@ export class DashboardService {
   ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
+    if (name === undefined && content === undefined && is_removed === undefined && group === undefined) {
+      return dashboard;
+    }
+    if (name !== undefined && dashboard.name !== name) {
+      if (await dashboardRepo.exist({ where: { name, is_removed: false, is_preset: dashboard.is_preset } })) {
+        throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_NAME_ALREADY_EXISTS', locale) });
+      }
+    }
     const originalDashboard = _.cloneDeep(dashboard);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale) });

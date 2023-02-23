@@ -196,7 +196,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'duplicate key value violates unique constraint "account_name_idx"',
+          message: 'An account with that name or email already exists',
         },
       });
     });
