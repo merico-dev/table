@@ -20,12 +20,11 @@ interface IFormValues {
 }
 
 interface IChangePasswordForm {
-  account: IAccount;
   postSubmit: () => void;
   styles?: IStyles;
 }
 
-function ChangePasswordForm({ account, postSubmit, styles = defaultStyles }: IChangePasswordForm) {
+function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePasswordForm) {
   const [pending, { setTrue, setFalse }] = useBoolean();
   const { control, handleSubmit, watch } = useForm<IFormValues>({
     defaultValues: {
@@ -65,7 +64,6 @@ function ChangePasswordForm({ account, postSubmit, styles = defaultStyles }: ICh
     }
   };
 
-  const isSuperAdmin = account.role_id === 50;
   return (
     <Box mx="auto">
       <LoadingOverlay visible={pending} />
@@ -101,14 +99,7 @@ function ChangePasswordForm({ account, postSubmit, styles = defaultStyles }: ICh
           )}
         />
 
-        <Group position="apart" mt={styles.spacing}>
-          <Box>
-            {/* {isSuperAdmin && (
-              <Text size="sm" color="red">
-                Can't edit superadmin's profile
-              </Text>
-            )} */}
-          </Box>
+        <Group position="left" mt={styles.spacing}>
           <Button type="submit" size={styles.button.size} disabled={pending}>
             Submit
           </Button>
@@ -121,10 +112,9 @@ function ChangePasswordForm({ account, postSubmit, styles = defaultStyles }: ICh
 interface IChangePassword {
   opened: boolean;
   onClose: () => void;
-  account: IAccount;
 }
 
-export function ChangePassword({ account, opened, onClose }: IChangePassword) {
+export function ChangePassword({ opened, onClose }: IChangePassword) {
   const postSubmit = () => {
     onClose();
   };
@@ -140,7 +130,7 @@ export function ChangePassword({ account, opened, onClose }: IChangePassword) {
         e.stopPropagation();
       }}
     >
-      <ChangePasswordForm account={account} postSubmit={postSubmit} />
+      <ChangePasswordForm postSubmit={postSubmit} />
     </Modal>
   );
 }

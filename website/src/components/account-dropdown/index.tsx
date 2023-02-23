@@ -83,7 +83,7 @@ export function AccountDropdown() {
         </Menu.Dropdown>
       </Menu>
       <UpdateProfileModal account={account} opened={profileOpened} onClose={closeProfile} />
-      <ChangePassword account={account} opened={passwordOpened} onClose={closePassword} />
+      <ChangePassword opened={passwordOpened} onClose={closePassword} />
     </Group>
   );
 }
