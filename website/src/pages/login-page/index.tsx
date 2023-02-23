@@ -21,7 +21,7 @@ export function LoginPage() {
   }
 
   return (
-    <NotificationsProvider>
+    <NotificationsProvider position="top-right">
       <Center sx={{ width: '100vw', height: '100vh' }}>
         <LoadingOverlay visible={loading} />
         <Login config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} onSuccess={onSuccess} />

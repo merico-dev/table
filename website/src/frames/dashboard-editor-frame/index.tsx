@@ -12,7 +12,7 @@ export function DashboardEditorFrame() {
   return (
     <DashboardStoreProvider>
       <MantineProvider>
-        <NotificationsProvider>
+        <NotificationsProvider position="top-right">
           <Outlet />
         </NotificationsProvider>
       </MantineProvider>
