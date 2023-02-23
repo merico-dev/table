@@ -53,7 +53,7 @@ export const PanelsModel = types
         self.list = castToSnapshot(current);
       },
       addANewPanel() {
-        const id = randomId();
+        const id = new Date().getTime().toString();
         self.list.push({
           id,
           layout: {
@@ -62,8 +62,8 @@ export const PanelsModel = types
             w: 3,
             h: 15,
           },
-          title: `Panel - ${id}`,
-          description: '<p><br></p>',
+          title: id,
+          description: '<p></p>',
           queryID: '',
           viz: {
             type: TableVizComponent.name,
