@@ -1,3 +1,4 @@
+import { AnyObject } from '~/types';
 import { ITemplateVariable, templateToString } from '~/utils/template';
 import { ICartesianReferenceLine } from '../../type';
 
@@ -5,7 +6,7 @@ export function getReferenceLines(
   reference_lines: ICartesianReferenceLine[],
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
-  data: $TSFixMe[],
+  data: AnyObject[],
 ) {
   return reference_lines.map((r) => {
     const isHorizontal = r.orientation === 'horizontal';

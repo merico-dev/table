@@ -1,11 +1,13 @@
 import _, { cloneDeep, groupBy } from 'lodash';
+import { AnyObject } from '~/types';
 import { aggregateValue } from '~/utils/aggregation';
 import { getEchartsSymbolSize } from '../../panel/scatter-size-select/get-echarts-symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { DataTemplateType } from './types';
 
 function getFullSeriesItemData(
-  dataTemplate: $TSFixMe[][],
-  seriesItemData: $TSFixMe[],
+  dataTemplate: DataTemplateType[],
+  seriesItemData: AnyObject[],
   x_axis_data_key: string,
   y_axis_data_key: string,
 ) {
@@ -29,9 +31,9 @@ export function getSeriesItemOrItems(
     hide_in_legend,
     ...rest
   }: ICartesianChartSeriesItem,
-  dataTemplate: $TSFixMe[][],
+  dataTemplate: DataTemplateType[],
   valueTypedXAxis: boolean,
-  data: $TSFixMe[],
+  data: AnyObject[],
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {

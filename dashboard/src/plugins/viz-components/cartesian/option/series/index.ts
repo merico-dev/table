@@ -1,19 +1,21 @@
+import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { ICartesianChartConf } from '../../type';
 import { getReferenceAreas } from './reference_areas';
 import { getReferenceLines } from './reference_lines';
 import { getSeriesItemOrItems } from './series_items';
+import { DataTemplateType } from './types';
 
 export function getSeries(
   conf: ICartesianChartConf,
-  xAxisData: $TSFixMe[],
+  xAxisData: string[],
   valueTypedXAxis: boolean,
-  data: $TSFixMe[],
+  data: AnyObject[],
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
 ) {
-  const dataTemplate = xAxisData.map((v) => [v, 0]);
+  const dataTemplate: DataTemplateType[] = xAxisData.map((v) => [v, 0]);
   const ret = conf.series
     .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, valueTypedXAxis, data, variableValueMap, labelFormatters))
     .flat();
