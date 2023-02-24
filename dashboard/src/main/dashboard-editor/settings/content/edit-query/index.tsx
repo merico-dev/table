@@ -1,6 +1,6 @@
 import { Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { QueryEditor } from './query-editor/editor';
+import { QueryEditor } from './query-editor';
 
 export const EditQuery = observer(({ id }: { id: string }) => {
   if (id === '') {

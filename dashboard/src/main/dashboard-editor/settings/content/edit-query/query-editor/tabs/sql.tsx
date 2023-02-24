@@ -5,7 +5,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { MinimalMonacoEditor } from '~/definition-editor/minimal-monaco-editor';
 import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
 import { QueryModelInstance } from '~/model';
-import { PreviewSQL } from '../preview-sql';
+import { PreviewSQL } from './preview-sql';
 
 export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
   // form stuff
