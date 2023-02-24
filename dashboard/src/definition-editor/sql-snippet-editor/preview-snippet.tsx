@@ -12,5 +12,5 @@ export const PreviewSnippet = observer(({ value }: IPreviewSnippet) => {
   const context = model.context.current;
   const explained = explainSQLSnippet(value, context, model.mock_context.current, model.filters.values);
 
-  return <MinimalMonacoEditor height="400px" value={explained} />;
+  return <MinimalMonacoEditor height="100%" value={explained} />;
 });

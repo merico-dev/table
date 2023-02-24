@@ -27,11 +27,7 @@ const Content = observer(() => {
     );
   }
   if (isSQLSnippet(path)) {
-    return (
-      <Box p="xs" pl={20}>
-        <EditSQLSnippet id={path[1]} />
-      </Box>
-    );
+    return <EditSQLSnippet id={path[1]} />;
   }
   if (isQuery(path)) {
     return <EditQuery id={path[1]} />;
