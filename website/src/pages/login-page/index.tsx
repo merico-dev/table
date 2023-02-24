@@ -9,7 +9,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const { data: account, loading, ...rest } = useRequest(AccountAPI.get);
 
-  const redirect_to = window.localStorage.getItem('redirect_to') ?? '/';
+  const redirect_to = window.localStorage.getItem('redirect_to') ?? '/dashboard/';
 
   const onSuccess = ({ account, token }: ILoginResp) => {
     window.localStorage.setItem('token', token);

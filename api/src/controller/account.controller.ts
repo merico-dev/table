@@ -213,7 +213,12 @@ export class AccountController implements interfaces.Controller {
     try {
       const account: Account = req.body.auth;
       const { old_password, new_password } = validate(AccountChangePasswordRequest, req.body);
-      const result = await this.accountService.changePassword(account.id, old_password, new_password);
+      if (new_password.length < 8) {
+        throw new ApiError(BAD_REQUEST, {
+          message: translate('ACCOUNT_PWD_LENGTH_SHOULD_BE_GRATER_THAN_8', req.locale),
+        });
+      }
+      const result = await this.accountService.changePassword(account.id, old_password, new_password, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

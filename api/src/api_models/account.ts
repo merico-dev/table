@@ -340,7 +340,6 @@ export class AccountEditRequest {
 })
 export class AccountChangePasswordRequest {
   @IsString()
-  @Length(8)
   @ApiModelProperty({
     description: 'Account old password',
     required: true,
@@ -348,7 +347,6 @@ export class AccountChangePasswordRequest {
   old_password: string;
 
   @IsString()
-  @Length(8)
   @ApiModelProperty({
     description: 'Account new password',
     required: true,

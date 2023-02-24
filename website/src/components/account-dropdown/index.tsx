@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AddressBook, ChevronRight, Logout, ShieldLock } from 'tabler-icons-react';
 import { useAccountContext } from '../../frames/require-auth/account-context';
+import { ChangePassword } from './change-password';
 import { UpdateProfileModal } from './update-profile';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
@@ -51,9 +52,12 @@ export function AccountDropdown() {
   const navigate = useNavigate();
   const logout = () => {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('redirect_to');
+    window.localStorage.removeItem('last_visited_dashboard_id');
     navigate('/login');
   };
   const [profileOpened, { setTrue: openProfile, setFalse: closeProfile }] = useBoolean();
+  const [passwordOpened, { setTrue: openPassword, setFalse: closePassword }] = useBoolean();
   return (
     <Group position="center">
       <Menu withinPortal>
@@ -67,7 +71,9 @@ export function AccountDropdown() {
             Profile
           </Menu.Item>
 
-          <Menu.Item icon={<ShieldLock size={14} />}>Password</Menu.Item>
+          <Menu.Item icon={<ShieldLock size={14} />} onClick={openPassword}>
+            Password
+          </Menu.Item>
 
           <Menu.Divider />
 
@@ -77,6 +83,7 @@ export function AccountDropdown() {
         </Menu.Dropdown>
       </Menu>
       <UpdateProfileModal account={account} opened={profileOpened} onClose={closeProfile} />
+      <ChangePassword opened={passwordOpened} onClose={closePassword} />
     </Group>
   );
 }

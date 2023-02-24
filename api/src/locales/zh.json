@@ -9,6 +9,8 @@
   "ACCOUNT_NO_EMPTY_RESET_PASSWORD": "当reset_password为true时，必须提供new_password",
   "ACCOUNT_NO_DELETE_SIMILAR_OR_HIGHER_PRIVILEGES": "无法删除具有与自己帐户类似或更高权限的帐户",
   "ACCOUNT_NAME_EMAIL_ALREADY_EXISTS": "具有该名称或电子邮件的帐户已存在",
+  "ACCOUNT_PWD_LENGTH_SHOULD_BE_GRATER_THAN_8": "密码长度不足8位",
+  "ACCOUNT_PWD_MISMATCH": "密码错误",
   "DATASOURCE_HTTP_REQUIRED_FIELDS": "HTTP数据源需要预处理和后处理",
   "DATASOURCE_DB_REQUIRED_FIELDS": "Mysql|Postgresql配置必须包含[port，username，password，database]",
   "DATASOURCE_RENAME_SAME_KEY": "新key与旧key相同",

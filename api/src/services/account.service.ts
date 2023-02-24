@@ -192,11 +192,18 @@ export class AccountService {
     return redactPassword(result);
   }
 
-  async changePassword(id: string, old_password: string, new_password: string): Promise<AccountAPIModel> {
+  async changePassword(
+    id: string,
+    old_password: string,
+    new_password: string,
+    locale: string,
+  ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (!(await bcrypt.compare(old_password, account.password))) {
-      throw new ApiError(PASSWORD_MISMATCH);
+      throw new ApiError(PASSWORD_MISMATCH, {
+        message: translate('ACCOUNT_PWD_MISMATCH', locale),
+      });
     }
     account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     const result = await accountRepo.save(account);
