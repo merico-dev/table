@@ -50,7 +50,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   };
 
   return (
-    <Stack my={0} p={0} pt="md" pr={20}>
+    <Stack p={20} sx={{ maxWidth: '1100px', height: '100vh' }} spacing="sm">
       <Group sx={{ alignItems: 'end' }} spacing={40}>
         <TextInput
           label={isADuplicatedKey ? 'This key is occupied by another snippet' : 'Key'}
@@ -76,7 +76,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           Delete this SQL Snippet
         </Button>
       </Group>
-      <Tabs value={tab} onTabChange={setTab}>
+      <Tabs value={tab} onTabChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>
         <Tabs.List sx={{ position: 'relative' }}>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
@@ -92,7 +92,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           </ActionIcon>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
-          <MinimalMonacoEditor height="400px" value={value} onChange={setValue} />
+          <MinimalMonacoEditor height="100%" value={value} onChange={setValue} />
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
           <PreviewSnippet value={value} />
