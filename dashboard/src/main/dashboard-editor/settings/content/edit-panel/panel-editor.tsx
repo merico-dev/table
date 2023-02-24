@@ -53,11 +53,16 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
-  const dataNotReady = loading || error || query?.stateMessage;
+  const dataNotReady = loading || error || !query || !!query.stateMessage;
 
   useEffect(() => {
-    setTab(dataNotReady ? 'Data' : 'Visualization');
-  }, [dataNotReady]);
+    setTab((tab) => {
+      if (dataNotReady && tab === 'Visualization') {
+        return 'Data';
+      }
+      return tab;
+    });
+  }, [panel.id, dataNotReady]);
 
   return (
     <PanelContextProvider value={{ panel, data, loading, error }}>
