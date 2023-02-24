@@ -23,7 +23,7 @@ export function VizBar3dChartPanel({ context }: VizConfigProps) {
   }
 
   return (
-    <Stack mt="md" spacing="xs">
+    <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Text>X Axis</Text>
         <Group position="apart" grow p="md" sx={{ position: 'relative', border: '1px solid #eee' }}>

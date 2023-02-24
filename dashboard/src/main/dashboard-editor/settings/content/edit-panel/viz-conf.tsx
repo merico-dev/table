@@ -1,4 +1,4 @@
-import { ActionIcon, Group, JsonInput, Select, Stack } from '@mantine/core';
+import { ActionIcon, Box, Group, JsonInput, Select, Stack } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
@@ -129,7 +129,9 @@ export const EditVizConf = observer(() => {
           </ActionIcon>
         }
       />
-      {finalPanel}
+      <Box pb={50} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
+        {finalPanel}
+      </Box>
       {!finalPanel && (
         <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />
       )}
