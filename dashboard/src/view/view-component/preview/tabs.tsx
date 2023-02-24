@@ -1,16 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Center,
-  ColorInput,
-  Overlay,
-  Select,
-  Stack,
-  Sx,
-  Tabs,
-  TextInput,
-} from '@mantine/core';
+import { Box, Button, ColorInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
 import { IconArrowsLeftRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
@@ -83,10 +71,10 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
           const tabView = model.views.findByID(t.view_id);
           return (
             <Tabs.Panel key={t.id} value={t.id} sx={{ position: 'relative' }}>
-              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}>
-                <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={-1} />
+              <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 }}>
+                <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={100} />
 
-                <Stack mx="auto" mt={100} sx={{ width: '300px' }}>
+                <Stack mx="auto" mt={100} sx={{ width: '300px', position: 'relative', zIndex: 200 }}>
                   <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
                   <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
                   <ColorInput
