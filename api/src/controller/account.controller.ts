@@ -219,7 +219,7 @@ export class AccountController implements interfaces.Controller {
           message: translate('ACCOUNT_PWD_LENGTH_SHOULD_BE_GRATER_THAN_8', req.locale),
         });
       }
-      const result = await this.accountService.changePassword(account.id, old_password, new_password);
+      const result = await this.accountService.changePassword(account.id, old_password, new_password, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
