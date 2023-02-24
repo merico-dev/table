@@ -53,7 +53,6 @@ interface ISeriesItemField {
 
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
   const type = seriesItem.type;
-  const group_by_key = seriesItem.group_by_key;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Stack>
@@ -80,15 +79,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
-          name={`series.${index}.y_axis_data_key`}
-          control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
-        />
-      </Group>
-      <Group grow noWrap>
-        <Controller
           name={`series.${index}.yAxisIndex`}
           control={control}
           render={({ field: { value, onChange, ...rest } }) => (
@@ -109,6 +99,29 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             />
           )}
         />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.y_axis_data_key`}
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
+          )}
+        />
+        <Controller
+          name={`series.${index}.aggregation_on_value`}
+          control={control}
+          render={({ field }) => (
+            <AggregationSelector
+              label="Aggregation on Value"
+              value={field.value ?? DefaultAggregation}
+              onChange={field.onChange}
+              pt={0}
+            />
+          )}
+        />
+      </Group>
+      <Group grow>
         <Controller
           name={`series.${index}.group_by_key`}
           control={control}
@@ -117,20 +130,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
-      {group_by_key && (
-        <Controller
-          name={`series.${index}.aggregation_on_group`}
-          control={control}
-          render={({ field }) => (
-            <AggregationSelector
-              label="Aggregation on Group"
-              value={field.value ?? DefaultAggregation}
-              onChange={field.onChange}
-              pt={0}
-            />
-          )}
-        />
-      )}
       {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} data={data} />}
       {type === 'bar' && <BarFields index={index} control={control} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}

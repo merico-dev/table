@@ -42,7 +42,7 @@ function makePlainSeriesData({
 interface IMakeOneSeriesData {
   dataTemplate: DataTemplateType[];
   data: AnyObject[];
-  aggregation_on_group?: AggregationType;
+  aggregation_on_value?: AggregationType;
   x_axis_data_key: string;
   y_axis_data_key: string;
   valueTypedXAxis: boolean;
@@ -50,18 +50,22 @@ interface IMakeOneSeriesData {
 export function makeOneSeriesData({
   dataTemplate,
   data,
-  aggregation_on_group,
+  aggregation_on_value,
   x_axis_data_key,
   y_axis_data_key,
   valueTypedXAxis,
 }: IMakeOneSeriesData) {
-  if (!aggregation_on_group) {
+  if (!aggregation_on_value || aggregation_on_value.type === 'none') {
     return makePlainSeriesData({ dataTemplate, data, x_axis_data_key, y_axis_data_key, valueTypedXAxis });
   }
-  if (valueTypedXAxis) {
-    return getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
-  }
-  return data.map((d) => d[y_axis_data_key]);
+  const fullData = makeXYData(data, x_axis_data_key, y_axis_data_key);
+  const group_by_x = _.groupBy(fullData, '0');
+  const aggregatedData = Object.entries(group_by_x).map(([x, rows]) => {
+    const y = aggregateValue(rows, '1', aggregation_on_value);
+    return [x, y];
+  });
+
+  return aggregatedData;
 }
 
 interface IMakeGroupedSeriesData {

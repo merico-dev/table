@@ -21,7 +21,7 @@ export interface ICartesianChartSeriesItem {
   smooth: boolean;
   step: false | 'start' | 'middle' | 'end';
   group_by_key: string;
-  aggregation_on_group?: AggregationType;
+  aggregation_on_value?: AggregationType;
   lineStyle: {
     type: 'solid' | 'dashed' | 'dotted';
     width: number;

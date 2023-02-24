@@ -13,7 +13,7 @@ export function getSeriesItemOrItems(
     label_position,
     name,
     group_by_key,
-    aggregation_on_group,
+    aggregation_on_value,
     stack,
     color,
     display_name_on_line,
@@ -54,7 +54,7 @@ export function getSeriesItemOrItems(
     seriesItem.data = makeOneSeriesData({
       dataTemplate,
       data,
-      aggregation_on_group,
+      aggregation_on_value,
       x_axis_data_key,
       y_axis_data_key,
       valueTypedXAxis,
