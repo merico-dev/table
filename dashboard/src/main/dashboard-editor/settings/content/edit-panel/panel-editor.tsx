@@ -31,6 +31,7 @@ const WithPreview = ({ children }: { children: ReactNode }) => {
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
           height: '100%',
+          overflow: 'auto',
         }}
       >
         {children}

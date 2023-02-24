@@ -38,7 +38,7 @@ export function VizStatsPanel({ context }: VizConfigProps) {
   }, [values, conf]);
 
   return (
-    <Stack mt="md" spacing="xs">
+    <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text weight={500}>Stats Configurations</Text>

@@ -31,7 +31,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   const [tab, setTab] = useState<string | null>('Data');
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Stack mt="md" spacing="xs">
+      <Stack spacing="xs">
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Sunburst Config</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
