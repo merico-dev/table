@@ -1,8 +1,8 @@
-import { cloneDeep, groupBy } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
 import { getEchartsSymbolSize } from '../../panel/scatter-size-select/get-echarts-symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
-import { makeGroupedSeriesData, makePlainSeriesData } from './data';
+import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { DataTemplateType } from './types';
 
 export function getSeriesItemOrItems(
@@ -51,9 +51,10 @@ export function getSeriesItemOrItems(
     };
   }
   if (!group_by_key || group_by_key === x_axis_data_key) {
-    seriesItem.data = makePlainSeriesData({
+    seriesItem.data = makeOneSeriesData({
       dataTemplate,
       data,
+      aggregation_on_group,
       x_axis_data_key,
       y_axis_data_key,
       valueTypedXAxis,
@@ -61,7 +62,6 @@ export function getSeriesItemOrItems(
     return seriesItem;
   }
   const groupedData = makeGroupedSeriesData({
-    aggregation_on_group,
     group_by_key,
     data,
     x_axis_data_key,

@@ -26,7 +26,7 @@ interface IMakePlainSeriesData {
   y_axis_data_key: string;
   valueTypedXAxis: boolean;
 }
-export function makePlainSeriesData({
+function makePlainSeriesData({
   dataTemplate,
   data,
   x_axis_data_key,
@@ -39,33 +39,49 @@ export function makePlainSeriesData({
   return data.map((d) => d[y_axis_data_key]);
 }
 
-interface IMakeGroupedSeriesData {
+interface IMakeOneSeriesData {
+  dataTemplate: DataTemplateType[];
+  data: AnyObject[];
   aggregation_on_group?: AggregationType;
+  x_axis_data_key: string;
+  y_axis_data_key: string;
+  valueTypedXAxis: boolean;
+}
+export function makeOneSeriesData({
+  dataTemplate,
+  data,
+  aggregation_on_group,
+  x_axis_data_key,
+  y_axis_data_key,
+  valueTypedXAxis,
+}: IMakeOneSeriesData) {
+  if (!aggregation_on_group) {
+    return makePlainSeriesData({ dataTemplate, data, x_axis_data_key, y_axis_data_key, valueTypedXAxis });
+  }
+  if (valueTypedXAxis) {
+    return getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
+  }
+  return data.map((d) => d[y_axis_data_key]);
+}
+
+interface IMakeGroupedSeriesData {
   group_by_key: string;
   data: AnyObject[];
   x_axis_data_key: string;
   y_axis_data_key: string;
 }
 export function makeGroupedSeriesData({
-  aggregation_on_group,
   group_by_key,
   data,
   x_axis_data_key,
   y_axis_data_key,
 }: IMakeGroupedSeriesData) {
   const groups = _.groupBy(data, group_by_key);
-  Object.entries(groups).forEach(([groupName, _data]) => {
-    const xyData = makeXYData(_data, x_axis_data_key, y_axis_data_key);
-    if (!aggregation_on_group) {
-      groups[groupName] = xyData;
-      return;
-    }
 
-    const grouped_by_x = _.groupBy(xyData, '0');
-    groups[groupName] = Object.entries(grouped_by_x).map(([x, values]) => {
-      const y = aggregateValue(values, '1', aggregation_on_group);
-      return [x, y];
-    });
+  Object.entries(groups).forEach(([groupName, _data]) => {
+    groups[groupName] = makeXYData(_data, x_axis_data_key, y_axis_data_key);
+    return;
   });
+
   return groups;
 }
