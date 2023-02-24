@@ -1,19 +1,9 @@
-import _, { cloneDeep, groupBy } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { aggregateValue } from '~/utils/aggregation';
 import { getEchartsSymbolSize } from '../../panel/scatter-size-select/get-echarts-symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { DataTemplateType } from './types';
-
-function getFullSeriesItemData(
-  dataTemplate: DataTemplateType[],
-  seriesItemData: AnyObject[],
-  x_axis_data_key: string,
-  y_axis_data_key: string,
-) {
-  const effectiveData = seriesItemData.map((d) => [d[x_axis_data_key], d[y_axis_data_key]]);
-  return _.unionBy(effectiveData, dataTemplate, 0);
-}
 
 export function getSeriesItemOrItems(
   { x_axis_data_key }: ICartesianChartConf,
@@ -23,7 +13,7 @@ export function getSeriesItemOrItems(
     label_position,
     name,
     group_by_key,
-    aggregation_on_group,
+    aggregation_on_value,
     stack,
     color,
     display_name_on_line,
@@ -61,30 +51,27 @@ export function getSeriesItemOrItems(
     };
   }
   if (!group_by_key || group_by_key === x_axis_data_key) {
-    if (valueTypedXAxis) {
-      seriesItem.data = getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
-    } else {
-      seriesItem.data = data.map((d) => d[y_axis_data_key]);
-    }
+    seriesItem.data = makeOneSeriesData({
+      dataTemplate,
+      data,
+      aggregation_on_value,
+      x_axis_data_key,
+      y_axis_data_key,
+      valueTypedXAxis,
+    });
     return seriesItem;
   }
-
-  const keyedData = groupBy(data, group_by_key);
-  return Object.entries(keyedData).map(([groupName, _data]) => {
+  const groupedData = makeGroupedSeriesData({
+    group_by_key,
+    data,
+    x_axis_data_key,
+    y_axis_data_key,
+  });
+  return Object.entries(groupedData).map(([groupName, data]) => {
     const ret = cloneDeep(seriesItem);
     ret.name = groupName;
     ret.color = undefined;
-
-    if (!aggregation_on_group) {
-      ret.data = _data.map((d) => [d[x_axis_data_key], d[y_axis_data_key]]);
-      return ret;
-    }
-
-    const grouped_by_x = groupBy(_data, x_axis_data_key);
-    ret.data = Object.entries(grouped_by_x).map(([x, records]) => {
-      const y = aggregateValue(records, y_axis_data_key, aggregation_on_group);
-      return [x, y];
-    });
+    ret.data = data;
     return ret;
   });
 }

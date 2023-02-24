@@ -25,5 +25,5 @@ export function VizSunburst({ context }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />;
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge />;
 }
