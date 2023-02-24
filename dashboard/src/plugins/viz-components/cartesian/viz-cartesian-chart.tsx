@@ -97,7 +97,7 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} />;
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
 }
 
 export function VizCartesianChart({ context, instance }: VizViewProps) {

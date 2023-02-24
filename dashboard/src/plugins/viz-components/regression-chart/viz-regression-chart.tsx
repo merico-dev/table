@@ -63,7 +63,12 @@ export function VizRegressionChart({ context }: VizViewProps) {
         </Text>
       )}
       <Group spacing={0} noWrap align="start" sx={{ '> *': { flexGrow: 0, flexShrink: 0 } }}>
-        <ReactEChartsCore echarts={echarts} option={option} style={{ width: width - 190, height: finalHeight }} />
+        <ReactEChartsCore
+          echarts={echarts}
+          option={option}
+          style={{ width: width - 190, height: finalHeight }}
+          notMerge
+        />
         {rSquared && (
           <Table mt={20} fontSize={12} sx={{ width: 180, border: '1px solid #999', td: { padding: '3px 8px' } }}>
             <tbody>

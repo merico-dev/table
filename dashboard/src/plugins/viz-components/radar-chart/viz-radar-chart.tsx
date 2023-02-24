@@ -26,7 +26,7 @@ export function VizRadarChart({ context }: VizViewProps) {
   }
   return (
     <Box>
-      <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} />
+      <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge />
     </Box>
   );
 }
