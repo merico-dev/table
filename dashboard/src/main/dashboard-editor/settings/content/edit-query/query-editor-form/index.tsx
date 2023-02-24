@@ -13,11 +13,11 @@ const TabPanelStyle: Sx = {
   padding: 0,
 };
 
-interface IQueryForm {
+interface IQueryEditorForm {
   queryModel: QueryModelInstance;
 }
 
-export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
+export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
       return 'Configurations';
