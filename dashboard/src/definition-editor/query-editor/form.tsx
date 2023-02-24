@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '../../model/queries';
 import { QueryConfigurations } from './configurations';
-import { DataPreview } from './data-preview';
+import { DataPreview } from '../../main/dashboard-editor/settings/content/data-preview';
 import { TabPanel_HTTP } from './tabs/http';
 
 import { TabPanel_SQL } from './tabs/sql';

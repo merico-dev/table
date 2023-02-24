@@ -3,7 +3,7 @@ import { IconArrowCurveRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext, usePanelContext } from '../../../../../../contexts';
-import { DataPreview } from '../../../../../../definition-editor/query-editor/data-preview';
+import { DataPreview } from '../../data-preview';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
