@@ -1,4 +1,5 @@
-import { Group, Select, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
+import { IconArrowCurveRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useModelContext, usePanelContext } from '../../../../../../contexts';
@@ -17,10 +18,14 @@ export const PickQuery = observer(function _PickQuery() {
     }));
   }, [model.queries.current]);
 
+  const navigateToQuery = () => {
+    model.editor.setPath(['_QUERIES_', queryID]);
+  };
+
   return (
     <Stack>
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Select a Query</Text>
+        <Text>Use query</Text>
         <Select
           data={options}
           value={queryID}
@@ -29,6 +34,16 @@ export const PickQuery = observer(function _PickQuery() {
           clearable={false}
           // @ts-expect-error important
           sx={{ flexGrow: '1 !important' }}
+          maxDropdownHeight={300}
+          rightSection={
+            queryID && (
+              <Tooltip label="Open this query">
+                <ActionIcon variant="subtle" color="blue" onClick={navigateToQuery}>
+                  <IconArrowCurveRight size={16} />
+                </ActionIcon>
+              </Tooltip>
+            )
+          }
         />
       </Group>
       <DataPreview id={queryID} />
