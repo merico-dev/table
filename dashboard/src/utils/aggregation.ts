@@ -39,7 +39,7 @@ function tryReadNumber(obj: AnyObject, key: string) {
   }
 }
 
-export function aggregateValue(data: Record<string, number>[], data_field: string, aggregation: AggregationType) {
+export function aggregateValue(data: AnyObject[], data_field: string, aggregation: AggregationType) {
   try {
     const numbers = data.map((d) => tryReadNumber(d, data_field));
     switch (aggregation.type) {

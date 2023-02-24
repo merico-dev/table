@@ -60,18 +60,18 @@ export function getSeriesItemOrItems(
     });
     return seriesItem;
   }
-
-  const keyedData = groupBy(data, group_by_key);
-  return Object.entries(keyedData).map(([groupName, _data]) => {
+  const groupedData = makeGroupedSeriesData({
+    aggregation_on_group,
+    group_by_key,
+    data,
+    x_axis_data_key,
+    y_axis_data_key,
+  });
+  return Object.entries(groupedData).map(([groupName, data]) => {
     const ret = cloneDeep(seriesItem);
     ret.name = groupName;
     ret.color = undefined;
-    ret.data = makeGroupedSeriesData({
-      aggregation_on_group,
-      data: _data,
-      x_axis_data_key,
-      y_axis_data_key,
-    });
+    ret.data = data;
     return ret;
   });
 }
