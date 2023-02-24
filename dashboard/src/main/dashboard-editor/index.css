@@ -42,5 +42,9 @@
   background-color: #1e1e1e;
   padding-top: 14px;
 }
+
+.preview-sql-in-monaco-editor {
+  overflow: hidden;
+}
 .minimal-monaco-editor .monaco-editor {
 }

@@ -1,9 +1,9 @@
 import { Stack, Sx, Tabs, Text, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { QueryModelInstance } from '../../model/queries';
+import { QueryModelInstance } from '../../../../../../model/queries';
 import { QueryConfigurations } from './configurations';
-import { DataPreview } from './data-preview';
+import { DataPreview } from '../../data-preview';
 import { TabPanel_HTTP } from './tabs/http';
 
 import { TabPanel_SQL } from './tabs/sql';
@@ -13,11 +13,11 @@ const TabPanelStyle: Sx = {
   padding: 0,
 };
 
-interface IQueryForm {
+interface IQueryEditorForm {
   queryModel: QueryModelInstance;
 }
 
-export const QueryForm = observer(function _QueryForm({ queryModel }: IQueryForm) {
+export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
       return 'Configurations';

@@ -1,7 +1,7 @@
 import { Center, Divider, MultiSelect, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { QueryModelInstance } from '~/model';
-import { SelectDataSource } from '../select-data-source';
+import { SelectDataSource } from '../../../../../../definition-editor/select-data-source';
 import { DeleteQuery } from './delete-query';
 
 interface IQueryConfigurations {

@@ -5,7 +5,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { MinimalMonacoEditor } from '~/definition-editor/minimal-monaco-editor';
 import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
 import { QueryModelInstance } from '~/model';
-import { PreviewSQL } from '../preview-sql';
+import { PreviewSQL } from './preview-sql';
 
 export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
   // form stuff
@@ -30,7 +30,13 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
     return null;
   }
   return (
-    <Tabs defaultValue="Edit" orientation="vertical" sx={{ flexGrow: 1 }} styles={{ tabLabel: { width: '100%' } }}>
+    <Tabs
+      defaultValue="Edit"
+      orientation="vertical"
+      sx={{ flexGrow: 1 }}
+      styles={{ tabLabel: { width: '100%' } }}
+      keepMounted={false}
+    >
       <Tabs.List>
         <Tabs.Tab value="Edit">
           <Group spacing={14} position="apart">
@@ -46,7 +52,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
         <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} />
       </Tabs.Panel>
-      <Tabs.Panel value="Preview" p="sm">
+      <Tabs.Panel value="Preview" p={0} pl={4}>
         <PreviewSQL value={queryModel.sql} />
       </Tabs.Panel>
     </Tabs>
