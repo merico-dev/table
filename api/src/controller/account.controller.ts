@@ -26,7 +26,6 @@ import permission from '../middleware/permission';
 import ensureAuthIsAccount from '../middleware/ensureAuthIsAccount';
 import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
 import { translate } from '../utils/i18n';
-import { plainToClass } from 'class-transformer';
 
 @ApiPath({
   path: '/account',
