@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
 import { useModelContext } from '../../../../../contexts';
-import { QueryStateMessage } from '../../../../../definition-editor/query-editor/query-state-message';
+import { QueryStateMessage } from '../edit-query/query-editor/query-state-message';
 import { DataTable } from './data-table';
 
 export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {

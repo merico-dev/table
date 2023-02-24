@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useModelContext } from '../../contexts';
+import { useModelContext } from '../../../../../../contexts';
 import { QueryForm } from './form';
 
 interface IQueryEditor {
