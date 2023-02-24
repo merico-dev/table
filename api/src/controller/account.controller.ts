@@ -213,8 +213,8 @@ export class AccountController implements interfaces.Controller {
   public async changePassword(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { old_password, new_password } = plainToClass(AccountChangePasswordRequest, req.body);
-      if (old_password.length < 8 || new_password.length < 8) {
+      const { old_password, new_password } = validate(AccountChangePasswordRequest, req.body);
+      if (new_password.length < 8) {
         throw new ApiError(BAD_REQUEST, {
           message: translate('ACCOUNT_PWD_LENGTH_SHOULD_BE_GRATER_THAN_8', req.locale),
         });
