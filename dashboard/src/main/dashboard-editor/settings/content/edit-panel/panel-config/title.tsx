@@ -1,7 +1,7 @@
 import { ActionIcon, Group, Text, TextInput } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { usePanelContext } from '../../../../../../contexts/panel-context';
 
@@ -18,6 +18,10 @@ export const EditTitle = observer(() => {
     }
     setTitle(localTitle);
   }, [changed, localTitle]);
+
+  useEffect(() => {
+    setLocalTitle(title);
+  }, [title]);
 
   return (
     <TextInput
