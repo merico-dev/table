@@ -1,6 +1,16 @@
 import { Edge, Position } from 'reactflow';
 import { EViewComponentType } from '~/types';
-import { calc, ViewGapX, ViewGapY, ViewHeight, ViewWidth } from './metrics';
+import {
+  calc,
+  ViewGapX,
+  ViewGapY,
+  ViewHeight,
+  ViewPaddingB,
+  ViewPaddingT,
+  ViewPaddingX,
+  ViewPaddingY,
+  ViewWidth,
+} from './metrics';
 import { TFlowNode, TFlowNode_View } from './types';
 
 interface ICommonProps {
@@ -16,12 +26,17 @@ function wrapViewsInTabs({ nodeMap, nodes, edges }: ICommonProps) {
     }
     n.position.y = n.position.y - ViewGapY;
     n.sourcePosition = Position.Bottom;
-    n._tab_view_ids.reduce((acc, curr) => {
-      const view = nodeMap[curr];
-      view.position.y = acc;
-      const h = view.style!.height as number;
-      return acc + h + ViewGapY;
-    }, 0);
+    n.style.width = ViewWidth + ViewPaddingX * 2;
+    n.style.height =
+      ViewPaddingB +
+      n._tab_view_ids.reduce((acc, curr) => {
+        const view = nodeMap[curr];
+        view.parentNode = n.id;
+        view.position.y = acc;
+        view.position.x = ViewPaddingX;
+        const h = view.style!.height as number;
+        return acc + h + 20;
+      }, ViewPaddingT);
   });
 }
 function fillViewProps({ nodeMap, nodes, edges }: ICommonProps) {
@@ -119,7 +134,7 @@ function positionStrayViews({ nodeMap, nodes, edges }: ICommonProps) {
     )
     .forEach((n, i) => {
       n.position.x = calc(i, ViewWidth, ViewGapX);
-      n.position.y = 0 - ViewHeight - ViewGapY;
+      n.position.y = 0 - 100 - ViewHeight - ViewGapY;
     });
 }
 

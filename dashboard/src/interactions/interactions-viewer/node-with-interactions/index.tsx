@@ -18,7 +18,6 @@ export const InteractionNode = memo(
     sourcePosition?: Position;
     targetPosition?: Position;
   }) => {
-    console.log(rest);
     const lines = useMemo(() => {
       return getInteractionLines(data.interactions);
     }, [data.interactions]);
