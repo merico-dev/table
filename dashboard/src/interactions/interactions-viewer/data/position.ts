@@ -31,7 +31,6 @@ function wrapViewsInTabs({ nodeMap, nodes, edges }: ICommonProps) {
       ViewPaddingB +
       n._tab_view_ids.reduce((acc, curr) => {
         const view = nodeMap[curr];
-        view.parentNode = n.id;
         view.position.y = acc;
         view.position.x = ViewPaddingX;
         const h = view.style!.height as number;
@@ -75,9 +74,6 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
     const t = nodeMap[e.target] as TFlowNode_View;
     if (s && t && s.parentNode) {
       const sp = nodeMap[s.parentNode] as TFlowNode_View;
-      const sy = s.position.y;
-      const sh = Number(s.style!.height);
-      const th = Number(t.style.height);
       const spx = sp.position.x;
       const spy = sp.position.y;
       const spw = Number(sp.style.width);
@@ -92,30 +88,25 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
         t.position.x *= -1;
       }
 
-      if (ids.length < 2) {
-        t.position.y = spy + sy - th / 2 + sh / 2;
-        e.type = 'straight';
-      } else {
-        const index = ids.findIndex((i) => i === t.id);
-        const newY = ids.reduce((acc, id, i) => {
-          if (i >= index) {
-            return acc;
-          }
-          const n = nodeMap[id] as TFlowNode_View;
-          // skip right side
-          if (atLeft && n._sub_view_ids.length > 0) {
-            return acc;
-          }
-          // skip left side
-          if (!atLeft && n._sub_view_ids.length === 0) {
-            return acc;
-          }
-          const y = 0;
-          const h = Number(n.style.height);
-          return acc + y + h + ViewGapY;
-        }, spy);
-        t.position.y = newY;
-      }
+      const index = ids.findIndex((i) => i === t.id);
+      const newY = ids.reduce((acc, id, i) => {
+        if (i >= index) {
+          return acc;
+        }
+        const n = nodeMap[id] as TFlowNode_View;
+        // skip right side
+        if (atLeft && n._sub_view_ids.length > 0) {
+          return acc;
+        }
+        // skip left side
+        if (!atLeft && n._sub_view_ids.length === 0) {
+          return acc;
+        }
+        const y = 0;
+        const h = Number(n.style.height);
+        return acc + y + h + ViewGapY;
+      }, spy);
+      t.position.y = newY;
     }
   });
 }
@@ -128,22 +119,27 @@ function positionStrayViews({ nodeMap, nodes, edges }: ICommonProps) {
     targets.add(e.target);
   });
 
-  nodes
-    .filter(
-      (n) => n._node_type === 'view-root' && n.data.label !== 'Div:Main' && !sources.has(n.id) && !targets.has(n.id),
-    )
-    .forEach((n, i) => {
-      n.position.x = calc(i, ViewWidth, ViewGapX);
-      n.position.y = 0 - 100 - ViewHeight - ViewGapY;
-    });
+  const strayNodes = nodes.filter((n) => {
+    if (n._node_type !== 'view-root' || n.id === 'Main') {
+      return false;
+    }
+    if (n.parentNode) {
+      return false;
+    }
+    return !sources.has(n.id) && !targets.has(n.id);
+  });
+  strayNodes.forEach((n, i) => {
+    n.position.x = calc(i, ViewWidth, ViewGapX);
+    n.position.y = 0 - 100 - ViewHeight - ViewGapY;
+  });
 }
 
 export function reposition({ nodeMap, nodes, edges }: ICommonProps) {
   const commonProps = { nodeMap, nodes, edges };
-  fillViewProps(commonProps);
-  alignViews(commonProps);
   positionStrayViews(commonProps);
+  fillViewProps(commonProps);
   wrapViewsInTabs(commonProps);
+  alignViews(commonProps);
   return {
     nodes,
     edges,
