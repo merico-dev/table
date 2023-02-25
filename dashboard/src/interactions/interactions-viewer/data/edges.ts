@@ -45,7 +45,7 @@ function makeEdgesFromPanels(
             style: {
               stroke: 'rgba(0,0,0,0.8)',
             },
-            type: 'step',
+            type: 'default',
           });
           return;
         case 'builtin:op:set_filter_values':

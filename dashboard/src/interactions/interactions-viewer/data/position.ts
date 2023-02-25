@@ -3,6 +3,7 @@ import { Edge, Position } from 'reactflow';
 import { EViewComponentType } from '~/types';
 import {
   calc,
+  LaneGapX,
   ViewGapX,
   ViewGapY,
   ViewHeight,
@@ -79,7 +80,7 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
       const th = _.get(t, 'style.height', 0);
       const spw = Number(sp.style.width);
 
-      t.position.x = spx + spw + ViewGapX;
+      t.position.x = spx + spw + LaneGapX;
 
       const atLeft = sp._view_level === 0 && t._sub_view_ids.length === 0;
       if (atLeft) {
@@ -125,7 +126,6 @@ export function reposition({ nodeMap, nodes, edges }: ICommonProps) {
   fillViewProps(commonProps);
   wrapViewsInTabs(commonProps);
   alignViews(commonProps);
-  console.log(nodes.slice(0, 2));
   return {
     nodes,
     edges,
