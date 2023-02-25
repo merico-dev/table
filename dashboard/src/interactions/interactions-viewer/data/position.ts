@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Edge, Position } from 'reactflow';
 import { EViewComponentType } from '~/types';
 import {
@@ -24,7 +25,6 @@ function wrapViewsInTabs({ nodeMap, nodes, edges }: ICommonProps) {
     if (n._node_type !== 'view-root' || n._view_type !== EViewComponentType.Tabs) {
       return;
     }
-    n.position.y = n.position.y - ViewGapY;
     n.sourcePosition = Position.Bottom;
     n.style.width = ViewWidth + ViewPaddingX * 2;
     n.style.height =
@@ -66,6 +66,7 @@ function fillViewProps({ nodeMap, nodes, edges }: ICommonProps) {
 }
 
 function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
+  const lanes: Record<number, number> = {};
   edges.forEach((e) => {
     if (e.label !== 'Open View') {
       return;
@@ -75,9 +76,8 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
     if (s && t && s.parentNode) {
       const sp = nodeMap[s.parentNode] as TFlowNode_View;
       const spx = sp.position.x;
-      const spy = sp.position.y;
+      const th = _.get(t, 'style.height', 0);
       const spw = Number(sp.style.width);
-      const ids = sp._sub_view_ids;
 
       t.position.x = spx + spw + ViewGapX;
 
@@ -88,25 +88,10 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
         t.position.x *= -1;
       }
 
-      const index = ids.findIndex((i) => i === t.id);
-      const newY = ids.reduce((acc, id, i) => {
-        if (i >= index) {
-          return acc;
-        }
-        const n = nodeMap[id] as TFlowNode_View;
-        // skip right side
-        if (atLeft && n._sub_view_ids.length > 0) {
-          return acc;
-        }
-        // skip left side
-        if (!atLeft && n._sub_view_ids.length === 0) {
-          return acc;
-        }
-        const y = 0;
-        const h = Number(n.style.height);
-        return acc + y + h + ViewGapY;
-      }, spy);
-      t.position.y = newY;
+      const x = t.position.x;
+      const begin = _.get(lanes, x, 0);
+      t.position.y = begin;
+      lanes[x] = begin + th + ViewGapY;
     }
   });
 }
@@ -130,7 +115,7 @@ function positionStrayViews({ nodeMap, nodes, edges }: ICommonProps) {
   });
   strayNodes.forEach((n, i) => {
     n.position.x = calc(i, ViewWidth, ViewGapX);
-    n.position.y = 0 - 100 - ViewHeight - ViewGapY;
+    n.position.y = 0 - ViewHeight - ViewGapY;
   });
 }
 
@@ -140,6 +125,7 @@ export function reposition({ nodeMap, nodes, edges }: ICommonProps) {
   fillViewProps(commonProps);
   wrapViewsInTabs(commonProps);
   alignViews(commonProps);
+  console.log(nodes.slice(0, 2));
   return {
     nodes,
     edges,
