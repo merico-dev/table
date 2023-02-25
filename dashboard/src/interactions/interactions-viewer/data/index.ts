@@ -13,7 +13,7 @@ export function makeNodesAndEdges(model: DashboardModelInstance) {
   const nodeMap = _.keyBy(nodes, (n) => n.id);
 
   const ret = {
-    edges,
+    edges: _.uniqBy(edges, (e) => e.id),
     nodes,
     nodeMap,
   };

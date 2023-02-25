@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import ReactFlow, { Background, Controls, MiniMap, useEdgesState, useNodesState } from 'reactflow';
+import ReactFlow, { Background, Controls, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { useModelContext } from '~/contexts';
 import { makeNodesAndEdges } from './data';
 import { InteractionNode } from './node-with-interactions';
+import './viewer.css';
 
 const nodeTypes = {
   interaction: InteractionNode,

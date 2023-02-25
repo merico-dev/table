@@ -29,3 +29,5 @@ export const PanelWidth = 300;
 export const PanelHeight = 40;
 export const PanelGapX = 25;
 export const PanelGapY = 25;
+
+export const LaneGapX = 300;

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Position } from 'reactflow';
 import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
@@ -82,8 +83,21 @@ function makeViewNodes(views: ViewsModelInstance) {
   return viewNodes;
 }
 
+function addParentToTabView(viewNodes: TFlowNode[]) {
+  const map = _.keyBy(viewNodes, (n) => n.id);
+  viewNodes.forEach((n) => {
+    if (n._node_type !== 'view-root' || n._view_type !== EViewComponentType.Tabs) {
+      return;
+    }
+    n._tab_view_ids.forEach((id) => {
+      map[id].parentNode = n.id;
+    });
+  });
+}
+
 export function makeNodes(model: DashboardModelInstance) {
   const viewNodes = makeViewNodes(model.views);
+  addParentToTabView(viewNodes);
   const panelNodes = makePanelNodes(model.views);
   return [...viewNodes, ...panelNodes];
 }
