@@ -11,7 +11,17 @@ export function DashboardEditorFrame() {
   }
   return (
     <DashboardStoreProvider>
-      <MantineProvider>
+      <MantineProvider
+        theme={{
+          breakpoints: {
+            xs: 1366,
+            sm: 1440,
+            md: 1536,
+            lg: 1600,
+            xl: 1920,
+          },
+        }}
+      >
         <NotificationsProvider position="top-right">
           <Outlet />
         </NotificationsProvider>
