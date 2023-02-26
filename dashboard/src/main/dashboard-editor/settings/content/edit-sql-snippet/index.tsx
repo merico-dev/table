@@ -12,5 +12,8 @@ export const EditSQLSnippet = observer(({ id }: { id: string }) => {
     return <Text size={14}>SQL Snippet by key[{id}] is not found</Text>;
   }
   const remove = () => model.sqlSnippets.removeByKey(id);
-  return <SQLSnippetItemEditor item={item} remove={remove} onKeyChanged={_.noop} />;
+  const updatePath = (key: string) => {
+    model.editor.setPath(['_SQL_SNIPPETS_', key]);
+  };
+  return <SQLSnippetItemEditor item={item} remove={remove} onKeyChanged={updatePath} />;
 });
