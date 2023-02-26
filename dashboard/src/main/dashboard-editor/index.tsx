@@ -81,7 +81,7 @@ export const Dashboard = observer(function _Dashboard({
       filters: [...model.filters.current],
       views,
       // @ts-expect-error IDashboard's Definition type is incorrect
-      definition: { sqlSnippets, queries, mock_context },
+      definition: { queries, sqlSnippets, mock_context },
     };
     await update(d);
   };

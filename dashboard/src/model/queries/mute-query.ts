@@ -26,7 +26,7 @@ export const MuteQueryModel = types
     },
     get json() {
       const { id, name, type, key, sql, run_by, pre_process, post_process } = self;
-      return { id, name, type, key, sql, run_by, pre_process, post_process };
+      return { id, key, sql, name, type, run_by, pre_process, post_process };
     },
     get conditionOptions() {
       // @ts-expect-error untyped getRoot(self)

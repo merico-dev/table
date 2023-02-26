@@ -9,8 +9,8 @@ export const PanelVizModel = types
   .views((self) => ({
     get json() {
       return {
-        type: self.type,
         conf: self.conf,
+        type: self.type,
       };
     },
   }))
