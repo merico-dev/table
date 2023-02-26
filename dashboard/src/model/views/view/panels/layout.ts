@@ -14,10 +14,10 @@ export const PanelLayoutModel = types
     get json() {
       const { x, y, w, h, moved } = self;
       return {
+        h,
+        w,
         x,
         y,
-        w,
-        h,
         moved,
         static: self.static,
       };

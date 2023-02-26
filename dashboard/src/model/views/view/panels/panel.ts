@@ -25,13 +25,13 @@ export const PanelModel = types
       const { id, title, description, queryID } = self;
       return {
         id,
-        title,
-        description,
-        layout: self.layout.json,
-        queryID: queryID,
         viz: self.viz.json,
         style: self.style.json,
+        title,
+        layout: self.layout.json,
+        queryID: queryID,
         variables: self.variables.map((v) => v.json),
+        description,
       };
     },
   }))

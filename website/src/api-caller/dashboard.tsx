@@ -30,10 +30,10 @@ export const DashboardAPI = {
       name,
       group,
       content: {
-        definition,
         views,
         filters,
         version,
+        definition,
       },
     };
     return await put('/dashboard/update', payload);

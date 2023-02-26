@@ -27,14 +27,14 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
     const filters = model.filters.current;
     const mock_context = model.mock_context.current;
     return {
-      filters,
       views,
+      filters,
+      version: model.version,
       definition: {
-        sqlSnippets,
         queries,
+        sqlSnippets,
         mock_context,
       },
-      version: model.version,
     };
   }, [model]);
 
