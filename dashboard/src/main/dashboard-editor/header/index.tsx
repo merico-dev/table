@@ -124,17 +124,22 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
             </Tooltip>
           </Group>
 
-          <Group spacing={0} sx={ActionIconGroupStyle}>
-            <Tooltip label="Save Changes" withinPortal>
-              <ActionIcon variant="default" size="md" onClick={saveDashboardChanges} disabled={!hasChanges}>
-                <IconDeviceFloppy size={20} color="green" />
-              </ActionIcon>
-            </Tooltip>
+          <Group spacing={16}>
             <Tooltip label="Revert Changes" withinPortal>
               <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertWithConfirmation}>
                 <IconRecycle size={20} color="red" />
               </ActionIcon>
             </Tooltip>
+            <Button
+              color="green"
+              variant="filled"
+              size="xs"
+              leftIcon={<IconDeviceFloppy size={18} />}
+              onClick={saveDashboardChanges}
+              disabled={!hasChanges}
+            >
+              Save Changes
+            </Button>
           </Group>
         </Group>
       </Group>
