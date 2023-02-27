@@ -1,16 +1,12 @@
-import { Group, Header as MantineHeader, Text } from '@mantine/core';
-import React from 'react';
+import { Group, Header as MantineHeader } from '@mantine/core';
 import { AccountDropdown } from '../../../components/account-dropdown';
-import { MericoLogo } from '../../../resources/merico-logo';
+import { LogoLink } from '../../../components/logo-link';
 
 export function AdminHeader() {
   return (
     <MantineHeader height={60} px="md" py={0}>
       <Group position="apart" sx={{ height: 60 }}>
-        <Group>
-          <MericoLogo width={40} />
-          <Text size="xl">@devtable</Text>
-        </Group>
+        <LogoLink />
         <Group position="right">
           <AccountDropdown />
         </Group>
