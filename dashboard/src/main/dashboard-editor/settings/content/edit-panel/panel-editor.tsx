@@ -67,6 +67,11 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
 
   return (
     <PanelContextProvider value={{ panel, data, loading, error }}>
+      <Group px={16} position="apart" sx={{ borderBottom: '1px solid #eee' }}>
+        <Text pt={9} pb={8}>
+          {panel.title ? panel.title : panel.viz.type}{' '}
+        </Text>
+      </Group>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="Data" disabled={loading}>
