@@ -1,4 +1,4 @@
-import { Box, Group, LoadingOverlay, Tabs, Tooltip, Text } from '@mantine/core';
+import { Box, Group, LoadingOverlay, Tabs, Tooltip, Text, Button } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
@@ -10,6 +10,8 @@ import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-pane
 import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
 import { VariableConfig } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-config-panel';
 import { EditVizConf } from '~/main/dashboard-editor/settings/content/edit-panel/viz-conf';
+import { IconTrash } from '@tabler/icons';
+import { useModals } from '@mantine/modals';
 
 const TabsStyles = {
   root: {
@@ -47,6 +49,7 @@ function doesVizRequiresData(type: string) {
 }
 
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
+  const modals = useModals();
   const model = useModelContext();
   const [tab, setTab] = useState<string | null>('Data');
   const { data, state, error } = model.getDataStuffByID(panel.queryID);
@@ -65,12 +68,33 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
     });
   }, [panel.id, dataNotReady]);
 
+  const resetEditorPath = () => {
+    const p = model.editor.path;
+    model.editor.setPath(['_VIEWS_', p[1]]);
+  };
+
+  const remove = () =>
+    modals.openConfirmModal({
+      title: 'Delete this panel?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        panel.removeSelf();
+        resetEditorPath();
+      },
+      confirmProps: { color: 'red' },
+      zIndex: 320,
+    });
+
   return (
     <PanelContextProvider value={{ panel, data, loading, error }}>
       <Group px={16} position="apart" sx={{ borderBottom: '1px solid #eee' }}>
         <Text pt={9} pb={8}>
           {panel.title ? panel.title : panel.viz.type}{' '}
         </Text>
+        <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
+          Delete This Panel
+        </Button>
       </Group>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
