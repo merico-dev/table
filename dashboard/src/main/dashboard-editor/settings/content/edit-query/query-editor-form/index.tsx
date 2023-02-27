@@ -8,6 +8,7 @@ import { TabPanel_HTTP } from './tabs/http';
 
 import { TabPanel_SQL } from './tabs/sql';
 import { useModelContext } from '~/contexts';
+import { QueryUsage } from './query-usage';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -71,7 +72,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         </Tabs.Panel>
 
         <Tabs.Panel value="Usage" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>
-          TODO
+          <QueryUsage queryID={queryModel.id} usage={usage} />
         </Tabs.Panel>
       </Tabs>
     </Stack>
