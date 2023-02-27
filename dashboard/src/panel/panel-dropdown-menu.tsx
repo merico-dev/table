@@ -34,6 +34,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => view.panels.removeByID(id),
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
 
