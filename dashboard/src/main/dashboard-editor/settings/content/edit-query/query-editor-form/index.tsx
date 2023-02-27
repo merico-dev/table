@@ -7,6 +7,7 @@ import { DataPreview } from '../../data-preview';
 import { TabPanel_HTTP } from './tabs/http';
 
 import { TabPanel_SQL } from './tabs/sql';
+import { useModelContext } from '~/contexts';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -18,6 +19,7 @@ interface IQueryEditorForm {
 }
 
 export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
+  const model = useModelContext();
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
       return 'Configurations';
@@ -25,6 +27,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
     return queryModel.typedAsHTTP ? 'HTTP' : 'SQL';
   }, [queryModel.datasource, queryModel.typedAsHTTP]);
 
+  const usage = model.findQueryUsage(queryModel.id);
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
       <Tabs defaultValue={defaultTab} orientation="horizontal" keepMounted={false} sx={{ flexGrow: 1 }}>
@@ -35,6 +38,11 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
           <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
             <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>
               <Text>Data</Text>
+            </Tooltip>
+          </Tabs.Tab>
+          <Tabs.Tab value="Usage" disabled={usage.length === 0}>
+            <Tooltip label="This query is not used for any filter or panel" disabled={usage.length === 0} withinPortal>
+              <Text>Usage</Text>
             </Tooltip>
           </Tabs.Tab>
         </Tabs.List>
@@ -60,6 +68,10 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
 
         <Tabs.Panel value="Data" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>
           <DataPreview id={queryModel.id} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Usage" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>
+          TODO
         </Tabs.Panel>
       </Tabs>
     </Stack>
