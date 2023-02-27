@@ -14,7 +14,7 @@ export const LogoLink = () => {
   const lang = getLang();
   return (
     <a href={import.meta.env.VITE_WEBSITE_LOGO_JUMP_URL}>
-      <img alt="Merico analytics" src={logo[lang]} />
+      <img src={logo[lang]} />
     </a>
   );
 };
