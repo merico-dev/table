@@ -4,6 +4,7 @@ import { LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import 'react-grid-layout/css/styles.css';
+import { Helmet } from 'react-helmet-async';
 import 'react-resizable/css/styles.css';
 
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
@@ -34,6 +35,9 @@ export const DashboardPageContent = observer(() => {
 
   return (
     <div className="dashboard-page-content">
+      <Helmet>
+        <title>{store.currentDetail.name}</title>
+      </Helmet>
       <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
       {ready && (
         <ErrorBoundary>

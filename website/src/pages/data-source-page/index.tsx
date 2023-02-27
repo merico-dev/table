@@ -2,6 +2,7 @@ import React from 'react';
 import { AlertCircle } from 'tabler-icons-react';
 import { Box, Breadcrumbs, Anchor, Group, Alert } from '@mantine/core';
 import { DataSourceList } from '@devtable/settings-form';
+import { Helmet } from 'react-helmet-async';
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -15,6 +16,9 @@ const items = [
 export function DataSourcePage() {
   return (
     <Box sx={{ maxWidth: 1200 }}>
+      <Helmet>
+        <title>Data Sources</title>
+      </Helmet>
       <Group position="apart" sx={{ width: '100%' }}>
         <Breadcrumbs>{items}</Breadcrumbs>
       </Group>
