@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { defaults, get, isEqual, pick } from 'lodash';
 import {
   addDisposer,
@@ -118,8 +119,27 @@ const _DashboardModel = types
     },
   }))
   .views((self) => ({
-    findDependingPanels(queryID: string) {
-      return self.views.current.flatMap((v) => v.panels.list.filter((p) => p.queryID === queryID).map((p) => p.title));
+    findQueryUsage(queryID: string) {
+      type T =
+        | { type: 'filter'; id: string; label: string }
+        | { type: 'panel'; id: string; label: string; viewID: string };
+
+      const panels: T[] = self.views.current.flatMap((v) =>
+        v.panels.list
+          .filter((p) => p.queryID === queryID)
+          .map((p) => ({ type: 'panel', id: p.id, label: p.title ? p.title : p.viz.type, viewID: v.id })),
+      );
+      const filters: T[] = self.filters.current
+        .filter((f) => {
+          const filterQueryID = _.get(f, 'config.options_query_id');
+          return filterQueryID === queryID;
+        })
+        .map((f) => ({
+          type: 'filter',
+          id: f.id,
+          label: f.label,
+        }));
+      return panels.concat(filters);
     },
   }))
   .actions((self) => {

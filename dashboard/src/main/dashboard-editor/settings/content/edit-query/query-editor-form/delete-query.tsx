@@ -12,8 +12,8 @@ export interface IDeleteQueryProps {
 const _DeleteQuery = (props: IDeleteQueryProps) => {
   const { queryModel } = props;
   const dashboardModel = useModelContext();
-  const dependingPanels = dashboardModel.findDependingPanels(queryModel.id);
-  const disabled = dependingPanels.length > 0;
+  const usage = dashboardModel.findQueryUsage(queryModel.id);
+  const disabled = usage.length > 0;
 
   const modals = useModals();
   const remove = () => {
@@ -26,31 +26,25 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
     });
   };
 
-  const button = (
-    <Button
-      color="red"
-      size="xs"
-      disabled={disabled}
-      onClick={remove}
-      leftIcon={<IconTrash size={16} />}
-      sx={{ alignSelf: 'flex-end' }}
-    >
-      Delete this Query
-    </Button>
-  );
   if (disabled) {
     return (
       <Tooltip
-        label={`This query is used in the following panels: ${dependingPanels.join(', ')}`}
+        label="Can't delete this query for it's being used, check out Usage tab for details"
         withArrow
         events={{ hover: true, focus: false, touch: false }}
         withinPortal
       >
-        {button}
+        <Button color="gray" size="xs" leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
+          Delete this Query
+        </Button>
       </Tooltip>
     );
   }
-  return button;
+  return (
+    <Button color="red" size="xs" onClick={remove} leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
+      Delete this Query
+    </Button>
+  );
 };
 
 export const DeleteQuery = observer(_DeleteQuery);
