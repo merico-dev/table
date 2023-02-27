@@ -1,4 +1,4 @@
-import { getParentOfType, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { getParent, getParentOfType, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { QueryModelInstance } from '../../../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
@@ -60,6 +60,10 @@ export const PanelModel = types
     },
     removeVariable(variable: Instance<typeof VariableModel>) {
       self.variables.remove(variable);
+    },
+    removeSelf() {
+      const parent = getParent(self, 2) as any;
+      parent.removeByID(self.id);
     },
   }));
 
