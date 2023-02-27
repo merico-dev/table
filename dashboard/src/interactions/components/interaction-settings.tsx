@@ -28,7 +28,7 @@ function useInteractionList(interactionManager: IVizInteractionManager, version:
   useAsyncEffect(async () => {
     const result = await interactionManager.getInteractionList();
     setState(result);
-  }, [version]);
+  }, [version, interactionManager]);
   return state;
 }
 
@@ -136,7 +136,7 @@ const useInteractionSettingsProps = (): IInteractionSettingsProps => {
   const viz = panel.viz;
   const { vizManager } = useContext(PluginContext);
   const panelInfo: IPanelInfo = panel.json;
-  const instance = useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, viz.type]);
+  const instance = useCreation(() => vizManager.getOrCreateInstance(panelInfo), [vizManager, panelInfo]);
   const interactionManager = useCreation(
     () => new InteractionManager(instance, vizManager.resolveComponent(viz.type), OPERATIONS),
     [instance, viz.type],
