@@ -100,7 +100,6 @@ export const PanelsModel = types
           id: randomId(),
           layout: {
             ...base.layout,
-            x: 0,
             y: Infinity,
             moved: false,
           },
