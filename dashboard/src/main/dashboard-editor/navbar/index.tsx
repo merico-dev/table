@@ -11,6 +11,7 @@ export const DashboardEditorNavbar = observer(() => {
   const model = useModelContext();
   const openQueries = () => {
     if (!model.queries.firstID) {
+      model.editor.open(['_QUERIES_', '']);
       return;
     }
     model.editor.open(['_QUERIES_', model.queries.firstID]);
