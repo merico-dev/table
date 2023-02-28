@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
-import Editor, { loader } from '@monaco-editor/react';
-import * as monaco from 'monaco-editor';
-loader.config({ monaco });
+import Editor from '@monaco-editor/react';
+import { initMonacoEditor } from '../../../../utils/load-monaco-editor';
+initMonacoEditor();
 
 interface IFunctionStringEditor {
   value: string;
