@@ -1,31 +1,22 @@
 import { loader } from '@monaco-editor/react';
+import _ from 'lodash';
+import { useEffect } from 'react';
 
-self.MonacoEnvironment = {
-  getWorker: function (workerId, label) {
-    // @ts-expect-error fixme
-    const getWorkerModule = (moduleUrl, label) => {
-      // @ts-expect-error fixme
-      return new Worker(self.MonacoEnvironment.getWorker(moduleUrl), {
-        name: label,
-        type: 'module',
-      });
-    };
-
-    switch (label) {
-      case 'typescript':
-      case 'javascript':
-        return getWorkerModule('/monaco-editor/min/vs/language/typescript/ts.worker?worker', label);
-      default:
-        return getWorkerModule('/monaco-editor/min/vs/editor/editor.worker?worker', label);
-    }
-  },
+const cleanURL = (str: string) => {
+  return str.replace(/([^:])(\/\/+)/g, '$1/');
 };
 
-export function initMonacoEditor() {
-  const loaded = loader.__getMonacoInstance();
-  if (!loaded) {
-    console.log('loading monaco');
-    loader.config({ paths: { vs: '/assets/monaco-editor/min/vs' } });
-    loader.init().then((monaco) => console.log('here is the monaco instance:', monaco));
-  }
+export function useLoadMonacoEditor() {
+  useEffect(() => {
+    const loaded = loader.__getMonacoInstance();
+    if (loaded) {
+      return;
+    }
+
+    console.log('loading monaco for @devtable/settings-form');
+    const basename = _.get(window, 'devtable_website.basename', '');
+    const path = cleanURL(basename + '/assets/monaco-editor/min/vs');
+    loader.config({ paths: { vs: path } });
+    loader.init().then((monaco) => console.log('monaco instance:', monaco));
+  }, []);
 }

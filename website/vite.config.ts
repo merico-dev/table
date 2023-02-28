@@ -29,10 +29,6 @@ export default ({ mode }) => {
             src: '../node_modules/monaco-editor/min/vs/**/*',
             dest: 'assets/monaco-editor/min/vs/',
           },
-          {
-            src: '../node_modules/monaco-editor/min-maps/vs/**/*',
-            dest: 'assets/monaco-editor/min-maps/vs/',
-          },
         ],
       }),
     ],
@@ -50,7 +46,7 @@ export default ({ mode }) => {
     },
     build: {
       rollupOptions: {
-        external(source, importer, isResolved) {
+        external(source) {
           if (source.includes('node_modules/monaco-editor/esm/vs/')) {
             return true;
           }

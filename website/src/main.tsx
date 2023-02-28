@@ -15,6 +15,9 @@ import { StatusPage } from './pages/status-page';
 import { DashboardEditorPage } from './pages/dashboard-editor-page';
 import { DashboardEditorFrame } from './frames/dashboard-editor-frame';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import _ from 'lodash';
+
+_.set(window, 'devtable_website.basename', import.meta.env.VITE_WEBSITE_BASE_URL ?? '');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(

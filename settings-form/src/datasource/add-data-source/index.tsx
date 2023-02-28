@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../../api-caller';
 import { DataSourceType } from '../../api-caller/datasource.typed';
+import { useLoadMonacoEditor } from '../../utils/load-monaco-editor';
 import { defaultStyles, IStyles } from '../styles';
 import { AddDataSourceForm_DB } from './forms/database';
 import { AddDataSourceForm_HTTP } from './forms/http';
@@ -71,6 +72,7 @@ interface IAddDataSource {
 }
 
 export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSource) {
+  useLoadMonacoEditor();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);

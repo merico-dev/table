@@ -18,8 +18,7 @@ import './index.css';
 import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
-import { initMonacoEditor } from './utils/load-monaco-editor';
-initMonacoEditor();
+import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 
 const AppShellStyles = {
   root: {
@@ -55,6 +54,7 @@ export const Dashboard = observer(function _Dashboard({
   className = 'dashboard',
   config,
 }: IDashboardProps) {
+  useLoadMonacoEditor();
   configureAPIClient(config);
 
   const { data: datasources = [] } = useRequest(listDataSources);
