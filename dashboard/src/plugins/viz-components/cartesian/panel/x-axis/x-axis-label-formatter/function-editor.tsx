@@ -31,8 +31,8 @@ export const XAxisLabelFormatterFunctionEditor = ({
         options={{
           minimap: {
             enabled: false,
-            readOnly: disabled,
           },
+          readOnly: disabled,
         }}
       />
     </Box>
