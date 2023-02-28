@@ -27,7 +27,11 @@ export default ({ mode }) => {
         targets: [
           {
             src: '../node_modules/monaco-editor/min/vs/**/*',
-            dest: 'assets/monaco-editor/min/vs',
+            dest: 'assets/monaco-editor/min/vs/',
+          },
+          {
+            src: '../node_modules/monaco-editor/min-maps/vs/**/*',
+            dest: 'assets/monaco-editor/min-maps/vs/',
           },
         ],
       }),
