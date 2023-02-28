@@ -7,6 +7,9 @@ const workspace = (...segments: string[]) => {
   return path.resolve(__dirname, '..', ...segments);
 };
 
+const externalKeywords = ['node_modules/monaco-editor', 'node_modules/@monaco-editor'];
+const externalRegex = new RegExp(externalKeywords.map((k) => `.+${k}.+`).join('|'), 'i');
+
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd());
@@ -34,6 +37,16 @@ export default ({ mode }) => {
     },
     optimizeDeps: {
       exclude: ['@devtable/dashboard', '@devtable/settings-form'],
+    },
+    build: {
+      rollupOptions: {
+        external: (source: string) => {
+          if (externalRegex.test(source)) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
   });
 };
