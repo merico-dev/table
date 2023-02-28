@@ -35,6 +35,11 @@ export default defineConfig({
         'react-hook-form',
         'tabler-icons-react',
         'monaco-editor',
+        'monaco-editor/esm/vs/editor/editor.worker?worker',
+        'monaco-editor/esm/vs/language/css/css.worker?worker',
+        'monaco-editor/esm/vs/language/html/html.worker?worker',
+        'monaco-editor/esm/vs/language/json/json.worker?worker',
+        'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
       ],
       output: {
         globals: {
@@ -44,6 +49,14 @@ export default defineConfig({
           '@mantine/modals': '@mantine/modals',
           '@mantine/notifications': '@mantine/notifications',
           'monaco-editor': 'monaco-editor',
+          'monaco-editor/esm/vs/editor/editor.worker?worker': 'monaco-editor/esm/vs/editor/editor.worker?worker',
+          'monaco-editor/esm/vs/language/css/css.worker?worker': 'monaco-editor/esm/vs/language/css/css.worker?worker',
+          'monaco-editor/esm/vs/language/html/html.worker?worker':
+            'monaco-editor/esm/vs/language/html/html.worker?worker',
+          'monaco-editor/esm/vs/language/json/json.worker?worker':
+            'monaco-editor/esm/vs/language/json/json.worker?worker',
+          'monaco-editor/esm/vs/language/typescript/ts.worker?worker':
+            'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
           ahooks: 'ahooks',
           axios: 'axios',
           'crypto-js': 'crypto-js',
