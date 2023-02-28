@@ -34,6 +34,7 @@ export default defineConfig({
         'react-dom',
         'react-hook-form',
         'tabler-icons-react',
+        'monaco-editor',
       ],
       output: {
         globals: {
@@ -42,6 +43,7 @@ export default defineConfig({
           '@mantine/hooks': '@mantine/hooks',
           '@mantine/modals': '@mantine/modals',
           '@mantine/notifications': '@mantine/notifications',
+          'monaco-editor': 'monaco-editor',
           ahooks: 'ahooks',
           axios: 'axios',
           'crypto-js': 'crypto-js',
