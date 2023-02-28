@@ -1,12 +1,11 @@
 import { loader } from '@monaco-editor/react';
-import _ from 'lodash';
 import { useEffect } from 'react';
 
 const cleanURL = (str: string) => {
   return str.replace(/([^:])(\/\/+)/g, '$1/');
 };
 
-export function useLoadMonacoEditor(basename = _.get(window, 'devtable_website.basename', '')) {
+export function useLoadMonacoEditor(basename: string) {
   useEffect(() => {
     const loaded = loader.__getMonacoInstance();
     if (loaded) {

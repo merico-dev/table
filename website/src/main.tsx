@@ -1,23 +1,20 @@
+import { ModalsProvider } from '@mantine/modals';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AdminFrame } from './frames/admin';
 import { App } from './frames/app';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ModalsProvider } from '@mantine/modals';
+import { DashboardEditorFrame } from './frames/dashboard-editor-frame';
+import { RequireAuth } from './frames/require-auth';
 import './index.css';
+import { AccountsPage } from './pages/account-page';
+import { APIKeyPage } from './pages/api-key-page';
+import { DashboardEditorPage } from './pages/dashboard-editor-page';
 import { DashboardPage } from './pages/dashboard-page';
 import { DataSourcePage } from './pages/data-source-page';
-import { AdminFrame } from './frames/admin';
-import { AccountsPage } from './pages/account-page';
 import { LoginPage } from './pages/login-page';
-import { RequireAuth } from './frames/require-auth';
-import { APIKeyPage } from './pages/api-key-page';
 import { StatusPage } from './pages/status-page';
-import { DashboardEditorPage } from './pages/dashboard-editor-page';
-import { DashboardEditorFrame } from './frames/dashboard-editor-frame';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import _ from 'lodash';
-
-_.set(window, 'devtable_website.basename', import.meta.env.VITE_WEBSITE_BASE_URL ?? '');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(

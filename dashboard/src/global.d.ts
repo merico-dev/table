@@ -2,7 +2,7 @@
 type $TSFixMe = any;
 
 interface IDashboardConfig {
-  basename?: string;
+  basename: string;
   apiBaseURL: string;
   app_id?: string;
   app_secret?: string;
