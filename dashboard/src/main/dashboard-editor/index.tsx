@@ -18,10 +18,8 @@ import './index.css';
 import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
-
-import { loader } from '@monaco-editor/react';
-import * as monaco from 'monaco-editor';
-loader.config({ monaco });
+import { initMonacoEditor } from './utils/load-monaco-editor';
+initMonacoEditor();
 
 const AppShellStyles = {
   root: {
