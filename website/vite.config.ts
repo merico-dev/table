@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import * as path from 'path';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 const workspace = (...segments: string[]) => {
   return path.resolve(__dirname, '..', ...segments);
@@ -22,6 +23,14 @@ export default ({ mode }) => {
       tsconfigPaths({
         projects: ['./', workspace('dashboard'), workspace('settings-form')],
       }),
+      viteStaticCopy({
+        targets: [
+          {
+            src: '../node_modules/monaco-editor/min/vs/**/*',
+            dest: 'assets/monaco-editor/min/vs',
+          },
+        ],
+      }),
     ],
     server: {
       port: 32000,
@@ -34,6 +43,16 @@ export default ({ mode }) => {
     },
     optimizeDeps: {
       exclude: ['@devtable/dashboard', '@devtable/settings-form'],
+    },
+    build: {
+      rollupOptions: {
+        external(source, importer, isResolved) {
+          if (source.includes('node_modules/monaco-editor/esm/vs/')) {
+            return true;
+          }
+          return false;
+        },
+      },
     },
   });
 };
