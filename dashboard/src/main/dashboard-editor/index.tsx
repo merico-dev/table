@@ -14,11 +14,14 @@ import { useTopLevelServices } from '../use-top-level-services';
 import { createPluginContext, PluginContext } from '~/plugins';
 import { IDashboard } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
-import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
+
+import { loader } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+loader.config({ monaco });
 
 const AppShellStyles = {
   root: {
