@@ -34,7 +34,7 @@ export const DashboardEditor = observer(
         context={context}
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
-        config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
+        config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL, basename: import.meta.env.VITE_WEBSITE_BASE_URL }}
       />
     );
   },

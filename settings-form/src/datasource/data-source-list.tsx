@@ -2,6 +2,7 @@ import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
 import { configureAPIClient } from '../api-caller/request';
+import { useLoadMonacoEditor } from '../utils/load-monaco-editor';
 import { AddDataSource } from './add-data-source';
 import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
@@ -12,6 +13,7 @@ interface IDataSourceList {
 }
 
 export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
+  useLoadMonacoEditor(config.basename);
   configureAPIClient(config);
 
   const {
