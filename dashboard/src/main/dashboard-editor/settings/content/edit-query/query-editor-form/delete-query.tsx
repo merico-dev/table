@@ -11,8 +11,8 @@ export interface IDeleteQueryProps {
 
 const _DeleteQuery = (props: IDeleteQueryProps) => {
   const { queryModel } = props;
-  const dashboardModel = useModelContext();
-  const usage = dashboardModel.findQueryUsage(queryModel.id);
+  const model = useModelContext();
+  const usage = model.findQueryUsage(queryModel.id);
   const disabled = usage.length > 0;
 
   const modals = useModals();
@@ -21,7 +21,10 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
       title: 'Delete this query?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => dashboardModel.queries.removeQuery(queryModel.id),
+      onConfirm: () => {
+        model.queries.removeQuery(queryModel.id);
+        model.editor.setPath(['_QUERIES_', '']);
+      },
       zIndex: 320,
     });
   };
