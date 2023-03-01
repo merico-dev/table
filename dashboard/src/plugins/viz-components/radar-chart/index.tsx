@@ -20,6 +20,7 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
 
 export const RadarChartVizComponent: VizComponent = {
   displayName: 'Radar Chart',
+  displayGroup: 'ECharts-based charts',
   migrator: new VizRadarChartMigrator(),
   name: 'radar',
   viewRender: VizRadarChart,

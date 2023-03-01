@@ -24,6 +24,7 @@ class VizRichTextMigrator extends VersionBasedMigrator {
 
 export const RichTextVizComponent: VizComponent = {
   displayName: 'Rich Text',
+  displayGroup: 'Others',
   migrator: new VizRichTextMigrator(),
   name: 'richText',
   viewRender: VizRichText,

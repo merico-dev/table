@@ -20,6 +20,7 @@ class VizPieChartMigrator extends VersionBasedMigrator {
 
 export const PieChartVizComponent: VizComponent = {
   displayName: 'Pie Chart',
+  displayGroup: 'ECharts-based charts',
   migrator: new VizPieChartMigrator(),
   name: 'pie',
   viewRender: VizPieChart,

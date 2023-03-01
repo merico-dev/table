@@ -113,6 +113,7 @@ export interface IConfigMigrationExecContext extends IConfigMigrationContext {
 export interface VizComponent {
   name: string;
   displayName?: string;
+  displayGroup?: string;
   viewRender: React.ComponentType<VizViewProps>;
   configRender: React.ComponentType<VizConfigProps>;
   migrator: IPanelScopeConfigMigrator;
