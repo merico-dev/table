@@ -1,31 +1,16 @@
-import { ActionIcon, Box, Group, JsonInput, Select, Stack } from '@mantine/core';
-import { useInputState } from '@mantine/hooks';
+import { Box, JsonInput, Stack } from '@mantine/core';
 import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
-import React, { createElement, useContext, useMemo } from 'react';
-import { DeviceFloppy } from 'tabler-icons-react';
+import React, { createElement, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { usePanelContext } from '../../../../../contexts';
+import { PluginVizConfigComponent } from '../../../../../panel/plugin-adaptor';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../../../plugins';
 import { IPanelInfoEditor } from '../../../../../types/plugin';
-import { PluginVizConfigComponent } from '../../../../../panel/plugin-adaptor';
+import { SelectVizType } from './select-viz-type';
 
 const types = [] as $TSFixMe[];
-
-function useVizSelectData() {
-  const { vizManager } = useContext(PluginContext);
-  return useMemo(
-    () =>
-      vizManager.availableVizList
-        .map((it) => ({
-          value: it.name,
-          label: it.displayName,
-        }))
-        .concat(types),
-    [vizManager],
-  );
-}
 
 function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
   try {
@@ -80,19 +65,20 @@ export const EditVizConf = observer(() => {
     data,
     panel: { viz },
   } = usePanelContext();
-  const [type, setType] = useInputState(viz.type);
 
-  const changed = viz.type !== type;
   const { vizManager } = useContext(PluginContext);
 
-  const submit = React.useCallback(() => {
-    if (!changed) {
-      return;
-    }
-    const defaultConfig = getPluginVizDefaultConfig(vizManager, type);
-    viz.setType(type);
-    viz.setConf(defaultConfig || {});
-  }, [viz, changed, type]);
+  const submit = React.useCallback(
+    (type: string) => {
+      if (type === viz.type) {
+        return;
+      }
+      const defaultConfig = getPluginVizDefaultConfig(vizManager, type);
+      viz.setType(type);
+      viz.setConf(defaultConfig || {});
+    },
+    [viz.type],
+  );
 
   const setVizConfByJSON = (conf: string) => {
     try {
@@ -103,8 +89,8 @@ export const EditVizConf = observer(() => {
   };
 
   const Panel = React.useMemo(() => {
-    return types.find((t) => t.value === type)?.Panel;
-  }, [type, types]);
+    return types.find((t) => t.value === viz.type)?.Panel;
+  }, [viz.type, types]);
 
   const pluginPanel = usePluginVizConfig();
   const builtInPanel = Panel
@@ -115,20 +101,9 @@ export const EditVizConf = observer(() => {
       })
     : null;
   const finalPanel = pluginPanel || builtInPanel;
-  const selectData = useVizSelectData();
   return (
     <Stack align="stretch" sx={{ height: '100%', overflow: 'hidden' }}>
-      <Select
-        label="Visualization"
-        value={type}
-        onChange={setType}
-        data={selectData}
-        rightSection={
-          <ActionIcon disabled={!changed} onClick={submit}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        }
-      />
+      <SelectVizType submit={submit} value={viz.type} />
       <Box pb={50} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
         {finalPanel}
       </Box>
