@@ -1,23 +1,22 @@
 import { ActionIcon, Select } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
+import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PluginContext } from '~/plugins';
 
-const types: { label: string; value: string }[] = [];
+type OptionType = { label: string; value: string; group: string };
 function useVizSelectData() {
   const { vizManager } = useContext(PluginContext);
-  return useMemo(
-    () =>
-      vizManager.availableVizList
-        .map((it) => ({
-          value: it.name,
-          label: it.displayName,
-        }))
-        .concat(types),
-    [vizManager],
-  );
+  return useMemo(() => {
+    const ret: OptionType[] = vizManager.availableVizList.map((it) => ({
+      value: it.name,
+      label: it.displayName ?? it.name,
+      group: it.displayGroup ?? '',
+    }));
+    return _.orderBy(ret, [(i) => i.group, (i) => i.label], ['asc', 'asc']);
+  }, [vizManager]);
 }
 
 interface ISelectVizType {
@@ -44,6 +43,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
           <DeviceFloppy size={20} />
         </ActionIcon>
       }
+      maxDropdownHeight={600}
     />
   );
 });
