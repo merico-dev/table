@@ -1,13 +1,15 @@
 import { Group, Header as MantineHeader } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { AccountDropdown } from '../../../components/account-dropdown';
-import { LogoLink } from '../../../components/logo-link';
+import { Logo } from '../../../components/logo';
 
 const _Header = () => {
   return (
     <MantineHeader height={60} px="md" py={0}>
       <Group position="apart" sx={{ height: 60 }}>
-        <LogoLink />
+        <Group position="left">
+          <Logo />
+        </Group>
         <Group position="right">
           <AccountDropdown />
         </Group>

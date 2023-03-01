@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { LoadFavicon } from './components/load-favicon';
 import { AdminFrame } from './frames/admin';
 import { App } from './frames/app';
 import { DashboardEditorFrame } from './frames/dashboard-editor-frame';
@@ -19,12 +20,12 @@ import { StatusPage } from './pages/status-page';
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HelmetProvider>
-      <ModalsProvider>
+    <ModalsProvider>
+      <HelmetProvider>
         <Helmet>
           <title>@devtable</title>
-          <link id="favicon" rel="icon" href={import.meta.env.VITE_WEBSITE_FAVICON_URL} type="image/svg+xml" />
         </Helmet>
+        <LoadFavicon />
 
         <BrowserRouter basename={import.meta.env.VITE_WEBSITE_BASE_URL ?? ''}>
           <Routes>
@@ -47,7 +48,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </Route>
           </Routes>
         </BrowserRouter>
-      </ModalsProvider>
-    </HelmetProvider>
+      </HelmetProvider>
+    </ModalsProvider>
   </React.StrictMode>,
 );

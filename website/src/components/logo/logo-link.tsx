@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import { WebsiteGetAllRespType } from '../../api-caller/website';
 
 const getLang = () => {
   try {
@@ -7,13 +8,12 @@ const getLang = () => {
     return 'zh';
   }
 };
-const logo = {
-  zh: import.meta.env.VITE_WEBSITE_LOGO_URL_ZH,
-  en: import.meta.env.VITE_WEBSITE_LOGO_URL_EN,
-};
 
-export const LogoLink = () => {
-  const lang = getLang();
+export const LogoLink = ({ data }: { data: WebsiteGetAllRespType }) => {
+  const logo = {
+    zh: data.WEBSITE_LOGO_URL_ZH,
+    en: data.WEBSITE_LOGO_URL_EN,
+  };
   if (!logo.zh && !logo.en) {
     return (
       <Text size={20} sx={{ cursor: 'default', userSelect: 'none' }}>
@@ -21,8 +21,15 @@ export const LogoLink = () => {
       </Text>
     );
   }
+
+  const lang = getLang();
+  const href = data.WEBSITE_LOGO_JUMP_URL;
+  if (!href) {
+    return <img src={logo[lang]} />;
+  }
+
   return (
-    <a href={import.meta.env.VITE_WEBSITE_LOGO_JUMP_URL}>
+    <a href={href}>
       <img src={logo[lang]} />
     </a>
   );
