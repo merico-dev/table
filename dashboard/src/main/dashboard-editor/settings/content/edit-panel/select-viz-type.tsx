@@ -36,6 +36,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
     <Select
       label="Visualization"
       value={type}
+      searchable
       onChange={setType}
       data={selectData}
       rightSection={
