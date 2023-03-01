@@ -20,6 +20,7 @@ class VizTextMigrator extends VersionBasedMigrator {
 
 export const TextVizComponent: VizComponent = {
   displayName: 'Text',
+  displayGroup: 'Others',
   migrator: new VizTextMigrator(),
   name: 'text',
   viewRender: VizText,

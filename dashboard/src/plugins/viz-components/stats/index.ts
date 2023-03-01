@@ -12,6 +12,7 @@ export const StatsVizComponent: VizComponent = {
     };
   },
   displayName: 'Stats',
+  displayGroup: 'Others',
   migrator: new VizStatsMigrator(),
   name: 'stats',
   viewRender: VizStats,

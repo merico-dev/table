@@ -43,6 +43,7 @@ export const TableVizComponent: VizComponent = {
     };
   },
   displayName: 'Table',
+  displayGroup: 'Others',
   migrator: new VizTableMigrator(),
   name: 'table',
   viewRender: VizTable,
