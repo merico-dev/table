@@ -23,15 +23,15 @@ export class WebsiteController implements interfaces.Controller {
   public static TARGET_NAME = 'Website';
 
   @ApiOperationGet({
-    path: '/list',
-    description: 'List website settings',
+    path: '/get_all',
+    description: 'Get all website settings',
     responses: {
       200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpGet('/list')
-  public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  @httpGet('/get_all')
+  public async getAll(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       res.json(WebsiteEnvs);
     } catch (err) {
