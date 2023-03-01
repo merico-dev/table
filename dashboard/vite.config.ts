@@ -71,6 +71,12 @@ export default defineConfig({
         'mobx',
         'mobx-react-lite',
         'mobx-state-tree',
+        'monaco-editor',
+        'monaco-editor/esm/vs/editor/editor.worker?worker',
+        'monaco-editor/esm/vs/language/css/css.worker?worker',
+        'monaco-editor/esm/vs/language/html/html.worker?worker',
+        'monaco-editor/esm/vs/language/json/json.worker?worker',
+        'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
         'numbro',
         'prosemirror-commands',
         'prosemirror-dropcursor',
@@ -127,6 +133,15 @@ export default defineConfig({
           mobx: 'mobx',
           'mobx-react-lite': 'mobx-react-lite',
           'mobx-state-tree': 'mobx-state-tree',
+          'monaco-editor': 'monaco-editor',
+          'monaco-editor/esm/vs/editor/editor.worker?worker': 'monaco-editor/esm/vs/editor/editor.worker?worker',
+          'monaco-editor/esm/vs/language/css/css.worker?worker': 'monaco-editor/esm/vs/language/css/css.worker?worker',
+          'monaco-editor/esm/vs/language/html/html.worker?worker':
+            'monaco-editor/esm/vs/language/html/html.worker?worker',
+          'monaco-editor/esm/vs/language/json/json.worker?worker':
+            'monaco-editor/esm/vs/language/json/json.worker?worker',
+          'monaco-editor/esm/vs/language/typescript/ts.worker?worker':
+            'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
           numbro: 'numbro',
           'prosemirror-commands': 'prosemirror-commands',
           'prosemirror-dropcursor': 'prosemirror-dropcursor',

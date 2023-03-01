@@ -27,8 +27,8 @@ export const CustomModalTitleFunctionEditor = ({ disabled, value, onChange }: IC
         options={{
           minimap: {
             enabled: false,
-            readOnly: disabled,
           },
+          readOnly: disabled,
         }}
       />
     </Box>

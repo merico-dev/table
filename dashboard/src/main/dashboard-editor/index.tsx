@@ -14,11 +14,11 @@ import { useTopLevelServices } from '../use-top-level-services';
 import { createPluginContext, PluginContext } from '~/plugins';
 import { IDashboard } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
-import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
+import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 
 const AppShellStyles = {
   root: {
@@ -54,6 +54,7 @@ export const Dashboard = observer(function _Dashboard({
   className = 'dashboard',
   config,
 }: IDashboardProps) {
+  useLoadMonacoEditor(config.basename);
   configureAPIClient(config);
 
   const { data: datasources = [] } = useRequest(listDataSources);

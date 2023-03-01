@@ -29,6 +29,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
   }, [queryModel.datasource, queryModel.typedAsHTTP]);
 
   const usage = model.findQueryUsage(queryModel.id);
+  const noUsage = usage.length === 0;
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>
       <Tabs defaultValue={defaultTab} orientation="horizontal" keepMounted={false} sx={{ flexGrow: 1 }}>
@@ -41,8 +42,8 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
               <Text>Data</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Usage" disabled={usage.length === 0}>
-            <Tooltip label="This query is not used for any filter or panel" disabled={usage.length === 0} withinPortal>
+          <Tabs.Tab value="Usage" disabled={noUsage}>
+            <Tooltip label="This query is not used for any filter or panel" disabled={!noUsage} withinPortal>
               <Text>Usage</Text>
             </Tooltip>
           </Tabs.Tab>

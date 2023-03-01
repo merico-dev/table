@@ -34,6 +34,13 @@ export default defineConfig({
         'react-dom',
         'react-hook-form',
         'tabler-icons-react',
+        '@monaco-editor/react',
+        'monaco-editor',
+        'monaco-editor/esm/vs/editor/editor.worker?worker',
+        'monaco-editor/esm/vs/language/css/css.worker?worker',
+        'monaco-editor/esm/vs/language/html/html.worker?worker',
+        'monaco-editor/esm/vs/language/json/json.worker?worker',
+        'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
       ],
       output: {
         globals: {
@@ -42,6 +49,16 @@ export default defineConfig({
           '@mantine/hooks': '@mantine/hooks',
           '@mantine/modals': '@mantine/modals',
           '@mantine/notifications': '@mantine/notifications',
+          '@monaco-editor/react': '@monaco-editor/react',
+          'monaco-editor': 'monaco-editor',
+          'monaco-editor/esm/vs/editor/editor.worker?worker': 'monaco-editor/esm/vs/editor/editor.worker?worker',
+          'monaco-editor/esm/vs/language/css/css.worker?worker': 'monaco-editor/esm/vs/language/css/css.worker?worker',
+          'monaco-editor/esm/vs/language/html/html.worker?worker':
+            'monaco-editor/esm/vs/language/html/html.worker?worker',
+          'monaco-editor/esm/vs/language/json/json.worker?worker':
+            'monaco-editor/esm/vs/language/json/json.worker?worker',
+          'monaco-editor/esm/vs/language/typescript/ts.worker?worker':
+            'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
           ahooks: 'ahooks',
           axios: 'axios',
           'crypto-js': 'crypto-js',
