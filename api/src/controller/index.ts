@@ -9,6 +9,7 @@ import { APIController } from './api.controller';
 import { JobController } from './job.controller';
 import { DashboardChangelogController } from './dashboard_changelog.controller';
 import { ConfigController } from './config.controller';
+import { WebsiteController } from './website.controller';
 
 export function bindControllers(container: Container) {
   container
@@ -56,4 +57,9 @@ export function bindControllers(container: Container) {
     .to(ConfigController)
     .inSingletonScope()
     .whenTargetNamed(ConfigController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(WebsiteController)
+    .inSingletonScope()
+    .whenTargetNamed(WebsiteController.TARGET_NAME);
 }
