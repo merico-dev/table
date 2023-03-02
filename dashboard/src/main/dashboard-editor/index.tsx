@@ -79,7 +79,7 @@ export const Dashboard = observer(function _Dashboard({
     const mock_context = { ...model.mock_context.current };
     const d: IDashboard = {
       ...dashboard,
-      filters: [...model.filters.current],
+      filters: model.filters.json,
       views,
       // @ts-expect-error IDashboard's Definition type is incorrect
       definition: { queries, sqlSnippets, mock_context },

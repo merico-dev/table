@@ -70,6 +70,9 @@ export const FiltersModel = types
     previewValues: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
+    get json() {
+      return self.current.map((f) => f.json);
+    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;

@@ -13,6 +13,18 @@ export const FilterConfigModel_Select = types
     FilterConfigModel_BaseSelect,
   )
   .views((self) => ({
+    get json() {
+      const { _name, default_value, required, width, static_options, options_query_id, default_selection_count } = self;
+      return {
+        _name,
+        width,
+        required,
+        default_value,
+        static_options,
+        options_query_id,
+        default_selection_count,
+      };
+    },
     truthy(value: any) {
       return !!value;
     },

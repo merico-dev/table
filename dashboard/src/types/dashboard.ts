@@ -1,6 +1,6 @@
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
-import { FilterModelInstance } from '../model';
+import { FilterModelSnapshotOut } from '../model';
 import { QueryModelSnapshotIn } from '../model/queries';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
 
@@ -82,7 +82,6 @@ export interface IDashboard {
   group: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
-  filters: FilterModelInstance[];
-  variables: ITemplateVariable[];
+  filters: FilterModelSnapshotOut[];
   version: string;
 }

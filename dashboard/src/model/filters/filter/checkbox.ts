@@ -5,6 +5,15 @@ export const FilterConfigModel_Checkbox = types
     _name: types.literal('checkbox'),
     default_value: types.boolean,
   })
+  .views((self) => ({
+    get json() {
+      const { _name, default_value } = self;
+      return {
+        _name,
+        default_value,
+      };
+    },
+  }))
   .actions((self) => ({
     setDefaultValue(default_value: boolean) {
       self.default_value = default_value;

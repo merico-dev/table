@@ -7,6 +7,14 @@ export const FilterConfigModel_TextInput = types
     default_value: types.string,
   })
   .views((self) => ({
+    get json() {
+      const { _name, required, default_value } = self;
+      return {
+        _name,
+        required,
+        default_value,
+      };
+    },
     truthy(value: any) {
       if (typeof value !== 'string') {
         return false;

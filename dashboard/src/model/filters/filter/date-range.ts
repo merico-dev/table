@@ -3,6 +3,20 @@ import dayjs from 'dayjs';
 import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
 export type TDateRangePickerValue = [string | null, string | null];
 
+function postProcessDefaultValue(default_value: Array<number | string | null>, inputFormat: string) {
+  return default_value.map((v) => {
+    try {
+      if (!v) {
+        return null;
+      }
+      return dayjs.tz(v, 'UTC').format(inputFormat);
+    } catch (error) {
+      console.log(`[date-range] failed parsing ${v}`);
+      return null;
+    }
+  });
+}
+
 const _FilterConfigModel_DateRange = types
   .model('FilterConfigModel_DateRange', {
     _name: types.literal('date-range'),
@@ -14,6 +28,18 @@ const _FilterConfigModel_DateRange = types
     allowSingleDateInRange: types.optional(types.boolean, false),
   })
   .views((self) => ({
+    get json() {
+      const { _name, max_days, required, clearable, inputFormat, default_value, allowSingleDateInRange } = self;
+      return {
+        _name,
+        max_days,
+        required,
+        clearable,
+        inputFormat,
+        default_value: postProcessDefaultValue(default_value, inputFormat),
+        allowSingleDateInRange,
+      };
+    },
     truthy(value: any) {
       return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
     },
@@ -84,17 +110,7 @@ export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfig
   postProcessor({ default_value, ...rest }) {
     return {
       ...rest,
-      default_value: default_value.map((v: number | string | null) => {
-        try {
-          if (!v) {
-            return null;
-          }
-          return dayjs.tz(v, 'UTC').format(rest.inputFormat);
-        } catch (error) {
-          console.log(`[date-range] failed parsing ${v}`);
-          return null;
-        }
-      }),
+      default_value: postProcessDefaultValue(default_value, rest.inputFormat),
     };
   },
 });
