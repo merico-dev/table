@@ -73,18 +73,10 @@ export const Dashboard = observer(function _Dashboard({
   }, [datasources]);
 
   const saveDashboardChanges = async () => {
-    const queries = [...model.queries.json];
-    const sqlSnippets = [...model.sqlSnippets.json];
-    const views = [...model.views.json];
-    const mock_context = { ...model.mock_context.current };
-    const d: IDashboard = {
+    await update({
       ...dashboard,
-      filters: model.filters.json,
-      views,
-      // @ts-expect-error IDashboard's Definition type is incorrect
-      definition: { queries, sqlSnippets, mock_context },
-    };
-    await update(d);
+      ...model.json,
+    });
   };
 
   const pluginContext = useCreation(createPluginContext, []);

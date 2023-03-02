@@ -43,6 +43,20 @@ const _DashboardModel = types
     origin: types.maybe(types.frozen()),
   })
   .views((self) => ({
+    get json(): IDashboard {
+      return {
+        views: self.views.json,
+        filters: self.filters.current,
+        version: self.version,
+        definition: {
+          queries: self.queries.json,
+          sqlSnippets: self.sqlSnippets.json,
+          mock_context: self.mock_context.current,
+        },
+      };
+    },
+  }))
+  .views((self) => ({
     get filtersChanged() {
       const fields = 'filters.current';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
