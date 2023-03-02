@@ -2,7 +2,7 @@ import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
 import { FilterModelSnapshotOut } from '../model';
 import { QueryModelSnapshotIn } from '../model/queries';
-import { SQLSnippetModelInstance, SQLSnippetModelSnapshotIn } from '../model/sql-snippets';
+import { SQLSnippetModelSnapshotIn } from '../model/sql-snippets';
 
 export interface IVizConfig {
   type: string;

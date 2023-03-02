@@ -73,10 +73,7 @@ export const Dashboard = observer(function _Dashboard({
   }, [datasources]);
 
   const saveDashboardChanges = async () => {
-    await update({
-      ...dashboard,
-      ...model.json,
-    });
+    await update(model.json);
   };
 
   const pluginContext = useCreation(createPluginContext, []);

@@ -13,7 +13,10 @@ import {
 import { AnyObject } from '~/types';
 import { FilterModel, FilterModelInstance, FilterModelSnapshotOut } from './filter';
 
-function formatDefaultValue(v: AnyObject, config: FilterModelSnapshotOut['config']) {
+function formatDefaultValue(
+  v: string | boolean | string[] | (string | null)[],
+  config: FilterModelSnapshotOut['config'],
+) {
   if (v === undefined) {
     return v;
   }
@@ -36,7 +39,7 @@ function formatDefaultValue(v: AnyObject, config: FilterModelSnapshotOut['config
   return v;
 }
 
-function getValuesFromFilters(filters: FilterModelInstance[]) {
+function getValuesFromFilters(filters: FilterModelSnapshotOut[]) {
   return filters.reduce((ret, filter) => {
     ret[filter.key] = formatDefaultValue(filter.config.default_value, filter.config);
     return ret;
@@ -177,7 +180,7 @@ export * from './filter';
 
 export type FilterValuesType = Record<string, $TSFixMe>;
 
-export function getInitialFiltersPayload(filters: FilterModelInstance[]) {
+export function getInitialFiltersPayload(filters: FilterModelSnapshotOut[]) {
   return {
     current: filters,
     values: getValuesFromFilters(filters),
