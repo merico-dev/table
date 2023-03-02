@@ -1,6 +1,8 @@
 import { isEqual } from 'lodash';
 import { applySnapshot, clone, getSnapshot, IAnyStateTreeNode, SnapshotIn, types } from 'mobx-state-tree';
 import { makeAutoObservable } from 'mobx';
+import _ from 'lodash';
+import { AnyObject } from '~/types';
 
 export const VariableModel = types
   .model('VariableModel', {
@@ -37,7 +39,17 @@ export const VariableModel = types
   })
   .views((self) => ({
     get json() {
-      return getSnapshot(self);
+      const s = getSnapshot(self);
+      const sortObjectKey = (s: AnyObject) =>
+        _(s)
+          .toPairs()
+          .sortBy((pair) => pair[0].length)
+          .fromPairs()
+          .value();
+      return {
+        ...sortObjectKey(s),
+        formatter: sortObjectKey(s.formatter),
+      };
     },
   }));
 
