@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
-import { applySnapshot, clone, getSnapshot, IAnyStateTreeNode, SnapshotIn, types } from 'mobx-state-tree';
 import { makeAutoObservable } from 'mobx';
+import { applySnapshot, clone, getSnapshot, IAnyStateTreeNode, SnapshotIn, types } from 'mobx-state-tree';
 
 export const VariableModel = types
   .model('VariableModel', {
@@ -18,8 +18,8 @@ export const VariableModel = types
     ),
     formatter: types.model({
       output: types.enumeration('Output', ['number', 'percent']),
-      mantissa: types.number,
       average: types.optional(types.boolean, false),
+      mantissa: types.number,
       trimMantissa: types.optional(types.boolean, false),
     }),
     data_field: types.string,
@@ -37,7 +37,16 @@ export const VariableModel = types
   })
   .views((self) => ({
     get json() {
-      return getSnapshot(self);
+      const { name, size, weight, color, formatter, data_field, aggregation } = self;
+      return {
+        name,
+        size,
+        color,
+        weight,
+        formatter,
+        data_field,
+        aggregation,
+      };
     },
   }));
 

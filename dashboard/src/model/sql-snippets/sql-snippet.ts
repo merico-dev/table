@@ -1,4 +1,4 @@
-import { getParent, Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { SQLSnippetsModelInstance } from './types';
 
 export const SQLSnippetModel = types
@@ -39,3 +39,4 @@ export const SQLSnippetModel = types
   }));
 
 export type SQLSnippetModelInstance = Instance<typeof SQLSnippetModel>;
+export type SQLSnippetModelSnapshotIn = SnapshotIn<SQLSnippetModelInstance>;

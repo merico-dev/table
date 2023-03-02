@@ -51,6 +51,19 @@ export const FilterModel = types
     },
   }))
   .views((self) => ({
+    get json() {
+      const { id, key, label, order, visibleInViewsIDs, auto_submit, type, config } = self;
+      return {
+        id,
+        key,
+        type,
+        label,
+        order,
+        config: config.json,
+        auto_submit,
+        visibleInViewsIDs,
+      };
+    },
     // FIXME: this is a temp workaround. auto_submit should be moved into config
     get should_auto_submit() {
       return self.auto_submit_supported && self.auto_submit;

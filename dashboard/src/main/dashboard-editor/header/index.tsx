@@ -10,7 +10,6 @@ import {
   IconRecycle,
 } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModelContext } from '~/contexts';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
@@ -20,26 +19,8 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
   const navigate = useNavigate();
   const model = useModelContext();
 
-  const getCurrentSchema = useCallback(() => {
-    const queries = model.queries.json;
-    const views = model.views.json;
-    const sqlSnippets = model.sqlSnippets.json;
-    const filters = model.filters.current;
-    const mock_context = model.mock_context.current;
-    return {
-      views,
-      filters,
-      version: model.version,
-      definition: {
-        queries,
-        sqlSnippets,
-        mock_context,
-      },
-    };
-  }, [model]);
-
   const downloadSchema = () => {
-    const schema = JSON.stringify(getCurrentSchema(), null, 2);
+    const schema = JSON.stringify(model.json, null, 2);
     downloadJSON(model.name, schema);
   };
 

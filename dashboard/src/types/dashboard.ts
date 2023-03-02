@@ -1,8 +1,8 @@
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
-import { FilterModelInstance } from '../model';
+import { FilterModelSnapshotOut } from '../model';
 import { QueryModelSnapshotIn } from '../model/queries';
-import { SQLSnippetModelInstance } from '../model/sql-snippets';
+import { SQLSnippetModelSnapshotIn } from '../model/sql-snippets';
 
 export interface IVizConfig {
   type: string;
@@ -39,7 +39,7 @@ export enum DashboardMode {
 }
 
 export interface IDashboardDefinition {
-  sqlSnippets: SQLSnippetModelInstance[];
+  sqlSnippets: SQLSnippetModelSnapshotIn[];
   queries: QueryModelSnapshotIn[];
   mock_context: Record<string, $TSFixMe>;
 }
@@ -82,7 +82,6 @@ export interface IDashboard {
   group: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
-  filters: FilterModelInstance[];
-  variables: ITemplateVariable[];
+  filters: FilterModelSnapshotOut[];
   version: string;
 }

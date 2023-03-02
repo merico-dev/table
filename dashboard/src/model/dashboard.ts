@@ -28,6 +28,7 @@ const _DashboardModel = types
   .model({
     id: types.identifier,
     name: types.string,
+    group: types.string,
     version: types.string,
     datasources: DataSourcesModel,
     filters: FiltersModel,
@@ -42,6 +43,23 @@ const _DashboardModel = types
      */
     origin: types.maybe(types.frozen()),
   })
+  .views((self) => ({
+    get json(): IDashboard {
+      return {
+        id: self.id,
+        name: self.name,
+        group: self.group,
+        views: self.views.json,
+        filters: self.filters.json,
+        version: self.version,
+        definition: {
+          queries: self.queries.json,
+          sqlSnippets: self.sqlSnippets.json,
+          mock_context: self.mock_context.current,
+        },
+      };
+    },
+  }))
   .views((self) => ({
     get filtersChanged() {
       const fields = 'filters.current';
@@ -202,13 +220,14 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 });
 
 export function createDashboardModel(
-  { id, name, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
+  { id, name, group, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
   datasources: IDataSource[],
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
     id,
     name,
+    group,
     version,
     datasources: {
       list: datasources,

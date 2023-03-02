@@ -16,8 +16,8 @@ const TabModel = types
       return {
         id,
         name,
-        view_id,
         color,
+        view_id,
       };
     },
   }))
@@ -52,11 +52,11 @@ export const ViewConfigModel_Tabs = types
     get json() {
       const { _name, variant, orientation, tabs, grow } = self;
       return {
+        grow,
+        tabs: tabs.map((t) => t.json),
         _name,
         variant,
         orientation,
-        grow,
-        tabs: tabs.map((t) => t.json),
       };
     },
   }))
