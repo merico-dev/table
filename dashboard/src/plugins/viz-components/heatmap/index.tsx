@@ -20,6 +20,7 @@ class VizHeatmapMigrator extends VersionBasedMigrator {
 
 export const HeatmapVizComponent: VizComponent = {
   displayName: 'Heatmap',
+  displayGroup: 'ECharts-based charts',
   migrator: new VizHeatmapMigrator(),
   name: 'heatmap',
   viewRender: VizHeatmap,
