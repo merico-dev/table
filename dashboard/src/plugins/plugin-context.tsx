@@ -3,6 +3,7 @@ import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/plugins/colors
 import { InstanceMigrator } from '~/plugins/instance-migrator';
 import { token } from '~/service-locator';
 
+import { PanelModelInstance } from '~/model/views/view/panels';
 import {
   IDashboardPlugin,
   IPluginManager,
@@ -19,19 +20,19 @@ import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { ButtonVizComponent } from './viz-components/button';
 import { CartesianVizComponent } from './viz-components/cartesian';
+import { HeatmapVizComponent } from './viz-components/heatmap';
 import { ParetoChartVizComponent } from './viz-components/pareto-chart';
 import { PieChartVizComponent } from './viz-components/pie-chart';
 import { RadarChartVizComponent } from './viz-components/radar-chart';
 import { RegressionChartVizComponent } from './viz-components/regression-chart';
 import { RichTextVizComponent } from './viz-components/rich-text';
+import { ScatterChartVizComponent } from './viz-components/scatter-chart';
 import { StatsVizComponent } from './viz-components/stats';
 import { SunburstVizComponent } from './viz-components/sunburst';
 import { TableVizComponent } from './viz-components/table';
+import { TextVizComponent } from './viz-components/text';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
-import { PanelModelInstance } from '~/model/views/view/panels';
-import { ScatterChartVizComponent } from './viz-components/scatter-chart';
-import { TextVizComponent } from './viz-components/text';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -120,6 +121,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       PieChartVizComponent,
       Bar3dChartVizComponent,
       BoxplotChartVizComponent,
+      HeatmapVizComponent,
       ParetoChartVizComponent,
       CartesianVizComponent,
       ScatterChartVizComponent,
