@@ -18,11 +18,16 @@ class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
 
 }
 
+type ConfigType = {
+  version: number;
+  config: I<%= pascalcase(name) %>Conf;
+};
+
 export const <%= pascalcase(name) %>VizComponent: VizComponent = {
   displayName: '<%= pascalcase(name) %>',
   migrator: new Viz<%= pascalcase(name) %>Migrator(),
   name: '<%= camelcase(name) %>',
   viewRender: Viz<%= pascalcase(name) %>,
   configRender: Viz<%= pascalcase(name) %>Panel,
-  createConfig: (): I<%= pascalcase(name) %>Conf => DEFAULT_CONFIG,
+  createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
 };
