@@ -1,7 +1,7 @@
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizHeatmap } from './viz-heatmap';
-import { VizHeatmapPanel } from './viz-heatmap-panel';
+import { VizHeatmapEditor } from './viz-heatmap-editor';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 
 class VizHeatmapMigrator extends VersionBasedMigrator {
@@ -24,7 +24,7 @@ export const HeatmapVizComponent: VizComponent = {
   migrator: new VizHeatmapMigrator(),
   name: 'heatmap',
   viewRender: VizHeatmap,
-  configRender: VizHeatmapPanel,
+  configRender: VizHeatmapEditor,
   createConfig: (): {
     version: number;
     config: IHeatmapConf;
