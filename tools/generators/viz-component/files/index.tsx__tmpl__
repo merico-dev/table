@@ -25,6 +25,7 @@ type ConfigType = {
 
 export const <%= pascalcase(name) %>VizComponent: VizComponent = {
   displayName: '<%= pascalcase(name) %>',
+  displayGroup: 'Others',
   migrator: new Viz<%= pascalcase(name) %>Migrator(),
   name: '<%= camelcase(name) %>',
   viewRender: Viz<%= pascalcase(name) %>,
