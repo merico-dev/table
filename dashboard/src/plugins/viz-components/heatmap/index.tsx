@@ -3,6 +3,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizHeatmap } from './viz-heatmap';
 import { VizHeatmapEditor } from './viz-heatmap-editor';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { ClickHeatBlock } from './triggers';
 
 class VizHeatmapMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -32,4 +33,5 @@ export const HeatmapVizComponent: VizComponent = {
     version: 1,
     config: DEFAULT_CONFIG,
   }),
+  triggers: [ClickHeatBlock],
 };

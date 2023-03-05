@@ -1,4 +1,3 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
@@ -20,13 +19,14 @@ export interface IHeatmapConf {
     };
   };
   y_axis: {
-    min: string;
-    max: string;
     name: string;
     data_key: string;
-    position: 'left' | 'right';
     nameAlignment: 'left' | 'center' | 'right';
-    label_formatter: TNumbroFormat;
+    axisLabel: {
+      rotate: number;
+      formatter: IXAxisLabelFormatter;
+      overflow: IXAxisLabelOverflow;
+    };
   };
   heat_block: {
     data_key: '';
@@ -47,13 +47,14 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     },
   },
   y_axis: {
-    min: '',
-    max: '',
     name: 'Y Axis',
     data_key: '',
-    position: 'left',
     nameAlignment: 'center',
-    label_formatter: defaultNumbroFormat,
+    axisLabel: {
+      rotate: 0,
+      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+    },
   },
   heat_block: {
     data_key: '',
