@@ -1,6 +1,8 @@
 import { IXAxisLabelFormatter } from './types';
 
-export function getEchartsXAxisLabel({ enabled, func_content }: IXAxisLabelFormatter) {
+export type FormatterFuncType = (value: string | number, index: number) => string | number;
+
+export function getEchartsXAxisLabel({ enabled, func_content }: IXAxisLabelFormatter): FormatterFuncType {
   return (value: number | string, index: number) => {
     if (!enabled) {
       return value;

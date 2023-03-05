@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { FormatterFuncType } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHeatmapConf } from '../type';
 
-export function getYAxis(conf: IHeatmapConf, data: AnyObject[]) {
+export function getYAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: FormatterFuncType) {
   const { nameAlignment, data_key, axisLabel, ...rest } = conf.y_axis;
   return {
     ...rest,
@@ -11,7 +11,7 @@ export function getYAxis(conf: IHeatmapConf, data: AnyObject[]) {
     data: _.uniq(data.map((d) => d[data_key])),
     axisLabel: {
       ...axisLabel,
-      formatter: getEchartsXAxisLabel(axisLabel.formatter),
+      formatter: formatterFunc,
     },
     axisLine: {
       show: true,
