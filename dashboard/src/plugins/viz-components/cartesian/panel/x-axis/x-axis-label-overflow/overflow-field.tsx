@@ -19,10 +19,6 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
   const getChangeHandler = (path: string) => (v: any) => {
     const newV = _.cloneDeep(value);
     _.set(newV, path, v);
-    console.log({
-      prev: value,
-      next: newV,
-    });
     onChange(newV);
   };
   return (

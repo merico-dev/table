@@ -10,8 +10,8 @@ export function getGrid(conf: IHeatmapConf) {
 
   return {
     top,
-    left: 0,
-    right: 0,
+    left: 5,
+    right: 5,
     bottom,
   };
 }

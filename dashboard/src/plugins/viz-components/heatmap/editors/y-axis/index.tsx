@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../../type';
+import { LabelOverflowField } from '../label-overflow';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
 
 const nameAlignmentOptions = [
@@ -44,6 +45,11 @@ export function YAxisField({ control, watch, data }: IYAxisField) {
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
+      <Controller
+        name="y_axis.axisLabel.overflow"
+        control={control}
+        render={({ field }) => <LabelOverflowField {...field} />}
+      />
       <Group grow noWrap>
         <Controller
           name="y_axis.axisLabel.rotate"

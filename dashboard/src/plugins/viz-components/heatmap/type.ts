@@ -3,11 +3,26 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import {
-  DEFAULT_X_AXIS_LABEL_OVERFLOW,
-  IXAxisLabelOverflow,
-} from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
+import { IOverflow } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 import { IScatterTooltipMetric } from '../scatter-chart/type';
+
+export interface IAxisLabelOverflow {
+  on_axis: IOverflow;
+  in_tooltip: IOverflow;
+}
+
+export const DEFAULT_AXIS_LABEL_OVERFLOW: IAxisLabelOverflow = {
+  on_axis: {
+    width: 80,
+    overflow: 'truncate',
+    ellipsis: '...',
+  },
+  in_tooltip: {
+    width: 200,
+    overflow: 'break',
+    ellipsis: '...',
+  },
+};
 
 export interface IHeatmapConf {
   x_axis: {
@@ -16,7 +31,7 @@ export interface IHeatmapConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
-      overflow: IXAxisLabelOverflow;
+      overflow: IAxisLabelOverflow;
     };
   };
   y_axis: {
@@ -26,7 +41,7 @@ export interface IHeatmapConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
-      overflow: IXAxisLabelOverflow;
+      overflow: IAxisLabelOverflow;
     };
   };
   heat_block: {
@@ -47,7 +62,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },
@@ -57,7 +72,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     nameAlignment: 'center',
     axisLabel: {
       rotate: 0,
-      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },

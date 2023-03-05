@@ -2,6 +2,7 @@ import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/co
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { IHeatmapConf } from '../../type';
+import { LabelOverflowField } from '../label-overflow';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
 
 interface IXAxisField {
@@ -28,6 +29,11 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
+      <Controller
+        name="x_axis.axisLabel.overflow"
+        control={control}
+        render={({ field }) => <LabelOverflowField {...field} />}
+      />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"

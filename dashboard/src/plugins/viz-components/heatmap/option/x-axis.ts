@@ -2,9 +2,11 @@ import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { FormatterFuncType } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHeatmapConf } from '../type';
+import { getLabelOverflowOptionOnAxis } from './overflow';
 
 export function getXAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: FormatterFuncType) {
-  const { axisLabel } = conf.x_axis;
+  const { overflow, rotate } = conf.x_axis.axisLabel;
+  const overflowOption = getLabelOverflowOptionOnAxis(overflow);
   return {
     id: 'main-x-axis',
     type: 'category',
@@ -16,7 +18,8 @@ export function getXAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: F
       alignWithLabel: true,
     },
     axisLabel: {
-      ...axisLabel,
+      rotate,
+      ...overflowOption,
       formatter: formatterFunc,
     },
     nameLocation: 'center',

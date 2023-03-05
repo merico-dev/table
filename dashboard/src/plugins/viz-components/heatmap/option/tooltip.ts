@@ -4,6 +4,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
+import { getLabelOverflowStyleInTooltip } from './overflow';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -32,9 +33,8 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
     label: conf.x_axis.name ? conf.x_axis.name : 'X Axis',
     value: labelFormatters.x_axis(x, dataIndex),
     style: {
-      // label: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
       label: '',
-      value: '',
+      value: getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip),
     },
   };
 
@@ -42,9 +42,8 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
     label: conf.y_axis.name ? conf.y_axis.name : 'Y Axis',
     value: labelFormatters.y_axis(y, dataIndex),
     style: {
-      // label: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
       label: '',
-      value: '',
+      value: getLabelOverflowStyleInTooltip(conf.y_axis.axisLabel.overflow.in_tooltip),
     },
   };
 
@@ -89,8 +88,12 @@ export function getTooltip(
       const trs = rows.map((r) => {
         return `
           <tr>
-            <th style="text-align: right; ${r.style.label}">${r.label}</th>
-            <td style="text-align: right; padding: 0 1em; ${r.style.value}">${r.value}</td>
+            <th style="text-align: right;">
+              <div style="${r.style.label}">${r.label}</div>
+            </th>
+            <td style="text-align: right; padding: 0 1em;">
+            <div style="${r.style.value}">${r.value}
+            </td>
           </tr>
         `;
       });
