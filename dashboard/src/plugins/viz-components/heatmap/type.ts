@@ -1,3 +1,4 @@
+import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
@@ -31,6 +32,7 @@ export interface IHeatmapConf {
   heat_block: {
     data_key: '';
     name: string;
+    value_formatter: TNumbroFormat;
   };
   tooltip: {
     metrics: IScatterTooltipMetric[];
@@ -60,6 +62,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   heat_block: {
     data_key: '',
     name: 'Value',
+    value_formatter: defaultNumbroFormat,
   },
   tooltip: {
     metrics: [],

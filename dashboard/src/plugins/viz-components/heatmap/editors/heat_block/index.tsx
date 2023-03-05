@@ -1,6 +1,7 @@
 import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IHeatmapConf } from '../../type';
 
 interface IScatterField {
@@ -28,7 +29,12 @@ export function ScatterField({ data, control, watch }: IScatterField) {
       </Group>
       <Divider mb={-15} variant="dashed" label="Style" labelPosition="center" />
       TODO
-      <Divider mb={-15} variant="dashed" label="Label" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label="Value Format" labelPosition="center" />
+      <Controller
+        name={`heat_block.value_formatter`}
+        control={control}
+        render={({ field }) => <NumbroFormatSelector {...field} />}
+      />
     </Stack>
   );
 }

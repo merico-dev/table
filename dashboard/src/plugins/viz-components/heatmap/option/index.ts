@@ -1,7 +1,7 @@
 import { defaultsDeep } from 'lodash';
 import { ITemplateVariable } from '~/utils/template';
 import { IHeatmapConf } from '../type';
-import { getLabelFormatters } from './formatters';
+import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
 import { getSeries } from './series';
@@ -26,6 +26,7 @@ export function getOption(conf: IHeatmapConf, data: $TSFixMe[], variables: ITemp
   // }, {} as Record<string, string | number>);
 
   const labelFormatters = getLabelFormatters(conf);
+  const valueFormatters = getValueFormatters(conf);
 
   const customOptions = {
     xAxis: getXAxis(conf, data, labelFormatters.x_axis),
@@ -36,7 +37,7 @@ export function getOption(conf: IHeatmapConf, data: $TSFixMe[], variables: ITemp
         source: data,
       },
     ],
-    tooltip: getTooltip(conf, data, labelFormatters),
+    tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
     legend: getLegend(),
     visualMap: {

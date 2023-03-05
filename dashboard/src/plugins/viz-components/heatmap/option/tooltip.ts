@@ -3,7 +3,7 @@ import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../type';
-import { LabelFormattersType } from './formatters';
+import { LabelFormattersType, ValueFormattersType } from './formatters';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -16,12 +16,15 @@ const formatAdditionalMetric = (v: number) => {
   }
 };
 
-function getRows(
-  conf: IHeatmapConf,
-  labelFormatters: LabelFormattersType,
-  dataDict: _.Dictionary<AnyObject>,
-  params: CallbackDataParams,
-) {
+interface IGetRows {
+  conf: IHeatmapConf;
+  labelFormatters: LabelFormattersType;
+  valueFormatters: ValueFormattersType;
+  dataDict: _.Dictionary<AnyObject>;
+  params: CallbackDataParams;
+}
+
+function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: IGetRows) {
   const { value, dataIndex } = params;
   const [x, y, v] = value as [string, string, string];
 
@@ -47,7 +50,7 @@ function getRows(
 
   const valueRow = {
     label: conf.heat_block.name,
-    value: v,
+    value: valueFormatters.heat_block(v),
     style: {
       label: '',
       value: `font-weight: bold; color: ${params.color}; text-shadow: 1px 1px 0px #ddd;`,
@@ -72,12 +75,17 @@ function getRows(
   return ret;
 }
 
-export function getTooltip(conf: IHeatmapConf, data: AnyObject[], labelFormatters: LabelFormattersType) {
+export function getTooltip(
+  conf: IHeatmapConf,
+  data: AnyObject[],
+  labelFormatters: LabelFormattersType,
+  valueFormatters: ValueFormattersType,
+) {
   const dataDict = _.keyBy(data, (d) => `${d[conf.x_axis.data_key]}---${d[conf.y_axis.data_key]}`);
   return {
     confine: true,
     formatter: function (params: CallbackDataParams) {
-      const rows = getRows(conf, labelFormatters, dataDict, params);
+      const rows = getRows({ conf, labelFormatters, valueFormatters, dataDict, params });
       const trs = rows.map((r) => {
         return `
           <tr>

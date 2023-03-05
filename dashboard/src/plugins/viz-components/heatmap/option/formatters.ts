@@ -1,3 +1,4 @@
+import numbro from 'numbro';
 import {
   FormatterFuncType,
   getEchartsXAxisLabel,
@@ -10,33 +11,33 @@ export type LabelFormattersType = {
 };
 
 export function getLabelFormatters(conf: IHeatmapConf): LabelFormattersType {
-  // const heat_block = function formatter(payload: $TSFixMe) {
-  //   let value = payload;
-  //   if (typeof payload === 'object') {
-  //     if (Array.isArray(payload.value) && payload.value.length === 2) {
-  //       // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
-  //       value = payload.value[1];
-  //     } else {
-  //       value = payload.value;
-  //     }
-  //   }
-  //   if (!conf.heat_block.label_formatter) {
-  //     return value;
-  //   }
-  //   try {
-  //     return numbro(value).format(conf.heat_block.label_formatter);
-  //   } catch (error) {
-  //     console.error(error);
-  //     return value;
-  //   }
-  // };
-
   const x_axis = getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter);
   const y_axis = getEchartsXAxisLabel(conf.y_axis.axisLabel.formatter);
 
   return {
     x_axis,
     y_axis,
-    // heat_block,
+  };
+}
+
+export type ValueFormattersType = {
+  heat_block: FormatterFuncType;
+};
+
+export function getValueFormatters(conf: IHeatmapConf): ValueFormattersType {
+  const heat_block = function formatter(value: string | number) {
+    if (!conf.heat_block.value_formatter) {
+      return value;
+    }
+    try {
+      return numbro(value).format(conf.heat_block.value_formatter);
+    } catch (error) {
+      console.error(error);
+      return value;
+    }
+  };
+
+  return {
+    heat_block,
   };
 }
