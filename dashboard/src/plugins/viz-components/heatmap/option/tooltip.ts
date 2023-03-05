@@ -53,7 +53,7 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
     value: valueFormatters.heat_block(v),
     style: {
       label: '',
-      value: `font-weight: bold; color: ${params.color}; text-shadow: 1px 1px 0px #ddd;`,
+      value: '',
     },
   };
   const ret = [xRow, yRow, valueRow];

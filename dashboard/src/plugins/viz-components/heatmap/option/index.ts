@@ -3,9 +3,9 @@ import { ITemplateVariable } from '~/utils/template';
 import { IHeatmapConf } from '../type';
 import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
-import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getVisualMap } from './visual-map';
 import { getXAxis } from './x-axis';
 import { getYAxis } from './y-axis';
 
@@ -39,15 +39,7 @@ export function getOption(conf: IHeatmapConf, data: $TSFixMe[], variables: ITemp
     ],
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
-    legend: getLegend(),
-    visualMap: {
-      min: 0,
-      max: 200,
-      calculable: true,
-      orient: 'horizontal',
-      left: 'center',
-      top: 0,
-    },
+    visualMap: getVisualMap(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

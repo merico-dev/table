@@ -30,8 +30,10 @@ export interface IHeatmapConf {
     };
   };
   heat_block: {
-    data_key: '';
+    min: number;
+    max: number;
     name: string;
+    data_key: '';
     value_formatter: TNumbroFormat;
   };
   tooltip: {
@@ -60,8 +62,10 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     },
   },
   heat_block: {
-    data_key: '',
+    min: 0,
+    max: 1000,
     name: 'Value',
+    data_key: '',
     value_formatter: defaultNumbroFormat,
   },
   tooltip: {
