@@ -50,7 +50,7 @@ function getRows(
     value: v,
     style: {
       label: '',
-      value: `font-weight: bold; color: ${params.color};`,
+      value: `font-weight: bold; color: ${params.color}; text-shadow: 1px 1px 0px #ddd;`,
     },
   };
   const ret = [xRow, yRow, valueRow];
