@@ -20,30 +20,30 @@ export function YAxisField({ control, watch, data }: IYAxisField) {
   watch(['y_axis']);
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
-      <Controller
-        name="y_axis.data_key"
-        control={control}
-        render={({ field }) => (
-          <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-        )}
-      />
-      <Divider mb={-15} variant="dashed" label="Name" labelPosition="center" />
       <Group grow noWrap>
+        <Controller
+          name="y_axis.data_key"
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+          )}
+        />
         <Controller
           name="y_axis.name"
           control={control}
           render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
         />
+      </Group>
+      <Group grow noWrap>
         <Controller
           name="y_axis.nameAlignment"
           control={control}
           render={({ field }) => (
-            <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
+            <Select label="Name Alignment" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
-      <Divider mb={-15} variant="dashed" label="Layout" labelPosition="center" />
-      <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="y_axis.axisLabel.rotate"

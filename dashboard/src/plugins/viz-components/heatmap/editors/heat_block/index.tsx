@@ -21,9 +21,9 @@ export function ScatterField({ data, control, watch }: IScatterField) {
           )}
         />
       </Group>
-      <Divider mb={-15} label="Style" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label="Style" labelPosition="center" />
       TODO
-      <Divider mb={-15} label="Label" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label="Label" labelPosition="center" />
     </Stack>
   );
 }

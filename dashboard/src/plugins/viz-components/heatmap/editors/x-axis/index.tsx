@@ -27,7 +27,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           render={({ field }) => <TextInput label="Name" sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
