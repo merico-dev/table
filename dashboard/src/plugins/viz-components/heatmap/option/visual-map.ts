@@ -8,5 +8,6 @@ export function getVisualMap(conf: IHeatmapConf) {
     orient: 'horizontal',
     left: 'center',
     top: 0,
+    itemWidth: 15,
   };
 }
