@@ -24,5 +24,6 @@ export function getXAxis(conf: IHeatmapConf, data: AnyObject[]) {
       fontWeight: 'bold',
       align: 'center',
     },
+    z: 3,
   };
 }

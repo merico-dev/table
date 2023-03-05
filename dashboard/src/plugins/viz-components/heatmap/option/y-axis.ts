@@ -27,5 +27,6 @@ export function getYAxis(conf: IHeatmapConf, data: AnyObject[]) {
     },
     nameLocation: 'end',
     nameGap: 15,
+    z: 3,
   };
 }

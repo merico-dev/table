@@ -10,9 +10,10 @@ export function getSeries(conf: IHeatmapConf, data: AnyObject[]) {
     xAxisId: 'main-x-axis',
     yAxisIndex: 0,
     datasetIndex: 0,
-    // itemStyle: {
-    //   color: getSeriesColor(scatter.color, variableValueMap),
-    // },
+    itemStyle: {
+      borderColor: 'white',
+      borderWidth: 2,
+    },
     data: data.map((d) => {
       return [_.get(d, x_axis.data_key), _.get(d, y_axis.data_key), _.get(d, heat_block.data_key)];
     }),
