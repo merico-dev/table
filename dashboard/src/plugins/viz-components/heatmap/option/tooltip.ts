@@ -28,18 +28,30 @@ function getRows(
   const xRow = {
     label: conf.x_axis.name ? conf.x_axis.name : 'X Axis',
     value: labelFormatters.x_axis(x, dataIndex),
-    // style: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
+    style: {
+      // label: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
+      label: '',
+      value: '',
+    },
   };
 
   const yRow = {
     label: conf.y_axis.name ? conf.y_axis.name : 'Y Axis',
     value: labelFormatters.y_axis(y, dataIndex),
-    // style: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
+    style: {
+      // label: getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip)
+      label: '',
+      value: '',
+    },
   };
 
   const valueRow = {
-    label: 'Value', // TODO: heat block metric name
+    label: conf.heat_block.name,
     value: v,
+    style: {
+      label: '',
+      value: `font-weight: bold; color: ${params.color};`,
+    },
   };
   const ret = [xRow, yRow, valueRow];
 
@@ -49,6 +61,10 @@ function getRows(
       ret.push({
         label: m.name,
         value: formatAdditionalMetric(_.get(rowData, m.data_key, '')),
+        style: {
+          label: '',
+          value: '',
+        },
       });
     });
   }
@@ -65,8 +81,8 @@ export function getTooltip(conf: IHeatmapConf, data: AnyObject[], labelFormatter
       const trs = rows.map((r) => {
         return `
           <tr>
-            <th style="text-align: right;">${r.label}</th>
-            <td style="text-align: right; padding: 0 1em;">${r.value}</td>
+            <th style="text-align: right; ${r.style.label}">${r.label}</th>
+            <td style="text-align: right; padding: 0 1em; ${r.style.value}">${r.value}</td>
           </tr>
         `;
       });

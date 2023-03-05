@@ -6,7 +6,7 @@ export function getSeries(conf: IHeatmapConf, data: AnyObject[]) {
   const { x_axis, y_axis, heat_block } = conf;
   return {
     type: 'heatmap',
-    name: '',
+    name: heat_block.name,
     xAxisId: 'main-x-axis',
     yAxisIndex: 0,
     datasetIndex: 0,

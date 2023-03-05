@@ -30,6 +30,7 @@ export interface IHeatmapConf {
   };
   heat_block: {
     data_key: '';
+    name: string;
   };
   tooltip: {
     metrics: IScatterTooltipMetric[];
@@ -58,6 +59,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   },
   heat_block: {
     data_key: '',
+    name: 'Value',
   },
   tooltip: {
     metrics: [],
