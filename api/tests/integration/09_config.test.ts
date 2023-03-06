@@ -15,7 +15,8 @@ describe('ConfigService', () => {
   let configService: ConfigService;
   let accountService: AccountService;
   let apiService: ApiService;
-  let account: Account;
+  let account1: Account;
+  let account2: Account;
   let apiKey: ApiKey;
 
   beforeAll(async () => {
@@ -23,15 +24,25 @@ describe('ConfigService', () => {
     accountService = new AccountService();
     apiService = new ApiService();
 
-    account = new Account();
-    account.id = 'ce11aa93-e0e6-4102-bc93-24eacf244133';
-    account.name = 'tmp';
-    account.email = 'tmp@test.com';
-    account.password = 'tmp';
-    account.role_id = ROLE_TYPES.ADMIN;
-    account.create_time = new Date();
-    account.update_time = new Date();
-    await dashboardDataSource.getRepository(Account).save(account);
+    account1 = new Account();
+    account1.id = 'ce11aa93-e0e6-4102-bc93-24eacf244133';
+    account1.name = 'tmp1';
+    account1.email = 'tmp1@test.com';
+    account1.password = '12345678';
+    account1.role_id = ROLE_TYPES.ADMIN;
+    account1.create_time = new Date();
+    account1.update_time = new Date();
+    await dashboardDataSource.getRepository(Account).save(account1);
+
+    account2 = new Account();
+    account2.id = 'cec09093-e905-457a-b530-0a21034fff16';
+    account2.name = 'tmp2';
+    account2.email = 'tmp2@test.com';
+    account2.password = '12345678';
+    account2.role_id = ROLE_TYPES.READER;
+    account2.create_time = new Date();
+    account2.update_time = new Date();
+    await dashboardDataSource.getRepository(Account).save(account2);
 
     apiKey = new ApiKey();
     apiKey.id = '2a67e5d5-d473-43d4-88b5-8c97b7f2334d';
@@ -48,7 +59,7 @@ describe('ConfigService', () => {
     config.key = 'lang';
     config.value = 'zh';
     config.resource_type = ConfigResourceTypes.ACCOUNT;
-    config.resource_id = account.id;
+    config.resource_id = account1.id;
     await dashboardDataSource.getRepository(Config).save(config);
   });
 
@@ -60,15 +71,28 @@ describe('ConfigService', () => {
         value: 'en',
       });
 
-      const result2 = await configService.get('lang', apiKey);
+      const result2 = await configService.get('lang', account2);
       expect(result2).toMatchObject({
         key: 'lang',
         value: 'en',
       });
+
+      const result3 = await configService.get('lang', apiKey);
+      expect(result3).toMatchObject({
+        key: 'lang',
+        value: 'en',
+      });
+
+      const result4 = await configService.get('website_settings', undefined);
+      expect(result4).toMatchObject({
+        key: 'website_settings',
+        value:
+          '{"WEBSITE_LOGO_URL_ZH":"WEBSITE_LOGO_URL_ZH","WEBSITE_LOGO_URL_EN":"WEBSITE_LOGO_URL_EN","WEBSITE_LOGO_JUMP_URL":"/WEBSITE_LOGO_JUMP_URL","WEBSITE_FAVICON_URL":"/WEBSITE_FAVICON_URL"}',
+      });
     });
 
     it('should return saved config', async () => {
-      const result = await configService.get('lang', account);
+      const result = await configService.get('lang', account1);
       expect(result).toMatchObject({
         key: 'lang',
         value: 'zh',
@@ -78,7 +102,7 @@ describe('ConfigService', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      const result1 = await configService.update('lang', 'en', account, DEFAULT_LANGUAGE);
+      const result1 = await configService.update('lang', 'en', account1, DEFAULT_LANGUAGE);
       expect(result1).toMatchObject({
         key: 'lang',
         value: 'en',
@@ -89,10 +113,16 @@ describe('ConfigService', () => {
         key: 'lang',
         value: 'zh',
       });
+
+      const result3 = await configService.update('website_settings', '', account1, DEFAULT_LANGUAGE);
+      expect(result3).toMatchObject({
+        key: 'website_settings',
+        value: '',
+      });
     });
 
     it('should fail if incorrect value', async () => {
-      await expect(configService.update('lang', 'incorrect_lang', account, DEFAULT_LANGUAGE)).rejects.toThrowError(
+      await expect(configService.update('lang', 'incorrect_lang', account1, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
           message: 'Incorrect config value',
           acceptedValues: ConfigService.keyConfig['lang'].acceptedValues,
@@ -103,6 +133,16 @@ describe('ConfigService', () => {
     it('should fail if not authenticated', async () => {
       await expect(configService.update('lang', 'en', undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'Must be authenticated for this config' }),
+      );
+
+      await expect(configService.update('website_settings', '', undefined, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Must be authenticated for this config' }),
+      );
+    });
+
+    it('should fail if not enough privileges', async () => {
+      await expect(configService.update('website_settings', '', account2, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Insufficient privileges for this config' }),
       );
     });
   });
@@ -123,7 +163,7 @@ describe('ConfigService', () => {
       expect(configsBefore).toMatchObject([
         {
           resource_type: ConfigResourceTypes.ACCOUNT,
-          resource_id: account.id,
+          resource_id: account1.id,
           key: 'lang',
           value: 'en',
         },
@@ -133,14 +173,27 @@ describe('ConfigService', () => {
           key: 'lang',
           value: 'zh',
         },
+        {
+          resource_type: ConfigResourceTypes.GLOBAL,
+          resource_id: null,
+          key: 'website_settings',
+          value: '',
+        },
       ]);
 
-      await accountService.delete(account.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(account1.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
       await apiService.deleteKey(apiKey.id, DEFAULT_LANGUAGE);
 
       const configsAfter = await qb.getRawMany();
 
-      expect(configsAfter).toMatchObject([]);
+      expect(configsAfter).toMatchObject([
+        {
+          resource_type: ConfigResourceTypes.GLOBAL,
+          resource_id: null,
+          key: 'website_settings',
+          value: '',
+        },
+      ]);
     });
   });
 });
