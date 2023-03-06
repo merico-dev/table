@@ -1,10 +1,10 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import { IScatterTooltipMetric } from '../scatter-chart/type';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -34,7 +34,7 @@ export interface IHeatmapConf {
     value_formatter: TNumbroFormat;
   };
   tooltip: {
-    metrics: IScatterTooltipMetric[];
+    metrics: IEchartsTooltipMetric[];
   };
 }
 

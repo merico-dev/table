@@ -6,12 +6,7 @@ import { DEFAULT_AXIS_LABEL_OVERFLOW, IEchartsOverflow } from '~/plugins/common-
 import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
-
-export interface IScatterTooltipMetric {
-  id: string;
-  data_key: string;
-  name: string;
-}
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;
@@ -43,7 +38,7 @@ export interface IScatterChartConf {
     };
   };
   tooltip: {
-    metrics: IScatterTooltipMetric[];
+    metrics: IEchartsTooltipMetric[];
   };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
