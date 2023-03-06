@@ -7,7 +7,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 
 import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
-import { DimensionsField } from './panel/dimensions';
+import { DimensionsField } from './editors/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 
@@ -24,7 +24,7 @@ function withDefaults(dimensions: IRadarChartDimension[]) {
   return dimensions.map(setDefaults);
 }
 
-export function VizRadarChartPanel({ context }: VizConfigProps) {
+export function VizRadarChartEditor({ context }: VizConfigProps) {
   const data = context.data as $TSFixMe[];
   const { value: confValue, set: setConf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);

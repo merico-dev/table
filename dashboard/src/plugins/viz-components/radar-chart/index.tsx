@@ -1,7 +1,7 @@
 import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizRadarChart } from './viz-radar-chart';
-import { VizRadarChartPanel } from './viz-radar-chart-panel';
+import { VizRadarChartEditor } from './viz-radar-chart-editor';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -24,7 +24,7 @@ export const RadarChartVizComponent: VizComponent = {
   migrator: new VizRadarChartMigrator(),
   name: 'radar',
   viewRender: VizRadarChart,
-  configRender: VizRadarChartPanel,
+  configRender: VizRadarChartEditor,
   createConfig() {
     return {
       version: 1,
