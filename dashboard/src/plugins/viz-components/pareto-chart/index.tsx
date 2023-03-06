@@ -4,7 +4,6 @@ import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
@@ -56,7 +55,18 @@ function v6(legacyConf: $TSFixMe): IParetoChartConf {
   const patch = {
     x_axis: {
       axisLabel: {
-        overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+        overflow: {
+          x_axis: {
+            width: 80,
+            overflow: 'truncate',
+            ellipsis: '...',
+          },
+          tooltip: {
+            width: 200,
+            overflow: 'break',
+            ellipsis: '...',
+          },
+        },
       },
     },
   };
@@ -75,8 +85,24 @@ function v7(legacyConf: $TSFixMe): IParetoChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v8(legacyConf: $TSFixMe): IParetoChartConf {
+  console.log(legacyConf);
+  const { x_axis, tooltip } = legacyConf.x_axis.axisLabel.overflow;
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        overflow: {
+          on_axis: x_axis,
+          in_tooltip: tooltip,
+        },
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 8;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -127,6 +153,13 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: v7(data.config),
       };
     });
+    this.version(8, (data) => {
+      return {
+        ...data,
+        version: 8,
+        config: v8(data.config),
+      };
+    });
   }
 }
 
@@ -139,7 +172,7 @@ export const ParetoChartVizComponent: VizComponent = {
   configRender: VizParetoChartPanel,
   createConfig() {
     return {
-      version: 7,
+      version: 8,
       config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
     };
   },

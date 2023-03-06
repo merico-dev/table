@@ -75,11 +75,7 @@ function v6(legacyConf: $TSFixMe): IBoxplotChartConf {
       },
     },
   };
-  const ret = _.defaultsDeep(patch, legacyConf);
-
-  console.log('🟦 Migration on boxplot is over');
-  console.log(ret);
-  return ret;
+  return _.defaultsDeep(patch, legacyConf);
 }
 
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
