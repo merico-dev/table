@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Box, Checkbox, Divider, Group, Stack, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,7 +7,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { DimensionsField } from './editors/dimensions/dimensions';
+import { DimensionsField } from './editors/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 
 export function VizRadarChartEditor({ context }: VizConfigProps) {
@@ -21,7 +21,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
     reset(conf);
   }, [conf]);
 
-  watch(['series_name_key']);
+  watch(['series_name_key', 'background', 'label']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
@@ -36,16 +36,38 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-
-        <Box py="sm">
+        <Divider mt={15} variant="dashed" label="Basics" labelPosition="center" />
+        <Controller
+          name="series_name_key"
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector label="Series Name Field" required data={data} sx={{ flex: 1 }} {...field} />
+          )}
+        />
+        <Group grow noWrap>
           <Controller
-            name="series_name_key"
+            name="background.enabled"
             control={control}
             render={({ field }) => (
-              <DataFieldSelector label="Series Name Field" required data={data} sx={{ flex: 1 }} {...field} />
+              <Checkbox
+                label="Show background"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+              />
             )}
           />
-        </Box>
+          <Controller
+            name="label.enabled"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Show value label"
+                checked={field.value}
+                onChange={(event) => field.onChange(event.currentTarget.checked)}
+              />
+            )}
+          />
+        </Group>
 
         <DimensionsField control={control} watch={watch} data={data} />
       </Stack>

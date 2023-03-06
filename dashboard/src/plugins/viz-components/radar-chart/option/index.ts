@@ -62,7 +62,9 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
     },
     legend: {
       show: true,
+      bottom: 0,
       left: 'center',
+      type: 'scroll',
     },
     series: {
       type: 'radar',
@@ -71,9 +73,11 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
       lineStyle: {
         width: 1,
       },
-      areaStyle: {
-        opacity: 0.4,
-      },
+      areaStyle: conf.background.enabled
+        ? {
+            opacity: 0.4,
+          }
+        : undefined,
       label: getSeriesLabel(conf),
     },
     color: palette,

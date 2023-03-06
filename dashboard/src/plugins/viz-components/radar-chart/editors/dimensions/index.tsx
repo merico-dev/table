@@ -1,4 +1,4 @@
-import { Stack, Tabs, Text } from '@mantine/core';
+import { Divider, Stack, Tabs, Text } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
@@ -55,10 +55,8 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
     setTab(t);
   };
   return (
-    <Stack spacing={2}>
-      <Text size={14} color="#212529" fw={500} sx={{ cursor: 'default' }}>
-        Dimensions
-      </Text>
+    <>
+      <Divider mt={15} variant="dashed" label="Metrics" labelPosition="center" />
       <Tabs
         value={tab}
         onTabChange={setTab}
@@ -88,6 +86,6 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
           </Tabs.Panel>
         ))}
       </Tabs>
-    </Stack>
+    </>
   );
 }

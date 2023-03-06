@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
@@ -33,8 +34,20 @@ function v3(prev: $TSFixMe): IRadarChartConf {
   };
 }
 
+function v4(prev: $TSFixMe): IRadarChartConf {
+  const patch = {
+    background: {
+      enabled: true,
+    },
+    label: {
+      enabled: true,
+    },
+  };
+  return _.defaultsDeep(patch, prev);
+}
+
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -51,6 +64,10 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 3, config: v3(config) };
     });
+    this.version(4, (data) => {
+      const { config } = data;
+      return { ...data, version: 4, config: v4(config) };
+    });
   }
 }
 
@@ -65,7 +82,7 @@ export const RadarChartVizComponent: VizComponent = {
     version: number;
     config: IRadarChartConf;
   } => ({
-    version: 3,
+    version: 4,
     config: DEFAULT_CONFIG,
   }),
 };
