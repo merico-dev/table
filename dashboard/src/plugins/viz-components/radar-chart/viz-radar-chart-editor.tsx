@@ -28,10 +28,10 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   }, [values, conf]);
 
   return (
-    <Stack spacing="xs">
-      <form onSubmit={handleSubmit(setConf)}>
+    <form onSubmit={handleSubmit(setConf)}>
+      <Stack spacing="xs">
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
+          <Text>Radar Config</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
@@ -48,7 +48,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
         </Box>
 
         <DimensionsField control={control} watch={watch} data={data} />
-      </form>
-    </Stack>
+      </Stack>
+    </form>
   );
 }

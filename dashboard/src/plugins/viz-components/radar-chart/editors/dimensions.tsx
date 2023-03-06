@@ -1,9 +1,10 @@
-import { ActionIcon, Box, Button, Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
+import { ActionIcon, Divider, Group, NumberInput, Stack, Tabs, Text, TextInput } from '@mantine/core';
+import { IconPlus } from '@tabler/icons';
+import _ from 'lodash';
+import { useEffect, useState } from 'react';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IRadarChartConf } from '../type';
 
@@ -77,22 +78,68 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
     };
   });
 
-  const addDimension = () =>
+  const addDimension = () => {
+    const id = new Date().getTime().toString();
     append({
-      name: randomId(),
+      id,
+      name: id,
       data_key: '',
       max: 100,
       formatter: defaultNumbroFormat,
     });
+  };
+  const firstTab = _.get(controlledFields, '0.id', null);
+  const [tab, setTab] = useState<string | null>(firstTab);
+  useEffect(() => {
+    setTab((tab) => {
+      if (tab) {
+        return tab;
+      }
+      return firstTab;
+    });
+  }, [firstTab]);
 
+  const removeAndResetTab = (params?: number | number[]) => {
+    remove(params);
+
+    const t = _.get(controlledFields, '0.id', null);
+    setTab(t);
+  };
   return (
-    <Stack>
-      {controlledFields.map((field, index) => (
-        <DimensionField data={data} control={control} index={index} remove={remove} />
-      ))}
-      <Group position="center" mt="xs">
-        <Button onClick={addDimension}>Add a Dimension</Button>
-      </Group>
+    <Stack spacing={2}>
+      <Text size={14} color="#212529" fw={500} sx={{ cursor: 'default' }}>
+        Dimensions
+      </Text>
+      <Tabs
+        value={tab}
+        onTabChange={setTab}
+        styles={{
+          tab: {
+            paddingTop: '0px',
+            paddingBottom: '0px',
+          },
+          panel: {
+            padding: '0px',
+          },
+        }}
+      >
+        <Tabs.List>
+          {controlledFields.map((field, index) => (
+            <Tabs.Tab key={index} value={field.id}>
+              {field.name ? field.name : index + 1}
+              {/* {field.name.trim() ? field.name : index + 1} */}
+            </Tabs.Tab>
+          ))}
+          <Tabs.Tab onClick={addDimension} value="add">
+            <IconPlus size={18} color="#228be6" />
+          </Tabs.Tab>
+        </Tabs.List>
+        {controlledFields.map((field, index) => (
+          <Tabs.Panel key={index} value={field.id}>
+            <DimensionField data={data} control={control} index={index} remove={removeAndResetTab} />
+          </Tabs.Panel>
+        ))}
+      </Tabs>
     </Stack>
   );
 }

@@ -1,6 +1,7 @@
 import { TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 
 export interface IRadarChartDimension {
+  id: string;
   name: string;
   data_key: string;
   max: number;
