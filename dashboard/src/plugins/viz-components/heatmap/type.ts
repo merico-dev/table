@@ -1,28 +1,10 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import { IOverflow } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 import { IScatterTooltipMetric } from '../scatter-chart/type';
-
-export interface IAxisLabelOverflow {
-  on_axis: IOverflow;
-  in_tooltip: IOverflow;
-}
-
-export const DEFAULT_AXIS_LABEL_OVERFLOW: IAxisLabelOverflow = {
-  on_axis: {
-    width: 80,
-    overflow: 'truncate',
-    ellipsis: '...',
-  },
-  in_tooltip: {
-    width: 200,
-    overflow: 'break',
-    ellipsis: '...',
-  },
-};
 
 export interface IHeatmapConf {
   x_axis: {

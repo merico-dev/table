@@ -1,12 +1,8 @@
-export interface IOverflow {
-  width: number;
-  overflow: 'truncate' | 'break' | 'breakAll';
-  ellipsis: '...';
-}
+import { IEchartsOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 
 export interface IXAxisLabelOverflow {
-  x_axis: IOverflow;
-  tooltip: IOverflow;
+  x_axis: IEchartsOverflow;
+  tooltip: IEchartsOverflow;
 }
 
 export const DEFAULT_X_AXIS_LABEL_OVERFLOW: IXAxisLabelOverflow = {

@@ -1,8 +1,7 @@
-import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
-import _ from 'lodash';
+import { Stack } from '@mantine/core';
 import { forwardRef } from 'react';
-import { OverflowField } from './overflow-field';
-import { IOverflow, IXAxisLabelOverflow } from './types';
+import { IEchartsOverflow, OverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { IXAxisLabelOverflow } from './types';
 
 interface IXAxisLabelOverflowField {
   value: IXAxisLabelOverflow;
@@ -10,13 +9,13 @@ interface IXAxisLabelOverflowField {
 }
 
 export const XAxisLabelOverflowField = forwardRef(({ value, onChange }: IXAxisLabelOverflowField, ref: any) => {
-  const changeXAxis = (v: IOverflow) => {
+  const changeXAxis = (v: IEchartsOverflow) => {
     onChange({
       ...value,
       x_axis: v,
     });
   };
-  const changeTooltip = (v: IOverflow) => {
+  const changeTooltip = (v: IEchartsOverflow) => {
     onChange({
       ...value,
       tooltip: v,

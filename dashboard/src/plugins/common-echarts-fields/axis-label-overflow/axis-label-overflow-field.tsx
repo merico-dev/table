@@ -1,8 +1,7 @@
 import { Stack } from '@mantine/core';
 import { forwardRef } from 'react';
-import { OverflowField } from '~/plugins/viz-components/cartesian/panel/x-axis/x-axis-label-overflow/overflow-field';
-import { IOverflow } from '~/plugins/viz-components/cartesian/panel/x-axis/x-axis-label-overflow/types';
-import { IAxisLabelOverflow } from '../type';
+import { OverflowField } from './overflow-field';
+import { IAxisLabelOverflow, IEchartsOverflow } from './types';
 
 interface ILabelOverflowField {
   value: IAxisLabelOverflow;
@@ -10,13 +9,13 @@ interface ILabelOverflowField {
 }
 
 export const LabelOverflowField = forwardRef(({ value, onChange }: ILabelOverflowField, ref: any) => {
-  const changeLabel = (v: IOverflow) => {
+  const changeLabel = (v: IEchartsOverflow) => {
     onChange({
       ...value,
       on_axis: v,
     });
   };
-  const changeTooltip = (v: IOverflow) => {
+  const changeTooltip = (v: IEchartsOverflow) => {
     onChange({
       ...value,
       in_tooltip: v,

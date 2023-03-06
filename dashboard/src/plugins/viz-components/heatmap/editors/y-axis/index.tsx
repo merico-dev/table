@@ -3,7 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../../type';
-import { LabelOverflowField } from '../label-overflow';
+import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
 
 const nameAlignmentOptions = [

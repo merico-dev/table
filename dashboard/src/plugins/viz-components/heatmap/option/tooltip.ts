@@ -4,7 +4,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
-import { getLabelOverflowStyleInTooltip } from './overflow';
+import { getLabelOverflowStyleInTooltip } from '../../../common-echarts-fields/axis-label-overflow';
 
 const formatAdditionalMetric = (v: number) => {
   try {

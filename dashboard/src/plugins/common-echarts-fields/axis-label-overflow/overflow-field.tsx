@@ -1,7 +1,7 @@
 import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import { forwardRef } from 'react';
-import { IOverflow } from './types';
+import { IEchartsOverflow } from './types';
 
 const overflowOptions = [
   { label: 'Truncate', value: 'truncate' },
@@ -11,8 +11,8 @@ const overflowOptions = [
 
 interface IOverflowField {
   sectionTitle?: string;
-  value: IOverflow;
-  onChange: (v: IOverflow) => void;
+  value: IEchartsOverflow;
+  onChange: (v: IEchartsOverflow) => void;
 }
 
 export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOverflowField, ref: any) => {

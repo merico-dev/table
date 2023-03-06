@@ -1,4 +1,4 @@
-import { IAxisLabelOverflow } from '../type';
+import { IAxisLabelOverflow } from './types';
 
 export function getLabelOverflowStyleInTooltip({ overflow, width }: IAxisLabelOverflow['in_tooltip']) {
   const wordBreak = {
