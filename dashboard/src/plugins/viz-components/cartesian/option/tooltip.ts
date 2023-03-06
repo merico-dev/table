@@ -1,7 +1,7 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
+import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import { getXAxisLabelStyleInTooltip } from '../panel/x-axis/x-axis-label-overflow/utils';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 
@@ -51,7 +51,7 @@ export function getTooltip(
         `;
       });
 
-      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.x_axis.axisLabel.overflow.tooltip);
+      const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip);
       const xAxisLabel = getXAxisLabel(arr, conf);
       return `
       <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">

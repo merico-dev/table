@@ -1,7 +1,7 @@
 import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import { forwardRef } from 'react';
-import { IOverflow } from './types';
+import { IEchartsOverflow } from './types';
 
 const overflowOptions = [
   { label: 'Truncate', value: 'truncate' },
@@ -11,18 +11,14 @@ const overflowOptions = [
 
 interface IOverflowField {
   sectionTitle?: string;
-  value: IOverflow;
-  onChange: (v: IOverflow) => void;
+  value: IEchartsOverflow;
+  onChange: (v: IEchartsOverflow) => void;
 }
 
 export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOverflowField, ref: any) => {
   const getChangeHandler = (path: string) => (v: any) => {
     const newV = _.cloneDeep(value);
     _.set(newV, path, v);
-    console.log({
-      prev: value,
-      next: newV,
-    });
     onChange(newV);
   };
   return (
@@ -37,7 +33,7 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
           labelProps={{ color: 'dimmed' }}
         />
       )}
-      <Group noWrap>
+      <Group grow noWrap>
         <NumberInput label="Max Width" hideControls value={value.width} onChange={getChangeHandler('width')} />
         <Select
           label="Overflow"

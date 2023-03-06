@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import numbro from 'numbro';
+import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { getXAxisLabelStyleInTooltip } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { IBoxplotChartConf } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 
 function getScatterTooltipContent(config: IBoxplotChartConf, value: [string, number]) {
-  const xAxisLabelStyle = getXAxisLabelStyleInTooltip(config.x_axis.axisLabel.overflow.tooltip);
+  const xAxisLabelStyle = getLabelOverflowStyleInTooltip(config.x_axis.axisLabel.overflow.in_tooltip);
   const template = `
     <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
       <div style="${xAxisLabelStyle}">${value[0]}</div>
@@ -40,7 +40,7 @@ const getFormatter = (config: IBoxplotChartConf) => (params: AnyObject) => {
     </tr>`;
   });
 
-  const xAxisLabelStyle = getXAxisLabelStyleInTooltip(config.x_axis.axisLabel.overflow.tooltip);
+  const xAxisLabelStyle = getLabelOverflowStyleInTooltip(config.x_axis.axisLabel.overflow.in_tooltip);
   const template = `
     <div style="text-align: left; margin-bottom: .5em; padding: 0 1em .5em; font-weight: bold; border-bottom: 1px dashed #ddd;">
       <div style="${xAxisLabelStyle}">${value.name}</div>

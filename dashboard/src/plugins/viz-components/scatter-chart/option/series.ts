@@ -1,9 +1,9 @@
+import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { ITemplateVariable, templateToString } from '~/utils/template';
-import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
-import { getXAxisLabelOptionInXAxis } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesian/type';
 import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
+import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
 import { IScatterChartConf } from '../type';
 
 function getReferenceLines(
@@ -84,7 +84,7 @@ function getSeriesItemOrItems(
     label: {
       show: !!scatter.label_position,
       position: scatter.label_position,
-      ...getXAxisLabelOptionInXAxis(scatter.label_overflow.label),
+      ...getLabelOverflowOptionOnAxis(scatter.label_overflow.label),
       formatter: ({ value }: { value: AnyObject }) => {
         return value[scatter.name_data_key]; // [x, y, name]
       },

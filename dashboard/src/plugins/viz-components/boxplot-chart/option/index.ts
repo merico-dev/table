@@ -1,10 +1,10 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import numbro from 'numbro';
+import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { getEchartsXAxisLabel } from '../../cartesian/panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import { getXAxisLabelOptionInXAxis } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 import { getLegend } from './legend';
@@ -78,7 +78,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
   const outliersData = boxplotData.map((b) => b.outliers).flat();
 
-  const overflowOption = getXAxisLabelOptionInXAxis(x_axis.axisLabel.overflow.x_axis);
+  const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   return {
     dataset: [
       {

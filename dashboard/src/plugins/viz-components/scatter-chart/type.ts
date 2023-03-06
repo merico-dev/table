@@ -1,21 +1,16 @@
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
-import { DEFAULT_X_AXIS_LABEL_OVERFLOW, IOverflow } from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
+import { DEFAULT_AXIS_LABEL_OVERFLOW, IEchartsOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
-
-export interface IScatterTooltipMetric {
-  id: string;
-  data_key: string;
-  name: string;
-}
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 
 export interface IScatterLabelOverflow {
-  label: IOverflow;
-  tooltip: IOverflow;
+  label: IEchartsOverflow;
+  tooltip: IEchartsOverflow;
 }
 
 export interface IScatterChartConf {
@@ -43,7 +38,7 @@ export interface IScatterChartConf {
     };
   };
   tooltip: {
-    metrics: IScatterTooltipMetric[];
+    metrics: IEchartsTooltipMetric[];
   };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
@@ -51,8 +46,8 @@ export interface IScatterChartConf {
 }
 
 export const DEFAULT_SCATTER_CHART_LABEL_OVERFLOW = {
-  label: DEFAULT_X_AXIS_LABEL_OVERFLOW.x_axis,
-  tooltip: DEFAULT_X_AXIS_LABEL_OVERFLOW.tooltip,
+  label: DEFAULT_AXIS_LABEL_OVERFLOW.on_axis,
+  tooltip: DEFAULT_AXIS_LABEL_OVERFLOW.in_tooltip,
 };
 
 export const DEFAULT_CONFIG: IScatterChartConf = {

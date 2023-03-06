@@ -1,12 +1,9 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import {
-  DEFAULT_X_AXIS_LABEL_OVERFLOW,
-  IXAxisLabelOverflow,
-} from '../cartesian/panel/x-axis/x-axis-label-overflow/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -21,7 +18,7 @@ export interface IBoxplotChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
-      overflow: IXAxisLabelOverflow;
+      overflow: IAxisLabelOverflow;
     };
   };
   y_axis: {
@@ -40,7 +37,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
     },
   },
   y_axis: {
