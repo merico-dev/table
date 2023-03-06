@@ -1,11 +1,9 @@
-import { ActionIcon, Box, Button, Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
-import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
+import { ActionIcon, Divider, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
-import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
-import { IRadarChartConf } from '../type';
+import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
+import { IRadarChartConf } from '../../type';
 
 interface IDimensionField {
   control: Control<IRadarChartConf, $TSFixMe>;
@@ -14,7 +12,7 @@ interface IDimensionField {
   data: $TSFixMe[];
 }
 
-function DimensionField({ control, index, remove, data }: IDimensionField) {
+export function DimensionField({ control, index, remove, data }: IDimensionField) {
   return (
     <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
@@ -53,46 +51,6 @@ function DimensionField({ control, index, remove, data }: IDimensionField) {
       >
         <Trash size={16} />
       </ActionIcon>
-    </Stack>
-  );
-}
-
-interface IDimensionsField {
-  control: Control<IRadarChartConf, $TSFixMe>;
-  watch: UseFormWatch<IRadarChartConf>;
-  data: $TSFixMe[];
-}
-
-export function DimensionsField({ control, watch, data }: IDimensionsField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'dimensions',
-  });
-
-  const watchFieldArray = watch('dimensions');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addDimension = () =>
-    append({
-      name: randomId(),
-      data_key: '',
-      max: 100,
-      formatter: defaultNumbroFormat,
-    });
-
-  return (
-    <Stack>
-      {controlledFields.map((field, index) => (
-        <DimensionField data={data} control={control} index={index} remove={remove} />
-      ))}
-      <Group position="center" mt="xs">
-        <Button onClick={addDimension}>Add a Dimension</Button>
-      </Group>
     </Stack>
   );
 }
