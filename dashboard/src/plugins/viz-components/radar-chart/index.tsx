@@ -1,12 +1,29 @@
-import { VizComponent } from '~/types/plugin';
+import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { VizComponent } from '~/types/plugin';
+import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 import { VizRadarChart } from './viz-radar-chart';
 import { VizRadarChartEditor } from './viz-radar-chart-editor';
-import { DEFAULT_CONFIG, IRadarChartConf } from './type';
-import { cloneDeep } from 'lodash';
+
+// replace withDefaults function in editor
+function v2(legacy: $TSFixMe): IRadarChartConf {
+  const { dimensions = [], ...rest } = legacy;
+  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumbroFormat }: IRadarChartDimension) {
+    return {
+      name,
+      data_key,
+      max,
+      formatter,
+    };
+  }
+  return {
+    ...rest,
+    dimensions: dimensions.map(setDefaults),
+  };
+}
 
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -14,6 +31,10 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
         version: 1,
         config: data,
       };
+    });
+    this.version(2, (data) => {
+      const { config } = data;
+      return { ...data, version: 2, config: v2(config) };
     });
   }
 }
@@ -25,10 +46,11 @@ export const RadarChartVizComponent: VizComponent = {
   name: 'radar',
   viewRender: VizRadarChart,
   configRender: VizRadarChartEditor,
-  createConfig() {
-    return {
-      version: 1,
-      config: cloneDeep(DEFAULT_CONFIG) as IRadarChartConf,
-    };
-  },
+  createConfig: (): {
+    version: number;
+    config: IRadarChartConf;
+  } => ({
+    version: 2,
+    config: DEFAULT_CONFIG,
+  }),
 };
