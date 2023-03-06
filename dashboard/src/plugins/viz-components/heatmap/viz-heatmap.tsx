@@ -30,7 +30,7 @@ interface IClickHeatBlock {
   componentType: 'series';
   name: string;
   color: string;
-  value: string; // string-typed number
+  value: [string, string, string];
   rowData: AnyObject;
 }
 
@@ -63,15 +63,17 @@ function Chart({
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.x_axis.data_key);
+    const xKey = conf.x_axis.data_key;
+    const yKey = conf.y_axis.data_key;
+    return _.keyBy(data, (i) => `${i[xKey]}---${i[yKey]}`);
   }, [data, conf.x_axis.data_key]);
 
   const triggers = useTriggerSnapshotList<IHeatmapConf>(interactionManager.triggerManager, ClickHeatBlock.id);
 
-  const handleSeriesClick = useCallback(
+  const handleHeatBlockClick = useCallback(
     (params: IClickHeatBlock) => {
-      const x = params.value[0];
-      const rowData = _.get(rowDataMap, x, { error: 'rowData is not found' });
+      const [x, y] = params.value;
+      const rowData = _.get(rowDataMap, `${x}---${y}`, { error: 'rowData is not found' });
       triggers.forEach((t) => {
         interactionManager.runInteraction(t.id, { ...params, rowData });
       });
@@ -81,9 +83,9 @@ function Chart({
 
   const onEvents = useMemo(() => {
     return {
-      click: handleSeriesClick,
+      click: handleHeatBlockClick,
     };
-  }, [handleSeriesClick]);
+  }, [handleHeatBlockClick]);
 
   const option = React.useMemo(() => {
     return getOption(conf, data, variables);
