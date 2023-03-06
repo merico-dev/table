@@ -1,7 +1,7 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import numbro from 'numbro';
+import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { getXAxisLabelStyleInTooltip } from '../../cartesian/panel/x-axis/x-axis-label-overflow/utils';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
 
@@ -40,7 +40,7 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       }
       const xAxisLabel = getXAxisLabel(arr, conf);
 
-      const xAxisLabelStyle = getXAxisLabelStyleInTooltip(conf.scatter.label_overflow.tooltip);
+      const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.scatter.label_overflow.tooltip);
       const headers = arr.map(
         // @ts-expect-error type of value
         ({ value }: { value: AnyObject }) =>
