@@ -1,17 +1,16 @@
-import { VizComponent } from '~/types/plugin';
+import { random } from 'chroma-js';
+import _, { cloneDeep, get, omit } from 'lodash';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { AnyObject } from '~/types';
+import { VizComponent } from '~/types/plugin';
+import { DefaultAggregation } from '~/utils/aggregation';
+import { ITemplateVariable } from '~/utils/template';
+import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
+import { ClickEchartSeries } from './triggers/click-echart';
+import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { VizCartesianChart } from './viz-cartesian-chart';
 import { VizCartesianPanel } from './viz-cartesian-panel';
-import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { ClickEchartSeries } from './triggers/click-echart';
-import { ITemplateVariable } from '~/utils/template';
-import { AnyObject } from '~/types';
-import _, { cloneDeep, get, omit } from 'lodash';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-formatter/types';
-import { DEFAULT_DATA_ZOOM_CONFIG } from './panel/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_OVERFLOW } from './panel/x-axis/x-axis-label-overflow/types';
-import { random } from 'chroma-js';
-import { DefaultAggregation } from '~/utils/aggregation';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -45,7 +44,18 @@ function v5(legacyConf: $TSFixMe): ICartesianChartConf {
   const patch = {
     x_axis: {
       axisLabel: {
-        overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+        overflow: {
+          x_axis: {
+            width: 80,
+            overflow: 'truncate',
+            ellipsis: '...',
+          },
+          tooltip: {
+            width: 200,
+            overflow: 'break',
+            ellipsis: '...',
+          },
+        },
       },
     },
   };
@@ -120,8 +130,24 @@ function v9(legacyConf: $TSFixMe): ICartesianChartConf {
   };
 }
 
+function v10(legacyConf: $TSFixMe): ICartesianChartConf {
+  delete legacyConf.config;
+  const { x_axis, tooltip } = legacyConf.x_axis.axisLabel.overflow;
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        overflow: {
+          on_axis: x_axis,
+          in_tooltip: tooltip,
+        },
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 9;
+  readonly VERSION = 10;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -195,6 +221,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v9(data.config),
       };
     });
+    this.version(10, (data) => {
+      return {
+        ...data,
+        version: 10,
+        config: v10(data.config),
+      };
+    });
   }
 }
 
@@ -207,7 +240,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 9,
+      version: 10,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

@@ -1,9 +1,9 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
+import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AggregationType } from '~/utils/aggregation';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
 import { TScatterSize } from './panel/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
-import { DEFAULT_X_AXIS_LABEL_OVERFLOW, IXAxisLabelOverflow } from './panel/x-axis/x-axis-label-overflow/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -97,7 +97,7 @@ export interface ICartesianChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
-      overflow: IXAxisLabelOverflow;
+      overflow: IAxisLabelOverflow;
     };
   };
   series: ICartesianChartSeriesItem[];
@@ -121,7 +121,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_X_AXIS_LABEL_OVERFLOW,
+      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
     },
   },
   x_axis_data_key: '',
