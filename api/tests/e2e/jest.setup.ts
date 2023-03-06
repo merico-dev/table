@@ -1,21 +1,20 @@
 import { dashboardDataSource } from '../../src/data_sources/dashboard';
 
 module.exports = async (globalConfig) => {
+  console.log('-----------  setup e2e testing  -----------------');
+
   process.env.ENABLE_AUTH = '1';
-  console.log('-----------  setup e2e, clean all data before test run  -----------------');
+  process.env.WEBSITE_LOGO_URL_ZH = 'WEBSITE_LOGO_URL_ZH';
+  process.env.WEBSITE_LOGO_URL_EN = 'WEBSITE_LOGO_URL_EN';
+  process.env.WEBSITE_LOGO_JUMP_URL = '/WEBSITE_LOGO_JUMP_URL';
+  process.env.WEBSITE_FAVICON_URL = '/WEBSITE_FAVICON_URL';
+
   dashboardDataSource.setOptions({ url: process.env.END_2_END_TEST_PG_URL! });
+
   if (!dashboardDataSource.isInitialized) {
     await dashboardDataSource.initialize();
   }
 
   await dashboardDataSource.dropDatabase();
-
-  for (let i = 1; i <= globalConfig.maxWorkers; i++) {
-    const dbPrefix = process.env.END_2_END_TEST_PG_URL!.split('/').pop();
-    const workerDatabaseName = `${dbPrefix}_${i}`;
-    console.log(`dropping database ${workerDatabaseName}`);
-    await dashboardDataSource.query(`DROP DATABASE IF EXISTS ${workerDatabaseName}`);
-    await dashboardDataSource.query(`CREATE DATABASE ${workerDatabaseName} TEMPLATE ${dbPrefix}`);
-  }
-  await dashboardDataSource.destroy();
+  console.log(`globalConfig.maxWorkers: ${globalConfig.maxWorkers}`);
 };

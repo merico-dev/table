@@ -330,7 +330,6 @@ describe('validation', () => {
               property: 'old_password',
               children: [],
               constraints: {
-                isLength: 'old_password must be longer than or equal to 8 characters',
                 isString: 'old_password must be a string',
               },
             },
@@ -340,7 +339,6 @@ describe('validation', () => {
               property: 'new_password',
               children: [],
               constraints: {
-                isLength: 'new_password must be longer than or equal to 8 characters',
                 isString: 'new_password must be a string',
               },
             },
@@ -1110,7 +1108,7 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang' },
+              constraints: { isIn: 'key must be one of the following values: lang, website_settings' },
             },
           ]);
         }
@@ -1141,7 +1139,7 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang' },
+              constraints: { isIn: 'key must be one of the following values: lang, website_settings' },
             },
             {
               target: {},

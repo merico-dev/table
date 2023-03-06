@@ -597,6 +597,7 @@ describe('AccountController', () => {
 
       expect(response.body).toMatchObject({
         code: 'PASSWORD_MISMATCH',
+        detail: { message: 'Password is incorrect' },
       });
     });
 

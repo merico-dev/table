@@ -226,7 +226,7 @@ describe('AccountService', () => {
         },
       });
 
-      await accountService.changePassword(account5.id, 'account5', 'account5_changed');
+      await accountService.changePassword(account5.id, 'account5', 'account5_changed', DEFAULT_LANGUAGE);
 
       await expect(accountService.login(account5.name, 'account5', DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(INVALID_CREDENTIALS, { message: 'Invalid credentials' }),
@@ -247,9 +247,9 @@ describe('AccountService', () => {
     });
 
     it('should fail', async () => {
-      await expect(accountService.changePassword(account5.id, 'account5', '123456789')).rejects.toThrowError(
-        new ApiError(PASSWORD_MISMATCH),
-      );
+      await expect(
+        accountService.changePassword(account5.id, 'account5', '123456789', DEFAULT_LANGUAGE),
+      ).rejects.toThrowError(new ApiError(PASSWORD_MISMATCH, { message: 'Password is incorrect' }));
     });
   });
 
