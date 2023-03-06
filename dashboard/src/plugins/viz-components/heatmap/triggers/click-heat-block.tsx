@@ -17,7 +17,7 @@ export const ClickHeatBlock: ITriggerSchema = {
   payload: [
     {
       name: 'seriesType',
-      description: `'scatter'`,
+      description: `'heatmap'`,
       valueType: 'string',
     },
     {

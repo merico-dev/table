@@ -25,8 +25,8 @@ import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 
 interface IClickHeatBlock {
   type: 'click';
-  seriesType: 'scatter';
-  componentSubType: 'scatter';
+  seriesType: 'heatblock';
+  componentSubType: 'heatblock';
   componentType: 'series';
   name: string;
   color: string;

@@ -1,13 +1,13 @@
-import { ActionIcon, Divider, Group, Tabs, Text } from '@mantine/core';
+import { Divider, Group, Tabs, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
-import { IScatterChartConf } from '../../type';
+import { IHeatmapConf } from '../../type';
 import { TooltipMetricField } from './metric';
 
 interface ITooltipMetricsField {
-  control: Control<IScatterChartConf, $TSFixMe>;
-  watch: UseFormWatch<IScatterChartConf>;
+  control: Control<IHeatmapConf, $TSFixMe>;
+  watch: UseFormWatch<IHeatmapConf>;
   data: $TSFixMe[];
 }
 

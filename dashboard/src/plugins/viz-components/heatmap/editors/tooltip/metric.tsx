@@ -2,10 +2,10 @@ import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { IScatterChartConf } from '../../type';
+import { IHeatmapConf } from '../../type';
 
 interface ITooltipMetricField {
-  control: Control<IScatterChartConf, $TSFixMe>;
+  control: Control<IHeatmapConf, $TSFixMe>;
   data: $TSFixMe[];
   index: number;
   remove: (index: number) => void;

@@ -4,12 +4,12 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IHeatmapConf } from '../../type';
 
-interface IScatterField {
+interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<IHeatmapConf>;
   data: $TSFixMe[];
 }
-export function ScatterField({ data, control, watch }: IScatterField) {
+export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
   watch(['heat_block']);
   return (
     <Stack>

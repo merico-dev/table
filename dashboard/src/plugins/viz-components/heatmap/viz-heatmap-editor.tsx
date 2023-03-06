@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ScatterField } from './editors/heat_block';
+import { HeatBlockField } from './editors/heat_block';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
@@ -78,7 +78,7 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Heat Block">
-            <ScatterField control={control} watch={watch} data={data} />
+            <HeatBlockField control={control} watch={watch} data={data} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Tooltip">
