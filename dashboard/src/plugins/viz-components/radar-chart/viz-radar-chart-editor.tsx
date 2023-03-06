@@ -7,7 +7,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { DimensionsField } from './editors/dimensions';
+import { DimensionsField } from './editors/dimensions/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 
 export function VizRadarChartEditor({ context }: VizConfigProps) {
