@@ -6,7 +6,7 @@ import { getLabelOverflowOptionOnAxis } from '../../../common-echarts-fields/axi
 
 export function getXAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: FormatterFuncType) {
   const { overflow, rotate } = conf.x_axis.axisLabel;
-  const overflowOption = getLabelOverflowOptionOnAxis(overflow);
+  const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return {
     id: 'main-x-axis',
     type: 'category',

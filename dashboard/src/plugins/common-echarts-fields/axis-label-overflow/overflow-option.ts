@@ -23,10 +23,10 @@ export function getLabelOverflowStyleInTooltip({ overflow, width }: IAxisLabelOv
     text-overflow: ${textOverflow};
   `;
 }
-export function getLabelOverflowOptionOnAxis(overflow: IAxisLabelOverflow) {
+export function getLabelOverflowOptionOnAxis(on_axis: IAxisLabelOverflow['on_axis']) {
   return {
-    width: overflow.on_axis.width,
-    overflow: overflow.on_axis.overflow,
-    ellipsis: overflow.on_axis.ellipsis,
+    width: on_axis.width,
+    overflow: on_axis.overflow,
+    ellipsis: on_axis.ellipsis,
   };
 }
