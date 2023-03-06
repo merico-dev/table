@@ -33,7 +33,7 @@ export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOve
           labelProps={{ color: 'dimmed' }}
         />
       )}
-      <Group noWrap>
+      <Group grow noWrap>
         <NumberInput label="Max Width" hideControls value={value.width} onChange={getChangeHandler('width')} />
         <Select
           label="Overflow"
