@@ -20,6 +20,7 @@ import { Bar3dChartVizComponent } from './viz-components/bar-3d-chart';
 import { BoxplotChartVizComponent } from './viz-components/boxplot-chart';
 import { ButtonVizComponent } from './viz-components/button';
 import { CartesianVizComponent } from './viz-components/cartesian';
+import { FunnelVizComponent } from './viz-components/funnel';
 import { HeatmapVizComponent } from './viz-components/heatmap';
 import { ParetoChartVizComponent } from './viz-components/pareto-chart';
 import { PieChartVizComponent } from './viz-components/pie-chart';
@@ -121,6 +122,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       PieChartVizComponent,
       Bar3dChartVizComponent,
       BoxplotChartVizComponent,
+      FunnelVizComponent,
       HeatmapVizComponent,
       ParetoChartVizComponent,
       CartesianVizComponent,
