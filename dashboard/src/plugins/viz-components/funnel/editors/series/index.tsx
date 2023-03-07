@@ -1,4 +1,5 @@
 import { ActionIcon, Tabs, Tooltip } from '@mantine/core';
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
@@ -29,8 +30,8 @@ export const SeriesField = ({ control, watch, data }: ISeriesField) => {
     append(getNewSeriesItem());
   };
 
-  const firstID = watch('series.0.id');
-  const [tab, setTab] = useState<string | null>(() => firstID ?? null);
+  const firstID = _.get(controlledFields, '0.id');
+  const [tab, setTab] = useState<string | null>(firstID ?? null);
   useEffect(() => {
     if (firstID) {
       setTab((t) => (t !== null ? t : firstID));
@@ -65,7 +66,7 @@ export const SeriesField = ({ control, watch, data }: ISeriesField) => {
 
       {controlledFields.map((m, index) => (
         <Tabs.Panel key={m.id} value={m.id}>
-          <SeriesItemField key={m.id} control={control} index={index} remove={remove} data={data} />
+          <SeriesItemField control={control} index={index} remove={remove} data={data} />
         </Tabs.Panel>
       ))}
     </Tabs>

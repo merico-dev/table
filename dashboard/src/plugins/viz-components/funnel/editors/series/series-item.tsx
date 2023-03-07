@@ -77,27 +77,29 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
           control={control}
           render={({ field }) => <TextInput placeholder="100%" label="Max Size" {...field} />}
         />
-        <Controller
-          name={`series.${index}.gap`}
-          control={control}
-          render={({ field }) => <NumberInput placeholder="0, 5, 10..." label="Gap" {...field} />}
-        />
       </Group>
       <Group grow noWrap>
-        <Controller
-          name={`series.${index}.sort`}
-          control={control}
-          render={({ field }) => <Select label="Sort" data={sortOptions} {...field} />}
-        />
         <Controller
           name={`series.${index}.orient`}
           control={control}
           render={({ field }) => <Select label="Orientation" data={orientationOptions} {...field} />}
         />
         <Controller
+          name={`series.${index}.sort`}
+          control={control}
+          render={({ field }) => <Select label="Sort" data={sortOptions} {...field} />}
+        />
+      </Group>
+      <Group grow noWrap>
+        <Controller
           name={`series.${index}.funnelAlign`}
           control={control}
           render={({ field }) => <Select label="Align" data={alignmentOptions} {...field} />}
+        />
+        <Controller
+          name={`series.${index}.gap`}
+          control={control}
+          render={({ field }) => <NumberInput placeholder="0, 5, 10..." label="Gap" {...field} />}
         />
       </Group>
 

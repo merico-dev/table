@@ -1,8 +1,10 @@
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsLabelPosition } from '~/plugins/common-echarts-fields/label-position';
 
-export function getNewSeriesItem(): IFunnelSeriesItem {
-  const id = Date.now().toString();
+export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
+  if (!id) {
+    id = Date.now().toString();
+  }
   return {
     id,
     name: id,
@@ -49,5 +51,5 @@ export interface IFunnelConf {
 }
 
 export const DEFAULT_CONFIG: IFunnelConf = {
-  series: [getNewSeriesItem()],
+  series: [getNewSeriesItem('Funnel')],
 };
