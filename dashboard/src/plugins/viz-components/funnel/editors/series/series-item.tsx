@@ -1,4 +1,4 @@
-import { Box, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
@@ -56,24 +56,48 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
       <Divider mb={-10} mt={10} variant="dashed" label="Funnel Style" labelPosition="center" />
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.min`}
+          name={`series.${index}.min.use_data_min`}
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              mt={24}
+              label="Use min value in data"
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+            />
+          )}
+        />
+        <Controller
+          name={`series.${index}.min.value`}
           control={control}
           render={({ field }) => <NumberInput label="Min Value" {...field} />}
         />
         <Controller
-          name={`series.${index}.max`}
+          name={`series.${index}.min.size`}
           control={control}
-          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
         />
       </Group>
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.minSize`}
+          name={`series.${index}.max.use_data_max`}
           control={control}
-          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
+          render={({ field }) => (
+            <Checkbox
+              mt={24}
+              label="Use max value in data"
+              checked={field.value}
+              onChange={(event) => field.onChange(event.currentTarget.checked)}
+            />
+          )}
         />
         <Controller
-          name={`series.${index}.maxSize`}
+          name={`series.${index}.max.value`}
+          control={control}
+          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+        />
+        <Controller
+          name={`series.${index}.max.size`}
           control={control}
           render={({ field }) => <TextInput placeholder="100%" label="Max Size" {...field} />}
         />

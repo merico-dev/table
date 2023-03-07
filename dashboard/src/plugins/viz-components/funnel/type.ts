@@ -10,10 +10,16 @@ export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
     name: id,
     level_name_data_key: '',
     level_value_data_key: '',
-    min: 0,
-    max: 100,
-    minSize: '0%',
-    maxSize: '100%',
+    min: {
+      value: 0,
+      use_data_min: true,
+      size: '0%',
+    },
+    max: {
+      value: 0,
+      use_data_max: true,
+      size: '100%',
+    },
     gap: 2,
     axisLabel: {
       show: true,
@@ -31,10 +37,16 @@ export interface IFunnelSeriesItem {
   name: string;
   level_name_data_key: string;
   level_value_data_key: string;
-  min: number;
-  max: number;
-  minSize: string;
-  maxSize: string;
+  min: {
+    value: number;
+    use_data_min: boolean;
+    size: string;
+  };
+  max: {
+    value: number;
+    use_data_max: boolean;
+    size: string;
+  };
   gap: number;
   axisLabel: {
     show: boolean;
