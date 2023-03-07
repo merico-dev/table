@@ -1,4 +1,5 @@
 import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { useEffect } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
@@ -34,6 +35,7 @@ interface ISeriesItemField {
 export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesItemField) => {
   const use_data_min = item.min.use_data_min;
   const use_data_max = item.max.use_data_max;
+  const { orient } = item;
   return (
     <Stack>
       <Group grow noWrap>
@@ -121,7 +123,9 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
         <Controller
           name={`series.${index}.funnelAlign`}
           control={control}
-          render={({ field }) => <Select label="Align" data={alignmentOptions} {...field} />}
+          render={({ field }) => (
+            <Select label="Align" disabled={orient === 'horizontal'} data={alignmentOptions} {...field} />
+          )}
         />
         <Controller
           name={`series.${index}.gap`}
