@@ -1,8 +1,13 @@
+import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { Viz<%= pascalcase(name) %> } from './viz-<%= dashcase(name) %>';
-import { Viz<%= pascalcase(name) %>Panel } from './viz-<%= dashcase(name) %>-panel';
+import { Viz<%= pascalcase(name) %>Editor } from './viz-<%= dashcase(name) %>-editor';
 import { DEFAULT_CONFIG, I<%= pascalcase(name) %>Conf } from './type';
+
+// function v2(prev: AnyObject): I<%= pascalcase(name) %>Conf {
+//   return prev;
+// }
 
 class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -14,6 +19,14 @@ class Viz<%= pascalcase(name) %>Migrator extends VersionBasedMigrator {
         config: data,
       };
     });
+//     this.version(2, (data) => {
+//       const { config } = data;
+//       return {
+//         ...data,
+//         version: 2,
+//         config: v2(config),
+//       };
+//     });
   }
 
 }
@@ -29,6 +42,6 @@ export const <%= pascalcase(name) %>VizComponent: VizComponent = {
   migrator: new Viz<%= pascalcase(name) %>Migrator(),
   name: '<%= camelcase(name) %>',
   viewRender: Viz<%= pascalcase(name) %>,
-  configRender: Viz<%= pascalcase(name) %>Panel,
+  configRender: Viz<%= pascalcase(name) %>Editor,
   createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
 };
