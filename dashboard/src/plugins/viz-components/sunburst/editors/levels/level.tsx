@@ -1,6 +1,7 @@
 import { Button, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
+import { LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
 import { ISunburstConf } from '../../type';
 
 const rotationOptions = [
@@ -13,23 +14,6 @@ const alignmentOptions = [
   { label: 'Left', value: 'left' },
   { label: 'Center', value: 'center' },
   { label: 'Right', value: 'right' },
-];
-
-const positionOptions = [
-  { label: 'Top', value: 'top' },
-  { label: 'Left', value: 'left' },
-  { label: 'Right', value: 'right' },
-  { label: 'Bottom', value: 'bottom' },
-  { label: 'Outside', value: 'outside' },
-  { label: 'Inside', value: 'inside' },
-  { label: 'InsideLeft', value: 'insideLeft' },
-  { label: 'InsideRight', value: 'insideRight' },
-  { label: 'InsideTop', value: 'insideTop' },
-  { label: 'InsideBottom', value: 'insideBottom' },
-  { label: 'InsideTopLeft', value: 'insideTopLeft' },
-  { label: 'InsideBottomLeft', value: 'insideBottomLeft' },
-  { label: 'InsideTopRight', value: 'insideTopRight' },
-  { label: 'InsideBottomRight', value: 'insideBottomRight' },
 ];
 
 interface ILevelField {
@@ -85,7 +69,7 @@ export const LevelField = ({ control, data, index, remove }: ILevelField) => {
         <Controller
           name={`levels.${index}.label.position`}
           control={control}
-          render={({ field }) => <Select label="Position" data={positionOptions} {...field} />}
+          render={({ field }) => <LabelPositionSelector label="Position" {...field} />}
         />
         <Controller
           name={`levels.${index}.label.padding`}

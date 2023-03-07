@@ -1,17 +1,4 @@
-export type TEchartsLabelPosition =
-  | 'top'
-  | 'left'
-  | 'right'
-  | 'bottom'
-  | 'inside'
-  | 'insideLeft'
-  | 'insideRight'
-  | 'insideTop'
-  | 'insideBottom'
-  | 'insideTopLeft'
-  | 'insideBottomLeft'
-  | 'insideTopRight'
-  | 'insideBottomRight';
+import { IEchartsLabelPosition } from '~/plugins/common-echarts-fields/label-position';
 
 export interface ISunburstLevelConf {
   id: string;
@@ -21,7 +8,7 @@ export interface ISunburstLevelConf {
     show_label_tolerance: number;
     rotate: 'radial' | 'tangential' | '0';
     align: 'left' | 'center' | 'right';
-    position: TEchartsLabelPosition;
+    position: IEchartsLabelPosition;
     padding: number;
   };
 }
