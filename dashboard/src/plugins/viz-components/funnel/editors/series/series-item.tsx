@@ -1,0 +1,136 @@
+import { Box, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
+import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
+import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
+import { AnyObject } from '~/types';
+import { IFunnelConf } from '../../type';
+
+const sortOptions = [
+  { label: 'Ascending', value: 'ascending' },
+  { label: 'Descending', value: 'descending' },
+  { label: 'Use original data order', value: '0' },
+];
+
+const alignmentOptions = [
+  { label: 'Left', value: 'left' },
+  { label: 'Center', value: 'center' },
+  { label: 'Right', value: 'right' },
+];
+
+const orientationOptions = [
+  { label: 'Horizontal', value: 'horizontal' },
+  { label: 'Vertical', value: 'vertical' },
+];
+
+interface ISeriesItemField {
+  control: Control<IFunnelConf, $TSFixMe>;
+  data: AnyObject[];
+  index: number;
+  remove: (index: number) => void;
+}
+
+export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemField) => {
+  return (
+    <Stack>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.name`}
+          control={control}
+          render={({ field }) => <TextInput label="Series Name" {...field} />}
+        />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.level_name_data_key`}
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Level Name Field" data={data} {...field} />}
+        />
+        <Controller
+          name={`series.${index}.level_value_data_key`}
+          control={control}
+          render={({ field }) => <DataFieldSelector label="Level Value Field" data={data} {...field} />}
+        />
+      </Group>
+
+      <Divider mb={-10} mt={10} variant="dashed" label="Funnel Style" labelPosition="center" />
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.min`}
+          control={control}
+          render={({ field }) => <NumberInput label="Min Value" {...field} />}
+        />
+        <Controller
+          name={`series.${index}.max`}
+          control={control}
+          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+        />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.minSize`}
+          control={control}
+          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
+        />
+        <Controller
+          name={`series.${index}.maxSize`}
+          control={control}
+          render={({ field }) => <TextInput placeholder="100%" label="Max Size" {...field} />}
+        />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.orient`}
+          control={control}
+          render={({ field }) => <Select label="Orientation" data={orientationOptions} {...field} />}
+        />
+        <Controller
+          name={`series.${index}.sort`}
+          control={control}
+          render={({ field }) => <Select label="Sort" data={sortOptions} {...field} />}
+        />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.funnelAlign`}
+          control={control}
+          render={({ field }) => <Select label="Align" data={alignmentOptions} {...field} />}
+        />
+        <Controller
+          name={`series.${index}.gap`}
+          control={control}
+          render={({ field }) => <NumberInput placeholder="0, 5, 10..." label="Gap" {...field} />}
+        />
+      </Group>
+
+      <Divider mb={-10} mt={10} variant="dashed" label="Label Style" labelPosition="center" />
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.axisLabel.position`}
+          control={control}
+          render={({ field }) => <LabelPositionSelector label="Position" {...field} />}
+        />
+        <Box />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`series.${index}.axisLabel.overflow`}
+          control={control}
+          render={({ field }) => <LabelOverflowField {...field} />}
+        />
+      </Group>
+
+      {/* <Divider mb={-10} mt={10} variant="dashed" /> */}
+      {/* <Button
+        leftIcon={<Trash size={16} />}
+        color="red"
+        variant="light"
+        onClick={() => remove(index)}
+        disabled
+        sx={{ top: 15, right: 5 }}
+      >
+        Delete this Series
+      </Button> */}
+    </Stack>
+  );
+};
