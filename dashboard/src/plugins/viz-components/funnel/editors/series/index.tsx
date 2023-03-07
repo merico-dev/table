@@ -66,7 +66,7 @@ export const SeriesField = ({ control, watch, data }: ISeriesField) => {
 
       {controlledFields.map((m, index) => (
         <Tabs.Panel key={m.id} value={m.id}>
-          <SeriesItemField control={control} index={index} remove={remove} data={data} />
+          <SeriesItemField item={m} control={control} index={index} remove={remove} data={data} />
         </Tabs.Panel>
       ))}
     </Tabs>

@@ -4,7 +4,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
 import { AnyObject } from '~/types';
-import { IFunnelConf } from '../../type';
+import { IFunnelConf, IFunnelSeriesItem } from '../../type';
 
 const sortOptions = [
   { label: 'Ascending', value: 'ascending' },
@@ -24,13 +24,16 @@ const orientationOptions = [
 ];
 
 interface ISeriesItemField {
+  item: IFunnelSeriesItem;
   control: Control<IFunnelConf, $TSFixMe>;
   data: AnyObject[];
   index: number;
   remove: (index: number) => void;
 }
 
-export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemField) => {
+export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesItemField) => {
+  const use_data_min = item.min.use_data_min;
+  const use_data_max = item.max.use_data_max;
   return (
     <Stack>
       <Group grow noWrap>
@@ -70,7 +73,7 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.min.value`}
           control={control}
-          render={({ field }) => <NumberInput label="Min Value" {...field} />}
+          render={({ field }) => <NumberInput disabled={use_data_min} label="Min Value" {...field} />}
         />
         <Controller
           name={`series.${index}.min.size`}
@@ -94,7 +97,7 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.max.value`}
           control={control}
-          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+          render={({ field }) => <NumberInput disabled={use_data_max} label="Max Value" {...field} />}
         />
         <Controller
           name={`series.${index}.max.size`}
