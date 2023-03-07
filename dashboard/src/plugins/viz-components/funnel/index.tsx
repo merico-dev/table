@@ -1,7 +1,7 @@
 import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
-import { VizFunnel } from './viz-funnel';
+import { VizFunnelChart } from './viz-funnel-chart';
 import { VizFunnelEditor } from './viz-funnel-editor';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
 
@@ -40,7 +40,7 @@ export const FunnelVizComponent: VizComponent = {
   displayGroup: 'ECharts-based charts',
   migrator: new VizFunnelMigrator(),
   name: 'funnel',
-  viewRender: VizFunnel,
+  viewRender: VizFunnelChart,
   configRender: VizFunnelEditor,
   createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
 };
