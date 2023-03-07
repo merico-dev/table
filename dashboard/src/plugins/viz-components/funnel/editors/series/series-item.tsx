@@ -1,9 +1,8 @@
 import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
-import { useEffect } from 'react';
 import { Control, Controller } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
+import { LabelPositionOptionType, LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
 import { AnyObject } from '~/types';
 import { IFunnelConf, IFunnelSeriesItem } from '../../type';
 
@@ -23,6 +22,21 @@ const orientationOptions = [
   { label: 'Horizontal', value: 'horizontal' },
   { label: 'Vertical', value: 'vertical' },
 ];
+
+const positionOptions: Record<'horizontal' | 'vertical', LabelPositionOptionType[]> = {
+  horizontal: [
+    { label: 'Top', value: 'top' },
+    { label: 'Inside Center', value: 'inside' },
+    { label: 'Bottom', value: 'bottom' },
+  ],
+  vertical: [
+    { label: 'Left', value: 'left' },
+    { label: 'Inside Left', value: 'insideLeft' },
+    { label: 'Inside Center', value: 'inside' },
+    { label: 'Inside Right', value: 'insideRight' },
+    { label: 'Right', value: 'right' },
+  ],
+};
 
 interface ISeriesItemField {
   item: IFunnelSeriesItem;
@@ -139,7 +153,9 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
         <Controller
           name={`series.${index}.axisLabel.position`}
           control={control}
-          render={({ field }) => <LabelPositionSelector label="Position" {...field} />}
+          render={({ field }) => (
+            <LabelPositionSelector label="Position" options={positionOptions[orient]} {...field} />
+          )}
         />
         <Box />
       </Group>
