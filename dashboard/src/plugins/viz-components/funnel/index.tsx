@@ -37,7 +37,7 @@ type ConfigType = {
 
 export const FunnelVizComponent: VizComponent = {
   displayName: 'Funnel Chart',
-  displayGroup: 'Others',
+  displayGroup: 'ECharts-based charts',
   migrator: new VizFunnelMigrator(),
   name: 'funnel',
   viewRender: VizFunnel,

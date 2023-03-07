@@ -7,6 +7,7 @@ import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
+import { SeriesField } from './editors/series';
 
 export function VizFunnelEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IFunnelConf>(context.instanceData, 'config');
@@ -34,7 +35,7 @@ export function VizFunnelEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Tabs
+        {/* <Tabs
           defaultValue="Basics"
           orientation="vertical"
           styles={{
@@ -53,7 +54,8 @@ export function VizFunnelEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="Basics">Basic settings</Tabs.Panel>
-        </Tabs>
+        </Tabs> */}
+        <SeriesField control={control} watch={watch} data={data} />
       </form>
     </Stack>
   );
