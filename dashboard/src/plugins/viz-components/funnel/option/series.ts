@@ -9,17 +9,17 @@ type SeriesDataType = {
 };
 
 function getMinValue(min: IFunnelSeriesItem['min']) {
-  if (min.use_data_min) {
-    return undefined;
+  if (min.enable_value) {
+    return min.value;
   }
-  return min.value;
+  return undefined;
 }
 
 function getMaxValue(max: IFunnelSeriesItem['max']) {
-  if (max.use_data_max) {
-    return undefined;
+  if (max.enable_value) {
+    return max.value;
   }
-  return max.value;
+  return undefined;
 }
 
 function getFunnelMargin(s: IFunnelSeriesItem) {

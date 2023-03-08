@@ -1,4 +1,4 @@
-import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput, Tooltip } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
@@ -47,8 +47,8 @@ interface ISeriesItemField {
 }
 
 export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesItemField) => {
-  const use_data_min = item.min.use_data_min;
-  const use_data_max = item.max.use_data_max;
+  const enable_min = item.min.enable_value;
+  const enable_max = item.max.enable_value;
   const { orient } = item;
   return (
     <Stack>
@@ -75,21 +75,35 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
       <Divider mb={-10} mt={10} variant="dashed" label="Funnel Style" labelPosition="center" />
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.min.use_data_min`}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              mt={24}
-              label="Use min value in data"
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-            />
-          )}
-        />
-        <Controller
           name={`series.${index}.min.value`}
           control={control}
-          render={({ field }) => <NumberInput disabled={use_data_min} label="Min Value" {...field} />}
+          render={({ field }) => (
+            <NumberInput
+              disabled={!enable_min}
+              labelProps={{ display: 'block' }}
+              label={
+                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                  <Text>Min Value</Text>
+                  <Tooltip label="Check to enable specific min value">
+                    <Box>
+                      <Controller
+                        name={`series.${index}.min.enable_value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox
+                            size="xs"
+                            checked={field.value}
+                            onChange={(event) => field.onChange(event.currentTarget.checked)}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Group>
+              }
+              {...field}
+            />
+          )}
         />
         <Controller
           name={`series.${index}.min.size`}
@@ -99,21 +113,35 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
       </Group>
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.max.use_data_max`}
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              mt={24}
-              label="Use max value in data"
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-            />
-          )}
-        />
-        <Controller
           name={`series.${index}.max.value`}
           control={control}
-          render={({ field }) => <NumberInput disabled={use_data_max} label="Max Value" {...field} />}
+          render={({ field }) => (
+            <NumberInput
+              disabled={!enable_max}
+              labelProps={{ display: 'block' }}
+              label={
+                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                  <Text>Max Value</Text>
+                  <Tooltip label="Check to enable specific max value">
+                    <Box>
+                      <Controller
+                        name={`series.${index}.max.enable_value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox
+                            size="xs"
+                            checked={field.value}
+                            onChange={(event) => field.onChange(event.currentTarget.checked)}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Group>
+              }
+              {...field}
+            />
+          )}
         />
         <Controller
           name={`series.${index}.max.size`}

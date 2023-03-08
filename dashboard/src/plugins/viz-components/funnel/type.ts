@@ -12,12 +12,12 @@ export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
     level_value_data_key: '',
     min: {
       value: 0,
-      use_data_min: true,
+      enable_value: false,
       size: '0%',
     },
     max: {
       value: 0,
-      use_data_max: true,
+      enable_value: false,
       size: '100%',
     },
     gap: 2,
@@ -39,12 +39,12 @@ export interface IFunnelSeriesItem {
   level_value_data_key: string;
   min: {
     value: number;
-    use_data_min: boolean;
+    enable_value: boolean;
     size: string;
   };
   max: {
     value: number;
-    use_data_max: boolean;
+    enable_value: boolean;
     size: string;
   };
   gap: number;
