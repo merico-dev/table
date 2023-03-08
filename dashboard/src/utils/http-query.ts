@@ -1,17 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
-import dayjs from 'dayjs';
-import lodash from 'lodash';
-import numbro from 'numbro';
 import { IDataSource } from '~/api-caller/types';
 import { ContextInfoType, FilterValuesType } from '..';
-import CryptoJS from 'crypto-js';
-
-export const functionUtils = {
-  CryptoJS,
-  dayjs,
-  lodash,
-  numbro,
-};
+import { functionUtils } from './function-utils';
 
 export function buildHTTPRequest(
   pre_process: string,
