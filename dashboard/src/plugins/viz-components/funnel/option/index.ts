@@ -11,7 +11,7 @@ export function getOption(conf: IFunnelConf, data: AnyObject[]) {
       right: 0,
       bottom: 0,
     },
-    tooltip: getTooltip(conf),
+    tooltip: getTooltip(conf, data),
     series: getSeries(conf, data),
   };
 }
