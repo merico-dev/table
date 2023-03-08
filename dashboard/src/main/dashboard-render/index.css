@@ -36,6 +36,12 @@
   -ms-overflow-style: none;
 }
 
+.function-editor {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
 .minimal-monaco-editor {
   border-radius: 4px;
   overflow: hidden;

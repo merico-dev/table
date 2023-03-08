@@ -8,7 +8,7 @@ import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType } from '../model/queries/types';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
-import { formatSQL, getSQLParams } from '../utils/sql';
+import { formatSQL, getSQLParams, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 
@@ -24,29 +24,25 @@ interface IQueryBySQL {
   mock_context: Record<string, $TSFixMe>;
   sqlSnippets: SQLSnippetModelInstance[];
   title: string;
-  query: { type: DataSourceType; key: string; sql: string };
+  query: { type: DataSourceType; key: string; sql: string; pre_process: string; post_process: string };
   filterValues: FilterValuesType;
 }
 
 export async function queryBySQL(
-  { context, mock_context, sqlSnippets, title, query, filterValues }: IQueryBySQL,
+  { context, mock_context, sqlSnippets, query, filterValues }: IQueryBySQL,
   signal: AbortSignal,
 ) {
   if (!query.sql) {
     return [];
   }
-  const { type, key, sql } = query;
+  const { type, key, sql, pre_process, post_process } = query;
 
-  const needParams = sql.includes('$');
   const params = getSQLParams(context, mock_context, sqlSnippets, filterValues);
   const formattedSQL = formatSQL(sql, params);
-  if (needParams) {
-    console.groupCollapsed(`Final SQL for: ${title}`);
-    console.log(formattedSQL);
-    console.groupEnd();
-  }
-  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: formattedSQL }, {});
-  return res;
+  const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
+  let data = await APIClient.getRequest('POST', signal)('/query', { type, key, query: finalSQL }, {});
+  data = postProcessSQLQuery(post_process, data);
+  return data;
 }
 
 interface IQueryByHTTP {

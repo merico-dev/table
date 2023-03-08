@@ -165,7 +165,7 @@ export const QueryModel = types
             if (self.typedAsHTTP) {
               return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
             }
-            return `${self.id}--${self.key}--${self.formattedSQL}`;
+            return `${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
           },
           self.fetchData,
           {

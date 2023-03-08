@@ -24,7 +24,6 @@ export const DescriptionPopover = observer(() => {
   if (isRichTextContentEmpty(panel.description)) {
     return null;
   }
-
   return (
     <>
       <Modal

@@ -35,7 +35,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
       <Tabs defaultValue={defaultTab} orientation="horizontal" keepMounted={false} sx={{ flexGrow: 1 }}>
         <Tabs.List grow>
           <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
-          {queryModel.typedAsSQL && <Tabs.Tab value="SQL">SQL</Tabs.Tab>}
+          {queryModel.typedAsSQL && <Tabs.Tab value="SQL">Request</Tabs.Tab>}
           {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
           <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
             <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>

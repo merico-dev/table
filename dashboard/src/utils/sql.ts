@@ -1,7 +1,9 @@
 import _ from 'lodash';
+import { AnyObject } from '..';
 import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
+import { functionUtils } from './function-utils';
 
 export function explainSQLSnippet(
   snippet: string,
@@ -68,5 +70,29 @@ export function explainSQL(
   } catch (error: $TSFixMe) {
     console.error(error);
     return error.message;
+  }
+}
+
+export function preProcessSQLQuery({ sql, pre_process }: { sql: string; pre_process: TFunctionString }) {
+  if (!pre_process.trim()) {
+    return sql;
+  }
+  try {
+    return new Function(`return ${pre_process}`)()({ sql }, functionUtils);
+  } catch (error) {
+    console.error(error);
+    return sql;
+  }
+}
+
+export function postProcessSQLQuery(post_process: TFunctionString, data: any) {
+  if (!post_process.trim()) {
+    return data;
+  }
+  try {
+    return new Function(`return ${post_process}`)()(data, functionUtils);
+  } catch (error) {
+    console.error(error);
+    return data;
   }
 }
