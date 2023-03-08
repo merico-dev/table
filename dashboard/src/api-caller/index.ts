@@ -29,7 +29,7 @@ interface IQueryBySQL {
 }
 
 export async function queryBySQL(
-  { context, mock_context, sqlSnippets, title, query, filterValues }: IQueryBySQL,
+  { context, mock_context, sqlSnippets, query, filterValues }: IQueryBySQL,
   signal: AbortSignal,
 ) {
   if (!query.sql) {
@@ -37,14 +37,8 @@ export async function queryBySQL(
   }
   const { type, key, sql } = query;
 
-  const needParams = sql.includes('$');
   const params = getSQLParams(context, mock_context, sqlSnippets, filterValues);
   const formattedSQL = formatSQL(sql, params);
-  if (needParams) {
-    console.groupCollapsed(`Final SQL for: ${title}`);
-    console.log(formattedSQL);
-    console.groupEnd();
-  }
   const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: formattedSQL }, {});
   return res;
 }
