@@ -1,5 +1,5 @@
 import { Button, Group, Stack, Text } from '@mantine/core';
-import { IconDeviceFloppy, IconFileTypography, IconPlayerSkipBack, IconRecycle } from '@tabler/icons';
+import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons';
 import { forwardRef, useEffect, useState } from 'react';
 import { FunctionEditor } from '../function-editor.tsx';
 
