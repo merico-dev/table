@@ -1,6 +1,7 @@
 import { Button, Group, Stack, Text } from '@mantine/core';
 import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons';
 import { forwardRef, useEffect, useState } from 'react';
+import { AboutFunctionUtils } from '../about-function-utils';
 import { FunctionEditor } from '../function-editor.tsx';
 
 interface IInlineFunctionInput {
@@ -35,7 +36,9 @@ export const InlineFunctionInput = forwardRef(
     return (
       <Stack spacing={4} sx={{ height: '100%' }}>
         <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
-          <Group position="left"></Group>
+          <Group position="left">
+            <AboutFunctionUtils />
+          </Group>
           <Group position="right">
             <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
               Reset to default
