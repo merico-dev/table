@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
+import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 import { VizRadarChart } from './viz-radar-chart';
 import { VizRadarChartEditor } from './viz-radar-chart-editor';
@@ -85,4 +86,5 @@ export const RadarChartVizComponent: VizComponent = {
     version: 4,
     config: DEFAULT_CONFIG,
   }),
+  triggers: [ClickRadarChartSeries],
 };
