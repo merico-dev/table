@@ -8,7 +8,7 @@ import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType } from '../model/queries/types';
 import { SQLSnippetModelInstance } from '../model/sql-snippets';
-import { formatSQL, getSQLParams } from '../utils/sql';
+import { formatSQL, getSQLParams, preProcessSQLQuery } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 
@@ -24,7 +24,7 @@ interface IQueryBySQL {
   mock_context: Record<string, $TSFixMe>;
   sqlSnippets: SQLSnippetModelInstance[];
   title: string;
-  query: { type: DataSourceType; key: string; sql: string };
+  query: { type: DataSourceType; key: string; sql: string; pre_process: string; post_process: string };
   filterValues: FilterValuesType;
 }
 
@@ -35,11 +35,12 @@ export async function queryBySQL(
   if (!query.sql) {
     return [];
   }
-  const { type, key, sql } = query;
+  const { type, key, sql, pre_process, post_process } = query;
 
   const params = getSQLParams(context, mock_context, sqlSnippets, filterValues);
   const formattedSQL = formatSQL(sql, params);
-  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: formattedSQL }, {});
+  const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
+  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: finalSQL }, {});
   return res;
 }
 
