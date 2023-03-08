@@ -16,9 +16,9 @@ export const DEFAULT_SQL_REQ_PROCESSING = {
     '}',
   ].join('\n'),
   post: [
-    'function process_result(res, utils) {',
+    'function process_result(data, utils) {',
     '    // process data and return the resulit',
-    '    return res.data',
+    '    return data',
     '}',
   ].join('\n'),
 };
