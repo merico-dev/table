@@ -13,3 +13,9 @@ export type IEchartsLabelPosition =
   | 'insideTopRight'
   | 'insideBottomRight'
   | 'outside';
+
+export type LabelPositionOptionType = {
+  label: string;
+  value: IEchartsLabelPosition;
+  disabled?: boolean;
+};

@@ -1,10 +1,10 @@
-import { Box, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput, Tooltip } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
+import { LabelPositionOptionType, LabelPositionSelector } from '~/plugins/common-echarts-fields/label-position';
 import { AnyObject } from '~/types';
-import { IFunnelConf } from '../../type';
+import { IFunnelConf, IFunnelSeriesItem } from '../../type';
 
 const sortOptions = [
   { label: 'Ascending', value: 'ascending' },
@@ -23,14 +23,33 @@ const orientationOptions = [
   { label: 'Vertical', value: 'vertical' },
 ];
 
+const positionOptions: Record<'horizontal' | 'vertical', LabelPositionOptionType[]> = {
+  horizontal: [
+    { label: 'Top', value: 'top' },
+    { label: 'Inside Center', value: 'inside' },
+    { label: 'Bottom', value: 'bottom' },
+  ],
+  vertical: [
+    { label: 'Left', value: 'left' },
+    { label: 'Inside Left', value: 'insideLeft' },
+    { label: 'Inside Center', value: 'inside' },
+    { label: 'Inside Right', value: 'insideRight' },
+    { label: 'Right', value: 'right' },
+  ],
+};
+
 interface ISeriesItemField {
+  item: IFunnelSeriesItem;
   control: Control<IFunnelConf, $TSFixMe>;
   data: AnyObject[];
   index: number;
   remove: (index: number) => void;
 }
 
-export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemField) => {
+export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesItemField) => {
+  const enable_min = item.min.enable_value;
+  const enable_max = item.max.enable_value;
+  const { orient } = item;
   return (
     <Stack>
       <Group grow noWrap>
@@ -56,24 +75,76 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
       <Divider mb={-10} mt={10} variant="dashed" label="Funnel Style" labelPosition="center" />
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.min`}
+          name={`series.${index}.min.value`}
           control={control}
-          render={({ field }) => <NumberInput label="Min Value" {...field} />}
+          render={({ field }) => (
+            <NumberInput
+              disabled={!enable_min}
+              labelProps={{ display: 'block' }}
+              label={
+                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                  <Text>Min Value</Text>
+                  <Tooltip label="Check to enable specific min value">
+                    <Box>
+                      <Controller
+                        name={`series.${index}.min.enable_value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox
+                            size="xs"
+                            checked={field.value}
+                            onChange={(event) => field.onChange(event.currentTarget.checked)}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Group>
+              }
+              {...field}
+            />
+          )}
         />
         <Controller
-          name={`series.${index}.max`}
+          name={`series.${index}.min.size`}
           control={control}
-          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
         />
       </Group>
       <Group grow noWrap>
         <Controller
-          name={`series.${index}.minSize`}
+          name={`series.${index}.max.value`}
           control={control}
-          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
+          render={({ field }) => (
+            <NumberInput
+              disabled={!enable_max}
+              labelProps={{ display: 'block' }}
+              label={
+                <Group position="apart" pr={6} sx={{ width: '100%' }}>
+                  <Text>Max Value</Text>
+                  <Tooltip label="Check to enable specific max value">
+                    <Box>
+                      <Controller
+                        name={`series.${index}.max.enable_value`}
+                        control={control}
+                        render={({ field }) => (
+                          <Checkbox
+                            size="xs"
+                            checked={field.value}
+                            onChange={(event) => field.onChange(event.currentTarget.checked)}
+                          />
+                        )}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Group>
+              }
+              {...field}
+            />
+          )}
         />
         <Controller
-          name={`series.${index}.maxSize`}
+          name={`series.${index}.max.size`}
           control={control}
           render={({ field }) => <TextInput placeholder="100%" label="Max Size" {...field} />}
         />
@@ -94,7 +165,9 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.funnelAlign`}
           control={control}
-          render={({ field }) => <Select label="Align" data={alignmentOptions} {...field} />}
+          render={({ field }) => (
+            <Select label="Align" disabled={orient === 'horizontal'} data={alignmentOptions} {...field} />
+          )}
         />
         <Controller
           name={`series.${index}.gap`}
@@ -108,7 +181,9 @@ export const SeriesItemField = ({ control, data, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.axisLabel.position`}
           control={control}
-          render={({ field }) => <LabelPositionSelector label="Position" {...field} />}
+          render={({ field }) => (
+            <LabelPositionSelector label="Position" options={positionOptions[orient]} {...field} />
+          )}
         />
         <Box />
       </Group>

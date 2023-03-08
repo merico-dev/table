@@ -1,8 +1,8 @@
 import { Select } from '@mantine/core';
 import { forwardRef, Ref } from 'react';
-import { IEchartsLabelPosition } from './types';
+import { IEchartsLabelPosition, LabelPositionOptionType } from './types';
 
-const options: { label: string; value: IEchartsLabelPosition }[] = [
+const defaultOptions: LabelPositionOptionType[] = [
   { label: 'Top', value: 'top' },
   { label: 'Left', value: 'left' },
   { label: 'Right', value: 'right' },
@@ -23,10 +23,11 @@ interface ILabelPositionSelector {
   label: string;
   value: IEchartsLabelPosition;
   onChange: (v: IEchartsLabelPosition) => void;
+  options?: LabelPositionOptionType[];
 }
 
 export const LabelPositionSelector = forwardRef(
-  ({ label, value, onChange }: ILabelPositionSelector, ref: Ref<HTMLInputElement>) => {
+  ({ label, value, onChange, options = defaultOptions }: ILabelPositionSelector, ref: Ref<HTMLInputElement>) => {
     return <Select ref={ref} label={label} data={options} value={value} onChange={onChange} />;
   },
 );

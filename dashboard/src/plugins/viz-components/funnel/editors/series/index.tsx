@@ -1,8 +1,8 @@
-import { ActionIcon, Tabs, Tooltip } from '@mantine/core';
+import { Center, Tabs, Tooltip } from '@mantine/core';
+import { IconPlus } from '@tabler/icons';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
 import { getNewSeriesItem, IFunnelConf } from '../../type';
 import { SeriesItemField } from './series-item';
 
@@ -57,16 +57,16 @@ export const SeriesField = ({ control, watch, data }: ISeriesField) => {
         ))}
         <Tabs.Tab value="add" disabled>
           <Tooltip label="TODO">
-            <ActionIcon size="xs">
-              <Plus size={18} color="#228be6" />
-            </ActionIcon>
+            <Center>
+              <IconPlus size={18} color="#228be6" />
+            </Center>
           </Tooltip>
         </Tabs.Tab>
       </Tabs.List>
 
       {controlledFields.map((m, index) => (
         <Tabs.Panel key={m.id} value={m.id}>
-          <SeriesItemField control={control} index={index} remove={remove} data={data} />
+          <SeriesItemField item={m} control={control} index={index} remove={remove} data={data} />
         </Tabs.Panel>
       ))}
     </Tabs>
