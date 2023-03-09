@@ -146,8 +146,32 @@ function v10(legacyConf: $TSFixMe): ICartesianChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v11(legacyConf: any): ICartesianChartConf {
+  const { series, ...rest } = legacyConf;
+  return {
+    ...rest,
+    series: series.map((s: any) => {
+      const { barMinWidth, barWidth, barMaxWidth } = s;
+      if (barMinWidth) {
+        return {
+          ...s,
+          barMinWidth,
+          barWidth: '',
+          barMaxWidth: barMaxWidth ?? barWidth,
+        };
+      }
+      return {
+        ...s,
+        barMinWidth: '',
+        barWidth,
+        barMaxWidth: '',
+      };
+    }),
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 10;
+  readonly VERSION = 11;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -228,6 +252,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v10(data.config),
       };
     });
+    this.version(11, (data) => {
+      return {
+        ...data,
+        version: 11,
+        config: v11(data.config),
+      };
+    });
   }
 }
 
@@ -240,7 +271,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 10,
+      version: 11,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

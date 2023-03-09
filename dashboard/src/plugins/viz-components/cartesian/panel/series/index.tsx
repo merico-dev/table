@@ -3,7 +3,7 @@ import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { ICartesianChartConf } from '../../type';
+import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { DEFAULT_SCATTER_SIZE } from '../scatter-size-select/types';
 import { SeriesItemField } from './series-item';
 
@@ -26,8 +26,8 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
     };
   });
 
-  const addSeries = () =>
-    append({
+  const addSeries = () => {
+    const s: ICartesianChartSeriesItem = {
       type: 'bar',
       name: randomId(),
       showSymbol: false,
@@ -40,14 +40,19 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
       color: '#000',
       step: false,
       smooth: false,
-      barWidth: '10',
+      barMinWidth: '1',
+      barWidth: '10%',
+      barMaxWidth: '10',
       barGap: '0%',
       lineStyle: {
         type: 'solid',
         width: 1,
       },
       hide_in_legend: false,
-    });
+      group_by_key: '',
+    };
+    append(s);
+  };
 
   const yAxes = watch('y_axes');
 
