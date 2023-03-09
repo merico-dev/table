@@ -33,7 +33,7 @@ export function getTooltip(
       if (arr.length === 0) {
         return '';
       }
-      const lines = arr.map(({ seriesName, value }) => {
+      const lines = arr.map(({ seriesName, marker, value }) => {
         if (Array.isArray(value) && value.length === 2) {
           // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
           value = value[1];
@@ -45,9 +45,10 @@ export function getTooltip(
         const formatter = labelFormatters[yAxisIndex] ?? labelFormatters.default;
         return `
         <tr>
-            <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
-            <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
-            </tr>
+          <td>${marker}</td>
+          <th style="text-align: right; padding: 0 1em;">${seriesName}</th>
+          <td style="text-align: left; padding: 0 1em;">${formatter({ value })}</td>
+        </tr>
         `;
       });
 
