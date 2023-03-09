@@ -1,5 +1,6 @@
 import { Checkbox } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { CustomRichTextEditor } from '~/panel/settings/common/custom-rich-text-editor';
 import { IFilterConfig_Checkbox } from '../../model/filters/filter/checkbox';
 
 interface IFilterEditorCheckbox {
@@ -14,6 +15,12 @@ export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ co
         checked={config.default_value}
         onChange={(e) => config.setDefaultValue(e.currentTarget.checked)}
         label="Default Checked"
+      />
+      <CustomRichTextEditor
+        label="Description"
+        value={config.description}
+        onChange={config.setDescription}
+        styles={{ root: { flexGrow: 1, minHeight: '400px' } }}
       />
     </>
   );
