@@ -6,129 +6,21 @@ import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { DefaultAggregation } from '~/utils/aggregation';
 import { EchartsZoomingField } from './panel/echarts-zooming-field';
 import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './panel/reference-lines';
 import { RegressionsField } from './panel/regressions';
-import { DEFAULT_SCATTER_SIZE } from './panel/scatter-size-select/types';
 import { SeriesField } from './panel/series';
 import { StatsField } from './panel/stats';
 import { XAxisField } from './panel/x-axis';
 import { YAxesField } from './panel/y-axes';
-import { DEFAULT_CONFIG, ICartesianChartConf, ICartesianChartSeriesItem, ICartesianReferenceLine } from './type';
-
-function withRefLineDefaults(reference_lines: ICartesianReferenceLine[]) {
-  function setDefaults({
-    name = '',
-    template = '',
-    variable_key = '',
-    orientation = 'horizontal',
-    ...rest
-  }: ICartesianReferenceLine) {
-    const ret = {
-      name,
-      template,
-      variable_key,
-      orientation,
-      ...rest,
-    };
-    return ret;
-  }
-
-  return reference_lines.map(setDefaults);
-}
-
-function withDefaults(series: ICartesianChartSeriesItem[]) {
-  function setDefaults({
-    type,
-    name,
-    showSymbol,
-    symbolSize = DEFAULT_SCATTER_SIZE.static,
-    y_axis_data_key = 'value',
-    yAxisIndex = 0,
-    label_position = 'top',
-    stack = '1',
-    color = 'black',
-    barWidth = '30',
-    barGap = '0%',
-    smooth = false,
-    step = false,
-    group_by_key = '',
-    aggregation_on_value = DefaultAggregation,
-    display_name_on_line = false,
-    lineStyle = { type: 'solid', width: 1 },
-    hide_in_legend = false,
-  }: ICartesianChartSeriesItem) {
-    const ret = {
-      type,
-      name,
-      showSymbol,
-      symbolSize,
-      y_axis_data_key,
-      yAxisIndex,
-      label_position,
-      stack,
-      color,
-      barWidth,
-      barGap,
-      smooth,
-      step,
-      group_by_key,
-      aggregation_on_value,
-      display_name_on_line,
-      lineStyle,
-      hide_in_legend,
-    };
-    if (typeof symbolSize === 'number') {
-      ret.symbolSize = {
-        ...DEFAULT_SCATTER_SIZE.static,
-        size: symbolSize,
-      };
-    }
-    return ret;
-  }
-
-  return series.map(setDefaults);
-}
-
-function normalizeStats(stats?: ICartesianChartConf['stats']) {
-  if (!stats) {
-    return {
-      templates: {
-        top: '',
-        bottom: '',
-      },
-    };
-  }
-  return stats;
-}
-
-function normalizeConf({ series, stats, reference_lines, ...rest }: ICartesianChartConf): ICartesianChartConf {
-  return {
-    series: withDefaults(series ?? []),
-    stats: normalizeStats(stats),
-    reference_lines: withRefLineDefaults(reference_lines ?? []),
-    ...rest,
-  };
-}
+import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 
 export function VizCartesianPanel({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];
-  const conf: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const defaultValues: ICartesianChartConf = useMemo(() => {
-    return normalizeConf(conf);
-  }, [conf]);
-
-  useEffect(() => {
-    const configMalformed = !isEqual(conf, defaultValues);
-    if (configMalformed) {
-      console.log('config malformed, resetting to defaults', conf, defaultValues);
-      void setConf(defaultValues);
-    }
-  }, [conf, defaultValues]);
+  const defaultValues: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<ICartesianChartConf>({ defaultValues });
   useEffect(() => {
@@ -137,8 +29,8 @@ export function VizCartesianPanel({ context }: VizConfigProps) {
 
   const values = getValues();
   const changed = useMemo(() => {
-    return !isEqual(values, conf);
-  }, [values, conf]);
+    return !isEqual(values, defaultValues);
+  }, [values, defaultValues]);
 
   watch(['dataZoom']);
   return (
