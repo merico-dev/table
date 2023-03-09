@@ -1,6 +1,5 @@
 import { MultiSelect } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
 import { useModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
@@ -17,17 +16,6 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
   const usingRemoteOptions = !!config.options_query_id;
   const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
-
-  useEffect(() => {
-    const { default_selection_count } = config;
-    if (!default_selection_count) {
-      return;
-    }
-    const newValue = config.options.slice(0, default_selection_count).map((o: any) => o.value);
-
-    console.log(`Selecting first ${default_selection_count} option(s) by default. New value: `, newValue);
-    onChange(newValue, true);
-  }, [config.default_selection_count, config.options]);
 
   const minWidth = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
