@@ -1,4 +1,5 @@
-import { cast, Instance, types } from 'mobx-state-tree';
+import { reaction, toJS } from 'mobx';
+import { addDisposer, cast, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterConfigModel_BaseSelect } from './select-base';
 
 export const FilterConfigModel_MultiSelect = types
@@ -23,6 +24,12 @@ export const FilterConfigModel_MultiSelect = types
         default_selection_count,
       };
     },
+    get default_selection() {
+      if (!self.usingQuery) {
+        return self.default_value;
+      }
+      return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
+    },
   }))
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {
@@ -30,6 +37,24 @@ export const FilterConfigModel_MultiSelect = types
     },
     setMinWidth(v: string) {
       self.min_width = v;
+    },
+    setDefaultSelection() {
+      // @ts-expect-error getRoot type
+      const filters = getRoot(self).filters;
+      // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
+      const key = getParent(self).key;
+      filters.setValueByKey(key, self.default_selection);
+    },
+  }))
+  .actions((self) => ({
+    afterCreate() {
+      addDisposer(
+        self,
+        reaction(() => toJS(self.default_selection), self.setDefaultSelection, {
+          fireImmediately: true,
+          delay: 0,
+        }),
+      );
     },
   }));
 

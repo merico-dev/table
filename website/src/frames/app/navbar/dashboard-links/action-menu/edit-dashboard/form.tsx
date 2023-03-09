@@ -55,7 +55,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
   };
 
   const [name, group] = watch(['name', 'group']);
-  const disabled = !name || !group || (name === dashboard.name && group === dashboard.group);
+  const disabled = !name || (name === dashboard.name && group === dashboard.group);
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={pending} />

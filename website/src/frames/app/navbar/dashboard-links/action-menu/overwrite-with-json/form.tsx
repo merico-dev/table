@@ -48,7 +48,7 @@ export function OverwriteWithJSONForm({
       }
       const { id, name, group } = dashboard;
       // @ts-expect-error type mismatch
-      await DashboardAPI.update({ id, name, group, ...content });
+      await DashboardAPI.update({ ...content, id, name, group });
       updateNotification({
         id: 'for-updating',
         title: 'Successful',
