@@ -58,6 +58,7 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
     },
     tooltip: {
       confine: true,
+      backgroundColor: 'rgba(255,255,255,0.6)',
       formatter: getTooltipFormatter(conf),
     },
     legend: {
@@ -72,6 +73,11 @@ export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
       symbolSize: 4,
       lineStyle: {
         width: 1,
+      },
+      emphasis: {
+        lineStyle: {
+          width: 4,
+        },
       },
       areaStyle: conf.background.enabled
         ? {
