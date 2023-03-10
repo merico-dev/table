@@ -20,9 +20,8 @@ export const PreviewSQLInMonacoEditor = ({
       theme="vs-light"
       options={{
         lineNumbers: 'on',
-        folding: false,
+        folding: true,
         lineDecorationsWidth: 20,
-        lineNumbersMinChars: 0,
         wordWrap: 'on',
         minimap: {
           enabled: false,

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { isEqual } from 'lodash';
 import { makeAutoObservable } from 'mobx';
 import { applySnapshot, clone, getSnapshot, IAnyStateTreeNode, SnapshotIn, types } from 'mobx-state-tree';
@@ -38,7 +39,7 @@ export const VariableModel = types
   .views((self) => ({
     get json() {
       const { name, size, weight, color, formatter, data_field, aggregation } = self;
-      return {
+      return _.cloneDeep({
         name,
         size,
         color,
@@ -46,7 +47,7 @@ export const VariableModel = types
         formatter,
         data_field,
         aggregation,
-      };
+      });
     },
   }));
 
