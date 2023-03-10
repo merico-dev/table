@@ -3,6 +3,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '
 import { useMemo } from 'react';
 import { ArrowBarToRight } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
+import { ErrorBoundary } from '~/utils/error-boundary';
 import { TableStyle } from './data-table.style';
 
 export function DataTable({ data }: { data: AnyObject[] }) {
@@ -28,34 +29,38 @@ export function DataTable({ data }: { data: AnyObject[] }) {
     return <Box sx={{ height: '5em' }} />;
   }
   return (
-    <Table sx={TableStyle}>
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id} style={{ width: header.getSize() }}>
-                {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                <ActionIcon
-                  onMouseDown={header.getResizeHandler()}
-                  onTouchStart={header.getResizeHandler()}
-                  className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
-                >
-                  <ArrowBarToRight />
-                </ActionIcon>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <ErrorBoundary>
+      <Table sx={TableStyle}>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id} style={{ width: header.getSize() }}>
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  <ActionIcon
+                    onMouseDown={header.getResizeHandler()}
+                    onTouchStart={header.getResizeHandler()}
+                    className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
+                  >
+                    <ArrowBarToRight />
+                  </ActionIcon>
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  <ErrorBoundary>{flexRender(cell.column.columnDef.cell, cell.getContext())}</ErrorBoundary>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </ErrorBoundary>
   );
 }
