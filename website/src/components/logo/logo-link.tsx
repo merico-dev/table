@@ -1,5 +1,5 @@
 import { Text } from '@mantine/core';
-import { WebsiteGetAllRespType } from '../../api-caller/website';
+import { WebsiteSettingsType } from '../../api-caller/config';
 
 const getLang = () => {
   try {
@@ -9,7 +9,7 @@ const getLang = () => {
   }
 };
 
-export const LogoLink = ({ data }: { data: WebsiteGetAllRespType }) => {
+export const LogoLink = ({ data }: { data: WebsiteSettingsType }) => {
   const logo = {
     zh: data.WEBSITE_LOGO_URL_ZH,
     en: data.WEBSITE_LOGO_URL_EN,

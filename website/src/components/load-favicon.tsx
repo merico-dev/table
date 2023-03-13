@@ -1,9 +1,9 @@
 import { useRequest } from 'ahooks';
 import { Helmet } from 'react-helmet-async';
-import { WebsiteAPI } from '../api-caller/website';
+import { ConfigAPI } from '../api-caller/config';
 
 export const LoadFavicon = () => {
-  const { data } = useRequest(WebsiteAPI.getAll);
+  const { data } = useRequest(ConfigAPI.getWebsiteSettings);
   if (!data?.WEBSITE_FAVICON_URL) {
     return null;
   }
