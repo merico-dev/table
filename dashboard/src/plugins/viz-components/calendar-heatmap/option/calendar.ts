@@ -1,16 +1,12 @@
-import { AnyObject } from '~/types';
 import { ICalendarHeatmapConf } from '../type';
 
-export function getCalendar(conf: ICalendarHeatmapConf, dataByYear: Record<string, AnyObject[]>) {
-  const years = Object.keys(dataByYear);
-  const showYearLabel = years.length > 1;
-  const marginLeft = showYearLabel ? 55 : 5;
-  return years.map((y, i) => ({
-    top: 60 + 130 * i,
-    left: marginLeft,
+export function getCalendar(conf: ICalendarHeatmapConf, years: string[]) {
+  return {
+    top: 50,
+    left: 25,
     right: 5,
     cellSize: ['auto', 13],
-    range: y,
+    range: years[0],
     itemStyle: {
       borderColor: '#eee',
     },
@@ -20,6 +16,9 @@ export function getCalendar(conf: ICalendarHeatmapConf, dataByYear: Record<strin
     dayLabel: {
       firstDay: 1,
     },
-    yearLabel: { show: showYearLabel, margin: 30 },
-  }));
+    monthLabel: {
+      position: 'end',
+    },
+    yearLabel: { show: true },
+  };
 }

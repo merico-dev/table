@@ -46,6 +46,15 @@ interface IClickCalendarDate {
   rowData: AnyObject;
 }
 
+function handleLegendSelected({ name }: { name: string }, instance: any) {
+  const option = instance.getOption();
+  // actually just 1 calendar
+  option.calendar.forEach((c: any) => {
+    c.range = name;
+  });
+  instance.setOption(option);
+}
+
 function Chart({
   conf,
   data,
@@ -85,6 +94,7 @@ function Chart({
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
+      legendselectchanged: handleLegendSelected,
     };
   }, [handleHeatBlockClick]);
 
@@ -95,7 +105,7 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  console.log(option);
+
   return (
     <ReactEChartsCore
       echarts={echarts}
