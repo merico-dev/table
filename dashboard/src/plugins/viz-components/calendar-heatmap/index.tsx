@@ -38,7 +38,7 @@ type ConfigType = {
 
 export const CalendarHeatmapVizComponent: VizComponent = {
   displayName: 'Heatmap(Calendar)',
-  displayGroup: 'Others',
+  displayGroup: 'ECharts-based charts',
   migrator: new VizCalendarHeatmapMigrator(),
   name: 'calendarHeatmap',
   viewRender: VizCalendarHeatmap,

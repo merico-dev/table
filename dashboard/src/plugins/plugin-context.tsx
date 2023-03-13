@@ -34,6 +34,7 @@ import { TableVizComponent } from './viz-components/table';
 import { TextVizComponent } from './viz-components/text';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
+import { CalendarHeatmapVizComponent } from './viz-components/calendar-heatmap';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -124,6 +125,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       BoxplotChartVizComponent,
       FunnelVizComponent,
       HeatmapVizComponent,
+      CalendarHeatmapVizComponent,
       ParetoChartVizComponent,
       CartesianVizComponent,
       ScatterChartVizComponent,

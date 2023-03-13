@@ -60,9 +60,9 @@ function Chart({
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    const k = conf.heat_block.data_key;
+    const k = conf.calendar.data_key;
     return _.keyBy(data, k);
-  }, [data, conf.heat_block.data_key]);
+  }, [data, conf.calendar.data_key]);
 
   const triggers = useTriggerSnapshotList<ICalendarHeatmapConf>(
     interactionManager.triggerManager,
@@ -71,8 +71,8 @@ function Chart({
 
   const handleHeatBlockClick = useCallback(
     (params: IClickCalendarDate) => {
-      const [x, y] = params.value;
-      const rowData = _.get(rowDataMap, `${x}---${y}`, { error: 'rowData is not found' });
+      const [date, value] = params.value;
+      const rowData = _.get(rowDataMap, date, { error: 'rowData is not found' });
       triggers.forEach((t) => {
         interactionManager.runInteraction(t.id, { ...params, rowData });
       });

@@ -2,8 +2,6 @@ import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
-/* @ts-expect-error type defs of echarts-stat */
-import { transform } from 'echarts-stat';
 import {
   DataZoomComponent,
   GridComponent,
@@ -45,7 +43,6 @@ echarts.use([
   VisualMapComponent,
   CanvasRenderer,
 ]);
-echarts.registerTransform(transform.regression);
 
 function Chart({
   conf,

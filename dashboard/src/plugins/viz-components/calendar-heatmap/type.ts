@@ -2,6 +2,9 @@ import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numb
 import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 
 export interface ICalendarHeatmapConf {
+  calendar: {
+    data_key: string;
+  };
   heat_block: {
     min: number;
     max: number;
@@ -15,6 +18,9 @@ export interface ICalendarHeatmapConf {
 }
 
 export const DEFAULT_CONFIG: ICalendarHeatmapConf = {
+  calendar: {
+    data_key: '',
+  },
   heat_block: {
     min: 0,
     max: 1000,
