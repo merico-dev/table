@@ -27,15 +27,6 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
   const { value } = params;
   const [date, v] = value as [string, number];
 
-  const dateRow = {
-    label: date,
-    value: '',
-    style: {
-      label: '',
-      value: '',
-    },
-  };
-
   const valueRow = {
     label: conf.heat_block.name,
     value: valueFormatters.heat_block(v),
@@ -44,7 +35,7 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
       value: '',
     },
   };
-  const ret = [dateRow, valueRow];
+  const ret = [valueRow];
 
   const rowData = dataDict[date];
   if (rowData) {
@@ -82,6 +73,7 @@ export function getTooltip(conf: ICalendarHeatmapConf, data: AnyObject[], valueF
         `;
       });
 
+      const date = _.get(params.value, 0);
       const template = `
         <table style="width: auto">
           <thead>
@@ -90,6 +82,11 @@ export function getTooltip(conf: ICalendarHeatmapConf, data: AnyObject[], valueF
                 width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
                 background-color: ${params.color};"
               />
+            </tr>
+            <tr>
+              <th colspan="2" style="text-align: center;">
+                <div>${date}</div>
+              </th>
             </tr>
           </thead>
           <tbody>${trs.join('')}</tbody>
