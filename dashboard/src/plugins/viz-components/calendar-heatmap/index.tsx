@@ -4,6 +4,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizCalendarHeatmap } from './viz-calendar-heatmap';
 import { VizCalendarHeatmapEditor } from './viz-calendar-heatmap-editor';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
+import { ClickCalendarDate } from './triggers';
 
 // function v2(prev: AnyObject): ICalendarHeatmapConf {
 //   return prev;
@@ -43,4 +44,5 @@ export const CalendarHeatmapVizComponent: VizComponent = {
   viewRender: VizCalendarHeatmap,
   configRender: VizCalendarHeatmapEditor,
   createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
+  triggers: [ClickCalendarDate],
 };

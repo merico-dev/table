@@ -1,8 +1,123 @@
-import { VizViewProps } from '../../../types/plugin';
-import { useStorageData } from '../../hooks';
+import { Box } from '@mantine/core';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
+import {
+  DataZoomComponent,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
+} from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import _ from 'lodash';
+import React, { useCallback, useMemo } from 'react';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { useStorageData } from '~/plugins/hooks';
+import { AnyObject } from '~/types';
+import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { ITemplateVariable } from '~/utils/template';
+import { getOption } from './option';
+import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
 
-export function VizCalendarHeatmap({ context }: VizViewProps) {
-  const { value: conf } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
-  return <div>Calendar Heatmap</div>;
+echarts.use([
+  DataZoomComponent,
+  BarChart,
+  LineChart,
+  HeatmapChart,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  CanvasRenderer,
+]);
+
+interface IClickCalendarDate {
+  type: 'click';
+  seriesType: 'heatblock';
+  componentSubType: 'heatblock';
+  componentType: 'series';
+  name: string;
+  color: string;
+  value: [string, string, string];
+  rowData: AnyObject;
+}
+
+function Chart({
+  conf,
+  data,
+  width,
+  height,
+  interactionManager,
+  variables,
+}: {
+  conf: ICalendarHeatmapConf;
+  data: $TSFixMe[];
+  width: number;
+  height: number;
+  interactionManager: IVizInteractionManager;
+  variables: ITemplateVariable[];
+}) {
+  const rowDataMap = useMemo(() => {
+    const k = conf.heat_block.data_key;
+    return _.keyBy(data, k);
+  }, [data, conf.heat_block.data_key]);
+
+  const triggers = useTriggerSnapshotList<ICalendarHeatmapConf>(
+    interactionManager.triggerManager,
+    ClickCalendarDate.id,
+  );
+
+  const handleHeatBlockClick = useCallback(
+    (params: IClickCalendarDate) => {
+      const [x, y] = params.value;
+      const rowData = _.get(rowDataMap, `${x}---${y}`, { error: 'rowData is not found' });
+      triggers.forEach((t) => {
+        interactionManager.runInteraction(t.id, { ...params, rowData });
+      });
+    },
+    [rowDataMap, triggers, interactionManager],
+  );
+
+  const onEvents = useMemo(() => {
+    return {
+      click: handleHeatBlockClick,
+    };
+  }, [handleHeatBlockClick]);
+
+  const option = React.useMemo(() => {
+    return getOption(conf, data, variables);
+  }, [conf, data]);
+
+  if (!width || !height) {
+    return null;
+  }
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
+}
+
+export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
+  const interactionManager = useCurrentInteractionManager({
+    vizManager: context.vizManager,
+    instance,
+  });
+
+  const { value: confValue } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
+  const { variables } = context;
+  const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const data = context.data as $TSFixMe[];
+  const { width, height } = context.viewport;
+
+  return (
+    <Box>
+      <Chart
+        variables={variables}
+        width={width}
+        height={height}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </Box>
+  );
 }
