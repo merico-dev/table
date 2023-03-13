@@ -31,7 +31,13 @@ export function getOption(conf: ICalendarHeatmapConf, data: $TSFixMe[], variable
       cellSize: ['auto', 13],
       range: years[0],
       itemStyle: {
-        borderWidth: 0.5,
+        borderColor: 'white',
+      },
+      splitLine: {
+        show: true,
+      },
+      dayLabel: {
+        firstDay: 1,
       },
       yearLabel: { show: false },
     },

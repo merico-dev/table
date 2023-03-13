@@ -4,6 +4,7 @@ import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-m
 export interface ICalendarHeatmapConf {
   calendar: {
     data_key: string;
+    locale: 'ZH' | 'EN';
   };
   heat_block: {
     min: number;
@@ -20,6 +21,7 @@ export interface ICalendarHeatmapConf {
 export const DEFAULT_CONFIG: ICalendarHeatmapConf = {
   calendar: {
     data_key: '',
+    locale: 'EN',
   },
   heat_block: {
     min: 0,

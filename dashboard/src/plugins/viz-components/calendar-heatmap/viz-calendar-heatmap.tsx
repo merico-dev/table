@@ -96,7 +96,16 @@ function Chart({
     return null;
   }
   console.log(option);
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={onEvents}
+      notMerge
+      opts={{ locale: conf.calendar.locale }}
+    />
+  );
 }
 
 export function VizCalendarHeatmap({ context, instance }: VizViewProps) {

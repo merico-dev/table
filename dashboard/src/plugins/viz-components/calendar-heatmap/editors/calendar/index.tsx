@@ -1,7 +1,18 @@
-import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Group, Select, Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { ICalendarHeatmapConf } from '../../type';
+
+const localeOptions = [
+  {
+    label: 'Chinese',
+    value: 'ZH',
+  },
+  {
+    label: 'English',
+    value: 'EN',
+  },
+];
 
 interface ICalendarField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
@@ -21,6 +32,11 @@ export function CalendarField({ data, control, watch }: ICalendarField) {
           )}
         />
       </Group>
+      <Controller
+        name="calendar.locale"
+        control={control}
+        render={({ field }) => <Select label="Language" required data={localeOptions} sx={{ flex: 1 }} {...field} />}
+      />
     </Stack>
   );
 }
