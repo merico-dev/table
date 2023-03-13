@@ -1,5 +1,6 @@
 import { Box, NavLink } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 import { useModelContext } from '~/contexts';
 import { NavOptionType } from '~/model/editor';
 import { AddItemButton } from './add-item-button';
@@ -14,11 +15,19 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
   const active = isActive(editor.path, option);
   const isOpened = editor.isOptionOpened;
   const onClick = editor.navigate;
+  const defaultOpened = isOpened(option);
+  const [opened, setOpened] = useState(defaultOpened);
+  useEffect(() => {
+    setOpened(defaultOpened);
+  }, [defaultOpened]);
+
   return (
     <NavLink
       key={option.label}
       active={active}
-      defaultOpened={isOpened(option)}
+      defaultOpened={defaultOpened}
+      opened={opened}
+      onChange={setOpened}
       label={option.label}
       onClick={() => onClick(option)}
       icon={option.Icon ? <option.Icon size={18} /> : null}

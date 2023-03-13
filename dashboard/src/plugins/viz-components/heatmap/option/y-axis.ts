@@ -25,12 +25,15 @@ export function getYAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: F
       show: true,
       alignWithLabel: true,
     },
+    splitArea: {
+      show: true,
+    },
     nameTextStyle: {
       fontWeight: 'bold',
       align: nameAlignment,
     },
     nameLocation: 'end',
     nameGap: 15,
-    z: 3,
+    z: 1,
   };
 }

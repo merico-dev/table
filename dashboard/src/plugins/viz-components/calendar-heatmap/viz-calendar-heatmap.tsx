@@ -1,16 +1,17 @@
 import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
 import {
+  CalendarComponent,
   DataZoomComponent,
   GridComponent,
   LegendComponent,
   TooltipComponent,
   VisualMapComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _, { defaults } from 'lodash';
+import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
@@ -18,10 +19,23 @@ import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
-import { ClickHeatBlock } from './triggers';
-import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { ClickCalendarDate } from './triggers';
+import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
 
-interface IClickHeatBlock {
+echarts.use([
+  DataZoomComponent,
+  BarChart,
+  LineChart,
+  HeatmapChart,
+  CalendarComponent,
+  GridComponent,
+  LegendComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  CanvasRenderer,
+]);
+
+interface IClickCalendarDate {
   type: 'click';
   seriesType: 'heatblock';
   componentSubType: 'heatblock';
@@ -32,17 +46,14 @@ interface IClickHeatBlock {
   rowData: AnyObject;
 }
 
-echarts.use([
-  DataZoomComponent,
-  BarChart,
-  LineChart,
-  HeatmapChart,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-]);
+function handleLegendSelected({ name }: { name: string }, instance: any) {
+  const option = instance.getOption();
+  // actually just 1 calendar
+  option.calendar.forEach((c: any) => {
+    c.range = name;
+  });
+  instance.setOption(option);
+}
 
 function Chart({
   conf,
@@ -52,7 +63,7 @@ function Chart({
   interactionManager,
   variables,
 }: {
-  conf: IHeatmapConf;
+  conf: ICalendarHeatmapConf;
   data: $TSFixMe[];
   width: number;
   height: number;
@@ -60,17 +71,19 @@ function Chart({
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    const xKey = conf.x_axis.data_key;
-    const yKey = conf.y_axis.data_key;
-    return _.keyBy(data, (i) => `${i[xKey]}---${i[yKey]}`);
-  }, [data, conf.x_axis.data_key]);
+    const k = conf.calendar.data_key;
+    return _.keyBy(data, k);
+  }, [data, conf.calendar.data_key]);
 
-  const triggers = useTriggerSnapshotList<IHeatmapConf>(interactionManager.triggerManager, ClickHeatBlock.id);
+  const triggers = useTriggerSnapshotList<ICalendarHeatmapConf>(
+    interactionManager.triggerManager,
+    ClickCalendarDate.id,
+  );
 
   const handleHeatBlockClick = useCallback(
-    (params: IClickHeatBlock) => {
-      const [x, y] = params.value;
-      const rowData = _.get(rowDataMap, `${x}---${y}`, { error: 'rowData is not found' });
+    (params: IClickCalendarDate) => {
+      const [date, value] = params.value;
+      const rowData = _.get(rowDataMap, date, { error: 'rowData is not found' });
       triggers.forEach((t) => {
         interactionManager.runInteraction(t.id, { ...params, rowData });
       });
@@ -81,6 +94,7 @@ function Chart({
   const onEvents = useMemo(() => {
     return {
       click: handleHeatBlockClick,
+      legendselectchanged: handleLegendSelected,
     };
   }, [handleHeatBlockClick]);
 
@@ -91,20 +105,34 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
+
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={onEvents}
+      notMerge
+      opts={{ locale: conf.calendar.locale }}
+    />
+  );
 }
 
-export function VizHeatmap({ context, instance }: VizViewProps) {
+export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
     instance,
   });
 
-  const { value: confValue } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
+  const { value: confValue } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
-  const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
+
+  if (!conf.calendar.data_key || !conf.heat_block.data_key) {
+    return null;
+  }
 
   return (
     <Box>
