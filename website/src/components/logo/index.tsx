@@ -1,9 +1,9 @@
 import { useRequest } from 'ahooks';
-import { WebsiteAPI } from '../../api-caller/website';
+import { ConfigAPI } from '../../api-caller/config';
 import { LogoLink } from './logo-link';
 
 export const Logo = () => {
-  const { data } = useRequest(WebsiteAPI.getAll);
+  const { data } = useRequest(ConfigAPI.getWebsiteSettings);
   if (!data) {
     return null;
   }
