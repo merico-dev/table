@@ -1,6 +1,6 @@
-export function getLegend(years: string[]) {
+export function getLegend(oneYearMode: boolean, years: string[]) {
   return {
-    show: years.length > 1,
+    show: !oneYearMode,
     selectedMode: 'single',
     top: 5,
     right: 5,
