@@ -22,12 +22,15 @@ export function getXAxis(conf: IHeatmapConf, data: AnyObject[], formatterFunc: F
       ...overflowOption,
       formatter: formatterFunc,
     },
+    splitArea: {
+      show: true,
+    },
     nameLocation: 'center',
     nameGap: 25,
     nameTextStyle: {
       fontWeight: 'bold',
       align: 'center',
     },
-    z: 3,
+    z: 1,
   };
 }
