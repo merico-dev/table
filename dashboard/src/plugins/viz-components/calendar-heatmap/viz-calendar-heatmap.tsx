@@ -2,6 +2,7 @@ import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
 import {
+  CalendarComponent,
   DataZoomComponent,
   GridComponent,
   LegendComponent,
@@ -26,6 +27,7 @@ echarts.use([
   BarChart,
   LineChart,
   HeatmapChart,
+  CalendarComponent,
   GridComponent,
   LegendComponent,
   TooltipComponent,
@@ -93,6 +95,7 @@ function Chart({
   if (!width || !height) {
     return null;
   }
+  console.log(option);
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
 }
 
@@ -107,6 +110,10 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as $TSFixMe[];
   const { width, height } = context.viewport;
+
+  if (!conf.calendar.data_key || !conf.heat_block.data_key) {
+    return null;
+  }
 
   return (
     <Box>

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { defaultsDeep } from 'lodash';
+import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { ICalendarHeatmapConf } from '../type';
 import { getValueFormatters } from './formatters';
@@ -16,28 +17,25 @@ const defaultOption = {
   },
 };
 
+const getYear = (key: string) => (d: AnyObject) => d[key].split('-')[0];
+
 export function getOption(conf: ICalendarHeatmapConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
   const valueFormatters = getValueFormatters(conf);
-  const years = _.unionBy(data, (d) => d[conf.calendar.data_key].split('-')[0]);
-  console.log(years);
+  const dataByYear = _.groupBy(data, getYear(conf.calendar.data_key));
+  const years = Object.keys(dataByYear);
   const customOptions = {
     calendar: {
       top: 120,
       left: 30,
       right: 30,
       cellSize: ['auto', 13],
-      range: '2016',
+      range: years[0],
       itemStyle: {
         borderWidth: 0.5,
       },
       yearLabel: { show: false },
     },
     series: getSeries(conf, data),
-    dataset: [
-      {
-        source: data,
-      },
-    ],
     tooltip: getTooltip(conf, data, valueFormatters),
     visualMap: getVisualMap(conf),
   };
