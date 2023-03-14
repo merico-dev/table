@@ -1,11 +1,13 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { IDiffTarget } from '~/definition-editor/json-merge-editor/types';
+/* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any */
+import { IDiffTarget, ObjectChangeType } from '~/definition-editor/json-merge-editor/types';
 import { Button, Card, Group, Stack, Text } from '@mantine/core';
-import { makeAutoObservable, observable } from 'mobx';
-import { isEqual } from 'lodash';
+import { makeAutoObservable, observable, toJS } from 'mobx';
+import { cloneDeep, isEqual } from 'lodash';
 import { useCreation } from 'ahooks';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { IObjectPointer, toPointers } from '@zeeko/power-accessor';
+import { AnyObject } from '~/types';
 
 export interface IJsonMergeEditorProps {
   documents: {
@@ -13,12 +15,11 @@ export interface IJsonMergeEditorProps {
     remote: object;
     base: object;
   };
-  diffNodes: IDiffTarget<unknown, string>[];
+  diffNodes: IDiffTarget<any, string>[];
+  onApply?: (resolveList: IResolveResult[]) => void;
 }
 
-type ObjectChangeType = 'added' | 'removed' | 'modified' | 'unchanged';
-
-function getChangeType(base: object | undefined, maybeChanged: object | undefined) {
+function getChangeType(base: object | undefined, maybeChanged: object | undefined): ObjectChangeType {
   if (base && maybeChanged) {
     return isEqual(base, maybeChanged) ? 'unchanged' : 'modified';
   }
@@ -31,23 +32,61 @@ function getChangeType(base: object | undefined, maybeChanged: object | undefine
   return 'unchanged';
 }
 
+export interface IResolveResult {
+  from: 'local' | 'remote' | 'base';
+  operation: (document: object) => void;
+}
+
+function resolveByLocal(diff: NodeDiffContext): IResolveResult {
+  return {
+    from: 'local',
+    operation: diff.target.produceOperation(
+      diff.localChanges,
+      toJS(diff.pointers),
+      diff.localChanges === 'added' ? cloneDeep(diff.values.local!) : cloneDeep(diff.values.base!),
+    ),
+  };
+}
+
+function resolveByRemote(diff: NodeDiffContext): IResolveResult {
+  return {
+    from: 'remote',
+    operation: diff.target.produceOperation(
+      diff.remoteChanges,
+      diff.pointers,
+      diff.remoteChanges === 'added' ? cloneDeep(diff.values.remote!) : cloneDeep(diff.values.base!),
+    ),
+  };
+}
+
 class NodeDiffContext {
   target: IDiffTarget<object, string>;
-  values: {
-    base?: object;
-    local?: object;
-    remote?: object;
+  pointers: {
+    base?: IObjectPointer<object, object>;
+    local?: IObjectPointer<object, object>;
+    remote?: IObjectPointer<object, object>;
   } = { base: undefined, local: undefined, remote: undefined };
+  documents: IJsonMergeEditorProps['documents'];
 
-  constructor(target: IDiffTarget<object, string>) {
+  constructor(target: IDiffTarget<object, string>, documents: IJsonMergeEditorProps['documents']) {
     this.target = target;
+    this.documents = documents;
     makeAutoObservable(this, {
-      values: observable.shallow,
+      pointers: observable.shallow,
+      documents: observable.shallow,
       target: observable.ref,
     });
   }
 
-  get key() {
+  get values() {
+    return {
+      base: this.pointers.base?.get(this.documents.base),
+      local: this.pointers.local?.get(this.documents.local),
+      remote: this.pointers.remote?.get(this.documents.remote),
+    };
+  }
+
+  get key(): string {
     if (this.values.base) {
       return this.target.idSelector(this.values.base);
     }
@@ -57,6 +96,7 @@ class NodeDiffContext {
     if (this.values.remote) {
       return this.target.idSelector(this.values.remote);
     }
+    throw new Error('Cannot get key from empty diff');
   }
 
   get localChanges() {
@@ -108,71 +148,70 @@ class NodeDiffContext {
     }
   }
 
-  setBase(value: object) {
-    this.values.base = value;
+  setBase(value: IObjectPointer<object, object>) {
+    this.pointers.base = value;
   }
 
-  setLocal(value: object) {
-    this.values.local = value;
+  setLocal(value: IObjectPointer<object, object>) {
+    this.pointers.local = value;
   }
 
-  setRemote(value: object) {
-    this.values.remote = value;
+  setRemote(value: IObjectPointer<object, object>) {
+    this.pointers.remote = value;
   }
-}
-
-export interface INodeDiffContext {
-  baseValue?: object;
-  local?: ObjectChangeType;
-  remote?: ObjectChangeType;
 }
 
 function addBaseToResult(
-  nodesInBase: object[],
+  nodesInBase: IObjectPointer<object, object>[],
   result: Map<string, NodeDiffContext>,
   target: IDiffTarget<object, string>,
+  documents: IJsonMergeEditorProps['documents'],
 ) {
   for (const obj of nodesInBase) {
-    const item = result.get(target.idSelector(obj));
+    const key = target.idSelector(obj.get(documents.base));
+    const item = result.get(key);
     if (item) {
       item.setBase(obj);
     } else {
-      const r = new NodeDiffContext(target);
+      const r = new NodeDiffContext(target, documents);
       r.setBase(obj);
-      result.set(target.idSelector(obj), r);
+      result.set(key, r);
     }
   }
 }
 
 function addLocalChangesToResult(
-  nodesInLocal: object[],
+  nodesInLocal: IObjectPointer<object, object>[],
   result: Map<string, NodeDiffContext>,
-  target: IDiffTarget<unknown, string>,
+  target: IDiffTarget<AnyObject, string>,
+  documents: IJsonMergeEditorProps['documents'],
 ) {
   for (const obj of nodesInLocal) {
-    const item = result.get(target.idSelector(obj));
+    const key = target.idSelector(obj.get(documents.local));
+    const item = result.get(key);
     if (item) {
       item.setLocal(obj);
     } else {
-      const r = new NodeDiffContext(target);
+      const r = new NodeDiffContext(target, documents);
       r.setLocal(obj);
-      result.set(target.idSelector(obj), r);
+      result.set(key, r);
     }
   }
 }
 
 function addRemoteChangesToResult(
-  nodesInRemote: object[],
+  nodesInRemote: IObjectPointer<object, object>[],
   result: Map<string, NodeDiffContext>,
-  target: IDiffTarget<unknown, string>,
+  target: IDiffTarget<AnyObject, string>,
+  documents: IJsonMergeEditorProps['documents'],
 ) {
   for (const obj of nodesInRemote) {
-    const id = target.idSelector(obj);
+    const id = target.idSelector(obj.get(documents.remote));
     const item = result.get(id);
     if (item) {
       item.setRemote(obj);
     } else {
-      const r = new NodeDiffContext(target);
+      const r = new NodeDiffContext(target, documents);
       r.setRemote(obj);
       result.set(id, r);
     }
@@ -180,38 +219,51 @@ function addRemoteChangesToResult(
 }
 
 class JsonMergeEditorState {
-  public diffTargets: IDiffTarget<unknown, string>[] = [];
-  originalDocument: object = {};
+  public diffTargets: IDiffTarget<AnyObject, string>[] = [];
+  localDocument: object = {};
   remoteDocument: object = {};
   baseDocument: object = {};
 
   constructor() {
     makeAutoObservable(this, {
-      originalDocument: observable.ref,
+      localDocument: observable.ref,
       baseDocument: observable.ref,
       remoteDocument: observable.ref,
     });
   }
 
+  /**
+   * List of difference keys that have been resolved by the user
+   */
+  resolvedDifferences = new Map<string, IResolveResult>();
+
+  get documents(): IJsonMergeEditorProps['documents'] {
+    return {
+      base: this.baseDocument,
+      local: this.localDocument,
+      remote: this.remoteDocument,
+    };
+  }
+
   get differences() {
     const result = new Map<string, NodeDiffContext>();
     for (const target of this.diffTargets) {
-      const nodesInBase = target.selector.get(this.baseDocument);
-      addBaseToResult(nodesInBase, result, target);
-      const nodesInLocal = target.selector.get(this.originalDocument);
-      addLocalChangesToResult(nodesInLocal, result, target);
-      const nodesInRemote = target.selector.get(this.remoteDocument);
-      addRemoteChangesToResult(nodesInRemote, result, target);
+      const nodesInBase = toPointers(target.selector, this.baseDocument);
+      addBaseToResult(nodesInBase, result, target, this.documents);
+      const nodesInLocal = toPointers(target.selector, this.localDocument);
+      addLocalChangesToResult(nodesInLocal, result, target, this.documents);
+      const nodesInRemote = toPointers(target.selector, this.remoteDocument);
+      addRemoteChangesToResult(nodesInRemote, result, target, this.documents);
     }
     return Array.from(result.values()).filter((v) => v.hasChanges);
   }
 
-  setDiffNodes(diffNodes: IDiffTarget<unknown, string>[]) {
+  setDiffNodes(diffNodes: IDiffTarget<AnyObject, string>[]) {
     this.diffTargets = diffNodes;
   }
 
   setOriginalDocument(doc: object) {
-    this.originalDocument = doc;
+    this.localDocument = doc;
   }
 
   setRemoteDocument(doc: object) {
@@ -220,6 +272,25 @@ class JsonMergeEditorState {
 
   setBaseDocument(doc: object) {
     this.baseDocument = doc;
+  }
+
+  isResolved(key: string) {
+    return this.resolvedDifferences.has(key);
+  }
+
+  acceptLocalChanges(diff: NodeDiffContext) {
+    this.resolvedDifferences.set(diff.key, resolveByLocal(diff));
+  }
+
+  acceptRemoteChange(diff: NodeDiffContext) {
+    this.resolvedDifferences.set(diff.key, resolveByRemote(diff));
+  }
+
+  undo() {
+    const lastKey = Array.from(this.resolvedDifferences.keys()).pop();
+    if (lastKey) {
+      this.resolvedDifferences.delete(lastKey);
+    }
   }
 }
 
@@ -238,21 +309,46 @@ export const JsonMergeEditor = observer((props: IJsonMergeEditorProps) => {
     state.setBaseDocument(props.documents.base);
   }, [props.documents.base]);
 
+  const handleApply = () => {
+    props.onApply?.(Array.from(state.resolvedDifferences.values()).map((it) => toJS(it)));
+  };
+
   return (
     <Stack>
+      <Card style={{ position: 'sticky', top: 0, zIndex: 2 }} withBorder shadow="sm">
+        <Group position="apart">
+          <Group>
+            <Text>Total changes: {state.differences.length}</Text>
+            <Text>Pending changes: {state.resolvedDifferences.size}</Text>
+          </Group>
+          <Group>
+            <Button variant="outline" onClick={() => state.undo()}>
+              Undo
+            </Button>
+            <Button variant="outline">Cancel</Button>
+            <Button onClick={handleApply}>Apply</Button>
+          </Group>
+        </Group>
+      </Card>
       {state.differences.map((diff) => (
         <Card key={diff.key} withBorder>
-          <Group position="apart">
+          <Group position="apart" aria-label={'changed: ' + diff.objectDescription}>
             <Stack spacing="xs">
               <Text>{diff.objectDescription}</Text>
-              <Text>Local: {diff.localChanges}</Text>
-              <Text>Remote: {diff.remoteChanges}</Text>
+              <LocalChangesText diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
+              <RemoteChangesText diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
             </Stack>
-            <Stack spacing="xs">
-              {/*<Button size="xs" variant="outline">Merge Manually</Button>*/}
-              <Button size="xs">Accept Local</Button>
-              <Button size="xs">Accept Remote</Button>
-            </Stack>
+            {state.isResolved(diff.key) ? null : (
+              <Stack spacing="xs">
+                {/*<Button size="xs" variant="outline">Merge Manually</Button>*/}
+                <Button aria-label="accept local" size="xs" onClick={() => state.acceptLocalChanges(diff)}>
+                  Accept Local
+                </Button>
+                <Button aria-label="accept remote" size="xs" onClick={() => state.acceptRemoteChange(diff)}>
+                  Accept Remote
+                </Button>
+              </Stack>
+            )}
           </Group>
         </Card>
       ))}
@@ -260,8 +356,37 @@ export const JsonMergeEditor = observer((props: IJsonMergeEditorProps) => {
   );
 });
 
+const LocalChangesText = observer(
+  ({ diff, resolvedResult }: { diff: NodeDiffContext; resolvedResult?: IResolveResult }) => {
+    const resolved = !!resolvedResult;
+    return (
+      <Text
+        color={resolved && resolvedResult.from === 'local' ? 'green' : 'gray'}
+        strikethrough={resolved && resolvedResult.from !== 'local'}
+      >
+        Local: {diff.localChanges}
+      </Text>
+    );
+  },
+);
+
+const RemoteChangesText = observer(
+  ({ diff, resolvedResult }: { diff: NodeDiffContext; resolvedResult?: IResolveResult }) => {
+    const resolved = !!resolvedResult;
+    return (
+      <Text
+        color={resolved && resolvedResult.from === 'remote' ? 'green' : 'gray'}
+        strikethrough={resolved && resolvedResult.from !== 'remote'}
+      >
+        Remote: {diff.remoteChanges}
+      </Text>
+    );
+  },
+);
+
 // todo:
 // x list of diff nodes
-// - accept local changes
-// - accept remote changes
+// x accept local changes
+// x accept remote changes
 // - detail view of node (3 way merge view)
+// x power accessor get accessor

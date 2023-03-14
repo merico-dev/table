@@ -33,7 +33,7 @@
   "dependencies": {
     "@monaco-editor/react": "4.4.6",
     "@types/chroma-js": "^2.1.4",
-    "@zeeko/power-accessor": "0.1.1",
+    "@zeeko/power-accessor": "0.2.1",
     "file-saver": "2.0.5",
     "monaco-editor": "0.36.0",
     "performant-array-to-tree": "1.11.0",
