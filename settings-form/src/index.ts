@@ -11,3 +11,12 @@ export * from './api-key';
 export * from './api-caller/account.typed';
 export * from './api-caller/datasource.typed';
 export * from './api-caller/role.typed';
+
+// NOTE: keep it align with global.d.ts
+export interface ISettingsFormConfig {
+  basename: string;
+  apiBaseURL: string;
+  app_id?: string;
+  app_secret?: string;
+  monacoPath: string;
+}
