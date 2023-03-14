@@ -10,8 +10,9 @@ import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-pane
 import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
 import { VariableConfig } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-config-panel';
 import { EditVizConf } from '~/main/dashboard-editor/settings/content/edit-panel/viz-conf';
-import { IconTrash } from '@tabler/icons';
+import { IconBoxMultiple, IconTrash, IconTree, IconTrees } from '@tabler/icons';
 import { useModals } from '@mantine/modals';
+import { ChangeViewOfPanel } from './change-view-of-panel';
 
 const TabsStyles = {
   root: {
@@ -92,9 +93,12 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         <Text pt={9} pb={8}>
           {panel.title ? panel.title : panel.viz.type}{' '}
         </Text>
-        <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
-          Delete This Panel
-        </Button>
+        <Group position="right" noWrap>
+          <ChangeViewOfPanel panel={panel} />
+          <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
+            Delete This Panel
+          </Button>
+        </Group>
       </Group>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
