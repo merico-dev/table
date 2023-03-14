@@ -105,8 +105,9 @@ const nodes: IDiffTarget<UserType, string>[] = [
       }
       if (op === 'removed') {
         return (doc) => {
-          console.log('removed', doc, pointers);
-          pointers.base?.remove(doc);
+          const users = get(doc, 'users') as UserType[];
+          const index = users.findIndex((it) => it.id === value.id);
+          users.splice(index, 1);
         };
       }
       if (op === 'modified') {
@@ -127,6 +128,10 @@ describe('json-merge-editor.cy.ts', () => {
   it('playground', () => {
     const onApplyStub = cy.stub().as('onApply');
     mount(onApplyStub);
+    // undo button should be disabled
+    cy.findByText(/undo/i).parents('button').should('be.disabled');
+    // apply button should be disabled
+    cy.findByText(/apply/i).parents('button').should('be.disabled');
     // there should be 4 changes, aria-label=changed: xxxx
     const changes = '[aria-label^="changed:"]';
     cy.get(changes).should('have.length', 4);

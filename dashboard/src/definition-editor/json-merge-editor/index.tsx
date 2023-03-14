@@ -292,6 +292,10 @@ class JsonMergeEditorState {
       this.resolvedDifferences.delete(lastKey);
     }
   }
+
+  get canApply() {
+    return this.differences.length === this.resolvedDifferences.size;
+  }
 }
 
 export const JsonMergeEditor = observer((props: IJsonMergeEditorProps) => {
@@ -322,11 +326,13 @@ export const JsonMergeEditor = observer((props: IJsonMergeEditorProps) => {
             <Text>Pending changes: {state.resolvedDifferences.size}</Text>
           </Group>
           <Group>
-            <Button variant="outline" onClick={() => state.undo()}>
+            <Button disabled={state.resolvedDifferences.size === 0} variant="outline" onClick={() => state.undo()}>
               Undo
             </Button>
             <Button variant="outline">Cancel</Button>
-            <Button onClick={handleApply}>Apply</Button>
+            <Button disabled={!state.canApply} onClick={handleApply}>
+              Apply
+            </Button>
           </Group>
         </Group>
       </Card>
