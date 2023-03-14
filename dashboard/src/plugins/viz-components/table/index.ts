@@ -7,8 +7,19 @@ import { VizTablePanel } from './viz-table-panel';
 import { ClickCellContent } from './triggers';
 import { randomId } from '@mantine/hooks';
 
+function v3(prev: any): ITableConf {
+  const { columns, ...rest } = prev;
+  return {
+    ...prev,
+    columns: columns.map((c: any) => ({
+      ...c,
+      align: c.align ?? 'left',
+    })),
+  };
+}
+
 class VizTableMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     // @ts-expect-error data's type
@@ -32,13 +43,20 @@ class VizTableMigrator extends VersionBasedMigrator {
         },
       };
     });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: v3(data.config),
+      };
+    });
   }
 }
 
 export const TableVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 2,
+      version: 3,
       config: cloneDeep(DEFAULT_CONFIG),
     };
   },

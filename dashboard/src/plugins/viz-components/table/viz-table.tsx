@@ -9,6 +9,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import _ from 'lodash';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
@@ -53,6 +54,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         label: k,
         value_field: k,
         value_type: ValueType.string,
+        align: 'left',
       }));
     }
     return columns;
@@ -68,12 +70,7 @@ export function VizTable({ context, instance }: VizViewProps) {
     const valueCols = finalColumns.map((c) => {
       return columnHelper.accessor(c.value_field, {
         cell: (cell) => (
-          <CellValue
-            tableCellContext={getCellContext(cell.cell)}
-            value={cell.getValue()}
-            type={c.value_type}
-            func_content={c.func_content}
-          />
+          <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} {...c} />
         ),
         header: c.label,
         enableSorting: true,
@@ -131,11 +128,13 @@ export function VizTable({ context, instance }: VizViewProps) {
         <thead className={classes.thead} style={{ top: theadTop }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} style={{ width: header.getSize() }}>
-                  <HeadCell header={header} cx={cx} />
-                </th>
-              ))}
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th key={header.id} style={{ width: header.getSize() }}>
+                    <HeadCell header={header} cx={cx} />
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>

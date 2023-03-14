@@ -3,13 +3,14 @@ import chroma from 'chroma-js';
 import numbro from 'numbro';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
-import { ITableCellContext, ValueType } from './type';
+import { ColumnAlignType, ITableCellContext, ValueType } from './type';
+import { AlignmentToFlexJustify } from './utils';
 
-const useCellStyles = createStyles((theme, params: { clickable?: boolean }) => ({
+const useCellStyles = createStyles((theme, params: { clickable?: boolean; align: ColumnAlignType }) => ({
   content: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: AlignmentToFlexJustify[params.align],
     '.table-cell-text': {
       whiteSpace: 'nowrap',
       cursor: params.clickable ? 'pointer' : 'default',
@@ -35,7 +36,7 @@ function getCellStyle(cell: ICellValue) {
 
 function CellRender(props: PropsWithChildren<ICellValue>) {
   const clickable = props.tableCellContext.isClickable();
-  const cellStyles = useCellStyles({ clickable });
+  const cellStyles = useCellStyles({ clickable, align: props.align });
   return (
     <div
       className={cellStyles.classes.content}
@@ -82,6 +83,7 @@ interface ICellValue {
   type: ValueType;
   tableCellContext: ITableCellContext;
   func_content?: string;
+  align: ColumnAlignType;
 }
 
 export function CellValue(props: ICellValue) {

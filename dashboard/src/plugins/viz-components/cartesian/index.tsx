@@ -170,8 +170,23 @@ function v11(legacyConf: any): ICartesianChartConf {
   };
 }
 
+function v12(legacyConf: any): ICartesianChartConf {
+  const { y_axes, ...rest } = legacyConf;
+  return {
+    ...rest,
+    y_axes: y_axes.map((y: any) => {
+      const { min = '', max = '' } = y;
+      return {
+        ...y,
+        min,
+        max,
+      };
+    }),
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 11;
+  readonly VERSION = 12;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -259,6 +274,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v11(data.config),
       };
     });
+    this.version(12, (data) => {
+      return {
+        ...data,
+        version: 12,
+        config: v12(data.config),
+      };
+    });
   }
 }
 
@@ -271,7 +293,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 11,
+      version: 12,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },
