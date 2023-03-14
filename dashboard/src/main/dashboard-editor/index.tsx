@@ -54,7 +54,7 @@ export const Dashboard = observer(function _Dashboard({
   className = 'dashboard',
   config,
 }: IDashboardProps) {
-  useLoadMonacoEditor(config.basename);
+  useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
 
   const { data: datasources = [] } = useRequest(listDataSources);

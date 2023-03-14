@@ -6,6 +6,7 @@ interface ISettingsFormConfig {
   apiBaseURL: string;
   app_id?: string;
   app_secret?: string;
+  monacoPath: string;
 }
 
 type TFunctionString = string;

@@ -5,7 +5,7 @@ const cleanURL = (str: string) => {
   return str.replace(/([^:])(\/\/+)/g, '$1/');
 };
 
-export function useLoadMonacoEditor(basename: string) {
+export function useLoadMonacoEditor(monacoPath: string) {
   useEffect(() => {
     const loaded = loader.__getMonacoInstance();
     if (loaded) {
@@ -13,7 +13,7 @@ export function useLoadMonacoEditor(basename: string) {
     }
 
     console.log('loading monaco for @devtable/dashboard');
-    const path = cleanURL(basename + '/assets/monaco-editor/min/vs');
+    const path = cleanURL(monacoPath);
     loader.config({ paths: { vs: path } });
     loader.init().then((monaco) => console.log('monaco instance:', monaco));
   }, []);

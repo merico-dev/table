@@ -4,6 +4,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AccountAPI } from '../../api-caller/account';
+import { SettingsFormConfig } from '../../utils/config';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function LoginPage() {
     <NotificationsProvider position="top-right">
       <Center sx={{ width: '100vw', height: '100vh' }}>
         <LoadingOverlay visible={loading} />
-        <Login config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} onSuccess={onSuccess} />
+        <Login config={SettingsFormConfig} onSuccess={onSuccess} />
       </Center>
     </NotificationsProvider>
   );

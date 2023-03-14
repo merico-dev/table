@@ -7,6 +7,7 @@ import 'react-resizable/css/styles.css';
 
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
+import { DashboardConfig } from '../../utils/config';
 
 export const DashboardEditor = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
@@ -34,7 +35,7 @@ export const DashboardEditor = observer(
         context={context}
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
-        config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL, basename: import.meta.env.VITE_WEBSITE_BASE_URL }}
+        config={DashboardConfig}
       />
     );
   },
