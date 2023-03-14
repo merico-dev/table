@@ -1,7 +1,7 @@
 import { Group, Select, Stack } from '@mantine/core';
 import { useLatest } from 'ahooks';
 import { isObject, isString } from 'lodash';
-import { useContext, useState } from 'react';
+import { forwardRef, useContext, useState } from 'react';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { ColorInterpolationSelect } from '~/plugins/controls/color-interpolation-select';
 import { CellBackgroundColorType } from '~/plugins/viz-components/table/type';
@@ -53,7 +53,7 @@ function getInitialInterpolationColor(
   };
 }
 
-export const BackgroundColorSelect = (props: IBackgroundColorSelectProps) => {
+export const BackgroundColorSelect = forwardRef((props: IBackgroundColorSelectProps, ref: any) => {
   const { colorManager } = useContext(PluginContext);
   const [colorType, setColorType] = useState(getColorType(props.value));
   const [staticColor, setStaticColor] = useState<string>(getInitialStaticColor(colorManager, props.value));
@@ -94,4 +94,4 @@ export const BackgroundColorSelect = (props: IBackgroundColorSelectProps) => {
       )}
     </Stack>
   );
-};
+});
