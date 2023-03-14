@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import 'react-resizable/css/styles.css';
 
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
+import { DashboardConfig } from '../../utils/config';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
 
@@ -44,7 +45,7 @@ export const DashboardPageContent = observer(() => {
           <ReadOnlyDashboard
             context={context}
             dashboard={store.currentDetail.dashboard}
-            config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }}
+            config={DashboardConfig}
             fullScreenPanelID={search.full_screen_panel_id}
             setFullScreenPanelID={setFullScreenPanelID}
           />

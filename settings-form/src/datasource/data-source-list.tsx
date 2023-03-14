@@ -13,7 +13,7 @@ interface IDataSourceList {
 }
 
 export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
-  useLoadMonacoEditor(config.basename);
+  useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
 
   const {

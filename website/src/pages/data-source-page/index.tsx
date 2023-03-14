@@ -3,6 +3,7 @@ import { AlertCircle } from 'tabler-icons-react';
 import { Box, Breadcrumbs, Anchor, Group, Alert } from '@mantine/core';
 import { DataSourceList } from '@devtable/settings-form';
 import { Helmet } from 'react-helmet-async';
+import { SettingsFormConfig } from '../../utils/config';
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -27,9 +28,7 @@ export function DataSourcePage() {
         <br />
         You may only <b>Add</b> or <b>Delete</b> a data source.
       </Alert>
-      <DataSourceList
-        config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL, basename: import.meta.env.VITE_WEBSITE_BASE_URL }}
-      />
+      <DataSourceList config={SettingsFormConfig} />
     </Box>
   );
 }

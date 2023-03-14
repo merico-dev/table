@@ -1,6 +1,7 @@
 import { APIKeyList } from '@devtable/settings-form';
 import { Anchor, Box, Breadcrumbs, Group } from '@mantine/core';
 import { Helmet } from 'react-helmet-async';
+import { SettingsFormConfig } from '../../utils/config';
 
 const items = [
   { name: 'Settings', to: '/admin' },
@@ -20,7 +21,7 @@ export function APIKeyPage() {
       <Group position="apart" sx={{ width: '100%' }}>
         <Breadcrumbs>{items}</Breadcrumbs>
       </Group>
-      <APIKeyList config={{ apiBaseURL: import.meta.env.VITE_API_BASE_URL }} />
+      <APIKeyList config={SettingsFormConfig} />
     </Box>
   );
 }
