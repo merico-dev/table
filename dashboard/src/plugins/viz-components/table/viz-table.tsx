@@ -53,6 +53,7 @@ export function VizTable({ context, instance }: VizViewProps) {
         label: k,
         value_field: k,
         value_type: ValueType.string,
+        align: 'left',
       }));
     }
     return columns;
@@ -68,12 +69,7 @@ export function VizTable({ context, instance }: VizViewProps) {
     const valueCols = finalColumns.map((c) => {
       return columnHelper.accessor(c.value_field, {
         cell: (cell) => (
-          <CellValue
-            tableCellContext={getCellContext(cell.cell)}
-            value={cell.getValue()}
-            type={c.value_type}
-            func_content={c.func_content}
-          />
+          <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} {...c} />
         ),
         header: c.label,
         enableSorting: true,

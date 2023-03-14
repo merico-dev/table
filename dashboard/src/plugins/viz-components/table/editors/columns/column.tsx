@@ -1,12 +1,27 @@
-import { Button, Divider, Group, Mark, NumberInput, Stack, Text, TextInput, Tooltip } from '@mantine/core';
+import { Button, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
-import { InfoCircle, QuestionMark, Trash } from 'tabler-icons-react';
+import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { AnyObject } from '~/types';
 import { BackgroundColorSelect } from '../../components/background-color-select';
 import { DEFAULT_CELL_FUNC_CONTENT, IColumnConf, ITableConf, ValueType } from '../../type';
 import { ValueTypeSelector } from '../../value-type-selector';
 import { FuncContentEditor } from './func_content-editor';
+
+const alignmentOptions = [
+  {
+    label: 'Left',
+    value: 'left',
+  },
+  {
+    label: 'Center',
+    value: 'center',
+  },
+  {
+    label: 'Right',
+    value: 'right',
+  },
+];
 
 const PostFixPX = () => (
   <Text color="dimmed" size={12}>
@@ -69,6 +84,13 @@ export const ColumnField = ({ control, index, watch, remove, column, data }: ICo
           render={({ field }) => <NumberInput hideControls label="Width" rightSection={<PostFixPX />} {...field} />}
         />
         <NumberInput hideControls label="Max Width" rightSection={<PostFixPX />} disabled />
+      </Group>
+      <Group grow noWrap>
+        <Controller
+          name={`columns.${index}.align`}
+          control={control}
+          render={({ field }) => <Select label="Alignment" data={alignmentOptions} {...field} />}
+        />
       </Group>
       <Controller
         name={`columns.${index}.cellBackgroundColor`}

@@ -11,6 +11,8 @@ export enum ValueType {
 
 export type CellBackgroundColorType = string | IColorInterpolationConfig;
 
+export type ColumnAlignType = 'left' | 'center' | 'right';
+
 export interface IColumnConf {
   id: string;
   label: string;
@@ -21,6 +23,7 @@ export interface IColumnConf {
   width?: number;
   min_width?: number;
   max_width?: number;
+  align: ColumnAlignType;
 }
 
 export interface ITableConf {
