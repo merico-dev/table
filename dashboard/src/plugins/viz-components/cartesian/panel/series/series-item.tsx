@@ -65,7 +65,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
                 { label: 'Line', value: 'line' },
                 { label: 'Bar', value: 'bar' },
                 { label: 'Scatter', value: 'scatter' },
-                { label: 'Boxplot', value: 'boxplot', disabled: true },
               ]}
               {...field}
             />
