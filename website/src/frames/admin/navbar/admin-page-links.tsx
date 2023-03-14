@@ -1,5 +1,5 @@
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IAdminPageLink {
   to: string;
@@ -33,7 +33,12 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
   );
 }
 
-const links = [
+type LinkType = {
+  name: string;
+  to: string;
+};
+
+const links: LinkType[] = [
   { name: 'Data Sources', to: '/admin/data_source/list' },
   { name: 'Accounts', to: '/admin/account/list' },
   { name: 'API Keys', to: '/admin/api_key/list' },
@@ -41,10 +46,14 @@ const links = [
 ];
 
 export function AdminPageLinks() {
+  const location = useLocation();
+  const isLinkActive = (link: LinkType) => {
+    return link.to === location.pathname;
+  };
   return (
     <Box pt="sm" sx={{ position: 'relative' }}>
       {links.map((link) => (
-        <AdminPageLink key={link.to} active={false} {...link} />
+        <AdminPageLink key={link.to} active={isLinkActive(link)} {...link} />
       ))}
     </Box>
   );
