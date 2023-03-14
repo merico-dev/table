@@ -1,8 +1,10 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
+const BOM = '\uFEFF';
+
 export function downloadCSV(id: string, csv: string) {
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const blob = new Blob([BOM + csv], { type: 'text/csv' });
   saveAs(blob, `${id}.csv`);
 }
 
@@ -36,5 +38,5 @@ export function makeCSV(data: $TSFixMe | $TSFixMe[]) {
     csvRows.push(values);
   });
 
-  return csvRows.join('\n');
+  return BOM + csvRows.join('\n');
 }
