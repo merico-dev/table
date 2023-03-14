@@ -1,5 +1,6 @@
 import { Box, Button, ColorInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
-import { IconArrowsLeftRight } from '@tabler/icons';
+import { useModals } from '@mantine/modals';
+import { IconArrowsLeftRight, IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
@@ -42,6 +43,7 @@ const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
 };
 
 export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+  const modals = useModals();
   const model = useModelContext();
   const options = useMemo(
     () => model.views.options.filter((o) => o.type === EViewComponentType.Division),
@@ -49,6 +51,20 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
   );
 
   const config = view.config as IViewConfigModel_Tabs;
+
+  const remove = (index: number) =>
+    modals.openConfirmModal({
+      title: 'Delete this tab?',
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => {
+        config.removeTab(index);
+      },
+      confirmProps: { color: 'red' },
+      zIndex: 320,
+    });
+
+  const onlyOneTabLeft = config.tabs.length === 0;
   return (
     <Box className="preview-view-tabs">
       <Tabs
@@ -67,7 +83,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
             <Plus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
-        {config.tabs.map((t) => {
+        {config.tabs.map((t, i) => {
           const tabView = model.views.findByID(t.view_id);
           return (
             <Tabs.Panel key={t.id} value={t.id} sx={{ position: 'relative' }}>
@@ -95,6 +111,17 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
                       Swith to View: {tabView.name}
                     </Button>
                   )}
+
+                  <Button
+                    mt={20}
+                    variant="subtle"
+                    color="red"
+                    onClick={() => remove(i)}
+                    disabled={onlyOneTabLeft}
+                    leftIcon={<IconTrash size={14} />}
+                  >
+                    Delete This Tab
+                  </Button>
                 </Stack>
               </Box>
 
