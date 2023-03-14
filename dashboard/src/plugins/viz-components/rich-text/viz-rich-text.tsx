@@ -9,21 +9,22 @@ export function VizRichText({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  if (conf?.content) {
-    return (
-      <ReadonlyRichText
-        value={conf.content}
-        styles={{
-          root: {
-            border: 'none',
-            height: '100%',
-          },
-          content: {
-            padding: 0,
-          },
-        }}
-      />
-    );
+  if (!conf?.content) {
+    return null;
   }
-  return null;
+
+  return (
+    <ReadonlyRichText
+      value={conf.content}
+      styles={{
+        root: {
+          border: 'none',
+          height: '100%',
+        },
+        content: {
+          padding: 0,
+        },
+      }}
+    />
+  );
 }

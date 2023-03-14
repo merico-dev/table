@@ -10,7 +10,7 @@ import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 
 interface IReadonlyRichText {
@@ -35,6 +35,10 @@ export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
     content: value,
     editable: false,
   });
+
+  useEffect(() => {
+    editor?.commands.setContent(value);
+  }, [value, editor]);
 
   const finalStyles = useMemo(() => {
     return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
