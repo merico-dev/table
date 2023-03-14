@@ -3,19 +3,14 @@ import chroma from 'chroma-js';
 import numbro from 'numbro';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
-import { ColumnAlignType, IColumnConf, ITableCellContext, ValueType } from './type';
-
-const alignmentToFlexJustify = {
-  left: 'flex-start',
-  center: 'center',
-  right: 'flex-end',
-};
+import { ColumnAlignType, ITableCellContext, ValueType } from './type';
+import { AlignmentToFlexJustify } from './utils';
 
 const useCellStyles = createStyles((theme, params: { clickable?: boolean; align: ColumnAlignType }) => ({
   content: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: alignmentToFlexJustify[params.align],
+    justifyContent: AlignmentToFlexJustify[params.align],
     '.table-cell-text': {
       whiteSpace: 'nowrap',
       cursor: params.clickable ? 'pointer' : 'default',
