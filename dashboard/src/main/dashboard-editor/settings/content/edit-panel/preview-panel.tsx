@@ -38,7 +38,7 @@ export const PreviewPanel = observer(() => {
             </Group>
             <Group position="right" spacing={0} sx={{ height: '28px' }} />
           </Group>
-          <Group sx={{ flexGrow: 1 }}>
+          <Group px={5} pb={5} sx={{ flexGrow: 1 }}>
             <PreviewViz height="410px" />
           </Group>
         </Stack>
