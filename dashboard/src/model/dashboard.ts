@@ -1,9 +1,11 @@
 import _, { defaults, get, isEqual, pick } from 'lodash';
+import { toJS } from 'mobx';
 import {
   addDisposer,
   applyPatch,
   applySnapshot,
   castToSnapshot,
+  destroy,
   getSnapshot,
   Instance,
   onSnapshot,
@@ -300,6 +302,14 @@ export function createDashboardModel(
     },
     editor: {},
   });
+}
+
+export function getOriginConfig(model: DashboardModelInstance) {
+  const origin = model.origin;
+  const originModel = DashboardModel.create(origin);
+  const result = toJS(originModel.json) as IDashboard;
+  destroy(originModel);
+  return result;
 }
 
 export type DashboardModelInstance = Instance<typeof DashboardModel>;

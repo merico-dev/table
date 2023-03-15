@@ -7,6 +7,7 @@ import { createFilterConfig_TreeSelect, FilterConfigModel_TreeSelect } from './t
 import { createFilterConfig_Select, FilterConfigModel_Select } from './select';
 import { createFilterConfig_TextInput, FilterConfigModel_TextInput } from './text-input';
 import _ from 'lodash';
+import { toJS } from 'mobx';
 
 export const FilterModel = types
   .model('FilterModel', {
@@ -61,7 +62,7 @@ export const FilterModel = types
         order,
         config: config.json,
         auto_submit,
-        visibleInViewsIDs,
+        visibleInViewsIDs: toJS(visibleInViewsIDs),
       };
     },
     // FIXME: this is a temp workaround. auto_submit should be moved into config

@@ -1,6 +1,7 @@
 import { reaction, toJS } from 'mobx';
 import { addDisposer, cast, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterConfigModel_BaseSelect } from './select-base';
+import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const FilterConfigModel_MultiSelect = types
   .compose(
@@ -15,14 +16,14 @@ export const FilterConfigModel_MultiSelect = types
   .views((self) => ({
     get json() {
       const { _name, default_value, min_width, static_options, options_query_id, default_selection_count } = self;
-      return {
+      return shallowToJS({
         _name,
         min_width,
         default_value,
         static_options,
         options_query_id,
         default_selection_count,
-      };
+      });
     },
     get default_selection() {
       if (!self.usingQuery) {

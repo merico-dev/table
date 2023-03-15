@@ -4,6 +4,7 @@ import { PanelsModelInstance } from '../panels';
 import { ViewModel, ViewModelInstance } from './view';
 import { IViewConfigModel_DivisionIn } from './view/division';
 import { IViewConfigModel_ModalIn } from './view/modal';
+import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const ViewsModel = types
   .model('ViewsModel', {
@@ -13,7 +14,7 @@ export const ViewsModel = types
   })
   .views((self) => ({
     get json() {
-      return self.current.map((o) => o.json);
+      return self.current.map((o) => shallowToJS(o.json));
     },
     get idMap() {
       const map = new Map<string, ViewModelInstance>();

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { getRoot, Instance, types } from 'mobx-state-tree';
 import { DataSourceType } from './types';
+import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const MuteQueryModel = types
   .model('QueryModel', {
@@ -26,7 +27,7 @@ export const MuteQueryModel = types
     },
     get json() {
       const { id, name, type, key, sql, run_by, pre_process, post_process } = self;
-      return { id, key, sql, name, type, run_by, pre_process, post_process };
+      return shallowToJS({ id, key, sql, name, type, run_by: run_by, pre_process, post_process });
     },
     get conditionOptions() {
       // @ts-expect-error untyped getRoot(self)
