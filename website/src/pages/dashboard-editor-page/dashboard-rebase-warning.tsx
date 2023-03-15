@@ -33,10 +33,7 @@ export const DashboardRebaseWarning = observer(() => {
     }
   }, [latest, loading, store.currentDetail, store.detailsLoading]);
 
-  if (loading) {
-    return null;
-  }
-  if (!latest) {
+  if (!latest.update_time) {
     return null;
   }
 
