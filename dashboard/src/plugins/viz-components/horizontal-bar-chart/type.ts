@@ -26,15 +26,18 @@ export interface IHorizontalBarChartSeriesItem {
   aggregation_on_value?: AggregationType;
 }
 
+export interface IHorizontalBarChartXAxis {
+  id: string;
+  min: string;
+  max: string;
+  name: string;
+  data_key: string;
+  position: 'top' | 'bottom';
+  label_formatter: TNumbroFormat;
+}
+
 export interface IHorizontalBarChartConf {
-  x_axis: {
-    min: string;
-    max: string;
-    name: string;
-    data_key: string;
-    position: 'top' | 'bottom';
-    label_formatter: TNumbroFormat;
-  };
+  x_axis: IHorizontalBarChartXAxis[];
   y_axis: {
     name: string;
     data_key: string;
@@ -53,14 +56,17 @@ export interface IHorizontalBarChartConf {
 }
 
 export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
-  x_axis: {
-    min: '',
-    max: '',
-    name: 'X Axis',
-    data_key: '',
-    position: 'bottom',
-    label_formatter: defaultNumbroFormat,
-  },
+  x_axis: [
+    {
+      id: 'initial-x',
+      min: '',
+      max: '',
+      name: 'X Axis',
+      data_key: '',
+      position: 'bottom',
+      label_formatter: defaultNumbroFormat,
+    },
+  ],
   y_axis: {
     name: 'Y Axis',
     data_key: '',
@@ -77,6 +83,19 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
   },
   reference_lines: [],
 };
+
+export function getNewXAxis(): IHorizontalBarChartXAxis {
+  const id = new Date().getTime().toString();
+  return {
+    id,
+    min: '',
+    max: '',
+    name: id,
+    data_key: '',
+    position: 'bottom',
+    label_formatter: defaultNumbroFormat,
+  };
+}
 
 export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
   const id = new Date().getTime().toString();
