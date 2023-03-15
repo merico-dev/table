@@ -1,4 +1,4 @@
-import { Button, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
+import { Button, Checkbox, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
@@ -60,6 +60,18 @@ export function XAxisField({ control, index, remove }: IXAxisField) {
           />
         </Group>
       </Stack>
+      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Controller
+        name={`x_axes.${index}.show`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            label="Visible"
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+          />
+        )}
+      />
 
       <Button
         mt={20}

@@ -35,7 +35,6 @@ export interface IHorizontalBarChartSeriesItem {
   barMinWidth: string;
   barMaxWidth: string;
   group_by_key: string;
-  hide_in_chart: boolean;
   hide_in_legend: boolean;
   label_position?: string;
   aggregation_on_value?: AggregationType;
@@ -49,6 +48,7 @@ export interface IHorizontalBarChartXAxis {
   data_key: string;
   position: 'top' | 'bottom';
   label_formatter: TNumbroFormat;
+  show: boolean;
 }
 
 export interface IHorizontalBarChartConf {
@@ -79,6 +79,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
       data_key: '',
       position: 'bottom',
       label_formatter: defaultNumbroFormat,
+      show: true,
     },
   ],
   y_axis: {
@@ -107,6 +108,7 @@ export function getNewXAxis(): IHorizontalBarChartXAxis {
     data_key: '',
     position: 'bottom',
     label_formatter: defaultNumbroFormat,
+    show: true,
   };
 }
 
@@ -124,7 +126,6 @@ export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
     barMinWidth: '1',
     barMaxWidth: '10',
     group_by_key: '',
-    hide_in_chart: false,
     hide_in_legend: false,
     label_position: 'right',
     aggregation_on_value: DefaultAggregation,
