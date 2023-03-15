@@ -124,6 +124,17 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           />
         )}
       />
+      <Controller
+        name={`series.${index}.invisible`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            label="Invisible"
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+          />
+        )}
+      />
       <Divider mb={-10} mt={10} variant="dashed" />
       <Button
         leftIcon={<Trash size={16} />}

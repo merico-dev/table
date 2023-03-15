@@ -92,7 +92,6 @@ function Chart({
   if (!width || !height) {
     return null;
   }
-  console.log(option);
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
 }
 

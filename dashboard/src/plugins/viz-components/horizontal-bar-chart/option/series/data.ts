@@ -33,7 +33,6 @@ function makePlainSeriesData({
   value_data_key,
   valueTypedXAxis,
 }: IMakePlainSeriesData) {
-  console.log({ valueTypedXAxis }, value_data_key);
   if (valueTypedXAxis) {
     return getFullSeriesItemData(dataTemplate, data, name_data_key, value_data_key);
   }

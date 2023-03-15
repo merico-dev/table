@@ -16,6 +16,7 @@ export function getSeriesItemOrItems(
     stack,
     color,
     hide_in_legend,
+    invisible,
     ...rest
   }: IHorizontalBarChartSeriesItem,
   dataTemplate: DataTemplateType[],
@@ -34,7 +35,7 @@ export function getSeriesItemOrItems(
     yAxisId: 'main-y-axis',
     xAxisIndex,
     stack,
-    color,
+    color: invisible ? 'transparent' : color,
     hide_in_legend,
     labelLayout: {
       hideOverlap: true,

@@ -36,6 +36,7 @@ export interface IHorizontalBarChartSeriesItem {
   barMaxWidth: string;
   group_by_key: string;
   hide_in_legend: boolean;
+  invisible: boolean;
   label_position?: string;
   aggregation_on_value?: AggregationType;
 }
@@ -127,6 +128,7 @@ export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
     barMaxWidth: '10',
     group_by_key: '',
     hide_in_legend: false,
+    invisible: false,
     label_position: 'right',
     aggregation_on_value: DefaultAggregation,
     xAxisIndex: '0',
