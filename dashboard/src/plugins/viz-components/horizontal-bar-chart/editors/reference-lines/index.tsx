@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ITemplateVariable } from '~/utils/template';
-import { ICartesianChartConf, ICartesianReferenceLine } from '../../type';
+import { getNewReferenceLine, IHorizontalBarChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
-  control: Control<ICartesianChartConf, $TSFixMe>;
-  watch: UseFormWatch<ICartesianChartConf>;
+  control: Control<IHorizontalBarChartConf, $TSFixMe>;
+  watch: UseFormWatch<IHorizontalBarChartConf>;
   variables: ITemplateVariable[];
 }
 
@@ -27,20 +27,8 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
   });
 
   const add = () => {
-    const item: ICartesianReferenceLine = {
-      name: '',
-      template: '',
-      variable_key: '',
-      orientation: 'horizontal',
-      lineStyle: {
-        type: 'dashed',
-        width: 1,
-        color: '#868E96',
-      },
-      show_in_legend: false,
-      yAxisIndex: 0,
-    };
-    append(item);
+    const v = getNewReferenceLine();
+    append(v);
   };
 
   const variableOptions = useMemo(() => {
@@ -50,22 +38,23 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     }));
   }, [variables]);
 
-  const yAxes = watch('y_axes');
+  const xAxes = watch('x_axes');
 
-  const yAxisOptions = useMemo(() => {
-    return yAxes.map(({ name }, index) => ({
+  const xAxisOptions = useMemo(() => {
+    return xAxes.map(({ name }, index) => ({
       label: name,
       value: index.toString(),
     }));
-  }, [yAxes]);
+  }, [xAxes]);
 
+  const defaultTab = controlledFields.length > 0 ? controlledFields[0].id : '0';
   return (
     <Tabs
-      defaultValue="0"
+      defaultValue={defaultTab}
       styles={{
         tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
+          paddingTop: '4px',
+          paddingBottom: '4px',
         },
         panel: {
           padding: '0px',
@@ -74,9 +63,8 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
+          <Tabs.Tab key={index} value={field.id}>
+            {field.name}
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={add} value="add">
@@ -84,14 +72,14 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={index} value={index.toString()}>
+        <Tabs.Panel key={index} value={field.id}>
           <ReferenceLineField
             control={control}
             index={index}
             remove={remove}
             watch={watch}
             variableOptions={variableOptions}
-            yAxisOptions={yAxisOptions}
+            xAxisOptions={xAxisOptions}
           />
         </Tabs.Panel>
       ))}

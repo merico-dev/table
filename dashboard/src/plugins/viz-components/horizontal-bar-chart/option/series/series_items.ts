@@ -1,26 +1,24 @@
 import { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { getEchartsSymbolSize } from '../../panel/scatter-size-select/get-echarts-symbol-size';
-import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem } from '../../type';
 import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { DataTemplateType } from './types';
 
 export function getSeriesItemOrItems(
-  { x_axis_data_key }: ICartesianChartConf,
+  { y_axis }: IHorizontalBarChartConf,
   {
-    y_axis_data_key,
-    yAxisIndex,
+    data_key,
+    xAxisIndex,
     label_position,
     name,
     group_by_key,
     aggregation_on_value,
     stack,
     color,
-    display_name_on_line,
-    symbolSize,
     hide_in_legend,
+    invisible,
     ...rest
-  }: ICartesianChartSeriesItem,
+  }: IHorizontalBarChartSeriesItem,
   dataTemplate: DataTemplateType[],
   valueTypedXAxis: boolean,
   data: AnyObject[],
@@ -31,35 +29,29 @@ export function getSeriesItemOrItems(
     label: {
       show: !!label_position,
       position: label_position,
-      formatter: labelFormatters[yAxisIndex ?? 'default'],
+      formatter: labelFormatters[xAxisIndex ?? 'default'],
     },
     name,
-    xAxisId: 'main-x-axis',
-    yAxisIndex,
+    yAxisId: 'main-y-axis',
+    xAxisIndex,
     stack,
-    color,
-    symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
+    color: invisible ? 'transparent' : color,
     hide_in_legend,
     labelLayout: {
       hideOverlap: true,
     },
+    emphasis: {
+      disabled: true,
+    },
     ...rest,
   };
-  if (display_name_on_line) {
-    seriesItem.endLabel = {
-      show: true,
-      formatter: name,
-      offset: [-12, 12],
-      align: 'right',
-    };
-  }
-  if (!group_by_key || group_by_key === x_axis_data_key) {
+  if (!group_by_key || group_by_key === y_axis.data_key) {
     seriesItem.data = makeOneSeriesData({
       dataTemplate,
       data,
       aggregation_on_value,
-      x_axis_data_key,
-      y_axis_data_key,
+      name_data_key: y_axis.data_key,
+      value_data_key: data_key,
       valueTypedXAxis,
     });
     return seriesItem;
@@ -67,8 +59,8 @@ export function getSeriesItemOrItems(
   const groupedData = makeGroupedSeriesData({
     group_by_key,
     data,
-    x_axis_data_key,
-    y_axis_data_key,
+    name_data_key: y_axis.data_key,
+    value_data_key: data_key,
   });
   return Object.entries(groupedData).map(([groupName, data]) => {
     const ret = cloneDeep(seriesItem);

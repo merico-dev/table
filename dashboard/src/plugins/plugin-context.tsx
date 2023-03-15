@@ -35,6 +35,7 @@ import { TextVizComponent } from './viz-components/text';
 import { MericoGQMVizComponent } from './viz-components/viz-merico-gqm';
 import { VizManager } from './viz-manager';
 import { CalendarHeatmapVizComponent } from './viz-components/calendar-heatmap';
+import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-chart';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -121,6 +122,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       RichTextVizComponent,
       SunburstVizComponent,
       PieChartVizComponent,
+      HorizontalBarChartVizComponent,
       Bar3dChartVizComponent,
       BoxplotChartVizComponent,
       FunnelVizComponent,
