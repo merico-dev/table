@@ -1,5 +1,4 @@
-import { ActionIcon, Tabs } from '@mantine/core';
-import { random } from 'chroma-js';
+import { Tabs } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
@@ -36,7 +35,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
       lineStyle: {
         type: 'dashed',
         width: 1,
-        color: random().css(),
+        color: '#868E96',
       },
       show_in_legend: false,
       yAxisIndex: 0,
