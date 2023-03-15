@@ -1,11 +1,15 @@
+import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
+import { ReferenceLinesField } from './editors/reference-lines';
+import { SeriesField } from './editors/series';
+import { XAxesField } from './editors/x-axes';
+import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 
 export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
@@ -35,7 +39,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           </ActionIcon>
         </Group>
         <Tabs
-          defaultValue="Basics"
+          defaultValue="Series"
           orientation="vertical"
           styles={{
             tab: {
@@ -49,10 +53,27 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="Basics">Basics</Tabs.Tab>
+            <Tabs.Tab value="X Axes">X Axes</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+            <Tabs.Tab value="Series">Series</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="Basics">Basic settings</Tabs.Panel>
+          <Tabs.Panel value="X Axes">
+            <XAxesField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Y Axis">
+            <YAxisField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Series">
+            <SeriesField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Reference Lines">
+            <ReferenceLinesField variables={variables} control={control} watch={watch} />
+          </Tabs.Panel>
         </Tabs>
       </form>
     </Stack>

@@ -6,7 +6,21 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
-import { ICartesianReferenceLine } from '../cartesian/type';
+
+export interface IHorizontalBarChartReferenceLine {
+  id: string;
+  name: string;
+  template: string;
+  lineStyle: {
+    type: 'solid' | 'dashed' | 'dotted';
+    width: number;
+    color: string;
+  };
+  xAxisIndex: string;
+  orientation: 'horizontal' | 'vertical';
+  variable_key: string;
+  show_in_legend: boolean;
+}
 
 export interface IHorizontalBarChartSeriesItem {
   id: string;
@@ -17,6 +31,7 @@ export interface IHorizontalBarChartSeriesItem {
   barGap?: string;
   data_key: string;
   barWidth: string;
+  xAxisIndex: string;
   barMinWidth: string;
   barMaxWidth: string;
   group_by_key: string;
@@ -37,12 +52,11 @@ export interface IHorizontalBarChartXAxis {
 }
 
 export interface IHorizontalBarChartConf {
-  x_axis: IHorizontalBarChartXAxis[];
+  x_axes: IHorizontalBarChartXAxis[];
   y_axis: {
     name: string;
     data_key: string;
     axisLabel: {
-      rotate: number;
       overflow: IAxisLabelOverflow;
       formatter: IXAxisLabelFormatter;
     };
@@ -52,11 +66,11 @@ export interface IHorizontalBarChartConf {
   tooltip: {
     metrics: IEchartsTooltipMetric[];
   };
-  reference_lines: ICartesianReferenceLine[];
+  reference_lines: IHorizontalBarChartReferenceLine[];
 }
 
 export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
-  x_axis: [
+  x_axes: [
     {
       id: 'initial-x',
       min: '',
@@ -71,7 +85,6 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
     name: 'Y Axis',
     data_key: '',
     axisLabel: {
-      rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
       overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
     },
@@ -115,5 +128,24 @@ export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
     hide_in_legend: false,
     label_position: 'right',
     aggregation_on_value: DefaultAggregation,
+    xAxisIndex: '0',
+  };
+}
+
+export function getNewReferenceLine(): IHorizontalBarChartReferenceLine {
+  const id = new Date().getTime().toString();
+  return {
+    id,
+    name: id,
+    template: '',
+    variable_key: '',
+    orientation: 'horizontal',
+    lineStyle: {
+      type: 'dashed',
+      width: 1,
+      color: '#868E96',
+    },
+    show_in_legend: false,
+    xAxisIndex: '0',
   };
 }
