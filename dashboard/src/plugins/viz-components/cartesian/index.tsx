@@ -199,8 +199,22 @@ function v13(legacyConf: any): ICartesianChartConf {
   };
 }
 
+function v14(legacyConf: any): ICartesianChartConf {
+  const { y_axes, ...rest } = legacyConf;
+  return {
+    ...rest,
+    y_axes: y_axes.map((y: any) => {
+      const { show = true } = y;
+      return {
+        ...y,
+        show,
+      };
+    }),
+  };
+}
+
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 13;
+  readonly VERSION = 14;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -302,6 +316,13 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: v13(data.config),
       };
     });
+    this.version(14, (data) => {
+      return {
+        ...data,
+        version: 14,
+        config: v14(data.config),
+      };
+    });
   }
 }
 
@@ -314,7 +335,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianPanel,
   createConfig() {
     return {
-      version: 13,
+      version: 14,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

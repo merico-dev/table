@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Plus, Trash } from 'tabler-icons-react';
 import { defaultNumbroFormat, NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
@@ -72,6 +72,19 @@ function YAxisField({ control, index, remove }: IYAxisField) {
           />
         </Group>
       </Stack>
+
+      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Controller
+        name={`y_axes.${index}.show`}
+        control={control}
+        render={({ field }) => (
+          <Checkbox
+            label="Visible"
+            checked={field.value}
+            onChange={(event) => field.onChange(event.currentTarget.checked)}
+          />
+        )}
+      />
 
       <Button
         mt={20}
