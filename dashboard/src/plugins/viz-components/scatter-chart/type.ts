@@ -84,6 +84,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       label_formatter: defaultNumbroFormat,
       min: '',
       max: '',
+      show: true,
     },
   ],
   tooltip: {

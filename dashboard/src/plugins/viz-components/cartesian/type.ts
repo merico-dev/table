@@ -32,12 +32,13 @@ export interface ICartesianChartSeriesItem {
 }
 
 export interface IYAxisConf {
-  name: string;
-  nameAlignment: 'left' | 'center' | 'right';
-  position: 'left' | 'right';
-  label_formatter: TNumbroFormat;
   min: string;
   max: string;
+  name: string;
+  show: boolean;
+  position: 'left' | 'right';
+  nameAlignment: 'left' | 'center' | 'right';
+  label_formatter: TNumbroFormat;
 }
 
 export interface IRegressionTransform {
@@ -130,12 +131,13 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   x_axis_name: '',
   y_axes: [
     {
+      min: '',
+      max: '',
       name: 'Y Axis',
+      show: true,
       position: 'left',
       nameAlignment: 'center',
       label_formatter: defaultNumbroFormat,
-      min: '',
-      max: '',
     },
   ],
   reference_lines: [],
