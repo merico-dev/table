@@ -28,7 +28,7 @@ export interface IHorizontalBarChartSeriesItem {
   name: string;
   stack: string;
   color?: string;
-  barGap?: string;
+  barGap?: '0%' | '-100%';
   data_key: string;
   barWidth: string;
   xAxisIndex: string;
@@ -118,7 +118,7 @@ export function getNewSeriesItem(): IHorizontalBarChartSeriesItem {
     name: id,
     stack: '',
     color: '',
-    barGap: '',
+    barGap: '0%',
     data_key: '',
     barWidth: '',
     barMinWidth: '1',

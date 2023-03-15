@@ -36,6 +36,12 @@ export function getSeriesItemOrItems(
     stack,
     color,
     hide_in_legend,
+    labelLayout: {
+      hideOverlap: true,
+    },
+    emphasis: {
+      disabled: true,
+    },
     ...rest,
   };
   if (!group_by_key || group_by_key === y_axis.data_key) {
@@ -43,8 +49,8 @@ export function getSeriesItemOrItems(
       dataTemplate,
       data,
       aggregation_on_value,
-      y_axis_data_key: y_axis.data_key,
-      x_axis_data_key: data_key,
+      name_data_key: y_axis.data_key,
+      value_data_key: data_key,
       valueTypedXAxis,
     });
     return seriesItem;
@@ -52,8 +58,8 @@ export function getSeriesItemOrItems(
   const groupedData = makeGroupedSeriesData({
     group_by_key,
     data,
-    y_axis_data_key: y_axis.data_key,
-    x_axis_data_key: data_key,
+    name_data_key: y_axis.data_key,
+    value_data_key: data_key,
   });
   return Object.entries(groupedData).map(([groupName, data]) => {
     const ret = cloneDeep(seriesItem);

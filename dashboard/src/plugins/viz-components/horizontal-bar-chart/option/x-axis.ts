@@ -4,28 +4,33 @@ export function getXAxes(conf: IHorizontalBarChartConf, labelFormatters: Record<
   return conf.x_axes.map(({ min, max, ...rest }, index: number) => {
     let position = rest.position;
     if (!position) {
-      position = index > 0 ? 'top' : 'bottom';
+      position = index > 0 ? 'bottom' : 'top';
     }
     return {
       ...rest,
+      type: 'value',
       min: min ? min : undefined,
       max: max ? max : undefined,
       position,
       axisLabel: {
         show: true,
+        margin: 2,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
       axisLine: {
         show: true,
       },
+      axisTick: {
+        show: false,
+      },
+      splitLine: {
+        show: true,
+      },
       nameTextStyle: {
         fontWeight: 'bold',
       },
-      nameLocation: 'end',
+      nameLocation: 'center',
       nameGap: 15,
-      splitLine: {
-        show: false,
-      },
     };
   });
 }

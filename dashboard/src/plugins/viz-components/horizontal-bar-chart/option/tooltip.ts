@@ -28,6 +28,10 @@ export function getTooltip(
   }, {} as Record<string, number>);
 
   return {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow',
+    },
     formatter: function (params: CallbackDataParams[]) {
       const arr = Array.isArray(params) ? params : [params];
       if (arr.length === 0) {

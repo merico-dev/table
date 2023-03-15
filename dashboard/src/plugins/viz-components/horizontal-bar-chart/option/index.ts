@@ -17,7 +17,7 @@ const defaultOption = {
   },
   xAxis: [
     {
-      type: 'category',
+      type: 'value',
       nameGap: 25,
       nameLocation: 'center',
       nameTextStyle: {

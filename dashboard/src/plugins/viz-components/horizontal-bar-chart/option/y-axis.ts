@@ -21,6 +21,7 @@ export function getYAxes(conf: IHorizontalBarChartConf, yAxisData: $TSFixMe[]) {
         ...overflowOption,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
+      z: 5,
     },
   ];
 }
