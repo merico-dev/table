@@ -1,4 +1,4 @@
-import _, { defaultsDeep } from 'lodash';
+import _ from 'lodash';
 import { ITemplateVariable } from '~/utils/template';
 import { IHorizontalBarChartConf } from '../type';
 import { getGrid } from './grid';
@@ -9,37 +9,6 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-
-const defaultOption = {
-  tooltip: {
-    trigger: 'axis',
-    confine: true,
-  },
-  xAxis: [
-    {
-      type: 'value',
-      nameGap: 25,
-      nameLocation: 'center',
-      nameTextStyle: {
-        fontWeight: 'bold',
-      },
-      splitLine: {
-        show: false,
-      },
-      axisTick: {
-        show: true,
-        alignWithLabel: true,
-      },
-    },
-  ],
-  grid: {
-    top: 10,
-    left: 20,
-    right: 15,
-    bottom: 25,
-    containLabel: true,
-  },
-};
 
 export function getOption(conf: IHorizontalBarChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
   // preparation
@@ -59,5 +28,5 @@ export function getOption(conf: IHorizontalBarChartConf, data: $TSFixMe[], varia
     grid: getGrid(conf),
     legend: getLegend(series),
   };
-  return defaultsDeep({}, customOptions, defaultOption);
+  return customOptions;
 }

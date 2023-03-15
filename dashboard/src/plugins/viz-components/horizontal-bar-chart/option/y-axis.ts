@@ -10,6 +10,12 @@ export function getYAxes(conf: IHorizontalBarChartConf, yAxisData: $TSFixMe[]) {
     {
       data: yAxisData,
       name: conf.y_axis.name ?? '',
+      // wait for https://github.com/apache/echarts/pull/16825
+      nameLocation: 'end',
+      nameTextStyle: {
+        align: 'center',
+        fontWeight: 'bold',
+      },
       id: 'main-y-axis',
       axisTick: {
         show: true,
