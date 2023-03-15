@@ -40,6 +40,9 @@ export function getSeriesItemOrItems(
     color,
     symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
     hide_in_legend,
+    labelLayout: {
+      hideOverlap: true,
+    },
     ...rest,
   };
   if (display_name_on_line) {
