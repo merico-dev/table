@@ -74,7 +74,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
 
   if (loading) {
     return (
-      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
+      <div className="viz-root" style={{ height: vizRootHeight, position: 'relative' }} ref={ref}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     );
