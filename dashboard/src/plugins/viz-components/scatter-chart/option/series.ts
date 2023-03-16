@@ -10,7 +10,7 @@ function getReferenceLines(
   reference_lines: ICartesianReferenceLine[],
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
-  data: $TSFixMe[],
+  data: TVizData,
 ) {
   return reference_lines.map((r) => {
     const isHorizontal = r.orientation === 'horizontal';
@@ -76,7 +76,7 @@ function getReferenceAreas(
 
 function getSeriesItemOrItems(
   { x_axis, scatter }: IScatterChartConf,
-  data: $TSFixMe[],
+  data: TVizData,
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {
@@ -104,9 +104,9 @@ function getSeriesItemOrItems(
 
 export function getSeries(
   conf: IScatterChartConf,
-  xAxisData: $TSFixMe[],
+  xAxisData: AnyObject[],
   valueTypedXAxis: boolean,
-  data: $TSFixMe[],
+  data: TVizData,
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,

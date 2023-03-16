@@ -41,7 +41,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IScatterChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
+export function getOption(conf: IScatterChartConf, data: TVizData, variables: ITemplateVariable[]) {
   const variableValueMap = variables.reduce((prev, variable) => {
     const value = getAggregatedValue(variable, data);
     prev[variable.name] = formatAggregatedValue(variable, value);

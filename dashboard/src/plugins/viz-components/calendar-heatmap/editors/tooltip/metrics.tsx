@@ -8,7 +8,7 @@ import { TooltipMetricField } from './metric';
 interface ITooltipMetricsField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<ICalendarHeatmapConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsField) => {

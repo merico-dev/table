@@ -8,7 +8,7 @@ import { XAxisLabelFormatterField } from './x-axis-label-formatter';
 interface IXAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function XAxisField({ data, control, watch }: IXAxisField) {
   watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);

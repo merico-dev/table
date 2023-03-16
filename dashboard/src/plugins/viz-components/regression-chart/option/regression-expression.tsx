@@ -14,7 +14,7 @@ function calculateAdjustedRSquared(r: number, n: number, k: number) {
   return 1 - ((1 - r) * (n - 1)) / (n - k - 1);
 }
 
-export function getRegressionDescription(data: $TSFixMe[], conf?: IRegressionChartConf) {
+export function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf) {
   if (!conf) {
     return {
       expression: '',

@@ -6,7 +6,7 @@ import { IHeatmapConf } from '../../type';
 
 interface ITooltipMetricField {
   control: Control<IHeatmapConf, $TSFixMe>;
-  data: $TSFixMe[];
+  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }

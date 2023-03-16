@@ -37,7 +37,7 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
   return ret;
 }
 
-function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: $TSFixMe[]) {
+function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: TVizData) {
   const variableValueMap = variables.reduce((prev, variable) => {
     const value = getAggregatedValue(variable, data);
     prev[variable.name] = formatAggregatedValue(variable, value);

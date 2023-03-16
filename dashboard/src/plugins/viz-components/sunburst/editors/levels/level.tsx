@@ -18,7 +18,7 @@ const alignmentOptions = [
 
 interface ILevelField {
   control: Control<ISunburstConf, $TSFixMe>;
-  data: $TSFixMe[];
+  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }

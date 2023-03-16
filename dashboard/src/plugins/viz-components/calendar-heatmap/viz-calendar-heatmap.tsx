@@ -64,7 +64,7 @@ function Chart({
   variables,
 }: {
   conf: ICalendarHeatmapConf;
-  data: $TSFixMe[];
+  data: TVizData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;

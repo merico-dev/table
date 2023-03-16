@@ -17,7 +17,7 @@ const localeOptions = [
 interface ICalendarField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<ICalendarHeatmapConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function CalendarField({ data, control, watch }: ICalendarField) {
   watch(['calendar']);

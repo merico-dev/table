@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useModelContext } from '~/contexts';
-import { SQLSnippetItemEditor } from '~/definition-editor/sql-snippet-editor/item-editor';
+import { SQLSnippetItemEditor } from './item-editor';
 
 export const EditSQLSnippet = observer(({ id }: { id: string }) => {
   const model = useModelContext();

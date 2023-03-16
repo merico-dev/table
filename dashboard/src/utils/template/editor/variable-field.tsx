@@ -11,7 +11,7 @@ import { TemplateVariableStyleField } from './variable-style';
 interface ITemplateVariableField {
   value: ITemplateVariable;
   onChange: (v: ITemplateVariable) => void;
-  data: $TSFixMe[];
+  data: TVizData;
   withStyle?: boolean;
 }
 

@@ -14,7 +14,7 @@ import { ErrorBoundary } from '~/utils/error-boundary';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 import './index.css';
 
-function usePluginViz(data: $TSFixMe, layout: IViewPanelInfo['layout']): ReactNode | null {
+function usePluginViz(data: TVizData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
     panel: { viz, title, id, description, queryID, variables },
@@ -52,7 +52,7 @@ const typesDontNeedData = ['richText', 'button'];
 
 interface IViz {
   viz: IVizConfig;
-  data: $TSFixMe;
+  data: TVizData;
   loading: boolean;
   height: string;
   error?: string;
@@ -74,7 +74,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
 
   if (loading) {
     return (
-      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
+      <div className="viz-root" style={{ height: vizRootHeight, position: 'relative' }} ref={ref}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     );

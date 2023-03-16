@@ -15,7 +15,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IRadarChartConf, data: $TSFixMe[]) {
+export function getOption(conf: IRadarChartConf, data: TVizData) {
   const palette = [
     '#66B4DB',
     '#39BFA2',

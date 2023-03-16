@@ -14,7 +14,7 @@ interface IRegressionSeriesItem extends IRegressionLineConf {
   tooltip: Record<string, $TSFixMe>;
 }
 
-export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: $TSFixMe[]) {
+export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: TVizData) {
   const regressionDataSets: IRegressionDataSetItem[] = [];
   const regressionSeries: IRegressionSeriesItem[] = [];
   const regressionXAxes: Record<string, $TSFixMe>[] = [];

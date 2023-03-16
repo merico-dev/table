@@ -10,7 +10,7 @@ import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 
-export function getOption(conf: IHorizontalBarChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
+export function getOption(conf: IHorizontalBarChartConf, data: TVizData, variables: ITemplateVariable[]) {
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);

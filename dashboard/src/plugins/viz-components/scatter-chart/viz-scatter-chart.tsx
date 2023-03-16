@@ -63,7 +63,7 @@ function Chart({
   variables,
 }: {
   conf: IScatterChartConf;
-  data: $TSFixMe[];
+  data: TVizData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;

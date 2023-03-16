@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Group, Tabs, Text } from '@mantine/core';
+import { Divider, Group, Tabs, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
@@ -8,7 +8,7 @@ import { LevelField } from './level';
 interface ILevelsField {
   control: Control<ISunburstConf, $TSFixMe>;
   watch: UseFormWatch<ISunburstConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export const LevelsField = ({ control, watch, data }: ILevelsField) => {

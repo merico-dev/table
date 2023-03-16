@@ -48,7 +48,7 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {

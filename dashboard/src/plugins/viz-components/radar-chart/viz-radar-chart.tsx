@@ -36,7 +36,7 @@ function Chart({
   variables,
 }: {
   conf: IRadarChartConf;
-  data: $TSFixMe[];
+  data: TVizData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;

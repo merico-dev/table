@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
 import { DataSourceType } from '~/model/queries/types';
-import { listDataSources } from '../api-caller';
+import { listDataSources } from '../../../../../../api-caller';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) => (

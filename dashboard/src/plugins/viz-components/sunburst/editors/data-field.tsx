@@ -1,4 +1,4 @@
-import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { ISunburstConf } from '../type';
@@ -6,7 +6,7 @@ import { ISunburstConf } from '../type';
 interface IDataField {
   control: Control<ISunburstConf, $TSFixMe>;
   watch: UseFormWatch<ISunburstConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function DataField({ data, control, watch }: IDataField) {
   watch(['label_key', 'value_key', 'group_key']);
