@@ -10,7 +10,7 @@ import { ICartesianChartConf } from '../../type';
 interface IVariablesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function StatsField({ control, watch }: IVariablesField) {

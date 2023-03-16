@@ -13,7 +13,7 @@ import { DEFAULT_CONFIG, IFunnelConf } from './type';
 
 echarts.use([FunnelChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
-function Chart({ conf, data, width, height }: { conf: IFunnelConf; data: $TSFixMe[]; width: number; height: number }) {
+function Chart({ conf, data, width, height }: { conf: IFunnelConf; data: TVizData; width: number; height: number }) {
   const option = React.useMemo(() => {
     return getOption(conf, data);
   }, [conf, data]);

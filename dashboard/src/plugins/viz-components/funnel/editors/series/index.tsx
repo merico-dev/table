@@ -9,7 +9,7 @@ import { SeriesItemField } from './series-item';
 interface ISeriesField {
   control: Control<IFunnelConf, $TSFixMe>;
   watch: UseFormWatch<IFunnelConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export const SeriesField = ({ control, watch, data }: ISeriesField) => {

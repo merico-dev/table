@@ -7,7 +7,7 @@ import { getFormatters } from './utils';
 import { getXAxis } from './x-axis';
 import { getYAxes } from './y-axes';
 
-export function getOption(conf: IParetoChartConf, data: $TSFixMe[], _variables: ITemplateVariable[]) {
+export function getOption(conf: IParetoChartConf, data: TVizData, _variables: ITemplateVariable[]) {
   const formatters = getFormatters(conf);
 
   const option = {

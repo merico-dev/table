@@ -19,7 +19,7 @@ const regressionOptions = [
 interface IRegressionField {
   control: Control<IRegressionChartConf, $TSFixMe>;
   watch: UseFormWatch<IRegressionChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function RegressionField({ control, watch, data }: IRegressionField) {

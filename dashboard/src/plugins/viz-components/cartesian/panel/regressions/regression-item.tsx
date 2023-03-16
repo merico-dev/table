@@ -27,7 +27,7 @@ interface IRegressionField {
     label: string;
     value: string;
   }[];
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {

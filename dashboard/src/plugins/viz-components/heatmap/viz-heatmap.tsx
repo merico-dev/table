@@ -53,7 +53,7 @@ function Chart({
   variables,
 }: {
   conf: IHeatmapConf;
-  data: $TSFixMe[];
+  data: TVizData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;

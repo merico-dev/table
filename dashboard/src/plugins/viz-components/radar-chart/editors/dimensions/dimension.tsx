@@ -9,7 +9,7 @@ interface IDimensionField {
   control: Control<IRadarChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function DimensionField({ control, index, remove, data }: IDimensionField) {

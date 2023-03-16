@@ -10,7 +10,7 @@ import { SeriesItemField } from './series-item';
 interface ISeriesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function SeriesField({ control, watch, data }: ISeriesField) {
   const { fields, append, remove } = useFieldArray({

@@ -43,7 +43,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: ICartesianChartConf, data: $TSFixMe[], variables: ITemplateVariable[]) {
+export function getOption(conf: ICartesianChartConf, data: TVizData, variables: ITemplateVariable[]) {
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);

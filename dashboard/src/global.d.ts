@@ -10,3 +10,5 @@ interface IDashboardConfig {
 }
 
 type TFunctionString = string;
+
+type TVizData = Record<string, $TSFixMe>[];

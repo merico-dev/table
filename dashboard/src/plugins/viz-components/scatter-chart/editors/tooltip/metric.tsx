@@ -6,7 +6,7 @@ import { IScatterChartConf } from '../../type';
 
 interface ITooltipMetricField {
   control: Control<IScatterChartConf, $TSFixMe>;
-  data: $TSFixMe[];
+  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }

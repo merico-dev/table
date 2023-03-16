@@ -6,7 +6,7 @@ import { IScatterChartConf } from '../../type';
 interface IVariablesField {
   control: Control<IScatterChartConf, $TSFixMe>;
   watch: UseFormWatch<IScatterChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function StatsField({ control, watch }: IVariablesField) {

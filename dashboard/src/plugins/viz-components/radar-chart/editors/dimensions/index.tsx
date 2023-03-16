@@ -10,7 +10,7 @@ import { DimensionField } from './dimension';
 interface IDimensionsField {
   control: Control<IRadarChartConf, $TSFixMe>;
   watch: UseFormWatch<IRadarChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 
 export function DimensionsField({ control, watch, data }: IDimensionsField) {

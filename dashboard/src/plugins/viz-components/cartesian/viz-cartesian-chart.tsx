@@ -62,7 +62,7 @@ function Chart({
   variables,
 }: {
   conf: ICartesianChartConf;
-  data: $TSFixMe[];
+  data: TVizData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;

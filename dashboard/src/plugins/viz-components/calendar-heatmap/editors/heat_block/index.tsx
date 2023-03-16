@@ -7,7 +7,7 @@ import { ICalendarHeatmapConf } from '../../type';
 interface IHeatBlockField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<ICalendarHeatmapConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
   watch(['heat_block']);

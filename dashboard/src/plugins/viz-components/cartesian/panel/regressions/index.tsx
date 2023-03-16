@@ -8,7 +8,7 @@ import { RegressionField } from './regression-item';
 interface IRegressionsField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: $TSFixMe[];
+  data: TVizData;
 }
 export function RegressionsField({ control, watch, data }: IRegressionsField) {
   const { fields, append, remove } = useFieldArray({
