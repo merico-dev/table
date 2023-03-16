@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '../../contexts/model-context';
-import { explainSQLSnippet } from '../../utils/sql';
-import { MinimalMonacoEditor } from '../minimal-monaco-editor';
+import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
+import { useModelContext } from '~/contexts/model-context';
+import { explainSQLSnippet } from '~/utils/sql';
 
 interface IPreviewSnippet {
   value: string;

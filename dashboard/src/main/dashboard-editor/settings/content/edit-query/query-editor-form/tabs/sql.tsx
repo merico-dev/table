@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { InlineFunctionInput } from '~/components/inline-function-input';
-import { MinimalMonacoEditor } from '~/definition-editor/minimal-monaco-editor';
+import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
 import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
 import { QueryModelInstance } from '~/model';
 import { PreviewSQL } from './preview-sql';
