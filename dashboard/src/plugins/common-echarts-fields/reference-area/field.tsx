@@ -1,6 +1,6 @@
 import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import _ from 'lodash';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { LabelPositionSelector } from '../label-position';
 import { IEchartsReferenceArea } from './types';
@@ -58,7 +58,36 @@ export const ReferenceAreaField = forwardRef(
           )}
         </Group>
         <Group grow noWrap>
-          TODO
+          <Select
+            label="Top Line"
+            data={variableOptions}
+            value={value.leftTopPoint.y_data_key}
+            onChange={(v) => handleChange('leftTopPoint.y_data_key', v ?? '')}
+            clearable
+          />
+          <Select
+            label="Bottom Line"
+            data={variableOptions}
+            value={value.rightBottomPoint.y_data_key}
+            onChange={(v) => handleChange('rightBottomPoint.y_data_key', v ?? '')}
+            clearable
+          />
+        </Group>
+        <Group grow noWrap>
+          <Select
+            label="Left Line"
+            data={variableOptions}
+            value={value.leftTopPoint.x_data_key}
+            onChange={(v) => handleChange('leftTopPoint.x_data_key', v ?? '')}
+            clearable
+          />
+          <Select
+            label="Right Line"
+            data={variableOptions}
+            value={value.rightBottomPoint.x_data_key}
+            onChange={(v) => handleChange('rightBottomPoint.x_data_key', v ?? '')}
+            clearable
+          />
         </Group>
 
         <Divider mb={-15} variant="dashed" label="Style" labelPosition="right" />

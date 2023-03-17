@@ -16,7 +16,7 @@ export interface IEchartsReferenceArea {
     x_data_key: string;
     y_data_key: string;
   };
-  bottomRightPoint: {
+  rightBottomPoint: {
     x_data_key: string;
     y_data_key: string;
   };
@@ -42,7 +42,7 @@ export function getNewReferenceArea(): IEchartsReferenceArea {
       x_data_key: '',
       y_data_key: '',
     },
-    bottomRightPoint: {
+    rightBottomPoint: {
       x_data_key: '',
       y_data_key: '',
     },
