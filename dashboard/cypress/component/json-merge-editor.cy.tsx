@@ -1,5 +1,9 @@
-import { IJsonMergeEditorProps, IResolveResult, JsonMergeEditor } from '~/definition-editor/json-merge-editor';
-import { IDiffTarget } from '~/definition-editor/json-merge-editor/types';
+import {
+  IJsonMergeEditorProps,
+  IResolveResult,
+  JsonMergeEditor,
+} from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor';
+import { IDiffTarget } from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor/types';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
 import { cloneDeep, get, noop } from 'lodash';
 

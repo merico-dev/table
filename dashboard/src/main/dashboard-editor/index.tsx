@@ -19,6 +19,7 @@ import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import { reaction } from 'mobx';
 import { registerThemes } from '~/styles/register-themes';
 
 registerThemes();
@@ -48,6 +49,7 @@ interface IDashboardProps {
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
+  onChange?: (dashboard: IDashboard) => void;
 }
 
 export const Dashboard = observer(function _Dashboard({
@@ -56,6 +58,7 @@ export const Dashboard = observer(function _Dashboard({
   update,
   className = 'dashboard',
   config,
+  onChange,
 }: IDashboardProps) {
   useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
@@ -74,6 +77,15 @@ export const Dashboard = observer(function _Dashboard({
   React.useEffect(() => {
     model.datasources.replace(datasources);
   }, [datasources]);
+
+  React.useEffect(() => {
+    return reaction(
+      () => model.json,
+      (json) => {
+        onChange?.(json);
+      },
+    );
+  }, [model]);
 
   const saveDashboardChanges = async () => {
     await update(model.json);

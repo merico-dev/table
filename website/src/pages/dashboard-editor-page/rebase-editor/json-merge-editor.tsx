@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any */
-import { IDiffTarget, ObjectChangeType } from '~/definition-editor/json-merge-editor/types';
+import { IDiffTarget, ObjectChangeType } from './types';
 import { Button, Card, Group, Stack, Text } from '@mantine/core';
 import { makeAutoObservable, observable, toJS } from 'mobx';
 import { cloneDeep, isEqual } from 'lodash';
@@ -7,7 +7,7 @@ import { useCreation } from 'ahooks';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { IObjectPointer, toPointers } from '@zeeko/power-accessor';
-import { AnyObject } from '~/types';
+import { AnyObject } from '@devtable/dashboard';
 
 export interface IJsonMergeEditorProps {
   documents: {
@@ -128,7 +128,7 @@ class NodeDiffContext {
       return this.target.formatDisplayName(this.values.local!);
     }
     if (this.remoteChanges === 'modified') {
-      return this.target.formatDisplayName(this.values.remote!);
+      return this.target.formatDisplayName(this.values.base!);
     }
     return this.target.formatDisplayName(this.values.base!);
   }

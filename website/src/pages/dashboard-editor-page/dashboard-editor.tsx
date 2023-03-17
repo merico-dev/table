@@ -10,7 +10,15 @@ import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-
 import { DashboardConfig } from '../../utils/config';
 
 export const DashboardEditor = observer(
-  ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
+  ({
+    dashboardModel,
+    refresh,
+    onChange,
+  }: {
+    dashboardModel: DashboardDetailModelInstance;
+    refresh: () => void;
+    onChange: (config: IDashboard) => void;
+  }) => {
     const [context] = React.useState({});
 
     const updateDashboard = React.useCallback(async (d: IDashboard) => {
@@ -32,6 +40,7 @@ export const DashboardEditor = observer(
 
     return (
       <Dashboard
+        onChange={onChange}
         context={context}
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}

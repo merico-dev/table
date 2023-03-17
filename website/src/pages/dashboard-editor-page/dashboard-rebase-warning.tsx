@@ -5,12 +5,19 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
+import { IDashboard } from '@devtable/dashboard';
+import { RebaseDashboardConfigModal, RebaseDashboardConfigProvider } from './rebase-editor';
 
-export const DashboardRebaseWarning = observer(() => {
+export interface DashboardRebaseWarningProps {
+  localConfig: IDashboard;
+  baseConfig: IDashboard;
+}
+
+export const DashboardRebaseWarning = observer((props: DashboardRebaseWarningProps) => {
   const { store } = useDashboardStore();
   const [show, { setFalse, set }] = useBoolean(false);
 
-  const { data: latest = { update_time: 0 }, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
+  const { data: latest, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
     refreshDeps: [store.currentID],
     pollingInterval: 6000,
   });
@@ -33,7 +40,7 @@ export const DashboardRebaseWarning = observer(() => {
     }
   }, [latest, loading, store.currentDetail, store.detailsLoading]);
 
-  if (!latest.update_time) {
+  if (!latest?.update_time) {
     return null;
   }
 
@@ -55,6 +62,13 @@ export const DashboardRebaseWarning = observer(() => {
       <Text color="red" fw="bold">
         Please refresh the page before making any changes
       </Text>
+      <RebaseDashboardConfigProvider
+        remote={latest?.content as IDashboard}
+        base={props.baseConfig}
+        local={props.localConfig}
+      >
+        <RebaseDashboardConfigModal />
+      </RebaseDashboardConfigProvider>
       <Divider my={10} variant="dotted" />
       <Text size={12} ta="right">
         Latest version: {latestUpdatedAt}
