@@ -103,7 +103,7 @@ export const DashboardRebaseWarning = observer(() => {
     return null;
   }
 
-  if (!show || !hasConflicts) {
+  if (!show) {
     return null;
   }
 

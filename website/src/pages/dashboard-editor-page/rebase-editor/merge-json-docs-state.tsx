@@ -236,7 +236,6 @@ export class MergeJsonDocsState {
   }
 
   get documents(): IMergeJsonDocs {
-    console.log('get documents');
     return {
       base: this.baseDocument,
       local: this.localDocument,
@@ -253,8 +252,6 @@ export class MergeJsonDocsState {
       const nodesInBase = toPointers(target.selector, this.baseDocument);
       addBaseToResult(nodesInBase, result, target, this.documents);
       const nodesInLocal = toPointers(target.selector, this.localDocument);
-      console.log('diff', target);
-      console.log('nodesInLocal', nodesInLocal, result);
       addLocalChangesToResult(nodesInLocal, result, target, this.documents);
       const nodesInRemote = toPointers(target.selector, this.remoteDocument);
       addRemoteChangesToResult(nodesInRemote, result, target, this.documents);

@@ -250,11 +250,11 @@ const _DashboardModel = types
         self.name = name;
         self.group = group;
         self.version = version;
-        self.filters.current = castToSnapshot(filters);
-        self.views = castToSnapshot(createDashboardViewsModel(views));
-        self.queries.current = castToSnapshot(queries);
-        self.sqlSnippets.current = castToSnapshot(sqlSnippets);
-        self.mock_context.current = castToSnapshot(mock_context);
+        applySnapshot(self.filters.current, filters);
+        applySnapshot(self.views.current, createDashboardViewsModel(views).current);
+        applySnapshot(self.queries.current, queries);
+        applySnapshot(self.sqlSnippets.current, sqlSnippets);
+        self.mock_context.current = mock_context;
       },
     };
   });

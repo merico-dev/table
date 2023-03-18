@@ -1,8 +1,8 @@
-import { addDisposer, destroy, getEnv, Instance, types } from 'mobx-state-tree';
+import { addDisposer, getEnv, Instance, types } from 'mobx-state-tree';
 import { DashboardStore } from '../../../frames/app/models/dashboard-store';
 import { IDashboard } from '@devtable/dashboard';
 import React from 'react';
-import { useCreation, useUnmount } from 'ahooks';
+import { useCreation } from 'ahooks';
 import { reaction } from 'mobx';
 
 export interface RebaseConfigEnv {
@@ -62,12 +62,8 @@ export const RebaseConfigProvider = ({
   children: React.ReactNode;
   dashboardStore: Instance<typeof DashboardStore>;
 }) => {
-  const model = useCreation(
-    () => RebaseConfigModel.create({}, { dashboardStore } as RebaseConfigEnv),
-    [dashboardStore],
-  );
-  useUnmount(() => {
-    destroy(model);
-  });
+  const model = useCreation(() => {
+    return RebaseConfigModel.create({}, { dashboardStore } as RebaseConfigEnv);
+  }, [dashboardStore]);
   return <RebaseConfigContext.Provider value={model}>{children}</RebaseConfigContext.Provider>;
 };
