@@ -1,6 +1,7 @@
-import { IJsonMergeEditorProps, NodeDiffContext } from './json-merge-editor';
+import { IJsonMergeEditorProps } from './json-merge-editor';
 import { IDiffTarget } from './types';
 import { beforeEach } from 'vitest';
+import { NodeDiffContext } from './merge-json-docs-state';
 
 function castMock<T>(obj: object) {
   return obj as unknown as T;

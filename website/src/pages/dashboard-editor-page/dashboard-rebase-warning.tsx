@@ -1,24 +1,65 @@
 import { Divider, Notification, Text } from '@mantine/core';
-import { useBoolean, useRequest } from 'ahooks';
+import { useBoolean, useCreation, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { IDashboard } from '@devtable/dashboard';
-import { RebaseDashboardConfigModal } from './rebase-editor';
-import { IResolveResult } from './rebase-editor/json-merge-editor';
+import { diffNodes, RebaseDashboardConfigModal } from './rebase-editor';
 import { cloneDeep, isEqual, pick } from 'lodash';
-import { useRebaseModel } from './rebase-editor/rebase-config-context';
+import { RebaseConfigModel, useRebaseModel } from './rebase-editor/rebase-config-context';
+import { IResolveResult, MergeJsonDocsState } from './rebase-editor/merge-json-docs-state';
+import { reaction, toJS } from 'mobx';
+import { Instance } from 'mobx-state-tree';
 
 function isConfigEqual(a: IDashboard, b: IDashboard) {
-  return isEqual(pick(a, ['filters', 'views', 'definition']), pick(b, ['filters', 'views', 'definition']));
+  return isEqual(pick(a, ['filters', 'definition']), pick(b, ['filters', 'definition']));
 }
+
+function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
+  const mergeDocState = useCreation(() => {
+    const state = new MergeJsonDocsState();
+    state.setDiffNodes(diffNodes);
+    return state;
+  }, []);
+  useEffect(() => {
+    return reaction(
+      () => toJS(rebaseModel.base),
+      (base) => {
+        mergeDocState.setBaseDocument(base);
+      },
+      { fireImmediately: true },
+    );
+  }, [rebaseModel, mergeDocState]);
+  useEffect(() => {
+    return reaction(
+      () => toJS(rebaseModel.local),
+      (local) => {
+        mergeDocState.setLocalDocument(local);
+      },
+      { fireImmediately: true },
+    );
+  }, [rebaseModel, mergeDocState]);
+  useEffect(() => {
+    return reaction(
+      () => toJS(rebaseModel.remote),
+      (remote) => {
+        mergeDocState.setRemoteDocument(remote);
+      },
+      { fireImmediately: true },
+    );
+  }, [rebaseModel, mergeDocState]);
+  return mergeDocState;
+}
+
 export const DashboardRebaseWarning = observer(() => {
   const { store } = useDashboardStore();
   const rebaseModel = useRebaseModel();
+  const mergeState = useMergeDocState(rebaseModel);
+
   const noLocalChanges = rebaseModel.local == null || isConfigEqual(rebaseModel.local, rebaseModel.base);
-  const hasConflicts = !isConfigEqual(rebaseModel.local, rebaseModel.remote);
+  const hasConflicts = mergeState.conflicts.length > 0;
   const handleApply = (changes: IResolveResult[]) => {
     const copy = cloneDeep(store.currentDetail?.dashboard);
     if (!copy) {
@@ -28,6 +69,7 @@ export const DashboardRebaseWarning = observer(() => {
       change.operation(copy);
     }
     rebaseModel.setRebaseResult(copy);
+    mergeState.reset();
   };
   const [show, { setFalse, set }] = useBoolean(false);
 
@@ -81,7 +123,7 @@ export const DashboardRebaseWarning = observer(() => {
           Please refresh the page before making any changes
         </Text>
       )}
-      {hasConflicts && <RebaseDashboardConfigModal onApply={handleApply} />}
+      {hasConflicts && <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />}
       <Divider my={10} variant="dotted" />
       <Text size={12} ta="right">
         Latest version: {latestUpdatedAt}

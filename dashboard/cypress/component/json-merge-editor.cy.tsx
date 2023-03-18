@@ -1,11 +1,15 @@
 import {
-  IJsonMergeEditorProps,
   IResolveResult,
-  JsonMergeEditor,
-} from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor';
+  MergeJsonDocsState,
+} from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor/merge-json-docs-state';
 import { IDiffTarget } from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor/types';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
 import { cloneDeep, get, noop } from 'lodash';
+import {
+  IJsonMergeEditorProps,
+  JsonMergeEditor,
+} from '@devtable/website/src/pages/dashboard-editor-page/rebase-editor/json-merge-editor';
+import { AnyObject } from '~/types';
 
 Cypress.SelectorPlayground.defaults({
   onElement: (el) => {
@@ -126,7 +130,13 @@ const nodes: IDiffTarget<UserType, string>[] = [
 describe('json-merge-editor.cy.ts', () => {
   function mount(onApply: IJsonMergeEditorProps['onApply']) {
     cy.viewport(900, 600);
-    cy.mount(<JsonMergeEditor documents={documents} diffNodes={nodes} onApply={onApply} />);
+    const state = new MergeJsonDocsState();
+    state.setDiffNodes(nodes as IDiffTarget<AnyObject, string>[]);
+    state.setLocalDocument(documents.local);
+    state.setRemoteDocument(documents.remote);
+    state.setBaseDocument(documents.base);
+
+    cy.mount(<JsonMergeEditor state={state} onApply={onApply} />);
   }
 
   it('playground', () => {
