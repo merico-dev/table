@@ -1,11 +1,9 @@
 import _, { defaults, get, isEqual, pick } from 'lodash';
-import { toJS } from 'mobx';
 import {
   addDisposer,
   applyPatch,
   applySnapshot,
   castToSnapshot,
-  destroy,
   getSnapshot,
   Instance,
   onSnapshot,
@@ -240,6 +238,24 @@ const _DashboardModel = types
       resetFilters() {
         applySnapshot(self.filters.current, self.origin.filters.current);
       },
+      updateCurrent(config: IDashboard) {
+        const {
+          name,
+          group,
+          version,
+          filters,
+          views,
+          definition: { queries, sqlSnippets, mock_context = {} },
+        } = config;
+        self.name = name;
+        self.group = group;
+        self.version = version;
+        self.filters.current = castToSnapshot(filters);
+        self.views = castToSnapshot(createDashboardViewsModel(views));
+        self.queries.current = castToSnapshot(queries);
+        self.sqlSnippets.current = castToSnapshot(sqlSnippets);
+        self.mock_context.current = castToSnapshot(mock_context);
+      },
     };
   });
 
@@ -260,6 +276,14 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
     return defaults({}, { queries: { current: queries } }, sn);
   },
 });
+
+export type PatchableDashboard = Partial<Pick<IDashboard, 'filters'>>;
+
+export function applyPartialDashboard(model: DashboardModelInstance, changes: PatchableDashboard) {
+  if (changes.filters) {
+    applySnapshot(model.filters.current, changes.filters);
+  }
+}
 
 export function createDashboardModel(
   {
@@ -302,14 +326,6 @@ export function createDashboardModel(
     },
     editor: {},
   });
-}
-
-export function getOriginConfig(model: DashboardModelInstance) {
-  const origin = model.origin;
-  const originModel = DashboardModel.create(origin);
-  const result = toJS(originModel.json) as IDashboard;
-  destroy(originModel);
-  return result;
 }
 
 export type DashboardModelInstance = Instance<typeof DashboardModel>;

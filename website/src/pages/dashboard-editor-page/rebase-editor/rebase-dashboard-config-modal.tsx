@@ -2,49 +2,39 @@ import { AnyObject, IDashboard } from '@devtable/dashboard/src/types';
 import { Button, Modal } from '@mantine/core';
 import { IconGitMerge } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { IDiffTarget } from './types';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
-import { IJsonMergeEditorProps, JsonMergeEditor } from './json-merge-editor';
-import { useDashboardStore } from '../../../frames/app/models/dashboard-store-context';
+import { IJsonMergeEditorProps, IResolveResult, JsonMergeEditor } from './json-merge-editor';
+import { useRebaseModel } from './rebase-config-context';
+import { observer } from 'mobx-react-lite';
+import { toJS } from 'mobx';
 
-export interface IMergeDashboardConfigContextValue {
-  remote?: IDashboard;
-  local?: IDashboard;
-  base?: IDashboard;
-}
-
-export const MergeDashboardConfigContext = React.createContext<IMergeDashboardConfigContextValue>(
-  {} as IMergeDashboardConfigContextValue,
-);
-
-export const RebaseDashboardConfigProvider = (props: PropsWithChildren<IMergeDashboardConfigContextValue>) => {
-  const parentContext = React.useContext(MergeDashboardConfigContext);
-  return (
-    <MergeDashboardConfigContext.Provider value={{ ...parentContext, ...props }}>
-      {props.children}
-    </MergeDashboardConfigContext.Provider>
-  );
-};
-
-export const RebaseDashboardConfigModal = () => {
-  const { remote, local, base } = React.useContext(MergeDashboardConfigContext);
+export const RebaseDashboardConfigModal = observer((props: { onApply: IJsonMergeEditorProps['onApply'] }) => {
+  const rebaseConfigModel = useRebaseModel();
+  const base = toJS(rebaseConfigModel.base);
+  const local = toJS(rebaseConfigModel.local);
+  const remote = toJS(rebaseConfigModel.remote);
   const [isModalOpen, modalOpen] = useBoolean(false);
   const canMergeChanges = remote && base && local;
   if (!canMergeChanges) {
     return null;
   }
+  const handleApply = (changes: IResolveResult[]) => {
+    props.onApply?.(changes);
+    modalOpen.setFalse();
+  };
   return (
     <>
       <Button onClick={modalOpen.setTrue} variant="filled" size="xs" leftIcon={<IconGitMerge size={20} />}>
         Merge Changes
       </Button>
       <Modal title="Merge Changes" style={{ top: 40 }} opened={isModalOpen} onClose={modalOpen.setFalse}>
-        {isModalOpen && <MergeConfigModalContent base={base} local={local} remote={remote} />}
+        {isModalOpen && <MergeConfigModalContent onApply={handleApply} base={base} local={local} remote={remote} />}
       </Modal>
     </>
   );
-};
+});
 
 const diffNodes: IDiffTarget<AnyObject, string>[] = [
   {
@@ -57,6 +47,7 @@ const diffNodes: IDiffTarget<AnyObject, string>[] = [
       return (config: IDashboard) => {
         const filters = config.filters as AnyObject[];
         const index = filters.findIndex((it) => it.id === item.id);
+        console.log('filters', filters, index, item);
         if (operationType === 'added') {
           filters.push(item);
         } else if (operationType === 'removed') {
@@ -75,6 +66,5 @@ const MergeConfigModalContent = (props: {
   local: AnyObject;
   onApply: IJsonMergeEditorProps['onApply'];
 }) => {
-  const { store } = useDashboardStore();
   return <JsonMergeEditor onApply={props.onApply} documents={props} diffNodes={diffNodes} />;
 };

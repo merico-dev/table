@@ -8,18 +8,27 @@ import 'react-resizable/css/styles.css';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { DashboardConfig } from '../../utils/config';
+import { IDashboardModel } from '@devtable/dashboard/src';
+import { useRebaseModel } from './rebase-editor/rebase-config-context';
+import { reaction, toJS } from 'mobx';
 
 export const DashboardEditor = observer(
-  ({
-    dashboardModel,
-    refresh,
-    onChange,
-  }: {
-    dashboardModel: DashboardDetailModelInstance;
-    refresh: () => void;
-    onChange: (config: IDashboard) => void;
-  }) => {
+  ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const [context] = React.useState({});
+    const rebaseModel = useRebaseModel();
+
+    const dashboardModelRef = React.useRef<IDashboardModel>(null);
+
+    React.useEffect(() => {
+      return reaction(
+        () => toJS(rebaseModel.rebaseResult),
+        (result) => {
+          if (result) {
+            dashboardModelRef.current?.updateCurrent(result);
+          }
+        },
+      );
+    }, [rebaseModel, dashboardModelRef]);
 
     const updateDashboard = React.useCallback(async (d: IDashboard) => {
       showNotification({
@@ -40,7 +49,8 @@ export const DashboardEditor = observer(
 
     return (
       <Dashboard
-        onChange={onChange}
+        ref={dashboardModelRef}
+        onChange={rebaseModel.setLocal}
         context={context}
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}

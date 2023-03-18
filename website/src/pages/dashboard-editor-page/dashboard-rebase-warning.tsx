@@ -2,25 +2,38 @@ import { Divider, Notification, Text } from '@mantine/core';
 import { useBoolean, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { IDashboard } from '@devtable/dashboard';
-import { RebaseDashboardConfigModal, RebaseDashboardConfigProvider } from './rebase-editor';
+import { RebaseDashboardConfigModal } from './rebase-editor';
+import { IResolveResult } from './rebase-editor/json-merge-editor';
+import { cloneDeep, isEqual } from 'lodash';
+import { useRebaseModel } from './rebase-editor/rebase-config-context';
 
-export interface DashboardRebaseWarningProps {
-  localConfig: IDashboard;
-  baseConfig: IDashboard;
-}
-
-export const DashboardRebaseWarning = observer((props: DashboardRebaseWarningProps) => {
+export const DashboardRebaseWarning = observer(() => {
   const { store } = useDashboardStore();
+  const rebaseModel = useRebaseModel();
+  const noLocalChanges = rebaseModel.local == null || isEqual(rebaseModel.local, rebaseModel.base);
+  const handleApply = (changes: IResolveResult[]) => {
+    const copy = cloneDeep(store.currentDetail?.dashboard);
+    if (!copy) {
+      return;
+    }
+    for (const change of changes) {
+      change.operation(copy);
+    }
+    rebaseModel.setRebaseResult(copy);
+  };
   const [show, { setFalse, set }] = useBoolean(false);
 
   const { data: latest, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
     refreshDeps: [store.currentID],
     pollingInterval: 6000,
   });
+  useEffect(() => {
+    rebaseModel.setRemote(latest?.content as IDashboard);
+  }, [latest, rebaseModel]);
 
   useEffect(() => {
     if (loading || !store.currentDetail || store.detailsLoading) {
@@ -62,13 +75,7 @@ export const DashboardRebaseWarning = observer((props: DashboardRebaseWarningPro
       <Text color="red" fw="bold">
         Please refresh the page before making any changes
       </Text>
-      <RebaseDashboardConfigProvider
-        remote={latest?.content as IDashboard}
-        base={props.baseConfig}
-        local={props.localConfig}
-      >
-        <RebaseDashboardConfigModal />
-      </RebaseDashboardConfigProvider>
+      {noLocalChanges || <RebaseDashboardConfigModal onApply={handleApply} />}
       <Divider my={10} variant="dotted" />
       <Text size={12} ta="right">
         Latest version: {latestUpdatedAt}

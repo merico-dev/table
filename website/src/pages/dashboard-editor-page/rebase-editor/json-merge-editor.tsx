@@ -43,7 +43,7 @@ function resolveByLocal(diff: NodeDiffContext): IResolveResult {
     operation: diff.target.produceOperation(
       diff.localChanges,
       toJS(diff.pointers),
-      diff.localChanges === 'added' ? cloneDeep(diff.values.local!) : cloneDeep(diff.values.base!),
+      diff.localChanges === 'removed' ? cloneDeep(diff.values.base!) : cloneDeep(diff.values.local!),
     ),
   };
 }
@@ -54,12 +54,12 @@ function resolveByRemote(diff: NodeDiffContext): IResolveResult {
     operation: diff.target.produceOperation(
       diff.remoteChanges,
       diff.pointers,
-      diff.remoteChanges === 'added' ? cloneDeep(diff.values.remote!) : cloneDeep(diff.values.base!),
+      diff.remoteChanges === 'removed' ? cloneDeep(diff.values.base!) : cloneDeep(diff.values.remote!),
     ),
   };
 }
 
-class NodeDiffContext {
+export class NodeDiffContext {
   target: IDiffTarget<object, string>;
   pointers: {
     base?: IObjectPointer<object, object>;
@@ -109,6 +109,14 @@ class NodeDiffContext {
 
   get hasChanges() {
     return this.localChanges !== 'unchanged' || this.remoteChanges !== 'unchanged';
+  }
+
+  get hasConflicts() {
+    return (
+      this.localChanges !== 'unchanged' &&
+      this.remoteChanges !== 'unchanged' &&
+      !isEqual(this.values.local, this.values.remote)
+    );
   }
 
   get objectDescription() {
