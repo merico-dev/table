@@ -12,11 +12,11 @@ export interface IEchartsReferenceArea {
     position: IEchartsLabelPosition;
     color: string;
   };
-  leftTopPoint: {
+  leftBottomPoint: {
     x_data_key: string;
     y_data_key: string;
   };
-  rightBottomPoint: {
+  rightTopPoint: {
     x_data_key: string;
     y_data_key: string;
   };
@@ -32,17 +32,17 @@ export function getNewReferenceArea(): IEchartsReferenceArea {
       text: id,
     },
     itemStyle: {
-      color: 'rgba(0,0,0,.05)',
+      color: 'rgba(0,0,0,0.05)',
     },
     label: {
       position: 'inside',
-      color: 'rgba(0,0,0,.05)',
+      color: 'rgba(0,0,0,0.5)',
     },
-    leftTopPoint: {
+    leftBottomPoint: {
       x_data_key: '',
       y_data_key: '',
     },
-    rightBottomPoint: {
+    rightTopPoint: {
       x_data_key: '',
       y_data_key: '',
     },

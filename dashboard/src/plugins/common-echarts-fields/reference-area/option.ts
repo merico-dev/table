@@ -19,12 +19,12 @@ export function getReferenceAreasSeries({ reference_areas, variableValueMap }: I
         value: r.content.text,
         itemStyle: r.itemStyle,
         label: r.label,
-        xAxis: getAxisValue(r.leftTopPoint.x_data_key, variableValueMap),
-        yAxis: getAxisValue(r.leftTopPoint.y_data_key, variableValueMap),
+        xAxis: getAxisValue(r.leftBottomPoint.x_data_key, variableValueMap),
+        yAxis: getAxisValue(r.leftBottomPoint.y_data_key, variableValueMap),
       },
       {
-        xAxis: getAxisValue(r.rightBottomPoint.x_data_key, variableValueMap),
-        yAxis: getAxisValue(r.rightBottomPoint.y_data_key, variableValueMap),
+        xAxis: getAxisValue(r.rightTopPoint.x_data_key, variableValueMap),
+        yAxis: getAxisValue(r.rightTopPoint.y_data_key, variableValueMap),
       },
     ];
   });

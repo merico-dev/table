@@ -1,6 +1,6 @@
 import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import _ from 'lodash';
-import { forwardRef, useMemo } from 'react';
+import { forwardRef } from 'react';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { LabelPositionSelector } from '../label-position';
 import { IEchartsReferenceArea } from './types';
@@ -38,7 +38,7 @@ export const ReferenceAreaField = forwardRef(
           />
         </Group>
 
-        <Divider mb={-15} variant="dashed" label="Values" labelPosition="right" />
+        <Divider mb={-15} variant="dashed" label="Endpoints" labelPosition="right" />
         <Group grow noWrap>
           {xAxisOptions && (
             <Select
@@ -57,38 +57,48 @@ export const ReferenceAreaField = forwardRef(
             />
           )}
         </Group>
-        <Group grow noWrap>
-          <Select
-            label="Top Line"
-            data={variableOptions}
-            value={value.leftTopPoint.y_data_key}
-            onChange={(v) => handleChange('leftTopPoint.y_data_key', v ?? '')}
-            clearable
-          />
-          <Select
-            label="Bottom Line"
-            data={variableOptions}
-            value={value.rightBottomPoint.y_data_key}
-            onChange={(v) => handleChange('rightBottomPoint.y_data_key', v ?? '')}
-            clearable
-          />
-        </Group>
-        <Group grow noWrap>
-          <Select
-            label="Left Line"
-            data={variableOptions}
-            value={value.leftTopPoint.x_data_key}
-            onChange={(v) => handleChange('leftTopPoint.x_data_key', v ?? '')}
-            clearable
-          />
-          <Select
-            label="Right Line"
-            data={variableOptions}
-            value={value.rightBottomPoint.x_data_key}
-            onChange={(v) => handleChange('rightBottomPoint.x_data_key', v ?? '')}
-            clearable
-          />
-        </Group>
+        <Stack spacing={0}>
+          <Text size={14} color="#212529" fw={500}>
+            Left-Bottom Point
+          </Text>
+          <Group grow noWrap>
+            <Select
+              icon={<Text>x</Text>}
+              data={variableOptions}
+              value={value.leftBottomPoint.x_data_key}
+              onChange={(v) => handleChange('leftBottomPoint.x_data_key', v ?? '')}
+              clearable
+            />
+            <Select
+              icon={<Text>y</Text>}
+              data={variableOptions}
+              value={value.leftBottomPoint.y_data_key}
+              onChange={(v) => handleChange('leftBottomPoint.y_data_key', v ?? '')}
+              clearable
+            />
+          </Group>
+        </Stack>
+        <Stack spacing={0}>
+          <Text size={14} color="#212529" fw={500}>
+            Right-Top Point
+          </Text>
+          <Group grow noWrap>
+            <Select
+              icon={<Text>x</Text>}
+              data={variableOptions}
+              value={value.rightTopPoint.x_data_key}
+              onChange={(v) => handleChange('rightTopPoint.x_data_key', v ?? '')}
+              clearable
+            />
+            <Select
+              icon={<Text>y</Text>}
+              data={variableOptions}
+              value={value.rightTopPoint.y_data_key}
+              onChange={(v) => handleChange('rightTopPoint.y_data_key', v ?? '')}
+              clearable
+            />
+          </Group>
+        </Stack>
 
         <Divider mb={-15} variant="dashed" label="Style" labelPosition="right" />
         <Stack spacing={4}>
