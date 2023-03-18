@@ -3,10 +3,11 @@ import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/p
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IEchartsOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { ICartesianReferenceArea, ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
+import { IEchartsReferenceArea } from '~/plugins/common-echarts-fields/reference-area/types';
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
+import { ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
-import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;
@@ -41,7 +42,7 @@ export interface IScatterChartConf {
     metrics: IEchartsTooltipMetric[];
   };
   reference_lines: ICartesianReferenceLine[];
-  reference_areas: ICartesianReferenceArea[];
+  reference_areas: IEchartsReferenceArea[];
   dataZoom: TEchartsDataZoomConfig;
 }
 

@@ -7,6 +7,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { EchartsZoomingField } from '../cartesian/panel/echarts-zooming-field';
+import { ReferenceAreasField } from './editors/reference-areas';
 // import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { ScatterField } from './editors/scatter';
@@ -94,7 +95,7 @@ export function VizScatterChartPanel({ context }: VizConfigProps) {
             <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
-            {/* <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab> */}
+            <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
             <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
           </Tabs.List>
 
@@ -122,9 +123,9 @@ export function VizScatterChartPanel({ context }: VizConfigProps) {
             <ReferenceLinesField variables={variables} control={control} watch={watch} />
           </Tabs.Panel>
 
-          {/* <Tabs.Panel value="Reference Areas">
+          <Tabs.Panel value="Reference Areas">
             <ReferenceAreasField variables={variables} control={control} watch={watch} />
-          </Tabs.Panel> */}
+          </Tabs.Panel>
 
           <Tabs.Panel value="Zooming">
             <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />

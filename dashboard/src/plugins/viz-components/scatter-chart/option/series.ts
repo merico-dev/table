@@ -1,4 +1,5 @@
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { getReferenceAreasSeries } from '~/plugins/common-echarts-fields/reference-area/option';
 import { AnyObject } from '~/types';
 import { ITemplateVariable, templateToString } from '~/utils/template';
 import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesian/type';
@@ -47,33 +48,6 @@ function getReferenceLines(
   });
 }
 
-function getReferenceAreas(
-  reference_areas: ICartesianReferenceArea[],
-  variableValueMap: Record<string, string | number>,
-) {
-  return reference_areas.map((r) => ({
-    name: '',
-    type: 'line',
-    data: [],
-    markArea: {
-      itemStyle: {
-        color: r.color,
-      },
-      data: [
-        [
-          {
-            yAxis: variableValueMap[r.y_keys.upper],
-          },
-          {
-            yAxis: variableValueMap[r.y_keys.lower],
-          },
-        ],
-      ],
-      silent: true,
-    },
-  }));
-}
-
 function getSeriesItemOrItems(
   { x_axis, scatter }: IScatterChartConf,
   data: TVizData,
@@ -112,7 +86,10 @@ export function getSeries(
   variableValueMap: Record<string, string | number>,
 ) {
   const ret: Array<AnyObject> = [getSeriesItemOrItems(conf, data, variableValueMap, labelFormatters)];
-  return ret
-    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))
-    .concat(getReferenceAreas(conf.reference_areas, variableValueMap));
+  return ret.concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data)).concat(
+    getReferenceAreasSeries({
+      reference_areas: conf.reference_areas,
+      variableValueMap,
+    }),
+  );
 }
