@@ -8,13 +8,17 @@ import { useDashboardStore } from '../../frames/app/models/dashboard-store-conte
 import { IDashboard } from '@devtable/dashboard';
 import { RebaseDashboardConfigModal } from './rebase-editor';
 import { IResolveResult } from './rebase-editor/json-merge-editor';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep, isEqual, pick } from 'lodash';
 import { useRebaseModel } from './rebase-editor/rebase-config-context';
 
+function isConfigEqual(a: IDashboard, b: IDashboard) {
+  return isEqual(pick(a, ['filters', 'views', 'definition']), pick(b, ['filters', 'views', 'definition']));
+}
 export const DashboardRebaseWarning = observer(() => {
   const { store } = useDashboardStore();
   const rebaseModel = useRebaseModel();
-  const noLocalChanges = rebaseModel.local == null || isEqual(rebaseModel.local, rebaseModel.base);
+  const noLocalChanges = rebaseModel.local == null || isConfigEqual(rebaseModel.local, rebaseModel.base);
+  const hasConflicts = !isConfigEqual(rebaseModel.local, rebaseModel.remote);
   const handleApply = (changes: IResolveResult[]) => {
     const copy = cloneDeep(store.currentDetail?.dashboard);
     if (!copy) {
@@ -57,7 +61,7 @@ export const DashboardRebaseWarning = observer(() => {
     return null;
   }
 
-  if (!show) {
+  if (!show || !hasConflicts) {
     return null;
   }
 
@@ -72,10 +76,12 @@ export const DashboardRebaseWarning = observer(() => {
       <Text mt={10} color="dark">
         A newer version of this dashboard has been submitted
       </Text>
-      <Text color="red" fw="bold">
-        Please refresh the page before making any changes
-      </Text>
-      {noLocalChanges || <RebaseDashboardConfigModal onApply={handleApply} />}
+      {noLocalChanges && (
+        <Text color="red" fw="bold">
+          Please refresh the page before making any changes
+        </Text>
+      )}
+      {hasConflicts && <RebaseDashboardConfigModal onApply={handleApply} />}
       <Divider my={10} variant="dotted" />
       <Text size={12} ta="right">
         Latest version: {latestUpdatedAt}

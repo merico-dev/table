@@ -2966,10 +2966,10 @@
   dependencies:
     sirv "^2.0.2"
 
-"@zeeko/power-accessor@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@zeeko/power-accessor/-/power-accessor-0.2.1.tgz#a2cdaf18b38dd474584f46ca10a578330347885f"
-  integrity sha512-58boosq+p+u3Pqld8BBunyeOyn7o0Z3xQDEl3Smwh4qx5+eXiI8L71gfTnO9GgYUKZINzRhqkMrviCksj3kFQA==
+"@zeeko/power-accessor@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@zeeko/power-accessor/-/power-accessor-0.2.2.tgz#be97d36cd66efac0f45c8f0e7304bfd1b00a0d0f"
+  integrity sha512-T1JYDUE9vdb9fy9d2eJU3s89ZUDX0k8exQUQaeqTJjqNfCDcHSILOumz86XGh/pLINj8YMFT45ghiDE+eN0Ddg==
 
 abab@^2.0.3, abab@^2.0.5, abab@^2.0.6:
   version "2.0.6"

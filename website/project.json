@@ -13,6 +13,18 @@
       "options": {
         "script": "dev"
       }
+    },
+    "vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn exec vitest -- --ui",
+        "cwd": "./website/"
+      },
+      "configurations": {
+        "ci": {
+          "command": "yarn exec vitest -- --run"
+        }
+      }
     }
   }
 }

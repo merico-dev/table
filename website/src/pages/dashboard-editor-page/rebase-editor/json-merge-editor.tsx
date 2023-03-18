@@ -68,7 +68,7 @@ export class NodeDiffContext {
   } = { base: undefined, local: undefined, remote: undefined };
   documents: IJsonMergeEditorProps['documents'];
 
-  constructor(target: IDiffTarget<object, string>, documents: IJsonMergeEditorProps['documents']) {
+  constructor(target: IDiffTarget<any, string>, documents: IJsonMergeEditorProps['documents']) {
     this.target = target;
     this.documents = documents;
     makeAutoObservable(this, {
@@ -263,7 +263,7 @@ class JsonMergeEditorState {
       const nodesInRemote = toPointers(target.selector, this.remoteDocument);
       addRemoteChangesToResult(nodesInRemote, result, target, this.documents);
     }
-    return Array.from(result.values()).filter((v) => v.hasChanges);
+    return Array.from(result.values()).filter((v) => v.hasChanges && v.hasConflicts);
   }
 
   setDiffNodes(diffNodes: IDiffTarget<AnyObject, string>[]) {

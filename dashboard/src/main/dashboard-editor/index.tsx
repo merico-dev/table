@@ -19,7 +19,7 @@ import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
-import { reaction } from 'mobx';
+import { reaction, toJS } from 'mobx';
 import { registerThemes } from '~/styles/register-themes';
 
 registerThemes();
@@ -83,7 +83,7 @@ export const Dashboard = observer(
 
     React.useEffect(() => {
       return reaction(
-        () => model.json,
+        () => toJS(model.json),
         (json) => {
           onChange?.(json);
         },

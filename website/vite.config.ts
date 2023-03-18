@@ -1,4 +1,5 @@
-import { defineConfig, loadEnv } from 'vite';
+import { loadEnv } from 'vite';
+import { defineConfig } from 'vitest/config';
 import * as path from 'path';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -44,13 +45,18 @@ export default ({ mode }) => {
     optimizeDeps: {
       exclude: ['@devtable/dashboard', '@devtable/settings-form'],
     },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      css: false,
+      deps: {
+        inline: ['echarts'],
+      },
+    },
     build: {
       rollupOptions: {
         external(source) {
-          if (source.includes('node_modules/monaco-editor/esm/vs/')) {
-            return true;
-          }
-          return false;
+          return source.includes('node_modules/monaco-editor/esm/vs/');
         },
       },
     },
