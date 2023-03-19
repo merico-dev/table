@@ -18,6 +18,9 @@ import { useTopLevelServices } from '../use-top-level-services';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
+import { registerThemes } from '~/styles/register-themes';
+
+registerThemes();
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;

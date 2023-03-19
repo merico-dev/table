@@ -19,6 +19,9 @@ import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import { registerThemes } from '~/styles/register-themes';
+
+registerThemes();
 
 const AppShellStyles = {
   root: {
