@@ -7,6 +7,7 @@ function getRange(oneYearMode: boolean, minDate: number, years: string[]) {
   try {
     return [minDate, dayjs(minDate).add(1, 'year').subtract(1, 'day').valueOf()];
   } catch (error) {
+    console.error(error);
     return years[0];
   }
 }

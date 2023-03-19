@@ -21,7 +21,7 @@ function Chart({ conf, data, width, height }: { conf: IFunnelConf; data: TVizDat
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge />;
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
 
 export function VizFunnelChart({ context }: VizViewProps) {

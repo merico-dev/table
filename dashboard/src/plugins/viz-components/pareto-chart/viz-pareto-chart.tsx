@@ -63,5 +63,14 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   if (!conf || !width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} onEvents={onEvents} notMerge />;
+  return (
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={onEvents}
+      notMerge
+      theme="merico-light"
+    />
+  );
 }

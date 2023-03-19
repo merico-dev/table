@@ -76,5 +76,5 @@ export function VizPieChart({ context }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge />;
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
