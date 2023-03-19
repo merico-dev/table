@@ -114,6 +114,7 @@ function Chart({
       onEvents={onEvents}
       notMerge
       opts={{ locale: conf.calendar.locale }}
+      theme="merico-light"
     />
   );
 }

@@ -68,6 +68,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
           option={option}
           style={{ width: width - 190, height: finalHeight }}
           notMerge
+          theme="merico-light"
         />
         {rSquared && (
           <Table mt={20} fontSize={12} sx={{ width: 180, border: '1px solid #999', td: { padding: '3px 8px' } }}>

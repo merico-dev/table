@@ -85,5 +85,5 @@ export function VizBar3dChart({ context }: VizViewProps) {
   if (!conf) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge />;
+  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
