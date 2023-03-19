@@ -34,12 +34,12 @@ const Charts = {
       lv6: '#CB8089',
     },
     depth: {
-      dp0: '#FDF9FF',
-      dp1: '#F5E0E5',
-      dp2: '#ECC6CD',
-      dp3: '#E1AEB7',
-      dp4: '#D7989F',
-      dp5: '#CD7C88',
+      dp0: '#FFF7F8',
+      dp1: '#FFE1E1',
+      dp2: '#FDBCBC',
+      dp3: '#F39494',
+      dp4: '#FA4242',
+      dp5: '#E21212',
     },
     multiple: {
       c1: '#66B4DB',
@@ -69,6 +69,9 @@ const Charts = {
 function registerEchartsThemes() {
   echarts.registerTheme('merico-light', {
     color: Object.values(Charts.graphics.multiple),
+    visualMap: {
+      color: Object.values(Charts.graphics.depth).reverse(),
+    },
   });
 }
 
