@@ -41,10 +41,10 @@ function getDateStuff(conf: ICalendarHeatmapConf, data: AnyObject[]) {
 export function getOption(conf: ICalendarHeatmapConf, data: AnyObject[], variables: ITemplateVariable[]) {
   const valueFormatters = getValueFormatters(conf);
   const { dateSpan, minDate, dataByYear, years } = getDateStuff(conf, data);
-  const oneYearMode = dateSpan <= 365;
+  const oneYearMode = dateSpan <= 366;
   const customOptions = {
     calendar: getCalendar(oneYearMode, minDate, years),
-    series: getSeries(conf, dataByYear),
+    series: getSeries(conf, oneYearMode, dataByYear, data),
     tooltip: getTooltip(conf, data, valueFormatters),
     visualMap: getVisualMap(conf, oneYearMode),
     legend: getLegend(oneYearMode, years),
