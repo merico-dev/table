@@ -23,13 +23,16 @@ export const RebaseDashboardConfigModal = observer(
       props.onApply?.(changes);
       modalOpen.setFalse();
     };
+    const handleCancel = () => {
+      modalOpen.setFalse();
+    };
     return (
       <>
         <Button onClick={modalOpen.setTrue} variant="filled" size="xs" leftIcon={<IconGitMerge size={20} />}>
           Merge Changes
         </Button>
         <Modal title="Merge Changes" style={{ top: 40, zIndex: 490 }} opened={isModalOpen} onClose={modalOpen.setFalse}>
-          {isModalOpen && <JsonMergeEditor onApply={handleApply} state={props.state} />}
+          {isModalOpen && <JsonMergeEditor onApply={handleApply} state={props.state} onCancel={handleCancel} />}
         </Modal>
       </>
     );

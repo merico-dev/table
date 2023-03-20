@@ -7,9 +7,10 @@ import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-jso
 export interface IJsonMergeEditorProps {
   state: MergeJsonDocsState;
   onApply?: (resolveList: IResolveResult[]) => void;
+  onCancel?: () => void;
 }
 
-export const JsonMergeEditor = observer(({ state, onApply }: IJsonMergeEditorProps) => {
+export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMergeEditorProps) => {
   const handleApply = () => {
     onApply?.(Array.from(state.resolvedDifferences.values()).map((it) => toJS(it)));
   };
@@ -26,7 +27,9 @@ export const JsonMergeEditor = observer(({ state, onApply }: IJsonMergeEditorPro
             <Button disabled={state.resolvedDifferences.size === 0} variant="outline" onClick={() => state.undo()}>
               Undo
             </Button>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
             <Button disabled={!state.canApply} onClick={handleApply}>
               Apply
             </Button>
