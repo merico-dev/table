@@ -3,10 +3,10 @@ import { AnyObject } from '~/types';
 import { aggregateValue, AggregationType } from '~/utils/aggregation';
 import { DataTemplateType } from './types';
 
-type XYDataItemType = [string | number, string | number];
+type YXDataItemType = [string | number, string | number];
 
-function makeXYData(data: AnyObject[], name_data_key: string, value_data_key: string): XYDataItemType[] {
-  return data.map((d) => [d[name_data_key], d[value_data_key]]);
+function makeYXData(data: AnyObject[], name_data_key: string, value_data_key: string): YXDataItemType[] {
+  return data.map((d) => [d[value_data_key], d[name_data_key]]);
 }
 
 function getFullSeriesItemData(
@@ -15,7 +15,7 @@ function getFullSeriesItemData(
   name_data_key: string,
   value_data_key: string,
 ) {
-  const effectiveData = makeXYData(seriesItemData, name_data_key, value_data_key);
+  const effectiveData = makeYXData(seriesItemData, name_data_key, value_data_key);
   return _.unionBy(effectiveData, dataTemplate, 0);
 }
 
@@ -36,7 +36,7 @@ function makePlainSeriesData({
   if (valueTypedXAxis) {
     return getFullSeriesItemData(dataTemplate, data, name_data_key, value_data_key);
   }
-  return data.map((d) => d[value_data_key]);
+  return data.map((d) => [d[value_data_key], d[name_data_key]]);
 }
 
 interface IMakeOneSeriesData {
@@ -58,7 +58,7 @@ export function makeOneSeriesData({
   if (!aggregation_on_value || aggregation_on_value.type === 'none') {
     return makePlainSeriesData({ dataTemplate, data, name_data_key, value_data_key, valueTypedXAxis });
   }
-  const fullData = makeXYData(data, name_data_key, value_data_key);
+  const fullData = makeYXData(data, name_data_key, value_data_key);
   const group_by_x = _.groupBy(fullData, '0');
   const aggregatedData = Object.entries(group_by_x).map(([x, rows]) => {
     const y = aggregateValue(rows, '1', aggregation_on_value);
@@ -78,7 +78,7 @@ export function makeGroupedSeriesData({ group_by_key, data, value_data_key, name
   const groups = _.groupBy(data, group_by_key);
 
   Object.entries(groups).forEach(([groupName, _data]) => {
-    groups[groupName] = makeXYData(_data, name_data_key, value_data_key);
+    groups[groupName] = makeYXData(_data, name_data_key, value_data_key);
     return;
   });
 

@@ -17,6 +17,7 @@ export function getSeriesItemOrItems(
     color,
     hide_in_legend,
     invisible,
+    id,
     ...rest
   }: IHorizontalBarChartSeriesItem,
   dataTemplate: DataTemplateType[],

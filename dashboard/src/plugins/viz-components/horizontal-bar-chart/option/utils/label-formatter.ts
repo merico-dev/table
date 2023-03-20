@@ -9,7 +9,7 @@ export function getLabelFormatters(conf: IHorizontalBarChartConf) {
         if (typeof payload === 'object') {
           if (Array.isArray(payload.value) && payload.value.length === 2) {
             // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
-            value = payload.value[1];
+            value = payload.value[0];
           } else {
             value = payload.value;
           }
