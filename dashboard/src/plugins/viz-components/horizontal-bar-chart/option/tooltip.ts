@@ -40,7 +40,7 @@ export function getTooltip(
       const lines = arr.map(({ seriesName, marker, value }) => {
         if (Array.isArray(value) && value.length === 2) {
           // when there's grouped entries in one seriesItem (use 'Group By' field in editor)
-          value = value[1];
+          value = value[0];
         }
         if (!seriesName) {
           return value;
