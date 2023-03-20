@@ -14,6 +14,7 @@ export const RebaseConfigModel = types
     remote: types.maybe(types.frozen<IDashboard>()),
     local: types.maybe(types.frozen<IDashboard>()),
     rebaseResult: types.maybe(types.frozen<IDashboard>()),
+    resolvedRemotes: types.optional(types.map(types.number), {}),
   })
   .views((self) => ({
     get base() {
@@ -31,6 +32,9 @@ export const RebaseConfigModel = types
     },
     setRebaseResult(rebaseResult?: IDashboard) {
       self.rebaseResult = rebaseResult;
+    },
+    markResolvedRemote(remoteId: string) {
+      self.resolvedRemotes.set(remoteId, 1);
     },
   }))
   .actions((self) => ({

@@ -13,7 +13,7 @@ import { IResolveResult, MergeJsonDocsState } from './rebase-editor/merge-json-d
 import { reaction, toJS } from 'mobx';
 import { Instance } from 'mobx-state-tree';
 
-function isConfigEqual(a: IDashboard, b: IDashboard) {
+function isConfigEqual(a: IDashboard, b?: IDashboard) {
   return isEqual(pick(a, ['filters', 'definition']), pick(b, ['filters', 'definition']));
 }
 
@@ -27,7 +27,9 @@ function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
     return reaction(
       () => toJS(rebaseModel.base),
       (base) => {
-        mergeDocState.setBaseDocument(base);
+        if (base) {
+          mergeDocState.setBaseDocument(base);
+        }
       },
       { fireImmediately: true },
     );
@@ -36,7 +38,9 @@ function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
     return reaction(
       () => toJS(rebaseModel.local),
       (local) => {
-        mergeDocState.setLocalDocument(local);
+        if (local) {
+          mergeDocState.setLocalDocument(local);
+        }
       },
       { fireImmediately: true },
     );
@@ -45,7 +49,9 @@ function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
     return reaction(
       () => toJS(rebaseModel.remote),
       (remote) => {
-        mergeDocState.setRemoteDocument(remote);
+        if (remote) {
+          mergeDocState.setRemoteDocument(remote);
+        }
       },
       { fireImmediately: true },
     );
@@ -60,6 +66,14 @@ export const DashboardRebaseWarning = observer(() => {
 
   const noLocalChanges = rebaseModel.local == null || isConfigEqual(rebaseModel.local, rebaseModel.base);
   const hasConflicts = mergeState.conflicts.length > 0;
+  const [show, { setFalse, set }] = useBoolean(false);
+
+  const { data: latest, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
+    refreshDeps: [store.currentID],
+    pollingInterval: 6000,
+  });
+
+  const remoteKey = latest?.update_time;
   const handleApply = (changes: IResolveResult[]) => {
     const copy = cloneDeep(store.currentDetail?.dashboard);
     if (!copy) {
@@ -69,14 +83,10 @@ export const DashboardRebaseWarning = observer(() => {
       change.operation(copy);
     }
     rebaseModel.setRebaseResult(copy);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    rebaseModel.markResolvedRemote(remoteKey!);
     mergeState.reset();
   };
-  const [show, { setFalse, set }] = useBoolean(false);
-
-  const { data: latest, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
-    refreshDeps: [store.currentID],
-    pollingInterval: 6000,
-  });
   useEffect(() => {
     rebaseModel.setRemote(latest?.content as IDashboard);
   }, [latest, rebaseModel]);
@@ -92,12 +102,12 @@ export const DashboardRebaseWarning = observer(() => {
     try {
       const next = new Date(latest.update_time).getTime();
       const current = new Date(store.currentDetail.update_time).getTime();
-      const needsRebasing = next > current;
+      const needsRebasing = next > current && rebaseModel.resolvedRemotes.has(remoteKey!) === false;
       set(needsRebasing);
     } catch (error) {
       console.error(error);
     }
-  }, [latest, loading, store.currentDetail, store.detailsLoading]);
+  }, [latest, loading, store.currentDetail, store.detailsLoading, remoteKey]);
 
   if (!latest?.update_time) {
     return null;
