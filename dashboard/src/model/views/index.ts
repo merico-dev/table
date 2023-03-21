@@ -1,5 +1,6 @@
-import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
+import { PanelsModelInstance } from '../panels';
 import { ViewModel, ViewModelInstance } from './view';
 import { IViewConfigModel_DivisionIn } from './view/division';
 import { IViewConfigModel_ModalIn } from './view/modal';
@@ -42,14 +43,15 @@ export const ViewsModel = types
       }));
     },
     get editorOptions() {
+      // @ts-expect-error getRoot type, reading panels
+      const panels: PanelsModelInstance = getRoot(self).panels;
       return self.current.map(
         (v) =>
           ({
             label: v.name,
             value: v.id,
             _type: 'view',
-            // children: v.panels.editorOptions,
-            // TODO
+            children: panels.editorOptions(v.id, v.panelIDs),
           } as const),
       );
     },
