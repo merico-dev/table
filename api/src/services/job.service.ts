@@ -4,6 +4,7 @@ import { JobFilterObject, JobPaginationResponse, JobSortObject } from '../api_mo
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 import DashboardChangelog from '../models/dashboard_changelog';
+import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
@@ -12,6 +13,7 @@ import { QueryService } from './query.service';
 
 enum JobType {
   RENAME_DATASOURCE = 'RENAME_DATASOURCE',
+  FIX_DASHBOARD_PERMISSION = 'FIX_DASHBOARD_PERMISSION',
 }
 
 enum JobStatus {
@@ -26,8 +28,14 @@ export type RenameJobParams = {
   new_key: string;
 };
 
+export type FixDashboardPermissionJobParams = {
+  auth_id: string;
+  auth_type: 'ACCOUNT' | 'APIKEY';
+};
+
 export class JobService {
   static processingRenameDataSource = false;
+  static processingFixDashboardPermission = false;
 
   static async addRenameDataSourceJob(params: RenameJobParams): Promise<Job> {
     const jobRepo = dashboardDataSource.getRepository(Job);
@@ -37,6 +45,17 @@ export class JobService {
     job.params = params;
     const result = await jobRepo.save(job);
     this.processDataSourceRename();
+    return result;
+  }
+
+  static async addFixDashboardPermissionJob(params: FixDashboardPermissionJobParams): Promise<Job> {
+    const jobRepo = dashboardDataSource.getRepository(Job);
+    const job = new Job();
+    job.type = JobType.FIX_DASHBOARD_PERMISSION;
+    job.status = JobStatus.INIT;
+    job.params = params;
+    const result = await jobRepo.save(job);
+    this.processFixDashboardPermission();
     return result;
   }
 
@@ -126,6 +145,84 @@ export class JobService {
     }
     await runner.release();
     this.processingRenameDataSource = false;
+  }
+
+  static async processFixDashboardPermission(): Promise<void> {
+    if (this.processingFixDashboardPermission) {
+      return;
+    }
+    this.processingFixDashboardPermission = true;
+
+    const runner = dashboardDataSource.createQueryRunner();
+    await runner.connect();
+
+    const dashboardPermissionRepo = runner.manager.getRepository(DashboardPermission);
+    const jobRepo = runner.manager.getRepository(Job);
+
+    let jobs = await jobRepo
+      .createQueryBuilder('job')
+      .where('type = :type', { type: JobType.FIX_DASHBOARD_PERMISSION })
+      .andWhere('status = :status', { status: JobStatus.INIT })
+      .orderBy('create_time', 'ASC')
+      .getMany();
+
+    while (jobs.length) {
+      for (const job of jobs) {
+        await runner.startTransaction();
+        try {
+          const { auth_id, auth_type } = job.params as FixDashboardPermissionJobParams;
+
+          const result: { affected_dashboard_permissions: string[] } = {
+            affected_dashboard_permissions: [],
+          };
+
+          const dashboardPermissions = await dashboardPermissionRepo.find();
+          for (const dashboardPermission of dashboardPermissions) {
+            if (
+              (dashboardPermission.owner_id === auth_id && dashboardPermission.owner_type === auth_type) ||
+              dashboardPermission.can_view.some((x) => {
+                return x.id === auth_id && x.type === auth_type;
+              }) ||
+              dashboardPermission.can_edit.some((x) => {
+                return x.id === auth_id && x.type === auth_type;
+              })
+            ) {
+              if (dashboardPermission.owner_id == auth_id && dashboardPermission.owner_type == auth_type) {
+                dashboardPermission.owner_id = null;
+                dashboardPermission.owner_type = null;
+              }
+              dashboardPermission.can_view = dashboardPermission.can_view.filter((x) => {
+                return x.id !== auth_id || x.type !== auth_type;
+              });
+              dashboardPermission.can_edit = dashboardPermission.can_edit.filter((x) => {
+                return x.id !== auth_id || x.type !== auth_type;
+              });
+              await dashboardPermissionRepo.save(dashboardPermission);
+              result.affected_dashboard_permissions.push(dashboardPermission.dashboard_id);
+            }
+          }
+
+          job.status = JobStatus.SUCCESS;
+          job.result = result;
+          await jobRepo.save(job);
+          await runner.commitTransaction();
+        } catch (error) {
+          runner.rollbackTransaction();
+          job.status = JobStatus.FAILED;
+          job.result = { error };
+          await jobRepo.save(job);
+        }
+      }
+      jobs = await jobRepo
+        .createQueryBuilder('job')
+        .where('type = :type', { type: JobType.RENAME_DATASOURCE })
+        .andWhere('status = :status', { status: JobStatus.INIT })
+        .orderBy('create_time', 'ASC')
+        .getMany();
+    }
+
+    await runner.release();
+    this.processingFixDashboardPermission = false;
   }
 
   async list(
