@@ -26,6 +26,7 @@ import { QueryRequest } from '~/api_models/query';
 import { ROLE_TYPES } from '~/api_models/role';
 import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
 import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
+import { DashboardPermissionListRequest, DashboardOwnerUpdateRequest } from '~/api_models/dashboard_permission';
 import { ApiError } from '~/utils/errors';
 import { validate } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
@@ -1152,7 +1153,9 @@ describe('validation', () => {
         }
       });
     });
+  });
 
+  describe('DashbboardChangelogController', () => {
     describe('DashboardChangelogListRequest', () => {
       it('Should have no validation errors', () => {
         const data: DashboardChangelogListRequest = {
@@ -1208,6 +1211,115 @@ describe('validation', () => {
                   constraints: { isInt: 'pagesize must be an integer number' },
                 },
               ],
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('DashboardPermissionController', () => {
+    describe('DashboardPermissionListRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: DashboardPermissionListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          filter: { dashboard_id: { value: '', isFuzzy: true } },
+        };
+
+        const result = validate(DashboardPermissionListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validate(DashboardPermissionListRequest, data);
+        expect(result).toMatchObject({
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validate(DashboardPermissionListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardPermissionListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardOwnerUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardOwnerUpdateRequest = {
+          dashboard_id: crypto.randomUUID(),
+          owner_id: crypto.randomUUID(),
+          owner_type: 'ACCOUNT',
+        };
+        const result = validate(DashboardOwnerUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validate(DashboardOwnerUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardOwnerUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'dashboard_id',
+              children: [],
+              constraints: { isUuid: 'dashboard_id must be a UUID' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'owner_type',
+              children: [],
+              constraints: { isIn: 'owner_type must be one of the following values: ACCOUNT, APIKEY' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'owner_id',
+              children: [],
+              constraints: { isUuid: 'owner_id must be a UUID' },
             },
           ]);
         }
