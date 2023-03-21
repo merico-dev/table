@@ -55,6 +55,16 @@ import {
   DashboardChangelogPaginationResponse,
   DashboardChangelogSortObject,
 } from './dashboard_changelog';
+import {
+  DashboardPermission,
+  DashboardPermissionFilterObject,
+  DashboardPermissionListRequest,
+  DashboardPermissionPaginationResponse,
+  DashboardPermissionSortObject,
+  DashboardOwnerUpdateRequest,
+  DashboardPermissionUpdateRequest,
+  PermissionResource,
+} from './dashboard_permission';
 import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
@@ -125,4 +135,13 @@ export default {
   Config,
   ConfigGetRequest,
   ConfigUpdateRequest,
+
+  DashboardPermission,
+  DashboardPermissionFilterObject,
+  DashboardPermissionListRequest,
+  DashboardPermissionPaginationResponse,
+  DashboardPermissionSortObject,
+  DashboardOwnerUpdateRequest,
+  DashboardPermissionUpdateRequest,
+  PermissionResource,
 };
