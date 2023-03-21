@@ -49,6 +49,14 @@ export const ViewModel = types
       }
       self.type = type;
     },
+    appendPanelID(id: string) {
+      self.panelIDs.push(id);
+    },
+    removePanelID(id: string) {
+      const newIDs = self.panelIDs.filter((pid) => pid !== id);
+      self.panelIDs.length = 0;
+      self.panelIDs.push(...newIDs);
+    },
   }))
   .actions((self) => ({}));
 

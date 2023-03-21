@@ -71,19 +71,18 @@ export const PanelModel = types
     },
   }))
   .actions((self) => ({
-    moveToView(targetViewID: string) {
-      const newID = new Date().getTime().toString();
-      const newPanel = {
-        ...self.json,
-        id: newID,
-      };
+    moveToView(sourceViewID: string, targetViewID: string) {
       // @ts-expect-error getRoot type
-      const view = getRoot(self).views.findByID(targetViewID);
-      view.panels.append(newPanel);
+      const sourceView = getRoot(self).views.findByID(targetViewID);
+      sourceView.removePanelID(self.id);
+
+      // @ts-expect-error getRoot type
+      const targetView = getRoot(self).views.findByID(targetViewID);
+      targetView.appendPanelID(self.id);
 
       // @ts-expect-error getRoot type
       const editor = getRoot(self).editor;
-      editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', newID]);
+      editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', self.id]);
 
       self.removeSelf();
     },
