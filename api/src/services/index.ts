@@ -8,6 +8,7 @@ import { ApiService } from './api.service';
 import { JobService } from './job.service';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { ConfigService } from './config.service';
+import { DashboardPermissionService } from './dashboard_permission.service';
 
 export function bindServices(container: Container) {
   container.bind<interfaces.Newable<JobService>>('Newable<JobService>').toConstructor<JobService>(JobService);
@@ -29,4 +30,7 @@ export function bindServices(container: Container) {
   container
     .bind<interfaces.Newable<ConfigService>>('Newable<ConfigService>')
     .toConstructor<ConfigService>(ConfigService);
+  container
+    .bind<interfaces.Newable<DashboardPermissionService>>('Newable<DashboardPermissionService>')
+    .toConstructor<DashboardPermissionService>(DashboardPermissionService);
 }
