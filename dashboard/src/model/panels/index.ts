@@ -31,7 +31,7 @@ export const PanelsModel = types
         if (p) {
           panels.push(p);
         } else {
-          console.log(id);
+          console.warn(`Panel is not found, id:${id}`);
         }
       });
 
@@ -45,6 +45,9 @@ export const PanelsModel = types
   .views((self) => ({
     editorOptions(viewID: string, panelIDs: string[]) {
       const { panels } = self.panelsByIDs(panelIDs);
+      if (panels.length !== panelIDs.length) {
+        console.warn(`Unfulfilled panels for View[${viewID}]`);
+      }
       const ret = panels.map(
         (o) =>
           ({

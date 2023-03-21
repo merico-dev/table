@@ -80,7 +80,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        panel.removeSelf();
+        model.removePanelByID(panel.id, viewID);
         resetEditorPath();
       },
       confirmProps: { color: 'red' },
