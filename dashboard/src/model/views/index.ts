@@ -1,4 +1,3 @@
-import { randomId } from '@mantine/hooks';
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
 import { ViewModel, ViewModelInstance } from './view';
@@ -49,7 +48,8 @@ export const ViewsModel = types
             label: v.name,
             value: v.id,
             _type: 'view',
-            children: v.panels.editorOptions,
+            // children: v.panels.editorOptions,
+            // TODO
           } as const),
       );
     },
@@ -70,9 +70,7 @@ export const ViewsModel = types
           name: name,
           type,
           config,
-          panels: {
-            list: [],
-          },
+          panelIDs: [],
         });
       },
       append(item: ViewModelInstance) {
@@ -97,7 +95,8 @@ export const ViewsModel = types
         self.visibleViewIDs.push(id);
       },
       addAPanelToVIE() {
-        self.VIE?.panels.addANewPanel();
+        // TODO
+        // self.VIE?.panels.addANewPanel();
       },
       appendToVisibles(viewID: string) {
         const s = new Set(self.visibleViewIDs.map((v) => v));
@@ -145,9 +144,7 @@ export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<I
         ...view.config,
         _name,
       },
-      panels: {
-        list: view.panels,
-      },
+      panelIDs: view.panelIDs,
     };
   });
   return {

@@ -23,6 +23,7 @@ import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
 import { createDashboardViewsModel, ViewsModel } from './views';
+import { PanelsModel } from './panels';
 
 const _DashboardModel = types
   .model({
@@ -35,6 +36,7 @@ const _DashboardModel = types
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
+    panels: PanelsModel,
     context: ContextModel,
     mock_context: MockContextModel,
     editor: EditorModel,
@@ -50,6 +52,7 @@ const _DashboardModel = types
         name: self.name,
         group: self.group,
         views: self.views.json,
+        panels: self.panels.json,
         filters: self.filters.json,
         version: self.version,
         definition: {
@@ -142,11 +145,13 @@ const _DashboardModel = types
         | { type: 'filter'; id: string; label: string }
         | { type: 'panel'; id: string; label: string; viewID: string };
 
-      const panels: T[] = self.views.current.flatMap((v) =>
-        v.panels.list
-          .filter((p) => p.queryID === queryID)
-          .map((p) => ({ type: 'panel', id: p.id, label: p.title ? p.title : p.viz.type, viewID: v.id })),
-      );
+      // TODO
+      // const panels: T[] = self.views.current.flatMap((v) =>
+      //   v.panels.list
+      //     .filter((p) => p.queryID === queryID)
+      //     .map((p) => ({ type: 'panel', id: p.id, label: p.title ? p.title : p.viz.type, viewID: v.id })),
+      // );
+      const panels: T[] = [];
       const filters: T[] = self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
@@ -220,7 +225,16 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 });
 
 export function createDashboardModel(
-  { id, name, group, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
+  {
+    id,
+    name,
+    group,
+    version,
+    filters,
+    views,
+    panels,
+    definition: { queries, sqlSnippets, mock_context = {} },
+  }: IDashboard,
   datasources: IDataSource[],
   context: ContextInfoType,
 ) {
@@ -246,6 +260,9 @@ export function createDashboardModel(
       current: mock_context,
     },
     views: createDashboardViewsModel(views),
+    panels: {
+      list: panels,
+    },
     editor: {},
   });
 }

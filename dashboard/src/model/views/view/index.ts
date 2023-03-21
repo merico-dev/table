@@ -1,8 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
 import { EViewComponentType } from '~/types';
-import { ViewConfigModel_Division, createViewConfig_Division } from './division';
-import { ViewConfigModel_Modal, createViewConfig_Modal } from './modal';
-import { PanelsModel } from './panels';
+import { createViewConfig_Division, ViewConfigModel_Division } from './division';
+import { createViewConfig_Modal, ViewConfigModel_Modal } from './modal';
 import { createViewConfig_Tabs, ViewConfigModel_Tabs } from './tabs';
 
 export const ViewModel = types
@@ -15,7 +14,7 @@ export const ViewModel = types
       EViewComponentType.Tabs,
     ]),
     config: types.union(ViewConfigModel_Division, ViewConfigModel_Modal, ViewConfigModel_Tabs),
-    panels: PanelsModel,
+    panelIDs: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get json() {
@@ -25,7 +24,7 @@ export const ViewModel = types
         name,
         type,
         config: config.json,
-        panels: self.panels.json,
+        panelIDs: self.panelIDs,
       };
     },
   }))

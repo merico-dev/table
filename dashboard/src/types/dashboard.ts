@@ -73,7 +73,7 @@ export interface IDashboardView {
   name: string;
   type: EViewComponentType;
   config: Record<string, any>;
-  panels: IDashboardPanel[];
+  panelIDs: string[];
 }
 
 export interface IDashboard {
@@ -82,6 +82,7 @@ export interface IDashboard {
   group: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
+  panels: IDashboardPanel[];
   filters: FilterModelSnapshotOut[];
   version: string;
 }

@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
+import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
@@ -17,15 +18,16 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   className = 'layout',
   rowHeight = 10,
 }: IReadOnlyDashboardLayout) {
+  const { panels, layouts } = useModelContext().panels.panelsByIDs(view.panelIDs);
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
       isDraggable={false}
       isResizable={false}
-      layout={view.panels.layouts}
+      layout={layouts}
     >
-      {view.panels.list.map((panel) => {
+      {panels.map((panel) => {
         return (
           <div key={panel.id} data-grid={panel.layout}>
             <Panel view={view} panel={panel} />
