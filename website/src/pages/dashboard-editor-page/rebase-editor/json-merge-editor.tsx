@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any */
-import { Button, Card, Group, Stack, Text } from '@mantine/core';
+import { Button, Card, Group, Modal, Stack, Text } from '@mantine/core';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-json-docs-state';
+import { useBoolean } from 'ahooks';
+import { JsonChangesViewer } from './json-changes-viewer';
+import { capitalCase } from 'change-case';
+import { get } from 'lodash';
 
 export interface IJsonMergeEditorProps {
   state: MergeJsonDocsState;
@@ -41,8 +45,8 @@ export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMerg
           <Group position="apart" aria-label={'changed: ' + diff.objectDescription}>
             <Stack spacing="xs">
               <Text>{diff.objectDescription}</Text>
-              <LocalChangesText diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
-              <RemoteChangesText diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
+              <ChangesText changeSource="local" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
+              <ChangesText changeSource="remote" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
             </Stack>
             {state.isResolved(diff.key) ? null : (
               <Stack spacing="xs">
@@ -62,30 +66,35 @@ export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMerg
   );
 });
 
-const LocalChangesText = observer(
-  ({ diff, resolvedResult }: { diff: NodeDiffContext; resolvedResult?: IResolveResult }) => {
+const ChangesText = observer(
+  ({
+    diff,
+    resolvedResult,
+    changeSource,
+  }: {
+    diff: NodeDiffContext;
+    resolvedResult?: IResolveResult;
+    changeSource: string;
+  }) => {
     const resolved = !!resolvedResult;
-    return (
-      <Text
-        color={resolved && resolvedResult.from === 'local' ? 'green' : 'gray'}
-        strikethrough={resolved && resolvedResult.from !== 'local'}
-      >
-        Local: {diff.localChanges}
-      </Text>
-    );
-  },
-);
+    const [isOpen, open] = useBoolean(false);
 
-const RemoteChangesText = observer(
-  ({ diff, resolvedResult }: { diff: NodeDiffContext; resolvedResult?: IResolveResult }) => {
-    const resolved = !!resolvedResult;
+    const changed = toJS(get(diff.values, changeSource));
+    const changesDesc = `${capitalCase(changeSource)}: ${get(diff, `${changeSource}Changes`)}`;
     return (
-      <Text
-        color={resolved && resolvedResult.from === 'remote' ? 'green' : 'gray'}
-        strikethrough={resolved && resolvedResult.from !== 'remote'}
-      >
-        Remote: {diff.remoteChanges}
-      </Text>
+      <>
+        <Modal size="xl" style={{ zIndex: 490 }} opened={isOpen} onClose={open.setFalse} title={changesDesc}>
+          {isOpen && <JsonChangesViewer base={diff.values.base} changed={changed} />}
+        </Modal>
+        <Text
+          style={{ cursor: 'pointer' }}
+          onClick={open.setTrue}
+          color={resolved && resolvedResult.from === changeSource ? 'green' : 'gray'}
+          strikethrough={resolved && resolvedResult.from !== changeSource}
+        >
+          {changesDesc}
+        </Text>
+      </>
     );
   },
 );

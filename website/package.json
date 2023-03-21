@@ -49,6 +49,7 @@
     "echarts-gl": "^2.0.9",
     "echarts-stat": "1.2.0",
     "eventemitter2": "^6.4.6",
+    "json-stable-stringify": "^1.0.2",
     "jszip": "3.10.1",
     "lodash": "^4.17.21",
     "lowlight": "^2.8.0",
@@ -70,6 +71,7 @@
     "tabler-icons-react": "^1.48.0"
   },
   "devDependencies": {
+    "@types/json-stable-stringify": "^1.0.34",
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",

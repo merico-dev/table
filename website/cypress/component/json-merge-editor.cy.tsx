@@ -207,4 +207,15 @@ describe('json-merge-editor.cy.ts', () => {
         });
       });
   });
+
+  it('view changes', () => {
+    const onApplyStub = cy.stub().as('onApply');
+    mount(onApplyStub);
+
+    const changes = '[aria-label^="changed:"]';
+    cy.get(changes)
+      .eq(0)
+      .findByText(/modified/gi)
+      .click();
+  });
 });
