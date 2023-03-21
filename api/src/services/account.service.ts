@@ -18,6 +18,7 @@ import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
 import { escapeLikePattern } from '../utils/helpers';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
+import { JobService } from './job.service';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
@@ -218,5 +219,6 @@ export class AccountService {
     }
     await accountRepo.delete(account.id);
     await ConfigService.delete('lang', ConfigResourceTypes.ACCOUNT, account.id);
+    JobService.addFixDashboardPermissionJob({ auth_id: id, auth_type: 'ACCOUNT' });
   }
 }
