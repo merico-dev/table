@@ -13,7 +13,7 @@ type NextViewType = {
 
 function getNewViewsAndPanels(prevViews: PrevViewType[]) {
   const views: NextViewType[] = [];
-  const panels: PanelType[] = [];
+  const finalPanels: PanelType[] = [];
   prevViews.forEach((v) => {
     const { panels, ...rest } = v;
     const panelIDs = panels.map((p) => p.id);
@@ -23,10 +23,10 @@ function getNewViewsAndPanels(prevViews: PrevViewType[]) {
       panelIDs,
     });
 
-    panels.push(...panels);
+    finalPanels.push(...panels);
   });
 
-  return { views, panels };
+  return { views, panels: finalPanels };
 }
 
 /**
