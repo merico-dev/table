@@ -127,7 +127,7 @@ export class DashboardPermissionService {
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
-    DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
+    await DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
     const newOwnerRepo =
       owner_type === 'ACCOUNT' ? dashboardDataSource.getRepository(Account) : dashboardDataSource.getRepository(ApiKey);
     const newOwner = await newOwnerRepo.findOneByOrFail({ id: owner_id });
@@ -162,7 +162,7 @@ export class DashboardPermissionService {
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
-    DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
+    await DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_NO_OWNER', locale) });
     }
