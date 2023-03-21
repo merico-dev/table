@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { defaults, get, isEqual, pick } from 'lodash';
+import _, { defaults, get, isEqual, pick } from 'lodash';
 import {
   addDisposer,
   applyPatch,
@@ -22,8 +21,8 @@ import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
+import { getNewPanel, PanelsModel } from './panels';
 import { createDashboardViewsModel, ViewsModel } from './views';
-import { PanelsModel } from './panels';
 
 const _DashboardModel = types
   .model({
@@ -163,6 +162,21 @@ const _DashboardModel = types
           label: f.label,
         }));
       return panels.concat(filters);
+    },
+  }))
+  .actions((self) => ({
+    duplicatePanelByID(panelID: string, viewID: string) {
+      self.panels.duplicateByID(panelID);
+      self.views.findByID(viewID)?.appendPanelID(panelID);
+    },
+    removePanelByID(panelID: string, viewID: string) {
+      self.panels.removeByID(panelID);
+      self.views.findByID(viewID)?.removePanelID(panelID);
+    },
+    addANewPanel(viewID: string) {
+      const id = new Date().getTime().toString();
+      self.panels.append(getNewPanel(id));
+      self.views.findByID(viewID)?.appendPanelID(id);
     },
   }))
   .actions((self) => {

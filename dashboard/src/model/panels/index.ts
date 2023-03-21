@@ -2,8 +2,7 @@ import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import { castToSnapshot, getParent, types } from 'mobx-state-tree';
 import { NavOptionType } from '~/model/editor';
-import { TableVizComponent } from '~/plugins/viz-components/table';
-import { PanelModel, PanelModelInstance } from './panel';
+import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';
 
 export const PanelsModel = types
   .model('PanelsModel', {
@@ -55,31 +54,7 @@ export const PanelsModel = types
       replace(current: Array<PanelModelInstance>) {
         self.list = castToSnapshot(current);
       },
-      addANewPanel() {
-        const id = new Date().getTime().toString();
-        self.list.push({
-          id,
-          layout: {
-            x: 0,
-            y: Infinity, // puts it at the bottom
-            w: 3,
-            h: 15,
-          },
-          title: id,
-          description: '<p></p>',
-          queryID: '',
-          viz: {
-            type: TableVizComponent.name,
-            conf: TableVizComponent.createConfig(),
-          },
-          style: {
-            border: {
-              enabled: true,
-            },
-          },
-        });
-      },
-      append(item: PanelModelInstance) {
+      append(item: PanelModelSnapshotIn) {
         self.list.push(item);
       },
       remove(index: number) {

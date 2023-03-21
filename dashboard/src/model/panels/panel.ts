@@ -5,6 +5,7 @@ import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
 import { DashboardModel } from '~/model';
 import { VariableModel } from '~/model/variables';
+import { TableVizComponent } from '~/plugins/viz-components/table';
 
 export const PanelModel = types
   .model({
@@ -89,3 +90,28 @@ export const PanelModel = types
   }));
 
 export type PanelModelInstance = Instance<typeof PanelModel>;
+export type PanelModelSnapshotIn = SnapshotIn<PanelModelInstance>;
+
+export function getNewPanel(id: string): PanelModelSnapshotIn {
+  return {
+    id,
+    layout: {
+      x: 0,
+      y: Infinity, // puts it at the bottom
+      w: 3,
+      h: 15,
+    },
+    title: id,
+    description: '<p></p>',
+    queryID: '',
+    viz: {
+      type: TableVizComponent.name,
+      conf: TableVizComponent.createConfig(),
+    },
+    style: {
+      border: {
+        enabled: true,
+      },
+    },
+  };
+}

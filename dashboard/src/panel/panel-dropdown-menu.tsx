@@ -21,7 +21,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
-    view.panels.duplicateByID(id);
+    model.duplicatePanelByID(id, view.id);
   };
 
   const openPanelEditor = () => {
@@ -33,7 +33,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => view.panels.removeByID(id),
+      onConfirm: () => model.removePanelByID(id, view.id),
       confirmProps: { color: 'red' },
       zIndex: 320,
     });
