@@ -181,13 +181,36 @@ describe('JobController', () => {
         .post('/job/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-
       expect(response.body).toMatchObject({
-        total: 3,
+        total: 5,
         offset: 0,
         data: [
           {
             id: response.body.data[0].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {
+              auth_id: response.body.data[0].params.auth_id,
+              auth_type: 'ACCOUNT',
+            },
+            result: { affected_dashboard_permissions: [] },
+            create_time: response.body.data[0].create_time,
+            update_time: response.body.data[0].update_time,
+          },
+          {
+            id: response.body.data[1].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {
+              auth_id: response.body.data[1].params.auth_id,
+              auth_type: 'APIKEY',
+            },
+            result: { affected_dashboard_permissions: [] },
+            create_time: response.body.data[1].create_time,
+            update_time: response.body.data[1].update_time,
+          },
+          {
+            id: response.body.data[2].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -196,11 +219,11 @@ describe('JobController', () => {
               old_key: 'jsonplaceholder',
             },
             result: { affected_dashboards: [] },
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
+            create_time: response.body.data[2].create_time,
+            update_time: response.body.data[2].update_time,
           },
           {
-            id: response.body.data[1].id,
+            id: response.body.data[3].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -216,11 +239,11 @@ describe('JobController', () => {
                 },
               ],
             },
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
+            create_time: response.body.data[3].create_time,
+            update_time: response.body.data[3].update_time,
           },
           {
-            id: response.body.data[2].id,
+            id: response.body.data[4].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -236,8 +259,8 @@ describe('JobController', () => {
                 },
               ],
             },
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
+            create_time: response.body.data[4].create_time,
+            update_time: response.body.data[4].update_time,
           },
         ],
       });
@@ -344,11 +367,35 @@ describe('JobController', () => {
         .send(query);
 
       expect(response.body).toMatchObject({
-        total: 5,
+        total: 7,
         offset: 0,
         data: [
           {
             id: response.body.data[0].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {
+              auth_id: response.body.data[0].params.auth_id,
+              auth_type: 'ACCOUNT',
+            },
+            result: { affected_dashboard_permissions: [] },
+            create_time: response.body.data[0].create_time,
+            update_time: response.body.data[0].update_time,
+          },
+          {
+            id: response.body.data[1].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {
+              auth_id: response.body.data[1].params.auth_id,
+              auth_type: 'APIKEY',
+            },
+            result: { affected_dashboard_permissions: [] },
+            create_time: response.body.data[1].create_time,
+            update_time: response.body.data[1].update_time,
+          },
+          {
+            id: response.body.data[2].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -357,11 +404,11 @@ describe('JobController', () => {
               old_key: 'jsonplaceholder',
             },
             result: { affected_dashboards: [] },
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
+            create_time: response.body.data[2].create_time,
+            update_time: response.body.data[2].update_time,
           },
           {
-            id: response.body.data[1].id,
+            id: response.body.data[3].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -377,11 +424,11 @@ describe('JobController', () => {
                 },
               ],
             },
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
+            create_time: response.body.data[3].create_time,
+            update_time: response.body.data[3].update_time,
           },
           {
-            id: response.body.data[2].id,
+            id: response.body.data[4].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -397,11 +444,11 @@ describe('JobController', () => {
                 },
               ],
             },
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
+            create_time: response.body.data[4].create_time,
+            update_time: response.body.data[4].update_time,
           },
           {
-            id: response.body.data[3].id,
+            id: response.body.data[5].id,
             type: 'RENAME_DATASOURCE',
             status: 'FAILED',
             params: {
@@ -409,12 +456,12 @@ describe('JobController', () => {
               new_key: 'jobPG_renamed',
               old_key: 'jobPG',
             },
-            result: response.body.data[3].result,
-            create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time,
+            result: response.body.data[5].result,
+            create_time: response.body.data[5].create_time,
+            update_time: response.body.data[5].update_time,
           },
           {
-            id: response.body.data[4].id,
+            id: response.body.data[6].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: {
@@ -430,8 +477,8 @@ describe('JobController', () => {
                 },
               ],
             },
-            create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time,
+            create_time: response.body.data[6].create_time,
+            update_time: response.body.data[6].update_time,
           },
         ],
       });
