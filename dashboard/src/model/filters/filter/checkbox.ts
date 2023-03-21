@@ -8,9 +8,10 @@ export const FilterConfigModel_Checkbox = types
   })
   .views((self) => ({
     get json() {
-      const { _name, default_value } = self;
+      const { _name, description, default_value } = self;
       return {
         _name,
+        description,
         default_value,
       };
     },
