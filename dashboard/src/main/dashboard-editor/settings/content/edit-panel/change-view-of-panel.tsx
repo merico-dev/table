@@ -4,7 +4,7 @@ import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useModelContext } from '~/contexts';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 
 export const ChangeViewOfPanel = observer(({ panel }: { panel: PanelModelInstance }) => {
   const model = useModelContext();

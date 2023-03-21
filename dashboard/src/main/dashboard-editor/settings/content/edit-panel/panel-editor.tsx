@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { PanelConfig } from '~/main/dashboard-editor/settings/content/edit-panel/panel-config';
 import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-panel/preview-panel';

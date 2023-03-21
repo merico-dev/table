@@ -13,14 +13,17 @@ export const PanelsModel = types
     get json() {
       return self.list.map((o) => o.json);
     },
-    get layouts() {
-      return self.list.map((o) => ({
+    findByID(id: string) {
+      return self.list.find((query) => query.id === id);
+    },
+    panelsByIDs(ids: string[]) {
+      const set = new Set(ids);
+      const panels = self.list.filter((p) => set.has(p.id));
+      const layouts = panels.map((o) => ({
         ...o.layout.json,
         i: o.id,
       }));
-    },
-    findByID(id: string) {
-      return self.list.find((query) => query.id === id);
+      return { panels, layouts };
     },
     get editorOptions() {
       // @ts-expect-error type of getParent

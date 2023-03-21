@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Edge } from 'reactflow';
 import { DashboardModelInstance, ViewsModelInstance } from '~/model';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 import { AnyObject } from '~/types';
 import { TFlowNode } from './types';
 

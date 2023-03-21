@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 
 const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;
