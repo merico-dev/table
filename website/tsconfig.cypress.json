@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src", "cypress"],
+  "exclude": ["**/*.spec.ts"],
+  "compilerOptions": {
+    "types": ["cypress", "@testing-library/cypress", "chai"],
+    "paths": {
+      "@cy/*": ["./cypress/*"],
+      "~/*": ["./src/*"]
+    }
+  }
+}

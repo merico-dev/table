@@ -20,7 +20,7 @@ export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMerg
       <Card style={{ position: 'sticky', top: 0, zIndex: 2 }} withBorder shadow="sm">
         <Group position="apart">
           <Group>
-            <Text>Total conflicts: {state.conflicts.length}</Text>
+            <Text>Total changes: {state.differences.length}</Text>
             <Text>Pending changes: {state.resolvedDifferences.size}</Text>
           </Group>
           <Group>
@@ -36,7 +36,7 @@ export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMerg
           </Group>
         </Group>
       </Card>
-      {state.conflicts.map((diff) => (
+      {state.differences.map((diff) => (
         <Card key={diff.key} withBorder>
           <Group position="apart" aria-label={'changed: ' + diff.objectDescription}>
             <Stack spacing="xs">
