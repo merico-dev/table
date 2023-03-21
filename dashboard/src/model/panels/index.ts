@@ -1,6 +1,6 @@
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
-import { castToSnapshot, getParent, types } from 'mobx-state-tree';
+import { castToSnapshot, Instance, types } from 'mobx-state-tree';
 import { NavOptionType } from '~/model/editor';
 import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';
 
@@ -15,25 +15,43 @@ export const PanelsModel = types
     findByID(id: string) {
       return self.list.find((query) => query.id === id);
     },
+    get idMap() {
+      const map = new Map<string, PanelModelInstance>();
+      self.list.forEach((p) => {
+        map.set(p.id, p);
+      });
+      return map;
+    },
+  }))
+  .views((self) => ({
     panelsByIDs(ids: string[]) {
-      const set = new Set(ids);
-      const panels = self.list.filter((p) => set.has(p.id));
+      const panels: PanelModelInstance[] = [];
+      ids.forEach((id) => {
+        const p = self.idMap.get(id);
+        if (p) {
+          panels.push(p);
+        } else {
+          console.log(id);
+        }
+      });
+
       const layouts = panels.map((o) => ({
         ...o.layout.json,
         i: o.id,
       }));
       return { panels, layouts };
     },
-    get editorOptions() {
-      // @ts-expect-error type of getParent
-      const parentID = getParent(self, 1).id;
-      const ret = self.list.map(
+  }))
+  .views((self) => ({
+    editorOptions(viewID: string, panelIDs: string[]) {
+      const { panels } = self.panelsByIDs(panelIDs);
+      const ret = panels.map(
         (o) =>
           ({
             label: o.title ? o.title : _.capitalize(o.viz.type),
             value: o.id,
             _type: 'panel',
-            parentID,
+            parentID: viewID,
           } as NavOptionType),
       );
       const _action_type = '_Add_A_PANEL_';
@@ -42,7 +60,7 @@ export const PanelsModel = types
         value: _action_type,
         _type: 'ACTION',
         _action_type,
-        parentID,
+        parentID: viewID,
         Icon: null,
         children: null,
       } as const);
@@ -89,4 +107,5 @@ export const PanelsModel = types
     };
   });
 
+export type PanelsModelInstance = Instance<typeof PanelsModel>;
 export * from './panel';

@@ -60,6 +60,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const loading = panelNeedData && state === 'loading';
   const dataNotReady = loading || error || !query || !!query.stateMessage;
 
+  const viewID = model.editor.path[1];
   useEffect(() => {
     setTab((tab) => {
       if (dataNotReady && tab === 'Visualization') {
@@ -70,8 +71,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   }, [panel.id, dataNotReady]);
 
   const resetEditorPath = () => {
-    const p = model.editor.path;
-    model.editor.setPath(['_VIEWS_', p[1]]);
+    model.editor.setPath(['_VIEWS_', viewID]);
   };
 
   const remove = () =>
@@ -94,7 +94,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           {panel.title ? panel.title : panel.viz.type}{' '}
         </Text>
         <Group position="right" noWrap>
-          <ChangeViewOfPanel panel={panel} />
+          <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
           <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
             Delete This Panel
           </Button>

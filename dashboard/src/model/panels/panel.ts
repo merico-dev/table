@@ -35,10 +35,6 @@ export const PanelModel = types
         description,
       };
     },
-    get viewID() {
-      // @ts-expect-error getParent type
-      return getParent(self, 3).id;
-    },
   }))
   .actions((self) => ({
     setID(id: string) {
@@ -74,7 +70,7 @@ export const PanelModel = types
   .actions((self) => ({
     moveToView(sourceViewID: string, targetViewID: string) {
       // @ts-expect-error getRoot type
-      const sourceView = getRoot(self).views.findByID(targetViewID);
+      const sourceView = getRoot(self).views.findByID(sourceViewID);
       sourceView.removePanelID(self.id);
 
       // @ts-expect-error getRoot type
@@ -84,8 +80,6 @@ export const PanelModel = types
       // @ts-expect-error getRoot type
       const editor = getRoot(self).editor;
       editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', self.id]);
-
-      self.removeSelf();
     },
   }));
 
