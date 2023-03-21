@@ -219,6 +219,6 @@ export class AccountService {
     }
     await accountRepo.delete(account.id);
     await ConfigService.delete('lang', ConfigResourceTypes.ACCOUNT, account.id);
-    JobService.addFixDashboardPermissionJob({ auth_id: id, auth_type: 'ACCOUNT' });
+    await JobService.addFixDashboardPermissionJob({ auth_id: id, auth_type: 'ACCOUNT' });
   }
 }

@@ -95,6 +95,6 @@ export class ApiService {
     }
     await apiKeyRepo.delete(apiKey.id);
     await ConfigService.delete('lang', ConfigResourceTypes.APIKEY, apiKey.id);
-    JobService.addFixDashboardPermissionJob({ auth_id: id, auth_type: 'APIKEY' });
+    await JobService.addFixDashboardPermissionJob({ auth_id: id, auth_type: 'APIKEY' });
   }
 }
