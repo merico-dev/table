@@ -83,7 +83,7 @@ const ChangesText = observer(
     const changesDesc = `${capitalCase(changeSource)}: ${get(diff, `${changeSource}Changes`)}`;
     return (
       <>
-        <Modal size="xl" style={{ zIndex: 490 }} opened={isOpen} onClose={open.setFalse} title={changesDesc}>
+        <Modal size="xl" style={{ zIndex: 1010 }} opened={isOpen} onClose={open.setFalse} title={changesDesc}>
           {isOpen && <JsonChangesViewer base={diff.values.base} changed={changed} />}
         </Modal>
         <Text

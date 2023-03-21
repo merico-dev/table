@@ -14,14 +14,13 @@ export const JsonChangesViewer = (props: IJsonChangesViewerProps) => {
   const modified = useMemo(() => stableStringify(props.changed, { space: 2 }), [props.changed]);
 
   return (
-    <Stack>
+    <Stack style={{ height: '70vh' }}>
       <Group position="apart">
         <Text>Base</Text>
         <Text>Modified</Text>
       </Group>
       <DiffEditor
         options={{ readOnly: true }}
-        height={600}
         original={original}
         modified={modified}
         originalLanguage="json"
