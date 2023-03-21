@@ -1,5 +1,5 @@
 import { IDiffTarget } from './types';
-import { AnyObject, IDashboard } from '@devtable/dashboard/src';
+import { AnyObject, IDashboard } from '@devtable/dashboard';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
 
 export const diffNodes: IDiffTarget<AnyObject, string>[] = [

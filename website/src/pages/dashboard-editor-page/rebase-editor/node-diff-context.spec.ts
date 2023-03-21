@@ -1,7 +1,6 @@
-import { IJsonMergeEditorProps } from './json-merge-editor';
 import { IDiffTarget } from './types';
 import { beforeEach } from 'vitest';
-import { NodeDiffContext } from './merge-json-docs-state';
+import { IMergeJsonDocs, NodeDiffContext } from './merge-json-docs-state';
 
 function castMock<T>(obj: object) {
   return obj as unknown as T;
@@ -13,7 +12,7 @@ describe('NodeDiffContext', () => {
     beforeEach(() => {
       nodeDiffContext = new NodeDiffContext(
         {} as unknown as IDiffTarget<object, string>,
-        {} as unknown as IJsonMergeEditorProps['documents'],
+        {} as unknown as IMergeJsonDocs,
       );
     });
     test('local === remote, no conflicts', () => {

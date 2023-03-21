@@ -8,7 +8,7 @@ import 'react-resizable/css/styles.css';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { DashboardConfig } from '../../utils/config';
-import { IDashboardModel } from '@devtable/dashboard/src';
+import { IDashboardModel } from '@devtable/dashboard';
 import { useRebaseModel } from './rebase-editor/rebase-config-context';
 import { reaction, toJS } from 'mobx';
 
