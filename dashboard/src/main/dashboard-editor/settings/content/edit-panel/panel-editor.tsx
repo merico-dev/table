@@ -1,17 +1,17 @@
-import { Box, Group, LoadingOverlay, Tabs, Tooltip, Text, Button } from '@mantine/core';
+import { Box, Button, Group, LoadingOverlay, Tabs, Text, Tooltip } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
-import { PanelModelInstance } from '~/model/panels';
-import { ErrorBoundary } from '~/utils/error-boundary';
 import { PanelConfig } from '~/main/dashboard-editor/settings/content/edit-panel/panel-config';
-import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-panel/preview-panel';
 import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
+import { PreviewPanel } from '~/main/dashboard-editor/settings/content/edit-panel/preview-panel';
 import { VariableConfig } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-config-panel';
 import { EditVizConf } from '~/main/dashboard-editor/settings/content/edit-panel/viz-conf';
-import { IconBoxMultiple, IconTrash, IconTree, IconTrees } from '@tabler/icons';
-import { useModals } from '@mantine/modals';
+import { PanelModelInstance } from '~/model/panels';
+import { ErrorBoundary } from '~/utils/error-boundary';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 
 const TabsStyles = {
