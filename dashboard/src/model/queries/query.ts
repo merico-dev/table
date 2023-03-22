@@ -179,3 +179,7 @@ export const QueryModel = types
 
 export type QueryModelInstance = Instance<typeof QueryModel>;
 export type QueryModelSnapshotIn = SnapshotIn<QueryModelInstance>;
+
+export type QueryUsageType =
+  | { type: 'filter'; id: string; label: string; views: { id: string; label: string }[] }
+  | { type: 'panel'; id: string; label: string; views: { id: string; label: string }[] };
