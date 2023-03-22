@@ -21,7 +21,7 @@ import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
-import { getNewPanel, PanelsModel } from './panels';
+import { getNewPanel, PanelModelInstance, PanelsModel } from './panels';
 import { createDashboardViewsModel, ViewsModel } from './views';
 
 const _DashboardModel = types
@@ -144,13 +144,19 @@ const _DashboardModel = types
         | { type: 'filter'; id: string; label: string }
         | { type: 'panel'; id: string; label: string; viewID: string };
 
-      // TODO
-      // const panels: T[] = self.views.current.flatMap((v) =>
-      //   v.panels.list
-      //     .filter((p) => p.queryID === queryID)
-      //     .map((p) => ({ type: 'panel', id: p.id, label: p.title ? p.title : p.viz.type, viewID: v.id })),
-      // );
-      const panels: T[] = [];
+      const panelIDMap = self.panels.idMap;
+      const panels: T[] = self.views.current.flatMap((v) =>
+        v.panelIDs
+          .map((id) => panelIDMap.get(id))
+          .filter((p): p is PanelModelInstance => p?.queryID === queryID)
+          .map((p) => ({
+            type: 'panel',
+            id: p.id,
+            label: p.title ? p.title : p.viz.type,
+            viewID: v.id,
+          })),
+      );
+
       const filters: T[] = self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
