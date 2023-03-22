@@ -23,6 +23,9 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
       return;
     }
   };
+  const openView = (id: string) => {
+    editor.setPath(['_VIEWS_', id]);
+  };
   return (
     <Stack py="sm" px="md">
       <Table highlightOnHover>
@@ -45,7 +48,9 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
               <td>
                 <Stack spacing={2}>
                   {u.views.map((v) => (
-                    <Box>{v.label}</Box>
+                    <Anchor component="button" type="button" onClick={() => openView(v.id)}>
+                      <Box>{v.label}</Box>
+                    </Anchor>
                   ))}
                   {u.views.length === 0 && <Box>--</Box>}
                 </Stack>
