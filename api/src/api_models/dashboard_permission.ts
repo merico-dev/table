@@ -30,6 +30,12 @@ export class PermissionResource {
 })
 export class DashboardPermission {
   @ApiModelProperty({
+    description: 'Dashboard permission ID in uuid format',
+    required: false,
+  })
+  id: string;
+
+  @ApiModelProperty({
     description: 'Dashboard ID in uuid format',
     required: false,
   })
@@ -103,7 +109,7 @@ export class DashboardPermissionFilterObject {
   @Type(() => FilterObject)
   @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'Filter based on owner_type',
+    description: 'Filter based on owner_type. Separate values with ;',
     required: false,
     model: 'FilterObject',
   })
