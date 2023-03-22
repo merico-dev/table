@@ -7,6 +7,7 @@ import ApiKey from '~/models/apiKey';
 import DataSource from '~/models/datasource';
 import Dashboard from '~/models/dashboard';
 import { maybeEncryptPassword } from '~/utils/encryption';
+import DashboardPermission from '~/models/dashboard_permission';
 
 export async function seed() {
   if (!dashboardDataSource.isInitialized) {
@@ -47,9 +48,17 @@ async function addDataSources() {
 }
 
 async function addDashboards() {
+  const superadmin = accounts[4];
+  const author = accounts[2];
   const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
+  const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
   for (let i = 0; i < dashboards.length; i++) {
     const dashboard = dashboards[i];
     await dashboardRepo.save(dashboard);
+    const dashboardPermission = new DashboardPermission();
+    dashboardPermission.dashboard_id = dashboard.id;
+    dashboardPermission.owner_id = dashboard.is_preset ? superadmin.id : author.id;
+    dashboardPermission.owner_type = 'ACCOUNT';
+    await dashboardPermissionRepo.save(dashboardPermission);
   }
 }
