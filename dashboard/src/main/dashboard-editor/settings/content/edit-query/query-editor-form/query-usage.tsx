@@ -28,12 +28,12 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
   };
   return (
     <Stack py="sm" px="md">
-      <Table highlightOnHover>
+      <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
         <thead>
           <tr>
             <th style={{ width: 100 }}>Type</th>
-            <th>Name</th>
-            <th>In Views</th>
+            <th style={{ width: 'calc(50% - 50px)' }}>Name</th>
+            <th>In View(s)</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
                 </Anchor>
               </td>
               <td>
-                <Stack spacing={2}>
+                <Stack align="flex-start" justify="flex-start" spacing={2}>
                   {u.views.map((v) => (
                     <Anchor component="button" type="button" onClick={() => openView(v.id)}>
                       <Box>{v.label}</Box>
