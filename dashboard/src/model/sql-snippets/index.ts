@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { cast, Instance, types } from 'mobx-state-tree';
 import { SQLSnippetModel, SQLSnippetModelInstance } from './sql-snippet';
 
@@ -10,7 +11,7 @@ export const SQLSnippetsModel = types
       return self.current.map((o) => o.json);
     },
     get options() {
-      return self.current.map(
+      const options = self.current.map(
         (o) =>
           ({
             label: o.key,
@@ -18,6 +19,7 @@ export const SQLSnippetsModel = types
             _type: 'sql_snippet',
           } as const),
       );
+      return _.sortBy(options, (o) => o.label.toLowerCase());
     },
     get record() {
       return self.current.reduce((prev, curr) => {

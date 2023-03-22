@@ -15,6 +15,13 @@ export const ViewsModel = types
     get json() {
       return self.current.map((o) => o.json);
     },
+    get idMap() {
+      const map = new Map<string, ViewModelInstance>();
+      self.current.forEach((v) => {
+        map.set(v.id, v);
+      });
+      return map;
+    },
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },

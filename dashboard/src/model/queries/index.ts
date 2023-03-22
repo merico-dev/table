@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { cast, detach, Instance, types } from 'mobx-state-tree';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
@@ -17,7 +18,7 @@ export const QueriesModel = types
       return self.current.find((query) => query.id === id);
     },
     get options() {
-      return self.current.map(
+      const options = self.current.map(
         (d) =>
           ({
             value: d.id,
@@ -25,6 +26,7 @@ export const QueriesModel = types
             _type: 'query',
           } as const),
       );
+      return _.sortBy(options, (o) => o.label.toLowerCase());
     },
   }))
   .views((self) => ({

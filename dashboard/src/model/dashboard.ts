@@ -18,7 +18,7 @@ import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';
 import { FiltersModel, getInitialFiltersPayload } from './filters';
 import { MockContextModel } from './mock-context';
-import { QueriesModel } from './queries';
+import { QueriesModel, QueryUsageType } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
 import { getNewPanel, PanelModelInstance, PanelsModel } from './panels';
@@ -140,12 +140,8 @@ const _DashboardModel = types
   }))
   .views((self) => ({
     findQueryUsage(queryID: string) {
-      type T =
-        | { type: 'filter'; id: string; label: string }
-        | { type: 'panel'; id: string; label: string; viewID: string };
-
       const panelIDMap = self.panels.idMap;
-      const panels: T[] = self.views.current.flatMap((v) =>
+      const panels: QueryUsageType[] = self.views.current.flatMap((v) =>
         v.panelIDs
           .map((id) => panelIDMap.get(id))
           .filter((p): p is PanelModelInstance => p?.queryID === queryID)
@@ -153,11 +149,17 @@ const _DashboardModel = types
             type: 'panel',
             id: p.id,
             label: p.title ? p.title : p.viz.type,
-            viewID: v.id,
+            views: [
+              {
+                id: v.id,
+                label: v.name,
+              },
+            ],
           })),
       );
 
-      const filters: T[] = self.filters.current
+      const viewIDMap = self.views.idMap;
+      const filters: QueryUsageType[] = self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
           return filterQueryID === queryID;
@@ -166,6 +168,10 @@ const _DashboardModel = types
           type: 'filter',
           id: f.id,
           label: f.label,
+          views: f.visibleInViewsIDs.map((id) => ({
+            id,
+            label: viewIDMap.get(id)?.name ?? id,
+          })),
         }));
       return panels.concat(filters);
     },
