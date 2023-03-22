@@ -158,6 +158,7 @@ const _DashboardModel = types
           })),
       );
 
+      const viewIDMap = self.views.idMap;
       const filters: QueryUsageType[] = self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
@@ -167,7 +168,10 @@ const _DashboardModel = types
           type: 'filter',
           id: f.id,
           label: f.label,
-          views: [],
+          views: f.visibleInViewsIDs.map((id) => ({
+            id,
+            label: viewIDMap.get(id)?.name ?? id,
+          })),
         }));
       return panels.concat(filters);
     },
