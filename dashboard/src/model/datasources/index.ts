@@ -1,10 +1,11 @@
 import { types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
 import { DataSourceType } from '../queries/types';
+import { DataSourceModel } from './datasource';
 
 export const DataSourcesModel = types
   .model('DataSourcesModel', {
-    list: types.optional(types.frozen<IDataSource[]>(), []),
+    list: types.optional(types.array(DataSourceModel), []),
   })
   .views((self) => ({
     find({ type, key }: { type: DataSourceType; key: string }) {
@@ -19,6 +20,7 @@ export const DataSourcesModel = types
   }))
   .actions((self) => ({
     replace(list: IDataSource[]) {
-      self.list = list;
+      self.list.length = 0;
+      self.list.push(...list);
     },
   }));
