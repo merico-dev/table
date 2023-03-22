@@ -30,13 +30,13 @@ export class DashboardPermissionService {
   static async checkPermission(
     dashboard_id: string,
     permission_type: 'VIEW' | 'EDIT',
-    is_superadmin: boolean,
+    is_admin: boolean,
     locale: string,
     resource_type?: 'ACCOUNT' | 'APIKEY',
     resource_id?: string,
   ): Promise<void> {
     if (!AUTH_ENABLED) return;
-    if (is_superadmin) return;
+    if (is_admin) return;
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) return;
@@ -97,10 +97,12 @@ export class DashboardPermissionService {
       }
       if (filter.owner_type) {
         filter.owner_type.isFuzzy
-          ? qb.andWhere('dashboard_permission.owner_type ilike :owner_type', {
-              owner_type: `%${escapeLikePattern(filter.owner_type.value)}%`,
+          ? qb.andWhere('dashboard_permission.owner_type ilike ANY(:owner_type)', {
+              owner_type: filter.owner_type.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
             })
-          : qb.andWhere('dashboard_permission.owner_type = :owner_type', { owner_type: filter.owner_type.value });
+          : qb.andWhere('dashboard_permission.owner_type = ANY(:owner_type)', {
+              owner_type: filter.owner_type.value.split(';'),
+            });
       }
     }
 
