@@ -86,7 +86,7 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
             variant="filled"
             size="xs"
             disabled={!model.views.VIE}
-            onClick={model.views.addAPanelToVIE}
+            onClick={() => model.addANewPanel(model.views.idOfVIE)}
             leftIcon={<IconPlaylistAdd size={20} />}
           >
             Add a Panel

@@ -1,10 +1,11 @@
 import { getParent, getParentOfType, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { QueryModelInstance } from '../../../queries';
+import { QueryModelInstance } from '../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
 import { DashboardModel } from '~/model';
 import { VariableModel } from '~/model/variables';
+import { TableVizComponent } from '~/plugins/viz-components/table';
 
 export const PanelModel = types
   .model({
@@ -33,10 +34,6 @@ export const PanelModel = types
         variables: self.variables.map((v) => v.json),
         description,
       };
-    },
-    get viewID() {
-      // @ts-expect-error getParent type
-      return getParent(self, 3).id;
     },
   }))
   .actions((self) => ({
@@ -71,22 +68,44 @@ export const PanelModel = types
     },
   }))
   .actions((self) => ({
-    moveToView(targetViewID: string) {
-      const newID = new Date().getTime().toString();
-      const newPanel = {
-        ...self.json,
-        id: newID,
-      };
+    moveToView(sourceViewID: string, targetViewID: string) {
       // @ts-expect-error getRoot type
-      const view = getRoot(self).views.findByID(targetViewID);
-      view.panels.append(newPanel);
+      const sourceView = getRoot(self).views.findByID(sourceViewID);
+      sourceView.removePanelID(self.id);
+
+      // @ts-expect-error getRoot type
+      const targetView = getRoot(self).views.findByID(targetViewID);
+      targetView.appendPanelID(self.id);
 
       // @ts-expect-error getRoot type
       const editor = getRoot(self).editor;
-      editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', newID]);
-
-      self.removeSelf();
+      editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', self.id]);
     },
   }));
 
 export type PanelModelInstance = Instance<typeof PanelModel>;
+export type PanelModelSnapshotIn = SnapshotIn<PanelModelInstance>;
+
+export function getNewPanel(id: string): PanelModelSnapshotIn {
+  return {
+    id,
+    layout: {
+      x: 0,
+      y: Infinity, // puts it at the bottom
+      w: 3,
+      h: 15,
+    },
+    title: id,
+    description: '<p></p>',
+    queryID: '',
+    viz: {
+      type: TableVizComponent.name,
+      conf: TableVizComponent.createConfig(),
+    },
+    style: {
+      border: {
+        enabled: true,
+      },
+    },
+  };
+}

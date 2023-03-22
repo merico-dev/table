@@ -24,7 +24,7 @@ export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
       px="xs"
       mb={10}
       color="blue"
-      onClick={view.panels.addANewPanel}
+      onClick={() => model.addANewPanel(view.id)}
       sx={{ width: '100%', borderRadius: 0 }}
       styles={{
         inner: {

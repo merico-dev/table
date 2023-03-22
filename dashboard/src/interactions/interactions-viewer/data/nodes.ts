@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
-import { DashboardModelInstance, FiltersModelInstance, ViewsModelInstance } from '~/model';
+import { DashboardModelInstance, FiltersModelInstance, PanelModelInstance, ViewsModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
 import {
@@ -23,11 +23,28 @@ import {
 } from './metrics';
 import { TFlowNode } from './types';
 
-function makePanelNodes(views: ViewsModelInstance) {
+function makePanelNodes(views: ViewsModelInstance, panels: PanelModelInstance[]) {
+  const panelsMap = _.keyBy(panels, (p) => p.id);
   const panelNodes: TFlowNode[] = [];
   views.current.forEach((v, i) => {
-    v.panels.list.forEach((p, pi) => {
+    v.panelIDs.forEach((pid, pi) => {
       const y = calc(pi, PanelHeight, PanelGapY) + ViewPaddingT;
+
+      const p = panelsMap[pid];
+      if (!p) {
+        panelNodes.push({
+          id: pid,
+          _node_type: 'panel',
+          parentNode: v.id,
+          data: { label: `!: ${pid}` },
+          position: { x: ViewPaddingX, y },
+          sourcePosition: Position.Right,
+          targetPosition: Position.Left,
+          style: { width: PanelWidth, height: PanelHeight },
+        });
+        return;
+      }
+
       const label = p.title.trim() ? `${p.title}` : p.viz.type;
       panelNodes.push({
         id: p.id,
@@ -54,7 +71,7 @@ const ViewBackground = ViewComponentTypeBackground;
 
 function makeViewNodes(views: ViewsModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {
-    const height = calcTotal(v.panels.list.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
+    const height = calcTotal(v.panelIDs.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
     let _tab_view_ids: string[] = [];
     if (v.type === EViewComponentType.Tabs) {
       const config = v.config as IViewConfigModel_Tabs;
@@ -98,6 +115,6 @@ function addParentToTabView(viewNodes: TFlowNode[]) {
 export function makeNodes(model: DashboardModelInstance) {
   const viewNodes = makeViewNodes(model.views);
   addParentToTabView(viewNodes);
-  const panelNodes = makePanelNodes(model.views);
+  const panelNodes = makePanelNodes(model.views, model.panels.list);
   return [...viewNodes, ...panelNodes];
 }

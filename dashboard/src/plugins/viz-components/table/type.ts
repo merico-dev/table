@@ -51,7 +51,7 @@ export const DEFAULT_CONFIG: ITableConf = {
   horizontalSpacing: '1em',
   id_field: '',
   striped: false,
-  use_raw_columns: false,
+  use_raw_columns: true,
   verticalSpacing: '1em',
 };
 

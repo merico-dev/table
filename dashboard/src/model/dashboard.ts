@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { defaults, get, isEqual, pick } from 'lodash';
+import _, { defaults, get, isEqual, pick } from 'lodash';
 import {
   addDisposer,
   applyPatch,
@@ -22,6 +21,7 @@ import { MockContextModel } from './mock-context';
 import { QueriesModel } from './queries';
 import { SQLSnippetsModel } from './sql-snippets';
 
+import { getNewPanel, PanelModelInstance, PanelsModel } from './panels';
 import { createDashboardViewsModel, ViewsModel } from './views';
 
 const _DashboardModel = types
@@ -35,6 +35,7 @@ const _DashboardModel = types
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
+    panels: PanelsModel,
     context: ContextModel,
     mock_context: MockContextModel,
     editor: EditorModel,
@@ -50,6 +51,7 @@ const _DashboardModel = types
         name: self.name,
         group: self.group,
         views: self.views.json,
+        panels: self.panels.json,
         filters: self.filters.json,
         version: self.version,
         definition: {
@@ -142,11 +144,19 @@ const _DashboardModel = types
         | { type: 'filter'; id: string; label: string }
         | { type: 'panel'; id: string; label: string; viewID: string };
 
+      const panelIDMap = self.panels.idMap;
       const panels: T[] = self.views.current.flatMap((v) =>
-        v.panels.list
-          .filter((p) => p.queryID === queryID)
-          .map((p) => ({ type: 'panel', id: p.id, label: p.title ? p.title : p.viz.type, viewID: v.id })),
+        v.panelIDs
+          .map((id) => panelIDMap.get(id))
+          .filter((p): p is PanelModelInstance => p?.queryID === queryID)
+          .map((p) => ({
+            type: 'panel',
+            id: p.id,
+            label: p.title ? p.title : p.viz.type,
+            viewID: v.id,
+          })),
       );
+
       const filters: T[] = self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
@@ -158,6 +168,21 @@ const _DashboardModel = types
           label: f.label,
         }));
       return panels.concat(filters);
+    },
+  }))
+  .actions((self) => ({
+    duplicatePanelByID(panelID: string, viewID: string) {
+      self.panels.duplicateByID(panelID);
+      self.views.findByID(viewID)?.appendPanelID(panelID);
+    },
+    removePanelByID(panelID: string, viewID: string) {
+      self.panels.removeByID(panelID);
+      self.views.findByID(viewID)?.removePanelID(panelID);
+    },
+    addANewPanel(viewID: string) {
+      const id = new Date().getTime().toString();
+      self.panels.append(getNewPanel(id));
+      self.views.findByID(viewID)?.appendPanelID(id);
     },
   }))
   .actions((self) => {
@@ -220,7 +245,16 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
 });
 
 export function createDashboardModel(
-  { id, name, group, version, filters, views, definition: { queries, sqlSnippets, mock_context = {} } }: IDashboard,
+  {
+    id,
+    name,
+    group,
+    version,
+    filters,
+    views,
+    panels,
+    definition: { queries, sqlSnippets, mock_context = {} },
+  }: IDashboard,
   datasources: IDataSource[],
   context: ContextInfoType,
 ) {
@@ -246,6 +280,9 @@ export function createDashboardModel(
       current: mock_context,
     },
     views: createDashboardViewsModel(views),
+    panels: {
+      list: panels,
+    },
     editor: {},
   });
 }

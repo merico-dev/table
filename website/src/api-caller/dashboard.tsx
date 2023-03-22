@@ -24,13 +24,23 @@ export const DashboardAPI = {
   details: async (id: string): Promise<IDBDashboard> => {
     return await post(`/dashboard/details`, { id });
   },
-  update: async ({ id, name, group, definition, views, filters, version }: IDashboard): Promise<IDBDashboard> => {
+  update: async ({
+    id,
+    name,
+    group,
+    definition,
+    views,
+    panels,
+    filters,
+    version,
+  }: IDashboard): Promise<IDBDashboard> => {
     const payload = {
       id,
       name,
       group,
       content: {
         views,
+        panels,
         filters,
         version,
         definition,
@@ -60,11 +70,11 @@ export const DashboardAPI = {
             name: 'Main',
             type: 'div',
             config: {},
-            panels: [],
           },
         ],
+        panels: [],
         filters: [],
-        version: '6.7.0',
+        version: '8.38.0',
       };
     }
     return await post('/dashboard/create', {

@@ -1,7 +1,7 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 import { ViewModelInstance } from '..';
 import { Panel } from '../panel';
 

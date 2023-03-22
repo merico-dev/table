@@ -1,6 +1,6 @@
-import { randomId } from '@mantine/hooks';
-import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
+import { PanelsModelInstance } from '../panels';
 import { ViewModel, ViewModelInstance } from './view';
 import { IViewConfigModel_DivisionIn } from './view/division';
 import { IViewConfigModel_ModalIn } from './view/modal';
@@ -43,13 +43,15 @@ export const ViewsModel = types
       }));
     },
     get editorOptions() {
+      // @ts-expect-error getRoot type, reading panels
+      const panels: PanelsModelInstance = getRoot(self).panels;
       return self.current.map(
         (v) =>
           ({
             label: v.name,
             value: v.id,
             _type: 'view',
-            children: v.panels.editorOptions,
+            children: panels.editorOptions(v.id, v.panelIDs),
           } as const),
       );
     },
@@ -70,9 +72,7 @@ export const ViewsModel = types
           name: name,
           type,
           config,
-          panels: {
-            list: [],
-          },
+          panelIDs: [],
         });
       },
       append(item: ViewModelInstance) {
@@ -95,9 +95,6 @@ export const ViewsModel = types
         self.idOfVIE = id;
         self.visibleViewIDs.length = 0;
         self.visibleViewIDs.push(id);
-      },
-      addAPanelToVIE() {
-        self.VIE?.panels.addANewPanel();
       },
       appendToVisibles(viewID: string) {
         const s = new Set(self.visibleViewIDs.map((v) => v));
@@ -145,9 +142,7 @@ export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<I
         ...view.config,
         _name,
       },
-      panels: {
-        list: view.panels,
-      },
+      panelIDs: view.panelIDs,
     };
   });
   return {

@@ -1,9 +1,8 @@
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
-import { castToSnapshot, getParent, types } from 'mobx-state-tree';
+import { castToSnapshot, Instance, types } from 'mobx-state-tree';
 import { NavOptionType } from '~/model/editor';
-import { TableVizComponent } from '~/plugins/viz-components/table';
-import { PanelModel, PanelModelInstance } from './panel';
+import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';
 
 export const PanelsModel = types
   .model('PanelsModel', {
@@ -13,25 +12,49 @@ export const PanelsModel = types
     get json() {
       return self.list.map((o) => o.json);
     },
-    get layouts() {
-      return self.list.map((o) => ({
-        ...o.layout.json,
-        i: o.id,
-      }));
-    },
     findByID(id: string) {
       return self.list.find((query) => query.id === id);
     },
-    get editorOptions() {
-      // @ts-expect-error type of getParent
-      const parentID = getParent(self, 1).id;
-      const ret = self.list.map(
+    get idMap() {
+      const map = new Map<string, PanelModelInstance>();
+      self.list.forEach((p) => {
+        map.set(p.id, p);
+      });
+      return map;
+    },
+  }))
+  .views((self) => ({
+    panelsByIDs(ids: string[]) {
+      const panels: PanelModelInstance[] = [];
+      ids.forEach((id) => {
+        const p = self.idMap.get(id);
+        if (p) {
+          panels.push(p);
+        } else {
+          console.warn(`Panel is not found, id:${id}`);
+        }
+      });
+
+      const layouts = panels.map((o) => ({
+        ...o.layout.json,
+        i: o.id,
+      }));
+      return { panels, layouts };
+    },
+  }))
+  .views((self) => ({
+    editorOptions(viewID: string, panelIDs: string[]) {
+      const { panels } = self.panelsByIDs(panelIDs);
+      if (panels.length !== panelIDs.length) {
+        console.warn(`Unfulfilled panels for View[${viewID}]`);
+      }
+      const ret = panels.map(
         (o) =>
           ({
             label: o.title ? o.title : _.capitalize(o.viz.type),
             value: o.id,
             _type: 'panel',
-            parentID,
+            parentID: viewID,
           } as NavOptionType),
       );
       const _action_type = '_Add_A_PANEL_';
@@ -40,7 +63,7 @@ export const PanelsModel = types
         value: _action_type,
         _type: 'ACTION',
         _action_type,
-        parentID,
+        parentID: viewID,
         Icon: null,
         children: null,
       } as const);
@@ -52,31 +75,7 @@ export const PanelsModel = types
       replace(current: Array<PanelModelInstance>) {
         self.list = castToSnapshot(current);
       },
-      addANewPanel() {
-        const id = new Date().getTime().toString();
-        self.list.push({
-          id,
-          layout: {
-            x: 0,
-            y: Infinity, // puts it at the bottom
-            w: 3,
-            h: 15,
-          },
-          title: id,
-          description: '<p></p>',
-          queryID: '',
-          viz: {
-            type: TableVizComponent.name,
-            conf: TableVizComponent.createConfig(),
-          },
-          style: {
-            border: {
-              enabled: true,
-            },
-          },
-        });
-      },
-      append(item: PanelModelInstance) {
+      append(item: PanelModelSnapshotIn) {
         self.list.push(item);
       },
       remove(index: number) {
@@ -111,4 +110,5 @@ export const PanelsModel = types
     };
   });
 
+export type PanelsModelInstance = Instance<typeof PanelsModel>;
 export * from './panel';

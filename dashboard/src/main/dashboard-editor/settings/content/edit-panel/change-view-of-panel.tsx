@@ -4,18 +4,22 @@ import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useModelContext } from '~/contexts';
-import { PanelModelInstance } from '~/model/views/view/panels';
+import { PanelModelInstance } from '~/model/panels';
 
-export const ChangeViewOfPanel = observer(({ panel }: { panel: PanelModelInstance }) => {
+interface IChangeViewOfPanel {
+  panel: PanelModelInstance;
+  sourceViewID: string;
+}
+export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewOfPanel) => {
   const model = useModelContext();
-  const [viewID, setViewID] = useState(panel.viewID);
+  const [targetViewID, setTargetViewID] = useState(sourceViewID);
   useEffect(() => {
-    setViewID(panel.viewID);
-  }, [panel.viewID]);
+    setTargetViewID(sourceViewID);
+  }, [sourceViewID]);
   const [opened, { open, close }] = useDisclosure(false);
 
   const confirm = () => {
-    panel.moveToView(viewID);
+    panel.moveToView(sourceViewID, targetViewID);
     close();
   };
 
@@ -27,8 +31,8 @@ export const ChangeViewOfPanel = observer(({ panel }: { panel: PanelModelInstanc
       <Modal opened={opened} onClose={close} title="Move panel into another view" zIndex={320} overflow="inside">
         <Stack sx={{ maxHeight: 'calc(100vh - 185px)', overflow: 'hidden' }}>
           <Radio.Group
-            value={viewID}
-            onChange={setViewID}
+            value={targetViewID}
+            onChange={setTargetViewID}
             pb={10}
             sx={{ flexGrow: 1, maxHeight: 'calc(100vh - 185px - 30px)', overflow: 'auto' }}
           >
@@ -48,7 +52,7 @@ export const ChangeViewOfPanel = observer(({ panel }: { panel: PanelModelInstanc
               color="blue"
               leftIcon={<IconDeviceFloppy size={14} />}
               onClick={confirm}
-              disabled={viewID === panel.viewID}
+              disabled={targetViewID === sourceViewID}
             >
               Confirm
             </Button>

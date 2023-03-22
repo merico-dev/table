@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
+import { useModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
@@ -63,17 +64,20 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
   isDraggable,
   isResizable,
 }: IMainDashboardLayout) {
+  const model = useModelContext();
+  const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
+
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
       currentLayout.forEach(({ i, ...rest }) => {
-        const p = view.panels.findByID(i);
+        const p = model.panels.findByID(i);
         if (!p) {
           return;
         }
         p.layout.set(rest);
       });
     },
-    [view],
+    [model],
   );
 
   return (
@@ -81,13 +85,13 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={rowHeight}
-      layout={view.panels.layouts}
+      layout={layouts}
       isDraggable={isDraggable}
       isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
     >
-      {view.panels.list.map((panel, index) => {
+      {panels.map((panel, index) => {
         return (
           <div key={panel.id} data-grid={{ ...panel.layout }} style={{ position: 'relative' }}>
             {isDraggable && <CustomDragHandle />}
