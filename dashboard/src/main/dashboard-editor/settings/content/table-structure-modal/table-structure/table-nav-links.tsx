@@ -5,14 +5,15 @@ import { DataSourceModelInstance } from '~/model/datasources/datasource';
 
 export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { tables, columns } = dataSource;
+
   return (
-    <Box h="100%" sx={{ overflow: 'auto' }}>
+    <Box h="100%" sx={{ overflow: 'auto', '.mantine-NavLink-label': { fontFamily: 'monospace' } }}>
       {Object.entries(tables.data).map(([table_schema, table_infos]) => (
         <NavLink
           key={table_schema}
           label={table_schema}
           icon={<IconDatabase size={14} />}
-          opened={columns.table_schema === table_schema}
+          defaultOpened={columns.table_schema === table_schema}
         >
           {table_infos.map((info) => (
             <NavLink
