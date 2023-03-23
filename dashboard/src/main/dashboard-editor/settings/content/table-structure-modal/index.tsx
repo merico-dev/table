@@ -11,7 +11,12 @@ export const TableStructureModal = observer(({ dataSource }: { dataSource: DataS
         TODO
       </Modal>
 
-      <Button variant="subtle" onClick={() => setOpened(true)} styles={{ inner: { justifyContent: 'flex-start' } }}>
+      <Button
+        variant="subtle"
+        onClick={() => setOpened(true)}
+        px={16}
+        styles={{ inner: { justifyContent: 'flex-start' } }}
+      >
         See Table Structure
       </Button>
     </>
