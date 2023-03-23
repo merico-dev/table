@@ -21,9 +21,9 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
         <thead>
           <tr>
             <th style={{ width: 50 }}>#</th>
-            <th style={{ width: 250 }}>Column Name</th>
+            <th style={{ width: 200 }}>Column Name</th>
             <th style={{ width: 60 }}></th>
-            <th style={{ width: 200 }}>Type</th>
+            <th style={{ width: 300 }}>Type</th>
             <th style={{ width: 100 }}>Nullable</th>
             <th style={{ width: 250 }}>Default</th>
             <th style={{ minWidth: 100 }}>Comment</th>

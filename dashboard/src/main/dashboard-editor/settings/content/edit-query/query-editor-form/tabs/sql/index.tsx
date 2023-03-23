@@ -67,7 +67,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
         <Tabs.Tab value="pre_process">Process Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
         <GlobalVariablesModal />
-        <TableStructureModal dataSource={queryModel.datasource} />
+        {queryModel.datasource && <TableStructureModal dataSource={queryModel.datasource} />}
       </Tabs.List>
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
         <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} />

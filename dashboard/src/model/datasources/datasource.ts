@@ -82,7 +82,7 @@ export const DataSourceModel = types
           self.columns.error = null;
         } catch (error) {
           if (!axios.isCancel(error)) {
-            self.tables.data = {};
+            self.columns.data = [];
             const fallback = _.get(error, 'message', 'unkown error');
             self.columns.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
             self.columns.state = 'error';
