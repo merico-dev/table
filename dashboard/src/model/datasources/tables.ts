@@ -3,7 +3,7 @@ import { types } from 'mobx-state-tree';
 export type TableInfoType = {
   table_schema: string;
   table_name: string;
-  table_type: string;
+  table_type: 'VIEW' | 'BASE TABLE';
   engine: string;
 };
 
@@ -23,6 +23,6 @@ export const TablesModel = types
       return Object.keys(self.data).length === 0;
     },
     get sql() {
-      return `SELECT table_schema, table_name, table_type, engine FROM information_schema.tables WHERE table_type = 'BASE TABLE' ORDER BY table_name`;
+      return `SELECT table_schema, table_name, table_type, engine FROM information_schema.tables ORDER BY table_schema, table_name`;
     },
   }));

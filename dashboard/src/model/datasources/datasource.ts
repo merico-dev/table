@@ -7,18 +7,7 @@ import { APIClient } from '~/api-caller/request';
 import { TDataSourceConfig } from '~/api-caller/types';
 import { DataSourceType } from '../queries/types';
 import { ColumnsModel } from './columns';
-import { TableInfoTreeType, TableInfoType, TablesModel } from './tables';
-
-function groupTablesBySchema(tables: TableInfoType[]) {
-  const obj = _.groupBy(tables, 'table_schema');
-  const ret: TableInfoTreeType = {};
-  Object.keys(obj)
-    .sort()
-    .forEach((k) => {
-      ret[k] = obj[k];
-    });
-  return ret;
-}
+import { TableInfoType, TablesModel } from './tables';
 
 export const DataSourceModel = types
   .model('DataSourceModel', {
@@ -55,7 +44,7 @@ export const DataSourceModel = types
             {},
           ),
         );
-        self.tables.data = groupTablesBySchema(tables);
+        self.tables.data = _.groupBy(tables, 'table_schema');
         self.tables.state = 'idle';
         self.tables.error = null;
 
