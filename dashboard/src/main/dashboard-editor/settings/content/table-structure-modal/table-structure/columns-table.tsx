@@ -8,12 +8,16 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
   const { columns } = dataSource;
 
   if (columns.loading) {
-    return <LoadingSkeleton height="24px" width="100%" lastWidth="100%" count={20} pl={14} />;
+    return <LoadingSkeleton height="24px" width="100%" lastWidth="100%" count={20} pl={6} />;
   }
 
   return (
     <Box h="100%" sx={{ overflow: 'auto' }}>
-      <Table highlightOnHover fontSize={14} sx={{ tbody: { fontFamily: 'monospace' } }}>
+      <Table
+        highlightOnHover
+        fontSize={14}
+        sx={{ tableLayout: 'fixed', minWidth: '1100px', tbody: { fontFamily: 'monospace' } }}
+      >
         <thead>
           <tr>
             <th style={{ width: 50 }}>#</th>
@@ -22,7 +26,7 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
             <th style={{ width: 200 }}>Type</th>
             <th style={{ width: 100 }}>Nullable</th>
             <th style={{ width: 250 }}>Default</th>
-            <th>Comment</th>
+            <th style={{ minWidth: 100 }}>Comment</th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +38,17 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
               <td>{c.column_type}</td>
               <td>{c.is_nullable}</td>
               <td>{c.column_default}</td>
-              <td>{c.column_comment}</td>
+              <td title={c.column_comment}>
+                <div
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {c.column_comment}
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

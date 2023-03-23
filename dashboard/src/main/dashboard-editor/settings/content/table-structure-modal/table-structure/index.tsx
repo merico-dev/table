@@ -1,4 +1,4 @@
-import { Box, Flex } from '@mantine/core';
+import { Box, Flex, Tabs, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
@@ -16,7 +16,22 @@ export const TableStructure = observer(({ dataSource }: { dataSource: DataSource
         <TableNavLinks dataSource={dataSource} />
       </Box>
       <Box sx={{ flexGrow: 1, position: 'relative', borderLeft: '1px solid #efefef' }}>
-        <ColumnsTable dataSource={dataSource} />
+        <Tabs
+          defaultValue="columns"
+          styles={{ root: { height: '100%' }, panel: { height: 'calc(100% - 36px)', overflow: 'auto' } }}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="columns">Columns</Tabs.Tab>
+            <Tabs.Tab value="indexes" disabled>
+              <Tooltip label="Coming soon" withinPortal zIndex={330}>
+                <Box>Indexes</Box>
+              </Tooltip>
+            </Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="columns">
+            <ColumnsTable dataSource={dataSource} />
+          </Tabs.Panel>
+        </Tabs>
       </Box>
     </Flex>
   );
