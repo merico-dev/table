@@ -3,6 +3,7 @@ import { DataSourceType } from '../queries/types';
 
 export type ColumnInfoType = {
   column_key: string;
+  column_key_text?: string;
   column_name: string;
   column_type: string;
   is_nullable: string;
@@ -41,6 +42,8 @@ export const ColumnsModel = types
         return `
           SELECT
             ordinal_position,
+            UPPER(pc.contype) AS column_key,
+            pg_get_constraintdef(pc.oid) AS column_key_text,
             column_name,
             format_type(atttypid, atttypmod) AS column_type,
             is_nullable,
@@ -48,8 +51,9 @@ export const ColumnsModel = types
             pg_catalog.col_description(${attrelid}, ordinal_position) AS column_comment
           FROM
             information_schema.columns
-            JOIN pg_attribute pa ON pa.attrelid = ${attrelid}::regclass
+            JOIN pg_attribute pa ON pa.attrelid = ${attrelid}
               AND attname = column_name
+            LEFT JOIN pg_constraint pc ON pc.conrelid = ${attrelid} AND ordinal_position = any(pc.conkey)
           WHERE
             table_name = '${self.table_name}' AND table_schema = '${self.table_schema}';
         `;

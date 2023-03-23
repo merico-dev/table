@@ -1,8 +1,21 @@
-import { Badge, Box, Table } from '@mantine/core';
+import { Badge, Box, Table, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { ColumnInfoType } from '~/model/datasources/columns';
 
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { LoadingSkeleton } from './loading-skeleton';
+
+const ColumnKey = ({ column }: { column: ColumnInfoType }) => {
+  const { column_key, column_key_text } = column;
+  if (!column_key) {
+    return null;
+  }
+  return (
+    <Tooltip label={column_key_text} disabled={!column_key_text}>
+      <Badge>{column_key}</Badge>
+    </Tooltip>
+  );
+};
 
 export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { columns } = dataSource;
@@ -34,7 +47,9 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
             <tr key={c.column_name}>
               <td>{c.ordinal_position}</td>
               <td>{c.column_name}</td>
-              <td>{c.column_key && <Badge>{c.column_key}</Badge>}</td>
+              <td>
+                <ColumnKey column={c} />
+              </td>
               <td>{c.column_type}</td>
               <td>{c.is_nullable}</td>
               <td>{c.column_default}</td>
