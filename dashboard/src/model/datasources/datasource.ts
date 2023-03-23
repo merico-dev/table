@@ -35,8 +35,8 @@ export const DataSourceModel = types
       return self.state === 'loading';
     },
   }))
-  .actions((self) => ({
-    loadTables: flow(function* () {
+  .actions((self) => {
+    const loadTables = flow(function* () {
       self.controller?.abort();
       self.controller = new AbortController();
       self.state = 'loading';
@@ -58,5 +58,14 @@ export const DataSourceModel = types
           self.state = 'error';
         }
       }
-    }),
-  }));
+    });
+
+    return {
+      loadTables,
+      loadTablesIfEmpty() {
+        if (self.tables.length === 0) {
+          loadTables();
+        }
+      },
+    };
+  });
