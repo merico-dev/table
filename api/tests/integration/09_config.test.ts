@@ -1,4 +1,4 @@
-import { connectionHook } from './jest.util';
+import { connectionHook, sleep } from './jest.util';
 import { ConfigService, ConfigResourceTypes } from '~/services/config.service';
 import { AccountService } from '~/services/account.service';
 import { ApiService } from '~/services/api.service';
@@ -182,7 +182,9 @@ describe('ConfigService', () => {
       ]);
 
       await accountService.delete(account1.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await sleep(2000);
       await apiService.deleteKey(apiKey.id, DEFAULT_LANGUAGE);
+      await sleep(2000);
 
       const configsAfter = await qb.getRawMany();
 
