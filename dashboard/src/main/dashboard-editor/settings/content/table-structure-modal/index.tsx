@@ -28,6 +28,7 @@ export const TableStructureModal = observer(({ dataSource }: { dataSource: DataS
         zIndex={320}
         size="96vw"
         overflow="inside"
+        styles={{ title: { flexGrow: 1 } }}
       >
         <Box sx={{ height: 'calc(100vh - 220px)' }}>
           <TableStructure dataSource={dataSource} />
