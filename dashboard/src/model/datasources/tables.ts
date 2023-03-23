@@ -22,4 +22,7 @@ export const TablesModel = types
     get empty() {
       return Object.keys(self.data).length === 0;
     },
+    get sql() {
+      return `select table_schema, table_name, table_type, engine from information_schema.tables where table_type = 'BASE TABLE' order by table_name`;
+    },
   }));

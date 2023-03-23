@@ -7,10 +7,6 @@ import { TDataSourceConfig } from '~/api-caller/types';
 import { DataSourceType } from '../queries/types';
 import { TablesModel } from './tables';
 
-const Queries = {
-  tables: `select table_schema, table_name, table_type, engine from information_schema.tables where table_type = 'BASE TABLE' order by table_name`,
-};
-
 export const DataSourceModel = types
   .model('DataSourceModel', {
     id: types.string,
@@ -31,7 +27,7 @@ export const DataSourceModel = types
         const tables = yield* toGenerator(
           APIClient.getRequest('POST', self.controller.signal)(
             '/query',
-            { type: self.type, key: self.key, query: Queries.tables },
+            { type: self.type, key: self.key, query: self.tables.sql },
             {},
           ),
         );
