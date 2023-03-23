@@ -1,9 +1,15 @@
 import { Box, Table } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { LoadingSkeleton } from './loading-skeleton';
 
 export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const { columns } = dataSource;
+
+  if (columns.loading) {
+    return <LoadingSkeleton height="24px" width="100%" lastWidth="100%" count={20} pl={14} />;
+  }
+
   return (
     <Box h="100%" sx={{ overflow: 'auto' }}>
       <Table highlightOnHover fontSize={14} sx={{ tbody: { fontFamily: 'monospace' } }}>
