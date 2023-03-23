@@ -1,7 +1,6 @@
 import axios from 'axios';
 import _ from 'lodash';
-import { flow } from 'mobx';
-import { Instance, toGenerator, types } from 'mobx-state-tree';
+import { Instance, flow, toGenerator, types } from 'mobx-state-tree';
 import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { TDataSourceConfig } from '~/api-caller/types';
@@ -52,7 +51,7 @@ export const DataSourceModel = types
         self.error = null;
       } catch (error) {
         if (!axios.isCancel(error)) {
-          self.tables.length = 0;
+          self.tables = [];
           const fallback = _.get(error, 'message', 'unkown error');
           self.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
           self.state = 'error';
