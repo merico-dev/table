@@ -1,7 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { flow } from 'mobx';
-import { toGenerator, types } from 'mobx-state-tree';
+import { Instance, toGenerator, types } from 'mobx-state-tree';
 import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { TDataSourceConfig } from '~/api-caller/types';
@@ -69,3 +69,5 @@ export const DataSourceModel = types
       },
     };
   });
+
+export type DataSourceModelInstance = Instance<typeof DataSourceModel>;
