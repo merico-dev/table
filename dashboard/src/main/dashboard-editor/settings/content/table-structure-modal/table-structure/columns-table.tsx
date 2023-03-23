@@ -1,9 +1,23 @@
-import { Badge, Box, Table, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Box, Table, Tooltip } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ColumnInfoType } from '~/model/datasources/columns';
 
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { LoadingSkeleton } from './loading-skeleton';
+
+const TooltipValue = ({ value }: { value: string }) => {
+  if (value === null || value === '') {
+    return null;
+  }
+  return (
+    <Tooltip label={value} disabled={!value}>
+      <ActionIcon>
+        <IconInfoCircle size={14} />
+      </ActionIcon>
+    </Tooltip>
+  );
+};
 
 const ColumnKey = ({ column }: { column: ColumnInfoType }) => {
   const { column_key, column_key_text } = column;
@@ -23,23 +37,31 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
   if (columns.loading) {
     return <LoadingSkeleton height="24px" width="100%" lastWidth="100%" count={20} pl={6} />;
   }
+  if (columns.empty) {
+    return null;
+  }
 
   return (
-    <Box h="100%" sx={{ overflow: 'auto' }}>
-      <Table
-        highlightOnHover
-        fontSize={14}
-        sx={{ tableLayout: 'fixed', minWidth: '1100px', tbody: { fontFamily: 'monospace' } }}
-      >
+    <Box w="100%" h="100%" sx={{ overflow: 'auto' }}>
+      <Table highlightOnHover fontSize={14} sx={{ tableLayout: 'fixed', tbody: { fontFamily: 'monospace' } }}>
+        <colgroup>
+          <col style={{ width: 50, maxWidth: 50 }} />
+          <col style={{ width: 250 }} />
+          <col style={{ width: 30 }} />
+          <col style={{ width: 70 }} />
+          <col style={{ width: 250 }} />
+          <col style={{ width: 80 }} />
+          <col style={{ width: 120 }} />
+        </colgroup>
         <thead>
           <tr>
-            <th style={{ width: 50 }}>#</th>
-            <th style={{ width: 200 }}>Column Name</th>
-            <th style={{ width: 60 }}></th>
-            <th style={{ width: 300 }}>Type</th>
-            <th style={{ width: 100 }}>Nullable</th>
-            <th style={{ width: 250 }}>Default</th>
-            <th style={{ minWidth: 100 }}>Comment</th>
+            <th>#</th>
+            <th>Column Name</th>
+            <th></th>
+            <th></th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th>Default Value</th>
           </tr>
         </thead>
         <tbody>
@@ -48,21 +70,15 @@ export const ColumnsTable = observer(({ dataSource }: { dataSource: DataSourceMo
               <td>{c.ordinal_position}</td>
               <td>{c.column_name}</td>
               <td>
+                <TooltipValue value={c.column_comment} />
+              </td>
+              <td>
                 <ColumnKey column={c} />
               </td>
               <td>{c.column_type}</td>
               <td>{c.is_nullable}</td>
-              <td>{c.column_default}</td>
-              <td title={c.column_comment}>
-                <div
-                  style={{
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {c.column_comment}
-                </div>
+              <td>
+                <TooltipValue value={c.column_default} />
               </td>
             </tr>
           ))}

@@ -15,10 +15,13 @@ export const TableStructure = observer(({ dataSource }: { dataSource: DataSource
       <Box w={300} sx={{ flexGrow: 0, flexShrink: 0, position: 'relative' }}>
         <TableNavLinks dataSource={dataSource} />
       </Box>
-      <Box sx={{ flexGrow: 1, position: 'relative', borderLeft: '1px solid #efefef' }}>
+      <Box sx={{ flexGrow: 1, overflow: 'hidden', position: 'relative', borderLeft: '1px solid #efefef' }}>
         <Tabs
           defaultValue="columns"
-          styles={{ root: { height: '100%' }, panel: { height: 'calc(100% - 36px)', overflow: 'auto' } }}
+          styles={{
+            root: { width: '100%', height: '100%' },
+            panel: { width: '100%', height: 'calc(100% - 36px)', overflow: 'auto' },
+          }}
         >
           <Tabs.List>
             <Tabs.Tab value="columns">Columns</Tabs.Tab>
