@@ -93,7 +93,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: results.data[0].id,
-            dashboard_id: results.data[0].dashboard_id,
             owner_id: results.data[0].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -103,7 +102,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: results.data[1].id,
-            dashboard_id: results.data[1].dashboard_id,
             owner_id: results.data[1].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -113,7 +111,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: results.data[2].id,
-            dashboard_id: results.data[2].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -123,7 +120,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: results.data[3].id,
-            dashboard_id: accountDashboard.id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -133,7 +129,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: results.data[4].id,
-            dashboard_id: apiKeyDashboard.id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             can_view: [],
@@ -144,12 +139,12 @@ describe('DashboardPermissionService', () => {
         ],
       });
 
-      noOwnerDashboardId = results.data[2].dashboard_id;
+      noOwnerDashboardId = results.data[2].id;
     });
 
     it('with filters', async () => {
       const results1 = await dashboardPermissionService.list(
-        { dashboard_id: { isFuzzy: true, value: noOwnerDashboardId } },
+        { id: { isFuzzy: true, value: noOwnerDashboardId } },
         [{ field: 'create_time', order: 'ASC' }],
         {
           page: 1,
@@ -162,7 +157,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: results1.data[0].id,
-            dashboard_id: results1.data[0].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -188,7 +182,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: results2.data[0].id,
-            dashboard_id: results2.data[0].dashboard_id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             can_view: [],
@@ -210,7 +203,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: result3.data[0].id,
-            dashboard_id: result3.data[0].dashboard_id,
             owner_id: result3.data[0].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -220,7 +212,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result3.data[1].id,
-            dashboard_id: result3.data[1].dashboard_id,
             owner_id: result3.data[1].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -229,8 +220,7 @@ describe('DashboardPermissionService', () => {
             update_time: result3.data[1].update_time,
           },
           {
-            id: result3.data[2].id,
-            dashboard_id: accountDashboard.id,
+            id: accountDashboard.id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -239,8 +229,7 @@ describe('DashboardPermissionService', () => {
             update_time: result3.data[2].update_time,
           },
           {
-            id: result3.data[3].id,
-            dashboard_id: apiKeyDashboard.id,
+            id: apiKeyDashboard.id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             can_view: [],
@@ -264,10 +253,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result1).toMatchObject({
-        id: result1.id,
+        id: accountDashboard.id,
         create_time: result1.create_time,
         update_time: result1.update_time,
-        dashboard_id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         can_view: [{ id: apiKey.id, type: 'APIKEY' }],
@@ -283,10 +271,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result2).toMatchObject({
-        id: result2.id,
+        id: accountDashboard.id,
         create_time: result2.create_time,
         update_time: result2.update_time,
-        dashboard_id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         can_view: [{ id: apiKey.id, type: 'APIKEY' }],
@@ -304,10 +291,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result).toMatchObject({
-        id: result.id,
+        id: apiKeyDashboard.id,
         create_time: result.create_time,
         update_time: result.update_time,
-        dashboard_id: apiKeyDashboard.id,
         owner_id: apiKey.id,
         owner_type: 'APIKEY',
         can_view: [],
@@ -338,10 +324,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result).toMatchObject({
-        id: result.id,
+        id: accountDashboard.id,
         create_time: result.create_time,
         update_time: result.update_time,
-        dashboard_id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         can_view: [
@@ -535,10 +520,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result1).toMatchObject({
-        id: result1.id,
+        id: noOwnerDashboardId,
         create_time: result1.create_time,
         update_time: result1.update_time,
-        dashboard_id: noOwnerDashboardId,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         can_view: [],
@@ -553,10 +537,9 @@ describe('DashboardPermissionService', () => {
         DEFAULT_LANGUAGE,
       );
       expect(result2).toMatchObject({
-        id: result2.id,
+        id: accountDashboard.id,
         create_time: result2.create_time,
         update_time: result2.update_time,
-        dashboard_id: accountDashboard.id,
         owner_id: adminAccount.id,
         owner_type: 'ACCOUNT',
         can_view: [{ id: apiKey.id, type: 'APIKEY' }],
@@ -606,7 +589,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: result.data[0].id,
-            dashboard_id: result.data[0].dashboard_id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -616,7 +598,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[1].id,
-            dashboard_id: result.data[1].dashboard_id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -626,7 +607,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[2].id,
-            dashboard_id: result.data[2].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -636,7 +616,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[3].id,
-            dashboard_id: result.data[3].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [{ type: 'APIKEY', id: apiKey.id }],
@@ -646,7 +625,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[4].id,
-            dashboard_id: result.data[4].dashboard_id,
             owner_id: result.data[4].owner_id,
             owner_type: 'APIKEY',
             can_view: [],
@@ -672,7 +650,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: result.data[0].id,
-            dashboard_id: result.data[0].dashboard_id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -682,7 +659,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[1].id,
-            dashboard_id: result.data[1].dashboard_id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -692,7 +668,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[2].id,
-            dashboard_id: result.data[2].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -702,7 +677,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[3].id,
-            dashboard_id: result.data[3].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -712,7 +686,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[4].id,
-            dashboard_id: result.data[4].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],
@@ -738,7 +711,6 @@ describe('DashboardPermissionService', () => {
         data: [
           {
             id: result.data[0].id,
-            dashboard_id: result.data[0].dashboard_id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -748,7 +720,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[1].id,
-            dashboard_id: result.data[1].dashboard_id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             can_view: [],
@@ -758,7 +729,6 @@ describe('DashboardPermissionService', () => {
           },
           {
             id: result.data[2].id,
-            dashboard_id: result.data[2].dashboard_id,
             owner_id: null,
             owner_type: null,
             can_view: [],

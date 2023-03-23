@@ -198,7 +198,7 @@ export class JobService {
                 return x.id !== auth_id || x.type !== auth_type;
               });
               await dashboardPermissionRepo.save(dashboardPermission);
-              result.affected_dashboard_permissions.push(dashboardPermission.dashboard_id);
+              result.affected_dashboard_permissions.push(dashboardPermission.id);
             }
           }
 

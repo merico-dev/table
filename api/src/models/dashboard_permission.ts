@@ -5,13 +5,6 @@ import { BaseModel } from './base';
 @Entity()
 export default class DashboardPermission extends BaseModel {
   @Column('uuid', {
-    name: 'dashboard_id',
-    comment: '报表ID',
-    nullable: false,
-  })
-  dashboard_id: string;
-
-  @Column('uuid', {
     name: 'owner_id',
     comment: '报表物主ID',
     nullable: true,

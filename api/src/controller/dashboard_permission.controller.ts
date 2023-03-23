@@ -81,9 +81,9 @@ export class DashboardPermissionController implements interfaces.Controller {
   @httpPost('/updateOwner', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
   public async updateOwner(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { dashboard_id, owner_id, owner_type } = validate(DashboardOwnerUpdateRequest, req.body);
+      const { id, owner_id, owner_type } = validate(DashboardOwnerUpdateRequest, req.body);
       const result = await this.dashboardPermissionService.updateOwner(
-        dashboard_id,
+        id,
         owner_id,
         owner_type,
         req.body.auth,
@@ -117,9 +117,9 @@ export class DashboardPermissionController implements interfaces.Controller {
   @httpPost('/update', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { dashboard_id, direction, can_view, can_edit } = validate(DashboardPermissionUpdateRequest, req.body);
+      const { id, direction, can_view, can_edit } = validate(DashboardPermissionUpdateRequest, req.body);
       const result = await this.dashboardPermissionService.update(
-        dashboard_id,
+        id,
         direction,
         can_view,
         can_edit,

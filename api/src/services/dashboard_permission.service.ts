@@ -18,17 +18,17 @@ import { escapeLikePattern } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 
 export class DashboardPermissionService {
-  static async create(dashboard_id: string, owner_id?: string, owner_type?: 'ACCOUNT' | 'APIKEY'): Promise<void> {
+  static async create(id: string, owner_id?: string, owner_type?: 'ACCOUNT' | 'APIKEY'): Promise<void> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const permission = new DashboardPermission();
-    permission.dashboard_id = dashboard_id;
+    permission.id = id;
     permission.owner_id = owner_id ?? null;
     permission.owner_type = owner_type ?? null;
     await dashboardPermissionRepo.save(permission);
   }
 
   static async checkPermission(
-    dashboard_id: string,
+    id: string,
     permission_type: 'VIEW' | 'EDIT',
     is_admin: boolean,
     locale: string,
@@ -38,14 +38,14 @@ export class DashboardPermissionService {
     if (!AUTH_ENABLED) return;
     if (is_admin) return;
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) return;
     let allowed: PermissionResource[] = [];
     if (permission_type === 'VIEW') {
       if (dashboardPermission.can_view.length === 0) return;
-      allowed = dashboardPermission.can_view.concat([
-        { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
-      ]);
+      allowed = dashboardPermission.can_view
+        .concat(dashboardPermission.can_edit)
+        .concat([{ id: dashboardPermission.owner_id, type: dashboardPermission.owner_type }]);
     } else {
       if (dashboardPermission.can_edit.length === 0) return;
       allowed = dashboardPermission.can_edit.concat([
@@ -61,11 +61,11 @@ export class DashboardPermissionService {
     throw new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', locale) });
   }
 
-  static async checkIsOwnerOrAdmin(dashboard_id: string, auth: Account | ApiKey, locale: string): Promise<void> {
+  static async checkIsOwnerOrAdmin(id: string, auth: Account | ApiKey, locale: string): Promise<void> {
     if (!AUTH_ENABLED) return;
     if (auth.role_id >= ROLE_TYPES.ADMIN) return;
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
     if (
       dashboardPermission.owner_id === auth.id &&
       dashboardPermission.owner_type === (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT')
@@ -89,8 +89,8 @@ export class DashboardPermissionService {
       .limit(pagination.pagesize);
 
     if (filter !== undefined) {
-      if (filter.dashboard_id) {
-        qb.andWhere('dashboard_permission.dashboard_id = :dashboard_id', { dashboard_id: filter.dashboard_id.value });
+      if (filter.id) {
+        qb.andWhere('dashboard_permission.id = :id', { id: filter.id.value });
       }
       if (filter.owner_id) {
         qb.andWhere('dashboard_permission.owner_id = :owner_id', { owner_id: filter.owner_id.value });
@@ -121,15 +121,15 @@ export class DashboardPermissionService {
   }
 
   async updateOwner(
-    dashboard_id: string,
+    id: string,
     owner_id: string,
     owner_type: 'ACCOUNT' | 'APIKEY',
     auth: Account | ApiKey,
     locale: string,
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
-    await DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
+    await DashboardPermissionService.checkIsOwnerOrAdmin(id, auth, locale);
     const newOwnerRepo =
       owner_type === 'ACCOUNT' ? dashboardDataSource.getRepository(Account) : dashboardDataSource.getRepository(ApiKey);
     const newOwner = await newOwnerRepo.findOneByOrFail({ id: owner_id });
@@ -155,7 +155,7 @@ export class DashboardPermissionService {
   }
 
   async update(
-    dashboard_id: string,
+    id: string,
     direction: 'ADD' | 'REMOVE',
     can_view: PermissionResource[] = [],
     can_edit: PermissionResource[] = [],
@@ -163,8 +163,8 @@ export class DashboardPermissionService {
     locale: string,
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ dashboard_id });
-    await DashboardPermissionService.checkIsOwnerOrAdmin(dashboard_id, auth, locale);
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
+    await DashboardPermissionService.checkIsOwnerOrAdmin(id, auth, locale);
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_NO_OWNER', locale) });
     }

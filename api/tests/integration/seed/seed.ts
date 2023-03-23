@@ -56,7 +56,7 @@ async function addDashboards() {
     const dashboard = dashboards[i];
     await dashboardRepo.save(dashboard);
     const dashboardPermission = new DashboardPermission();
-    dashboardPermission.dashboard_id = dashboard.id;
+    dashboardPermission.id = dashboard.id;
     dashboardPermission.owner_id = dashboard.is_preset ? superadmin.id : author.id;
     dashboardPermission.owner_type = 'ACCOUNT';
     await dashboardPermissionRepo.save(dashboardPermission);

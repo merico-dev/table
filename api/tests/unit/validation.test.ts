@@ -1224,7 +1224,7 @@ describe('validation', () => {
         const data: DashboardPermissionListRequest = {
           pagination: { page: 1, pagesize: 20 },
           sort: [{ field: 'create_time', order: 'ASC' }],
-          filter: { dashboard_id: { value: '', isFuzzy: true } },
+          filter: { id: { value: '', isFuzzy: true } },
         };
 
         const result = validate(DashboardPermissionListRequest, data);
@@ -1283,7 +1283,7 @@ describe('validation', () => {
     describe('DashboardOwnerUpdateRequest', () => {
       it('should have no validation errors', () => {
         const data: DashboardOwnerUpdateRequest = {
-          dashboard_id: crypto.randomUUID(),
+          id: crypto.randomUUID(),
           owner_id: crypto.randomUUID(),
           owner_type: 'ACCOUNT',
         };
@@ -1303,9 +1303,9 @@ describe('validation', () => {
             {
               target: {},
               value: undefined,
-              property: 'dashboard_id',
+              property: 'id',
               children: [],
-              constraints: { isUuid: 'dashboard_id must be a UUID' },
+              constraints: { isUuid: 'id must be a UUID' },
             },
             {
               target: {},

@@ -30,16 +30,10 @@ export class PermissionResource {
 })
 export class DashboardPermission {
   @ApiModelProperty({
-    description: 'Dashboard permission ID in uuid format',
+    description: 'ID in uuid format',
     required: false,
   })
   id: string;
-
-  @ApiModelProperty({
-    description: 'Dashboard ID in uuid format',
-    required: false,
-  })
-  dashboard_id: string;
 
   @ApiModelProperty({
     description: 'owner_id of the dashboard permission',
@@ -89,11 +83,11 @@ export class DashboardPermissionFilterObject {
   @Type(() => FilterObject)
   @ValidateNested({ each: true })
   @ApiModelProperty({
-    description: 'Filter based on dashboard_id. isFuzzy is ignored and always filters on exact match',
+    description: 'Filter based on id. isFuzzy is ignored and always filters on exact match',
     required: false,
     model: 'FilterObject',
   })
-  dashboard_id?: FilterObject;
+  id?: FilterObject;
 
   @IsOptional()
   @Type(() => FilterObject)
@@ -121,13 +115,13 @@ export class DashboardPermissionFilterObject {
   name: 'DashboardPermissionSortObject',
 })
 export class DashboardPermissionSortObject implements SortRequest {
-  @IsIn(['dashboard_id', 'create_time', 'owner_id', 'owner_type'])
+  @IsIn(['create_time', 'owner_id', 'owner_type'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['dashboard_id', 'create_time', 'owner_id', 'owner_type'],
+    enum: ['create_time', 'owner_id', 'owner_type'],
   })
-  field: 'dashboard_id' | 'create_time' | 'owner_id' | 'owner_type';
+  field: 'create_time' | 'owner_id' | 'owner_type';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({
@@ -215,10 +209,10 @@ export class DashboardPermissionPaginationResponse implements PaginationResponse
 export class DashboardOwnerUpdateRequest {
   @IsUUID()
   @ApiModelProperty({
-    description: 'Dashboard ID',
+    description: 'ID',
     required: true,
   })
-  dashboard_id: string;
+  id: string;
 
   @IsIn(['ACCOUNT', 'APIKEY'])
   @ApiModelProperty({
@@ -253,10 +247,10 @@ export class DashboardOwnerUpdateRequest {
 export class DashboardPermissionUpdateRequest {
   @IsUUID()
   @ApiModelProperty({
-    description: 'Dashboard ID',
+    description: 'ID',
     required: true,
   })
-  dashboard_id: string;
+  id: string;
 
   @IsIn(['ADD', 'REMOVE'])
   @ApiModelProperty({
