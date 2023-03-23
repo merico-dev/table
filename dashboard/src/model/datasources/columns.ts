@@ -2,9 +2,11 @@ import { types } from 'mobx-state-tree';
 
 export type ColumnInfoType = {
   column_name: string;
-  table_name: string;
-  table_type: string;
-  engine: string;
+  column_type: string;
+  is_nullable: string;
+  column_default: string;
+  column_comment: string;
+  ordinal_position: string;
 };
 
 export const ColumnsModel = types

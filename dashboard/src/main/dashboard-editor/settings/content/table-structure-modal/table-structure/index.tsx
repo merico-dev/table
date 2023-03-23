@@ -2,6 +2,7 @@ import { Box, Flex, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { ColumnsTable } from './columns-table';
 import { TableNavLinks } from './table-nav-links';
 
 export const TableStructure = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
@@ -18,9 +19,7 @@ export const TableStructure = observer(({ dataSource }: { dataSource: DataSource
       </Box>
       <Box sx={{ flexGrow: 1, position: 'relative' }}>
         <LoadingOverlay visible={columns.loading} />
-        <Box h="100%" sx={{ overflow: 'auto' }}>
-          TODO
-        </Box>
+        <ColumnsTable dataSource={dataSource} />
       </Box>
     </Flex>
   );
