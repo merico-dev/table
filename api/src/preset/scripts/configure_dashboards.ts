@@ -6,6 +6,9 @@ import Dashboard from '../../models/dashboard';
 import DataSource from '../../models/datasource';
 import { DashboardChangelogService } from '../../services/dashboard_changelog.service';
 import DashboardChangelog from '../../models/dashboard_changelog';
+import Account from '../../models/account';
+import { ROLE_TYPES } from '../../api_models/role';
+import DashboardPermission from '../../models/dashboard_permission';
 
 type Source = {
   type: string;
@@ -21,8 +24,12 @@ async function upsert() {
   await queryRunner.connect();
   await queryRunner.startTransaction();
   try {
+    const superadmin: Account = await queryRunner.manager
+      .getRepository(Account)
+      .findOneByOrFail({ role_id: ROLE_TYPES.SUPERADMIN });
     const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
+    const dashboardPermissionRepo = queryRunner.manager.getRepository(DashboardPermission);
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
 
     const basePath = path.join(__dirname, '../dashboards');
@@ -65,13 +72,22 @@ async function upsert() {
       const name = dashboardNames[i];
       let dashboard = await dashboardRepo.findOneBy({ name, is_preset: true });
       const originalDashboard: Dashboard | null = _.cloneDeep(dashboard);
+      let isNew = false;
       if (!dashboard) {
         dashboard = new Dashboard();
         dashboard.name = name;
         dashboard.is_preset = true;
+        isNew = true;
       }
       dashboard.content = config;
-      await dashboardRepo.save(dashboard);
+      const createdDashboard = await dashboardRepo.save(dashboard);
+      if (isNew) {
+        const dashboardPermission = new DashboardPermission();
+        dashboardPermission.id = createdDashboard.id;
+        dashboardPermission.owner_id = superadmin.id;
+        dashboardPermission.owner_type = 'ACCOUNT';
+        await dashboardPermissionRepo.save(dashboardPermission);
+      }
       if (originalDashboard) {
         const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
         if (diff) {
