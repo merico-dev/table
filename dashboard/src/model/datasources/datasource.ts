@@ -7,7 +7,18 @@ import { APIClient } from '~/api-caller/request';
 import { TDataSourceConfig } from '~/api-caller/types';
 import { DataSourceType } from '../queries/types';
 import { ColumnsModel } from './columns';
-import { TablesModel } from './tables';
+import { TableInfoTreeType, TableInfoType, TablesModel } from './tables';
+
+function groupTablesBySchema(tables: TableInfoType[]) {
+  const obj = _.groupBy(tables, 'table_schema');
+  const ret: TableInfoTreeType = {};
+  Object.keys(obj)
+    .sort()
+    .forEach((k) => {
+      ret[k] = obj[k];
+    });
+  return ret;
+}
 
 export const DataSourceModel = types
   .model('DataSourceModel', {
@@ -37,14 +48,14 @@ export const DataSourceModel = types
       self.controller = new AbortController();
       self.tables.state = 'loading';
       try {
-        const tables = yield* toGenerator(
+        const tables: TableInfoType[] = yield* toGenerator(
           APIClient.getRequest('POST', self.controller.signal)(
             '/query',
             { type: self.type, key: self.key, query: self.tables.sql },
             {},
           ),
         );
-        self.tables.data = _.groupBy(tables, 'table_schema');
+        self.tables.data = groupTablesBySchema(tables);
         self.tables.state = 'idle';
         self.tables.error = null;
 

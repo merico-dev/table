@@ -15,7 +15,7 @@ export const TableStructure = observer(({ dataSource }: { dataSource: DataSource
       <Box w={300} sx={{ flexGrow: 0, flexShrink: 0, position: 'relative' }}>
         <TableNavLinks dataSource={dataSource} />
       </Box>
-      <Box sx={{ flexGrow: 1, position: 'relative' }}>
+      <Box sx={{ flexGrow: 1, position: 'relative', borderLeft: '1px solid #efefef' }}>
         <ColumnsTable dataSource={dataSource} />
       </Box>
     </Flex>
