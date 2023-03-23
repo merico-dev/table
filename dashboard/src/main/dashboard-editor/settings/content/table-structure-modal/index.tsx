@@ -1,7 +1,8 @@
-import { Badge, Button, Group, Modal, Text } from '@mantine/core';
+import { Badge, Box, Button, Group, Modal, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { TableStructure } from './table-structure';
 
 export const TableStructureModal = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   const [opened, setOpened] = useState(false);
@@ -12,14 +13,25 @@ export const TableStructureModal = observer(({ dataSource }: { dataSource: DataS
         opened={opened}
         onClose={() => setOpened(false)}
         title={
-          <Group spacing={6}>
-            Table Structure of Data Source <Text fw={700}>{dataSource.key}</Text> <Badge>{dataSource.type}</Badge>
+          <Group position="apart" sx={{ flexGrow: 1 }}>
+            <Text fw={500}>Table Structure of Data Source</Text>
+            <Group spacing={7}>
+              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+                {dataSource.key}
+              </Badge>
+              <Badge variant="gradient" gradient={{ from: 'orange', to: 'red' }}>
+                {dataSource.type}
+              </Badge>
+            </Group>
           </Group>
         }
         zIndex={320}
         size="96vw"
+        overflow="inside"
       >
-        TODO
+        <Box sx={{ height: 'calc(100vh - 220px)' }}>
+          <TableStructure dataSource={dataSource} />
+        </Box>
       </Modal>
 
       <Button
