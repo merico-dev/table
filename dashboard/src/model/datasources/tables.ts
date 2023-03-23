@@ -1,10 +1,10 @@
-import { types } from 'mobx-state-tree';
+import { getParent, types } from 'mobx-state-tree';
+import { DataSourceType } from '../queries/types';
 
 export type TableInfoType = {
   table_schema: string;
   table_name: string;
   table_type: 'VIEW' | 'BASE TABLE';
-  engine: string;
 };
 
 export type TableInfoTreeType = Record<string, TableInfoType[]>;
@@ -23,6 +23,14 @@ export const TablesModel = types
       return Object.keys(self.data).length === 0;
     },
     get sql() {
-      return `SELECT table_schema, table_name, table_type, engine FROM information_schema.tables ORDER BY table_schema, table_name`;
+      // @ts-expect-error type of getParent
+      const type: DataSourceType = getParent(self, 1).type;
+      if (type === DataSourceType.MySQL) {
+        return `SELECT table_schema, table_name, table_type FROM information_schema.tables ORDER BY table_schema, table_name`;
+      }
+      if (type === DataSourceType.Postgresql) {
+        return `SELECT table_schema, table_name, table_type FROM information_schema.tables ORDER BY table_schema, table_name`;
+      }
+      return '';
     },
   }));
