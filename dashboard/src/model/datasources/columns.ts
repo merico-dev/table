@@ -1,6 +1,7 @@
 import { types } from 'mobx-state-tree';
 
 export type ColumnInfoType = {
+  column_key: string;
   column_name: string;
   column_type: string;
   is_nullable: string;
@@ -26,7 +27,7 @@ export const ColumnsModel = types
     },
     get sql() {
       return `
-        SELECT column_name, column_type, is_nullable, column_default, column_comment, ordinal_position
+        SELECT column_key, column_name, column_type, is_nullable, column_default, column_comment, ordinal_position
         FROM information_schema.columns
         WHERE table_name = '${self.table_name}' AND table_schema = '${self.table_schema}'
       `;
