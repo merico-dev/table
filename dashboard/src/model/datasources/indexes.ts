@@ -22,8 +22,6 @@ export type IndexInfoType = PGIndexInfoType | MYSQLIndexInfoType;
 
 export const IndexesModel = types
   .model({
-    table_schema: types.optional(types.string, ''), // TODO: hoist
-    table_name: types.optional(types.string, ''), // TODO: hoist
     data: types.optional(types.frozen<IndexInfoType[]>(), []),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
@@ -36,8 +34,8 @@ export const IndexesModel = types
       return self.data.length === 0;
     },
     get sql() {
-      // @ts-expect-error type of getParent
-      const type: DataSourceType = getParent(self, 1).type;
+      const payload: { type: DataSourceType; table_name: string; table_schema: string } = getParent(self, 1);
+      const { type, table_name, table_schema } = payload;
       if (type === DataSourceType.MySQL) {
         return `
           SELECT
@@ -49,7 +47,7 @@ export const IndexesModel = types
           FROM
             information_schema.statistics
           WHERE
-            table_name = '${self.table_name}' AND table_schema = '${self.table_schema}'
+            table_name = '${table_name}' AND table_schema = '${table_schema}'
           ORDER BY
             seq_in_index ASC;
         `;
@@ -76,16 +74,10 @@ export const IndexesModel = types
             JOIN pg_namespace n ON t.relnamespace = n.oid
             JOIN pg_am AS am ON ix.relam = am.oid
           WHERE
-            t.relname = '${self.table_name}' AND n.nspname = '${self.table_schema}';
+            t.relname = '${table_name}' AND n.nspname = '${table_schema}';
         `;
       }
 
       return '';
-    },
-  }))
-  .actions((self) => ({
-    setKeywords(table_schema: string, table_name: string) {
-      self.table_schema = table_schema;
-      self.table_name = table_name;
     },
   }));

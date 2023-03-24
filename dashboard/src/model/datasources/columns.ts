@@ -14,8 +14,6 @@ export type ColumnInfoType = {
 
 export const ColumnsModel = types
   .model({
-    table_schema: types.optional(types.string, ''),
-    table_name: types.optional(types.string, ''),
     data: types.optional(types.frozen<ColumnInfoType[]>(), []),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
@@ -28,17 +26,18 @@ export const ColumnsModel = types
       return self.data.length === 0;
     },
     get sql() {
-      // @ts-expect-error type of getParent
-      const type: DataSourceType = getParent(self, 1).type;
+      const payload: { type: DataSourceType; table_name: string; table_schema: string } = getParent(self, 1);
+      const { type, table_name, table_schema } = payload;
+
       if (type === DataSourceType.MySQL) {
         return `
           SELECT ordinal_position, column_key, column_name, column_type, is_nullable, column_default, column_comment
           FROM information_schema.columns
-          WHERE table_name = '${self.table_name}' AND table_schema = '${self.table_schema}'
+          WHERE table_name = '${table_name}' AND table_schema = '${table_schema}'
         `;
       }
       if (type === DataSourceType.Postgresql) {
-        const attrelid = `'${self.table_schema}.${self.table_name}'::regclass`;
+        const attrelid = `'${table_schema}.${table_name}'::regclass`;
         return `
           SELECT
             ordinal_position,
@@ -55,16 +54,10 @@ export const ColumnsModel = types
               AND attname = column_name
             LEFT JOIN pg_constraint pc ON pc.conrelid = ${attrelid} AND ordinal_position = any(pc.conkey)
           WHERE
-            table_name = '${self.table_name}' AND table_schema = '${self.table_schema}';
+            table_name = '${table_name}' AND table_schema = '${table_schema}';
         `;
       }
 
       return '';
-    },
-  }))
-  .actions((self) => ({
-    setKeywords(table_schema: string, table_name: string) {
-      self.table_schema = table_schema;
-      self.table_name = table_name;
     },
   }));

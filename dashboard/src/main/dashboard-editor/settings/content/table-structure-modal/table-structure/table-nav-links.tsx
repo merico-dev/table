@@ -1,4 +1,4 @@
-import { Box, NavLink, Skeleton, Stack } from '@mantine/core';
+import { Box, NavLink } from '@mantine/core';
 import { IconDatabase, IconEye, IconTable } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
@@ -16,7 +16,7 @@ function TableIcon({ table_type }: { table_type: TableInfoType['table_type'] }) 
 }
 
 export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { tables, columns, indexes } = dataSource;
+  const { tables } = dataSource;
 
   if (tables.loading) {
     return <LoadingSkeleton height={'24px'} lastWidth="50%" count={15} />;
@@ -28,7 +28,7 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
           key={table_schema}
           label={table_schema}
           icon={<IconDatabase size={14} />}
-          defaultOpened={columns.table_schema === table_schema}
+          defaultOpened={dataSource.table_schema === table_schema}
           pl={0}
           childrenOffset={14}
         >
@@ -38,10 +38,9 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
               label={info.table_name}
               icon={<TableIcon table_type={info.table_type} />}
               onClick={() => {
-                columns.setKeywords(table_schema, info.table_name);
-                indexes.setKeywords(table_schema, info.table_name);
+                dataSource.setKeywords(table_schema, info.table_name);
               }}
-              active={columns.table_name === info.table_name}
+              active={dataSource.table_name === info.table_name}
             />
           ))}
         </NavLink>

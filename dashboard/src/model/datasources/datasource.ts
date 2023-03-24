@@ -19,6 +19,8 @@ export const DataSourceModel = types
     tables: types.optional(TablesModel, {}),
     columns: types.optional(ColumnsModel, {}),
     indexes: types.optional(IndexesModel, {}),
+    table_schema: types.optional(types.string, ''),
+    table_name: types.optional(types.string, ''),
   })
   .volatile(() => ({
     controllers: {
@@ -28,14 +30,19 @@ export const DataSourceModel = types
     },
   }))
   .actions((self) => ({
+    setKeywords(table_schema: string, table_name: string) {
+      self.table_schema = table_schema;
+      self.table_name = table_name;
+    },
+  }))
+  .actions((self) => ({
     initKeywords() {
       if (self.tables.empty) {
         return;
       }
       const table_schema = Object.keys(self.tables.data)[0];
       const table_name = self.tables.data[table_schema][0].table_name;
-      self.columns.setKeywords(table_schema, table_name);
-      self.indexes.setKeywords(table_schema, table_name);
+      self.setKeywords(table_schema, table_name);
     },
   }))
   .actions((self) => {
