@@ -7,7 +7,7 @@ import { TableStructure } from './table-structure';
 
 interface ITableStructureModal {
   dataSource: DataSourceModelInstance;
-  triggerButtonProps: AnyObject;
+  triggerButtonProps?: AnyObject;
 }
 
 export const TableStructureModal = observer(({ dataSource, triggerButtonProps = {} }: ITableStructureModal) => {
