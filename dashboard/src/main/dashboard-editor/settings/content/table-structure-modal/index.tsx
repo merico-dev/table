@@ -2,9 +2,15 @@ import { Badge, Box, Button, Group, Modal, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { AnyObject } from '~/types';
 import { TableStructure } from './table-structure';
 
-export const TableStructureModal = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
+interface ITableStructureModal {
+  dataSource: DataSourceModelInstance;
+  triggerButtonProps?: AnyObject;
+}
+
+export const TableStructureModal = observer(({ dataSource, triggerButtonProps = {} }: ITableStructureModal) => {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -40,6 +46,7 @@ export const TableStructureModal = observer(({ dataSource }: { dataSource: DataS
         onClick={() => setOpened(true)}
         px={16}
         styles={{ inner: { justifyContent: 'flex-start' } }}
+        {...triggerButtonProps}
       >
         See Table Structure
       </Button>

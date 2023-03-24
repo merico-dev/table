@@ -1,9 +1,11 @@
-import { Group, Select, Text } from '@mantine/core';
+import { Box, Group, Select, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
+import { useModelContext } from '~/contexts';
 import { DataSourceType } from '~/model/queries/types';
 import { listDataSources } from '../../../../../../api-caller';
+import { TableStructureModal } from '../../table-structure-modal';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) => (
@@ -18,7 +20,8 @@ interface ISelectDataSource {
   value: { type: DataSourceType; key: string };
   onChange: (v: { type: DataSourceType; key: string }) => void;
 }
-export const SelectDataSource = observer(function _SelectDataSource({ value, onChange }: ISelectDataSource) {
+export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource) => {
+  const model = useModelContext();
   const { data: dataSources = [], loading } = useRequest(
     listDataSources,
     {
@@ -42,24 +45,48 @@ export const SelectDataSource = observer(function _SelectDataSource({ value, onC
     }, {} as Record<string, DataSourceType>);
   }, [dataSourceOptions]);
 
+  const handleChange = (key: string) => {
+    if (key === null) {
+      return;
+    }
+    onChange({
+      key,
+      type: dataSourceTypeMap[key],
+    });
+  };
+
+  const dataSource = useMemo(() => {
+    return model.datasources.find(value);
+  }, [model, value]);
   return (
     <Select
-      label="Data Source"
       data={dataSourceOptions}
+      label={
+        <Group position="apart">
+          <Box>Data Source</Box>
+          {dataSource && (
+            <TableStructureModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
+          )}
+        </Group>
+      }
       itemComponent={DataSourceLabel}
-      sx={{ flex: 1 }}
-      required
+      rightSection={
+        dataSource ? (
+          <Text size="xs" color="dimmed">
+            {dataSource.type}
+          </Text>
+        ) : undefined
+      }
+      rightSectionWidth={85}
+      maxDropdownHeight={280}
+      styles={{
+        root: { flex: 1 },
+        label: { display: 'block' },
+        rightSection: { pointerEvents: 'none', '.mantine-Text-root': { userSelect: 'none' } },
+      }}
       disabled={loading}
       value={value.key}
-      onChange={(key) => {
-        if (key === null) {
-          return;
-        }
-        onChange({
-          key,
-          type: dataSourceTypeMap[key],
-        });
-      }}
+      onChange={handleChange}
     />
   );
 });
