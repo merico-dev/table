@@ -1,4 +1,4 @@
-import { Box, Flex, Stack } from '@mantine/core';
+import { Box, Flex, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
@@ -12,6 +12,13 @@ export const TableStructure = observer(({ dataSource }: { dataSource: DataSource
     dataSource.loadTablesIfEmpty();
   }, [dataSource]);
 
+  if (dataSource.tables.error) {
+    return (
+      <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+        {dataSource.tables.error}
+      </Text>
+    );
+  }
   return (
     <Flex sx={{ height: '100%' }}>
       <Box w={300} sx={{ flexGrow: 0, flexShrink: 0, position: 'relative' }}>
