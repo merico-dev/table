@@ -45,34 +45,48 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
     }, {} as Record<string, DataSourceType>);
   }, [dataSourceOptions]);
 
+  const handleChange = (key: string) => {
+    if (key === null) {
+      return;
+    }
+    onChange({
+      key,
+      type: dataSourceTypeMap[key],
+    });
+  };
+
   const dataSource = useMemo(() => {
     return model.datasources.find(value);
   }, [model, value]);
   return (
     <Select
+      data={dataSourceOptions}
       label={
         <Group position="apart">
           <Box>Data Source</Box>
           {dataSource && (
-            <TableStructureModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs' }} />
+            <TableStructureModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
           )}
         </Group>
       }
-      data={dataSourceOptions}
       itemComponent={DataSourceLabel}
-      sx={{ flex: 1 }}
-      styles={{ label: { display: 'block' } }}
+      rightSection={
+        dataSource ? (
+          <Text size="xs" color="dimmed">
+            {dataSource.type}
+          </Text>
+        ) : undefined
+      }
+      rightSectionWidth={85}
+      maxDropdownHeight={280}
+      styles={{
+        root: { flex: 1 },
+        label: { display: 'block' },
+        rightSection: { pointerEvents: 'none', '.mantine-Text-root': { userSelect: 'none' } },
+      }}
       disabled={loading}
       value={value.key}
-      onChange={(key) => {
-        if (key === null) {
-          return;
-        }
-        onChange({
-          key,
-          type: dataSourceTypeMap[key],
-        });
-      }}
+      onChange={handleChange}
     />
   );
 });
