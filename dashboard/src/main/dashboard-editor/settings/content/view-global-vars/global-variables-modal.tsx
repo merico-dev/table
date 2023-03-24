@@ -11,7 +11,12 @@ export const GlobalVariablesModal = observer(() => {
         <GlobalVariablesGuide />
       </Modal>
 
-      <Button variant="subtle" onClick={() => setOpened(true)}>
+      <Button
+        variant="subtle"
+        onClick={() => setOpened(true)}
+        px={16}
+        styles={{ inner: { justifyContent: 'flex-start' } }}
+      >
         See Global Variables
       </Button>
     </>
