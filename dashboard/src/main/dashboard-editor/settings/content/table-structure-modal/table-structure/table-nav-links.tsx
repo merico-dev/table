@@ -16,7 +16,7 @@ function TableIcon({ table_type }: { table_type: TableInfoType['table_type'] }) 
 }
 
 export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
-  const { tables, columns } = dataSource;
+  const { tables, columns, indexes } = dataSource;
 
   if (tables.loading) {
     return <LoadingSkeleton height={'24px'} lastWidth="50%" count={15} />;
@@ -37,7 +37,10 @@ export const TableNavLinks = observer(({ dataSource }: { dataSource: DataSourceM
               key={info.table_name}
               label={info.table_name}
               icon={<TableIcon table_type={info.table_type} />}
-              onClick={() => columns.setKeywords(table_schema, info.table_name)}
+              onClick={() => {
+                columns.setKeywords(table_schema, info.table_name);
+                indexes.setKeywords(table_schema, info.table_name);
+              }}
               active={columns.table_name === info.table_name}
             />
           ))}
