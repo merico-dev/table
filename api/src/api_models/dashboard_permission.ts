@@ -22,6 +22,14 @@ export class PermissionResource {
     required: true,
   })
   id: string;
+
+  @IsIn(['VIEW', 'EDIT', 'REMOVE'])
+  @ApiModelProperty({
+    description: 'resource permission. REMOVE is to delete an entry',
+    required: true,
+    enum: ['VIEW', 'EDIT', 'REMOVE'],
+  })
+  permission: 'VIEW' | 'EDIT' | 'REMOVE';
 }
 
 @ApiModel({
@@ -48,18 +56,12 @@ export class DashboardPermission {
   owner_type: string | null;
 
   @ApiModelProperty({
-    description: 'can view permissions of the dashboard',
+    description: 'access permissions of the dashboard',
     required: false,
   })
   @Type(() => PermissionResource)
-  can_view: PermissionResource[];
-
-  @ApiModelProperty({
-    description: 'can edit permissions of the dashboard',
-    required: false,
-  })
-  @Type(() => PermissionResource)
-  can_edit: PermissionResource[];
+  @ValidateNested({ each: true })
+  access: PermissionResource[];
 
   @ApiModelProperty({
     description: 'Create time',
@@ -252,29 +254,13 @@ export class DashboardPermissionUpdateRequest {
   })
   id: string;
 
-  @IsIn(['ADD', 'REMOVE'])
   @ApiModelProperty({
-    description: 'Modification direction. ADD or REMOVE',
-    required: true,
-    enum: ['ADD', 'REMOVE'],
-  })
-  direction: 'ADD' | 'REMOVE';
-
-  @ApiModelProperty({
-    description: 'can view permissions of the dashboard',
+    description: 'access permissions of the dashboard',
     required: true,
   })
-  @ValidateNested({ each: true })
   @Type(() => PermissionResource)
-  can_view: PermissionResource[];
-
-  @ApiModelProperty({
-    description: 'can edit permissions of the dashboard',
-    required: true,
-  })
   @ValidateNested({ each: true })
-  @Type(() => PermissionResource)
-  can_edit: PermissionResource[];
+  access: PermissionResource[];
 
   @IsOptional()
   @Type(() => Authentication)

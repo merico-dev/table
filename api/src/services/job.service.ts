@@ -180,10 +180,7 @@ export class JobService {
           for (const dashboardPermission of dashboardPermissions) {
             if (
               (dashboardPermission.owner_id === auth_id && dashboardPermission.owner_type === auth_type) ||
-              dashboardPermission.can_view.some((x) => {
-                return x.id === auth_id && x.type === auth_type;
-              }) ||
-              dashboardPermission.can_edit.some((x) => {
+              dashboardPermission.access.some((x) => {
                 return x.id === auth_id && x.type === auth_type;
               })
             ) {
@@ -191,10 +188,7 @@ export class JobService {
                 dashboardPermission.owner_id = null;
                 dashboardPermission.owner_type = null;
               }
-              dashboardPermission.can_view = dashboardPermission.can_view.filter((x) => {
-                return x.id !== auth_id || x.type !== auth_type;
-              });
-              dashboardPermission.can_edit = dashboardPermission.can_edit.filter((x) => {
+              dashboardPermission.access = dashboardPermission.access.filter((x) => {
                 return x.id !== auth_id || x.type !== auth_type;
               });
               await dashboardPermissionRepo.save(dashboardPermission);

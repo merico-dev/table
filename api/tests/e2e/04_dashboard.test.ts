@@ -46,7 +46,7 @@ describe('DashboardController', () => {
     presetDashboard = await dashboardDataSource.getRepository(Dashboard).save(presetData);
 
     const presetDashboardPermission = new DashboardPermission();
-    presetDashboardPermission.dashboard_id = presetDashboard.id;
+    presetDashboardPermission.id = presetDashboard.id;
     presetDashboardPermission.owner_id = superadminLogin.account.id;
     presetDashboardPermission.owner_type = 'ACCOUNT';
     await dashboardDataSource.getRepository(DashboardPermission).save(presetDashboardPermission);

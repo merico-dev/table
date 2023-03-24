@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Any } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
 import {
   DashboardPermission as DashboardPermissionAPIModel,
@@ -40,17 +41,18 @@ export class DashboardPermissionService {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) return;
+    if (dashboardPermission.access.length === 0) return;
     let allowed: PermissionResource[] = [];
     if (permission_type === 'VIEW') {
-      if (dashboardPermission.can_view.length === 0) return;
-      allowed = dashboardPermission.can_view
-        .concat(dashboardPermission.can_edit)
-        .concat([{ id: dashboardPermission.owner_id, type: dashboardPermission.owner_type }]);
-    } else {
-      if (dashboardPermission.can_edit.length === 0) return;
-      allowed = dashboardPermission.can_edit.concat([
-        { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
+      allowed = dashboardPermission.access.concat([
+        { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type, permission: 'EDIT' },
       ]);
+    } else {
+      allowed = dashboardPermission.access
+        .concat([{ id: dashboardPermission.owner_id, type: dashboardPermission.owner_type, permission: 'EDIT' }])
+        .filter((x) => {
+          return x.permission === 'EDIT';
+        });
     }
     if (
       allowed.some((x) => {
@@ -138,16 +140,9 @@ export class DashboardPermissionService {
     }
     dashboardPermission.owner_id = owner_id;
     dashboardPermission.owner_type = owner_type;
-    dashboardPermission.can_view = this.modifyPermissions(
-      'ADD',
+    dashboardPermission.access = this.modifyPermissions(
       { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
-      dashboardPermission.can_view,
-      [],
-    );
-    dashboardPermission.can_edit = this.modifyPermissions(
-      'ADD',
-      { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
-      dashboardPermission.can_edit,
+      dashboardPermission.access,
       [],
     );
     const result = await dashboardPermissionRepo.save(dashboardPermission);
@@ -156,9 +151,7 @@ export class DashboardPermissionService {
 
   async update(
     id: string,
-    direction: 'ADD' | 'REMOVE',
-    can_view: PermissionResource[] = [],
-    can_edit: PermissionResource[] = [],
+    access: PermissionResource[] = [],
     auth: Account | ApiKey,
     locale: string,
   ): Promise<DashboardPermissionAPIModel> {
@@ -168,39 +161,76 @@ export class DashboardPermissionService {
     if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_NO_OWNER', locale) });
     }
-    dashboardPermission.can_view = this.modifyPermissions(
-      direction,
+
+    let apiKeyIds = access
+      .filter((x) => {
+        return x.type === 'APIKEY' && x.permission !== 'REMOVE';
+      })
+      .map((x) => x.id);
+    apiKeyIds = Array.from(new Set(apiKeyIds));
+    const existingApiKeys = await dashboardDataSource.getRepository(ApiKey).findBy({ id: Any(apiKeyIds) });
+    if (existingApiKeys.length !== apiKeyIds.length) {
+      const missing = _.difference(
+        apiKeyIds,
+        existingApiKeys.map((x) => x.id),
+      );
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_MISSING_APIKEY', locale), missing });
+    }
+
+    let accountIds = access
+      .filter((x) => {
+        return x.type === 'ACCOUNT' && x.permission !== 'REMOVE';
+      })
+      .map((x) => x.id);
+    accountIds = Array.from(new Set(accountIds));
+    const existingAccounts = await dashboardDataSource.getRepository(Account).findBy({ id: Any(accountIds) });
+    if (existingAccounts.length !== accountIds.length) {
+      const missing = _.difference(
+        accountIds,
+        existingAccounts.map((x) => x.id),
+      );
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_MISSING_ACCOUNT', locale), missing });
+    }
+
+    dashboardPermission.access = this.modifyPermissions(
       { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
-      dashboardPermission.can_view,
-      can_view,
-    );
-    dashboardPermission.can_edit = this.modifyPermissions(
-      direction,
-      { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type },
-      dashboardPermission.can_edit,
-      can_edit,
+      dashboardPermission.access,
+      access,
     );
     const result = await dashboardPermissionRepo.save(dashboardPermission);
     return result;
   }
 
   private modifyPermissions(
-    direction: 'ADD' | 'REMOVE',
     owner: { id: string; type: 'ACCOUNT' | 'APIKEY' },
     existing: PermissionResource[],
     updates: PermissionResource[],
   ): PermissionResource[] {
-    if (direction === 'ADD') {
-      return _.uniqWith(
-        existing.concat(updates).filter((x) => {
-          return x.id !== owner.id || x.type !== owner.type;
-        }),
-        (x, y) => x.id === y.id && x.type === y.type,
-      );
-    } else {
-      return existing.filter((x) => {
-        return !updates.some((y) => y.id === x.id && y.type === x.type);
-      });
-    }
+    const removals = updates.filter((x) => {
+      return x.permission === 'REMOVE';
+    });
+    const additions = updates.filter((x) => {
+      return x.permission !== 'REMOVE';
+    });
+    let result = [...existing];
+    const currentAccess: Record<string, number> = {};
+    result.forEach((x, index) => {
+      currentAccess[`${x.id}-${x.type}`] = index;
+    });
+    additions.forEach((x) => {
+      const index = currentAccess[`${x.id}-${x.type}`];
+      if (index !== undefined) {
+        result[index].permission = x.permission;
+      } else {
+        result.push(x);
+      }
+    });
+    result = result.filter((x) => {
+      return x.id !== owner.id || x.type !== owner.type;
+    });
+
+    return result.filter((x) => {
+      return !removals.some((y) => y.id === x.id && y.type === x.type);
+    });
   }
 }

@@ -19,7 +19,7 @@ export class addDashboardPermissionsToExistingDashboards1678931621869 implements
     if (permissions.length) {
       for (let i = 0; i < permissions.length; i++) {
         await queryRunner.query(
-          'INSERT INTO dashboard_permission (dashboard_id, owner_id, owner_type) values($1, $2, $3) ON CONFLICT (dashboard_id) DO NOTHING',
+          'INSERT INTO dashboard_permission (id, owner_id, owner_type) values($1, $2, $3) ON CONFLICT (id) DO NOTHING',
           permissions[i],
         );
       }

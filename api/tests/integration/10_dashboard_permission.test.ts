@@ -95,8 +95,7 @@ describe('DashboardPermissionService', () => {
             id: results.data[0].id,
             owner_id: results.data[0].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results.data[0].create_time,
             update_time: results.data[0].update_time,
           },
@@ -104,8 +103,7 @@ describe('DashboardPermissionService', () => {
             id: results.data[1].id,
             owner_id: results.data[1].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results.data[1].create_time,
             update_time: results.data[1].update_time,
           },
@@ -113,8 +111,7 @@ describe('DashboardPermissionService', () => {
             id: results.data[2].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results.data[2].create_time,
             update_time: results.data[2].update_time,
           },
@@ -122,8 +119,7 @@ describe('DashboardPermissionService', () => {
             id: results.data[3].id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results.data[3].create_time,
             update_time: results.data[3].update_time,
           },
@@ -131,8 +127,7 @@ describe('DashboardPermissionService', () => {
             id: results.data[4].id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results.data[4].create_time,
             update_time: results.data[4].update_time,
           },
@@ -159,8 +154,7 @@ describe('DashboardPermissionService', () => {
             id: results1.data[0].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results1.data[0].create_time,
             update_time: results1.data[0].update_time,
           },
@@ -184,8 +178,7 @@ describe('DashboardPermissionService', () => {
             id: results2.data[0].id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: results2.data[0].create_time,
             update_time: results2.data[0].update_time,
           },
@@ -205,8 +198,7 @@ describe('DashboardPermissionService', () => {
             id: result3.data[0].id,
             owner_id: result3.data[0].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result3.data[0].create_time,
             update_time: result3.data[0].update_time,
           },
@@ -214,8 +206,7 @@ describe('DashboardPermissionService', () => {
             id: result3.data[1].id,
             owner_id: result3.data[1].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result3.data[1].create_time,
             update_time: result3.data[1].update_time,
           },
@@ -223,8 +214,7 @@ describe('DashboardPermissionService', () => {
             id: accountDashboard.id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result3.data[2].create_time,
             update_time: result3.data[2].update_time,
           },
@@ -232,8 +222,7 @@ describe('DashboardPermissionService', () => {
             id: apiKeyDashboard.id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result3.data[3].create_time,
             update_time: result3.data[3].update_time,
           },
@@ -246,9 +235,7 @@ describe('DashboardPermissionService', () => {
     it('should update successfully', async () => {
       const result1 = await dashboardPermissionService.update(
         accountDashboard.id,
-        'ADD',
-        [{ id: apiKey.id, type: 'APIKEY' }],
-        [{ id: apiKey.id, type: 'APIKEY' }],
+        [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
         account,
         DEFAULT_LANGUAGE,
       );
@@ -258,15 +245,12 @@ describe('DashboardPermissionService', () => {
         update_time: result1.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
-        can_view: [{ id: apiKey.id, type: 'APIKEY' }],
-        can_edit: [{ id: apiKey.id, type: 'APIKEY' }],
+        access: [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
       });
 
       const result2 = await dashboardPermissionService.update(
         accountDashboard.id,
-        'REMOVE',
-        [],
-        [{ id: apiKey.id, type: 'APIKEY' }],
+        [{ id: apiKey.id, type: 'APIKEY', permission: 'REMOVE' }],
         account,
         DEFAULT_LANGUAGE,
       );
@@ -276,17 +260,14 @@ describe('DashboardPermissionService', () => {
         update_time: result2.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
-        can_view: [{ id: apiKey.id, type: 'APIKEY' }],
-        can_edit: [],
+        access: [],
       });
     });
 
-    it('adding owner to can_view/can_edit should not add', async () => {
+    it('adding owner to access should not add', async () => {
       const result = await dashboardPermissionService.update(
         apiKeyDashboard.id,
-        'ADD',
-        [{ id: apiKey.id, type: 'APIKEY' }],
-        [{ id: apiKey.id, type: 'APIKEY' }],
+        [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
         apiKey,
         DEFAULT_LANGUAGE,
       );
@@ -296,18 +277,15 @@ describe('DashboardPermissionService', () => {
         update_time: result.update_time,
         owner_id: apiKey.id,
         owner_type: 'APIKEY',
-        can_view: [],
-        can_edit: [],
+        access: [],
       });
     });
 
     it('modify other owner dashboard permission should fail if not admin', async () => {
-      expect(
+      await expect(
         dashboardPermissionService.update(
           accountDashboard.id,
-          'ADD',
-          [{ id: apiKey.id, type: 'APIKEY' }],
-          [{ id: apiKey.id, type: 'APIKEY' }],
+          [{ id: apiKey.id, type: 'APIKEY', permission: 'EDIT' }],
           apiKey,
           DEFAULT_LANGUAGE,
         ),
@@ -317,9 +295,7 @@ describe('DashboardPermissionService', () => {
 
       const result = await dashboardPermissionService.update(
         accountDashboard.id,
-        'ADD',
-        [{ id: adminAccount.id, type: 'ACCOUNT' }],
-        [{ id: adminAccount.id, type: 'ACCOUNT' }],
+        [{ id: adminAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
         adminAccount,
         DEFAULT_LANGUAGE,
       );
@@ -329,183 +305,15 @@ describe('DashboardPermissionService', () => {
         update_time: result.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
-        can_view: [
-          { id: apiKey.id, type: 'APIKEY' },
-          { id: adminAccount.id, type: 'ACCOUNT' },
-        ],
-        can_edit: [{ id: adminAccount.id, type: 'ACCOUNT' }],
+        access: [{ id: adminAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
       });
     });
 
     it('should fail if no owner', async () => {
-      expect(
-        dashboardPermissionService.update(noOwnerDashboardId, 'ADD', [], [], adminAccount, DEFAULT_LANGUAGE),
+      await expect(
+        dashboardPermissionService.update(noOwnerDashboardId, [], adminAccount, DEFAULT_LANGUAGE),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_NO_OWNER', DEFAULT_LANGUAGE) }),
-      );
-    });
-  });
-
-  describe('checkPermission', () => {
-    it('should have access', async () => {
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'APIKEY',
-          apiKey.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'VIEW',
-          true,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          adminAccount.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          account.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'EDIT',
-          true,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          adminAccount.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'EDIT',
-          true,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          account.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'APIKEY',
-          apiKey.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'EDIT',
-          false,
-          DEFAULT_LANGUAGE,
-          'APIKEY',
-          apiKey.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          account.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'EDIT',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          account.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          adminAccount.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'EDIT',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          adminAccount.id,
-        ),
-      ).resolves;
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          noOwnerDashboardId,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          readerAccount.id,
-        ),
-      ).resolves;
-    });
-
-    it('should fail', async () => {
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'VIEW',
-          false,
-          DEFAULT_LANGUAGE,
-          'ACCOUNT',
-          readerAccount.id,
-        ),
-      ).rejects.toThrowError(
-        new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', DEFAULT_LANGUAGE) }),
-      );
-
-      expect(
-        DashboardPermissionService.checkPermission(
-          accountDashboard.id,
-          'EDIT',
-          false,
-          DEFAULT_LANGUAGE,
-          'APIKEY',
-          apiKey.id,
-        ),
-      ).rejects.toThrowError(
-        new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', DEFAULT_LANGUAGE) }),
       );
     });
   });
@@ -525,15 +333,13 @@ describe('DashboardPermissionService', () => {
         update_time: result1.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
-        can_view: [],
-        can_edit: [],
+        access: [],
       });
-
       const result2 = await dashboardPermissionService.updateOwner(
         accountDashboard.id,
         adminAccount.id,
         'ACCOUNT',
-        account,
+        adminAccount,
         DEFAULT_LANGUAGE,
       );
       expect(result2).toMatchObject({
@@ -542,13 +348,12 @@ describe('DashboardPermissionService', () => {
         update_time: result2.update_time,
         owner_id: adminAccount.id,
         owner_type: 'ACCOUNT',
-        can_view: [{ id: apiKey.id, type: 'APIKEY' }],
-        can_edit: [],
+        access: [],
       });
     });
 
     it('should fail if not owner or admin', async () => {
-      expect(
+      await expect(
         dashboardPermissionService.updateOwner(accountDashboard.id, apiKey.id, 'APIKEY', apiKey, DEFAULT_LANGUAGE),
       ).rejects.toThrowError(
         new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', DEFAULT_LANGUAGE) }),
@@ -556,7 +361,7 @@ describe('DashboardPermissionService', () => {
     });
 
     it('should fail if new owner has insufficient privileges', async () => {
-      expect(
+      await expect(
         dashboardPermissionService.updateOwner(
           accountDashboard.id,
           readerAccount.id,
@@ -591,8 +396,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[0].id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[0].create_time,
             update_time: result.data[0].update_time,
           },
@@ -600,8 +404,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[1].create_time,
             update_time: result.data[1].update_time,
           },
@@ -609,8 +412,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[2].create_time,
             update_time: result.data[2].update_time,
           },
@@ -618,8 +420,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[3].id,
             owner_id: null,
             owner_type: null,
-            can_view: [{ type: 'APIKEY', id: apiKey.id }],
-            can_edit: [],
+            access: [],
             create_time: result.data[3].create_time,
             update_time: result.data[3].update_time,
           },
@@ -627,8 +428,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[4].id,
             owner_id: result.data[4].owner_id,
             owner_type: 'APIKEY',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[4].create_time,
             update_time: result.data[4].update_time,
           },
@@ -652,8 +452,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[0].id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[0].create_time,
             update_time: result.data[0].update_time,
           },
@@ -661,8 +460,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[1].create_time,
             update_time: result.data[1].update_time,
           },
@@ -670,8 +468,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[2].create_time,
             update_time: result.data[2].update_time,
           },
@@ -679,8 +476,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[3].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[3].create_time,
             update_time: result.data[3].update_time,
           },
@@ -688,8 +484,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[4].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[4].create_time,
             update_time: result.data[4].update_time,
           },
@@ -713,8 +508,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[0].id,
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[0].create_time,
             update_time: result.data[0].update_time,
           },
@@ -722,8 +516,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[1].create_time,
             update_time: result.data[1].update_time,
           },
@@ -731,8 +524,7 @@ describe('DashboardPermissionService', () => {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
-            can_view: [],
-            can_edit: [],
+            access: [],
             create_time: result.data[2].create_time,
             update_time: result.data[2].update_time,
           },

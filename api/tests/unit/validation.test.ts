@@ -26,7 +26,11 @@ import { QueryRequest } from '~/api_models/query';
 import { ROLE_TYPES } from '~/api_models/role';
 import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
 import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
-import { DashboardPermissionListRequest, DashboardOwnerUpdateRequest } from '~/api_models/dashboard_permission';
+import {
+  DashboardPermissionListRequest,
+  DashboardOwnerUpdateRequest,
+  DashboardPermissionUpdateRequest,
+} from '~/api_models/dashboard_permission';
 import { ApiError } from '~/utils/errors';
 import { validate } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
@@ -1320,6 +1324,74 @@ describe('validation', () => {
               property: 'owner_id',
               children: [],
               constraints: { isUuid: 'owner_id must be a UUID' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardPermissionUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardPermissionUpdateRequest = {
+          id: crypto.randomUUID(),
+          access: [{ id: crypto.randomUUID(), type: 'ACCOUNT', permission: 'VIEW' }],
+        };
+        const result = validate(DashboardPermissionUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          access: [{ id: '', type: 'INCORRECT', permission: 'INCORRECT' }],
+        };
+        expect(() => validate(DashboardPermissionUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardPermissionUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isUuid: 'id must be a UUID' },
+            },
+            {
+              target: {},
+              value: [{ id: '', type: 'INCORRECT', permission: 'INCORRECT' }],
+              property: 'access',
+              children: [
+                {
+                  children: [
+                    {
+                      target: { id: '', type: 'INCORRECT', permission: 'INCORRECT' },
+                      value: 'INCORRECT',
+                      property: 'type',
+                      children: [],
+                      constraints: { isIn: 'type must be one of the following values: ACCOUNT, APIKEY' },
+                    },
+                    {
+                      target: {},
+                      value: '',
+                      property: 'id',
+                      children: [],
+                      constraints: { isUuid: 'id must be a UUID' },
+                    },
+                    {
+                      target: {},
+                      value: 'INCORRECT',
+                      property: 'permission',
+                      children: [],
+                      constraints: { isIn: 'permission must be one of the following values: VIEW, EDIT, REMOVE' },
+                    },
+                  ],
+                  property: '0',
+                  target: [{ id: '', type: 'INCORRECT', permission: 'INCORRECT' }],
+                  value: { id: '', type: 'INCORRECT', permission: 'INCORRECT' },
+                },
+              ],
             },
           ]);
         }

@@ -117,15 +117,8 @@ export class DashboardPermissionController implements interfaces.Controller {
   @httpPost('/update', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id, direction, can_view, can_edit } = validate(DashboardPermissionUpdateRequest, req.body);
-      const result = await this.dashboardPermissionService.update(
-        id,
-        direction,
-        can_view,
-        can_edit,
-        req.body.auth,
-        req.locale,
-      );
+      const { id, access } = validate(DashboardPermissionUpdateRequest, req.body);
+      const result = await this.dashboardPermissionService.update(id, access, req.body.auth, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
