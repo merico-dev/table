@@ -1,5 +1,5 @@
 import { addDisposer, getEnv, Instance, types } from 'mobx-state-tree';
-import { DashboardStore } from '../../../frames/app/models/dashboard-store';
+import { DashboardStore } from '../../../../frames/app/models/dashboard-store';
 import { IDashboard } from '@devtable/dashboard';
 import React from 'react';
 import { useCreation } from 'ahooks';
@@ -51,8 +51,10 @@ export const RebaseConfigModel = types
     },
   }));
 
-const RebaseConfigContext = React.createContext<Instance<typeof RebaseConfigModel>>(
-  null as unknown as Instance<typeof RebaseConfigModel>,
+export type RebaseConfigModelInstance = Instance<typeof RebaseConfigModel>;
+
+const RebaseConfigContext = React.createContext<RebaseConfigModelInstance>(
+  null as unknown as RebaseConfigModelInstance,
 );
 
 export function useRebaseModel() {

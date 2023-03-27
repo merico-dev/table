@@ -7,7 +7,7 @@ import { DashboardEditor } from './dashboard-editor';
 import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 import './index.css';
 import React from 'react';
-import { RebaseConfigProvider } from './rebase-editor/rebase-config-context';
+import { RebaseConfigProvider } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
 
 const LoadAndRenderDashboardEditor = observer(() => {
   const { store } = useDashboardStore();
