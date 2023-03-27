@@ -68,7 +68,6 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey }: IRebaseAction
   const { store } = useDashboardStore();
   const mergeState = useMergeDocState(rebaseModel);
 
-  const noLocalChanges = rebaseModel.local == null || isConfigEqual(rebaseModel.local, rebaseModel.base);
   const hasConflicts = mergeState.conflicts.length > 0;
 
   const handleApply = (changes: IResolveResult[]) => {
@@ -85,18 +84,16 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey }: IRebaseAction
     mergeState.reset();
   };
 
-  const refresh = () => {
+  // TODO
+  const rebase = () => {
     window.location.reload();
   };
-  if (noLocalChanges) {
-    return (
-      <Button size="xs" variant="subtle" onClick={refresh}>
-        Please Refresh Page
-      </Button>
-    );
-  }
   if (hasConflicts) {
     return <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />;
   }
-  return null;
+  return (
+    <Button size="xs" variant="subtle" onClick={rebase}>
+      Accept incoming changes
+    </Button>
+  );
 });
