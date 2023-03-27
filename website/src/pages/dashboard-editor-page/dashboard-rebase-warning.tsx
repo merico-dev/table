@@ -13,8 +13,10 @@ import { IResolveResult, MergeJsonDocsState } from './rebase-editor/merge-json-d
 import { reaction, toJS } from 'mobx';
 import { Instance } from 'mobx-state-tree';
 
+const diffPaths = ['filters', 'definition', 'panels', 'views'];
+
 function isConfigEqual(a: IDashboard, b?: IDashboard) {
-  return isEqual(pick(a, ['filters', 'definition']), pick(b, ['filters', 'definition']));
+  return isEqual(pick(a, diffPaths), pick(b, diffPaths));
 }
 
 function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
