@@ -62,9 +62,10 @@ function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
 interface IRebaseActions {
   rebaseModel: RebaseConfigModelInstance;
   remoteKey: string;
+  onFinish: () => void;
 }
 
-export const RebaseActions = observer(({ rebaseModel, remoteKey }: IRebaseActions) => {
+export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRebaseActions) => {
   const { store } = useDashboardStore();
   const mergeState = useMergeDocState(rebaseModel);
 
@@ -82,6 +83,7 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey }: IRebaseAction
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     rebaseModel.markResolvedRemote(remoteKey!);
     mergeState.reset();
+    onFinish();
   };
 
   // TODO

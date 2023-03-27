@@ -67,7 +67,7 @@ export const DashboardRebaseWarning = observer(() => {
         Latest version: {latestUpdatedAt}
       </Text>
       <Divider my={10} variant="dotted" />
-      <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey!} />
+      <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey!} onFinish={setFalse} />
     </Notification>
   );
 });
