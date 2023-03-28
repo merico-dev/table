@@ -42,13 +42,9 @@ export const RebaseDashboardConfigModal = observer((props: IRebaseDashboardConfi
         closeOnClickOutside={false}
         withCloseButton={false}
         onClose={handleCancel}
-        size="96vw"
-        overflow="inside"
+        fullScreen
         zIndex={410}
         styles={{
-          root: {
-            top: 40,
-          },
           title: {
             flexGrow: 1,
           },

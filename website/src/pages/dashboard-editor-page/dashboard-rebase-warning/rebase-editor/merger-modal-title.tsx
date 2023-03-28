@@ -27,7 +27,7 @@ export const MergerModalTitle = observer(({ state, onApply, onCancel }: IMergerM
             variant="filled"
             leftIcon={<IconRecycle size={14} />}
             disabled={state.resolvedDifferences.size === 0}
-            onClick={state.undo}
+            onClick={() => state.undo()}
           >
             Undo
           </Button>

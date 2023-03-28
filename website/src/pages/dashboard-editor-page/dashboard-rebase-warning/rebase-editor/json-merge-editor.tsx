@@ -1,15 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any */
-import { Button, Card, Group, Modal, Stack, Stepper, Text } from '@mantine/core';
+import { Button, Card, Group, Modal, Stack, Text, Tooltip } from '@mantine/core';
+import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons';
+import { useBoolean } from 'ahooks';
+import { capitalCase } from 'change-case';
+import _, { get } from 'lodash';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-json-docs-state';
-import { useBoolean } from 'ahooks';
-import { JsonChangesViewer } from './json-changes-viewer';
-import { capitalCase } from 'change-case';
-import { get } from 'lodash';
 import { useState } from 'react';
-import _ from 'lodash';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons';
+import { JsonChangesViewer } from './json-changes-viewer';
+import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-json-docs-state';
 
 export interface IJsonMergeEditorProps {
   state: MergeJsonDocsState;
@@ -21,43 +20,111 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
   const next = () => setCurrent((current) => _.clamp(current + 1, 0, lastIndex));
   const prev = () => setCurrent((current) => _.clamp(current - 1, 0, lastIndex));
   const diff = state.differences[current];
+  const localChanged = toJS(get(diff.values, 'local'));
+  const remoteChanged = toJS(get(diff.values, 'remote'));
+
+  const resolved = state.isResolved(diff.key);
   return (
-    <Stack>
+    <Stack spacing={10}>
       <Group>
         <Text>Total changes: {state.differences.length}</Text>
         <Text>Pending changes: {state.resolvedDifferences.size}</Text>
       </Group>
-      {lastIndex > 0 && (
+      {lastIndex > 0 ? (
         <Group position="apart">
           <Button size="xs" variant="light" leftIcon={<IconArrowLeft size={14} />} onClick={prev}>
             Previous
           </Button>
+          <Text>{diff.objectDescription}</Text>
           <Button size="xs" variant="light" leftIcon={<IconArrowRight size={14} />} onClick={next}>
             Next
           </Button>
         </Group>
+      ) : (
+        <Text ta="center">{diff.objectDescription}</Text>
       )}
+      <Group grow position="apart" spacing="xs">
+        <Card px={0} withBorder>
+          <Card.Section withBorder inheritPadding py="xs">
+            {!resolved && (
+              <Group px="xs" position="apart">
+                <Text size={14} fw={500}>
+                  Local Changes
+                </Text>
+                <Tooltip
+                  label={
+                    <Group spacing={4}>
+                      <Text>This will discard</Text>
+                      <Text fw={700} sx={{ display: 'inline-block' }}>
+                        remote
+                      </Text>
+                      <Text>changes</Text>
+                    </Group>
+                  }
+                >
+                  <Button
+                    compact
+                    px="sm"
+                    size="xs"
+                    color="green"
+                    aria-label="use local"
+                    leftIcon={<IconCheck size={14} />}
+                    onClick={() => state.acceptLocalChanges(diff)}
+                  >
+                    Accept
+                  </Button>
+                </Tooltip>
+              </Group>
+            )}
+          </Card.Section>
+          <Card.Section inheritPadding pt="xs">
+            <JsonChangesViewer base={diff.values.base} changed={localChanged} />
+          </Card.Section>
+        </Card>
+        <Card px={0} withBorder>
+          <Card.Section withBorder inheritPadding py="xs">
+            {!resolved && (
+              <Group px="xs" position="apart">
+                <Text size={14} fw={500}>
+                  Remote Changes
+                </Text>
+                <Tooltip
+                  label={
+                    <Group spacing={4}>
+                      <Text>This will discard</Text>
+                      <Text fw={700} sx={{ display: 'inline-block' }}>
+                        local
+                      </Text>
+                      <Text>changes</Text>
+                    </Group>
+                  }
+                >
+                  <Button
+                    compact
+                    px="sm"
+                    size="xs"
+                    color="green"
+                    aria-label="use local"
+                    leftIcon={<IconCheck size={14} />}
+                    onClick={() => state.acceptRemoteChange(diff)}
+                  >
+                    Accept
+                  </Button>
+                </Tooltip>
+              </Group>
+            )}
+          </Card.Section>
 
-      <Card key={diff.key} withBorder>
-        <Group position="apart" aria-label={'changed: ' + diff.objectDescription}>
-          <Stack spacing="xs">
-            <Text>{diff.objectDescription}</Text>
-            <ChangesText changeSource="local" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
-            <ChangesText changeSource="remote" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
-          </Stack>
-          {state.isResolved(diff.key) ? null : (
-            <Stack spacing="xs">
-              {/*<Button size="xs" variant="outline">Merge Manually</Button>*/}
-              <Button aria-label="accept local" size="xs" onClick={() => state.acceptLocalChanges(diff)}>
-                Accept Local
-              </Button>
-              <Button aria-label="accept remote" size="xs" onClick={() => state.acceptRemoteChange(diff)}>
-                Accept Remote
-              </Button>
-            </Stack>
-          )}
-        </Group>
-      </Card>
+          <Card.Section inheritPadding pt="xs">
+            <JsonChangesViewer base={diff.values.base} changed={remoteChanged} />
+          </Card.Section>
+        </Card>
+      </Group>
+
+      {/* <Group position="apart">
+        <ChangesText changeSource="local" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
+        <ChangesText changeSource="remote" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
+      </Group> */}
     </Stack>
   );
 });
