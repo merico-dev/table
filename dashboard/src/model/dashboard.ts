@@ -183,8 +183,12 @@ const _DashboardModel = types
   }))
   .actions((self) => ({
     duplicatePanelByID(panelID: string, viewID: string) {
-      self.panels.duplicateByID(panelID);
-      self.views.findByID(viewID)?.appendPanelID(panelID);
+      const newID = self.panels.duplicateByID(panelID);
+      if (!newID) {
+        return;
+      }
+
+      self.views.findByID(viewID)?.appendPanelID(newID);
     },
     removePanelByID(panelID: string, viewID: string) {
       self.panels.removeByID(panelID);

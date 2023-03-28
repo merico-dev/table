@@ -94,15 +94,17 @@ export const PanelsModel = types
           console.error(new Error(`[duplicate panel] Can't find a panel by id[${id}]`));
           return;
         }
+        const newID = new Date().getTime().toString();
         self.list.push({
           ...base.json,
-          id: randomId(),
+          id: newID,
           layout: {
             ...base.layout,
             y: Infinity,
             moved: false,
           },
         });
+        return newID;
       },
       replaceByIndex(index: number, replacement: PanelModelInstance) {
         self.list.splice(index, 1, replacement);
