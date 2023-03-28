@@ -48,6 +48,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
         <JSONMergeChooser
           diff={diff}
           opposite="remote"
+          chosen={resolved && state.resolvedDifferences.get(diff.key)?.from === 'local'}
           resolved={resolved}
           label="Local Changes"
           changed={localChanged}
@@ -57,6 +58,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           diff={diff}
           opposite="local"
           resolved={resolved}
+          chosen={resolved && state.resolvedDifferences.get(diff.key)?.from === 'remote'}
           label="Remote Changes"
           changed={remoteChanged}
           onClick={() => state.acceptRemoteChange(diff)}
