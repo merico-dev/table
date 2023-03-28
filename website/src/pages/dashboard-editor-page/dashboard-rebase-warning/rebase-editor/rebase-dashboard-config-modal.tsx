@@ -28,7 +28,13 @@ export const RebaseDashboardConfigModal = observer(
     };
     return (
       <>
-        <Button onClick={modalOpen.setTrue} variant="filled" size="xs" leftIcon={<IconGitMerge size={20} />}>
+        <Button
+          onClick={modalOpen.setTrue}
+          variant="filled"
+          size="xs"
+          color="red"
+          leftIcon={<IconGitMerge size={20} />}
+        >
           Merge Changes
         </Button>
         <Modal

@@ -1,5 +1,5 @@
 import { IDashboard } from '@devtable/dashboard';
-import { Divider, Notification, Text } from '@mantine/core';
+import { Divider, Group, Notification, Overlay, Text } from '@mantine/core';
 import { useBoolean, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
@@ -54,20 +54,30 @@ export const DashboardRebaseWarning = observer(() => {
 
   const latestUpdatedAt = dayjs(latest.update_time).format('YYYY-MM-DD HH:mm:ss (UTC)');
   return (
-    <Notification
-      color="red"
-      title={<Text size={16}>Version Alert</Text>}
-      onClose={setFalse}
-      sx={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }}
-    >
-      <Text mt={10} color="dark">
-        A newer version of this dashboard has been submitted
-      </Text>
-      <Text size={12} ta="right">
-        Latest version: {latestUpdatedAt}
-      </Text>
-      <Divider my={10} variant="dotted" />
-      <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey!} onFinish={setFalse} />
-    </Notification>
+    <>
+      <Overlay zIndex={310} color="black" opacity={0.4} blur={2} />
+      <Notification
+        color="red"
+        title={
+          <Group>
+            <Text size={16}>Version Alert</Text>
+            <Text size={12} color="dimmed">
+              Remote version: {latestUpdatedAt}
+            </Text>
+          </Group>
+        }
+        onClose={setFalse}
+        disallowClose
+        sx={{ position: 'fixed', top: 10, right: 15, zIndex: 1000 }}
+      >
+        <Text mt={10} color="dark">
+          A newer version of this dashboard has been submitted.
+        </Text>
+        <Divider mt={20} mb={10} variant="dotted" />
+        <Group position="right">
+          <RebaseActions rebaseModel={rebaseModel} remoteKey={remoteKey!} onFinish={setFalse} />
+        </Group>
+      </Notification>
+    </>
   );
 });
