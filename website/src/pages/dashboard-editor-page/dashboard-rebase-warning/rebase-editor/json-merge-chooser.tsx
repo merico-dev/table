@@ -14,7 +14,7 @@ interface IResolveAction {
 const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolveAction) => {
   if (chosen) {
     return (
-      <Badge color="green" sx={{ textTransform: 'none', cursor: 'default', userSelect: 'none' }}>
+      <Badge color="green" sx={{ textTransform: 'none', cursor: 'default', userSelect: 'none', height: '26px' }}>
         <Group>
           <IconCheck size={14} />
           Chosen
@@ -44,7 +44,7 @@ const ResolveAction = observer(({ opposite, onClick, resolved, chosen }: IResolv
         aria-label="use local"
         leftIcon={<IconCheck size={14} />}
         onClick={onClick}
-        // sx={{ height: 26 }}
+        sx={{ height: 26 }}
       >
         Accept
       </Button>

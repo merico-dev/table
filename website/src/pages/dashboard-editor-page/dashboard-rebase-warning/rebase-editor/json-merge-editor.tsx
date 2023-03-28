@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion,@typescript-eslint/no-explicit-any */
-import { Button, Card, Group, Modal, Stack, Text, Tooltip } from '@mantine/core';
-import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons';
-import { useBoolean } from 'ahooks';
-import { capitalCase } from 'change-case';
+import { Button, Group, Stack, Text } from '@mantine/core';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons';
 import _, { get } from 'lodash';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { JsonChangesViewer } from './json-changes-viewer';
 import { JSONMergeChooser } from './json-merge-chooser';
-import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-json-docs-state';
+import { MergeJsonDocsState } from './merge-json-docs-state';
 
 export interface IJsonMergeEditorProps {
   state: MergeJsonDocsState;
@@ -33,11 +29,23 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
       </Group>
       {lastIndex > 0 ? (
         <Group position="apart">
-          <Button size="xs" variant="light" leftIcon={<IconArrowLeft size={14} />} onClick={prev}>
+          <Button
+            size="xs"
+            variant="light"
+            leftIcon={<IconArrowLeft size={14} />}
+            onClick={prev}
+            disabled={current === 0}
+          >
             Previous
           </Button>
           <Text>{diff.objectDescription}</Text>
-          <Button size="xs" variant="light" leftIcon={<IconArrowRight size={14} />} onClick={next}>
+          <Button
+            size="xs"
+            variant="light"
+            leftIcon={<IconArrowRight size={14} />}
+            onClick={next}
+            disabled={current === lastIndex}
+          >
             Next
           </Button>
         </Group>
