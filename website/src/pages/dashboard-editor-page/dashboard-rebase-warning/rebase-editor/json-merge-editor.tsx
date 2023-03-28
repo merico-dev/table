@@ -10,36 +10,15 @@ import { get } from 'lodash';
 
 export interface IJsonMergeEditorProps {
   state: MergeJsonDocsState;
-  onApply?: (resolveList: IResolveResult[]) => void;
-  onCancel?: () => void;
 }
 
-export const JsonMergeEditor = observer(({ state, onCancel, onApply }: IJsonMergeEditorProps) => {
-  const handleApply = () => {
-    onApply?.(Array.from(state.resolvedDifferences.values()).map((it) => toJS(it)));
-  };
-
+export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
   return (
     <Stack>
-      <Card style={{ position: 'sticky', top: 0, zIndex: 2 }} withBorder shadow="sm">
-        <Group position="apart">
-          <Group>
-            <Text>Total changes: {state.differences.length}</Text>
-            <Text>Pending changes: {state.resolvedDifferences.size}</Text>
-          </Group>
-          <Group>
-            <Button disabled={state.resolvedDifferences.size === 0} variant="outline" onClick={() => state.undo()}>
-              Undo
-            </Button>
-            <Button variant="outline" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button disabled={!state.canApply} onClick={handleApply}>
-              Apply
-            </Button>
-          </Group>
-        </Group>
-      </Card>
+      <Group>
+        <Text>Total changes: {state.differences.length}</Text>
+        <Text>Pending changes: {state.resolvedDifferences.size}</Text>
+      </Group>
       {state.differences.map((diff) => (
         <Card key={diff.key} withBorder>
           <Group position="apart" aria-label={'changed: ' + diff.objectDescription}>
