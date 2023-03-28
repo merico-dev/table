@@ -82,6 +82,10 @@ const _DashboardModel = types
       const fields = 'views.current';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
     },
+    get panelsChanged() {
+      const fields = 'panels.list';
+      return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
+    },
     get mockContextChanged() {
       const fields = 'mock_context.current';
       return !isEqual(get(self, fields), get(self.origin, fields));
@@ -102,6 +106,7 @@ const _DashboardModel = types
         self.queriesChanged ||
         self.sqlSnippetsChanged ||
         self.viewsChanged ||
+        self.panelsChanged ||
         self.mockContextChanged
       );
     },
