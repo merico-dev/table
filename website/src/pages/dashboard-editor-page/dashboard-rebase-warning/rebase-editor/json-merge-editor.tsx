@@ -8,6 +8,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { JsonChangesViewer } from './json-changes-viewer';
+import { JSONMergeChooser } from './json-merge-chooser';
 import { IResolveResult, MergeJsonDocsState, NodeDiffContext } from './merge-json-docs-state';
 
 export interface IJsonMergeEditorProps {
@@ -44,81 +45,22 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
         <Text ta="center">{diff.objectDescription}</Text>
       )}
       <Group grow position="apart" spacing="xs">
-        <Card px={0} withBorder>
-          <Card.Section withBorder inheritPadding py="xs">
-            {!resolved && (
-              <Group px="xs" position="apart">
-                <Text size={14} fw={500}>
-                  Local Changes
-                </Text>
-                <Tooltip
-                  label={
-                    <Group spacing={4}>
-                      <Text>This will discard</Text>
-                      <Text fw={700} sx={{ display: 'inline-block' }}>
-                        remote
-                      </Text>
-                      <Text>changes</Text>
-                    </Group>
-                  }
-                >
-                  <Button
-                    compact
-                    px="sm"
-                    size="xs"
-                    color="green"
-                    aria-label="use local"
-                    leftIcon={<IconCheck size={14} />}
-                    onClick={() => state.acceptLocalChanges(diff)}
-                  >
-                    Accept
-                  </Button>
-                </Tooltip>
-              </Group>
-            )}
-          </Card.Section>
-          <Card.Section inheritPadding pt="xs">
-            <JsonChangesViewer base={diff.values.base} changed={localChanged} />
-          </Card.Section>
-        </Card>
-        <Card px={0} withBorder>
-          <Card.Section withBorder inheritPadding py="xs">
-            {!resolved && (
-              <Group px="xs" position="apart">
-                <Text size={14} fw={500}>
-                  Remote Changes
-                </Text>
-                <Tooltip
-                  label={
-                    <Group spacing={4}>
-                      <Text>This will discard</Text>
-                      <Text fw={700} sx={{ display: 'inline-block' }}>
-                        local
-                      </Text>
-                      <Text>changes</Text>
-                    </Group>
-                  }
-                >
-                  <Button
-                    compact
-                    px="sm"
-                    size="xs"
-                    color="green"
-                    aria-label="use local"
-                    leftIcon={<IconCheck size={14} />}
-                    onClick={() => state.acceptRemoteChange(diff)}
-                  >
-                    Accept
-                  </Button>
-                </Tooltip>
-              </Group>
-            )}
-          </Card.Section>
-
-          <Card.Section inheritPadding pt="xs">
-            <JsonChangesViewer base={diff.values.base} changed={remoteChanged} />
-          </Card.Section>
-        </Card>
+        <JSONMergeChooser
+          diff={diff}
+          opposite="remote"
+          resolved={resolved}
+          label="Local Changes"
+          changed={localChanged}
+          onClick={() => state.acceptLocalChanges(diff)}
+        />
+        <JSONMergeChooser
+          diff={diff}
+          opposite="local"
+          resolved={resolved}
+          label="Remote Changes"
+          changed={remoteChanged}
+          onClick={() => state.acceptRemoteChange(diff)}
+        />
       </Group>
 
       {/* <Group position="apart">
@@ -128,39 +70,6 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
     </Stack>
   );
 });
-
-const ChangesText = observer(
-  ({
-    diff,
-    resolvedResult,
-    changeSource,
-  }: {
-    diff: NodeDiffContext;
-    resolvedResult?: IResolveResult;
-    changeSource: string;
-  }) => {
-    const resolved = !!resolvedResult;
-    const [isOpen, open] = useBoolean(false);
-
-    const changed = toJS(get(diff.values, changeSource));
-    const changesDesc = `${capitalCase(changeSource)}: ${get(diff, `${changeSource}Changes`)}`;
-    return (
-      <>
-        <Modal size="xl" style={{ zIndex: 1010 }} opened={isOpen} onClose={open.setFalse} title={changesDesc}>
-          {isOpen && <JsonChangesViewer base={diff.values.base} changed={changed} />}
-        </Modal>
-        <Text
-          style={{ cursor: 'pointer' }}
-          onClick={open.setTrue}
-          color={resolved && resolvedResult.from === changeSource ? 'green' : 'gray'}
-          strikethrough={resolved && resolvedResult.from !== changeSource}
-        >
-          {changesDesc}
-        </Text>
-      </>
-    );
-  },
-);
 
 // todo:
 // x list of diff nodes
