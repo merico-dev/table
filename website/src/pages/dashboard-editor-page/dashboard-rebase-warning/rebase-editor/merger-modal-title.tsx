@@ -1,5 +1,5 @@
-import { ActionIcon, Button, Group, Table, Text, Tooltip } from '@mantine/core';
-import { IconDeviceFloppy, IconRecycle, IconX } from '@tabler/icons';
+import { Button, Group, Table, Text, Tooltip } from '@mantine/core';
+import { IconDeviceFloppy, IconRecycle } from '@tabler/icons';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { IResolveResult, MergeJsonDocsState } from './merge-json-docs-state';

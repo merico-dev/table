@@ -1,6 +1,7 @@
 import { Button } from '@mantine/core';
 import { IconCheck } from '@tabler/icons';
 import { useCreation } from 'ahooks';
+import _ from 'lodash';
 import { cloneDeep } from 'lodash';
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -84,9 +85,37 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
     return <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />;
   }
 
-  // TODO
+  // WIP
   const rebase = () => {
-    window.location.reload();
+    console.log(mergeState.differences);
+    mergeState.differences.forEach((diff) => {
+      const baseVersion = toJS(_.get(diff.values, 'base'));
+      const localVersion = toJS(_.get(diff.values, 'local'));
+      const remoteVersion = toJS(_.get(diff.values, 'remote'));
+
+      const localChanged = !!localVersion && !_.isEqual(baseVersion, localVersion);
+      const remoteChanged = !!remoteVersion && !_.isEqual(baseVersion, remoteVersion);
+
+      console.group(
+        `Rebasing ${diff.objectDescription}, localChanges: ${diff.localChanges}, remoteChanges: ${diff.remoteChanges}`,
+      );
+      if (!localChanged && !remoteChanged) {
+        console.groupEnd();
+        return;
+      }
+
+      if (localChanged) {
+        console.log('Accepting local changes: ', localVersion);
+        mergeState.acceptLocalChanges(diff);
+      } else {
+        console.log('Accepting remote changes: ', remoteVersion);
+        mergeState.acceptRemoteChange(diff);
+      }
+      console.groupEnd();
+    });
+
+    const changes = Array.from(mergeState.resolvedDifferences.values()).map((it) => toJS(it));
+    handleApply(changes);
   };
   return (
     <Button size="xs" variant="filled" color="green" onClick={rebase} leftIcon={<IconCheck size={14} />}>
