@@ -1,7 +1,6 @@
-import { IDashboard } from '@devtable/dashboard';
 import { Button } from '@mantine/core';
 import { useCreation } from 'ahooks';
-import { cloneDeep, isEqual, pick } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Instance } from 'mobx-state-tree';
@@ -10,12 +9,6 @@ import { useDashboardStore } from '../../../frames/app/models/dashboard-store-co
 import { diffNodes, RebaseDashboardConfigModal } from './rebase-editor';
 import { IResolveResult, MergeJsonDocsState } from './rebase-editor/merge-json-docs-state';
 import { RebaseConfigModel, RebaseConfigModelInstance } from './rebase-editor/rebase-config-context';
-
-const diffPaths = ['filters', 'definition', 'panels', 'views'];
-
-function isConfigEqual(a: IDashboard, b?: IDashboard) {
-  return isEqual(pick(a, diffPaths), pick(b, diffPaths));
-}
 
 function useMergeDocState(rebaseModel: Instance<typeof RebaseConfigModel>) {
   const mergeDocState = useCreation(() => {
