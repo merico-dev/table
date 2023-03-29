@@ -16,6 +16,7 @@ import permission from '../middleware/permission';
 import ApiKey from '../models/apiKey';
 import Account from '../models/account';
 import { DashboardPermissionService } from '../services/dashboard_permission.service';
+import { channelBuilder, CHANNELS, socketEmit } from '../utils/websocket';
 
 @ApiPath({
   path: '/dashboard',
@@ -174,6 +175,7 @@ export class DashboardController implements interfaces.Controller {
         req.locale,
         auth?.role_id,
       );
+      socketEmit(channelBuilder(CHANNELS.DASHBOARD, [id]), 'UPDATED');
       res.json(result);
     } catch (err) {
       next(err);
@@ -206,6 +208,7 @@ export class DashboardController implements interfaces.Controller {
         req.body.auth?.id,
       );
       const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
+      socketEmit(channelBuilder(CHANNELS.DASHBOARD, [id]), 'UPDATED');
       res.json(result);
     } catch (err) {
       next(err);

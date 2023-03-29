@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import * as bodyparser from 'body-parser';
 import * as express from 'express';
 import * as swagger from 'swagger-express-ts';
+import http from 'http';
 import path from 'path';
 import cors from 'cors';
 import { Container } from 'inversify';
@@ -15,6 +16,7 @@ import { dashboardDataSource } from './data_sources/dashboard';
 import i18n from './utils/i18n';
 import localization from './middleware/localization';
 import './api_models';
+import { initWebsocket } from './utils/websocket';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -64,7 +66,9 @@ server.setErrorConfig((app: any) => {
   app.use(errorMiddleware);
 });
 
-export const app = server.build();
+const serverBuild = server.build();
+export const app = http.createServer(serverBuild);
+
 const port = process.env.SERVER_PORT || 31200;
 
 if (process.env.NODE_ENV !== 'test') {
@@ -75,6 +79,8 @@ if (process.env.NODE_ENV !== 'test') {
     app.listen(port, () => {
       logger.info(`Listening on port ${port}`);
     });
+
+    initWebsocket(app, corsOrigins);
 
     process.on('uncaughtException', (err) => {
       logger.info(err.message);

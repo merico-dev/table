@@ -52,6 +52,7 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "simple-git": "^3.15.0",
+    "socket.io": "^4.6.1",
     "swagger-express-ts": "^1.1.0",
     "swagger-ui-dist": "^4.11.1",
     "tsconfig-paths": "^4.0.0",

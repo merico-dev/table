@@ -8,6 +8,7 @@ import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
+import { channelBuilder, CHANNELS, socketEmit } from '../utils/websocket';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { QueryService } from './query.service';
 
@@ -102,6 +103,7 @@ export class JobService {
             .where(`content @> '{"definition":{"queries":[{"type": "${params.type}", "key": "${params.old_key}"}]}}' `)
             .getRawMany<Dashboard>();
 
+          const updatedDashboardIds: string[] = [];
           for (const dashboard of dashboards) {
             let updated = false;
             const originalDashboard = _.cloneDeep(dashboard);
@@ -115,6 +117,7 @@ export class JobService {
             }
             if (updated) {
               await dashboardRepo.save(dashboard);
+              updatedDashboardIds.push(dashboard.id);
               const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
               if (diff) {
                 const changelog = new DashboardChangelog();
@@ -129,6 +132,9 @@ export class JobService {
           job.result = result;
           await jobRepo.save(job);
           await runner.commitTransaction();
+          updatedDashboardIds.forEach((id) => {
+            socketEmit(channelBuilder(CHANNELS.DASHBOARD, [id]), 'UPDATED');
+          });
         } catch (error) {
           runner.rollbackTransaction();
           job.status = JobStatus.FAILED;
