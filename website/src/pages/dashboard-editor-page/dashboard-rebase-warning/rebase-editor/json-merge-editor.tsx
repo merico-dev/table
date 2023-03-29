@@ -23,10 +23,6 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
   const resolved = state.isResolved(diff.key);
   return (
     <Stack spacing={10}>
-      <Group>
-        <Text>Total changes: {state.differences.length}</Text>
-        <Text>Pending changes: {state.resolvedDifferences.size}</Text>
-      </Group>
       {lastIndex > 0 ? (
         <Group position="apart">
           <Button
