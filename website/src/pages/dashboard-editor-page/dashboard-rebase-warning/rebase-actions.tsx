@@ -1,4 +1,5 @@
 import { Button } from '@mantine/core';
+import { IconCheck } from '@tabler/icons';
 import { useCreation } from 'ahooks';
 import { cloneDeep } from 'lodash';
 import { reaction, toJS } from 'mobx';
@@ -79,15 +80,16 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
     onFinish();
   };
 
+  if (hasConflicts && rebaseModel.canMergeChanges) {
+    return <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />;
+  }
+
   // TODO
   const rebase = () => {
     window.location.reload();
   };
-  if (hasConflicts) {
-    return <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />;
-  }
   return (
-    <Button size="xs" variant="subtle" onClick={rebase}>
+    <Button size="xs" variant="filled" color="green" onClick={rebase} leftIcon={<IconCheck size={14} />}>
       Accept incoming changes
     </Button>
   );

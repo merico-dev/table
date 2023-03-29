@@ -3,7 +3,7 @@ import { DashboardStore } from '../../../../frames/app/models/dashboard-store';
 import { IDashboard } from '@devtable/dashboard';
 import React from 'react';
 import { useCreation } from 'ahooks';
-import { reaction } from 'mobx';
+import { reaction, toJS } from 'mobx';
 
 export interface RebaseConfigEnv {
   dashboardStore: Instance<typeof DashboardStore>;
@@ -20,6 +20,21 @@ export const RebaseConfigModel = types
     get base() {
       const env = getEnv<RebaseConfigEnv>(self);
       return env.dashboardStore.currentDetail?.dashboard;
+    },
+  }))
+  .views((self) => ({
+    get json() {
+      return {
+        base: toJS(self.base),
+        local: toJS(self.local),
+        remote: toJS(self.remote),
+      };
+    },
+  }))
+  .views((self) => ({
+    get canMergeChanges() {
+      const { base, local, remote } = self.json;
+      return base && local && remote;
     },
   }))
   .actions((self) => ({
