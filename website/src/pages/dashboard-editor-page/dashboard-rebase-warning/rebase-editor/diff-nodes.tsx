@@ -63,4 +63,52 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
       };
     },
   } as IDiffTarget<AnyObject, string>,
+  {
+    selector: new Accessor<IDashboard, AnyObject>('views', Matcher.all),
+    idSelector: (it) => it.id,
+    formatDisplayName: (it) => {
+      const { label, id, type } = it;
+      if (label) {
+        return `View: ${label}`;
+      }
+      return `View: ${type}[${id}]`;
+    },
+    produceOperation: (operationType, pointers, item) => {
+      return (config: IDashboard) => {
+        const views = config.views as AnyObject[];
+        const index = views.findIndex((it) => it.id === item.id);
+        if (operationType === 'added') {
+          views.push(item);
+        } else if (operationType === 'removed') {
+          views.splice(index, 1);
+        } else if (operationType === 'modified') {
+          views[index] = item;
+        }
+      };
+    },
+  } as IDiffTarget<AnyObject, string>,
+  {
+    selector: new Accessor<IDashboard, AnyObject>('panels', Matcher.all),
+    idSelector: (it) => it.id,
+    formatDisplayName: (it) => {
+      const { title, id, viz } = it;
+      if (title) {
+        return `Panel: ${title}`;
+      }
+      return `Panel: ${viz.type}[${id}]`;
+    },
+    produceOperation: (operationType, pointers, item) => {
+      return (config: IDashboard) => {
+        const panels = config.panels as AnyObject[];
+        const index = panels.findIndex((it) => it.id === item.id);
+        if (operationType === 'added') {
+          panels.push(item);
+        } else if (operationType === 'removed') {
+          panels.splice(index, 1);
+        } else if (operationType === 'modified') {
+          panels[index] = item;
+        }
+      };
+    },
+  } as IDiffTarget<AnyObject, string>,
 ];

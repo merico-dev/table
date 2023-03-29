@@ -1,6 +1,7 @@
 import { Badge, Button, Card, Group, Overlay, Text, Tooltip } from '@mantine/core';
 import { IconCheck } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
+import { ErrorBoundary } from '../../../../utils/error-boundary';
 import { IJsonChangesViewerProps, JsonChangesViewer } from './json-changes-viewer';
 import { NodeDiffContext } from './merge-json-docs-state';
 
@@ -76,7 +77,9 @@ export const JSONMergeChooser = observer(
         </Card.Section>
         <Card.Section inheritPadding pt="xs" sx={{ position: 'relative' }}>
           {resolved && !chosen && <Overlay color="white" opacity={0.6} />}
-          <JsonChangesViewer base={diff.values.base} changed={changed} />
+          <ErrorBoundary>
+            <JsonChangesViewer base={diff.values.base} changed={changed} />
+          </ErrorBoundary>
         </Card.Section>
       </Card>
     );

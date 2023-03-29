@@ -10,9 +10,8 @@ export interface IJsonChangesViewerProps {
 }
 
 export const JsonChangesViewer = (props: IJsonChangesViewerProps) => {
-  const original = useMemo(() => stableStringify(props.base, { space: 2 }), [props.base]);
-  const modified = useMemo(() => stableStringify(props.changed, { space: 2 }), [props.changed]);
-
+  const original = useMemo(() => stableStringify(props.base, { space: 2 }) ?? '', [props.base]);
+  const modified = useMemo(() => stableStringify(props.changed, { space: 2 }) ?? '', [props.changed]);
   return (
     <Stack style={{ height: 'calc(100vh - 300px)' }}>
       <Group position="apart" px="xs">
