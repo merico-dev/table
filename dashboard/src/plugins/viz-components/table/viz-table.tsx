@@ -49,6 +49,9 @@ export function VizTable({ context, instance }: VizViewProps) {
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
+      if (!Array.isArray(data) || data.length === 0) {
+        return [];
+      }
       return Object.keys(data[0]).map((k) => ({
         id: k,
         label: k,
@@ -110,6 +113,13 @@ export function VizTable({ context, instance }: VizViewProps) {
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
+  if (!Array.isArray(data) || data.length === 0) {
+    return (
+      <Text color="gray" align="center">
+        Empty Data
+      </Text>
+    );
+  }
   return (
     <div
       ref={tableContainerRef}
