@@ -65,10 +65,9 @@ const ApplyButton = observer(({ state, onApply }: IApplyButton) => {
 export interface IMergerModalTitle {
   state: MergeJsonDocsState;
   onApply?: (resolveList: IResolveResult[]) => void;
-  onCancel?: () => void;
 }
 
-export const MergerModalTitle = observer(({ state, onApply, onCancel }: IMergerModalTitle) => {
+export const MergerModalTitle = observer(({ state, onApply }: IMergerModalTitle) => {
   return (
     <Group position="apart" sx={{ position: 'relative' }}>
       <Group spacing={7}>
@@ -90,11 +89,6 @@ export const MergerModalTitle = observer(({ state, onApply, onCancel }: IMergerM
           </Button>
           <ApplyButton state={state} onApply={onApply} />
         </Group>
-        <Tooltip label="Cancel">
-          <ActionIcon size="xs" color="red" variant="subtle" onClick={onCancel}>
-            <IconX size={14} />
-          </ActionIcon>
-        </Tooltip>
       </Group>
     </Group>
   );

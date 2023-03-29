@@ -36,7 +36,7 @@ export const RebaseDashboardConfigModal = observer((props: IRebaseDashboardConfi
         Merge Changes
       </Button>
       <Modal
-        title={<MergerModalTitle onApply={handleApply} state={props.state} onCancel={handleCancel} />}
+        title={<MergerModalTitle onApply={handleApply} state={props.state} />}
         opened={isModalOpen}
         closeOnEscape={false}
         closeOnClickOutside={false}
@@ -45,8 +45,12 @@ export const RebaseDashboardConfigModal = observer((props: IRebaseDashboardConfi
         fullScreen
         zIndex={410}
         styles={{
+          header: {
+            marginRight: 0,
+          },
           title: {
             flexGrow: 1,
+            marginRight: 0,
           },
         }}
       >
