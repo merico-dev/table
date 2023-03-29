@@ -37,7 +37,7 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           <Text>{diff.objectDescription}</Text>
           <Button
             size="xs"
-            variant="light"
+            variant={resolved ? 'filled' : 'light'}
             leftIcon={<IconArrowRight size={14} />}
             onClick={next}
             disabled={current === lastIndex}
@@ -68,11 +68,6 @@ export const JsonMergeEditor = observer(({ state }: IJsonMergeEditorProps) => {
           onClick={() => state.acceptRemoteChange(diff)}
         />
       </Group>
-
-      {/* <Group position="apart">
-        <ChangesText changeSource="local" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
-        <ChangesText changeSource="remote" diff={diff} resolvedResult={state.resolvedDifferences.get(diff.key)} />
-      </Group> */}
     </Stack>
   );
 });
