@@ -9,8 +9,6 @@ import { VizCartesianEditor } from './viz-cartesian-editor';
 import * as Migrators from './migrators';
 
 export class VizCartesianMigrator extends VersionBasedMigrator {
-  readonly VERSION = 14;
-
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
       return {
@@ -118,7 +116,15 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: Migrators.v14(data.config),
       };
     });
+    this.version(15, (data) => {
+      return {
+        ...data,
+        version: 15,
+        config: Migrators.v15(data.config),
+      };
+    });
   }
+  readonly VERSION = 15;
 }
 
 export const CartesianVizComponent: VizComponent = {
@@ -130,7 +136,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianEditor,
   createConfig() {
     return {
-      version: 14,
+      version: 15,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

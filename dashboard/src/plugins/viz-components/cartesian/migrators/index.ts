@@ -207,3 +207,17 @@ export function v14(legacyConf: any): ICartesianChartConf {
     }),
   };
 }
+
+export function v15(legacyConf: any): ICartesianChartConf {
+  const { regressions, ...rest } = legacyConf;
+  return {
+    ...rest,
+    regressions: regressions.map((r: any) => {
+      const { group_by_key = '' } = r;
+      return {
+        ...r,
+        group_by_key,
+      };
+    }),
+  };
+}

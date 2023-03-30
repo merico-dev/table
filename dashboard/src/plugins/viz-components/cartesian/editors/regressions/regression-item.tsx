@@ -34,11 +34,26 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
   const method = regressionItem.transform.config.method;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
-      <Controller
-        name={`regressions.${index}.name`}
-        control={control}
-        render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
-      />
+      <Group grow>
+        <Controller
+          name={`regressions.${index}.name`}
+          control={control}
+          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+        />
+        <Controller
+          name={`regressions.${index}.group_by_key`}
+          control={control}
+          render={({ field }) => (
+            <DataFieldSelector
+              label="Split into multiple regression lines by this key..."
+              data={data}
+              clearable
+              sx={{ flex: 1 }}
+              {...field}
+            />
+          )}
+        />
+      </Group>
       <Group grow noWrap>
         <Controller
           name={`regressions.${index}.y_axis_data_key`}

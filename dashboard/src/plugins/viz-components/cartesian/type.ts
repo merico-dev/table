@@ -65,6 +65,7 @@ export interface IRegressionConf {
   plot: IRegressionLineConf;
   name: string;
   y_axis_data_key: string;
+  group_by_key: string;
 }
 
 export interface ICartesianReferenceLine {
