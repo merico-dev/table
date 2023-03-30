@@ -1,6 +1,6 @@
 import { IDashboard } from '@devtable/dashboard';
 import { Divider, Group, Notification, Overlay, Text } from '@mantine/core';
-import { useBoolean, useRequest } from 'ahooks';
+import { useBoolean, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
@@ -25,6 +25,15 @@ export const DashboardRebaseWarning = observer(() => {
   useEffect(() => {
     rebaseModel.setRemote(latest?.content as IDashboard);
   }, [latest, rebaseModel]);
+
+  const currentUpdateTime = store.currentDetail?.update_time;
+  useEffect(() => {
+    const current = store.currentDetail?.content as IDashboard;
+    if (current) {
+      rebaseModel.setLocal(current);
+    }
+  }, [currentUpdateTime]);
+  useWhyDidYouUpdate('DashboardRebaseWarning', { currentUpdateTime, rebaseModel });
 
   useEffect(() => {
     if (loading || !store.currentDetail || store.detailsLoading) {

@@ -87,15 +87,12 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
 
   // WIP
   const rebase = () => {
-    console.log(mergeState.differences);
     mergeState.differences.forEach((diff) => {
       const baseVersion = toJS(_.get(diff.values, 'base'));
       const localVersion = toJS(_.get(diff.values, 'local'));
       const remoteVersion = toJS(_.get(diff.values, 'remote'));
-
       const localChanged = !!localVersion && !_.isEqual(baseVersion, localVersion);
       const remoteChanged = !!remoteVersion && !_.isEqual(baseVersion, remoteVersion);
-
       console.group(
         `Rebasing ${diff.objectDescription}, localChanges: ${diff.localChanges}, remoteChanges: ${diff.remoteChanges}`,
       );
@@ -103,7 +100,6 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
         console.groupEnd();
         return;
       }
-
       if (localChanged) {
         console.log('Accepting local changes: ', localVersion);
         mergeState.acceptLocalChanges(diff);
@@ -113,7 +109,6 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
       }
       console.groupEnd();
     });
-
     const changes = Array.from(mergeState.resolvedDifferences.values()).map((it) => toJS(it));
     handleApply(changes);
   };
