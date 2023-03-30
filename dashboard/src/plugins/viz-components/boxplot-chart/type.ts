@@ -3,7 +3,7 @@ import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/commo
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 
 export interface IBoxplotReferenceLine {
   name: string;

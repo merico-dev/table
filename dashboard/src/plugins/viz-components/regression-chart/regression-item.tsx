@@ -1,5 +1,5 @@
 /**
- * NOTE: this file is almost a duplicate of cartesian/panel/regressions/regression-item.tsx
+ * NOTE: this file is almost a duplicate of cartesian/editors/regressions/regression-item.tsx
  * FIXME: extract common input widgets & configs, then improve this file
  */
 

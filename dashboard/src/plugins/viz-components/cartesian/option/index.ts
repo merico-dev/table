@@ -1,6 +1,6 @@
 import _, { defaultsDeep } from 'lodash';
 import { ITemplateVariable } from '~/utils/template';
-import { getEchartsDataZoomOption } from '../panel/echarts-zooming-field/get-echarts-data-zoom-option';
+import { getEchartsDataZoomOption } from '../editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
 import { getLegend } from './legend';

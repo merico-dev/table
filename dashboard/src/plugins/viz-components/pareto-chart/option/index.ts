@@ -1,5 +1,5 @@
 import { ITemplateVariable } from '~/utils/template';
-import { getEchartsDataZoomOption } from '../../cartesian/panel/echarts-zooming-field/get-echarts-data-zoom-option';
+import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { IParetoChartConf } from '../type';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';

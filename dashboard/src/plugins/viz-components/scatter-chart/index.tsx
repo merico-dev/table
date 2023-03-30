@@ -3,7 +3,7 @@ import _, { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
-import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/types';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_SCATTER_CHART_LABEL_OVERFLOW, IScatterChartConf } from './type';

@@ -1,9 +1,9 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AggregationType } from '~/utils/aggregation';
-import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
-import { TScatterSize } from './panel/scatter-size-select/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
+import { TScatterSize } from './editors/scatter-size-select/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';

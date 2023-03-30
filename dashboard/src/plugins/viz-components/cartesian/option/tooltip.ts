@@ -1,7 +1,7 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 

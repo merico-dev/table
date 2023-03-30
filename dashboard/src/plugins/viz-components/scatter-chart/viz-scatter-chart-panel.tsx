@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { EchartsZoomingField } from '../cartesian/panel/echarts-zooming-field';
+import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 import { ReferenceAreasField } from './editors/reference-areas';
 // import { ReferenceAreasField } from './panel/reference-areas';
 import { ReferenceLinesField } from './editors/reference-lines';

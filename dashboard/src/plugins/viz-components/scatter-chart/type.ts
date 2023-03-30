@@ -1,5 +1,5 @@
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/panel/echarts-zooming-field/types';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IEchartsOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
