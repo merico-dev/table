@@ -233,6 +233,7 @@ const _DashboardModel = types
         applySnapshot(self.queries.current, self.origin.queries.current);
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
+        applySnapshot(self.panels.list, self.origin.panels.list);
         self.mock_context.current = self.origin.mock_context.current;
       },
       resetFilters() {
@@ -245,6 +246,7 @@ const _DashboardModel = types
           version,
           filters,
           views,
+          panels,
           definition: { queries, sqlSnippets, mock_context = {} },
         } = config;
         self.name = name;
@@ -252,6 +254,7 @@ const _DashboardModel = types
         self.version = version;
         applySnapshot(self.filters.current, filters);
         applySnapshot(self.views.current, createDashboardViewsModel(views).current);
+        applySnapshot(self.panels.list, panels);
         applySnapshot(self.queries.current, queries);
         applySnapshot(self.sqlSnippets.current, sqlSnippets);
         self.mock_context.current = mock_context;

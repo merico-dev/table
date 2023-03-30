@@ -23,7 +23,6 @@ export const DashboardEditor = observer(
       return reaction(
         () => toJS(rebaseModel.rebaseResult),
         (result) => {
-          console.log('🟦 updating dashboardModelRef', result?.panels);
           if (result) {
             dashboardModelRef.current?.updateCurrent(result);
           }

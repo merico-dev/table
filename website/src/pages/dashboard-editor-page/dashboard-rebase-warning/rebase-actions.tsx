@@ -93,9 +93,8 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
       const remoteVersion = toJS(_.get(diff.values, 'remote'));
       const localChanged = !!localVersion && !_.isEqual(baseVersion, localVersion);
       const remoteChanged = !!remoteVersion && !_.isEqual(baseVersion, remoteVersion);
-      console.group(
-        `Rebasing ${diff.objectDescription}, localChanges: ${diff.localChanges}, remoteChanges: ${diff.remoteChanges}`,
-      );
+      console.group(`Rebasing ${diff.objectDescription}`);
+      console.log(`localChanges: ${diff.localChanges} | remoteChanges: ${diff.remoteChanges}`);
       if (!localChanged && !remoteChanged) {
         console.groupEnd();
         return;

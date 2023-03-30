@@ -39,16 +39,13 @@ export const RebaseConfigModel = types
   }))
   .actions((self) => ({
     setRemote(remote: IDashboard) {
-      console.log('🟩 setting remote', remote);
       self.remote = remote;
     },
     setLocal(local: IDashboard) {
-      console.log('🟥 setting local', local.panels);
       self.local = local;
       self.rebaseResult = undefined;
     },
     setRebaseResult(rebaseResult?: IDashboard) {
-      console.log('🟨 setting rebaseResult', rebaseResult?.panels);
       self.rebaseResult = rebaseResult;
     },
     markResolvedRemote(remoteId: string) {
