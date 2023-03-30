@@ -16,7 +16,7 @@ import { XAxisField } from './panel/x-axis';
 import { YAxesField } from './panel/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 
-export function VizCartesianPanel({ context }: VizConfigProps) {
+export function VizCartesianEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];

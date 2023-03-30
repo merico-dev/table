@@ -10,7 +10,7 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER } from './panel/x-axis/x-axis-label-form
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { VizCartesianChart } from './viz-cartesian-chart';
-import { VizCartesianPanel } from './viz-cartesian-panel';
+import { VizCartesianEditor } from './viz-cartesian-editor';
 
 function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -332,7 +332,7 @@ export const CartesianVizComponent: VizComponent = {
   migrator: new VizCartesianMigrator(),
   name: 'cartesian',
   viewRender: VizCartesianChart,
-  configRender: VizCartesianPanel,
+  configRender: VizCartesianEditor,
   createConfig() {
     return {
       version: 14,
