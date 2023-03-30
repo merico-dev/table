@@ -85,7 +85,6 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
     return <RebaseDashboardConfigModal state={mergeState} onApply={handleApply} />;
   }
 
-  // WIP
   const rebase = () => {
     mergeState.differences.forEach((diff) => {
       const baseVersion = toJS(_.get(diff.values, 'base'));
@@ -93,6 +92,7 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
       const remoteVersion = toJS(_.get(diff.values, 'remote'));
       const localChanged = !!localVersion && !_.isEqual(baseVersion, localVersion);
       const remoteChanged = !!remoteVersion && !_.isEqual(baseVersion, remoteVersion);
+
       console.group(`Rebasing ${diff.objectDescription}`);
       console.log(`localChanges: ${diff.localChanges} | remoteChanges: ${diff.remoteChanges}`);
       if (!localChanged && !remoteChanged) {
