@@ -1,8 +1,14 @@
-import { IResolveResult, MergeJsonDocsState } from '~/pages/dashboard-editor-page/rebase-editor/merge-json-docs-state';
-import { IDiffTarget } from '~/pages/dashboard-editor-page/rebase-editor/types';
+import {
+  IResolveResult,
+  MergeJsonDocsState,
+} from '~/pages/dashboard-editor-page/dashboard-rebase-warning/rebase-editor/merge-json-docs-state';
+import { IDiffTarget } from '~/pages/dashboard-editor-page/dashboard-rebase-warning/rebase-editor/types';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
 import { cloneDeep, get, noop } from 'lodash';
-import { IJsonMergeEditorProps, JsonMergeEditor } from '~/pages/dashboard-editor-page/rebase-editor/json-merge-editor';
+import {
+  IJsonMergeEditorProps,
+  JsonMergeEditor,
+} from '~/pages/dashboard-editor-page/dashboard-rebase-warning/rebase-editor/json-merge-editor';
 import { AnyObject } from '@devtable/dashboard/src/types';
 
 Cypress.SelectorPlayground.defaults({
