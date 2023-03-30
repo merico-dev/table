@@ -15,6 +15,7 @@ import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
 import ApiKey from '../models/apiKey';
 import Account from '../models/account';
+import { DashboardPermissionService } from '../services/dashboard_permission.service';
 
 @ApiPath({
   path: '/dashboard',
@@ -70,7 +71,7 @@ export class DashboardController implements interfaces.Controller {
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { name, content, group } = validate(DashboardCreateRequest, req.body);
-      const result = await this.dashboardService.create(name, content, group, req.locale);
+      const result = await this.dashboardService.create(name, content, group, req.locale, req.body.auth);
       res.json(result);
     } catch (err) {
       next(err);
@@ -93,6 +94,14 @@ export class DashboardController implements interfaces.Controller {
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = validate(DashboardIDRequest, req.body);
+      await DashboardPermissionService.checkPermission(
+        id,
+        'VIEW',
+        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
+        req.locale,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.id,
+      );
       const result = await this.dashboardService.get(id);
       res.json(result);
     } catch (err) {
@@ -117,6 +126,14 @@ export class DashboardController implements interfaces.Controller {
     try {
       const { name, is_preset } = validate(DashboardNameRequest, req.body);
       const result = await this.dashboardService.getByName(name, is_preset);
+      await DashboardPermissionService.checkPermission(
+        result.id,
+        'VIEW',
+        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
+        req.locale,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.id,
+      );
       res.json(result);
     } catch (err) {
       next(err);
@@ -140,6 +157,14 @@ export class DashboardController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id, name, content, is_removed, group } = validate(DashboardUpdateRequest, req.body);
+      await DashboardPermissionService.checkPermission(
+        id,
+        'EDIT',
+        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
+        req.locale,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.id,
+      );
       const result = await this.dashboardService.update(
         id,
         name,
@@ -172,6 +197,14 @@ export class DashboardController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id } = validate(DashboardIDRequest, req.body);
+      await DashboardPermissionService.checkPermission(
+        id,
+        'EDIT',
+        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
+        req.locale,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.id,
+      );
       const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
       res.json(result);
     } catch (err) {

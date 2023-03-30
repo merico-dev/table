@@ -10,6 +10,9 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { translate } from '../utils/i18n';
+import { DashboardPermissionService } from './dashboard_permission.service';
+import Account from '../models/account';
+import ApiKey from '../models/apiKey';
 
 export class DashboardService {
   async list(
@@ -56,7 +59,13 @@ export class DashboardService {
     };
   }
 
-  async create(name: string, content: Record<string, any>, group: string, locale: string): Promise<Dashboard> {
+  async create(
+    name: string,
+    content: Record<string, any>,
+    group: string,
+    locale: string,
+    auth?: Account | ApiKey,
+  ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     if (await dashboardRepo.exist({ where: { name, is_preset: false, is_removed: false } })) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_NAME_ALREADY_EXISTS', locale) });
@@ -66,6 +75,12 @@ export class DashboardService {
     dashboard.content = content;
     dashboard.group = group;
     const result = await dashboardRepo.save(dashboard);
+
+    await DashboardPermissionService.create(
+      result.id,
+      auth?.id,
+      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+    );
     return result;
   }
 

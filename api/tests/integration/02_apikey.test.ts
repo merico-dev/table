@@ -1,4 +1,4 @@
-import { connectionHook } from './jest.util';
+import { connectionHook, sleep } from './jest.util';
 import { ApiService } from '~/services/api.service';
 import { notFoundId } from './constants';
 import { ROLE_TYPES } from '~/api_models/role';
@@ -149,6 +149,8 @@ describe('ApiService', () => {
         offset: 0,
         data: [],
       });
+
+      await sleep(5000);
     });
 
     it('should fail if not found', async () => {

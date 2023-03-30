@@ -14,6 +14,7 @@ import {
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { notFoundId } from './constants';
 import ApiKey from '~/models/apiKey';
+import DashboardPermission from '~/models/dashboard_permission';
 
 describe('DashboardController', () => {
   connectionHook();
@@ -43,6 +44,13 @@ describe('DashboardController', () => {
     presetData.is_preset = true;
     presetData.is_removed = true;
     presetDashboard = await dashboardDataSource.getRepository(Dashboard).save(presetData);
+
+    const presetDashboardPermission = new DashboardPermission();
+    presetDashboardPermission.id = presetDashboard.id;
+    presetDashboardPermission.owner_id = superadminLogin.account.id;
+    presetDashboardPermission.owner_type = 'ACCOUNT';
+    await dashboardDataSource.getRepository(DashboardPermission).save(presetDashboardPermission);
+
     apiKey = await dashboardDataSource.getRepository(ApiKey).findOneBy({ name: 'key1' });
   });
 

@@ -28,5 +28,10 @@
   "DASHBOARD_DELETE_PRESET_REQUIRES_SUPERADMIN": "Only superadmin can delete preset dashboards",
   "DASHBOARD_NAME_ALREADY_EXISTS": "A dashboard with that name already exists",
   "UNAUTHORIZED": "Not authenticated",
-  "FORBIDDEN": "Access denied"
+  "FORBIDDEN": "Access denied",
+  "DASHBOARD_PERMISSION_NO_OWNER": "Dashboard has no owner. Please assign a new owner before modifying permissions",
+  "DASHBOARD_PERMISSION_FORBIDDEN": "Insufficient privileges for this dashboard",
+  "DASHBOARD_OWNER_INSUFFICIENT_PRIVILEGES": "Resource has insufficient privileges to take dashboard ownership",
+  "DASHBOARD_PERMISSION_MISSING_APIKEY": "Several apikeys were not found",
+  "DASHBOARD_PERMISSION_MISSING_ACCOUNT": "Several accounts were not found"
 }

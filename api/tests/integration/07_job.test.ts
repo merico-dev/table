@@ -102,24 +102,24 @@ describe('JobService', () => {
         pagesize: 20,
       });
       expect(results).toMatchObject({
-        total: 8,
+        total: 10,
         offset: 0,
         data: [
           {
             id: results.data[0].id,
-            type: 'RENAME_DATASOURCE',
+            type: 'FIX_DASHBOARD_PERMISSION',
             status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg_2_renamed', old_key: 'pg_2' },
-            result: { affected_dashboards: [] },
+            params: {},
+            result: { affected_dashboard_permissions: [] },
             create_time: results.data[0].create_time,
             update_time: results.data[0].update_time,
           },
           {
             id: results.data[1].id,
-            type: 'RENAME_DATASOURCE',
+            type: 'FIX_DASHBOARD_PERMISSION',
             status: 'SUCCESS',
-            params: { type: 'http', new_key: 'jsonplaceholder_2_renamed', old_key: 'jsonplaceholder_2' },
-            result: { affected_dashboards: [] },
+            params: {},
+            result: { affected_dashboard_permissions: [] },
             create_time: results.data[1].create_time,
             update_time: results.data[1].update_time,
           },
@@ -127,180 +127,17 @@ describe('JobService', () => {
             id: results.data[2].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg_renamed', old_key: 'pg' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery1'],
-                  dashboardId: results.data[2].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['pgQuery2'],
-                  dashboardId: results.data[2].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
+            params: { type: 'postgresql', new_key: 'pg_2_renamed', old_key: 'pg_2' },
+            result: { affected_dashboards: [] },
             create_time: results.data[2].create_time,
             update_time: results.data[2].update_time,
           },
           {
             id: results.data[3].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'http', new_key: 'jsonplaceholder_renamed', old_key: 'jsonplaceholder' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['httpQuery1'],
-                  dashboardId: results.data[3].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['httpQuery2'],
-                  dashboardId: results.data[3].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
-            create_time: results.data[3].create_time,
-            update_time: results.data[3].update_time,
-          },
-          {
-            id: results.data[4].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'FAILED',
-            params: { type: 'non_existent', new_key: 'new_key', old_key: 'old_key' },
-            result: results.data[4].result,
-            create_time: results.data[4].create_time,
-            update_time: results.data[4].update_time,
-          },
-          {
-            id: results.data[5].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg', old_key: 'pg_renamed' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery1'],
-                  dashboardId: results.data[5].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['pgQuery2'],
-                  dashboardId: results.data[5].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
-            create_time: results.data[5].create_time,
-            update_time: results.data[5].update_time,
-          },
-          {
-            id: results.data[6].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'http', new_key: 'jsonplaceholder', old_key: 'jsonplaceholder_renamed' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['httpQuery1'],
-                  dashboardId: results.data[6].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['httpQuery2'],
-                  dashboardId: results.data[6].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
-            create_time: results.data[6].create_time,
-            update_time: results.data[6].update_time,
-          },
-          {
-            id: results.data[7].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'FAILED',
-            params: { type: 'non_existent', new_key: 'old_key', old_key: 'new_key' },
-            result: results.data[7].result,
-            create_time: results.data[7].create_time,
-            update_time: results.data[7].update_time,
-          },
-        ],
-      });
-
-      expect(results.data[4].result['error'].message).toContain(
-        'Could not find any entity of type "DataSource" matching',
-      );
-      expect(results.data[4].result['error'].message).toContain('"type": "non_existent"');
-      expect(results.data[4].result['error'].message).toContain('"key": "old_key"');
-      expect(results.data[7].result['error'].message).toContain(
-        'Could not find any entity of type "DataSource" matching',
-      );
-      expect(results.data[7].result['error'].message).toContain('"type": "non_existent"');
-      expect(results.data[7].result['error'].message).toContain('"key": "new_key"');
-    });
-
-    it('with SUCCESS search filter', async () => {
-      const results = await jobService.list(
-        { status: { value: 'SUCCESS', isFuzzy: true }, type: { value: '', isFuzzy: true } },
-        [{ field: 'create_time', order: 'ASC' }],
-        { page: 1, pagesize: 20 },
-      );
-      expect(results).toMatchObject({
-        total: 6,
-        offset: 0,
-        data: [
-          {
-            id: results.data[0].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg_2_renamed', old_key: 'pg_2' },
-            result: { affected_dashboards: [] },
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
-          },
-          {
-            id: results.data[1].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
             params: { type: 'http', new_key: 'jsonplaceholder_2_renamed', old_key: 'jsonplaceholder_2' },
             result: { affected_dashboards: [] },
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
-          },
-          {
-            id: results.data[2].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg_renamed', old_key: 'pg' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery1'],
-                  dashboardId: results.data[2].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['pgQuery2'],
-                  dashboardId: results.data[2].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
-            create_time: results.data[2].create_time,
-            update_time: results.data[2].update_time,
-          },
-          {
-            id: results.data[3].id,
-            type: 'RENAME_DATASOURCE',
-            status: 'SUCCESS',
-            params: { type: 'http', new_key: 'jsonplaceholder_renamed', old_key: 'jsonplaceholder' },
-            result: {
-              affected_dashboards: [
-                {
-                  queries: ['httpQuery1'],
-                  dashboardId: results.data[3].result['affected_dashboards'][0].dashboardId,
-                },
-                {
-                  queries: ['httpQuery2'],
-                  dashboardId: results.data[3].result['affected_dashboards'][1].dashboardId,
-                },
-              ],
-            },
             create_time: results.data[3].create_time,
             update_time: results.data[3].update_time,
           },
@@ -308,7 +145,7 @@ describe('JobService', () => {
             id: results.data[4].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
-            params: { type: 'postgresql', new_key: 'pg', old_key: 'pg_renamed' },
+            params: { type: 'postgresql', new_key: 'pg_renamed', old_key: 'pg' },
             result: {
               affected_dashboards: [
                 {
@@ -328,7 +165,7 @@ describe('JobService', () => {
             id: results.data[5].id,
             type: 'RENAME_DATASOURCE',
             status: 'SUCCESS',
-            params: { type: 'http', new_key: 'jsonplaceholder', old_key: 'jsonplaceholder_renamed' },
+            params: { type: 'http', new_key: 'jsonplaceholder_renamed', old_key: 'jsonplaceholder' },
             result: {
               affected_dashboards: [
                 {
@@ -343,6 +180,205 @@ describe('JobService', () => {
             },
             create_time: results.data[5].create_time,
             update_time: results.data[5].update_time,
+          },
+          {
+            id: results.data[6].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'FAILED',
+            params: { type: 'non_existent', new_key: 'new_key', old_key: 'old_key' },
+            result: results.data[6].result,
+            create_time: results.data[6].create_time,
+            update_time: results.data[6].update_time,
+          },
+          {
+            id: results.data[7].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'postgresql', new_key: 'pg', old_key: 'pg_renamed' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['pgQuery1'],
+                  dashboardId: results.data[7].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['pgQuery2'],
+                  dashboardId: results.data[7].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[7].create_time,
+            update_time: results.data[7].update_time,
+          },
+          {
+            id: results.data[8].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'http', new_key: 'jsonplaceholder', old_key: 'jsonplaceholder_renamed' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['httpQuery1'],
+                  dashboardId: results.data[8].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['httpQuery2'],
+                  dashboardId: results.data[8].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[8].create_time,
+            update_time: results.data[8].update_time,
+          },
+          {
+            id: results.data[9].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'FAILED',
+            params: { type: 'non_existent', new_key: 'old_key', old_key: 'new_key' },
+            result: results.data[9].result,
+            create_time: results.data[9].create_time,
+            update_time: results.data[9].update_time,
+          },
+        ],
+      });
+
+      expect(results.data[6].result['error'].message).toContain(
+        'Could not find any entity of type "DataSource" matching',
+      );
+      expect(results.data[6].result['error'].message).toContain('"type": "non_existent"');
+      expect(results.data[6].result['error'].message).toContain('"key": "old_key"');
+      expect(results.data[9].result['error'].message).toContain(
+        'Could not find any entity of type "DataSource" matching',
+      );
+      expect(results.data[9].result['error'].message).toContain('"type": "non_existent"');
+      expect(results.data[9].result['error'].message).toContain('"key": "new_key"');
+    });
+
+    it('with SUCCESS search filter', async () => {
+      const results = await jobService.list(
+        { status: { value: 'SUCCESS', isFuzzy: true }, type: { value: '', isFuzzy: true } },
+        [{ field: 'create_time', order: 'ASC' }],
+        { page: 1, pagesize: 20 },
+      );
+      expect(results).toMatchObject({
+        total: 8,
+        offset: 0,
+        data: [
+          {
+            id: results.data[0].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {},
+            result: { affected_dashboard_permissions: [] },
+            create_time: results.data[0].create_time,
+            update_time: results.data[0].update_time,
+          },
+          {
+            id: results.data[1].id,
+            type: 'FIX_DASHBOARD_PERMISSION',
+            status: 'SUCCESS',
+            params: {},
+            result: { affected_dashboard_permissions: [] },
+            create_time: results.data[1].create_time,
+            update_time: results.data[1].update_time,
+          },
+          {
+            id: results.data[2].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'postgresql', new_key: 'pg_2_renamed', old_key: 'pg_2' },
+            result: { affected_dashboards: [] },
+            create_time: results.data[2].create_time,
+            update_time: results.data[2].update_time,
+          },
+          {
+            id: results.data[3].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'http', new_key: 'jsonplaceholder_2_renamed', old_key: 'jsonplaceholder_2' },
+            result: { affected_dashboards: [] },
+            create_time: results.data[3].create_time,
+            update_time: results.data[3].update_time,
+          },
+          {
+            id: results.data[4].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'postgresql', new_key: 'pg_renamed', old_key: 'pg' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['pgQuery1'],
+                  dashboardId: results.data[4].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['pgQuery2'],
+                  dashboardId: results.data[4].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[4].create_time,
+            update_time: results.data[4].update_time,
+          },
+          {
+            id: results.data[5].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'http', new_key: 'jsonplaceholder_renamed', old_key: 'jsonplaceholder' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['httpQuery1'],
+                  dashboardId: results.data[5].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['httpQuery2'],
+                  dashboardId: results.data[5].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[5].create_time,
+            update_time: results.data[5].update_time,
+          },
+          {
+            id: results.data[6].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'postgresql', new_key: 'pg', old_key: 'pg_renamed' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['pgQuery1'],
+                  dashboardId: results.data[6].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['pgQuery2'],
+                  dashboardId: results.data[6].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[6].create_time,
+            update_time: results.data[6].update_time,
+          },
+          {
+            id: results.data[7].id,
+            type: 'RENAME_DATASOURCE',
+            status: 'SUCCESS',
+            params: { type: 'http', new_key: 'jsonplaceholder', old_key: 'jsonplaceholder_renamed' },
+            result: {
+              affected_dashboards: [
+                {
+                  queries: ['httpQuery1'],
+                  dashboardId: results.data[7].result['affected_dashboards'][0].dashboardId,
+                },
+                {
+                  queries: ['httpQuery2'],
+                  dashboardId: results.data[7].result['affected_dashboards'][1].dashboardId,
+                },
+              ],
+            },
+            create_time: results.data[7].create_time,
+            update_time: results.data[7].update_time,
           },
         ],
       });
