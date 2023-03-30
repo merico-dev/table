@@ -233,10 +233,31 @@ const _DashboardModel = types
         applySnapshot(self.queries.current, self.origin.queries.current);
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
+        applySnapshot(self.panels.list, self.origin.panels.list);
         self.mock_context.current = self.origin.mock_context.current;
       },
       resetFilters() {
         applySnapshot(self.filters.current, self.origin.filters.current);
+      },
+      updateCurrent(config: IDashboard) {
+        const {
+          name,
+          group,
+          version,
+          filters,
+          views,
+          panels,
+          definition: { queries, sqlSnippets, mock_context = {} },
+        } = config;
+        self.name = name;
+        self.group = group;
+        self.version = version;
+        applySnapshot(self.filters.current, filters);
+        applySnapshot(self.views.current, createDashboardViewsModel(views).current);
+        applySnapshot(self.panels.list, panels);
+        applySnapshot(self.queries.current, queries);
+        applySnapshot(self.sqlSnippets.current, sqlSnippets);
+        self.mock_context.current = mock_context;
       },
     };
   });
@@ -258,6 +279,14 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
     return defaults({}, { queries: { current: queries } }, sn);
   },
 });
+
+export type PatchableDashboard = Partial<Pick<IDashboard, 'filters'>>;
+
+export function applyPartialDashboard(model: DashboardModelInstance, changes: PatchableDashboard) {
+  if (changes.filters) {
+    applySnapshot(model.filters.current, changes.filters);
+  }
+}
 
 export function createDashboardModel(
   {

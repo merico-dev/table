@@ -13,6 +13,34 @@
       "options": {
         "script": "dev"
       }
+    },
+    "test": {
+      "executor": "nx:noop",
+      "dependsOn": ["vitest", "cypress"]
+    },
+    "vitest": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn exec vitest -- --ui",
+        "cwd": "./website/"
+      },
+      "configurations": {
+        "ci": {
+          "command": "yarn exec vitest -- --run"
+        }
+      }
+    },
+    "cypress": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "yarn exec cypress open -- --component",
+        "cwd": "./website/"
+      },
+      "configurations": {
+        "ci": {
+          "command": "yarn exec cypress run -- --component"
+        }
+      }
     }
   }
 }

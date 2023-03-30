@@ -1,14 +1,11 @@
 import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
 import { useModelContext } from '~/contexts';
 import { QueryEditorForm } from './query-editor-form';
 
 export const EditQuery = observer(({ id }: { id: string }) => {
   const model = useModelContext();
-  const query = useMemo(() => {
-    return model.queries.findByID(id);
-  }, [model.queries, id]);
+  const query = model.queries.findByID(id);
 
   if (id === '') {
     return null;

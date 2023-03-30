@@ -2,14 +2,14 @@ import { AppShell, Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { DashboardViewEditor } from '~/view';
 import { configureAPIClient } from '~/api-caller/request';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
 import { ModelContextProvider } from '~/contexts/model-context';
-import { createDashboardModel, ContextInfoType } from '~/model';
+import { ContextInfoType, createDashboardModel } from '~/model';
 import { useTopLevelServices } from '../use-top-level-services';
 import { createPluginContext, PluginContext } from '~/plugins';
 import { IDashboard } from '../../types/dashboard';
@@ -19,6 +19,7 @@ import { DashboardEditorHeader } from './header';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import { reaction, toJS } from 'mobx';
 import { registerThemes } from '~/styles/register-themes';
 
 registerThemes();
@@ -48,73 +49,88 @@ interface IDashboardProps {
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
+  onChange?: (dashboard: IDashboard) => void;
 }
 
-export const Dashboard = observer(function _Dashboard({
-  context,
-  dashboard,
-  update,
-  className = 'dashboard',
-  config,
-}: IDashboardProps) {
-  useLoadMonacoEditor(config.monacoPath);
-  configureAPIClient(config);
+export interface IDashboardModel {
+  readonly json: IDashboard;
+  updateCurrent: (dashboard: IDashboard) => void;
+}
 
-  const { data: datasources = [] } = useRequest(listDataSources);
+export const Dashboard = observer(
+  forwardRef(function _Dashboard(
+    { context, dashboard, update, className = 'dashboard', config, onChange }: IDashboardProps,
+    ref: ForwardedRef<IDashboardModel>,
+  ) {
+    useLoadMonacoEditor(config.monacoPath);
+    configureAPIClient(config);
 
-  const [layoutFrozen, freezeLayout] = React.useState(false);
+    const { data: datasources = [] } = useRequest(listDataSources);
 
-  const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
-  useInteractionOperationHacks(model, true);
+    const [layoutFrozen, freezeLayout] = React.useState(false);
 
-  React.useEffect(() => {
-    model.context.replace(context);
-  }, [context]);
+    const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
+    React.useImperativeHandle(ref, () => model, [model]);
+    useInteractionOperationHacks(model, true);
 
-  React.useEffect(() => {
-    model.datasources.replace(datasources);
-  }, [datasources]);
+    React.useEffect(() => {
+      model.context.replace(context);
+    }, [context]);
 
-  const saveDashboardChanges = async () => {
-    await update(model.json);
-  };
+    React.useEffect(() => {
+      model.datasources.replace(datasources);
+    }, [datasources]);
 
-  const pluginContext = useCreation(createPluginContext, []);
-  const configureServices = useTopLevelServices(pluginContext);
-  return (
-    <ModalsProvider>
-      <ModelContextProvider value={model}>
-        <LayoutStateContext.Provider
-          value={{
-            layoutFrozen,
-            freezeLayout,
-            inEditMode: true,
-          }}
-        >
-          <PluginContext.Provider value={pluginContext}>
-            <ServiceLocatorProvider configure={configureServices}>
-              <AppShell
-                padding={0}
-                header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
-                navbar={<DashboardEditorNavbar />}
-                styles={AppShellStyles}
-              >
-                <Box
-                  className={`${className} dashboard-root`}
-                  sx={{
-                    position: 'relative',
-                  }}
+    React.useEffect(() => {
+      return reaction(
+        () => toJS(model.json),
+        (json) => {
+          onChange?.(json);
+        },
+      );
+    }, [model]);
+
+    const saveDashboardChanges = async () => {
+      await update(model.json);
+    };
+
+    const pluginContext = useCreation(createPluginContext, []);
+    const configureServices = useTopLevelServices(pluginContext);
+    return (
+      <ModalsProvider>
+        <ModelContextProvider value={model}>
+          <LayoutStateContext.Provider
+            value={{
+              layoutFrozen,
+              freezeLayout,
+              inEditMode: true,
+            }}
+          >
+            <PluginContext.Provider value={pluginContext}>
+              <ServiceLocatorProvider configure={configureServices}>
+                <AppShell
+                  padding={0}
+                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+                  navbar={<DashboardEditorNavbar />}
+                  styles={AppShellStyles}
                 >
-                  {model.views.visibleViews.map((view) => (
-                    <DashboardViewEditor key={view.id} view={view} />
-                  ))}
-                </Box>
-              </AppShell>
-              <Settings />
-            </ServiceLocatorProvider>
-          </PluginContext.Provider>
-        </LayoutStateContext.Provider>
-      </ModelContextProvider>
-    </ModalsProvider>
-  );
-});
+                  <Box
+                    className={`${className} dashboard-root`}
+                    sx={{
+                      position: 'relative',
+                    }}
+                  >
+                    {model.views.visibleViews.map((view) => (
+                      <DashboardViewEditor key={view.id} view={view} />
+                    ))}
+                  </Box>
+                </AppShell>
+                <Settings />
+              </ServiceLocatorProvider>
+            </PluginContext.Provider>
+          </LayoutStateContext.Provider>
+        </ModelContextProvider>
+      </ModalsProvider>
+    );
+  }),
+);

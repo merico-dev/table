@@ -1,5 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { FilterConfigModel_BaseSelect } from './select-base';
+import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const FilterConfigModel_Select = types
   .compose(
@@ -15,7 +16,7 @@ export const FilterConfigModel_Select = types
   .views((self) => ({
     get json() {
       const { _name, default_value, required, width, static_options, options_query_id, default_selection_count } = self;
-      return {
+      return shallowToJS({
         _name,
         width,
         required,
@@ -23,7 +24,7 @@ export const FilterConfigModel_Select = types
         static_options,
         options_query_id,
         default_selection_count,
-      };
+      });
     },
     truthy(value: any) {
       return !!value;

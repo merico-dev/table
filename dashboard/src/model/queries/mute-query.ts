@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { getRoot, Instance, types } from 'mobx-state-tree';
+import { getRoot, Instance, isAlive, types } from 'mobx-state-tree';
 import { DataSourceType } from './types';
+import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const MuteQueryModel = types
   .model('QueryModel', {
@@ -26,9 +27,12 @@ export const MuteQueryModel = types
     },
     get json() {
       const { id, name, type, key, sql, run_by, pre_process, post_process } = self;
-      return { id, key, sql, name, type, run_by, pre_process, post_process };
+      return shallowToJS({ id, key, sql, name, type, run_by: run_by, pre_process, post_process });
     },
     get conditionOptions() {
+      if (!isAlive(self)) {
+        return [];
+      }
       // @ts-expect-error untyped getRoot(self)
       const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
       const contextOptions = Object.keys({ ...mock_context, ...context }).map((k) => `context.${k}`);
@@ -41,6 +45,11 @@ export const MuteQueryModel = types
       }));
     },
     get unmetRunByConditions() {
+      // this computed has dependencies on reactive values outside the model,
+      // so we need to check if the model is still alive
+      if (!isAlive(self)) {
+        return [];
+      }
       const { run_by } = self;
       if (run_by.length === 0) {
         return [];
