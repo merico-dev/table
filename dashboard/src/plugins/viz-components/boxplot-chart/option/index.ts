@@ -4,7 +4,7 @@ import numbro from 'numbro';
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
-import { getEchartsXAxisLabel } from '../../cartesian/panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 import { getLegend } from './legend';

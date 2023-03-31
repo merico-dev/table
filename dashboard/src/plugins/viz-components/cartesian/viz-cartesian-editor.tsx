@@ -6,17 +6,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { EchartsZoomingField } from './panel/echarts-zooming-field';
-import { ReferenceAreasField } from './panel/reference-areas';
-import { ReferenceLinesField } from './panel/reference-lines';
-import { RegressionsField } from './panel/regressions';
-import { SeriesField } from './panel/series';
-import { StatsField } from './panel/stats';
-import { XAxisField } from './panel/x-axis';
-import { YAxesField } from './panel/y-axes';
+import { EchartsZoomingField } from './editors/echarts-zooming-field';
+import { ReferenceAreasField } from './editors/reference-areas';
+import { ReferenceLinesField } from './editors/reference-lines';
+import { RegressionsField } from './editors/regressions';
+import { SeriesField } from './editors/series';
+import { StatsField } from './editors/stats';
+import { XAxisField } from './editors/x-axis';
+import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 
-export function VizCartesianPanel({ context }: VizConfigProps) {
+export function VizCartesianEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];

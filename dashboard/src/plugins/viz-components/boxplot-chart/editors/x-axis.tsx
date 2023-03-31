@@ -3,7 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { XAxisLabelFormatterField } from '../../cartesian/panel/x-axis/x-axis-label-formatter';
+import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IBoxplotChartConf } from '../type';
 
 interface IXAxisField {

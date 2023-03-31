@@ -1,9 +1,10 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { IRegressionLineConf, IRegressionTransform } from '~/plugins/common-echarts-fields/regression-line';
 import { AggregationType } from '~/utils/aggregation';
-import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './panel/echarts-zooming-field/types';
-import { TScatterSize } from './panel/scatter-size-select/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
+import { TScatterSize } from './editors/scatter-size-select/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -41,30 +42,12 @@ export interface IYAxisConf {
   label_formatter: TNumbroFormat;
 }
 
-export interface IRegressionTransform {
-  type: 'ecStat:regression';
-  config: {
-    method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
-    order: number;
-    formulaOn: 'end';
-  };
-}
-
-export interface IRegressionLineConf {
-  type: 'line';
-  yAxisIndex: number;
-  color: string;
-  lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
-    width: number;
-  };
-}
-
 export interface IRegressionConf {
   transform: IRegressionTransform;
   plot: IRegressionLineConf;
   name: string;
   y_axis_data_key: string;
+  group_by_key: string;
 }
 
 export interface ICartesianReferenceLine {

@@ -3,7 +3,7 @@ import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selec
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/panel/x-axis/x-axis-label-formatter/types';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';

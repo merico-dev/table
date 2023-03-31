@@ -1,6 +1,6 @@
 import _, { defaultsDeep } from 'lodash';
 import { ITemplateVariable } from '~/utils/template';
-import { getEchartsDataZoomOption } from '../panel/echarts-zooming-field/get-echarts-data-zoom-option';
+import { getEchartsDataZoomOption } from '../editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
@@ -52,12 +52,11 @@ export function getOption(conf: ICartesianChartConf, data: TVizData, variables: 
 
   // options
   const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
-  const { regressionDataSets, regressionSeries, regressionXAxes } = getRegressionConfs(conf, data);
+  const { regressionSeries } = getRegressionConfs(conf, data);
 
   const customOptions = {
-    xAxis: getXAxes(conf, xAxisData, regressionXAxes),
+    xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(conf, labelFormatters),
-    dataset: [...regressionDataSets],
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, series, labelFormatters),
     grid: getGrid(conf),

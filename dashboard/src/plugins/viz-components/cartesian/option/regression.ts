@@ -1,57 +1,62 @@
-import { ICartesianChartConf, IRegressionLineConf, IRegressionTransform } from '../type';
+import _ from 'lodash';
+import {
+  getRegressionDataSource,
+  IRegressionSeriesItem,
+  TDataForReg,
+} from '~/plugins/common-echarts-fields/regression-line';
+import { ICartesianChartConf, IRegressionConf } from '../type';
 
-interface IRegressionDataSetItem {
-  id: string;
-  fromDatasetId?: string;
-  source?: number[][];
-  transform?: IRegressionTransform;
-}
-interface IRegressionSeriesItem extends IRegressionLineConf {
-  datasetId: string;
-  xAxisId: string;
-  name: string;
-  showSymbol: boolean;
-  tooltip: Record<string, $TSFixMe>;
-}
-
-export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: TVizData) {
-  const regressionDataSets: IRegressionDataSetItem[] = [];
-  const regressionSeries: IRegressionSeriesItem[] = [];
-  const regressionXAxes: Record<string, $TSFixMe>[] = [];
-  if (data.length === 0) {
-    return { regressionDataSets, regressionSeries, regressionXAxes };
-  }
-  regressions.forEach(({ transform, plot, name, y_axis_data_key }) => {
-    const xAxisId = `x-axis-for-${name}`;
-    const rawDatasetId = `dataset-for-${name}--raw`;
-    const regDatasetId = `dataset-for-${name}--transformed`;
-
-    regressionDataSets.push({
-      id: rawDatasetId,
-      source: data.map((d, i) => [i, Number(d[y_axis_data_key])]),
-    });
-    regressionDataSets.push({
-      transform,
-      id: regDatasetId,
-      fromDatasetId: rawDatasetId,
-    });
-    regressionSeries.push({
-      ...plot,
-      name,
-      datasetId: regDatasetId,
-      xAxisId,
-      showSymbol: false,
-      tooltip: {
-        show: false,
-      },
-    });
-    regressionXAxes.push({
-      type: 'category',
-      id: xAxisId,
-      datasetId: regDatasetId,
+function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
+  const { transform, plot } = reg;
+  const series = {
+    ...plot,
+    name,
+    data: getRegressionDataSource(transform, data),
+    showSymbol: false,
+    tooltip: {
       show: false,
+    },
+    smooth: false,
+    custom: {},
+  };
+  if (targetSeries) {
+    series.custom = {
+      type: 'regression-line',
+      targetSeries,
+    };
+  }
+
+  return {
+    series: [series],
+    xaxes: [],
+  };
+}
+
+export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TVizData) {
+  const regressionSeries: IRegressionSeriesItem[] = [];
+  if (rawData.length === 0) {
+    return { regressionSeries };
+  }
+
+  function getAndApplyConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
+    const { series } = getOneRegressionConf(reg, name, targetSeries, data);
+    regressionSeries.push(...series);
+  }
+
+  regressions.forEach((reg) => {
+    const { name, group_by_key } = reg;
+    if (!group_by_key || group_by_key === x_axis_data_key) {
+      const data = rawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
+      getAndApplyConf(reg, name, '', data);
+      return;
+    }
+    const groupedData = _.groupBy(rawData, group_by_key);
+    Object.entries(groupedData).forEach(([k, subRawData]) => {
+      const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
+      const subName = `${name} (${k})`;
+      getAndApplyConf(reg, subName, k, subData);
     });
   });
 
-  return { regressionDataSets, regressionSeries, regressionXAxes };
+  return { regressionSeries };
 }

@@ -1,8 +1,8 @@
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { getEchartsXAxisLabel } from '../panel/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
 
-export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regressionXAxes: $TSFixMe[]) {
+export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
@@ -22,6 +22,5 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[], regre
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
       },
     },
-    ...regressionXAxes,
   ];
 }

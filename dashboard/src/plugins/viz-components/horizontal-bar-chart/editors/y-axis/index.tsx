@@ -2,7 +2,7 @@ import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { XAxisLabelFormatterField } from '~/plugins/viz-components/cartesian/panel/x-axis/x-axis-label-formatter';
+import { XAxisLabelFormatterField } from '~/plugins/viz-components/cartesian/editors/x-axis/x-axis-label-formatter';
 import { AnyObject } from '~/types';
 import { IHorizontalBarChartConf } from '../../type';
 

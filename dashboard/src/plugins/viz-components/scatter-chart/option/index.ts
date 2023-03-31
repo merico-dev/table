@@ -9,7 +9,7 @@ import { getYAxes } from './y-axis';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
 import { getLegend } from './legend';
 import { IYAxisConf } from '../../cartesian/type';
-import { getEchartsDataZoomOption } from '../../cartesian/panel/echarts-zooming-field/get-echarts-data-zoom-option';
+import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 
 const defaultOption = {
   tooltip: {
