@@ -13,11 +13,17 @@ interface IRegressionSeriesItem extends IRegressionLineConf {
   showSymbol: boolean;
   tooltip: Record<string, $TSFixMe>;
 }
+interface IRegressionXAxisItem {
+  type: 'category';
+  id: string;
+  datasetId: string;
+  show: false;
+}
 
 export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: TVizData) {
   const regressionDataSets: IRegressionDataSetItem[] = [];
   const regressionSeries: IRegressionSeriesItem[] = [];
-  const regressionXAxes: Record<string, $TSFixMe>[] = [];
+  const regressionXAxes: IRegressionXAxisItem[] = [];
   if (data.length === 0) {
     return { regressionDataSets, regressionSeries, regressionXAxes };
   }
