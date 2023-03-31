@@ -2,8 +2,6 @@ import { Box, Group, Table, Text } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
-/* @ts-expect-error type defs of echarts-stats */
-import { transform } from 'echarts-stat';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
@@ -16,7 +14,6 @@ import { getRegressionDescription } from './option/regression-expression';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 echarts.use([DataZoomComponent, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
-echarts.registerTransform(transform.regression);
 
 export function VizRegressionChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');

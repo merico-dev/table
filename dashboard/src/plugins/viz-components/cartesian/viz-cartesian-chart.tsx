@@ -3,8 +3,6 @@ import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
-/* @ts-expect-error type defs of echarts-stat */
-import { transform } from 'echarts-stat';
 import {
   DataZoomComponent,
   GridComponent,
@@ -47,7 +45,6 @@ echarts.use([
   MarkLineComponent,
   MarkAreaComponent,
 ]);
-echarts.registerTransform(transform.regression);
 
 function templateNotEmpty(str: string) {
   return str.trim().length > 0;
