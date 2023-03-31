@@ -16,6 +16,8 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: 
     tooltip: {
       show: false,
     },
+    smooth: false,
+    custom: {},
   };
   if (targetSeries) {
     series.custom = {

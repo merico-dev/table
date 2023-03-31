@@ -1,6 +1,6 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { IRegressionLineConf, IRegressionTransform } from '~/plugins/common-echarts-fields/regression-line/option';
+import { IRegressionLineConf, IRegressionTransform } from '~/plugins/common-echarts-fields/regression-line';
 import { AggregationType } from '~/utils/aggregation';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';

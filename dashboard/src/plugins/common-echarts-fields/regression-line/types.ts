@@ -1,3 +1,5 @@
+import { AnyObject } from '~/types';
+
 export interface IRegressionTransform {
   type: 'ecStat:regression';
   config: {
@@ -23,6 +25,7 @@ export interface IRegressionSeriesItem extends IRegressionLineConf {
   showSymbol: boolean;
   tooltip: Record<string, $TSFixMe>;
   smooth: boolean;
+  custom?: AnyObject;
 }
 
 export type TDataForReg = number[][];

@@ -8,7 +8,7 @@ export interface IRegressionChartConf {
   y_axis: {
     name: string;
   };
-  regression: IRegressionConf;
+  regression: Omit<IRegressionConf, 'group_by_key'>;
 }
 
 export const DEFAULT_CONFIG: IRegressionChartConf = {
