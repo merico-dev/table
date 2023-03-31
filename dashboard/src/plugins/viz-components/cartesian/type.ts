@@ -1,5 +1,6 @@
 import { defaultNumbroFormat, TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { DEFAULT_AXIS_LABEL_OVERFLOW, IAxisLabelOverflow } from '~/plugins/common-echarts-fields/axis-label-overflow';
+import { IRegressionLineConf, IRegressionTransform } from '~/plugins/common-echarts-fields/regression-line/option';
 import { AggregationType } from '~/utils/aggregation';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';
@@ -39,25 +40,6 @@ export interface IYAxisConf {
   position: 'left' | 'right';
   nameAlignment: 'left' | 'center' | 'right';
   label_formatter: TNumbroFormat;
-}
-
-export interface IRegressionTransform {
-  type: 'ecStat:regression';
-  config: {
-    method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
-    order: number;
-    formulaOn: 'end';
-  };
-}
-
-export interface IRegressionLineConf {
-  type: 'line';
-  yAxisIndex: number;
-  color: string;
-  lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
-    width: number;
-  };
 }
 
 export interface IRegressionConf {
