@@ -1,8 +1,8 @@
 import { Box, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
+import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
 import {
   DataZoomComponent,
   GridComponent,
@@ -11,17 +11,18 @@ import {
   MarkLineComponent,
   TooltipComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import _, { defaults } from 'lodash';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
+import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import _ from 'lodash';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -81,15 +82,26 @@ function Chart({
     [rowDataMap, triggers, interactionManager],
   );
 
+  const option = React.useMemo(() => {
+    return getOption(conf, data, variables);
+  }, [conf, data]);
+
+  const echartsRef = React.useRef<EChartsInstance>();
   const onEvents = useMemo(() => {
     return {
       click: handleSeriesClick,
     };
   }, [handleSeriesClick]);
 
-  const option = React.useMemo(() => {
-    return getOption(conf, data, variables);
-  }, [conf, data]);
+  const onChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+    updateRegressionLinesColor(echartsInstance);
+  };
+  useEffect(() => {
+    if (echartsRef.current) {
+      updateRegressionLinesColor(echartsRef.current);
+    }
+  }, [option]);
 
   if (!width || !height) {
     return null;
@@ -100,6 +112,7 @@ function Chart({
       option={option}
       style={{ width, height }}
       onEvents={onEvents}
+      onChartReady={onChartReady}
       notMerge
       theme="merico-light"
     />

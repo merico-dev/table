@@ -6,9 +6,8 @@ import {
 } from '~/plugins/common-echarts-fields/regression-line';
 import { ICartesianChartConf, IRegressionConf } from '../type';
 
-function getOneRegressionConf(reg: IRegressionConf, name: string, data: TDataForReg) {
+function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
   const { transform, plot } = reg;
-  // TODO: use the same color as the original series
   const series = {
     ...plot,
     name,
@@ -18,6 +17,12 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, data: TDataFor
       show: false,
     },
   };
+  if (targetSeries) {
+    series.custom = {
+      type: 'regression-line',
+      targetSeries,
+    };
+  }
 
   return {
     series: [series],
@@ -31,8 +36,8 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
     return { regressionSeries };
   }
 
-  function getAndApplyConf(reg: IRegressionConf, name: string, data: TDataForReg) {
-    const { series } = getOneRegressionConf(reg, name, data);
+  function getAndApplyConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
+    const { series } = getOneRegressionConf(reg, name, targetSeries, data);
     regressionSeries.push(...series);
   }
 
@@ -40,14 +45,14 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
     const { name, group_by_key } = reg;
     if (!group_by_key || group_by_key === x_axis_data_key) {
       const data = rawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
-      getAndApplyConf(reg, name, data);
+      getAndApplyConf(reg, name, '', data);
       return;
     }
     const groupedData = _.groupBy(rawData, group_by_key);
     Object.entries(groupedData).forEach(([k, subRawData]) => {
       const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
       const subName = `${name} (${k})`;
-      getAndApplyConf(reg, subName, subData);
+      getAndApplyConf(reg, subName, k, subData);
     });
   });
 
