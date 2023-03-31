@@ -1,30 +1,5 @@
-import { IRegressionLineConf, IRegressionTransform } from '../../cartesian/type';
+import { getRegressionDataSource, IRegressionSeriesItem } from '~/plugins/common-echarts-fields/regression-line';
 import { IRegressionChartConf } from '../type';
-// @ts-expect-error type lib for d3-regression
-import * as d3Regression from 'd3-regression';
-
-interface IRegressionSeriesItem extends IRegressionLineConf {
-  data: number[][];
-  name: string;
-  showSymbol: boolean;
-  tooltip: Record<string, $TSFixMe>;
-  smooth: boolean;
-}
-
-function getRegressionDataSource(transform: IRegressionTransform, rawData: $TSFixMe[][]) {
-  switch (transform.config.method) {
-    case 'linear':
-      return [...d3Regression.regressionLinear()(rawData)];
-    case 'exponential':
-      return [...d3Regression.regressionExp()(rawData)];
-    case 'logarithmic':
-      return [...d3Regression.regressionLog()(rawData)];
-    case 'polynomial':
-      return [...d3Regression.regressionPoly().order(transform.config.order)(rawData)];
-    default:
-      return [];
-  }
-}
 
 export function getRegressionConf({ regression }: IRegressionChartConf, data: number[][]) {
   const regressionSeries: IRegressionSeriesItem[] = [];
