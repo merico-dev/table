@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { ICartesianChartConf, IRegressionConf, IRegressionLineConf, IRegressionTransform } from '../type';
 
 interface IRegressionDataSetItem {
@@ -20,12 +21,11 @@ interface IRegressionXAxisItem {
   show: false;
 }
 
-function getOneRegressionConf(reg: IRegressionConf, data: TVizData) {
-  const { transform, plot, name, y_axis_data_key } = reg;
+function getOneRegressionConf(reg: IRegressionConf, name: string, data: TVizData) {
+  const { transform, plot, y_axis_data_key } = reg;
   const xAxisId = `x-axis-for-${name}`;
   const rawDatasetId = `dataset-for-${name}--raw`;
   const regDatasetId = `dataset-for-${name}--transformed`;
-
   const datasets = [
     {
       id: rawDatasetId,
@@ -61,7 +61,7 @@ function getOneRegressionConf(reg: IRegressionConf, data: TVizData) {
   };
 }
 
-export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, data: TVizData) {
+export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, data: TVizData) {
   const regressionDataSets: IRegressionDataSetItem[] = [];
   const regressionSeries: IRegressionSeriesItem[] = [];
   const regressionXAxes: IRegressionXAxisItem[] = [];
@@ -69,11 +69,24 @@ export function getRegressionConfs({ regressions = [] }: ICartesianChartConf, da
     return { regressionDataSets, regressionSeries, regressionXAxes };
   }
 
-  regressions.forEach((reg) => {
-    const { datasets, series, xaxes } = getOneRegressionConf(reg, data);
+  function getAndApplyConf(reg: IRegressionConf, name: string, data: TVizData) {
+    const { datasets, series, xaxes } = getOneRegressionConf(reg, name, data);
     regressionDataSets.push(...datasets);
     regressionSeries.push(...series);
     regressionXAxes.push(...xaxes);
+  }
+
+  regressions.forEach((reg) => {
+    const { name, group_by_key } = reg;
+    if (!group_by_key || group_by_key === x_axis_data_key) {
+      getAndApplyConf(reg, name, data);
+      return;
+    }
+    const groupedData = _.groupBy(data, group_by_key);
+    Object.entries(groupedData).forEach(([k, subData]) => {
+      const subName = `${name} (${k})`;
+      getAndApplyConf(reg, subName, subData as TVizData);
+    });
   });
 
   return { regressionDataSets, regressionSeries, regressionXAxes };
