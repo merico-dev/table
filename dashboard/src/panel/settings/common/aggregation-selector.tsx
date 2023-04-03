@@ -10,6 +10,7 @@ const options: { label: string; value: AggregationType['type'] }[] = [
   { label: 'Max', value: 'max' },
   { label: 'Min', value: 'min' },
   { label: 'Coefficient of Variation', value: 'CV' },
+  { label: 'Standard Variation', value: 'std' },
   { label: 'Quantile(99%, 95%, ...)', value: 'quantile' },
 ];
 

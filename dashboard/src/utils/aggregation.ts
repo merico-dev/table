@@ -5,7 +5,7 @@ import * as math from 'mathjs';
 
 export type AggregationType =
   | {
-      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV';
+      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV' | 'std';
       config: Record<$TSFixMe, never>;
     }
   | {
@@ -63,6 +63,8 @@ export function aggregateValue(data: AnyObject[], data_field: string, aggregatio
           return 'N/A';
         }
         return std / mean;
+      case 'std':
+        return math.std(...numbers);
       default:
         return numbers;
     }
