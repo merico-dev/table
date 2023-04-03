@@ -4,7 +4,7 @@ import { Layout } from 'react-grid-layout';
 export const PanelLayoutModel = types
   .model('PanelLayoutModel', {
     x: types.number,
-    y: types.number,
+    y: types.optional(types.number, 0), // https://github.com/merico-dev/table/issues/814
     w: types.number,
     h: types.number,
     moved: types.optional(types.boolean, false),
