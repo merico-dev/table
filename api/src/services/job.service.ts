@@ -8,6 +8,7 @@ import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
+import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { QueryService } from './query.service';
 
@@ -26,6 +27,8 @@ export type RenameJobParams = {
   type: string;
   old_key: string;
   new_key: string;
+  auth_id: string | null;
+  auth_type: string | null;
 };
 
 export type FixDashboardPermissionJobParams = {
@@ -102,6 +105,7 @@ export class JobService {
             .where(`content @> '{"definition":{"queries":[{"type": "${params.type}", "key": "${params.old_key}"}]}}' `)
             .getRawMany<Dashboard>();
 
+          const updatedDashboardIds: string[] = [];
           for (const dashboard of dashboards) {
             let updated = false;
             const originalDashboard = _.cloneDeep(dashboard);
@@ -115,6 +119,7 @@ export class JobService {
             }
             if (updated) {
               await dashboardRepo.save(dashboard);
+              updatedDashboardIds.push(dashboard.id);
               const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
               if (diff) {
                 const changelog = new DashboardChangelog();
@@ -129,6 +134,14 @@ export class JobService {
           job.result = result;
           await jobRepo.save(job);
           await runner.commitTransaction();
+          updatedDashboardIds.forEach((id) => {
+            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
+              update_time: new Date(),
+              message: 'UPDATED',
+              auth_id: params.auth_id,
+              auth_type: params.auth_type,
+            });
+          });
         } catch (error) {
           runner.rollbackTransaction();
           job.status = JobStatus.FAILED;
