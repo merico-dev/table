@@ -1,6 +1,6 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
-import { Link, RichTextEditor, RichTextEditorProps } from '@mantine/tiptap';
-import { IconDeviceFloppy } from '@tabler/icons';
+import { Link, RichTextEditor, RichTextEditorProps, useRichTextEditorContext } from '@mantine/tiptap';
+import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -9,11 +9,28 @@ import Superscript from '@tiptap/extension-superscript';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
+
+function InsertTableControl() {
+  const { editor } = useRichTextEditorContext();
+  return (
+    <RichTextEditor.Control
+      onClick={() => editor?.commands.insertTable({ rows: 3, cols: 3, withHeaderRow: true })}
+      aria-label="Insert table"
+      title="Insert table"
+    >
+      <IconBorderAll stroke={1.5} size={16} />
+    </RichTextEditor.Control>
+  );
+}
 
 interface ICustomRichTextEditor {
   value: string;
@@ -34,6 +51,15 @@ export const CustomRichTextEditor = forwardRef(
         Superscript,
         SubScript,
         Highlight,
+        Table.configure({
+          resizable: false, // https://github.com/ueberdosis/tiptap/issues/2041
+          HTMLAttributes: {
+            class: 'rich-text-table-render',
+          },
+        }),
+        TableRow,
+        TableHeader,
+        TableCell,
         TextAlign.configure({ types: ['heading', 'paragraph'] }),
         Placeholder.configure({ placeholder: 'This is placeholder' }),
         TextStyle,
@@ -129,8 +155,11 @@ export const CustomRichTextEditor = forwardRef(
               <RichTextEditor.AlignJustify />
               <RichTextEditor.AlignRight />
             </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
 
+            <RichTextEditor.ControlsGroup>
+              <InsertTableControl />
+            </RichTextEditor.ControlsGroup>
+          </RichTextEditor.Toolbar>
           <RichTextEditor.Content />
         </RichTextEditor>
       </Stack>

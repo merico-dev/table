@@ -24,6 +24,17 @@ export const CommonHTMLContentStyle: Sx = {
       },
     },
   },
+  'table.rich-text-table-render, div.tableWrapper table': {
+    'th, td': {
+      border: '1px solid #eaeaea',
+    },
+    'tr:last-of-type td': {
+      borderBottom: '1px solid #eaeaea',
+    },
+  },
+  '.resize-cursor': {
+    cursor: 'col-resize',
+  },
   details: {
     summary: {
       listStyle: 'none',
