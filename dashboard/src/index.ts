@@ -11,12 +11,7 @@ export * from './contexts';
 export * from './types';
 export * from './model';
 
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('UTC');
+import './init-dayjs';
 
 // NOTE: keep it align with global.d.ts
 export interface IDashboardConfig {
