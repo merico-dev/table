@@ -5,13 +5,13 @@ import { InterpolateColor } from '../../color-mapping';
 import { ColorConfType, ITemplateVariable } from '../types';
 import { formatAggregatedValue } from '../utils';
 
-function getColorByColorConf(conf: ColorConfType, value: number | number[] | null) {
+function getColorByColorConf(conf: ColorConfType, value: number | number[] | null | string) {
   if (conf.type === 'static') {
     return conf.staticColor;
   }
   if (conf.type === 'continuous') {
     try {
-      if (Array.isArray(value) || value === null) {
+      if (typeof value !== 'number') {
         throw new Error(`[getColorByColorConf] Invalid type of aggregated value: ${value}`);
       }
       return new InterpolateColor(conf).getColor(value);
