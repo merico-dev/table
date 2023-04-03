@@ -32,6 +32,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
     let authenticated = false;
     if (!AUTH_ENABLED) {
       authenticated = true;
+      socket.handshake.auth.auth = { id: '0', type: 'NO_AUTH' };
     }
 
     if (!authenticated) {
