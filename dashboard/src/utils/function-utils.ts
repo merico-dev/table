@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import lodash from 'lodash';
 import numbro from 'numbro';
 import * as d3Array from 'd3-array';
+import * as mathjs from 'mathjs';
 
 export const functionUtils = {
   CryptoJS,
@@ -10,64 +11,50 @@ export const functionUtils = {
   dayjs,
   lodash,
   numbro,
+  mathjs,
 };
+
+type DescriptionType = {
+  name: string;
+  url: string;
+  version: string;
+};
+const descriptions: DescriptionType[] = [
+  { name: 'CryptoJS', url: 'https://github.com/brix/crypto-js', version: '4.1.1' },
+  { name: 'd3Array', url: 'https://github.com/d3/d3-array', version: '3.2.0' },
+  { name: 'dayjs', url: 'https://day.js.org/', version: '1.11.6' },
+  { name: 'lodash', url: 'https://lodash.com/docs/4.17.15', version: '4.17.21' },
+  { name: 'numbro', url: 'https://numbrojs.com/', version: '2.3.6' },
+  { name: 'mathjs', url: 'https://mathjs.org/', version: '11.7.0' },
+];
+
+const getDescriptionRow = (d: DescriptionType) => `
+<tr>
+  <td><code>${d.name}</code></td>
+  <td>
+    <a
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      href="${d.url}"
+      >${d.name}@${d.version}</a
+    >
+  </td>
+</tr>
+`;
 
 export const FunctionUtilsDescription = `
 <p>
   Parameter <code>utils</code> is <code>functionUtils</code>, which contains:
 </p>
-<ul>
-  <li>
-    <p>
-      <code>CryptoJS</code>
-      <a
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        href="https://github.com/brix/crypto-js"
-        >crypto-js@4.1.1</a
-      >
-    </p>
-  </li>
-  <li>
-    <p>
-      <code>d3Array</code>
-      <a
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        href="https://github.com/d3/d3-array"
-        >d3-array@3.2.0</a
-      >
-    </p>
-  </li>
-  <li>
-    <p>
-      <code>dayjs</code>
-      <a
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        href="https://day.js.org/"
-        >dayjs@1.11.6</a
-      >
-    </p>
-  </li>
-  <li>
-    <p>
-      <code>lodash</code>
-      <a
-        rel="noopener noreferrer nofollow"
-        href="https://lodash.com/docs/4.17.15"
-        >lodash@4.17.21</a
-      >
-    </p>
-  </li>
-  <li>
-    <p>
-      <code>numbro</code>
-      <a rel="noopener noreferrer nofollow" href="https://numbrojs.com/"
-        >numbro@2.3.6</a
-      >
-    </p>
-  </li>
-</ul>
-
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Document</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${descriptions.map(getDescriptionRow).join('')}
+  </tbody>
+</table>
 `;

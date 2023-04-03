@@ -6,6 +6,10 @@ import SubScript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -27,6 +31,15 @@ export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
       Superscript,
       SubScript,
       Highlight,
+      Table.configure({
+        resizable: false, // https://github.com/ueberdosis/tiptap/issues/2041
+        HTMLAttributes: {
+          class: 'rich-text-table-render',
+        },
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Placeholder.configure({ placeholder: 'This is placeholder' }),
       TextStyle,

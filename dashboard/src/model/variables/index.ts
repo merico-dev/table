@@ -26,7 +26,7 @@ export const VariableModel = types
     data_field: types.string,
     aggregation: types.union(
       types.model({
-        type: types.enumeration(['none', 'sum', 'mean', 'median', 'min', 'max']),
+        type: types.enumeration(['none', 'sum', 'mean', 'median', 'min', 'max', 'CV', 'std']),
         // maybe undefined is better
         config: types.frozen(),
       }),
