@@ -8,7 +8,7 @@ import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
-import { channelBuilder, CHANNELS, socketEmit } from '../utils/websocket';
+import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { QueryService } from './query.service';
 
@@ -133,7 +133,7 @@ export class JobService {
           await jobRepo.save(job);
           await runner.commitTransaction();
           updatedDashboardIds.forEach((id) => {
-            socketEmit(channelBuilder(CHANNELS.DASHBOARD, [id]), 'UPDATED');
+            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), 'UPDATED');
           });
         } catch (error) {
           runner.rollbackTransaction();
