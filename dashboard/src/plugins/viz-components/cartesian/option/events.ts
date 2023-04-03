@@ -2,7 +2,6 @@ import type { EChartsInstance } from 'echarts-for-react';
 import { AnyObject } from '~/types';
 
 export function updateRegressionLinesColor(instance: EChartsInstance) {
-  console.log('[updateRegressionLinesColor] called');
   const model = instance.getModel();
 
   const newSeries = model.getSeries().map((s: AnyObject) => {
