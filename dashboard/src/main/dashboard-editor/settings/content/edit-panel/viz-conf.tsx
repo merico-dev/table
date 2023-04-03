@@ -104,9 +104,9 @@ export const EditVizConf = observer(() => {
   return (
     <Stack align="stretch" sx={{ height: '100%', overflow: 'hidden' }}>
       <SelectVizType submit={submit} value={viz.type} />
-      <Box pb={50} sx={{ maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
+      <Stack pb={50} sx={{ flexGrow: 1, maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
         {finalPanel}
-      </Box>
+      </Stack>
       {!finalPanel && (
         <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />
       )}
