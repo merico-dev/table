@@ -95,7 +95,13 @@ export class DataSourceService {
     return result;
   }
 
-  async rename(id: string, key: string, locale: string): Promise<Job> {
+  async rename(
+    id: string,
+    key: string,
+    locale: string,
+    auth_id: string | null,
+    auth_type: string | null,
+  ): Promise<Job> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const dataSource = await dataSourceRepo.findOneByOrFail({ id });
     if (dataSource.key === key) {
@@ -105,6 +111,8 @@ export class DataSourceService {
       type: dataSource.type,
       old_key: dataSource.key,
       new_key: key,
+      auth_id,
+      auth_type,
     };
     const result = await JobService.addRenameDataSourceJob(jobParams);
     return result;

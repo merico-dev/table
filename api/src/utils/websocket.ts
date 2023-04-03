@@ -98,7 +98,9 @@ export function channelBuilder(channel: SERVER_CHANNELS | CLIENT_CHANNELS, param
 }
 
 export function socketEmit(channel: string, message: any) {
-  socket.emit(channel, message);
+  if (socket) {
+    socket.emit(channel, message);
+  }
 }
 
 function getPresenceAuthKey(auth_id: string, auth_type: string) {

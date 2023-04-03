@@ -12,6 +12,8 @@ import {
   DataSourceConfig,
   DataSourceRenameRequest,
 } from '../api_models/datasource';
+import ApiKey from '../models/apiKey';
+import Account from '../models/account';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
@@ -94,8 +96,15 @@ export class DataSourceController implements interfaces.Controller {
   @httpPut('/rename', permission(ROLE_TYPES.ADMIN))
   public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | null = req.body.auth;
       const { id, key } = validate(DataSourceRenameRequest, req.body);
-      const result = await this.dataSourceService.rename(id, key, req.locale);
+      const result = await this.dataSourceService.rename(
+        id,
+        key,
+        req.locale,
+        auth?.id ?? null,
+        !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+      );
       res.json(result);
     } catch (err) {
       next(err);

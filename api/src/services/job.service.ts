@@ -27,6 +27,8 @@ export type RenameJobParams = {
   type: string;
   old_key: string;
   new_key: string;
+  auth_id: string | null;
+  auth_type: string | null;
 };
 
 export type FixDashboardPermissionJobParams = {
@@ -133,7 +135,12 @@ export class JobService {
           await jobRepo.save(job);
           await runner.commitTransaction();
           updatedDashboardIds.forEach((id) => {
-            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), 'UPDATED');
+            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
+              update_time: new Date(),
+              message: 'UPDATED',
+              auth_id: params.auth_id,
+              auth_type: params.auth_type,
+            });
           });
         } catch (error) {
           runner.rollbackTransaction();

@@ -175,7 +175,12 @@ export class DashboardController implements interfaces.Controller {
         req.locale,
         auth?.role_id,
       );
-      socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), 'UPDATED');
+      socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
+        update_time: new Date(),
+        message: 'UPDATED',
+        auth_id: auth?.id ?? null,
+        auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+      });
       res.json(result);
     } catch (err) {
       next(err);
@@ -208,7 +213,12 @@ export class DashboardController implements interfaces.Controller {
         req.body.auth?.id,
       );
       const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
-      socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), 'UPDATED');
+      socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
+        update_time: new Date(),
+        message: 'UPDATED',
+        auth_id: auth?.id ?? null,
+        auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+      });
       res.json(result);
     } catch (err) {
       next(err);

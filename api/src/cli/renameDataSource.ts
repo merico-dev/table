@@ -29,6 +29,8 @@ async function rename() {
       type: args.type,
       old_key: args.current_key,
       new_key: args.new_key,
+      auth_id: null,
+      auth_type: null,
     };
     JobService.addRenameDataSourceJob(jobParams);
   } catch (err) {
