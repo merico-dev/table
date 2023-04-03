@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { quantile } from 'd3-array';
 import { AnyObject } from '~/types';
+import * as math from 'mathjs';
 
 export type AggregationType =
   | {
-      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min';
+      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV';
       config: Record<$TSFixMe, never>;
     }
   | {
@@ -55,6 +56,13 @@ export function aggregateValue(data: AnyObject[], data_field: string, aggregatio
         return _.min(numbers) ?? 0;
       case 'quantile':
         return quantile(numbers, aggregation.config.p) ?? 0;
+      case 'CV':
+        const std = math.std(...numbers);
+        const mean = math.mean(...numbers);
+        if (!mean) {
+          return 'N/A';
+        }
+        return std / mean;
       default:
         return numbers;
     }
