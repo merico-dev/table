@@ -149,7 +149,8 @@ export class AccountService {
     }
     account.name = name ?? account.name;
     account.email = email === undefined ? account.email : email;
-    const result = await accountRepo.save(account);
+    await accountRepo.save(account);
+    const result = await accountRepo.findOneByOrFail({ id });
     return redactPassword(result);
   }
 
@@ -189,7 +190,8 @@ export class AccountService {
     account.name = name === undefined ? account.name : name;
     account.email = email === undefined ? account.email : email;
     account.role_id = role_id === undefined ? account.role_id : role_id;
-    const result = await accountRepo.save(account);
+    await accountRepo.save(account);
+    const result = await accountRepo.findOneByOrFail({ id });
     return redactPassword(result);
   }
 
@@ -207,7 +209,8 @@ export class AccountService {
       });
     }
     account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
-    const result = await accountRepo.save(account);
+    await accountRepo.save(account);
+    const result = await accountRepo.findOneByOrFail({ id });
     return redactPassword(result);
   }
 

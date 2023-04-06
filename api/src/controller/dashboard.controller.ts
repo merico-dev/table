@@ -176,7 +176,7 @@ export class DashboardController implements interfaces.Controller {
         auth?.role_id,
       );
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
-        update_time: new Date(),
+        update_time: result.update_time,
         message: 'UPDATED',
         auth_id: auth?.id ?? null,
         auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
@@ -214,7 +214,7 @@ export class DashboardController implements interfaces.Controller {
       );
       const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
-        update_time: new Date(),
+        update_time: result.update_time,
         message: 'UPDATED',
         auth_id: auth?.id ?? null,
         auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',

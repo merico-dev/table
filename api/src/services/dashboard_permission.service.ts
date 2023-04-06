@@ -145,7 +145,8 @@ export class DashboardPermissionService {
       dashboardPermission.access,
       [],
     );
-    const result = await dashboardPermissionRepo.save(dashboardPermission);
+    await dashboardPermissionRepo.save(dashboardPermission);
+    const result = await dashboardPermissionRepo.findOneByOrFail({ id });
     return result;
   }
 
@@ -197,7 +198,8 @@ export class DashboardPermissionService {
       dashboardPermission.access,
       access,
     );
-    const result = await dashboardPermissionRepo.save(dashboardPermission);
+    await dashboardPermissionRepo.save(dashboardPermission);
+    const result = await dashboardPermissionRepo.findOneByOrFail({ id });
     return result;
   }
 
