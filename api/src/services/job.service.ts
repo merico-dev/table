@@ -134,9 +134,10 @@ export class JobService {
           job.result = result;
           await jobRepo.save(job);
           await runner.commitTransaction();
-          updatedDashboardIds.forEach((id) => {
+          updatedDashboardIds.forEach(async (id) => {
+            const dashboard = await dashboardRepo.findOneByOrFail({ id });
             socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
-              update_time: new Date(),
+              update_time: dashboard.update_time,
               message: 'UPDATED',
               auth_id: params.auth_id,
               auth_type: params.auth_type,

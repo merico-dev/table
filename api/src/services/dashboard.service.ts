@@ -121,7 +121,8 @@ export class DashboardService {
     dashboard.content = content === undefined ? dashboard.content : content;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
     dashboard.group = group === undefined ? dashboard.group : group;
-    const result = await dashboardRepo.save(dashboard);
+    await dashboardRepo.save(dashboard);
+    const result = await dashboardRepo.findOneByOrFail({ id });
     const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
     if (diff) {
       const dashboardChangelogRepo = dashboardDataSource.getRepository(DashboardChangelog);
@@ -141,7 +142,8 @@ export class DashboardService {
     }
     const originalDashboard = _.cloneDeep(dashboard);
     dashboard.is_removed = true;
-    const result = await dashboardRepo.save(dashboard);
+    await dashboardRepo.save(dashboard);
+    const result = await dashboardRepo.findOneByOrFail({ id });
     const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(result));
     if (diff) {
       const dashboardChangelogRepo = dashboardDataSource.getRepository(DashboardChangelog);
