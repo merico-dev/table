@@ -26,6 +26,7 @@ export const DashboardRebaseWarning = observer(() => {
   const id = store.currentID;
   useEffect(() => {
     socket.on(`DASHBOARD:${id}`, ({ update_time }: DashboardUpdateMessageType) => {
+      console.log('🟦 DASHBOARD:UPDATE', update_time);
       setRemoteKey(update_time);
     });
   }, [socket, id]);
@@ -52,21 +53,25 @@ export const DashboardRebaseWarning = observer(() => {
     if (loading || !store.currentDetail || store.detailsLoading) {
       return;
     }
-    if (!latest?.update_time || !store.currentDetail.update_time) {
+    if (!remoteKey || !store.currentDetail.update_time) {
       return;
     }
 
     try {
-      const next = new Date(latest.update_time).getTime();
+      if (rebaseModel.resolvedRemotes.has(remoteKey) === true) {
+        setFalse();
+        return;
+      }
+      const next = new Date(remoteKey).getTime();
       const current = new Date(store.currentDetail.update_time).getTime();
-      const needsRebasing = next > current && rebaseModel.resolvedRemotes.has(remoteKey) === false;
+      const needsRebasing = next > current;
       set(needsRebasing);
     } catch (error) {
       console.error(error);
     }
   }, [latest, loading, store.currentDetail, store.detailsLoading, remoteKey]);
 
-  if (!latest?.update_time) {
+  if (!remoteKey) {
     return null;
   }
 
@@ -74,7 +79,7 @@ export const DashboardRebaseWarning = observer(() => {
     return null;
   }
 
-  const latestUpdatedAt = dayjs(latest.update_time).format('YYYY-MM-DD HH:mm:ss (UTC)');
+  const latestUpdatedAt = dayjs(remoteKey).format('YYYY-MM-DD HH:mm:ss (UTC)');
   return (
     <>
       <Overlay zIndex={310} color="black" opacity={0.4} blur={2} />
