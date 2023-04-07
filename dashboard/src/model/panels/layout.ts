@@ -17,7 +17,7 @@ export const PanelLayoutModel = types
         h,
         w,
         x,
-        y,
+        y: y === null ? 0 : y,
         moved,
         static: self.static,
       };
