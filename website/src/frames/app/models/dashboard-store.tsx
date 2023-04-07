@@ -1,5 +1,5 @@
 import { autorun, reaction } from 'mobx';
-import { addDisposer, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { addDisposer, applySnapshot, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { DashboardAPI } from '../../../api-caller/dashboard';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 import { DashboardDetailModel } from './dashboard-detail-model';
@@ -70,6 +70,13 @@ export const DashboardStore = types
         console.error(error);
       }
     }),
+    setCurrentDetail(detail: SnapshotIn<typeof DashboardDetailModel>) {
+      if (!self.currentDetail) {
+        self.currentDetail = DashboardDetailModel.create(detail);
+        return;
+      }
+      applySnapshot(self.currentDetail, detail);
+    },
     loadCurrentDetail: flow(function* () {
       self.setDetailLoading(true);
       try {

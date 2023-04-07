@@ -11,9 +11,11 @@ import { DashboardConfig } from '../../utils/config';
 import { IDashboardModel } from '@devtable/dashboard';
 import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
 import { reaction, toJS } from 'mobx';
+import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 
 export const DashboardEditor = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
+    const { store } = useDashboardStore();
     const [context] = React.useState({});
     const rebaseModel = useRebaseModel();
 
@@ -30,22 +32,23 @@ export const DashboardEditor = observer(
       );
     }, [rebaseModel, dashboardModelRef]);
 
-    const updateDashboard = React.useCallback(async (d: IDashboard) => {
+    const updateDashboard = async (d: IDashboard) => {
       showNotification({
         id: 'for-updating',
         title: 'Pending',
         message: 'Updating dashboard...',
         loading: true,
       });
-      await DashboardAPI.update(d);
+      const result = await DashboardAPI.update(d);
       updateNotification({
         id: 'for-updating',
         title: 'Successful',
         message: 'This dashboard is updated',
         color: 'green',
       });
+      store.setCurrentDetail(result);
       refresh();
-    }, []);
+    };
 
     if (!rebaseModel) {
       return null;

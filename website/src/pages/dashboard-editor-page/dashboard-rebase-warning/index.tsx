@@ -9,6 +9,7 @@ import { useDashboardStore } from '../../../frames/app/models/dashboard-store-co
 import { useSocketContext } from '../../../frames/socket-client-frame/socket-context';
 import { RebaseActions } from './rebase-actions';
 import { useRebaseModel } from './rebase-editor/rebase-config-context';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 type DashboardUpdateMessageType = {
   update_time: string;
@@ -22,6 +23,7 @@ export const DashboardRebaseWarning = observer(() => {
   const { socket } = useSocketContext();
   const rebaseModel = useRebaseModel();
   const [remoteKey, setRemoteKey] = useState('');
+  const baseKey = store.currentDetail?.update_time;
 
   const id = store.currentID;
   useEffect(() => {
@@ -41,19 +43,17 @@ export const DashboardRebaseWarning = observer(() => {
     rebaseModel.setRemote(latest?.content as IDashboard);
   }, [latest, rebaseModel]);
 
-  const currentUpdateTime = store.currentDetail?.update_time;
   useEffect(() => {
     const current = store.currentDetail?.content as IDashboard;
     if (current) {
       rebaseModel.setLocal(current);
     }
-  }, [currentUpdateTime]);
+  }, [baseKey]);
 
+  useWhyDidYouUpdate('DashboardRebaseWarning', { store, socket, rebaseModel, remoteKey, baseKey, id });
   useEffect(() => {
-    if (loading || !store.currentDetail || store.detailsLoading) {
-      return;
-    }
-    if (!remoteKey || !store.currentDetail.update_time) {
+    if (!remoteKey || !baseKey) {
+      setFalse();
       return;
     }
 
@@ -63,15 +63,15 @@ export const DashboardRebaseWarning = observer(() => {
         return;
       }
       const next = new Date(remoteKey).getTime();
-      const current = new Date(store.currentDetail.update_time).getTime();
+      const current = new Date(baseKey).getTime();
       const needsRebasing = next > current;
       set(needsRebasing);
     } catch (error) {
       console.error(error);
     }
-  }, [latest, loading, store.currentDetail, store.detailsLoading, remoteKey]);
+  }, [rebaseModel, baseKey, remoteKey]);
 
-  if (!remoteKey) {
+  if (!remoteKey || loading) {
     return null;
   }
 
@@ -93,7 +93,6 @@ export const DashboardRebaseWarning = observer(() => {
             </Text>
           </Group>
         }
-        onClose={setFalse}
         disallowClose
         sx={{ position: 'fixed', top: 10, right: 15, zIndex: 410 }}
       >
