@@ -1,0 +1,12 @@
+// FIXME(leto): import from api/src/utils/websocket.ts
+export enum SERVER_CHANNELS {
+  DASHBOARD = 'DASHBOARD',
+  DASHBOARD_EDIT_PRESENCE = 'DASHBOARD_EDIT_PRESENCE',
+}
+
+// FIXME(leto): import from api/src/utils/websocket.ts
+export enum CLIENT_CHANNELS {
+  DASHBOARD_GET_EDIT_PRESENCE = 'DASHBOARD_GET_EDIT_PRESENCE',
+  DASHBOARD_START_EDIT = 'DASHBOARD_START_EDIT',
+  DASHBOARD_END_EDIT = 'DASHBOARD_END_EDIT',
+}
