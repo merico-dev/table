@@ -1,20 +1,26 @@
-import { PresenceType } from './types';
-import { Text } from '@mantine/core';
+import { Table } from '@mantine/core';
+import { PresenceDataItem } from './types';
 
 interface IProps {
-  accounts: string[];
-  clients: number;
-  presence: PresenceType;
+  presence: PresenceDataItem[];
 }
-export const HoverContent = ({ clients, accounts }: IProps) => {
-  if (clients === 0) {
-    return <Text>Something went wrong</Text>;
-  }
-  if (clients === 1) {
-    return <Text>Only you are editing</Text>;
-  }
-  if (accounts.length === 1) {
-    return <Text>You're editing this dashboard with {clients} browser tabs</Text>;
-  }
-  return <Text>{accounts.length} accounts are editing</Text>;
+export const HoverContent = ({ presence }: IProps) => {
+  return (
+    <Table highlightOnHover>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Sessions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {presence.map((item) => (
+          <tr key={item.id}>
+            <th>{item.name}</th>
+            <td>{item.count}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
 };
