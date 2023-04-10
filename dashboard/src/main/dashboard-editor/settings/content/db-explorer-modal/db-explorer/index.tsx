@@ -7,7 +7,7 @@ import { ColumnsTable } from './columns-table';
 import { IndexesTable } from './indexes-table';
 import { TableNavLinks } from './table-nav-links';
 
-export const TableStructure = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
+export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   useEffect(() => {
     dataSource.loadTablesIfEmpty();
   }, [dataSource]);

@@ -3,14 +3,14 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { AnyObject } from '~/types';
-import { TableStructure } from './table-structure';
+import { DBExplorer } from './db-explorer';
 
-interface ITableStructureModal {
+interface IDBExplorerModal {
   dataSource: DataSourceModelInstance;
   triggerButtonProps?: AnyObject;
 }
 
-export const TableStructureModal = observer(({ dataSource, triggerButtonProps = {} }: ITableStructureModal) => {
+export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }: IDBExplorerModal) => {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -37,7 +37,7 @@ export const TableStructureModal = observer(({ dataSource, triggerButtonProps = 
         styles={{ title: { flexGrow: 1 } }}
       >
         <Box sx={{ height: 'calc(100vh - 220px)' }}>
-          <TableStructure dataSource={dataSource} />
+          <DBExplorer dataSource={dataSource} />
         </Box>
       </Modal>
 

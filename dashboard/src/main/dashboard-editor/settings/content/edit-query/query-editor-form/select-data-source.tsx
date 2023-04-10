@@ -5,7 +5,7 @@ import { forwardRef, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
 import { DataSourceType } from '~/model/queries/types';
 import { listDataSources } from '../../../../../../api-caller';
-import { TableStructureModal } from '../../table-structure-modal';
+import { DBExplorerModal } from '../../db-explorer-modal';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) => (
@@ -65,7 +65,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
         <Group position="apart">
           <Box>Data Source</Box>
           {dataSource && (
-            <TableStructureModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
+            <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
           )}
         </Group>
       }
