@@ -13,7 +13,7 @@ import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-
 import { reaction, toJS } from 'mobx';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 
-export const DashboardEditor = observer(
+export const DashboardEditprPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
     const [context] = React.useState({});
