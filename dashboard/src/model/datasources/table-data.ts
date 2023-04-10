@@ -68,5 +68,12 @@ export const TableDataModel = types
           delay: 0,
         }),
       );
+      addDisposer(
+        self,
+        reaction(() => self.limit, self.resetPage, {
+          fireImmediately: false,
+          delay: 0,
+        }),
+      );
     },
   }));
