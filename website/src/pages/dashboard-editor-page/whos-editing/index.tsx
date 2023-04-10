@@ -1,33 +1,20 @@
-import { Badge, Group, Tooltip } from '@mantine/core';
+import { Badge, Group, HoverCard } from '@mantine/core';
 import { IconPaint } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { useDashboardStore } from '../../../frames/app/models/dashboard-store-context';
 import { useSocketContext } from '../../../frames/socket-client-frame/socket-context';
 import { CLIENT_CHANNELS, SERVER_CHANNELS } from '../../../frames/socket-client-frame/types';
-
-function getLabel({ clients, accounts }: { clients: number; accounts: string[] }) {
-  if (clients === 0) {
-    return 'Something went wrong';
-  }
-  if (clients === 1) {
-    return 'Only you are editing';
-  }
-  if (accounts.length === 1) {
-    return `You're editing this dashboard with ${clients} browser tabs`;
-  }
-  return `${accounts.length} accounts are editing`;
-}
-
-type PresenceType = {
-  [key: string]: number; // [id:type]: client count
-};
+import { HoverContent } from './hover-content';
+import { PresenceType } from './types';
 
 export const WhosEditing = observer(() => {
   const { store } = useDashboardStore();
   const { socket } = useSocketContext();
-  const [presence, setPresence] = useState<PresenceType>({});
+
   const id = store.currentID;
+  const [presence, setPresence] = useState<PresenceType>({});
+
   useEffect(() => {
     socket.emit(CLIENT_CHANNELS.DASHBOARD_START_EDIT, { id });
     socket.on(`${SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE}:${id}`, setPresence);
@@ -48,16 +35,21 @@ export const WhosEditing = observer(() => {
   }
   return (
     <Group sx={{ flexGrow: 1 }} position="right">
-      <Tooltip label={getLabel({ clients, accounts })}>
-        <Badge
-          size="lg"
-          color="indigo"
-          leftSection={<IconPaint size={14} />}
-          styles={{ root: { cursor: 'default' }, leftSection: { svg: { verticalAlign: 'text-top' } } }}
-        >
-          {clients}
-        </Badge>
-      </Tooltip>
+      <HoverCard width={280} shadow="md">
+        <HoverCard.Target>
+          <Badge
+            size="lg"
+            color="orange"
+            leftSection={<IconPaint size={14} />}
+            styles={{ root: { cursor: 'default' }, leftSection: { svg: { verticalAlign: 'text-top' } } }}
+          >
+            {clients}
+          </Badge>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
+          <HoverContent clients={clients} accounts={accounts} presence={presence} />
+        </HoverCard.Dropdown>
+      </HoverCard>
     </Group>
   );
 });
