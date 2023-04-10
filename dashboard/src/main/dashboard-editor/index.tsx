@@ -2,7 +2,7 @@ import { AppShell, Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React, { ForwardedRef, forwardRef } from 'react';
+import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
 import { DashboardViewEditor } from '~/view';
@@ -50,6 +50,7 @@ interface IDashboardProps {
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
+  headerSlot?: ReactNode;
 }
 
 export interface IDashboardModel {
@@ -59,7 +60,7 @@ export interface IDashboardModel {
 
 export const Dashboard = observer(
   forwardRef(function _Dashboard(
-    { context, dashboard, update, className = 'dashboard', config, onChange }: IDashboardProps,
+    { context, dashboard, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
     ref: ForwardedRef<IDashboardModel>,
   ) {
     useLoadMonacoEditor(config.monacoPath);
@@ -110,7 +111,7 @@ export const Dashboard = observer(
               <ServiceLocatorProvider configure={configureServices}>
                 <AppShell
                   padding={0}
-                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} />}
+                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} headerSlot={headerSlot} />}
                   navbar={<DashboardEditorNavbar />}
                   styles={AppShellStyles}
                 >

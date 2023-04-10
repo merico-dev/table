@@ -10,12 +10,18 @@ import {
   IconRecycle,
 } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
+import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModelContext } from '~/contexts';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { downloadJSON } from '~/utils/download';
 
-export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveDashboardChanges: () => void }) => {
+interface IDashboardEditorHeader {
+  saveDashboardChanges: () => void;
+  headerSlot?: ReactNode;
+}
+
+export const DashboardEditorHeader = observer(({ saveDashboardChanges, headerSlot = null }: IDashboardEditorHeader) => {
   const navigate = useNavigate();
   const model = useModelContext();
 
@@ -81,6 +87,7 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges }: { saveD
             </Group>
           </Button>
         </Group>
+        {headerSlot}
         <Group position="right">
           <Button
             variant="filled"
