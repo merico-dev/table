@@ -9,6 +9,7 @@ import { DataSourceType } from '../queries/types';
 import { ColumnsModel } from './columns';
 import { IndexesModel } from './indexes';
 import { TableInfoType, TablesModel } from './tables';
+import { TableDataModel } from './table-data';
 
 export const DataSourceModel = types
   .model('DataSourceModel', {
@@ -18,6 +19,7 @@ export const DataSourceModel = types
     config: types.frozen<TDataSourceConfig>(),
     tables: types.optional(TablesModel, {}),
     columns: types.optional(ColumnsModel, {}),
+    tableData: types.optional(TableDataModel, {}),
     indexes: types.optional(IndexesModel, {}),
     table_schema: types.optional(types.string, ''),
     table_name: types.optional(types.string, ''),
@@ -27,6 +29,7 @@ export const DataSourceModel = types
       tables: new AbortController(),
       columns: new AbortController(),
       indexes: new AbortController(),
+      tableData: new AbortController(),
     },
   }))
   .actions((self) => ({
@@ -132,6 +135,41 @@ export const DataSourceModel = types
           }
         }
       }),
+      loadTableData: flow(function* () {
+        self.controllers.tableData?.abort();
+        self.controllers.tableData = new AbortController();
+        const m = self.tableData;
+        m.state = 'loading';
+        try {
+          m.data = yield* toGenerator(
+            APIClient.getRequest('POST', self.controllers.tableData.signal)(
+              '/query',
+              { type: self.type, key: self.key, query: m.sql },
+              {},
+            ),
+          );
+          const [{ total }] = yield* toGenerator(
+            APIClient.getRequest('POST', self.controllers.tableData.signal)(
+              '/query',
+              { type: self.type, key: self.key, query: m.countSql },
+              {},
+            ),
+          );
+          m.total = Number(total);
+          m.state = 'idle';
+          m.error = null;
+        } catch (error) {
+          if (!axios.isCancel(error)) {
+            m.data = [];
+            const fallback = _.get(error, 'message', 'unkown error');
+            m.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            m.state = 'error';
+          } else {
+            m.state = 'idle';
+            m.error = null;
+          }
+        }
+      }),
     };
   })
   .actions((self) => ({
@@ -152,6 +190,13 @@ export const DataSourceModel = types
         reaction(() => self.indexes.sql, self.loadIndexes, {
           fireImmediately: false,
           delay: 500,
+        }),
+      );
+      addDisposer(
+        self,
+        reaction(() => self.tableData.sql, self.loadTableData, {
+          fireImmediately: false,
+          delay: 0,
         }),
       );
     },

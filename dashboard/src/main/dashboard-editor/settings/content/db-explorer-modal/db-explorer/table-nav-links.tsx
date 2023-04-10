@@ -3,7 +3,7 @@ import { IconDatabase, IconEye, IconTable } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { TableInfoType } from '~/model/datasources/tables';
-import { LoadingSkeleton } from './loading-skeleton';
+import { LoadingSkeleton } from './structure/loading-skeleton';
 
 function TableIcon({ table_type }: { table_type: TableInfoType['table_type'] }) {
   if (table_type === 'VIEW') {
