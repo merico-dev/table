@@ -7,7 +7,7 @@ import { IndexesTable } from './indexes-table';
 
 export const Structure = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
   return (
-    <Stack spacing={40} sx={{ flexGrow: 1, overflow: 'auto', position: 'relative' }}>
+    <Stack spacing={40} pt={10} sx={{ flexGrow: 1, overflow: 'auto', position: 'relative' }}>
       <ErrorBoundary>
         <ColumnsTable dataSource={dataSource} />
       </ErrorBoundary>

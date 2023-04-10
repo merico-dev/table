@@ -6,6 +6,8 @@ import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { Structure } from './structure';
 import { TableNavLinks } from './table-nav-links';
+import { TableData } from './table-data';
+
 const tabsStyles = {
   root: {
     flexGrow: 1,
@@ -50,6 +52,9 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
         </Tabs.List>
         <Tabs.Panel value="structure">
           <Structure dataSource={dataSource} />
+        </Tabs.Panel>
+        <Tabs.Panel value="data" sx={{ width: '100%', height: 'calc(100% - 36px)', overflow: 'hidden' }}>
+          <TableData dataSource={dataSource} />
         </Tabs.Panel>
       </Tabs>
     </Flex>
