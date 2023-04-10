@@ -1,12 +1,11 @@
-import { Box, Flex, Stack, Tabs, Text } from '@mantine/core';
+import { Box, Flex, Tabs, Text } from '@mantine/core';
+import { IconColumns, IconDatabase } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils/error-boundary';
-import { ColumnsTable } from './columns-table';
-import { IndexesTable } from './indexes-table';
+import { Structure } from './structure';
 import { TableNavLinks } from './table-nav-links';
-import { IconColumns, IconDatabase } from '@tabler/icons';
 const tabsStyles = {
   root: {
     flexGrow: 1,
@@ -50,14 +49,7 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
           </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="structure">
-          <Stack spacing={40} sx={{ flexGrow: 1, overflow: 'auto', position: 'relative' }}>
-            <ErrorBoundary>
-              <ColumnsTable dataSource={dataSource} />
-            </ErrorBoundary>
-            <ErrorBoundary>
-              <IndexesTable dataSource={dataSource} />
-            </ErrorBoundary>
-          </Stack>
+          <Structure dataSource={dataSource} />
         </Tabs.Panel>
       </Tabs>
     </Flex>
