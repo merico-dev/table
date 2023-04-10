@@ -10,10 +10,7 @@ function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
   if (!basis) {
     return '';
   }
-  const { name, axisType, axisValue, axisIndex } = basis;
-  if (axisType === 'xAxis.category') {
-    return name;
-  }
+  const { axisValue, axisIndex } = basis;
   return getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter)(axisValue, axisIndex);
 }
 
