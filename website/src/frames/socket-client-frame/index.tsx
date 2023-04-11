@@ -2,6 +2,10 @@ import { useCreation } from 'ahooks';
 import { Outlet } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { SocketContextProvider } from './socket-context';
+import { useEffect } from 'react';
+
+const url = import.meta.env.VITE_API_BASE_URL;
+const path = new URL(url).pathname + 'socket.io';
 
 export function SocketClientFrame() {
   const token = window.localStorage.getItem('token');
@@ -9,13 +13,31 @@ export function SocketClientFrame() {
     if (!token) {
       return null;
     }
-    const s = io(import.meta.env.VITE_API_BASE_URL, {
+    const options = {
+      path,
       auth: {
         account: token,
       },
-    });
-    return s;
+    };
+    return io(url, options);
   }, [token]);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
+    const onConnect = () => console.log('Socket connected');
+    const onDisconnect = () => console.log('Socket disconnected');
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
+    return () => {
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+    };
+  }, [socket]);
 
   return (
     <SocketContextProvider value={{ socket }}>
