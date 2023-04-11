@@ -71,8 +71,8 @@ export class DashboardController implements interfaces.Controller {
   @httpPost('/create', permission(ROLE_TYPES.AUTHOR))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, content, group } = validate(DashboardCreateRequest, req.body);
-      const result = await this.dashboardService.create(name, content, group, req.locale, req.body.auth);
+      const { name, group } = validate(DashboardCreateRequest, req.body);
+      const result = await this.dashboardService.create(name, group, req.locale, req.body.auth);
       res.json(result);
     } catch (err) {
       next(err);
@@ -157,7 +157,7 @@ export class DashboardController implements interfaces.Controller {
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id, name, content, is_removed, group } = validate(DashboardUpdateRequest, req.body);
+      const { id, name, content_id, is_removed, group } = validate(DashboardUpdateRequest, req.body);
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
@@ -169,7 +169,7 @@ export class DashboardController implements interfaces.Controller {
       const result = await this.dashboardService.update(
         id,
         name,
-        content,
+        content_id,
         is_removed,
         group,
         req.locale,

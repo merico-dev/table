@@ -3,13 +3,14 @@ import { PaginationRequest } from '../api_models/base';
 import { JobFilterObject, JobPaginationResponse, JobSortObject } from '../api_models/job';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
-import DashboardChangelog from '../models/dashboard_changelog';
+import DashboardContent from '../models/dashboard_content';
+import DashboardContentChangelog from '../models/dashboard_content_changelog';
 import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
 import { escapeLikePattern } from '../utils/helpers';
 import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
-import { DashboardChangelogService } from './dashboard_changelog.service';
+import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
 import { QueryService } from './query.service';
 
 enum JobType {
@@ -71,9 +72,9 @@ export class JobService {
     const runner = dashboardDataSource.createQueryRunner();
     await runner.connect();
 
-    const dashboardChangelogRepo = runner.manager.getRepository(DashboardChangelog);
+    const dashboardContentChangelogRepo = runner.manager.getRepository(DashboardContentChangelog);
     const datasourceRepo = runner.manager.getRepository(DataSource);
-    const dashboardRepo = runner.manager.getRepository(Dashboard);
+    const dashboardContentRepo = runner.manager.getRepository(Dashboard);
     const jobRepo = runner.manager.getRepository(Job);
 
     let jobs = await jobRepo
@@ -95,49 +96,52 @@ export class JobService {
           datasource.key = params.new_key;
           await datasourceRepo.save(datasource);
 
-          const result: { affected_dashboards: { dashboardId: string; queries: string[] }[] } = {
-            affected_dashboards: [],
+          const result: { affected_dashboard_contents: { contentId: string; queries: string[] }[] } = {
+            affected_dashboard_contents: [],
           };
 
-          const dashboards = await runner.manager
+          const dashboardContents = await runner.manager
             .createQueryBuilder()
-            .from(Dashboard, 'dashboard')
+            .from(DashboardContent, 'dashboard_content')
             .where(`content @> '{"definition":{"queries":[{"type": "${params.type}", "key": "${params.old_key}"}]}}' `)
-            .getRawMany<Dashboard>();
+            .getRawMany<DashboardContent>();
 
-          const updatedDashboardIds: string[] = [];
-          for (const dashboard of dashboards) {
+          const updatedDashboardContentIds: string[] = [];
+          for (const dashboardContent of dashboardContents) {
             let updated = false;
-            const originalDashboard = _.cloneDeep(dashboard);
+            const originalDashboardContent = _.cloneDeep(dashboardContent);
             const queries: string[] = [];
-            for (let i = 0; i < dashboard.content.definition.queries.length; i++) {
-              const query = dashboard.content.definition.queries[i];
+            for (let i = 0; i < dashboardContent.content.definition.queries.length; i++) {
+              const query = dashboardContent.content.definition.queries[i];
               if (query.type !== params.type || query.key !== params.old_key) continue;
               query.key = params.new_key;
               queries.push(query.id);
               updated = true;
             }
             if (updated) {
-              await dashboardRepo.save(dashboard);
-              updatedDashboardIds.push(dashboard.id);
-              const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
+              await dashboardContentRepo.save(dashboardContent);
+              updatedDashboardContentIds.push(dashboardContent.id);
+              const diff = await DashboardContentChangelogService.createChangelog(
+                originalDashboardContent,
+                _.cloneDeep(dashboardContent),
+              );
               if (diff) {
-                const changelog = new DashboardChangelog();
-                changelog.dashboard_id = dashboard.id;
+                const changelog = new DashboardContentChangelog();
+                changelog.dashboard_content_id = dashboardContent.id;
                 changelog.diff = diff;
-                await dashboardChangelogRepo.save(changelog);
+                await dashboardContentChangelogRepo.save(changelog);
               }
             }
-            result.affected_dashboards.push({ dashboardId: dashboard.id, queries });
+            result.affected_dashboard_contents.push({ contentId: dashboardContent.id, queries });
           }
           job.status = JobStatus.SUCCESS;
           job.result = result;
           await jobRepo.save(job);
           await runner.commitTransaction();
-          updatedDashboardIds.forEach(async (id) => {
-            const dashboard = await dashboardRepo.findOneByOrFail({ id });
-            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
-              update_time: dashboard.update_time,
+          updatedDashboardContentIds.forEach(async (id) => {
+            const data = await dashboardContentRepo.findOneByOrFail({ id });
+            socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT, [id]), {
+              update_time: data.update_time,
               message: 'UPDATED',
               auth_id: params.auth_id,
               auth_type: params.auth_type,

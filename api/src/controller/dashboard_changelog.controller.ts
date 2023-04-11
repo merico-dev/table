@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardChangelogListRequest } from '../api_models/dashboard_changelog';
 import { ROLE_TYPES } from '../api_models/role';

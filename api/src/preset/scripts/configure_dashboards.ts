@@ -9,6 +9,9 @@ import DashboardChangelog from '../../models/dashboard_changelog';
 import Account from '../../models/account';
 import { ROLE_TYPES } from '../../api_models/role';
 import DashboardPermission from '../../models/dashboard_permission';
+import DashboardContentChangelog from '../../models/dashboard_content_changelog';
+import DashboardContent from '../../models/dashboard_content';
+import { DashboardContentChangelogService } from '../../services/dashboard_content_changelog.service';
 
 type Source = {
   type: string;
@@ -29,6 +32,8 @@ async function upsert() {
       .findOneByOrFail({ role_id: ROLE_TYPES.SUPERADMIN });
     const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
+    const dashboardContentChangelogRepo = queryRunner.manager.getRepository(DashboardContentChangelog);
+    const dashboardContentRepo = queryRunner.manager.getRepository(DashboardContent);
     const dashboardPermissionRepo = queryRunner.manager.getRepository(DashboardPermission);
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
 
@@ -79,15 +84,25 @@ async function upsert() {
         dashboard.is_preset = true;
         isNew = true;
       }
-      dashboard.content = config;
-      const createdDashboard = await dashboardRepo.save(dashboard);
+      dashboard = await dashboardRepo.save(dashboard);
       if (isNew) {
         const dashboardPermission = new DashboardPermission();
-        dashboardPermission.id = createdDashboard.id;
+        dashboardPermission.id = dashboard.id;
         dashboardPermission.owner_id = superadmin.id;
         dashboardPermission.owner_type = 'ACCOUNT';
         await dashboardPermissionRepo.save(dashboardPermission);
       }
+      let dashboardContent = await dashboardContentRepo.findOneBy({ dashboard_id: dashboard.id });
+      const originalDashboardContent: DashboardContent | null = _.cloneDeep(dashboardContent);
+      if (!dashboardContent) {
+        dashboardContent = new DashboardContent();
+        dashboardContent.name = name;
+        dashboardContent.dashboard_id = dashboard.id;
+      }
+      dashboardContent.content = config;
+      dashboardContent = await dashboardContentRepo.save(dashboardContent);
+      dashboard.content_id = dashboardContent.id;
+      dashboard = await dashboardRepo.save(dashboard);
       if (originalDashboard) {
         const diff = await DashboardChangelogService.createChangelog(originalDashboard, _.cloneDeep(dashboard));
         if (diff) {
@@ -95,6 +110,18 @@ async function upsert() {
           changelog.dashboard_id = originalDashboard.id;
           changelog.diff = diff;
           await dashboardChangelogRepo.save(changelog);
+        }
+      }
+      if (originalDashboardContent) {
+        const diff = await DashboardContentChangelogService.createChangelog(
+          originalDashboardContent,
+          _.cloneDeep(dashboardContent),
+        );
+        if (diff) {
+          const changelog = new DashboardContentChangelog();
+          changelog.dashboard_content_id = originalDashboardContent.id;
+          changelog.diff = diff;
+          await dashboardContentChangelogRepo.save(changelog);
         }
       }
     }
