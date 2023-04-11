@@ -32,14 +32,14 @@ export function initWebsocket(server: http.Server, origin: string[]) {
     let authenticated = false;
     if (!AUTH_ENABLED) {
       authenticated = true;
-      socket.handshake.auth.auth = { id: '0', type: 'NO_AUTH' };
+      socket.handshake.auth.auth = { id: '0', name: 'NO_AUTH', type: 'NO_AUTH' };
     }
 
     if (!authenticated) {
       const account = await AccountService.getByToken(socket.handshake.auth.account);
       if (account) {
         authenticated = true;
-        socket.handshake.auth.auth = { id: account.id, type: 'ACCOUNT' };
+        socket.handshake.auth.auth = { id: account.id, name: account.name, type: 'ACCOUNT' };
       }
     }
 
@@ -47,7 +47,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
       const apiKey = await ApiService.verifyApiKey(socket.handshake.auth.apikey, {});
       if (apiKey) {
         authenticated = true;
-        socket.handshake.auth.auth = { id: apiKey.id, type: 'APIKEY' };
+        socket.handshake.auth.auth = { id: apiKey.id, name: apiKey.name, type: 'APIKEY' };
       }
     }
 
@@ -63,7 +63,12 @@ export function initWebsocket(server: http.Server, origin: string[]) {
 
     client.on('disconnect', () => {
       logger.info(`user disconnected from websocket with id: ${client.id}`);
-      removeDashboardEditPresence(client.handshake.auth.auth.id, client.handshake.auth.auth.type, client.id);
+      removeDashboardEditPresence(
+        client.handshake.auth.auth.id,
+        client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
+        client.id,
+      );
     });
 
     client.on(CLIENT_CHANNELS.DASHBOARD_GET_EDIT_PRESENCE, (data: { id: string }) => {
@@ -76,6 +81,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         data.id,
         client.handshake.auth.auth.id,
         client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
         client.id,
         'ADD',
       );
@@ -86,6 +92,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         data.id,
         client.handshake.auth.auth.id,
         client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
         client.id,
         'REMOVE',
       );
@@ -107,23 +114,24 @@ function getPresenceAuthKey(auth_id: string, auth_type: string) {
   return `${auth_id}:${auth_type}`;
 }
 
-const dashboardEditPresence = new Map<string, Record<string, Set<string>>>();
+const dashboardEditPresence = new Map<string, Record<string, { name: string; connections: Set<string> }>>();
 function updateDashboardEditPresence(
   id: string,
   auth_id: string,
   auth_type: string,
+  auth_name: string,
   client_id: string,
   type: 'ADD' | 'REMOVE',
 ) {
   const info = dashboardEditPresence.get(id) ?? {};
   const authKey = getPresenceAuthKey(auth_id, auth_type);
   if (type === 'ADD') {
-    info[authKey] = info[authKey] ?? new Set();
-    info[authKey].add(client_id);
+    info[authKey] = info[authKey] ?? { name: auth_name, connections: new Set() };
+    info[authKey].connections.add(client_id);
   } else {
     if (info[authKey]) {
-      info[authKey].delete(client_id);
-      if (info[authKey].size === 0) {
+      info[authKey].connections.delete(client_id);
+      if (info[authKey].connections.size === 0) {
         delete info[authKey];
       }
     }
@@ -131,15 +139,15 @@ function updateDashboardEditPresence(
   dashboardEditPresence.set(id, info);
   socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [id]), parseDashboardPresence(info));
 }
-function removeDashboardEditPresence(auth_id: string, auth_type: string, client_id: string) {
+function removeDashboardEditPresence(auth_id: string, auth_type: string, auth_name: string, client_id: string) {
   for (const [id, _info] of dashboardEditPresence) {
-    updateDashboardEditPresence(id, auth_id, auth_type, client_id, 'REMOVE');
+    updateDashboardEditPresence(id, auth_id, auth_type, auth_name, client_id, 'REMOVE');
   }
 }
-function parseDashboardPresence(presence: Record<string, Set<string>>) {
-  const result: Record<string, number> = {};
+function parseDashboardPresence(presence: Record<string, { name: string; connections: Set<string> }>) {
+  const result: Record<string, { name: string; count: number }> = {};
   for (const [key, value] of Object.entries(presence)) {
-    result[key] = value.size;
+    result[key] = { name: value.name, count: value.connections.size };
   }
   return result;
 }
