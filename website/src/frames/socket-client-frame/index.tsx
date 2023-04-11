@@ -4,8 +4,19 @@ import { io } from 'socket.io-client';
 import { SocketContextProvider } from './socket-context';
 import { useEffect } from 'react';
 
-const url = import.meta.env.VITE_API_BASE_URL;
-const path = new URL(url).pathname + 'socket.io';
+function getSocketURL() {
+  try {
+    const url = import.meta.env.VITE_API_BASE_URL;
+    const path = new URL(url).pathname + 'socket.io';
+    return { url, path };
+  } catch (error) {
+    const url = new URL(window.location.origin + import.meta.env.VITE_API_BASE_URL);
+    const path = url.pathname + 'socket.io';
+    return { url, path };
+  }
+}
+
+const { url, path } = getSocketURL();
 
 export function SocketClientFrame() {
   const token = window.localStorage.getItem('token');
