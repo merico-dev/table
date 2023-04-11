@@ -31,6 +31,13 @@ import {
   DashboardOwnerUpdateRequest,
   DashboardPermissionUpdateRequest,
 } from '~/api_models/dashboard_permission';
+import { DashboardContentChangelogListRequest } from '~/api_models/dashboard_content_changelog';
+import {
+  DashboardContentListRequest,
+  DashboardContentCreateRequest,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+} from '~/api_models/dashboard_content';
 import { ApiError } from '~/utils/errors';
 import { validate } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
@@ -589,7 +596,6 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardCreateRequest = {
           name: 'test',
-          content: {},
           group: '',
         };
 
@@ -615,13 +621,6 @@ describe('validation', () => {
                 isLength: 'name must be longer than or equal to 1 characters',
                 isString: 'name must be a string',
               },
-            },
-            {
-              target: {},
-              value: undefined,
-              property: 'content',
-              children: [],
-              constraints: { isObject: 'content must be an object' },
             },
             {
               target: {},
@@ -712,7 +711,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardUpdateRequest = {
           id: crypto.randomUUID(),
-          content: {},
+          content_id: crypto.randomUUID(),
           is_removed: true,
           name: 'test',
         };
@@ -1392,6 +1391,256 @@ describe('validation', () => {
                   value: { id: '', type: 'INCORRECT', permission: 'INCORRECT' },
                 },
               ],
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('DashboardContentController', () => {
+    describe('DashboardContentChangelogListRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: DashboardContentChangelogListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          filter: { dashboard_content_id: { value: '', isFuzzy: true } },
+        };
+
+        const result = validate(DashboardContentChangelogListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validate(DashboardContentChangelogListRequest, data);
+        expect(result).toMatchObject({
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validate(DashboardContentChangelogListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardContentChangelogListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('DashboardContentChangelogController', () => {
+    describe('DashboardContentListRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentListRequest = {
+          dashboard_id: crypto.randomUUID(),
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          filter: { name: { value: '', isFuzzy: true } },
+        };
+        const result = validate(DashboardContentListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {
+          dashboard_id: crypto.randomUUID(),
+        };
+        const result = validate(DashboardContentListRequest, data);
+        expect(result).toMatchObject({
+          dashboard_id: data.dashboard_id,
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validate(DashboardContentListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardContentListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: undefined,
+              property: 'dashboard_id',
+              children: [],
+              constraints: { isUuid: 'dashboard_id must be a UUID' },
+            },
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentCreateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentCreateRequest = {
+          dashboard_id: crypto.randomUUID(),
+          name: 'test',
+          content: {},
+        };
+        const result = validate(DashboardContentCreateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validate(DashboardContentCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardContentCreateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'dashboard_id',
+              children: [],
+              constraints: { isUuid: 'dashboard_id must be a UUID' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'name',
+              children: [],
+              constraints: {
+                isLength: 'name must be longer than or equal to 1 characters',
+                isString: 'name must be a string',
+              },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'content',
+              children: [],
+              constraints: { isObject: 'content must be an object' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentIDRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentIDRequest = {
+          id: crypto.randomUUID(),
+        };
+        const result = validate(DashboardContentIDRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validate(DashboardContentIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardContentIDRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isUuid: 'id must be a UUID' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentUpdateRequest = {
+          id: crypto.randomUUID(),
+          name: 'test',
+          content: {},
+        };
+        const result = validate(DashboardContentUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validate(DashboardContentUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validate(DashboardContentUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isUuid: 'id must be a UUID' },
             },
           ]);
         }
