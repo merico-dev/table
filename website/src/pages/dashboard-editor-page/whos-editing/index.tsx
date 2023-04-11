@@ -1,12 +1,12 @@
 import { Badge, Group, HoverCard } from '@mantine/core';
-import { IconPaint } from '@tabler/icons';
+import { IconArrowsShuffle, IconPaint } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { useDashboardStore } from '../../../frames/app/models/dashboard-store-context';
 import { useSocketContext } from '../../../frames/socket-client-frame/socket-context';
 import { CLIENT_CHANNELS, SERVER_CHANNELS } from '../../../frames/socket-client-frame/types';
 import { HoverContent } from './hover-content';
-import { PresenceDataItem, PresenceType } from './types';
+import { PresenceDataItem, PresenceDataItemType, PresenceType } from './types';
 
 export const WhosEditing = observer(() => {
   const { store } = useDashboardStore();
@@ -19,7 +19,7 @@ export const WhosEditing = observer(() => {
     socket.emit(CLIENT_CHANNELS.DASHBOARD_START_EDIT, { id });
     socket.on(`${SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE}:${id}`, (data: PresenceType) => {
       const p = Object.entries(data).map(([pid, { name, count }]) => {
-        const [id, type] = pid.split(':');
+        const [id, type] = pid.split(':') as [string, PresenceDataItemType];
         return {
           id,
           type,
@@ -44,19 +44,19 @@ export const WhosEditing = observer(() => {
   }
   return (
     <Group sx={{ flexGrow: 1 }} position="right">
-      <HoverCard width={280} shadow="md">
+      <HoverCard shadow="md">
         <HoverCard.Target>
           <Badge
             size="lg"
             color="orange"
-            leftSection={<IconPaint size={14} />}
-            styles={{ root: { cursor: 'default' }, leftSection: { svg: { verticalAlign: 'text-top' } } }}
+            leftSection={<IconArrowsShuffle size={14} />}
+            styles={{ root: { cursor: 'default' }, leftSection: { svg: { verticalAlign: 'text-bottom' } } }}
           >
             {total}
           </Badge>
         </HoverCard.Target>
-        <HoverCard.Dropdown>
-          <HoverContent presence={presence} />
+        <HoverCard.Dropdown px={10} py={7}>
+          <HoverContent presence={presence} total={total} />
         </HoverCard.Dropdown>
       </HoverCard>
     </Group>

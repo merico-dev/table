@@ -7,9 +7,11 @@ export type PresenceType = {
   };
 };
 
+export type PresenceDataItemType = 'APIKEY' | 'ACCOUNT';
+
 export type PresenceDataItem = {
   id: string;
-  type: string;
+  type: PresenceDataItemType;
   name: string;
   count: number;
 };
