@@ -10,12 +10,17 @@ import { translate } from './i18n';
 export enum SERVER_CHANNELS {
   DASHBOARD = 'DASHBOARD',
   DASHBOARD_EDIT_PRESENCE = 'DASHBOARD_EDIT_PRESENCE',
+  DASHBOARD_CONTENT = 'DASHBOARD_CONTENT',
+  DASHBOARD_CONTENT_EDIT_PRESENCE = 'DASHBOARD_CONTENT_EDIT_PRESENCE',
 }
 
 enum CLIENT_CHANNELS {
   DASHBOARD_GET_EDIT_PRESENCE = 'DASHBOARD_GET_EDIT_PRESENCE',
   DASHBOARD_START_EDIT = 'DASHBOARD_START_EDIT',
   DASHBOARD_END_EDIT = 'DASHBOARD_END_EDIT',
+  DASHBOARD_CONTENT_GET_EDIT_PRESENCE = 'DASHBOARD_CONTENT_GET_EDIT_PRESENCE',
+  DASHBOARD_CONTENT_START_EDIT = 'DASHBOARD_CONTENT_START_EDIT',
+  DASHBOARD_CONTENT_END_EDIT = 'DASHBOARD_CONTENT_END_EDIT',
 }
 
 let socket: Server;
@@ -75,11 +80,12 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         client.handshake.auth.auth.name,
         client.id,
       );
+      removeDashboardContentEditPresence(client.handshake.auth.auth.id, client.handshake.auth.auth.type, client.id);
     });
 
     client.on(CLIENT_CHANNELS.DASHBOARD_GET_EDIT_PRESENCE, (data: { id: string }) => {
       const result = dashboardEditPresence.get(data.id) ?? {};
-      client.emit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [data.id]), parseDashboardPresence(result));
+      client.emit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [data.id]), parsePresence(result));
     });
 
     client.on(CLIENT_CHANNELS.DASHBOARD_START_EDIT, (data: { id: string }) => {
@@ -103,6 +109,31 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         'REMOVE',
       );
     });
+
+    client.on(CLIENT_CHANNELS.DASHBOARD_CONTENT_GET_EDIT_PRESENCE, (data: { id: string }) => {
+      const result = dashboardContentEditPresence.get(data.id) ?? {};
+      client.emit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT_EDIT_PRESENCE, [data.id]), parsePresence(result));
+    });
+
+    client.on(CLIENT_CHANNELS.DASHBOARD_CONTENT_START_EDIT, (data: { id: string }) => {
+      updateDashboardContentEditPresence(
+        data.id,
+        client.handshake.auth.auth.id,
+        client.handshake.auth.auth.type,
+        client.id,
+        'ADD',
+      );
+    });
+
+    client.on(CLIENT_CHANNELS.DASHBOARD_CONTENT_END_EDIT, (data: { id: string }) => {
+      updateDashboardContentEditPresence(
+        data.id,
+        client.handshake.auth.auth.id,
+        client.handshake.auth.auth.type,
+        client.id,
+        'REMOVE',
+      );
+    });
   });
 }
 
@@ -118,6 +149,14 @@ export function socketEmit(channel: string, message: any) {
 
 function getPresenceAuthKey(auth_id: string, auth_type: string) {
   return `${auth_id}:${auth_type}`;
+}
+
+function parsePresence(presence: Record<string, Set<string>>) {
+  const result: Record<string, number> = {};
+  for (const [key, value] of Object.entries(presence)) {
+    result[key] = value.size;
+  }
+  return result;
 }
 
 const dashboardEditPresence = new Map<string, Record<string, { name: string; connections: Set<string> }>>();
@@ -143,7 +182,7 @@ function updateDashboardEditPresence(
     }
   }
   dashboardEditPresence.set(id, info);
-  socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [id]), parseDashboardPresence(info));
+  socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [id]), parsePresence(info));
 }
 function removeDashboardEditPresence(auth_id: string, auth_type: string, auth_name: string, client_id: string) {
   for (const [id, _info] of dashboardEditPresence) {
@@ -155,5 +194,4 @@ function parseDashboardPresence(presence: Record<string, { name: string; connect
   for (const [key, value] of Object.entries(presence)) {
     result[key] = { name: value.name, count: value.connections.size };
   }
-  return result;
 }
