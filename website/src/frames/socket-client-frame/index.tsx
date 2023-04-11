@@ -4,19 +4,20 @@ import { io } from 'socket.io-client';
 import { SocketContextProvider } from './socket-context';
 import { useEffect } from 'react';
 
-function getSocketURL() {
+function getSocketURL(baseURL: string) {
   try {
-    const url = import.meta.env.VITE_API_BASE_URL;
+    const url = baseURL;
     const path = new URL(url).pathname + 'socket.io';
     return { url, path };
   } catch (error) {
-    const url = new URL(window.location.origin + import.meta.env.VITE_API_BASE_URL);
+    // baseURL is a path, but not a valid url
+    const url = new URL(window.location.origin + baseURL);
     const path = url.pathname + 'socket.io';
-    return { url, path };
+    return { url: url.toString(), path };
   }
 }
 
-const { url, path } = getSocketURL();
+const { url, path } = getSocketURL(import.meta.env.VITE_API_BASE_URL);
 
 export function SocketClientFrame() {
   const token = window.localStorage.getItem('token');
