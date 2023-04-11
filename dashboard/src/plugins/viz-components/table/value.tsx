@@ -56,7 +56,8 @@ function StringCell(props: ICellValue) {
 }
 
 function ELOCCell(props: ICellValue) {
-  return <CellRender {...props}>{props.value}</CellRender>;
+  const v = numbro(props.value).format({ average: true, mantissa: 2, trimMantissa: true });
+  return <CellRender {...props}>{v}</CellRender>;
 }
 
 function NumberCell(props: ICellValue) {
@@ -73,13 +74,14 @@ function CustomCell(props: ICellValue) {
   const value = props.value;
   const func_content = props.func_content;
   if (!func_content) {
-    return value;
+    return <CellRender {...props}>{value}</CellRender>;
   }
-  return new Function(`return ${func_content}`)()({ value });
+  const v = new Function(`return ${func_content}`)()({ value });
+  return <CellRender {...props}>{v}</CellRender>;
 }
 
 interface ICellValue {
-  value: $TSFixMe;
+  value: string | number;
   type: ValueType;
   tableCellContext: ITableCellContext;
   func_content?: string;

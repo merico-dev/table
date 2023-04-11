@@ -1,8 +1,13 @@
 import { Select, Sx } from '@mantine/core';
 import { forwardRef, Ref } from 'react';
 import { ValueType } from './type';
+import _ from 'lodash';
 
-const valueTypes = Object.values(ValueType).map((v) => ({ label: v, value: v }));
+const labels = {
+  [ValueType.eloc]: 'ELOC',
+};
+
+const valueTypes = Object.values(ValueType).map((v) => ({ label: _.get(labels, v, _.capitalize(v)), value: v }));
 
 interface IValueTypeSelector {
   label: string;
