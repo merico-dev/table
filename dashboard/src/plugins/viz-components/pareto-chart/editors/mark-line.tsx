@@ -10,8 +10,8 @@ const structure = `
 {
   // 80-20 line stuff
   percentage: {
-    x: string; // 80%
-    y: string; // 20%
+    x: string; // 20%
+    y: string; // 80%
   };
   count: {
     left: number; // 2
