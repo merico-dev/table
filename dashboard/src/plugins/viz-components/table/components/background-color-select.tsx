@@ -8,13 +8,14 @@ import { CellBackgroundColorType } from '~/plugins/viz-components/table/type';
 import { IColorManager, PluginContext } from '~/plugins';
 
 import { IColorInterpolationConfig } from '~/types/plugin';
+import _ from 'lodash';
 
 export interface IBackgroundColorSelectProps {
   value?: CellBackgroundColorType;
   onChange?: (value: CellBackgroundColorType) => void;
 }
 
-const ColorTypes = ['static', 'interpolation', 'none'];
+const ColorTypes = ['static', 'interpolation', 'none'].map((v) => ({ label: _.capitalize(v), value: v }));
 const DEFAULT_STEPS = [
   { from: 0, to: 0 },
   { from: 100, to: 100 },
