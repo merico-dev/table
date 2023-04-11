@@ -15,6 +15,9 @@ interface IXAxisLabelFormatterField {
 export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisLabelFormatterField, _ref: any) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<IXAxisLabelFormatter>(value);
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const changeEnabled = (enabled: boolean) => {
     setLocalValue({
@@ -50,10 +53,6 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
   const resetFuncContent = () => {
     changeFuncContent(DEFAULT_X_AXIS_LABEL_FORMATTER.func_content);
   };
-
-  useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
 
   return (
     <>
