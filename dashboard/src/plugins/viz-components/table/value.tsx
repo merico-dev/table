@@ -56,7 +56,8 @@ function StringCell(props: ICellValue) {
 }
 
 function ELOCCell(props: ICellValue) {
-  return <CellRender {...props}>{props.value}</CellRender>;
+  const v = numbro(props.value).format({ average: true, mantissa: 2, trimMantissa: true });
+  return <CellRender {...props}>{v}</CellRender>;
 }
 
 function NumberCell(props: ICellValue) {
