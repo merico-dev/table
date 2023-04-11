@@ -5,15 +5,16 @@ import React from 'react';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
+import { IDashboardModel } from '@devtable/dashboard';
+import { reaction, toJS } from 'mobx';
 import { DashboardAPI } from '../../api-caller/dashboard';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
-import { DashboardConfig } from '../../utils/config';
-import { IDashboardModel } from '@devtable/dashboard';
-import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
-import { reaction, toJS } from 'mobx';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
+import { DashboardConfig } from '../../utils/config';
+import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
+import { WhosEditing } from './whos-editing';
 
-export const DashboardEditor = observer(
+export const DashboardEditprPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
     const [context] = React.useState({});
@@ -62,6 +63,7 @@ export const DashboardEditor = observer(
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
         config={DashboardConfig}
+        headerSlot={<WhosEditing />}
       />
     );
   },

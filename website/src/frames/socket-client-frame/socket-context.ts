@@ -1,9 +1,15 @@
 import { Socket } from 'socket.io-client';
 import React from 'react';
 
-const SocketContext = React.createContext<{
+type SocketContextType = {
   socket: Socket | null;
-}>({
+};
+
+type SocketContextOutType = {
+  socket: Socket;
+};
+
+const SocketContext = React.createContext<SocketContextType>({
   socket: null,
 });
 
@@ -14,7 +20,5 @@ export function useSocketContext() {
   if (!c.socket) {
     throw new Error('Please use SocketContextProvider');
   }
-  return c as {
-    socket: Socket;
-  };
+  return c as SocketContextOutType;
 }
