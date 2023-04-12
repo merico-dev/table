@@ -1,8 +1,8 @@
 import { useCreation } from 'ahooks';
-import { Outlet } from 'react-router-dom';
-import { io } from 'socket.io-client';
-import { SocketContextProvider } from './socket-context';
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Manager } from 'socket.io-client';
+import { SocketContextProvider } from './socket-context';
 
 function getSocketURL(baseURL: string) {
   try {
@@ -31,7 +31,12 @@ export function SocketClientFrame() {
         account: token,
       },
     };
-    return io(url, options);
+    const manager = new Manager(url, options);
+    return manager.socket('/', {
+      auth: {
+        account: token,
+      },
+    });
   }, [token]);
 
   useEffect(() => {
