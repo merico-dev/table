@@ -2,7 +2,7 @@ import { connectionHook, sleep } from './jest.util';
 import { ApiService } from '~/services/api.service';
 import { notFoundId } from './constants';
 import { ROLE_TYPES } from '~/api_models/role';
-import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { cryptSign } from '~/utils/helpers';
 import ApiKey from '~/models/apiKey';

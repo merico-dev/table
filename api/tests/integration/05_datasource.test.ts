@@ -152,20 +152,20 @@ describe('DataSourceService', () => {
 
   describe('rename', () => {
     it('should fail if new key is same as old key', async () => {
-      await expect(datasourceService.rename(pgDatasource.id, pgDatasource.key, DEFAULT_LANGUAGE)).rejects.toThrowError(
-        new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' }),
-      );
+      await expect(
+        datasourceService.rename(pgDatasource.id, pgDatasource.key, DEFAULT_LANGUAGE, null, null),
+      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'New key is the same as the old one' }));
     });
 
     it('should fail if entity not found', async () => {
-      await expect(datasourceService.rename(notFoundId, '', DEFAULT_LANGUAGE)).rejects.toThrowError(
+      await expect(datasourceService.rename(notFoundId, '', DEFAULT_LANGUAGE, null, null)).rejects.toThrowError(
         EntityNotFoundError,
       );
     });
 
     it('should rename successfully', async () => {
       const newPGKey = pgDatasource.key + '_renamed';
-      const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey, DEFAULT_LANGUAGE);
+      const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey, DEFAULT_LANGUAGE, null, null);
       expect(pgResult).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -176,7 +176,7 @@ describe('DataSourceService', () => {
       });
 
       const newHTTPKey = httpDatasource.key + '_renamed';
-      const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey, DEFAULT_LANGUAGE);
+      const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey, DEFAULT_LANGUAGE, null, null);
       expect(httpResult).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',

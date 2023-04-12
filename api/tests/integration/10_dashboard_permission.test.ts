@@ -66,7 +66,6 @@ describe('DashboardPermissionService', () => {
 
     accountDashboard = await dashboardService.create(
       'accountDashboard',
-      {},
       'dashboard_permission',
       DEFAULT_LANGUAGE,
       account,
@@ -74,7 +73,6 @@ describe('DashboardPermissionService', () => {
 
     apiKeyDashboard = await dashboardService.create(
       'apiKeyDashboard',
-      {},
       'dashboard_permission',
       DEFAULT_LANGUAGE,
       apiKey,

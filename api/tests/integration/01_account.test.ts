@@ -1,8 +1,8 @@
-import { connectionHook } from './jest.util';
+import { connectionHook, sleep } from './jest.util';
 import { AccountService } from '~/services/account.service';
 import { notFoundId } from './constants';
 import { ROLE_TYPES } from '~/api_models/role';
-import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { Account as AccountApiModel, AccountLoginResponse } from '~/api_models/account';
 import { ApiError, BAD_REQUEST, INVALID_CREDENTIALS, PASSWORD_MISMATCH } from '~/utils/errors';
 import { dashboardDataSource } from '~/data_sources/dashboard';
@@ -338,6 +338,8 @@ describe('AccountService', () => {
           },
         ],
       });
+
+      await sleep(5000);
     });
 
     it('should fail because not found', async () => {

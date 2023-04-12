@@ -1,7 +1,7 @@
 import { connectionHook } from './jest.util';
 import { DashboardService } from '~/services/dashboard.service';
 import Dashboard from '~/models/dashboard';
-import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { ROLE_TYPES } from '~/api_models/role';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
@@ -21,11 +21,11 @@ describe('DashboardService', () => {
 
   describe('create', () => {
     it('should create successfully', async () => {
-      dashboard3 = await dashboardService.create('dashboard3', {}, '2', DEFAULT_LANGUAGE);
+      dashboard3 = await dashboardService.create('dashboard3', '2', DEFAULT_LANGUAGE);
     });
 
     it('should fail if duplicate name', async () => {
-      await expect(dashboardService.create('dashboard3', {}, '2', DEFAULT_LANGUAGE)).rejects.toThrowError(
+      await expect(dashboardService.create('dashboard3', '2', DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'A dashboard with that name already exists' }),
       );
     });
@@ -44,22 +44,7 @@ describe('DashboardService', () => {
           {
             id: dashboards[0].id,
             name: 'dashboard1',
-            content: {
-              definition: {
-                queries: [
-                  {
-                    id: 'pgQuery1',
-                    type: 'postgresql',
-                    key: 'pg',
-                  },
-                  {
-                    id: 'httpQuery1',
-                    type: 'http',
-                    key: 'jsonplaceholder',
-                  },
-                ],
-              },
-            },
+            content_id: '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
             create_time: dashboards[0].create_time,
             update_time: dashboards[0].update_time,
             is_removed: true,
@@ -69,22 +54,7 @@ describe('DashboardService', () => {
           {
             id: dashboards[1].id,
             name: 'dashboard2',
-            content: {
-              definition: {
-                queries: [
-                  {
-                    id: 'pgQuery2',
-                    type: 'postgresql',
-                    key: 'pg',
-                  },
-                  {
-                    id: 'httpQuery2',
-                    type: 'http',
-                    key: 'jsonplaceholder',
-                  },
-                ],
-              },
-            },
+            content_id: '5959a66b-5b6b-4509-9d87-bb8b96100658',
             create_time: dashboards[1].create_time,
             update_time: dashboards[1].update_time,
             is_removed: false,
@@ -94,7 +64,7 @@ describe('DashboardService', () => {
           {
             id: dashboard3.id,
             name: 'dashboard3',
-            content: {},
+            content_id: null,
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
@@ -118,7 +88,7 @@ describe('DashboardService', () => {
           {
             id: dashboard3.id,
             name: 'dashboard3',
-            content: {},
+            content_id: null,
             create_time: dashboard3.create_time,
             update_time: dashboard3.update_time,
             is_removed: false,
@@ -176,7 +146,15 @@ describe('DashboardService', () => {
 
     it('should fail if not found', async () => {
       await expect(
-        dashboardService.update(notFoundId, 'xxxx', {}, false, '2_updated', DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN),
+        dashboardService.update(
+          notFoundId,
+          'xxxx',
+          undefined,
+          false,
+          '2_updated',
+          DEFAULT_LANGUAGE,
+          ROLE_TYPES.SUPERADMIN,
+        ),
       ).rejects.toThrowError(EntityNotFoundError);
     });
 
@@ -204,7 +182,7 @@ describe('DashboardService', () => {
         dashboardService.update(
           dashboards[1].id,
           'dashboard2_updated',
-          {},
+          undefined,
           false,
           '1_updated',
           DEFAULT_LANGUAGE,
