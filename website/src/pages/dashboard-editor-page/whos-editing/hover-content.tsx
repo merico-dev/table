@@ -13,6 +13,9 @@ const tableSx: Sx = {
       textOverflow: 'ellipsis',
     },
   },
+  caption: {
+    fontSize: '12px',
+  },
 };
 
 interface IProps {
