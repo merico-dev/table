@@ -40,11 +40,10 @@ export class DashboardContentChangelogService {
       await fs.writeJson(filename, newData, { spaces: '\t' });
       diff = await git.diff();
     } catch (e) {
-      logger.warn('create dashboard changelog failed');
+      logger.warn('create dashboard content changelog failed');
       logger.warn(e);
-    } finally {
-      await fs.rm(dir, { recursive: true, force: true });
     }
+    await fs.rm(dir, { recursive: true, force: true });
     return diff;
   }
 
@@ -76,13 +75,13 @@ export class DashboardContentChangelogService {
       qb.addOrderBy(s.field, s.order);
     });
 
-    const dashboardChangelogs = await qb.getRawMany<DashboardContentChangelog>();
+    const dashboardContentChangelogs = await qb.getRawMany<DashboardContentChangelog>();
     const total = await qb.getCount();
 
     return {
       total,
       offset,
-      data: dashboardChangelogs,
+      data: dashboardContentChangelogs,
     };
   }
 }

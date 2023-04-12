@@ -39,9 +39,8 @@ export class DashboardChangelogService {
     } catch (e) {
       logger.warn('create dashboard changelog failed');
       logger.warn(e);
-    } finally {
-      await fs.rm(dir, { recursive: true, force: true });
     }
+    await fs.rm(dir, { recursive: true, force: true });
     return diff;
   }
 
