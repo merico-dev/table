@@ -80,7 +80,12 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         client.handshake.auth.auth.name,
         client.id,
       );
-      removeDashboardContentEditPresence(client.handshake.auth.auth.id, client.handshake.auth.auth.type, client.id);
+      removeDashboardContentEditPresence(
+        client.handshake.auth.auth.id,
+        client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
+        client.id,
+      );
     });
 
     client.on(CLIENT_CHANNELS.DASHBOARD_GET_EDIT_PRESENCE, (data: { id: string }) => {
@@ -120,6 +125,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         data.id,
         client.handshake.auth.auth.id,
         client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
         client.id,
         'ADD',
       );
@@ -130,6 +136,7 @@ export function initWebsocket(server: http.Server, origin: string[]) {
         data.id,
         client.handshake.auth.auth.id,
         client.handshake.auth.auth.type,
+        client.handshake.auth.auth.name,
         client.id,
         'REMOVE',
       );
@@ -151,10 +158,10 @@ function getPresenceAuthKey(auth_id: string, auth_type: string) {
   return `${auth_id}:${auth_type}`;
 }
 
-function parsePresence(presence: Record<string, Set<string>>) {
-  const result: Record<string, number> = {};
+function parsePresence(presence: Record<string, { name: string; connections: Set<string> }>) {
+  const result: Record<string, { name: string; count: number }> = {};
   for (const [key, value] of Object.entries(presence)) {
-    result[key] = value.size;
+    result[key] = { name: value.name, count: value.connections.size };
   }
   return result;
 }
@@ -184,14 +191,41 @@ function updateDashboardEditPresence(
   dashboardEditPresence.set(id, info);
   socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_EDIT_PRESENCE, [id]), parsePresence(info));
 }
+
+const dashboardContentEditPresence = new Map<string, Record<string, { name: string; connections: Set<string> }>>();
+function updateDashboardContentEditPresence(
+  id: string,
+  auth_id: string,
+  auth_type: string,
+  auth_name: string,
+  client_id: string,
+  type: 'ADD' | 'REMOVE',
+) {
+  const info = dashboardContentEditPresence.get(id) ?? {};
+  const authKey = getPresenceAuthKey(auth_id, auth_type);
+  if (type === 'ADD') {
+    info[authKey] = info[authKey] ?? { name: auth_name, connections: new Set() };
+    info[authKey].connections.add(client_id);
+  } else {
+    if (info[authKey]) {
+      info[authKey].connections.delete(client_id);
+      if (info[authKey].connections.size === 0) {
+        delete info[authKey];
+      }
+    }
+  }
+  dashboardContentEditPresence.set(id, info);
+  socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT_EDIT_PRESENCE, [id]), parsePresence(info));
+}
+
 function removeDashboardEditPresence(auth_id: string, auth_type: string, auth_name: string, client_id: string) {
   for (const [id, _info] of dashboardEditPresence) {
     updateDashboardEditPresence(id, auth_id, auth_type, auth_name, client_id, 'REMOVE');
   }
 }
-function parseDashboardPresence(presence: Record<string, { name: string; connections: Set<string> }>) {
-  const result: Record<string, { name: string; count: number }> = {};
-  for (const [key, value] of Object.entries(presence)) {
-    result[key] = { name: value.name, count: value.connections.size };
+
+function removeDashboardContentEditPresence(auth_id: string, auth_type: string, auth_name: string, client_id: string) {
+  for (const [id, _info] of dashboardContentEditPresence) {
+    updateDashboardContentEditPresence(id, auth_id, auth_type, auth_name, client_id, 'REMOVE');
   }
 }
