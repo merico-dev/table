@@ -42,6 +42,7 @@
     "reactflow": "^11.5.3"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "11.7.2",
     "@mantine/core": "5.9.5",
     "@mantine/dates": "5.9.5",
     "@mantine/form": "5.9.5",
@@ -140,6 +141,7 @@
     "ahooks": "^3.3.11",
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
+    "crypto-js": "^4.1.1",
     "d3-array": "3.2.0",
     "d3-regression": "1.2.8",
     "dayjs": "1.11.6",
