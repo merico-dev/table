@@ -4,13 +4,36 @@ import { defineConfig } from 'vitest/config';
 import dts from 'vite-plugin-dts';
 import visualizer from 'rollup-plugin-visualizer';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { dependencies, peerDependencies } from './package.json';
+
+const GLOBAL_MODULE_IDS = {
+  'crypto-js': 'CryptoJS',
+  lodash: '_',
+};
+
+const EXTERNAL_PATHS = ['/node_modules/echarts', '/node_modules/react', '/node_modules/dayjs'];
+const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
+const externals = (id: string) => {
+  // babel transforms module id of emotion, we need to exclude all of them
+  if (id.startsWith('@emotion')) {
+    return true;
+  }
+  if (EXTERNAL_PATHS.some((p) => id.includes(p))) {
+    return true;
+  }
+  return DEPENDENCIES.has(id);
+};
 
 export default defineConfig({
   plugins: [
     tsconfigPaths({
       projects: [process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json'],
     }),
-    react(),
+    react({
+      babel: {
+        plugins: ['@emotion', 'macros'],
+      },
+    }),
     dts({
       entryRoot: resolve(__dirname, 'src'),
       insertTypesEntry: true,
@@ -34,129 +57,10 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [visualizer()],
-      external: [
-        '@emotion/react',
-        '@mantine/core',
-        '@mantine/dates',
-        '@mantine/form',
-        '@mantine/hooks',
-        '@mantine/modals',
-        '@mantine/notifications',
-        '@mantine/prism',
-        '@mantine/tiptap',
-        // '@tanstack/react-table'
-        '@monaco-editor/react',
-        '@tiptap/core',
-        '@tiptap/extension-link',
-        '@tiptap/react',
-        '@tiptap/starter-kit',
-        'ahooks',
-        'ajv',
-        'axios',
-        'chroma-js',
-        'crypto-js',
-        'echarts/core',
-        'echarts/charts',
-        'echarts/components',
-        'echarts/renderers',
-        'echarts-for-react/lib/core',
-        'echarts-gl',
-        'eventemitter2',
-        'd3-array',
-        'd3-regression',
-        'dayjs',
-        'jszip',
-        'lodash',
-        'mobx',
-        'mobx-react-lite',
-        'mobx-state-tree',
-        'monaco-editor',
-        'monaco-editor/esm/vs/editor/editor.worker?worker',
-        'monaco-editor/esm/vs/language/css/css.worker?worker',
-        'monaco-editor/esm/vs/language/html/html.worker?worker',
-        'monaco-editor/esm/vs/language/json/json.worker?worker',
-        'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
-        'numbro',
-        'prosemirror-commands',
-        'prosemirror-dropcursor',
-        'prosemirror-gapcursor',
-        'prosemirror-history',
-        'prosemirror-keymap',
-        'prosemirror-model',
-        'prosemirror-schema-list',
-        'prosemirror-state',
-        'prosemirror-transform',
-        'prosemirror-view',
-        'react',
-        'react-dom',
-        'react-grid-layout',
-        'react-hook-form',
-        'react-virtual',
-        'tabler-icons-react',
-      ],
+      external: externals,
       output: {
-        globals: {
-          '@emotion/react': '@emotion/react',
-          '@mantine/core': '@mantine/core',
-          '@mantine/dates': '@mantine/dates',
-          '@mantine/form': '@mantine/form',
-          '@mantine/hooks': '@mantine/hooks',
-          '@mantine/modals': '@mantine/modals',
-          '@mantine/notifications': '@mantine/notifications',
-          '@mantine/prism': '@mantine/prism',
-          '@mantine/tiptap': '@mantine/tiptap',
-          '@monaco-editor/react': '@monaco-editor/react',
-          '@tanstack/react-table': '@tanstack/react-table',
-          '@tiptap/core': '@tiptap/core',
-          '@tiptap/extension-link': '@tiptap/extension-link',
-          '@tiptap/react': '@tiptap/react',
-          '@tiptap/starter-kit': '@tiptap/starter-kit',
-          ahooks: 'ahooks',
-          ajv: 'ajv',
-          axios: 'axios',
-          'chroma-js': 'chroma-js',
-          'crypto-js': 'crypto-js',
-          'echarts/core': 'echarts/core',
-          'echarts/charts': 'echarts/charts',
-          'echarts/components': 'echarts/components',
-          'echarts/renderers': 'echarts/renderers',
-          'echarts-for-react/lib/core': 'echarts-for-react/lib/core',
-          'echarts-gl': 'echarts-gl',
-          eventemitter2: 'eventemitter2',
-          'd3-array': 'd3-array',
-          'd3-regression': 'd3-regression',
-          dayjs: 'dayjs',
-          jszip: 'jszip',
-          lodash: '_',
-          mobx: 'mobx',
-          'mobx-react-lite': 'mobx-react-lite',
-          'mobx-state-tree': 'mobx-state-tree',
-          'monaco-editor': 'monaco-editor',
-          'monaco-editor/esm/vs/editor/editor.worker?worker': 'monaco-editor/esm/vs/editor/editor.worker?worker',
-          'monaco-editor/esm/vs/language/css/css.worker?worker': 'monaco-editor/esm/vs/language/css/css.worker?worker',
-          'monaco-editor/esm/vs/language/html/html.worker?worker':
-            'monaco-editor/esm/vs/language/html/html.worker?worker',
-          'monaco-editor/esm/vs/language/json/json.worker?worker':
-            'monaco-editor/esm/vs/language/json/json.worker?worker',
-          'monaco-editor/esm/vs/language/typescript/ts.worker?worker':
-            'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
-          numbro: 'numbro',
-          'prosemirror-commands': 'prosemirror-commands',
-          'prosemirror-dropcursor': 'prosemirror-dropcursor',
-          'prosemirror-gapcursor': 'prosemirror-gapcursor',
-          'prosemirror-history': 'prosemirror-history',
-          'prosemirror-keymap': 'prosemirror-keymap',
-          'prosemirror-model': 'prosemirror-model',
-          'prosemirror-schema-list': 'prosemirror-schema-list',
-          'prosemirror-state': 'prosemirror-state',
-          'prosemirror-transform': 'prosemirror-transform',
-          'prosemirror-view': 'prosemirror-view',
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react-grid-layout': 'react-grid-layout',
-          'react-hook-form': 'react-hook-form',
-          'react-virtual': 'react-virtual',
-          'tabler-icons-react': 'tabler-icons-react',
+        globals: (id) => {
+          return GLOBAL_MODULE_IDS[id] ?? id;
         },
       },
     },
