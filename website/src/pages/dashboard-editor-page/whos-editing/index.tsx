@@ -38,6 +38,10 @@ export const WhosEditing = observer(() => {
     return presence.reduce((acc, { count }) => acc + count, 0);
   }, [presence]);
 
+  // websocket is not ready, or connection error occurs
+  if (total === 0) {
+    return null;
+  }
   // only you're editing
   if (total === 1) {
     return null;

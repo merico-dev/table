@@ -58,6 +58,12 @@ export function initWebsocket(server: http.Server, origin: string[]) {
     }
   });
 
+  socket.engine.on('connection_error', (err) => {
+    const msg = `EngineIO connection error, code: ${err.code}, message: ${err.message}`;
+    logger.error(msg);
+    logger.info(JSON.stringify(err.context, null, 2));
+  });
+
   socket.on('connection', (client: Socket) => {
     logger.info(`user connected to websocket with id: ${client.id}`);
 
