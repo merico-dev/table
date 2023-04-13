@@ -30,6 +30,7 @@ export function SocketClientFrame() {
       auth: {
         account: token,
       },
+      transports: ['websocket'],
     };
     const manager = new Manager(url, options);
     return manager.socket('/', {
