@@ -30,7 +30,7 @@ const _DashboardModel = types
     name: types.string,
     group: types.string,
     version: types.string,
-    datasources: DataSourcesModel,
+    datasources: types.late(() => DataSourcesModel),
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
@@ -271,7 +271,7 @@ export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
       origin: sn,
     } as DashboardModelCreationType;
   },
-  postProcessor(sn: DashboardModelSnapshotType): DashboardModelSnapshotType {
+  postProcessor(sn: Omit<DashboardModelSnapshotType, symbol>): DashboardModelSnapshotType {
     delete sn.origin;
     // only preserve id, key, type, sql fields in sn.queries.current
     // or do we need to add postProcessor for QueryModel?

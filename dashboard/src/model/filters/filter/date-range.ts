@@ -107,7 +107,8 @@ export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfig
       }),
     };
   },
-  postProcessor({ default_value, ...rest }) {
+  postProcessor(snap) {
+    const { default_value, ...rest } = snap as Omit<typeof snap, symbol>;
     return {
       ...rest,
       default_value: postProcessDefaultValue(default_value, rest.inputFormat),
