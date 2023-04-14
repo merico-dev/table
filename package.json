@@ -24,7 +24,7 @@
     "nx": "14.5.10",
     "prettier": "^2.7.1",
     "vite": "4.2.1",
-    "vite-plugin-dts": "2.2.0",
+    "vite-plugin-dts": "1.4.1",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^0.30.1"
   },

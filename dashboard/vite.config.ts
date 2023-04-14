@@ -34,11 +34,10 @@ export default defineConfig({
         plugins: ['@emotion', 'macros'],
       },
     }),
-    // https://github.com/merico-dev/table/issues/841
-    // dts({
-    //   entryRoot: resolve(__dirname, 'src'),
-    //   insertTypesEntry: true,
-    // }),
+    dts({
+      entryRoot: resolve(__dirname, 'src'),
+      insertTypesEntry: true,
+    }),
   ],
   test: {
     globals: true,
