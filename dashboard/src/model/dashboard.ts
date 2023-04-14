@@ -11,6 +11,7 @@ import {
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
+import type { ISnapshotProcessor } from 'mobx-state-tree/dist/types/utility-types/snapshotProcessor';
 import { IDataSource } from '~/api-caller/types';
 import { AnyObject, IDashboard } from '../types';
 import { ContextInfoType, ContextModel } from './context';
@@ -30,7 +31,7 @@ const _DashboardModel = types
     name: types.string,
     group: types.string,
     version: types.string,
-    datasources: types.late(() => DataSourcesModel),
+    datasources: DataSourcesModel,
     filters: FiltersModel,
     queries: QueriesModel,
     sqlSnippets: SQLSnippetsModel,
@@ -61,8 +62,6 @@ const _DashboardModel = types
         },
       };
     },
-  }))
-  .views((self) => ({
     get filtersChanged() {
       const fields = 'filters.current';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
@@ -90,8 +89,6 @@ const _DashboardModel = types
       const fields = 'mock_context.current';
       return !isEqual(get(self, fields), get(self.origin, fields));
     },
-  }))
-  .views((self) => ({
     get payloadForSQL() {
       return {
         context: self.context.current,
@@ -102,12 +99,12 @@ const _DashboardModel = types
     },
     get changed() {
       return (
-        self.filtersChanged ||
-        self.queriesChanged ||
-        self.sqlSnippetsChanged ||
-        self.viewsChanged ||
-        self.panelsChanged ||
-        self.mockContextChanged
+        this.filtersChanged ||
+        this.queriesChanged ||
+        this.sqlSnippetsChanged ||
+        this.viewsChanged ||
+        this.panelsChanged ||
+        this.mockContextChanged
       );
     },
     get data() {
@@ -262,9 +259,15 @@ const _DashboardModel = types
     };
   });
 
-type DashboardModelCreationType = SnapshotIn<Instance<typeof _DashboardModel>>;
-type DashboardModelSnapshotType = SnapshotOut<Instance<typeof _DashboardModel>>;
-export const DashboardModel = types.snapshotProcessor(_DashboardModel, {
+type _DashboardModelType = typeof _DashboardModel;
+type DashboardModelCreationType = SnapshotIn<Instance<_DashboardModelType>>;
+type DashboardModelSnapshotType = SnapshotOut<Instance<_DashboardModelType>>;
+
+export const DashboardModel = types.snapshotProcessor<
+  _DashboardModelType,
+  DashboardModelCreationType,
+  DashboardModelSnapshotType
+>(_DashboardModel, {
   preProcessor(sn: DashboardModelCreationType): DashboardModelCreationType {
     return {
       ...sn,
