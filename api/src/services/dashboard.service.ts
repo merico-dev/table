@@ -118,7 +118,7 @@ export class DashboardService {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    if (name === undefined && is_removed === undefined && group === undefined) {
+    if (name === undefined && content_id === undefined && is_removed === undefined && group === undefined) {
       return dashboard;
     }
     if (name !== undefined && dashboard.name !== name) {
