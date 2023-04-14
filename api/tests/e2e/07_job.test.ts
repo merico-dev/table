@@ -36,22 +36,6 @@ describe('JobController', () => {
 
     const dashboardQuery: DashboardCreateRequest = {
       name: 'jobDashboard',
-      content: {
-        definition: {
-          queries: [
-            {
-              id: 'pgQuery',
-              type: 'postgresql',
-              key: 'jobPG',
-            },
-            {
-              id: 'httpQuery',
-              type: 'http',
-              key: 'jobHTTP',
-            },
-          ],
-        },
-      },
       group: 'job',
     };
     validate.mockReturnValueOnce(dashboardQuery);
@@ -218,7 +202,7 @@ describe('JobController', () => {
               new_key: 'jsonplaceholder_renamed',
               old_key: 'jsonplaceholder',
             },
-            result: { affected_dashboards: [] },
+            result: { affected_dashboard_contents: [] },
             create_time: response.body.data[2].create_time,
             update_time: response.body.data[2].update_time,
           },
@@ -232,12 +216,7 @@ describe('JobController', () => {
               old_key: 'jobPG',
             },
             result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery'],
-                  dashboardId: dashboard.id,
-                },
-              ],
+              affected_dashboard_contents: [],
             },
             create_time: response.body.data[3].create_time,
             update_time: response.body.data[3].update_time,
@@ -252,67 +231,10 @@ describe('JobController', () => {
               old_key: 'jobHTTP',
             },
             result: {
-              affected_dashboards: [
-                {
-                  queries: ['httpQuery'],
-                  dashboardId: dashboard.id,
-                },
-              ],
+              affected_dashboard_contents: [],
             },
             create_time: response.body.data[4].create_time,
             update_time: response.body.data[4].update_time,
-          },
-        ],
-      });
-    });
-  });
-
-  describe('check Dashboard', () => {
-    it('dashboard content queries should be updated', async () => {
-      const query: DashboardListRequest = {
-        filter: {
-          name: { value: 'jobDashboard', isFuzzy: true },
-          group: { value: '', isFuzzy: true },
-          is_removed: false,
-        },
-        pagination: { page: 1, pagesize: 20 },
-        sort: [{ field: 'name', order: 'ASC' }],
-      };
-      validate.mockReturnValueOnce(query);
-
-      const response = await server
-        .post('/dashboard/list')
-        .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(query);
-
-      expect(response.body).toMatchObject({
-        total: 1,
-        offset: 0,
-        data: [
-          {
-            id: response.body.data[0].id,
-            name: 'jobDashboard',
-            content: {
-              definition: {
-                queries: [
-                  {
-                    id: 'pgQuery',
-                    type: 'postgresql',
-                    key: 'jobPG_renamed',
-                  },
-                  {
-                    id: 'httpQuery',
-                    type: 'http',
-                    key: 'jobHTTP_renamed',
-                  },
-                ],
-              },
-            },
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
-            is_removed: false,
-            is_preset: false,
-            group: 'job',
           },
         ],
       });
@@ -403,7 +325,7 @@ describe('JobController', () => {
               new_key: 'jsonplaceholder_renamed',
               old_key: 'jsonplaceholder',
             },
-            result: { affected_dashboards: [] },
+            result: { affected_dashboard_contents: [] },
             create_time: response.body.data[2].create_time,
             update_time: response.body.data[2].update_time,
           },
@@ -417,12 +339,7 @@ describe('JobController', () => {
               old_key: 'jobPG',
             },
             result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery'],
-                  dashboardId: dashboard.id,
-                },
-              ],
+              affected_dashboard_contents: [],
             },
             create_time: response.body.data[3].create_time,
             update_time: response.body.data[3].update_time,
@@ -437,12 +354,7 @@ describe('JobController', () => {
               old_key: 'jobHTTP',
             },
             result: {
-              affected_dashboards: [
-                {
-                  queries: ['httpQuery'],
-                  dashboardId: dashboard.id,
-                },
-              ],
+              affected_dashboard_contents: [],
             },
             create_time: response.body.data[4].create_time,
             update_time: response.body.data[4].update_time,
@@ -470,12 +382,7 @@ describe('JobController', () => {
               old_key: 'jobPG_renamed',
             },
             result: {
-              affected_dashboards: [
-                {
-                  queries: ['pgQuery'],
-                  dashboardId: dashboard.id,
-                },
-              ],
+              affected_dashboard_contents: [],
             },
             create_time: response.body.data[6].create_time,
             update_time: response.body.data[6].update_time,

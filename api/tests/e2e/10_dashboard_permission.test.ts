@@ -71,7 +71,6 @@ describe('DashboardPermissionController', () => {
 
     const dashboardData = new Dashboard();
     dashboardData.name = 'dashboard_permission';
-    dashboardData.content = {};
     dashboardData.group = 'dashboard_permission';
     dashboardData.is_preset = false;
     const dashboard = await dashboardDataSource.getRepository(Dashboard).save(dashboardData);
