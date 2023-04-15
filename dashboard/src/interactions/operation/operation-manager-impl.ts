@@ -15,7 +15,7 @@ export class OperationManager implements IVizOperationManager {
 
   constructor(instance: VizInstance, protected operations: IDashboardOperationSchema[] = OPERATIONS) {
     const constructInstance = async (storage: PluginStorage) => {
-      const { id, schemaRef } = await storage.getItem(null);
+      const { id, schemaRef } = await storage.getItem<Omit<IDashboardOperation, 'operationData'>>(null);
       return {
         id,
         schemaRef,

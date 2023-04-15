@@ -21,7 +21,7 @@ export class VizTriggerManager implements IVizTriggerManager {
 
   constructor(protected instance: VizInstance, protected component: VizComponent) {
     const constructInstance = async (storage: PluginStorage) => {
-      const { id, schemaRef } = await storage.getItem(null);
+      const { id, schemaRef } = await storage.getItem<ITriggerSnapshot<AnyObject>>(null);
       return {
         id,
         schemaRef,

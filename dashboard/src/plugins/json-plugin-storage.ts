@@ -41,7 +41,7 @@ export class JsonPluginStorage implements PluginStorage {
         set(this.rootRef.current, [key], item);
       });
     }
-    return Promise.resolve(this.getItem(key));
+    return Promise.resolve(this.getItem<T>(key));
   }
 
   watchItem<T>(key: string | null, callback: (value: T, previous?: T) => void, options?: IWatchOptions): () => void {
