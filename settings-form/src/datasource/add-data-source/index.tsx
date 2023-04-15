@@ -8,6 +8,7 @@ import { defaultStyles, IStyles } from '../styles';
 import { AddDataSourceForm_DB } from './forms/database';
 import { AddDataSourceForm_HTTP } from './forms/http';
 import { IFormValues } from './types';
+import { DBPermissionTips } from './db-permission-tips';
 
 interface IAddDataSourceForm {
   postSubmit: () => void;
@@ -59,6 +60,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
         value={type}
         onChange={(v: DataSourceType) => setType(v)}
       />
+      {isDBType && <DBPermissionTips styles={styles} />}
       {isDBType && <AddDataSourceForm_DB submit={addDataSource} styles={styles} type={type} />}
       {isHTTPType && <AddDataSourceForm_HTTP submit={addDataSource} styles={styles} />}
     </Box>
