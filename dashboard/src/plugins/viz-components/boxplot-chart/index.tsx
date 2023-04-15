@@ -7,7 +7,7 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-ax
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
-import { VizBoxplotChartPanel } from './viz-boxplot-chart-panel';
+import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -123,7 +123,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   migrator: new VizBoxplotChartMigrator(),
   name: 'boxplot',
   viewRender: VizBoxplotChart,
-  configRender: VizBoxplotChartPanel,
+  configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
       version: 6,
