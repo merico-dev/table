@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useAsyncEffect } from 'ahooks';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MigrationResultType, MigrationStatus } from '~/plugins/instance-migrator';
 import { useServiceLocator } from '~/service-locator/use-service-locator';
 import { IPanelInfo, tokens } from '../plugins';
@@ -12,6 +12,7 @@ import {
   VizViewComponent,
 } from '../plugins/viz-manager/components';
 import { AnyObject, IVizConfig } from '../types';
+import { LayoutStateContext } from '..';
 
 function usePluginMigration(onMigrate?: () => void) {
   const [migrated, setMigrated] = useState(false);
@@ -78,8 +79,13 @@ export function PluginVizConfigComponent({ setVizConf, ...props }: IConfigCompon
 export function PluginVizViewComponent(props: IViewComponentProps & SetVizConfType) {
   const { panel, setVizConf } = props;
   useSyncVizConf(setVizConf, panel);
+  const { inEditMode } = useContext(LayoutStateContext);
 
   const migrated = usePluginMigration(() => {
+    if (!inEditMode) {
+      return;
+    }
+
     showNotification({
       title: `${panel.title} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',
