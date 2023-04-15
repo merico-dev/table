@@ -8,7 +8,7 @@ import { useStorageData } from '~/plugins/hooks';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
-export function VizBar3dChartPanel({ context }: VizConfigProps) {
+export function VizBar3dChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const defaultValues = defaults({}, conf, DEFAULT_CONFIG);
