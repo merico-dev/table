@@ -24,7 +24,7 @@ export class InteractionManager implements IVizInteractionManager {
     this.operationManager = new OperationManager(instance, operations);
     this.triggerManager = new VizTriggerManager(instance, component);
     const constructInstance = async (storage: PluginStorage): Promise<IVizInteraction> => {
-      const { id, triggerRef, operationRef } = await storage.getItem(null);
+      const { id, triggerRef, operationRef } = await storage.getItem<IVizInteraction>(null);
       return {
         id,
         triggerRef,

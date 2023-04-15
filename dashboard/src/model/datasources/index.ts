@@ -24,3 +24,5 @@ export const DataSourcesModel = types
       self.list.push(...list);
     },
   }));
+
+export type DataSourcesModelType = typeof DataSourcesModel;

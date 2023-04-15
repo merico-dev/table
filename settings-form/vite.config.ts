@@ -3,10 +3,32 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import visualizer from 'rollup-plugin-visualizer';
+import { dependencies, peerDependencies } from './package.json';
+
+const GLOBAL_MODULE_IDS = {
+  'crypto-js': 'CryptoJS',
+  lodash: '_',
+};
+const EXTERNAL_PATHS = ['/node_modules/react'];
+const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
+const externals = (id: string) => {
+  // babel transforms module id of emotion, we need to exclude all of them
+  if (id.startsWith('@emotion')) {
+    return true;
+  }
+  if (EXTERNAL_PATHS.some((p) => id.includes(p))) {
+    return true;
+  }
+  return DEPENDENCIES.has(id);
+};
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: ['@emotion', 'macros'],
+      },
+    }),
     dts({
       insertTypesEntry: true,
     }),
@@ -20,53 +42,10 @@ export default defineConfig({
     },
     rollupOptions: {
       plugins: [visualizer()],
-      external: [
-        '@emotion/react',
-        '@mantine/core',
-        '@mantine/hooks',
-        '@mantine/modals',
-        '@mantine/notifications',
-        'ahooks',
-        'axios',
-        'crypto-js',
-        'lodash',
-        'react',
-        'react-dom',
-        'react-hook-form',
-        'tabler-icons-react',
-        '@monaco-editor/react',
-        'monaco-editor',
-        'monaco-editor/esm/vs/editor/editor.worker?worker',
-        'monaco-editor/esm/vs/language/css/css.worker?worker',
-        'monaco-editor/esm/vs/language/html/html.worker?worker',
-        'monaco-editor/esm/vs/language/json/json.worker?worker',
-        'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
-      ],
+      external: externals,
       output: {
-        globals: {
-          '@emotion/react': '@emotion/react',
-          '@mantine/core': '@mantine/core',
-          '@mantine/hooks': '@mantine/hooks',
-          '@mantine/modals': '@mantine/modals',
-          '@mantine/notifications': '@mantine/notifications',
-          '@monaco-editor/react': '@monaco-editor/react',
-          'monaco-editor': 'monaco-editor',
-          'monaco-editor/esm/vs/editor/editor.worker?worker': 'monaco-editor/esm/vs/editor/editor.worker?worker',
-          'monaco-editor/esm/vs/language/css/css.worker?worker': 'monaco-editor/esm/vs/language/css/css.worker?worker',
-          'monaco-editor/esm/vs/language/html/html.worker?worker':
-            'monaco-editor/esm/vs/language/html/html.worker?worker',
-          'monaco-editor/esm/vs/language/json/json.worker?worker':
-            'monaco-editor/esm/vs/language/json/json.worker?worker',
-          'monaco-editor/esm/vs/language/typescript/ts.worker?worker':
-            'monaco-editor/esm/vs/language/typescript/ts.worker?worker',
-          ahooks: 'ahooks',
-          axios: 'axios',
-          'crypto-js': 'crypto-js',
-          lodash: '_',
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          'react-hook-form': 'react-hook-form',
-          'tabler-icons-react': 'tabler-icons-react',
+        globals: (id) => {
+          return GLOBAL_MODULE_IDS[id] ?? id;
         },
       },
     },

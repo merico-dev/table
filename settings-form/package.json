@@ -1,6 +1,6 @@
 {
   "name": "@devtable/settings-form",
-  "version": "8.50.8",
+  "version": "8.51.2",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -32,6 +32,7 @@
     "monaco-editor": "0.36.0"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "11.7.2",
     "@types/crypto-js": "v4.1.1",
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.0",
