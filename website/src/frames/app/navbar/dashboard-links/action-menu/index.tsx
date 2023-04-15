@@ -1,28 +1,44 @@
-import { ActionIcon, Menu } from '@mantine/core';
+import { ActionIcon, Menu, Tooltip, useMantineTheme } from '@mantine/core';
+import { IconLock, IconSettings } from '@tabler/icons';
 import { useNavigate } from 'react-router-dom';
-import { Edit, FileImport, Menu2, Paint } from 'tabler-icons-react';
+import { Edit, FileImport, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
 
 interface IActionMenu {
   id: string;
-  preset: boolean;
+  preset?: boolean;
   openOverwriteModal: (id: string) => void;
   openEditModal: (id: string) => void;
 }
 export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
+  const theme = useMantineTheme();
   const navigate = useNavigate();
   const { canEdit } = useAccountContext();
 
   const visitDashboardDesign = () => {
     navigate(`/dashboard/${id}/edit`);
   };
-
+  if (preset) {
+    return (
+      <Tooltip
+        position="right"
+        withinPortal
+        withArrow
+        label="This is a preset dashboard. You can not edit it."
+        events={{ hover: true, focus: false, touch: false }}
+      >
+        <span>
+          <IconLock size="16px" color={theme.colors.gray[7]} />
+        </span>
+      </Tooltip>
+    );
+  }
   if (!canEdit || preset) {
     return null;
   }
   return (
-    <Menu shadow="md" width={220} withinPortal trigger="hover">
+    <Menu shadow="md" width={220} withinPortal withArrow position="right" trigger="hover">
       <Menu.Target>
         <ActionIcon
           variant="subtle"
@@ -30,9 +46,13 @@ export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IA
           sx={{
             width: '42px',
             height: '42px',
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
           }}
         >
-          <Menu2 size={18} />
+          <IconSettings size={18} />
         </ActionIcon>
       </Menu.Target>
 
