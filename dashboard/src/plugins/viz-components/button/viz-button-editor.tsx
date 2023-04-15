@@ -1,17 +1,6 @@
-import {
-  ActionIcon,
-  Checkbox,
-  Divider,
-  Group,
-  MantineSize,
-  Select,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { ActionIcon, Checkbox, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { MantineColorSwatches } from '~/panel/settings/common/mantine-color-swatches';
@@ -42,7 +31,7 @@ const verticalAlignmentOptions = [
   { label: 'Bottom', value: 'bottom' },
 ];
 
-export function VizButtonPanel({ context }: VizConfigProps) {
+export function VizButtonEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IButtonConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];
