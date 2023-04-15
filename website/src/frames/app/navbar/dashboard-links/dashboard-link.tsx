@@ -1,5 +1,4 @@
-import { Box, Group, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core';
-import { IconLock } from '@tabler/icons';
+import { Box, Group, Text, UnstyledButton } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { ActionMenu } from './action-menu';
 

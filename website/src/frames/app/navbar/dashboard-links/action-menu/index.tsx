@@ -1,9 +1,9 @@
 import { ActionIcon, Menu, Tooltip, useMantineTheme } from '@mantine/core';
+import { IconLock, IconSettings } from '@tabler/icons';
 import { useNavigate } from 'react-router-dom';
-import { Edit, FileImport, Menu2, Paint } from 'tabler-icons-react';
+import { Edit, FileImport, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
-import { IconLock, IconSettings } from '@tabler/icons';
 
 interface IActionMenu {
   id: string;
