@@ -1,8 +1,7 @@
 import { Box, Sx, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import { useModelContext } from '~/contexts';
-import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { DashboardViewRender } from '~/view';
