@@ -1,7 +1,7 @@
 import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizPieChart } from './viz-pie-chart';
-import { VizPieChartPanel } from './viz-pie-chart-panel';
+import { VizPieChartEditor } from './viz-pie-chart-editor';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -24,7 +24,7 @@ export const PieChartVizComponent: VizComponent = {
   migrator: new VizPieChartMigrator(),
   name: 'pie',
   viewRender: VizPieChart,
-  configRender: VizPieChartPanel,
+  configRender: VizPieChartEditor,
   createConfig() {
     return {
       version: 1,
