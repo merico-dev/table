@@ -1,7 +1,7 @@
 import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizRegressionChart } from './viz-regression-chart';
-import { VizRegressionChartPanel } from './viz-regression-chart-panel';
+import { VizRegressionChartEditor } from './viz-regression-chart-editor';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -24,7 +24,7 @@ export const RegressionChartVizComponent: VizComponent = {
   migrator: new VizRegressionChartMigrator(),
   name: 'regressionChart',
   viewRender: VizRegressionChart,
-  configRender: VizRegressionChartPanel,
+  configRender: VizRegressionChartEditor,
   createConfig() {
     return {
       version: 1,
