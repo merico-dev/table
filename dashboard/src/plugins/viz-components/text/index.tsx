@@ -1,7 +1,7 @@
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizText } from './viz-text';
-import { VizTextEditor } from './viz-text-panel';
+import { VizTextEditor } from './viz-text-editor';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { cloneDeep } from 'lodash';
 
