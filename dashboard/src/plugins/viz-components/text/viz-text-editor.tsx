@@ -15,7 +15,7 @@ const horizontalAlignmentOptions = [
   { label: 'Right', value: 'right' },
 ];
 
-export function VizTextPanel({ context }: VizConfigProps) {
+export function VizTextEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const conf: IVizTextConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IVizTextConf = useMemo(() => {
