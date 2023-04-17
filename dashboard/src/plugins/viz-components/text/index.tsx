@@ -1,7 +1,7 @@
 import { VizComponent } from '../../../types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizText } from './viz-text';
-import { VizTextPanel } from './viz-text-panel';
+import { VizTextEditor } from './viz-text-editor';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -24,7 +24,7 @@ export const TextVizComponent: VizComponent = {
   migrator: new VizTextMigrator(),
   name: 'text',
   viewRender: VizText,
-  configRender: VizTextPanel,
+  configRender: VizTextEditor,
   createConfig() {
     return {
       version: 1,

@@ -8,7 +8,7 @@ import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/type
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_SCATTER_CHART_LABEL_OVERFLOW, IScatterChartConf } from './type';
 import { VizScatterChart } from './viz-scatter-chart';
-import { VizScatterChartPanel } from './viz-scatter-chart-panel';
+import { VizScatterChartEditor } from './viz-scatter-chart-editor';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -118,7 +118,7 @@ export const ScatterChartVizComponent: VizComponent = {
   migrator: new VizScatterChartMigrator(),
   name: 'scatterChart',
   viewRender: VizScatterChart,
-  configRender: VizScatterChartPanel,
+  configRender: VizScatterChartEditor,
   createConfig() {
     return {
       version: 7,

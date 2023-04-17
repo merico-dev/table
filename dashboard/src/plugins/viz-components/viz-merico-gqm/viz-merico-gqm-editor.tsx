@@ -7,7 +7,7 @@ import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 
-export function VizMericoGQMPanel({ context }: VizConfigProps) {
+export function VizMericoGQMEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoGQMConf>(context.instanceData, 'config');
   const defaultValues: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 

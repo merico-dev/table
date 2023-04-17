@@ -152,7 +152,9 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         pl="sm"
         sx={{ display: templateNotEmpty(conf.stats.templates.top) ? 'block' : 'none' }}
       >
-        {Object.values(templates.top).map((c) => c)}
+        {Object.values(templates.top).map((c, i) => (
+          <React.Fragment key={i}>{c}</React.Fragment>
+        ))}
       </Text>
 
       <Chart
@@ -171,7 +173,9 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
         pl="sm"
         sx={{ display: templateNotEmpty(conf.stats.templates.bottom) ? 'block' : 'none' }}
       >
-        {Object.values(templates.bottom).map((c) => c)}
+        {Object.values(templates.bottom).map((c, i) => (
+          <React.Fragment key={i}>{c}</React.Fragment>
+        ))}
       </Text>
     </Box>
   );

@@ -14,7 +14,7 @@ const horizontalAlignmentOptions = [
   { label: 'Right', value: 'right' },
 ];
 
-export function VizStatsPanel({ context }: VizConfigProps) {
+export function VizStatsEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
 
   const defaultValues = React.useMemo(() => {

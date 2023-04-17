@@ -24,7 +24,7 @@ export const RenderViewTabs = observer(({ children, view }: { children: ReactNod
         defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
         styles={{
           panel: {
-            padding: '16px 0px',
+            padding: config.orientation === 'horizontal' ? '16px 0px' : '0',
           },
         }}
         keepMounted={false}

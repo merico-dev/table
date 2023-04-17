@@ -1,5 +1,5 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
-import { defaults, isEqual } from 'lodash';
+import { defaults } from 'lodash';
 import { useEffect, useMemo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
@@ -8,7 +8,7 @@ import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 
-export function VizRichTextPanel({ context }: VizConfigProps) {
+export function VizRichTextEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const defaultValues = useMemo(() => {
     return defaults({}, conf, DEFAULT_CONFIG);

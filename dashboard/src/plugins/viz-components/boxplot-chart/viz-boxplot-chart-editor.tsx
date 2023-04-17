@@ -12,7 +12,7 @@ import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 
-export function VizBoxplotChartPanel({ context }: VizConfigProps) {
+export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const { variables } = context;

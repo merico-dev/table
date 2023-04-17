@@ -1,7 +1,7 @@
 import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizBar3dChart } from './viz-bar-3d-chart';
-import { VizBar3dChartPanel } from './viz-bar-3d-chart-panel';
+import { VizBar3dChartEditor } from './viz-bar-3d-chart-editor';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 import { cloneDeep } from 'lodash';
 
@@ -24,7 +24,7 @@ export const Bar3dChartVizComponent: VizComponent = {
   migrator: new VizBar3dChartMigrator(),
   name: 'bar-3d',
   viewRender: VizBar3dChart,
-  configRender: VizBar3dChartPanel,
+  configRender: VizBar3dChartEditor,
   createConfig() {
     return {
       version: 1,

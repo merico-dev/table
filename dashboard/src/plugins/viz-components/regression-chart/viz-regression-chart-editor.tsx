@@ -9,7 +9,7 @@ import { useStorageData } from '~/plugins/hooks';
 import { RegressionField } from './regression-item';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
-export function VizRegressionChartPanel({ context }: VizConfigProps) {
+export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);

@@ -4,7 +4,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { ClickButton } from './triggers';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 import { VizButton } from './viz-button';
-import { VizButtonPanel } from './viz-button-panel';
+import { VizButtonEditor } from './viz-button-editor';
 
 class VizButtonMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
@@ -37,7 +37,7 @@ export const ButtonVizComponent: VizComponent = {
   migrator: new VizButtonMigrator(),
   name: 'button',
   viewRender: VizButton,
-  configRender: VizButtonPanel,
+  configRender: VizButtonEditor,
   createConfig() {
     return {
       version: 2,
