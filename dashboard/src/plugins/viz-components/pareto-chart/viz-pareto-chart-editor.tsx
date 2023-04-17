@@ -14,7 +14,7 @@ import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 
-export function VizParetoChartPanel({ context }: VizConfigProps) {
+export function VizParetoChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
   const data = context.data as $TSFixMe[];
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);

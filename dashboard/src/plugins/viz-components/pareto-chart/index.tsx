@@ -7,7 +7,7 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-ax
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
-import { VizParetoChartPanel } from './viz-pareto-chart-panel';
+import { VizParetoChartEditor } from './viz-pareto-chart-editor';
 
 function v2(legacyConf: $TSFixMe): IParetoChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -169,7 +169,7 @@ export const ParetoChartVizComponent: VizComponent = {
   migrator: new VizParetoChartMigrator(),
   name: 'paretoChart',
   viewRender: VizParetoChart,
-  configRender: VizParetoChartPanel,
+  configRender: VizParetoChartEditor,
   createConfig() {
     return {
       version: 8,
