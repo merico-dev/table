@@ -22,7 +22,7 @@ function tempMigration({ columns, ...rest }: ITableConf) {
   };
 }
 
-export function VizTablePanel({ context }: VizConfigProps) {
+export function VizTableEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   // const { variables } = context;
   const data = context.data as $TSFixMe[];

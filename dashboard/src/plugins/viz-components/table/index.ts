@@ -3,7 +3,7 @@ import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ITableConf } from './type';
 import { VizTable } from './viz-table';
-import { VizTablePanel } from './viz-table-panel';
+import { VizTableEditor } from './viz-table-editor';
 import { ClickCellContent } from './triggers';
 import { randomId } from '@mantine/hooks';
 
@@ -65,6 +65,6 @@ export const TableVizComponent: VizComponent = {
   migrator: new VizTableMigrator(),
   name: 'table',
   viewRender: VizTable,
-  configRender: VizTablePanel,
+  configRender: VizTableEditor,
   triggers: [ClickCellContent],
 };
