@@ -37,7 +37,7 @@ function normalizeConf({ reference_lines = [], stats, ...rest }: IScatterChartCo
   };
 }
 
-export function VizScatterChartPanel({ context }: VizConfigProps) {
+export function VizScatterChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IScatterChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[];
