@@ -3,7 +3,7 @@ import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { VizRichText } from './viz-rich-text';
-import { VizRichTextPanel } from './viz-rich-text-panel';
+import { VizRichTextEditor } from './viz-rich-text-editor';
 
 class VizRichTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -28,7 +28,7 @@ export const RichTextVizComponent: VizComponent = {
   migrator: new VizRichTextMigrator(),
   name: 'richText',
   viewRender: VizRichText,
-  configRender: VizRichTextPanel,
+  configRender: VizRichTextEditor,
   createConfig() {
     return {
       version: 1,
