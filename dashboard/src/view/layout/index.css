@@ -9,6 +9,7 @@
 }
 .panel-grid-item {
   padding: 5px;
+  min-height: 38px;
 }
 .remove-panel {
   position: absolute;

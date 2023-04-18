@@ -8,7 +8,7 @@ import { ViewModelInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
 
-const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFixMe) => (
+const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
     ref={ref}
     className="react-grid-customDragHandle"
@@ -17,7 +17,7 @@ const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFix
       cursor: 'grab',
       position: 'absolute',
       top: 5,
-      right: 5,
+      right: h > 38 ? 5 : 20,
       zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
@@ -71,6 +71,18 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     [model],
   );
 
+  const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
+    if (layoutItem.h < 30) {
+      layoutItem.h = 30;
+      placeholder.h = 30;
+    }
+
+    if (layoutItem.w < 4) {
+      layoutItem.w = 4;
+      placeholder.w = 4;
+    }
+  };
+
   return (
     <ReactGridLayout
       onLayoutChange={onLayoutChange}
@@ -88,7 +100,7 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
       {panels.map((panel, index) => {
         return (
           <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            <CustomDragHandle />
+            <CustomDragHandle h={panel.layout.h} />
             <Panel view={view} panel={panel} />
           </div>
         );
