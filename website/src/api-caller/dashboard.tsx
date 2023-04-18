@@ -74,7 +74,7 @@ export const DashboardAPI = {
         ],
         panels: [],
         filters: [],
-        version: '8.38.0',
+        version: '8.56.0',
       };
     }
     return await post('/dashboard/create', {
