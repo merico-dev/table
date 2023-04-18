@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { connectionHook, createAuthStruct } from './jest.util';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -37,8 +36,6 @@ describe('DashboardPermissionController', () => {
   let dashboardId5: string;
 
   const server = request(app);
-
-  const validate = jest.spyOn(validation, 'validate');
 
   beforeAll(async () => {
     const readerAccountData = new Account();
@@ -84,7 +81,6 @@ describe('DashboardPermissionController', () => {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(superadminQuery);
 
     const superadminResponse = await server.post('/account/login').send(superadminQuery);
     superadminLogin = superadminResponse.body;
@@ -93,7 +89,6 @@ describe('DashboardPermissionController', () => {
       name: readerAccount.name,
       password: readerAccount.name,
     };
-    validate.mockReturnValueOnce(readerQuery);
 
     const readerResponse = await server.post('/account/login').send(readerQuery);
     readerLogin = readerResponse.body;
@@ -102,14 +97,9 @@ describe('DashboardPermissionController', () => {
       name: authorAccount.name,
       password: authorAccount.name,
     };
-    validate.mockReturnValueOnce(authorQuery);
 
     const authorResponse = await server.post('/account/login').send(authorQuery);
     authorLogin = authorResponse.body;
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('list', () => {
@@ -118,7 +108,6 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_permission/list')
@@ -184,7 +173,6 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/list')
@@ -211,7 +199,6 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/list')
@@ -262,7 +249,6 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query3);
 
       const response3 = await server
         .post('/dashboard_permission/list')
@@ -288,7 +274,6 @@ describe('DashboardPermissionController', () => {
           { type: 'APIKEY', id: readerApiKey.id, permission: 'VIEW' },
         ],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/update')
@@ -316,7 +301,6 @@ describe('DashboardPermissionController', () => {
           { type: 'APIKEY', id: readerApiKey.id, permission: 'REMOVE' },
         ],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/update')
@@ -339,7 +323,6 @@ describe('DashboardPermissionController', () => {
         id: dashboardId2,
         access: [{ type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' }],
       };
-      validate.mockReturnValueOnce(query3);
 
       const response3 = await server
         .post('/dashboard_permission/update')
@@ -361,7 +344,6 @@ describe('DashboardPermissionController', () => {
         id: dashboardId2,
         access: [],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/update')
@@ -377,7 +359,6 @@ describe('DashboardPermissionController', () => {
         id: dashboardId5,
         access: [],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/update')
@@ -396,7 +377,6 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${readerLogin.token}`)
@@ -406,7 +386,6 @@ describe('DashboardPermissionController', () => {
       const query2: DashboardIDRequest = {
         id: dashboardId2,
       };
-      validate.mockReturnValueOnce(query2);
       const response2 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -416,7 +395,6 @@ describe('DashboardPermissionController', () => {
       const query3: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query3);
       const response3 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -426,12 +404,10 @@ describe('DashboardPermissionController', () => {
       const authentication = createAuthStruct(authorApiKey, {
         id: dashboardId1,
       });
-      validate.mockReturnValueOnce(authentication);
       const query4: DashboardUpdateRequest = {
         id: dashboardId1,
         authentication,
       };
-      validate.mockReturnValueOnce(query4);
       const response4 = await server.put('/dashboard/update').send(query4);
       expect(response4.body.id).toEqual(dashboardId1);
     });
@@ -440,7 +416,6 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard/details')
@@ -454,7 +429,6 @@ describe('DashboardPermissionController', () => {
       const query2: DashboardIDRequest = {
         id: dashboardId2,
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .put('/dashboard/update')
@@ -474,7 +448,6 @@ describe('DashboardPermissionController', () => {
         owner_id: authorApiKey.id,
         owner_type: 'APIKEY',
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard_permission/updateOwner')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -495,7 +468,6 @@ describe('DashboardPermissionController', () => {
         owner_id: readerAccount.id,
         owner_type: 'ACCOUNT',
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard_permission/updateOwner')
         .set('Authorization', `Bearer ${superadminLogin.token}`)

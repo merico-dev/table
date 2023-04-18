@@ -5,7 +5,7 @@ import Dashboard from '~/models/dashboard';
 import DashboardContent from '~/models/dashboard_content';
 import DashboardPermission from '~/models/dashboard_permission';
 import Account from '~/models/account';
-import { EntityNotFoundError, Not } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { ROLE_TYPES } from '~/api_models/role';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';

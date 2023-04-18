@@ -1,7 +1,6 @@
 import { connectionHook, createAuthStruct } from './jest.util';
 import Dashboard from '~/models/dashboard';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import * as validation from '~/middleware/validation';
 import request from 'supertest';
 import { app } from '~/server';
 import {
@@ -25,14 +24,11 @@ describe('DashboardController', () => {
   let apiKey: ApiKey;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
 
@@ -53,17 +49,12 @@ describe('DashboardController', () => {
     apiKey = await dashboardDataSource.getRepository(ApiKey).findOneBy({ name: 'key1' });
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('create', () => {
     it('should create successfully', async () => {
       const request1: DashboardCreateRequest = {
         name: 'dashboard1',
         group: '1',
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server
         .post('/dashboard/create')
@@ -87,7 +78,6 @@ describe('DashboardController', () => {
         name: 'dashboard2',
         group: '2',
       };
-      validate.mockReturnValueOnce(request2);
 
       const response2 = await server
         .post('/dashboard/create')
@@ -113,7 +103,6 @@ describe('DashboardController', () => {
         name: 'dashboard1',
         group: '1',
       };
-      validate.mockReturnValueOnce(request);
 
       const response = await server
         .post('/dashboard/create')
@@ -135,7 +124,6 @@ describe('DashboardController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/list')
@@ -183,7 +171,6 @@ describe('DashboardController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/list')
@@ -222,7 +209,6 @@ describe('DashboardController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/list')
@@ -261,7 +247,6 @@ describe('DashboardController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/list')
@@ -291,7 +276,6 @@ describe('DashboardController', () => {
       const query: DashboardIDRequest = {
         id: dashboard1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/details')
@@ -307,7 +291,6 @@ describe('DashboardController', () => {
       const query: DashboardIDRequest = {
         id: notFoundId,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/details')
@@ -326,7 +309,6 @@ describe('DashboardController', () => {
         name: dashboard1.name,
         is_preset: dashboard1.is_preset,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/detailsByName')
@@ -343,7 +325,6 @@ describe('DashboardController', () => {
         name: dashboard1.name,
         is_preset: !dashboard1.is_preset,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/detailsByName')
@@ -365,7 +346,6 @@ describe('DashboardController', () => {
         is_removed: true,
         group: '2_updated',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard/update')
@@ -387,7 +367,6 @@ describe('DashboardController', () => {
         id: notFoundId,
         name: 'not_found',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard/update')
@@ -406,7 +385,6 @@ describe('DashboardController', () => {
         is_removed: false,
         group: 'preset',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard/update')
@@ -429,7 +407,6 @@ describe('DashboardController', () => {
         name: 'preset_updated',
         is_removed: false,
       });
-      validate.mockReturnValueOnce(authentication);
 
       const query: DashboardUpdateRequest = {
         id: presetDashboard.id,
@@ -437,7 +414,6 @@ describe('DashboardController', () => {
         is_removed: false,
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.put('/dashboard/update').send(query);
 
@@ -453,7 +429,6 @@ describe('DashboardController', () => {
       const query: DashboardIDRequest = {
         id: dashboard1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/delete')
@@ -472,7 +447,6 @@ describe('DashboardController', () => {
       const query: DashboardIDRequest = {
         id: notFoundId,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/delete')
@@ -488,7 +462,6 @@ describe('DashboardController', () => {
       const query: DashboardIDRequest = {
         id: presetDashboard.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard/delete')
@@ -507,13 +480,11 @@ describe('DashboardController', () => {
 
     it('should fail to delete preset dashboard if not SUPERADMIN', async () => {
       const authentication = createAuthStruct(apiKey, { id: presetDashboard.id });
-      validate.mockReturnValueOnce(authentication);
 
       const query: DashboardIDRequest = {
         id: presetDashboard.id,
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/dashboard/delete').send(query);
 

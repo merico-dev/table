@@ -1,5 +1,4 @@
 import { connectionHook } from './jest.util';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -12,21 +11,14 @@ describe('DashboardChangelogController', () => {
 
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
     superadminLogin = response.body;
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('list', () => {
@@ -35,7 +27,6 @@ describe('DashboardChangelogController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_changelog/list')
@@ -138,7 +129,6 @@ describe('DashboardChangelogController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_changelog/list')

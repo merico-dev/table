@@ -39,10 +39,10 @@ export class DashboardChangelogController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER))
+  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DashboardChangelogListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(DashboardChangelogListRequest, req.body);
+      const { filter, sort, pagination } = req.body as DashboardChangelogListRequest;
       const result = await this.dashboardChangelogService.list(filter, sort, pagination);
       res.json(result);
     } catch (err) {

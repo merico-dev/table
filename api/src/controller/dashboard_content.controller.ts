@@ -47,10 +47,10 @@ export class DashboardContentController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER))
+  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DashboardContentListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { dashboard_id, filter, sort, pagination } = validate(DashboardContentListRequest, req.body);
+      const { dashboard_id, filter, sort, pagination } = req.body as DashboardContentListRequest;
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'VIEW',
@@ -77,10 +77,10 @@ export class DashboardContentController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/create', permission(ROLE_TYPES.AUTHOR), validate(DashboardContentCreateRequest))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { dashboard_id, name, content } = validate(DashboardContentCreateRequest, req.body);
+      const { dashboard_id, name, content } = req.body as DashboardContentCreateRequest;
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'EDIT',
@@ -108,10 +108,10 @@ export class DashboardContentController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/details', permission(ROLE_TYPES.READER))
+  @httpPost('/details', permission(ROLE_TYPES.READER), validate(DashboardContentIDRequest))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(DashboardContentIDRequest, req.body);
+      const { id } = req.body as DashboardContentIDRequest;
       const result = await this.dashboardContentService.get(id);
       await DashboardPermissionService.checkPermission(
         result.dashboard_id,
@@ -139,11 +139,11 @@ export class DashboardContentController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
+  @httpPut('/update', permission(ROLE_TYPES.AUTHOR), validate(DashboardContentUpdateRequest))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id, name, content } = validate(DashboardContentUpdateRequest, req.body);
+      const { id, name, content } = req.body as DashboardContentUpdateRequest;
       const result = await this.dashboardContentService.update(id, name, content, req.locale, auth);
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT, [id]), {
         update_time: result.update_time,
@@ -173,11 +173,11 @@ export class DashboardContentController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR), validate(DashboardContentIDRequest))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id } = validate(DashboardContentIDRequest, req.body);
+      const { id } = req.body as DashboardContentIDRequest;
       await this.dashboardContentService.delete(id, req.locale, auth);
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT, [id]), {
         update_time: new Date(),

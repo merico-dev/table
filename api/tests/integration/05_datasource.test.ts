@@ -2,7 +2,7 @@ import { connectionHook, sleep } from './jest.util';
 import { DataSourceService } from '~/services/datasource.service';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId, pgSourceConfig } from './constants';
 import { maybeDecryptPassword } from '~/utils/encryption';

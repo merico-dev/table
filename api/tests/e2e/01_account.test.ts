@@ -14,7 +14,6 @@ import {
 import { ROLE_TYPES } from '~/api_models/role';
 import { AccountLoginResponse } from '~/api_models/account';
 import { omit } from 'lodash';
-import * as validation from '~/middleware/validation';
 import request from 'supertest';
 import { app } from '~/server';
 
@@ -28,14 +27,8 @@ describe('AccountController', () => {
   let account2Login: AccountLoginResponse;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     superadmin = await dashboardDataSource.manager.findOne(Account, { where: { name: 'superadmin' } });
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('login', () => {
@@ -44,7 +37,6 @@ describe('AccountController', () => {
         name: superadmin.name,
         password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/account/login').send(query);
 
@@ -69,7 +61,6 @@ describe('AccountController', () => {
         name: superadmin.name,
         password: 'incorrect password',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/account/login').send(query);
 
@@ -88,7 +79,6 @@ describe('AccountController', () => {
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(createQuery1);
 
       const createResponse1 = await server
         .post('/account/create')
@@ -111,7 +101,6 @@ describe('AccountController', () => {
         name: account1.name,
         password: 'account1',
       };
-      validate.mockReturnValueOnce(loginQuery1);
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
@@ -136,7 +125,6 @@ describe('AccountController', () => {
         email: 'account2@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(createQuery2);
 
       const createReponse2 = await server
         .post('/account/create')
@@ -159,7 +147,6 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery2);
 
       const loginResponse2 = await server.post('/account/login').send(loginQuery2);
 
@@ -186,7 +173,6 @@ describe('AccountController', () => {
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/create')
@@ -208,7 +194,6 @@ describe('AccountController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/list')
@@ -247,7 +232,6 @@ describe('AccountController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/list')
@@ -284,7 +268,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.AUTHOR,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -312,7 +295,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -335,7 +317,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -358,7 +339,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -381,7 +361,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.AUTHOR,
         reset_password: true,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -403,7 +382,6 @@ describe('AccountController', () => {
         reset_password: true,
         new_password: 'account1_edited_password',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -426,7 +404,6 @@ describe('AccountController', () => {
         name: 'account1_edited_password',
         password: 'account1_edited_password',
       };
-      validate.mockReturnValueOnce(loginQuery);
 
       const loginResponse = await server.post('/account/login').send(loginQuery);
 
@@ -451,7 +428,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -470,7 +446,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -484,7 +459,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -503,7 +477,6 @@ describe('AccountController', () => {
         name: 'account2_updated',
         email: 'account2_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
@@ -528,7 +501,6 @@ describe('AccountController', () => {
         name: 'account1_updated',
         email: 'account1_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
@@ -543,7 +515,6 @@ describe('AccountController', () => {
         name: 'superadmin_updated',
         email: 'superadmin_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
@@ -588,7 +559,6 @@ describe('AccountController', () => {
         old_password: 'account2_old',
         new_password: 'account2_new',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/changepassword')
@@ -606,7 +576,6 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery1);
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
@@ -627,7 +596,6 @@ describe('AccountController', () => {
         old_password: 'account2',
         new_password: 'account2_new',
       };
-      validate.mockReturnValueOnce(changeQuery);
 
       const changeResponse = await server
         .post('/account/changepassword')
@@ -648,7 +616,6 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery2);
 
       const loginResponse2 = await server.post('/account/login').send(loginQuery2);
 
@@ -661,7 +628,6 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2_new',
       };
-      validate.mockReturnValueOnce(loginQuery3);
 
       const loginResponse3 = await server.post('/account/login').send(loginQuery3);
 

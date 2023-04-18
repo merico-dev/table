@@ -2,7 +2,7 @@ import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
 import { DataSource } from 'typeorm';
 import { configureDatabaseSource } from '../utils/helpers';
-import { validate } from '../middleware/validation';
+import { validateClass } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
 
 export class QueryService {
@@ -75,7 +75,7 @@ export class QueryService {
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {
-    const options = validate(HttpParams, JSON.parse(query));
+    const options = validateClass(HttpParams, JSON.parse(query));
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
     const { host } = sourceConfig.config;
     return await APIClient.request(host)(options);

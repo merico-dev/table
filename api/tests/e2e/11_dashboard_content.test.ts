@@ -2,7 +2,6 @@ import { connectionHook, createAuthStruct } from './jest.util';
 import Dashboard from '~/models/dashboard';
 import DashboardContent from '~/models/dashboard_content';
 import { dashboardDataSource } from '~/data_sources/dashboard';
-import * as validation from '~/middleware/validation';
 import request from 'supertest';
 import { app } from '~/server';
 import { DashboardIDRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
@@ -32,14 +31,11 @@ describe('DashboardContentController', () => {
   let apiKey: ApiKey;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
 
@@ -95,10 +91,6 @@ describe('DashboardContentController', () => {
     apiKey = await dashboardDataSource.getRepository(ApiKey).findOneBy({ name: 'key1' });
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('create', () => {
     it('should create successfully', async () => {
       const request1: DashboardContentCreateRequest = {
@@ -106,7 +98,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard1_content1',
         content: {},
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server
         .post('/dashboard_content/create')
@@ -130,7 +121,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard1_content2',
         content: {},
       };
-      validate.mockReturnValueOnce(request2);
 
       const response2 = await server
         .post('/dashboard_content/create')
@@ -154,7 +144,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard2_content1',
         content: {},
       };
-      validate.mockReturnValueOnce(request3);
 
       const response3 = await server
         .post('/dashboard_content/create')
@@ -178,7 +167,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard2_content2',
         content: {},
       };
-      validate.mockReturnValueOnce(request4);
 
       const response4 = await server
         .post('/dashboard_content/create')
@@ -204,7 +192,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard1_content1',
         content: {},
       };
-      validate.mockReturnValueOnce(request);
 
       const response = await server
         .post('/dashboard_content/create')
@@ -227,7 +214,6 @@ describe('DashboardContentController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_content/list')
@@ -262,7 +248,6 @@ describe('DashboardContentController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_content/list')
@@ -300,7 +285,6 @@ describe('DashboardContentController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_content/list')
@@ -329,7 +313,6 @@ describe('DashboardContentController', () => {
       const query: DashboardContentIDRequest = {
         id: dashboard1Content1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_content/details')
@@ -345,7 +328,6 @@ describe('DashboardContentController', () => {
       const query: DashboardIDRequest = {
         id: notFoundId,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_content/details')
@@ -365,7 +347,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard1_content1_updated',
         content: { tmp: 'tmp' },
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .put('/dashboard_content/update')
@@ -384,7 +365,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard2_content1_updated',
         content: { tmp: 'tmp' },
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .put('/dashboard_content/update')
@@ -403,7 +383,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard2_content2_updated',
         content: { tmp: 'tmp' },
       };
-      validate.mockReturnValueOnce(query3);
 
       const response3 = await server
         .put('/dashboard_content/update')
@@ -422,7 +401,6 @@ describe('DashboardContentController', () => {
         name: 'dashboard1_content2_updated',
         content: { tmp: 'tmp1' },
       };
-      validate.mockReturnValueOnce(query4);
 
       const response4 = await server
         .put('/dashboard_content/update')
@@ -442,7 +420,6 @@ describe('DashboardContentController', () => {
         id: notFoundId,
         name: 'not_found',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard_content/update')
@@ -460,7 +437,6 @@ describe('DashboardContentController', () => {
         name: 'presetContent1_updated',
         content: { tmp: 'tmp' },
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard_content/update')
@@ -481,14 +457,12 @@ describe('DashboardContentController', () => {
         id: presetDashboardContent1.id,
         name: 'presetContent1_updated',
       });
-      validate.mockReturnValueOnce(authentication);
 
       const query: DashboardUpdateRequest = {
         id: presetDashboardContent1.id,
         name: 'presetContent1_updated',
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.put('/dashboard_content/update').send(query);
 
@@ -505,7 +479,6 @@ describe('DashboardContentController', () => {
         id: dashboard1.id,
         content_id: dashboard1Content1.id,
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .put('/dashboard/update')
@@ -523,7 +496,6 @@ describe('DashboardContentController', () => {
         id: dashboard2.id,
         content_id: dashboard2Content1.id,
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .put('/dashboard/update')
@@ -543,7 +515,6 @@ describe('DashboardContentController', () => {
         id: dashboard1.id,
         content_id: notFoundId,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/dashboard/update')
@@ -562,7 +533,6 @@ describe('DashboardContentController', () => {
       const query1: DashboardContentIDRequest = {
         id: dashboard1Content1.id,
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_content/delete')
@@ -574,7 +544,6 @@ describe('DashboardContentController', () => {
       const query2: DashboardIDRequest = {
         id: dashboard1.id,
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard/details')
@@ -596,7 +565,6 @@ describe('DashboardContentController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_content/list')
@@ -628,8 +596,6 @@ describe('DashboardContentController', () => {
 
       await dashboardDataSource.manager.getRepository(Dashboard).delete(dashboard2.id);
 
-      validate.mockReturnValueOnce(query1);
-
       const response2 = await server
         .post('/dashboard_content/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -646,7 +612,6 @@ describe('DashboardContentController', () => {
       const query: DashboardContentIDRequest = {
         id: notFoundId,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_content/delete')
@@ -662,7 +627,6 @@ describe('DashboardContentController', () => {
       const query: DashboardContentIDRequest = {
         id: presetDashboardContent1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_content/delete')
@@ -674,13 +638,11 @@ describe('DashboardContentController', () => {
 
     it('should fail to delete preset dashboard content if not SUPERADMIN', async () => {
       const authentication = createAuthStruct(apiKey, { id: presetDashboardContent2.id });
-      validate.mockReturnValueOnce(authentication);
 
       const query: DashboardContentIDRequest = {
         id: presetDashboardContent2.id,
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/dashboard_content/delete').send(query);
 

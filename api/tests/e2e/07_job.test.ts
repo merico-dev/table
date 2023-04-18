@@ -1,5 +1,4 @@
 import { connectionHook, sleep } from './jest.util';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -8,7 +7,7 @@ import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { parseDBUrl } from '../utils';
 import { DataSourceCreateRequest, DataSourceRenameRequest } from '~/api_models/datasource';
-import { DashboardCreateRequest, DashboardListRequest } from '~/api_models/dashboard';
+import { DashboardCreateRequest } from '~/api_models/dashboard';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
 import Job from '~/models/job';
 
@@ -21,14 +20,11 @@ describe('JobController', () => {
 
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
 
@@ -38,7 +34,6 @@ describe('JobController', () => {
       name: 'jobDashboard',
       group: 'job',
     };
-    validate.mockReturnValueOnce(dashboardQuery);
 
     const dashboardResponse = await server
       .post('/dashboard/create')
@@ -60,7 +55,6 @@ describe('JobController', () => {
         port,
       },
     };
-    validate.mockReturnValueOnce(pgQuery);
 
     const pgResponse = await server
       .post('/datasource/create')
@@ -80,7 +74,6 @@ describe('JobController', () => {
         },
       },
     };
-    validate.mockReturnValueOnce(httpQuery);
 
     const httpResponse = await server
       .post('/datasource/create')
@@ -90,17 +83,12 @@ describe('JobController', () => {
     httpDatasource = httpResponse.body;
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('rename', () => {
     it('rename jobPG', async () => {
       const query: DataSourceRenameRequest = {
         id: pgDatasource.id,
         key: pgDatasource.key + '_renamed',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/datasource/rename')
@@ -129,7 +117,6 @@ describe('JobController', () => {
         id: httpDatasource.id,
         key: httpDatasource.key + '_renamed',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/datasource/rename')
@@ -159,7 +146,6 @@ describe('JobController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/job/list')
@@ -269,7 +255,6 @@ describe('JobController', () => {
       const query: JobRunRequest = {
         type: 'RENAME_DATASOURCE',
       };
-      validate.mockReturnValueOnce(query);
 
       await server.post('/job/run').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
@@ -281,7 +266,6 @@ describe('JobController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/job/list')

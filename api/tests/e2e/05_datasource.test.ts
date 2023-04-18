@@ -10,7 +10,6 @@ import {
 } from '~/api_models/datasource';
 import { maybeDecryptPassword, maybeEncryptPassword } from '~/utils/encryption';
 import { parseDBUrl } from '../utils';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -25,14 +24,11 @@ describe('DataSourceController', () => {
   let httpDatasource: DataSource;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
 
@@ -57,10 +53,6 @@ describe('DataSourceController', () => {
     postgresConfig = { ...presetData.config, password };
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('create', () => {
     it('should create successfully', async () => {
       const pgQuery: DataSourceCreateRequest = {
@@ -74,7 +66,6 @@ describe('DataSourceController', () => {
           port: postgresConfig.port,
         },
       };
-      validate.mockReturnValueOnce(pgQuery);
 
       const pgResponse = await server
         .post('/datasource/create')
@@ -109,7 +100,6 @@ describe('DataSourceController', () => {
           },
         },
       };
-      validate.mockReturnValueOnce(httpQuery);
 
       const httpResponse = await server
         .post('/datasource/create')
@@ -140,7 +130,6 @@ describe('DataSourceController', () => {
           port: postgresConfig.port,
         },
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/create')
@@ -167,7 +156,6 @@ describe('DataSourceController', () => {
           port: 22,
         },
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/create')
@@ -187,7 +175,6 @@ describe('DataSourceController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'key', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/list')
@@ -226,7 +213,6 @@ describe('DataSourceController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'key', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/list')
@@ -254,7 +240,6 @@ describe('DataSourceController', () => {
         id: notFoundId,
         key: 'not_found',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/datasource/rename')
@@ -271,7 +256,6 @@ describe('DataSourceController', () => {
         id: httpDatasource.id,
         key: httpDatasource.key,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/datasource/rename')
@@ -289,7 +273,6 @@ describe('DataSourceController', () => {
         id: httpDatasource.id,
         key: 'jsonplaceholder_renamed',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/datasource/rename')
@@ -316,7 +299,6 @@ describe('DataSourceController', () => {
       const deleteQuery: DataSourceIDRequest = {
         id: pgDatasource.id,
       };
-      validate.mockReturnValueOnce(deleteQuery);
 
       await server.post('/datasource/delete').set('Authorization', `Bearer ${superadminLogin.token}`).send(deleteQuery);
 
@@ -324,7 +306,6 @@ describe('DataSourceController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'key', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/list')
@@ -355,7 +336,6 @@ describe('DataSourceController', () => {
       const query: DataSourceIDRequest = {
         id: pgDatasource.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/delete')
@@ -371,7 +351,6 @@ describe('DataSourceController', () => {
       const query: DataSourceIDRequest = {
         id: presetDatasource.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/datasource/delete')

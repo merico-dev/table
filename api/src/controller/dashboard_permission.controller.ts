@@ -49,10 +49,10 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.READER))
+  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.READER), validate(DashboardPermissionListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(DashboardPermissionListRequest, req.body);
+      const { filter, sort, pagination } = req.body as DashboardPermissionListRequest;
       const result = await this.dashboardPermissionService.list(filter, sort, pagination);
       res.json(result);
     } catch (err) {
@@ -109,10 +109,10 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/updateOwner', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/updateOwner', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR), validate(DashboardOwnerUpdateRequest))
   public async updateOwner(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id, owner_id, owner_type } = validate(DashboardOwnerUpdateRequest, req.body);
+      const { id, owner_id, owner_type } = req.body as DashboardOwnerUpdateRequest;
       const result = await this.dashboardPermissionService.updateOwner(
         id,
         owner_id,
@@ -145,10 +145,10 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/update', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/update', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR), validate(DashboardPermissionUpdateRequest))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id, access } = validate(DashboardPermissionUpdateRequest, req.body);
+      const { id, access } = req.body as DashboardPermissionUpdateRequest;
       const result = await this.dashboardPermissionService.update(id, access, req.body.auth, req.locale);
       res.json(result);
     } catch (err) {
