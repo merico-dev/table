@@ -16,9 +16,11 @@ export const TableData = observer(({ dataSource }: { dataSource: DataSourceModel
     );
   }
   if (tableData.error) {
-    <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
-      {tableData.error}
-    </Text>;
+    return (
+      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+        {tableData.error}
+      </Text>
+    );
   }
 
   if (tableData.page === 1 && tableData.loading) {
