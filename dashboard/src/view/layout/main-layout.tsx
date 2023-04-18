@@ -16,8 +16,8 @@ const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFix
       userSelect: 'none',
       cursor: 'grab',
       position: 'absolute',
-      top: 0,
-      right: 0,
+      top: 5,
+      right: 5,
       zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
@@ -35,8 +35,8 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
       userSelect: 'none',
       cursor: 'nwse-resize',
       position: 'absolute',
-      bottom: -5,
-      right: -5,
+      bottom: 0,
+      right: 0,
       zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
@@ -52,7 +52,6 @@ const ReactGridLayout = WidthProvider(RGL);
 interface IMainDashboardLayout {
   view: ViewModelInstance;
   className?: string;
-  rowHeight?: number;
   isDraggable: boolean;
   isResizable: boolean;
 }
@@ -60,7 +59,6 @@ interface IMainDashboardLayout {
 export const MainDashboardLayout = observer(function _MainDashboardLayout({
   view,
   className = 'layout',
-  rowHeight = 10,
   isDraggable,
   isResizable,
 }: IMainDashboardLayout) {
@@ -84,7 +82,8 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
     <ReactGridLayout
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
-      rowHeight={rowHeight}
+      rowHeight={1}
+      margin={[0, 0]}
       layout={layouts}
       isDraggable={isDraggable}
       isResizable={isResizable}
@@ -93,7 +92,7 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
     >
       {panels.map((panel, index) => {
         return (
-          <div key={panel.id} data-grid={{ ...panel.layout }} style={{ position: 'relative' }}>
+          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
             {isDraggable && <CustomDragHandle />}
             <Panel view={view} panel={panel} />
           </div>
