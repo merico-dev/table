@@ -10,26 +10,26 @@ const ReactGridLayout = WidthProvider(RGL);
 interface IReadOnlyDashboardLayout {
   view: ViewModelInstance;
   className?: string;
-  rowHeight?: number;
 }
 
 export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayout({
   view,
   className = 'layout',
-  rowHeight = 10,
 }: IReadOnlyDashboardLayout) {
   const { panels, layouts } = useModelContext().panels.panelsByIDs(view.panelIDs);
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
-      rowHeight={rowHeight}
+      cols={36}
+      rowHeight={1}
+      margin={[0, 0]}
       isDraggable={false}
       isResizable={false}
       layout={layouts}
     >
       {panels.map((panel) => {
         return (
-          <div key={panel.id} data-grid={panel.layout}>
+          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
             <Panel view={view} panel={panel} />
           </div>
         );

@@ -8,7 +8,7 @@ import { ViewModelInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
 
-const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFixMe) => (
+const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
     ref={ref}
     className="react-grid-customDragHandle"
@@ -16,8 +16,8 @@ const CustomDragHandle = React.forwardRef(({ handleAxis }: $TSFixMe, ref: $TSFix
       userSelect: 'none',
       cursor: 'grab',
       position: 'absolute',
-      top: 0,
-      right: 0,
+      top: 5,
+      right: h > 38 ? 5 : 20,
       zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
@@ -35,8 +35,8 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
       userSelect: 'none',
       cursor: 'nwse-resize',
       position: 'absolute',
-      bottom: -5,
-      right: -5,
+      bottom: 0,
+      right: 0,
       zIndex: 400,
       '&:hover': { color: '#228be6' },
     }}
@@ -52,18 +52,9 @@ const ReactGridLayout = WidthProvider(RGL);
 interface IMainDashboardLayout {
   view: ViewModelInstance;
   className?: string;
-  rowHeight?: number;
-  isDraggable: boolean;
-  isResizable: boolean;
 }
 
-export const MainDashboardLayout = observer(function _MainDashboardLayout({
-  view,
-  className = 'layout',
-  rowHeight = 10,
-  isDraggable,
-  isResizable,
-}: IMainDashboardLayout) {
+export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
   const model = useModelContext();
   const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
 
@@ -80,21 +71,37 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
     [model],
   );
 
+  const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
+    if (layoutItem.h < 30) {
+      layoutItem.h = 30;
+      placeholder.h = 30;
+    }
+
+    if (layoutItem.w < 4) {
+      layoutItem.w = 4;
+      placeholder.w = 4;
+    }
+  };
+
   return (
     <ReactGridLayout
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
-      rowHeight={rowHeight}
+      rowHeight={1}
+      cols={36}
+      margin={[0, 0]}
+      isBounded={true}
+      isDraggable
+      isResizable
       layout={layouts}
-      isDraggable={isDraggable}
-      isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
+      onResize={onResize}
     >
       {panels.map((panel, index) => {
         return (
-          <div key={panel.id} data-grid={{ ...panel.layout }} style={{ position: 'relative' }}>
-            {isDraggable && <CustomDragHandle />}
+          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
+            <CustomDragHandle h={panel.layout.h} />
             <Panel view={view} panel={panel} />
           </div>
         );

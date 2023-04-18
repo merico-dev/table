@@ -1,7 +1,15 @@
 .dashboard-layout {
+  margin: 5px;
 }
 .react-grid-item {
   padding: 0;
+}
+.react-grid-item.react-grid-placeholder {
+  /* background: none !important; */
+}
+.panel-grid-item {
+  padding: 5px;
+  min-height: 38px;
 }
 .remove-panel {
   position: absolute;
