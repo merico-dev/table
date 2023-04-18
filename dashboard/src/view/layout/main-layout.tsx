@@ -52,16 +52,9 @@ const ReactGridLayout = WidthProvider(RGL);
 interface IMainDashboardLayout {
   view: ViewModelInstance;
   className?: string;
-  isDraggable: boolean;
-  isResizable: boolean;
 }
 
-export const MainDashboardLayout = observer(function _MainDashboardLayout({
-  view,
-  className = 'layout',
-  isDraggable,
-  isResizable,
-}: IMainDashboardLayout) {
+export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
   const model = useModelContext();
   const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
 
@@ -84,16 +77,18 @@ export const MainDashboardLayout = observer(function _MainDashboardLayout({
       className={`dashboard-layout ${className}`}
       rowHeight={1}
       margin={[0, 0]}
+      isBounded={true}
+      isDraggable
+      isResizable
       layout={layouts}
-      isDraggable={isDraggable}
-      isResizable={isResizable}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
+      onResize={onResize}
     >
       {panels.map((panel, index) => {
         return (
           <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            {isDraggable && <CustomDragHandle />}
+            <CustomDragHandle />
             <Panel view={view} panel={panel} />
           </div>
         );

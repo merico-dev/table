@@ -27,7 +27,7 @@ export const DashboardViewEditor = observer(function _DashboardViewEditor({ view
             </Box>
 
             {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            <MainDashboardLayout view={view} isDraggable isResizable />
+            <MainDashboardLayout view={view} />
           </Box>
         </PreviewViewComponent>
       </Box>
