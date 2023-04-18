@@ -20,6 +20,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
+      cols={36}
       rowHeight={1}
       margin={[0, 0]}
       isDraggable={false}

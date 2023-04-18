@@ -88,6 +88,7 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={1}
+      cols={36}
       margin={[0, 0]}
       isBounded={true}
       isDraggable
