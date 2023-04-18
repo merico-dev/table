@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
-import { DashboardEditprPageContent } from './page-content';
+import { DashboardEditorPageContent } from './page-content';
 import { DashboardRebaseWarning } from './dashboard-rebase-warning';
 import './index.css';
 import React from 'react';
@@ -29,7 +29,7 @@ const LoadAndRenderDashboardEditor = observer(() => {
         </Helmet>
         <DashboardRebaseWarning />
         <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
-        {ready && <DashboardEditprPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
+        {ready && <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
       </div>
     </RebaseConfigProvider>
   );

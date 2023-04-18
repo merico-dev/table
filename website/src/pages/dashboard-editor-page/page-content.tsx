@@ -14,7 +14,7 @@ import { DashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
 import { WhosEditing } from './whos-editing';
 
-export const DashboardEditprPageContent = observer(
+export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
     const [context] = React.useState({});
