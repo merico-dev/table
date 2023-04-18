@@ -12,7 +12,7 @@ import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
-import { WhosEditing } from './whos-editing';
+import { MoreDashboardInfo } from './more-dashboard-info';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
@@ -63,7 +63,7 @@ export const DashboardEditorPageContent = observer(
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
         config={DashboardConfig}
-        headerSlot={<WhosEditing />}
+        headerSlot={<MoreDashboardInfo />}
       />
     );
   },
