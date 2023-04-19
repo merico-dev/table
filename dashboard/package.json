@@ -166,6 +166,7 @@
     "react-dom": "^16.8.0 || 17.x || 18.x",
     "react-grid-layout": "^1.3.4",
     "react-hook-form": "^7.31.2",
+    "react-router-dom": "^6.3.0",
     "react-virtual": "^2.10.4",
     "tabler-icons-react": "^1.48.0"
   }

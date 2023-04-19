@@ -9,14 +9,10 @@ const GLOBAL_MODULE_IDS = {
   'crypto-js': 'CryptoJS',
   lodash: '_',
 };
-const EXTERNAL_PATHS = ['/node_modules/react'];
 const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
 const externals = (id: string) => {
   // babel transforms module id of emotion, we need to exclude all of them
   if (id.startsWith('@emotion')) {
-    return true;
-  }
-  if (EXTERNAL_PATHS.some((p) => id.includes(p))) {
     return true;
   }
   return DEPENDENCIES.has(id);
@@ -33,6 +29,12 @@ export default defineConfig({
       insertTypesEntry: true,
     }),
   ],
+  resolve: {
+    alias: {
+      react: 'react',
+      'react/jsx-runtime.js': 'react/jsx-runtime.js',
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

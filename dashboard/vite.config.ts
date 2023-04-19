@@ -11,9 +11,21 @@ const GLOBAL_MODULE_IDS = {
   lodash: '_',
 };
 
-const EXTERNAL_PATHS = ['/node_modules/echarts', '/node_modules/react', '/node_modules/dayjs'];
+const EXTERNAL_PATHS = [
+  'echarts/core',
+  'echarts/components',
+  'echarts/renderers',
+  'echarts/charts',
+  'echarts-for-react/lib/core',
+  '/node_modules/echarts',
+  '/node_modules/dayjs',
+];
 const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
 const externals = (id: string) => {
+  if (id.includes('node_modules/dayjs/plugin')) {
+    // FIXME: find a way to use alias on dayjs/plugins
+    return false;
+  }
   // babel transforms module id of emotion, we need to exclude all of them
   if (id.startsWith('@emotion')) {
     return true;
@@ -48,6 +60,14 @@ export default defineConfig({
       inline: ['echarts'],
     },
   },
+  resolve: {
+    alias: {
+      react: 'react',
+      'react/jsx-runtime.js': 'react/jsx-runtime.js',
+      'reactflow/dist/style.css': 'reactflow/dist/style.css',
+      'dayjs/plugin': 'dayjs/plugin',
+    },
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -59,8 +79,18 @@ export default defineConfig({
       plugins: [visualizer()],
       external: externals,
       output: {
-        globals: (id) => {
-          return GLOBAL_MODULE_IDS[id] ?? id;
+        globals: (name) => {
+          if (!name.includes('node_modules')) {
+            const ret = GLOBAL_MODULE_IDS[name];
+            return ret ?? name;
+          }
+          const match = EXTERNAL_PATHS.find((p) => name.includes(p));
+          if (match) {
+            return match.replace('/node_modules/', '');
+          }
+          const id = name.replace(/^\/.+\/table\/node_modules\/([\w|\-]+)\/.+$/, '$1');
+          const ret = GLOBAL_MODULE_IDS[id];
+          return ret ?? name;
         },
       },
     },
