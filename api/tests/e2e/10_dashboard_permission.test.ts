@@ -17,6 +17,7 @@ import { SALT_ROUNDS } from '~/utils/constants';
 import Dashboard from '~/models/dashboard';
 import DashboardPermission from '~/models/dashboard_permission';
 import { DashboardIDRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardPermissionController', () => {
   connectionHook();
@@ -114,6 +115,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 5,
         offset: 0,
@@ -123,40 +125,30 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
           },
           {
             id: response.body.data[3].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time,
           },
           {
             id: response.body.data[4].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time,
           },
         ],
       });
@@ -179,6 +171,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body.data = response1.body.data.map(omitTime);
       expect(response1.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -188,8 +181,6 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response1.body.data[0].create_time,
-            update_time: response1.body.data[0].update_time,
           },
         ],
       });
@@ -205,6 +196,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
+      response2.body.data = response2.body.data.map(omitTime);
       expect(response2.body).toMatchObject({
         total: 4,
         offset: 0,
@@ -214,32 +206,24 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[0].create_time,
-            update_time: response2.body.data[0].update_time,
           },
           {
             id: dashboardId2,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[1].create_time,
-            update_time: response2.body.data[1].update_time,
           },
           {
             id: dashboardId3,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[2].create_time,
-            update_time: response2.body.data[2].update_time,
           },
           {
             id: dashboardId4,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[3].create_time,
-            update_time: response2.body.data[3].update_time,
           },
         ],
       });
@@ -280,10 +264,9 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
@@ -307,10 +290,9 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
+      response2.body = omitTime(response2.body);
       expect(response2.body).toMatchObject({
         id: dashboardId1,
-        create_time: response2.body.create_time,
-        update_time: response2.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
@@ -329,10 +311,9 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query3);
 
+      response3.body = omitTime(response3.body);
       expect(response3.body).toMatchObject({
         id: dashboardId2,
-        create_time: response3.body.create_time,
-        update_time: response3.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [{ type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' }],
@@ -452,10 +433,10 @@ describe('DashboardPermissionController', () => {
         .post('/dashboard_permission/updateOwner')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
+
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         owner_id: authorApiKey.id,
         owner_type: 'APIKEY',
         access: [{ id: readerAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],

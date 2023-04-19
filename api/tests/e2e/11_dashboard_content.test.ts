@@ -15,6 +15,7 @@ import {
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
 } from '~/api_models/dashboard_content';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardContentController', () => {
   connectionHook();
@@ -104,15 +105,12 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
-      response1.body.create_time = new Date(response1.body.create_time);
-      response1.body.update_time = new Date(response1.body.update_time);
+      response1.body = omitTime(response1.body);
       dashboard1Content1 = response1.body;
       expect(response1.body).toMatchObject({
         id: response1.body.id,
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content1',
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         content: {},
       });
 
@@ -127,15 +125,12 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
-      response2.body.create_time = new Date(response2.body.create_time);
-      response2.body.update_time = new Date(response2.body.update_time);
+      response2.body = omitTime(response2.body);
       dashboard1Content2 = response2.body;
       expect(response2.body).toMatchObject({
         id: response2.body.id,
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content2',
-        create_time: response2.body.create_time,
-        update_time: response2.body.update_time,
         content: {},
       });
 
@@ -150,15 +145,12 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request3);
 
-      response3.body.create_time = new Date(response3.body.create_time);
-      response3.body.update_time = new Date(response3.body.update_time);
+      response3.body = omitTime(response3.body);
       dashboard2Content1 = response3.body;
       expect(response3.body).toMatchObject({
         id: response3.body.id,
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content1',
-        create_time: response3.body.create_time,
-        update_time: response3.body.update_time,
         content: {},
       });
 
@@ -173,15 +165,12 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request4);
 
-      response4.body.create_time = new Date(response4.body.create_time);
-      response4.body.update_time = new Date(response4.body.update_time);
+      response4.body = omitTime(response4.body);
       dashboard2Content2 = response4.body;
       expect(response4.body).toMatchObject({
         id: response4.body.id,
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content2',
-        create_time: response4.body.create_time,
-        update_time: response4.body.update_time,
         content: {},
       });
     });
@@ -220,6 +209,7 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body.data = response1.body.data.map(omitTime);
       expect(response1.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -229,16 +219,12 @@ describe('DashboardContentController', () => {
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content1',
             content: {},
-            create_time: response1.body.data[0].create_time,
-            update_time: response1.body.data[0].update_time,
           },
           {
             id: response1.body.data[1].id,
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content2',
             content: {},
-            create_time: response1.body.data[1].create_time,
-            update_time: response1.body.data[1].update_time,
           },
         ],
       });
@@ -254,6 +240,7 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
+      response2.body.data = response2.body.data.map(omitTime);
       expect(response2.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -263,16 +250,12 @@ describe('DashboardContentController', () => {
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content1',
             content: {},
-            create_time: response2.body.data[0].create_time,
-            update_time: response2.body.data[0].update_time,
           },
           {
             id: response2.body.data[1].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content2',
             content: {},
-            create_time: response2.body.data[1].create_time,
-            update_time: response2.body.data[1].update_time,
           },
         ],
       });
@@ -291,6 +274,7 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -300,8 +284,6 @@ describe('DashboardContentController', () => {
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content1',
             content: {},
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
           },
         ],
       });
@@ -319,8 +301,7 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject(dashboard1Content1);
     });
 
@@ -353,11 +334,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      response1.body.create_time = new Date(response1.body.create_time);
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
         ...dashboard1Content1,
         name: 'dashboard1_content1_updated',
-        update_time: response1.body.update_time,
       });
 
       const query2: DashboardContentUpdateRequest = {
@@ -371,11 +351,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
-      response2.body.create_time = new Date(response2.body.create_time);
+      response2.body = omitTime(response2.body);
       expect(response2.body).toMatchObject({
         ...dashboard2Content1,
         name: 'dashboard2_content1_updated',
-        update_time: response2.body.update_time,
       });
 
       const query3: DashboardContentUpdateRequest = {
@@ -389,11 +368,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query3);
 
-      response3.body.create_time = new Date(response3.body.create_time);
+      response3.body = omitTime(response3.body);
       expect(response3.body).toMatchObject({
         ...dashboard2Content2,
         name: 'dashboard2_content2_updated',
-        update_time: response3.body.update_time,
       });
 
       const query4: DashboardContentUpdateRequest = {
@@ -407,11 +385,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query4);
 
-      response4.body.create_time = new Date(response4.body.create_time);
+      response4.body = omitTime(response4.body);
       expect(response4.body).toMatchObject({
         ...dashboard1Content2,
         name: 'dashboard1_content2_updated',
-        update_time: response4.body.update_time,
       });
     });
 
@@ -443,12 +420,11 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
-        ...presetDashboardContent1,
+        ...omitTime(presetDashboardContent1),
         name: 'presetContent1_updated',
         content: { tmp: 'tmp' },
-        update_time: response.body.update_time,
       });
     });
 
@@ -485,11 +461,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      response1.body.create_time = new Date(response1.body.create_time);
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
-        ...dashboard1,
+        ...omitTime(dashboard1),
         content_id: dashboard1Content1.id,
-        update_time: response1.body.update_time,
       });
 
       const query2: DashboardUpdateRequest = {
@@ -502,11 +477,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
-      response2.body.create_time = new Date(response2.body.create_time);
+      response2.body = omitTime(response2.body);
       expect(response2.body).toMatchObject({
-        ...dashboard2,
+        ...omitTime(dashboard2),
         content_id: dashboard2Content1.id,
-        update_time: response2.body.update_time,
       });
     });
 
@@ -550,12 +524,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
-      response2.body.create_time = new Date(response2.body.create_time);
-      response2.body.update_time = new Date(response2.body.update_time);
+      response2.body = omitTime(response2.body);
       expect(response2.body).toMatchObject({
-        ...dashboard1,
+        ...omitTime(dashboard1),
         content_id: null,
-        update_time: response2.body.update_time,
       });
     });
 
@@ -571,6 +543,7 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body.data = response1.body.data.map(omitTime);
       expect(response1.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -580,16 +553,12 @@ describe('DashboardContentController', () => {
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content1_updated',
             content: {},
-            create_time: response1.body.data[0].create_time,
-            update_time: response1.body.data[0].update_time,
           },
           {
             id: response1.body.data[1].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content2_updated',
             content: {},
-            create_time: response1.body.data[1].create_time,
-            update_time: response1.body.data[1].update_time,
           },
         ],
       });

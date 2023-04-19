@@ -14,6 +14,7 @@ import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account'
 import { notFoundId } from './constants';
 import ApiKey from '~/models/apiKey';
 import DashboardPermission from '~/models/dashboard_permission';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardController', () => {
   connectionHook();
@@ -61,14 +62,11 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
-      response1.body.create_time = new Date(response1.body.create_time);
-      response1.body.update_time = new Date(response1.body.update_time);
+      response1.body = omitTime(response1.body);
       dashboard1 = response1.body;
       expect(response1.body).toMatchObject({
         name: 'dashboard1',
         id: response1.body.id,
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         is_removed: false,
         is_preset: false,
         group: '1',
@@ -84,14 +82,11 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
-      response2.body.create_time = new Date(response2.body.create_time);
-      response2.body.update_time = new Date(response2.body.update_time);
+      response2.body = omitTime(response2.body);
       dashboard2 = response2.body;
       expect(response2.body).toMatchObject({
         name: 'dashboard2',
         id: response2.body.id,
-        create_time: response2.body.create_time,
-        update_time: response2.body.update_time,
         is_removed: false,
         is_preset: false,
         group: '2',
@@ -130,6 +125,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
@@ -137,8 +133,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[0].id,
             name: 'dashboard1',
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
             group: '1',
@@ -146,8 +140,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[1].id,
             name: 'dashboard2',
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
             group: '2',
@@ -155,8 +147,6 @@ describe('DashboardController', () => {
           {
             id: presetDashboard.id,
             name: 'preset',
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
             is_removed: true,
             is_preset: true,
             group: '',
@@ -177,6 +167,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -184,8 +175,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[0].id,
             name: 'dashboard1',
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
             group: '1',
@@ -193,8 +182,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[1].id,
             name: 'dashboard2',
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
             group: '2',
@@ -215,6 +202,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -222,8 +210,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[0].id,
             name: 'dashboard1',
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
             is_removed: false,
             is_preset: false,
             group: '1',
@@ -231,8 +217,6 @@ describe('DashboardController', () => {
           {
             id: response.body.data[1].id,
             name: 'dashboard2',
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
             is_removed: false,
             is_preset: false,
             group: '2',
@@ -253,6 +237,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -260,8 +245,6 @@ describe('DashboardController', () => {
           {
             id: presetDashboard.id,
             name: 'preset',
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
             is_removed: true,
             is_preset: true,
             group: '',
@@ -282,9 +265,8 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(dashboard1);
+      response.body = omitTime(response.body);
+      expect(response.body).toMatchObject(omitTime(dashboard1));
     });
 
     it('should fail', async () => {
@@ -315,9 +297,8 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(dashboard1);
+      response.body = omitTime(response.body);
+      expect(response.body).toMatchObject(omitTime(dashboard1));
     });
 
     it('should fail', async () => {
@@ -352,12 +333,11 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         ...dashboard2,
         name: 'dashboard2_updated',
         is_removed: true,
-        update_time: response.body.update_time,
         group: '2_updated',
       });
     });
@@ -391,12 +371,11 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
-        ...presetDashboard,
+        ...omitTime(presetDashboard),
         name: 'preset_updated',
         is_removed: false,
-        update_time: response.body.update_time,
         group: 'preset',
       });
     });
@@ -435,11 +414,10 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
-        ...dashboard1,
+        ...omitTime(dashboard1),
         is_removed: true,
-        update_time: response.body.update_time,
       });
     });
 
@@ -468,13 +446,12 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
-        ...presetDashboard,
+        ...omitTime(presetDashboard),
         name: 'preset_updated',
         is_removed: true,
         group: 'preset',
-        update_time: response.body.update_time,
       });
     });
 

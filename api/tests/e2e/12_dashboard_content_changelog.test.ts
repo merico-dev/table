@@ -3,6 +3,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { DashboardContentChangelogListRequest } from '~/api_models/dashboard_content_changelog';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardChangelogController', () => {
   connectionHook();
@@ -33,6 +34,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -41,7 +43,6 @@ describe('DashboardChangelogController', () => {
             id: response.body.data[0].id,
             dashboard_content_id: response.body.data[0].dashboard_content_id,
             diff: response.body.data[0].diff,
-            create_time: response.body.data[0].create_time,
           },
         ],
       });
@@ -74,6 +75,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -82,7 +84,6 @@ describe('DashboardChangelogController', () => {
             id: response.body.data[0].id,
             dashboard_content_id: response.body.data[0].dashboard_content_id,
             diff: response.body.data[0].diff,
-            create_time: response.body.data[0].create_time,
           },
         ],
       });

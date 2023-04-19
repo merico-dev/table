@@ -16,6 +16,7 @@ import { AccountLoginResponse } from '~/api_models/account';
 import { omit } from 'lodash';
 import request from 'supertest';
 import { app } from '~/server';
+import { omitTime } from '~/utils/helpers';
 
 describe('AccountController', () => {
   connectionHook();
@@ -39,16 +40,13 @@ describe('AccountController', () => {
       };
 
       const response = await server.post('/account/login').send(query);
+      response.body.account = omitTime(response.body.account);
 
       superadminLogin = response.body;
-      superadminLogin.account.create_time = new Date(superadminLogin.account.create_time);
-      superadminLogin.account.update_time = new Date(superadminLogin.account.update_time);
       expect(superadminLogin).toMatchObject({
         token: superadminLogin.token,
         account: {
           id: superadmin.id,
-          create_time: superadmin.create_time,
-          update_time: superadmin.update_time,
           name: superadmin.name,
           email: superadmin.email,
           role_id: superadmin.role_id,
@@ -85,15 +83,12 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery1);
 
-      createResponse1.body.create_time = new Date(createResponse1.body.create_time);
-      createResponse1.body.update_time = new Date(createResponse1.body.update_time);
+      createResponse1.body = omitTime(createResponse1.body);
       expect(createResponse1.body).toMatchObject({
         name: 'account1',
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
         id: createResponse1.body.id,
-        create_time: createResponse1.body.create_time,
-        update_time: createResponse1.body.update_time,
       });
       account1 = createResponse1.body;
 
@@ -103,16 +98,13 @@ describe('AccountController', () => {
       };
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
+      loginResponse1.body.account = omitTime(loginResponse1.body.account);
 
       account1Login = loginResponse1.body;
-      account1Login.account.create_time = new Date(account1Login.account.create_time);
-      account1Login.account.update_time = new Date(account1Login.account.update_time);
       expect(account1Login).toMatchObject({
         token: account1Login.token,
         account: {
           id: account1.id,
-          create_time: account1.create_time,
-          update_time: account1.update_time,
           name: account1.name,
           email: account1.email,
           role_id: account1.role_id,
@@ -131,15 +123,12 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery2);
 
-      createReponse2.body.create_time = new Date(createReponse2.body.create_time);
-      createReponse2.body.update_time = new Date(createReponse2.body.update_time);
+      createReponse2.body = omitTime(createReponse2.body);
       expect(createReponse2.body).toMatchObject({
         name: 'account2',
         email: 'account2@test.com',
         role_id: ROLE_TYPES.ADMIN,
         id: createReponse2.body.id,
-        create_time: createReponse2.body.create_time,
-        update_time: createReponse2.body.update_time,
       });
       account2 = createReponse2.body;
 
@@ -149,16 +138,13 @@ describe('AccountController', () => {
       };
 
       const loginResponse2 = await server.post('/account/login').send(loginQuery2);
+      loginResponse2.body.account = omitTime(loginResponse2.body.account);
 
       account2Login = loginResponse2.body;
-      account2Login.account.create_time = new Date(account2Login.account.create_time);
-      account2Login.account.update_time = new Date(account2Login.account.update_time);
       expect(account2Login).toMatchObject({
         token: account2Login.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: account2.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,
@@ -274,12 +260,9 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account1.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
         role_id: ROLE_TYPES.AUTHOR,
@@ -388,12 +371,9 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account1.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
         name: 'account1_edited_password',
         email: 'account1_edited_password@test.com',
         role_id: ROLE_TYPES.ADMIN,
@@ -407,14 +387,11 @@ describe('AccountController', () => {
 
       const loginResponse = await server.post('/account/login').send(loginQuery);
 
-      loginResponse.body.account.create_time = new Date(loginResponse.body.account.create_time);
-      loginResponse.body.account.update_time = new Date(loginResponse.body.account.update_time);
+      loginResponse.body.account = omitTime(loginResponse.body.account);
       expect(loginResponse.body).toMatchObject({
         token: loginResponse.body.token,
         account: {
           id: account1.id,
-          create_time: account1.create_time,
-          update_time: loginResponse.body.account.update_time,
           name: account1.name,
           email: account1.email,
           role_id: account1.role_id,
@@ -483,12 +460,9 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${account2Login.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account2.id,
-        create_time: account2.create_time,
-        update_time: response.body.update_time,
         name: 'account2_updated',
         email: 'account2_updated@test.com',
         role_id: ROLE_TYPES.ADMIN,
@@ -531,19 +505,8 @@ describe('AccountController', () => {
   describe('get', () => {
     it('should return successfully', async () => {
       const response = await server.get('/account/get').set('Authorization', `Bearer ${superadminLogin.token}`).send();
-
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(
-        omit(
-          {
-            ...superadmin,
-            create_time: superadmin.create_time,
-            update_time: superadmin.update_time,
-          },
-          'password',
-        ),
-      );
+      response.body = omitTime(response.body);
+      expect(response.body).toMatchObject(omit(superadmin, ['password', 'create_time', 'update_time']));
     });
 
     it('should fail if not found', async () => {
@@ -579,13 +542,11 @@ describe('AccountController', () => {
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
-      loginResponse1.body.account.create_time = new Date(loginResponse1.body.account.create_time);
+      loginResponse1.body.account = omitTime(loginResponse1.body.account);
       expect(loginResponse1.body).toMatchObject({
         token: loginResponse1.body.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: loginResponse1.body.account.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,
@@ -602,11 +563,9 @@ describe('AccountController', () => {
         .set('Authorization', `Bearer ${account2Login.token}`)
         .send(changeQuery);
 
-      changeResponse.body.create_time = new Date(changeResponse.body.create_time);
+      changeResponse.body = omitTime(changeResponse.body);
       expect(changeResponse.body).toMatchObject({
         id: account2.id,
-        create_time: account2.create_time,
-        update_time: changeResponse.body.update_time,
         name: account2.name,
         email: account2.email,
         role_id: account2.role_id,
@@ -631,13 +590,11 @@ describe('AccountController', () => {
 
       const loginResponse3 = await server.post('/account/login').send(loginQuery3);
 
-      loginResponse3.body.account.create_time = new Date(loginResponse3.body.account.create_time);
+      loginResponse3.body.account = omitTime(loginResponse3.body.account);
       expect(loginResponse3.body).toMatchObject({
         token: loginResponse3.body.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: loginResponse3.body.account.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,

@@ -3,6 +3,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardChangelogController', () => {
   connectionHook();
@@ -33,6 +34,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 4,
         offset: 0,
@@ -41,25 +43,21 @@ describe('DashboardChangelogController', () => {
             id: response.body.data[0].id,
             dashboard_id: response.body.data[0].dashboard_id,
             diff: response.body.data[0].diff,
-            create_time: response.body.data[0].create_time,
           },
           {
             id: response.body.data[1].id,
             dashboard_id: response.body.data[1].dashboard_id,
             diff: response.body.data[1].diff,
-            create_time: response.body.data[1].create_time,
           },
           {
             id: response.body.data[2].id,
             dashboard_id: response.body.data[2].dashboard_id,
             diff: response.body.data[2].diff,
-            create_time: response.body.data[2].create_time,
           },
           {
             id: response.body.data[3].id,
             dashboard_id: response.body.data[3].dashboard_id,
             diff: response.body.data[3].diff,
-            create_time: response.body.data[3].create_time,
           },
         ],
       });
@@ -135,6 +133,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -143,7 +142,6 @@ describe('DashboardChangelogController', () => {
             id: response.body.data[0].id,
             dashboard_id: response.body.data[0].dashboard_id,
             diff: response.body.data[0].diff,
-            create_time: response.body.data[0].create_time,
           },
         ],
       });

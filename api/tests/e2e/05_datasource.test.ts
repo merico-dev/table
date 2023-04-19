@@ -14,6 +14,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { notFoundId } from './constants';
+import { omitTime } from '~/utils/helpers';
 
 describe('DataSourceController', () => {
   connectionHook();
@@ -72,6 +73,8 @@ describe('DataSourceController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(pgQuery);
 
+      pgResponse.body = omitTime(pgResponse.body);
+
       pgDatasource = pgResponse.body;
       expect(pgResponse.body).toMatchObject({
         type: 'postgresql',
@@ -84,8 +87,6 @@ describe('DataSourceController', () => {
           port: 5432,
         },
         id: pgDatasource.id,
-        create_time: pgDatasource.create_time,
-        update_time: pgDatasource.update_time,
         is_preset: false,
       });
 
@@ -105,6 +106,7 @@ describe('DataSourceController', () => {
         .post('/datasource/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(httpQuery);
+      httpResponse.body = omitTime(httpResponse.body);
 
       httpDatasource = httpResponse.body;
       expect(httpResponse.body).toMatchObject({
@@ -112,8 +114,6 @@ describe('DataSourceController', () => {
         key: 'jsonplaceholder',
         config: { host: 'http://jsonplaceholder.typicode.com', processing: { pre: '', post: '' } },
         id: httpDatasource.id,
-        create_time: httpDatasource.create_time,
-        update_time: httpDatasource.update_time,
         is_preset: false,
       });
     });
@@ -278,7 +278,7 @@ describe('DataSourceController', () => {
         .put('/datasource/rename')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -288,8 +288,6 @@ describe('DataSourceController', () => {
           new_key: 'jsonplaceholder_renamed',
         },
         id: response.body.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
       });
     });
   });

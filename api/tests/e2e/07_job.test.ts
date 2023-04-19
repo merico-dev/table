@@ -2,7 +2,6 @@ import { connectionHook, sleep } from './jest.util';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
-import Dashboard from '~/models/dashboard';
 import DataSource from '~/models/datasource';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { parseDBUrl } from '../utils';
@@ -10,11 +9,11 @@ import { DataSourceCreateRequest, DataSourceRenameRequest } from '~/api_models/d
 import { DashboardCreateRequest } from '~/api_models/dashboard';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
 import Job from '~/models/job';
+import { omitTime } from '~/utils/helpers';
 
 describe('JobController', () => {
   connectionHook();
   let superadminLogin: AccountLoginResponse;
-  let dashboard: Dashboard;
   let pgDatasource: DataSource;
   let httpDatasource: DataSource;
 
@@ -35,12 +34,7 @@ describe('JobController', () => {
       group: 'job',
     };
 
-    const dashboardResponse = await server
-      .post('/dashboard/create')
-      .set('Authorization', `Bearer ${superadminLogin.token}`)
-      .send(dashboardQuery);
-
-    dashboard = dashboardResponse.body;
+    await server.post('/dashboard/create').set('Authorization', `Bearer ${superadminLogin.token}`).send(dashboardQuery);
 
     const connectionString = process.env.END_2_END_TEST_PG_URL;
     const { username, password, host, port, database } = parseDBUrl(connectionString);
@@ -94,7 +88,7 @@ describe('JobController', () => {
         .put('/datasource/rename')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -104,8 +98,6 @@ describe('JobController', () => {
           new_key: pgDatasource.key + '_renamed',
         },
         id: response.body.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
       });
       pgDatasource.key = pgDatasource.key + '_renamed';
 
@@ -123,6 +115,7 @@ describe('JobController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -132,8 +125,6 @@ describe('JobController', () => {
           new_key: httpDatasource.key + '_renamed',
         },
         id: response.body.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
       });
       httpDatasource.key = httpDatasource.key + '_renamed';
       await sleep(2000);
@@ -151,6 +142,8 @@ describe('JobController', () => {
         .post('/job/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
+
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 5,
         offset: 0,
@@ -164,8 +157,6 @@ describe('JobController', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
@@ -176,8 +167,6 @@ describe('JobController', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
@@ -189,8 +178,6 @@ describe('JobController', () => {
               old_key: 'jsonplaceholder',
             },
             result: { affected_dashboard_contents: [] },
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
           },
           {
             id: response.body.data[3].id,
@@ -204,8 +191,6 @@ describe('JobController', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time,
           },
           {
             id: response.body.data[4].id,
@@ -219,8 +204,6 @@ describe('JobController', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time,
           },
         ],
       });
@@ -272,6 +255,7 @@ describe('JobController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 7,
         offset: 0,
@@ -285,8 +269,6 @@ describe('JobController', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
@@ -297,8 +279,6 @@ describe('JobController', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
@@ -310,8 +290,6 @@ describe('JobController', () => {
               old_key: 'jsonplaceholder',
             },
             result: { affected_dashboard_contents: [] },
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
           },
           {
             id: response.body.data[3].id,
@@ -325,8 +303,6 @@ describe('JobController', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time,
           },
           {
             id: response.body.data[4].id,
@@ -340,8 +316,6 @@ describe('JobController', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time,
           },
           {
             id: response.body.data[5].id,
@@ -353,8 +327,6 @@ describe('JobController', () => {
               old_key: 'jobPG',
             },
             result: response.body.data[5].result,
-            create_time: response.body.data[5].create_time,
-            update_time: response.body.data[5].update_time,
           },
           {
             id: response.body.data[6].id,
@@ -368,8 +340,6 @@ describe('JobController', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: response.body.data[6].create_time,
-            update_time: response.body.data[6].update_time,
           },
         ],
       });
