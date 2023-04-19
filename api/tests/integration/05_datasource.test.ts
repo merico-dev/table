@@ -7,6 +7,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId, pgSourceConfig } from './constants';
 import { maybeDecryptPassword } from '~/utils/encryption';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
+import { omitTime } from '~/utils/helpers';
 
 describe('DataSourceService', () => {
   connectionHook();
@@ -23,13 +24,11 @@ describe('DataSourceService', () => {
   describe('create', () => {
     it('should create successfully', async () => {
       pgDatasource = await datasourceService.create('postgresql', 'pg_2', pgSourceConfig, DEFAULT_LANGUAGE);
-      expect(pgDatasource).toMatchObject({
+      expect(omitTime(pgDatasource)).toMatchObject({
         type: 'postgresql',
         key: 'pg_2',
         config: pgSourceConfig,
         id: pgDatasource.id,
-        create_time: pgDatasource.create_time,
-        update_time: pgDatasource.update_time,
         is_preset: false,
       });
 
@@ -45,13 +44,11 @@ describe('DataSourceService', () => {
         },
         DEFAULT_LANGUAGE,
       );
-      expect(httpDatasource).toMatchObject({
+      expect(omitTime(httpDatasource)).toMatchObject({
         type: 'http',
         key: 'jsonplaceholder_2',
         config: dataSources[0].config,
         id: httpDatasource.id,
-        create_time: httpDatasource.create_time,
-        update_time: httpDatasource.update_time,
         is_preset: false,
       });
     });
@@ -166,24 +163,20 @@ describe('DataSourceService', () => {
     it('should rename successfully', async () => {
       const newPGKey = pgDatasource.key + '_renamed';
       const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey, DEFAULT_LANGUAGE, null, null);
-      expect(pgResult).toMatchObject({
+      expect(omitTime(pgResult)).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: pgDatasource.type, old_key: pgDatasource.key, new_key: newPGKey },
         id: pgResult.id,
-        create_time: pgResult.create_time,
-        update_time: pgResult.update_time,
       });
 
       const newHTTPKey = httpDatasource.key + '_renamed';
       const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey, DEFAULT_LANGUAGE, null, null);
-      expect(httpResult).toMatchObject({
+      expect(omitTime(httpResult)).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: httpDatasource.type, old_key: httpDatasource.key, new_key: newHTTPKey },
         id: httpResult.id,
-        create_time: httpResult.create_time,
-        update_time: httpResult.update_time,
       });
 
       await sleep(3000);

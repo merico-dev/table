@@ -3,6 +3,7 @@ import { JobService } from '~/services/job.service';
 import Job from '~/models/job';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import * as crypto from 'crypto';
+import { omitTime } from '~/utils/helpers';
 
 describe('JobService', () => {
   connectionHook();
@@ -25,13 +26,11 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(job1).toMatchObject({
+      expect(omitTime(job1)).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: 'postgresql', old_key: 'pg', new_key: 'pg_renamed', auth_id: null, auth_type: null },
         id: job1.id,
-        create_time: job1.create_time,
-        update_time: job1.update_time,
       });
 
       const job2 = await JobService.addRenameDataSourceJob({
@@ -41,7 +40,7 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(job2).toMatchObject({
+      expect(omitTime(job2)).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: {
@@ -52,8 +51,6 @@ describe('JobService', () => {
           auth_type: null,
         },
         id: job2.id,
-        create_time: job2.create_time,
-        update_time: job2.update_time,
       });
 
       const job3 = await JobService.addRenameDataSourceJob({
@@ -63,13 +60,11 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(job3).toMatchObject({
+      expect(omitTime(job3)).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: 'non_existent', old_key: 'old_key', new_key: 'new_key', auth_id: null, auth_type: null },
         id: job3.id,
-        create_time: job3.create_time,
-        update_time: job3.update_time,
       });
     });
   });
@@ -124,26 +119,22 @@ describe('JobService', () => {
         auth_id: jobAuthId1,
         auth_type: 'ACCOUNT',
       });
-      expect(job1).toMatchObject({
+      expect(omitTime(job1)).toMatchObject({
         type: 'FIX_DASHBOARD_PERMISSION',
         status: 'INIT',
         params: { auth_id: jobAuthId1, auth_type: 'ACCOUNT' },
         id: job1.id,
-        create_time: job1.create_time,
-        update_time: job1.update_time,
       });
 
       const job2 = await JobService.addFixDashboardPermissionJob({
         auth_id: jobAuthId2,
         auth_type: 'APIKEY',
       });
-      expect(job2).toMatchObject({
+      expect(omitTime(job2)).toMatchObject({
         type: 'FIX_DASHBOARD_PERMISSION',
         status: 'INIT',
         params: { auth_id: jobAuthId2, auth_type: 'APIKEY' },
         id: job2.id,
-        create_time: job2.create_time,
-        update_time: job2.update_time,
       });
     });
   });
@@ -180,6 +171,7 @@ describe('JobService', () => {
         page: 1,
         pagesize: 20,
       });
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 14,
         offset: 0,
@@ -193,8 +185,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
           {
             id: results.data[1].id,
@@ -205,8 +195,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
           },
           {
             id: results.data[2].id,
@@ -220,8 +208,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: { affected_dashboard_contents: [] },
-            create_time: results.data[2].create_time,
-            update_time: results.data[2].update_time,
           },
           {
             id: results.data[3].id,
@@ -235,8 +221,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: { affected_dashboard_contents: [] },
-            create_time: results.data[3].create_time,
-            update_time: results.data[3].update_time,
           },
           {
             id: results.data[4].id,
@@ -261,8 +245,6 @@ describe('JobService', () => {
                 },
               ],
             },
-            create_time: results.data[4].create_time,
-            update_time: results.data[4].update_time,
           },
           {
             id: results.data[5].id,
@@ -287,8 +269,6 @@ describe('JobService', () => {
                 },
               ],
             },
-            create_time: results.data[5].create_time,
-            update_time: results.data[5].update_time,
           },
           {
             id: results.data[6].id,
@@ -302,8 +282,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: results.data[6].result,
-            create_time: results.data[6].create_time,
-            update_time: results.data[6].update_time,
           },
           {
             id: results.data[7].id,
@@ -319,8 +297,6 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: results.data[7].create_time,
-            update_time: results.data[7].update_time,
           },
           {
             id: results.data[8].id,
@@ -336,8 +312,6 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: results.data[8].create_time,
-            update_time: results.data[8].update_time,
           },
           {
             id: results.data[9].id,
@@ -351,8 +325,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: results.data[9].result,
-            create_time: results.data[9].create_time,
-            update_time: results.data[9].update_time,
           },
           {
             id: results.data[10].id,
@@ -363,8 +335,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[10].create_time,
-            update_time: results.data[10].update_time,
           },
           {
             id: results.data[11].id,
@@ -375,8 +345,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[11].create_time,
-            update_time: results.data[11].update_time,
           },
           {
             id: results.data[12].id,
@@ -387,8 +355,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[12].create_time,
-            update_time: results.data[12].update_time,
           },
           {
             id: results.data[13].id,
@@ -399,8 +365,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[13].create_time,
-            update_time: results.data[13].update_time,
           },
         ],
       });
@@ -423,6 +387,7 @@ describe('JobService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 12,
         offset: 0,
@@ -436,8 +401,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
           {
             id: results.data[1].id,
@@ -448,8 +411,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
           },
           {
             id: results.data[2].id,
@@ -463,8 +424,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: { affected_dashboard_contents: [] },
-            create_time: results.data[2].create_time,
-            update_time: results.data[2].update_time,
           },
           {
             id: results.data[3].id,
@@ -478,8 +437,6 @@ describe('JobService', () => {
               auth_type: null,
             },
             result: { affected_dashboard_contents: [] },
-            create_time: results.data[3].create_time,
-            update_time: results.data[3].update_time,
           },
           {
             id: results.data[4].id,
@@ -504,8 +461,6 @@ describe('JobService', () => {
                 },
               ],
             },
-            create_time: results.data[4].create_time,
-            update_time: results.data[4].update_time,
           },
           {
             id: results.data[5].id,
@@ -530,8 +485,6 @@ describe('JobService', () => {
                 },
               ],
             },
-            create_time: results.data[5].create_time,
-            update_time: results.data[5].update_time,
           },
           {
             id: results.data[6].id,
@@ -547,8 +500,6 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: results.data[6].create_time,
-            update_time: results.data[6].update_time,
           },
           {
             id: results.data[7].id,
@@ -564,8 +515,6 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [],
             },
-            create_time: results.data[7].create_time,
-            update_time: results.data[7].update_time,
           },
           {
             id: results.data[8].id,
@@ -576,8 +525,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[8].create_time,
-            update_time: results.data[8].update_time,
           },
           {
             id: results.data[9].id,
@@ -588,8 +535,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[9].create_time,
-            update_time: results.data[9].update_time,
           },
           {
             id: results.data[10].id,
@@ -600,8 +545,6 @@ describe('JobService', () => {
               auth_type: 'ACCOUNT',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[10].create_time,
-            update_time: results.data[10].update_time,
           },
           {
             id: results.data[11].id,
@@ -612,8 +555,6 @@ describe('JobService', () => {
               auth_type: 'APIKEY',
             },
             result: { affected_dashboard_permissions: [] },
-            create_time: results.data[11].create_time,
-            update_time: results.data[11].update_time,
           },
         ],
       });
@@ -625,6 +566,7 @@ describe('JobService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 2,
         offset: 0,
@@ -635,8 +577,6 @@ describe('JobService', () => {
             status: 'FAILED',
             params: { type: 'non_existent', new_key: 'new_key', old_key: 'old_key' },
             result: results.data[0].result,
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
           {
             id: results.data[1].id,
@@ -644,8 +584,6 @@ describe('JobService', () => {
             status: 'FAILED',
             params: { type: 'non_existent', new_key: 'old_key', old_key: 'new_key' },
             result: results.data[1].result,
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
           },
         ],
       });

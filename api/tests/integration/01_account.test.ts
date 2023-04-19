@@ -8,6 +8,7 @@ import { ApiError, BAD_REQUEST, INVALID_CREDENTIALS, PASSWORD_MISMATCH } from '~
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import Account from '~/models/account';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
+import { omitTime } from '~/utils/helpers';
 
 describe('AccountService', () => {
   connectionHook();
@@ -30,13 +31,11 @@ describe('AccountService', () => {
         ROLE_TYPES.ADMIN,
         DEFAULT_LANGUAGE,
       );
-      expect(account5).toMatchObject({
+      expect(omitTime(account5)).toMatchObject({
         id: account5.id,
         name: 'account5',
         email: 'account5@test.com',
         role_id: ROLE_TYPES.ADMIN,
-        create_time: account5.create_time,
-        update_time: account5.update_time,
       });
     });
 
@@ -55,12 +54,7 @@ describe('AccountService', () => {
       expect(account5Login).toMatchObject({
         token: account5Login.token,
         account: {
-          id: account5.id,
-          name: account5.name,
-          email: account5.email,
-          role_id: account5.role_id,
-          create_time: account5.create_time,
-          update_time: account5.update_time,
+          ...omitTime(account5),
         },
       });
     });
@@ -75,10 +69,8 @@ describe('AccountService', () => {
   describe('getByToken', () => {
     it('should return account', async () => {
       const account = await AccountService.getByToken(account5Login.token);
-      expect(account).toMatchObject({
+      expect(omitTime(account)).toMatchObject({
         id: account5.id,
-        create_time: account5.create_time,
-        update_time: account5.update_time,
         name: 'account5',
         email: 'account5@test.com',
         role_id: ROLE_TYPES.ADMIN,
@@ -110,10 +102,8 @@ describe('AccountService', () => {
         'account5_updated@test.test',
         DEFAULT_LANGUAGE,
       );
-      expect(account5).toMatchObject({
+      expect(omitTime(account5)).toMatchObject({
         id: account5.id,
-        create_time: account5.create_time,
-        update_time: account5.update_time,
         name: 'account5_updated',
         email: 'account5_updated@test.test',
         role_id: ROLE_TYPES.ADMIN,
@@ -145,10 +135,8 @@ describe('AccountService', () => {
         ROLE_TYPES.SUPERADMIN,
         DEFAULT_LANGUAGE,
       );
-      expect(account5).toMatchObject({
+      expect(omitTime(account5)).toMatchObject({
         id: account5.id,
-        create_time: account5.create_time,
-        update_time: account5.update_time,
         name: 'account5_updated_again',
         email: 'account5_updated_again@test.test',
         role_id: ROLE_TYPES.READER,
@@ -217,12 +205,7 @@ describe('AccountService', () => {
       expect(login).toMatchObject({
         token: login.token,
         account: {
-          id: account5.id,
-          create_time: account5.create_time,
-          update_time: login.account.update_time,
-          name: 'account5_updated_again',
-          email: 'account5_updated_again@test.test',
-          role_id: ROLE_TYPES.READER,
+          ...omitTime(account5),
         },
       });
 
@@ -236,12 +219,7 @@ describe('AccountService', () => {
       expect(login).toMatchObject({
         token: login.token,
         account: {
-          id: account5.id,
-          create_time: account5.create_time,
-          update_time: login.account.update_time,
-          name: 'account5_updated_again',
-          email: 'account5_updated_again@test.test',
-          role_id: ROLE_TYPES.READER,
+          ...omitTime(account5),
         },
       });
     });

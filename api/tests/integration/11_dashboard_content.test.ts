@@ -11,6 +11,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardContentService', () => {
   connectionHook();
@@ -88,6 +89,7 @@ describe('DashboardContentService', () => {
           pagesize: 20,
         },
       );
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -97,24 +99,18 @@ describe('DashboardContentService', () => {
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent1',
             content: {},
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
           {
             id: dashboardContent2.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent2',
             content: {},
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
           },
           {
             id: dashboardContent3.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
             content: {},
-            create_time: results.data[2].create_time,
-            update_time: results.data[2].update_time,
           },
         ],
       });
@@ -126,6 +122,7 @@ describe('DashboardContentService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -135,8 +132,6 @@ describe('DashboardContentService', () => {
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
             content: {},
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
         ],
       });
@@ -160,10 +155,9 @@ describe('DashboardContentService', () => {
         DEFAULT_LANGUAGE,
         superadmin,
       );
-      expect(updatedDashboardContent).toMatchObject({
-        ...dashboardContent1,
+      expect(omitTime(updatedDashboardContent)).toMatchObject({
+        ...omitTime(dashboardContent1),
         name: 'dashboardContent1_updated',
-        update_time: updatedDashboardContent.update_time,
       });
     });
     it('should fail if not found', async () => {
@@ -179,10 +173,9 @@ describe('DashboardContentService', () => {
         DEFAULT_LANGUAGE,
         superadmin,
       );
-      expect(updatedDashboardContent).toMatchObject({
-        ...tempPresetDashboardContent,
+      expect(omitTime(updatedDashboardContent)).toMatchObject({
+        ...omitTime(tempPresetDashboardContent),
         name: 'tempPresetDashboardContent_updated',
-        update_time: updatedDashboardContent.update_time,
       });
     });
     it('should fail if not SUPERADMIN', async () => {

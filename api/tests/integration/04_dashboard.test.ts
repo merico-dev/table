@@ -7,6 +7,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardService', () => {
   connectionHook();
@@ -37,6 +38,7 @@ describe('DashboardService', () => {
         page: 1,
         pagesize: 20,
       });
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -45,8 +47,6 @@ describe('DashboardService', () => {
             id: dashboards[0].id,
             name: 'dashboard1',
             content_id: '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
-            create_time: dashboards[0].create_time,
-            update_time: dashboards[0].update_time,
             is_removed: true,
             is_preset: false,
             group: '1',
@@ -55,8 +55,6 @@ describe('DashboardService', () => {
             id: dashboards[1].id,
             name: 'dashboard2',
             content_id: '5959a66b-5b6b-4509-9d87-bb8b96100658',
-            create_time: dashboards[1].create_time,
-            update_time: dashboards[1].update_time,
             is_removed: false,
             is_preset: true,
             group: '1',
@@ -65,8 +63,6 @@ describe('DashboardService', () => {
             id: dashboard3.id,
             name: 'dashboard3',
             content_id: null,
-            create_time: dashboard3.create_time,
-            update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
             group: '2',
@@ -81,6 +77,7 @@ describe('DashboardService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -89,8 +86,6 @@ describe('DashboardService', () => {
             id: dashboard3.id,
             name: 'dashboard3',
             content_id: null,
-            create_time: dashboard3.create_time,
-            update_time: dashboard3.update_time,
             is_removed: false,
             is_preset: false,
             group: '2',
@@ -135,12 +130,11 @@ describe('DashboardService', () => {
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
-      expect(updatedDashboard).toMatchObject({
-        ...dashboard3,
+      expect(omitTime(updatedDashboard)).toMatchObject({
+        ...omitTime(dashboard3),
         name: 'dashboard3_updated',
         is_removed: true,
         group: '2_updated',
-        update_time: updatedDashboard.update_time,
       });
     });
 
@@ -168,12 +162,11 @@ describe('DashboardService', () => {
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
-      expect(updatedDashboard).toMatchObject({
-        ...dashboards[1],
+      expect(omitTime(updatedDashboard)).toMatchObject({
+        ...omitTime(dashboards[1]),
         name: 'dashboard2_updated',
         is_removed: false,
         group: '1_updated',
-        update_time: updatedDashboard.update_time,
       });
     });
 
@@ -195,12 +188,11 @@ describe('DashboardService', () => {
   describe('delete', () => {
     it('should delete successfully', async () => {
       const deletedDashboard = await dashboardService.delete(dashboard3.id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
-      expect(deletedDashboard).toMatchObject({
-        ...dashboard3,
+      expect(omitTime(deletedDashboard)).toMatchObject({
+        ...omitTime(dashboard3),
         name: 'dashboard3_updated',
         is_removed: true,
         group: '2_updated',
-        update_time: deletedDashboard.update_time,
       });
     });
 
@@ -212,12 +204,11 @@ describe('DashboardService', () => {
 
     it('should delete preset dashboard successfully if SUPERADMIN', async () => {
       const deletedDashboard = await dashboardService.delete(dashboards[1].id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
-      expect(deletedDashboard).toMatchObject({
-        ...dashboards[1],
+      expect(omitTime(deletedDashboard)).toMatchObject({
+        ...omitTime(dashboards[1]),
         name: 'dashboard2_updated',
         is_removed: true,
         group: '1_updated',
-        update_time: deletedDashboard.update_time,
       });
     });
 

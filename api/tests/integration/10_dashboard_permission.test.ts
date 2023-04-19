@@ -13,6 +13,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import ApiKey from '~/models/apiKey';
 import { ApiError, BAD_REQUEST, FORBIDDEN } from '~/utils/errors';
 import { translate } from '~/utils/i18n';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardPermissionService', () => {
   connectionHook();
@@ -85,6 +86,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
+      results.data = results.data.map(omitTime);
       expect(results).toMatchObject({
         total: 5,
         offset: 0,
@@ -94,40 +96,30 @@ describe('DashboardPermissionService', () => {
             owner_id: results.data[0].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: results.data[0].create_time,
-            update_time: results.data[0].update_time,
           },
           {
             id: results.data[1].id,
             owner_id: results.data[1].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: results.data[1].create_time,
-            update_time: results.data[1].update_time,
           },
           {
             id: results.data[2].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: results.data[2].create_time,
-            update_time: results.data[2].update_time,
           },
           {
             id: results.data[3].id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: results.data[3].create_time,
-            update_time: results.data[3].update_time,
           },
           {
             id: results.data[4].id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             access: [],
-            create_time: results.data[4].create_time,
-            update_time: results.data[4].update_time,
           },
         ],
       });
@@ -144,6 +136,7 @@ describe('DashboardPermissionService', () => {
           pagesize: 20,
         },
       );
+      results1.data = results1.data.map(omitTime);
       expect(results1).toMatchObject({
         total: 1,
         offset: 0,
@@ -153,8 +146,6 @@ describe('DashboardPermissionService', () => {
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: results1.data[0].create_time,
-            update_time: results1.data[0].update_time,
           },
         ],
       });
@@ -168,6 +159,7 @@ describe('DashboardPermissionService', () => {
         },
       );
 
+      results2.data = results2.data.map(omitTime);
       expect(results2).toMatchObject({
         total: 1,
         offset: 0,
@@ -177,52 +169,43 @@ describe('DashboardPermissionService', () => {
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             access: [],
-            create_time: results2.data[0].create_time,
-            update_time: results2.data[0].update_time,
           },
         ],
       });
 
-      const result3 = await dashboardPermissionService.list(
+      const results3 = await dashboardPermissionService.list(
         { owner_type: { isFuzzy: true, value: 'A' } },
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      expect(result3).toMatchObject({
+      results3.data = results3.data.map(omitTime);
+      expect(results3).toMatchObject({
         total: 4,
         offset: 0,
         data: [
           {
-            id: result3.data[0].id,
-            owner_id: result3.data[0].owner_id,
+            id: results3.data[0].id,
+            owner_id: results3.data[0].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result3.data[0].create_time,
-            update_time: result3.data[0].update_time,
           },
           {
-            id: result3.data[1].id,
-            owner_id: result3.data[1].owner_id,
+            id: results3.data[1].id,
+            owner_id: results3.data[1].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result3.data[1].create_time,
-            update_time: result3.data[1].update_time,
           },
           {
             id: accountDashboard.id,
             owner_id: account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result3.data[2].create_time,
-            update_time: result3.data[2].update_time,
           },
           {
             id: apiKeyDashboard.id,
             owner_id: apiKey.id,
             owner_type: 'APIKEY',
             access: [],
-            create_time: result3.data[3].create_time,
-            update_time: result3.data[3].update_time,
           },
         ],
       });
@@ -237,10 +220,8 @@ describe('DashboardPermissionService', () => {
         account,
         DEFAULT_LANGUAGE,
       );
-      expect(result1).toMatchObject({
+      expect(omitTime(result1)).toMatchObject({
         id: accountDashboard.id,
-        create_time: result1.create_time,
-        update_time: result1.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         access: [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
@@ -252,10 +233,8 @@ describe('DashboardPermissionService', () => {
         account,
         DEFAULT_LANGUAGE,
       );
-      expect(result2).toMatchObject({
+      expect(omitTime(result2)).toMatchObject({
         id: accountDashboard.id,
-        create_time: result2.create_time,
-        update_time: result2.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         access: [],
@@ -269,10 +248,8 @@ describe('DashboardPermissionService', () => {
         apiKey,
         DEFAULT_LANGUAGE,
       );
-      expect(result).toMatchObject({
+      expect(omitTime(result)).toMatchObject({
         id: apiKeyDashboard.id,
-        create_time: result.create_time,
-        update_time: result.update_time,
         owner_id: apiKey.id,
         owner_type: 'APIKEY',
         access: [],
@@ -297,10 +274,8 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(result).toMatchObject({
+      expect(omitTime(result)).toMatchObject({
         id: accountDashboard.id,
-        create_time: result.create_time,
-        update_time: result.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         access: [{ id: adminAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
@@ -325,10 +300,8 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(result1).toMatchObject({
+      expect(omitTime(result1)).toMatchObject({
         id: noOwnerDashboardId,
-        create_time: result1.create_time,
-        update_time: result1.update_time,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
         access: [],
@@ -340,10 +313,8 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(result2).toMatchObject({
+      expect(omitTime(result2)).toMatchObject({
         id: accountDashboard.id,
-        create_time: result2.create_time,
-        update_time: result2.update_time,
         owner_id: adminAccount.id,
         owner_type: 'ACCOUNT',
         access: [],
@@ -386,6 +357,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
+      result.data = result.data.map(omitTime);
       expect(result).toMatchObject({
         total: 5,
         offset: 0,
@@ -395,40 +367,30 @@ describe('DashboardPermissionService', () => {
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[0].create_time,
-            update_time: result.data[0].update_time,
           },
           {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[1].create_time,
-            update_time: result.data[1].update_time,
           },
           {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[2].create_time,
-            update_time: result.data[2].update_time,
           },
           {
             id: result.data[3].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[3].create_time,
-            update_time: result.data[3].update_time,
           },
           {
             id: result.data[4].id,
             owner_id: result.data[4].owner_id,
             owner_type: 'APIKEY',
             access: [],
-            create_time: result.data[4].create_time,
-            update_time: result.data[4].update_time,
           },
         ],
       });
@@ -442,6 +404,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
+      result.data = result.data.map(omitTime);
       expect(result).toMatchObject({
         total: 5,
         offset: 0,
@@ -451,40 +414,30 @@ describe('DashboardPermissionService', () => {
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[0].create_time,
-            update_time: result.data[0].update_time,
           },
           {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[1].create_time,
-            update_time: result.data[1].update_time,
           },
           {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[2].create_time,
-            update_time: result.data[2].update_time,
           },
           {
             id: result.data[3].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[3].create_time,
-            update_time: result.data[3].update_time,
           },
           {
             id: result.data[4].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[4].create_time,
-            update_time: result.data[4].update_time,
           },
         ],
       });
@@ -498,6 +451,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
+      result.data = result.data.map(omitTime);
       expect(result).toMatchObject({
         total: 3,
         offset: 0,
@@ -507,24 +461,18 @@ describe('DashboardPermissionService', () => {
             owner_id: result.data[0].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[0].create_time,
-            update_time: result.data[0].update_time,
           },
           {
             id: result.data[1].id,
             owner_id: result.data[1].owner_id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: result.data[1].create_time,
-            update_time: result.data[1].update_time,
           },
           {
             id: result.data[2].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: result.data[2].create_time,
-            update_time: result.data[2].update_time,
           },
         ],
       });
