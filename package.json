@@ -1,6 +1,6 @@
 {
   "name": "@devtable/root",
-  "version": "8.57.0",
+  "version": "8.57.1",
   "private": true,
   "workspaces": [
     "api",
@@ -16,17 +16,17 @@
     "@types/node": "latest",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
-    "@vitejs/plugin-react": "^3.1.0",
-    "@vitest/ui": "^0.30.1",
+    "@vitejs/plugin-react": "2.1.0",
+    "@vitest/ui": "0.23.1",
     "change-case": "^4.1.2",
     "eslint": "^8.24.0",
     "husky": "^8.0.0",
     "nx": "14.5.10",
     "prettier": "^2.7.1",
-    "vite": "4.2.1",
+    "vite": "3.0.5",
     "vite-plugin-dts": "1.4.1",
-    "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.30.1"
+    "vite-tsconfig-paths": "3.5.0",
+    "vitest": "^0.23.1"
   },
   "scripts": {
     "prepare": "husky install",
