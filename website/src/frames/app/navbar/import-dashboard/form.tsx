@@ -8,6 +8,16 @@ import { useNavigate } from 'react-router-dom';
 import { DashboardAPI } from '../../../../api-caller/dashboard';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
 
+const cleanContent = (temp: TDashboardContent_Temp) => {
+  if (!temp) {
+    return undefined;
+  }
+  const { id, name, group, ...content } = temp;
+  return {
+    ...content,
+  };
+};
+
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
 interface IFormValues {
@@ -44,7 +54,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const { id } = await DashboardAPI.create(name, '', content);
+      const { id } = await DashboardAPI.create(name, '', cleanContent(content));
       updateNotification({
         id: 'for-creating',
         title: 'Successful',
