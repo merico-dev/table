@@ -36,13 +36,6 @@ interface IChangelogContent {
 }
 export const ChangelogContent = observer(({ resp, page, setPage, loading, maxPage }: IChangelogContent) => {
   const [currentChangelogID, setCurrentChangelogID] = useState<string>('');
-  if (maxPage === 0) {
-    return (
-      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
-        This table is empty
-      </Text>
-    );
-  }
 
   const { data } = resp;
 
@@ -51,11 +44,18 @@ export const ChangelogContent = observer(({ resp, page, setPage, loading, maxPag
   }, [data, currentChangelogID]);
 
   useEffect(() => {
-    if (data && !currentChangelogID) {
+    if (Array.isArray(data) && data.length > 0 && !currentChangelogID) {
       setCurrentChangelogID(data[0].id);
     }
   }, [data, currentChangelogID]);
 
+  if (maxPage === 0) {
+    return (
+      <Text mt={20} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+        This table is empty
+      </Text>
+    );
+  }
   return (
     <ErrorBoundary>
       <Box p={0} sx={{ width: '100%', height: '100%', overflow: 'auto', position: 'relative' }}>
