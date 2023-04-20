@@ -1,4 +1,5 @@
 import Editor from '@monaco-editor/react';
+import './index.css';
 
 interface IReadonlyMonacoEditor {
   value: string;
@@ -15,7 +16,7 @@ export const ReadonlyMonacoEditor = ({
 }: IReadonlyMonacoEditor) => {
   return (
     <Editor
-      className="minimal-monaco-editor"
+      className="website-readonly-monaco-editor"
       height={height}
       defaultLanguage={language}
       value={value}
