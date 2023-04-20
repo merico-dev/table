@@ -1,4 +1,4 @@
-import { ActionIcon, AppShell, Modal } from '@mantine/core';
+import { ActionIcon, AppShell, LoadingOverlay, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHistory } from '@tabler/icons';
 import { useRequest } from 'ahooks';
@@ -99,7 +99,8 @@ export const DashboardHistoryModal = observer(() => {
           }
           styles={ChangelogsAppShellStyles}
         >
-          <ChangelogContent current={current} maxPage={maxPage} />
+          <LoadingOverlay visible={loading} />
+          <ChangelogContent current={current} maxPage={maxPage} loading={loading} />
         </AppShell>
       </Modal>
       <ActionIcon onClick={open} color="blue" variant="light">
