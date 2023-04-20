@@ -4,16 +4,22 @@ interface IReadonlyMonacoEditor {
   value: string;
   onChange?: (v: string) => void;
   height?: string;
-  defaultLanguage?: string;
+  language?: string;
+  theme?: string;
 }
-export const ReadonlyMonacoEditor = ({ value, height = '200px', defaultLanguage = 'sql' }: IReadonlyMonacoEditor) => {
+export const ReadonlyMonacoEditor = ({
+  value,
+  height = '200px',
+  language = 'sql',
+  theme = 'vs-dark',
+}: IReadonlyMonacoEditor) => {
   return (
     <Editor
       className="minimal-monaco-editor"
       height={height}
-      defaultLanguage={defaultLanguage}
+      defaultLanguage={language}
       value={value}
-      theme="vs-dark"
+      theme={theme}
       options={{
         lineNumbers: 'off',
         folding: false,

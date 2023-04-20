@@ -69,7 +69,14 @@ export const ChangelogContent = observer(({ resp, page, setPage, loading, maxPag
           </MantineNavbar.Section>
         </MantineNavbar>
         <Stack sx={{ position: 'relative', paddingLeft: 185, height: '100%' }}>
-          {current && <ReadonlyMonacoEditor defaultLanguage="diff" value={current.diff} height="100%" />}
+          {current && (
+            <ReadonlyMonacoEditor
+              language="git-diff-language"
+              theme="git-diff-theme"
+              value={current.diff}
+              height="100%"
+            />
+          )}
         </Stack>
       </Box>
     </ErrorBoundary>
