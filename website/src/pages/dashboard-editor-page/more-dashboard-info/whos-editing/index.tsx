@@ -1,5 +1,5 @@
-import { Badge, Group, HoverCard } from '@mantine/core';
-import { IconArrowsShuffle, IconPaint } from '@tabler/icons';
+import { Badge, HoverCard } from '@mantine/core';
+import { IconArrowsShuffle } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
@@ -38,14 +38,14 @@ export const WhosEditing = observer(() => {
     return presence.reduce((acc, { count }) => acc + count, 0);
   }, [presence]);
 
-  // // websocket is not ready, or connection error occurs
-  // if (total === 0) {
-  //   return null;
-  // }
-  // // only you're editing
-  // if (total === 1) {
-  //   return null;
-  // }
+  // websocket is not ready, or connection error occurs
+  if (total === 0) {
+    return null;
+  }
+  // only you're editing
+  if (total === 1) {
+    return null;
+  }
   return (
     <HoverCard shadow="md">
       <HoverCard.Target>
