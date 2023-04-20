@@ -17,6 +17,7 @@ import { DashboardPage } from './pages/dashboard-page';
 import { DataSourcePage } from './pages/data-source-page';
 import { LoginPage } from './pages/login-page';
 import { StatusPage } from './pages/status-page';
+import('./utils/custom-monaco-editor-languages');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
