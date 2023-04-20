@@ -12,9 +12,9 @@ import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
-import { WhosEditing } from './whos-editing';
+import { MoreDashboardInfo } from './more-dashboard-info';
 
-export const DashboardEditprPageContent = observer(
+export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
     const [context] = React.useState({});
@@ -63,7 +63,7 @@ export const DashboardEditprPageContent = observer(
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
         config={DashboardConfig}
-        headerSlot={<WhosEditing />}
+        headerSlot={<MoreDashboardInfo />}
       />
     );
   },

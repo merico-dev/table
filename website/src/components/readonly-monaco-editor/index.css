@@ -1,0 +1,8 @@
+.website-readonly-monaco-editor {
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+.website-readonly-monaco-editor .view-lines {
+  margin-top: 14px;
+}
