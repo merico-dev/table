@@ -1,6 +1,7 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DashboardPermissionDBType } from '../../../../api-caller/dashboard-permission.types';
+import { AccountTypeIcon } from '../../../../components/account-type-icon';
 import { AddAPermissionRule } from './add-a-permission-rule';
 import { PermissionStateAlert } from './permission-state-alert';
 import { TakeOwnership } from './take-ownership';
@@ -22,6 +23,11 @@ export const PermissionControl = observer(({ id, data }: IPermissionControl) => 
           </Group>
         ))}
         <PermissionStateAlert data={data} />
+        {data.owner_id && (
+          <Text>
+            Owned by: {data.owner_id} <AccountTypeIcon type={data.owner_type} />
+          </Text>
+        )}
       </Stack>
       <Group position="apart" mb={4}>
         <TakeOwnership id={id} />

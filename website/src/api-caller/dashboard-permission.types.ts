@@ -9,7 +9,7 @@ export type PermissionResourceType = {
 export type DashboardPermissionDBType = {
   id: string;
   owner_id: string;
-  owner_type: string;
+  owner_type: 'APIKEY' | 'ACCOUNT' | null;
   access: PermissionResourceType[];
   create_time: string;
   update_time: string;
