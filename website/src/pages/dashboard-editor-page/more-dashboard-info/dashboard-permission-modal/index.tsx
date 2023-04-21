@@ -15,18 +15,9 @@ export const DashboardPermissionModal = observer(() => {
   const id = store.currentID;
 
   const [opened, { open, close }] = useDisclosure(false);
-  const { data, loading } = useRequest(
-    async () => {
-      const resp = await DashboardPermissionAPI.list({
-        filter: { id: { value: id, isFuzzy: false } },
-        pagination: { page: 1, pagesize: 100000 },
-      });
-      return resp.data?.[0];
-    },
-    {
-      refreshDeps: [id, opened],
-    },
-  );
+  const { data, loading } = useRequest(async () => DashboardPermissionAPI.get(id), {
+    refreshDeps: [id, opened],
+  });
   const uncontrolled = data?.access.length === 0;
   const onlyAdminCanEdit = data?.owner_id === null || uncontrolled;
   const iCanEdit = onlyAdminCanEdit ? account.role_id >= 40 : canEdit;
