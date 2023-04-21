@@ -1,4 +1,4 @@
-import { ActionIcon, LoadingOverlay, Modal } from '@mantine/core';
+import { ActionIcon, Group, LoadingOverlay, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconLock, IconLockOpen } from '@tabler/icons';
 import { useRequest } from 'ahooks';
@@ -25,6 +25,10 @@ export const DashboardPermissionModal = observer(() => {
     return null;
   }
 
+  const postSubmit = () => {
+    close();
+  };
+
   return (
     <>
       <Modal
@@ -37,7 +41,7 @@ export const DashboardPermissionModal = observer(() => {
         overflow="inside"
       >
         <LoadingOverlay visible={loading} />
-        {data && <PermissionControl id={id} data={data} refresh={refresh} />}
+        {data && <PermissionControl id={id} data={data} refresh={refresh} postSubmit={postSubmit} />}
       </Modal>
       <ActionIcon onClick={open} color={uncontrolled ? 'orange' : 'green'} variant="light">
         {uncontrolled ? <IconLockOpen size={16} /> : <IconLock size={16} />}

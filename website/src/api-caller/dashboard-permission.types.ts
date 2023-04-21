@@ -32,3 +32,8 @@ export type UpdateDashboardOwnerPayloadType = {
   owner_id: string;
   owner_type: 'ACCOUNT' | 'APIKEY';
 };
+
+export type UpdatePermissionPayloadType = {
+  id: string;
+  access: PermissionResourceType[];
+};

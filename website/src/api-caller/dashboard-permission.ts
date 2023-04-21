@@ -4,6 +4,7 @@ import {
   UpdateDashboardOwnerPayloadType,
   ListDashboardPermissionReqType,
   ListDashboardPermissionRespType,
+  UpdatePermissionPayloadType,
 } from './dashboard-permission.types';
 import { post } from './request';
 
@@ -44,6 +45,15 @@ export const DashboardPermissionAPI = {
   updateOwner: async (payload: UpdateDashboardOwnerPayloadType): Promise<DashboardPermissionDBType | null> => {
     try {
       const resp: DashboardPermissionDBType = await post('/dashboard_permission/updateOwner', payload);
+      return resp;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+  update: async (payload: UpdatePermissionPayloadType): Promise<DashboardPermissionDBType | null> => {
+    try {
+      const resp: DashboardPermissionDBType = await post('/dashboard_permission/update', payload);
       return resp;
     } catch (err) {
       console.error(err);

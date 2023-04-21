@@ -10,6 +10,7 @@ export const DashboardOwnerInfo = ({ data }: { data: DashboardPermissionDBType }
       </Text>
     );
   }
+
   return (
     <Group spacing={6} position="right">
       <Text size={12}>Owned by</Text>
