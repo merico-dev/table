@@ -1,5 +1,5 @@
 import { Group, Text } from '@mantine/core';
-import { DashboardPermissionDBType } from '../../../../api-caller/dashboard-permission.types';
+import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
 
 export const DashboardOwnerInfo = ({ data }: { data: DashboardPermissionDBType }) => {
   const notOwned = !data.owner_id;

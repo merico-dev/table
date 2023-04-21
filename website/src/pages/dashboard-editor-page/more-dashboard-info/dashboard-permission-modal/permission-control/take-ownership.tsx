@@ -2,8 +2,8 @@ import { Button } from '@mantine/core';
 import { IconShieldLock } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { DashboardPermissionAPI } from '../../../../api-caller/dashboard-permission';
-import { useAccountContext } from '../../../../frames/require-auth/account-context';
+import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { useAccountContext } from '../../../../../frames/require-auth/account-context';
 
 interface ITakeOwnership {
   id: string;

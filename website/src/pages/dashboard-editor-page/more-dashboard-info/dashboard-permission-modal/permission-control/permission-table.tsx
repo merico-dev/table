@@ -1,6 +1,6 @@
 import { Table, Text } from '@mantine/core';
-import { PermissionResourceType } from '../../../../api-caller/dashboard-permission.types';
-import { AccountTypeIcon } from '../../../../components/account-type-icon';
+import { PermissionResourceType } from '../../../../../api-caller/dashboard-permission.types';
+import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 
 const TableStyles = {
   root: {

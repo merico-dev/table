@@ -1,10 +1,9 @@
 import { Button } from '@mantine/core';
-import { IconCheck, IconUserPlus } from '@tabler/icons';
-import { observer } from 'mobx-react-lite';
-import { useAccountContext } from '../../../../frames/require-auth/account-context';
-import { DashboardPermissionAPI } from '../../../../api-caller/dashboard-permission';
-import { useBoolean } from 'ahooks';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconCheck } from '@tabler/icons';
+import { useBoolean } from 'ahooks';
+import { observer } from 'mobx-react-lite';
+import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
 
 interface ISubmitPermissionChanges {
   id: string;

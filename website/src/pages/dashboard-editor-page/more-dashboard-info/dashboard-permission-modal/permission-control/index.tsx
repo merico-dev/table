@@ -1,6 +1,6 @@
 import { Divider, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardPermissionDBType } from '../../../../api-caller/dashboard-permission.types';
+import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
 import { AddAPermissionRule } from './add-a-permission-rule';
 import { DashboardOwnerInfo } from './dashboard-owner-info';
 import { PermissionTable } from './permission-table';
