@@ -37,7 +37,7 @@ export const DashboardPermissionModal = observer(() => {
         zIndex={320}
         size="600px"
         closeOnClickOutside={false}
-        title={'Permissions'}
+        title={<Group>Permission</Group>}
         overflow="inside"
       >
         <LoadingOverlay visible={loading} />

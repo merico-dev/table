@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { IconUserPlus } from '@tabler/icons';
+import { IconCheck, IconUserPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useAccountContext } from '../../../../frames/require-auth/account-context';
 import { DashboardPermissionAPI } from '../../../../api-caller/dashboard-permission';
@@ -36,7 +36,7 @@ export const SubmitPermissionChanges = observer(({ id, postSubmit }: ISubmitPerm
       size="xs"
       variant="filled"
       color="green"
-      leftIcon={<IconUserPlus size={14} />}
+      leftIcon={<IconCheck size={14} />}
       onClick={submit}
       disabled={loading}
     >
