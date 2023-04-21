@@ -36,7 +36,7 @@ export const DashboardPermissionModal = observer(() => {
         overflow="inside"
       >
         <LoadingOverlay visible={loading} />
-        {data && <PermissionControl id={id} data={data} uncontrolled={uncontrolled} />}
+        {data && <PermissionControl id={id} data={data} />}
       </Modal>
       <ActionIcon onClick={open} color={uncontrolled ? 'orange' : 'green'} variant="light">
         {uncontrolled ? <IconLockOpen size={16} /> : <IconLock size={16} />}
