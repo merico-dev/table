@@ -144,7 +144,7 @@
     "crypto-js": "^4.1.1",
     "d3-array": "3.2.3",
     "d3-regression": "1.2.8",
-    "dayjs": "1.11.6",
+    "dayjs": "1.11.7",
     "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "echarts-gl": "^2.0.9",
