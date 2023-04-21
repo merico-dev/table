@@ -31,6 +31,7 @@ export const DashboardPermissionModal = observer(() => {
         opened={opened}
         onClose={close}
         zIndex={320}
+        size="600px"
         closeOnClickOutside={false}
         title={'Permissions'}
         overflow="inside"
