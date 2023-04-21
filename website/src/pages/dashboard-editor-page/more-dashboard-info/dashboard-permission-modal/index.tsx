@@ -15,7 +15,7 @@ export const DashboardPermissionModal = observer(() => {
   const id = store.currentID;
 
   const [opened, { open, close }] = useDisclosure(false);
-  const { data, loading } = useRequest(async () => DashboardPermissionAPI.get(id), {
+  const { data, loading, refresh } = useRequest(async () => DashboardPermissionAPI.get(id), {
     refreshDeps: [id, opened],
   });
   const uncontrolled = data?.access.length === 0;
@@ -36,7 +36,7 @@ export const DashboardPermissionModal = observer(() => {
         overflow="inside"
       >
         <LoadingOverlay visible={loading} />
-        {data && <PermissionControl id={id} data={data} />}
+        {data && <PermissionControl id={id} data={data} refresh={refresh} />}
       </Modal>
       <ActionIcon onClick={open} color={uncontrolled ? 'orange' : 'green'} variant="light">
         {uncontrolled ? <IconLockOpen size={16} /> : <IconLock size={16} />}

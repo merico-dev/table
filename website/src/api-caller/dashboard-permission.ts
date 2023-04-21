@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import {
   DashboardPermissionDBType,
+  UpdateDashboardOwnerPayloadType,
   ListDashboardPermissionReqType,
   ListDashboardPermissionRespType,
 } from './dashboard-permission.types';
@@ -35,6 +36,15 @@ export const DashboardPermissionAPI = {
         pagination: { page: 1, pagesize: 100000 },
       });
       return resp.data[0] ?? null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  },
+  updateOwner: async (payload: UpdateDashboardOwnerPayloadType): Promise<DashboardPermissionDBType | null> => {
+    try {
+      const resp: DashboardPermissionDBType = await post('/dashboard_permission/updateOwner', payload);
+      return resp;
     } catch (err) {
       console.error(err);
       return null;

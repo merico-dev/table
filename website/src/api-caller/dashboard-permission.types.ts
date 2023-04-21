@@ -26,3 +26,9 @@ export type ListDashboardPermissionReqType = {
 };
 
 export type ListDashboardPermissionRespType = PaginationResponse<DashboardPermissionDBType>;
+
+export type UpdateDashboardOwnerPayloadType = {
+  id: string;
+  owner_id: string;
+  owner_type: 'ACCOUNT' | 'APIKEY';
+};
