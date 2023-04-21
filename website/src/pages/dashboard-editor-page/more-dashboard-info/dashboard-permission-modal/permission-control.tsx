@@ -1,14 +1,17 @@
-import { Alert, Button, Group, Stack, Text } from '@mantine/core';
-import { IconAlertCircle, IconPlus } from '@tabler/icons';
+import { Alert, Group, Stack, Text } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { DashboardPermissionDBType } from '../../../../api-caller/dashboard-permission.types';
+import { AddAPermissionRule } from './add-a-permission-rule';
+import { TakeOwnership } from './take-ownership';
 
 interface IPermissionControl {
+  id: string;
   data: DashboardPermissionDBType;
   uncontrolled: boolean;
 }
 
-export const PermissionControl = observer(({ data, uncontrolled }: IPermissionControl) => {
+export const PermissionControl = observer(({ id, data, uncontrolled }: IPermissionControl) => {
   return (
     <Stack spacing={20}>
       <Stack>
@@ -26,10 +29,9 @@ export const PermissionControl = observer(({ data, uncontrolled }: IPermissionCo
           </Alert>
         )}
       </Stack>
-      <Group position="right">
-        <Button size="xs" variant="light" leftIcon={<IconPlus size={14} />}>
-          Add a rule
-        </Button>
+      <Group position="apart" mb={4}>
+        <TakeOwnership id={id} />
+        <AddAPermissionRule id={id} />
       </Group>
     </Stack>
   );

@@ -10,7 +10,7 @@ import { PermissionControl } from './permission-control';
 
 export const DashboardPermissionModal = observer(() => {
   const { store } = useDashboardStore();
-  const { canEdit, account } = useAccountContext();
+  const { canEdit, isAdmin } = useAccountContext();
 
   const id = store.currentID;
 
@@ -20,7 +20,7 @@ export const DashboardPermissionModal = observer(() => {
   });
   const uncontrolled = data?.access.length === 0;
   const onlyAdminCanEdit = data?.owner_id === null || uncontrolled;
-  const iCanEdit = onlyAdminCanEdit ? account.role_id >= 40 : canEdit;
+  const iCanEdit = onlyAdminCanEdit ? isAdmin : canEdit;
   if (!iCanEdit) {
     return null;
   }
@@ -36,7 +36,7 @@ export const DashboardPermissionModal = observer(() => {
         overflow="inside"
       >
         <LoadingOverlay visible={loading} />
-        {data && <PermissionControl data={data} uncontrolled={uncontrolled} />}
+        {data && <PermissionControl id={id} data={data} uncontrolled={uncontrolled} />}
       </Modal>
       <ActionIcon onClick={open} color={uncontrolled ? 'orange' : 'green'} variant="light">
         {uncontrolled ? <IconLockOpen size={16} /> : <IconLock size={16} />}
