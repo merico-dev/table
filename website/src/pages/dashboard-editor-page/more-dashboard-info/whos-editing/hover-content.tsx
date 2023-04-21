@@ -1,6 +1,6 @@
-import { ActionIcon, Sx, Table, Tooltip } from '@mantine/core';
-import { IconApi, IconUser } from '@tabler/icons';
+import { Sx, Table } from '@mantine/core';
 import { PresenceDataItem } from './types';
+import { AccountTypeIcon } from '../../../../components/account-type-icon';
 
 const tableSx: Sx = {
   tableLayout: 'fixed',
@@ -42,11 +42,7 @@ export const HoverContent = ({ presence, total }: IProps) => {
         {presence.map((item) => (
           <tr key={item.id}>
             <td>
-              <Tooltip label={item.type === 'APIKEY' ? 'API Key' : 'Account'}>
-                <ActionIcon variant="subtle" sx={{ cursor: 'help', transform: 'none !important' }}>
-                  {item.type === 'APIKEY' ? <IconApi size={14} /> : <IconUser size={14} />}
-                </ActionIcon>
-              </Tooltip>
+              <AccountTypeIcon type={item.type} />
             </td>
             <th title={item.name}>{item.name}</th>
             <td>{item.count}</td>
