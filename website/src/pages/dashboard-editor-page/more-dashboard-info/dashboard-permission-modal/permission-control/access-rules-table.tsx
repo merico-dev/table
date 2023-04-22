@@ -1,43 +1,46 @@
-import { Table, Text } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { AccountTypeIcon } from '../../../../../components/account-type-icon';
-import { PermissionModelInstance } from '../model';
-import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
+import { Sx, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
+import { observer } from 'mobx-react-lite';
 import { AccountAPI } from '../../../../../api-caller/account';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
+import { AccountTypeIcon } from '../../../../../components/account-type-icon';
+import { PermissionModelInstance } from '../model';
+import { AccessPermissionSelector } from './access-permission-selector';
+import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
 
-const TableStyles = {
-  root: {
-    tableLayout: 'fixed',
-    width: '100%',
+const TableSx: Sx = {
+  tableLayout: 'fixed',
+  width: '100%',
+  'tr.fallback-row': {
+    fontSize: '14px',
+    height: '45px',
+    td: {
+      paddingLeft: '20px',
+    },
+    'td:nth-of-type(2)': {
+      fontWeight: 'bold',
+    },
   },
 };
 
 const OpenUsageRow = () => (
-  <tr>
+  <tr className="fallback-row">
     <td />
-    <td>
-      <Text fw={'bold'}>Everyone</Text>
-    </td>
+    <td>Everyone</td>
     <td>Use</td>
   </tr>
 );
 const OpenEditingRow = () => (
-  <tr>
+  <tr className="fallback-row">
     <td />
-    <td>
-      <Text fw={'bold'}>Everyone</Text>
-    </td>
+    <td>Everyone</td>
     <td>Edit</td>
   </tr>
 );
 const OpenRemovalRow = () => (
-  <tr>
+  <tr className="fallback-row">
     <td />
-    <td>
-      <Text fw={'bold'}>Everyone</Text>
-    </td>
+    <td>Everyone</td>
     <td>Remove</td>
   </tr>
 );
@@ -62,12 +65,12 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
   );
 
   return (
-    <Table fontSize={14} highlightOnHover styles={TableStyles}>
+    <Table highlightOnHover sx={TableSx}>
       <thead>
         <tr>
-          <th style={{ width: '40px' }} />
+          <th style={{ width: '50px' }} />
           <th style={{ width: '60%' }}>Account / API Key</th>
-          <th style={{ width: 'calc(40% - 40px)' }}>Permission</th>
+          <th style={{ width: 'calc(40% - 50px)' }}>Permission</th>
         </tr>
       </thead>
       <tbody>
@@ -80,7 +83,7 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
               <AccountOrAPIKeySelector value={d.id} onChange={d.setID} options={options} optionsLoading={loading} />
             </td>
             <td>
-              <Text size={14}>{d.permission}</Text>
+              <AccessPermissionSelector value={d.permission} onChange={d.setPermission} />
             </td>
           </tr>
         ))}

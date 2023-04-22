@@ -17,7 +17,7 @@ export const PermissionControl = observer(({ model, postSubmit }: IPermissionCon
     <Stack spacing={10}>
       <DashboardOwnerInfo model={model} />
       <AccessRulesTable model={model} />
-      <Divider my={10} variant="dashed" />
+      <Divider mt={-10} mb={10} variant="dashed" />
       <Group position="apart">
         <Group position="left" mb={4}>
           <TakeOwnership model={model} />
