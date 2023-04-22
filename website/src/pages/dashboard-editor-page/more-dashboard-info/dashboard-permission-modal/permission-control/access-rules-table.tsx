@@ -1,7 +1,7 @@
 import { Table, Text } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
-import { observer } from 'mobx-react-lite';
 
 const TableStyles = {
   root: {
@@ -12,6 +12,7 @@ const TableStyles = {
 
 const OpenUsageRow = () => (
   <tr>
+    <td />
     <td>
       <Text fw={'bold'}>Everyone</Text>
     </td>
@@ -20,6 +21,7 @@ const OpenUsageRow = () => (
 );
 const OpenEditingRow = () => (
   <tr>
+    <td />
     <td>
       <Text fw={'bold'}>Everyone</Text>
     </td>
@@ -28,6 +30,7 @@ const OpenEditingRow = () => (
 );
 const OpenRemovalRow = () => (
   <tr>
+    <td />
     <td>
       <Text fw={'bold'}>Everyone</Text>
     </td>
@@ -35,11 +38,11 @@ const OpenRemovalRow = () => (
   </tr>
 );
 
-interface IPermissionTable {
+interface IAccessRules {
   model: PermissionModelInstance;
 }
 
-export const PermissionTable = observer(({ model }: IPermissionTable) => {
+export const AccessRulesTable = observer(({ model }: IAccessRules) => {
   const data = model.access;
   const usageRestricted = data.some((d) => d.permission === 'VIEW');
   const editingRestricted = data.some((d) => d.permission === 'EDIT');
@@ -48,24 +51,25 @@ export const PermissionTable = observer(({ model }: IPermissionTable) => {
     <Table fontSize={14} highlightOnHover styles={TableStyles}>
       <thead>
         <tr>
-          <th style={{ width: '50%' }}>Account / API Key</th>
-          <th style={{ width: '50%' }}>Permission</th>
+          <th style={{ width: '40px' }} />
+          <th style={{ width: '60%' }}>Account / API Key</th>
+          <th style={{ width: 'calc(40% - 40px)' }}>Permission</th>
         </tr>
       </thead>
       <tbody>
-        {data.map((d) => {
-          return (
-            <tr key={d.id}>
-              <td>
-                <AccountTypeIcon type={d.type} />
-                <Text size={14}>{d.id}</Text>
-              </td>
-              <td>
-                <Text size={14}>{d.permission}</Text>
-              </td>
-            </tr>
-          );
-        })}
+        {[...data].map((d) => (
+          <tr key={d.id}>
+            <td>
+              <AccountTypeIcon type={d.type} />
+            </td>
+            <td>
+              <Text size={14}>{d.id}</Text>
+            </td>
+            <td>
+              <Text size={14}>{d.permission}</Text>
+            </td>
+          </tr>
+        ))}
         {!usageRestricted && <OpenUsageRow />}
         {!editingRestricted && <OpenEditingRow />}
         {!removalRestricted && <OpenRemovalRow />}

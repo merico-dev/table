@@ -1,9 +1,9 @@
 import { Divider, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PermissionModelInstance } from '../model';
-import { AddAPermissionRule } from './add-a-permission-rule';
+import { AddAnAccessRule } from './add-an-access-rule';
 import { DashboardOwnerInfo } from './dashboard-owner-info';
-import { PermissionTable } from './permission-table';
+import { AccessRulesTable } from './access-rules-table';
 import { SubmitPermissionChanges } from './submit-permission-changes';
 import { TakeOwnership } from './take-ownership';
 
@@ -16,12 +16,12 @@ export const PermissionControl = observer(({ model, postSubmit }: IPermissionCon
   return (
     <Stack spacing={10}>
       <DashboardOwnerInfo model={model} />
-      <PermissionTable model={model} />
+      <AccessRulesTable model={model} />
       <Divider my={10} variant="dashed" />
       <Group position="apart">
         <Group position="left" mb={4}>
           <TakeOwnership model={model} />
-          <AddAPermissionRule model={model} />
+          <AddAnAccessRule model={model} />
         </Group>
         <Group position="right" mb={4}>
           <SubmitPermissionChanges model={model} postSubmit={postSubmit} />

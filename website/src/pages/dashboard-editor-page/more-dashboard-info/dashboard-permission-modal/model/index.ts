@@ -53,6 +53,13 @@ export const PermissionModel = types
     controller: new AbortController(),
   }))
   .actions((self) => ({
+    addAnAccess() {
+      self.access.push({
+        id: new Date().getTime().toString(),
+        type: 'ACCOUNT',
+        permission: 'VIEW',
+      });
+    },
     setData(data: DashboardPermissionDBType) {
       const { id, owner_id, owner_type, create_time, update_time, access } = data;
       self.id = id;
