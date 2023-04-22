@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
-import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { DashboardPermissionAPI } from '../../../../api-caller/dashboard-permission';
-import { DashboardPermissionDBType, PermissionResourceType } from '../../../../api-caller/dashboard-permission.types';
+import { addDisposer, cast, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
+import { PermissionAccessModel } from './permission-access-model';
 
 const defaultData: DashboardPermissionDBType = {
   id: '',
@@ -22,7 +23,7 @@ export const PermissionModel = types
     owner_type: types.maybeNull(types.enumeration(['ACCOUNT', 'APIKEY'])),
     create_time: types.optional(types.string, ''),
     update_time: types.optional(types.string, ''),
-    access: types.optional(types.frozen<PermissionResourceType[]>(), []),
+    access: types.array(PermissionAccessModel),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -48,13 +49,12 @@ export const PermissionModel = types
       self.owner_type = owner_type ? owner_type : null;
       self.create_time = create_time;
       self.update_time = update_time;
-      self.access = access;
+      self.access = cast(access);
     },
   }))
   .actions((self) => {
     return {
       load: flow(function* () {
-        console.log(self.dashboard_id);
         if (!self.dashboard_id) {
           return;
         }
@@ -98,5 +98,5 @@ export type PermissionModelInstance = Instance<typeof PermissionModel>;
 export type PermissionModelSnapshotIn = SnapshotIn<PermissionModelInstance>;
 
 export const createPermissionModel = (dashboard_id: string) => {
-  return PermissionModel.create({ dashboard_id });
+  return PermissionModel.create({ dashboard_id, access: [] });
 };

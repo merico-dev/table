@@ -1,9 +1,12 @@
 import { PaginationResponse } from './types';
 
+export type AccessType = 'ACCOUNT' | 'APIKEY';
+export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE';
+
 export type PermissionResourceType = {
-  type: 'ACCOUNT' | 'APIKEY';
+  type: AccessType;
   id: string;
-  permission: 'VIEW' | 'EDIT' | 'REMOVE';
+  permission: AccessPermissionType;
 };
 
 export type DashboardPermissionDBType = {
