@@ -1,6 +1,7 @@
 import { Table, Text } from '@mantine/core';
-import { PermissionResourceType } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
+import { PermissionModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
 const TableStyles = {
   root: {
@@ -35,10 +36,11 @@ const OpenRemovalRow = () => (
 );
 
 interface IPermissionTable {
-  data: PermissionResourceType[];
+  model: PermissionModelInstance;
 }
 
-export const PermissionTable = ({ data }: IPermissionTable) => {
+export const PermissionTable = observer(({ model }: IPermissionTable) => {
+  const data = model.access;
   const usageRestricted = data.some((d) => d.permission === 'VIEW');
   const editingRestricted = data.some((d) => d.permission === 'EDIT');
   const removalRestricted = data.some((d) => d.permission === 'REMOVE');
@@ -70,4 +72,4 @@ export const PermissionTable = ({ data }: IPermissionTable) => {
       </tbody>
     </Table>
   );
-};
+});

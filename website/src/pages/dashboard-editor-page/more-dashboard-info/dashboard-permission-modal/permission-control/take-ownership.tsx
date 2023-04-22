@@ -4,20 +4,20 @@ import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
 import { useAccountContext } from '../../../../../frames/require-auth/account-context';
+import { PermissionModelInstance } from '../model';
 
 interface ITakeOwnership {
-  id: string;
-  refresh: () => void;
+  model: PermissionModelInstance;
 }
 
-export const TakeOwnership = observer(({ id, refresh }: ITakeOwnership) => {
+export const TakeOwnership = observer(({ model }: ITakeOwnership) => {
   const { isAdmin, account } = useAccountContext();
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   const take = async () => {
     setTrue();
-    await DashboardPermissionAPI.updateOwner({ id, owner_id: account.id, owner_type: 'ACCOUNT' });
+    await DashboardPermissionAPI.updateOwner({ id: model.id, owner_id: account.id, owner_type: 'ACCOUNT' });
     setFalse();
-    refresh();
+    model.load();
   };
   return (
     <Button

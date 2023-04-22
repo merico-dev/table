@@ -4,13 +4,14 @@ import { IconCheck } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { PermissionModelInstance } from '../model';
 
 interface ISubmitPermissionChanges {
-  id: string;
+  model: PermissionModelInstance;
   postSubmit: () => void;
 }
 
-export const SubmitPermissionChanges = observer(({ id, postSubmit }: ISubmitPermissionChanges) => {
+export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitPermissionChanges) => {
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   const submit = async () => {
     setTrue();
@@ -20,7 +21,7 @@ export const SubmitPermissionChanges = observer(({ id, postSubmit }: ISubmitPerm
       message: 'Submitting permission changes...',
       loading: true,
     });
-    await DashboardPermissionAPI.update({ id, access: [] });
+    await DashboardPermissionAPI.update({ id: model.id, access: [] });
     setFalse();
     updateNotification({
       id: 'submit',
@@ -28,6 +29,7 @@ export const SubmitPermissionChanges = observer(({ id, postSubmit }: ISubmitPerm
       message: 'Permission has changed',
       color: 'green',
     });
+    model.load();
     postSubmit();
   };
   return (

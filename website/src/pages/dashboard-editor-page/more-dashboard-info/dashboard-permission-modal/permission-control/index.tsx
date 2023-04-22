@@ -1,6 +1,6 @@
 import { Divider, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
+import { PermissionModelInstance } from '../model';
 import { AddAPermissionRule } from './add-a-permission-rule';
 import { DashboardOwnerInfo } from './dashboard-owner-info';
 import { PermissionTable } from './permission-table';
@@ -8,25 +8,23 @@ import { SubmitPermissionChanges } from './submit-permission-changes';
 import { TakeOwnership } from './take-ownership';
 
 interface IPermissionControl {
-  id: string;
-  refresh: () => void;
+  model: PermissionModelInstance;
   postSubmit: () => void;
-  data: DashboardPermissionDBType;
 }
 
-export const PermissionControl = observer(({ id, refresh, data, postSubmit }: IPermissionControl) => {
+export const PermissionControl = observer(({ model, postSubmit }: IPermissionControl) => {
   return (
     <Stack spacing={10}>
-      <DashboardOwnerInfo data={data} />
-      <PermissionTable data={data.access} />
+      <DashboardOwnerInfo model={model} />
+      <PermissionTable model={model} />
       <Divider my={10} variant="dashed" />
       <Group position="apart">
         <Group position="left" mb={4}>
-          <TakeOwnership id={id} refresh={refresh} />
-          <AddAPermissionRule id={id} />
+          <TakeOwnership model={model} />
+          <AddAPermissionRule model={model} />
         </Group>
         <Group position="right" mb={4}>
-          <SubmitPermissionChanges id={id} postSubmit={postSubmit} />
+          <SubmitPermissionChanges model={model} postSubmit={postSubmit} />
         </Group>
       </Group>
     </Stack>

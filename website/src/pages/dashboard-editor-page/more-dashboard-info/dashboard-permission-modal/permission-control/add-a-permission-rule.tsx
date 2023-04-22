@@ -1,14 +1,13 @@
 import { Button } from '@mantine/core';
 import { IconUserPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useAccountContext } from '../../../../../frames/require-auth/account-context';
+import { PermissionModelInstance } from '../model';
 
 interface IAddAPermissionRule {
-  id: string;
+  model: PermissionModelInstance;
 }
 
-export const AddAPermissionRule = observer(({ id }: IAddAPermissionRule) => {
-  const { isAdmin } = useAccountContext();
+export const AddAPermissionRule = observer(({ model }: IAddAPermissionRule) => {
   return (
     <Button size="xs" variant="light" leftIcon={<IconUserPlus size={14} />}>
       Add a permission rule

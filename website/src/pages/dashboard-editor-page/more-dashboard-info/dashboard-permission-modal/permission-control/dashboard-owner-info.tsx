@@ -1,8 +1,9 @@
 import { Group, Text } from '@mantine/core';
-import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
+import { PermissionModelInstance } from '../model';
+import { observer } from 'mobx-react-lite';
 
-export const DashboardOwnerInfo = ({ data }: { data: DashboardPermissionDBType }) => {
-  const notOwned = !data.owner_id;
+export const DashboardOwnerInfo = observer(({ model }: { model: PermissionModelInstance }) => {
+  const notOwned = !model.owner_id;
   if (notOwned) {
     return (
       <Text ta="right" size={12}>
@@ -15,8 +16,8 @@ export const DashboardOwnerInfo = ({ data }: { data: DashboardPermissionDBType }
     <Group spacing={6} position="right">
       <Text size={12}>Owned by</Text>
       <Text size={12} color="dimmed">
-        {data.owner_id}
+        {model.owner_id}
       </Text>
     </Group>
   );
-};
+});
