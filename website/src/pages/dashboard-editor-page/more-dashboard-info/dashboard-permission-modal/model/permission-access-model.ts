@@ -7,6 +7,16 @@ export const PermissionAccessModel = types
     type: types.enumeration(['ACCOUNT', 'APIKEY']),
     permission: types.enumeration(['VIEW', 'EDIT', 'REMOVE']),
   })
+  .views((self) => ({
+    get json() {
+      const { id, type, permission } = self;
+      return {
+        id,
+        type,
+        permission,
+      };
+    },
+  }))
   .actions((self) => ({
     setPermission(v: AccessPermissionType) {
       self.permission = v;

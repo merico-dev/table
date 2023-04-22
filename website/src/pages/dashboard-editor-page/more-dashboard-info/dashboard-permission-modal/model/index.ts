@@ -37,6 +37,17 @@ export const PermissionModel = types
     get empty() {
       return self.access.length === 0;
     },
+    get json() {
+      const { id, owner_id, owner_type, create_time, update_time, access } = self;
+      return {
+        id,
+        access: access.map((item) => item.json),
+        owner_id,
+        owner_type,
+        create_time,
+        update_time,
+      };
+    },
   }))
   .volatile(() => ({
     controller: new AbortController(),
