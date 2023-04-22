@@ -67,7 +67,6 @@ export const PermissionModel = types
             data = defaultData;
           }
           self.setData(data);
-          console.log('🟩 loaded', data);
           self.state = 'idle';
           self.error = null;
         } catch (error) {
@@ -99,6 +98,5 @@ export type PermissionModelInstance = Instance<typeof PermissionModel>;
 export type PermissionModelSnapshotIn = SnapshotIn<PermissionModelInstance>;
 
 export const createPermissionModel = (dashboard_id: string) => {
-  console.log({ dashboard_id });
   return PermissionModel.create({ dashboard_id });
 };
