@@ -3,6 +3,12 @@ import { PaginationResponse } from './types';
 export type AccessType = 'ACCOUNT' | 'APIKEY';
 export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE';
 
+export type AccountOrAPIKeyOptionType = {
+  label: string;
+  value: string;
+  type: 'ACCOUNT' | 'APIKEY';
+};
+
 export type PermissionResourceType = {
   type: AccessType;
   id: string;

@@ -55,7 +55,7 @@ export const PermissionModel = types
   .actions((self) => ({
     addAnAccess() {
       self.access.push({
-        id: new Date().getTime().toString(),
+        id: `TEMP_${new Date().getTime()}`,
         type: 'ACCOUNT',
         permission: 'VIEW',
       });
