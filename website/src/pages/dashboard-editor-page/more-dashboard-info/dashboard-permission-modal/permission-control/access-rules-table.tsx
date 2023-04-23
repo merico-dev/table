@@ -71,16 +71,13 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
   const { data: options, loading } = useRequest(
     async (): Promise<AccountOrAPIKeyOptionType[]> => {
       const accountResp = await AccountAPI.list();
-      const accounts = accountResp.data.map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
+      const accounts = accountResp.data
+        .filter((d) => d.role_id <= 40) // exclude superadmin
+        .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
       return accounts;
     },
     { refreshDeps: [] },
   );
-
-  const optionMap = useMemo(() => {
-    if (!options) return {};
-    return _.keyBy(options, 'value');
-  }, [options]);
 
   return (
     <Table highlightOnHover sx={TableSx}>
@@ -108,7 +105,7 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
                   disabled={!model.isOwner}
                 />
               ) : (
-                <span className="value-text">{_.get(optionMap, d.id)?.label ?? 'Unknown'}</span>
+                <span className="value-text">{d.name}</span>
               )}
             </td>
             <td>

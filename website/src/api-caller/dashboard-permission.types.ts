@@ -21,14 +21,16 @@ export type AccountOrAPIKeyOptionType = {
 };
 
 export type PermissionResourceType = {
-  type: AccessType;
   id: string;
+  name: string;
+  type: AccessType;
   permission: AccessPermissionType;
 };
 
 export type DashboardPermissionDBType = {
   id: string;
   owner_id: string;
+  owner_name: string;
   owner_type: 'APIKEY' | 'ACCOUNT' | null;
   access: PermissionResourceType[];
   create_time: string;

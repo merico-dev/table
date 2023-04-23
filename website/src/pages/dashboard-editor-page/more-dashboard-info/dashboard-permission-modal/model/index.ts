@@ -9,6 +9,7 @@ import { PermissionAccessModel } from './permission-access-model';
 const defaultData: DashboardPermissionDBType = {
   id: '',
   owner_id: '',
+  owner_name: '',
   owner_type: 'ACCOUNT',
   create_time: '',
   update_time: '',
@@ -21,6 +22,7 @@ export const PermissionModel = types
     dashboard_id: types.identifier,
     id: types.optional(types.string, ''),
     owner_id: types.maybeNull(types.string),
+    owner_name: types.optional(types.string, ''),
     owner_type: types.maybeNull(types.enumeration(['ACCOUNT', 'APIKEY'])),
     create_time: types.optional(types.string, ''),
     update_time: types.optional(types.string, ''),
@@ -72,6 +74,7 @@ export const PermissionModel = types
     addAnAccess() {
       self.access.push({
         id: `TEMP_${new Date().getTime()}`,
+        name: '',
         type: 'ACCOUNT',
         permission: 'VIEW',
       });
@@ -80,9 +83,10 @@ export const PermissionModel = types
       self.access.splice(index, 1);
     },
     setData(data: DashboardPermissionDBType) {
-      const { id, owner_id, owner_type, create_time, update_time, access } = data;
+      const { id, owner_id, owner_name, owner_type, create_time, update_time, access } = data;
       self.id = id;
       self.owner_id = owner_id;
+      self.owner_name = owner_name;
       self.owner_type = owner_type ? owner_type : null;
       self.create_time = create_time;
       self.update_time = update_time;
