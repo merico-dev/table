@@ -4,6 +4,7 @@ import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import {
   DashboardOwnerUpdateRequest,
+  DashboardPermissionGetRequest,
   DashboardPermissionListRequest,
   DashboardPermissionUpdateRequest,
 } from '../api_models/dashboard_permission';
@@ -53,6 +54,36 @@ export class DashboardPermissionController implements interfaces.Controller {
     try {
       const { filter, sort, pagination } = validate(DashboardPermissionListRequest, req.body);
       const result = await this.dashboardPermissionService.list(filter, sort, pagination);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @ApiOperationPost({
+    path: '/get',
+    description: 'Get a dashboard permission by ID',
+    parameters: {
+      body: {
+        description: 'dashboard permission get request',
+        required: true,
+        model: 'DashboardPermissionGetRequest',
+      },
+    },
+    responses: {
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'DashboardPermission',
+      },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
+  })
+  @httpPost('/get', ensureAuthEnabled, permission(ROLE_TYPES.READER))
+  public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { id } = validate(DashboardPermissionGetRequest, req.body);
+      const result = await this.dashboardPermissionService.get(id);
       res.json(result);
     } catch (err) {
       next(err);

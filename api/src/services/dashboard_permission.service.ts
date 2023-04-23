@@ -122,6 +122,13 @@ export class DashboardPermissionService {
     };
   }
 
+  async get(id: string): Promise<DashboardPermissionAPIModel> {
+    const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
+
+    return dashboardPermission;
+  }
+
   async updateOwner(
     id: string,
     owner_id: string,

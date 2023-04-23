@@ -205,6 +205,19 @@ export class DashboardPermissionPaginationResponse implements PaginationResponse
 }
 
 @ApiModel({
+  description: 'dashboard permission get request',
+  name: 'DashboardPermissionGetRequest',
+})
+export class DashboardPermissionGetRequest {
+  @IsUUID()
+  @ApiModelProperty({
+    description: 'ID',
+    required: true,
+  })
+  id: string;
+}
+
+@ApiModel({
   description: 'dashboard owner update request',
   name: 'DashboardOwnerUpdateRequest',
 })

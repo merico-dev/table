@@ -32,11 +32,12 @@ export const DashboardPermissionAPI = {
   },
   get: async (id: string): Promise<DashboardPermissionDBType | null> => {
     try {
-      const resp = await DashboardPermissionAPI.list({
-        filter: { id: { value: id, isFuzzy: false } },
-        pagination: { page: 1, pagesize: 100000 },
+      const resp: DashboardPermissionDBType = await post('/dashboard_permission/get', {
+        id,
       });
-      return resp.data[0] ?? null;
+      resp.create_time = dayjs(resp.create_time).format('YYYY-MM-DD HH:mm:ss');
+      resp.update_time = dayjs(resp.update_time).format('YYYY-MM-DD HH:mm:ss');
+      return resp;
     } catch (err) {
       console.error(err);
       return null;
