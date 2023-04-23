@@ -10,9 +10,9 @@ import { PermissionControl } from './permission-control';
 
 export const DashboardPermissionModal = observer(() => {
   const { store } = useDashboardStore();
-  const { canEdit, isAdmin } = useAccountContext();
+  const { canEdit, isAdmin, account } = useAccountContext();
   const dashboard_id = store.currentID;
-  const model = useCreation(() => createPermissionModel(dashboard_id), [dashboard_id]);
+  const model = useCreation(() => createPermissionModel(dashboard_id, account.id), [dashboard_id, account.id]);
 
   const [opened, { open, close }] = useDisclosure(false);
   const uncontrolled = model.access.length === 0;

@@ -8,6 +8,11 @@ export const AccessPermissionOptions = [
   { label: 'Edit', value: 'EDIT' },
   // { label: 'Remove', value: 'REMOVE', disabled: true },
 ];
+export const AccessPermissionLabelMap = {
+  VIEW: 'View',
+  EDIT: 'Edit',
+  REMOVE: 'Remove',
+};
 
 export type AccountOrAPIKeyOptionType = {
   label: string;

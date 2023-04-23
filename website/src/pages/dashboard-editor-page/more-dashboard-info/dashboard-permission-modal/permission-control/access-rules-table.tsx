@@ -2,12 +2,17 @@ import { ActionIcon, Sx, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { AccountAPI } from '../../../../../api-caller/account';
-import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
+import {
+  AccessPermissionLabelMap,
+  AccountOrAPIKeyOptionType,
+} from '../../../../../api-caller/dashboard-permission.types';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
 import { IconX } from '@tabler/icons';
+import _ from 'lodash';
+import { useMemo } from 'react';
 
 const TableSx: Sx = {
   tableLayout: 'fixed',
@@ -21,6 +26,13 @@ const TableSx: Sx = {
     'td:nth-of-type(2)': {
       fontWeight: 'bold',
     },
+  },
+  'thead tr th ': {
+    paddingLeft: '20px',
+  },
+  'td .value-text': {
+    fontSize: '14px',
+    paddingLeft: '10px',
   },
 };
 
@@ -65,13 +77,18 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
     { refreshDeps: [] },
   );
 
+  const optionMap = useMemo(() => {
+    if (!options) return {};
+    return _.keyBy(options, 'value');
+  }, [options]);
+
   return (
     <Table highlightOnHover sx={TableSx}>
       <thead>
         <tr>
           <th style={{ width: '50px' }} />
           <th style={{ width: '55%' }}>Account / API Key</th>
-          <th style={{ width: 'calc(45% - 100px)' }}>Permission</th>
+          <th style={{ width: 'calc(45% - 100px)' }}>Access</th>
           <th style={{ width: '50px' }} />
         </tr>
       </thead>
@@ -82,15 +99,36 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
               <AccountTypeIcon type={d.type} />
             </td>
             <td>
-              <AccountOrAPIKeySelector value={d.id} onChange={d.setID} options={options} optionsLoading={loading} />
+              {model.isOwner ? (
+                <AccountOrAPIKeySelector
+                  value={d.id}
+                  onChange={d.setID}
+                  options={options}
+                  optionsLoading={loading}
+                  disabled={!model.isOwner}
+                />
+              ) : (
+                <span className="value-text">{_.get(optionMap, d.id)?.label ?? 'Unknown'}</span>
+              )}
             </td>
             <td>
-              <AccessPermissionSelector value={d.permission} onChange={d.setPermission} />
+              {model.isOwner ? (
+                <AccessPermissionSelector value={d.permission} onChange={d.setPermission} />
+              ) : (
+                <span className="value-text">{AccessPermissionLabelMap[d.permission]}</span>
+              )}
             </td>
             <td>
-              <ActionIcon variant="subtle" color="red" onClick={() => model.removeAccess(i)}>
-                <IconX size={14} />
-              </ActionIcon>
+              {model.isOwner && (
+                <ActionIcon
+                  variant="subtle"
+                  color="red"
+                  onClick={() => model.removeAccess(i)}
+                  disabled={!model.isOwner}
+                >
+                  <IconX size={14} />
+                </ActionIcon>
+              )}
             </td>
           </tr>
         ))}

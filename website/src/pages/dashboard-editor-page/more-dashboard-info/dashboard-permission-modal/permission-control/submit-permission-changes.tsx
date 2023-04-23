@@ -14,6 +14,10 @@ interface ISubmitPermissionChanges {
 export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitPermissionChanges) => {
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   const submit = async () => {
+    if (!model.isOwner) {
+      return;
+    }
+
     setTrue();
     showNotification({
       id: 'submit',

@@ -17,6 +17,7 @@ const defaultData: DashboardPermissionDBType = {
 
 export const PermissionModel = types
   .model({
+    account_id: types.string,
     dashboard_id: types.identifier,
     id: types.optional(types.string, ''),
     owner_id: types.maybeNull(types.string),
@@ -28,6 +29,9 @@ export const PermissionModel = types
     error: types.frozen(),
   })
   .views((self) => ({
+    get isOwner() {
+      return self.owner_id === self.account_id;
+    },
     get loading() {
       return self.state === 'loading';
     },
@@ -130,6 +134,6 @@ export const PermissionModel = types
 export type PermissionModelInstance = Instance<typeof PermissionModel>;
 export type PermissionModelSnapshotIn = SnapshotIn<PermissionModelInstance>;
 
-export const createPermissionModel = (dashboard_id: string) => {
-  return PermissionModel.create({ dashboard_id, access: [] });
+export const createPermissionModel = (dashboard_id: string, account_id: string) => {
+  return PermissionModel.create({ dashboard_id, account_id, access: [] });
 };
