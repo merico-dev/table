@@ -124,9 +124,25 @@ export class DashboardPermissionService {
 
   async get(id: string): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
-
-    return dashboardPermission;
+    const dp = await dashboardPermissionRepo.findOneByOrFail({ id });
+    let accountIds = dp.access.filter((x) => x.type === 'ACCOUNT').map((x) => x.id);
+    if (dp.owner_id) {
+      accountIds.push(dp.owner_id);
+    }
+    accountIds = Array.from(new Set(accountIds));
+    const accounts = await dashboardDataSource.getRepository(Account).findBy({ id: Any(accountIds) });
+    const accountMap = _.keyBy(accounts, 'id');
+    const access = dp.access.map((x) => ({
+      ...x,
+      name: accountMap[x.id]?.name ?? x.id,
+    }));
+    const owner_id = dp.owner_id ? dp.owner_id : '';
+    const owner_name = owner_id ? _.get(accountMap, owner_id)?.name : owner_id;
+    return {
+      ...dp,
+      access,
+      owner_name,
+    };
   }
 
   async updateOwner(
