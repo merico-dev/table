@@ -50,7 +50,7 @@ export class DashboardController implements interfaces.Controller {
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = validate(DashboardListRequest, req.body);
-      const result = await this.dashboardService.list(filter, sort, pagination);
+      const result = await this.dashboardService.list(filter, sort, pagination, req.body.auth);
       res.json(result);
     } catch (err) {
       next(err);
@@ -98,10 +98,10 @@ export class DashboardController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         id,
         'VIEW',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       const result = await this.dashboardService.get(id);
       res.json(result);
@@ -130,10 +130,10 @@ export class DashboardController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         result.id,
         'VIEW',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       res.json(result);
     } catch (err) {
@@ -161,10 +161,10 @@ export class DashboardController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       const result = await this.dashboardService.update(
         id,
@@ -207,10 +207,10 @@ export class DashboardController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
