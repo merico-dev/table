@@ -3,16 +3,16 @@ import { PaginationResponse } from './types';
 export type AccessType = 'ACCOUNT' | 'APIKEY';
 export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE';
 
-export const AccessPermissionOptions = [
-  { label: 'View', value: 'VIEW' },
-  { label: 'Edit', value: 'EDIT' },
-  // { label: 'Remove', value: 'REMOVE', disabled: true },
-];
 export const AccessPermissionLabelMap = {
-  VIEW: 'View',
-  EDIT: 'Edit',
-  REMOVE: 'Remove',
+  VIEW: 'view',
+  EDIT: 'view, edit',
+  REMOVE: 'view, edit, remove',
 };
+export const AccessPermissionOptions = [
+  { label: AccessPermissionLabelMap.VIEW, value: 'VIEW' },
+  { label: AccessPermissionLabelMap.EDIT, value: 'EDIT' },
+  // { label: AccessPermissionLabelMap.REMOVE, value: 'REMOVE', disabled: true },
+];
 
 export type AccountOrAPIKeyOptionType = {
   label: string;

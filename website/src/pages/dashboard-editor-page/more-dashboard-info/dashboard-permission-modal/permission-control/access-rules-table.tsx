@@ -1,4 +1,5 @@
 import { ActionIcon, Sx, Table } from '@mantine/core';
+import { IconX } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { AccountAPI } from '../../../../../api-caller/account';
@@ -10,9 +11,6 @@ import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
-import { IconX } from '@tabler/icons';
-import _ from 'lodash';
-import { useMemo } from 'react';
 
 const TableSx: Sx = {
   tableLayout: 'fixed',
@@ -24,7 +22,7 @@ const TableSx: Sx = {
       paddingLeft: '20px',
     },
     'td:nth-of-type(2)': {
-      fontWeight: 'bold',
+      color: '#555',
     },
   },
   'thead tr th ': {
@@ -40,23 +38,23 @@ const OpenUsageRow = () => (
   <tr className="fallback-row">
     <td />
     <td>Everyone</td>
-    <td>Use</td>
+    <td>{AccessPermissionLabelMap.VIEW}</td>
     <td />
   </tr>
 );
 const OpenEditingRow = () => (
   <tr className="fallback-row">
     <td />
-    <td>Everyone</td>
-    <td>Edit</td>
+    <td>Authors, admins</td>
+    <td>{AccessPermissionLabelMap.EDIT}</td>
     <td />
   </tr>
 );
 const OpenRemovalRow = () => (
   <tr className="fallback-row">
     <td />
-    <td>Everyone</td>
-    <td>Remove</td>
+    <td>Admins</td>
+    <td>{AccessPermissionLabelMap.REMOVE}</td>
     <td />
   </tr>
 );
