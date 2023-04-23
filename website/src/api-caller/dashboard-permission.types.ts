@@ -1,5 +1,6 @@
 import { PaginationResponse } from './types';
 
+export type DashboardOwnerType = 'ACCOUNT' | 'APIKEY' | null;
 export type AccessType = 'ACCOUNT' | 'APIKEY';
 export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE';
 
@@ -31,7 +32,7 @@ export type DashboardPermissionDBType = {
   id: string;
   owner_id: string;
   owner_name: string;
-  owner_type: 'APIKEY' | 'ACCOUNT' | null;
+  owner_type: DashboardOwnerType;
   access: PermissionResourceType[];
   create_time: string;
   update_time: string;

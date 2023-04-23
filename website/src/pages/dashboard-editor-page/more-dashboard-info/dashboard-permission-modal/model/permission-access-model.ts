@@ -6,7 +6,7 @@ const isAccessIDValid = (v: string) => !v.startsWith('TEMP_');
 export const PermissionAccessModel = types
   .model({
     id: types.string,
-    name: types.string,
+    name: types.optional(types.string, ''),
     type: types.enumeration(['ACCOUNT', 'APIKEY']),
     permission: types.enumeration(['VIEW', 'EDIT', 'REMOVE']),
   })

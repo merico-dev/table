@@ -60,10 +60,9 @@ function _DashboardLinks() {
               <Accordion.Panel>
                 {[...list].map((d) => (
                   <DashboardLink
-                    preset={d.is_preset}
                     key={d.id}
                     active={store.currentID === d.id}
-                    {...d}
+                    model={d}
                     openOverwriteModal={openOverwriteModal}
                     openEditModal={openEditModal}
                   />
@@ -76,10 +75,9 @@ function _DashboardLinks() {
       <Divider mt={20} variant="dashed" label="Ungrouped" labelPosition="center" />
       {[...store.strayList].map((d) => (
         <DashboardLink
-          preset={d.is_preset}
           key={d.id}
           active={store.currentID === d.id}
-          {...d}
+          model={d}
           openOverwriteModal={openOverwriteModal}
           openEditModal={openEditModal}
         />
