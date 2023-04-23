@@ -45,8 +45,8 @@ export const DashboardPermissionModal = observer(() => {
           </Alert>
         )}
       </Modal>
-      <ActionIcon onClick={open} color={uncontrolled ? 'orange' : 'green'} variant="light">
-        {uncontrolled ? <IconLockOpen size={16} /> : <IconLock size={16} />}
+      <ActionIcon onClick={open} color={model.controlled ? 'green' : 'orange'} variant="light">
+        {model.controlled ? <IconLock size={16} /> : <IconLockOpen size={16} />}
       </ActionIcon>
     </>
   );

@@ -48,6 +48,18 @@ export const PermissionModel = types
         update_time,
       };
     },
+    get usageRestricted() {
+      return self.access.some((d) => d.permission === 'VIEW');
+    },
+    get editingRestricted() {
+      return self.access.some((d) => d.permission === 'EDIT');
+    },
+    get removalRestricted() {
+      return self.access.some((d) => d.permission === 'REMOVE');
+    },
+    get controlled() {
+      return self.access.length > 0 && self.access.some((d) => !d.id.startsWith('TEMP_'));
+    },
   }))
   .volatile(() => ({
     controller: new AbortController(),
