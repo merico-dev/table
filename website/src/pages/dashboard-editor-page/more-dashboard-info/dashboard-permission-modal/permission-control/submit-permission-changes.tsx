@@ -21,7 +21,8 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
       message: 'Submitting permission changes...',
       loading: true,
     });
-    await DashboardPermissionAPI.update({ id: model.id, access: [] });
+    const { id, access } = model.json;
+    await DashboardPermissionAPI.update({ id, access });
     setFalse();
     updateNotification({
       id: 'submit',

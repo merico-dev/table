@@ -1,4 +1,4 @@
-import { Sx, Table } from '@mantine/core';
+import { ActionIcon, Sx, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { AccountAPI } from '../../../../../api-caller/account';
@@ -7,6 +7,7 @@ import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
+import { IconX } from '@tabler/icons';
 
 const TableSx: Sx = {
   tableLayout: 'fixed',
@@ -28,6 +29,7 @@ const OpenUsageRow = () => (
     <td />
     <td>Everyone</td>
     <td>Use</td>
+    <td />
   </tr>
 );
 const OpenEditingRow = () => (
@@ -35,6 +37,7 @@ const OpenEditingRow = () => (
     <td />
     <td>Everyone</td>
     <td>Edit</td>
+    <td />
   </tr>
 );
 const OpenRemovalRow = () => (
@@ -42,6 +45,7 @@ const OpenRemovalRow = () => (
     <td />
     <td>Everyone</td>
     <td>Remove</td>
+    <td />
   </tr>
 );
 
@@ -66,12 +70,13 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
       <thead>
         <tr>
           <th style={{ width: '50px' }} />
-          <th style={{ width: '60%' }}>Account / API Key</th>
-          <th style={{ width: 'calc(40% - 50px)' }}>Permission</th>
+          <th style={{ width: '55%' }}>Account / API Key</th>
+          <th style={{ width: 'calc(45% - 100px)' }}>Permission</th>
+          <th style={{ width: '50px' }} />
         </tr>
       </thead>
       <tbody>
-        {[...data].map((d) => (
+        {[...data].map((d, i) => (
           <tr key={d.id}>
             <td>
               <AccountTypeIcon type={d.type} />
@@ -81,6 +86,11 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
             </td>
             <td>
               <AccessPermissionSelector value={d.permission} onChange={d.setPermission} />
+            </td>
+            <td>
+              <ActionIcon variant="subtle" color="red" onClick={() => model.removeAccess(i)}>
+                <IconX size={14} />
+              </ActionIcon>
             </td>
           </tr>
         ))}

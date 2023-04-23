@@ -72,6 +72,9 @@ export const PermissionModel = types
         permission: 'VIEW',
       });
     },
+    removeAccess(index: number) {
+      self.access.splice(index, 1);
+    },
     setData(data: DashboardPermissionDBType) {
       const { id, owner_id, owner_type, create_time, update_time, access } = data;
       self.id = id;
