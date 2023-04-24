@@ -15,10 +15,11 @@ export const DashboardPermissionModal = observer(() => {
   const model = useCreation(() => createPermissionModel(dashboard_id, account.id), [dashboard_id, account.id]);
 
   const [opened, { open, close }] = useDisclosure(false);
-  const uncontrolled = model.access.length === 0;
-  const onlyAdminCanEdit = model.owner_id === null || uncontrolled;
-  const iCanEdit = onlyAdminCanEdit ? isAdmin : canEdit;
-  if (!iCanEdit) {
+
+  if (!model.isOwner && !isAdmin) {
+    return null;
+  }
+  if (model.isOwner && !canEdit) {
     return null;
   }
 
