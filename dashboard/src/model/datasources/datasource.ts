@@ -70,7 +70,7 @@ export const DataSourceModel = types
         if (!axios.isCancel(error)) {
           self.tables.data = {};
           const fallback = _.get(error, 'message', 'unkown error');
-          self.tables.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+          self.tables.error = _.get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
           self.tables.state = 'error';
         }
       }
@@ -101,7 +101,7 @@ export const DataSourceModel = types
           if (!axios.isCancel(error)) {
             self.columns.data = [];
             const fallback = _.get(error, 'message', 'unkown error');
-            self.columns.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.columns.error = _.get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.columns.state = 'error';
           } else {
             self.columns.state = 'idle';
@@ -127,7 +127,7 @@ export const DataSourceModel = types
           if (!axios.isCancel(error)) {
             self.indexes.data = [];
             const fallback = _.get(error, 'message', 'unkown error');
-            self.indexes.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.indexes.error = _.get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.indexes.state = 'error';
           } else {
             self.indexes.state = 'idle';
@@ -162,7 +162,7 @@ export const DataSourceModel = types
           if (!axios.isCancel(error)) {
             m.data = [];
             const fallback = _.get(error, 'message', 'unkown error');
-            m.error = _.get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            m.error = _.get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             m.state = 'error';
           } else {
             m.state = 'idle';

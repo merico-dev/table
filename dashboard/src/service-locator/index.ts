@@ -83,6 +83,7 @@ export class ServiceLocator implements IServiceLocator, IDisposable {
     this.instanceRegistry.forEach((instance) => {
       const dispose = get(instance, 'dispose');
       if (isFunction(dispose)) {
+        // @ts-expect-error FIXME: type never
         dispose.bind(instance)();
       }
     });
