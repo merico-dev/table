@@ -1693,6 +1693,16 @@
     semver "7.3.4"
     tslib "^2.3.0"
 
+"@nrwl/devkit@14.8.8":
+  version "14.8.8"
+  resolved "https://registry.yarnpkg.com/@nrwl/devkit/-/devkit-14.8.8.tgz#5c6b7e0571c84ca63e85691e143aab8b896f1536"
+  integrity sha512-NLgLRfGyv9aMHxGi+rrVRPLYbuqYoGcRVVr0bo3PP1cVSry1THBoLivvPzqf/tniM1S4EzJdrOSau7dfPVGNFA==
+  dependencies:
+    "@phenomnomnominal/tsquery" "4.1.1"
+    ejs "^3.1.7"
+    ignore "^5.0.4"
+    tslib "^2.3.0"
+
 "@nrwl/jest@14.5.10":
   version "14.5.10"
   resolved "https://registry.npmmirror.com/@nrwl/jest/-/jest-14.5.10.tgz#1e808608665660c59e4b3026ba0eab7f86153163"

@@ -9,7 +9,7 @@
     "website"
   ],
   "devDependencies": {
-    "@nrwl/devkit": "14.5.10",
+    "@nrwl/devkit": "14.8.8",
     "@nrwl/linter": "^14.6.3",
     "@nrwl/nx-cloud": "14.5.0",
     "@nrwl/workspace": "14.5.10",
