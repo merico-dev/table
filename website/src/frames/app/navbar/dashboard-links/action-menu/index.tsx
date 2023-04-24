@@ -16,7 +16,7 @@ interface IActionMenu {
 export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { canEdit, account } = useAccountContext();
+  const { account } = useAccountContext();
 
   const visitDashboardDesign = () => {
     navigate(`/dashboard/${model.id}/edit`);
@@ -37,7 +37,7 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
     );
   }
 
-  if (!canEdit || preset) {
+  if (!model.canEdit(account)) {
     return null;
   }
 
@@ -61,11 +61,9 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
       </Menu.Target>
 
       <Menu.Dropdown>
-        {model.canEdit(account) && (
-          <Menu.Item icon={<Paint size={16} />} onClick={visitDashboardDesign}>
-            Design
-          </Menu.Item>
-        )}
+        <Menu.Item icon={<Paint size={16} />} onClick={visitDashboardDesign}>
+          Design
+        </Menu.Item>
         <Menu.Divider />
         <Menu.Item onClick={() => openEditModal(model.id)} icon={<Edit size={16} />}>
           Rename

@@ -30,7 +30,10 @@ export const DashboardBriefModel = types
       return self.access.some((d) => d.permission === 'REMOVE');
     },
     canEdit(account: IAccount) {
-      if (!this.isEditable || account.role_id < 30) {
+      if (!this.isEditable) {
+        return false;
+      }
+      if (account.role_id < 30) {
         return false;
       }
       if (self.owner_id === account.id) {
