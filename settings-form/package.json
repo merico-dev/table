@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "@emotion/react": "11.10.6",
-    "@mantine/core": "5.9.5",
+    "@mantine/core": "5.10.5",
     "@mantine/hooks": "5.9.5",
     "@mantine/modals": "5.9.5",
     "@mantine/notifications": "5.9.5",
