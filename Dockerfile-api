@@ -9,3 +9,5 @@ WORKDIR /code/api
 RUN yarn install
 
 RUN yarn build
+
+WORKDIR /code/api/\_build
