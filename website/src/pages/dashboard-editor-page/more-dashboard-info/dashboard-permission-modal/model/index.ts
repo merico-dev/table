@@ -47,7 +47,7 @@ export const PermissionModel = types
       const { id, owner_id, owner_type, create_time, update_time, access } = self;
       return {
         id,
-        access: access.map((item) => item.json),
+        access: access.filter((item) => item.valid).map((item) => item.json),
         owner_id,
         owner_type,
         create_time,
@@ -55,13 +55,10 @@ export const PermissionModel = types
       };
     },
     get usageRestricted() {
-      return self.access.some((d) => d.permission === 'VIEW');
+      return self.access.some((d) => d.permission === 'VIEW' && d.valid);
     },
     get editingRestricted() {
-      return self.access.some((d) => d.permission === 'EDIT');
-    },
-    get removalRestricted() {
-      return self.access.some((d) => d.permission === 'REMOVE');
+      return self.access.some((d) => d.permission === 'EDIT' && d.valid);
     },
     get controlled() {
       return self.access.length > 0 && self.access.some((d) => !d.id.startsWith('TEMP_'));
@@ -78,9 +75,6 @@ export const PermissionModel = types
         type: 'ACCOUNT',
         permission: 'VIEW',
       });
-    },
-    removeAccess(index: number) {
-      self.access.splice(index, 1);
     },
     setData(data: DashboardPermissionDBType) {
       const { id, owner_id, owner_name, owner_type, create_time, update_time, access } = data;

@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 import { AccessPermissionType } from '../../../../../api-caller/dashboard-permission.types';
 
 const isAccessIDValid = (v: string) => !v.startsWith('TEMP_');
@@ -30,4 +30,9 @@ export const PermissionAccessModel = types
     setPermission(v: AccessPermissionType) {
       self.permission = v;
     },
+    remove() {
+      self.permission = 'REMOVE';
+    },
   }));
+
+export type PermissionAccessModelInstance = Instance<typeof PermissionAccessModel>;

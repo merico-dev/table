@@ -2,17 +2,17 @@ import { PaginationResponse } from './types';
 
 export type DashboardOwnerType = 'ACCOUNT' | 'APIKEY' | null;
 export type AccessType = 'ACCOUNT' | 'APIKEY';
-export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE';
+export type AccessPermissionType = 'VIEW' | 'EDIT' | 'REMOVE'; // REMOVE means to remove on permission's next update
 
 export const AccessPermissionLabelMap = {
   VIEW: 'view',
   EDIT: 'view, edit',
-  REMOVE: 'view, edit, remove',
+  REMOVE: 'reset to default access',
 };
 export const AccessPermissionOptions = [
   { label: AccessPermissionLabelMap.VIEW, value: 'VIEW' },
   { label: AccessPermissionLabelMap.EDIT, value: 'EDIT' },
-  // { label: AccessPermissionLabelMap.REMOVE, value: 'REMOVE', disabled: true },
+  { label: AccessPermissionLabelMap.REMOVE, value: 'REMOVE' },
 ];
 
 export type AccountOrAPIKeyOptionType = {
@@ -23,7 +23,7 @@ export type AccountOrAPIKeyOptionType = {
 
 export type PermissionResourceType = {
   id: string;
-  name: string;
+  name?: string;
   type: AccessType;
   permission: AccessPermissionType;
 };

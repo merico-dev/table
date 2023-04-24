@@ -39,7 +39,6 @@ const OpenUsageRow = () => (
     <td />
     <td>Everyone</td>
     <td>{AccessPermissionLabelMap.VIEW}</td>
-    <td />
   </tr>
 );
 const OpenEditingRow = () => (
@@ -47,15 +46,6 @@ const OpenEditingRow = () => (
     <td />
     <td>Authors, admins</td>
     <td>{AccessPermissionLabelMap.EDIT}</td>
-    <td />
-  </tr>
-);
-const OpenRemovalRow = () => (
-  <tr className="fallback-row">
-    <td />
-    <td>Admins</td>
-    <td>{AccessPermissionLabelMap.REMOVE}</td>
-    <td />
   </tr>
 );
 
@@ -83,12 +73,11 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
         <tr>
           <th style={{ width: '50px' }} />
           <th style={{ width: '55%' }}>Account / API Key</th>
-          <th style={{ width: 'calc(45% - 100px)' }}>Access</th>
-          <th style={{ width: '50px' }} />
+          <th style={{ width: 'calc(45% - 50px)' }}>Access</th>
         </tr>
       </thead>
       <tbody>
-        {[...data].map((d, i) => (
+        {[...data].map((d) => (
           <tr key={d.id}>
             <td>
               <AccountTypeIcon type={d.type} />
@@ -113,23 +102,10 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
                 <span className="value-text">{AccessPermissionLabelMap[d.permission]}</span>
               )}
             </td>
-            <td>
-              {model.isOwner && (
-                <ActionIcon
-                  variant="subtle"
-                  color="red"
-                  onClick={() => model.removeAccess(i)}
-                  disabled={!model.isOwner}
-                >
-                  <IconX size={14} />
-                </ActionIcon>
-              )}
-            </td>
           </tr>
         ))}
         {!model.usageRestricted && <OpenUsageRow />}
         {!model.editingRestricted && <OpenEditingRow />}
-        {!model.removalRestricted && <OpenRemovalRow />}
       </tbody>
     </Table>
   );
