@@ -5,6 +5,10 @@
       "groupName": "tiptap packages"
     },
     {
+      "matchPackagePatterns": ["^@mantine/"],
+      "groupName": "mantine packages"
+    },
+    {
       "matchPackagePatterns": ["^prosemirror"],
       "enabled": false
     }
