@@ -31,14 +31,12 @@ const TableSx: Sx = {
 
 const OpenUsageRow = () => (
   <tr className="fallback-row">
-    <td />
     <td>Everyone</td>
     <td>{AccessPermissionLabelMap.VIEW}</td>
   </tr>
 );
 const OpenEditingRow = () => (
   <tr className="fallback-row">
-    <td />
     <td>Authors, admins</td>
     <td>{AccessPermissionLabelMap.EDIT}</td>
   </tr>
@@ -63,21 +61,18 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
     <Table highlightOnHover sx={TableSx}>
       <thead>
         <tr>
-          <th style={{ width: '50px' }} />
           <th style={{ width: '55%' }}>Account / API Key</th>
-          <th style={{ width: 'calc(45% - 50px)' }}>Access</th>
+          <th style={{ width: '45%' }}>Access</th>
         </tr>
       </thead>
       <tbody>
         {[...data].map((d) => (
           <tr key={d.id}>
             <td>
-              <AccountTypeIcon type={d.type} />
-            </td>
-            <td>
               {model.isOwner ? (
                 <AccountOrAPIKeySelector
                   value={d.id}
+                  type={d.type}
                   onChange={getHandler(d)}
                   options={model.options.choosableOptions}
                   optionsLoading={model.options.loading}

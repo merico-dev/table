@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 import { IconApi, IconUser } from '@tabler/icons';
 
 export const AccountTypeIcon = ({ type }: { type: 'ACCOUNT' | 'APIKEY' | null }) => {
@@ -6,10 +6,8 @@ export const AccountTypeIcon = ({ type }: { type: 'ACCOUNT' | 'APIKEY' | null })
     return null;
   }
   return (
-    <Tooltip label={type === 'APIKEY' ? 'API Key' : 'Account'}>
-      <ActionIcon variant="subtle" sx={{ cursor: 'help', transform: 'none !important' }}>
-        {type === 'APIKEY' ? <IconApi size={14} /> : <IconUser size={14} />}
-      </ActionIcon>
-    </Tooltip>
+    <ActionIcon variant="subtle" sx={{ transform: 'none !important' }}>
+      {type === 'APIKEY' ? <IconApi size={18} /> : <IconUser size={14} />}
+    </ActionIcon>
   );
 };
