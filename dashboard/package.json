@@ -31,7 +31,7 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@monaco-editor/react": "4.4.6",
+    "@monaco-editor/react": "4.5.0",
     "@types/chroma-js": "^2.1.4",
     "file-saver": "2.0.5",
     "mathjs": "11.7.0",
