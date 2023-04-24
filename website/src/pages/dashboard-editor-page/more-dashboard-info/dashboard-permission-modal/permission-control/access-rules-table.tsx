@@ -69,7 +69,9 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
               {model.isOwner ? (
                 <AccountOrAPIKeySelector
                   value={d.id}
-                  onChange={d.setID}
+                  onChange={(newID) => {
+                    model.changeAccessID(d, newID);
+                  }}
                   options={model.options.choosableOptions}
                   optionsLoading={model.options.loading}
                   disabled={!model.isOwner}

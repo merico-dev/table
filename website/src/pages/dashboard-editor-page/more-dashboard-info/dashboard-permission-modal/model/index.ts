@@ -5,7 +5,7 @@ import { addDisposer, cast, flow, Instance, SnapshotIn, toGenerator, types } fro
 import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
 import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountOrAPIKeyOptionsModel } from './account-or-apikey-options-model';
-import { PermissionAccessModel } from './permission-access-model';
+import { PermissionAccessModel, PermissionAccessModelInstance } from './permission-access-model';
 
 const defaultData: DashboardPermissionDBType = {
   id: '',
@@ -73,13 +73,20 @@ export const PermissionModel = types
     controller: new AbortController(),
   }))
   .actions((self) => ({
-    addAnAccess() {
-      self.access.push({
-        id: `TEMP_${new Date().getTime()}`,
+    addAnAccess(id: string) {
+      self.access.unshift({
+        id,
         name: '',
         type: 'ACCOUNT',
         permission: 'VIEW',
       });
+    },
+    changeAccessID(access: PermissionAccessModelInstance, newID: string) {
+      if (access.valid) {
+        this.addAnAccess(newID);
+      } else {
+        access.setID(newID);
+      }
     },
     setData(data: DashboardPermissionDBType) {
       const { id, owner_id, owner_name, owner_type, create_time, update_time, access } = data;
