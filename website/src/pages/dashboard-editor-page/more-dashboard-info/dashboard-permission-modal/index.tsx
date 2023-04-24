@@ -7,14 +7,19 @@ import { useDashboardStore } from '../../../../frames/app/models/dashboard-store
 import { useAccountContext } from '../../../../frames/require-auth/account-context';
 import { createPermissionModel } from './model';
 import { PermissionControl } from './permission-control';
+import { useEffect } from 'react';
 
 export const DashboardPermissionModal = observer(() => {
   const { store } = useDashboardStore();
   const { canEdit, isAdmin, account } = useAccountContext();
   const dashboard_id = store.currentID;
+  const [opened, { open, close }] = useDisclosure(false);
+
   const model = useCreation(() => createPermissionModel(dashboard_id, account.id), [dashboard_id, account.id]);
 
-  const [opened, { open, close }] = useDisclosure(false);
+  useEffect(() => {
+    model.load();
+  }, [opened, model]);
 
   if (!model.isOwner && !isAdmin) {
     return null;
