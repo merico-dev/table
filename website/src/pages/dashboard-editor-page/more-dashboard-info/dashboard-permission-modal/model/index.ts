@@ -4,6 +4,7 @@ import { reaction } from 'mobx';
 import { addDisposer, cast, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
 import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
+import { AccountOrAPIKeyOptionsModel } from './account-or-apikey-options-model';
 import { PermissionAccessModel } from './permission-access-model';
 
 const defaultData: DashboardPermissionDBType = {
@@ -29,6 +30,7 @@ export const PermissionModel = types
     access: types.array(PermissionAccessModel),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
+    options: AccountOrAPIKeyOptionsModel,
   })
   .views((self) => ({
     get isOwner() {
@@ -42,6 +44,9 @@ export const PermissionModel = types
     },
     get empty() {
       return self.access.length === 0;
+    },
+    get hasEmptyAccess() {
+      return self.access.some((a) => !a.valid);
     },
     get json() {
       const { id, owner_id, owner_type, create_time, update_time, access } = self;
@@ -133,5 +138,5 @@ export type PermissionModelInstance = Instance<typeof PermissionModel>;
 export type PermissionModelSnapshotIn = SnapshotIn<PermissionModelInstance>;
 
 export const createPermissionModel = (dashboard_id: string, account_id: string) => {
-  return PermissionModel.create({ dashboard_id, account_id, access: [] });
+  return PermissionModel.create({ dashboard_id, account_id, access: [], options: {} });
 };

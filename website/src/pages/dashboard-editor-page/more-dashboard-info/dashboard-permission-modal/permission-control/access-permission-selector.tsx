@@ -6,5 +6,7 @@ interface IAccessPermissionSelector {
   onChange: (value: AccessPermissionType) => void;
 }
 export const AccessPermissionSelector = ({ value, onChange }: IAccessPermissionSelector) => {
-  return <Select size="xs" value={value} onChange={onChange} data={AccessPermissionOptions} />;
+  return (
+    <Select size="xs" value={value} onChange={onChange} data={AccessPermissionOptions} withinPortal zIndex={320} />
+  );
 };

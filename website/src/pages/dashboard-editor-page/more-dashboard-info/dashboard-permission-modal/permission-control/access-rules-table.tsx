@@ -1,12 +1,6 @@
-import { ActionIcon, Sx, Table } from '@mantine/core';
-import { IconX } from '@tabler/icons';
-import { useRequest } from 'ahooks';
+import { Sx, Table } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { AccountAPI } from '../../../../../api-caller/account';
-import {
-  AccessPermissionLabelMap,
-  AccountOrAPIKeyOptionType,
-} from '../../../../../api-caller/dashboard-permission.types';
+import { AccessPermissionLabelMap } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
 import { AccessPermissionSelector } from './access-permission-selector';
@@ -56,17 +50,6 @@ interface IAccessRules {
 export const AccessRulesTable = observer(({ model }: IAccessRules) => {
   const data = model.access;
 
-  const { data: options, loading } = useRequest(
-    async (): Promise<AccountOrAPIKeyOptionType[]> => {
-      const accountResp = await AccountAPI.list();
-      const accounts = accountResp.data
-        .filter((d) => d.role_id <= 40) // exclude superadmin
-        .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
-      return accounts;
-    },
-    { refreshDeps: [] },
-  );
-
   return (
     <Table highlightOnHover sx={TableSx}>
       <thead>
@@ -87,8 +70,8 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
                 <AccountOrAPIKeySelector
                   value={d.id}
                   onChange={d.setID}
-                  options={options}
-                  optionsLoading={loading}
+                  options={model.options.choosableOptions}
+                  optionsLoading={model.options.loading}
                   disabled={!model.isOwner}
                 />
               ) : (

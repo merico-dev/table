@@ -8,8 +8,20 @@ interface IAddAnAccessRule {
 }
 
 export const AddAnAccessRule = observer(({ model }: IAddAnAccessRule) => {
+  const disabled = model.hasEmptyAccess || model.options.allOptionsAreChosen;
+  console.log({
+    allOptionsAreChosen: model.options.allOptionsAreChosen,
+    hasEmptyAccess: model.hasEmptyAccess,
+    options: model.options.list,
+  });
   return (
-    <Button size="xs" variant="light" leftIcon={<IconUserPlus size={14} />} onClick={model.addAnAccess}>
+    <Button
+      size="xs"
+      variant="light"
+      leftIcon={<IconUserPlus size={14} />}
+      onClick={model.addAnAccess}
+      disabled={disabled || model.options.loading}
+    >
       Add an access rule
     </Button>
   );

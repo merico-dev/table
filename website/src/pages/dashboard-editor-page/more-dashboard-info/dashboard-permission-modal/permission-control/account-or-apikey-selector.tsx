@@ -1,5 +1,5 @@
 import { Select } from '@mantine/core';
-import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
+import { AccessType, AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 
 interface IAccountOrAPIKeySelector {
   value: string;
@@ -22,6 +22,15 @@ export const AccountOrAPIKeySelector = ({
     );
   }
   return (
-    <Select size="xs" placeholder="Select one" data={options} value={value} onChange={onChange} disabled={disabled} />
+    <Select
+      size="xs"
+      placeholder="Select one"
+      data={options}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+      withinPortal
+      zIndex={320}
+    />
   );
 };
