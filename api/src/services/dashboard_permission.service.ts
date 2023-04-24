@@ -39,6 +39,19 @@ export class DashboardPermissionService {
     if (auth_role_id && auth_role_id >= ROLE_TYPES.ADMIN) return true;
     if (!permission.owner_id || !permission.owner_type) return true;
     if (permission.access.length === 0) return true;
+
+    // NOTE: check access by role
+    if (auth_role_id) {
+      const controlled = permission.access.some((x) => x.permission === permission_type);
+      if (!controlled) {
+        if (permission_type === 'VIEW') {
+          return auth_role_id >= ROLE_TYPES.READER;
+        }
+        return auth_role_id >= ROLE_TYPES.AUTHOR;
+      }
+    }
+
+    // NOTE: check access by permission.access
     let allowed: PermissionResource[] = [];
     if (permission_type === 'VIEW') {
       allowed = permission.access.concat([
