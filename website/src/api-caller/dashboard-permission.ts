@@ -44,21 +44,11 @@ export const DashboardPermissionAPI = {
     }
   },
   updateOwner: async (payload: UpdateDashboardOwnerPayloadType): Promise<DashboardPermissionDBType | null> => {
-    try {
-      const resp: DashboardPermissionDBType = await post('/dashboard_permission/updateOwner', payload);
-      return resp;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
+    const resp: DashboardPermissionDBType = await post('/dashboard_permission/updateOwner', payload);
+    return resp;
   },
   update: async (payload: UpdatePermissionPayloadType): Promise<DashboardPermissionDBType | null> => {
-    try {
-      const resp: DashboardPermissionDBType = await post('/dashboard_permission/update', payload);
-      return resp;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
+    const resp: DashboardPermissionDBType = await post('/dashboard_permission/update', payload);
+    return resp;
   },
 };

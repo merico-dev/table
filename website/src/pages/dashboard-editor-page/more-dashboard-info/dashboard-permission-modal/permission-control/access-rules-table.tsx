@@ -5,6 +5,7 @@ import { AccountTypeIcon } from '../../../../../components/account-type-icon';
 import { PermissionModelInstance } from '../model';
 import { AccessPermissionSelector } from './access-permission-selector';
 import { AccountOrAPIKeySelector } from './account-or-apikey-selector';
+import { PermissionAccessModelInstance } from '../model/permission-access-model';
 
 const TableSx: Sx = {
   tableLayout: 'fixed',
@@ -49,6 +50,14 @@ interface IAccessRules {
 
 export const AccessRulesTable = observer(({ model }: IAccessRules) => {
   const data = model.access;
+  const getHandler = (access: PermissionAccessModelInstance) => (newID: string) => {
+    const type = model.options.getTypeByID(newID);
+    if (!type) {
+      console.error(`Invalid ID[${newID}]`);
+      return;
+    }
+    model.changeAccessID(access, newID, type);
+  };
 
   return (
     <Table highlightOnHover sx={TableSx}>
@@ -69,9 +78,7 @@ export const AccessRulesTable = observer(({ model }: IAccessRules) => {
               {model.isOwner ? (
                 <AccountOrAPIKeySelector
                   value={d.id}
-                  onChange={(newID) => {
-                    model.changeAccessID(d, newID);
-                  }}
+                  onChange={getHandler(d)}
                   options={model.options.choosableOptions}
                   optionsLoading={model.options.loading}
                   disabled={!model.isOwner}

@@ -26,16 +26,27 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
       loading: true,
     });
     const { id, access } = model.json;
-    await DashboardPermissionAPI.update({ id, access });
-    setFalse();
-    updateNotification({
-      id: 'submit',
-      title: 'Successful',
-      message: 'Permission has changed',
-      color: 'green',
-    });
-    model.load();
-    postSubmit();
+    try {
+      await DashboardPermissionAPI.update({ id, access });
+      updateNotification({
+        id: 'submit',
+        title: 'Successful',
+        message: 'Permission has changed',
+        color: 'green',
+      });
+      model.load();
+      postSubmit();
+    } catch (err) {
+      updateNotification({
+        id: 'submit',
+        title: 'Failed',
+        // @ts-expect-error unkown error
+        message: err.message,
+        color: 'red',
+      });
+    } finally {
+      setFalse();
+    }
   };
   return (
     <Button

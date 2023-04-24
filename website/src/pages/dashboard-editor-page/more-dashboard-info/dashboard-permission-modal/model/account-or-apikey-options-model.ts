@@ -6,6 +6,7 @@ import { autorun } from 'mobx';
 import { AccountAPI } from '../../../../../api-caller/account';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 import { PermissionAccessModelInstance } from './permission-access-model';
+import { APIKeyAPI } from '../../../../../api-caller/api-key';
 
 export const AccountOrAPIKeyOptionsModel = types
   .model({
@@ -28,8 +29,10 @@ export const AccountOrAPIKeyOptionsModel = types
     get allOptionsAreChosen() {
       return this.choosableOptions.every((o) => o.disabled);
     },
+    getTypeByID(id: string) {
+      return self.list.find((o) => o.value === id)?.type;
+    },
   }))
-
   .volatile(() => ({
     controller: new AbortController(),
   }))
@@ -44,7 +47,13 @@ export const AccountOrAPIKeyOptionsModel = types
           const accounts = accountResp.data
             .filter((d) => d.role_id <= 40) // exclude superadmin
             .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
-          self.list = accounts;
+
+          const apiKeysResp = yield* toGenerator(APIKeyAPI.list());
+          const apiKeys = apiKeysResp.data
+            .filter((d) => d.role_id <= 40) // exclude superadmin
+            .map((d) => ({ label: d.name, value: d.id, type: 'APIKEY' } as const));
+
+          self.list = [...accounts, ...apiKeys];
           self.state = 'idle';
           self.error = null;
         } catch (error) {

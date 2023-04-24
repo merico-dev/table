@@ -14,7 +14,7 @@ export const AddAnAccessRule = observer(({ model }: IAddAnAccessRule) => {
       size="xs"
       variant="light"
       leftIcon={<IconUserPlus size={14} />}
-      onClick={() => model.addAnAccess(`TEMP_${new Date().getTime()}`)}
+      onClick={() => model.addAnAccess({ id: `TEMP_${new Date().getTime()}` })}
       disabled={disabled || model.options.loading}
     >
       Add an access rule

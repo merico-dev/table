@@ -27,6 +27,9 @@ export const PermissionAccessModel = types
     setID(v: string) {
       self.id = v;
     },
+    setType(v: 'ACCOUNT' | 'APIKEY') {
+      self.type = v;
+    },
     setPermission(v: AccessPermissionType) {
       self.permission = v;
     },

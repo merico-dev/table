@@ -73,19 +73,20 @@ export const PermissionModel = types
     controller: new AbortController(),
   }))
   .actions((self) => ({
-    addAnAccess(id: string) {
+    addAnAccess({ id, type = 'ACCOUNT' }: { id: string; type?: 'ACCOUNT' | 'APIKEY' }) {
       self.access.unshift({
         id,
         name: '',
-        type: 'ACCOUNT',
+        type,
         permission: 'VIEW',
       });
     },
-    changeAccessID(access: PermissionAccessModelInstance, newID: string) {
+    changeAccessID(access: PermissionAccessModelInstance, newID: string, type: 'ACCOUNT' | 'APIKEY') {
       if (access.valid) {
-        this.addAnAccess(newID);
+        this.addAnAccess({ id: newID, type });
       } else {
         access.setID(newID);
+        access.setType(type);
       }
     },
     setData(data: DashboardPermissionDBType) {
