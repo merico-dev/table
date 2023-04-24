@@ -2,6 +2,7 @@ import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-e
 import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
+import { PermissionResource } from './dashboard_permission';
 
 @ApiModel({
   description: 'Dashboard entity',
@@ -56,6 +57,22 @@ export class Dashboard {
     required: false,
   })
   update_time: Date;
+
+  @ApiModelProperty({
+    description: 'Dashboard owner id',
+  })
+  owner_id: string | null;
+
+  @ApiModelProperty({
+    description: 'Dashboard owner type',
+  })
+  owner_type: 'ACCOUNT' | 'APIKEY' | null;
+
+  @ApiModelProperty({
+    description: 'access permissions of the dashboard',
+  })
+  @Type(() => PermissionResource)
+  access: PermissionResource[];
 }
 
 @ApiModel({

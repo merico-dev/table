@@ -1,7 +1,24 @@
 import { IAccount } from '@devtable/settings-form';
 import { get, post, put } from './request';
+import { PaginationResponse } from './types';
 
 export const AccountAPI = {
+  list: async (): Promise<PaginationResponse<IAccount>> => {
+    const res = await post('/account/list', {
+      filter: {},
+      sort: [
+        {
+          field: 'name',
+          order: 'ASC',
+        },
+      ],
+      pagination: {
+        page: 1,
+        pagesize: 1000,
+      },
+    });
+    return res;
+  },
   /**
    * get current account
    */

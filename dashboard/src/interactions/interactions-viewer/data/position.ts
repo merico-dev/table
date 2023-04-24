@@ -77,7 +77,7 @@ function alignViews({ nodeMap, nodes, edges }: ICommonProps) {
     if (s && t && s.parentNode) {
       const sp = nodeMap[s.parentNode] as TFlowNode_View;
       const spx = sp.position.x;
-      const th = _.get(t, 'style.height', 0);
+      const th = Number(_.get(t, 'style.height', 0));
       const spw = Number(sp.style.width);
 
       t.position.x = spx + spw + LaneGapX;

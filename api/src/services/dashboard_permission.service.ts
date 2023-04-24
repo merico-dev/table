@@ -28,39 +28,65 @@ export class DashboardPermissionService {
     await dashboardPermissionRepo.save(permission);
   }
 
-  static async checkPermission(
-    id: string,
+  static canAccess(
+    permission: { owner_id: string | null; owner_type: 'ACCOUNT' | 'APIKEY' | null; access: PermissionResource[] },
     permission_type: 'VIEW' | 'EDIT',
-    is_admin: boolean,
-    locale: string,
-    resource_type?: 'ACCOUNT' | 'APIKEY',
-    resource_id?: string,
-  ): Promise<void> {
-    if (!AUTH_ENABLED) return;
-    if (is_admin) return;
-    const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
-    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
-    if (!dashboardPermission.owner_id || !dashboardPermission.owner_type) return;
-    if (dashboardPermission.access.length === 0) return;
+    auth_id?: string,
+    auth_type?: 'ACCOUNT' | 'APIKEY',
+    auth_role_id?: ROLE_TYPES,
+  ): boolean {
+    if (!AUTH_ENABLED) return true;
+    if (auth_role_id && auth_role_id >= ROLE_TYPES.ADMIN) return true;
+    if (!permission.owner_id || !permission.owner_type) return true;
+    if (permission.access.length === 0) return true;
+
+    // NOTE: check access by role
+    if (auth_role_id) {
+      const controlled = permission.access.some((x) => x.permission === permission_type);
+      if (!controlled) {
+        if (permission_type === 'VIEW') {
+          return auth_role_id >= ROLE_TYPES.READER;
+        }
+        return auth_role_id >= ROLE_TYPES.AUTHOR;
+      }
+    }
+
+    // NOTE: check access by permission.access
     let allowed: PermissionResource[] = [];
     if (permission_type === 'VIEW') {
-      allowed = dashboardPermission.access.concat([
-        { id: dashboardPermission.owner_id, type: dashboardPermission.owner_type, permission: 'EDIT' },
+      allowed = permission.access.concat([
+        { id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' },
       ]);
     } else {
-      allowed = dashboardPermission.access
-        .concat([{ id: dashboardPermission.owner_id, type: dashboardPermission.owner_type, permission: 'EDIT' }])
+      allowed = permission.access
+        .concat([{ id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' }])
         .filter((x) => {
           return x.permission === 'EDIT';
         });
     }
     if (
       allowed.some((x) => {
-        return x.id === resource_id && x.type === resource_type;
+        return x.id === auth_id && x.type === auth_type;
       })
-    )
-      return;
-    throw new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', locale) });
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  static async checkPermission(
+    id: string,
+    permission_type: 'VIEW' | 'EDIT',
+    locale: string,
+    resource_id?: string,
+    resource_type?: 'ACCOUNT' | 'APIKEY',
+    resource_role_id?: ROLE_TYPES,
+  ): Promise<void> {
+    const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
+    const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
+    if (!this.canAccess(dashboardPermission, permission_type, resource_id, resource_type, resource_role_id)) {
+      throw new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', locale) });
+    }
   }
 
   static async checkIsOwnerOrAdmin(id: string, auth: Account | ApiKey, locale: string): Promise<void> {
@@ -119,6 +145,29 @@ export class DashboardPermissionService {
       total,
       offset,
       data: dashboardPermissions,
+    };
+  }
+
+  async get(id: string): Promise<DashboardPermissionAPIModel> {
+    const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
+    const dp = await dashboardPermissionRepo.findOneByOrFail({ id });
+    let accountIds = dp.access.filter((x) => x.type === 'ACCOUNT').map((x) => x.id);
+    if (dp.owner_id) {
+      accountIds.push(dp.owner_id);
+    }
+    accountIds = Array.from(new Set(accountIds));
+    const accounts = await dashboardDataSource.getRepository(Account).findBy({ id: Any(accountIds) });
+    const accountMap = _.keyBy(accounts, 'id');
+    const access = dp.access.map((x) => ({
+      ...x,
+      name: accountMap[x.id]?.name ?? x.id,
+    }));
+    const owner_id = dp.owner_id ? dp.owner_id : '';
+    const owner_name = owner_id ? _.get(accountMap, owner_id)?.name : owner_id;
+    return {
+      ...dp,
+      access,
+      owner_name,
     };
   }
 

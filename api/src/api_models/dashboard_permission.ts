@@ -23,6 +23,13 @@ export class PermissionResource {
   })
   id: string;
 
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'name matching the resource id',
+    required: false,
+  })
+  name?: string;
+
   @IsIn(['VIEW', 'EDIT', 'REMOVE'])
   @ApiModelProperty({
     description: 'resource permission. REMOVE is to delete an entry',
@@ -48,6 +55,13 @@ export class DashboardPermission {
     required: false,
   })
   owner_id: string | null;
+
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'name matching the owner_id',
+    required: false,
+  })
+  owner_name?: string;
 
   @ApiModelProperty({
     description: 'owner_type of the dashboard permission',
@@ -202,6 +216,19 @@ export class DashboardPermissionPaginationResponse implements PaginationResponse
     model: 'DashboardPermission',
   })
   data: DashboardPermission[];
+}
+
+@ApiModel({
+  description: 'dashboard permission get request',
+  name: 'DashboardPermissionGetRequest',
+})
+export class DashboardPermissionGetRequest {
+  @IsUUID()
+  @ApiModelProperty({
+    description: 'ID',
+    required: true,
+  })
+  id: string;
 }
 
 @ApiModel({

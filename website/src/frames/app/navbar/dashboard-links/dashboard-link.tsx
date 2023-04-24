@@ -1,19 +1,19 @@
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { ActionMenu } from './action-menu';
+import { DashboardBriefModelInstance } from '../../models/dashboard-brief-model';
+import { observer } from 'mobx-react-lite';
 
 interface DashboardLinkProps {
-  id: string;
-  name: string;
   active: boolean;
-  preset?: boolean;
   openOverwriteModal: (id: string) => void;
   openEditModal: (id: string) => void;
+  model: DashboardBriefModelInstance;
 }
 
-export function DashboardLink({ id, name, active, preset, openOverwriteModal, openEditModal }: DashboardLinkProps) {
+export const DashboardLink = observer(({ model, active, openOverwriteModal, openEditModal }: DashboardLinkProps) => {
   const navigate = useNavigate();
-  const handleClick = () => navigate(`/dashboard/${id}`);
+  const handleClick = () => navigate(`/dashboard/${model.id}`);
   return (
     <Box sx={{ position: 'relative' }}>
       <UnstyledButton
@@ -35,10 +35,15 @@ export function DashboardLink({ id, name, active, preset, openOverwriteModal, op
         })}
       >
         <Group onClick={handleClick}>
-          <Text size="sm">{name}</Text>
+          <Text size="sm">{model.name}</Text>
         </Group>
       </UnstyledButton>
-      <ActionMenu id={id} preset={preset} openOverwriteModal={openOverwriteModal} openEditModal={openEditModal} />
+      <ActionMenu
+        model={model}
+        preset={model.is_preset}
+        openOverwriteModal={openOverwriteModal}
+        openEditModal={openEditModal}
+      />
     </Box>
   );
-}
+});

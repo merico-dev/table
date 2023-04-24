@@ -4,20 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import { Edit, FileImport, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
 import { DeleteDashboard } from './delete-dashboard';
+import { observer } from 'mobx-react-lite';
+import { DashboardBriefModelInstance } from '../../../models/dashboard-brief-model';
 
 interface IActionMenu {
-  id: string;
+  model: DashboardBriefModelInstance;
   preset?: boolean;
   openOverwriteModal: (id: string) => void;
   openEditModal: (id: string) => void;
 }
-export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
+export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { canEdit } = useAccountContext();
+  const { account } = useAccountContext();
 
   const visitDashboardDesign = () => {
-    navigate(`/dashboard/${id}/edit`);
+    navigate(`/dashboard/${model.id}/edit`);
   };
   if (preset) {
     return (
@@ -34,9 +36,11 @@ export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IA
       </Tooltip>
     );
   }
-  if (!canEdit || preset) {
+
+  if (!model.canEdit(account)) {
     return null;
   }
+
   return (
     <Menu shadow="md" width={220} withinPortal withArrow position="right" trigger="hover">
       <Menu.Target>
@@ -61,16 +65,16 @@ export const ActionMenu = ({ id, preset, openOverwriteModal, openEditModal }: IA
           Design
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openEditModal(id)} icon={<Edit size={16} />}>
+        <Menu.Item onClick={() => openEditModal(model.id)} icon={<Edit size={16} />}>
           Rename
         </Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => openOverwriteModal(id)} icon={<FileImport size={16} />}>
+        <Menu.Item onClick={() => openOverwriteModal(model.id)} icon={<FileImport size={16} />}>
           Overwrite with JSON file
         </Menu.Item>
         <Menu.Divider />
-        <DeleteDashboard id={id} />
+        <DeleteDashboard id={model.id} />
       </Menu.Dropdown>
     </Menu>
   );
-};
+});

@@ -13,19 +13,27 @@ import { translate } from '../utils/i18n';
 import { DashboardPermissionService } from './dashboard_permission.service';
 import Account from '../models/account';
 import ApiKey from '../models/apiKey';
+import DashboardPermission from '../models/dashboard_permission';
+import { PermissionResource } from '../api_models/dashboard_permission';
 
 export class DashboardService {
   async list(
     filter: DashboardFilterObject | undefined,
     sort: DashboardSortObject[],
     pagination: PaginationRequest,
+    auth?: Account | ApiKey,
   ): Promise<DashboardPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(Dashboard, 'dashboard')
+      .innerJoin(DashboardPermission, 'dashboard_permission', 'dashboard.id = dashboard_permission.id')
+      .select('dashboard.*')
+      .addSelect('dashboard_permission.owner_id', 'owner_id')
+      .addSelect('dashboard_permission.owner_type', 'owner_type')
+      .addSelect('dashboard_permission.access', 'access')
       .where('true')
-      .orderBy(`"${sort[0].field}"`, sort[0].order)
+      .orderBy(`dashboard."${sort[0].field}"`, sort[0].order)
       .offset(offset)
       .limit(pagination.pagesize);
 
@@ -46,16 +54,26 @@ export class DashboardService {
     }
 
     sort.slice(1).forEach((s) => {
-      qb.addOrderBy(`"${s.field}"`, s.order);
+      qb.addOrderBy(`dashboard."${s.field}"`, s.order);
     });
 
-    const dashboards = await qb.getRawMany<Dashboard>();
+    const dashboards = await qb.getRawMany<
+      Dashboard & { owner_id: string | null; owner_type: 'ACCOUNT' | 'APIKEY' | null; access: PermissionResource[] }
+    >();
     const total = await qb.getCount();
 
     return {
       total,
       offset,
-      data: dashboards,
+      data: dashboards.filter((x) =>
+        DashboardPermissionService.canAccess(
+          { access: x.access, owner_id: x.owner_id, owner_type: x.owner_type },
+          'VIEW',
+          auth?.id,
+          auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+          auth?.role_id,
+        ),
+      ),
     };
   }
 

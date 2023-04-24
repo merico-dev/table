@@ -81,7 +81,7 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
+  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = validate(AccountListRequest, req.body);

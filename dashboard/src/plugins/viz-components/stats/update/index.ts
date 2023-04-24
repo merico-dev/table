@@ -2,7 +2,7 @@ import { TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';
-import { ITemplateVariable } from '~/utils/template';
+import { ColorConfType, ITemplateVariable } from '~/utils/template';
 import { cloneDeep, get, omit, set } from 'lodash';
 
 interface ILegacyStatsConf {
@@ -67,12 +67,12 @@ function fixVariableType(variable: ITemplateVariable) {
   const cloned = cloneDeep(variable);
 
   // cast color range to a number array
-  const colorRange = get(cloned, 'color.valueRange');
+  const colorRange = get(cloned, 'color.valueRange') as Array<string | number> | undefined;
   if (colorRange !== undefined) {
     set(
       cloned,
       'color.valueRange',
-      colorRange.map((v: string) => Number(v)),
+      colorRange.map((v) => Number(v)),
     );
   }
   return cloned;

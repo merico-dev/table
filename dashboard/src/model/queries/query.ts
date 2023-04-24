@@ -102,7 +102,7 @@ export const QueryModel = types
           if (!axios.isCancel(error)) {
             self.data.length = 0;
             const fallback = get(error, 'message', 'unkown error');
-            self.error = get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
           }
         }
@@ -141,7 +141,7 @@ export const QueryModel = types
           if (!axios.isCancel(error)) {
             self.data.length = 0;
             const fallback = get(error, 'message', 'unkown error');
-            self.error = get(error, 'response.data.detail.message', fallback) as QueryFailureError;
+            self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
           }
         }
