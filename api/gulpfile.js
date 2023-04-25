@@ -36,7 +36,7 @@ function copyPackageJson() {
 }
 
 function copyEnv() {
-  return gulp.src(['.env'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
+  return gulp.src(['.env'], { cwd: __dirname, allowEmpty: true }).pipe(gulp.dest(buildDir));
 }
 
 function copyPresetDatasourcesFolder() {
