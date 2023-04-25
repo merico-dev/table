@@ -23,5 +23,10 @@ export function formatAggregatedValue({ formatter }: ITemplateVariable, value: n
   if (!['string', 'number'].includes(typeof value)) {
     return getNonStatsDataText(value);
   }
-  return numbro(value).format(formatter);
+  try {
+    return numbro(value).format(formatter);
+  } catch (e) {
+    console.error(e);
+    return value;
+  }
 }

@@ -11,13 +11,6 @@ export const PickQuery = observer(function _PickQuery() {
     panel: { queryID, setQueryID },
   } = usePanelContext();
 
-  const options = React.useMemo(() => {
-    return model.queries.current.map((d) => ({
-      value: d.id,
-      label: d.name,
-    }));
-  }, [model.queries.current]);
-
   const navigateToQuery = () => {
     model.editor.setPath(['_QUERIES_', queryID]);
   };
@@ -27,7 +20,7 @@ export const PickQuery = observer(function _PickQuery() {
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
         <Text>Use query</Text>
         <Select
-          data={options}
+          data={model.queries.options}
           value={queryID}
           onChange={setQueryID}
           allowDeselect={false}
