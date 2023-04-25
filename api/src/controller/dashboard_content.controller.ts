@@ -54,10 +54,10 @@ export class DashboardContentController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'VIEW',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       const result = await this.dashboardContentService.list(dashboard_id, filter, sort, pagination);
       res.json(result);
@@ -84,10 +84,10 @@ export class DashboardContentController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'EDIT',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       const result = await this.dashboardContentService.create(dashboard_id, name, content, req.locale);
       res.json(result);
@@ -116,10 +116,10 @@ export class DashboardContentController implements interfaces.Controller {
       await DashboardPermissionService.checkPermission(
         result.dashboard_id,
         'VIEW',
-        req.body.auth?.role_id >= ROLE_TYPES.ADMIN,
         req.locale,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
         req.body.auth?.id,
+        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+        req.body.auth?.role_id,
       );
       res.json(result);
     } catch (err) {

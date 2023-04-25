@@ -95,10 +95,10 @@ export class DashboardContentService {
     await DashboardPermissionService.checkPermission(
       dashboard.id,
       'EDIT',
-      auth ? auth.role_id >= ROLE_TYPES.ADMIN : false,
       locale,
-      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
       auth?.id,
+      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+      auth?.role_id,
     );
     if (AUTH_ENABLED && dashboard.is_preset && (!auth?.role_id || auth.role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_EDIT_REQUIRES_SUPERADMIN', locale) });
@@ -136,10 +136,10 @@ export class DashboardContentService {
     await DashboardPermissionService.checkPermission(
       dashboard.id,
       'EDIT',
-      auth ? auth.role_id >= ROLE_TYPES.ADMIN : false,
       locale,
-      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
       auth?.id,
+      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+      auth?.role_id,
     );
     if (AUTH_ENABLED && dashboard.is_preset && (!auth?.role_id || auth.role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, {

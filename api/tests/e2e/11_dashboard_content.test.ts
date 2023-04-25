@@ -570,11 +570,10 @@ describe('DashboardContentController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      expect(response2.body).toMatchObject({
-        total: 0,
-        offset: 0,
-        data: [],
-      });
+      expect(response2.body.code).toEqual('NOT_FOUND');
+      expect(response2.body.detail.message).toContain(
+        'Could not find any entity of type "DashboardPermission" matching',
+      );
     });
 
     it('should fail if not found', async () => {

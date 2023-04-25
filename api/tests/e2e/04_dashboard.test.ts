@@ -280,7 +280,9 @@ describe('DashboardController', () => {
         .send(query);
 
       expect(response.body.code).toEqual('NOT_FOUND');
-      expect(response.body.detail.message).toContain('Could not find any entity of type "Dashboard" matching');
+      expect(response.body.detail.message).toContain(
+        'Could not find any entity of type "DashboardPermission" matching',
+      );
       expect(response.body.detail.message).toContain(notFoundId);
     });
   });
@@ -354,7 +356,9 @@ describe('DashboardController', () => {
         .send(query);
 
       expect(response.body.code).toEqual('NOT_FOUND');
-      expect(response.body.detail.message).toContain('Could not find any entity of type "Dashboard" matching');
+      expect(response.body.detail.message).toContain(
+        'Could not find any entity of type "DashboardPermission" matching',
+      );
       expect(response.body.detail.message).toContain(notFoundId);
     });
 
@@ -432,7 +436,9 @@ describe('DashboardController', () => {
         .send(query);
 
       expect(response.body.code).toEqual('NOT_FOUND');
-      expect(response.body.detail.message).toContain('Could not find any entity of type "Dashboard" matching');
+      expect(response.body.detail.message).toContain(
+        'Could not find any entity of type "DashboardPermission" matching',
+      );
       expect(response.body.detail.message).toContain(notFoundId);
     });
 

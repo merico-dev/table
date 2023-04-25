@@ -79,10 +79,10 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/get', ensureAuthEnabled, permission(ROLE_TYPES.READER))
+  @httpPost('/get', ensureAuthEnabled, permission(ROLE_TYPES.READER), validate(DashboardPermissionGetRequest))
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(DashboardPermissionGetRequest, req.body);
+      const { id } = req.body as DashboardPermissionGetRequest;
       const result = await this.dashboardPermissionService.get(id);
       res.json(result);
     } catch (err) {

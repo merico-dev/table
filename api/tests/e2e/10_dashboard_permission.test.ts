@@ -252,7 +252,7 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardPermissionUpdateRequest = {
         id: dashboardId1,
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
           { type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: readerApiKey.id, permission: 'VIEW' },
@@ -270,7 +270,7 @@ describe('DashboardPermissionController', () => {
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
           { type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: readerApiKey.id, permission: 'VIEW' },
@@ -296,7 +296,7 @@ describe('DashboardPermissionController', () => {
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
         ],
       });
@@ -397,7 +397,6 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardIDRequest = {
         id: dashboardId1,
       };
-
       const response1 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -406,11 +405,9 @@ describe('DashboardPermissionController', () => {
         code: 'FORBIDDEN',
         detail: { message: 'Insufficient privileges for this dashboard' },
       });
-
       const query2: DashboardIDRequest = {
         id: dashboardId2,
       };
-
       const response2 = await server
         .put('/dashboard/update')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -439,7 +436,7 @@ describe('DashboardPermissionController', () => {
         id: dashboardId1,
         owner_id: authorApiKey.id,
         owner_type: 'APIKEY',
-        access: [{ id: readerAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
+        access: [{ id: readerAccount.id, type: 'ACCOUNT', permission: 'VIEW' }],
       });
     });
 
