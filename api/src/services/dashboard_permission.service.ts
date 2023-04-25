@@ -42,7 +42,9 @@ export class DashboardPermissionService {
 
     // NOTE: check access by role
     if (auth_role_id) {
-      const controlled = permission.access.some((x) => x.permission === permission_type);
+      const controlled = permission.access.some(
+        (x) => x.permission === permission_type || (x.id === auth_id && x.type === auth_type),
+      );
       if (!controlled) {
         if (permission_type === 'VIEW') {
           return auth_role_id >= ROLE_TYPES.READER;
