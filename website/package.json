@@ -42,7 +42,7 @@
     "@tiptap/starter-kit": "2.0.3",
     "@zeeko/power-accessor": "0.2.2",
     "ahooks": "^3.3.11",
-    "ajv": "8.11.0",
+    "ajv": "8.12.0",
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
     "crypto-js": "^4.1.1",
