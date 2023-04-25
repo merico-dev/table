@@ -9,6 +9,10 @@
       "groupName": "mantine packages"
     },
     {
+      "matchPackagePatterns": ["^@nrwl/"],
+      "groupName": "Nrwl packages"
+    },
+    {
       "matchPackagePatterns": ["^prosemirror"],
       "enabled": false
     }
