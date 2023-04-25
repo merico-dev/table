@@ -13,6 +13,7 @@
     "@devtable/dashboard": "8.59.5",
     "@devtable/settings-form": "8.59.5",
     "@emotion/react": "11.10.6",
+    "@faker-js/faker": "7.6.0",
     "@mantine/core": "5.9.5",
     "@mantine/dates": "5.9.5",
     "@mantine/hooks": "5.9.5",
