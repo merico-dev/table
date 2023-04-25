@@ -4,6 +4,7 @@ import lodash from 'lodash';
 import numbro from 'numbro';
 import * as d3Array from 'd3-array';
 import * as mathjs from 'mathjs';
+import { faker } from '@faker-js/faker';
 
 export const functionUtils = {
   CryptoJS,
@@ -12,6 +13,7 @@ export const functionUtils = {
   lodash,
   numbro,
   mathjs,
+  faker,
 };
 
 type DescriptionType = {
@@ -24,8 +26,9 @@ const descriptions: DescriptionType[] = [
   { name: 'd3Array', url: 'https://github.com/d3/d3-array', version: '3.2.0' },
   { name: 'dayjs', url: 'https://day.js.org/', version: '1.11.6' },
   { name: 'lodash', url: 'https://lodash.com/docs/4.17.15', version: '4.17.21' },
-  { name: 'numbro', url: 'https://numbrojs.com/', version: '2.3.6' },
   { name: 'mathjs', url: 'https://mathjs.org/', version: '11.7.0' },
+  { name: 'numbro', url: 'https://numbrojs.com/', version: '2.3.6' },
+  { name: 'faker', url: 'https://fakerjs.dev/', version: '7.6.0' },
 ];
 
 const getDescriptionRow = (d: DescriptionType) => `
