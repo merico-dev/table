@@ -35,6 +35,10 @@ function copyPackageJson() {
   return gulp.src(['package.json', 'yarn.lock'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
 }
 
+function copyEnv() {
+  return gulp.src(['.env'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
+}
+
 function copyPresetDatasourcesFolder() {
   return gulp
     .src(['./src/preset/data_sources/*.json'], { cwd: __dirname })
@@ -45,7 +49,7 @@ function copySwagger() {
   return gulp.src(['./swagger/**/*'], { cwd: __dirname }).pipe(gulp.dest(buildDir + '/swagger/'));
 }
 
-const build = gulp.parallel(copyPackageJson, copySwagger, compile, copyPresetDatasourcesFolder);
+const build = gulp.parallel(copyPackageJson, copyEnv, copySwagger, compile, copyPresetDatasourcesFolder);
 
 module.exports = {
   build,
