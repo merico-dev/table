@@ -11,17 +11,25 @@ export const EditFilter = observer(({ id }: { id: string }) => {
   if (id === '') {
     return null;
   }
+
   const filter = model.filters.findByID(id);
   if (!filter) {
     return <Text size={14}>Filter by ID[{id}] is not found</Text>;
   }
+
+  const resetEditorPath = () => {
+    model.editor.setPath(['_FILTERS_', '']);
+  };
 
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
       title: 'Delete this filter?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.filters.removeByID(id),
+      onConfirm: () => {
+        model.filters.removeByID(id);
+        resetEditorPath();
+      },
       zIndex: 320,
     });
   };
