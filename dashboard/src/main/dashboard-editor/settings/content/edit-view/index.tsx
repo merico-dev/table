@@ -8,17 +8,27 @@ import { EditViewForm } from '~/main/dashboard-editor/settings/content/edit-view
 export const EditView = observer(({ id }: { id: string }) => {
   const modals = useModals();
   const model = useModelContext();
+  if (id === '') {
+    return null;
+  }
+
   const view = model.views.findByID(id);
   if (!view) {
     return <Text size={14}>View by ID[{id}] is not found</Text>;
   }
 
+  const resetEditorPath = () => {
+    model.editor.setPath(['_VIEWS_', '']);
+  };
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
       title: 'Delete this view?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.views.removeByID(id),
+      onConfirm: () => {
+        model.views.removeByID(id);
+        resetEditorPath();
+      },
       zIndex: 320,
     });
   };
