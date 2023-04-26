@@ -21,7 +21,7 @@
     "change-case": "^4.1.2",
     "eslint": "^8.24.0",
     "husky": "^8.0.0",
-    "nx": "14.5.10",
+    "nx": "14.8.8",
     "prettier": "^2.7.1",
     "vite": "4.2.1",
     "vite-plugin-dts": "1.4.1",
