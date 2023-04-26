@@ -9135,10 +9135,10 @@ math-interval-parser@^2.0.1:
   resolved "https://registry.yarnpkg.com/math-interval-parser/-/math-interval-parser-2.0.1.tgz#e22cd6d15a0a7f4c03aec560db76513da615bed4"
   integrity sha512-VmlAmb0UJwlvMyx8iPhXUDnVW1F9IrGEd9CIOmv+XL8AErCUUuozoDMrgImvnYt2A+53qVX/tPW6YJurMKYsvA==
 
-mathjs@11.7.0:
-  version "11.7.0"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.7.0.tgz#a197e82c760c57744b20324a8c4eed677bddf179"
-  integrity sha512-RCXtrP5xGIbl9PUc5+7QL81rBCUjzoIZ0ugNqKsarOUxg+x7deY0BzfNai+bGfUL/T+1uYq1xs5w2xVdL3lp0g==
+mathjs@11.8.0:
+  version "11.8.0"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.8.0.tgz#b02e66461ec068fadf1e90c221121704dc14d8f5"
+  integrity sha512-I7r8HCoqUGyEiHQdeOCF2m2k9N+tcOHO3cZQ3tyJkMMBQMFqMR7dMQEboBMJAiFW2Um3PEItGPwcOc4P6KRqwg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     complex.js "^2.1.1"

@@ -34,7 +34,7 @@
     "@monaco-editor/react": "4.5.0",
     "@types/chroma-js": "^2.1.4",
     "file-saver": "2.0.5",
-    "mathjs": "11.7.0",
+    "mathjs": "11.8.0",
     "monaco-editor": "0.36.0",
     "performant-array-to-tree": "1.11.0",
     "popmotion": "^11.0.3",
