@@ -8515,9 +8515,9 @@ jsbn@~0.1.0:
   integrity sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==
 
 jsdom-testing-mocks@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmmirror.com/jsdom-testing-mocks/-/jsdom-testing-mocks-1.5.0.tgz#63e2e6213c21aed9c1ee26534fc23db0650b6035"
-  integrity sha512-Ulx8Lz8Ba7z8VWUAN/9Nb0TDvs7xVDNUJeq4RBocaWehxg6/ieidVZDhnkWKMQpUv+rIUz5k7voZzHnW5nCPkg==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/jsdom-testing-mocks/-/jsdom-testing-mocks-1.8.0.tgz#b1ee1ff1bc480069a5e12f20e92d22248ef18837"
+  integrity sha512-kmfPNsyYorOBppA3y2DQ7BxLEtT2X1y/NjJVFu62pSId9HI8qjbVGngYtECmBKYjmHDTyWDOlntqeM4IzSTsCQ==
   dependencies:
     bezier-easing "^2.1.0"
     css-mediaquery "^0.1.2"
