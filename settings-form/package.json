@@ -28,7 +28,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@monaco-editor/react": "4.5.0",
+    "@monaco-editor/react": "4.4.6",
     "monaco-editor": "0.36.0"
   },
   "devDependencies": {
