@@ -7,6 +7,8 @@ import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
+import { XAxisField } from './editors/x_axis';
+import { YAxisField } from './editors/y_axis';
 
 export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoEstimationChartConf>(context.instanceData, 'config');
@@ -31,13 +33,13 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>MericoEstimationChart Config</Text>
+          <Text>Merico Estimation Chart Config</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
         <Tabs
-          defaultValue="Basics"
+          defaultValue="X Axis"
           orientation="vertical"
           styles={{
             tab: {
@@ -51,10 +53,16 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="Basics">Basics</Tabs.Tab>
+            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="Basics">Basic settings</Tabs.Panel>
+          <Tabs.Panel value="X Axis">
+            <XAxisField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Y Axis">
+            <YAxisField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
         </Tabs>
       </form>
     </Stack>
