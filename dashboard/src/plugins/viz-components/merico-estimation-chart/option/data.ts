@@ -16,7 +16,7 @@ function getLevel(v: number) {
 }
 
 export function getDataWithLevelInfo(conf: IMericoEstimationChartConf, rawData: TVizData) {
-  const { estimated_value, actual_value } = conf.y_axis.data_keys;
+  const { estimated_value, actual_value } = conf.deviation.data_keys;
   return rawData.map((d) => {
     const estimated_level = getLevel(d[estimated_value]);
     const actual_level = getLevel(d[actual_value]);

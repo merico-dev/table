@@ -8,7 +8,7 @@ import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 import { XAxisField } from './editors/x_axis';
-import { YAxisField } from './editors/y_axis';
+import { DeviationField } from './editors/deviation';
 
 export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoEstimationChartConf>(context.instanceData, 'config');
@@ -54,14 +54,15 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
         >
           <Tabs.List>
             <Tabs.Tab value="X Axis">X 轴</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y 轴</Tabs.Tab>
+            <Tabs.Tab value="Deviation">偏差</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
             <XAxisField control={control} watch={watch} data={data} />
           </Tabs.Panel>
-          <Tabs.Panel value="Y Axis">
-            <YAxisField control={control} watch={watch} data={data} />
+          <Tabs.Panel value="Deviation">
+            <DeviationField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
           </Tabs.Panel>
         </Tabs>
       </form>

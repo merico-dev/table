@@ -12,7 +12,7 @@ export interface IMericoEstimationChartConf {
       formatter: IXAxisLabelFormatter;
     };
   };
-  y_axis: {
+  deviation: {
     name: string;
     data_keys: {
       estimated_value: string;
@@ -30,7 +30,7 @@ export const DEFAULT_CONFIG: IMericoEstimationChartConf = {
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },
-  y_axis: {
+  deviation: {
     name: '',
     data_keys: {
       estimated_value: '',
