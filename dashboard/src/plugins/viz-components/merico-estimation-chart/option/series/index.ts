@@ -17,9 +17,9 @@ export function getSeries(
   const commonConf = { barMinWidth, barMaxWidth };
 
   return [
-    getSeries1(conf, xAxisData, dataGroupedByX, commonConf),
+    getSeries1(conf, xAxisData, dataGroupedByX),
     getSeries2(conf, xAxisData, dataGroupedByX, commonConf),
     getSeries3(conf, xAxisData, dataGroupedByX, commonConf),
-    getSeries4(conf, xAxisData, dataGroupedByX, commonConf),
+    getSeries4(conf, xAxisData, dataGroupedByX),
   ];
 }

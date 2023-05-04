@@ -1,12 +1,10 @@
-import { IMericoEstimationChartConf } from '../../type';
-import { AnyObject } from '~/types';
 import _ from 'lodash';
+import { IMericoEstimationChartConf } from '../../type';
 
 export function getSeries4(
   conf: IMericoEstimationChartConf,
   xAxisData: string[],
   dataGroupedByX: Record<string, TVizData>,
-  commonConf: AnyObject,
 ) {
   const chartData = xAxisData.map((x) => {
     const y = _.sumBy(dataGroupedByX[x], conf.y_axis.data_keys.actual);
@@ -17,7 +15,7 @@ export function getSeries4(
     name: '代码当量',
     xAxisIndex: 3,
     yAxisIndex: 3,
-    ...commonConf,
+    color: '#b41529',
     data: chartData,
   };
 }

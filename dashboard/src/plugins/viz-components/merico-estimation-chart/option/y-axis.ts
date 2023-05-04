@@ -3,7 +3,7 @@ import { IMericoEstimationChartConf } from '../type';
 export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
   return [
     {
-      type: 'value',
+      type: 'category',
       name: '', // 准确估算比例
       nameRotate: 0,
       gridIndex: 0,
@@ -27,8 +27,6 @@ export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
       nameRotate: 90,
       nameLocation: 'middle',
       gridIndex: 1,
-      min: -4,
-      max: 4,
       boundaryGap: [30, 100],
       axisLabel: {
         show: false,

@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker';
-import { IMericoEstimationChartConf } from '../../type';
+import * as mathjs from 'mathjs';
 import { AnyObject } from '~/types';
+import { IMericoEstimationChartConf } from '../../type';
 
 export function getSeries2(
   conf: IMericoEstimationChartConf,
@@ -8,7 +8,12 @@ export function getSeries2(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const chartData = xAxisData.map((x) => [x, faker.datatype.float({ min: -4, max: 4 })]);
+  const { actual } = conf.y_axis.data_keys;
+  const chartData = xAxisData.map((x) => {
+    const data = dataGroupedByX[x].map((d) => d[actual]);
+    const mad = mathjs.mad(data);
+    return [x, mad];
+  });
   return {
     type: 'bar',
     name: '平均偏差',

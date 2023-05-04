@@ -1,34 +1,24 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import {
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  MarkAreaComponent,
-  MarkLineComponent,
-  TooltipComponent,
-} from 'echarts/components';
+import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
+import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 
 echarts.use([
-  DataZoomComponent,
   BarChart,
   LineChart,
-  ScatterChart,
+  HeatmapChart,
   GridComponent,
   LegendComponent,
   TooltipComponent,
   CanvasRenderer,
-  MarkLineComponent,
-  MarkAreaComponent,
+  VisualMapComponent,
 ]);
 
 function Chart({
@@ -57,5 +47,9 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data as TVizData;
   const { width, height } = context.viewport;
+  const { x_axis, y_axis } = conf;
+  if (!x_axis.data_key || !y_axis.data_keys.actual || !y_axis.data_keys.estimated) {
+    return null;
+  }
   return <Chart width={width} height={height} data={data} conf={conf} />;
 }

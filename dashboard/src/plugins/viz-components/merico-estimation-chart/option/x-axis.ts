@@ -59,13 +59,15 @@ export function getXAxes(conf: IMericoEstimationChartConf, xAxisData: string[]) 
       id: '代码当量',
       gridIndex: 3,
       axisTick: {
-        show: true,
-        alignWithLabel: true,
+        show: false,
       },
       type: 'category',
       axisLabel: {
         ...axisLabel,
         formatter: getEchartsXAxisLabel(axisLabel.formatter),
+      },
+      axisLine: {
+        show: false,
       },
     },
   ];

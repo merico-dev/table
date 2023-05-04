@@ -20,6 +20,26 @@ export function getOption(conf: IMericoEstimationChartConf, data: TVizData) {
     yAxis: getYAxes(conf, data),
     series: getSeries(conf, data, xAxisData, dataGroupedByX),
     grid: getGrids(conf, data),
+    visualMap: [
+      {
+        min: 0,
+        max: 1,
+        calculable: true,
+        show: false,
+        seriesIndex: 0,
+        color: ['#fff', '#c6e9e5', '#68aab9', '#285777', '#285574'],
+      },
+      {
+        type: 'piecewise',
+        splitNumber: 8,
+        min: -4,
+        max: 4,
+        calculable: true,
+        show: false,
+        color: ['#b41529', '#4891c3'],
+        seriesIndex: 1,
+      },
+    ],
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
