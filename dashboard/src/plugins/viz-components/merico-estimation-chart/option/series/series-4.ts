@@ -7,7 +7,7 @@ export function getSeries4(
   dataGroupedByX: Record<string, TVizData>,
 ) {
   const chartData = xAxisData.map((x) => {
-    const y = _.sumBy(dataGroupedByX[x], conf.y_axis.data_keys.actual);
+    const y = _.sumBy(dataGroupedByX[x], conf.y_axis.data_keys.actual_level);
     return [x, y];
   });
   return {

@@ -27,10 +27,10 @@ export function getSeries3(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const { actual, estimated } = conf.y_axis.data_keys;
+  const { diff_level } = conf.y_axis.data_keys;
   const dataset: ChartDatasetType = {};
   xAxisData.forEach((x) => {
-    const countForEach = _.countBy(dataGroupedByX[x], (d) => d[actual] - d[estimated]);
+    const countForEach = _.countBy(dataGroupedByX[x], (d) => d[diff_level]);
     const sum = _.sum(Object.values(countForEach));
     Object.entries(countForEach).forEach(([v, c]) => {
       if (!dataset[v]) {
@@ -73,11 +73,15 @@ export function getSeries3(
               </tr>
               <tr>
                 <th colspan="2" style="text-align: center;">
-                  <div>${x}</div>
+                  ${x}
                 </th>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <th style="text-align: right;">偏差档位</th>
+                <td style="text-align: left; padding: 0 1em;">${name}</td>
+              </tr>
               <tr>
                 <th style="text-align: right;">占比</th>
                 <td style="text-align: left; padding: 0 1em;">${percentage}</td>

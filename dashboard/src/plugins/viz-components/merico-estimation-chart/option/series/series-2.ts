@@ -10,7 +10,7 @@ function formatValues([x, value]: [string, number]) {
     v: `${value}`,
   };
   try {
-    ret.v = numbro(value).format({ output: 'number', mantissa: 1, trimMantissa: true });
+    ret.v = numbro(value).format({ output: 'number', mantissa: 2, trimMantissa: true });
   } catch (error) {}
   return ret;
 }
@@ -21,23 +21,22 @@ export function getSeries2(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const { actual, estimated } = conf.y_axis.data_keys;
+  const { diff_level } = conf.y_axis.data_keys;
   const chartData = xAxisData.map((x) => {
     const data = dataGroupedByX[x];
-    const sum = _.sumBy(data, (d) => d[actual] - d[estimated]);
+    const sum = _.sumBy(data, (d) => d[diff_level]);
     return [x, sum / data.length];
   });
   const max = Number(_.maxBy(chartData, (d) => d[1])?.[1] ?? 0);
   const min = Number(_.minBy(chartData, (d) => d[1])?.[1] ?? 0);
-  const colors = interpolate([max, min], ['#D15A40', '#418AAF']);
+  const colors = interpolate([max, 0, min], ['#D15A40', '#FFF', '#418AAF']);
   return {
     type: 'bar',
-    name: '平均相差',
+    name: '平均偏差',
     xAxisIndex: 1,
     yAxisIndex: 1,
     ...commonConf,
     data: chartData,
-    // colorBy: 'data',
     itemStyle: {
       color: ({ value }: any) => {
         try {
@@ -79,7 +78,7 @@ export function getSeries2(
             </thead>
             <tbody>
               <tr>
-                <th style="text-align: right;">平均相差</th>
+                <th style="text-align: right;">平均偏差</th>
                 <td style="text-align: left; padding: 0 1em;">${v}</td>
               </tr>
             </tbody>

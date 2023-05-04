@@ -18,27 +18,27 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           name="x_axis.data_key"
           control={control}
           render={({ field }) => (
-            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
+            <DataFieldSelector label="数据字段" required data={data} sx={{ flex: 1 }} {...field} />
           )}
         />
         <Controller
           name="x_axis.name"
           control={control}
-          render={({ field }) => <TextInput label="Name" sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label="X轴名称" sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} label="点位文案" labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}
           render={({ field }) => (
             <NumberInput
-              label="Rotate"
+              label="旋转"
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">degree</Text>}
+              rightSection={<Text color="dimmed">度</Text>}
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

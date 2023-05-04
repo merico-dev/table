@@ -53,8 +53,8 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+            <Tabs.Tab value="X Axis">X 轴</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">Y 轴</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">

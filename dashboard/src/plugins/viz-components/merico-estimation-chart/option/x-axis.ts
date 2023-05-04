@@ -35,7 +35,11 @@ export function getXAxes(conf: IMericoEstimationChartConf, xAxisData: string[]) 
         show: false,
       },
       axisLine: {
-        show: false,
+        show: true,
+        lineStyle: {
+          color: '#FFFFFF',
+          width: 2,
+        },
       },
       type: 'category',
     },
