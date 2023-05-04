@@ -17,5 +17,6 @@ export function getSeries4(
     yAxisIndex: 3,
     color: '#b41529',
     data: chartData,
+    show_in_legend: false,
   };
 }

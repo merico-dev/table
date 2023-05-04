@@ -6,6 +6,7 @@ import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 import _ from 'lodash';
 import { getDataWithLevelInfo } from './data';
+import { getLegend } from './legend';
 
 const defaultOption = {
   tooltip: {
@@ -17,10 +18,11 @@ export function getOption(conf: IMericoEstimationChartConf, rawData: TVizData) {
   const data = getDataWithLevelInfo(conf, rawData);
   const xAxisData = _.uniqBy(rawData, conf.x_axis.data_key).map((d) => d[conf.x_axis.data_key]);
   const dataGroupedByX = _.groupBy(data, conf.x_axis.data_key);
+  const series = getSeries(conf, data, xAxisData, dataGroupedByX);
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(conf, data),
-    series: getSeries(conf, data, xAxisData, dataGroupedByX),
+    series,
     grid: getGrids(conf, data),
     visualMap: [
       {
@@ -29,9 +31,10 @@ export function getOption(conf: IMericoEstimationChartConf, rawData: TVizData) {
         calculable: true,
         show: false,
         seriesIndex: 0,
-        color: ['#fff', '#418AAF'],
+        color: ['#EFEFEF', '#418AAF'],
       },
     ],
+    legend: getLegend(series),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

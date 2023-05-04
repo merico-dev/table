@@ -45,7 +45,7 @@ export function getSeries3(
 
   const max = Math.max(...names);
   const min = Math.min(...names);
-  const colors = interpolate([max, 0, min], ['#D15A40', '#FFF', '#418AAF']);
+  const colors = interpolate([max, 0, min], ['#D15A40', '#EFEFEF', '#418AAF']);
 
   const ret = names.map((name) => ({
     type: 'bar',
@@ -66,7 +66,7 @@ export function getSeries3(
               <tr colspan="2">
                 <div style="
                   width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
-                  background-color: ${color === 'rgba(255, 255, 255, 1)' ? '#efefef' : color};
+                  background-color: ${color};
                   "
                 />
               </tr>
@@ -100,6 +100,7 @@ export function getSeries3(
         return template;
       },
     },
+    show_in_legend: true,
   }));
 
   return ret;

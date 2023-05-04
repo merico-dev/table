@@ -5,7 +5,7 @@ export function getGrids(conf: IMericoEstimationChartConf, data: TVizData) {
     {
       top: 20,
       left: 30,
-      right: 10,
+      right: 60,
       height: 40,
       containLabel: true,
       backgroundColor: 'rgba(235, 235, 255, 0.5)',
@@ -15,7 +15,7 @@ export function getGrids(conf: IMericoEstimationChartConf, data: TVizData) {
     {
       top: 70,
       left: 30,
-      right: 10,
+      right: 60,
       height: 100,
       containLabel: true,
       backgroundColor: 'rgba(235, 235, 255, 0.5)',
@@ -25,7 +25,7 @@ export function getGrids(conf: IMericoEstimationChartConf, data: TVizData) {
     {
       top: 180,
       left: 30,
-      right: 10,
+      right: 60,
       bottom: 110,
       containLabel: true,
       backgroundColor: 'rgba(235, 235, 255, 0.5)',
@@ -34,7 +34,7 @@ export function getGrids(conf: IMericoEstimationChartConf, data: TVizData) {
     },
     {
       left: 30,
-      right: 10,
+      right: 60,
       bottom: 0,
       height: 100,
       containLabel: true,

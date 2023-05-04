@@ -67,5 +67,6 @@ export function getSeries1(
         return template;
       },
     },
+    show_in_legend: false,
   };
 }
