@@ -16,10 +16,9 @@ export function getSeries1(
   xAxisData: string[],
   dataGroupedByX: Record<string, TVizData>,
 ) {
-  const { diff_level } = conf.y_axis.data_keys;
   const chartData = xAxisData.map((x) => {
     const total = dataGroupedByX[x].length;
-    const count = _.countBy(dataGroupedByX[x], (d) => d[diff_level] === 0);
+    const count = _.countBy(dataGroupedByX[x], (d) => d.level.diff === 0);
     const equal = count.true ?? 0;
     const y = equal / total;
     return [x, '_y', y];

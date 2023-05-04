@@ -5,6 +5,7 @@ import { getSeries } from './series';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 import _ from 'lodash';
+import { getDataWithLevelInfo } from './data';
 
 const defaultOption = {
   tooltip: {
@@ -12,8 +13,9 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IMericoEstimationChartConf, data: TVizData) {
-  const xAxisData = _.uniqBy(data, conf.x_axis.data_key).map((d) => d[conf.x_axis.data_key]);
+export function getOption(conf: IMericoEstimationChartConf, rawData: TVizData) {
+  const data = getDataWithLevelInfo(conf, rawData);
+  const xAxisData = _.uniqBy(rawData, conf.x_axis.data_key).map((d) => d[conf.x_axis.data_key]);
   const dataGroupedByX = _.groupBy(data, conf.x_axis.data_key);
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),

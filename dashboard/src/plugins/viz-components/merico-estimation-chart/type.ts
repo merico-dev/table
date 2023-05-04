@@ -15,9 +15,8 @@ export interface IMericoEstimationChartConf {
   y_axis: {
     name: string;
     data_keys: {
-      estimated_level: string;
-      actual_level: string;
-      diff_level: string;
+      estimated_value: string;
+      actual_value: string;
     };
   };
 }
@@ -34,9 +33,8 @@ export const DEFAULT_CONFIG: IMericoEstimationChartConf = {
   y_axis: {
     name: '',
     data_keys: {
-      estimated_level: '',
-      actual_level: '',
-      diff_level: '',
+      estimated_value: '',
+      actual_value: '',
     },
   },
 };

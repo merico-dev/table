@@ -18,25 +18,20 @@ export function YAxisField({ data, control, watch }: IYAxisField) {
           control={control}
           render={({ field }) => <TextInput label="指标名称" sx={{ flex: 1 }} {...field} />}
         />
-        <Controller
-          name="y_axis.data_keys.estimated_level"
-          control={control}
-          render={({ field }) => <DataFieldSelector label="估算值档位" data={data} sx={{ flex: 1 }} {...field} />}
-        />
       </Group>
       <Group grow noWrap>
         <Controller
-          name="y_axis.data_keys.actual_level"
+          name="y_axis.data_keys.estimated_value"
           control={control}
           render={({ field }) => (
-            <DataFieldSelector label="实际值档位" required data={data} sx={{ flex: 1 }} {...field} />
+            <DataFieldSelector label="估算值字段" required data={data} sx={{ flex: 1 }} {...field} />
           )}
         />
         <Controller
-          name="y_axis.data_keys.diff_level"
+          name="y_axis.data_keys.actual_value"
           control={control}
           render={({ field }) => (
-            <DataFieldSelector label="档位偏差" required data={data} sx={{ flex: 1 }} {...field} />
+            <DataFieldSelector label="实际值字段" required data={data} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>

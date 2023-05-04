@@ -27,10 +27,9 @@ export function getSeries3(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const { diff_level } = conf.y_axis.data_keys;
   const dataset: ChartDatasetType = {};
   xAxisData.forEach((x) => {
-    const countForEach = _.countBy(dataGroupedByX[x], (d) => d[diff_level]);
+    const countForEach = _.countBy(dataGroupedByX[x], (d) => d.level.diff);
     const sum = _.sum(Object.values(countForEach));
     Object.entries(countForEach).forEach(([v, c]) => {
       if (!dataset[v]) {

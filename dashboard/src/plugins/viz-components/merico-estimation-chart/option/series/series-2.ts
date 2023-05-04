@@ -21,10 +21,9 @@ export function getSeries2(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const { diff_level } = conf.y_axis.data_keys;
   const chartData = xAxisData.map((x) => {
     const data = dataGroupedByX[x];
-    const sum = _.sumBy(data, (d) => d[diff_level]);
+    const sum = _.sumBy(data, (d) => d.level.diff);
     return [x, sum / data.length];
   });
   const max = Number(_.maxBy(chartData, (d) => d[1])?.[1] ?? 0);

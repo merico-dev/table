@@ -44,7 +44,7 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           styles={{
             tab: {
               paddingLeft: '6px',
-              paddingRight: '6px',
+              paddingRight: '12px',
             },
             panel: {
               paddingTop: '6px',

@@ -48,8 +48,8 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
   const data = context.data as TVizData;
   const { width, height } = context.viewport;
   const { x_axis, y_axis } = conf;
-  const { estimated_level, actual_level, diff_level } = y_axis.data_keys;
-  if (!x_axis.data_key || !actual_level || !diff_level) {
+  const { estimated_value, actual_value } = y_axis.data_keys;
+  if (!x_axis.data_key || !estimated_value || !actual_value) {
     return null;
   }
   return <Chart width={width} height={height} data={data} conf={conf} />;
