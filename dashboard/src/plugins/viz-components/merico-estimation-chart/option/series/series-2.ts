@@ -25,5 +25,36 @@ export function getSeries2(
       show: true,
     },
     data: chartData,
+    tooltip: {
+      trigger: 'item',
+      formatter: ({ color, value }: any) => {
+        const [x, y] = value;
+        const template = `
+          <table style="width: auto">
+            <thead>
+              <tr colspan="2">
+                <div style="
+                  width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
+                  background-color: ${color};"
+                />
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: center;">
+                  <div>${x}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th style="text-align: right;">平均偏差</th>
+                <td style="text-align: left; padding: 0 1em;">${y}</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+
+        return template;
+      },
+    },
   };
 }

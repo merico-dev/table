@@ -27,7 +27,7 @@ export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
       nameRotate: 90,
       nameLocation: 'middle',
       gridIndex: 1,
-      boundaryGap: [30, 100],
+      boundaryGap: [1, 1],
       axisLabel: {
         show: false,
       },
@@ -60,6 +60,8 @@ export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
       splitLine: {
         show: false,
       },
+      min: 0,
+      max: 1,
     },
     {
       type: 'value',

@@ -37,5 +37,35 @@ export function getSeries1(
       hideOverlap: true,
     },
     visualMapIndex: 0,
+    tooltip: {
+      trigger: 'item',
+      formatter: ({ color, value }: any) => {
+        const template = `
+          <table style="width: auto">
+            <thead>
+              <tr colspan="2">
+                <div style="
+                  width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
+                  background-color: ${color};"
+                />
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: center;">
+                  <div>${value[0]}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th style="text-align: right;">准确估算比例</th>
+                <td style="text-align: left; padding: 0 1em;">${formatAsPercentage({ value })}</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+
+        return template;
+      },
+    },
   };
 }

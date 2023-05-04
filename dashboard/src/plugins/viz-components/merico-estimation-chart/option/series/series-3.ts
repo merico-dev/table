@@ -1,6 +1,25 @@
-import { faker } from '@faker-js/faker';
+import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoEstimationChartConf } from '../../type';
+import { interpolate } from 'popmotion';
+import numbro from 'numbro';
+
+type DataItemType = [string | number, number, number, number];
+type ChartDataType = DataItemType[];
+type ChartDatasetType = Record<string | number, ChartDataType>;
+
+function formatValues([x, p, c, s]: DataItemType) {
+  const ret = {
+    x,
+    percentage: `${p}`,
+    count: c,
+    sum: s,
+  };
+  try {
+    ret.percentage = numbro(p).format({ output: 'percent', mantissa: 2, trimMantissa: true });
+  } catch (error) {}
+  return ret;
+}
 
 export function getSeries3(
   conf: IMericoEstimationChartConf,
@@ -8,16 +27,77 @@ export function getSeries3(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const chartData = xAxisData.map((x) => {
-    const y = faker.datatype.float({ min: 0, max: 1 });
-    return [x, y];
+  const { actual, estimated } = conf.y_axis.data_keys;
+  const dataset: ChartDatasetType = {};
+  xAxisData.forEach((x) => {
+    const countForEach = _.countBy(dataGroupedByX[x], (d) => d[actual] - d[estimated]);
+    const sum = _.sum(Object.values(countForEach));
+    Object.entries(countForEach).forEach(([v, c]) => {
+      if (!dataset[v]) {
+        dataset[v] = [];
+      }
+      const p = c / sum;
+      dataset[v].push([x, p, c, sum]);
+    });
   });
-  return {
+  const names = Object.entries(dataset)
+    .map(([name]) => Number(name))
+    .sort((a, b) => a - b);
+
+  const max = Math.max(...names);
+  const min = Math.min(...names);
+  const colors = interpolate([max, 0, min], ['#D15A40', '#FFF', '#418AAF']);
+
+  const ret = names.map((name) => ({
     type: 'bar',
-    name: '数量占比',
+    name,
     xAxisIndex: 2,
     yAxisIndex: 2,
+    stack: 1,
     ...commonConf,
-    data: chartData,
-  };
+    color: colors(name),
+    data: dataset[name],
+    tooltip: {
+      trigger: 'item',
+      formatter: ({ color, value }: any) => {
+        const { x, percentage, count, sum } = formatValues(value);
+        const template = `
+          <table style="width: auto">
+            <thead>
+              <tr colspan="2">
+                <div style="
+                  width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
+                  background-color: ${color === 'rgba(255, 255, 255, 1)' ? '#efefef' : color};
+                  "
+                />
+              </tr>
+              <tr>
+                <th colspan="2" style="text-align: center;">
+                  <div>${x}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th style="text-align: right;">占比</th>
+                <td style="text-align: left; padding: 0 1em;">${percentage}</td>
+              </tr>
+              <tr>
+                <th style="text-align: right;">数量</th>
+                <td style="text-align: left; padding: 0 1em;">${count}</td>
+              </tr>
+              <tr>
+                <th style="text-align: right;">总数</th>
+                <td style="text-align: left; padding: 0 1em;">${sum}</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+
+        return template;
+      },
+    },
+  }));
+
+  return ret;
 }
