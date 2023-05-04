@@ -1,3 +1,4 @@
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
@@ -19,6 +20,7 @@ export interface IMericoEstimationChartConf {
       actual_value: string;
     };
   };
+  metrics: IEchartsTooltipMetric[];
 }
 
 export const DEFAULT_CONFIG: IMericoEstimationChartConf = {
@@ -37,4 +39,5 @@ export const DEFAULT_CONFIG: IMericoEstimationChartConf = {
       actual_value: '',
     },
   },
+  metrics: [],
 };

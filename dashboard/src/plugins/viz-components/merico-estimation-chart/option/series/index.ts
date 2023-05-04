@@ -1,3 +1,4 @@
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 import { IMericoEstimationChartConf } from '../../type';
 import { getSeries1 } from './series-1';
 import { getSeries2 } from './series-2';
@@ -6,7 +7,7 @@ import { getSeries4 } from './series-4';
 
 export function getSeries(
   conf: IMericoEstimationChartConf,
-  data: TVizData,
+  metric: IEchartsTooltipMetric,
   xAxisData: string[],
   dataGroupedByX: Record<string, TVizData>,
 ) {
@@ -18,6 +19,6 @@ export function getSeries(
     getSeries1(conf, xAxisData, dataGroupedByX),
     getSeries2(conf, xAxisData, dataGroupedByX, commonConf),
     ...getSeries3(conf, xAxisData, dataGroupedByX, commonConf),
-    getSeries4(conf, xAxisData, dataGroupedByX),
+    getSeries4(conf, metric, xAxisData, dataGroupedByX),
   ];
 }

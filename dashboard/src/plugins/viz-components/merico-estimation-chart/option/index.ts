@@ -14,14 +14,29 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IMericoEstimationChartConf, rawData: TVizData) {
+function getMetric(conf: IMericoEstimationChartConf, metricKey: string) {
+  const { deviation, metrics } = conf;
+  const match = metrics.find((m) => m.data_key === metricKey);
+  if (match) {
+    return match;
+  }
+  const key = deviation.data_keys.actual_value;
+  return {
+    id: key,
+    name: deviation.name,
+    data_key: key,
+  };
+}
+
+export function getOption(conf: IMericoEstimationChartConf, metricKey: string, rawData: TVizData) {
   const data = getDataWithLevelInfo(conf, rawData);
   const xAxisData = _.uniqBy(rawData, conf.x_axis.data_key).map((d) => d[conf.x_axis.data_key]);
   const dataGroupedByX = _.groupBy(data, conf.x_axis.data_key);
-  const series = getSeries(conf, data, xAxisData, dataGroupedByX);
+  const metric = getMetric(conf, metricKey);
+  const series = getSeries(conf, metric, xAxisData, dataGroupedByX);
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),
-    yAxis: getYAxes(conf, data),
+    yAxis: getYAxes(metric),
     series,
     grid: getGrids(conf, data),
     visualMap: [

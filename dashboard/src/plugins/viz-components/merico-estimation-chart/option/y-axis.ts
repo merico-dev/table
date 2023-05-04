@@ -1,6 +1,7 @@
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
 import { IMericoEstimationChartConf } from '../type';
 
-export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
+export function getYAxes(metric: IEchartsTooltipMetric) {
   return [
     {
       type: 'category',
@@ -65,7 +66,7 @@ export function getYAxes(conf: IMericoEstimationChartConf, data: TVizData) {
     },
     {
       type: 'value',
-      name: '代码当量',
+      name: metric.name,
       nameGap: 5,
       nameRotate: 90,
       nameLocation: 'middle',
