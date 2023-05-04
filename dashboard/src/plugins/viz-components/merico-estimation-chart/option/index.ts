@@ -27,17 +27,7 @@ export function getOption(conf: IMericoEstimationChartConf, data: TVizData) {
         calculable: true,
         show: false,
         seriesIndex: 0,
-        color: ['#fff', '#c6e9e5', '#68aab9', '#285777', '#285574'],
-      },
-      {
-        type: 'piecewise',
-        splitNumber: 8,
-        min: -4,
-        max: 4,
-        calculable: true,
-        show: false,
-        color: ['#b41529', '#4891c3'],
-        seriesIndex: 1,
+        color: ['#fff', '#418AAF'],
       },
     ],
   };

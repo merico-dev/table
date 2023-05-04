@@ -20,7 +20,8 @@ export function getSeries1(
   const chartData = xAxisData.map((x) => {
     const total = dataGroupedByX[x].length;
     const count = _.countBy(dataGroupedByX[x], (d) => d[actual] === d[estimated]);
-    const y = count.true / total;
+    const equal = count.true ?? 0;
+    const y = equal / total;
     return [x, '_y', y];
   });
   return {

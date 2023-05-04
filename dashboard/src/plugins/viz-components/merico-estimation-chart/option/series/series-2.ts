@@ -1,6 +1,19 @@
-import * as mathjs from 'mathjs';
+import _ from 'lodash';
+import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IMericoEstimationChartConf } from '../../type';
+import { interpolate } from 'popmotion';
+
+function formatValues([x, value]: [string, number]) {
+  const ret = {
+    x,
+    v: `${value}`,
+  };
+  try {
+    ret.v = numbro(value).format({ output: 'number', mantissa: 1, trimMantissa: true });
+  } catch (error) {}
+  return ret;
+}
 
 export function getSeries2(
   conf: IMericoEstimationChartConf,
@@ -8,27 +21,47 @@ export function getSeries2(
   dataGroupedByX: Record<string, TVizData>,
   commonConf: AnyObject,
 ) {
-  const { actual } = conf.y_axis.data_keys;
+  const { actual, estimated } = conf.y_axis.data_keys;
   const chartData = xAxisData.map((x) => {
-    const data = dataGroupedByX[x].map((d) => d[actual]);
-    const mad = mathjs.mad(data);
-    return [x, mad];
+    const data = dataGroupedByX[x];
+    const sum = _.sumBy(data, (d) => d[actual] - d[estimated]);
+    return [x, sum / data.length];
   });
+  const max = Number(_.maxBy(chartData, (d) => d[1])?.[1] ?? 0);
+  const min = Number(_.minBy(chartData, (d) => d[1])?.[1] ?? 0);
+  const colors = interpolate([max, min], ['#D15A40', '#418AAF']);
   return {
     type: 'bar',
-    name: '平均偏差',
+    name: '平均相差',
     xAxisIndex: 1,
     yAxisIndex: 1,
     ...commonConf,
+    data: chartData,
+    // colorBy: 'data',
+    itemStyle: {
+      color: ({ value }: any) => {
+        try {
+          return colors(value[1]);
+        } catch (error) {
+          return '#efefef';
+        }
+      },
+    },
     label: {
       position: 'outside',
       show: true,
+      formatter: ({ value }: any) => {
+        try {
+          return numbro(value[1]).format({ output: 'number', mantissa: 1, trimMantissa: true });
+        } catch (error) {
+          return value[1];
+        }
+      },
     },
-    data: chartData,
     tooltip: {
       trigger: 'item',
       formatter: ({ color, value }: any) => {
-        const [x, y] = value;
+        const { x, v } = formatValues(value);
         const template = `
           <table style="width: auto">
             <thead>
@@ -46,8 +79,8 @@ export function getSeries2(
             </thead>
             <tbody>
               <tr>
-                <th style="text-align: right;">平均偏差</th>
-                <td style="text-align: left; padding: 0 1em;">${y}</td>
+                <th style="text-align: right;">平均相差</th>
+                <td style="text-align: left; padding: 0 1em;">${v}</td>
               </tr>
             </tbody>
           </table>
