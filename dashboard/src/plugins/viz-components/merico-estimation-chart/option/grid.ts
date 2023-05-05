@@ -24,7 +24,7 @@ export function getGrids() {
       top: 180,
       left: 30,
       right: 60,
-      bottom: 110,
+      bottom: 130,
       containLabel: true,
       backgroundColor: 'rgba(235, 235, 255, 0.5)',
       borderWidth: 0,
@@ -33,7 +33,7 @@ export function getGrids() {
     {
       left: 30,
       right: 60,
-      bottom: 0,
+      bottom: 20,
       height: 100,
       containLabel: false,
       backgroundColor: 'rgba(235, 235, 255, 0.5)',
