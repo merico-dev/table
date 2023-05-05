@@ -1,5 +1,14 @@
-import { Button, HoverCard, Table } from '@mantine/core';
+import { Button, HoverCard, Sx, Table } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons';
+
+const TableSx: Sx = {
+  'tbody th, tbody td': {
+    padding: '7px 10px',
+  },
+  'tbody tr:not(:first-of-type) th': {
+    borderTop: '1px solid #dee2e6',
+  },
+};
 
 export function MetricsDescription() {
   return (
@@ -10,7 +19,7 @@ export function MetricsDescription() {
         </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Table fontSize={14}>
+        <Table fontSize={14} sx={TableSx}>
           <tbody>
             <tr>
               <th>估算偏差</th>
