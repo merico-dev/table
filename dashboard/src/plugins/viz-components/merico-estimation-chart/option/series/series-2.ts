@@ -3,6 +3,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IMericoEstimationChartConf } from '../../type';
 import { interpolate } from 'popmotion';
+import { getIndicatorColorStyle } from './utils';
 
 function formatValues([x, value]: [string, number]) {
   const ret = {
@@ -66,8 +67,8 @@ export function getSeries2(
               <tr colspan="2">
                 <div style="
                   width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
-                  background-color: ${color};"
-                />
+                  ${getIndicatorColorStyle(color)}
+                "/>
               </tr>
               <tr>
                 <th colspan="2" style="text-align: center;">
