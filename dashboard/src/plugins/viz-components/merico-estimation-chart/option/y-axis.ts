@@ -1,12 +1,16 @@
 import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
-import { IMericoEstimationChartConf } from '../type';
 
 export function getYAxes(metric: IEchartsTooltipMetric) {
   return [
     {
       type: 'category',
-      name: '', // 准确估算比例
+      name: '准确估算比例',
       nameRotate: 0,
+      nameGap: 5,
+      nameLocation: 'end',
+      nameTextStyle: {
+        align: 'left',
+      },
       gridIndex: 0,
       axisLabel: {
         show: false,

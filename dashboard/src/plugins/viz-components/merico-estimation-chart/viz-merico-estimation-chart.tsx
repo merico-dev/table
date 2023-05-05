@@ -1,4 +1,4 @@
-import { Box, Button, Group, HoverCard, Select, Text, Table, NativeSelect } from '@mantine/core';
+import { Box, Button, Group, HoverCard, NativeSelect, Table, Text } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';

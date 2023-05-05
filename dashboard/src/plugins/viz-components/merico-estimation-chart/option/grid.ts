@@ -1,6 +1,4 @@
-import { IMericoEstimationChartConf } from '../type';
-
-export function getGrids(conf: IMericoEstimationChartConf, data: TVizData) {
+export function getGrids() {
   return [
     {
       top: 20,

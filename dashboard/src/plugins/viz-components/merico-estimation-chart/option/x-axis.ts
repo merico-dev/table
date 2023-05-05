@@ -1,6 +1,5 @@
 import { getEchartsXAxisLabel } from '~/plugins/common-echarts-fields/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IMericoEstimationChartConf } from '../type';
-import _ from 'lodash';
 
 export function getXAxes(conf: IMericoEstimationChartConf, xAxisData: string[]) {
   const { axisLabel } = conf.x_axis;
@@ -8,10 +7,6 @@ export function getXAxes(conf: IMericoEstimationChartConf, xAxisData: string[]) 
     {
       data: xAxisData,
       id: '准确估算比例',
-      name: '准确估算比例',
-      nameLocation: 'middle',
-      nameGap: 5,
-      position: 'top',
       gridIndex: 0,
       axisTick: {
         show: false,

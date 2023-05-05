@@ -38,7 +38,7 @@ export function getOption(conf: IMericoEstimationChartConf, metricKey: string, r
     xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(metric),
     series,
-    grid: getGrids(conf, data),
+    grid: getGrids(),
     visualMap: [
       {
         min: 0,
