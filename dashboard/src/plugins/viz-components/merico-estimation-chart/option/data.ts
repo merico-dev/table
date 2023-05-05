@@ -6,11 +6,11 @@ function fibonacci(n: number): number {
   }
   return fibonacci(n - 2) + fibonacci(n - 1);
 }
-const levels = Array.from(new Array(10), (_, i) => fibonacci(i + 1));
+const levels = Array.from(new Array(20), (_, i) => fibonacci(i + 1));
 
 function getLevel(v: number) {
-  if (!v) {
-    return 0;
+  if (v <= 1) {
+    return v; // 0, 1
   }
   return levels.findIndex((l) => v <= l) - 1;
 }
