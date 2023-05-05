@@ -46,7 +46,7 @@ export function getOption(conf: IMericoEstimationChartConf, metricKey: string, r
         calculable: true,
         show: false,
         seriesIndex: 0,
-        color: ['#EFEFEF', '#418AAF'],
+        color: ['#F0F0F0', '#418AAF'],
       },
     ],
     legend: getLegend(series),

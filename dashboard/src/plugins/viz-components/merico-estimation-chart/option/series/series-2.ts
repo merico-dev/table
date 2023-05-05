@@ -28,7 +28,7 @@ export function getSeries2(
   });
   const max = Number(_.maxBy(chartData, (d) => d[1])?.[1] ?? 0);
   const min = Number(_.minBy(chartData, (d) => d[1])?.[1] ?? 0);
-  const colors = interpolate([max, 0, min], ['#D15A40', '#EFEFEF', '#418AAF']);
+  const colors = interpolate([max, 0, min], ['#D15A40', '#FFF', '#418AAF']);
   return {
     type: 'bar',
     name: '平均偏差',
@@ -41,7 +41,7 @@ export function getSeries2(
         try {
           return colors(value[1]);
         } catch (error) {
-          return '#efefef';
+          return '#FFF';
         }
       },
     },

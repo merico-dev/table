@@ -4,6 +4,14 @@ import { IMericoEstimationChartConf } from '../../type';
 import { interpolate } from 'popmotion';
 import numbro from 'numbro';
 
+function getIndicatorColorStyle(color: string) {
+  const ret = [`background-color: ${color}`];
+  if (color === 'rgba(255, 255, 255, 1)') {
+    ret.push('box-shadow: 0px 0px 1px 0px  rgba(0,0,0,.5)');
+  }
+  return ret.join(';');
+}
+
 type DataItemType = [string | number, number, number, number];
 type ChartDataType = DataItemType[];
 type ChartDatasetType = Record<string | number, ChartDataType>;
@@ -45,7 +53,7 @@ export function getSeries3(
 
   const max = Math.max(...names);
   const min = Math.min(...names);
-  const colors = interpolate([max, 0, min], ['#D15A40', '#EFEFEF', '#418AAF']);
+  const colors = interpolate([max, 0, min], ['#D15A40', '#FFF', '#418AAF']);
 
   const ret = names.map((name) => ({
     type: 'bar',
@@ -66,7 +74,7 @@ export function getSeries3(
               <tr colspan="2">
                 <div style="
                   width: 100%; height: 4px; border-radius: 2px; margin-bottom: 6px;
-                  background-color: ${color};
+                  ${getIndicatorColorStyle(color)}
                   "
                 />
               </tr>
