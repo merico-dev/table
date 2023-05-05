@@ -70,11 +70,33 @@ export function getYAxes(metric: IEchartsTooltipMetric) {
     },
     {
       type: 'value',
+      gridIndex: 3,
+      position: 'right',
+      splitNumber: 3,
+      axisLabel: {
+        show: true,
+        verticalAlign: 'top',
+        showMinLabel: false,
+        lineHeight: 14,
+      },
+      axisTick: {
+        show: false,
+      },
+      axisLine: {
+        show: false,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    {
+      type: 'value',
       name: metric.name,
       nameGap: 5,
       nameRotate: 90,
       nameLocation: 'middle',
       gridIndex: 3,
+      position: 'left',
       axisLabel: {
         show: false,
       },
