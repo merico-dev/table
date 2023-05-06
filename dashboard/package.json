@@ -42,7 +42,7 @@
     "reactflow": "^11.5.3"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "11.10.6",
+    "@emotion/babel-plugin": "11.11.0",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "5.9.5",
     "@mantine/dates": "5.9.5",
