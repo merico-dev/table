@@ -23,6 +23,13 @@ export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TViz
   });
 }
 
+function escapeComma(v: string) {
+  if (v.includes(',')) {
+    return `"${v}"`;
+  }
+  return v;
+}
+
 export function makeCSV(data: TVizData) {
   if (!Array.isArray(data) || data.length === 0) {
     // Not dealing with object-typed data for now
@@ -30,11 +37,11 @@ export function makeCSV(data: TVizData) {
   }
 
   const csvRows = [];
-  const headers = Object.keys(data[0]);
+  const headers = Object.keys(data[0]).map(escapeComma);
   csvRows.push(headers.join(','));
 
   data.forEach((row) => {
-    const values = Object.values(row).join(',');
+    const values = Object.values(row).map(escapeComma).join(',');
     csvRows.push(values);
   });
 
