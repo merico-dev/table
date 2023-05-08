@@ -3,6 +3,7 @@ import { SnapshotIn, addDisposer, applySnapshot, cast, flow, toGenerator, types 
 import { APICaller } from '../../../api-caller';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 import { DashboardDetailModel } from './dashboard-detail-model';
+import { TDashboardMetaInfo } from '../../../api-caller/dashboard.typed';
 
 export const DashboardStore = types
   .model('DashboardStore', {
@@ -70,12 +71,19 @@ export const DashboardStore = types
         console.error(error);
       }
     }),
-    setCurrentDetail(detail: SnapshotIn<typeof DashboardDetailModel>) {
+    setCurrentDetail(detail: TDashboardMetaInfo) {
+      const snapshot = {
+        ...detail,
+        content: {
+          id: detail.content_id,
+          data: {},
+        },
+      };
       if (!self.currentDetail) {
-        self.currentDetail = DashboardDetailModel.create(detail);
+        self.currentDetail = DashboardDetailModel.create(snapshot);
         return;
       }
-      applySnapshot(self.currentDetail, detail);
+      applySnapshot(self.currentDetail, snapshot);
     },
     loadCurrentDetail: flow(function* () {
       self.setDetailLoading(true);
