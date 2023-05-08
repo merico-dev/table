@@ -4,8 +4,8 @@ export const StatusAPI = {
   /**
    * get api version
    */
-  version: async (): Promise<string> => {
-    const res = await get('/version', {});
+  version: async (signal?: AbortSignal): Promise<string> => {
+    const res = await get(signal)('/version', {});
     return res;
   },
 };

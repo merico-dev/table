@@ -3,8 +3,8 @@ import { get, post, put } from './request';
 import { PaginationResponse } from './types';
 
 export const account = {
-  list: async (): Promise<PaginationResponse<IAccount>> => {
-    const res = await post('/account/list', {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<IAccount>> => {
+    const res = await post(signal)('/account/list', {
       filter: {},
       sort: [
         {
@@ -22,30 +22,30 @@ export const account = {
   /**
    * get current account
    */
-  get: async (): Promise<IAccount> => {
-    const res = await get('/account/get', {});
+  get: async (signal?: AbortSignal): Promise<IAccount> => {
+    const res = await get(signal)('/account/get', {});
     return res;
   },
   /**
    * update current account
    */
-  update: async (name: string, email: string): Promise<IAccount> => {
+  update: async (name: string, email: string, signal?: AbortSignal): Promise<IAccount> => {
     const payload = {
       name,
       email,
     };
-    const res: IAccount = await put('/account/update', payload);
+    const res: IAccount = await put(signal)('/account/update', payload);
     return res;
   },
   /**
    * change current account's password
    */
-  changepassword: async (old_password: string, new_password: string): Promise<IAccount> => {
+  changepassword: async (old_password: string, new_password: string, signal?: AbortSignal): Promise<IAccount> => {
     const payload = {
       old_password,
       new_password,
     };
-    const res: IAccount = await post('/account/changepassword', payload);
+    const res: IAccount = await post(signal)('/account/changepassword', payload);
     return res;
   },
 };

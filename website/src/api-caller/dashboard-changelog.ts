@@ -3,8 +3,11 @@ import { ListDashboardChangelogReqType, ListDashboardChangelogRespType } from '.
 import { post } from './request';
 
 export const dashboard_changelog = {
-  list: async ({ filter, pagination }: ListDashboardChangelogReqType): Promise<ListDashboardChangelogRespType> => {
-    const resp: ListDashboardChangelogRespType = await post('/dashboard_changelog/list', {
+  list: async (
+    { filter, pagination }: ListDashboardChangelogReqType,
+    signal?: AbortSignal,
+  ): Promise<ListDashboardChangelogRespType> => {
+    const resp: ListDashboardChangelogRespType = await post(signal)('/dashboard_changelog/list', {
       filter,
       sort: [
         {

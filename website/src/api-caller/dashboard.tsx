@@ -4,8 +4,8 @@ import { post, put } from './request';
 import { PaginationResponse } from './types';
 
 export const dashboard = {
-  list: async (): Promise<PaginationResponse<IDBDashboard>> => {
-    return await post('/dashboard/list', {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<IDBDashboard>> => {
+    return await post(signal)('/dashboard/list', {
       filter: {
         is_removed: false,
       },
@@ -21,19 +21,13 @@ export const dashboard = {
       },
     });
   },
-  details: async (id: string): Promise<IDBDashboard> => {
-    return await post(`/dashboard/details`, { id });
+  details: async (id: string, signal?: AbortSignal): Promise<IDBDashboard> => {
+    return post(signal)(`/dashboard/details`, { id });
   },
-  update: async ({
-    id,
-    name,
-    group,
-    definition,
-    views,
-    panels,
-    filters,
-    version,
-  }: IDashboard): Promise<IDBDashboard> => {
+  update: async (
+    { id, name, group, definition, views, panels, filters, version }: IDashboard,
+    signal?: AbortSignal,
+  ): Promise<IDBDashboard> => {
     const payload = {
       id,
       name,
@@ -46,17 +40,25 @@ export const dashboard = {
         definition,
       },
     };
-    return await put('/dashboard/update', payload);
+    return put(signal)('/dashboard/update', payload);
   },
-  rename: async ({ id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>): Promise<IDBDashboard> => {
+  rename: async (
+    { id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>,
+    signal?: AbortSignal,
+  ): Promise<IDBDashboard> => {
     const payload = {
       id,
       name,
       group,
     };
-    return await put('/dashboard/update', payload);
+    return put(signal)('/dashboard/update', payload);
   },
-  create: async (name: string, group: string, content?: IDBDashboard['content']): Promise<IDBDashboard> => {
+  create: async (
+    name: string,
+    group: string,
+    content: IDBDashboard['content'] | null,
+    signal?: AbortSignal,
+  ): Promise<IDBDashboard> => {
     if (!content) {
       content = {
         definition: {
@@ -77,16 +79,16 @@ export const dashboard = {
         version: '8.57.0',
       };
     }
-    return await post('/dashboard/create', {
+    return post(signal)('/dashboard/create', {
       name,
       group,
       content,
     });
   },
-  delete: async (id: string): Promise<void> => {
+  delete: async (id: string, signal?: AbortSignal): Promise<void> => {
     if (!id) {
       return;
     }
-    return await post('/dashboard/delete', { id });
+    return post(signal)('/dashboard/delete', { id });
   },
 };

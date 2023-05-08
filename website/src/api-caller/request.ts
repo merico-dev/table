@@ -1,7 +1,7 @@
 import axios, { Method } from 'axios';
 import _ from 'lodash';
 
-const getRequest = (method: Method) => {
+const getRequest = (method: Method, signal?: AbortSignal) => {
   return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
     const token = window.localStorage.getItem('token');
     const headers = {
@@ -17,6 +17,7 @@ const getRequest = (method: Method) => {
       url,
       params: method === 'GET' ? data : options.params,
       headers: headers,
+      signal,
     };
 
     if (['POST', 'PUT'].includes(method)) {
@@ -36,8 +37,6 @@ const getRequest = (method: Method) => {
   };
 };
 
-export const get = getRequest('GET');
-
-export const post = getRequest('POST');
-
-export const put = getRequest('PUT');
+export const get = (signal?: AbortSignal) => getRequest('GET', signal);
+export const post = (signal?: AbortSignal) => getRequest('POST', signal);
+export const put = (signal?: AbortSignal) => getRequest('PUT', signal);

@@ -3,8 +3,8 @@ import { post } from './request';
 import { PaginationResponse } from './types';
 
 export const api_key = {
-  list: async (): Promise<PaginationResponse<IAPIKey>> => {
-    const res = await post('/api/key/list', {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<IAPIKey>> => {
+    const res = await post(signal)('/api/key/list', {
       filter: {
         search: '',
       },
