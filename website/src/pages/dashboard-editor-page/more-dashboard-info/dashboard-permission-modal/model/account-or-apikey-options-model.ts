@@ -4,7 +4,6 @@ import { addDisposer, flow, getParent, toGenerator, types } from 'mobx-state-tre
 import { get } from 'lodash';
 import { autorun } from 'mobx';
 import { APICaller } from '../../../../../api-caller';
-import { APIKeyAPI } from '../../../../../api-caller/api-key';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 import { PermissionAccessModelInstance } from './permission-access-model';
 
@@ -48,7 +47,7 @@ export const AccountOrAPIKeyOptionsModel = types
             .filter((d) => d.role_id <= 40) // exclude superadmin
             .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
 
-          const apiKeysResp = yield* toGenerator(APIKeyAPI.list());
+          const apiKeysResp = yield* toGenerator(APICaller.api_key.list());
           const apiKeys = apiKeysResp.data
             .filter((d) => d.role_id <= 40) // exclude superadmin
             .map((d) => ({ label: d.name, value: d.id, type: 'APIKEY' } as const));

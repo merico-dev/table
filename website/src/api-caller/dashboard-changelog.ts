@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { ListDashboardChangelogReqType, ListDashboardChangelogRespType } from './dashboard-changelog.types';
 import { post } from './request';
 
-export const DashboardChangelogAPI = {
+export const dashboard_changelog = {
   list: async ({ filter, pagination }: ListDashboardChangelogReqType): Promise<ListDashboardChangelogRespType> => {
     const resp: ListDashboardChangelogRespType = await post('/dashboard_changelog/list', {
       filter,
@@ -25,5 +25,3 @@ export const DashboardChangelogAPI = {
     offset: 0,
   },
 };
-
-export const dashboard_changelog = DashboardChangelogAPI;

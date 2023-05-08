@@ -4,7 +4,7 @@ import { IconHistory } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
-import { DashboardChangelogAPI } from '../../../../api-caller/dashboard-changelog';
+import { APICaller } from '../../../../api-caller';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 import { ChangelogContent } from './changelog-content';
 import { ChangelogNavbar } from './changelog-navbar';
@@ -48,9 +48,9 @@ export const DashboardHistoryModal = observer(() => {
   const { data: resp, loading } = useRequest(
     async () => {
       if (!opened) {
-        return DashboardChangelogAPI.emptyList;
+        return APICaller.dashboard_changelog.emptyList;
       }
-      return DashboardChangelogAPI.list({
+      return APICaller.dashboard_changelog.list({
         filter: { dashboard_id: { value: id, isFuzzy: false } },
         pagination: { page, pagesize: pageSize },
       });

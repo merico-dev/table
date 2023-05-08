@@ -8,7 +8,7 @@ import {
 } from './dashboard-permission.types';
 import { post } from './request';
 
-export const DashboardPermissionAPI = {
+export const dashboard_permission = {
   list: async ({ filter, pagination }: ListDashboardPermissionReqType): Promise<ListDashboardPermissionRespType> => {
     const resp: ListDashboardPermissionRespType = await post('/dashboard_permission/list', {
       filter,
@@ -52,5 +52,3 @@ export const DashboardPermissionAPI = {
     return resp;
   },
 };
-
-export const dashboard_permission = DashboardPermissionAPI;
