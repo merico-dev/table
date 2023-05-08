@@ -52,3 +52,5 @@ export const DashboardPermissionAPI = {
     return resp;
   },
 };
+
+export const dashboard_permission = DashboardPermissionAPI;

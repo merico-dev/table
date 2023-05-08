@@ -49,3 +49,5 @@ export const AccountAPI = {
     return res;
   },
 };
+
+export const account = AccountAPI;

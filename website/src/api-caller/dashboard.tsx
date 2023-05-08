@@ -90,3 +90,5 @@ export const DashboardAPI = {
     return await post('/dashboard/delete', { id });
   },
 };
+
+export const dashboard = DashboardAPI;

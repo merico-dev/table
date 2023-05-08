@@ -9,3 +9,5 @@ export const StatusAPI = {
     return res;
   },
 };
+
+export const status = StatusAPI;

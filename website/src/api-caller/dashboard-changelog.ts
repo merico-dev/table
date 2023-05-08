@@ -25,3 +25,5 @@ export const DashboardChangelogAPI = {
     offset: 0,
   },
 };
+
+export const dashboard_changelog = DashboardChangelogAPI;

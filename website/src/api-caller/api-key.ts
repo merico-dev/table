@@ -22,3 +22,5 @@ export const APIKeyAPI = {
     return res;
   },
 };
+
+export const api_key = APIKeyAPI;
