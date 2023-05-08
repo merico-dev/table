@@ -3,7 +3,7 @@ import { IDBDashboard } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
-export const DashboardAPI = {
+export const dashboard = {
   list: async (): Promise<PaginationResponse<IDBDashboard>> => {
     return await post('/dashboard/list', {
       filter: {
@@ -90,5 +90,3 @@ export const DashboardAPI = {
     return await post('/dashboard/delete', { id });
   },
 };
-
-export const dashboard = DashboardAPI;

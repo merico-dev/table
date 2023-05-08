@@ -7,7 +7,7 @@ import 'react-resizable/css/styles.css';
 
 import { IDashboardModel } from '@devtable/dashboard';
 import { reaction, toJS } from 'mobx';
-import { DashboardAPI } from '../../api-caller/dashboard';
+import { APICaller } from '../../api-caller';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardConfig } from '../../utils/config';
@@ -40,7 +40,7 @@ export const DashboardEditorPageContent = observer(
         message: 'Updating dashboard...',
         loading: true,
       });
-      const result = await DashboardAPI.update(d);
+      const result = await APICaller.dashboard.update(d);
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

@@ -6,7 +6,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PlaylistAdd } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
 
 interface IFormValues {
@@ -20,7 +20,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
 
   const { data: options = [], loading } = useRequest(
     async () => {
-      const { data } = await DashboardAPI.list();
+      const { data } = await APICaller.dashboard.list();
       return data.map((d) => ({
         label: d.name,
         value: d.id,
@@ -53,7 +53,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     });
     const dashboard = options.find((o) => o.value === idToDuplicate);
     const content = dashboard?.content;
-    const { id } = await DashboardAPI.create(name, group, content);
+    const { id } = await APICaller.dashboard.create(name, group, content);
     updateNotification({
       id: 'for-creating',
       title: 'Successful',

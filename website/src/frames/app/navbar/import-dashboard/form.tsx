@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { DashboardAPI } from '../../../../api-caller/dashboard';
+import { APICaller } from '../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
 
 const cleanContent = (temp: TDashboardContent_Temp) => {
@@ -54,7 +54,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const { id } = await DashboardAPI.create(name, '', cleanContent(content));
+      const { id } = await APICaller.dashboard.create(name, '', cleanContent(content));
       updateNotification({
         id: 'for-creating',
         title: 'Successful',
@@ -75,7 +75,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
 
   const { data: nameSet = new Set<string>(), loading } = useRequest(
     async () => {
-      const { data } = await DashboardAPI.list();
+      const { data } = await APICaller.dashboard.list();
       return new Set(data.map((o) => o.name));
     },
     {

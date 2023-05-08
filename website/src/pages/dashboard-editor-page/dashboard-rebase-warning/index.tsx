@@ -1,15 +1,14 @@
 import { IDashboard } from '@devtable/dashboard';
 import { Divider, Group, Notification, Overlay, Text } from '@mantine/core';
-import { useBoolean, useRequest } from 'ahooks';
+import { useBoolean, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../../../frames/app/models/dashboard-store-context';
 import { useSocketContext } from '../../../frames/socket-client-frame/socket-context';
 import { RebaseActions } from './rebase-actions';
 import { useRebaseModel } from './rebase-editor/rebase-config-context';
-import { useWhyDidYouUpdate } from 'ahooks';
 
 type DashboardUpdateMessageType = {
   update_time: string;
@@ -35,7 +34,7 @@ export const DashboardRebaseWarning = observer(() => {
 
   const [show, { setFalse, set }] = useBoolean(false);
 
-  const { data: latest, loading } = useRequest(async () => DashboardAPI.details(store.currentID), {
+  const { data: latest, loading } = useRequest(async () => APICaller.dashboard.details(store.currentID), {
     refreshDeps: [store.currentID, remoteKey],
   });
 

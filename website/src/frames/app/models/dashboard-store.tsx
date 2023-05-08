@@ -1,6 +1,6 @@
 import { autorun, reaction } from 'mobx';
-import { addDisposer, applySnapshot, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { SnapshotIn, addDisposer, applySnapshot, cast, flow, toGenerator, types } from 'mobx-state-tree';
+import { APICaller } from '../../../api-caller';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 import { DashboardDetailModel } from './dashboard-detail-model';
 
@@ -60,7 +60,7 @@ export const DashboardStore = types
     load: flow(function* () {
       self.setLoading(true);
       try {
-        const { data } = yield* toGenerator(DashboardAPI.list());
+        const { data } = yield* toGenerator(APICaller.dashboard.list());
         if (!Array.isArray(data)) {
           throw new Error('not found');
         }
@@ -80,7 +80,7 @@ export const DashboardStore = types
     loadCurrentDetail: flow(function* () {
       self.setDetailLoading(true);
       try {
-        const data = yield* toGenerator(DashboardAPI.details(self.currentID));
+        const data = yield* toGenerator(APICaller.dashboard.details(self.currentID));
         if (!('content' in data)) {
           throw new Error('not found');
         }
