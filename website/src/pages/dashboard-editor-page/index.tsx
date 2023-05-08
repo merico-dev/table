@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardEditorPageContent } from './page-content';
-import { DashboardRebaseWarning } from './dashboard-rebase-warning';
+import { ContentRebaseWarning } from './content-rebase-warning';
 import './index.css';
 import React from 'react';
-import { RebaseConfigProvider } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
+import { RebaseConfigProvider } from './content-rebase-warning/rebase-editor/rebase-config-context';
 
 const LoadAndRenderDashboardEditor = observer(() => {
   const { store } = useDashboardStore();
@@ -27,7 +27,7 @@ const LoadAndRenderDashboardEditor = observer(() => {
         <Helmet>
           <title>{store.currentDetail.name}</title>
         </Helmet>
-        <DashboardRebaseWarning />
+        {/* <ContentRebaseWarning /> */}
         <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
         {ready && <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
       </div>

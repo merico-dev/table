@@ -4,11 +4,13 @@ import _ from 'lodash';
 import { autorun, reaction } from 'mobx';
 import { addDisposer, flow, Instance, toGenerator, types } from 'mobx-state-tree';
 import { APICaller } from '../../../api-caller';
+import { DashboardContentDBType } from '../../../api-caller/dashboard-content.types';
 
 export const DashboardContentModel = types
   .model({
     id: types.maybeNull(types.string),
     data: types.frozen<AnyObject>(),
+    fullData: types.frozen<DashboardContentDBType | null>(),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
@@ -38,11 +40,13 @@ export const DashboardContentModel = types
           throw new Error('Dashboard content is not found');
         }
         self.data = data.content;
+        self.fullData = data;
         self.state = 'idle';
         self.error = null;
       } catch (error) {
         if (!axios.isCancel(error)) {
           self.data = {};
+          self.fullData = null;
           const fallback = _.get(error, 'message', 'unkown error');
           self.error = _.get(error, 'response.data.detail.message', fallback) as unknown as string;
           self.state = 'error';

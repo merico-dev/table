@@ -1,4 +1,3 @@
-import { IDashboard } from '@devtable/dashboard';
 import { Divider, Group, Notification, Overlay, Text } from '@mantine/core';
 import { useBoolean, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import dayjs from 'dayjs';
@@ -17,7 +16,7 @@ type DashboardUpdateMessageType = {
   auth_type: null | 'APIKEY' | 'ACCOUNT';
 };
 
-export const DashboardRebaseWarning = observer(() => {
+export const ContentRebaseWarning = observer(() => {
   const { store } = useDashboardStore();
   const { socket } = useSocketContext();
   const rebaseModel = useRebaseModel();
@@ -34,16 +33,28 @@ export const DashboardRebaseWarning = observer(() => {
 
   const [show, { setFalse, set }] = useBoolean(false);
 
-  const { data: latest, loading } = useRequest(async () => APICaller.dashboard.details(store.currentID), {
-    refreshDeps: [store.currentID, remoteKey],
-  });
+  const { data: latestContent, loading } = useRequest(
+    async () => {
+      const d = await APICaller.dashboard.details(store.currentID);
+      if (!d.content_id) {
+        return null;
+      }
+      const c = await APICaller.dashboard_content.details(d.content_id);
+      return c;
+    },
+    {
+      refreshDeps: [store.currentID, remoteKey],
+    },
+  );
 
   useEffect(() => {
-    rebaseModel.setRemote(latest?.content as IDashboard);
-  }, [latest, rebaseModel]);
+    if (latestContent) {
+      rebaseModel.setRemote(latestContent);
+    }
+  }, [latestContent, rebaseModel]);
 
   useEffect(() => {
-    const current = store.currentDetail?.content as IDashboard;
+    const current = store.currentDetail?.content.fullData;
     if (current) {
       rebaseModel.setLocal(current);
     }

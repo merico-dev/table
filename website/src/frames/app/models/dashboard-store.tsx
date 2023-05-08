@@ -77,6 +77,7 @@ export const DashboardStore = types
         content: {
           id: detail.content_id,
           data: {},
+          fullData: null,
         },
       };
       if (!self.currentDetail) {
@@ -97,6 +98,7 @@ export const DashboardStore = types
           content: {
             id: data.content_id,
             data: {},
+            fullData: null,
           },
         });
         self.setDetailLoading(false);

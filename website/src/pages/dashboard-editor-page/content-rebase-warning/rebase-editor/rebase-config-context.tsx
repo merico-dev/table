@@ -1,9 +1,10 @@
 import { addDisposer, getEnv, Instance, types } from 'mobx-state-tree';
 import { DashboardStore } from '../../../../frames/app/models/dashboard-store';
-import { IDashboard } from '@devtable/dashboard';
 import React from 'react';
 import { useCreation } from 'ahooks';
 import { reaction, toJS } from 'mobx';
+import { DashboardContentDBType } from '../../../../api-caller/dashboard-content.types';
+import { IDashboard } from '@devtable/dashboard';
 
 export interface RebaseConfigEnv {
   dashboardStore: Instance<typeof DashboardStore>;
@@ -11,15 +12,15 @@ export interface RebaseConfigEnv {
 
 export const RebaseConfigModel = types
   .model('RebaseConfigModel', {
-    remote: types.maybe(types.frozen<IDashboard>()),
-    local: types.maybe(types.frozen<IDashboard>()),
-    rebaseResult: types.maybe(types.frozen<IDashboard>()),
+    remote: types.maybe(types.frozen<DashboardContentDBType>()),
+    local: types.maybe(types.frozen<DashboardContentDBType>()),
+    rebaseResult: types.maybe(types.frozen<DashboardContentDBType>()),
     resolvedRemotes: types.optional(types.map(types.number), {}),
   })
   .views((self) => ({
     get base() {
       const env = getEnv<RebaseConfigEnv>(self);
-      return env.dashboardStore.currentDetail?.dashboard;
+      return env.dashboardStore.currentDetail?.content.data;
     },
   }))
   .views((self) => ({
@@ -38,14 +39,23 @@ export const RebaseConfigModel = types
     },
   }))
   .actions((self) => ({
-    setRemote(remote: IDashboard) {
+    setRemote(remote: DashboardContentDBType) {
+      if (remote.id !== self.local?.id) {
+        console.error('[RebaseConfigModel] local & remote id dont match');
+        return;
+      }
+
       self.remote = remote;
     },
-    setLocal(local: IDashboard) {
+    setLocalWithDashboard(d: IDashboard) {
+      console.log(Object.keys(d));
+    },
+    setLocal(local: DashboardContentDBType) {
+      console.log(local);
       self.local = local;
       self.rebaseResult = undefined;
     },
-    setRebaseResult(rebaseResult?: IDashboard) {
+    setRebaseResult(rebaseResult?: DashboardContentDBType) {
       self.rebaseResult = rebaseResult;
     },
     markResolvedRemote(remoteId: string) {

@@ -11,7 +11,7 @@ import { APICaller } from '../../api-caller';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardConfig } from '../../utils/config';
-import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
+import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
 
 export const DashboardEditorPageContent = observer(
@@ -27,7 +27,14 @@ export const DashboardEditorPageContent = observer(
         () => toJS(rebaseModel.rebaseResult),
         (result) => {
           if (result) {
-            dashboardModelRef.current?.updateCurrent(result);
+            console.log({ result });
+            const d = dashboardModelRef.current?.json;
+            if (d) {
+              dashboardModelRef.current?.updateCurrent({
+                ...d,
+                ...result,
+              });
+            }
           }
         },
       );
@@ -54,11 +61,16 @@ export const DashboardEditorPageContent = observer(
     if (!rebaseModel) {
       return null;
     }
+    if (!dashboardModel.content.loaded) {
+      return null;
+    }
+
+    console.log(dashboardModel.dashboard);
 
     return (
       <Dashboard
         ref={dashboardModelRef}
-        onChange={rebaseModel.setLocal}
+        onChange={rebaseModel.setLocalWithDashboard}
         context={context}
         dashboard={dashboardModel.dashboard}
         update={updateDashboard}
