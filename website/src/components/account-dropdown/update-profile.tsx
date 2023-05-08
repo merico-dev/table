@@ -1,10 +1,10 @@
 import { IAccount } from '@devtable/settings-form';
 import { IStyles } from '@devtable/settings-form/dist/account/styles';
-import { Box, Button, Text, Group, LoadingOverlay, Modal, TextInput } from '@mantine/core';
+import { Box, Button, Group, LoadingOverlay, Modal, Text, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useBoolean } from 'ahooks';
 import { Controller, useForm } from 'react-hook-form';
-import { AccountAPI } from '../../api-caller/account';
+import { APICaller } from '../../api-caller';
 
 const defaultStyles: IStyles = {
   size: 'sm',
@@ -45,7 +45,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
         message: 'Updating profile...',
         loading: true,
       });
-      await AccountAPI.update(name, email);
+      await APICaller.account.update(name, email);
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

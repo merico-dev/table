@@ -2,7 +2,7 @@ import { IAccount } from '@devtable/settings-form';
 import { get, post, put } from './request';
 import { PaginationResponse } from './types';
 
-export const AccountAPI = {
+export const account = {
   list: async (): Promise<PaginationResponse<IAccount>> => {
     const res = await post('/account/list', {
       filter: {},
@@ -49,5 +49,3 @@ export const AccountAPI = {
     return res;
   },
 };
-
-export const account = AccountAPI;

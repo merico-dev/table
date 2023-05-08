@@ -3,10 +3,10 @@ import { addDisposer, flow, getParent, toGenerator, types } from 'mobx-state-tre
 
 import { get } from 'lodash';
 import { autorun } from 'mobx';
-import { AccountAPI } from '../../../../../api-caller/account';
+import { APICaller } from '../../../../../api-caller';
+import { APIKeyAPI } from '../../../../../api-caller/api-key';
 import { AccountOrAPIKeyOptionType } from '../../../../../api-caller/dashboard-permission.types';
 import { PermissionAccessModelInstance } from './permission-access-model';
-import { APIKeyAPI } from '../../../../../api-caller/api-key';
 
 export const AccountOrAPIKeyOptionsModel = types
   .model({
@@ -43,7 +43,7 @@ export const AccountOrAPIKeyOptionsModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          const accountResp = yield* toGenerator(AccountAPI.list());
+          const accountResp = yield* toGenerator(APICaller.account.list());
           const accounts = accountResp.data
             .filter((d) => d.role_id <= 40) // exclude superadmin
             .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
