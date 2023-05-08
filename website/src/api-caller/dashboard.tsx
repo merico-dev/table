@@ -1,10 +1,30 @@
 import { IDashboard } from '@devtable/dashboard';
-import { IDBDashboard } from './dashboard.typed';
+import { IDBDashboard, TDashboardMetaInfo } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
+// WIP
+const InitialDashboardContent = {
+  definition: {
+    sqlSnippets: [],
+    queries: [],
+    mock_context: {},
+  },
+  views: [
+    {
+      id: 'Main',
+      name: 'Main',
+      type: 'div',
+      config: {},
+    },
+  ],
+  panels: [],
+  filters: [],
+  version: '8.57.0',
+};
+
 export const dashboard = {
-  list: async (signal?: AbortSignal): Promise<PaginationResponse<IDBDashboard>> => {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<TDashboardMetaInfo>> => {
     return await post(signal)('/dashboard/list', {
       filter: {
         is_removed: false,
@@ -53,36 +73,10 @@ export const dashboard = {
     };
     return put(signal)('/dashboard/update', payload);
   },
-  create: async (
-    name: string,
-    group: string,
-    content: IDBDashboard['content'] | null,
-    signal?: AbortSignal,
-  ): Promise<IDBDashboard> => {
-    if (!content) {
-      content = {
-        definition: {
-          sqlSnippets: [],
-          queries: [],
-          mock_context: {},
-        },
-        views: [
-          {
-            id: 'Main',
-            name: 'Main',
-            type: 'div',
-            config: {},
-          },
-        ],
-        panels: [],
-        filters: [],
-        version: '8.57.0',
-      };
-    }
+  create: async (name: string, group: string, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
     return post(signal)('/dashboard/create', {
       name,
       group,
-      content,
     });
   },
   delete: async (id: string, signal?: AbortSignal): Promise<void> => {

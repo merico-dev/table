@@ -54,7 +54,9 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const { id } = await APICaller.dashboard.create(name, '', cleanContent(content));
+      // WIP
+      // const finalContent = cleanContent(content);
+      const { id } = await APICaller.dashboard.create(name, '');
       updateNotification({
         id: 'for-creating',
         title: 'Successful',

@@ -24,7 +24,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       return data.map((d) => ({
         label: d.name,
         value: d.id,
-        content: d.content,
+        content_id: d.content_id, // WIP
       }));
     },
     {
@@ -52,8 +52,8 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       loading: true,
     });
     const dashboard = options.find((o) => o.value === idToDuplicate);
-    const content = dashboard?.content ?? null;
-    const { id } = await APICaller.dashboard.create(name, group, content);
+    // const content = dashboard?.content_id; // WIP
+    const { id } = await APICaller.dashboard.create(name, group);
     updateNotification({
       id: 'for-creating',
       title: 'Successful',
