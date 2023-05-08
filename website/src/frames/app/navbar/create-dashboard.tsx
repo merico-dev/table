@@ -52,7 +52,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       loading: true,
     });
     const dashboard = options.find((o) => o.value === idToDuplicate);
-    const content = dashboard?.content;
+    const content = dashboard?.content ?? null;
     const { id } = await APICaller.dashboard.create(name, group, content);
     updateNotification({
       id: 'for-creating',

@@ -10,7 +10,7 @@ import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-
 
 const cleanContent = (temp: TDashboardContent_Temp) => {
   if (!temp) {
-    return undefined;
+    return null;
   }
   const { id, name, group, ...content } = temp;
   return {
