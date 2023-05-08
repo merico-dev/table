@@ -41,13 +41,13 @@ export const dashboard = {
       },
     });
   },
-  details: async (id: string, signal?: AbortSignal): Promise<IDBDashboard> => {
+  details: async (id: string, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
     return post(signal)(`/dashboard/details`, { id });
   },
   update: async (
     { id, name, group, definition, views, panels, filters, version }: IDashboard,
     signal?: AbortSignal,
-  ): Promise<IDBDashboard> => {
+  ): Promise<TDashboardMetaInfo> => {
     const payload = {
       id,
       name,
@@ -65,7 +65,7 @@ export const dashboard = {
   rename: async (
     { id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>,
     signal?: AbortSignal,
-  ): Promise<IDBDashboard> => {
+  ): Promise<TDashboardMetaInfo> => {
     const payload = {
       id,
       name,

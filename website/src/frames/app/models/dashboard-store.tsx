@@ -62,7 +62,7 @@ export const DashboardStore = types
       try {
         const { data } = yield* toGenerator(APICaller.dashboard.list());
         if (!Array.isArray(data)) {
-          throw new Error('not found');
+          throw new Error('no dashboard found');
         }
         self.setList(data);
         self.setLoading(false);
@@ -81,10 +81,16 @@ export const DashboardStore = types
       self.setDetailLoading(true);
       try {
         const data = yield* toGenerator(APICaller.dashboard.details(self.currentID));
-        if (!('content' in data)) {
-          throw new Error('not found');
+        if (!('content_id' in data)) {
+          throw new Error('failed to load dashboard detail');
         }
-        self.currentDetail = DashboardDetailModel.create(data);
+        self.currentDetail = DashboardDetailModel.create({
+          ...data,
+          content: {
+            id: data.content_id,
+            data: {},
+          },
+        });
         self.setDetailLoading(false);
       } catch (error) {
         console.error(error);
