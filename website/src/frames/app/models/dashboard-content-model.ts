@@ -12,6 +12,11 @@ export const DashboardContentModel = types
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
+  .views((self) => ({
+    get loaded() {
+      return self.state === 'idle' && Object.keys(self.data).length > 0;
+    },
+  }))
   .volatile(() => ({
     controller: new AbortController(),
   }))
@@ -29,10 +34,10 @@ export const DashboardContentModel = types
       self.state = 'loading';
       try {
         const data = yield* toGenerator(APICaller.dashboard_content.details(self.id, self.controller.signal));
-        if (!data) {
+        if (!data || !data.content) {
           throw new Error('Dashboard content is not found');
         }
-        self.data = data;
+        self.data = data.content;
         self.state = 'idle';
         self.error = null;
       } catch (error) {

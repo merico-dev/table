@@ -28,7 +28,9 @@ export const DashboardPageContent = observer(() => {
     setSearch(s);
   };
 
-  if (!store.currentDetail) {
+  console.log(store.currentDetail?.content.loaded);
+
+  if (!store.currentDetail?.content.loaded) {
     return null;
   }
 

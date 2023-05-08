@@ -1,4 +1,4 @@
-import { getSnapshot, Instance, types } from 'mobx-state-tree';
+import { getSnapshot, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { normalizeDBDashboard } from '../../../api-caller/dashboard.transform';
 import { DashboardBriefModel } from './dashboard-brief-model';
 import { DashboardContentModel } from './dashboard-content-model';
@@ -13,8 +13,13 @@ export const DashboardDetailModel = types
   )
   .views((self) => ({
     get dashboard() {
-      return normalizeDBDashboard(getSnapshot(self));
+      const snap = getSnapshot(self);
+      return normalizeDBDashboard({
+        ...snap,
+        content: snap.content.data,
+      });
     },
   }));
 
 export type DashboardDetailModelInstance = Instance<typeof DashboardDetailModel>;
+export type DashboardDetailModelSnapshotOut = SnapshotOut<typeof DashboardDetailModel>;
