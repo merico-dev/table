@@ -27,6 +27,7 @@ const LoadAndRenderDashboardEditor = observer(() => {
         <Helmet>
           <title>{store.currentDetail.name}</title>
         </Helmet>
+        {/* WIP: disabling this feature until content_id is fully applied */}
         {/* <ContentRebaseWarning /> */}
         <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
         {ready && <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
