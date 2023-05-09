@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Edge } from 'reactflow';
-import { DashboardModelInstance } from '~/model';
+import { ContentModelInstance } from '~/model/content';
 import { PanelModelInstance } from '~/model/panels';
 import { AnyObject } from '~/types';
 import { TFlowNode } from './types';
@@ -68,7 +68,7 @@ function makeEdgesFromPanels(
   return edges;
 }
 
-export function makeEdges(model: DashboardModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
+export function makeEdges(model: ContentModelInstance, staticNodeMap: _.Dictionary<TFlowNode>) {
   const filterLabelMap = model.filters.keyLabelMap;
   const edges = makeEdgesFromPanels(model.panels.list, staticNodeMap, filterLabelMap);
   return { edges, edgeNodes: [] };

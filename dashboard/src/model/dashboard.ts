@@ -7,7 +7,7 @@ import { EditorModel } from './editor';
 
 import { ContentModel, createContentModel } from './content';
 
-const DashboardModel = types
+export const DashboardModel = types
   .model({
     id: types.identifier,
     name: types.string,

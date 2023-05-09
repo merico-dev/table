@@ -51,7 +51,7 @@ export const ReadOnlyDashboard = observer(
       () => createDashboardModel(dashboard, content, datasources, context),
       [dashboard, content],
     );
-    useInteractionOperationHacks(model, false);
+    useInteractionOperationHacks(model.content, false);
 
     React.useEffect(() => {
       model.context.replace(context);

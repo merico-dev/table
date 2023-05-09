@@ -4,13 +4,14 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { EViewComponentType, ViewModelInstance } from '..';
-import { useContentModelContext } from '../contexts';
+import { useContentModelContext, useModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { usePanelContext } from '../contexts/panel-context';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }) => {
-  const model = useContentModelContext();
+  const model = useModelContext();
+  const content = useContentModelContext();
   const modals = useModals();
 
   const { panel } = usePanelContext();
@@ -21,7 +22,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
-    model.duplicatePanelByID(id, view.id);
+    content.duplicatePanelByID(id, view.id);
   };
 
   const openPanelEditor = () => {
@@ -33,7 +34,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
       title: 'Delete this panel?',
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.removePanelByID(id, view.id),
+      onConfirm: () => content.removePanelByID(id, view.id),
       confirmProps: { color: 'red' },
       zIndex: 320,
     });
@@ -54,7 +55,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
               Refresh
             </Menu.Item>
             <Menu.Item
-              onClick={() => model.queries.downloadDataByQueryID(query?.id ?? '')}
+              onClick={() => content.queries.downloadDataByQueryID(query?.id ?? '')}
               icon={<Download size={14} />}
             >
               Download Data

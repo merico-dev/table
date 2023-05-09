@@ -78,7 +78,7 @@ export const Dashboard = observer(
       [dashboard, content],
     );
     React.useImperativeHandle(ref, () => model, [model]);
-    useInteractionOperationHacks(model, true);
+    useInteractionOperationHacks(model.content, true);
 
     React.useEffect(() => {
       model.context.replace(context);

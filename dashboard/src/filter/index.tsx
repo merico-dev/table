@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { FilterModelInstance, ViewModelInstance } from '..';
-import { useContentModelContext } from '../contexts/model-context';
+import { useContentModelContext } from '~/contexts';
 import { Filter } from './filter';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {

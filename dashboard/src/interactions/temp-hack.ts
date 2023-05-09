@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { AnyObject, DashboardModelInstance } from '..';
+import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
 
-export function useInteractionOperationHacks(model: DashboardModelInstance, inEditMode: boolean) {
+export function useInteractionOperationHacks(model: ContentModelInstance, inEditMode: boolean) {
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
       console.log(e);
@@ -100,8 +100,8 @@ export function useInteractionOperationHacks(model: DashboardModelInstance, inEd
       const url = compiled(
         urlEncodeFields({
           ...payload,
-          filters: model.filters.values,
-          context: model.context.current,
+          filters: model.payloadForSQL.filterValues,
+          context: model.payloadForSQL.context,
         }),
       );
 
