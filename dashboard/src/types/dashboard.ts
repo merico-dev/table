@@ -80,6 +80,12 @@ export interface IDashboard {
   id: string;
   name: string;
   group: string;
+  content_id: string;
+}
+
+export interface TDashboardContent {
+  id: string;
+  name: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
   panels: IDashboardPanel[];

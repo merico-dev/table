@@ -12,7 +12,7 @@ import { ModelContextProvider } from '~/contexts/model-context';
 import { ContextInfoType, createDashboardModel } from '~/model';
 import { useTopLevelServices } from '../use-top-level-services';
 import { createPluginContext, PluginContext } from '~/plugins';
-import { IDashboard } from '../../types/dashboard';
+import { IDashboard, TDashboardContent } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
 import './index.css';
 import { DashboardEditorHeader } from './header';
@@ -21,6 +21,7 @@ import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { reaction, toJS } from 'mobx';
 import { registerThemes } from '~/styles/register-themes';
+import { ContentModelContextProvider } from '~/contexts/content-model-context';
 
 registerThemes();
 
@@ -46,6 +47,7 @@ const AppShellStyles = {
 interface IDashboardProps {
   context: ContextInfoType;
   dashboard: IDashboard;
+  content: TDashboardContent;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
@@ -55,12 +57,13 @@ interface IDashboardProps {
 
 export interface IDashboardModel {
   readonly json: IDashboard;
-  updateCurrent: (dashboard: IDashboard) => void;
+  updateCurrent: (dashboard: IDashboard, content: TDashboardContent) => void;
+  updateCurrentContent: (content: TDashboardContent) => void;
 }
 
 export const Dashboard = observer(
   forwardRef(function _Dashboard(
-    { context, dashboard, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
+    { context, dashboard, content, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
     ref: ForwardedRef<IDashboardModel>,
   ) {
     useLoadMonacoEditor(config.monacoPath);
@@ -70,7 +73,10 @@ export const Dashboard = observer(
 
     const [layoutFrozen, freezeLayout] = React.useState(false);
 
-    const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
+    const model = React.useMemo(
+      () => createDashboardModel(dashboard, content, datasources, context),
+      [dashboard, content],
+    );
     React.useImperativeHandle(ref, () => model, [model]);
     useInteractionOperationHacks(model, true);
 
@@ -100,36 +106,40 @@ export const Dashboard = observer(
     return (
       <ModalsProvider>
         <ModelContextProvider value={model}>
-          <LayoutStateContext.Provider
-            value={{
-              layoutFrozen,
-              freezeLayout,
-              inEditMode: true,
-            }}
-          >
-            <PluginContext.Provider value={pluginContext}>
-              <ServiceLocatorProvider configure={configureServices}>
-                <AppShell
-                  padding={0}
-                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} headerSlot={headerSlot} />}
-                  navbar={<DashboardEditorNavbar />}
-                  styles={AppShellStyles}
-                >
-                  <Box
-                    className={`${className} dashboard-root`}
-                    sx={{
-                      position: 'relative',
-                    }}
+          <ContentModelContextProvider value={model.content}>
+            <LayoutStateContext.Provider
+              value={{
+                layoutFrozen,
+                freezeLayout,
+                inEditMode: true,
+              }}
+            >
+              <PluginContext.Provider value={pluginContext}>
+                <ServiceLocatorProvider configure={configureServices}>
+                  <AppShell
+                    padding={0}
+                    header={
+                      <DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} headerSlot={headerSlot} />
+                    }
+                    navbar={<DashboardEditorNavbar />}
+                    styles={AppShellStyles}
                   >
-                    {model.views.visibleViews.map((view) => (
-                      <DashboardViewEditor key={view.id} view={view} />
-                    ))}
-                  </Box>
-                </AppShell>
-                <Settings />
-              </ServiceLocatorProvider>
-            </PluginContext.Provider>
-          </LayoutStateContext.Provider>
+                    <Box
+                      className={`${className} dashboard-root`}
+                      sx={{
+                        position: 'relative',
+                      }}
+                    >
+                      {model.content.views.visibleViews.map((view) => (
+                        <DashboardViewEditor key={view.id} view={view} />
+                      ))}
+                    </Box>
+                  </AppShell>
+                  <Settings />
+                </ServiceLocatorProvider>
+              </PluginContext.Provider>
+            </LayoutStateContext.Provider>
+          </ContentModelContextProvider>
         </ModelContextProvider>
       </ModalsProvider>
     );
