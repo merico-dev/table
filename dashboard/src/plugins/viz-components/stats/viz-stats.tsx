@@ -6,11 +6,11 @@ import { templateToJSX } from '~/utils/template';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import _ from 'lodash';
 
 export const VizStats = observer(({ context }: VizViewProps) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
   const { variables } = context;
   const { template, align } = conf;

@@ -2,7 +2,7 @@ import { Button, Center } from '@mantine/core';
 import { defaultsDeep, template } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { VizViewProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
@@ -29,7 +29,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
   });
   const triggers = useTriggerSnapshotList<IClickButtonConfig>(interactionManager.triggerManager, ClickButton.id);
 
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { value: confValue } = useStorageData<IButtonConf>(context.instanceData, 'config');
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useModelContext, ViewModelInstance } from '..';
+import { useContentModelContext, ViewModelInstance } from '..';
 
 export function usePanelFullScreen(view: ViewModelInstance, panelID: string, setPanelID: (v: string) => void) {
-  const { panels } = useModelContext();
+  const { panels } = useContentModelContext();
   const acceptsCallback = view.id === 'Main';
   const [fullScreenPanelID, setFullScreenPanelID] = React.useState<string | null>(() => {
     if (acceptsCallback && panels.findByID(panelID)) {

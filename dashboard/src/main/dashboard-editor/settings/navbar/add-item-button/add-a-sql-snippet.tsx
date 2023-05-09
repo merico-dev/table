@@ -1,11 +1,11 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { SQLSnippetModelInstance } from '~/model';
 
 export const AddASQLSnippet = observer(() => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const add = () => {
     const id = new Date().getTime().toString();
     const v = {

@@ -2,14 +2,14 @@ import { Text } from '@mantine/core';
 import { useMemo } from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { formatAggregatedValue, getAggregatedValue } from '~/utils/template';
 
 export const VizText = observer(({ context }: VizViewProps) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[]; // FIXME: from TVizData[] to Record<string, number>[], or improve getAggregatedValue's type def

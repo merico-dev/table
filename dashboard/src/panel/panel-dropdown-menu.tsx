@@ -4,13 +4,13 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { EViewComponentType, ViewModelInstance } from '..';
-import { useModelContext } from '../contexts';
+import { useContentModelContext } from '../contexts';
 import { DashboardActionContext } from '../contexts/dashboard-action-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { usePanelContext } from '../contexts/panel-context';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const modals = useModals();
 
   const { panel } = usePanelContext();

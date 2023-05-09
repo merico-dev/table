@@ -2,7 +2,7 @@ import { Text } from '@mantine/core';
 import { cloneDeep } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../../model';
 import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
 import { ITreeDataQueryOption, ITreeDataRenderItem } from '../types';
@@ -39,7 +39,7 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 }
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { state, dataProxy, len } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 

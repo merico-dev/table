@@ -2,7 +2,7 @@ import { ActionIcon, Box, Button, Divider, Group, Text, Tooltip, UnstyledButton 
 import { IconAdjustments, IconPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext, useModelContext } from '~/contexts';
 
 interface IViewLink {
   onClick: () => void;
@@ -52,16 +52,17 @@ function ViewLink({ onClick, name, active, openSettings }: IViewLink) {
 
 export const ViewLinks = observer(() => {
   const model = useModelContext();
-  const getClickHandler = useCallback((id: string) => () => model.views.setIDOfVIE(id), [model]);
+  const content = useContentModelContext();
+  const getClickHandler = useCallback((id: string) => () => content.views.setIDOfVIE(id), [content]);
   const openSettings = (id: string) => {
     model.editor.open(['_VIEWS_', id]);
   };
   return (
     <Box sx={{ position: 'relative' }}>
-      {model.views.options.map((v) => (
+      {content.views.options.map((v) => (
         <ViewLink
           key={v.value}
-          active={model.views.idOfVIE === v.value}
+          active={content.views.idOfVIE === v.value}
           name={v.label}
           onClick={getClickHandler(v.value)}
           openSettings={() => openSettings(v.value)}
@@ -74,7 +75,7 @@ export const ViewLinks = observer(() => {
         size="sm"
         px="xs"
         color="blue"
-        onClick={model.views.addARandomNewView}
+        onClick={content.views.addARandomNewView}
         sx={{ width: '100%', borderRadius: 0 }}
         styles={{
           inner: {

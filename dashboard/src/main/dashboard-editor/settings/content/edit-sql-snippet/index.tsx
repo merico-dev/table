@@ -1,13 +1,13 @@
 import { Text } from '@mantine/core';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext, useModelContext } from '~/contexts';
 import { SQLSnippetItemEditor } from './item-editor';
 
 export const EditSQLSnippet = observer(({ id }: { id: string }) => {
   const model = useModelContext();
-  const item = useMemo(() => model.sqlSnippets.findByKey(id), [id]);
+  const content = useContentModelContext();
+  const item = useMemo(() => content.sqlSnippets.findByKey(id), [id]);
   if (!id) {
     return null;
   }
@@ -19,7 +19,7 @@ export const EditSQLSnippet = observer(({ id }: { id: string }) => {
     model.editor.setPath(['_SQL_SNIPPETS_', '']);
   };
   const remove = () => {
-    model.sqlSnippets.removeByKey(id);
+    content.sqlSnippets.removeByKey(id);
     resetEditorPath();
   };
   const updatePath = (key: string) => {

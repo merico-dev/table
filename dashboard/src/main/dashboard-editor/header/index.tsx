@@ -12,7 +12,7 @@ import {
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { downloadJSON } from '~/utils/download';
 
@@ -23,7 +23,7 @@ interface IDashboardEditorHeader {
 
 export const DashboardEditorHeader = observer(({ saveDashboardChanges, headerSlot = null }: IDashboardEditorHeader) => {
   const navigate = useNavigate();
-  const model = useModelContext();
+  const model = useContentModelContext();
 
   const downloadSchema = () => {
     const schema = JSON.stringify(model.json, null, 2);

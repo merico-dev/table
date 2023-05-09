@@ -2,7 +2,7 @@ import { Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext, useModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/model';
 
 export interface IDeleteQueryProps {
@@ -12,7 +12,8 @@ export interface IDeleteQueryProps {
 const _DeleteQuery = (props: IDeleteQueryProps) => {
   const { queryModel } = props;
   const model = useModelContext();
-  const usage = model.findQueryUsage(queryModel.id);
+  const content = useContentModelContext();
+  const usage = content.findQueryUsage(queryModel.id);
   const disabled = usage.length > 0;
 
   const modals = useModals();
@@ -22,7 +23,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        model.queries.removeQuery(queryModel.id);
+        content.queries.removeQuery(queryModel.id);
         model.editor.setPath(['_QUERIES_', '']);
       },
       zIndex: 320,

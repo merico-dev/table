@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
-import { PanelContextProvider, useModelContext } from '~/contexts';
+import { PanelContextProvider, useContentModelContext, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
 import { PanelConfig } from '~/main/dashboard-editor/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
@@ -52,9 +52,10 @@ function doesVizRequiresData(type: string) {
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
   const modals = useModals();
   const model = useModelContext();
+  const content = useContentModelContext();
   const [tab, setTab] = useState<string | null>('Data');
-  const { data, state, error } = model.getDataStuffByID(panel.queryID);
-  const query = model.queries.findByID(panel.queryID);
+  const { data, state, error } = content.getDataStuffByID(panel.queryID);
+  const query = content.queries.findByID(panel.queryID);
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
@@ -80,7 +81,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        model.removePanelByID(panel.id, viewID);
+        content.removePanelByID(panel.id, viewID);
         resetEditorPath();
       },
       confirmProps: { color: 'red' },

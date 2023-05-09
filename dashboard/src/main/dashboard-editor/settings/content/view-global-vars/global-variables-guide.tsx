@@ -1,8 +1,7 @@
-import { Group, Stack, Sx, Text } from '@mantine/core';
+import { Stack, Sx, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { useModelContext } from '../../../../../contexts/model-context';
+import { useContentModelContext, useModelContext } from '~/contexts';
 
 interface IGlobalVariablesGuide {
   showSQLSnippets?: boolean;
@@ -27,19 +26,20 @@ export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
   sx = {},
 }: IGlobalVariablesGuide) {
   const model = useModelContext();
+  const content = useContentModelContext();
   const contextInfo = model.context.current;
 
   const variablesString = (() => {
     const ret: Record<string, $TSFixMe> = {
       context: {
-        ...model.mock_context.current,
+        ...content.mock_context.current,
         ...contextInfo,
       },
-      filters: model.filters.previewValues,
+      filters: content.filters.previewValues,
     };
 
     if (showSQLSnippets) {
-      ret.sql_snippets = model.sqlSnippets.record;
+      ret.sql_snippets = content.sqlSnippets.record;
     }
 
     return JSON.stringify(ret, null, 2);

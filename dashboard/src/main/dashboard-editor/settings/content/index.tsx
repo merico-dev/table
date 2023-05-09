@@ -46,6 +46,5 @@ const Content = observer(() => {
 });
 
 export const SettingsContent = observer(() => {
-  const editor = useModelContext().editor;
   return <Content />;
 });
