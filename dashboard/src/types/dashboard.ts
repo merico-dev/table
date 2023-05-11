@@ -84,11 +84,18 @@ export interface IDashboard {
 }
 
 export interface TDashboardContent {
-  id: string;
-  name: string;
   definition: IDashboardDefinition;
   views: IDashboardView[];
   panels: IDashboardPanel[];
   filters: FilterModelSnapshotOut[];
   version: string;
 }
+
+export type DashboardContentDBType = {
+  id: string;
+  dashboard_id: string;
+  name: string;
+  content: TDashboardContent | null;
+  create_time: string;
+  update_time: string;
+};

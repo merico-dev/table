@@ -1,6 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
-import { IDashboard, TDashboardContent } from '../types';
+import { IDashboard, DashboardContentDBType } from '../types';
 import { ContextInfoType, ContextModel } from './context';
 import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';
@@ -29,10 +29,10 @@ export const DashboardModel = types
     },
   }))
   .actions((self) => ({
-    updateCurrentContent(content: TDashboardContent) {
+    updateCurrentContent(content: DashboardContentDBType) {
       self.content.updateCurrent(content);
     },
-    updateCurrent(dashboard: IDashboard, content: TDashboardContent) {
+    updateCurrent(dashboard: IDashboard, content: DashboardContentDBType) {
       const { id, name, group, content_id } = dashboard;
       self.id = id;
       self.name = name;
@@ -45,7 +45,7 @@ export const DashboardModel = types
 
 export function createDashboardModel(
   { id, name, group, content_id }: IDashboard,
-  content: TDashboardContent,
+  content: DashboardContentDBType,
   datasources: IDataSource[],
   context: ContextInfoType,
 ) {

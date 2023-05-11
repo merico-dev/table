@@ -13,7 +13,7 @@ import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { ModelContextProvider } from '../../contexts/model-context';
 import { createDashboardModel } from '../../model';
 import { ContextInfoType } from '../../model/context';
-import { IDashboard, TDashboardContent } from '../../types/dashboard';
+import { DashboardContentDBType, IDashboard } from '../../types/dashboard';
 import { useTopLevelServices } from '../use-top-level-services';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
@@ -26,7 +26,7 @@ registerThemes();
 interface IReadOnlyDashboard {
   context: ContextInfoType;
   dashboard: IDashboard;
-  content: TDashboardContent;
+  content: DashboardContentDBType;
   className?: string;
   config: IDashboardConfig;
   fullScreenPanelID: string;

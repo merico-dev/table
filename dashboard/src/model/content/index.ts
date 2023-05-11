@@ -12,7 +12,7 @@ import {
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
-import { AnyObject, TDashboardContent } from '../../types';
+import { AnyObject, DashboardContentDBType, TDashboardContent } from '../../types';
 import { FiltersModel, getInitialFiltersPayload } from '../filters';
 import { MockContextModel } from '../mock-context';
 import { QueriesModel, QueryUsageType } from '../queries';
@@ -23,8 +23,11 @@ import { createDashboardViewsModel, ViewsModel } from '../views';
 
 const _ContentModel = types
   .model({
-    id: types.identifier,
+    id: types.string,
     name: types.string,
+    dashboard_id: types.string,
+    create_time: types.string,
+    update_time: types.string,
     version: types.string, // schema version
     filters: FiltersModel,
     queries: QueriesModel,
@@ -38,18 +41,23 @@ const _ContentModel = types
     origin: types.maybe(types.frozen()),
   })
   .views((self) => ({
-    get json(): TDashboardContent {
+    get json(): DashboardContentDBType {
       return {
         id: self.id,
         name: self.name,
-        views: self.views.json,
-        panels: self.panels.json,
-        filters: self.filters.json,
-        version: self.version,
-        definition: {
-          queries: self.queries.json,
-          sqlSnippets: self.sqlSnippets.json,
-          mock_context: self.mock_context.current,
+        create_time: self.create_time,
+        update_time: self.update_time,
+        dashboard_id: self.dashboard_id,
+        content: {
+          views: self.views.json,
+          panels: self.panels.json,
+          filters: self.filters.json,
+          version: self.version,
+          definition: {
+            queries: self.queries.json,
+            sqlSnippets: self.sqlSnippets.json,
+            mock_context: self.mock_context.current,
+          },
         },
       };
     },
@@ -229,15 +237,20 @@ const _ContentModel = types
       resetFilters() {
         applySnapshot(self.filters.current, self.origin.filters.current);
       },
-      updateCurrent(config: TDashboardContent) {
+      updateCurrent(config: DashboardContentDBType) {
+        const { id, name, content } = config;
+        if (!content) {
+          throw new Error('unexpected null content when updating a content model');
+        }
         const {
-          name,
           version,
           filters,
           views,
           panels,
           definition: { queries, sqlSnippets, mock_context = {} },
-        } = config;
+        } = content;
+
+        self.id = id;
         self.name = name;
         self.version = version;
         applySnapshot(self.filters.current, filters);
@@ -285,15 +298,28 @@ export function applyPartialDashboard(model: ContentModelInstance, changes: Patc
 export function createContentModel({
   id,
   name,
-  version,
-  filters,
-  views,
-  panels,
-  definition: { queries, sqlSnippets, mock_context = {} },
-}: TDashboardContent) {
+  dashboard_id,
+  create_time,
+  update_time,
+  content,
+}: DashboardContentDBType) {
+  if (!content) {
+    throw new Error('unexpected null content when creating a content model');
+  }
+
+  const {
+    version,
+    filters,
+    views,
+    panels,
+    definition: { queries, sqlSnippets, mock_context = {} },
+  } = content;
   return ContentModel.create({
     id,
     name,
+    dashboard_id,
+    create_time,
+    update_time,
     version,
     filters: getInitialFiltersPayload(filters),
     queries: {

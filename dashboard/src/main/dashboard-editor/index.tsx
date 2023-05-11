@@ -12,7 +12,7 @@ import { ModelContextProvider } from '~/contexts/model-context';
 import { ContextInfoType, createDashboardModel } from '~/model';
 import { useTopLevelServices } from '../use-top-level-services';
 import { createPluginContext, PluginContext } from '~/plugins';
-import { IDashboard, TDashboardContent } from '../../types/dashboard';
+import { DashboardContentDBType, IDashboard } from '../../types/dashboard';
 import { listDataSources } from '~/api-caller';
 import './index.css';
 import { DashboardEditorHeader } from './header';
@@ -47,7 +47,7 @@ const AppShellStyles = {
 interface IDashboardProps {
   context: ContextInfoType;
   dashboard: IDashboard;
-  content: TDashboardContent;
+  content: DashboardContentDBType;
   className?: string;
   update: (dashboard: IDashboard) => Promise<void>;
   config: IDashboardConfig;
@@ -57,8 +57,8 @@ interface IDashboardProps {
 
 export interface IDashboardModel {
   readonly json: IDashboard;
-  updateCurrent: (dashboard: IDashboard, content: TDashboardContent) => void;
-  updateCurrentContent: (content: TDashboardContent) => void;
+  updateCurrent: (dashboard: IDashboard, content: DashboardContentDBType) => void;
+  updateCurrentContent: (content: DashboardContentDBType) => void;
 }
 
 export const Dashboard = observer(
