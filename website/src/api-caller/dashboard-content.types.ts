@@ -1,11 +1,11 @@
-import { AnyObject } from '@devtable/dashboard';
+import { TDashboardContent } from '@devtable/dashboard';
 import { PaginationResponse } from './types';
 
 export type DashboardContentDBType = {
   id: string;
   dashboard_id: string;
   name: string;
-  content: AnyObject | null;
+  content: TDashboardContent | null;
   create_time: string;
   update_time: string;
 };
@@ -32,13 +32,13 @@ export type UpdateDashboardOwnerPayloadType = {
 export type CreateContentPayloadType = {
   dashboard_id: string;
   name: string;
-  content: AnyObject;
+  content: TDashboardContent;
 };
 
 export type UpdateContentPayloadType = {
   id: string;
   name: string;
-  content: AnyObject;
+  content: TDashboardContent;
 };
 
 export type DeleteContentPayloadType = {

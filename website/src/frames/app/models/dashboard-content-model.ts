@@ -1,22 +1,22 @@
-import { AnyObject } from '@devtable/dashboard';
+import { TDashboardContent } from '@devtable/dashboard';
 import axios from 'axios';
 import _ from 'lodash';
 import { autorun, reaction } from 'mobx';
-import { addDisposer, flow, Instance, toGenerator, types } from 'mobx-state-tree';
+import { Instance, addDisposer, flow, toGenerator, types } from 'mobx-state-tree';
 import { APICaller } from '../../../api-caller';
 import { DashboardContentDBType } from '../../../api-caller/dashboard-content.types';
 
 export const DashboardContentModel = types
   .model({
     id: types.maybeNull(types.string),
-    data: types.frozen<AnyObject>(),
+    data: types.frozen<TDashboardContent | null>(),
     fullData: types.frozen<DashboardContentDBType | null>(),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
   .views((self) => ({
     get loaded() {
-      return self.state === 'idle' && Object.keys(self.data).length > 0;
+      return self.state === 'idle' && self.data !== null && Object.keys(self.data).length > 0;
     },
   }))
   .volatile(() => ({
@@ -45,7 +45,7 @@ export const DashboardContentModel = types
         self.error = null;
       } catch (error) {
         if (!axios.isCancel(error)) {
-          self.data = {};
+          self.data = null;
           self.fullData = null;
           const fallback = _.get(error, 'message', 'unkown error');
           self.error = _.get(error, 'response.data.detail.message', fallback) as unknown as string;
