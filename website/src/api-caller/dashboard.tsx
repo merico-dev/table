@@ -1,5 +1,5 @@
 import { IDashboard } from '@devtable/dashboard';
-import { IDBDashboard, TDashboardMetaInfo } from './dashboard.typed';
+import { TDashboardMetaInfo } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
@@ -44,21 +44,12 @@ export const dashboard = {
   details: async (id: string, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
     return post(signal)(`/dashboard/details`, { id });
   },
-  update: async (
-    { id, name, group, definition, views, panels, filters, version }: IDashboard,
-    signal?: AbortSignal,
-  ): Promise<TDashboardMetaInfo> => {
+  update: async ({ id, name, group, content_id }: IDashboard, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
     const payload = {
       id,
       name,
       group,
-      content: {
-        views,
-        panels,
-        filters,
-        version,
-        definition,
-      },
+      content_id,
     };
     return put(signal)('/dashboard/update', payload);
   },

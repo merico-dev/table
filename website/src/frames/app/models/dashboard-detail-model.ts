@@ -14,10 +14,7 @@ export const DashboardDetailModel = types
   .views((self) => ({
     get dashboard() {
       const snap = getSnapshot(self);
-      return normalizeDBDashboard({
-        ...snap,
-        content: snap.content.data,
-      });
+      return normalizeDBDashboard(snap);
     },
   }));
 

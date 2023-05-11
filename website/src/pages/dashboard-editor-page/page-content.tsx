@@ -29,11 +29,8 @@ export const DashboardEditorPageContent = observer(
           if (result) {
             console.log({ result });
             const d = dashboardModelRef.current?.json;
-            if (d) {
-              dashboardModelRef.current?.updateCurrent({
-                ...d,
-                ...result,
-              });
+            if (d && result) {
+              dashboardModelRef.current?.updateCurrent(d, result);
             }
           }
         },
