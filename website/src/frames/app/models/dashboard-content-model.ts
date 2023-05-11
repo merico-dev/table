@@ -18,6 +18,9 @@ export const DashboardContentModel = types
     get loaded() {
       return self.state === 'idle' && self.data !== null && Object.keys(self.data).length > 0;
     },
+    get loading() {
+      return self.state === 'loading';
+    },
   }))
   .volatile(() => ({
     controller: new AbortController(),

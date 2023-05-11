@@ -44,7 +44,6 @@ export const DashboardPageContent = observer(() => {
     );
   }
 
-  console.log(store.currentDetail.content.fullData);
   if (!store.currentDetail?.content.fullData) {
     return (
       <div className="dashboard-page-content">

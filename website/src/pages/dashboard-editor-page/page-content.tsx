@@ -70,6 +70,7 @@ export const DashboardEditorPageContent = observer(
         onChange={rebaseModel.setLocalWithDashboard}
         context={context}
         dashboard={dashboardModel.dashboard}
+        content={dashboardModel.content.fullData}
         update={updateDashboard}
         config={DashboardConfig}
         headerSlot={<MoreDashboardInfo />}
