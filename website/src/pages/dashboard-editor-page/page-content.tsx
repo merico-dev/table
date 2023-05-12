@@ -1,4 +1,4 @@
-import { Dashboard, IDashboard } from '@devtable/dashboard';
+import { DashboardEditor, IDashboard } from '@devtable/dashboard';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -65,7 +65,7 @@ export const DashboardEditorPageContent = observer(
     console.log(dashboardModel.dashboard);
 
     return (
-      <Dashboard
+      <DashboardEditor
         ref={dashboardModelRef}
         onChange={rebaseModel.setLocalWithDashboard}
         context={context}
