@@ -53,7 +53,6 @@ interface IDashboardProps {
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
-  headerMenuItems?: React.ReactNode;
 }
 
 export interface IDashboardModel {
@@ -63,17 +62,7 @@ export interface IDashboardModel {
 }
 
 const _DashboardEditor = (
-  {
-    context,
-    dashboard,
-    content,
-    update,
-    className = 'dashboard',
-    config,
-    onChange,
-    headerSlot,
-    headerMenuItems,
-  }: IDashboardProps,
+  { context, dashboard, content, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
   ref: ForwardedRef<IDashboardModel>,
 ) => {
   useLoadMonacoEditor(config.monacoPath);
@@ -128,13 +117,7 @@ const _DashboardEditor = (
               <ServiceLocatorProvider configure={configureServices}>
                 <AppShell
                   padding={0}
-                  header={
-                    <DashboardEditorHeader
-                      saveDashboardChanges={saveDashboardChanges}
-                      headerSlot={headerSlot}
-                      headerMenuItems={headerMenuItems}
-                    />
-                  }
+                  header={<DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} headerSlot={headerSlot} />}
                   navbar={<DashboardEditorNavbar />}
                   styles={AppShellStyles}
                 >

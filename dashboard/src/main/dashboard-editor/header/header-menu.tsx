@@ -1,14 +1,10 @@
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCode, IconDownload, IconHistory, IconMenu2 } from '@tabler/icons';
+import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
 import { downloadJSON } from '~/utils/download';
 
-interface IHeaderMenu {
-  headerMenuItems?: React.ReactNode;
-}
-
-export const HeaderMenu = observer(({ headerMenuItems }: IHeaderMenu) => {
+export const HeaderMenu = observer(() => {
   const model = useContentModelContext();
 
   const downloadSchema = () => {
@@ -31,13 +27,6 @@ export const HeaderMenu = observer(({ headerMenuItems }: IHeaderMenu) => {
         <Menu.Item icon={<IconCode size={14} />} onClick={downloadSchema}>
           Download Schema
         </Menu.Item>
-
-        <Menu.Divider />
-
-        <Menu.Item icon={<IconHistory size={14} />} onClick={() => console.log('TODO')}>
-          History
-        </Menu.Item>
-        {headerMenuItems}
       </Menu.Dropdown>
     </Menu>
   );
