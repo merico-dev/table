@@ -1,14 +1,14 @@
-import { ActionIcon, Button, Group, Header as MantineHeader, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Group, Header as MantineHeader, Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconAlertTriangle, IconArrowLeft, IconDeviceFloppy, IconPlaylistAdd, IconRecycle } from '@tabler/icons';
+import { IconAlertTriangle, IconArrowLeft, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
+import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContentModelContext } from '~/contexts';
 import { HeaderMenu } from './header-menu';
-import { ReactNode } from 'react';
+import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
 
-export interface IDashbaordEditorHeaderMain {
-  saveDashboardChanges: () => void;
+export interface IDashbaordEditorHeaderMain extends ISaveChangesOrMore {
   headerSlot?: ReactNode;
 }
 
@@ -38,23 +38,6 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
     });
   };
 
-  const revertWithConfirmation = () => {
-    modals.openConfirmModal({
-      title: (
-        <Group position="left">
-          <IconAlertTriangle size={18} color="red" />
-          <Text>You are reverting changes</Text>
-        </Group>
-      ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      confirmProps: { color: 'red' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.reset(),
-      zIndex: 320,
-      withCloseButton: false,
-    });
-  };
-
   const hasChanges = model.changed;
 
   return (
@@ -73,23 +56,7 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
             </Group>
           </Button>
 
-          <Group spacing={16}>
-            <Tooltip label="Revert Changes" withinPortal>
-              <ActionIcon variant="default" size="md" disabled={!hasChanges} onClick={revertWithConfirmation}>
-                <IconRecycle size={20} color="red" />
-              </ActionIcon>
-            </Tooltip>
-            <Button
-              color="green"
-              variant="filled"
-              size="xs"
-              leftIcon={<IconDeviceFloppy size={18} />}
-              onClick={saveDashboardChanges}
-              disabled={!hasChanges}
-            >
-              Save Changes
-            </Button>
-          </Group>
+          <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
         </Group>
         <Group position="right">
           {headerSlot}
