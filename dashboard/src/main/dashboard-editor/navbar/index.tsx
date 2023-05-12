@@ -30,25 +30,28 @@ export const DashboardEditorNavbar = observer(() => {
   const closeInteractions = () => setInteractionsOpened(false);
 
   return (
-    <MantineNavbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
+    <MantineNavbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }} zIndex={299}>
       <MantineNavbar.Section>
         <Group
           grow
           spacing={0}
-          sx={{ ...ActionIconGroupStyle, button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' } }}
+          sx={{
+            ...ActionIconGroupStyle,
+            button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' },
+          }}
         >
           <Tooltip label="Filters" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openFilters}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openFilters}>
               <IconFilter size={20} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Queries" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openQueries}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
               <IconDatabase size={20} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Interactions Viewer" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openInteractions}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
               <IconLink size={20} />
             </ActionIcon>
           </Tooltip>

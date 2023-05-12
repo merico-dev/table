@@ -39,7 +39,7 @@ const AppShellStyles = {
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 60,
+    paddingTop: 60 + 30, // main header & sub header
     height: '100vh',
   },
 } as const;
