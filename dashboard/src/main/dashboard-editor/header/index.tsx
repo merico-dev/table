@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContentModelContext } from '~/contexts';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { downloadJSON } from '~/utils/download';
+import { HeaderMenu } from './header-menu';
 
 interface IDashboardEditorHeader {
   saveDashboardChanges: () => void;
@@ -86,9 +87,7 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges, headerSlo
               <Text td="underline">{model.name}</Text>
             </Group>
           </Button>
-        </Group>
-        {headerSlot}
-        <Group position="right">
+
           <Button
             variant="filled"
             size="xs"
@@ -98,19 +97,6 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges, headerSlo
           >
             Add a Panel
           </Button>
-
-          <Group spacing={0} sx={ActionIconGroupStyle}>
-            <Tooltip label="Download Schema" withinPortal>
-              <ActionIcon variant="default" size="md" onClick={downloadSchema}>
-                <IconCode size={18} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Download Data" withinPortal>
-              <ActionIcon variant="default" size="md" onClick={model.queries.downloadAllData}>
-                <IconDownload size={18} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
 
           <Group spacing={16}>
             <Tooltip label="Revert Changes" withinPortal>
@@ -129,6 +115,10 @@ export const DashboardEditorHeader = observer(({ saveDashboardChanges, headerSlo
               Save Changes
             </Button>
           </Group>
+        </Group>
+        <Group position="right">
+          {headerSlot}
+          <HeaderMenu />
         </Group>
       </Group>
     </MantineHeader>
