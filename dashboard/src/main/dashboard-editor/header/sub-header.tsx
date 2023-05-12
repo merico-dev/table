@@ -11,6 +11,7 @@ const SubHeaderSx: Sx = {
   height: 30,
   zIndex: 299,
   borderBottom: '1px solid #e9ecef',
+  background: 'rgba(233,236,239, 0.15)',
 };
 
 export const SubHeader = observer(() => {

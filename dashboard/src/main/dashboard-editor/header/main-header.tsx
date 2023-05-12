@@ -59,7 +59,7 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
 
   return (
     <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
-      <Group position="apart" sx={{ height: 60, position: 'relative' }}>
+      <Group position="apart" sx={{ height: 60, minWidth: '1000px', position: 'relative' }}>
         <Group>
           <Button
             size="xs"
