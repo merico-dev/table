@@ -92,8 +92,8 @@ export function getNewPanel(id: string): PanelModelSnapshotIn {
     layout: {
       x: 0,
       y: Infinity, // puts it at the bottom
-      w: 3,
-      h: 15,
+      w: 18,
+      h: 300,
     },
     title: id,
     description: '<p></p>',
