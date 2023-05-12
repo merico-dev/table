@@ -62,101 +62,101 @@ export interface IDashboardModel {
   updateCurrentContent: (content: DashboardContentDBType) => void;
 }
 
-export const Dashboard = observer(
-  forwardRef(function _Dashboard(
-    {
-      context,
-      dashboard,
-      content,
-      update,
-      className = 'dashboard',
-      config,
-      onChange,
-      headerSlot,
-      headerMenuItems,
-    }: IDashboardProps,
-    ref: ForwardedRef<IDashboardModel>,
-  ) {
-    useLoadMonacoEditor(config.monacoPath);
-    configureAPIClient(config);
+const _DashboardEditor = (
+  {
+    context,
+    dashboard,
+    content,
+    update,
+    className = 'dashboard',
+    config,
+    onChange,
+    headerSlot,
+    headerMenuItems,
+  }: IDashboardProps,
+  ref: ForwardedRef<IDashboardModel>,
+) => {
+  useLoadMonacoEditor(config.monacoPath);
+  configureAPIClient(config);
 
-    const { data: datasources = [] } = useRequest(listDataSources);
+  const { data: datasources = [] } = useRequest(listDataSources);
 
-    const [layoutFrozen, freezeLayout] = React.useState(false);
+  const [layoutFrozen, freezeLayout] = React.useState(false);
 
-    const model = React.useMemo(
-      () => createDashboardModel(dashboard, content, datasources, context),
-      [dashboard, content],
+  const model = React.useMemo(
+    () => createDashboardModel(dashboard, content, datasources, context),
+    [dashboard, content],
+  );
+  React.useImperativeHandle(ref, () => model, [model]);
+  useInteractionOperationHacks(model.content, true);
+
+  React.useEffect(() => {
+    model.context.replace(context);
+  }, [context]);
+
+  React.useEffect(() => {
+    model.datasources.replace(datasources);
+  }, [datasources]);
+
+  React.useEffect(() => {
+    return reaction(
+      () => toJS(model.json),
+      (json) => {
+        onChange?.(json);
+      },
     );
-    React.useImperativeHandle(ref, () => model, [model]);
-    useInteractionOperationHacks(model.content, true);
+  }, [model]);
 
-    React.useEffect(() => {
-      model.context.replace(context);
-    }, [context]);
+  const saveDashboardChanges = async () => {
+    await update(model.json);
+  };
 
-    React.useEffect(() => {
-      model.datasources.replace(datasources);
-    }, [datasources]);
-
-    React.useEffect(() => {
-      return reaction(
-        () => toJS(model.json),
-        (json) => {
-          onChange?.(json);
-        },
-      );
-    }, [model]);
-
-    const saveDashboardChanges = async () => {
-      await update(model.json);
-    };
-
-    const pluginContext = useCreation(createPluginContext, []);
-    const configureServices = useTopLevelServices(pluginContext);
-    return (
-      <ModalsProvider>
-        <ModelContextProvider value={model}>
-          <ContentModelContextProvider value={model.content}>
-            <LayoutStateContext.Provider
-              value={{
-                layoutFrozen,
-                freezeLayout,
-                inEditMode: true,
-              }}
-            >
-              <PluginContext.Provider value={pluginContext}>
-                <ServiceLocatorProvider configure={configureServices}>
-                  <AppShell
-                    padding={0}
-                    header={
-                      <DashboardEditorHeader
-                        saveDashboardChanges={saveDashboardChanges}
-                        headerSlot={headerSlot}
-                        headerMenuItems={headerMenuItems}
-                      />
-                    }
-                    navbar={<DashboardEditorNavbar />}
-                    styles={AppShellStyles}
+  const pluginContext = useCreation(createPluginContext, []);
+  const configureServices = useTopLevelServices(pluginContext);
+  return (
+    <ModalsProvider>
+      <ModelContextProvider value={model}>
+        <ContentModelContextProvider value={model.content}>
+          <LayoutStateContext.Provider
+            value={{
+              layoutFrozen,
+              freezeLayout,
+              inEditMode: true,
+            }}
+          >
+            <PluginContext.Provider value={pluginContext}>
+              <ServiceLocatorProvider configure={configureServices}>
+                <AppShell
+                  padding={0}
+                  header={
+                    <DashboardEditorHeader
+                      saveDashboardChanges={saveDashboardChanges}
+                      headerSlot={headerSlot}
+                      headerMenuItems={headerMenuItems}
+                    />
+                  }
+                  navbar={<DashboardEditorNavbar />}
+                  styles={AppShellStyles}
+                >
+                  <Box
+                    className={`${className} dashboard-root`}
+                    sx={{
+                      position: 'relative',
+                    }}
                   >
-                    <Box
-                      className={`${className} dashboard-root`}
-                      sx={{
-                        position: 'relative',
-                      }}
-                    >
-                      {model.content.views.visibleViews.map((view) => (
-                        <DashboardViewEditor key={view.id} view={view} />
-                      ))}
-                    </Box>
-                  </AppShell>
-                  <Settings />
-                </ServiceLocatorProvider>
-              </PluginContext.Provider>
-            </LayoutStateContext.Provider>
-          </ContentModelContextProvider>
-        </ModelContextProvider>
-      </ModalsProvider>
-    );
-  }),
-);
+                    {model.content.views.visibleViews.map((view) => (
+                      <DashboardViewEditor key={view.id} view={view} />
+                    ))}
+                  </Box>
+                </AppShell>
+                <Settings />
+              </ServiceLocatorProvider>
+            </PluginContext.Provider>
+          </LayoutStateContext.Provider>
+        </ContentModelContextProvider>
+      </ModelContextProvider>
+    </ModalsProvider>
+  );
+};
+
+export const DashboardEditor = observer(forwardRef(_DashboardEditor));
