@@ -64,7 +64,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddV
   };
 
   return (
-    <Group spacing={1}>
+    <Group spacing={0}>
       <Menu
         shadow="md"
         width={200}
@@ -115,6 +115,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddV
           height: '30px',
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
+          borderLeft: '1px solid #dedede',
         }}
       >
         <IconSettings size={18} />
