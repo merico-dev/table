@@ -15,35 +15,39 @@ interface IEditVersionInfoModal {
   close: () => void;
   dashboardName: string;
   content: DashboardContentDBType;
+  postSubmit: () => void;
 }
 
-export const EditVersionInfoModal = observer(({ opened, close, dashboardName, content }: IEditVersionInfoModal) => {
-  const { store } = useDashboardStore();
-  const closeAndUpdateVersionInfo = (name: string) => {
-    store.currentDetail?.content.setName(name);
-    close();
-  };
-  return (
-    <Modal
-      opened={opened}
-      onClose={close}
-      closeOnEscape={false}
-      title={
-        <Group position="apart" sx={{ flexGrow: 1 }}>
-          <Text fw={500}>Edit Version</Text>
-          <Group spacing={7}>
-            <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-              Dashboard: {dashboardName}
-            </Badge>
+export const EditVersionInfoModal = observer(
+  ({ opened, close, dashboardName, content, postSubmit }: IEditVersionInfoModal) => {
+    const { store } = useDashboardStore();
+    const closeAndUpdateVersionInfo = (name: string) => {
+      store.currentDetail?.content.setName(name);
+      postSubmit();
+      close();
+    };
+    return (
+      <Modal
+        opened={opened}
+        onClose={close}
+        closeOnEscape={false}
+        title={
+          <Group position="apart" sx={{ flexGrow: 1 }}>
+            <Text fw={500}>Edit Version</Text>
+            <Group spacing={7}>
+              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+                Dashboard: {dashboardName}
+              </Badge>
+            </Group>
           </Group>
-        </Group>
-      }
-      zIndex={320}
-      size="450px"
-      overflow="inside"
-      styles={modalStyles}
-    >
-      <EditVersionInfo postSubmit={closeAndUpdateVersionInfo} {...content} />
-    </Modal>
-  );
-});
+        }
+        zIndex={320}
+        size="450px"
+        overflow="inside"
+        styles={modalStyles}
+      >
+        <EditVersionInfo postSubmit={closeAndUpdateVersionInfo} {...content} />
+      </Modal>
+    );
+  },
+);

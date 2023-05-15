@@ -1,5 +1,6 @@
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 import { EditVersionInfoModal } from './edit-version-info-modal';
 import { SwitchOrAddVersion } from './switch-or-add-version';
@@ -7,7 +8,7 @@ import { SwitchOrAddVersion } from './switch-or-add-version';
 export const ContentVersionManager = observer(() => {
   const { store } = useDashboardStore();
   const content = store.currentDetail?.content.fullData;
-
+  const [reloadOptionsTrigger, setReloadOptionsTrigger] = useState(1);
   const [opened, { setTrue, setFalse }] = useBoolean(false);
 
   if (!content) {
@@ -22,8 +23,14 @@ export const ContentVersionManager = observer(() => {
 
   return (
     <>
-      <EditVersionInfoModal opened={opened} close={setFalse} content={content} dashboardName={dashboardName} />
-      <SwitchOrAddVersion openEdit={setTrue} content={content} />
+      <EditVersionInfoModal
+        opened={opened}
+        close={setFalse}
+        content={content}
+        dashboardName={dashboardName}
+        postSubmit={() => setReloadOptionsTrigger((v) => v + 1)}
+      />
+      <SwitchOrAddVersion openEdit={setTrue} content={content} reloadOptionsTrigger={reloadOptionsTrigger} />
     </>
   );
 });

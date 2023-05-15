@@ -10,9 +10,10 @@ import { useNavigate } from 'react-router-dom';
 interface ISwitchOrAddVersion {
   openEdit: () => void;
   content: DashboardContentDBType;
+  reloadOptionsTrigger: number;
 }
 
-export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddVersion) => {
+export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTrigger }: ISwitchOrAddVersion) => {
   const navigate = useNavigate();
   const { store } = useDashboardStore();
   const dashboardID = store.currentID;
@@ -33,7 +34,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddV
       return ret.data;
     },
     {
-      refreshDeps: [dashboardID],
+      refreshDeps: [dashboardID, reloadOptionsTrigger],
     },
   );
 
