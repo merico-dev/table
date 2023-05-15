@@ -53,6 +53,9 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
       });
     }
   };
+  // TODO: delete a version
+  // TODO: set as default
+
   return (
     <Box p="md">
       <ErrorBoundary>

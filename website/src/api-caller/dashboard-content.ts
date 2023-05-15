@@ -18,7 +18,7 @@ export const dashboard_content = {
       filter,
       sort: [
         {
-          field: 'update_time',
+          field: 'create_time',
           order: 'DESC',
         },
       ],

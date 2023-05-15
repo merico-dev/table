@@ -1,5 +1,5 @@
 import { DashboardContentDBType, initialDashboardContent } from '@devtable/dashboard';
-import { ActionIcon, Button, Group, Menu } from '@mantine/core';
+import { ActionIcon, Badge, Button, Group, Menu, Text } from '@mantine/core';
 import { IconPlaylistAdd, IconSettings, IconVersions } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
@@ -64,11 +64,14 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
     navigate(`/dashboard/${dashboardID}/edit/${id}`);
   };
 
+  const getIsPublished = (id: string) => {
+    return store.currentDetail?.content_id === id;
+  };
   return (
     <Group spacing={0}>
       <Menu
         shadow="md"
-        width={200}
+        width={300}
         trigger="hover"
         openDelay={100}
         closeDelay={400}
@@ -91,6 +94,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
           <Menu.Label>Switch version</Menu.Label>
           {data.map((d) => {
             const isCurrent = currentContentID === d.id;
+            const isPublished = getIsPublished(d.id);
             return (
               <Menu.Item
                 key={d.id}
@@ -98,12 +102,20 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
                 sx={{ cursor: isCurrent ? 'default' : 'pointer' }}
                 onClick={() => switchContent(d.id)}
               >
-                {d.name}
+                <Group position="apart">
+                  <Text>{d.name}</Text>
+
+                  {isPublished && (
+                    <Badge size="xs" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+                      Default
+                    </Badge>
+                  )}
+                </Group>
               </Menu.Item>
             );
           })}
           <Menu.Divider />
-          <Menu.Item color="blue" icon={<IconPlaylistAdd size={18} />} onClick={addVersion}>
+          <Menu.Item color="blue" icon={<IconPlaylistAdd size={18} />} onClick={addVersion} py={6}>
             Add a version
           </Menu.Item>
         </Menu.Dropdown>
