@@ -49,7 +49,7 @@ interface IDashboardProps {
   dashboard: IDashboard;
   content: DashboardContentDBType;
   className?: string;
-  update: (dashboard: IDashboard) => Promise<void>;
+  update: (d: IDashboard, c: DashboardContentDBType) => Promise<void>;
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
@@ -97,7 +97,7 @@ const _DashboardEditor = (
   }, [model]);
 
   const saveDashboardChanges = async () => {
-    await update(model.json);
+    await update(model.json, model.content.json);
   };
 
   const pluginContext = useCreation(createPluginContext, []);
