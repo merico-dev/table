@@ -76,7 +76,7 @@ export const DashboardStore = types
         ...detail,
         content: {
           id: detail.content_id,
-          data: {},
+          data: null,
           fullData: null,
         },
       };
@@ -97,7 +97,7 @@ export const DashboardStore = types
           ...data,
           content: {
             id: data.content_id,
-            data: {},
+            data: null,
             fullData: null,
           },
         });

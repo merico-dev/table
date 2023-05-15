@@ -5,12 +5,13 @@ import { observer } from 'mobx-react-lite';
 import { EditVersionInfoModal } from './edit-version-info-modal';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 import { APICaller } from '../../../../api-caller';
+import { initialDashboardContent } from '@devtable/dashboard';
 
 export const ContentVersionManager = observer(() => {
   const { store } = useDashboardStore();
   const content = store.currentDetail?.content.fullData;
   const dashboardID = store.currentID;
-  const currentContentID = store.currentDetail?.content_id;
+  const currentContentID = store.currentDetail?.content.id;
 
   const [opened, { setTrue, setFalse }] = useBoolean(false);
 
@@ -33,6 +34,22 @@ export const ContentVersionManager = observer(() => {
     },
   );
 
+  const { run: addVersion, ...addVersionState } = useRequest(
+    async () => {
+      const c = await APICaller.dashboard_content.create({
+        dashboard_id: dashboardID,
+        name: new Date().getTime().toString(),
+        content: content?.content ? content.content : initialDashboardContent,
+      });
+      if (c) {
+        store.currentDetail?.content.setID(c.id);
+      }
+    },
+    {
+      manual: true,
+    },
+  );
+
   if (!content) {
     return null;
   }
@@ -50,6 +67,7 @@ export const ContentVersionManager = observer(() => {
 
     console.log('TODO:  switchContent ', id);
   };
+
   return (
     <>
       <EditVersionInfoModal opened={opened} close={setFalse} content={content} dashboardName={dashboardName} />
@@ -63,7 +81,7 @@ export const ContentVersionManager = observer(() => {
           closeDelay={400}
           withinPortal
           zIndex={320}
-          disabled={loading}
+          disabled={loading || addVersionState.loading}
         >
           <Menu.Target>
             <Button
@@ -92,7 +110,7 @@ export const ContentVersionManager = observer(() => {
               );
             })}
             <Menu.Divider />
-            <Menu.Item color="blue" icon={<IconPlaylistAdd size={18} />}>
+            <Menu.Item color="blue" icon={<IconPlaylistAdd size={18} />} onClick={addVersion}>
               Add a version
             </Menu.Item>
           </Menu.Dropdown>

@@ -10,7 +10,7 @@ export const DashboardContentModel = types
   .model({
     id: types.maybeNull(types.string),
     data: types.frozen<TDashboardContent | null>(),
-    fullData: types.frozen<DashboardContentDBType | null>(),
+    fullData: types.frozen<DashboardContentDBType | null>(null),
     state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
     error: types.frozen(),
   })
