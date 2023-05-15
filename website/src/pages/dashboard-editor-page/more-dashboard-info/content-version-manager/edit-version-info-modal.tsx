@@ -1,8 +1,7 @@
+import { DashboardContentDBType } from '@devtable/dashboard';
 import { Badge, Box, Group, Modal, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 import { EditVersionInfo } from './edit-version-info';
-import { DashboardContentDBType } from '@devtable/dashboard';
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },

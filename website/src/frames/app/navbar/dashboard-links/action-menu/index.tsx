@@ -19,7 +19,7 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
   const { account } = useAccountContext();
 
   const visitDashboardDesign = () => {
-    navigate(`/dashboard/${model.id}/edit`);
+    navigate(`/dashboard/${model.id}/edit/${model.content_id}`);
   };
   if (preset) {
     return (

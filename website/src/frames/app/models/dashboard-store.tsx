@@ -9,6 +9,7 @@ export const DashboardStore = types
   .model('DashboardStore', {
     list: types.array(DashboardBriefModel),
     currentID: types.optional(types.string, ''),
+    currentContentID: types.optional(types.string, ''),
     currentDetail: types.maybe(DashboardDetailModel),
     loading: types.boolean,
     detailsLoading: types.boolean,
@@ -56,6 +57,9 @@ export const DashboardStore = types
     setCurrentID(id?: string) {
       self.currentID = id ?? '';
     },
+    setCurrentContentID(id?: string) {
+      self.currentContentID = id ?? '';
+    },
   }))
   .actions((self) => ({
     load: flow(function* () {
@@ -87,16 +91,20 @@ export const DashboardStore = types
       applySnapshot(self.currentDetail, snapshot);
     },
     loadCurrentDetail: flow(function* () {
+      if (!self.currentID) {
+        return;
+      }
       self.setDetailLoading(true);
       try {
         const data = yield* toGenerator(APICaller.dashboard.details(self.currentID));
         if (!('content_id' in data)) {
           throw new Error('failed to load dashboard detail');
         }
+        const content_id = self.currentContentID ? self.currentContentID : data.content_id;
         self.currentDetail = DashboardDetailModel.create({
           ...data,
           content: {
-            id: data.content_id,
+            id: content_id,
             data: null,
             fullData: null,
           },

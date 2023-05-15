@@ -42,7 +42,7 @@ export const dashboard_content = {
       return null;
     }
   },
-  create: async (payload: CreateContentPayloadType, signal?: AbortSignal): Promise<DashboardContentDBType | null> => {
+  create: async (payload: CreateContentPayloadType, signal?: AbortSignal): Promise<DashboardContentDBType> => {
     const resp: DashboardContentDBType = await post(signal)('/dashboard_content/create', payload);
     return resp;
   },
