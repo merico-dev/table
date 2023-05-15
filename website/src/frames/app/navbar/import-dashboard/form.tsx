@@ -10,12 +10,12 @@ import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-
 
 const cleanContent = (temp: TDashboardContent_Temp) => {
   if (!temp) {
-    return null;
+    throw new Error('Unexpected empty file');
   }
-  const { id, name, group, ...content } = temp;
-  return {
-    ...content,
-  };
+  if (!temp.content) {
+    throw new Error('Unexpected null content');
+  }
+  return temp.content;
 };
 
 type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
@@ -54,9 +54,14 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      // WIP
-      // const finalContent = cleanContent(content);
-      const { id } = await APICaller.dashboard.create(name, '');
+      const d = await APICaller.dashboard.create(name, '');
+      const finalContent = cleanContent(content);
+      const c = await APICaller.dashboard_content.create({
+        dashboard_id: d.id,
+        name: 'v1',
+        content: finalContent,
+      });
+      await APICaller.dashboard.update({ ...d, content_id: c.id });
       updateNotification({
         id: 'for-creating',
         title: 'Successful',
@@ -64,7 +69,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
         color: 'green',
       });
       postSubmit();
-      navigate(`/dashboard/${id}`);
+      navigate(`/dashboard/${d.id}/edit/${c.id}`);
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
