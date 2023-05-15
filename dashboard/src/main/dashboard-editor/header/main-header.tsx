@@ -4,7 +4,7 @@ import { IconAlertTriangle, IconArrowLeft } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContentModelContext } from '~/contexts';
+import { useModelContext } from '~/contexts';
 import { HeaderMenu } from './header-menu';
 import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
 
@@ -14,7 +14,7 @@ export interface IDashbaordEditorHeaderMain extends ISaveChangesOrMore {
 
 export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }: IDashbaordEditorHeaderMain) => {
   const navigate = useNavigate();
-  const model = useContentModelContext();
+  const model = useModelContext();
 
   const goBack = () => {
     navigate(`/dashboard/${model.id}`);
@@ -38,7 +38,7 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
     });
   };
 
-  const hasChanges = model.changed;
+  const hasChanges = model.content.changed;
 
   return (
     <MantineHeader height={60} px="md" py={0} sx={{ zIndex: 299 }}>
