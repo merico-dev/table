@@ -15,7 +15,7 @@ export const HeaderMenu = observer(() => {
   return (
     <Menu shadow="md" width={200} trigger="hover" openDelay={100} closeDelay={400}>
       <Menu.Target>
-        <ActionIcon>
+        <ActionIcon variant="light" color="blue">
           <IconMenu2 size={14} />
         </ActionIcon>
       </Menu.Target>
