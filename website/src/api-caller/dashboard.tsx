@@ -3,26 +3,6 @@ import { TDashboardMetaInfo } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
-// WIP
-const InitialDashboardContent = {
-  definition: {
-    sqlSnippets: [],
-    queries: [],
-    mock_context: {},
-  },
-  views: [
-    {
-      id: 'Main',
-      name: 'Main',
-      type: 'div',
-      config: {},
-    },
-  ],
-  panels: [],
-  filters: [],
-  version: '8.57.0',
-};
-
 export const dashboard = {
   list: async (signal?: AbortSignal): Promise<PaginationResponse<TDashboardMetaInfo>> => {
     return await post(signal)('/dashboard/list', {
