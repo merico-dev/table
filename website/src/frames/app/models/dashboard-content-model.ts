@@ -26,6 +26,15 @@ export const DashboardContentModel = types
     controller: new AbortController(),
   }))
   .actions((self) => ({
+    setName(name: string) {
+      if (!self.fullData) {
+        throw new Error('Dashboard content is not loaded');
+      }
+      self.fullData = {
+        ...self.fullData,
+        name,
+      };
+    },
     setID(id: string) {
       self.id = id;
     },

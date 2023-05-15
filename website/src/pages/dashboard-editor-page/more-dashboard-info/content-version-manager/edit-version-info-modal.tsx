@@ -1,15 +1,13 @@
 import { DashboardContentDBType } from '@devtable/dashboard';
-import { Badge, Box, Group, Modal, Text } from '@mantine/core';
+import { Badge, Group, Modal, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { EditVersionInfo } from './edit-version-info';
+import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },
   header: { marginBottom: 0, padding: '0 20px 10px', borderBottom: '1px solid #efefef' },
   title: { flexGrow: 1 },
-  body: {
-    padding: '0 0 0 20px',
-  },
 };
 
 interface IEditVersionInfoModal {
@@ -20,6 +18,11 @@ interface IEditVersionInfoModal {
 }
 
 export const EditVersionInfoModal = observer(({ opened, close, dashboardName, content }: IEditVersionInfoModal) => {
+  const { store } = useDashboardStore();
+  const closeAndUpdateVersionInfo = (name: string) => {
+    store.currentDetail?.content.setName(name);
+    close();
+  };
   return (
     <Modal
       opened={opened}
@@ -36,13 +39,11 @@ export const EditVersionInfoModal = observer(({ opened, close, dashboardName, co
         </Group>
       }
       zIndex={320}
-      size="800px"
+      size="450px"
       overflow="inside"
       styles={modalStyles}
     >
-      <Box sx={{ height: '600px' }}>
-        <EditVersionInfo {...content} />
-      </Box>
+      <EditVersionInfo postSubmit={closeAndUpdateVersionInfo} {...content} />
     </Modal>
   );
 });

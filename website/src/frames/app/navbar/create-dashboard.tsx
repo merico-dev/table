@@ -122,7 +122,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     } catch (error) {
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
+        title: 'Failed',
         // @ts-expect-error type of error
         message: error.message,
         color: 'red',
