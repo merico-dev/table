@@ -38,7 +38,7 @@ export type CreateContentPayloadType = {
 export type UpdateContentPayloadType = {
   id: string;
   name: string;
-  content: TDashboardContent;
+  content: TDashboardContent | null;
 };
 
 export type DeleteContentPayloadType = {

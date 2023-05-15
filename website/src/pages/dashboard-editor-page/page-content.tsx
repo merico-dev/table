@@ -1,4 +1,4 @@
-import { DashboardEditor, IDashboard } from '@devtable/dashboard';
+import { DashboardContentDBType, DashboardEditor, IDashboard } from '@devtable/dashboard';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -37,22 +37,37 @@ export const DashboardEditorPageContent = observer(
       );
     }, [rebaseModel, dashboardModelRef]);
 
-    const updateDashboard = async (d: IDashboard) => {
+    const updateDashboard = async (d: IDashboard, c: DashboardContentDBType) => {
       showNotification({
         id: 'for-updating',
         title: 'Pending',
-        message: 'Updating dashboard...',
+        message: 'Updating dashboard content...',
         loading: true,
       });
-      const result = await APICaller.dashboard.update(d);
-      updateNotification({
-        id: 'for-updating',
-        title: 'Successful',
-        message: 'This dashboard is updated',
-        color: 'green',
-      });
-      store.setCurrentDetail(result);
-      refresh();
+      try {
+        if (!c.content) {
+          throw new Error('Unexpected null content');
+        }
+        await APICaller.dashboard_content.update({
+          ...store.currentDetail?.content.fullData,
+          ...c,
+        });
+        updateNotification({
+          id: 'for-updating',
+          title: 'Successful',
+          message: 'This dashboard is updated',
+          color: 'green',
+        });
+        await store.currentDetail?.content.load();
+      } catch (error) {
+        updateNotification({
+          id: 'for-updating',
+          title: 'Successful',
+          // @ts-expect-error type of error
+          message: error.message,
+          color: 'green',
+        });
+      }
     };
 
     if (!rebaseModel) {
@@ -61,8 +76,6 @@ export const DashboardEditorPageContent = observer(
     if (!dashboardModel.content.loaded) {
       return null;
     }
-
-    console.log(dashboardModel.dashboard);
 
     return (
       <DashboardEditor
