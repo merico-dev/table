@@ -65,7 +65,7 @@ export const ContentVersionManager = observer(() => {
       return;
     }
 
-    console.log('TODO:  switchContent ', id);
+    store.currentDetail?.content.setID(id);
   };
 
   return (
