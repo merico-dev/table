@@ -1,13 +1,12 @@
-import { ActionIcon, Button, Group, Header as MantineHeader, Menu, Text } from '@mantine/core';
+import { Button, Group, Header as MantineHeader, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconAlertTriangle, IconArrowLeft, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons';
+import { IconAlertTriangle, IconArrowLeft } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContentModelContext } from '~/contexts';
 import { HeaderMenu } from './header-menu';
 import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
-import { ContentVersionManager } from './content-version-manager';
 
 export interface IDashbaordEditorHeaderMain extends ISaveChangesOrMore {
   headerSlot?: ReactNode;
@@ -58,8 +57,6 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
           </Button>
 
           <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
-
-          <ContentVersionManager />
         </Group>
         <Group position="right">
           {headerSlot}

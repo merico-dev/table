@@ -116,3 +116,5 @@ export const DashboardStore = types
       );
     },
   }));
+
+export type DashboardStoreInstance = typeof DashboardStore.Type;
