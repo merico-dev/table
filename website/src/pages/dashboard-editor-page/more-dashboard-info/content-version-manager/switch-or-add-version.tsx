@@ -5,6 +5,7 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../api-caller';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
+import { useNavigate } from 'react-router-dom';
 
 interface ISwitchOrAddVersion {
   openEdit: () => void;
@@ -12,6 +13,7 @@ interface ISwitchOrAddVersion {
 }
 
 export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddVersion) => {
+  const navigate = useNavigate();
   const { store } = useDashboardStore();
   const dashboardID = store.currentID;
   const currentContentID = store.currentDetail?.content.id;
@@ -44,6 +46,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddV
       });
       if (c) {
         store.currentDetail?.content.setID(c.id);
+        navigate(`/dashboard/${dashboardID}/edit/${c.id}`);
       }
     },
     {
@@ -57,6 +60,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content }: ISwitchOrAddV
     }
 
     store.currentDetail?.content.setID(id);
+    navigate(`/dashboard/${dashboardID}/edit/${id}`);
   };
 
   return (
