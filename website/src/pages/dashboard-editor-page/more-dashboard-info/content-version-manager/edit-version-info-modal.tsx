@@ -21,8 +21,10 @@ interface IEditVersionInfoModal {
 export const EditVersionInfoModal = observer(
   ({ opened, close, dashboardName, content, postSubmit }: IEditVersionInfoModal) => {
     const { store } = useDashboardStore();
-    const closeAndUpdateVersionInfo = (name: string) => {
-      store.currentDetail?.content.setName(name);
+    const closeAndUpdateVersionInfo = (name?: string) => {
+      if (name) {
+        store.currentDetail?.content.setName(name);
+      }
       postSubmit();
       close();
     };

@@ -1,13 +1,15 @@
 import { DashboardContentDBType } from '@devtable/dashboard';
-import { Box, Button, Group, Stack, TextInput } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { ErrorBoundary } from '../../../../utils/error-boundary';
+import { ActionIcon, Box, Group, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconDeviceFloppy } from '@tabler/icons';
+import { observer } from 'mobx-react-lite';
 import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../../../api-caller';
+import { ErrorBoundary } from '../../../../utils/error-boundary';
+import { DeleteVersion } from './delete-content-version';
 
 type TProps = Pick<DashboardContentDBType, 'id' | 'name' | 'create_time' | 'update_time'> & {
-  postSubmit: (newName: string) => void;
+  postSubmit: (newName?: string) => void;
 };
 
 type TFormValues = Pick<DashboardContentDBType, 'id' | 'name'>;
@@ -53,7 +55,6 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
       });
     }
   };
-  // TODO: delete a version
   // TODO: set as default
 
   return (
@@ -65,13 +66,23 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
               name="name"
               control={control}
               render={({ field }) => (
-                <TextInput required label="Version Name" {...field} error={errors.name?.message} />
+                <TextInput
+                  required
+                  label="Version Name"
+                  {...field}
+                  error={errors.name?.message}
+                  rightSection={
+                    <ActionIcon type="submit" variant="filled" color="blue" disabled={field.value === name}>
+                      <IconDeviceFloppy size={18} />
+                    </ActionIcon>
+                  }
+                />
               )}
             />
             <TextInput label="Created At" value={create_time} readOnly />
             <TextInput label="Updated At" value={update_time} readOnly />
-            <Group position="right" mt="md">
-              <Button type="submit">Confirm</Button>
+            <Group position="apart" mt="md">
+              <DeleteVersion id={id} postSubmit={postSubmit} />
             </Group>
           </Stack>
         </form>
