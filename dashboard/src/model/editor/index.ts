@@ -7,17 +7,11 @@ import {
   IconVariable,
   TablerIcon,
 } from '@tabler/icons';
-import { getRoot, Instance, types } from 'mobx-state-tree';
-import { FiltersModelInstance } from '../filters';
-import { QueriesModelInstance } from '../queries';
-import { SQLSnippetsModelInstance } from '../sql-snippets';
-import { ViewsModelInstance } from '../views';
+import { Instance, getRoot, types } from 'mobx-state-tree';
+import { ContentModelInstance } from '../content';
 
 type PartialRootInstanceType = {
-  filters: FiltersModelInstance;
-  views: ViewsModelInstance;
-  sqlSnippets: SQLSnippetsModelInstance;
-  queries: QueriesModelInstance;
+  content: ContentModelInstance;
 };
 
 export type NavActionType = {
@@ -86,7 +80,8 @@ export const EditorModel = types
   })
   .views((self) => ({
     get navOptions() {
-      const { filters, views, sqlSnippets, queries } = getRoot(self) as PartialRootInstanceType;
+      const { content } = getRoot(self) as PartialRootInstanceType;
+      const { filters, views, sqlSnippets, queries } = content;
       const ret: Array<NavOptionType> = [
         {
           label: 'Global Variables',

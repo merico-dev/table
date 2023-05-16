@@ -85,7 +85,7 @@ export const MuteQueryModel = types
         return { context: [], filters: [] };
       }
       // @ts-expect-error untyped getRoot(self)
-      const { keyLabelMap } = getRoot(self).filters;
+      const { keyLabelMap } = getRoot(self).content.filters;
       const contextNames = self.unmetRunByConditions
         .filter((k) => k.startsWith('context.'))
         .map((k) => k.split('context.')[0]);

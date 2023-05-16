@@ -52,7 +52,7 @@ export const ViewsModel = types
     },
     get editorOptions() {
       // @ts-expect-error getRoot type, reading panels
-      const panels: PanelsModelInstance = getRoot(self).panels;
+      const panels: PanelsModelInstance = getRoot(self).content.panels;
       return self.current.map(
         (v) =>
           ({

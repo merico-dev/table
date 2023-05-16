@@ -33,7 +33,7 @@ export const FilterConfigModel_BaseSelect = types
         return self.static_options;
       }
       // @ts-expect-error untyped getRoot(self)
-      const { data, state, error } = getRoot(self).getDataStuffByID(self.options_query_id);
+      const { data, state, error } = getRoot(self).content.getDataStuffByID(self.options_query_id);
       if (state === 'idle') {
         return data;
       }

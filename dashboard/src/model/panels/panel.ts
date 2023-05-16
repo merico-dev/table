@@ -70,11 +70,11 @@ export const PanelModel = types
   .actions((self) => ({
     moveToView(sourceViewID: string, targetViewID: string) {
       // @ts-expect-error getRoot type
-      const sourceView = getRoot(self).views.findByID(sourceViewID);
+      const sourceView = getRoot(self).content.views.findByID(sourceViewID);
       sourceView.removePanelID(self.id);
 
       // @ts-expect-error getRoot type
-      const targetView = getRoot(self).views.findByID(targetViewID);
+      const targetView = getRoot(self).content.views.findByID(targetViewID);
       targetView.appendPanelID(self.id);
 
       // @ts-expect-error getRoot type
