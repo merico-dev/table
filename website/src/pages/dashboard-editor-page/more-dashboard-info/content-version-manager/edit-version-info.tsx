@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../../../api-caller';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
 import { DeleteVersion } from './delete-version';
+import { SetAsDefaultVersion } from './set-as-default-version';
 
 type TProps = Pick<DashboardContentDBType, 'id' | 'name' | 'create_time' | 'update_time'> & {
   postSubmit: (newName?: string) => void;
@@ -55,7 +56,6 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
       });
     }
   };
-  // TODO: set as default
 
   return (
     <Box p="md">
@@ -83,6 +83,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
             <TextInput label="Updated At" value={update_time} readOnly />
             <Group position="apart" mt="md">
               <DeleteVersion id={id} postSubmit={postSubmit} />
+              <SetAsDefaultVersion id={id} postSubmit={postSubmit} />
             </Group>
           </Stack>
         </form>
