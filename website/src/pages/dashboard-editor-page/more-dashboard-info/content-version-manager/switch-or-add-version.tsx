@@ -76,7 +76,7 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
         openDelay={100}
         closeDelay={400}
         withinPortal
-        zIndex={320}
+        zIndex={310}
         disabled={loading || addVersionState.loading}
       >
         <Menu.Target>

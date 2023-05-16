@@ -59,9 +59,9 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
       zIndex: 400,
     });
 
-  const isCurrentPublicVersion = store.currentDetail?.content_id === id;
+  const isDefaultVersion = store.currentDetail?.content_id === id;
   return (
-    <Button size="xs" disabled={isCurrentPublicVersion} onClick={confirmAndDelete} color="red" variant="filled">
+    <Button size="xs" disabled={isDefaultVersion} onClick={confirmAndDelete} color="red" variant="filled">
       Delete
     </Button>
   );
