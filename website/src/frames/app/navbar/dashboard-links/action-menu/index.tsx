@@ -1,11 +1,20 @@
-import { ActionIcon, Menu, Tooltip, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Menu, Sx, Tooltip } from '@mantine/core';
 import { IconLock, IconSettings } from '@tabler/icons';
+import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { Edit, FileImport, Paint } from 'tabler-icons-react';
 import { useAccountContext } from '../../../../require-auth/account-context';
-import { DeleteDashboard } from './delete-dashboard';
-import { observer } from 'mobx-react-lite';
 import { DashboardBriefModelInstance } from '../../../models/dashboard-brief-model';
+import { DeleteDashboard } from './delete-dashboard';
+
+const ActionIconSx: Sx = {
+  width: '42px',
+  height: '42px',
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bottom: 0,
+};
 
 interface IActionMenu {
   model: DashboardBriefModelInstance;
@@ -14,7 +23,6 @@ interface IActionMenu {
   openEditModal: (id: string) => void;
 }
 export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEditModal }: IActionMenu) => {
-  const theme = useMantineTheme();
   const navigate = useNavigate();
   const { account } = useAccountContext();
 
@@ -30,9 +38,9 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
         label="This is a preset dashboard. You can not edit it."
         events={{ hover: true, focus: false, touch: false }}
       >
-        <span>
-          <IconLock size="16px" color={theme.colors.gray[7]} />
-        </span>
+        <ActionIcon color="gray" sx={{ transform: 'none !important', ...ActionIconSx }}>
+          <IconLock size={16} />
+        </ActionIcon>
       </Tooltip>
     );
   }
@@ -44,18 +52,7 @@ export const ActionMenu = observer(({ model, preset, openOverwriteModal, openEdi
   return (
     <Menu shadow="md" width={220} withinPortal withArrow position="right" trigger="hover">
       <Menu.Target>
-        <ActionIcon
-          variant="subtle"
-          color="blue"
-          sx={{
-            width: '42px',
-            height: '42px',
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        >
+        <ActionIcon variant="subtle" color="blue" sx={ActionIconSx}>
           <IconSettings size={18} />
         </ActionIcon>
       </Menu.Target>
