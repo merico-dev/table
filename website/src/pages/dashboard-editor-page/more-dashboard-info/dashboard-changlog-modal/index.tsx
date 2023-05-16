@@ -1,5 +1,4 @@
 import { ActionIcon, AppShell, LoadingOverlay, Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { IconHistory } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
@@ -8,6 +7,7 @@ import { APICaller } from '../../../../api-caller';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
 import { ChangelogContent } from './changelog-content';
 import { ChangelogNavbar } from './changelog-navbar';
+import { TModalState } from '../types';
 
 const ModalStyles = {
   modal: {
@@ -38,16 +38,18 @@ const ChangelogsAppShellStyles = {
   },
 } as const;
 
-export const DashboardHistoryModal = observer(() => {
+interface IDashboardChangelogModal {
+  state: TModalState;
+}
+
+export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogModal) => {
   const { store } = useDashboardStore();
   const id = store.currentID;
-
-  const [opened, { open, close }] = useDisclosure(false);
   const [page, setPage] = useState(1);
   const [pageSize] = useState(20);
   const { data: resp, loading } = useRequest(
     async () => {
-      if (!opened) {
+      if (!state.opened) {
         return APICaller.dashboard_changelog.emptyList;
       }
       return APICaller.dashboard_changelog.list({
@@ -56,7 +58,7 @@ export const DashboardHistoryModal = observer(() => {
       });
     },
     {
-      refreshDeps: [id, page, pageSize, opened],
+      refreshDeps: [id, page, pageSize, state.opened],
     },
   );
   const maxPage = Math.ceil((resp?.total ?? 0) / pageSize);
@@ -72,40 +74,35 @@ export const DashboardHistoryModal = observer(() => {
     }
   }, [data, currentChangelogID]);
   return (
-    <>
-      <Modal
-        opened={opened}
-        onClose={close}
-        withCloseButton={false}
-        closeOnClickOutside={false}
-        zIndex={320}
-        title={null}
-        fullScreen
-        styles={ModalStyles}
+    <Modal
+      opened={state.opened}
+      onClose={state.close}
+      withCloseButton={false}
+      closeOnClickOutside={false}
+      zIndex={320}
+      title={null}
+      fullScreen
+      styles={ModalStyles}
+    >
+      <AppShell
+        padding={0}
+        navbar={
+          <ChangelogNavbar
+            close={state.close}
+            data={data}
+            currentChangelogID={currentChangelogID}
+            setCurrentChangelogID={setCurrentChangelogID}
+            page={page}
+            loading={loading}
+            maxPage={maxPage}
+            setPage={setPage}
+          />
+        }
+        styles={ChangelogsAppShellStyles}
       >
-        <AppShell
-          padding={0}
-          navbar={
-            <ChangelogNavbar
-              close={close}
-              data={data}
-              currentChangelogID={currentChangelogID}
-              setCurrentChangelogID={setCurrentChangelogID}
-              page={page}
-              loading={loading}
-              maxPage={maxPage}
-              setPage={setPage}
-            />
-          }
-          styles={ChangelogsAppShellStyles}
-        >
-          <LoadingOverlay visible={loading} />
-          <ChangelogContent current={current} maxPage={maxPage} loading={loading} />
-        </AppShell>
-      </Modal>
-      <ActionIcon onClick={open} color="blue" variant="light">
-        <IconHistory size={16} />
-      </ActionIcon>
-    </>
+        <LoadingOverlay visible={loading} />
+        <ChangelogContent current={current} maxPage={maxPage} loading={loading} />
+      </AppShell>
+    </Modal>
   );
 });
