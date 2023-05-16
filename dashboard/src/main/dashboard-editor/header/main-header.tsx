@@ -58,7 +58,7 @@ export const MainHeader = observer(({ saveDashboardChanges, headerSlot = null }:
 
           <SaveChangesOrMore saveDashboardChanges={saveDashboardChanges} />
         </Group>
-        <Group position="right">
+        <Group position="right" sx={{ flexGrow: 1 }}>
           {headerSlot}
           <HeaderMenu />
         </Group>

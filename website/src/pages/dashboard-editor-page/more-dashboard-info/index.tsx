@@ -10,12 +10,14 @@ import { DashboardChangelogModalTrigger } from './dashboard-changlog-modal/chang
 export const MoreDashboardInfo = observer(() => {
   const changelogState = useModalState();
   return (
-    <Group sx={{ flexGrow: 1 }} position="right">
+    <Group sx={{ flexGrow: 1 }} position="apart">
       <ContentVersionManager />
-      <WhosEditing />
-      <DashboardPermissionModal />
-      <DashboardChangelogModal state={changelogState} />
-      <DashboardChangelogModalTrigger state={changelogState} />
+      <Group sx={{ flexGrow: 1 }} position="right">
+        <WhosEditing />
+        <DashboardPermissionModal />
+        <DashboardChangelogModal state={changelogState} />
+        <DashboardChangelogModalTrigger state={changelogState} />
+      </Group>
     </Group>
   );
 });
