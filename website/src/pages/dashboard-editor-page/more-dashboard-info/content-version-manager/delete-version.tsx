@@ -32,7 +32,12 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
         color: 'green',
       });
       postSubmit();
-      navigate(`/dashboard/${store.currentID}/edit/${store.currentDetail?.content_id}`);
+      const defaultContentID = store.currentDetail?.content_id;
+      navigate(`/dashboard/${store.currentID}/edit/${defaultContentID}`);
+
+      if (defaultContentID) {
+        store.currentDetail?.content.setID(defaultContentID);
+      }
     } catch (error) {
       updateNotification({
         id: 'for-deleting',

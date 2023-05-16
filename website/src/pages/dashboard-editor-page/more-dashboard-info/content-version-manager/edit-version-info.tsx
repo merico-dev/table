@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../../../api-caller';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
-import { DeleteVersion } from './delete-content-version';
+import { DeleteVersion } from './delete-version';
 
 type TProps = Pick<DashboardContentDBType, 'id' | 'name' | 'create_time' | 'update_time'> & {
   postSubmit: (newName?: string) => void;
