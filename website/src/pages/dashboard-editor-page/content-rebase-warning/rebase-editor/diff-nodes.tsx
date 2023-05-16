@@ -1,16 +1,16 @@
 import { IDiffTarget } from './types';
-import { AnyObject, IDashboard } from '@devtable/dashboard';
+import { AnyObject, TDashboardContent } from '@devtable/dashboard';
 import { Accessor, Matcher } from '@zeeko/power-accessor';
 
 export const diffNodes: IDiffTarget<AnyObject, string>[] = [
   {
-    selector: new Accessor<IDashboard, AnyObject>('filters', Matcher.all),
+    selector: new Accessor<TDashboardContent, AnyObject>('filters', Matcher.all),
     idSelector: (it) => it.id,
     formatDisplayName: (it) => {
       return `Filter: ${it.label}`;
     },
     produceOperation: (operationType, pointers, item) => {
-      return (config: IDashboard) => {
+      return (config: TDashboardContent) => {
         const filters = config.filters as AnyObject[];
         const index = filters.findIndex((it) => it.id === item.id);
         if (operationType === 'added') {
@@ -24,13 +24,13 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
     },
   } as IDiffTarget<AnyObject, string>,
   {
-    selector: new Accessor<IDashboard, AnyObject>('definition', 'sqlSnippets', Matcher.all),
+    selector: new Accessor<TDashboardContent, AnyObject>('definition', 'sqlSnippets', Matcher.all),
     idSelector: (it) => it.key,
     formatDisplayName: (it) => {
       return `Snippet: ${it.key}`;
     },
     produceOperation: (operationType, pointers, item) => {
-      return (config: IDashboard) => {
+      return (config: TDashboardContent) => {
         const snippets = config.definition?.sqlSnippets as AnyObject[];
         const index = snippets.findIndex((it) => it.key === item.key);
         if (operationType === 'added') {
@@ -44,13 +44,13 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
     },
   } as IDiffTarget<AnyObject, string>,
   {
-    selector: new Accessor<IDashboard, AnyObject>('definition', 'queries', Matcher.all),
+    selector: new Accessor<TDashboardContent, AnyObject>('definition', 'queries', Matcher.all),
     idSelector: (it) => it.id,
     formatDisplayName: (it) => {
       return `Query: ${it.name}`;
     },
     produceOperation: (operationType, pointers, item) => {
-      return (config: IDashboard) => {
+      return (config: TDashboardContent) => {
         const queries = config.definition?.queries as AnyObject[];
         const index = queries.findIndex((it) => it.id === item.id);
         if (operationType === 'added') {
@@ -64,7 +64,7 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
     },
   } as IDiffTarget<AnyObject, string>,
   {
-    selector: new Accessor<IDashboard, AnyObject>('views', Matcher.all),
+    selector: new Accessor<TDashboardContent, AnyObject>('views', Matcher.all),
     idSelector: (it) => it.id,
     formatDisplayName: (it) => {
       const { label, id, type } = it;
@@ -74,7 +74,7 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
       return `View: ${type}[${id}]`;
     },
     produceOperation: (operationType, pointers, item) => {
-      return (config: IDashboard) => {
+      return (config: TDashboardContent) => {
         const views = config.views as AnyObject[];
         const index = views.findIndex((it) => it.id === item.id);
         if (operationType === 'added') {
@@ -88,7 +88,7 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
     },
   } as IDiffTarget<AnyObject, string>,
   {
-    selector: new Accessor<IDashboard, AnyObject>('panels', Matcher.all),
+    selector: new Accessor<TDashboardContent, AnyObject>('panels', Matcher.all),
     idSelector: (it) => it.id,
     formatDisplayName: (it) => {
       const { title, id, viz } = it;
@@ -98,7 +98,7 @@ export const diffNodes: IDiffTarget<AnyObject, string>[] = [
       return `Panel: ${viz.type}[${id}]`;
     },
     produceOperation: (operationType, pointers, item) => {
-      return (config: IDashboard) => {
+      return (config: TDashboardContent) => {
         const panels = config.panels as AnyObject[];
         const index = panels.findIndex((it) => it.id === item.id);
         if (operationType === 'added') {
