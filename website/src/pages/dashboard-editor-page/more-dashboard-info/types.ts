@@ -3,3 +3,7 @@ export type TModalState = {
   open: () => void;
   close: () => void;
 };
+
+export type TModalStates = {
+  changelog: TModalState;
+};
