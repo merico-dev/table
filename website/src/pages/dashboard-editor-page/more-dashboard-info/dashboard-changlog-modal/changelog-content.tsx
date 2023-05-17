@@ -1,11 +1,11 @@
 import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-changelog.types';
+import { DashboardContentChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 import { ReadonlyMonacoEditor } from '../../../../components/readonly-monaco-editor';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
 
 interface IChangelogContent {
-  current?: DashboardChangelogDBType;
+  current?: DashboardContentChangelogDBType;
   maxPage: number;
   loading: boolean;
 }
@@ -18,8 +18,8 @@ export const ChangelogContent = observer(({ current, maxPage, loading }: IChange
     );
   }
   return (
-    <ErrorBoundary>
-      <Stack sx={{ position: 'relative', height: '100%' }}>
+    <Stack sx={{ position: 'relative', height: '100%' }}>
+      <ErrorBoundary>
         {current && (
           <ReadonlyMonacoEditor
             language="git-diff-language"
@@ -28,7 +28,7 @@ export const ChangelogContent = observer(({ current, maxPage, loading }: IChange
             height="100%"
           />
         )}
-      </Stack>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </Stack>
   );
 });

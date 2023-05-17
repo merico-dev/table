@@ -1,19 +1,21 @@
 import { DashboardContentDBType, initialDashboardContent } from '@devtable/dashboard';
 import { ActionIcon, Badge, Button, Group, Menu, Text } from '@mantine/core';
-import { IconPlaylistAdd, IconSettings, IconVersions } from '@tabler/icons';
+import { IconCaretDown, IconEdit, IconPlaylistAdd, IconVersions } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 import { APICaller } from '../../../../api-caller';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
-import { useNavigate } from 'react-router-dom';
+import { DashboardChangelogModalTrigger } from '../dashboard-changlog-modal/changelog-modal-trigger';
+import { TModalStates } from '../types';
 
 interface ISwitchOrAddVersion {
-  openEdit: () => void;
   content: DashboardContentDBType;
   reloadOptionsTrigger: number;
+  states: TModalStates;
 }
 
-export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTrigger }: ISwitchOrAddVersion) => {
+export const SwitchOrAddVersion = observer(({ content, reloadOptionsTrigger, states }: ISwitchOrAddVersion) => {
   const navigate = useNavigate();
   const { store } = useDashboardStore();
   const dashboardID = store.currentID;
@@ -120,19 +122,29 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <ActionIcon
-        variant="light"
-        color="blue"
-        onClick={openEdit}
-        sx={{
-          height: '30px',
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-          borderLeft: '1px solid #dedede',
-        }}
-      >
-        <IconSettings size={18} />
-      </ActionIcon>
+
+      <Menu width={200} trigger="hover" openDelay={100} closeDelay={400} withinPortal zIndex={320}>
+        <Menu.Target>
+          <ActionIcon
+            variant="default"
+            // color="light"
+            sx={{
+              height: '30px',
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+              svg: { fill: 'rgb(173, 181, 189)', stroke: 'none' },
+            }}
+          >
+            <IconCaretDown size={18} />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item icon={<IconEdit size={14} />} onClick={states.version.open}>
+            Edit version info
+          </Menu.Item>
+          <DashboardChangelogModalTrigger state={states.changelog} />
+        </Menu.Dropdown>
+      </Menu>
     </Group>
   );
 });

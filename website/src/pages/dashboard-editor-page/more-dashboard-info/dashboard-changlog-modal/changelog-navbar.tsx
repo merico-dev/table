@@ -1,7 +1,7 @@
 import { ActionIcon, Text, Button, Group, LoadingOverlay, Navbar as MantineNavbar } from '@mantine/core';
 import { IconArrowLeft, IconArrowRight, IconX } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-changelog.types';
+import { DashboardContentChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 import { ChangelogNavLinks } from './changelog-links';
 interface IPaginationSection {
   page: number;
@@ -25,7 +25,7 @@ const PaginationSection = ({ page, maxPage, setPage, loading }: IPaginationSecti
 };
 
 interface IChangelogNavbar {
-  data?: DashboardChangelogDBType[];
+  data?: DashboardContentChangelogDBType[];
   loading: boolean;
   page: number;
   maxPage: number;
@@ -41,12 +41,11 @@ export const ChangelogNavbar = observer(
       return null;
     }
     return (
-      <MantineNavbar p={0} mt={-1} width={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}>
-        <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
-          <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
-            Changelogs
-          </Text>
-        </MantineNavbar.Section>
+      <MantineNavbar
+        p={0}
+        width={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
+        sx={{ position: 'static', height: '100%', overflow: 'auto', flexGrow: 0, flexShrink: 0 }}
+      >
         <MantineNavbar.Section py={0} sx={{ borderBottom: '1px solid #eee' }}>
           <PaginationSection page={page} setPage={setPage} maxPage={maxPage} loading={loading} />
         </MantineNavbar.Section>

@@ -12,7 +12,9 @@ function useModalState(): TModalState {
 
 export function useModalStates(): TModalStates {
   const changelog = useModalState();
+  const version = useModalState();
   return {
     changelog,
+    version,
   };
 }
