@@ -1,5 +1,5 @@
 import { Divider, Group, Notification, Overlay, Text } from '@mantine/core';
-import { useBoolean, useRequest, useWhyDidYouUpdate } from 'ahooks';
+import { useBoolean, useRequest } from 'ahooks';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import { useSocketContext } from '../../../frames/socket-client-frame/socket-con
 import { RebaseActions } from './rebase-actions';
 import { useRebaseModel } from './rebase-editor/rebase-config-context';
 
-type DashboardUpdateMessageType = {
+type DashboardContentUpdateMessageType = {
   update_time: string;
   message: 'UPDATED';
   auth_id: string | null;
@@ -21,12 +21,12 @@ export const ContentRebaseWarning = observer(() => {
   const { socket } = useSocketContext();
   const rebaseModel = useRebaseModel();
   const [remoteKey, setRemoteKey] = useState('');
-  const baseKey = store.currentDetail?.update_time;
+  const baseKey = store.currentDetail?.content.fullData?.update_time || 'initial_version';
 
-  const id = store.currentID;
+  const id = store.currentContentID;
   useEffect(() => {
-    socket.on(`DASHBOARD:${id}`, ({ update_time }: DashboardUpdateMessageType) => {
-      console.log('🟦 DASHBOARD:UPDATE', update_time);
+    socket.on(`DASHBOARD_CONTENT:${id}`, ({ update_time }: DashboardContentUpdateMessageType) => {
+      console.log('🟦 DASHBOARD_CONTENT:UPDATE', update_time);
       setRemoteKey(update_time);
     });
   }, [socket, id]);
@@ -35,15 +35,13 @@ export const ContentRebaseWarning = observer(() => {
 
   const { data: latestContent, loading } = useRequest(
     async () => {
-      const d = await APICaller.dashboard.details(store.currentID);
-      if (!d.content_id) {
+      if (!id) {
         return null;
       }
-      const c = await APICaller.dashboard_content.details(d.content_id);
-      return c;
+      return APICaller.dashboard_content.details(id);
     },
     {
-      refreshDeps: [store.currentID, remoteKey],
+      refreshDeps: [id, remoteKey],
     },
   );
 
@@ -60,7 +58,6 @@ export const ContentRebaseWarning = observer(() => {
     }
   }, [baseKey]);
 
-  useWhyDidYouUpdate('DashboardRebaseWarning', { store, socket, rebaseModel, remoteKey, baseKey, id });
   useEffect(() => {
     if (!remoteKey || !baseKey) {
       setFalse();
@@ -107,7 +104,7 @@ export const ContentRebaseWarning = observer(() => {
         sx={{ position: 'fixed', top: 10, right: 15, zIndex: 410 }}
       >
         <Text mt={10} color="dark">
-          A newer version of this dashboard has been submitted.
+          Someone made changes to this version.
         </Text>
         <Divider mt={20} mb={10} variant="dotted" />
         <Group position="right">

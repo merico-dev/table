@@ -6,6 +6,7 @@ import { RebaseConfigProvider } from './content-rebase-warning/rebase-editor/reb
 import './index.css';
 import { DashboardEditorPageContent } from './page-content';
 import { LoadingPlaceholder, NeedToInitializeContent } from './placeholder';
+import { ContentRebaseWarning } from './content-rebase-warning';
 
 const LoadAndRenderDashboardEditor = observer(() => {
   const { store } = useDashboardStore();
@@ -34,8 +35,7 @@ const LoadAndRenderDashboardEditor = observer(() => {
         <Helmet>
           <title>{store.currentDetail.name}</title>
         </Helmet>
-        {/* WIP: disabling this feature until content_id is fully applied */}
-        {/* <ContentRebaseWarning /> */}
+        <ContentRebaseWarning />
         <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />
       </div>
     </RebaseConfigProvider>
