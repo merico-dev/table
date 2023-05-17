@@ -1,13 +1,16 @@
 import dayjs from 'dayjs';
-import { ListDashboardChangelogReqType, ListDashboardChangelogRespType } from './dashboard-changelog.types';
+import {
+  ListDashboardContentChangelogReqType,
+  ListDashboardContentChangelogRespType,
+} from './dashboard-content-changelog.types';
 import { post } from './request';
 
-export const dashboard_changelog = {
+export const dashboard_content_changelog = {
   list: async (
-    { filter, pagination }: ListDashboardChangelogReqType,
+    { filter, pagination }: ListDashboardContentChangelogReqType,
     signal?: AbortSignal,
-  ): Promise<ListDashboardChangelogRespType> => {
-    const resp: ListDashboardChangelogRespType = await post(signal)('/dashboard_changelog/list', {
+  ): Promise<ListDashboardContentChangelogRespType> => {
+    const resp: ListDashboardContentChangelogRespType = await post(signal)('/dashboard_content_changelog/list', {
       filter,
       sort: [
         {

@@ -1,7 +1,7 @@
 import { ActionIcon, Text, Button, Group, LoadingOverlay, Navbar as MantineNavbar } from '@mantine/core';
 import { IconArrowLeft, IconArrowRight, IconX } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-changelog.types';
+import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 import { ChangelogNavLinks } from './changelog-links';
 interface IPaginationSection {
   page: number;

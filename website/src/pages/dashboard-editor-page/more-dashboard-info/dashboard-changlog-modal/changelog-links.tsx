@@ -1,7 +1,7 @@
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-changelog.types';
+import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 
 interface IChangelogNavLink {
   onClick: () => void;

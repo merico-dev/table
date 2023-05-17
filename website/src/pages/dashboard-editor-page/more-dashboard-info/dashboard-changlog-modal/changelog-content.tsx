@@ -1,6 +1,6 @@
 import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-changelog.types';
+import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 import { ReadonlyMonacoEditor } from '../../../../components/readonly-monaco-editor';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
 

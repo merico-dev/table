@@ -44,16 +44,16 @@ interface IDashboardChangelogModal {
 
 export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogModal) => {
   const { store } = useDashboardStore();
-  const id = store.currentID;
+  const id = store.currentContentID;
   const [page, setPage] = useState(1);
   const [pageSize] = useState(20);
   const { data: resp, loading } = useRequest(
     async () => {
       if (!state.opened) {
-        return APICaller.dashboard_changelog.emptyList;
+        return APICaller.dashboard_content_changelog.emptyList;
       }
-      return APICaller.dashboard_changelog.list({
-        filter: { dashboard_id: { value: id, isFuzzy: false } },
+      return APICaller.dashboard_content_changelog.list({
+        filter: { dashboard_content_id: { value: id, isFuzzy: false } },
         pagination: { page, pagesize: pageSize },
       });
     },
