@@ -7,22 +7,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { APICaller } from '../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
+import { TDashboardContent } from '@devtable/dashboard';
 
-const cleanContent = (temp: TDashboardContent_Temp) => {
-  if (!temp) {
+const cleanContent = (c: TDashboardContent | null) => {
+  if (!c) {
     throw new Error('Unexpected empty file');
   }
-  if (!temp.content) {
-    throw new Error('Unexpected null content');
-  }
-  return temp.content;
+  return c;
 };
-
-type TDashboardContent_Temp = Record<string, any> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
 
 interface IFormValues {
   name: string;
-  content: TDashboardContent_Temp;
+  content: TDashboardContent | null;
 }
 
 export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
@@ -54,8 +50,8 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const d = await APICaller.dashboard.create(name, '');
       const finalContent = cleanContent(content);
+      const d = await APICaller.dashboard.create(name, '');
       const c = await APICaller.dashboard_content.create({
         dashboard_id: d.id,
         name: 'v1',
@@ -141,7 +137,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
           )}
         />
         <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
-        <Group position="right" mt="md">
+        <Group position="right" my="md">
           <Button type="submit" disabled={disabled}>
             Confirm
           </Button>
