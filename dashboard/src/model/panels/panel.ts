@@ -1,11 +1,11 @@
 import { getParent, getParentOfType, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { ContentModel } from '~/model';
+import { VariableModel } from '~/model/variables';
+import { TableVizComponent } from '~/plugins/viz-components/table';
 import { QueryModelInstance } from '../queries';
 import { PanelLayoutModel } from './layout';
 import { PanelStyleModel } from './style';
 import { PanelVizModel } from './viz';
-import { DashboardModel } from '~/model';
-import { VariableModel } from '~/model/variables';
-import { TableVizComponent } from '~/plugins/viz-components/table';
 
 export const PanelModel = types
   .model({
@@ -20,7 +20,7 @@ export const PanelModel = types
   })
   .views((self) => ({
     get query(): QueryModelInstance | undefined {
-      return getParentOfType(self, DashboardModel).queries.findByID(self.queryID) as QueryModelInstance | undefined;
+      return getParentOfType(self, ContentModel).queries.findByID(self.queryID) as QueryModelInstance | undefined;
     },
     get json() {
       const { id, title, description, queryID } = self;
@@ -47,7 +47,7 @@ export const PanelModel = types
       self.description = description;
     },
     setQueryID(queryID: string) {
-      const queryInstance = getParentOfType(self, DashboardModel).queries.findByID(queryID) as
+      const queryInstance = getParentOfType(self, ContentModel).queries.findByID(queryID) as
         | QueryModelInstance
         | undefined;
       if (queryInstance) {
@@ -70,11 +70,11 @@ export const PanelModel = types
   .actions((self) => ({
     moveToView(sourceViewID: string, targetViewID: string) {
       // @ts-expect-error getRoot type
-      const sourceView = getRoot(self).views.findByID(sourceViewID);
+      const sourceView = getRoot(self).content.views.findByID(sourceViewID);
       sourceView.removePanelID(self.id);
 
       // @ts-expect-error getRoot type
-      const targetView = getRoot(self).views.findByID(targetViewID);
+      const targetView = getRoot(self).content.views.findByID(targetViewID);
       targetView.appendPanelID(self.id);
 
       // @ts-expect-error getRoot type
@@ -92,8 +92,8 @@ export function getNewPanel(id: string): PanelModelSnapshotIn {
     layout: {
       x: 0,
       y: Infinity, // puts it at the bottom
-      w: 3,
-      h: 15,
+      w: 18,
+      h: 300,
     },
     title: id,
     description: '<p></p>',

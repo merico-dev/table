@@ -1,4 +1,4 @@
-import { Dashboard, IDashboard } from '@devtable/dashboard';
+import { DashboardContentDBType, DashboardEditor, IDashboard } from '@devtable/dashboard';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -7,19 +7,21 @@ import 'react-resizable/css/styles.css';
 
 import { IDashboardModel } from '@devtable/dashboard';
 import { reaction, toJS } from 'mobx';
-import { DashboardAPI } from '../../api-caller/dashboard';
+import { APICaller } from '../../api-caller';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { DashboardConfig } from '../../utils/config';
-import { useRebaseModel } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
+import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
+import { DashboardHeaderMenuItems } from './more-dashboard-info/dashboard-header-menu-items';
+import { useModalStates } from './more-dashboard-info/use-modal-states';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
+    const modalStates = useModalStates();
     const [context] = React.useState({});
     const rebaseModel = useRebaseModel();
-
     const dashboardModelRef = React.useRef<IDashboardModel>(null);
 
     React.useEffect(() => {
@@ -27,43 +29,67 @@ export const DashboardEditorPageContent = observer(
         () => toJS(rebaseModel.rebaseResult),
         (result) => {
           if (result) {
-            dashboardModelRef.current?.updateCurrent(result);
+            console.log({ result });
+            const d = dashboardModelRef.current?.json;
+            if (d && result) {
+              dashboardModelRef.current?.updateCurrent(d, result);
+            }
           }
         },
       );
     }, [rebaseModel, dashboardModelRef]);
 
-    const updateDashboard = async (d: IDashboard) => {
+    const updateDashboard = async (d: IDashboard, c: DashboardContentDBType) => {
       showNotification({
         id: 'for-updating',
         title: 'Pending',
-        message: 'Updating dashboard...',
+        message: 'Updating dashboard content...',
         loading: true,
       });
-      const result = await DashboardAPI.update(d);
-      updateNotification({
-        id: 'for-updating',
-        title: 'Successful',
-        message: 'This dashboard is updated',
-        color: 'green',
-      });
-      store.setCurrentDetail(result);
-      refresh();
+      try {
+        if (!c.content) {
+          throw new Error('Unexpected null content');
+        }
+        await APICaller.dashboard_content.update({
+          ...store.currentDetail?.content.fullData,
+          ...c,
+        });
+        updateNotification({
+          id: 'for-updating',
+          title: 'Successful',
+          message: 'This dashboard is updated',
+          color: 'green',
+        });
+        await store.currentDetail?.content.load();
+      } catch (error) {
+        updateNotification({
+          id: 'for-updating',
+          title: 'Successful',
+          // @ts-expect-error type of error
+          message: error.message,
+          color: 'green',
+        });
+      }
     };
 
     if (!rebaseModel) {
       return null;
     }
+    if (!dashboardModel.content.loaded) {
+      return null;
+    }
 
     return (
-      <Dashboard
+      <DashboardEditor
         ref={dashboardModelRef}
-        onChange={rebaseModel.setLocal}
+        onChange={rebaseModel.setLocalWithDashboard}
         context={context}
         dashboard={dashboardModel.dashboard}
+        content={dashboardModel.content.fullData}
         update={updateDashboard}
         config={DashboardConfig}
-        headerSlot={<MoreDashboardInfo />}
+        headerSlot={<MoreDashboardInfo states={modalStates} />}
+        headerMenuItems={<DashboardHeaderMenuItems states={modalStates} />}
       />
     );
   },

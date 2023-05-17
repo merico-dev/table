@@ -176,13 +176,13 @@ export class JobPaginationResponse implements PaginationResponse<Job> {
   name: 'JobRunRequest',
 })
 export class JobRunRequest {
-  @IsIn(['RENAME_DATASOURCE'])
+  @IsIn(['RENAME_DATASOURCE', 'FIX_DASHBOARD_PERMISSION'])
   @ApiModelProperty({
     description: 'Type of job',
     required: true,
-    enum: ['RENAME_DATASOURCE'],
+    enum: ['RENAME_DATASOURCE', 'FIX_DASHBOARD_PERMISSION'],
   })
-  type: 'RENAME_DATASOURCE';
+  type: 'RENAME_DATASOURCE' | 'FIX_DASHBOARD_PERMISSION';
 
   @IsOptional()
   @Type(() => Authentication)

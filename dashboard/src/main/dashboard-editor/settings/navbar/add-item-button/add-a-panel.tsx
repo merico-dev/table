@@ -1,14 +1,14 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 
 interface IAddAPanel {
   parentID?: string;
 }
 
 export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   if (!parentID) {
     return null;
   }

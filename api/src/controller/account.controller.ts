@@ -55,10 +55,10 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/login', ensureAuthEnabled)
+  @httpPost('/login', ensureAuthEnabled, validate(AccountLoginRequest))
   public async login(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, password } = validate(AccountLoginRequest, req.body);
+      const { name, password } = req.body as AccountLoginRequest;
       const result = await this.accountService.login(name, password, req.locale);
       res.json(result);
     } catch (err) {
@@ -81,10 +81,10 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR), validate(AccountListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(AccountListRequest, req.body);
+      const { filter, sort, pagination } = req.body as AccountListRequest;
       const result = await this.accountService.list(filter, sort, pagination);
       res.json(result);
     } catch (err) {
@@ -122,11 +122,17 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
+  @httpPost(
+    '/create',
+    ensureAuthEnabled,
+    ensureAuthIsAccount,
+    permission(ROLE_TYPES.ADMIN),
+    validate(AccountCreateRequest),
+  )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { name, email, password, role_id } = validate(AccountCreateRequest, req.body);
+      const { name, email, password, role_id } = req.body as AccountCreateRequest;
       if (account.role_id <= role_id) {
         throw new ApiError(UNAUTHORIZED, {
           message: translate('ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES', req.locale),
@@ -150,11 +156,17 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
+  @httpPut(
+    '/update',
+    ensureAuthEnabled,
+    ensureAuthIsAccount,
+    permission(ROLE_TYPES.READER),
+    validate(AccountUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { name, email } = validate(AccountUpdateRequest, req.body);
+      const { name, email } = req.body as AccountUpdateRequest;
       const result = await this.accountService.update(account.id, name, email, req.locale);
       res.json(result);
     } catch (err) {
@@ -173,11 +185,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/edit', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
+  @httpPut('/edit', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN), validate(AccountEditRequest))
   public async edit(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { id, name, email, role_id, reset_password, new_password } = validate(AccountEditRequest, req.body);
+      const { id, name, email, role_id, reset_password, new_password } = req.body as AccountEditRequest;
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SELF', req.locale) });
       }
@@ -208,11 +220,17 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/changepassword', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
+  @httpPost(
+    '/changepassword',
+    ensureAuthEnabled,
+    ensureAuthIsAccount,
+    permission(ROLE_TYPES.READER),
+    validate(AccountChangePasswordRequest),
+  )
   public async changePassword(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { old_password, new_password } = validate(AccountChangePasswordRequest, req.body);
+      const { old_password, new_password } = req.body as AccountChangePasswordRequest;
       if (new_password.length < 8) {
         throw new ApiError(BAD_REQUEST, {
           message: translate('ACCOUNT_PWD_LENGTH_SHOULD_BE_GRATER_THAN_8', req.locale),
@@ -236,11 +254,11 @@ export class AccountController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN))
+  @httpPost('/delete', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.ADMIN), validate(AccountIDRequest))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const account: Account = req.body.auth;
-      const { id } = validate(AccountIDRequest, req.body);
+      const { id } = req.body as AccountIDRequest;
       if (id === account.id) {
         throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_DELETE_SELF', req.locale) });
       }

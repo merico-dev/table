@@ -47,10 +47,10 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER))
+  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DataSourceListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(DataSourceListRequest, req.body);
+      const { filter, sort, pagination } = req.body as DataSourceListRequest;
       const result = await this.dataSourceService.list(filter, sort, pagination);
       res.json(result);
     } catch (err) {
@@ -69,12 +69,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.ADMIN))
+  @httpPost('/create', permission(ROLE_TYPES.ADMIN), validate(DataSourceCreateRequest))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      // eslint-disable-next-line prefer-const
-      let { type, key, config } = validate(DataSourceCreateRequest, req.body);
-      config = this.validateConfig(type, config, req.locale);
+      const { type, key, config } = req.body as DataSourceCreateRequest;
+      this.validateConfig(type, config, req.locale);
       const result = await this.dataSourceService.create(type, key, config, req.locale);
       res.json(result);
     } catch (err) {
@@ -93,11 +92,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/rename', permission(ROLE_TYPES.ADMIN))
+  @httpPut('/rename', permission(ROLE_TYPES.ADMIN), validate(DataSourceRenameRequest))
   public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id, key } = validate(DataSourceRenameRequest, req.body);
+      const { id, key } = req.body as DataSourceRenameRequest;
       const result = await this.dataSourceService.rename(
         id,
         key,
@@ -122,10 +121,10 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.ADMIN))
+  @httpPost('/delete', permission(ROLE_TYPES.ADMIN), validate(DataSourceIDRequest))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(DataSourceIDRequest, req.body);
+      const { id } = req.body as DataSourceIDRequest;
       await this.dataSourceService.delete(id, req.locale);
       res.json();
     } catch (err) {
@@ -133,16 +132,12 @@ export class DataSourceController implements interfaces.Controller {
     }
   }
 
-  private validateConfig(
-    type: 'mysql' | 'postgresql' | 'http',
-    config: DataSourceConfig,
-    locale: string,
-  ): DataSourceConfig {
+  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig, locale: string): void {
     switch (type) {
       case 'http':
         if (!_.has(config, 'processing') || !_.has(config, 'processing.pre') || !_.has(config, 'processing.post'))
           throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_HTTP_REQUIRED_FIELDS', locale) });
-        return config;
+        break;
 
       default:
         if (
@@ -152,7 +147,7 @@ export class DataSourceController implements interfaces.Controller {
           !_.has(config, 'database')
         )
           throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_DB_REQUIRED_FIELDS', locale) });
-        return config;
+        break;
     }
   }
 }

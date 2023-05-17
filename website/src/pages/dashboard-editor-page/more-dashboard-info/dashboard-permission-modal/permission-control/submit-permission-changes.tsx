@@ -3,7 +3,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { APICaller } from '../../../../../api-caller';
 import { PermissionModelInstance } from '../model';
 
 interface ISubmitPermissionChanges {
@@ -27,7 +27,7 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
     });
     const { id, access } = model.json;
     try {
-      await DashboardPermissionAPI.update({ id, access });
+      await APICaller.dashboard_permission.update({ id, access });
       updateNotification({
         id: 'submit',
         title: 'Successful',

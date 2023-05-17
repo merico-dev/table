@@ -65,6 +65,23 @@ import {
   DashboardPermissionUpdateRequest,
   PermissionResource,
 } from './dashboard_permission';
+import {
+  DashboardContent,
+  DashboardContentCreateRequest,
+  DashboardContentListRequest,
+  DashboardContentFilterObject,
+  DashboardContentPaginationResponse,
+  DashboardContentSortObject,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+} from './dashboard_content';
+import {
+  DashboardContentChangelog,
+  DashboardContentChangelogFilterObject,
+  DashboardContentChangelogListRequest,
+  DashboardContentChangelogPaginationResponse,
+  DashboardContentChangelogSortObject,
+} from './dashboard_content_changelog';
 import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
@@ -144,4 +161,19 @@ export default {
   DashboardOwnerUpdateRequest,
   DashboardPermissionUpdateRequest,
   PermissionResource,
+
+  DashboardContent,
+  DashboardContentCreateRequest,
+  DashboardContentListRequest,
+  DashboardContentFilterObject,
+  DashboardContentPaginationResponse,
+  DashboardContentSortObject,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+
+  DashboardContentChangelog,
+  DashboardContentChangelogFilterObject,
+  DashboardContentChangelogListRequest,
+  DashboardContentChangelogPaginationResponse,
+  DashboardContentChangelogSortObject,
 };

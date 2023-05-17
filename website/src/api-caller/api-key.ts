@@ -2,9 +2,9 @@ import { IAPIKey } from '@devtable/settings-form';
 import { post } from './request';
 import { PaginationResponse } from './types';
 
-export const APIKeyAPI = {
-  list: async (): Promise<PaginationResponse<IAPIKey>> => {
-    const res = await post('/api/key/list', {
+export const api_key = {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<IAPIKey>> => {
+    const res = await post(signal)('/api/key/list', {
       filter: {
         search: '',
       },

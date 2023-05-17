@@ -40,6 +40,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 </Route>
                 <Route path="/dashboard/:id/edit" element={<DashboardEditorFrame />}>
                   <Route path="" element={<DashboardEditorPage />} />
+                  <Route path=":content_id" element={<DashboardEditorPage />} />
                 </Route>
                 <Route path="/admin" element={<AdminFrame />}>
                   <Route path="data_source/list" element={<DataSourcePage />} />

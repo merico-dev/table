@@ -1,12 +1,12 @@
 import { ActionIcon, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
 import { IconArrowCurveRight } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { useModelContext, usePanelContext } from '../../../../../../contexts';
+import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
 import { DataPreview } from '../../data-preview';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
+  const content = useContentModelContext();
   const {
     panel: { queryID, setQueryID },
   } = usePanelContext();
@@ -20,7 +20,7 @@ export const PickQuery = observer(function _PickQuery() {
       <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
         <Text>Use query</Text>
         <Select
-          data={model.queries.options}
+          data={content.queries.options}
           value={queryID}
           onChange={setQueryID}
           allowDeselect={false}

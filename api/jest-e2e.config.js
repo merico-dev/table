@@ -5,6 +5,7 @@ module.exports = {
   ...defaultConfig,
   coverageDirectory: './coverage-e2e/',
   globalSetup: '<rootDir>/tests/e2e/jest.setup.ts',
+  setupFilesAfterEnv: ['<rootDir>/tests/e2e/jest.mock.ts'],
   testRegex: '(/tests/e2e/.*(test|spec|e2e))\\.(jsx?|tsx?)$',
   roots: ['<rootDir>/tests/e2e/'],
   testSequencer: './test.sequencer.js',

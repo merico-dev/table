@@ -1,7 +1,12 @@
 import { DataSourceOptions } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';
 import crypto from 'crypto';
+import fs from 'fs-extra';
+import path from 'path';
+import simpleGit, { SimpleGit, SimpleGitOptions } from 'simple-git';
 import { DATABASE_CONNECTION_TIMEOUT_MS, DATABASE_POOL_SIZE } from './constants';
+import logger from 'npmlog';
+import { omit } from 'lodash';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
@@ -57,4 +62,36 @@ export const cryptSign = (params: { [propName: string]: any }, appsecret: string
   const crypt = crypto.createHash('MD5');
   crypt.update(buffer);
   return crypt.digest('hex').toUpperCase();
+};
+
+export const getDiff = async (oldData: any, newData: any): Promise<string | undefined> => {
+  const time = new Date().getTime();
+  const dir = path.join(__dirname, `${time}_${oldData.id}`);
+  await fs.ensureDir(dir);
+  let diff: string | undefined;
+  try {
+    const options: Partial<SimpleGitOptions> = {
+      baseDir: dir,
+      binary: 'git',
+    };
+    const git: SimpleGit = simpleGit(options);
+    await git.init();
+    await git.addConfig('user.name', 'Devtable');
+    await git.addConfig('user.email', 'Devtable@merico.dev');
+    const filename = path.join(dir, 'data.json');
+    await fs.writeJson(filename, oldData, { spaces: '\t' });
+    await git.add(filename);
+    await git.commit('First');
+    await fs.writeJson(filename, newData, { spaces: '\t' });
+    diff = await git.diff();
+  } catch (e) {
+    logger.warn('get diff failed');
+    logger.warn(e);
+  }
+  await fs.rm(dir, { recursive: true, force: true });
+  return diff;
+};
+
+export const omitTime = (obj: any): any => {
+  return omit(obj, ['create_time', 'update_time']);
 };

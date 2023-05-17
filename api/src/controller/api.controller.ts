@@ -37,10 +37,10 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyListRequest))
   public async listKeys(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(ApiKeyListRequest, req.body);
+      const { filter, sort, pagination } = req.body as ApiKeyListRequest;
       const result = await this.apiService.listKeys(filter, sort, pagination);
       res.json(result);
     } catch (err) {
@@ -59,10 +59,10 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyCreateRequest))
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, role_id } = validate(ApiKeyCreateRequest, req.body);
+      const { name, role_id } = req.body as ApiKeyCreateRequest;
       const result = await this.apiService.createKey(name, role_id, req.locale);
       res.json(result);
     } catch (err) {
@@ -81,10 +81,10 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/delete', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN))
+  @httpPost('/key/delete', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyIDRequest))
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(ApiKeyIDRequest, req.body);
+      const { id } = req.body as ApiKeyIDRequest;
       await this.apiService.deleteKey(id, req.locale);
       res.json({ id });
     } catch (err) {

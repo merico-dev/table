@@ -1,13 +1,15 @@
 import { autorun, reaction } from 'mobx';
-import { addDisposer, applySnapshot, cast, flow, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { SnapshotIn, addDisposer, applySnapshot, cast, flow, toGenerator, types } from 'mobx-state-tree';
+import { APICaller } from '../../../api-caller';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 import { DashboardDetailModel } from './dashboard-detail-model';
+import { TDashboardMetaInfo } from '../../../api-caller/dashboard.typed';
 
 export const DashboardStore = types
   .model('DashboardStore', {
     list: types.array(DashboardBriefModel),
     currentID: types.optional(types.string, ''),
+    currentContentID: types.optional(types.string, ''),
     currentDetail: types.maybe(DashboardDetailModel),
     loading: types.boolean,
     detailsLoading: types.boolean,
@@ -55,14 +57,17 @@ export const DashboardStore = types
     setCurrentID(id?: string) {
       self.currentID = id ?? '';
     },
+    setCurrentContentID(id?: string) {
+      self.currentContentID = id ?? '';
+    },
   }))
   .actions((self) => ({
     load: flow(function* () {
       self.setLoading(true);
       try {
-        const { data } = yield* toGenerator(DashboardAPI.list());
+        const { data } = yield* toGenerator(APICaller.dashboard.list());
         if (!Array.isArray(data)) {
-          throw new Error('not found');
+          throw new Error('no dashboard found');
         }
         self.setList(data);
         self.setLoading(false);
@@ -70,21 +75,40 @@ export const DashboardStore = types
         console.error(error);
       }
     }),
-    setCurrentDetail(detail: SnapshotIn<typeof DashboardDetailModel>) {
+    setCurrentDetail(detail: TDashboardMetaInfo) {
+      const snapshot = {
+        ...detail,
+        content: {
+          id: detail.content_id,
+          data: null,
+          fullData: null,
+        },
+      };
       if (!self.currentDetail) {
-        self.currentDetail = DashboardDetailModel.create(detail);
+        self.currentDetail = DashboardDetailModel.create(snapshot);
         return;
       }
-      applySnapshot(self.currentDetail, detail);
+      applySnapshot(self.currentDetail, snapshot);
     },
     loadCurrentDetail: flow(function* () {
+      if (!self.currentID) {
+        return;
+      }
       self.setDetailLoading(true);
       try {
-        const data = yield* toGenerator(DashboardAPI.details(self.currentID));
-        if (!('content' in data)) {
-          throw new Error('not found');
+        const data = yield* toGenerator(APICaller.dashboard.details(self.currentID));
+        if (!('content_id' in data)) {
+          throw new Error('failed to load dashboard detail');
         }
-        self.currentDetail = DashboardDetailModel.create(data);
+        const content_id = self.currentContentID ? self.currentContentID : data.content_id;
+        self.currentDetail = DashboardDetailModel.create({
+          ...data,
+          content: {
+            id: content_id,
+            data: null,
+            fullData: null,
+          },
+        });
         self.setDetailLoading(false);
       } catch (error) {
         console.error(error);
@@ -100,3 +124,5 @@ export const DashboardStore = types
       );
     },
   }));
+
+export type DashboardStoreInstance = typeof DashboardStore.Type;

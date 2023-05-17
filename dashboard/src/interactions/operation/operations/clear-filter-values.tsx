@@ -1,7 +1,7 @@
 import { MultiSelect, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { useStorageData } from '~/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
@@ -12,7 +12,7 @@ export interface IClearFilterValuesOperationConfig {
 const defaultValue: IClearFilterValuesOperationConfig = { filter_keys: [] };
 
 const ClearFilterValuesOperationSettings = observer((props: IOperationConfigProps) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { value = defaultValue, set } = useStorageData<IClearFilterValuesOperationConfig>(
     props.operation.operationData,
     'config',

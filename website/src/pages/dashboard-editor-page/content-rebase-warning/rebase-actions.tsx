@@ -67,7 +67,7 @@ export const RebaseActions = observer(({ rebaseModel, remoteKey, onFinish }: IRe
   const hasConflicts = mergeState.conflicts.length > 0;
 
   const handleApply = (changes: IResolveResult[]) => {
-    const copy = cloneDeep(store.currentDetail?.dashboard);
+    const copy = cloneDeep(store.currentDetail?.content.fullData);
     if (!copy) {
       return;
     }

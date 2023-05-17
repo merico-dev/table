@@ -15,6 +15,7 @@ import Account from '../models/account';
 import ApiKey from '../models/apiKey';
 import DashboardPermission from '../models/dashboard_permission';
 import { PermissionResource } from '../api_models/dashboard_permission';
+import DashboardContent from '../models/dashboard_content';
 
 export class DashboardService {
   async list(
@@ -77,20 +78,13 @@ export class DashboardService {
     };
   }
 
-  async create(
-    name: string,
-    content: Record<string, any>,
-    group: string,
-    locale: string,
-    auth?: Account | ApiKey,
-  ): Promise<Dashboard> {
+  async create(name: string, group: string, locale: string, auth?: Account | ApiKey): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     if (await dashboardRepo.exist({ where: { name, is_preset: false, is_removed: false } })) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_NAME_ALREADY_EXISTS', locale) });
     }
     const dashboard = new Dashboard();
     dashboard.name = name;
-    dashboard.content = content;
     dashboard.group = group;
     const result = await dashboardRepo.save(dashboard);
 
@@ -115,15 +109,16 @@ export class DashboardService {
   async update(
     id: string,
     name: string | undefined,
-    content: Record<string, any> | undefined,
+    content_id: string | null | undefined,
     is_removed: boolean | undefined,
     group: string | undefined,
     locale: string,
     role_id?: ROLE_TYPES,
   ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
+    const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    if (name === undefined && content === undefined && is_removed === undefined && group === undefined) {
+    if (name === undefined && content_id === undefined && is_removed === undefined && group === undefined) {
       return dashboard;
     }
     if (name !== undefined && dashboard.name !== name) {
@@ -131,12 +126,17 @@ export class DashboardService {
         throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_NAME_ALREADY_EXISTS', locale) });
       }
     }
+    if (content_id !== undefined && content_id !== null) {
+      if (!(await dashboardContentRepo.exist({ where: { id: content_id, dashboard_id: id } }))) {
+        throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_DOES_NOT_EXIST', locale) });
+      }
+    }
     const originalDashboard = _.cloneDeep(dashboard);
     if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale) });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
-    dashboard.content = content === undefined ? dashboard.content : content;
+    dashboard.content_id = content_id === undefined ? dashboard.content_id : content_id;
     dashboard.is_removed = is_removed === undefined ? dashboard.is_removed : is_removed;
     dashboard.group = group === undefined ? dashboard.group : group;
     await dashboardRepo.save(dashboard);

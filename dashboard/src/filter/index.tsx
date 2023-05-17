@@ -4,11 +4,11 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { FilterModelInstance, ViewModelInstance } from '..';
-import { useModelContext } from '../contexts/model-context';
+import { useContentModelContext } from '~/contexts';
 import { Filter } from './filter';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {
-  const model = useModelContext();
+  const model = useContentModelContext();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: model.filters.values,

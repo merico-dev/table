@@ -2,13 +2,13 @@ import { Stack, Sx, Tabs, Text, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { QueryModelInstance } from '../../../../../../model/queries';
-import { QueryConfigurations } from './configurations';
 import { DataPreview } from '../../data-preview';
+import { QueryConfigurations } from './configurations';
 import { TabPanel_HTTP } from './tabs/http';
 
-import { TabPanel_SQL } from './tabs/sql';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { QueryUsage } from './query-usage';
+import { TabPanel_SQL } from './tabs/sql';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -20,7 +20,7 @@ interface IQueryEditorForm {
 }
 
 export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
-  const model = useModelContext();
+  const content = useContentModelContext();
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
       return 'Configurations';
@@ -28,7 +28,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
     return queryModel.typedAsHTTP ? 'HTTP' : 'SQL';
   }, [queryModel.datasource, queryModel.typedAsHTTP]);
 
-  const usage = model.findQueryUsage(queryModel.id);
+  const usage = content.findQueryUsage(queryModel.id);
   const noUsage = usage.length === 0;
   return (
     <Stack sx={{ flexGrow: 1 }} my={0} p={0}>

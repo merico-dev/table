@@ -10,6 +10,8 @@ import { JobController } from './job.controller';
 import { DashboardChangelogController } from './dashboard_changelog.controller';
 import { ConfigController } from './config.controller';
 import { DashboardPermissionController } from './dashboard_permission.controller';
+import { DashboardContentController } from './dashboard_content.controller';
+import { DashboardContentChangelogController } from './dashboard_content_changelog.controller';
 
 export function bindControllers(container: Container) {
   container
@@ -62,4 +64,14 @@ export function bindControllers(container: Container) {
     .to(DashboardPermissionController)
     .inSingletonScope()
     .whenTargetNamed(DashboardPermissionController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(DashboardContentController)
+    .inSingletonScope()
+    .whenTargetNamed(DashboardContentController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(DashboardContentChangelogController)
+    .inSingletonScope()
+    .whenTargetNamed(DashboardContentChangelogController.TARGET_NAME);
 }

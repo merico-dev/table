@@ -11,6 +11,7 @@ import { useDashboardStore } from '../../frames/app/models/dashboard-store-conte
 import { DashboardConfig } from '../../utils/config';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
+import { DashboardIsEmpty } from './placeholder';
 
 export const DashboardPageContent = observer(() => {
   const { store } = useDashboardStore();
@@ -28,29 +29,47 @@ export const DashboardPageContent = observer(() => {
     setSearch(s);
   };
 
-  if (!store.currentDetail) {
+  if (!store.currentDetail?.content.loaded) {
     return null;
   }
 
-  const ready = !store.detailsLoading;
+  if (store.detailsLoading) {
+    return (
+      <div className="dashboard-page-content">
+        <Helmet>
+          <title>{store.currentDetail.name}</title>
+        </Helmet>
+        <LoadingOverlay visible exitTransitionDuration={0} />
+      </div>
+    );
+  }
+
+  if (!store.currentDetail?.content.fullData) {
+    return (
+      <div className="dashboard-page-content">
+        <Helmet>
+          <title>{store.currentDetail.name}</title>
+        </Helmet>
+        <DashboardIsEmpty />
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-page-content">
       <Helmet>
         <title>{store.currentDetail.name}</title>
       </Helmet>
-      <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
-      {ready && (
-        <ErrorBoundary>
-          <ReadOnlyDashboard
-            context={context}
-            dashboard={store.currentDetail.dashboard}
-            config={DashboardConfig}
-            fullScreenPanelID={search.full_screen_panel_id}
-            setFullScreenPanelID={setFullScreenPanelID}
-          />
-        </ErrorBoundary>
-      )}
+      <ErrorBoundary>
+        <ReadOnlyDashboard
+          context={context}
+          dashboard={store.currentDetail.dashboard}
+          content={store.currentDetail.content.fullData}
+          config={DashboardConfig}
+          fullScreenPanelID={search.full_screen_panel_id}
+          setFullScreenPanelID={setFullScreenPanelID}
+        />
+      </ErrorBoundary>
     </div>
   );
 });

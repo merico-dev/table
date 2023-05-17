@@ -2,7 +2,7 @@ import { Select } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { APICaller } from '../../../api-caller';
 
 export function DashboardSelector() {
   const { id } = useParams();
@@ -13,7 +13,7 @@ export function DashboardSelector() {
 
   const { data: options = [] } = useRequest(
     async () => {
-      const { data } = await DashboardAPI.list();
+      const { data } = await APICaller.dashboard.list();
       return data.map((d) => ({
         label: d.name,
         value: d.id,

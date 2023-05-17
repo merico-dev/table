@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { connectionHook, createAuthStruct } from './jest.util';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -18,6 +17,7 @@ import { SALT_ROUNDS } from '~/utils/constants';
 import Dashboard from '~/models/dashboard';
 import DashboardPermission from '~/models/dashboard_permission';
 import { DashboardIDRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
+import { omitTime } from '~/utils/helpers';
 
 describe('DashboardPermissionController', () => {
   connectionHook();
@@ -37,8 +37,6 @@ describe('DashboardPermissionController', () => {
   let dashboardId5: string;
 
   const server = request(app);
-
-  const validate = jest.spyOn(validation, 'validate');
 
   beforeAll(async () => {
     const readerAccountData = new Account();
@@ -71,7 +69,6 @@ describe('DashboardPermissionController', () => {
 
     const dashboardData = new Dashboard();
     dashboardData.name = 'dashboard_permission';
-    dashboardData.content = {};
     dashboardData.group = 'dashboard_permission';
     dashboardData.is_preset = false;
     const dashboard = await dashboardDataSource.getRepository(Dashboard).save(dashboardData);
@@ -85,7 +82,6 @@ describe('DashboardPermissionController', () => {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(superadminQuery);
 
     const superadminResponse = await server.post('/account/login').send(superadminQuery);
     superadminLogin = superadminResponse.body;
@@ -94,7 +90,6 @@ describe('DashboardPermissionController', () => {
       name: readerAccount.name,
       password: readerAccount.name,
     };
-    validate.mockReturnValueOnce(readerQuery);
 
     const readerResponse = await server.post('/account/login').send(readerQuery);
     readerLogin = readerResponse.body;
@@ -103,14 +98,9 @@ describe('DashboardPermissionController', () => {
       name: authorAccount.name,
       password: authorAccount.name,
     };
-    validate.mockReturnValueOnce(authorQuery);
 
     const authorResponse = await server.post('/account/login').send(authorQuery);
     authorLogin = authorResponse.body;
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('list', () => {
@@ -119,13 +109,13 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/dashboard_permission/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
+      response.body.data = response.body.data.map(omitTime);
       expect(response.body).toMatchObject({
         total: 5,
         offset: 0,
@@ -135,40 +125,30 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[0].create_time,
-            update_time: response.body.data[0].update_time,
           },
           {
             id: response.body.data[1].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[1].create_time,
-            update_time: response.body.data[1].update_time,
           },
           {
             id: response.body.data[2].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[2].create_time,
-            update_time: response.body.data[2].update_time,
           },
           {
             id: response.body.data[3].id,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response.body.data[3].create_time,
-            update_time: response.body.data[3].update_time,
           },
           {
             id: response.body.data[4].id,
             owner_id: null,
             owner_type: null,
             access: [],
-            create_time: response.body.data[4].create_time,
-            update_time: response.body.data[4].update_time,
           },
         ],
       });
@@ -185,13 +165,13 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body.data = response1.body.data.map(omitTime);
       expect(response1.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -201,8 +181,6 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response1.body.data[0].create_time,
-            update_time: response1.body.data[0].update_time,
           },
         ],
       });
@@ -212,13 +190,13 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
+      response2.body.data = response2.body.data.map(omitTime);
       expect(response2.body).toMatchObject({
         total: 4,
         offset: 0,
@@ -228,32 +206,24 @@ describe('DashboardPermissionController', () => {
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[0].create_time,
-            update_time: response2.body.data[0].update_time,
           },
           {
             id: dashboardId2,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[1].create_time,
-            update_time: response2.body.data[1].update_time,
           },
           {
             id: dashboardId3,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[2].create_time,
-            update_time: response2.body.data[2].update_time,
           },
           {
             id: dashboardId4,
             owner_id: superadminLogin.account.id,
             owner_type: 'ACCOUNT',
             access: [],
-            create_time: response2.body.data[3].create_time,
-            update_time: response2.body.data[3].update_time,
           },
         ],
       });
@@ -263,7 +233,6 @@ describe('DashboardPermissionController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'create_time', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query3);
 
       const response3 = await server
         .post('/dashboard_permission/list')
@@ -283,27 +252,25 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardPermissionUpdateRequest = {
         id: dashboardId1,
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
           { type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: readerApiKey.id, permission: 'VIEW' },
         ],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
           { type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: readerApiKey.id, permission: 'VIEW' },
@@ -317,21 +284,19 @@ describe('DashboardPermissionController', () => {
           { type: 'APIKEY', id: readerApiKey.id, permission: 'REMOVE' },
         ],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
+      response2.body = omitTime(response2.body);
       expect(response2.body).toMatchObject({
         id: dashboardId1,
-        create_time: response2.body.create_time,
-        update_time: response2.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [
-          { type: 'ACCOUNT', id: readerAccount.id, permission: 'EDIT' },
+          { type: 'ACCOUNT', id: readerAccount.id, permission: 'VIEW' },
           { type: 'APIKEY', id: authorApiKey.id, permission: 'EDIT' },
         ],
       });
@@ -340,17 +305,15 @@ describe('DashboardPermissionController', () => {
         id: dashboardId2,
         access: [{ type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' }],
       };
-      validate.mockReturnValueOnce(query3);
 
       const response3 = await server
         .post('/dashboard_permission/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query3);
 
+      response3.body = omitTime(response3.body);
       expect(response3.body).toMatchObject({
         id: dashboardId2,
-        create_time: response3.body.create_time,
-        update_time: response3.body.update_time,
         owner_id: superadminLogin.account.id,
         owner_type: 'ACCOUNT',
         access: [{ type: 'ACCOUNT', id: authorAccount.id, permission: 'VIEW' }],
@@ -362,7 +325,6 @@ describe('DashboardPermissionController', () => {
         id: dashboardId2,
         access: [],
       };
-      validate.mockReturnValueOnce(query1);
 
       const response1 = await server
         .post('/dashboard_permission/update')
@@ -378,7 +340,6 @@ describe('DashboardPermissionController', () => {
         id: dashboardId5,
         access: [],
       };
-      validate.mockReturnValueOnce(query2);
 
       const response2 = await server
         .post('/dashboard_permission/update')
@@ -397,7 +358,6 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${readerLogin.token}`)
@@ -407,7 +367,6 @@ describe('DashboardPermissionController', () => {
       const query2: DashboardIDRequest = {
         id: dashboardId2,
       };
-      validate.mockReturnValueOnce(query2);
       const response2 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -417,7 +376,6 @@ describe('DashboardPermissionController', () => {
       const query3: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query3);
       const response3 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
@@ -427,12 +385,10 @@ describe('DashboardPermissionController', () => {
       const authentication = createAuthStruct(authorApiKey, {
         id: dashboardId1,
       });
-      validate.mockReturnValueOnce(authentication);
       const query4: DashboardUpdateRequest = {
         id: dashboardId1,
         authentication,
       };
-      validate.mockReturnValueOnce(query4);
       const response4 = await server.put('/dashboard/update').send(query4);
       expect(response4.body.id).toEqual(dashboardId1);
     });
@@ -441,8 +397,6 @@ describe('DashboardPermissionController', () => {
       const query1: DashboardIDRequest = {
         id: dashboardId1,
       };
-      validate.mockReturnValueOnce(query1);
-
       const response1 = await server
         .post('/dashboard/details')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -451,12 +405,9 @@ describe('DashboardPermissionController', () => {
         code: 'FORBIDDEN',
         detail: { message: 'Insufficient privileges for this dashboard' },
       });
-
       const query2: DashboardIDRequest = {
         id: dashboardId2,
       };
-      validate.mockReturnValueOnce(query2);
-
       const response2 = await server
         .put('/dashboard/update')
         .set('Authorization', `Bearer ${authorLogin.token}`)
@@ -475,18 +426,17 @@ describe('DashboardPermissionController', () => {
         owner_id: authorApiKey.id,
         owner_type: 'APIKEY',
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard_permission/updateOwner')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
+
+      response1.body = omitTime(response1.body);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
-        create_time: response1.body.create_time,
-        update_time: response1.body.update_time,
         owner_id: authorApiKey.id,
         owner_type: 'APIKEY',
-        access: [{ id: readerAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
+        access: [{ id: readerAccount.id, type: 'ACCOUNT', permission: 'VIEW' }],
       });
     });
 
@@ -496,7 +446,6 @@ describe('DashboardPermissionController', () => {
         owner_id: readerAccount.id,
         owner_type: 'ACCOUNT',
       };
-      validate.mockReturnValueOnce(query1);
       const response1 = await server
         .post('/dashboard_permission/updateOwner')
         .set('Authorization', `Bearer ${superadminLogin.token}`)

@@ -1,11 +1,11 @@
 import { IDashboard } from '@devtable/dashboard';
-import { IDBDashboard } from './dashboard.typed';
+import { TDashboardMetaInfo } from './dashboard.typed';
 
-export function normalizeDBDashboard({ id, name, group, content }: IDBDashboard): IDashboard {
+export function normalizeDBDashboard({ id, name, group, content_id }: TDashboardMetaInfo): IDashboard {
   return {
     id,
     name,
     group,
-    ...content,
+    content_id,
   } as IDashboard;
 }

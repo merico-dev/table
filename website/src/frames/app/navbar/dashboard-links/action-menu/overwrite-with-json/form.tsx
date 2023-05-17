@@ -2,7 +2,7 @@ import { Box, Button, FileInput, Group, LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { APICaller } from '../../../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
 import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
@@ -48,7 +48,7 @@ export function OverwriteWithJSONForm({
       }
       const { id, name, group } = dashboard;
       // @ts-expect-error type mismatch
-      await DashboardAPI.update({ ...content, id, name, group });
+      await APICaller.dashboard.update({ ...content, id, name, group });
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

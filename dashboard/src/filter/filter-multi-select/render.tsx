@@ -1,6 +1,6 @@
 import { MultiSelect } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { FilterModelInstance } from '../../model';
 import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
 import { FilterSelectItem } from '../select-item';
@@ -12,7 +12,7 @@ interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 
 }
 
 export const FilterMultiSelect = observer(({ label, config, value, onChange }: IFilterMultiSelect) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
   const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';

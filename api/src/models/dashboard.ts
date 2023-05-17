@@ -10,8 +10,13 @@ export default class Dashboard extends BaseModel {
   })
   name: string;
 
-  @Column('jsonb', { name: 'content' })
-  content: Record<string, any>;
+  @Column('uuid', {
+    nullable: true,
+    default: null,
+    name: 'content_id',
+    comment: '报表内容ID',
+  })
+  content_id: string | null;
 
   @Column('boolean', {
     default: false,

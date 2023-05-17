@@ -1,12 +1,12 @@
 import { LoadingOverlay } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { AccountAPI } from '../../api-caller/account';
+import { APICaller } from '../../api-caller';
 import { AccountContextProvider } from './account-context';
 
 export function RequireAuth() {
   const location = useLocation();
-  const { data: account, loading } = useRequest(AccountAPI.get);
+  const { data: account, loading } = useRequest(APICaller.account.get);
 
   if (loading) {
     return <LoadingOverlay visible />;

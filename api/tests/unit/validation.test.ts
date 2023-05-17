@@ -31,8 +31,15 @@ import {
   DashboardOwnerUpdateRequest,
   DashboardPermissionUpdateRequest,
 } from '~/api_models/dashboard_permission';
+import { DashboardContentChangelogListRequest } from '~/api_models/dashboard_content_changelog';
+import {
+  DashboardContentListRequest,
+  DashboardContentCreateRequest,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+} from '~/api_models/dashboard_content';
 import { ApiError } from '~/utils/errors';
-import { validate } from '~/middleware/validation';
+import { validateClass } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import * as crypto from 'crypto';
@@ -46,17 +53,17 @@ describe('validation', () => {
           password: 'test',
         };
 
-        const result = validate(AccountLoginRequest, data);
+        const result = validateClass(AccountLoginRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountLoginRequest, data)).toThrow(
+        expect(() => validateClass(AccountLoginRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountLoginRequest, data);
+          validateClass(AccountLoginRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -86,13 +93,13 @@ describe('validation', () => {
           filter: { name: { value: '', isFuzzy: true }, email: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(AccountListRequest, data);
+        const result = validateClass(AccountListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(AccountListRequest, data);
+        const result = validateClass(AccountListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -103,11 +110,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(AccountListRequest, data)).toThrow(
+        expect(() => validateClass(AccountListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountListRequest, data);
+          validateClass(AccountListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -147,17 +154,17 @@ describe('validation', () => {
           role_id: ROLE_TYPES.AUTHOR,
         };
 
-        const result = validate(AccountCreateRequest, data);
+        const result = validateClass(AccountCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountCreateRequest, data)).toThrow(
+        expect(() => validateClass(AccountCreateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountCreateRequest, data);
+          validateClass(AccountCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -199,7 +206,7 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: AccountUpdateRequest = {};
 
-        const result = validate(AccountUpdateRequest, data);
+        const result = validateClass(AccountUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
@@ -208,11 +215,11 @@ describe('validation', () => {
           name: '',
           email: '',
         };
-        expect(() => validate(AccountUpdateRequest, data)).toThrow(
+        expect(() => validateClass(AccountUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountUpdateRequest, data);
+          validateClass(AccountUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -250,7 +257,7 @@ describe('validation', () => {
           id: crypto.randomUUID(),
         };
 
-        const result = validate(AccountEditRequest, data);
+        const result = validateClass(AccountEditRequest, data);
         expect(result).toMatchObject(data);
       });
 
@@ -260,11 +267,11 @@ describe('validation', () => {
           name: '',
           role_id: 0,
         };
-        expect(() => validate(AccountEditRequest, data)).toThrow(
+        expect(() => validateClass(AccountEditRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountEditRequest, data);
+          validateClass(AccountEditRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -316,17 +323,17 @@ describe('validation', () => {
           old_password: 'test1234',
         };
 
-        const result = validate(AccountChangePasswordRequest, data);
+        const result = validateClass(AccountChangePasswordRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountChangePasswordRequest, data)).toThrow(
+        expect(() => validateClass(AccountChangePasswordRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountChangePasswordRequest, data);
+          validateClass(AccountChangePasswordRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -358,17 +365,17 @@ describe('validation', () => {
           id: crypto.randomUUID(),
         };
 
-        const result = validate(AccountIDRequest, data);
+        const result = validateClass(AccountIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(AccountIDRequest, data)).toThrow(
+        expect(() => validateClass(AccountIDRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(AccountIDRequest, data);
+          validateClass(AccountIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -393,13 +400,13 @@ describe('validation', () => {
           filter: { name: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(ApiKeyListRequest, data);
+        const result = validateClass(ApiKeyListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(ApiKeyListRequest, data);
+        const result = validateClass(ApiKeyListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -410,11 +417,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(ApiKeyListRequest, data)).toThrow(
+        expect(() => validateClass(ApiKeyListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(ApiKeyListRequest, data);
+          validateClass(ApiKeyListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -453,17 +460,17 @@ describe('validation', () => {
           role_id: ROLE_TYPES.AUTHOR,
         };
 
-        const result = validate(ApiKeyCreateRequest, data);
+        const result = validateClass(ApiKeyCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ApiKeyCreateRequest, data)).toThrow(
+        expect(() => validateClass(ApiKeyCreateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(ApiKeyCreateRequest, data);
+          validateClass(ApiKeyCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -497,17 +504,17 @@ describe('validation', () => {
           id: crypto.randomUUID(),
         };
 
-        const result = validate(ApiKeyIDRequest, data);
+        const result = validateClass(ApiKeyIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ApiKeyIDRequest, data)).toThrow(
+        expect(() => validateClass(ApiKeyIDRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(ApiKeyIDRequest, data);
+          validateClass(ApiKeyIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -532,13 +539,13 @@ describe('validation', () => {
           filter: { group: { value: '', isFuzzy: true }, name: { value: '', isFuzzy: true }, is_removed: false },
         };
 
-        const result = validate(DashboardListRequest, data);
+        const result = validateClass(DashboardListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(DashboardListRequest, data);
+        const result = validateClass(DashboardListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -549,11 +556,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DashboardListRequest, data)).toThrow(
+        expect(() => validateClass(DashboardListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardListRequest, data);
+          validateClass(DashboardListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -589,21 +596,20 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardCreateRequest = {
           name: 'test',
-          content: {},
           group: '',
         };
 
-        const result = validate(DashboardCreateRequest, data);
+        const result = validateClass(DashboardCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardCreateRequest, data)).toThrow(
+        expect(() => validateClass(DashboardCreateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardCreateRequest, data);
+          validateClass(DashboardCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -615,13 +621,6 @@ describe('validation', () => {
                 isLength: 'name must be longer than or equal to 1 characters',
                 isString: 'name must be a string',
               },
-            },
-            {
-              target: {},
-              value: undefined,
-              property: 'content',
-              children: [],
-              constraints: { isObject: 'content must be an object' },
             },
             {
               target: {},
@@ -641,17 +640,17 @@ describe('validation', () => {
           id: crypto.randomUUID(),
         };
 
-        const result = validate(DashboardIDRequest, data);
+        const result = validateClass(DashboardIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardIDRequest, data)).toThrow(
+        expect(() => validateClass(DashboardIDRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardIDRequest, data);
+          validateClass(DashboardIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -673,17 +672,17 @@ describe('validation', () => {
           is_preset: false,
         };
 
-        const result = validate(DashboardNameRequest, data);
+        const result = validateClass(DashboardNameRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardNameRequest, data)).toThrow(
+        expect(() => validateClass(DashboardNameRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardNameRequest, data);
+          validateClass(DashboardNameRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -712,22 +711,22 @@ describe('validation', () => {
       it('Should have no validation errors', () => {
         const data: DashboardUpdateRequest = {
           id: crypto.randomUUID(),
-          content: {},
+          content_id: crypto.randomUUID(),
           is_removed: true,
           name: 'test',
         };
 
-        const result = validate(DashboardUpdateRequest, data);
+        const result = validateClass(DashboardUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardUpdateRequest, data)).toThrow(
+        expect(() => validateClass(DashboardUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardUpdateRequest, data);
+          validateClass(DashboardUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -752,13 +751,13 @@ describe('validation', () => {
           filter: { key: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(DataSourceListRequest, data);
+        const result = validateClass(DataSourceListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(DataSourceListRequest, data);
+        const result = validateClass(DataSourceListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -769,11 +768,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DataSourceListRequest, data)).toThrow(
+        expect(() => validateClass(DataSourceListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DataSourceListRequest, data);
+          validateClass(DataSourceListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -823,17 +822,17 @@ describe('validation', () => {
           type: 'postgresql',
         };
 
-        const result = validate(DataSourceCreateRequest, data);
+        const result = validateClass(DataSourceCreateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceCreateRequest, data)).toThrow(
+        expect(() => validateClass(DataSourceCreateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DataSourceCreateRequest, data);
+          validateClass(DataSourceCreateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -875,17 +874,17 @@ describe('validation', () => {
           key: 'test_new',
         };
 
-        const result = validate(DataSourceRenameRequest, data);
+        const result = validateClass(DataSourceRenameRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceRenameRequest, data)).toThrow(
+        expect(() => validateClass(DataSourceRenameRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DataSourceRenameRequest, data);
+          validateClass(DataSourceRenameRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -916,17 +915,17 @@ describe('validation', () => {
           id: crypto.randomUUID(),
         };
 
-        const result = validate(DataSourceIDRequest, data);
+        const result = validateClass(DataSourceIDRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DataSourceIDRequest, data)).toThrow(
+        expect(() => validateClass(DataSourceIDRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DataSourceIDRequest, data);
+          validateClass(DataSourceIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -951,13 +950,13 @@ describe('validation', () => {
           filter: { status: { value: '', isFuzzy: true }, type: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(JobListRequest, data);
+        const result = validateClass(JobListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(JobListRequest, data);
+        const result = validateClass(JobListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -968,11 +967,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(JobListRequest, data)).toThrow(
+        expect(() => validateClass(JobListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(JobListRequest, data);
+          validateClass(JobListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1010,17 +1009,17 @@ describe('validation', () => {
           type: 'RENAME_DATASOURCE',
         };
 
-        const result = validate(JobRunRequest, data);
+        const result = validateClass(JobRunRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(JobRunRequest, data)).toThrow(
+        expect(() => validateClass(JobRunRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(JobRunRequest, data);
+          validateClass(JobRunRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1029,7 +1028,7 @@ describe('validation', () => {
               property: 'type',
               children: [],
               constraints: {
-                isIn: 'type must be one of the following values: RENAME_DATASOURCE',
+                isIn: 'type must be one of the following values: RENAME_DATASOURCE, FIX_DASHBOARD_PERMISSION',
               },
             },
           ]);
@@ -1047,17 +1046,17 @@ describe('validation', () => {
           query: '',
         };
 
-        const result = validate(QueryRequest, data);
+        const result = validateClass(QueryRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(QueryRequest, data)).toThrow(
+        expect(() => validateClass(QueryRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(QueryRequest, data);
+          validateClass(QueryRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1095,17 +1094,17 @@ describe('validation', () => {
         const data: ConfigGetRequest = {
           key: 'lang',
         };
-        const result = validate(ConfigGetRequest, data);
+        const result = validateClass(ConfigGetRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ConfigGetRequest, data)).toThrow(
+        expect(() => validateClass(ConfigGetRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(ConfigGetRequest, data);
+          validateClass(ConfigGetRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1126,17 +1125,17 @@ describe('validation', () => {
           key: 'lang',
           value: DEFAULT_LANGUAGE,
         };
-        const result = validate(ConfigUpdateRequest, data);
+        const result = validateClass(ConfigUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(ConfigUpdateRequest, data)).toThrow(
+        expect(() => validateClass(ConfigUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(ConfigUpdateRequest, data);
+          validateClass(ConfigUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1168,13 +1167,13 @@ describe('validation', () => {
           filter: { dashboard_id: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(DashboardChangelogListRequest, data);
+        const result = validateClass(DashboardChangelogListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(DashboardChangelogListRequest, data);
+        const result = validateClass(DashboardChangelogListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -1185,11 +1184,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DashboardChangelogListRequest, data)).toThrow(
+        expect(() => validateClass(DashboardChangelogListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardChangelogListRequest, data);
+          validateClass(DashboardChangelogListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1231,13 +1230,13 @@ describe('validation', () => {
           filter: { id: { value: '', isFuzzy: true } },
         };
 
-        const result = validate(DashboardPermissionListRequest, data);
+        const result = validateClass(DashboardPermissionListRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Empty request should also have no validation errors', () => {
         const data = {};
-        const result = validate(DashboardPermissionListRequest, data);
+        const result = validateClass(DashboardPermissionListRequest, data);
         expect(result).toMatchObject({
           sort: [{ field: 'create_time', order: 'ASC' }],
           pagination: { page: 1, pagesize: 20 },
@@ -1248,11 +1247,11 @@ describe('validation', () => {
         const data = {
           pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
         };
-        expect(() => validate(DashboardPermissionListRequest, data)).toThrow(
+        expect(() => validateClass(DashboardPermissionListRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardPermissionListRequest, data);
+          validateClass(DashboardPermissionListRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1291,17 +1290,17 @@ describe('validation', () => {
           owner_id: crypto.randomUUID(),
           owner_type: 'ACCOUNT',
         };
-        const result = validate(DashboardOwnerUpdateRequest, data);
+        const result = validateClass(DashboardOwnerUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
       it('Should have validation errors', () => {
         const data = {};
-        expect(() => validate(DashboardOwnerUpdateRequest, data)).toThrow(
+        expect(() => validateClass(DashboardOwnerUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardOwnerUpdateRequest, data);
+          validateClass(DashboardOwnerUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1336,7 +1335,7 @@ describe('validation', () => {
           id: crypto.randomUUID(),
           access: [{ id: crypto.randomUUID(), type: 'ACCOUNT', permission: 'VIEW' }],
         };
-        const result = validate(DashboardPermissionUpdateRequest, data);
+        const result = validateClass(DashboardPermissionUpdateRequest, data);
         expect(result).toMatchObject(data);
       });
 
@@ -1344,11 +1343,11 @@ describe('validation', () => {
         const data = {
           access: [{ id: '', type: 'INCORRECT', permission: 'INCORRECT' }],
         };
-        expect(() => validate(DashboardPermissionUpdateRequest, data)).toThrow(
+        expect(() => validateClass(DashboardPermissionUpdateRequest, data)).toThrow(
           new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
         );
         try {
-          validate(DashboardPermissionUpdateRequest, data);
+          validateClass(DashboardPermissionUpdateRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
@@ -1392,6 +1391,256 @@ describe('validation', () => {
                   value: { id: '', type: 'INCORRECT', permission: 'INCORRECT' },
                 },
               ],
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('DashboardContentController', () => {
+    describe('DashboardContentChangelogListRequest', () => {
+      it('Should have no validation errors', () => {
+        const data: DashboardContentChangelogListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          filter: { dashboard_content_id: { value: '', isFuzzy: true } },
+        };
+
+        const result = validateClass(DashboardContentChangelogListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validateClass(DashboardContentChangelogListRequest, data);
+        expect(result).toMatchObject({
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validateClass(DashboardContentChangelogListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(DashboardContentChangelogListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('DashboardContentChangelogController', () => {
+    describe('DashboardContentListRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentListRequest = {
+          dashboard_id: crypto.randomUUID(),
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          filter: { name: { value: '', isFuzzy: true } },
+        };
+        const result = validateClass(DashboardContentListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {
+          dashboard_id: crypto.randomUUID(),
+        };
+        const result = validateClass(DashboardContentListRequest, data);
+        expect(result).toMatchObject({
+          dashboard_id: data.dashboard_id,
+          sort: [{ field: 'create_time', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validateClass(DashboardContentListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(DashboardContentListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: undefined,
+              property: 'dashboard_id',
+              children: [],
+              constraints: { isUuid: 'dashboard_id must be a UUID' },
+            },
+            {
+              target: {
+                sort: [{ field: 'create_time', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentCreateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentCreateRequest = {
+          dashboard_id: crypto.randomUUID(),
+          name: 'test',
+          content: {},
+        };
+        const result = validateClass(DashboardContentCreateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(DashboardContentCreateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(DashboardContentCreateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'dashboard_id',
+              children: [],
+              constraints: { isUuid: 'dashboard_id must be a UUID' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'name',
+              children: [],
+              constraints: {
+                isLength: 'name must be longer than or equal to 1 characters',
+                isString: 'name must be a string',
+              },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'content',
+              children: [],
+              constraints: { isObject: 'content must be an object' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentIDRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentIDRequest = {
+          id: crypto.randomUUID(),
+        };
+        const result = validateClass(DashboardContentIDRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(DashboardContentIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(DashboardContentIDRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isUuid: 'id must be a UUID' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('DashboardContentUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: DashboardContentUpdateRequest = {
+          id: crypto.randomUUID(),
+          name: 'test',
+          content: {},
+        };
+        const result = validateClass(DashboardContentUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(DashboardContentUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(DashboardContentUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isUuid: 'id must be a UUID' },
             },
           ]);
         }

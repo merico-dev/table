@@ -1,13 +1,11 @@
-import { LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
-import { DashboardEditorPageContent } from './page-content';
-import { DashboardRebaseWarning } from './dashboard-rebase-warning';
+import { RebaseConfigProvider } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import './index.css';
-import React from 'react';
-import { RebaseConfigProvider } from './dashboard-rebase-warning/rebase-editor/rebase-config-context';
+import { DashboardEditorPageContent } from './page-content';
+import { LoadingPlaceholder, NeedToInitializeContent } from './placeholder';
 
 const LoadAndRenderDashboardEditor = observer(() => {
   const { store } = useDashboardStore();
@@ -20,16 +18,25 @@ const LoadAndRenderDashboardEditor = observer(() => {
   if (!isDashboardEditable) {
     return <span>TODO: redirect to index page if !isDashboardEditable</span>;
   }
-  const ready = !store.detailsLoading;
+
+  const dashboardLoading = store.detailsLoading;
+  const contentLoading = store.currentDetail?.content.loading;
+  if (dashboardLoading || contentLoading) {
+    return <LoadingPlaceholder dashboardLoading={dashboardLoading} contentLoading={contentLoading} />;
+  }
+  if (!store.currentDetail?.content.fullData) {
+    return <NeedToInitializeContent />;
+  }
+
   return (
     <RebaseConfigProvider dashboardStore={store}>
       <div className="load-and-render-dashboard-editor">
         <Helmet>
           <title>{store.currentDetail.name}</title>
         </Helmet>
-        <DashboardRebaseWarning />
-        <LoadingOverlay visible={!ready} exitTransitionDuration={0} />
-        {ready && <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />}
+        {/* WIP: disabling this feature until content_id is fully applied */}
+        {/* <ContentRebaseWarning /> */}
+        <DashboardEditorPageContent dashboardModel={store.currentDetail} refresh={store.loadCurrentDetail} />
       </div>
     </RebaseConfigProvider>
   );

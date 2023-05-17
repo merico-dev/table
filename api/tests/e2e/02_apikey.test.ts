@@ -5,7 +5,6 @@ import crypto from 'crypto';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { app } from '~/server';
 import request from 'supertest';
-import * as validation from '~/middleware/validation';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '~/api_models/api';
 import { has } from 'lodash';
 
@@ -14,8 +13,6 @@ describe('APIController', () => {
   let presetKey: ApiKey;
   let deletedKeyId: string;
   const server = request(app);
-
-  const validate = jest.spyOn(validation, 'validate');
 
   beforeAll(async () => {
     const apiKey = new ApiKey();
@@ -27,21 +24,15 @@ describe('APIController', () => {
     presetKey = await dashboardDataSource.getRepository(ApiKey).save(apiKey);
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('createKey', () => {
     it('should create successfully', async () => {
       const authentication1 = createAuthStruct(presetKey, { name: 'key1', role_id: ROLE_TYPES.AUTHOR });
-      validate.mockReturnValueOnce(authentication1);
 
       const createRequest1: ApiKeyCreateRequest = {
         name: 'key1',
         role_id: ROLE_TYPES.AUTHOR,
         authentication: authentication1,
       };
-      validate.mockReturnValueOnce(createRequest1);
 
       const response1 = await server.post('/api/key/create').send(createRequest1);
 
@@ -49,14 +40,12 @@ describe('APIController', () => {
       expect(has(response1.body, 'app_secret')).toBe(true);
 
       const authentication2 = createAuthStruct(presetKey, { name: 'key2', role_id: ROLE_TYPES.ADMIN });
-      validate.mockReturnValueOnce(authentication2);
 
       const createRequest2: ApiKeyCreateRequest = {
         name: 'key2',
         role_id: ROLE_TYPES.ADMIN,
         authentication: authentication2,
       };
-      validate.mockReturnValueOnce(createRequest2);
 
       const response2 = await server.post('/api/key/create').send(createRequest2);
 
@@ -66,14 +55,12 @@ describe('APIController', () => {
 
     it('should fail with duplicate key', async () => {
       const authentication = createAuthStruct(presetKey, { name: 'key1', role_id: ROLE_TYPES.AUTHOR });
-      validate.mockReturnValueOnce(authentication);
 
       const createRequest: ApiKeyCreateRequest = {
         name: 'key1',
         role_id: ROLE_TYPES.AUTHOR,
         authentication,
       };
-      validate.mockReturnValueOnce(createRequest);
 
       const response = await server.post('/api/key/create').send(createRequest);
 
@@ -92,14 +79,12 @@ describe('APIController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       });
-      validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/api/key/list').send(query);
 
@@ -142,7 +127,6 @@ describe('APIController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       });
-      validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyListRequest = {
         filter: { name: { value: 'preset', isFuzzy: true } },
@@ -150,7 +134,6 @@ describe('APIController', () => {
         sort: [{ field: 'name', order: 'ASC' }],
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/api/key/list').send(query);
 
@@ -174,13 +157,11 @@ describe('APIController', () => {
   describe('deleteKey', () => {
     it('should delete successfully', async () => {
       const authentication1 = createAuthStruct(presetKey, { id: deletedKeyId });
-      validate.mockReturnValueOnce(authentication1);
 
       const deleteQuery: ApiKeyIDRequest = {
         id: deletedKeyId,
         authentication: authentication1,
       };
-      validate.mockReturnValueOnce(deleteQuery);
 
       const deleteResponse = await server.post('/api/key/delete').send(deleteQuery);
 
@@ -192,14 +173,12 @@ describe('APIController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       });
-      validate.mockReturnValueOnce(authentication2);
 
       const listQuery: ApiKeyListRequest = {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
         authentication: authentication2,
       };
-      validate.mockReturnValueOnce(listQuery);
 
       const listResponse = await server.post('/api/key/list').send(listQuery);
 
@@ -229,13 +208,11 @@ describe('APIController', () => {
 
     it('should fail if not found', async () => {
       const authentication = createAuthStruct(presetKey, { id: deletedKeyId });
-      validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyIDRequest = {
         id: deletedKeyId,
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/api/key/delete').send(query);
 
@@ -246,13 +223,11 @@ describe('APIController', () => {
 
     it('should fail if key is preset', async () => {
       const authentication = createAuthStruct(presetKey, { id: presetKey.id });
-      validate.mockReturnValueOnce(authentication);
 
       const query: ApiKeyIDRequest = {
         id: presetKey.id,
         authentication,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/api/key/delete').send(query);
 

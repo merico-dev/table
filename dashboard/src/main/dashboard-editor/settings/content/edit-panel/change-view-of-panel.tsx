@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { PanelModelInstance } from '~/model/panels';
 
 interface IChangeViewOfPanel {
@@ -11,7 +11,7 @@ interface IChangeViewOfPanel {
   sourceViewID: string;
 }
 export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewOfPanel) => {
-  const model = useModelContext();
+  const content = useContentModelContext();
   const [targetViewID, setTargetViewID] = useState(sourceViewID);
   useEffect(() => {
     setTargetViewID(sourceViewID);
@@ -37,7 +37,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
             sx={{ flexGrow: 1, maxHeight: 'calc(100vh - 185px - 30px)', overflow: 'auto' }}
           >
             <Stack spacing="xs">
-              {model.views.options.map((o) => (
+              {content.views.options.map((o) => (
                 <Radio key={o.value} value={o.value} label={o.label} />
               ))}
             </Stack>

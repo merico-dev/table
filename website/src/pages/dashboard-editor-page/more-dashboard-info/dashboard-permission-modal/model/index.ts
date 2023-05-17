@@ -2,7 +2,7 @@ import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, cast, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { APICaller } from '../../../../../api-caller';
 import { DashboardPermissionDBType } from '../../../../../api-caller/dashboard-permission.types';
 import { AccountOrAPIKeyOptionsModel } from './account-or-apikey-options-model';
 import { PermissionAccessModel, PermissionAccessModelInstance } from './permission-access-model';
@@ -110,7 +110,7 @@ export const PermissionModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          let data = yield* toGenerator(DashboardPermissionAPI.get(self.dashboard_id));
+          let data = yield* toGenerator(APICaller.dashboard_permission.get(self.dashboard_id));
           if (!data) {
             data = defaultData;
           }

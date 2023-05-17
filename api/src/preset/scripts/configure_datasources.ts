@@ -6,7 +6,7 @@ import { dashboardDataSource } from '../../data_sources/dashboard';
 import DataSource from '../../models/datasource';
 import { configureDatabaseSource } from '../../utils/helpers';
 import { maybeEncryptPassword } from '../../utils/encryption';
-import { validate } from '../../middleware/validation';
+import { validateClass } from '../../middleware/validation';
 
 class DatabaseSource {
   @IsString()
@@ -59,14 +59,14 @@ async function upsert() {
   await queryRunner.startTransaction();
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const data: PresetDatasources = validate(PresetDatasources, require('../data_sources/config.json'));
+    const data: PresetDatasources = validateClass(PresetDatasources, require('../data_sources/config.json'));
 
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
     await datasourceRepo.delete({ is_preset: true });
 
     for (const source of data.postgresql) {
-      const { key } = validate(DatabaseSource, source);
-      const config = validate(DatabaseConfig, source.config);
+      const { key } = validateClass(DatabaseSource, source);
+      const config = validateClass(DatabaseConfig, source.config);
       await testDatabaseConfiguration(key, 'postgresql', config);
       maybeEncryptPassword(config);
       let dataSource: DataSource | null;
@@ -82,8 +82,8 @@ async function upsert() {
     }
 
     for (const source of data.mysql) {
-      const { key } = validate(DatabaseSource, source);
-      const config = validate(DatabaseConfig, source.config);
+      const { key } = validateClass(DatabaseSource, source);
+      const config = validateClass(DatabaseConfig, source.config);
       await testDatabaseConfiguration(key, 'mysql', config);
       maybeEncryptPassword(config);
       let dataSource: DataSource | null;
@@ -99,8 +99,8 @@ async function upsert() {
     }
 
     for (const source of data.http) {
-      const { key } = validate(DatabaseSource, source);
-      const config = validate(BaseConfig, source.config);
+      const { key } = validateClass(DatabaseSource, source);
+      const config = validateClass(BaseConfig, source.config);
       let dataSource: DataSource | null;
       dataSource = await datasourceRepo.findOneBy({ type: 'http', key });
       if (!dataSource) {

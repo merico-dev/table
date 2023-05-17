@@ -4,7 +4,7 @@ import { IconArrowsLeftRight, IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { ViewModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
@@ -44,7 +44,7 @@ const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
 
 export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const modals = useModals();
-  const model = useModelContext();
+  const model = useContentModelContext();
   const options = useMemo(
     () => model.views.options.filter((o) => o.type === EViewComponentType.Division),
     [view.id, model.views.options],

@@ -3,12 +3,12 @@ import { Center, LoadingOverlay } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { AccountAPI } from '../../api-caller/account';
+import { APICaller } from '../../api-caller';
 import { SettingsFormConfig } from '../../utils/config';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { data: account, loading, ...rest } = useRequest(AccountAPI.get);
+  const { data: account, loading, ...rest } = useRequest(APICaller.account.get);
 
   const redirect_to = window.localStorage.getItem('redirect_to') ?? '/dashboard/';
 
