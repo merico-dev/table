@@ -20,7 +20,7 @@ export const RebaseConfigModel = types
   .views((self) => ({
     get base() {
       const env = getEnv<RebaseConfigEnv>(self);
-      return env.dashboardStore.currentDetail?.content.data;
+      return env.dashboardStore.currentDetail?.content.fullData;
     },
   }))
   .views((self) => ({
