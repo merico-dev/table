@@ -1,11 +1,11 @@
 import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
+import { DashboardContentChangelogDBType } from '../../../../api-caller/dashboard-content-changelog.types';
 import { ReadonlyMonacoEditor } from '../../../../components/readonly-monaco-editor';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
 
 interface IChangelogContent {
-  current?: DashboardChangelogDBType;
+  current?: DashboardContentChangelogDBType;
   maxPage: number;
   loading: boolean;
 }
