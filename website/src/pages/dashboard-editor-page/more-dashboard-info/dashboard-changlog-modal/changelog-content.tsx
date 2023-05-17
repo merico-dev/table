@@ -18,8 +18,8 @@ export const ChangelogContent = observer(({ current, maxPage, loading }: IChange
     );
   }
   return (
-    <ErrorBoundary>
-      <Stack sx={{ position: 'relative', height: '100%' }}>
+    <Stack sx={{ position: 'relative', height: '100%' }}>
+      <ErrorBoundary>
         {current && (
           <ReadonlyMonacoEditor
             language="git-diff-language"
@@ -28,7 +28,7 @@ export const ChangelogContent = observer(({ current, maxPage, loading }: IChange
             height="100%"
           />
         )}
-      </Stack>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </Stack>
   );
 });

@@ -1,42 +1,22 @@
-import { ActionIcon, AppShell, LoadingOverlay, Modal } from '@mantine/core';
-import { IconHistory } from '@tabler/icons';
+import { Badge, Box, Flex, Group, LoadingOverlay, Modal, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { APICaller } from '../../../../api-caller';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';
+import { TModalState } from '../types';
 import { ChangelogContent } from './changelog-content';
 import { ChangelogNavbar } from './changelog-navbar';
-import { TModalState } from '../types';
 
 const ModalStyles = {
-  modal: {
-    padding: '0 !important',
+  modal: { padding: '0 !important' },
+  header: { marginBottom: 0, width: '100%', padding: '10px 20px 10px', borderBottom: '1px solid #efefef' },
+  title: { flexGrow: 1 },
+  body: {
+    padding: '0',
+    height: 'calc(100% - 50px)',
   },
 };
-
-const ChangelogsAppShellStyles = {
-  root: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-  },
-  body: {
-    flexGrow: 1,
-    nav: {
-      top: 0,
-      height: '100vh',
-    },
-  },
-  main: {
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 0,
-    height: '100vh',
-  },
-} as const;
 
 interface IDashboardChangelogModal {
   state: TModalState;
@@ -73,36 +53,45 @@ export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogM
       setCurrentChangelogID(data[0].id);
     }
   }, [data, currentChangelogID]);
+
+  const name = store.currentDetail?.content.fullData?.name ?? '';
   return (
     <Modal
       opened={state.opened}
       onClose={state.close}
-      withCloseButton={false}
       closeOnClickOutside={false}
       zIndex={320}
-      title={null}
+      title={
+        <Group position="apart" sx={{ flexGrow: 1 }}>
+          <Text fw={500}>Changelog</Text>
+          <Group spacing={7}>
+            {name && (
+              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+                Version: {name}
+              </Badge>
+            )}
+          </Group>
+        </Group>
+      }
       fullScreen
       styles={ModalStyles}
     >
-      <AppShell
-        padding={0}
-        navbar={
-          <ChangelogNavbar
-            close={state.close}
-            data={data}
-            currentChangelogID={currentChangelogID}
-            setCurrentChangelogID={setCurrentChangelogID}
-            page={page}
-            loading={loading}
-            maxPage={maxPage}
-            setPage={setPage}
-          />
-        }
-        styles={ChangelogsAppShellStyles}
-      >
-        <LoadingOverlay visible={loading} />
-        <ChangelogContent current={current} maxPage={maxPage} loading={loading} />
-      </AppShell>
+      <LoadingOverlay visible={loading} />
+      <Flex sx={{ width: '100%', height: '100%' }}>
+        <ChangelogNavbar
+          close={state.close}
+          data={data}
+          currentChangelogID={currentChangelogID}
+          setCurrentChangelogID={setCurrentChangelogID}
+          page={page}
+          loading={loading}
+          maxPage={maxPage}
+          setPage={setPage}
+        />
+        <Box sx={{ flexGrow: 1, height: '100%' }}>
+          <ChangelogContent current={current} maxPage={maxPage} loading={loading} />
+        </Box>
+      </Flex>
     </Modal>
   );
 });
