@@ -1,6 +1,6 @@
 import { DashboardContentDBType, initialDashboardContent } from '@devtable/dashboard';
 import { ActionIcon, Badge, Button, Group, Menu, Text } from '@mantine/core';
-import { IconPlaylistAdd, IconSettings, IconVersions } from '@tabler/icons';
+import { IconCaretDown, IconEdit, IconPlaylistAdd, IconSettings, IconVersions } from '@tabler/icons';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../api-caller';
@@ -120,19 +120,28 @@ export const SwitchOrAddVersion = observer(({ openEdit, content, reloadOptionsTr
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-      <ActionIcon
-        variant="light"
-        color="blue"
-        onClick={openEdit}
-        sx={{
-          height: '30px',
-          borderTopLeftRadius: 0,
-          borderBottomLeftRadius: 0,
-          borderLeft: '1px solid #dedede',
-        }}
-      >
-        <IconSettings size={18} />
-      </ActionIcon>
+
+      <Menu width={200} trigger="hover" openDelay={100} closeDelay={400} withinPortal zIndex={320}>
+        <Menu.Target>
+          <ActionIcon
+            variant="default"
+            // color="light"
+            sx={{
+              height: '30px',
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+              svg: { fill: 'rgb(173, 181, 189)', stroke: 'none' },
+            }}
+          >
+            <IconCaretDown size={18} />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item icon={<IconEdit size={14} />} onClick={openEdit}>
+            Edit version info
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     </Group>
   );
 });
