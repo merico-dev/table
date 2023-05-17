@@ -6,4 +6,5 @@ export type TModalState = {
 
 export type TModalStates = {
   changelog: TModalState;
+  version: TModalState;
 };

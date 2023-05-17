@@ -13,13 +13,10 @@ import { useDashboardStore } from '../../frames/app/models/dashboard-store-conte
 import { DashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
-import { DashboardHeaderMenuItems } from './more-dashboard-info/dashboard-header-menu-items';
-import { useModalStates } from './more-dashboard-info/use-modal-states';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
     const { store } = useDashboardStore();
-    const modalStates = useModalStates();
     const [context] = React.useState({});
     const rebaseModel = useRebaseModel();
     const dashboardModelRef = React.useRef<IDashboardModel>(null);
@@ -88,8 +85,8 @@ export const DashboardEditorPageContent = observer(
         content={dashboardModel.content.fullData}
         update={updateDashboard}
         config={DashboardConfig}
-        headerSlot={<MoreDashboardInfo states={modalStates} />}
-        headerMenuItems={<DashboardHeaderMenuItems states={modalStates} />}
+        headerSlot={<MoreDashboardInfo />}
+        headerMenuItems={<></>}
       />
     );
   },
