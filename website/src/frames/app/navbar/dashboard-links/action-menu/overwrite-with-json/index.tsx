@@ -14,6 +14,7 @@ export const OverwriteWithJSONModal = observer(
     const postSubmit = () => {
       close();
       store.load();
+      store.loadCurrentDetail();
     };
     return (
       <Modal
