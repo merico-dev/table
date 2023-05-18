@@ -28,6 +28,7 @@ dashboard/packages/**/stats.html
 _build
 
 api/src/preset/data_sources/config.json
+api/src/preset/custom_functions/config.js
 api/src/preset/dashboards
 
 api/.jest_cache
