@@ -37,10 +37,11 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   return (
     <>
       <TextInput
-        label="Min-width"
+        label="Width"
+        description="At least 160px"
         value={config.min_width}
         onChange={(e) => config.setMinWidth(e.currentTarget.value)}
-        placeholder="200px"
+        placeholder="default: 200px"
       />
       <Divider label="Configure options" labelPosition="center" />
       <Stack spacing={10} sx={{ position: 'relative', minHeight: '50px' }}>

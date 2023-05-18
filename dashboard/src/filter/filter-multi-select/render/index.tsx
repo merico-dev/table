@@ -22,10 +22,10 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
     <MultiSelectWidget
       label={label}
       options={config.options}
+      style={{ minWidth: '160px', width, maxWidth: disabled ? width : 'unset', borderColor: '#e9ecef' }}
       disabled={disabled}
       value={value}
       onChange={onChange}
-      width={width}
     />
   );
 });

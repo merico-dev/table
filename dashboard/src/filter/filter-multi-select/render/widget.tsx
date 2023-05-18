@@ -29,7 +29,6 @@ interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams
   onChange: (v: string[]) => void;
   options: TSelectOption[];
   disabled: boolean;
-  width: string;
 }
 
 export const MultiSelectWidget = ({
@@ -39,7 +38,6 @@ export const MultiSelectWidget = ({
   styles,
   unstyled,
   radius,
-  width,
   style,
   // data props
   label,
@@ -47,7 +45,7 @@ export const MultiSelectWidget = ({
   onChange,
   options,
 }: IProps) => {
-  const { classes, cx } = useStyles({ radius, width }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
+  const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
   const [showTooltip, setShowTooltip] = useState(value?.length > 0);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);

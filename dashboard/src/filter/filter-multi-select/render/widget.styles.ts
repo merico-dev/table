@@ -2,10 +2,9 @@ import { createStyles, MantineNumberSize } from '@mantine/core';
 
 export interface MultiSelectWidgetStylesParams {
   radius?: MantineNumberSize;
-  width: string;
 }
 
-export default createStyles((theme, { radius = 4, width }: MultiSelectWidgetStylesParams) => ({
+export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParams) => ({
   root: {
     borderRadius: theme.fn.radius(radius),
     display: 'flex',
@@ -16,7 +15,6 @@ export default createStyles((theme, { radius = 4, width }: MultiSelectWidgetStyl
     backgroundColor: '#fff',
     transition: 'border-color 100ms ease',
     borderColor: '#e9ecef',
-    width,
     '&.rc-select.rc-select-open': {
       borderColor: '#228be6 !important',
       '.rc-select-selection-overflow-item-rest': {
