@@ -16,9 +16,16 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
   const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
-  const minWidth = config.min_width ? config.min_width : '200px';
+  const width = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
   return (
-    <MultiSelectWidget label={label} options={config.options} disabled={disabled} value={value} onChange={onChange} />
+    <MultiSelectWidget
+      label={label}
+      options={config.options}
+      disabled={disabled}
+      value={value}
+      onChange={onChange}
+      width={width}
+    />
   );
 });
