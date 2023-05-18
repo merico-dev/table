@@ -1,9 +1,8 @@
-import { MultiSelect } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '../../model';
-import { IFilterConfig_MultiSelect } from '../../model/filters/filter/multi-select';
-import { FilterSelectItem } from '../select-item';
+import { FilterModelInstance } from '../../../model';
+import { IFilterConfig_MultiSelect } from '../../../model/filters/filter/multi-select';
+import { MultiSelectWidget } from './widget';
 
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_MultiSelect;
@@ -17,25 +16,16 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
   const { state } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
-  const minWidth = config.min_width ? config.min_width : '200px';
+  const width = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
   return (
-    <MultiSelect
+    <MultiSelectWidget
       label={label}
-      data={config.options}
+      options={config.options}
+      style={{ minWidth: '160px', width, maxWidth: disabled ? width : 'unset', borderColor: '#e9ecef' }}
       disabled={disabled}
       value={value}
       onChange={onChange}
-      styles={{
-        root: {
-          minWidth,
-          maxWidth: disabled ? minWidth : 'unset',
-        },
-        input: {
-          borderColor: '#e9ecef',
-        },
-      }}
-      itemComponent={FilterSelectItem}
     />
   );
 });

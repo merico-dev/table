@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "8.64.0",
+  "version": "8.65.0",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -38,6 +38,7 @@
     "monaco-editor": "0.36.0",
     "performant-array-to-tree": "1.11.0",
     "popmotion": "^11.0.3",
+    "rc-select": "14.1.0",
     "rc-tree-select": "5.5.5",
     "reactflow": "^11.5.3"
   },
