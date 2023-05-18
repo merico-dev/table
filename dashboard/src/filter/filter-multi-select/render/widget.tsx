@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import Select, { Option } from 'rc-select';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useStyles, { MultiSelectWidgetStylesParams } from './widget.styles';
 
 export type TSelectOption = {
@@ -39,13 +39,13 @@ export const MultiSelectWidget = ({
   styles,
   unstyled,
   radius,
+  width,
   style,
   // data props
   label,
   value,
   onChange,
   options,
-  width,
 }: IProps) => {
   const { classes, cx } = useStyles({ radius, width }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
   const [showTooltip, setShowTooltip] = useState(value?.length > 0);
@@ -53,6 +53,18 @@ export const MultiSelectWidget = ({
     setShowTooltip(visible);
   };
   const tooltipVisible = showTooltip && value?.length > 0;
+
+  const [keyword, setKeyword] = useState('');
+  const filteredOptions = useMemo(() => {
+    if (!keyword) {
+      return options;
+    }
+
+    const k = keyword.toLowerCase();
+    const match = (o: TSelectOption) => o.description.toLowerCase().includes(k) || o.label.toLowerCase().includes(k);
+    return options.filter(match);
+  }, [keyword, options]);
+
   return (
     <Stack spacing={3}>
       <Group position="apart">
@@ -80,8 +92,11 @@ export const MultiSelectWidget = ({
         maxTagCount={0}
         maxTagTextLength={10}
         maxTagPlaceholder={(valueList) => `${valueList.length} selected`}
+        searchValue={keyword}
+        onSearch={setKeyword}
+        filterOption={false}
       >
-        {options.map((o) => (
+        {filteredOptions.map((o) => (
           <Option key={o.value}>
             <Group noWrap>
               <div>
