@@ -76,13 +76,10 @@ export const MultiSelectWidget = ({
         value={value}
         onChange={onChange}
         onSelect={console.log}
-        open
-        // maxTagCount={1}
-        // maxTagTextLength={10}
-        // maxTagPlaceholder={(valueList) => {
-        //   console.log({ valueList });
-        //   return `${valueList.length} selected`;
-        // }}
+        mode="multiple"
+        maxTagCount={0}
+        maxTagTextLength={10}
+        maxTagPlaceholder={(valueList) => `${valueList.length} selected`}
       >
         {options.map((o) => (
           <Option key={o.value}>
