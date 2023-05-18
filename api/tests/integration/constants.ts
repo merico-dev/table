@@ -5,6 +5,7 @@ import DataSource from '~/models/datasource';
 import Dashboard from '~/models/dashboard';
 import { parseDBUrl } from '../utils';
 import DashboardContent from '~/models/dashboard_content';
+import CustomFunction from '~/models/custom_function';
 
 export const accounts: Account[] = [
   {
@@ -208,6 +209,30 @@ export const dashboardContents: DashboardContent[] = [
         ],
       },
     },
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+];
+
+export const customFunctions: CustomFunction[] = [
+  {
+    id: 'presetAddFunction',
+    definition: '(x, y) => x + y',
+    is_preset: true,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'multiplyFunction',
+    definition: '(x, y) => x * y',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'divideFunction',
+    definition: '(x, y) => x / y',
+    is_preset: false,
     create_time: new Date(),
     update_time: new Date(),
   },

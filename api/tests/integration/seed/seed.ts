@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { SALT_ROUNDS } from '~/utils/constants';
-import { accounts, apiKeys, dataSources, dashboards, dashboardContents } from '../constants';
+import { accounts, apiKeys, dataSources, dashboards, dashboardContents, customFunctions } from '../constants';
 import Account from '~/models/account';
 import ApiKey from '~/models/apiKey';
 import DataSource from '~/models/datasource';
@@ -9,6 +9,7 @@ import Dashboard from '~/models/dashboard';
 import { maybeEncryptPassword } from '~/utils/encryption';
 import DashboardPermission from '~/models/dashboard_permission';
 import DashboardContent from '~/models/dashboard_content';
+import CustomFunction from '~/models/custom_function';
 
 export async function seed() {
   if (!dashboardDataSource.isInitialized) {
@@ -19,6 +20,7 @@ export async function seed() {
   await addApiKeys();
   await addDataSources();
   await addDashboardsAndContent();
+  await addCustomFunctions();
 }
 
 async function addAccounts() {
@@ -66,5 +68,13 @@ async function addDashboardsAndContent() {
     dashboardPermission.owner_id = dashboard.is_preset ? superadmin.id : author.id;
     dashboardPermission.owner_type = 'ACCOUNT';
     await dashboardPermissionRepo.save(dashboardPermission);
+  }
+}
+
+async function addCustomFunctions() {
+  const customFunctionRepo = dashboardDataSource.getRepository(CustomFunction);
+  for (let i = 0; i < customFunctions.length; i++) {
+    const customFunction = customFunctions[i];
+    await customFunctionRepo.save(customFunction);
   }
 }
