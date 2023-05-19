@@ -1,6 +1,7 @@
 import _, { defaultsDeep } from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
+import { getTooltip } from './tooltip';
 
 const defaultOption = {
   tooltip: {
@@ -64,6 +65,7 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
       },
       ...regressionSeries,
     ],
+    tooltip: getTooltip(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
