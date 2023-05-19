@@ -8,9 +8,9 @@ const defaultOption = {
   },
   grid: {
     top: 10,
-    left: 30,
-    right: 15,
-    bottom: 30,
+    left: 5,
+    right: 10,
+    bottom: 0,
     containLabel: true,
   },
   dataZoom: [
