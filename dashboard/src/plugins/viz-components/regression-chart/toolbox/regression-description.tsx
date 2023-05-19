@@ -1,7 +1,11 @@
+import { Button, Divider, HoverCard, Sx, Table } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons';
 import { Group, Text } from '@mantine/core';
 import { IRegressionChartConf } from '../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
+import { useMemo } from 'react';
+import numbro from 'numbro';
 
 /**
  * calculate Adjusted RSquared
@@ -14,7 +18,16 @@ function calculateAdjustedRSquared(r: number, n: number, k: number) {
   return 1 - ((1 - r) * (n - 1)) / (n - k - 1);
 }
 
-export function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf) {
+const TableSx: Sx = {
+  'tbody th, tbody td': {
+    padding: '7px 10px',
+  },
+  'tbody tr:not(:first-of-type) th': {
+    borderTop: '1px solid #dee2e6',
+  },
+};
+
+function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf) {
   if (!conf) {
     return {
       expression: '',
@@ -33,12 +46,12 @@ export function getRegressionDescription(data: TVizData, conf?: IRegressionChart
         <Group position="center" noWrap spacing={10}>
           <Text>{y_axis.name}</Text>
           <Text>=</Text>
-          <Text weight="bold" color="gray">
-            {b}
+          <Text weight="bold" color="red">
+            {numbro(b).format({ mantissa: 2, trimMantissa: true })}
           </Text>
           <Text>+</Text>
-          <Text weight="bold" color="gray">
-            {a}
+          <Text weight="bold" color="red">
+            {numbro(a).format({ mantissa: 2, trimMantissa: true })}
           </Text>
           <Text>×</Text>
           <Text>{x_axis.name}</Text>
@@ -115,4 +128,52 @@ export function getRegressionDescription(data: TVizData, conf?: IRegressionChart
     expression: '',
     rSquared: 0,
   };
+}
+
+export interface IRegressionDescription {
+  conf: IRegressionChartConf;
+  data: TVizData;
+}
+
+export function RegressionDescription({ conf, data }: IRegressionDescription) {
+  const { expression, rSquared, adjustedRSquared } = useMemo(() => {
+    return getRegressionDescription(data, conf);
+  }, [conf, data]);
+
+  return (
+    <HoverCard shadow="md" withinPortal zIndex={320}>
+      <HoverCard.Target>
+        <Button size="xs" variant="subtle" compact leftIcon={<IconInfoCircle size={14} />}>
+          Regression Info
+        </Button>
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        <Table fontSize={14} sx={TableSx}>
+          <tbody>
+            {expression && (
+              <tr>
+                <td colSpan={2}>
+                  <Text align="center">{expression}</Text>
+                </td>
+              </tr>
+            )}
+            {rSquared && (
+              <>
+                <tr>
+                  <td>R-Sq</td>
+                  <td style={{ textAlign: 'right' }}>{numbro(rSquared).format({ output: 'percent', mantissa: 1 })}</td>
+                </tr>
+                <tr>
+                  <td>R-Sq(Adjusted)</td>
+                  <td style={{ textAlign: 'right' }}>
+                    {numbro(adjustedRSquared).format({ output: 'percent', mantissa: 1 })}
+                  </td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </Table>
+      </HoverCard.Dropdown>
+    </HoverCard>
+  );
 }

@@ -1,16 +1,15 @@
-import { Box, Group, Table, Text } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
-import numbro from 'numbro';
 import { useMemo } from 'react';
-import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
+import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
-import { getRegressionDescription } from './option/regression-expression';
+import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 echarts.use([DataZoomComponent, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
@@ -41,49 +40,19 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const { expression, rSquared, adjustedRSquared } = useMemo(() => {
-    return getRegressionDescription(data, conf);
-  }, [conf, data]);
-
   if (!width || !height || !conf) {
     return null;
   }
-  let finalHeight = height;
-  if (expression) {
-    finalHeight -= 20;
-  }
   return (
     <Box>
-      {expression && (
-        <Text align="center" size={12}>
-          {expression}
-        </Text>
-      )}
-      <Group spacing={0} noWrap align="start" sx={{ '> *': { flexGrow: 0, flexShrink: 0 } }}>
-        <ReactEChartsCore
-          echarts={echarts}
-          option={option}
-          style={{ width: width - 190, height: finalHeight }}
-          notMerge
-          theme="merico-light"
-        />
-        {rSquared && (
-          <Table mt={20} fontSize={12} sx={{ width: 180, border: '1px solid #999', td: { padding: '3px 8px' } }}>
-            <tbody>
-              <tr>
-                <td>R-Sq</td>
-                <td style={{ textAlign: 'right' }}>{numbro(rSquared).format({ output: 'percent', mantissa: 1 })}</td>
-              </tr>
-              <tr>
-                <td>R-Sq(Adjusted)</td>
-                <td style={{ textAlign: 'right' }}>
-                  {numbro(adjustedRSquared).format({ output: 'percent', mantissa: 1 })}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        )}
-      </Group>
+      <Toolbox conf={conf} data={data} />
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={{ width: width, height: height - 30 }}
+        notMerge
+        theme="merico-light"
+      />
     </Box>
   );
 }

@@ -1,16 +1,17 @@
 import _, { defaultsDeep } from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
+import { getTooltip } from './tooltip';
 
 const defaultOption = {
   tooltip: {
     trigger: 'axis',
   },
   grid: {
-    top: 10,
-    left: 30,
-    right: 15,
-    bottom: 30,
+    top: 20,
+    left: 5,
+    right: 10,
+    bottom: 20,
     containLabel: true,
   },
   dataZoom: [
@@ -36,6 +37,8 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
     xAxis: {
       type: 'category',
       name: conf.x_axis.name ?? '',
+      nameLocation: 'middle',
+      nameGap: 25,
       axisTick: {
         show: true,
         alignWithLabel: true,
@@ -43,6 +46,11 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
     },
     yAxis: {
       name: conf.y_axis.name ?? '',
+      nameLocation: 'end',
+      nameTextStyle: {
+        align: 'left',
+      },
+      nameGap: 5,
       axisLine: {
         show: true,
       },
@@ -57,6 +65,7 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
       },
       ...regressionSeries,
     ],
+    tooltip: getTooltip(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
