@@ -7,10 +7,10 @@ const defaultOption = {
     trigger: 'axis',
   },
   grid: {
-    top: 10,
+    top: 20,
     left: 5,
     right: 10,
-    bottom: 0,
+    bottom: 20,
     containLabel: true,
   },
   dataZoom: [
@@ -36,6 +36,8 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
     xAxis: {
       type: 'category',
       name: conf.x_axis.name ?? '',
+      nameLocation: 'middle',
+      nameGap: 25,
       axisTick: {
         show: true,
         alignWithLabel: true,
@@ -43,6 +45,11 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
     },
     yAxis: {
       name: conf.y_axis.name ?? '',
+      nameLocation: 'end',
+      nameTextStyle: {
+        align: 'left',
+      },
+      nameGap: 5,
       axisLine: {
         show: true,
       },
