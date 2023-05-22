@@ -26,21 +26,18 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: 
     };
   }
 
-  return {
-    series: [series],
-    xaxes: [],
-  };
+  return series;
 }
 
 export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TVizData) {
   const regressionSeries: IRegressionSeriesItem[] = [];
   if (rawData.length === 0) {
-    return { regressionSeries };
+    return regressionSeries;
   }
 
   function getAndApplyConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
-    const { series } = getOneRegressionConf(reg, name, targetSeries, data);
-    regressionSeries.push(...series);
+    const series = getOneRegressionConf(reg, name, targetSeries, data);
+    regressionSeries.push(series);
   }
 
   regressions.forEach((reg) => {
@@ -58,5 +55,5 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
     });
   });
 
-  return { regressionSeries };
+  return regressionSeries;
 }
