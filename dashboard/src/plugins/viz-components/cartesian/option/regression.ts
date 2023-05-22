@@ -50,7 +50,7 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
     const groupedData = _.groupBy(rawData, group_by_key);
     Object.entries(groupedData).forEach(([k, subRawData]) => {
       const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
-      const subName = `${name} (${k})`;
+      const subName = k;
       getAndApplyConf(reg, subName, k, subData);
     });
   });
