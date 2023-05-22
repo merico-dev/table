@@ -1,5 +1,5 @@
-import { Button, Checkbox, Divider, Group, HoverCard, Text } from '@mantine/core';
-import { IconSelector } from '@tabler/icons';
+import { Button, Checkbox, Divider, Group, Flex, HoverCard, Text } from '@mantine/core';
+import { IconPoint, IconSelector } from '@tabler/icons';
 import { EChartsInstance } from 'echarts-for-react';
 import { useState } from 'react';
 import { AnyObject } from '~/types';
@@ -23,9 +23,11 @@ export const SeriesSelector = ({ echartsInstance }: ISeriesSelector) => {
   if (series.length <= 1) {
     return null;
   }
+  const getColor = (name: string) => echartsInstance?.getModel()?.getColorFromPalette(name);
+
   return (
     <Group spacing={1}>
-      <HoverCard withinPortal zIndex={320} shadow="md" position="bottom-end">
+      <HoverCard withinPortal zIndex={320} shadow="md" position="bottom-end" initiallyOpened>
         <HoverCard.Target>
           <Group>
             <Text size={12}>{allSelected ? 'All' : seriesNames.length} series</Text>
@@ -48,10 +50,17 @@ export const SeriesSelector = ({ echartsInstance }: ISeriesSelector) => {
             value={seriesNames}
             onChange={setSeriesNames}
             orientation="vertical"
-            size="xs"
-            spacing={4}
+            size="sm"
+            spacing={8}
             styles={{
               root: {
+                '.mantine-Checkbox-body': {
+                  display: 'flex',
+                  alignItems: 'center',
+                },
+                '.mantine-Checkbox-labelWrapper': {
+                  flexGrow: 1,
+                },
                 '.mantine-Checkbox-label': {
                   cursor: 'pointer',
                   userSelect: 'none',
@@ -60,7 +69,16 @@ export const SeriesSelector = ({ echartsInstance }: ISeriesSelector) => {
             }}
           >
             {series.map((s) => (
-              <Checkbox key={s.name} value={s.name} label={s.name} />
+              <Checkbox
+                key={s.name}
+                value={s.name}
+                label={
+                  <Flex gap={10} justify="space-between" align="center">
+                    <Text sx={{ flexGrow: 1 }}>{s.name}</Text>
+                    <IconPoint size={24} color={s.color ?? getColor(s.name)} fill={s.color ?? getColor(s.name)} />
+                  </Flex>
+                }
+              />
             ))}
           </Checkbox.Group>
         </HoverCard.Dropdown>
