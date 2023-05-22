@@ -10,7 +10,8 @@ export function getRegressionConf(conf: IRegressionChartConf, series: TSeriesCon
   return series.map((s) => {
     return {
       ...plot,
-      name: `reg-for-${s.name}`,
+      id: `reg-for-${s.name}`,
+      name: s.name,
       data: getRegressionDataSource(transform, s.data),
       color: s.color,
       showSymbol: false,

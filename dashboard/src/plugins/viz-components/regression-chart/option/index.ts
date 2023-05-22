@@ -1,8 +1,8 @@
-import _, { defaultsDeep } from 'lodash';
+import { defaultsDeep } from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
-import { getTooltip } from './tooltip';
 import { getSeries } from './series';
+import { getTooltip } from './tooltip';
 
 const defaultOption = {
   tooltip: {

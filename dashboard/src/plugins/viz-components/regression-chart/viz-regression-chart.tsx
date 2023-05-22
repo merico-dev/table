@@ -6,7 +6,7 @@ import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } f
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
@@ -41,9 +41,9 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
-  const [echartsInstance, setEchartsInstance] = useState<EChartsInstance | null>(null);
+  const echartsRef = useRef<EChartsInstance | null>(null);
   const onChartReady = (echartsInstance: EChartsInstance) => {
-    setEchartsInstance(echartsInstance);
+    echartsRef.current = echartsInstance;
   };
 
   if (!width || !height || !conf) {
