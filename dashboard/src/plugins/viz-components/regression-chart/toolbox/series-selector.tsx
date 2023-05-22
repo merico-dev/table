@@ -20,9 +20,12 @@ export const SeriesSelector = ({ echartsInstance }: ISeriesSelector) => {
     setSeriesNames(series.map((s) => s.name));
   };
   const allSelected = seriesNames.length === 0 || seriesNames.length === series.length;
+  if (series.length >= 1) {
+    return null;
+  }
   return (
     <Group spacing={1}>
-      <HoverCard withinPortal zIndex={320} shadow="md" initiallyOpened position="bottom-end">
+      <HoverCard withinPortal zIndex={320} shadow="md" position="bottom-end">
         <HoverCard.Target>
           <Group>
             <Text size={12}>{allSelected ? 'All' : seriesNames.length} series</Text>
