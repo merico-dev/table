@@ -40,6 +40,19 @@ export function RegressionField({ control, watch, data }: IRegressionField) {
           )}
         />
       </Group>
+      <Controller
+        name="regression.group_by_key"
+        control={control}
+        render={({ field }) => (
+          <DataFieldSelector
+            label="Split into multiple series by this key..."
+            data={data}
+            clearable
+            sx={{ flex: 1 }}
+            {...field}
+          />
+        )}
+      />
       <Group grow noWrap>
         <Controller
           name={`regression.transform.config.method`}
