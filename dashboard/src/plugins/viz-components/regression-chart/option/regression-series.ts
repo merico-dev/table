@@ -19,6 +19,10 @@ export function getRegressionConf({ regression }: IRegressionChartConf, data: nu
     tooltip: {
       show: false,
     },
+    custom: {
+      type: 'regression-line',
+      targetSeries: name,
+    },
   });
 
   return { regressionSeries, regressionXAxes };
