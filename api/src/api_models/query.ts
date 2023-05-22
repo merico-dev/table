@@ -31,13 +31,14 @@ export class QueryRequest {
   })
   query: string;
 
+  @IsOptional()
   @IsObject()
   @ApiModelProperty({
     description: 'Query env config',
-    required: true,
+    required: false,
     type: SwaggerDefinitionConstant.JSON,
   })
-  env: Record<string, any>;
+  env?: Record<string, any>;
 
   @IsOptional()
   @Type(() => Authentication)
