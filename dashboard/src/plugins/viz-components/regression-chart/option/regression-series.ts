@@ -1,29 +1,27 @@
 import { getRegressionDataSource, IRegressionSeriesItem } from '~/plugins/common-echarts-fields/regression-line';
 import { IRegressionChartConf } from '../type';
+import _ from 'lodash';
+import { TSeriesConf } from './series';
 
-export function getRegressionConf({ regression }: IRegressionChartConf, data: number[][]) {
-  const regressionSeries: IRegressionSeriesItem[] = [];
-  const regressionXAxes: Record<string, $TSFixMe>[] = [];
-  if (data.length === 0) {
-    return { regressionSeries, regressionXAxes };
-  }
-  const { transform, plot, name } = regression;
+type TGetRegressionConfRet = IRegressionSeriesItem[];
 
-  const dataSource = getRegressionDataSource(transform, data);
-  regressionSeries.push({
-    ...plot,
-    name,
-    data: dataSource,
-    showSymbol: false,
-    smooth: true,
-    tooltip: {
-      show: false,
-    },
-    custom: {
-      type: 'regression-line',
-      targetSeries: name,
-    },
+export function getRegressionConf(conf: IRegressionChartConf, series: TSeriesConf): TGetRegressionConfRet {
+  const { plot, transform } = conf.regression;
+  return series.map((s) => {
+    return {
+      ...plot,
+      name: `reg-for-${s.name}`,
+      data: getRegressionDataSource(transform, s.data),
+      color: s.color,
+      showSymbol: false,
+      smooth: true,
+      tooltip: {
+        show: false,
+      },
+      custom: {
+        type: 'regression-line',
+        targetSeries: s.name,
+      },
+    };
   });
-
-  return { regressionSeries, regressionXAxes };
 }

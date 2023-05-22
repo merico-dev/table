@@ -20,7 +20,7 @@ export const SeriesSelector = ({ echartsInstance }: ISeriesSelector) => {
     setSeriesNames(series.map((s) => s.name));
   };
   const allSelected = seriesNames.length === 0 || seriesNames.length === series.length;
-  if (series.length >= 1) {
+  if (series.length <= 1) {
     return null;
   }
   return (

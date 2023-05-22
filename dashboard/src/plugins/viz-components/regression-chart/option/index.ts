@@ -2,6 +2,7 @@ import _, { defaultsDeep } from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
 import { getTooltip } from './tooltip';
+import { getSeries } from './series';
 
 const defaultOption = {
   tooltip: {
@@ -27,15 +28,12 @@ const defaultOption = {
 };
 
 export function getOption(conf: IRegressionChartConf, data: TVizData) {
-  const processedData = _.uniqBy(
-    data.map((d) => [d[conf.x_axis.data_key], d[conf.regression.y_axis_data_key]]),
-    0,
-  );
-  const { regressionSeries } = getRegressionConf(conf, processedData);
+  const series = getSeries(conf, data);
+  const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
     xAxis: {
-      type: 'category',
+      type: 'value',
       name: conf.x_axis.name ?? '',
       nameLocation: 'middle',
       nameGap: 25,
@@ -55,16 +53,7 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
         show: true,
       },
     },
-    series: [
-      {
-        data: processedData,
-        name: conf.y_axis.name,
-        type: 'scatter',
-        symbolSize: 4,
-        color: 'red',
-      },
-      ...regressionSeries,
-    ],
+    series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf),
   };
   return defaultsDeep({}, customOptions, defaultOption);

@@ -22,7 +22,7 @@ function getRows(params: TFormatterParams | TFormatterParams[]) {
 
 export function getTooltip(conf: IRegressionChartConf) {
   return {
-    // trigger: 'axis',
+    confine: true,
     formatter: (params: TFormatterParams | TFormatterParams[]) => {
       const rows = getRows(params);
       if (rows.length === 0) {
