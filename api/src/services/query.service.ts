@@ -4,6 +4,8 @@ import { DataSource } from 'typeorm';
 import { configureDatabaseSource } from '../utils/helpers';
 import { validateClass } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
+import { sqlRewriter } from '../plugins';
+import { ApiError, QUERY_ERROR } from '../utils/errors';
 
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
@@ -36,23 +38,23 @@ export class QueryService {
     }
   }
 
-  async query(type: string, key: string, query: string): Promise<any> {
+  async query(type: string, key: string, query: string, env: Record<string, any>): Promise<any> {
     switch (type) {
       case 'postgresql':
-        return await this.postgresqlQuery(key, query);
+        return await this.postgresqlQuery(key, query, env);
 
       case 'mysql':
-        return await this.mysqlQuery(key, query);
+        return await this.mysqlQuery(key, query, env);
 
       case 'http':
-        return await this.httpQuery(key, query);
+        return await this.httpQuery(key, query, env);
 
       default:
         return null;
     }
   }
 
-  private async postgresqlQuery(key: string, sql: string): Promise<object[]> {
+  private async postgresqlQuery(key: string, query: string, env: Record<string, any>): Promise<object[]> {
     let source = QueryService.getDBConnection('postgresql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
@@ -60,10 +62,14 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('postgresql', key, source);
     }
+    const { error, sql } = await sqlRewriter(query, env);
+    if (error) {
+      throw new ApiError(QUERY_ERROR, { message: error });
+    }
     return await source.query(sql);
   }
 
-  private async mysqlQuery(key: string, sql: string): Promise<object[]> {
+  private async mysqlQuery(key: string, query: string, env: Record<string, any>): Promise<object[]> {
     let source = QueryService.getDBConnection('mysql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
@@ -71,10 +77,14 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('mysql', key, source);
     }
+    const { error, sql } = await sqlRewriter(query, env);
+    if (error) {
+      throw new ApiError(QUERY_ERROR, { message: error });
+    }
     return await source.query(sql);
   }
 
-  private async httpQuery(key: string, query: string): Promise<any> {
+  private async httpQuery(key: string, query: string, env: Record<string, any>): Promise<any> {
     const options = validateClass(HttpParams, JSON.parse(query));
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
     const { host } = sourceConfig.config;

@@ -7,6 +7,7 @@ export const PASSWORD_MISMATCH = 'PASSWORD_MISMATCH';
 export const UNAUTHORIZED = 'UNAUTHORIZED';
 export const FORBIDDEN = 'FORBIDDEN';
 export const AUTH_NOT_ENABLED = 'AUTH_NOT_ENABLED';
+export const QUERY_ERROR = 'QUERY_ERROR';
 
 export interface ErrorDetail {
   [index: string]: any;
@@ -34,6 +35,7 @@ export const ErrorStatusCode = {
   [VALIDATION_FAILED]: 400,
   [PASSWORD_MISMATCH]: 400,
   [AUTH_NOT_ENABLED]: 400,
+  [QUERY_ERROR]: 400,
   [INVALID_CREDENTIALS]: 401,
   [UNAUTHORIZED]: 401,
   [FORBIDDEN]: 403,
