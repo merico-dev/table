@@ -50,13 +50,13 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return null;
   }
   return (
-    <Box>
-      <Toolbox conf={conf} data={data} echartsInstance={echartsInstance} />
+    <Box sx={{ position: 'relative' }}>
+      <Toolbox conf={conf} data={data} />
       <ReactEChartsCore
         echarts={echarts}
         onChartReady={onChartReady}
         option={option}
-        style={{ width: width, height: height - 30 }}
+        style={{ width: width, height }}
         notMerge
         theme="merico-light"
       />

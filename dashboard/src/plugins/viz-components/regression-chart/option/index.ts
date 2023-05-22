@@ -9,7 +9,7 @@ const defaultOption = {
     trigger: 'axis',
   },
   grid: {
-    top: 20,
+    top: 50,
     left: 5,
     right: 10,
     bottom: 20,
@@ -55,6 +55,18 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
     },
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf),
+    legend: {
+      show: true,
+      type: 'scroll',
+      orient: 'horizontal',
+      align: 'left',
+      right: 0,
+      top: 0,
+      left: 'auto',
+      itemGap: 20,
+      padding: [4, 8, 0, 140],
+      data: series.map((s) => s.name),
+    },
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
