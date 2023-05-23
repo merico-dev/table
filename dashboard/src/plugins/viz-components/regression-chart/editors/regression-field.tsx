@@ -18,51 +18,49 @@ interface IRegressionField {
 }
 
 export function RegressionField({ control, watch, data }: IRegressionField) {
+  watch('regression');
   const method = watch('regression.transform.config.method');
+  const group_by_key = watch('regression.group_by_key');
   return (
     <Stack>
       <Group grow noWrap>
         <Controller
           name={`regression.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label="回归线名称" sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Controller
         name="regression.group_by_key"
         control={control}
         render={({ field }) => (
-          <DataFieldSelector
-            label="Split into multiple series by this key..."
-            data={data}
-            clearable
-            sx={{ flex: 1 }}
-            {...field}
-          />
+          <DataFieldSelector label="按此字段将数据分为多个系列" data={data} clearable sx={{ flex: 1 }} {...field} />
         )}
       />
       <Group grow noWrap>
         <Controller
           name={`regression.transform.config.method`}
           control={control}
-          render={({ field }) => <Select label="Method" data={regressionOptions} sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <Select label="回归方法" data={regressionOptions} sx={{ flex: 1 }} {...field} />}
         />
         {method === 'polynomial' && (
           <Controller
             name={`regression.transform.config.order`}
             control={control}
-            render={({ field }) => <NumberInput label="Order" sx={{ flex: 1 }} {...field} />}
+            render={({ field }) => <NumberInput label="次" sx={{ flex: 1 }} {...field} />}
           />
         )}
       </Group>
-      <Stack spacing={4}>
-        <Text size="sm">Color</Text>
-        <Controller
-          name={`regression.plot.color`}
-          control={control}
-          render={({ field }) => <MantineColorSelector {...field} />}
-        />
-      </Stack>
+      {!group_by_key && (
+        <Stack spacing={4}>
+          <Text size="sm">颜色</Text>
+          <Controller
+            name={`regression.plot.color`}
+            control={control}
+            render={({ field }) => <MantineColorSelector {...field} />}
+          />
+        </Stack>
+      )}
     </Stack>
   );
 }

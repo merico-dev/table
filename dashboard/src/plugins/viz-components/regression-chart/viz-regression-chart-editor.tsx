@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { Accordion, ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -34,21 +34,36 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion multiple defaultValue={['Axis', 'Regression']}>
-          <Accordion.Item value="Axis">
-            <Accordion.Control>Axis</Accordion.Control>
-            <Accordion.Panel>
-              <XAxisField watch={watch} control={control} data={data} />
-              <YAxisField watch={watch} control={control} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Regression">
-            <Accordion.Control>Regression Line</Accordion.Control>
-            <Accordion.Panel>
-              <RegressionField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+        <Tabs
+          defaultValue="X Axis"
+          orientation="vertical"
+          styles={{
+            tab: {
+              paddingLeft: '6px',
+              paddingRight: '6px',
+            },
+            panel: {
+              paddingTop: '6px',
+              paddingLeft: '12px',
+            },
+          }}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+            <Tabs.Tab value="Regression">Regression</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="X Axis">
+            <XAxisField watch={watch} control={control} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Y Axis">
+            <YAxisField watch={watch} control={control} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Regression">
+            <RegressionField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+        </Tabs>
       </form>
     </Stack>
   );
