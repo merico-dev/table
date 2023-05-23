@@ -35,13 +35,9 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
           </ActionIcon>
         </Group>
         <Tabs
-          defaultValue="X Axis"
+          defaultValue="X轴"
           orientation="vertical"
           styles={{
-            tab: {
-              paddingLeft: '6px',
-              paddingRight: '6px',
-            },
             panel: {
               paddingTop: '6px',
               paddingLeft: '12px',
@@ -49,18 +45,18 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
-            <Tabs.Tab value="Regression">Regression</Tabs.Tab>
+            <Tabs.Tab value="X轴">X轴</Tabs.Tab>
+            <Tabs.Tab value="Y轴">Y轴</Tabs.Tab>
+            <Tabs.Tab value="回归">回归</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="X Axis">
+          <Tabs.Panel value="X轴">
             <XAxisField watch={watch} control={control} data={data} />
           </Tabs.Panel>
-          <Tabs.Panel value="Y Axis">
+          <Tabs.Panel value="Y轴">
             <YAxisField watch={watch} control={control} data={data} />
           </Tabs.Panel>
-          <Tabs.Panel value="Regression">
+          <Tabs.Panel value="回归">
             <RegressionField control={control} watch={watch} data={data} />
           </Tabs.Panel>
         </Tabs>
