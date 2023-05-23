@@ -1,16 +1,13 @@
-import { Accordion, ActionIcon, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
+import { VizConfigProps } from '~/types/plugin';
+import { XAxisField } from './editors/x-axis';
 import { RegressionField } from './regression-item';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
-import { XAxisLabelFormatterField } from '~/plugins/common-echarts-fields/x-axis-label-formatter';
-import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
@@ -40,61 +37,7 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
           <Accordion.Item value="Axis">
             <Accordion.Control>Axis</Accordion.Control>
             <Accordion.Panel>
-              <Group grow noWrap>
-                <Controller
-                  name="x_axis.name"
-                  control={control}
-                  render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-                />
-                <Controller
-                  name="x_axis.data_key"
-                  control={control}
-                  render={({ field }) => (
-                    <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                  )}
-                />
-              </Group>
-              <Group grow noWrap>
-                <Controller
-                  name="x_axis.axisLabel.rotate"
-                  control={control}
-                  render={({ field }) => (
-                    <NumberInput
-                      label="旋转"
-                      hideControls
-                      min={-90}
-                      max={90}
-                      rightSection={<Text color="dimmed">度</Text>}
-                      sx={{ width: '48%' }}
-                      styles={{
-                        rightSection: {
-                          width: '4em',
-                          justifyContent: 'flex-end',
-                          paddingRight: '6px',
-                        },
-                      }}
-                      {...field}
-                    />
-                  )}
-                />
-                <Controller
-                  name="x_axis.axisLabel.formatter"
-                  control={control}
-                  render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
-                />
-              </Group>
-              <Stack>
-                <Controller
-                  name="x_axis.axisLabel.format"
-                  control={control}
-                  render={({ field }) => <NumbroFormatSelector {...field} />}
-                />
-              </Stack>
-              <Controller
-                name="x_axis.axisLabel.overflow"
-                control={control}
-                render={({ field }) => <LabelOverflowField {...field} />}
-              />
+              <XAxisField watch={watch} control={control} data={data} />
               <Group grow noWrap>
                 <Controller
                   name="y_axis.name"
