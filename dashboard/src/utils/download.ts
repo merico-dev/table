@@ -23,8 +23,8 @@ export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TViz
   });
 }
 
-function escapeComma(v: string) {
-  if (v.includes(',')) {
+function escapeComma(v: string | number | null) {
+  if (typeof v === 'string' && v.includes(',')) {
     return `"${v}"`;
   }
   return v;
