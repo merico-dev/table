@@ -3,6 +3,15 @@ import { IRegressionChartConf } from '../../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
 import numbro from 'numbro';
+import _ from 'lodash';
+import { ReactNode } from 'react';
+
+export type TDescription = {
+  name: string;
+  expression: ReactNode;
+  rSquared: number;
+  adjustedRSquared: number;
+};
 
 /**
  * calculate Adjusted RSquared
@@ -15,11 +24,17 @@ function calculateAdjustedRSquared(r: number, n: number, k: number) {
   return 1 - ((1 - r) * (n - 1)) / (n - k - 1);
 }
 
-function getLinearDescription(rawData: TVizData, basisData: [number, number][], conf: IRegressionChartConf) {
+function getLinearDescription(
+  name: string,
+  rawData: TVizData,
+  basisData: [number, number][],
+  conf: IRegressionChartConf,
+): TDescription {
   const { x_axis, y_axis } = conf;
   const result = d3Regression.regressionLinear()(basisData);
   const { a, b, rSquared } = result;
   return {
+    name,
     expression: (
       <Group position="center" noWrap spacing={10}>
         <Text>{y_axis.name}</Text>
@@ -40,10 +55,16 @@ function getLinearDescription(rawData: TVizData, basisData: [number, number][], 
   };
 }
 
-function getExponentialDescription(rawData: TVizData, basisData: [number, number][], conf: IRegressionChartConf) {
+function getExponentialDescription(
+  name: string,
+  rawData: TVizData,
+  basisData: [number, number][],
+  conf: IRegressionChartConf,
+): TDescription {
   const { x_axis, y_axis } = conf;
   const { a, b, rSquared } = d3Regression.regressionExp()(basisData);
   return {
+    name,
     expression: (
       <Group position="center" noWrap spacing={10}>
         <Text>{y_axis.name}</Text>
@@ -68,10 +89,16 @@ function getExponentialDescription(rawData: TVizData, basisData: [number, number
   };
 }
 
-function getLogarithmicDescription(rawData: TVizData, basisData: [number, number][], conf: IRegressionChartConf) {
+function getLogarithmicDescription(
+  name: string,
+  rawData: TVizData,
+  basisData: [number, number][],
+  conf: IRegressionChartConf,
+): TDescription {
   const { x_axis, y_axis } = conf;
   const { a, b, rSquared } = d3Regression.regressionLog()(basisData);
   return {
+    name,
     expression: (
       <Group position="center" noWrap spacing={10}>
         <Text>{y_axis.name}</Text>
@@ -96,45 +123,66 @@ function getLogarithmicDescription(rawData: TVizData, basisData: [number, number
   };
 }
 
-function getPolynomialDescription(rawData: TVizData, basisData: [number, number][], conf: IRegressionChartConf) {
+function getPolynomialDescription(
+  name: string,
+  rawData: TVizData,
+  basisData: [number, number][],
+  conf: IRegressionChartConf,
+): TDescription {
   const { x_axis, y_axis, regression } = conf;
   const result = d3Regression.regressionPoly().order(regression.transform.config.order)(basisData);
   const { rSquared } = result;
   console.log(result);
   return {
+    name,
     expression: '',
     rSquared,
     adjustedRSquared: calculateAdjustedRSquared(rSquared, rawData.length, 1),
   };
 }
 
-export function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf) {
-  if (!conf) {
-    return {
-      expression: '',
-      rSquared: 0,
-      adjustedRSquared: 0,
-    };
-  }
-  const { regression, x_axis, y_axis } = conf;
-  const dataSource: [number, number][] = data.map((d) => [d[x_axis.data_key], d[regression.y_axis_data_key]]);
+function getDescription(name: string, rawData: TVizData, conf: IRegressionChartConf): TDescription {
+  const { regression, x_axis } = conf;
+  const dataSource: [number, number][] = rawData.map((d) => [d[x_axis.data_key], d[regression.y_axis_data_key]]);
 
   if (regression.transform.config.method === 'linear') {
-    return getLinearDescription(data, dataSource, conf);
+    return getLinearDescription(name, rawData, dataSource, conf);
   }
   if (regression.transform.config.method === 'exponential') {
-    return getExponentialDescription(data, dataSource, conf);
+    return getExponentialDescription(name, rawData, dataSource, conf);
   }
 
   if (regression.transform.config.method === 'logarithmic') {
-    return getLogarithmicDescription(data, dataSource, conf);
+    return getLogarithmicDescription(name, rawData, dataSource, conf);
   }
   if (regression.transform.config.method === 'polynomial') {
-    return getPolynomialDescription(data, dataSource, conf);
+    return getPolynomialDescription(name, rawData, dataSource, conf);
   }
   return {
+    name,
     expression: '',
     rSquared: 0,
     adjustedRSquared: 0,
   };
+}
+
+export function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf): TDescription[] {
+  if (!conf) {
+    return [
+      {
+        name: '',
+        expression: '',
+        rSquared: 0,
+        adjustedRSquared: 0,
+      },
+    ];
+  }
+  if (!conf.regression.group_by_key) {
+    return [getDescription('', data, conf)];
+  }
+
+  const groupedData = _.groupBy(data, conf.regression.group_by_key);
+  return Object.entries(groupedData).map(([group, subData]) => {
+    return getDescription(group, subData, conf);
+  });
 }
