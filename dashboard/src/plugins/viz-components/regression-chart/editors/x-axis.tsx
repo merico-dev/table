@@ -29,6 +29,15 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           )}
         />
       </Group>
+      <Divider variant="dashed" labelPosition="center" label="格式化数据" />
+      <Stack>
+        <Controller
+          name="x_axis.axisLabel.format"
+          control={control}
+          render={({ field }) => <NumbroFormatSelector {...field} />}
+        />
+      </Stack>
+      <Divider variant="dashed" labelPosition="center" label="标签文案样式" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
@@ -55,16 +64,11 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
+          render={({ field }) => (
+            <XAxisLabelFormatterField triggerButtonText="自定义标签文案内容" data={data} {...field} />
+          )}
         />
       </Group>
-      <Stack>
-        <Controller
-          name="x_axis.axisLabel.format"
-          control={control}
-          render={({ field }) => <NumbroFormatSelector {...field} />}
-        />
-      </Stack>
       <Controller
         name="x_axis.axisLabel.overflow"
         control={control}
