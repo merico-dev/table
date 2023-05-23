@@ -9,6 +9,7 @@ import { PluginVizConfigComponent } from '../../../../../panel/plugin-adaptor';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../../../plugins';
 import { IPanelInfoEditor } from '../../../../../types/plugin';
 import { SelectVizType } from './select-viz-type';
+import { ErrorBoundary } from '~/utils/error-boundary';
 
 const types = [] as $TSFixMe[];
 
@@ -104,12 +105,19 @@ export const EditVizConf = observer(() => {
   return (
     <Stack align="stretch" sx={{ height: '100%', overflow: 'hidden' }}>
       <SelectVizType submit={submit} value={viz.type} />
-      <Stack pb={50} sx={{ flexGrow: 1, maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
-        {finalPanel}
-      </Stack>
-      {!finalPanel && (
-        <JsonInput minRows={20} label="Config" value={JSON.stringify(viz.conf, null, 2)} onChange={setVizConfByJSON} />
-      )}
+      <ErrorBoundary>
+        <Stack pb={50} sx={{ flexGrow: 1, maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
+          {finalPanel}
+        </Stack>
+        {!finalPanel && (
+          <JsonInput
+            minRows={20}
+            label="Config"
+            value={JSON.stringify(viz.conf, null, 2)}
+            onChange={setVizConfByJSON}
+          />
+        )}
+      </ErrorBoundary>
     </Stack>
   );
 });

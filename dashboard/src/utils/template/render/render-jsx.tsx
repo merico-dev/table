@@ -82,10 +82,10 @@ export function templateToJSX(template: string, variables: ITemplateVariable[], 
     }
     const rest = match[2] ?? '';
     return (
-      <>
+      <React.Fragment key={text}>
         {element}
         {textToJSX(rest)}
-      </>
+      </React.Fragment>
     );
   });
 }

@@ -52,7 +52,7 @@ export function getOption(conf: ICartesianChartConf, data: TVizData, variables: 
 
   // options
   const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
-  const { regressionSeries } = getRegressionConfs(conf, data);
+  const regressionSeries = getRegressionConfs(conf, data);
 
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),

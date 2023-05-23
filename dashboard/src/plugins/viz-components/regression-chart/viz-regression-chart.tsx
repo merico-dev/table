@@ -1,11 +1,12 @@
-import { Box, Group } from '@mantine/core';
+import { Box } from '@mantine/core';
+import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
 import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
@@ -40,16 +41,22 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
 
+  const echartsRef = useRef<EChartsInstance | null>(null);
+  const onChartReady = (echartsInstance: EChartsInstance) => {
+    echartsRef.current = echartsInstance;
+  };
+
   if (!width || !height || !conf) {
     return null;
   }
   return (
-    <Box>
+    <Box sx={{ position: 'relative' }}>
       <Toolbox conf={conf} data={data} />
       <ReactEChartsCore
         echarts={echarts}
+        onChartReady={onChartReady}
         option={option}
-        style={{ width: width, height: height - 30 }}
+        style={{ width: width, height }}
         notMerge
         theme="merico-light"
       />

@@ -1,14 +1,16 @@
-import _, { defaultsDeep } from 'lodash';
+import { defaultsDeep } from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
+import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getXAxis } from './x-axis';
 
 const defaultOption = {
   tooltip: {
     trigger: 'axis',
   },
   grid: {
-    top: 20,
+    top: 50,
     left: 5,
     right: 10,
     bottom: 20,
@@ -27,23 +29,11 @@ const defaultOption = {
 };
 
 export function getOption(conf: IRegressionChartConf, data: TVizData) {
-  const processedData = _.uniqBy(
-    data.map((d) => [d[conf.x_axis.data_key], d[conf.regression.y_axis_data_key]]),
-    0,
-  );
-  const { regressionSeries } = getRegressionConf(conf, processedData);
+  const series = getSeries(conf, data);
+  const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
-    xAxis: {
-      type: 'category',
-      name: conf.x_axis.name ?? '',
-      nameLocation: 'middle',
-      nameGap: 25,
-      axisTick: {
-        show: true,
-        alignWithLabel: true,
-      },
-    },
+    xAxis: getXAxis(conf),
     yAxis: {
       name: conf.y_axis.name ?? '',
       nameLocation: 'end',
@@ -55,17 +45,20 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
         show: true,
       },
     },
-    series: [
-      {
-        data: processedData,
-        name: conf.y_axis.name,
-        type: 'scatter',
-        symbolSize: 4,
-        color: 'red',
-      },
-      ...regressionSeries,
-    ],
+    series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf),
+    legend: {
+      show: true,
+      type: 'scroll',
+      orient: 'horizontal',
+      align: 'left',
+      right: 0,
+      top: 0,
+      left: 'auto',
+      itemGap: 20,
+      padding: [4, 8, 0, 140],
+      data: series.map((s) => s.name),
+    },
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }

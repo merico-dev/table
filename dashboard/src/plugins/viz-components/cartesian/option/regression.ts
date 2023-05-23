@@ -26,21 +26,18 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: 
     };
   }
 
-  return {
-    series: [series],
-    xaxes: [],
-  };
+  return series;
 }
 
 export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TVizData) {
   const regressionSeries: IRegressionSeriesItem[] = [];
   if (rawData.length === 0) {
-    return { regressionSeries };
+    return regressionSeries;
   }
 
   function getAndApplyConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
-    const { series } = getOneRegressionConf(reg, name, targetSeries, data);
-    regressionSeries.push(...series);
+    const series = getOneRegressionConf(reg, name, targetSeries, data);
+    regressionSeries.push(series);
   }
 
   regressions.forEach((reg) => {
@@ -53,10 +50,10 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
     const groupedData = _.groupBy(rawData, group_by_key);
     Object.entries(groupedData).forEach(([k, subRawData]) => {
       const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
-      const subName = `${name} (${k})`;
+      const subName = k;
       getAndApplyConf(reg, subName, k, subData);
     });
   });
 
-  return { regressionSeries };
+  return regressionSeries;
 }

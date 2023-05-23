@@ -1,12 +1,13 @@
-import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
-import { RegressionField } from './regression-item';
+import { VizConfigProps } from '~/types/plugin';
+import { RegressionField } from './editors/regression-field';
+import { XAxisField } from './editors/x-axis';
+import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
@@ -33,40 +34,32 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Accordion multiple defaultValue={['Axis', 'Regression']}>
-          <Accordion.Item value="Axis">
-            <Accordion.Control>Axis</Accordion.Control>
-            <Accordion.Panel>
-              <Group grow noWrap>
-                <Controller
-                  name="x_axis.name"
-                  control={control}
-                  render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
-                />
-                <Controller
-                  name="x_axis.data_key"
-                  control={control}
-                  render={({ field }) => (
-                    <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-                  )}
-                />
-              </Group>
-              <Group grow noWrap>
-                <Controller
-                  name="y_axis.name"
-                  control={control}
-                  render={({ field }) => <TextInput label="Y Axis Name" sx={{ flex: 1 }} {...field} />}
-                />
-              </Group>
-            </Accordion.Panel>
-          </Accordion.Item>
-          <Accordion.Item value="Regression">
-            <Accordion.Control>Regression Line</Accordion.Control>
-            <Accordion.Panel>
-              <RegressionField control={control} watch={watch} data={data} />
-            </Accordion.Panel>
-          </Accordion.Item>
-        </Accordion>
+        <Tabs
+          defaultValue="X轴"
+          orientation="vertical"
+          styles={{
+            panel: {
+              paddingTop: '6px',
+              paddingLeft: '12px',
+            },
+          }}
+        >
+          <Tabs.List>
+            <Tabs.Tab value="X轴">X轴</Tabs.Tab>
+            <Tabs.Tab value="Y轴">Y轴</Tabs.Tab>
+            <Tabs.Tab value="回归">回归</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="X轴">
+            <XAxisField watch={watch} control={control} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Y轴">
+            <YAxisField watch={watch} control={control} data={data} />
+          </Tabs.Panel>
+          <Tabs.Panel value="回归">
+            <RegressionField control={control} watch={watch} data={data} />
+          </Tabs.Panel>
+        </Tabs>
       </form>
     </Stack>
   );

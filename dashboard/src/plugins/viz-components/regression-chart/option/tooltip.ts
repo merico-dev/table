@@ -3,7 +3,7 @@ import { IRegressionChartConf } from '../type';
 type TFormatterParams = {
   color: string;
   marker: string;
-  name: string;
+  seriesName: string;
   value: [number, number];
 };
 
@@ -14,6 +14,7 @@ function getRows(params: TFormatterParams | TFormatterParams[]) {
   return params.map((p) => {
     return {
       marker: p.marker,
+      label: p.seriesName,
       x: p.value[0],
       y: p.value[1],
     };
@@ -22,7 +23,8 @@ function getRows(params: TFormatterParams | TFormatterParams[]) {
 
 export function getTooltip(conf: IRegressionChartConf) {
   return {
-    // trigger: 'axis',
+    confine: true,
+    trigger: 'axis',
     formatter: (params: TFormatterParams | TFormatterParams[]) => {
       const rows = getRows(params);
       if (rows.length === 0) {
@@ -33,22 +35,18 @@ export function getTooltip(conf: IRegressionChartConf) {
           <thead>
             <tr>
               <th/>
-              <th style="text-align: left; padding: 0 1em;">${conf.x_axis.name}</th>
-              <th style="text-align: left; padding: 0 1em;">${conf.y_axis.name}</th>
+              ${rows.map(({ marker, label }) => `<th style="padding: 0 .5em;">${marker} ${label}</th>`).join('')}
             </tr>
           </thead>
           <tbody>
-            ${rows
-              .map(({ marker, x, y }) => {
-                return `
-                <tr>
-                  <td>${marker}</td>
-                  <td style="text-align: left; padding: 0 1em;">${x}</td>
-                  <td style="text-align: left; padding: 0 1em;">${y}</td>
-                </tr>
-              `;
-              })
-              .join('')}
+            <tr>
+              <th style="text-align: left; padding: 0 .5em;">${conf.x_axis.name}</th>
+              ${rows.map(({ x }) => `<td style="text-align: right; padding: 0 .5em;">${x}</td>`).join('')}
+            </tr>
+            <tr>
+              <th style="text-align: left; padding: 0 .5em;">${conf.y_axis.name}</th>
+              ${rows.map(({ y }) => `<td style="text-align: right; padding: 0 .5em;">${y}</td>`).join('')}
+            </tr>
           </tbody>
         </table>
       `;

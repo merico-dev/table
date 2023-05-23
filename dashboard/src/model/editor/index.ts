@@ -103,7 +103,7 @@ export const EditorModel = types
           _type: 'GROUP',
         },
         {
-          label: 'SQL Snipepts',
+          label: 'SQL Snippets',
           value: '_SQL_SNIPPETS_',
           Icon: IconCopy,
           children: [...sqlSnippets.options, getActionOption('_Add_A_SQL_SNIPPET_')],
