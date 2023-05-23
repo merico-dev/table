@@ -1,12 +1,13 @@
-import { Accordion, ActionIcon, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Accordion, ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { RegressionField } from './editors/regression-field';
 import { XAxisField } from './editors/x-axis';
-import { RegressionField } from './regression-item';
+import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
@@ -38,13 +39,7 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
             <Accordion.Control>Axis</Accordion.Control>
             <Accordion.Panel>
               <XAxisField watch={watch} control={control} data={data} />
-              <Group grow noWrap>
-                <Controller
-                  name="y_axis.name"
-                  control={control}
-                  render={({ field }) => <TextInput label="Y Axis Name" sx={{ flex: 1 }} {...field} />}
-                />
-              </Group>
+              <YAxisField watch={watch} control={control} data={data} />
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="Regression">
