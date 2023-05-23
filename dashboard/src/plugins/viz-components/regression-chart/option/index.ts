@@ -3,6 +3,7 @@ import { IRegressionChartConf } from '../type';
 import { getRegressionConf } from './regression-series';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getXAxis } from './x-axis';
 
 const defaultOption = {
   tooltip: {
@@ -32,16 +33,7 @@ export function getOption(conf: IRegressionChartConf, data: TVizData) {
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {
-    xAxis: {
-      type: 'value',
-      name: conf.x_axis.name ?? '',
-      nameLocation: 'middle',
-      nameGap: 25,
-      axisTick: {
-        show: true,
-        alignWithLabel: true,
-      },
-    },
+    xAxis: getXAxis(conf),
     yAxis: {
       name: conf.y_axis.name ?? '',
       nameLocation: 'end',
