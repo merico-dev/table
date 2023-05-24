@@ -24,7 +24,7 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
     return !_.isEqual(values, conf);
   }, [values, conf]);
 
-  watch(['label_field', 'value_field']);
+  watch(['label_field', 'value_field', 'color_field']);
 
   return (
     <Stack spacing="xs">
@@ -45,6 +45,11 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
             control={control}
             name="value_field"
             render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+          />
+          <Controller
+            control={control}
+            name="color_field"
+            render={({ field }) => <DataFieldSelector label="Color Key" data={data} clearable {...field} />}
           />
         </Stack>
       </form>
