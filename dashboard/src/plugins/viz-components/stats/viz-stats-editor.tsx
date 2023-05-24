@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Select, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Select, SimpleGrid, Stack, Text } from '@mantine/core';
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
@@ -14,15 +14,17 @@ const horizontalAlignmentOptions = [
   { label: 'Right', value: 'right' },
 ];
 
+const verticalAlignmentOptions = [
+  { label: 'Top', value: 'top' },
+  { label: 'Center', value: 'center' },
+  { label: 'Bottom', value: 'bottom' },
+];
+
 export function VizStatsEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
 
   const defaultValues = React.useMemo(() => {
-    const { align, template = '' } = defaultsDeep({}, conf, DEFAULT_CONFIG);
-    return {
-      template,
-      align,
-    };
+    return defaultsDeep({}, conf, DEFAULT_CONFIG);
   }, [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IVizStatsConf>({ defaultValues });
@@ -31,7 +33,7 @@ export function VizStatsEditor({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['template', 'align']);
+  watch(['template', 'horizontal_align', 'vertical_align']);
   const values = getValues();
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf);
@@ -51,11 +53,18 @@ export function VizStatsEditor({ context }: VizConfigProps) {
           control={control}
           render={({ field }) => <TemplateInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />}
         />
-        <Controller
-          name="align"
-          control={control}
-          render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
-        />
+        <SimpleGrid cols={2}>
+          <Controller
+            name="horizontal_align"
+            control={control}
+            render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
+          />
+          <Controller
+            control={control}
+            name="vertical_align"
+            render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
+          />
+        </SimpleGrid>
       </form>
     </Stack>
   );
