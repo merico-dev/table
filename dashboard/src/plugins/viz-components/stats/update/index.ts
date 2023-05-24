@@ -60,6 +60,17 @@ function updateSchema2(legacyConf: IVizStatsConf & { variables: ITemplateVariabl
   return omit(legacyConf, ['variables']);
 }
 
+// align -> horizontal_align
+// add vertical_align
+function v3(legacyConf: $TSFixMe): IVizStatsConf {
+  const { align, ...rest } = legacyConf;
+  return {
+    horizontal_align: align,
+    vertical_align: 'center',
+    ...rest,
+  };
+}
+
 /**
  * used when moving variables from stats to `panel.variables`
  */
@@ -95,6 +106,10 @@ export class VizStatsMigrator extends VersionBasedMigrator {
         }
       });
       return { ...data, version: 2, config: updateSchema2(config) };
+    });
+    this.version(3, (data) => {
+      const { config } = data;
+      return { ...data, version: 3, config: v3(config) };
     });
   }
 }
