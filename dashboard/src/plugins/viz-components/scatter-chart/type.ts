@@ -39,6 +39,7 @@ export interface IScatterChartConf {
     };
   };
   tooltip: {
+    trigger: 'item' | 'axis' | 'none';
     metrics: IEchartsTooltipMetric[];
   };
   reference_lines: ICartesianReferenceLine[];
@@ -89,6 +90,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     },
   ],
   tooltip: {
+    trigger: 'item',
     metrics: [],
   },
   reference_lines: [],

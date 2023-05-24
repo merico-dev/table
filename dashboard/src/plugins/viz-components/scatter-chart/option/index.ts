@@ -12,9 +12,6 @@ import { IYAxisConf } from '../../cartesian/type';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 
 const defaultOption = {
-  tooltip: {
-    trigger: 'axis',
-  },
   xAxis: [
     {
       type: 'category',
