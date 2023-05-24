@@ -29,9 +29,13 @@ const formatAdditionalMetric = (v: number) => {
 };
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
-  const { scatter } = conf;
+  const { scatter, tooltip } = conf;
+  console.log({
+    trigger: tooltip.trigger,
+  });
   return {
     confine: true,
+    trigger: tooltip.trigger,
     formatter: function (params: TopLevelFormatterParams) {
       const yLabelFormatter = labelFormatters[0] ?? labelFormatters.default;
       const arr = Array.isArray(params) ? params : [params];
