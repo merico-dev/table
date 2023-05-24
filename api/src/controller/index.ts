@@ -12,6 +12,7 @@ import { ConfigController } from './config.controller';
 import { DashboardPermissionController } from './dashboard_permission.controller';
 import { DashboardContentController } from './dashboard_content.controller';
 import { DashboardContentChangelogController } from './dashboard_content_changelog.controller';
+import { CustomFunctionController } from './custom_function.controller';
 
 export function bindControllers(container: Container) {
   container
@@ -74,4 +75,9 @@ export function bindControllers(container: Container) {
     .to(DashboardContentChangelogController)
     .inSingletonScope()
     .whenTargetNamed(DashboardContentChangelogController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(CustomFunctionController)
+    .inSingletonScope()
+    .whenTargetNamed(CustomFunctionController.TARGET_NAME);
 }

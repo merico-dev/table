@@ -11,6 +11,7 @@ import { ConfigService } from './config.service';
 import { DashboardPermissionService } from './dashboard_permission.service';
 import { DashboardContentService } from './dashboard_content.service';
 import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
+import { CustomFunctionService } from './custom_function.service';
 
 export function bindServices(container: Container) {
   container.bind<interfaces.Newable<JobService>>('Newable<JobService>').toConstructor<JobService>(JobService);
@@ -41,4 +42,7 @@ export function bindServices(container: Container) {
   container
     .bind<interfaces.Newable<DashboardContentChangelogService>>('Newable<DashboardContentChangelogService>')
     .toConstructor<DashboardContentChangelogService>(DashboardContentChangelogService);
+  container
+    .bind<interfaces.Newable<CustomFunctionService>>('Newable<CustomFunctionService>')
+    .toConstructor<CustomFunctionService>(CustomFunctionService);
 }

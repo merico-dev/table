@@ -9,6 +9,7 @@
     "dev:add-preset-datasources": "node -r ts-node/register src/preset/scripts/configure_datasources.ts",
     "dev:get-preset-dashboards": "node -r ts-node/register src/preset/scripts/get_dashboards.ts",
     "dev:add-preset-dashboards": "node -r ts-node/register src/preset/scripts/configure_dashboards.ts",
+    "dev:add-preset-custom_functions": "node -r ts-node/register src/preset/scripts/configure_custom_functions.ts",
     "typeorm": "typeorm-ts-node-esm",
     "migration:create": "npx typeorm-ts-node-esm migration:create",
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
@@ -24,6 +25,7 @@
     "add-preset-datasources": "node dist/preset/scripts/configure_datasources.js",
     "get-preset-dashboards": "node dist/preset/scripts/get_dashboards.js",
     "add-preset-dashboards": "node dist/preset/scripts/configure_dashboards.js",
+    "add-preset-custom_functions": "node dist/preset/scripts/configure_custom_functions.js",
     "cli:rename-datasource": "node dist/cli/renameDataSource.js"
   },
   "author": "",

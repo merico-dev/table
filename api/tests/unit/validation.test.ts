@@ -38,6 +38,11 @@ import {
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
 } from '~/api_models/dashboard_content';
+import {
+  CustomFunctionListRequest,
+  CustomFunctionCreateOrUpdateRequest,
+  CustomFunctionIDRequest,
+} from '~/api_models/custom_function';
 import { ApiError } from '~/utils/errors';
 import { validateClass } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
@@ -1641,6 +1646,136 @@ describe('validation', () => {
               property: 'id',
               children: [],
               constraints: { isUuid: 'id must be a UUID' },
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('CustomFunctionController', () => {
+    describe('CustomFunctionListRequest', () => {
+      it('should have no validation errors', () => {
+        const data: CustomFunctionListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'id', order: 'ASC' }],
+          filter: { id: { value: '', isFuzzy: true } },
+        };
+        const result = validateClass(CustomFunctionListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validateClass(CustomFunctionListRequest, data);
+        expect(result).toMatchObject({
+          sort: [{ field: 'id', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validateClass(CustomFunctionListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(CustomFunctionListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'id', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('CustomFunctionCreateOrUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: CustomFunctionCreateOrUpdateRequest = {
+          id: 'test',
+          definition: '',
+        };
+        const result = validateClass(CustomFunctionCreateOrUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(CustomFunctionCreateOrUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(CustomFunctionCreateOrUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isString: 'id must be a string' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'definition',
+              children: [],
+              constraints: { isString: 'definition must be a string' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('CustomFunctionIDRequest', () => {
+      it('should have no validation errors', () => {
+        const data: CustomFunctionIDRequest = {
+          id: 'test',
+        };
+        const result = validateClass(CustomFunctionIDRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(CustomFunctionIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(CustomFunctionIDRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isString: 'id must be a string' },
             },
           ]);
         }

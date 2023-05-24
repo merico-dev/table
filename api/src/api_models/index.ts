@@ -82,6 +82,15 @@ import {
   DashboardContentChangelogPaginationResponse,
   DashboardContentChangelogSortObject,
 } from './dashboard_content_changelog';
+import {
+  CustomFunction,
+  CustomFunctionCreateOrUpdateRequest,
+  CustomFunctionFilterObject,
+  CustomFunctionIDRequest,
+  CustomFunctionListRequest,
+  CustomFunctionPaginationResponse,
+  CustomFunctionSortObject,
+} from './custom_function';
 import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
@@ -176,4 +185,12 @@ export default {
   DashboardContentChangelogListRequest,
   DashboardContentChangelogPaginationResponse,
   DashboardContentChangelogSortObject,
+
+  CustomFunction,
+  CustomFunctionCreateOrUpdateRequest,
+  CustomFunctionFilterObject,
+  CustomFunctionIDRequest,
+  CustomFunctionListRequest,
+  CustomFunctionPaginationResponse,
+  CustomFunctionSortObject,
 };
