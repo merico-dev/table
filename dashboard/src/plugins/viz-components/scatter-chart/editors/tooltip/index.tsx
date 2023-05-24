@@ -5,17 +5,12 @@ import { Divider, Select, Stack } from '@mantine/core';
 
 const TooltipTriggerOptions = [
   {
-    label: 'item',
+    label: 'Scatter Point',
     value: 'item',
   },
   {
-    label: 'axis',
+    label: 'X Axis',
     value: 'axis',
-  },
-  {
-    label: 'none',
-    value: 'none',
-    disabled: true,
   },
 ];
 
