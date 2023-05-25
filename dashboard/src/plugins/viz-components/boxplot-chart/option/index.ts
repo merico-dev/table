@@ -6,9 +6,9 @@ import { AnyObject } from '~/types';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
-import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 import { getLegend } from './legend';
 import { getTooltip } from './tooltip';
+import { getSeries } from './series';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -73,12 +73,13 @@ interface IGetOption {
   variables: ITemplateVariable[];
 }
 export function getOption({ config, data, variables }: IGetOption) {
-  const { x_axis, y_axis, color, reference_lines } = config;
+  const { x_axis, y_axis, reference_lines } = config;
   const grouped = _.groupBy(data, x_axis.data_key);
   const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
   const outliersData = boxplotData.map((b) => b.outliers).flat();
 
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
+  const series = getSeries(config);
   return {
     dataset: [
       {
@@ -118,40 +119,6 @@ export function getOption({ config, data, variables }: IGetOption) {
         },
       },
     ],
-    series: [
-      {
-        name: 'Box',
-        type: 'boxplot',
-        itemStyle: {
-          color,
-          borderColor: '#2F8CC0',
-          borderWidth: 2,
-        },
-        emphasis: {
-          disabled: true,
-        },
-        boxWidth: [10, 40],
-        datasetIndex: 0,
-        encode: {
-          y: BOXPLOT_DATA_ITEM_KEYS,
-          x: 'name',
-          itemName: ['name'],
-          tooltip: BOXPLOT_DATA_ITEM_KEYS,
-        },
-      },
-      {
-        name: 'Outlier',
-        type: 'scatter',
-        symbolSize: 5,
-        itemStyle: {
-          color: '#2F8CC0',
-        },
-        emphasis: {
-          scale: 2,
-        },
-        datasetIndex: 1,
-      },
-      ...getReferenceLines(reference_lines, variables, data),
-    ],
+    series: [...series, ...getReferenceLines(reference_lines, variables, data)],
   };
 }
