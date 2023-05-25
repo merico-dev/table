@@ -42,10 +42,10 @@ export class QueryRequest {
 
   @IsBoolean()
   @ApiModelProperty({
-    description: 'ignore cache and execute query against datasource',
+    description: 'refresh cached data',
     required: false,
   })
-  ignore_cache?: boolean;
+  refresh_cache?: boolean;
 
   @IsOptional()
   @Type(() => Authentication)
