@@ -146,10 +146,6 @@ export const FiltersModel = types
       getValueByKey(key: string) {
         return self.values[key];
       },
-      refreshValues() {
-        console.log('refreshing values');
-        self.values = getValuesFromFilters(self.current);
-      },
       updatePreviewValues(values: AnyObject) {
         self.previewValues = values;
       },
