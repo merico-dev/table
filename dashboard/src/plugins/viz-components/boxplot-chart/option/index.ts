@@ -22,6 +22,13 @@ export function getOption({ config, data, variables }: IGetOption) {
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   const series = getSeries(config);
   return {
+    grid: {
+      top: 30,
+      left: 20,
+      right: 15,
+      bottom: 25,
+      containLabel: true,
+    },
     dataset,
     legend: getLegend({ config }),
     tooltip: getTooltip({ config }),
@@ -29,6 +36,12 @@ export function getOption({ config, data, variables }: IGetOption) {
       {
         type: 'category',
         name: x_axis.name,
+        nameGap: 25,
+        nameLocation: 'center',
+        nameTextStyle: {
+          fontWeight: 'bold',
+          align: 'center',
+        },
         axisTick: {
           show: true,
           alignWithLabel: true,
@@ -43,6 +56,9 @@ export function getOption({ config, data, variables }: IGetOption) {
     yAxis: [
       {
         name: y_axis.name,
+        nameTextStyle: {
+          fontWeight: 'bold',
+        },
         axisLine: {
           show: true,
         },
