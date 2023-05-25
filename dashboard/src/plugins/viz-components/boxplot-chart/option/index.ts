@@ -1,41 +1,13 @@
-import { quantile } from 'd3-array';
-import _ from 'lodash';
 import numbro from 'numbro';
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import { IBoxplotChartConf, IBoxplotDataItem, IBoxplotReferenceLine } from '../type';
+import { IBoxplotChartConf, IBoxplotReferenceLine } from '../type';
+import { getDataset } from './dataset';
 import { getLegend } from './legend';
-import { getTooltip } from './tooltip';
 import { getSeries } from './series';
-
-function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
-  const ret = Object.entries(groupedData).map(([name, data]) => {
-    const numbers: number[] = data.map((d) => d[data_key]).sort((a, b) => a - b);
-    const q1 = quantile(numbers, 0.25) ?? 0;
-    const median = quantile(numbers, 0.5) ?? 0;
-    const q3 = quantile(numbers, 0.75) ?? 0;
-
-    const IQR = q3 - q1;
-    const minLimit = q1 - 1.5 * IQR;
-    const maxLimit = q3 + 1.5 * IQR;
-
-    const min = Math.max(numbers[0], minLimit);
-    const max = Math.min(_.last(numbers) ?? 0, maxLimit);
-    const outliers = numbers.filter((n) => n < min || n > max).map((n) => [name, n]);
-    return {
-      name,
-      min,
-      q1,
-      median,
-      q3,
-      max,
-      outliers,
-    } as IBoxplotDataItem;
-  });
-  return ret;
-}
+import { getTooltip } from './tooltip';
 
 function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: TVizData) {
   const variableValueMap = variables.reduce((prev, variable) => {
@@ -74,21 +46,12 @@ interface IGetOption {
 }
 export function getOption({ config, data, variables }: IGetOption) {
   const { x_axis, y_axis, reference_lines } = config;
-  const grouped = _.groupBy(data, x_axis.data_key);
-  const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
-  const outliersData = boxplotData.map((b) => b.outliers).flat();
+  const dataset = getDataset(config, data);
 
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   const series = getSeries(config);
   return {
-    dataset: [
-      {
-        source: boxplotData,
-      },
-      {
-        source: outliersData,
-      },
-    ],
+    dataset,
     legend: getLegend({ config }),
     tooltip: getTooltip({ config }),
     xAxis: [
