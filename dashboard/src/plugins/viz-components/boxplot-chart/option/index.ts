@@ -1,43 +1,14 @@
 import numbro from 'numbro';
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { ITemplateVariable } from '~/utils/template';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import { IBoxplotChartConf, IBoxplotReferenceLine } from '../type';
+import { IBoxplotChartConf } from '../type';
 import { getDataset } from './dataset';
 import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
-
-function getReferenceLines(reference_lines: IBoxplotReferenceLine[], variables: ITemplateVariable[], data: TVizData) {
-  const variableValueMap = variables.reduce((prev, variable) => {
-    const value = getAggregatedValue(variable, data);
-    prev[variable.name] = formatAggregatedValue(variable, value);
-    return prev;
-  }, {} as Record<string, string | number>);
-
-  return reference_lines.map((r) => ({
-    name: 'refs',
-    type: 'scatter',
-    data: [],
-    markLine: {
-      data: [
-        {
-          name: r.name,
-          yAxis: Number(variableValueMap[r.variable_key]),
-        },
-      ],
-      silent: true,
-      symbol: ['none', 'none'],
-      label: {
-        formatter: function () {
-          return templateToString(r.template, variables, data);
-        },
-        position: 'insideEndTop',
-      },
-    },
-  }));
-}
+import { getReferenceLines } from './reference-line';
 
 interface IGetOption {
   config: IBoxplotChartConf;
