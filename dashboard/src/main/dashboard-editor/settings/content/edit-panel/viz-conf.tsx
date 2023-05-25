@@ -106,7 +106,7 @@ export const EditVizConf = observer(() => {
     <Stack align="stretch" sx={{ height: '100%', overflow: 'hidden' }}>
       <SelectVizType submit={submit} value={viz.type} />
       <ErrorBoundary>
-        <Stack pb={50} sx={{ flexGrow: 1, maxHeight: 'calc(100% - 80px)', overflow: 'auto' }}>
+        <Stack pb={10} sx={{ flexGrow: 1, maxHeight: '100%', overflow: 'auto' }}>
           {finalPanel}
         </Stack>
         {!finalPanel && (

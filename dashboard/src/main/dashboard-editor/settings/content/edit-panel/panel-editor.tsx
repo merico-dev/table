@@ -18,18 +18,19 @@ const TabsStyles = {
   root: {
     flexGrow: 1,
     width: '100%',
-    height: '100%',
+    overflow: 'hidden',
   },
   panel: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100% - 44px)',
     padding: 10,
+    overflow: 'scroll',
   },
 } as const;
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: 'calc(100% - 36px)' }}>
+    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%' }}>
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
