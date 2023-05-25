@@ -46,7 +46,7 @@ export const MultiSelectWidget = ({
   options,
 }: IProps) => {
   const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
-  const [showTooltip, setShowTooltip] = useState(value?.length > 0);
+  const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
   };

@@ -1,5 +1,32 @@
-import { cast, Instance, types } from 'mobx-state-tree';
+import { cast, Instance, types, getRoot } from 'mobx-state-tree';
+import { Text, TextProps } from '@mantine/core';
 import { FilterConfigModel_BaseSelect } from './select-base';
+import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/filter/filter-tree-select/types';
+import React from 'react';
+import { queryDataToTree } from '~/filter/filter-tree-select/render/query-data-to-tree';
+
+function addLabelToData(data: ITreeDataQueryOption[]) {
+  return data.map((d) => {
+    const { label, description, ...rest } = d;
+    const ret: ITreeDataRenderItem = {
+      ...rest,
+      filterBasis: `${label}___${description ?? ''}`,
+      description,
+      label,
+    };
+    if (description) {
+      ret.label = React.createElement('div', {}, [
+        React.createElement<TextProps>(Text, { key: 0, title: d.label } as TextProps, d.label),
+        React.createElement<TextProps>(
+          Text,
+          { key: 1, className: 'rc-tree-select-tree-title-desc', color: 'dimmed', title: d.description } as TextProps,
+          d.description,
+        ),
+      ]);
+    }
+    return ret;
+  });
+}
 
 export const FilterConfigModel_TreeSelect = types
   .compose(
@@ -22,6 +49,25 @@ export const FilterConfigModel_TreeSelect = types
         options_query_id,
         default_selection_count,
       };
+    },
+    get treeData() {
+      // @ts-expect-error type of getRoot
+      const { data } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      const dataWithCustomLabel = addLabelToData(data);
+      return queryDataToTree(dataWithCustomLabel);
+    },
+    get treeDataLoading() {
+      // @ts-expect-error type of getRoot
+      const { state } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      return state === 'loading';
+    },
+    get defaultSelection() {
+      const { default_selection_count } = self;
+      if (!default_selection_count) {
+        return [];
+      }
+      const treeData = this.treeData;
+      return treeData.slice(0, default_selection_count).map((o) => o.value);
     },
   }))
   .actions((self) => ({
