@@ -24,7 +24,7 @@ const CustomModalTitleModel = types
       }
       try {
         const params = {
-          filters: root.filters.values,
+          filters: root.content.filters.values,
           context: root.context.current,
         };
 
