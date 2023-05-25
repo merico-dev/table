@@ -4,7 +4,7 @@ import ApiKey from '../models/apiKey';
 import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
-import { DEFAULT_LANGUAGE } from '../utils/constants';
+import { DEFAULT_LANGUAGE, QUERY_CACHE_RETAIN_TIME } from '../utils/constants';
 import i18n, { translate } from '../utils/i18n';
 import { ROLE_TYPES } from '../api_models/role';
 
@@ -59,6 +59,16 @@ export class ConfigService {
         WEBSITE_FAVICON_URL: process.env.WEBSITE_FAVICON_URL,
       }),
     },
+    query_cache_expire_time: {
+      auth: {
+        get: {},
+        update: {
+          min: ROLE_TYPES.ADMIN,
+        },
+      },
+      isGlobal: true,
+      default: QUERY_CACHE_RETAIN_TIME,
+    },
   };
 
   static async delete(key: string, resource_type: ConfigResourceTypes, resource_id: string): Promise<void> {
@@ -68,7 +78,7 @@ export class ConfigService {
 
   async get(
     key: string,
-    auth: Account | ApiKey | undefined,
+    auth?: Account | ApiKey,
     locale: string = DEFAULT_LANGUAGE,
   ): Promise<{ key: string; value: string | undefined }> {
     const keyConfig = ConfigService.keyConfig[key];
