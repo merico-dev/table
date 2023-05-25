@@ -8,24 +8,24 @@ import { useContentModelContext } from '~/contexts';
 import { Filter } from './filter';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {
-  const model = useContentModelContext();
+  const content = useContentModelContext();
 
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: model.filters.values,
+    defaultValues: content.filters.values,
     // make sure the preview value is updated when filters are changed
     reValidateMode: 'onBlur',
   });
   const formValue = useWatch({ control });
   useEffect(() => {
-    reset(model.filters.values);
-  }, [model.filters.values, reset]);
+    reset(content.filters.values);
+  }, [content.filters.values, reset]);
   useEffect(() => {
     // this form is not a controlled component,
     // so we need to manually update the model
-    model.filters.updatePreviewValues(formValue);
+    content.filters.updatePreviewValues(formValue);
   }, [formValue]);
 
-  const filters = model.filters.visibleInView(view.id);
+  const filters = content.filters.visibleInView(view.id);
   const allAutoSubmit = useMemo(() => filters.every((f) => f.should_auto_submit), [filters]);
   const requiredFilters = useMemo(() => filters.filter((f) => _.get(f, 'config.required', false)), [filters]);
   const searchButtonDisabled = useMemo(() => {
@@ -43,12 +43,12 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
     (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
       onChange(v);
       if (filter.should_auto_submit || forceSubmit) {
-        model.filters.setValueByKey(filter.key, v);
+        content.filters.setValueByKey(filter.key, v);
       }
     };
 
   return (
-    <form onSubmit={handleSubmit(model.filters.setValues)}>
+    <form onSubmit={handleSubmit(content.filters.setValues)}>
       <Group
         className="dashboard-filters"
         position="apart"
