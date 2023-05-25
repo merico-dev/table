@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { Authentication } from './base';
 
@@ -39,6 +39,13 @@ export class QueryRequest {
     type: SwaggerDefinitionConstant.JSON,
   })
   env?: Record<string, any>;
+
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'ignore cache and execute query against datasource',
+    required: false,
+  })
+  ignore_cache?: boolean;
 
   @IsOptional()
   @Type(() => Authentication)

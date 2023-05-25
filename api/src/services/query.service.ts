@@ -75,7 +75,7 @@ export class QueryService {
     }
   }
 
-  async query(type: string, key: string, query: string, env: Record<string, any>): Promise<any> {
+  async query(type: string, key: string, query: string, env: Record<string, any>, ignore_cache = false): Promise<any> {
     let q: string = query;
     if (['postgresql', 'mysql'].includes(type)) {
       const { error, sql } = await sqlRewriter(query, env);
@@ -85,9 +85,11 @@ export class QueryService {
       q = sql;
     }
     const cacheKey = `query:${createHash('sha256').update(`${type}:${key}:${q}`).digest('hex')}`;
-    const cached = await this.getCache(cacheKey);
-    if (cached) {
-      return cached;
+    if (!ignore_cache) {
+      const cached = await this.getCache(cacheKey);
+      if (cached) {
+        return cached;
+      }
     }
     let result;
     switch (type) {
@@ -106,7 +108,9 @@ export class QueryService {
       default:
         return null;
     }
-    await this.putCache(cacheKey, result);
+    if (!ignore_cache) {
+      await this.putCache(cacheKey, result);
+    }
     return result;
   }
 
