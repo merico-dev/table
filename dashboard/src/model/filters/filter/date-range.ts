@@ -63,10 +63,9 @@ const _FilterConfigModel_DateRange = types
   .actions((self) => ({
     setFilterValue(v: TDateRangePickerValue) {
       try {
-        const filter = getParent(self);
-        const root = getRoot(self);
-        // @ts-expect-error type of getRoot & getPraent
-        root.filters.setValueByKey(filter.key, v);
+        const filter = getParent(self) as any;
+        const contentModel = getRoot(self) as any;
+        contentModel.filters.setValueByKey(filter.key, v);
       } catch (error) {
         console.error(error);
       }

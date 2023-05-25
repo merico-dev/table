@@ -18,14 +18,14 @@ const CustomModalTitleModel = types
     get value() {
       const { enabled, func_content } = self;
       const view = getParent(self, 2) as any;
-      const root = getRoot(self) as any;
+      const { content } = getRoot(self) as any;
       if (!enabled) {
         return view.name;
       }
       try {
         const params = {
-          filters: root.filters.values,
-          context: root.context.current,
+          filters: content.filters.values,
+          context: content.context.current,
         };
 
         const ret = new Function(`return ${func_content}`)()(params);
