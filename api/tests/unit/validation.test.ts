@@ -43,6 +43,7 @@ import {
   CustomFunctionCreateOrUpdateRequest,
   CustomFunctionIDRequest,
 } from '~/api_models/custom_function';
+import { SqlSnippetListRequest, SqlSnippetCreateOrUpdateRequest, SqlSnippetIDRequest } from '~/api_models/sql_snippet';
 import { ApiError } from '~/utils/errors';
 import { validateClass } from '~/middleware/validation';
 import { VALIDATION_FAILED } from '~/utils/errors';
@@ -1768,6 +1769,136 @@ describe('validation', () => {
         );
         try {
           validateClass(CustomFunctionIDRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isString: 'id must be a string' },
+            },
+          ]);
+        }
+      });
+    });
+  });
+
+  describe('SqlSnippetController', () => {
+    describe('SqlSnippetListRequest', () => {
+      it('should have no validation errors', () => {
+        const data: SqlSnippetListRequest = {
+          pagination: { page: 1, pagesize: 20 },
+          sort: [{ field: 'id', order: 'ASC' }],
+          filter: { id: { value: '', isFuzzy: true } },
+        };
+        const result = validateClass(SqlSnippetListRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Empty request should also have no validation errors', () => {
+        const data = {};
+        const result = validateClass(SqlSnippetListRequest, data);
+        expect(result).toMatchObject({
+          sort: [{ field: 'id', order: 'ASC' }],
+          pagination: { page: 1, pagesize: 20 },
+        });
+      });
+
+      it('Should have validation errors', () => {
+        const data = {
+          pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+        };
+        expect(() => validateClass(SqlSnippetListRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(SqlSnippetListRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {
+                sort: [{ field: 'id', order: 'ASC' }],
+                pagination: { incorrect_page: 1, incorrect_pageSize: 20 },
+              },
+              value: { incorrect_page: 1, incorrect_pageSize: 20 },
+              property: 'pagination',
+              children: [
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'page',
+                  children: [],
+                  constraints: { isInt: 'page must be an integer number' },
+                },
+                {
+                  target: { incorrect_page: 1, incorrect_pageSize: 20 },
+                  value: undefined,
+                  property: 'pagesize',
+                  children: [],
+                  constraints: { isInt: 'pagesize must be an integer number' },
+                },
+              ],
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('SqlSnippetCreateOrUpdateRequest', () => {
+      it('should have no validation errors', () => {
+        const data: SqlSnippetCreateOrUpdateRequest = {
+          id: 'test',
+          content: '',
+        };
+        const result = validateClass(SqlSnippetCreateOrUpdateRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(SqlSnippetCreateOrUpdateRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(SqlSnippetCreateOrUpdateRequest, data);
+        } catch (error) {
+          expect(error.detail.errors).toMatchObject([
+            {
+              target: {},
+              value: undefined,
+              property: 'id',
+              children: [],
+              constraints: { isString: 'id must be a string' },
+            },
+            {
+              target: {},
+              value: undefined,
+              property: 'content',
+              children: [],
+              constraints: { isString: 'content must be a string' },
+            },
+          ]);
+        }
+      });
+    });
+
+    describe('SqlSnippetIDRequest', () => {
+      it('should have no validation errors', () => {
+        const data: SqlSnippetIDRequest = {
+          id: 'test',
+        };
+        const result = validateClass(SqlSnippetIDRequest, data);
+        expect(result).toMatchObject(data);
+      });
+
+      it('Should have validation errors', () => {
+        const data = {};
+        expect(() => validateClass(SqlSnippetIDRequest, data)).toThrow(
+          new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+        );
+        try {
+          validateClass(SqlSnippetIDRequest, data);
         } catch (error) {
           expect(error.detail.errors).toMatchObject([
             {
