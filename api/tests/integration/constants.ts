@@ -6,6 +6,7 @@ import Dashboard from '~/models/dashboard';
 import { parseDBUrl } from '../utils';
 import DashboardContent from '~/models/dashboard_content';
 import CustomFunction from '~/models/custom_function';
+import SqlSnippet from '~/models/sql_snippet';
 
 export const accounts: Account[] = [
   {
@@ -232,6 +233,30 @@ export const customFunctions: CustomFunction[] = [
   {
     id: 'divideFunction',
     definition: '(x, y) => x / y',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+];
+
+export const sqlSnippets: SqlSnippet[] = [
+  {
+    id: 'presetSqlSnippet',
+    content: 'presetSnippet',
+    is_preset: true,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'SqlSnippet1',
+    content: 'snippet1',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'SqlSnippet2',
+    content: 'snippet2',
     is_preset: false,
     create_time: new Date(),
     update_time: new Date(),
