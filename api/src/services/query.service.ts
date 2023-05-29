@@ -6,14 +6,7 @@ import { validateClass } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
 import { sqlRewriter } from '../plugins';
 import { ApiError, QUERY_ERROR } from '../utils/errors';
-import { createHash } from 'crypto';
-import { ConfigService } from './config.service';
-import fs from 'fs-extra';
-import path from 'path';
-import { QUERY_CACHE_RETAIN_TIME } from '../utils/constants';
-
-const cacheDir = path.resolve(__dirname, 'query_cache');
-const configService = new ConfigService();
+import { getFsCache, getFsCacheKey, putFsCache } from '../utils/fs_cache';
 
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
@@ -46,35 +39,6 @@ export class QueryService {
     }
   }
 
-  static async clearCache(): Promise<void> {
-    const ttlConfig = await configService.get('query_cache_expire_time');
-    const ttl = parseInt(ttlConfig.value! || QUERY_CACHE_RETAIN_TIME);
-    const files = await fs.readdir(cacheDir);
-    files.forEach(async (file) => {
-      const fileInfo = await fs.stat(path.join(cacheDir, file));
-      if (fileInfo.birthtimeMs + ttl * 1000 < Date.now()) {
-        await fs.remove(path.join(cacheDir, file));
-      }
-    });
-  }
-
-  async putCache(key: string, data: any): Promise<void> {
-    await fs.ensureDir(cacheDir);
-    const filename = `${key}.json`;
-    await fs.writeJSON(path.join(cacheDir, filename), data);
-  }
-
-  async getCache(key: string): Promise<any> {
-    await fs.ensureDir(cacheDir);
-    const filename = `${key}.json`;
-    try {
-      const data = await fs.readJSON(path.join(cacheDir, filename));
-      return data;
-    } catch (err) {
-      return null;
-    }
-  }
-
   async query(type: string, key: string, query: string, env: Record<string, any>, refresh_cache = false): Promise<any> {
     let q: string = query;
     if (['postgresql', 'mysql'].includes(type)) {
@@ -84,9 +48,9 @@ export class QueryService {
       }
       q = sql;
     }
-    const cacheKey = `query:${createHash('sha256').update(`${type}:${key}:${q}`).digest('hex')}`;
+    const cacheKey = getFsCacheKey(`${type}:${key}:${q}`);
     if (!refresh_cache) {
-      const cached = await this.getCache(cacheKey);
+      const cached = await getFsCache(cacheKey);
       if (cached) {
         return cached;
       }
@@ -108,7 +72,7 @@ export class QueryService {
       default:
         return null;
     }
-    await this.putCache(cacheKey, result);
+    await putFsCache(cacheKey, result);
     return result;
   }
 
