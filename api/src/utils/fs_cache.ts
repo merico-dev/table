@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { createHash } from 'crypto';
 import { ConfigService } from '../services/config.service';
-import { QUERY_CACHE_RETAIN_TIME } from './constants';
+import { FS_CACHE_RETAIN_TIME } from './constants';
 
 const cacheDir = path.resolve(__dirname, '../fs_cache');
 fs.ensureDirSync(cacheDir);
@@ -15,7 +15,7 @@ export const getFsCacheKey = (key: string): string => {
 
 export const clearFsCache = async (): Promise<void> => {
   const ttlConfig = await configService.get('query_cache_expire_time');
-  const ttl = parseInt(ttlConfig.value! || QUERY_CACHE_RETAIN_TIME);
+  const ttl = parseInt(ttlConfig.value!) || parseInt(FS_CACHE_RETAIN_TIME);
   const files = await fs.readdir(cacheDir);
   files.forEach(async (file) => {
     const fileInfo = await fs.stat(path.join(cacheDir, file));

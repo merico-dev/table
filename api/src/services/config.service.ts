@@ -4,7 +4,7 @@ import ApiKey from '../models/apiKey';
 import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
-import { DEFAULT_LANGUAGE, QUERY_CACHE_RETAIN_TIME } from '../utils/constants';
+import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
 import i18n, { translate } from '../utils/i18n';
 import { ROLE_TYPES } from '../api_models/role';
 
@@ -67,7 +67,7 @@ export class ConfigService {
         },
       },
       isGlobal: true,
-      default: QUERY_CACHE_RETAIN_TIME,
+      default: FS_CACHE_RETAIN_TIME,
     },
   };
 
