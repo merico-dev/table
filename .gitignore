@@ -31,7 +31,7 @@ api/src/preset/data_sources/config.json
 api/src/preset/custom_functions/config.js
 api/src/preset/sql_snippets/config.json
 api/src/preset/dashboards
-api/src/services/query_cache
+api/src/fs_cache
 
 api/.jest_cache
 api/coverage*
