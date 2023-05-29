@@ -31,6 +31,7 @@ export const EditFilter = observer(({ id }: { id: string }) => {
         content.filters.removeByID(id);
         resetEditorPath();
       },
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };

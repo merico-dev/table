@@ -45,6 +45,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: remove,
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };
