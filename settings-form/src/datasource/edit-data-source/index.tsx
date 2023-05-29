@@ -78,6 +78,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
         <Button
           size={styles.button.size}
           color="gray"
+          variant="light"
           leftIcon={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
@@ -97,6 +98,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
         <Button
           size={styles.button.size}
           color="gray"
+          variant="light"
           leftIcon={<IconEdit size={16} />}
           sx={{ transform: 'none !important' }}
         >

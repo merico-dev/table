@@ -1,4 +1,4 @@
-import { Button, Text, Tooltip, useMantineTheme } from '@mantine/core';
+import { Button, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { IconLock } from '@tabler/icons';
@@ -46,7 +46,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
     });
-  const theme = useMantineTheme();
+
   if (isProtected) {
     return (
       <Tooltip
@@ -54,9 +54,15 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
         events={{ hover: true, touch: false, focus: false }}
         label="This is a preset datasource, it can not be deleted"
       >
-        <span>
-          <IconLock size={16} color={theme.colors.gray[7]} />
-        </span>
+        <Button
+          size={styles.button.size}
+          color="gray"
+          variant="light"
+          leftIcon={<IconLock size={16} />}
+          sx={{ transform: 'none !important' }}
+        >
+          Delete
+        </Button>
       </Tooltip>
     );
   }
