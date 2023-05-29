@@ -7,6 +7,7 @@ import { AddDataSource } from './add-data-source';
 import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
 import { EditDataSource } from './edit-data-source';
+import { DataSourceIcon } from './components/data-source-icon';
 
 interface IDataSourceList {
   styles?: IStyles;
@@ -56,7 +57,9 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
               const { id, key, type, is_preset } = dataSource;
               return (
                 <tr key={key}>
-                  <td width={200}>{type}</td>
+                  <td width={200}>
+                    <DataSourceIcon type={type} />
+                  </td>
                   <td>{key}</td>
                   <td width={400}>
                     <Group position="left">
