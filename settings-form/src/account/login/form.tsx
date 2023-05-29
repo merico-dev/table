@@ -31,7 +31,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         message: 'Loggin in...',
         loading: true,
       });
-      const res = await APICaller.account.login(name, password);
+      const res = await APICaller.account.login(name, password.trim());
       window.localStorage.setItem('token', res.token);
       updateNotification({
         id: 'for-login',
