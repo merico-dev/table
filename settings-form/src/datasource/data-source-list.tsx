@@ -6,6 +6,7 @@ import { useLoadMonacoEditor } from '../utils/load-monaco-editor';
 import { AddDataSource } from './add-data-source';
 import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
+import { EditDataSource } from './edit-data-source';
 
 interface IDataSourceList {
   styles?: IStyles;
@@ -51,17 +52,27 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
             </tr>
           </thead>
           <tbody>
-            {data.map(({ id, key, type, is_preset }) => (
-              <tr key={key}>
-                <td width={200}>{type}</td>
-                <td>{key}</td>
-                <td width={200}>
-                  <Group position="left">
-                    <DeleteDataSource isProtected={is_preset} id={id} name={key} onSuccess={refresh} />
-                  </Group>
-                </td>
-              </tr>
-            ))}
+            {data.map((dataSource) => {
+              const { id, key, type, is_preset } = dataSource;
+              return (
+                <tr key={key}>
+                  <td width={200}>{type}</td>
+                  <td>{key}</td>
+                  <td width={400}>
+                    <Group position="left">
+                      <EditDataSource dataSource={dataSource} onSuccess={refresh} styles={styles} />
+                      <DeleteDataSource
+                        isProtected={is_preset}
+                        id={id}
+                        name={key}
+                        onSuccess={refresh}
+                        styles={styles}
+                      />
+                    </Group>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </Box>

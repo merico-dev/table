@@ -62,7 +62,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
   }
 
   return (
-    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
+    <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={16} />}>
       Delete
     </Button>
   );
