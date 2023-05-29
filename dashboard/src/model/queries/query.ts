@@ -150,7 +150,9 @@ export const QueryModel = types
   })
   .actions((self) => {
     return {
-      fetchData: self.typedAsHTTP ? self.runHTTP : self.runSQL,
+      fetchData: () => {
+        return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
+      },
       beforeDestroy() {
         self.controller?.abort();
       },
