@@ -118,6 +118,19 @@ export class DataSourceService {
     return result;
   }
 
+  async update(id: string, config: DataSourceConfig, locale: string): Promise<DataSource> {
+    maybeEncryptPassword(config);
+    const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
+    const dataSource = await dataSourceRepo.findOneByOrFail({ id });
+    if (dataSource.type !== 'http') {
+      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_ONLY_HTTP_IS_EDITABLE', locale) });
+    }
+    dataSource.config = config;
+    const result = await dataSourceRepo.save(dataSource);
+    maybeDecryptPassword(result);
+    return result;
+  }
+
   async delete(id: string, locale: string): Promise<void> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
     const datasource = await dataSourceRepo.findOneByOrFail({ id });

@@ -314,3 +314,26 @@ export class DataSourceRenameRequest {
   })
   key: string;
 }
+
+@ApiModel({
+  description: 'DataSource Update request',
+  name: 'DataSourceUpdateRequest',
+})
+export class DataSourceUpdateRequest {
+  @IsUUID()
+  @ApiModelProperty({
+    description: 'DataSource uuid',
+    required: true,
+  })
+  id: string;
+
+  @IsObject()
+  @Type(() => DataSourceConfig)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'config of the datasource stored in json object format',
+    required: true,
+    model: 'DataSourceConfig',
+  })
+  config: DataSourceConfig;
+}

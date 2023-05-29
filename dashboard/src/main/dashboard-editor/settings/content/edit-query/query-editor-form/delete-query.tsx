@@ -26,6 +26,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
         content.queries.removeQuery(queryModel.id);
         model.editor.setPath(['_QUERIES_', '']);
       },
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };

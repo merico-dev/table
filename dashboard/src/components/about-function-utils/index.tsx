@@ -12,7 +12,7 @@ export function AboutFunctionUtils() {
       <Modal opened={opened} onClose={close} title="About FunctionUtils" zIndex={320}>
         <ReadonlyRichText
           value={FunctionUtilsDescription}
-          styles={{ root: { border: 'none' }, content: { padding: 0 } }}
+          styles={{ root: { border: 'none' }, content: { padding: 0, table: { marginBottom: 0 } } }}
         />
       </Modal>
 

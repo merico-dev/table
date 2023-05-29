@@ -2,7 +2,7 @@ import { Button, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
-import { IStyles } from '../../../styles';
+import { IStyles } from '../../styles';
 import { FunctionStringEditor } from './function-string-editor';
 
 interface IFunctionStringField {

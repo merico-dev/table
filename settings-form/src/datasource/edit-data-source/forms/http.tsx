@@ -1,9 +1,8 @@
 import { Box, Button, Divider, Group, TextInput } from '@mantine/core';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
-import { defaultStyles, IStyles } from '../../styles';
 import { FunctionStringField } from '../../components/function-string-field';
+import { IStyles, defaultStyles } from '../../styles';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [
@@ -21,43 +20,24 @@ interface IFormValues {
   config: TDataSourceConfig_HTTP;
 }
 
-interface IAddDataSourceForm {
+interface IEditDataSourceForm {
+  name: string;
+  config: TDataSourceConfig_HTTP;
   submit: (values: IFormValues) => void;
   styles?: IStyles;
 }
 
-export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddDataSourceForm) {
-  const { control, setValue, handleSubmit } = useForm<IFormValues>({
+export function EditDataSourceForm_HTTP({ name, config, submit, styles = defaultStyles }: IEditDataSourceForm) {
+  const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
-      type: 'http',
-      key: '',
-      config: {
-        host: '',
-        processing: {
-          pre: DEFAULT_HTTP_PROCESSING.pre,
-          post: DEFAULT_HTTP_PROCESSING.post,
-        },
-      },
+      config,
     },
   });
 
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(submit)}>
-        <Controller
-          name="key"
-          control={control}
-          render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Name"
-              placeholder="A unique name"
-              {...field}
-            />
-          )}
-        />
+        <TextInput mb={styles.spacing} size={styles.size} required label="Name" value={name} readOnly />
 
         <Divider label="Connection Info" labelPosition="center" />
 

@@ -1,12 +1,12 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
+import { useModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/model';
 import { DataSourceType } from '~/model/queries/types';
 
 export const AddAQuery = observer(() => {
-  const model = useContentModelContext();
+  const model = useModelContext();
   const add = () => {
     const id = new Date().getTime().toString();
     const v = {
@@ -16,7 +16,8 @@ export const AddAQuery = observer(() => {
       key: '',
       sql: '',
     } as QueryModelInstance;
-    model.queries.append(v);
+    model.content.queries.append(v);
+    model.editor.setPath(['_QUERIES_', id]);
   };
 
   return (

@@ -1,6 +1,6 @@
 {
   "name": "@devtable/settings-form",
-  "version": "9.6.0",
+  "version": "9.7.0",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "4.4.6",
+    "@tabler/icons": "1.119.0",
     "monaco-editor": "0.36.0"
   },
   "devDependencies": {

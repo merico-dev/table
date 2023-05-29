@@ -82,7 +82,12 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       styles={{
         root: { flex: 1 },
         label: { display: 'block' },
-        rightSection: { pointerEvents: 'none', '.mantine-Text-root': { userSelect: 'none' } },
+        rightSection: {
+          pointerEvents: 'none',
+          justifyContent: 'flex-end',
+          paddingRight: '10px',
+          '.mantine-Text-root': { userSelect: 'none' },
+        },
       }}
       disabled={loading}
       value={value.key}

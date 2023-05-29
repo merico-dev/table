@@ -42,11 +42,11 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
       });
       await APICaller.account.edit({
         id,
-        name,
-        email,
+        name: name.trim(),
+        email: email.trim(),
         role_id,
         reset_password,
-        new_password,
+        new_password: new_password.trim(),
       });
       updateNotification({
         id: 'for-updating',
