@@ -17,6 +17,7 @@
   "DATASOURCE_NO_DELETE_PRESET": "Can not delete preset datasources",
   "DATASOURCE_CONNECTION_TEST_FAILED": "Testing datasource connection failed",
   "DATASOURCE_TYPE_KEY_ALREADY_EXISTS": "A data source with that type and key already exists",
+  "DATASOURCE_ONLY_HTTP_IS_EDITABLE": "Only HTTP data source is editable",
   "AUTH_NOT_ENABLED": "Authentication system is not enabled",
   "AUTH_MUST_BEARER": "Must authenticate with bearer token",
   "APIKEY_NO_DELETE_PRESET": "Preset apikey can not be deleted",

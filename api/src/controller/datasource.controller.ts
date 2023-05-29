@@ -11,6 +11,7 @@ import {
   DataSourceIDRequest,
   DataSourceConfig,
   DataSourceRenameRequest,
+  DataSourceUpdateRequest,
 } from '../api_models/datasource';
 import ApiKey from '../models/apiKey';
 import Account from '../models/account';
@@ -104,6 +105,28 @@ export class DataSourceController implements interfaces.Controller {
         auth?.id ?? null,
         !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
       );
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @ApiOperationPut({
+    path: '/update',
+    description: 'update datasource',
+    parameters: {
+      body: { description: 'datasource update request', required: true, model: 'DataSourceUpdateRequest' },
+    },
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'DataSource' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
+  })
+  @httpPut('/update', permission(ROLE_TYPES.ADMIN), validate(DataSourceUpdateRequest))
+  public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { id, config } = req.body as DataSourceUpdateRequest;
+      const result = await this.dataSourceService.update(id, config, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
