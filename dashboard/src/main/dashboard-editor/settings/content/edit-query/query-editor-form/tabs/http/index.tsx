@@ -8,7 +8,7 @@ export const DEFAULT_HTTP_REQ_PROCESSING = {
   pre: [
     'function build_request({ context, filters }, utils) {',
     '    // build the quest',
-    '    return { method, url, params, headers, data }',
+    "    return { method: 'POST', url: '/', params: {}, headers: {}, data: {} }",
     '}',
   ].join('\n'),
   post: ['function process_result(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
