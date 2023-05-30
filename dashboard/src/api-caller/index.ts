@@ -1,9 +1,3 @@
-import {
-  explainHTTPRequest,
-  postProcessWithDataSource,
-  postProcessWithQuery,
-  preProcessWithDataSource,
-} from '~/utils/http-query';
 import { FilterValuesType } from '../model';
 import { ContextInfoType } from '../model/context';
 import { DataSourceType } from '../model/queries/types';
@@ -46,30 +40,14 @@ export async function queryBySQL(
 }
 
 interface IQueryByHTTP {
-  context: ContextInfoType;
-  mock_context: Record<string, $TSFixMe>;
-  query: { type: DataSourceType; key: string; name: string; pre_process: string; post_process: string };
-  filterValues: FilterValuesType;
-  datasource: IDataSource;
+  type: DataSourceType;
+  key: string;
+  configString: string;
 }
 
-export async function queryByHTTP(
-  { context, mock_context, query, filterValues, datasource }: IQueryByHTTP,
-  signal: AbortSignal,
-) {
-  const { type, key, name, pre_process, post_process } = query;
-
-  let config = explainHTTPRequest(pre_process, context, mock_context, filterValues);
-  console.groupCollapsed(`Request config for: ${name}`);
-  console.log(config);
-  console.groupEnd();
-
-  config = preProcessWithDataSource(datasource, config);
-  const configString = JSON.stringify(config);
+export async function queryByHTTP({ type, key, configString }: IQueryByHTTP, signal: AbortSignal) {
   const res = await APIClient.query(signal)({ type, key, query: configString }, {});
-  let data = postProcessWithDataSource(datasource, res);
-  data = postProcessWithQuery(post_process, data);
-  return data;
+  return res;
 }
 
 export type TQuerySources = Record<string, string[]>;
