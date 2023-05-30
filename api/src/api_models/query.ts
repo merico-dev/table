@@ -56,6 +56,13 @@ export class QueryRequest {
   name: 'HttpParams',
 })
 export class HttpParams {
+  @IsString()
+  @ApiModelProperty({
+    description: 'host',
+    required: false,
+  })
+  host: string;
+
   @IsIn(['GET', 'POST', 'PUT', 'DELETE'])
   @ApiModelProperty({
     description: 'Request method',
