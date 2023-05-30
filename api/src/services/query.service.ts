@@ -88,7 +88,10 @@ export class QueryService {
   private async httpQuery(key: string, query: string): Promise<any> {
     const options = validateClass(HttpParams, JSON.parse(query));
     const sourceConfig = await DataSourceService.getByTypeKey('http', key);
-    const { host } = sourceConfig.config;
+    let { host } = sourceConfig.config;
+    if (!host) {
+      host = options.host;
+    }
     return await APIClient.request(host)(options);
   }
 }
