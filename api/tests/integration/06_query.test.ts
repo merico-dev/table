@@ -13,7 +13,7 @@ describe('QueryService', () => {
 
   describe('query', () => {
     it('should query pg successfully', async () => {
-      const results = await queryService.query('postgresql', 'pg', 'SELECT * FROM role ORDER BY id ASC');
+      const results = await queryService.query('postgresql', 'pg', 'SELECT * FROM role ORDER BY id ASC', {});
       expect(results).toMatchObject([
         {
           id: 10,
@@ -54,7 +54,7 @@ describe('QueryService', () => {
       };
       const validateClass = jest.spyOn(validation, 'validateClass');
       validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
+      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
       expect(results).toMatchObject({
         userId: 1,
         id: 1,
@@ -77,7 +77,7 @@ describe('QueryService', () => {
       };
       const validateClass = jest.spyOn(validation, 'validateClass');
       validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
+      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
     });
 
@@ -91,7 +91,7 @@ describe('QueryService', () => {
       };
       const validateClass = jest.spyOn(validation, 'validateClass');
       validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
+      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
     });
 
@@ -105,7 +105,7 @@ describe('QueryService', () => {
       };
       const validateClass = jest.spyOn(validation, 'validateClass');
       validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query));
+      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
       expect(results).toMatchObject({});
     });
   });

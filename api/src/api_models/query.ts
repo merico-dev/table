@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { Authentication } from './base';
 
 @ApiModel({
@@ -30,6 +30,15 @@ export class QueryRequest {
     required: true,
   })
   query: string;
+
+  @IsOptional()
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query env config',
+    required: false,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  env?: Record<string, any>;
 
   @IsOptional()
   @Type(() => Authentication)
