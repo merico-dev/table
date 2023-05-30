@@ -6,7 +6,7 @@ import { cryptSign } from './utils';
 type TQueryPayload = {
   type: DataSourceType;
   key: string;
-  sql: string;
+  query: string;
   env?: Record<string, string | number>;
 };
 
@@ -14,6 +14,7 @@ export const APIClient = {
   baseURL: 'http://localhost:31200',
   app_id: '',
   app_secret: '',
+  getQueryENV: () => ({}),
   getAuthentication(params: Record<string, $TSFixMe>) {
     if (!this.app_id || !this.app_secret) {
       return undefined;
@@ -65,11 +66,8 @@ export const APIClient = {
         });
     };
   },
-  getQueryENV() {
-    return {};
-  },
   query(signal?: AbortSignal) {
-    return (url: string, data: TQueryPayload, options: AnyObject = {}) => {
+    return (data: TQueryPayload, options: AnyObject = {}) => {
       if (!data.env) {
         data.env = this.getQueryENV();
       }
