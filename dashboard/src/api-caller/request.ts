@@ -7,14 +7,13 @@ type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
-  env?: Record<string, string | number>;
+  env?: AnyObject;
 };
 
 export const APIClient = {
   baseURL: 'http://localhost:31200',
   app_id: '',
   app_secret: '',
-  getQueryENV: () => ({}),
   getAuthentication(params: Record<string, $TSFixMe>) {
     if (!this.app_id || !this.app_secret) {
       return undefined;
@@ -66,10 +65,11 @@ export const APIClient = {
         });
     };
   },
+  makeQueryENV: null as null | (() => AnyObject),
   query(signal?: AbortSignal) {
-    return (data: TQueryPayload, options: AnyObject = {}) => {
+    return async (data: TQueryPayload, options: AnyObject = {}) => {
       if (!data.env) {
-        data.env = this.getQueryENV();
+        data.env = this.makeQueryENV?.() ?? { error: 'failed to run makeQueryENV' };
       }
       return this.getRequest('POST', signal)('/query', data, options);
     };
@@ -85,5 +85,8 @@ export function configureAPIClient(config: IDashboardConfig) {
   }
   if (config.app_secret) {
     APIClient.app_secret = config.app_secret;
+  }
+  if (config.makeQueryENV) {
+    APIClient.makeQueryENV = config.makeQueryENV;
   }
 }
