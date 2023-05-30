@@ -56,6 +56,7 @@ export class QueryRequest {
   name: 'HttpParams',
 })
 export class HttpParams {
+  @IsOptional()
   @IsString()
   @ApiModelProperty({
     description: 'host',
