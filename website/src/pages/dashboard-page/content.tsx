@@ -7,8 +7,9 @@ import 'react-grid-layout/css/styles.css';
 import { Helmet } from 'react-helmet-async';
 import 'react-resizable/css/styles.css';
 
+import { useRequest } from 'ahooks';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
-import { DashboardConfig } from '../../utils/config';
+import { getDashboardConfig } from '../../utils/config';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
 import { DashboardIsEmpty } from './placeholder';
@@ -29,11 +30,15 @@ export const DashboardPageContent = observer(() => {
     setSearch(s);
   };
 
+  const { data: dashboardConfig } = useRequest(getDashboardConfig, {
+    refreshDeps: [],
+  });
+
   if (!store.currentDetail?.content.loaded) {
     return null;
   }
 
-  if (store.detailsLoading) {
+  if (store.detailsLoading || !dashboardConfig) {
     return (
       <div className="dashboard-page-content">
         <Helmet>
@@ -65,7 +70,7 @@ export const DashboardPageContent = observer(() => {
           context={context}
           dashboard={store.currentDetail.dashboard}
           content={store.currentDetail.content.fullData}
-          config={DashboardConfig}
+          config={dashboardConfig}
           fullScreenPanelID={search.full_screen_panel_id}
           setFullScreenPanelID={setFullScreenPanelID}
         />
