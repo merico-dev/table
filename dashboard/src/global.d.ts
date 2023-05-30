@@ -4,6 +4,7 @@ type $TSFixMe = any;
 interface IDashboardConfig {
   basename: string;
   apiBaseURL: string;
+  makeQueryENV?: () => Record<string, any>;
   app_id?: string;
   app_secret?: string;
   monacoPath: string;

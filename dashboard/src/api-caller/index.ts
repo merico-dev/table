@@ -40,7 +40,7 @@ export async function queryBySQL(
   const params = getSQLParams(context, mock_context, sqlSnippets, filterValues);
   const formattedSQL = formatSQL(sql, params);
   const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
-  let data = await APIClient.getRequest('POST', signal)('/query', { type, key, query: finalSQL }, {});
+  let data = await APIClient.query(signal)({ type, key, query: finalSQL }, {});
   data = postProcessSQLQuery(post_process, data);
   return data;
 }
@@ -66,7 +66,7 @@ export async function queryByHTTP(
 
   config = preProcessWithDataSource(datasource, config);
   const configString = JSON.stringify(config);
-  const res = await APIClient.getRequest('POST', signal)('/query', { type, key, query: configString }, {});
+  const res = await APIClient.query(signal)({ type, key, query: configString }, {});
   let data = postProcessWithDataSource(datasource, res);
   data = postProcessWithQuery(post_process, data);
   return data;

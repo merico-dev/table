@@ -6,13 +6,15 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import { IDashboardModel } from '@devtable/dashboard';
+import { useRequest } from 'ahooks';
 import { reaction, toJS } from 'mobx';
 import { APICaller } from '../../api-caller';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
-import { DashboardConfig } from '../../utils/config';
+import { getDashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
+import { LoadingPlaceholder } from './placeholder';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
@@ -68,12 +70,18 @@ export const DashboardEditorPageContent = observer(
         });
       }
     };
+    const { data: dashboardConfig } = useRequest(getDashboardConfig, {
+      refreshDeps: [],
+    });
 
     if (!rebaseModel) {
       return null;
     }
     if (!dashboardModel.content.loaded) {
       return null;
+    }
+    if (!dashboardConfig) {
+      return <LoadingPlaceholder dashboardLoading={true} contentLoading={false} />;
     }
 
     return (
@@ -84,7 +92,7 @@ export const DashboardEditorPageContent = observer(
         dashboard={dashboardModel.dashboard}
         content={dashboardModel.content.fullData}
         update={updateDashboard}
-        config={DashboardConfig}
+        config={dashboardConfig}
         headerSlot={<MoreDashboardInfo />}
         headerMenuItems={<></>}
       />
