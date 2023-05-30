@@ -45,14 +45,7 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
           name="config.host"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Base URL"
-              sx={{ flexGrow: 1 }}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} label="Base URL" sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Group grow>
