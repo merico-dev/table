@@ -11,6 +11,7 @@ export default async function errorHandler(err, req, res, next) {
   } else if (err instanceof QueryFailedError) {
     error = new ApiError(BAD_REQUEST, {
       message: err.message,
+      detail: err.driverError.detail,
     });
   } else if (err instanceof EntityNotFoundError) {
     status = ErrorStatusCode[NOT_FOUND];

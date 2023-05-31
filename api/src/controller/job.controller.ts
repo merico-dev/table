@@ -3,10 +3,10 @@ import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { JobListRequest, JobRunRequest } from '../api_models/job';
-import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
 import { validate } from '../middleware/validation';
 import { JobService } from '../services/job.service';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/job',
@@ -34,7 +34,11 @@ export class JobController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.ADMIN), validate(JobListRequest))
+  @httpPost(
+    '/list',
+    permission({ match: 'any', permissions: [PERMISSIONS.DATASOURCE_MANAGE, PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(JobListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as JobListRequest;
@@ -56,7 +60,11 @@ export class JobController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/run', permission(ROLE_TYPES.ADMIN), validate(JobRunRequest))
+  @httpPost(
+    '/run',
+    permission({ match: 'any', permissions: [PERMISSIONS.DATASOURCE_MANAGE, PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(JobRunRequest),
+  )
   public async run(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { type } = req.body as JobRunRequest;

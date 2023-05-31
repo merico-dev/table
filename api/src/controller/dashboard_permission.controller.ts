@@ -8,11 +8,13 @@ import {
   DashboardPermissionListRequest,
   DashboardPermissionUpdateRequest,
 } from '../api_models/dashboard_permission';
-import { ROLE_TYPES } from '../api_models/role';
 import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
 import permission from '../middleware/permission';
 import { validate } from '../middleware/validation';
 import { DashboardPermissionService } from '../services/dashboard_permission.service';
+import { PERMISSIONS } from '../services/role.service';
+import { ApiKey } from '../api_models/api';
+import { Account } from '../api_models/account';
 
 @ApiPath({
   path: '/dashboard_permission',
@@ -44,7 +46,12 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', ensureAuthEnabled, permission(ROLE_TYPES.READER), validate(DashboardPermissionListRequest))
+  @httpPost(
+    '/list',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }),
+    validate(DashboardPermissionListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as DashboardPermissionListRequest;
@@ -74,7 +81,12 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/get', ensureAuthEnabled, permission(ROLE_TYPES.READER), validate(DashboardPermissionGetRequest))
+  @httpPost(
+    '/get',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }),
+    validate(DashboardPermissionGetRequest),
+  )
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as DashboardPermissionGetRequest;
@@ -104,7 +116,12 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/updateOwner', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR), validate(DashboardOwnerUpdateRequest))
+  @httpPost(
+    '/updateOwner',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(DashboardOwnerUpdateRequest),
+  )
   public async updateOwner(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, owner_id, owner_type } = req.body as DashboardOwnerUpdateRequest;
@@ -140,11 +157,17 @@ export class DashboardPermissionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/update', ensureAuthEnabled, permission(ROLE_TYPES.AUTHOR), validate(DashboardPermissionUpdateRequest))
+  @httpPost(
+    '/update',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(DashboardPermissionUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey = req.body.auth;
       const { id, access } = req.body as DashboardPermissionUpdateRequest;
-      const result = await this.dashboardPermissionService.update(id, access, req.body.auth, req.locale);
+      const result = await this.dashboardPermissionService.update(id, access, auth, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

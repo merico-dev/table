@@ -9,7 +9,7 @@ export default async function authorization(req: express.Request, res: express.R
   const auth = req.headers.authorization;
   const access_token = auth?.split(' ')[1];
   const account = await AccountService.getByToken(access_token);
-  if (account !== null) {
+  if (account) {
     req.body.auth = account;
   } else {
     //ApiKey

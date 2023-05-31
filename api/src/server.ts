@@ -17,6 +17,7 @@ import i18n from './utils/i18n';
 import localization from './middleware/localization';
 import './api_models';
 import { initWebsocket } from './utils/websocket';
+import { RoleService } from './services/role.service';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -75,6 +76,8 @@ if (process.env.NODE_ENV !== 'test') {
   (async function init() {
     await dashboardDataSource.initialize();
     require('./dashboard_migration');
+
+    await RoleService.ensureFixedRolePermissions();
 
     app.listen(port, () => {
       logger.info(`Listening on port ${port}`);

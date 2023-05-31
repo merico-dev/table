@@ -1,5 +1,5 @@
 import * as express from 'express';
-import _ from 'lodash';
+import _, { has } from 'lodash';
 import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
@@ -15,10 +15,10 @@ import {
 } from '../api_models/datasource';
 import ApiKey from '../models/apiKey';
 import Account from '../models/account';
-import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
 import { translate } from '../utils/i18n';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/datasource',
@@ -46,7 +46,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DataSourceListRequest))
+  @httpPost(
+    '/list',
+    permission({ match: 'all', permissions: [PERMISSIONS.DATASOURCE_VIEW] }),
+    validate(DataSourceListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as DataSourceListRequest;
@@ -68,7 +72,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.ADMIN), validate(DataSourceCreateRequest))
+  @httpPost(
+    '/create',
+    permission({ match: 'all', permissions: [PERMISSIONS.DATASOURCE_MANAGE] }),
+    validate(DataSourceCreateRequest),
+  )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { type, key, config } = req.body as DataSourceCreateRequest;
@@ -91,7 +99,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/rename', permission(ROLE_TYPES.ADMIN), validate(DataSourceRenameRequest))
+  @httpPut(
+    '/rename',
+    permission({ match: 'all', permissions: [PERMISSIONS.DATASOURCE_MANAGE] }),
+    validate(DataSourceRenameRequest),
+  )
   public async rename(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
@@ -101,7 +113,7 @@ export class DataSourceController implements interfaces.Controller {
         key,
         req.locale,
         auth?.id ?? null,
-        !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+        !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
       );
       res.json(result);
     } catch (err) {
@@ -120,7 +132,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.ADMIN), validate(DataSourceUpdateRequest))
+  @httpPut(
+    '/update',
+    permission({ match: 'all', permissions: [PERMISSIONS.DATASOURCE_MANAGE] }),
+    validate(DataSourceUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, config } = req.body as DataSourceUpdateRequest;
@@ -142,7 +158,11 @@ export class DataSourceController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.ADMIN), validate(DataSourceIDRequest))
+  @httpPost(
+    '/delete',
+    permission({ match: 'all', permissions: [PERMISSIONS.DATASOURCE_MANAGE] }),
+    validate(DataSourceIDRequest),
+  )
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as DataSourceIDRequest;

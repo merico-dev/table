@@ -24,10 +24,10 @@ export default class Account extends BaseModel {
   })
   password: string;
 
-  @Column('smallint', {
+  @Column('character varying', {
     nullable: false,
-    default: 10,
+    default: 'INACTIVE',
     name: 'role_id',
   })
-  role_id: number;
+  role_id: string;
 }

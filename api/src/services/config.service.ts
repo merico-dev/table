@@ -1,12 +1,13 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import { Account } from '../api_models/account';
-import ApiKey from '../models/apiKey';
+import { ApiKey } from '../api_models/api';
 import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
 import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
 import i18n, { CONFIG_DESCRIPTION_KEYS, translate } from '../utils/i18n';
-import { ROLE_TYPES } from '../api_models/role';
+import { PERMISSIONS } from './role.service';
+import { has } from 'lodash';
 import { ConfigDescription } from '../api_models/config';
 import { injectable } from 'inversify';
 
@@ -27,11 +28,8 @@ type KeyConfigProperties = {
   default?: string;
 };
 type Auth = {
-  get: AuthConfig;
-  update: AuthConfig;
-};
-type AuthConfig = {
-  min?: ROLE_TYPES;
+  get: PERMISSIONS | null;
+  update: PERMISSIONS | null;
 };
 
 @injectable()
@@ -40,10 +38,8 @@ export class ConfigService {
     lang: {
       description: 'CONFIG_DESCRIPTION_LANG',
       auth: {
-        get: {},
-        update: {
-          min: ROLE_TYPES.INACTIVE,
-        },
+        get: null,
+        update: PERMISSIONS.CONFIG_SET_LANG,
       },
       isGlobal: false,
       acceptedValues: i18n.getLocales(),
@@ -52,10 +48,8 @@ export class ConfigService {
     website_settings: {
       description: 'CONFIG_DESCRIPTION_WEBSITE_SETTINGS',
       auth: {
-        get: {},
-        update: {
-          min: ROLE_TYPES.ADMIN,
-        },
+        get: null,
+        update: PERMISSIONS.CONFIG_SET_WEBSITE_SETTINGS,
       },
       isGlobal: true,
       default: JSON.stringify({
@@ -112,7 +106,7 @@ export class ConfigService {
     const result = { key, value: keyConfig.default };
     const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
 
-    if (keyConfig.auth.get.min && (!auth || auth.role_id < keyConfig.auth.get.min)) {
+    if (keyConfig.auth.get && (!auth || !auth.permissions.includes(keyConfig.auth.get))) {
       throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INSUFFICIENT_PRIVILEGES', locale) });
     }
 
@@ -120,7 +114,7 @@ export class ConfigService {
       if (!auth) {
         return result;
       }
-      where.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
+      where.resource_type = has(auth, 'app_id') ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
       where.resource_id = auth.id;
     }
 
@@ -141,15 +135,15 @@ export class ConfigService {
     const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
     const keyConfig = ConfigService.keyConfig[key];
 
-    if (keyConfig.auth.update.min || !keyConfig.isGlobal) {
+    if (keyConfig.auth.update || !keyConfig.isGlobal) {
       if (!auth) {
         throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale) });
       }
-      if (keyConfig.auth.update.min && auth.role_id < keyConfig.auth.update.min) {
+      if (keyConfig.auth.update && !auth.permissions.includes(keyConfig.auth.update)) {
         throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INSUFFICIENT_PRIVILEGES', locale) });
       }
       if (!keyConfig.isGlobal) {
-        where.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
+        where.resource_type = has(auth, 'app_id') ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
         where.resource_id = auth.id;
       }
     }
@@ -163,7 +157,7 @@ export class ConfigService {
       config.key = key;
       config.resource_type = ConfigResourceTypes.GLOBAL;
       if (!keyConfig.isGlobal) {
-        config.resource_type = auth instanceof ApiKey ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
+        config.resource_type = has(auth, 'app_id') ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
         config.resource_id = auth!.id;
       }
     }
