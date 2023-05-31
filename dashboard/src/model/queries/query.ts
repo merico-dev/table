@@ -126,7 +126,6 @@ export const QueryModel = types
         }
       }),
       runHTTP: flow(function* () {
-        console.log('runHTTP, ', self.datasource);
         if (!self.valid || !self.datasource) {
           return;
         }
@@ -187,7 +186,7 @@ export const QueryModel = types
         reaction(
           () => {
             if (self.typedAsHTTP) {
-              return `${self.id}--${self.key}--${self.httpConfigString}--${self.datasource?.id}`;
+              return `${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
             return `${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
           },

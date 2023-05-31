@@ -56,6 +56,11 @@ export const FilterConfigModel_TreeSelect = types
       const dataWithCustomLabel = addLabelToData(data);
       return queryDataToTree(dataWithCustomLabel);
     },
+    get errorMessage() {
+      // @ts-expect-error type of getRoot
+      const { error } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      return error;
+    },
     get treeDataLoading() {
       // @ts-expect-error type of getRoot
       const { state } = getRoot(self).content.getDataStuffByID(self.options_query_id);
