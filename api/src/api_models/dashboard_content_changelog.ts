@@ -10,25 +10,21 @@ import { Authentication, FilterObject, PaginationRequest, PaginationResponse, So
 export class DashboardContentChangelog {
   @ApiModelProperty({
     description: 'changelog ID in uuid format',
-    required: false,
   })
   id: string;
 
   @ApiModelProperty({
     description: 'ID of the related dashboard content in uuid format',
-    required: true,
   })
   dashboard_content_id: string;
 
   @ApiModelProperty({
     description: 'git diff of the changes',
-    required: true,
   })
   diff: string;
 
   @ApiModelProperty({
     description: 'Create time',
-    required: false,
   })
   create_time: Date;
 }

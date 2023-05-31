@@ -1,8 +1,8 @@
 import { Type } from 'class-transformer';
-import { IsIn, IsInt, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
+import { IsIn, IsNotIn, IsOptional, IsString, IsUUID, Length, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { FIXED_ROLE_TYPES } from '../services/role.service';
 import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
-import { ROLE_TYPES } from './role';
 
 @ApiModel({
   description: 'ApiKey entity',
@@ -11,39 +11,38 @@ import { ROLE_TYPES } from './role';
 export class ApiKey {
   @ApiModelProperty({
     description: 'ApiKey ID in uuid format',
-    required: false,
   })
   id: string;
 
   @ApiModelProperty({
     description: 'Name of the ApiKey',
-    required: true,
   })
   name: string;
 
   @ApiModelProperty({
     description: 'ApiKey role ID',
-    required: true,
   })
-  role_id: number;
+  role_id: string;
 
   @ApiModelProperty({
     description: 'AppId of the ApiKey',
-    required: true,
   })
   app_id: string;
 
   @ApiModelProperty({
     description: 'AppSecret of the ApiKey',
-    required: true,
   })
   app_secret: string;
 
   @ApiModelProperty({
     description: 'whether the ApiKey is preset or not',
-    required: false,
   })
   is_preset: boolean;
+
+  @ApiModelProperty({
+    description: 'Account permissions',
+  })
+  permissions: string[];
 }
 
 @ApiModel({
@@ -167,19 +166,13 @@ export class ApiKeyCreateRequest {
   })
   name: string;
 
-  @IsInt()
-  @IsIn([ROLE_TYPES.INACTIVE, ROLE_TYPES.READER, ROLE_TYPES.AUTHOR, ROLE_TYPES.ADMIN])
+  @IsString()
+  @IsNotIn([FIXED_ROLE_TYPES.SUPERADMIN])
   @ApiModelProperty({
     description: 'ApiKey role ID',
     required: true,
-    enum: [
-      ROLE_TYPES.INACTIVE.toString(),
-      ROLE_TYPES.READER.toString(),
-      ROLE_TYPES.AUTHOR.toString(),
-      ROLE_TYPES.ADMIN.toString(),
-    ],
   })
-  role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+  role_id: string;
 
   @IsOptional()
   @Type(() => Authentication)

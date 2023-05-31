@@ -1,8 +1,8 @@
 import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
-import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsInt, IsBoolean } from 'class-validator';
+import { IsOptional, IsIn, ValidateNested, IsString, Length, IsUUID, IsBoolean, IsNotIn } from 'class-validator';
 import { Type } from 'class-transformer';
 import { SortRequest, PaginationRequest, PaginationResponse, Authentication, FilterObject } from './base';
-import { ROLE_TYPES } from './role';
+import { FIXED_ROLE_TYPES } from '../services/role.service';
 
 @ApiModel({
   description: 'Account entity',
@@ -11,39 +11,39 @@ import { ROLE_TYPES } from './role';
 export class Account {
   @ApiModelProperty({
     description: 'Account ID in uuid format',
-    required: false,
   })
   id: string;
 
   @ApiModelProperty({
     description: 'Account name',
-    required: true,
   })
   name: string;
 
   @ApiModelProperty({
     description: 'Account email',
-    required: false,
   })
-  email?: string | null;
+  email: string | null;
 
   @ApiModelProperty({
     description: 'Account role ID',
-    required: true,
   })
-  role_id: number;
+  role_id: string;
 
   @ApiModelProperty({
     description: 'Create time',
-    required: false,
   })
   create_time: Date;
 
   @ApiModelProperty({
     description: 'Time of last update',
-    required: false,
   })
   update_time: Date;
+
+  @ApiModelProperty({
+    description: 'Account permissions',
+    itemType: 'string',
+  })
+  permissions: string[];
 }
 
 @ApiModel({
@@ -232,19 +232,13 @@ export class AccountCreateRequest {
   })
   password: string;
 
-  @IsInt()
-  @IsIn([ROLE_TYPES.INACTIVE, ROLE_TYPES.READER, ROLE_TYPES.AUTHOR, ROLE_TYPES.ADMIN])
+  @IsString()
+  @IsNotIn([FIXED_ROLE_TYPES.SUPERADMIN])
   @ApiModelProperty({
     description: 'Account ID',
     required: true,
-    enum: [
-      ROLE_TYPES.INACTIVE.toString(),
-      ROLE_TYPES.READER.toString(),
-      ROLE_TYPES.AUTHOR.toString(),
-      ROLE_TYPES.ADMIN.toString(),
-    ],
   })
-  role_id: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+  role_id: string;
 }
 
 @ApiModel({
@@ -302,19 +296,13 @@ export class AccountEditRequest {
   email?: string;
 
   @IsOptional()
-  @IsInt()
-  @IsIn([ROLE_TYPES.INACTIVE, ROLE_TYPES.READER, ROLE_TYPES.AUTHOR, ROLE_TYPES.ADMIN])
+  @IsString()
+  @IsNotIn([FIXED_ROLE_TYPES.SUPERADMIN])
   @ApiModelProperty({
-    description: 'Account ID',
+    description: 'Account role ID',
     required: false,
-    enum: [
-      ROLE_TYPES.INACTIVE.toString(),
-      ROLE_TYPES.READER.toString(),
-      ROLE_TYPES.AUTHOR.toString(),
-      ROLE_TYPES.ADMIN.toString(),
-    ],
   })
-  role_id?: ROLE_TYPES.INACTIVE | ROLE_TYPES.READER | ROLE_TYPES.AUTHOR | ROLE_TYPES.ADMIN;
+  role_id?: string;
 
   @IsOptional()
   @IsBoolean()

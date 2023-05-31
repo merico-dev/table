@@ -11,7 +11,6 @@ export class PermissionResource {
   @IsIn(['ACCOUNT', 'APIKEY'])
   @ApiModelProperty({
     description: 'resource type',
-    required: true,
     enum: ['ACCOUNT', 'APIKEY'],
   })
   type: 'ACCOUNT' | 'APIKEY';
@@ -19,21 +18,18 @@ export class PermissionResource {
   @IsUUID()
   @ApiModelProperty({
     description: 'resource id',
-    required: true,
   })
   id: string;
 
   @IsOptional()
   @ApiModelProperty({
     description: 'name matching the resource id',
-    required: false,
   })
   name?: string;
 
   @IsIn(['VIEW', 'EDIT', 'REMOVE'])
   @ApiModelProperty({
     description: 'resource permission. REMOVE is to delete an entry',
-    required: true,
     enum: ['VIEW', 'EDIT', 'REMOVE'],
   })
   permission: 'VIEW' | 'EDIT' | 'REMOVE';
