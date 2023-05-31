@@ -8,4 +8,3 @@ export const DEFAULT_LANGUAGE = 'en';
 export const FS_CACHE_RETAIN_TIME = parseInt(process.env.FS_CACHE_RETAIN_TIME!)
   ? process.env.FS_CACHE_RETAIN_TIME!
   : '86400';
-export const FS_CACHE_CLEAR_INTERVAL = parseInt(process.env.FS_CACHE_CLEAR_INTERVAL!) ?? 3600;

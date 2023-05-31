@@ -16,6 +16,7 @@
     "migration:run": "npx typeorm-ts-node-esm migration:run -d src/data_sources/dashboard.ts",
     "migration:revert": "npx typeorm-ts-node-esm migration:revert -d src/data_sources/dashboard.ts",
     "dev:cli:rename-datasource": "node -r ts-node/register src/cli/renameDataSource.ts",
+    "dev:cli:clear-fs-cache": "node -r ts-node/register src/cli/clearFsCache.ts",
     "test:e2e": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest -i --ci --coverage --forceExit --detectOpenHandles --config=./jest-e2e.config.js tests/e2e/ --logHeapUsage",
     "test:i": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest --ci --coverage --forceExit --detectOpenHandles --config=./jest-i.config.js tests/integration/ --logHeapUsage",
     "test:u": "node --expose-gc --max-old-space-size=4096 ../node_modules/jest/bin/jest --ci --coverage --forceExit --detectOpenHandles --config=./jest-u.config.js tests/unit/ --logHeapUsage",
@@ -28,7 +29,8 @@
     "add-preset-dashboards": "node dist/preset/scripts/configure_dashboards.js",
     "add-preset-custom_functions": "node dist/preset/scripts/configure_custom_functions.js",
     "add-preset-sql_snippets": "node dist/preset/scripts/configure_sql_snippets.js",
-    "cli:rename-datasource": "node dist/cli/renameDataSource.js"
+    "cli:rename-datasource": "node dist/cli/renameDataSource.js",
+    "cli:clear-fs-cache": "node dist/cli/clearFsCache.js"
   },
   "author": "",
   "license": "Apache-2.0",

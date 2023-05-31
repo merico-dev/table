@@ -17,8 +17,6 @@ import i18n from './utils/i18n';
 import localization from './middleware/localization';
 import './api_models';
 import { initWebsocket } from './utils/websocket';
-import { clearFsCache } from './utils/fs_cache';
-import { FS_CACHE_CLEAR_INTERVAL } from './utils/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -83,8 +81,6 @@ if (process.env.NODE_ENV !== 'test') {
     });
 
     initWebsocket(app, corsOrigins);
-
-    setInterval(clearFsCache, FS_CACHE_CLEAR_INTERVAL * 1000);
 
     process.on('uncaughtException', (err) => {
       logger.info(err.message);
