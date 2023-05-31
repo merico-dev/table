@@ -38,6 +38,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       onChange={onChange}
       error={!!error}
       placeholder={error}
+      maxDropdownHeight={500}
       styles={{
         root: {
           width: config.width ? config.width : '200px',
