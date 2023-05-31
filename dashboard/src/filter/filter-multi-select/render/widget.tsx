@@ -62,7 +62,7 @@ export const MultiSelectWidget = ({
     }
 
     const k = keyword.toLowerCase();
-    const match = (o: TSelectOption) => o.description.toLowerCase().includes(k) || o.label.toLowerCase().includes(k);
+    const match = (o: TSelectOption) => o.description?.toLowerCase().includes(k) || o.label.toLowerCase().includes(k);
     return options.filter(match);
   }, [keyword, options]);
 
