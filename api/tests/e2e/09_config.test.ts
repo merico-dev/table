@@ -9,8 +9,8 @@ import Account from '~/models/account';
 import ApiKey from '~/models/apiKey';
 import Config from '~/models/config';
 import { ConfigResourceTypes } from '~/services/config.service';
-import { ROLE_TYPES } from '~/api_models/role';
 import { SALT_ROUNDS } from '~/utils/constants';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('ConfigController', () => {
   connectionHook();
@@ -33,7 +33,7 @@ describe('ConfigController', () => {
     account.name = 'reader';
     account.email = 'reader@test.com';
     account.password = await bcrypt.hash('12345678', SALT_ROUNDS);
-    account.role_id = ROLE_TYPES.READER;
+    account.role_id = FIXED_ROLE_TYPES.READER;
     await dashboardDataSource.getRepository(Account).save(account);
 
     const query2: AccountLoginRequest = {

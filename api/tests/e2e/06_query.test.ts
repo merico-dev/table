@@ -3,6 +3,7 @@ import { HttpParams, QueryRequest } from '~/api_models/query';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
+import { FIXED_ROLE_PERMISSIONS, FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('QueryController', () => {
   connectionHook();
@@ -32,30 +33,30 @@ describe('QueryController', () => {
 
       expect(response.body).toMatchObject([
         {
-          id: 10,
-          name: 'INACTIVE',
-          description: 'Disabled user. Can not login',
-        },
-        {
-          id: 20,
-          name: 'READER',
-          description: 'Can view dashboards',
-        },
-        {
-          id: 30,
-          name: 'AUTHOR',
-          description: 'Can view and create dashboards',
-        },
-        {
-          id: 40,
-          name: 'ADMIN',
+          id: FIXED_ROLE_TYPES.ADMIN,
           description:
             'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
+          permissions: FIXED_ROLE_PERMISSIONS.ADMIN,
         },
         {
-          id: 50,
-          name: 'SUPERADMIN',
+          id: FIXED_ROLE_TYPES.AUTHOR,
+          description: 'Can view and create dashboards',
+          permissions: FIXED_ROLE_PERMISSIONS.AUTHOR,
+        },
+        {
+          id: FIXED_ROLE_TYPES.INACTIVE,
+          description: 'Disabled user. Can not login',
+          permissions: [],
+        },
+        {
+          id: FIXED_ROLE_TYPES.READER,
+          description: 'Can view dashboards',
+          permissions: FIXED_ROLE_PERMISSIONS.READER,
+        },
+        {
+          id: FIXED_ROLE_TYPES.SUPERADMIN,
           description: 'Can do everything',
+          permissions: FIXED_ROLE_PERMISSIONS.SUPERADMIN,
         },
       ]);
     });

@@ -11,11 +11,11 @@ import {
   AccountLoginRequest,
   AccountUpdateRequest,
 } from '~/api_models/account';
-import { ROLE_TYPES } from '~/api_models/role';
 import { AccountLoginResponse } from '~/api_models/account';
 import request from 'supertest';
 import { app } from '~/server';
 import { omitFields } from '~/utils/helpers';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('AccountController', () => {
   connectionHook();
@@ -74,7 +74,7 @@ describe('AccountController', () => {
         name: 'account1',
         password: 'account1',
         email: 'account1@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       };
 
       const createResponse1 = await server
@@ -86,7 +86,7 @@ describe('AccountController', () => {
       expect(createResponse1.body).toMatchObject({
         name: 'account1',
         email: 'account1@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
         id: createResponse1.body.id,
       });
       account1 = createResponse1.body;
@@ -114,7 +114,7 @@ describe('AccountController', () => {
         name: 'account2',
         password: 'account2',
         email: 'account2@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       };
 
       const createReponse2 = await server
@@ -126,7 +126,7 @@ describe('AccountController', () => {
       expect(createReponse2.body).toMatchObject({
         name: 'account2',
         email: 'account2@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
         id: createReponse2.body.id,
       });
       account2 = createReponse2.body;
@@ -156,7 +156,7 @@ describe('AccountController', () => {
         name: 'account1',
         password: 'account1',
         email: 'account1@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       };
 
       const response = await server
@@ -193,19 +193,19 @@ describe('AccountController', () => {
             id: response.body.data[0].id,
             name: 'account1',
             email: 'account1@test.com',
-            role_id: ROLE_TYPES.ADMIN,
+            role_id: FIXED_ROLE_TYPES.ADMIN,
           },
           {
             id: response.body.data[1].id,
             name: 'account2',
             email: 'account2@test.com',
-            role_id: ROLE_TYPES.ADMIN,
+            role_id: FIXED_ROLE_TYPES.ADMIN,
           },
           {
             id: response.body.data[2].id,
             name: 'superadmin',
             email: null,
-            role_id: ROLE_TYPES.SUPERADMIN,
+            role_id: FIXED_ROLE_TYPES.SUPERADMIN,
           },
         ],
       });
@@ -250,7 +250,7 @@ describe('AccountController', () => {
         id: account1.id,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
-        role_id: ROLE_TYPES.AUTHOR,
+        role_id: FIXED_ROLE_TYPES.AUTHOR,
         reset_password: false,
       };
 
@@ -264,31 +264,9 @@ describe('AccountController', () => {
         id: account1.id,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
-        role_id: ROLE_TYPES.AUTHOR,
+        role_id: FIXED_ROLE_TYPES.AUTHOR,
       });
       account1 = response.body;
-    });
-
-    it('should fail when editing with insufficient privileges', async () => {
-      const query: AccountEditRequest = {
-        id: superadmin.id,
-        name: 'superadmin_edited',
-        email: 'superadmin_edited@test.com',
-        role_id: ROLE_TYPES.ADMIN,
-        reset_password: false,
-      };
-
-      const response = await server
-        .put('/account/edit')
-        .set('Authorization', `Bearer ${account2Login.token}`)
-        .send(query);
-
-      expect(response.body).toMatchObject({
-        code: 'BAD_REQUEST',
-        detail: {
-          message: 'Can not edit account with similar or higher privileges than own account',
-        },
-      });
     });
 
     it('should fail when editing own account', async () => {
@@ -296,7 +274,7 @@ describe('AccountController', () => {
         id: account2.id,
         name: 'account2_edited',
         email: 'account2_edited@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
         reset_password: false,
       };
 
@@ -313,34 +291,12 @@ describe('AccountController', () => {
       });
     });
 
-    it('should fail when editing role_id to higher than own', async () => {
-      const query: AccountEditRequest = {
-        id: account1.id,
-        name: 'account1_edited',
-        email: 'account1_edited@test.com',
-        role_id: ROLE_TYPES.ADMIN,
-        reset_password: false,
-      };
-
-      const response = await server
-        .put('/account/edit')
-        .set('Authorization', `Bearer ${account2Login.token}`)
-        .send(query);
-
-      expect(response.body).toMatchObject({
-        code: 'BAD_REQUEST',
-        detail: {
-          message: 'Can not change account privileges to similar or higher than own account',
-        },
-      });
-    });
-
     it('should fail when reset_password is true but new_password is empty', async () => {
       const query: AccountEditRequest = {
         id: account1.id,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
-        role_id: ROLE_TYPES.AUTHOR,
+        role_id: FIXED_ROLE_TYPES.AUTHOR,
         reset_password: true,
       };
 
@@ -360,7 +316,7 @@ describe('AccountController', () => {
         id: account1.id,
         name: 'account1_edited_password',
         email: 'account1_edited_password@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
         reset_password: true,
         new_password: 'account1_edited_password',
       };
@@ -375,7 +331,7 @@ describe('AccountController', () => {
         id: account1.id,
         name: 'account1_edited_password',
         email: 'account1_edited_password@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       });
       account1 = response.body;
 
@@ -400,9 +356,9 @@ describe('AccountController', () => {
   });
 
   describe('delete', () => {
-    it('should fail because of permission', async () => {
+    it('should fail because of superadmin', async () => {
       const query: AccountIDRequest = {
-        id: account1.id,
+        id: superadmin.id,
       };
 
       const response = await server
@@ -413,7 +369,7 @@ describe('AccountController', () => {
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
         detail: {
-          message: 'Can not delete account with similar or higher privileges than own account',
+          message: 'Can not delete superadmin account',
         },
       });
     });
@@ -464,7 +420,7 @@ describe('AccountController', () => {
         id: account2.id,
         name: 'account2_updated',
         email: 'account2_updated@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       });
       account2 = response.body;
     });
