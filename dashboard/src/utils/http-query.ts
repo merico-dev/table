@@ -47,10 +47,8 @@ export function postProcessWithDataSource(datasource: IDataSource, res: any) {
   return new Function(`return ${datasource.config.processing.post}`)()(res, functionUtils);
 }
 export function postProcessWithQuery(post_process: TFunctionString, res: any) {
-  try {
-    return new Function(`return ${post_process}`)()(res, functionUtils);
-  } catch (error) {
-    console.error(error);
+  if (!post_process) {
     return res;
   }
+  return new Function(`return ${post_process}`)()(res, functionUtils);
 }

@@ -126,7 +126,6 @@ export const QueryModel = types
         }
       }),
       runHTTP: flow(function* () {
-        console.log('runHTTP, ', self.datasource);
         if (!self.valid || !self.datasource) {
           return;
         }
