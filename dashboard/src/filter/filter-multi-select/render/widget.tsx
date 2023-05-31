@@ -12,6 +12,7 @@ import {
 import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
 import useStyles, { MultiSelectWidgetStylesParams } from './widget.styles';
+import { ErrorMessageOrNotFound } from '~/filter/error-message-or-not-found';
 
 export type TSelectOption = {
   label: string;
@@ -29,6 +30,7 @@ interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams
   onChange: (v: string[]) => void;
   options: TSelectOption[];
   disabled: boolean;
+  errorMessage?: string;
 }
 
 export const MultiSelectWidget = ({
@@ -44,6 +46,7 @@ export const MultiSelectWidget = ({
   value,
   onChange,
   options,
+  errorMessage,
 }: IProps) => {
   const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -88,6 +91,7 @@ export const MultiSelectWidget = ({
         onSelect={console.log}
         mode="multiple"
         maxTagCount={0}
+        notFoundContent={<ErrorMessageOrNotFound errorMessage={errorMessage} />}
         maxTagTextLength={10}
         maxTagPlaceholder={(valueList) => `${valueList.length} selected`}
         searchValue={keyword}

@@ -10,7 +10,7 @@ interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | '
 }
 
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
-  const { treeData, treeDataLoading } = config;
+  const { treeData, treeDataLoading, errorMessage } = config;
 
   const width = config.min_width ? config.min_width : '200px';
 
@@ -24,6 +24,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       onChange={(v: string[]) => onChange(v, false)}
       // treeData={config.options}
       treeData={treeData}
+      errorMessage={errorMessage}
       label={label}
     />
   );
