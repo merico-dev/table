@@ -187,7 +187,7 @@ export const QueryModel = types
         reaction(
           () => {
             if (self.typedAsHTTP) {
-              return `${self.id}--${self.key}--${self.httpConfigString}--${self.datasource?.id}`;
+              return `${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
             return `${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
           },
