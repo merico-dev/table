@@ -1,7 +1,6 @@
 import { connectionHook, sleep } from './jest.util';
 import { AccountService } from '~/services/account.service';
 import { notFoundId } from './constants';
-import { ROLE_TYPES } from '~/api_models/role';
 import { EntityNotFoundError } from 'typeorm';
 import { Account as AccountApiModel, AccountLoginResponse } from '~/api_models/account';
 import { ApiError, BAD_REQUEST, INVALID_CREDENTIALS, PASSWORD_MISMATCH } from '~/utils/errors';
@@ -9,6 +8,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import Account from '~/models/account';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import { omitFields } from '~/utils/helpers';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('AccountService', () => {
   connectionHook();
@@ -28,20 +28,20 @@ describe('AccountService', () => {
         'account5',
         'account5@test.com',
         'account5',
-        ROLE_TYPES.ADMIN,
+        FIXED_ROLE_TYPES.ADMIN,
         DEFAULT_LANGUAGE,
       );
       expect(omitFields(account5, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5',
         email: 'account5@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       });
     });
 
     it('should fail', async () => {
       await expect(
-        accountService.create('account5', 'account5@test.com', 'account5', ROLE_TYPES.ADMIN, DEFAULT_LANGUAGE),
+        accountService.create('account5', 'account5@test.com', 'account5', FIXED_ROLE_TYPES.ADMIN, DEFAULT_LANGUAGE),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'An account with that name or email already exists' }),
       );
@@ -73,24 +73,26 @@ describe('AccountService', () => {
         id: account5.id,
         name: 'account5',
         email: 'account5@test.com',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       });
     });
 
-    it('should return null', async () => {
+    it('should return undefined', async () => {
       const account = await AccountService.getByToken(undefined);
-      expect(account).toEqual(null);
+      expect(account).toEqual(undefined);
     });
   });
 
   describe('get', () => {
     it('should return successfully', async () => {
-      const account = await accountService.get(account5.id);
+      const account = await accountService.get(account5.id, DEFAULT_LANGUAGE);
       expect(account).toMatchObject(account5);
     });
 
     it('should fail', async () => {
-      await expect(accountService.get(notFoundId)).rejects.toThrowError(EntityNotFoundError);
+      await expect(accountService.get(notFoundId, DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Account not found' }),
+      );
     });
   });
 
@@ -106,7 +108,7 @@ describe('AccountService', () => {
         id: account5.id,
         name: 'account5_updated',
         email: 'account5_updated@test.test',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
       });
     });
 
@@ -129,56 +131,17 @@ describe('AccountService', () => {
         account5.id,
         'account5_updated_again',
         'account5_updated_again@test.test',
-        ROLE_TYPES.READER,
+        FIXED_ROLE_TYPES.READER,
         false,
         undefined,
-        ROLE_TYPES.SUPERADMIN,
         DEFAULT_LANGUAGE,
       );
       expect(omitFields(account5, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5_updated_again',
         email: 'account5_updated_again@test.test',
-        role_id: ROLE_TYPES.READER,
+        role_id: FIXED_ROLE_TYPES.READER,
       });
-    });
-
-    it('should fail when editing with insufficient privileges', async () => {
-      await expect(
-        accountService.edit(
-          account5.id,
-          'account5_updated_again',
-          'account5_updated_again@test.test',
-          ROLE_TYPES.AUTHOR,
-          false,
-          undefined,
-          ROLE_TYPES.READER,
-          DEFAULT_LANGUAGE,
-        ),
-      ).rejects.toThrowError(
-        new ApiError(BAD_REQUEST, {
-          message: 'Can not edit account with similar or higher privileges than own account',
-        }),
-      );
-    });
-
-    it('should fail when editing role_id to higher or similar to own', async () => {
-      await expect(
-        accountService.edit(
-          account5.id,
-          'account5_updated_again',
-          'account5_updated_again@test.test',
-          ROLE_TYPES.AUTHOR,
-          false,
-          undefined,
-          ROLE_TYPES.AUTHOR,
-          DEFAULT_LANGUAGE,
-        ),
-      ).rejects.toThrowError(
-        new ApiError(BAD_REQUEST, {
-          message: 'Can not change account privileges to similar or higher than own account',
-        }),
-      );
     });
 
     it('should fail when reset_password is true but new_password is empty', async () => {
@@ -187,10 +150,9 @@ describe('AccountService', () => {
           account5.id,
           'account5_updated_again',
           'account5_updated_again@test.test',
-          ROLE_TYPES.READER,
+          FIXED_ROLE_TYPES.READER,
           true,
           undefined,
-          ROLE_TYPES.SUPERADMIN,
           DEFAULT_LANGUAGE,
         ),
       ).rejects.toThrowError(
@@ -206,6 +168,10 @@ describe('AccountService', () => {
         token: login.token,
         account: {
           ...omitFields(account5, ['create_time', 'update_time']),
+          id: account5.id,
+          name: 'account5_updated_again',
+          email: 'account5_updated_again@test.test',
+          role_id: FIXED_ROLE_TYPES.READER,
         },
       });
 
@@ -220,6 +186,10 @@ describe('AccountService', () => {
         token: login.token,
         account: {
           ...omitFields(account5, ['create_time', 'update_time']),
+          id: account5.id,
+          name: 'account5_updated_again',
+          email: 'account5_updated_again@test.test',
+          role_id: FIXED_ROLE_TYPES.READER,
         },
       });
     });
@@ -277,7 +247,7 @@ describe('AccountService', () => {
         ],
       });
 
-      await accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(account5.id, DEFAULT_LANGUAGE);
 
       results = await accountService.list(undefined, [{ field: 'name', order: 'ASC' }], { page: 1, pagesize: 20 });
       expect(results).toMatchObject({
@@ -321,15 +291,13 @@ describe('AccountService', () => {
     });
 
     it('should fail because not found', async () => {
-      await expect(accountService.delete(account5.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE)).rejects.toThrowError(
-        EntityNotFoundError,
-      );
+      await expect(accountService.delete(account5.id, DEFAULT_LANGUAGE)).rejects.toThrowError(EntityNotFoundError);
     });
 
     it('should fail because of permission', async () => {
-      await expect(accountService.delete(accounts[4].id, ROLE_TYPES.INACTIVE, DEFAULT_LANGUAGE)).rejects.toThrowError(
+      await expect(accountService.delete(accounts[4].id, DEFAULT_LANGUAGE)).rejects.toThrowError(
         new ApiError(BAD_REQUEST, {
-          message: 'Can not delete account with similar or higher privileges than own account',
+          message: 'Can not delete superadmin account',
         }),
       );
     });

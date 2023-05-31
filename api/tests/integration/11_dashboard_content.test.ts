@@ -4,17 +4,18 @@ import { DashboardContentService } from '~/services/dashboard_content.service';
 import Dashboard from '~/models/dashboard';
 import DashboardContent from '~/models/dashboard_content';
 import DashboardPermission from '~/models/dashboard_permission';
-import Account from '~/models/account';
+import { Account } from '~/api_models/account';
 import { EntityNotFoundError } from 'typeorm';
-import { ROLE_TYPES } from '~/api_models/role';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import { omitFields } from '~/utils/helpers';
+import { AccountService } from '~/services/account.service';
 
 describe('DashboardContentService', () => {
   connectionHook();
+  let accountService: AccountService;
   let dashboardService: DashboardService;
   let dashboardContentService: DashboardContentService;
   let dashboardContent1: DashboardContent;
@@ -26,10 +27,23 @@ describe('DashboardContentService', () => {
   let authorAccount: Account;
 
   beforeAll(async () => {
+    accountService = new AccountService();
     dashboardService = new DashboardService();
     dashboardContentService = new DashboardContentService();
-    superadmin = await dashboardDataSource.manager.findOne(Account, { where: { role_id: ROLE_TYPES.SUPERADMIN } });
-    authorAccount = await dashboardDataSource.manager.findOne(Account, { where: { name: 'account3' } });
+    superadmin = (
+      await accountService.list(
+        { name: { isFuzzy: false, value: 'superadmin' } },
+        [{ field: 'create_time', order: 'ASC' }],
+        { page: 1, pagesize: 20 },
+      )
+    ).data[0];
+    authorAccount = (
+      await accountService.list(
+        { name: { isFuzzy: false, value: 'account3' } },
+        [{ field: 'create_time', order: 'ASC' }],
+        { page: 1, pagesize: 20 },
+      )
+    ).data[0];
 
     tempDashboard = await dashboardService.create('tempDashboard', 'dashboard_content', DEFAULT_LANGUAGE, superadmin);
 

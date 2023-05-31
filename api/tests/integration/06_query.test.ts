@@ -2,6 +2,7 @@ import { connectionHook } from './jest.util';
 import { QueryService } from '~/services/query.service';
 import { HttpParams } from '~/api_models/query';
 import * as validation from '~/middleware/validation';
+import { FIXED_ROLE_PERMISSIONS, FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('QueryService', () => {
   connectionHook();
@@ -16,30 +17,30 @@ describe('QueryService', () => {
       const results = await queryService.query('postgresql', 'pg', 'SELECT * FROM role ORDER BY id ASC', {});
       expect(results).toMatchObject([
         {
-          id: 10,
-          name: 'INACTIVE',
-          description: 'Disabled user. Can not login',
-        },
-        {
-          id: 20,
-          name: 'READER',
-          description: 'Can view dashboards',
-        },
-        {
-          id: 30,
-          name: 'AUTHOR',
-          description: 'Can view and create dashboards',
-        },
-        {
-          id: 40,
-          name: 'ADMIN',
+          id: FIXED_ROLE_TYPES.ADMIN,
           description:
             'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
+          permissions: FIXED_ROLE_PERMISSIONS.ADMIN,
         },
         {
-          id: 50,
-          name: 'SUPERADMIN',
+          id: FIXED_ROLE_TYPES.AUTHOR,
+          description: 'Can view and create dashboards',
+          permissions: FIXED_ROLE_PERMISSIONS.AUTHOR,
+        },
+        {
+          id: FIXED_ROLE_TYPES.INACTIVE,
+          description: 'Disabled user. Can not login',
+          permissions: [],
+        },
+        {
+          id: FIXED_ROLE_TYPES.READER,
+          description: 'Can view dashboards',
+          permissions: FIXED_ROLE_PERMISSIONS.READER,
+        },
+        {
+          id: FIXED_ROLE_TYPES.SUPERADMIN,
           description: 'Can do everything',
+          permissions: FIXED_ROLE_PERMISSIONS.SUPERADMIN,
         },
       ]);
     });

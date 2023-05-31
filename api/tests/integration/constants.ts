@@ -1,4 +1,4 @@
-import { ROLE_TYPES } from '~/api_models/role';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 import Account from '~/models/account';
 import ApiKey from '~/models/apiKey';
 import DataSource from '~/models/datasource';
@@ -14,7 +14,7 @@ export const accounts: Account[] = [
     name: 'account1',
     email: 'account1@test.com',
     password: '', //Will be filled later
-    role_id: ROLE_TYPES.INACTIVE,
+    role_id: FIXED_ROLE_TYPES.INACTIVE,
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -23,7 +23,7 @@ export const accounts: Account[] = [
     name: 'account2',
     email: 'account2@test.com',
     password: '', //Will be filled later
-    role_id: ROLE_TYPES.READER,
+    role_id: FIXED_ROLE_TYPES.READER,
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -32,7 +32,7 @@ export const accounts: Account[] = [
     name: 'account3',
     email: 'account3@test.com',
     password: '', //Will be filled later
-    role_id: ROLE_TYPES.AUTHOR,
+    role_id: FIXED_ROLE_TYPES.AUTHOR,
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -41,7 +41,7 @@ export const accounts: Account[] = [
     name: 'account4',
     email: 'account4@test.com',
     password: '', //Will be filled later
-    role_id: ROLE_TYPES.ADMIN,
+    role_id: FIXED_ROLE_TYPES.ADMIN,
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -50,7 +50,7 @@ export const accounts: Account[] = [
     name: 'superadmin',
     email: 'superadmin@test.com',
     password: '', //Will be filled later
-    role_id: ROLE_TYPES.SUPERADMIN,
+    role_id: FIXED_ROLE_TYPES.SUPERADMIN,
     create_time: new Date(),
     update_time: new Date(),
   },
@@ -61,7 +61,7 @@ export const apiKeys: ApiKey[] = [
     id: '7f6996ce-0ce8-4e6f-b95f-b093ede0585f',
     name: 'apiKey1',
     is_preset: false,
-    role_id: ROLE_TYPES.INACTIVE,
+    role_id: FIXED_ROLE_TYPES.INACTIVE,
     app_id: 'apiKey1_appid',
     app_secret: 'apiKey1_appsecret',
     create_time: new Date(),
@@ -71,7 +71,7 @@ export const apiKeys: ApiKey[] = [
     id: '27d288d7-9c9a-45d7-9a93-1031f1dc0365',
     name: 'apiKey2',
     is_preset: false,
-    role_id: ROLE_TYPES.READER,
+    role_id: FIXED_ROLE_TYPES.READER,
     app_id: 'apiKey2_appid',
     app_secret: 'apiKey2_appsecret',
     create_time: new Date(),
@@ -81,7 +81,7 @@ export const apiKeys: ApiKey[] = [
     id: 'd2f2ac4d-c17d-49c8-9eb5-5b98506c33da',
     name: 'apiKey3',
     is_preset: false,
-    role_id: ROLE_TYPES.AUTHOR,
+    role_id: FIXED_ROLE_TYPES.AUTHOR,
     app_id: 'apiKey3_appid',
     app_secret: 'apiKey3_appsecret',
     create_time: new Date(),
@@ -91,7 +91,7 @@ export const apiKeys: ApiKey[] = [
     id: '561b2afc-44ce-40c9-b09f-598326201310',
     name: 'apiKey4',
     is_preset: true,
-    role_id: ROLE_TYPES.ADMIN,
+    role_id: FIXED_ROLE_TYPES.ADMIN,
     app_id: 'apiKey4_appid',
     app_secret: 'apiKey4_appsecret',
     create_time: new Date(),
@@ -101,7 +101,7 @@ export const apiKeys: ApiKey[] = [
     id: '03a8b034-af52-47c5-a1d7-e7e107ddf688',
     name: 'apiKey5',
     is_preset: false,
-    role_id: ROLE_TYPES.SUPERADMIN,
+    role_id: FIXED_ROLE_TYPES.SUPERADMIN,
     app_id: 'apiKey5_appid',
     app_secret: 'apiKey5_appsecret',
     create_time: new Date(),

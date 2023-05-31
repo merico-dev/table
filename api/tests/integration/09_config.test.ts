@@ -3,57 +3,67 @@ import { ConfigService, ConfigResourceTypes } from '~/services/config.service';
 import { AccountService } from '~/services/account.service';
 import { ApiService } from '~/services/api.service';
 import Account from '~/models/account';
+import { Account as AccountApiModel } from '~/api_models/account';
 import ApiKey from '~/models/apiKey';
+import { ApiKey as ApiKeyApiModel } from '~/api_models/api';
 import Config from '~/models/config';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
-import { ROLE_TYPES } from '~/api_models/role';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('ConfigService', () => {
   connectionHook();
   let configService: ConfigService;
   let accountService: AccountService;
   let apiService: ApiService;
-  let account1: Account;
-  let account2: Account;
-  let apiKey: ApiKey;
+  let account1: AccountApiModel;
+  let account2: AccountApiModel;
+  let apiKey: ApiKeyApiModel;
 
   beforeAll(async () => {
     configService = new ConfigService();
     accountService = new AccountService();
     apiService = new ApiService();
 
-    account1 = new Account();
-    account1.id = 'ce11aa93-e0e6-4102-bc93-24eacf244133';
-    account1.name = 'tmp1';
-    account1.email = 'tmp1@test.com';
-    account1.password = '12345678';
-    account1.role_id = ROLE_TYPES.ADMIN;
-    account1.create_time = new Date();
-    account1.update_time = new Date();
-    await dashboardDataSource.getRepository(Account).save(account1);
+    const account1Model = new Account();
+    account1Model.id = 'ce11aa93-e0e6-4102-bc93-24eacf244133';
+    account1Model.name = 'tmp1';
+    account1Model.email = 'tmp1@test.com';
+    account1Model.password = '12345678';
+    account1Model.role_id = FIXED_ROLE_TYPES.ADMIN;
+    account1Model.create_time = new Date();
+    account1Model.update_time = new Date();
+    await dashboardDataSource.getRepository(Account).save(account1Model);
+    account1 = await accountService.get(account1Model.id, DEFAULT_LANGUAGE);
 
-    account2 = new Account();
-    account2.id = 'cec09093-e905-457a-b530-0a21034fff16';
-    account2.name = 'tmp2';
-    account2.email = 'tmp2@test.com';
-    account2.password = '12345678';
-    account2.role_id = ROLE_TYPES.READER;
-    account2.create_time = new Date();
-    account2.update_time = new Date();
-    await dashboardDataSource.getRepository(Account).save(account2);
+    const account2Model = new Account();
+    account2Model.id = 'cec09093-e905-457a-b530-0a21034fff16';
+    account2Model.name = 'tmp2';
+    account2Model.email = 'tmp2@test.com';
+    account2Model.password = '12345678';
+    account2Model.role_id = FIXED_ROLE_TYPES.READER;
+    account2Model.create_time = new Date();
+    account2Model.update_time = new Date();
+    await dashboardDataSource.getRepository(Account).save(account2Model);
+    account2 = await accountService.get(account2Model.id, DEFAULT_LANGUAGE);
 
-    apiKey = new ApiKey();
-    apiKey.id = '2a67e5d5-d473-43d4-88b5-8c97b7f2334d';
-    apiKey.name = 'tmp';
-    apiKey.is_preset = false;
-    apiKey.role_id = ROLE_TYPES.ADMIN;
-    apiKey.app_id = 'tmp_appid';
-    apiKey.app_secret = 'tmp_appsecret';
-    apiKey.create_time = new Date();
-    apiKey.update_time = new Date();
-    await dashboardDataSource.getRepository(ApiKey).save(apiKey);
+    const apiKeyModel = new ApiKey();
+    apiKeyModel.id = '2a67e5d5-d473-43d4-88b5-8c97b7f2334d';
+    apiKeyModel.name = 'tmp';
+    apiKeyModel.is_preset = false;
+    apiKeyModel.role_id = FIXED_ROLE_TYPES.ADMIN;
+    apiKeyModel.app_id = 'tmp_appid';
+    apiKeyModel.app_secret = 'tmp_appsecret';
+    apiKeyModel.create_time = new Date();
+    apiKeyModel.update_time = new Date();
+    await dashboardDataSource.getRepository(ApiKey).save(apiKeyModel);
+    apiKey = (
+      await apiService.listKeys({ name: { isFuzzy: false, value: 'tmp' } }, [{ field: 'name', order: 'ASC' }], {
+        page: 1,
+        pagesize: 20,
+      })
+    ).data[0];
 
     const config = new Config();
     config.key = 'lang';
@@ -205,7 +215,7 @@ describe('ConfigService', () => {
         },
       ]);
 
-      await accountService.delete(account1.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(account1.id, DEFAULT_LANGUAGE);
       await sleep(2000);
       await apiService.deleteKey(apiKey.id, DEFAULT_LANGUAGE);
       await sleep(2000);

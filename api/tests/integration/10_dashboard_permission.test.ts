@@ -6,14 +6,16 @@ import { AccountService } from '~/services/account.service';
 import { ApiService } from '~/services/api.service';
 import { DashboardService } from '~/services/dashboard.service';
 import Dashboard from '~/models/dashboard';
-import { ROLE_TYPES } from '~/api_models/role';
 import { DEFAULT_LANGUAGE, SALT_ROUNDS } from '~/utils/constants';
 import Account from '~/models/account';
+import { Account as AccountApiModel } from '~/api_models/account';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import ApiKey from '~/models/apiKey';
+import { ApiKey as ApiKeyApiModel } from '~/api_models/api';
 import { ApiError, BAD_REQUEST, FORBIDDEN } from '~/utils/errors';
 import { translate } from '~/utils/i18n';
 import { omitFields } from '~/utils/helpers';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('DashboardPermissionService', () => {
   connectionHook();
@@ -22,10 +24,10 @@ describe('DashboardPermissionService', () => {
   let dashboardService: DashboardService;
   let dashboardPermissionService: DashboardPermissionService;
 
-  let account: Account;
-  let readerAccount: Account;
-  let adminAccount: Account;
-  let apiKey: ApiKey;
+  let account: AccountApiModel;
+  let readerAccount: AccountApiModel;
+  let adminAccount: AccountApiModel;
+  let apiKey: ApiKeyApiModel;
   let accountDashboard: Dashboard;
   let apiKeyDashboard: Dashboard;
 
@@ -38,32 +40,48 @@ describe('DashboardPermissionService', () => {
     dashboardService = new DashboardService();
 
     const accountData = new Account();
+    accountData.id = crypto.randomUUID();
     accountData.name = 'dashboard_permission';
     accountData.email = 'dashboard@permission.test';
     accountData.password = await bcrypt.hash(accountData.name, SALT_ROUNDS);
-    accountData.role_id = ROLE_TYPES.AUTHOR;
-    account = await dashboardDataSource.getRepository(Account).save(accountData);
+    accountData.role_id = FIXED_ROLE_TYPES.AUTHOR;
+    await dashboardDataSource.getRepository(Account).save(accountData);
+    account = await accountService.get(accountData.id, DEFAULT_LANGUAGE);
 
     const adminAccountData = new Account();
+    adminAccountData.id = crypto.randomUUID();
     adminAccountData.name = 'admin_dashboard_permission';
     adminAccountData.email = 'admin_dashboard@permission.test';
     adminAccountData.password = await bcrypt.hash(adminAccountData.name, SALT_ROUNDS);
-    adminAccountData.role_id = ROLE_TYPES.ADMIN;
-    adminAccount = await dashboardDataSource.getRepository(Account).save(adminAccountData);
+    adminAccountData.role_id = FIXED_ROLE_TYPES.ADMIN;
+    await dashboardDataSource.getRepository(Account).save(adminAccountData);
+    adminAccount = await accountService.get(adminAccountData.id, DEFAULT_LANGUAGE);
 
     const readerAccountData = new Account();
+    readerAccountData.id = crypto.randomUUID();
     readerAccountData.name = 'reader_dashboard_permission';
     readerAccountData.email = 'reader_dashboard@permission.test';
     readerAccountData.password = await bcrypt.hash(readerAccountData.name, SALT_ROUNDS);
-    readerAccountData.role_id = ROLE_TYPES.READER;
-    readerAccount = await dashboardDataSource.getRepository(Account).save(readerAccountData);
+    readerAccountData.role_id = FIXED_ROLE_TYPES.READER;
+    await dashboardDataSource.getRepository(Account).save(readerAccountData);
+    readerAccount = await accountService.get(readerAccountData.id, DEFAULT_LANGUAGE);
 
     const apiKeyData = new ApiKey();
     apiKeyData.name = 'dashboard_permission';
     apiKeyData.app_id = crypto.randomBytes(8).toString('hex');
     apiKeyData.app_secret = crypto.randomBytes(16).toString('hex');
-    apiKeyData.role_id = ROLE_TYPES.AUTHOR;
-    apiKey = await dashboardDataSource.getRepository(ApiKey).save(apiKeyData);
+    apiKeyData.role_id = FIXED_ROLE_TYPES.AUTHOR;
+    await dashboardDataSource.getRepository(ApiKey).save(apiKeyData);
+    apiKey = (
+      await apiService.listKeys(
+        { name: { isFuzzy: false, value: 'dashboard_permission' } },
+        [{ field: 'name', order: 'ASC' }],
+        {
+          page: 1,
+          pagesize: 20,
+        },
+      )
+    ).data[0];
 
     accountDashboard = await dashboardService.create(
       'accountDashboard',
@@ -346,11 +364,11 @@ describe('DashboardPermissionService', () => {
 
   describe('deleting account/apikey/dashboard', () => {
     it('deleting account should update all affected dashboard permissions', async () => {
-      await accountService.delete(account.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(account.id, DEFAULT_LANGUAGE);
       await sleep(2000);
-      await accountService.delete(readerAccount.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(readerAccount.id, DEFAULT_LANGUAGE);
       await sleep(2000);
-      await accountService.delete(adminAccount.id, ROLE_TYPES.SUPERADMIN, DEFAULT_LANGUAGE);
+      await accountService.delete(adminAccount.id, DEFAULT_LANGUAGE);
       await sleep(2000);
 
       const result = await dashboardPermissionService.list(undefined, [{ field: 'create_time', order: 'ASC' }], {
