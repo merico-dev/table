@@ -13,12 +13,12 @@ function upgradeQueries(queries: Record<string, any>[]) {
  * @param schema
  * @returns new schema
  */
-export function main({ definitions, ...rest }: Record<string, any>) {
-  const finalQueries = upgradeQueries(definitions.queries);
+export function main({ definition, ...rest }: Record<string, any>) {
+  const finalQueries = upgradeQueries(definition.queries);
   return {
     ...rest,
-    definitions: {
-      ...definitions,
+    definition: {
+      ...definition,
       queries: finalQueries,
     },
     version: '9.11.0',
