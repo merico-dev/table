@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { HttpParams } from '../api_models/query';
+import logger from 'npmlog';
 
 export const APIClient = {
   request(host: string) {
@@ -26,6 +27,7 @@ export const APIClient = {
           return res.data;
         })
         .catch((err: any) => {
+          logger.error(JSON.stringify(err.toJSON()));
           return Promise.reject(err);
         });
     };
