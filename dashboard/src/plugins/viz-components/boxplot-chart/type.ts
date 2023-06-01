@@ -4,6 +4,8 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-metric';
+import { AnyObject } from '~/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -26,6 +28,9 @@ export interface IBoxplotChartConf {
     data_key: string;
     label_formatter: TNumbroFormat;
   };
+  tooltip: {
+    metrics: IEchartsTooltipMetric[];
+  };
   color: string;
   reference_lines: IBoxplotReferenceLine[];
 }
@@ -45,6 +50,9 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     data_key: 'value',
     label_formatter: defaultNumbroFormat,
   },
+  tooltip: {
+    metrics: [],
+  },
   color: '#228be6',
   reference_lines: [],
 };
@@ -56,5 +64,5 @@ export interface IBoxplotDataItem {
   median: number;
   q3: number;
   max: number;
-  outliers: Array<[string, number]>;
+  outliers: Array<[string, number, AnyObject]>;
 }

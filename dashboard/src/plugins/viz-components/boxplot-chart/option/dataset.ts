@@ -3,6 +3,8 @@ import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IBoxplotChartConf, IBoxplotDataItem } from '../type';
 
+type TCalcBoxplotDataRetItem = { boxplot: IBoxplotDataItem; outliers: [string, number, AnyObject][] };
+
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
     const numbers: number[] = data.map((d) => d[data_key]).sort((a, b) => a - b);
@@ -16,8 +18,15 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
 
     const min = Math.max(numbers[0], minLimit);
     const max = Math.min(_.last(numbers) ?? 0, maxLimit);
-    const outliers = numbers.filter((n) => n < min || n > max).map((n) => [name, n]);
-    return {
+
+    const outliers: [string, number, AnyObject][] = data
+      .filter((d) => {
+        const v = d[data_key];
+        return v < min || v > max;
+      })
+      .map((d) => [name, d[data_key], d]);
+
+    const boxplot: IBoxplotDataItem = {
       name,
       min,
       q1,
@@ -25,10 +34,23 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
       q3,
       max,
       outliers,
-    } as IBoxplotDataItem;
+    };
+
+    return boxplot;
   });
+
   return ret;
 }
+
+export type TGetDatasetRet = [
+  {
+    source: IBoxplotDataItem[];
+  },
+  {
+    source: [string, number, AnyObject][];
+  },
+];
+
 export function getDataset(conf: IBoxplotChartConf, data: TVizData) {
   const { x_axis, y_axis } = conf;
   const grouped = _.groupBy(data, x_axis.data_key);
@@ -41,5 +63,5 @@ export function getDataset(conf: IBoxplotChartConf, data: TVizData) {
     {
       source: outliersData,
     },
-  ];
+  ] as TGetDatasetRet;
 }
