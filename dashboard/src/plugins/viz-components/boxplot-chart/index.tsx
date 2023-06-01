@@ -78,8 +78,17 @@ function v6(legacyConf: $TSFixMe): IBoxplotChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v7(legacyConf: $TSFixMe): IBoxplotChartConf {
+  const patch = {
+    tooltip: {
+      metrics: [],
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 6;
+  readonly VERSION = 7;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -114,6 +123,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 6, config: v6(config) };
     });
+    this.version(7, (data) => {
+      const { config } = data;
+      return { ...data, version: 7, config: v7(config) };
+    });
   }
 }
 
@@ -126,7 +139,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 6,
+      version: 7,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },
