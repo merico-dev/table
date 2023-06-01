@@ -1,9 +1,7 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { IBoxplotChartConf, IBoxplotDataItem } from '../type';
-
-type TCalcBoxplotDataRetItem = { boxplot: IBoxplotDataItem; outliers: [string, number, AnyObject][] };
+import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -19,7 +17,7 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
     const min = Math.max(numbers[0], minLimit);
     const max = Math.min(_.last(numbers) ?? 0, maxLimit);
 
-    const outliers: [string, number, AnyObject][] = data
+    const outliers: TOutlierDataItem[] = data
       .filter((d) => {
         const v = d[data_key];
         return v < min || v > max;
@@ -42,15 +40,6 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
   return ret;
 }
 
-export type TGetDatasetRet = [
-  {
-    source: IBoxplotDataItem[];
-  },
-  {
-    source: [string, number, AnyObject][];
-  },
-];
-
 export function getDataset(conf: IBoxplotChartConf, data: TVizData) {
   const { x_axis, y_axis } = conf;
   const grouped = _.groupBy(data, x_axis.data_key);
@@ -63,5 +52,5 @@ export function getDataset(conf: IBoxplotChartConf, data: TVizData) {
     {
       source: outliersData,
     },
-  ] as TGetDatasetRet;
+  ];
 }

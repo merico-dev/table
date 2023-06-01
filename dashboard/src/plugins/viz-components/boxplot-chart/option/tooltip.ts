@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import numbro from 'numbro';
 import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { AnyObject } from '~/types';
-import { IBoxplotChartConf } from '../type';
+import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from './common';
 
 const formatAdditionalMetric = (v: number) => {
@@ -16,7 +15,7 @@ const formatAdditionalMetric = (v: number) => {
   }
 };
 
-function getScatterTooltipContent(config: IBoxplotChartConf, value: [string, number, AnyObject]) {
+function getScatterTooltipContent(config: IBoxplotChartConf, value: TOutlierDataItem) {
   const xAxisLabelStyle = getLabelOverflowStyleInTooltip(config.x_axis.axisLabel.overflow.in_tooltip);
   const metrics = [
     `<tr>
@@ -50,10 +49,10 @@ function getScatterTooltipContent(config: IBoxplotChartConf, value: [string, num
   return template;
 }
 
-function getOutliersInfo(value: AnyObject) {
+function getOutliersInfo(value: IBoxplotDataItem) {
   const { outliers, min, max } = value;
-  const less = outliers.filter((v: [string, number]) => v[1] < min).length;
-  const greater = outliers.filter((v: [string, number]) => v[1] > max).length;
+  const less = outliers.filter((v) => v[1] < min).length;
+  const greater = outliers.filter((v) => v[1] > max).length;
 
   const content = (text: string, v: number) => `
     <tr>
@@ -69,11 +68,21 @@ function getOutliersInfo(value: AnyObject) {
   };
 }
 
-const getFormatter = (config: IBoxplotChartConf) => (params: AnyObject) => {
+type TTooltipFormatterParams =
+  | {
+      componentSubType: 'scatter';
+      value: TOutlierDataItem;
+    }
+  | {
+      componentSubType: 'boxplot';
+      value: IBoxplotDataItem;
+    };
+
+const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterParams) => {
   const { componentSubType, value } = params;
 
   if (componentSubType === 'scatter') {
-    return getScatterTooltipContent(config, value as [string, number, AnyObject]);
+    return getScatterTooltipContent(config, value);
   }
 
   const lines = BOXPLOT_DATA_ITEM_KEYS.map((key) => {

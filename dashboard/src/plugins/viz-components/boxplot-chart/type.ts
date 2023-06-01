@@ -57,6 +57,8 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   reference_lines: [],
 };
 
+export type TOutlierDataItem = [string, number, AnyObject];
+
 export interface IBoxplotDataItem {
   name: string;
   min: number;
@@ -64,5 +66,5 @@ export interface IBoxplotDataItem {
   median: number;
   q3: number;
   max: number;
-  outliers: Array<[string, number, AnyObject]>;
+  outliers: TOutlierDataItem[];
 }
