@@ -5,22 +5,23 @@ import logger from 'npmlog';
 export const APIClient = {
   request(host: string) {
     return (options: HttpParams) => {
-      const headers = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/json',
-        ...options.headers,
-      };
+      const { method, url, headers, params, data, ...restOptions } = options;
 
       const conf: AxiosRequestConfig = {
         baseURL: host,
-        method: options.method,
-        url: options.url,
-        params: options.params,
-        headers: headers,
+        method,
+        url,
+        params,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/json',
+          ...headers,
+        },
+        ...restOptions,
       };
 
-      if (options.method !== 'GET') {
-        conf.data = JSON.stringify(options.data);
+      if (method !== 'GET') {
+        conf.data = JSON.stringify(data);
       }
       return axios(conf)
         .then((res: any) => {
