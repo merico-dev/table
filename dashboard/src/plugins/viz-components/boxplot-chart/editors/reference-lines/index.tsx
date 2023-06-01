@@ -41,7 +41,13 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
   return (
     <Stack>
       {controlledFields.map((field, index) => (
-        <ReferenceLineField control={control} index={index} remove={remove} variableOptions={variableOptions} />
+        <ReferenceLineField
+          key={field.id}
+          control={control}
+          index={index}
+          remove={remove}
+          variableOptions={variableOptions}
+        />
       ))}
       <Group position="center" mt="xs">
         <Button onClick={add}>Add a Reference Line</Button>
