@@ -15,7 +15,6 @@ Add a `.env` file based on `.env.sample`
 - `DATABASE_CONNECTION_TIMEOUT_MS` for configuration the time after which the db connection will timeout in milliseconds. Default is 30000ms (30 seconds)
 - `DATABASE_POOL_SIZE` for configuration the maximum number of clients in the pool
 - `SQL_REWRITER_URL` for configurating the endpoint for the sql rewriter plugin
-- `FS_CACHE_RETAIN_TIME` for configuring file system caching retain time in seconds
 
 Variables for configuring preset ApiKeys. Separate values with ; ex: PRESET_API_KEY_NAME=name1;name2;name3
 
