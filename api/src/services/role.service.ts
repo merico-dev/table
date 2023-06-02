@@ -2,7 +2,8 @@ import Role from '../models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import { ApiError, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { AUTH_ENABLED } from '../utils/constants';
-import { translate } from '../utils/i18n';
+import { ROLE_PERMISSION_KEYS, translate } from '../utils/i18n';
+import { RolePermission } from '../api_models/role';
 import { injectable } from 'inversify';
 
 export enum FIXED_ROLE_TYPES {
@@ -14,27 +15,27 @@ export enum FIXED_ROLE_TYPES {
 }
 
 export enum PERMISSIONS {
-  DATASOURCE_VIEW = '[datasource]view', // Allows viewing datasources
-  DATASOURCE_MANAGE = '[datasource]manage', // Allows creating, editing, deleting datasources
-  DASHBOARD_VIEW = '[dashboard]view', // Allows viewing dashboards (including contents),
-  DASHBOARD_MANAGE = '[dashboard]manage', // Allows creating, editing, deleting dashboards, and viewing changelogs
-  ACCOUNT_LIST = '[account]list', // Allows viewing of accounts
-  ACCOUNT_LOGIN = '[account]login', // Allows logging in
-  ACCOUNT_UPDATE = '[account]update', // Allows updating own account
-  ACCOUNT_CHANGEPASSWORD = '[account]changepassword', // Allows changing account password
-  ACCOUNT_MANAGE = '[account]manage', // Allows creating, editing, deleting accounts
-  APIKEY_LIST = '[apikey]list', // Allows viewing of ApiKeys
-  APIKEY_MANAGE = '[apikey]manage', // Allows creating and deleting ApiKeys
-  ROLE_MANAGE = '[role]manage', // Allows creating, editing, deleting roles
-  CONFIG_SET_LANG = '[config]set-lang', // Allows updating lang
-  CONFIG_GET_WEBSITE_SETTINGS = '[config]get-website_settings', // Allows retrieving website settings
-  CONFIG_SET_WEBSITE_SETTINGS = '[config]set-website_settings', // Allows updating website settings
-  CUSTOM_FUNCTION_VIEW = '[customfunction]view', // Allows viewing custom functions
-  CUSTOM_FUNCTION_MANAGE = '[customfunction]manage', // Allows creating, editing, deleting custom functions
+  DATASOURCE_VIEW = '[datasource]view',
+  DATASOURCE_MANAGE = '[datasource]manage',
+  DASHBOARD_VIEW = '[dashboard]view',
+  DASHBOARD_MANAGE = '[dashboard]manage',
+  ACCOUNT_LIST = '[account]list',
+  ACCOUNT_LOGIN = '[account]login',
+  ACCOUNT_UPDATE = '[account]update',
+  ACCOUNT_CHANGEPASSWORD = '[account]changepassword',
+  ACCOUNT_MANAGE = '[account]manage',
+  APIKEY_LIST = '[apikey]list',
+  APIKEY_MANAGE = '[apikey]manage',
+  ROLE_MANAGE = '[role]manage',
+  CONFIG_SET_LANG = '[config]set-lang',
+  CONFIG_GET_WEBSITE_SETTINGS = '[config]get-website_settings',
+  CONFIG_SET_WEBSITE_SETTINGS = '[config]set-website_settings',
+  CUSTOM_FUNCTION_VIEW = '[customfunction]view',
+  CUSTOM_FUNCTION_MANAGE = '[customfunction]manage',
 }
 
 export enum HIDDEN_PERMISSIONS {
-  PRESET = '[preset]', // Allows modification of preset assets
+  PRESET = '[preset]',
 }
 
 export type CHECK_PERMISSION = {
@@ -149,8 +150,11 @@ export class RoleService {
     return await roleRepo.find();
   }
 
-  permissions(): string[] {
-    return [...Object.values(PERMISSIONS), ...Object.values(HIDDEN_PERMISSIONS)];
+  permissions(locale: string): RolePermission[] {
+    return [...Object.entries(PERMISSIONS), ...Object.entries(HIDDEN_PERMISSIONS)].map(([key, permission]) => {
+      const lang_key = `ROLE_PERMISSION_${key}` as ROLE_PERMISSION_KEYS;
+      return { key: permission, description: translate(lang_key, locale) };
+    });
   }
 
   async createOrUpdate(id: string, description: string, permissions: string[]): Promise<Role> {

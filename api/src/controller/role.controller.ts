@@ -40,14 +40,14 @@ export class RoleController implements interfaces.Controller {
     path: '/permissions',
     description: 'List permissions',
     responses: {
-      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Permission' },
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'RolePermission' },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
   @httpGet('/permissions')
   public async permissions(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const result = await this.roleService.permissions();
+      const result = await this.roleService.permissions(req.locale);
       res.json(result);
     } catch (err) {
       next(err);

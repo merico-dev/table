@@ -27,6 +27,22 @@ export class Role {
 }
 
 @ApiModel({
+  description: 'Role permission entity',
+  name: 'RolePermission',
+})
+export class RolePermission {
+  @ApiModelProperty({
+    description: 'Role permission key',
+  })
+  key: string;
+
+  @ApiModelProperty({
+    description: 'Role permission description',
+  })
+  description: string;
+}
+
+@ApiModel({
   description: 'Create or update role request',
   name: 'RoleCreateOrUpdateRequest',
 })
