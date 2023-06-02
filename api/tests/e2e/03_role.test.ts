@@ -59,24 +59,66 @@ describe('RoleController', () => {
     const response = await server.get('/role/permissions').send();
 
     expect(response.body).toMatchObject([
-      PERMISSIONS.DATASOURCE_VIEW,
-      PERMISSIONS.DATASOURCE_MANAGE,
-      PERMISSIONS.DASHBOARD_VIEW,
-      PERMISSIONS.DASHBOARD_MANAGE,
-      PERMISSIONS.ACCOUNT_LIST,
-      PERMISSIONS.ACCOUNT_LOGIN,
-      PERMISSIONS.ACCOUNT_UPDATE,
-      PERMISSIONS.ACCOUNT_CHANGEPASSWORD,
-      PERMISSIONS.ACCOUNT_MANAGE,
-      PERMISSIONS.APIKEY_LIST,
-      PERMISSIONS.APIKEY_MANAGE,
-      PERMISSIONS.ROLE_MANAGE,
-      PERMISSIONS.CONFIG_SET_LANG,
-      PERMISSIONS.CONFIG_GET_WEBSITE_SETTINGS,
-      PERMISSIONS.CONFIG_SET_WEBSITE_SETTINGS,
-      PERMISSIONS.CUSTOM_FUNCTION_VIEW,
-      PERMISSIONS.CUSTOM_FUNCTION_MANAGE,
-      HIDDEN_PERMISSIONS.PRESET,
+      {
+        key: '[datasource]view',
+        description: 'Allows viewing datasources',
+      },
+      {
+        key: '[datasource]manage',
+        description: 'Allows creating, editing, deleting datasources',
+      },
+      {
+        key: '[dashboard]view',
+        description: 'Allows viewing dashboards (including contents)',
+      },
+      {
+        key: '[dashboard]manage',
+        description: 'Allows creating, editing, deleting dashboards, and viewing changelogs',
+      },
+      { key: '[account]list', description: 'Allows viewing of accounts' },
+      { key: '[account]login', description: 'Allows logging in' },
+      {
+        key: '[account]update',
+        description: 'Allows updating own account',
+      },
+      {
+        key: '[account]changepassword',
+        description: 'Allows changing account password',
+      },
+      {
+        key: '[account]manage',
+        description: 'Allows creating, editing, deleting accounts',
+      },
+      { key: '[apikey]list', description: 'Allows viewing of ApiKeys' },
+      {
+        key: '[apikey]manage',
+        description: 'Allows creating and deleting ApiKeys',
+      },
+      {
+        key: '[role]manage',
+        description: 'Allows creating, editing, deleting roles',
+      },
+      { key: '[config]set-lang', description: 'Allows updating lang' },
+      {
+        key: '[config]get-website_settings',
+        description: 'Allows retrieving website settings',
+      },
+      {
+        key: '[config]set-website_settings',
+        description: 'Allows updating website settings',
+      },
+      {
+        key: '[customfunction]view',
+        description: 'Allows viewing custom functions',
+      },
+      {
+        key: '[customfunction]manage',
+        description: "Allows creating, editing, deleting custom functions'",
+      },
+      {
+        key: '[preset]',
+        description: 'Allows modification of preset assets',
+      },
     ]);
   });
 

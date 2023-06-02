@@ -71,6 +71,72 @@ describe('RoleService', () => {
     ]);
   });
 
+  it('permissions', async () => {
+    const permissions = roleService.permissions(DEFAULT_LANGUAGE);
+    expect(permissions).toMatchObject([
+      {
+        key: '[datasource]view',
+        description: 'Allows viewing datasources',
+      },
+      {
+        key: '[datasource]manage',
+        description: 'Allows creating, editing, deleting datasources',
+      },
+      {
+        key: '[dashboard]view',
+        description: 'Allows viewing dashboards (including contents)',
+      },
+      {
+        key: '[dashboard]manage',
+        description: 'Allows creating, editing, deleting dashboards, and viewing changelogs',
+      },
+      { key: '[account]list', description: 'Allows viewing of accounts' },
+      { key: '[account]login', description: 'Allows logging in' },
+      {
+        key: '[account]update',
+        description: 'Allows updating own account',
+      },
+      {
+        key: '[account]changepassword',
+        description: 'Allows changing account password',
+      },
+      {
+        key: '[account]manage',
+        description: 'Allows creating, editing, deleting accounts',
+      },
+      { key: '[apikey]list', description: 'Allows viewing of ApiKeys' },
+      {
+        key: '[apikey]manage',
+        description: 'Allows creating and deleting ApiKeys',
+      },
+      {
+        key: '[role]manage',
+        description: 'Allows creating, editing, deleting roles',
+      },
+      { key: '[config]set-lang', description: 'Allows updating lang' },
+      {
+        key: '[config]get-website_settings',
+        description: 'Allows retrieving website settings',
+      },
+      {
+        key: '[config]set-website_settings',
+        description: 'Allows updating website settings',
+      },
+      {
+        key: '[customfunction]view',
+        description: 'Allows viewing custom functions',
+      },
+      {
+        key: '[customfunction]manage',
+        description: "Allows creating, editing, deleting custom functions'",
+      },
+      {
+        key: '[preset]',
+        description: 'Allows modification of preset assets',
+      },
+    ]);
+  });
+
   describe('checkPermission', () => {
     it('should successfully check permission with account', async () => {
       RoleService.checkPermission(
