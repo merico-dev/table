@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
-import { DashboardModelInstance, FiltersModelInstance, PanelModelInstance, ViewsModelInstance } from '~/model';
+import { ContentModelInstance, FiltersModelInstance, PanelModelInstance, ViewsModelInstance } from '~/model';
 import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
 import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
 import {
@@ -112,7 +112,7 @@ function addParentToTabView(viewNodes: TFlowNode[]) {
   });
 }
 
-export function makeNodes(model: DashboardModelInstance) {
+export function makeNodes(model: ContentModelInstance) {
   const viewNodes = makeViewNodes(model.views);
   addParentToTabView(viewNodes);
   const panelNodes = makePanelNodes(model.views, model.panels.list);

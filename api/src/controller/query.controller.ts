@@ -32,11 +32,11 @@ export class QueryController implements interfaces.Controller {
       500: { description: 'ApiError', model: 'ApiError' },
     },
   })
-  @httpPost('/', permission(ROLE_TYPES.READER))
+  @httpPost('/', permission(ROLE_TYPES.READER), validate(QueryRequest))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { type, key, query } = validate(QueryRequest, req.body);
-      const result = await this.queryService.query(type, key, query);
+      const { type, key, query, env } = req.body as QueryRequest;
+      const result = await this.queryService.query(type, key, query, env || {});
       res.json(result);
     } catch (error) {
       next(error);

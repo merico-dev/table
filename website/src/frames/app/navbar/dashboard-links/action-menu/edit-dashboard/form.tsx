@@ -2,7 +2,7 @@ import { Box, Button, Group, LoadingOverlay, Stack, TextInput } from '@mantine/c
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { APICaller } from '../../../../../../api-caller';
 import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
 interface IFormValues {
@@ -34,7 +34,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
     });
     setPending(true);
     try {
-      await DashboardAPI.rename({ id: dashboard.id, name, group });
+      await APICaller.dashboard.rename({ id: dashboard.id, name, group });
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

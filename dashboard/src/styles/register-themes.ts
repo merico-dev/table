@@ -1,7 +1,7 @@
 import * as echarts from 'echarts/core';
 
 // from Merico Design Tokens
-const Charts = {
+export const ChartTheme = {
   grid: {
     axis: '#97999D',
     scope: 'rgba(47,140,192,0.1)',
@@ -68,9 +68,9 @@ const Charts = {
 
 function registerEchartsThemes() {
   echarts.registerTheme('merico-light', {
-    color: Object.values(Charts.graphics.multiple),
+    color: Object.values(ChartTheme.graphics.multiple),
     visualMap: {
-      color: Object.values(Charts.graphics.depth).reverse(),
+      color: Object.values(ChartTheme.graphics.depth).reverse(),
     },
   });
 }

@@ -2,26 +2,27 @@ import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } fro
 import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext, useModelContext } from '~/contexts';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { ViewLinks } from './view-links';
 
 export const DashboardEditorNavbar = observer(() => {
   const model = useModelContext();
+  const content = useContentModelContext();
   const openQueries = () => {
-    if (!model.queries.firstID) {
+    if (!content.queries.firstID) {
       model.editor.open(['_QUERIES_', '']);
       return;
     }
-    model.editor.open(['_QUERIES_', model.queries.firstID]);
+    model.editor.open(['_QUERIES_', content.queries.firstID]);
   };
   const openFilters = () => {
-    if (!model.filters.firstID) {
+    if (!content.filters.firstID) {
       model.editor.open(['_FILTERS_', '']);
       return;
     }
-    model.editor.open(['_FILTERS_', model.filters.firstID]);
+    model.editor.open(['_FILTERS_', content.filters.firstID]);
   };
 
   const [interactionsOpened, setInteractionsOpened] = useState(false);
@@ -29,25 +30,28 @@ export const DashboardEditorNavbar = observer(() => {
   const closeInteractions = () => setInteractionsOpened(false);
 
   return (
-    <MantineNavbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
+    <MantineNavbar p={0} width={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }} zIndex={299}>
       <MantineNavbar.Section>
         <Group
           grow
           spacing={0}
-          sx={{ ...ActionIconGroupStyle, button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' } }}
+          sx={{
+            ...ActionIconGroupStyle,
+            button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' },
+          }}
         >
           <Tooltip label="Filters" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openFilters}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openFilters}>
               <IconFilter size={20} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Queries" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openQueries}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
               <IconDatabase size={20} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Interactions Viewer" withinPortal>
-            <ActionIcon variant="default" radius={0} size="md" onClick={openInteractions}>
+            <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
               <IconLink size={20} />
             </ActionIcon>
           </Tooltip>

@@ -2,17 +2,18 @@ import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { Trash } from 'tabler-icons-react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext, useModelContext } from '~/contexts';
 import { FilterSetting } from '~/filter/filter-settings/filter-setting';
 
 export const EditFilter = observer(({ id }: { id: string }) => {
   const modals = useModals();
   const model = useModelContext();
+  const content = useContentModelContext();
   if (id === '') {
     return null;
   }
 
-  const filter = model.filters.findByID(id);
+  const filter = content.filters.findByID(id);
   if (!filter) {
     return <Text size={14}>Filter by ID[{id}] is not found</Text>;
   }
@@ -27,9 +28,10 @@ export const EditFilter = observer(({ id }: { id: string }) => {
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        model.filters.removeByID(id);
+        content.filters.removeByID(id);
         resetEditorPath();
       },
+      confirmProps: { color: 'red' },
       zIndex: 320,
     });
   };

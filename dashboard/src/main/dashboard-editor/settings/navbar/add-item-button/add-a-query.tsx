@@ -16,7 +16,8 @@ export const AddAQuery = observer(() => {
       key: '',
       sql: '',
     } as QueryModelInstance;
-    model.queries.append(v);
+    model.content.queries.append(v);
+    model.editor.setPath(['_QUERIES_', id]);
   };
 
   return (

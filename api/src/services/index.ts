@@ -9,6 +9,10 @@ import { JobService } from './job.service';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { ConfigService } from './config.service';
 import { DashboardPermissionService } from './dashboard_permission.service';
+import { DashboardContentService } from './dashboard_content.service';
+import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
+import { CustomFunctionService } from './custom_function.service';
+import { SqlSnippetService } from './sql_snippet.service';
 
 export function bindServices(container: Container) {
   container.bind<interfaces.Newable<JobService>>('Newable<JobService>').toConstructor<JobService>(JobService);
@@ -33,4 +37,16 @@ export function bindServices(container: Container) {
   container
     .bind<interfaces.Newable<DashboardPermissionService>>('Newable<DashboardPermissionService>')
     .toConstructor<DashboardPermissionService>(DashboardPermissionService);
+  container
+    .bind<interfaces.Newable<DashboardContentService>>('Newable<DashboardContentService>')
+    .toConstructor<DashboardContentService>(DashboardContentService);
+  container
+    .bind<interfaces.Newable<DashboardContentChangelogService>>('Newable<DashboardContentChangelogService>')
+    .toConstructor<DashboardContentChangelogService>(DashboardContentChangelogService);
+  container
+    .bind<interfaces.Newable<CustomFunctionService>>('Newable<CustomFunctionService>')
+    .toConstructor<CustomFunctionService>(CustomFunctionService);
+  container
+    .bind<interfaces.Newable<SqlSnippetService>>('Newable<SqlSnippetService>')
+    .toConstructor<SqlSnippetService>(SqlSnippetService);
 }

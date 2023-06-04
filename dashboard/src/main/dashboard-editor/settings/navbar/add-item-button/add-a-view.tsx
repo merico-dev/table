@@ -1,10 +1,10 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 
 export const AddAView = observer(() => {
-  const model = useModelContext();
+  const model = useContentModelContext();
 
   return (
     <Button

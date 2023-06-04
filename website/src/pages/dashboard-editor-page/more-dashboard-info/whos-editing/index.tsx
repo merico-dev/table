@@ -47,7 +47,7 @@ export const WhosEditing = observer(() => {
     return null;
   }
   return (
-    <HoverCard shadow="md">
+    <HoverCard shadow="md" withinPortal zIndex={310}>
       <HoverCard.Target>
         <Badge
           size="lg"

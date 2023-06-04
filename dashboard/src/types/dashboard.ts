@@ -80,9 +80,42 @@ export interface IDashboard {
   id: string;
   name: string;
   group: string;
+  content_id: string;
+}
+
+export interface TDashboardContent {
   definition: IDashboardDefinition;
   views: IDashboardView[];
   panels: IDashboardPanel[];
   filters: FilterModelSnapshotOut[];
   version: string;
 }
+
+export type DashboardContentDBType = {
+  id: string;
+  dashboard_id: string;
+  name: string;
+  content: TDashboardContent | null;
+  create_time: string;
+  update_time: string;
+};
+
+export const initialDashboardContent: TDashboardContent = {
+  definition: {
+    sqlSnippets: [],
+    queries: [],
+    mock_context: {},
+  },
+  views: [
+    {
+      id: 'Main',
+      name: 'Main',
+      type: EViewComponentType.Division,
+      config: {},
+      panelIDs: [] as string[],
+    } as const,
+  ],
+  panels: [],
+  filters: [],
+  version: '8.57.0',
+};

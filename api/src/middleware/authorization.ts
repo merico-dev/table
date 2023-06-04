@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Authentication } from '../api_models/base';
 import { AccountService } from '../services/account.service';
 import { ApiService } from '../services/api.service';
-import { validate } from './validation';
+import { validateClass } from './validation';
 
 export default async function authorization(req: express.Request, res: express.Response, next: express.NextFunction) {
   // Bearer
@@ -16,7 +16,7 @@ export default async function authorization(req: express.Request, res: express.R
     const { authentication, ...rest } = req.body;
     try {
       if (authentication !== undefined) {
-        const keyData = validate(Authentication, authentication);
+        const keyData = validateClass(Authentication, authentication);
         const apiKey = await ApiService.verifyApiKey(keyData, rest);
         req.body.auth = apiKey;
       }

@@ -14,9 +14,9 @@ import {
 import { ROLE_TYPES } from '~/api_models/role';
 import { AccountLoginResponse } from '~/api_models/account';
 import { omit } from 'lodash';
-import * as validation from '~/middleware/validation';
 import request from 'supertest';
 import { app } from '~/server';
+import { omitTime } from '~/utils/helpers';
 
 describe('AccountController', () => {
   connectionHook();
@@ -28,14 +28,8 @@ describe('AccountController', () => {
   let account2Login: AccountLoginResponse;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     superadmin = await dashboardDataSource.manager.findOne(Account, { where: { name: 'superadmin' } });
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('login', () => {
@@ -44,19 +38,15 @@ describe('AccountController', () => {
         name: superadmin.name,
         password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/account/login').send(query);
+      response.body.account = omitTime(response.body.account);
 
       superadminLogin = response.body;
-      superadminLogin.account.create_time = new Date(superadminLogin.account.create_time);
-      superadminLogin.account.update_time = new Date(superadminLogin.account.update_time);
       expect(superadminLogin).toMatchObject({
         token: superadminLogin.token,
         account: {
           id: superadmin.id,
-          create_time: superadmin.create_time,
-          update_time: superadmin.update_time,
           name: superadmin.name,
           email: superadmin.email,
           role_id: superadmin.role_id,
@@ -69,7 +59,6 @@ describe('AccountController', () => {
         name: superadmin.name,
         password: 'incorrect password',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/account/login').send(query);
 
@@ -88,22 +77,18 @@ describe('AccountController', () => {
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(createQuery1);
 
       const createResponse1 = await server
         .post('/account/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery1);
 
-      createResponse1.body.create_time = new Date(createResponse1.body.create_time);
-      createResponse1.body.update_time = new Date(createResponse1.body.update_time);
+      createResponse1.body = omitTime(createResponse1.body);
       expect(createResponse1.body).toMatchObject({
         name: 'account1',
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
         id: createResponse1.body.id,
-        create_time: createResponse1.body.create_time,
-        update_time: createResponse1.body.update_time,
       });
       account1 = createResponse1.body;
 
@@ -111,19 +96,15 @@ describe('AccountController', () => {
         name: account1.name,
         password: 'account1',
       };
-      validate.mockReturnValueOnce(loginQuery1);
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
+      loginResponse1.body.account = omitTime(loginResponse1.body.account);
 
       account1Login = loginResponse1.body;
-      account1Login.account.create_time = new Date(account1Login.account.create_time);
-      account1Login.account.update_time = new Date(account1Login.account.update_time);
       expect(account1Login).toMatchObject({
         token: account1Login.token,
         account: {
           id: account1.id,
-          create_time: account1.create_time,
-          update_time: account1.update_time,
           name: account1.name,
           email: account1.email,
           role_id: account1.role_id,
@@ -136,22 +117,18 @@ describe('AccountController', () => {
         email: 'account2@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(createQuery2);
 
       const createReponse2 = await server
         .post('/account/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(createQuery2);
 
-      createReponse2.body.create_time = new Date(createReponse2.body.create_time);
-      createReponse2.body.update_time = new Date(createReponse2.body.update_time);
+      createReponse2.body = omitTime(createReponse2.body);
       expect(createReponse2.body).toMatchObject({
         name: 'account2',
         email: 'account2@test.com',
         role_id: ROLE_TYPES.ADMIN,
         id: createReponse2.body.id,
-        create_time: createReponse2.body.create_time,
-        update_time: createReponse2.body.update_time,
       });
       account2 = createReponse2.body;
 
@@ -159,19 +136,15 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery2);
 
       const loginResponse2 = await server.post('/account/login').send(loginQuery2);
+      loginResponse2.body.account = omitTime(loginResponse2.body.account);
 
       account2Login = loginResponse2.body;
-      account2Login.account.create_time = new Date(account2Login.account.create_time);
-      account2Login.account.update_time = new Date(account2Login.account.update_time);
       expect(account2Login).toMatchObject({
         token: account2Login.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: account2.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,
@@ -186,7 +159,6 @@ describe('AccountController', () => {
         email: 'account1@test.com',
         role_id: ROLE_TYPES.ADMIN,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/create')
@@ -208,7 +180,6 @@ describe('AccountController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/list')
@@ -247,7 +218,6 @@ describe('AccountController', () => {
         pagination: { page: 1, pagesize: 20 },
         sort: [{ field: 'name', order: 'ASC' }],
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/list')
@@ -284,19 +254,15 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.AUTHOR,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account1.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
         name: 'account1_edited',
         email: 'account1_edited@test.com',
         role_id: ROLE_TYPES.AUTHOR,
@@ -312,7 +278,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -335,7 +300,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -358,7 +322,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.ADMIN,
         reset_password: false,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -381,7 +344,6 @@ describe('AccountController', () => {
         role_id: ROLE_TYPES.AUTHOR,
         reset_password: true,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
@@ -403,19 +365,15 @@ describe('AccountController', () => {
         reset_password: true,
         new_password: 'account1_edited_password',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/edit')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account1.id,
-        create_time: response.body.create_time,
-        update_time: response.body.update_time,
         name: 'account1_edited_password',
         email: 'account1_edited_password@test.com',
         role_id: ROLE_TYPES.ADMIN,
@@ -426,18 +384,14 @@ describe('AccountController', () => {
         name: 'account1_edited_password',
         password: 'account1_edited_password',
       };
-      validate.mockReturnValueOnce(loginQuery);
 
       const loginResponse = await server.post('/account/login').send(loginQuery);
 
-      loginResponse.body.account.create_time = new Date(loginResponse.body.account.create_time);
-      loginResponse.body.account.update_time = new Date(loginResponse.body.account.update_time);
+      loginResponse.body.account = omitTime(loginResponse.body.account);
       expect(loginResponse.body).toMatchObject({
         token: loginResponse.body.token,
         account: {
           id: account1.id,
-          create_time: account1.create_time,
-          update_time: loginResponse.body.account.update_time,
           name: account1.name,
           email: account1.email,
           role_id: account1.role_id,
@@ -451,7 +405,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -470,7 +423,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -484,7 +436,6 @@ describe('AccountController', () => {
       const query: AccountIDRequest = {
         id: account1.id,
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/delete')
@@ -503,19 +454,15 @@ describe('AccountController', () => {
         name: 'account2_updated',
         email: 'account2_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
         .set('Authorization', `Bearer ${account2Login.token}`)
         .send(query);
 
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
+      response.body = omitTime(response.body);
       expect(response.body).toMatchObject({
         id: account2.id,
-        create_time: account2.create_time,
-        update_time: response.body.update_time,
         name: 'account2_updated',
         email: 'account2_updated@test.com',
         role_id: ROLE_TYPES.ADMIN,
@@ -528,7 +475,6 @@ describe('AccountController', () => {
         name: 'account1_updated',
         email: 'account1_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
@@ -543,7 +489,6 @@ describe('AccountController', () => {
         name: 'superadmin_updated',
         email: 'superadmin_updated@test.com',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .put('/account/update')
@@ -560,19 +505,8 @@ describe('AccountController', () => {
   describe('get', () => {
     it('should return successfully', async () => {
       const response = await server.get('/account/get').set('Authorization', `Bearer ${superadminLogin.token}`).send();
-
-      response.body.create_time = new Date(response.body.create_time);
-      response.body.update_time = new Date(response.body.update_time);
-      expect(response.body).toMatchObject(
-        omit(
-          {
-            ...superadmin,
-            create_time: superadmin.create_time,
-            update_time: superadmin.update_time,
-          },
-          'password',
-        ),
-      );
+      response.body = omitTime(response.body);
+      expect(response.body).toMatchObject(omit(superadmin, ['password', 'create_time', 'update_time']));
     });
 
     it('should fail if not found', async () => {
@@ -588,7 +522,6 @@ describe('AccountController', () => {
         old_password: 'account2_old',
         new_password: 'account2_new',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server
         .post('/account/changepassword')
@@ -606,17 +539,14 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery1);
 
       const loginResponse1 = await server.post('/account/login').send(loginQuery1);
 
-      loginResponse1.body.account.create_time = new Date(loginResponse1.body.account.create_time);
+      loginResponse1.body.account = omitTime(loginResponse1.body.account);
       expect(loginResponse1.body).toMatchObject({
         token: loginResponse1.body.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: loginResponse1.body.account.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,
@@ -627,18 +557,15 @@ describe('AccountController', () => {
         old_password: 'account2',
         new_password: 'account2_new',
       };
-      validate.mockReturnValueOnce(changeQuery);
 
       const changeResponse = await server
         .post('/account/changepassword')
         .set('Authorization', `Bearer ${account2Login.token}`)
         .send(changeQuery);
 
-      changeResponse.body.create_time = new Date(changeResponse.body.create_time);
+      changeResponse.body = omitTime(changeResponse.body);
       expect(changeResponse.body).toMatchObject({
         id: account2.id,
-        create_time: account2.create_time,
-        update_time: changeResponse.body.update_time,
         name: account2.name,
         email: account2.email,
         role_id: account2.role_id,
@@ -648,7 +575,6 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2',
       };
-      validate.mockReturnValueOnce(loginQuery2);
 
       const loginResponse2 = await server.post('/account/login').send(loginQuery2);
 
@@ -661,17 +587,14 @@ describe('AccountController', () => {
         name: account2.name,
         password: 'account2_new',
       };
-      validate.mockReturnValueOnce(loginQuery3);
 
       const loginResponse3 = await server.post('/account/login').send(loginQuery3);
 
-      loginResponse3.body.account.create_time = new Date(loginResponse3.body.account.create_time);
+      loginResponse3.body.account = omitTime(loginResponse3.body.account);
       expect(loginResponse3.body).toMatchObject({
         token: loginResponse3.body.token,
         account: {
           id: account2.id,
-          create_time: account2.create_time,
-          update_time: loginResponse3.body.account.update_time,
           name: account2.name,
           email: account2.email,
           role_id: account2.role_id,

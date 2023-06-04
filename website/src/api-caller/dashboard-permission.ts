@@ -8,9 +8,12 @@ import {
 } from './dashboard-permission.types';
 import { post } from './request';
 
-export const DashboardPermissionAPI = {
-  list: async ({ filter, pagination }: ListDashboardPermissionReqType): Promise<ListDashboardPermissionRespType> => {
-    const resp: ListDashboardPermissionRespType = await post('/dashboard_permission/list', {
+export const dashboard_permission = {
+  list: async (
+    { filter, pagination }: ListDashboardPermissionReqType,
+    signal?: AbortSignal,
+  ): Promise<ListDashboardPermissionRespType> => {
+    const resp: ListDashboardPermissionRespType = await post(signal)('/dashboard_permission/list', {
       filter,
       sort: [
         {
@@ -30,9 +33,9 @@ export const DashboardPermissionAPI = {
     total: 0,
     offset: 0,
   },
-  get: async (id: string): Promise<DashboardPermissionDBType | null> => {
+  get: async (id: string, signal?: AbortSignal): Promise<DashboardPermissionDBType | null> => {
     try {
-      const resp: DashboardPermissionDBType = await post('/dashboard_permission/get', {
+      const resp: DashboardPermissionDBType = await post(signal)('/dashboard_permission/get', {
         id,
       });
       resp.create_time = dayjs(resp.create_time).format('YYYY-MM-DD HH:mm:ss');
@@ -43,12 +46,18 @@ export const DashboardPermissionAPI = {
       return null;
     }
   },
-  updateOwner: async (payload: UpdateDashboardOwnerPayloadType): Promise<DashboardPermissionDBType | null> => {
-    const resp: DashboardPermissionDBType = await post('/dashboard_permission/updateOwner', payload);
+  updateOwner: async (
+    payload: UpdateDashboardOwnerPayloadType,
+    signal?: AbortSignal,
+  ): Promise<DashboardPermissionDBType | null> => {
+    const resp: DashboardPermissionDBType = await post(signal)('/dashboard_permission/updateOwner', payload);
     return resp;
   },
-  update: async (payload: UpdatePermissionPayloadType): Promise<DashboardPermissionDBType | null> => {
-    const resp: DashboardPermissionDBType = await post('/dashboard_permission/update', payload);
+  update: async (
+    payload: UpdatePermissionPayloadType,
+    signal?: AbortSignal,
+  ): Promise<DashboardPermissionDBType | null> => {
+    const resp: DashboardPermissionDBType = await post(signal)('/dashboard_permission/update', payload);
     return resp;
   },
 };

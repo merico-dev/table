@@ -1,5 +1,5 @@
-import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn } from 'class-validator';
+import { ApiModel, ApiModelProperty } from 'swagger-express-ts';
+import { Length, IsString, IsOptional, ValidateNested, IsUUID, IsBoolean, IsIn, ValidateIf } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
 import { PermissionResource } from './dashboard_permission';
@@ -11,50 +11,41 @@ import { PermissionResource } from './dashboard_permission';
 export class Dashboard {
   @ApiModelProperty({
     description: 'Dashboard ID in uuid format',
-    required: false,
   })
   id: string;
 
   @ApiModelProperty({
     description: 'Name of the dashboard',
-    required: true,
   })
   name: string;
 
   @ApiModelProperty({
-    description: 'content of the dashboard stored in json object format',
-    required: true,
-    type: SwaggerDefinitionConstant.JSON,
+    description: 'dashboard content ID in uuid format',
   })
-  content: object | null;
+  content_id: string | null;
 
   @ApiModelProperty({
     description: 'whether the dashboard is removed or not',
-    required: false,
   })
   is_removed: boolean;
 
   @ApiModelProperty({
     description: 'whether the dashboard is preset or not',
-    required: false,
   })
   is_preset: boolean;
 
   @ApiModelProperty({
     description: 'Dashboard group',
-    required: false,
   })
   group: string;
 
   @ApiModelProperty({
     description: 'Create time',
-    required: false,
   })
   create_time: Date;
 
   @ApiModelProperty({
     description: 'Time of last update',
-    required: false,
   })
   update_time: Date;
 
@@ -214,14 +205,6 @@ export class DashboardCreateRequest {
   })
   name: string;
 
-  @IsObject()
-  @ApiModelProperty({
-    description: 'content of the dashboard stored in json object format',
-    required: true,
-    type: SwaggerDefinitionConstant.JSON,
-  })
-  content: Record<string, any>;
-
   @IsString()
   @ApiModelProperty({
     description: 'Dashboard group',
@@ -262,13 +245,13 @@ export class DashboardUpdateRequest {
   name?: string;
 
   @IsOptional()
-  @IsObject()
+  @IsUUID()
+  @ValidateIf((_object, value) => value !== null)
   @ApiModelProperty({
-    description: 'content of the dashboard stored in json object format',
+    description: 'dashboard content ID in uuid format',
     required: false,
-    type: SwaggerDefinitionConstant.JSON,
   })
-  content?: Record<string, any>;
+  content_id?: string | null;
 
   @IsOptional()
   @IsBoolean()

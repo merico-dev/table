@@ -1,11 +1,11 @@
 import { IDashboard } from '@devtable/dashboard';
-import { IDBDashboard } from './dashboard.typed';
+import { TDashboardMetaInfo } from './dashboard.typed';
 import { post, put } from './request';
 import { PaginationResponse } from './types';
 
-export const DashboardAPI = {
-  list: async (): Promise<PaginationResponse<IDBDashboard>> => {
-    return await post('/dashboard/list', {
+export const dashboard = {
+  list: async (signal?: AbortSignal): Promise<PaginationResponse<TDashboardMetaInfo>> => {
+    return await post(signal)('/dashboard/list', {
       filter: {
         is_removed: false,
       },
@@ -21,72 +21,39 @@ export const DashboardAPI = {
       },
     });
   },
-  details: async (id: string): Promise<IDBDashboard> => {
-    return await post(`/dashboard/details`, { id });
+  details: async (id: string, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
+    return post(signal)(`/dashboard/details`, { id });
   },
-  update: async ({
-    id,
-    name,
-    group,
-    definition,
-    views,
-    panels,
-    filters,
-    version,
-  }: IDashboard): Promise<IDBDashboard> => {
+  update: async ({ id, name, group, content_id }: IDashboard, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
     const payload = {
       id,
       name,
       group,
-      content: {
-        views,
-        panels,
-        filters,
-        version,
-        definition,
-      },
+      content_id,
     };
-    return await put('/dashboard/update', payload);
+    return put(signal)('/dashboard/update', payload);
   },
-  rename: async ({ id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>): Promise<IDBDashboard> => {
+  rename: async (
+    { id, name, group }: Pick<IDashboard, 'id' | 'name' | 'group'>,
+    signal?: AbortSignal,
+  ): Promise<TDashboardMetaInfo> => {
     const payload = {
       id,
       name,
       group,
     };
-    return await put('/dashboard/update', payload);
+    return put(signal)('/dashboard/update', payload);
   },
-  create: async (name: string, group: string, content?: IDBDashboard['content']): Promise<IDBDashboard> => {
-    if (!content) {
-      content = {
-        definition: {
-          sqlSnippets: [],
-          queries: [],
-          mock_context: {},
-        },
-        views: [
-          {
-            id: 'Main',
-            name: 'Main',
-            type: 'div',
-            config: {},
-          },
-        ],
-        panels: [],
-        filters: [],
-        version: '8.57.0',
-      };
-    }
-    return await post('/dashboard/create', {
+  create: async (name: string, group: string, signal?: AbortSignal): Promise<TDashboardMetaInfo> => {
+    return post(signal)('/dashboard/create', {
       name,
       group,
-      content,
     });
   },
-  delete: async (id: string): Promise<void> => {
+  delete: async (id: string, signal?: AbortSignal): Promise<void> => {
     if (!id) {
       return;
     }
-    return await post('/dashboard/delete', { id });
+    return post(signal)('/dashboard/delete', { id });
   },
 };

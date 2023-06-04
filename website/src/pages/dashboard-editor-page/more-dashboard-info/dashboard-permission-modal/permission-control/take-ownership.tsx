@@ -2,7 +2,7 @@ import { Button } from '@mantine/core';
 import { IconShieldLock } from '@tabler/icons';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { DashboardPermissionAPI } from '../../../../../api-caller/dashboard-permission';
+import { APICaller } from '../../../../../api-caller';
 import { useAccountContext } from '../../../../../frames/require-auth/account-context';
 import { PermissionModelInstance } from '../model';
 
@@ -15,7 +15,7 @@ export const TakeOwnership = observer(({ model }: ITakeOwnership) => {
   const [loading, { setTrue, setFalse }] = useBoolean(false);
   const take = async () => {
     setTrue();
-    await DashboardPermissionAPI.updateOwner({ id: model.id, owner_id: account.id, owner_type: 'ACCOUNT' });
+    await APICaller.dashboard_permission.updateOwner({ id: model.id, owner_id: account.id, owner_type: 'ACCOUNT' });
     setFalse();
     model.load();
   };

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { PanelModelInstance } from '~/model/panels';
 import { ViewModelInstance } from '~/model';
-import { LayoutStateContext, useModelContext } from '../contexts';
+import { LayoutStateContext, useContentModelContext } from '../contexts';
 import { PanelContextProvider } from '../contexts/panel-context';
 import './index.css';
 import { DescriptionPopover } from './panel-description';
@@ -46,7 +46,7 @@ function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, 
 }
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { inEditMode } = useContext(LayoutStateContext);
 
   const { data, state, error } = model.getDataStuffByID(panel.queryID);

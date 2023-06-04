@@ -10,6 +10,7 @@ export const DashboardBriefModel = types
     is_preset: types.maybe(types.boolean),
     owner_id: types.maybeNull(types.string),
     owner_type: types.maybeNull(types.enumeration(['ACCOUNT', 'APIKEY'])),
+    content_id: types.maybeNull(types.string),
     access: types.array(PermissionAccessModel),
     // for simplicity, use string for the date time type for now
     create_time: types.string,

@@ -1,10 +1,9 @@
-import { IAccount } from '@devtable/settings-form';
 import { IStyles } from '@devtable/settings-form/dist/account/styles';
 import { Box, Button, Group, LoadingOverlay, Modal, PasswordInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useBoolean } from 'ahooks';
 import { Controller, useForm } from 'react-hook-form';
-import { AccountAPI } from '../../api-caller/account';
+import { APICaller } from '../../api-caller';
 
 const defaultStyles: IStyles = {
   size: 'sm',
@@ -44,7 +43,7 @@ function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePassw
         message: 'Changing password...',
         loading: true,
       });
-      await AccountAPI.changepassword(old_password, new_password);
+      await APICaller.account.changepassword(old_password, new_password);
       updateNotification({
         id: 'for-updating',
         title: 'Successful',

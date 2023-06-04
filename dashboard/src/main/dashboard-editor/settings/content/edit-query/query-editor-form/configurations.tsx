@@ -36,10 +36,20 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
         <Divider mt={10} mb={-10} variant="dashed" label="Conditions" labelPosition="center" />
         <MultiSelect
           label="Run query when these are truthy"
+          placeholder="Always run this query on load"
           data={queryModel.conditionOptions}
           value={[...queryModel.run_by]}
           onChange={queryModel.setRunBy}
         />
+        {queryModel.typedAsHTTP && (
+          <MultiSelect
+            label="Re-run query when these changed"
+            placeholder="Leave it empty to never re-run this query"
+            data={queryModel.conditionOptions}
+            value={[...queryModel.react_to]}
+            onChange={queryModel.setReactTo}
+          />
+        )}
 
         <Divider mt={20} mb={10} variant="dashed" />
         <DeleteQuery queryModel={queryModel} />

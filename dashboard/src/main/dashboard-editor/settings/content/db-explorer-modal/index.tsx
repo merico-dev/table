@@ -22,6 +22,9 @@ interface IDBExplorerModal {
 export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }: IDBExplorerModal) => {
   const [opened, setOpened] = useState(false);
 
+  if (dataSource.type === 'http') {
+    return null;
+  }
   return (
     <>
       <Modal

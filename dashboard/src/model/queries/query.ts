@@ -6,6 +6,12 @@ import { queryByHTTP, queryBySQL, QueryFailureError } from '../../api-caller';
 import { explainSQL } from '../../utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
+import {
+  explainHTTPRequest,
+  postProcessWithDataSource,
+  postProcessWithQuery,
+  preProcessWithDataSource,
+} from '~/utils/http-query';
 
 export const QueryModel = types
   .compose(
@@ -20,7 +26,7 @@ export const QueryModel = types
   .views((self) => ({
     get formattedSQL() {
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+      const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).content.payloadForSQL;
       return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
     },
     get typedAsSQL() {
@@ -33,6 +39,18 @@ export const QueryModel = types
       const { key, type } = self;
       // @ts-expect-error untyped getRoot(self)
       return getRoot(self).datasources.find({ type, key });
+    },
+    get httpConfigString() {
+      // @ts-expect-error untyped getRoot(self)
+      const { context, mock_context, filterValues } = getRoot(self).content.payloadForSQL;
+      const { name, pre_process } = self.json;
+
+      const config = explainHTTPRequest(pre_process, context, mock_context, filterValues);
+      console.groupCollapsed(`Request config for: ${name}`);
+      console.log(config);
+      console.groupEnd();
+
+      return JSON.stringify(config);
     },
   }))
   .views((self) => ({
@@ -82,7 +100,7 @@ export const QueryModel = types
         self.state = 'loading';
         try {
           // @ts-expect-error untyped getRoot(self)
-          const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).payloadForSQL;
+          const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).content.payloadForSQL;
           self.data = yield* toGenerator(
             queryBySQL(
               {
@@ -108,7 +126,6 @@ export const QueryModel = types
         }
       }),
       runHTTP: flow(function* () {
-        console.log('runHTTP, ', self.datasource);
         if (!self.valid || !self.datasource) {
           return;
         }
@@ -120,20 +137,24 @@ export const QueryModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          // @ts-expect-error untyped getRoot(self)
-          const { context, mock_context, filterValues } = getRoot(self).payloadForSQL;
-          self.data = yield* toGenerator(
+          const { type, key, post_process } = self.json;
+          let config = JSON.parse(self.httpConfigString);
+          config = preProcessWithDataSource(self.datasource, config);
+
+          const res = yield* toGenerator(
             queryByHTTP(
               {
-                context,
-                mock_context,
-                query: self.json,
-                filterValues,
-                datasource: self.datasource,
+                type,
+                key,
+                configString: JSON.stringify(config),
               },
               self.controller.signal,
             ),
           );
+          let data = postProcessWithDataSource(self.datasource, res);
+          data = postProcessWithQuery(post_process, data);
+
+          self.data = data;
           self.state = 'idle';
           self.error = null;
         } catch (error) {
@@ -150,7 +171,9 @@ export const QueryModel = types
   })
   .actions((self) => {
     return {
-      fetchData: self.typedAsHTTP ? self.runHTTP : self.runSQL,
+      fetchData: () => {
+        return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
+      },
       beforeDestroy() {
         self.controller?.abort();
       },
@@ -163,7 +186,7 @@ export const QueryModel = types
         reaction(
           () => {
             if (self.typedAsHTTP) {
-              return `${self.id}--${self.key}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
+              return `${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
             return `${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
           },

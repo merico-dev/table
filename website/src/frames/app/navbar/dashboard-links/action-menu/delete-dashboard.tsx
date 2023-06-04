@@ -4,7 +4,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { Trash } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../../../api-caller/dashboard';
+import { APICaller } from '../../../../../api-caller';
 import { useDashboardStore } from '../../../models/dashboard-store-context';
 
 export const DeleteDashboard = observer(({ id }: { id: string }) => {
@@ -22,7 +22,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
       message: 'Deleting dashboard...',
       loading: true,
     });
-    await DashboardAPI.delete(id);
+    await APICaller.dashboard.delete(id);
     updateNotification({
       id: 'for-deleting',
       title: 'Successful',

@@ -46,10 +46,10 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER))
+  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DashboardListRequest))
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { filter, sort, pagination } = validate(DashboardListRequest, req.body);
+      const { filter, sort, pagination } = req.body as DashboardListRequest;
       const result = await this.dashboardService.list(filter, sort, pagination, req.body.auth);
       res.json(result);
     } catch (err) {
@@ -68,11 +68,11 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/create', permission(ROLE_TYPES.AUTHOR), validate(DashboardCreateRequest))
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, content, group } = validate(DashboardCreateRequest, req.body);
-      const result = await this.dashboardService.create(name, content, group, req.locale, req.body.auth);
+      const { name, group } = req.body as DashboardCreateRequest;
+      const result = await this.dashboardService.create(name, group, req.locale, req.body.auth);
       res.json(result);
     } catch (err) {
       next(err);
@@ -91,10 +91,10 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/details', permission(ROLE_TYPES.READER))
+  @httpPost('/details', permission(ROLE_TYPES.READER), validate(DashboardIDRequest))
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { id } = validate(DashboardIDRequest, req.body);
+      const { id } = req.body as DashboardIDRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'VIEW',
@@ -122,10 +122,10 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/detailsByName', permission(ROLE_TYPES.READER))
+  @httpPost('/detailsByName', permission(ROLE_TYPES.READER), validate(DashboardNameRequest))
   public async detailsByName(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { name, is_preset } = validate(DashboardNameRequest, req.body);
+      const { name, is_preset } = req.body as DashboardNameRequest;
       const result = await this.dashboardService.getByName(name, is_preset);
       await DashboardPermissionService.checkPermission(
         result.id,
@@ -153,11 +153,11 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.AUTHOR))
+  @httpPut('/update', permission(ROLE_TYPES.AUTHOR), validate(DashboardUpdateRequest))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id, name, content, is_removed, group } = validate(DashboardUpdateRequest, req.body);
+      const { id, name, content_id, is_removed, group } = req.body as DashboardUpdateRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
@@ -169,7 +169,7 @@ export class DashboardController implements interfaces.Controller {
       const result = await this.dashboardService.update(
         id,
         name,
-        content,
+        content_id,
         is_removed,
         group,
         req.locale,
@@ -199,11 +199,11 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR))
+  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR), validate(DashboardIDRequest))
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
-      const { id } = validate(DashboardIDRequest, req.body);
+      const { id } = req.body as DashboardIDRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',

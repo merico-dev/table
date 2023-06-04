@@ -1,15 +1,32 @@
+import { TDashboardContent } from '@devtable/dashboard';
 import { Box, Button, FileInput, Group, LoadingOverlay } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { DashboardAPI } from '../../../../../../api-caller/dashboard';
+import { APICaller } from '../../../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../../../utils/validate-dashboard-json';
 import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
 
-type TDashboardContent_Temp = Record<string, $TSFixMe> | null; // FIXME: can't use IDashboard, need to fix IDashboard type def first;
+async function createContent(dashboard: DashboardBriefModelInstance, content: TDashboardContent) {
+  const c = await APICaller.dashboard_content.create({ name: 'v1', content, dashboard_id: dashboard.id });
+  const { id, name, group } = dashboard;
+  await APICaller.dashboard.update({ content_id: c.id, id, name, group });
+}
+
+async function overwriteContent(dashboard: DashboardBriefModelInstance, content: TDashboardContent) {
+  const { content_id } = dashboard;
+  if (!content_id) {
+    return await createContent(dashboard, content);
+  }
+  const c = await APICaller.dashboard_content.details(content_id);
+  if (!c) {
+    return await createContent(dashboard, content);
+  }
+  await APICaller.dashboard_content.update({ ...c, content });
+}
 
 interface IFormValues {
-  content: TDashboardContent_Temp;
+  content: TDashboardContent | null;
 }
 
 export function OverwriteWithJSONForm({
@@ -46,9 +63,7 @@ export function OverwriteWithJSONForm({
       if (!content) {
         throw new Error('please use a valid json file');
       }
-      const { id, name, group } = dashboard;
-      // @ts-expect-error type mismatch
-      await DashboardAPI.update({ ...content, id, name, group });
+      await overwriteContent(dashboard, content);
       updateNotification({
         id: 'for-updating',
         title: 'Successful',
@@ -102,7 +117,7 @@ export function OverwriteWithJSONForm({
       <LoadingOverlay visible={pending} />
       <form onSubmit={handleSubmit(updateDashboardWithJSON)}>
         <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
-        <Group position="right" mt="md">
+        <Group position="right" my="md">
           <Button type="submit" disabled={disabled}>
             Confirm
           </Button>

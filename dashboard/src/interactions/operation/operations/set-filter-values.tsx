@@ -1,7 +1,7 @@
 import { ActionIcon, Button, Flex, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Trash } from 'tabler-icons-react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
@@ -13,7 +13,7 @@ export interface ISetFilterValuesOperationConfig {
 const defaultValue: ISetFilterValuesOperationConfig = { dictionary: {} };
 
 const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps) => {
-  const model = useModelContext();
+  const model = useContentModelContext();
   const { value = defaultValue, set } = useStorageData<ISetFilterValuesOperationConfig>(
     props.operation.operationData,
     'config',

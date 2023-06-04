@@ -1,35 +1,14 @@
 import axios, { Method } from 'axios';
-import CryptoJS from 'crypto-js';
+import { DataSourceType } from '~/model/queries/types';
+import { AnyObject } from '..';
+import { cryptSign } from './utils';
 
-function marshall(params: Record<string, $TSFixMe>) {
-  params = params || {};
-  const keys = Object.keys(params).sort();
-  const kvs = [];
-  for (let i = 0; i < keys.length; i++) {
-    const k = keys[i];
-    if (k != 'authentication' && params[k]) {
-      kvs.push(keys[i] + '=' + (typeof params[k] == 'object' ? JSON.stringify(params[k]) : params[k]));
-    } else {
-      const authKeys = Object.keys(params[k]).sort();
-      for (let j = 0; j < authKeys.length; j++) {
-        const ak = authKeys[j];
-        if (ak != 'sign' && params[k][ak]) {
-          kvs.push(
-            authKeys[j] + '=' + (typeof params[k][ak] == 'object' ? JSON.stringify(params[k][ak]) : params[k][ak]),
-          );
-        }
-      }
-    }
-  }
-  return kvs.sort().join('&');
-}
-
-function cryptSign(params: Record<string, $TSFixMe>, appsecret: string) {
-  let temp = marshall(params);
-  temp += '&key=' + appsecret;
-  const sign = CryptoJS.MD5(temp).toString();
-  return sign.toUpperCase();
-}
+type TQueryPayload = {
+  type: DataSourceType;
+  key: string;
+  query: string;
+  env?: AnyObject;
+};
 
 export const APIClient = {
   baseURL: 'http://localhost:31200',
@@ -86,6 +65,15 @@ export const APIClient = {
         });
     };
   },
+  makeQueryENV: null as null | (() => AnyObject),
+  query(signal?: AbortSignal) {
+    return async (data: TQueryPayload, options: AnyObject = {}) => {
+      if (!data.env) {
+        data.env = this.makeQueryENV?.() ?? { error: 'failed to run makeQueryENV' };
+      }
+      return this.getRequest('POST', signal)('/query', data, options);
+    };
+  },
 };
 
 export function configureAPIClient(config: IDashboardConfig) {
@@ -97,5 +85,8 @@ export function configureAPIClient(config: IDashboardConfig) {
   }
   if (config.app_secret) {
     APIClient.app_secret = config.app_secret;
+  }
+  if (config.makeQueryENV) {
+    APIClient.makeQueryENV = config.makeQueryENV;
   }
 }

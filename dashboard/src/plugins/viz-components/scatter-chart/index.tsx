@@ -69,8 +69,13 @@ function v7(legacyConf: $TSFixMe): IScatterChartConf {
   };
 }
 
+function v8(legacyConf: $TSFixMe): IScatterChartConf {
+  const patch = { tooltip: { trigger: 'item' } };
+  return _.defaultsDeep({}, legacyConf, patch);
+}
+
 class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 8;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -109,6 +114,10 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 7, config: v7(config) };
     });
+    this.version(8, (data) => {
+      const { config } = data;
+      return { ...data, version: 8, config: v8(config) };
+    });
   }
 }
 
@@ -121,7 +130,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartEditor,
   createConfig() {
     return {
-      version: 7,
+      version: 8,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },

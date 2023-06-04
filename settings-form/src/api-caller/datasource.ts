@@ -29,6 +29,12 @@ export const datasource = {
       config,
     });
   },
+  update: async (id: string, config: TDataSourceConfig): Promise<PaginationResponse<IDataSource>> => {
+    return await APIClient.getRequest('PUT')('/datasource/update', {
+      id,
+      config,
+    });
+  },
   delete: async (id: string): Promise<void> => {
     await APIClient.getRequest('POST')('/datasource/delete', { id });
   },

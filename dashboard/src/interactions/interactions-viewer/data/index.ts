@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { DashboardModelInstance } from '~/model';
 import { makeEdges } from './edges';
 import { makeNodes } from './nodes';
 import { reposition } from './position';
+import { ContentModelInstance } from '~/model';
 
-export function makeNodesAndEdges(model: DashboardModelInstance) {
+export function makeNodesAndEdges(model: ContentModelInstance) {
   const staticNodes = makeNodes(model);
   const staticNodeMap = _.keyBy(staticNodes, (n) => n.id);
   const { edges, edgeNodes } = makeEdges(model, staticNodeMap);

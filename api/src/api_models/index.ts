@@ -65,6 +65,41 @@ import {
   DashboardPermissionUpdateRequest,
   PermissionResource,
 } from './dashboard_permission';
+import {
+  DashboardContent,
+  DashboardContentCreateRequest,
+  DashboardContentListRequest,
+  DashboardContentFilterObject,
+  DashboardContentPaginationResponse,
+  DashboardContentSortObject,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+} from './dashboard_content';
+import {
+  DashboardContentChangelog,
+  DashboardContentChangelogFilterObject,
+  DashboardContentChangelogListRequest,
+  DashboardContentChangelogPaginationResponse,
+  DashboardContentChangelogSortObject,
+} from './dashboard_content_changelog';
+import {
+  CustomFunction,
+  CustomFunctionCreateOrUpdateRequest,
+  CustomFunctionFilterObject,
+  CustomFunctionIDRequest,
+  CustomFunctionListRequest,
+  CustomFunctionPaginationResponse,
+  CustomFunctionSortObject,
+} from './custom_function';
+import {
+  SqlSnippet,
+  SqlSnippetCreateOrUpdateRequest,
+  SqlSnippetFilterObject,
+  SqlSnippetIDRequest,
+  SqlSnippetListRequest,
+  SqlSnippetPaginationResponse,
+  SqlSnippetSortObject,
+} from './sql_snippet';
 import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
@@ -144,4 +179,35 @@ export default {
   DashboardOwnerUpdateRequest,
   DashboardPermissionUpdateRequest,
   PermissionResource,
+
+  DashboardContent,
+  DashboardContentCreateRequest,
+  DashboardContentListRequest,
+  DashboardContentFilterObject,
+  DashboardContentPaginationResponse,
+  DashboardContentSortObject,
+  DashboardContentIDRequest,
+  DashboardContentUpdateRequest,
+
+  DashboardContentChangelog,
+  DashboardContentChangelogFilterObject,
+  DashboardContentChangelogListRequest,
+  DashboardContentChangelogPaginationResponse,
+  DashboardContentChangelogSortObject,
+
+  CustomFunction,
+  CustomFunctionCreateOrUpdateRequest,
+  CustomFunctionFilterObject,
+  CustomFunctionIDRequest,
+  CustomFunctionListRequest,
+  CustomFunctionPaginationResponse,
+  CustomFunctionSortObject,
+
+  SqlSnippet,
+  SqlSnippetCreateOrUpdateRequest,
+  SqlSnippetFilterObject,
+  SqlSnippetIDRequest,
+  SqlSnippetListRequest,
+  SqlSnippetPaginationResponse,
+  SqlSnippetSortObject,
 };

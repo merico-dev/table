@@ -3,14 +3,14 @@ import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 
 export const EditMockContext = observer(() => {
-  const model = useModelContext();
-  const [v, setV] = useState(() => JSON.stringify(model.mock_context.current, null, 4));
+  const content = useContentModelContext();
+  const [v, setV] = useState(() => JSON.stringify(content.mock_context.current, null, 4));
   const submit = () => {
     try {
-      model.mock_context.replace(JSON.parse(v));
+      content.mock_context.replace(JSON.parse(v));
     } catch (error) {
       showNotification({
         title: 'Failed',
@@ -23,11 +23,11 @@ export const EditMockContext = observer(() => {
 
   const changed = useMemo(() => {
     try {
-      return JSON.stringify(JSON.parse(v)) !== JSON.stringify(model.mock_context.current);
+      return JSON.stringify(JSON.parse(v)) !== JSON.stringify(content.mock_context.current);
     } catch (error) {
       return false;
     }
-  }, [v, model.mock_context.current]);
+  }, [v, content.mock_context.current]);
 
   return (
     <Stack sx={{ border: '1px solid #eee', borderLeft: 'none', borderRight: 'none', flexGrow: 1, maxWidth: 'unset' }}>

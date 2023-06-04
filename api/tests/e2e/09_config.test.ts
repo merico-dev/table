@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import { connectionHook, createAuthStruct } from './jest.util';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { dashboardDataSource } from '~/data_sources/dashboard';
@@ -20,14 +19,11 @@ describe('ConfigController', () => {
   let apiKey: ApiKey;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query1: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query1);
 
     const response1 = await server.post('/account/login').send(query1);
 
@@ -44,7 +40,6 @@ describe('ConfigController', () => {
       name: account.name,
       password: '12345678',
     };
-    validate.mockReturnValueOnce(query2);
 
     const response2 = await server.post('/account/login').send(query2);
 
@@ -60,16 +55,11 @@ describe('ConfigController', () => {
     await dashboardDataSource.getRepository(Config).save(config);
   });
 
-  beforeEach(() => {
-    validate.mockReset();
-  });
-
   describe('get', () => {
     it('should return default locale when not authenticated or not updated', async () => {
       const request1: ConfigGetRequest = {
         key: 'lang',
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server.post('/config/get').send(request1);
 
@@ -81,13 +71,11 @@ describe('ConfigController', () => {
       const authentication = createAuthStruct(apiKey, {
         key: 'lang',
       });
-      validate.mockReturnValueOnce(authentication);
 
       const request2: ConfigGetRequest = {
         key: 'lang',
         authentication,
       };
-      validate.mockReturnValueOnce(request2);
 
       const response2 = await server.post('/config/get').send(request2);
 
@@ -99,7 +87,6 @@ describe('ConfigController', () => {
       const request3: ConfigGetRequest = {
         key: 'website_settings',
       };
-      validate.mockReturnValueOnce(request3);
 
       const response3 = await server.post('/config/get').send(request3);
 
@@ -114,7 +101,6 @@ describe('ConfigController', () => {
       const request1: ConfigGetRequest = {
         key: 'lang',
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server
         .post('/config/get')
@@ -134,7 +120,6 @@ describe('ConfigController', () => {
         key: 'lang',
         value: 'en',
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server
         .post('/config/update')
@@ -150,14 +135,12 @@ describe('ConfigController', () => {
         key: 'lang',
         value: 'zh',
       });
-      validate.mockReturnValueOnce(authentication);
 
       const request2: ConfigUpdateRequest = {
         key: 'lang',
         value: 'zh',
         authentication,
       };
-      validate.mockReturnValueOnce(request2);
 
       const response2 = await server.post('/config/update').send(request2);
 
@@ -170,7 +153,6 @@ describe('ConfigController', () => {
         key: 'website_settings',
         value: '',
       };
-      validate.mockReturnValueOnce(request3);
 
       const response3 = await server
         .post('/config/update')
@@ -219,7 +201,6 @@ describe('ConfigController', () => {
         key: 'lang',
         value: 'incorrect_lang',
       };
-      validate.mockReturnValueOnce(request);
 
       const response = await server
         .post('/config/update')
@@ -237,7 +218,6 @@ describe('ConfigController', () => {
         key: 'lang',
         value: 'en',
       };
-      validate.mockReturnValueOnce(request1);
 
       const response1 = await server.post('/config/update').send(request1);
 
@@ -250,7 +230,6 @@ describe('ConfigController', () => {
         key: 'website_settings',
         value: '',
       };
-      validate.mockReturnValueOnce(request2);
 
       const response2 = await server.post('/config/update').send(request2);
 
@@ -265,7 +244,6 @@ describe('ConfigController', () => {
         key: 'website_settings',
         value: '',
       };
-      validate.mockReturnValueOnce(request);
 
       const response = await server
         .post('/config/update')

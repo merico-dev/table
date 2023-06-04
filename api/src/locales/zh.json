@@ -2,7 +2,7 @@
   "ACCOUNT_NO_DELETE_SELF": "无法删掉自己的账户",
   "ACCOUNT_NO_EDIT_SELF": "无法用这个接口修改自己的账户. 请用 /account/update",
   "ACCOUNT_NO_ADD_SIMILAR_OR_HIGHER_PRIVILEGES": "无法添加具有类似或更高权限的帐户",
-  "ACCOUNT_INVALID_CREDENTIALS": "域相关参数设置有误",
+  "ACCOUNT_INVALID_CREDENTIALS": "账号或密码错误",
   "ACCOUNT_NO_EDIT_SUPERADMIN": "无法编辑超级管理员详细信息",
   "ACCOUNT_NO_EDIT_SIMILAR_OR_HIGHER_PRIVILEGES": "无法编辑具有与自己帐户类似或更高权限的帐户",
   "ACCOUNT_NO_CHANGE_SIMILAR_OR_HIGHER_PRIVILEGES": "无法将帐户权限更改为类似或高于自己的帐户",
@@ -17,6 +17,7 @@
   "DATASOURCE_NO_DELETE_PRESET": "无法删除预设数据源",
   "DATASOURCE_CONNECTION_TEST_FAILED": "数据源测试连接失败",
   "DATASOURCE_TYPE_KEY_ALREADY_EXISTS": "具有该类型和密钥的数据源已存在",
+  "DATASOURCE_ONLY_HTTP_IS_EDITABLE": "只有HTTP数据源可以编辑",
   "AUTH_NOT_ENABLED": "未启用身份验证系统",
   "AUTH_MUST_BEARER": "必须使用Bearer进行身份验证",
   "APIKEY_NO_DELETE_PRESET": "无法删除预设apikey",
@@ -33,5 +34,13 @@
   "DASHBOARD_PERMISSION_FORBIDDEN": "报表的权限不足",
   "DASHBOARD_OWNER_INSUFFICIENT_PRIVILEGES": "资源没有足够的权限获得报表所有权",
   "DASHBOARD_PERMISSION_MISSING_APIKEY": "有一些apikey找不到",
-  "DASHBOARD_PERMISSION_MISSING_ACCOUNT": "有一些账户找不到"
+  "DASHBOARD_PERMISSION_MISSING_ACCOUNT": "有一些账户找不到",
+  "DASHBOARD_CONTENT_NAME_ALREADY_EXISTS": "具有该名称的报表内容已存在",
+  "DASHBOARD_CONTENT_EDIT_REQUIRES_SUPERADMIN": "只有超级管理员才能编辑预设报表内容",
+  "DASHBOARD_CONTENT_DELETE_REQUIRES_SUPERADMIN": "只有超级管理员才能删除预设报表内容",
+  "DASHBOARD_CONTENT_DOES_NOT_EXIST": "目标报表内容不存在",
+  "CUSTOM_FUNCTION_NO_EDIT_PRESET": "不能修改预设自定义函数",
+  "CUSTOM_FUNCTION_NO_DELETE_PRESET": "不能删除预设自定义函数",
+  "SQL_SNIPPET_NO_EDIT_PRESET": "不能修改预设sql snippets",
+  "SQL_SNIPPET_NO_DELETE_PRESET": "不能删除预设sql snippets"
 }

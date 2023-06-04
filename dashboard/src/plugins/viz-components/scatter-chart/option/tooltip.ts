@@ -5,16 +5,28 @@ import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
 
+function formatXAxisLabel(value: string | number, index: number, conf: IScatterChartConf) {
+  const { x_axis } = conf;
+  if (!x_axis.axisLabel.formatter.enabled) {
+    return value;
+  }
+  return getEchartsXAxisLabel(x_axis.axisLabel.formatter)(value, index);
+}
+
 function getXAxisLabel(params: AnyObject[], conf: IScatterChartConf) {
+  const { x_axis, tooltip } = conf;
+  if (tooltip.trigger === 'item') {
+    const axisValue = params[0].data[x_axis.data_key];
+    const axisIndex = 0;
+    return formatXAxisLabel(axisValue, axisIndex, conf);
+  }
+
   const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');
   if (!basis) {
     return '';
   }
-  const { name, axisValue, axisIndex } = basis;
-  if (!conf.x_axis.axisLabel.formatter.enabled) {
-    return axisValue;
-  }
-  return getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter)(axisValue, axisIndex);
+  const { axisValue, axisIndex } = basis;
+  return formatXAxisLabel(axisValue, axisIndex, conf);
 }
 
 const formatAdditionalMetric = (v: number) => {
@@ -29,9 +41,10 @@ const formatAdditionalMetric = (v: number) => {
 };
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
-  const { scatter } = conf;
+  const { scatter, tooltip } = conf;
   return {
     confine: true,
+    trigger: tooltip.trigger,
     formatter: function (params: TopLevelFormatterParams) {
       const yLabelFormatter = labelFormatters[0] ?? labelFormatters.default;
       const arr = Array.isArray(params) ? params : [params];

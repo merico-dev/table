@@ -30,10 +30,10 @@ export class ConfigController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/get')
+  @httpPost('/get', validate(ConfigGetRequest))
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { key } = validate(ConfigGetRequest, req.body);
+      const { key } = req.body as ConfigGetRequest;
       const result = await this.configService.get(key, req.body.auth);
       res.json(result);
     } catch (err) {
@@ -52,10 +52,10 @@ export class ConfigController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/update')
+  @httpPost('/update', validate(ConfigUpdateRequest))
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { key, value } = validate(ConfigUpdateRequest, req.body);
+      const { key, value } = req.body as ConfigUpdateRequest;
       const result = await this.configService.update(key, value, req.body.auth, req.locale);
       res.json(result);
     } catch (err) {

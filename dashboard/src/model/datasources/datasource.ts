@@ -55,8 +55,7 @@ export const DataSourceModel = types
       self.tables.state = 'loading';
       try {
         const tables: TableInfoType[] = yield* toGenerator(
-          APIClient.getRequest('POST', self.controllers.tables.signal)(
-            '/query',
+          APIClient.query(self.controllers.tables.signal)(
             { type: self.type, key: self.key, query: self.tables.sql },
             {},
           ),
@@ -89,8 +88,7 @@ export const DataSourceModel = types
         self.columns.state = 'loading';
         try {
           self.columns.data = yield* toGenerator(
-            APIClient.getRequest('POST', self.controllers.columns.signal)(
-              '/query',
+            APIClient.query(self.controllers.columns.signal)(
               { type: self.type, key: self.key, query: self.columns.sql },
               {},
             ),
@@ -115,8 +113,7 @@ export const DataSourceModel = types
         self.indexes.state = 'loading';
         try {
           self.indexes.data = yield* toGenerator(
-            APIClient.getRequest('POST', self.controllers.indexes.signal)(
-              '/query',
+            APIClient.query(self.controllers.indexes.signal)(
               { type: self.type, key: self.key, query: self.indexes.sql },
               {},
             ),
@@ -142,15 +139,10 @@ export const DataSourceModel = types
         m.state = 'loading';
         try {
           m.data = yield* toGenerator(
-            APIClient.getRequest('POST', self.controllers.tableData.signal)(
-              '/query',
-              { type: self.type, key: self.key, query: m.sql },
-              {},
-            ),
+            APIClient.query(self.controllers.tableData.signal)({ type: self.type, key: self.key, query: m.sql }, {}),
           );
           const [{ total }] = yield* toGenerator(
-            APIClient.getRequest('POST', self.controllers.tableData.signal)(
-              '/query',
+            APIClient.query(self.controllers.tableData.signal)(
               { type: self.type, key: self.key, query: m.countSql },
               {},
             ),

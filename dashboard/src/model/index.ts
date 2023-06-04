@@ -5,3 +5,4 @@ export * from './context';
 export * from './dashboard';
 export * from './views';
 export * from './panels';
+export * from './content';

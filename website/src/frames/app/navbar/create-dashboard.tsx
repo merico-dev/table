@@ -6,8 +6,39 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PlaylistAdd } from 'tabler-icons-react';
-import { DashboardAPI } from '../../../api-caller/dashboard';
+import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
+import { initialDashboardContent } from '@devtable/dashboard';
+
+async function getInitialContent({
+  idToDuplicate,
+  options,
+}: {
+  idToDuplicate?: string;
+  options: { label: string; value: string; content_id: string | null }[];
+}) {
+  if (!idToDuplicate) {
+    return {
+      name: 'v1',
+      content: initialDashboardContent,
+    };
+  }
+  const dashboard = options.find((o) => o.value === idToDuplicate);
+  if (!dashboard) {
+    throw new Error('Unexpected null dashboard');
+  }
+  if (!dashboard.content_id) {
+    throw new Error('Selected dashboard has no content');
+  }
+  const c = await APICaller.dashboard_content.details(dashboard.content_id);
+  if (!c || !c.content) {
+    throw new Error('Selected dashboard has no content');
+  }
+  return {
+    name: 'v1',
+    content: c.content,
+  };
+}
 
 interface IFormValues {
   name: string;
@@ -20,11 +51,11 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
 
   const { data: options = [], loading } = useRequest(
     async () => {
-      const { data } = await DashboardAPI.list();
+      const { data } = await APICaller.dashboard.list();
       return data.map((d) => ({
         label: d.name,
         value: d.id,
-        content: d.content,
+        content_id: d.content_id,
       }));
     },
     {
@@ -45,23 +76,58 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   });
 
   const createDashboard = async ({ name, group, idToDuplicate }: IFormValues) => {
-    showNotification({
-      id: 'for-creating',
-      title: 'Pending',
-      message: 'Creating dashboard...',
-      loading: true,
-    });
-    const dashboard = options.find((o) => o.value === idToDuplicate);
-    const content = dashboard?.content;
-    const { id } = await DashboardAPI.create(name, group, content);
-    updateNotification({
-      id: 'for-creating',
-      title: 'Successful',
-      message: 'A new dashboard is created',
-      color: 'green',
-    });
-    postSubmit();
-    navigate(`/dashboard/${id}/edit`);
+    try {
+      showNotification({
+        id: 'for-creating',
+        title: 'Pending',
+        message: 'Creating dashboard...',
+        loading: true,
+      });
+      const initialContent = await getInitialContent({
+        idToDuplicate,
+        options,
+      });
+      updateNotification({
+        id: 'for-creating',
+        title: 'Pending',
+        message: 'Preparing dashboard content...',
+        loading: true,
+      });
+      const d = await APICaller.dashboard.create(name, group);
+      updateNotification({
+        id: 'for-creating',
+        title: 'Pending',
+        message: 'Creating dashboard record...',
+        loading: true,
+      });
+      const c = await APICaller.dashboard_content.create({
+        ...initialContent,
+        dashboard_id: d.id,
+      });
+      updateNotification({
+        id: 'for-creating',
+        title: 'Pending',
+        message: 'Creating dashboard content record...',
+        loading: true,
+      });
+      await APICaller.dashboard.update({ ...d, content_id: c.id });
+      updateNotification({
+        id: 'for-creating',
+        title: 'Successful',
+        message: 'A new dashboard is created',
+        color: 'green',
+      });
+      postSubmit();
+      navigate(`/dashboard/${d.id}/edit/${c.id}`);
+    } catch (error) {
+      updateNotification({
+        id: 'for-creating',
+        title: 'Failed',
+        // @ts-expect-error type of error
+        message: error.message,
+        color: 'red',
+      });
+    }
   };
 
   const dashboardNameSet = React.useMemo(() => {

@@ -1,6 +1,5 @@
 import { connectionHook } from './jest.util';
 import { HttpParams, QueryRequest } from '~/api_models/query';
-import * as validation from '~/middleware/validation';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
@@ -10,22 +9,15 @@ describe('QueryController', () => {
   let superadminLogin: AccountLoginResponse;
   const server = request(app);
 
-  const validate = jest.spyOn(validation, 'validate');
-
   beforeAll(async () => {
     const query: AccountLoginRequest = {
       name: 'superadmin',
       password: process.env.SUPER_ADMIN_PASSWORD ?? 'secret',
     };
-    validate.mockReturnValueOnce(query);
 
     const response = await server.post('/account/login').send(query);
 
     superadminLogin = response.body;
-  });
-
-  beforeEach(() => {
-    validate.mockReset();
   });
 
   describe('query', () => {
@@ -35,7 +27,6 @@ describe('QueryController', () => {
         key: 'preset',
         query: 'SELECT * FROM role ORDER BY id ASC',
       };
-      validate.mockReturnValueOnce(query);
 
       const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
@@ -82,8 +73,6 @@ describe('QueryController', () => {
         key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams),
       };
-      validate.mockReturnValueOnce(query);
-      validate.mockReturnValueOnce(httpParams);
 
       const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
@@ -112,8 +101,6 @@ describe('QueryController', () => {
         key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams),
       };
-      validate.mockReturnValueOnce(query);
-      validate.mockReturnValueOnce(httpParams);
 
       const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
@@ -133,8 +120,6 @@ describe('QueryController', () => {
         key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams),
       };
-      validate.mockReturnValueOnce(query);
-      validate.mockReturnValueOnce(httpParams);
 
       const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 
@@ -154,8 +139,6 @@ describe('QueryController', () => {
         key: 'jsonplaceholder_renamed',
         query: JSON.stringify(httpParams),
       };
-      validate.mockReturnValueOnce(query);
-      validate.mockReturnValueOnce(httpParams);
 
       const response = await server.post('/query').set('Authorization', `Bearer ${superadminLogin.token}`).send(query);
 

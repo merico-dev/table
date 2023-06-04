@@ -39,8 +39,8 @@ export const account = {
    */
   update: async (name: string, email: string): Promise<IAccount> => {
     const payload = {
-      name,
-      email,
+      name: name.trim(),
+      email: email.trim(),
     };
     const res: IAccount = await APIClient.getRequest('PUT')('/account/update', payload);
     return res;
@@ -50,17 +50,17 @@ export const account = {
    */
   changepassword: async (old_password: string, new_password: string): Promise<IAccount> => {
     const payload = {
-      old_password,
-      new_password,
+      old_password: old_password.trim(),
+      new_password: new_password.trim(),
     };
     const res: IAccount = await APIClient.getRequest('POST')('/account/changepassword', payload);
     return res;
   },
   create: async (name: string, email: string, password: string, role_id: number): Promise<IAccount> => {
     const res: IAccount = await APIClient.getRequest('POST')('/account/create', {
-      name,
-      email,
-      password,
+      name: name.trim(),
+      email: email.trim(),
+      password: password.trim(),
       role_id,
     });
     return res;

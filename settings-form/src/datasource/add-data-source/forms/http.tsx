@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../../styles';
-import { FunctionStringField } from '../components/function-string-field';
+import { FunctionStringField } from '../../components/function-string-field';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [

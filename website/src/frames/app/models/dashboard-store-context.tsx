@@ -6,10 +6,12 @@ import { DashboardStore } from './dashboard-store';
 export const DashboardStoreContext = React.createContext<Instance<typeof DashboardStore> | null>(null);
 
 function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
-  const { id } = useParams();
+  const { id, content_id } = useParams();
   useEffect(() => {
     store.setCurrentID(id);
-  }, [id]);
+    store.setCurrentContentID(content_id);
+  }, [id, content_id]);
+  console.log({ id, content_id });
   return null;
 }
 

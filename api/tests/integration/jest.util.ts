@@ -1,4 +1,3 @@
-import { omit } from 'lodash';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 
 export function connectionHook(): void {
@@ -8,12 +7,6 @@ export function connectionHook(): void {
   });
   afterAll(async () => {
     await dashboardDataSource.destroy();
-  });
-}
-
-export function omitTime(data: any[]): any[] {
-  return data.map((x) => {
-    return omit(x, ['create_time', 'update_time']);
   });
 }
 

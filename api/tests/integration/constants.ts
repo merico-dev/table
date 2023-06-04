@@ -4,6 +4,9 @@ import ApiKey from '~/models/apiKey';
 import DataSource from '~/models/datasource';
 import Dashboard from '~/models/dashboard';
 import { parseDBUrl } from '../utils';
+import DashboardContent from '~/models/dashboard_content';
+import CustomFunction from '~/models/custom_function';
+import SqlSnippet from '~/models/sql_snippet';
 
 export const accounts: Account[] = [
   {
@@ -146,6 +149,28 @@ export const dashboards: Dashboard[] = [
     name: 'dashboard1',
     is_preset: false,
     is_removed: true,
+    content_id: null,
+    group: '1',
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
+    name: 'dashboard2',
+    is_preset: true,
+    is_removed: false,
+    content_id: null,
+    group: '1',
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+];
+
+export const dashboardContents: DashboardContent[] = [
+  {
+    id: '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+    dashboard_id: '63c52cf7-0783-40fb-803a-68abc6564de0',
+    name: 'dashboard1',
     content: {
       definition: {
         queries: [
@@ -162,15 +187,13 @@ export const dashboards: Dashboard[] = [
         ],
       },
     },
-    group: '1',
     create_time: new Date(),
     update_time: new Date(),
   },
   {
-    id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
+    id: '5959a66b-5b6b-4509-9d87-bb8b96100658',
+    dashboard_id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
     name: 'dashboard2',
-    is_preset: true,
-    is_removed: false,
     content: {
       definition: {
         queries: [
@@ -187,7 +210,54 @@ export const dashboards: Dashboard[] = [
         ],
       },
     },
-    group: '1',
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+];
+
+export const customFunctions: CustomFunction[] = [
+  {
+    id: 'presetAddFunction',
+    definition: '(x, y) => x + y',
+    is_preset: true,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'multiplyFunction',
+    definition: '(x, y) => x * y',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'divideFunction',
+    definition: '(x, y) => x / y',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+];
+
+export const sqlSnippets: SqlSnippet[] = [
+  {
+    id: 'presetSqlSnippet',
+    content: 'presetSnippet',
+    is_preset: true,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'SqlSnippet1',
+    content: 'snippet1',
+    is_preset: false,
+    create_time: new Date(),
+    update_time: new Date(),
+  },
+  {
+    id: 'SqlSnippet2',
+    content: 'snippet2',
+    is_preset: false,
     create_time: new Date(),
     update_time: new Date(),
   },

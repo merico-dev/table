@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
+import { ErrorMessageOrNotFound } from '~/filter/error-message-or-not-found';
 
 // This type will contain a union with all selectors defined in useStyles,
 // in this case it will be `'root' | 'title' | 'description'`
@@ -29,6 +30,7 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   onChange: (v: string[]) => void;
   treeData: $TSFixMe;
   disabled: boolean;
+  errorMessage?: string;
 }
 
 export const FilterTreeSelectWidget = ({
@@ -44,10 +46,11 @@ export const FilterTreeSelectWidget = ({
   value,
   onChange,
   treeData,
+  errorMessage,
 }: IFilterTreeSelectWidget) => {
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
 
-  const [showTooltip, setShowTooltip] = useState(value?.length > 0);
+  const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
     setShowTooltip(visible);
   };
@@ -81,6 +84,7 @@ export const FilterTreeSelectWidget = ({
         maxTagTextLength={10}
         value={value}
         treeData={treeData}
+        notFoundContent={<ErrorMessageOrNotFound errorMessage={errorMessage} />}
         treeNodeFilterProp="filterBasis"
         treeCheckable
         showCheckedStrategy={SHOW_PARENT}

@@ -12,7 +12,8 @@ export const AddASQLSnippet = observer(() => {
       key: id,
       value: '',
     } as SQLSnippetModelInstance;
-    model.sqlSnippets.append(v);
+    model.content.sqlSnippets.append(v);
+    model.editor.setPath(['_SQL_SNIPPETS_', id]);
   };
 
   return (

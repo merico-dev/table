@@ -1,6 +1,6 @@
-import { Divider, Group, Tabs, Text } from '@mantine/core';
+import { Group, Tabs, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
 import { IScatterChartConf } from '../../type';
 import { TooltipMetricField } from './metric';
@@ -48,7 +48,6 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
           Configure additional metrics to show in tooltip
         </Text>
       </Group>
-      <Divider variant="dashed" my={10} />
       <Tabs
         value={tab}
         onTabChange={(t) => setTab(t)}

@@ -5,6 +5,7 @@ export interface IDataSource {
   type: DataSourceType;
   key: string;
   is_preset?: boolean;
+  config?: TDataSourceConfig_HTTP; // db datasources' config won't be loaded
 }
 
 export type TDataSourceConfig_DB = {

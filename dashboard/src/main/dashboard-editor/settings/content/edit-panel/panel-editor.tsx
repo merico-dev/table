@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
-import { PanelContextProvider, useModelContext } from '~/contexts';
+import { PanelContextProvider, useContentModelContext, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
 import { PanelConfig } from '~/main/dashboard-editor/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/main/dashboard-editor/settings/content/edit-panel/pick-query';
@@ -18,18 +18,19 @@ const TabsStyles = {
   root: {
     flexGrow: 1,
     width: '100%',
-    height: '100%',
+    overflow: 'hidden',
   },
   panel: {
     width: '100%',
-    height: '100%',
+    height: 'calc(100% - 44px)',
     padding: 10,
+    overflow: 'scroll',
   },
 } as const;
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: 'calc(100% - 36px)' }}>
+    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%' }}>
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
@@ -52,9 +53,10 @@ function doesVizRequiresData(type: string) {
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
   const modals = useModals();
   const model = useModelContext();
+  const content = useContentModelContext();
   const [tab, setTab] = useState<string | null>('Data');
-  const { data, state, error } = model.getDataStuffByID(panel.queryID);
-  const query = model.queries.findByID(panel.queryID);
+  const { data, state, error } = content.getDataStuffByID(panel.queryID);
+  const query = content.queries.findByID(panel.queryID);
 
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
@@ -80,7 +82,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
-        model.removePanelByID(panel.id, viewID);
+        content.removePanelByID(panel.id, viewID);
         resetEditorPath();
       },
       confirmProps: { color: 'red' },

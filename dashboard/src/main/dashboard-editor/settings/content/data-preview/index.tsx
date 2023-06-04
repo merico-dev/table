@@ -2,19 +2,19 @@ import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/co
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
-import { useModelContext } from '../../../../../contexts';
+import { useContentModelContext } from '../../../../../contexts';
 import { QueryStateMessage } from './query-state-message';
 import { DataTable } from './data-table';
 
 export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {
-  const model = useModelContext();
-  const { data, state } = model.getDataStuffByID(id);
+  const content = useContentModelContext();
+  const { data, state } = content.getDataStuffByID(id);
   const loading = state === 'loading';
   const refresh = () => {
-    model.queries.refetchDataByQueryID(id);
+    content.queries.refetchDataByQueryID(id);
   };
   const download = () => {
-    model.queries.downloadDataByQueryID(id);
+    content.queries.downloadDataByQueryID(id);
   };
   const firstTenRows = useMemo(() => {
     if (!Array.isArray(data)) {

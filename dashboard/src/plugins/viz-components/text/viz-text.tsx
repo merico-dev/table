@@ -2,14 +2,14 @@ import { Text } from '@mantine/core';
 import { useMemo } from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useContentModelContext } from '~/contexts';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { formatAggregatedValue, getAggregatedValue } from '~/utils/template';
 
 export const VizText = observer(({ context }: VizViewProps) => {
-  const model = useModelContext();
+  const contentModel = useContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data as $TSFixMe[]; // FIXME: from TVizData[] to Record<string, number>[], or improve getAggregatedValue's type def
@@ -27,10 +27,10 @@ export const VizText = observer(({ context }: VizViewProps) => {
     return new Function(`return ${func_content}`)()({
       data,
       variables: variableValueMap,
-      filters: model.filters.values,
-      context: model.context.current,
+      filters: contentModel.payloadForSQL.filterValues,
+      context: contentModel.payloadForSQL.context,
     });
-  }, [func_content, data, variableValueMap, model.filters.values, model.context.current]);
+  }, [func_content, data, variableValueMap, contentModel.payloadForSQL]);
 
   return (
     <Text align={horizontal_align} weight={font_weight} sx={{ fontSize: font_size }}>

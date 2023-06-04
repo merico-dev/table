@@ -13,18 +13,20 @@ import { LayoutStateContext } from '../../contexts/layout-state-context';
 import { ModelContextProvider } from '../../contexts/model-context';
 import { createDashboardModel } from '../../model';
 import { ContextInfoType } from '../../model/context';
-import { IDashboard } from '../../types/dashboard';
+import { DashboardContentDBType, IDashboard } from '../../types/dashboard';
 import { useTopLevelServices } from '../use-top-level-services';
 import { listDataSources } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { registerThemes } from '~/styles/register-themes';
+import { ContentModelContextProvider } from '~/contexts/content-model-context';
 
 registerThemes();
 
 interface IReadOnlyDashboard {
   context: ContextInfoType;
   dashboard: IDashboard;
+  content: DashboardContentDBType;
   className?: string;
   config: IDashboardConfig;
   fullScreenPanelID: string;
@@ -35,6 +37,7 @@ export const ReadOnlyDashboard = observer(
   ({
     context,
     dashboard,
+    content,
     className = 'dashboard',
     config,
     fullScreenPanelID,
@@ -44,8 +47,11 @@ export const ReadOnlyDashboard = observer(
 
     const { data: datasources = [] } = useRequest(listDataSources);
 
-    const model = React.useMemo(() => createDashboardModel(dashboard, datasources, context), [dashboard]);
-    useInteractionOperationHacks(model, false);
+    const model = React.useMemo(
+      () => createDashboardModel(dashboard, content, datasources, context),
+      [dashboard, content],
+    );
+    useInteractionOperationHacks(model.content, false);
 
     React.useEffect(() => {
       model.context.replace(context);
@@ -60,30 +66,32 @@ export const ReadOnlyDashboard = observer(
     return (
       <ModalsProvider>
         <ModelContextProvider value={model}>
-          <FullScreenPanelContext.Provider
-            value={{
-              fullScreenPanelID,
-              setFullScreenPanelID,
-            }}
-          >
-            <LayoutStateContext.Provider
+          <ContentModelContextProvider value={model.content}>
+            <FullScreenPanelContext.Provider
               value={{
-                layoutFrozen: true,
-                freezeLayout: _.noop,
-                inEditMode: false,
+                fullScreenPanelID,
+                setFullScreenPanelID,
               }}
             >
-              <Box className={`${className} dashboard-root`}>
-                <PluginContext.Provider value={pluginContext}>
-                  <ServiceLocatorProvider configure={configureServices}>
-                    {model.views.visibleViews.map((view) => (
-                      <DashboardViewRender key={view.id} view={view} />
-                    ))}
-                  </ServiceLocatorProvider>
-                </PluginContext.Provider>
-              </Box>
-            </LayoutStateContext.Provider>
-          </FullScreenPanelContext.Provider>
+              <LayoutStateContext.Provider
+                value={{
+                  layoutFrozen: true,
+                  freezeLayout: _.noop,
+                  inEditMode: false,
+                }}
+              >
+                <Box className={`${className} dashboard-root`}>
+                  <PluginContext.Provider value={pluginContext}>
+                    <ServiceLocatorProvider configure={configureServices}>
+                      {model.content.views.visibleViews.map((view) => (
+                        <DashboardViewRender key={view.id} view={view} />
+                      ))}
+                    </ServiceLocatorProvider>
+                  </PluginContext.Provider>
+                </Box>
+              </LayoutStateContext.Provider>
+            </FullScreenPanelContext.Provider>
+          </ContentModelContextProvider>
         </ModelContextProvider>
       </ModalsProvider>
     );
