@@ -13,11 +13,13 @@ interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 
 export const FilterMultiSelect = observer(({ label, config, value, onChange }: IFilterMultiSelect) => {
   const model = useContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
-  const { state } = model.getDataStuffByID(config.options_query_id);
+  const { state, error } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
   const width = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
+
+  const handleChange = (v: string[]) => onChange(v, false);
   return (
     <MultiSelectWidget
       label={label}
@@ -25,7 +27,8 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
       style={{ minWidth: '160px', width, maxWidth: disabled ? width : 'unset', borderColor: '#e9ecef' }}
       disabled={disabled}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
+      errorMessage={error}
     />
   );
 });

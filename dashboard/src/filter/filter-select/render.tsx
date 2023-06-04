@@ -15,7 +15,7 @@ interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'conf
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
   const model = useContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
-  const { state } = model.getDataStuffByID(config.options_query_id);
+  const { state, error } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';
 
   useEffect(() => {
@@ -36,6 +36,9 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
+      error={!!error}
+      placeholder={error}
+      maxDropdownHeight={500}
       styles={{
         root: {
           width: config.width ? config.width : '200px',

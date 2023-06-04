@@ -1,9 +1,10 @@
-import { cast, Instance, types, getRoot } from 'mobx-state-tree';
+import { addDisposer, cast, Instance, types, getRoot, getParent } from 'mobx-state-tree';
 import { Text, TextProps } from '@mantine/core';
 import { FilterConfigModel_BaseSelect } from './select-base';
 import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/filter/filter-tree-select/types';
 import React from 'react';
 import { queryDataToTree } from '~/filter/filter-tree-select/render/query-data-to-tree';
+import { reaction } from 'mobx';
 
 function addLabelToData(data: ITreeDataQueryOption[]) {
   return data.map((d) => {
@@ -56,6 +57,11 @@ export const FilterConfigModel_TreeSelect = types
       const dataWithCustomLabel = addLabelToData(data);
       return queryDataToTree(dataWithCustomLabel);
     },
+    get errorMessage() {
+      // @ts-expect-error type of getRoot
+      const { error } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      return error;
+    },
     get treeDataLoading() {
       // @ts-expect-error type of getRoot
       const { state } = getRoot(self).content.getDataStuffByID(self.options_query_id);
@@ -76,6 +82,22 @@ export const FilterConfigModel_TreeSelect = types
     },
     setMinWidth(v: string) {
       self.min_width = v;
+    },
+    applyDefaultSelection() {
+      // @ts-expect-error typeof getParent
+      const key = getParent(self, 1).key;
+      // @ts-expect-error typeof getRoot
+      const filters = getRoot(self).content.filters;
+      filters.setValueByKey(key, self.defaultSelection);
+    },
+    afterCreate() {
+      addDisposer(
+        self,
+        reaction(() => JSON.stringify(self.defaultSelection), this.applyDefaultSelection, {
+          fireImmediately: true,
+          delay: 0,
+        }),
+      );
     },
   }));
 
