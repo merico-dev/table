@@ -1,7 +1,15 @@
 import bcrypt from 'bcrypt';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { SALT_ROUNDS } from '~/utils/constants';
-import { accounts, apiKeys, dataSources, dashboards, dashboardContents, customFunctions } from '../constants';
+import {
+  accounts,
+  apiKeys,
+  dataSources,
+  dashboards,
+  dashboardContents,
+  customFunctions,
+  sqlSnippets,
+} from '../constants';
 import Account from '~/models/account';
 import ApiKey from '~/models/apiKey';
 import DataSource from '~/models/datasource';
@@ -10,6 +18,7 @@ import { maybeEncryptPassword } from '~/utils/encryption';
 import DashboardPermission from '~/models/dashboard_permission';
 import DashboardContent from '~/models/dashboard_content';
 import CustomFunction from '~/models/custom_function';
+import SqlSnippet from '~/models/sql_snippet';
 
 export async function seed() {
   if (!dashboardDataSource.isInitialized) {
@@ -21,6 +30,7 @@ export async function seed() {
   await addDataSources();
   await addDashboardsAndContent();
   await addCustomFunctions();
+  await addSqlSnippets();
 }
 
 async function addAccounts() {
@@ -76,5 +86,13 @@ async function addCustomFunctions() {
   for (let i = 0; i < customFunctions.length; i++) {
     const customFunction = customFunctions[i];
     await customFunctionRepo.save(customFunction);
+  }
+}
+
+async function addSqlSnippets() {
+  const sqlSnippetRepo = dashboardDataSource.getRepository(SqlSnippet);
+  for (let i = 0; i < sqlSnippets.length; i++) {
+    const sqlSnippet = sqlSnippets[i];
+    await sqlSnippetRepo.save(sqlSnippet);
   }
 }

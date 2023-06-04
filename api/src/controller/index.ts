@@ -13,6 +13,7 @@ import { DashboardPermissionController } from './dashboard_permission.controller
 import { DashboardContentController } from './dashboard_content.controller';
 import { DashboardContentChangelogController } from './dashboard_content_changelog.controller';
 import { CustomFunctionController } from './custom_function.controller';
+import { SqlSnippetController } from './sql_snippet.controller';
 
 export function bindControllers(container: Container) {
   container
@@ -80,4 +81,9 @@ export function bindControllers(container: Container) {
     .to(CustomFunctionController)
     .inSingletonScope()
     .whenTargetNamed(CustomFunctionController.TARGET_NAME);
+  container
+    .bind<interfaces.Controller>(TYPE.Controller)
+    .to(SqlSnippetController)
+    .inSingletonScope()
+    .whenTargetNamed(SqlSnippetController.TARGET_NAME);
 }

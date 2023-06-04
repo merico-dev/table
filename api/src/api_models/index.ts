@@ -91,6 +91,15 @@ import {
   CustomFunctionPaginationResponse,
   CustomFunctionSortObject,
 } from './custom_function';
+import {
+  SqlSnippet,
+  SqlSnippetCreateOrUpdateRequest,
+  SqlSnippetFilterObject,
+  SqlSnippetIDRequest,
+  SqlSnippetListRequest,
+  SqlSnippetPaginationResponse,
+  SqlSnippetSortObject,
+} from './sql_snippet';
 import { ApiError, Authentication, FilterObject } from './base';
 
 export default {
@@ -193,4 +202,12 @@ export default {
   CustomFunctionListRequest,
   CustomFunctionPaginationResponse,
   CustomFunctionSortObject,
+
+  SqlSnippet,
+  SqlSnippetCreateOrUpdateRequest,
+  SqlSnippetFilterObject,
+  SqlSnippetIDRequest,
+  SqlSnippetListRequest,
+  SqlSnippetPaginationResponse,
+  SqlSnippetSortObject,
 };

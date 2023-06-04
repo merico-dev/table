@@ -40,5 +40,7 @@
   "DASHBOARD_CONTENT_DELETE_REQUIRES_SUPERADMIN": "Only superadmin can delete preset dashboard contents",
   "DASHBOARD_CONTENT_DOES_NOT_EXIST": "That dashboard content does not exist",
   "CUSTOM_FUNCTION_NO_EDIT_PRESET": "Preset custom functions can not be edited",
-  "CUSTOM_FUNCTION_NO_DELETE_PRESET": "Preset custom functions can not be deleted"
+  "CUSTOM_FUNCTION_NO_DELETE_PRESET": "Preset custom functions can not be deleted",
+  "SQL_SNIPPET_NO_EDIT_PRESET": "Preset sql snippets can not be edited",
+  "SQL_SNIPPET_NO_DELETE_PRESET": "Preset sql snippets can not be deleted"
 }
