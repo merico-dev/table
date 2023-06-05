@@ -68,6 +68,8 @@
   "ROLE_PERMISSION_CONFIG_GET_WEBSITE_SETTINGS": "Allows retrieving website settings",
   "ROLE_PERMISSION_CONFIG_SET_WEBSITE_SETTINGS": "Allows updating website settings",
   "ROLE_PERMISSION_CUSTOM_FUNCTION_VIEW": "Allows viewing custom functions",
-  "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "Allows creating, editing, deleting custom functions'",
+  "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "Allows creating, editing, deleting custom functions",
+  "ROLE_PERMISSION_SQL_SNIPPET_VIEW": "Allows viewing sql snippets",
+  "ROLE_PERMISSION_SQL_SNIPPET_MANAGE": "Allows creating, editing, deleting sql snippets",
   "ROLE_PERMISSION_PRESET": "Allows modification of preset assets"
 }
