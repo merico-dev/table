@@ -113,7 +113,15 @@ describe('RoleController', () => {
       },
       {
         key: '[customfunction]manage',
-        description: "Allows creating, editing, deleting custom functions'",
+        description: 'Allows creating, editing, deleting custom functions',
+      },
+      {
+        key: '[sqlsnippet]view',
+        description: 'Allows viewing sql snippets',
+      },
+      {
+        key: '[sqlsnippet]manage',
+        description: 'Allows creating, editing, deleting sql snippets',
       },
       {
         key: '[preset]',
