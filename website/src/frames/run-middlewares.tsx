@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 export const getMiddleware = async (signal: AbortSignal) => {
   try {
-    const func = await APICaller.custom_function.get(import.meta.env.VITE_WEBSITE_ROUTER_MIDDLEWARE_KEY, signal)();
+    const func = await APICaller.custom_function.get('routerMiddleware', signal)();
     return func;
   } catch (error) {
     return null;
