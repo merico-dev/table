@@ -50,15 +50,22 @@ export class SqlSnippetService {
     return await sqlSnippetRepo.findOneByOrFail({ id });
   }
 
-  async createOrUpdate(id: string, content: string, locale: string): Promise<SqlSnippetAPIModel> {
+  async create(id: string, content: string, locale: string): Promise<SqlSnippetAPIModel> {
     const sqlSnippetRepo = dashboardDataSource.getRepository(SqlSnippet);
-    let sqlSnippet = await sqlSnippetRepo.findOneBy({ id });
-    if (sqlSnippet && sqlSnippet.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: translate('SQL_SNIPPET_NO_EDIT_PRESET', locale) });
+    if (await sqlSnippetRepo.exist({ where: { id } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('SQL_SNIPPET_ALREADY_EXISTS', locale) });
     }
-    if (!sqlSnippet) {
-      sqlSnippet = new SqlSnippet();
-      sqlSnippet.id = id;
+    const sqlSnippet = new SqlSnippet();
+    sqlSnippet.id = id;
+    sqlSnippet.content = content;
+    return await sqlSnippetRepo.save(sqlSnippet);
+  }
+
+  async update(id: string, content: string, locale: string): Promise<SqlSnippetAPIModel> {
+    const sqlSnippetRepo = dashboardDataSource.getRepository(SqlSnippet);
+    const sqlSnippet = await sqlSnippetRepo.findOneByOrFail({ id });
+    if (sqlSnippet.is_preset) {
+      throw new ApiError(BAD_REQUEST, { message: translate('SQL_SNIPPET_NO_EDIT_PRESET', locale) });
     }
     sqlSnippet.content = content;
     return await sqlSnippetRepo.save(sqlSnippet);

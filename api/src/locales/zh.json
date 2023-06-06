@@ -39,8 +39,10 @@
   "DASHBOARD_CONTENT_EDIT_REQUIRES_SUPERADMIN": "只有超级管理员才能编辑预设报表内容",
   "DASHBOARD_CONTENT_DELETE_REQUIRES_SUPERADMIN": "只有超级管理员才能删除预设报表内容",
   "DASHBOARD_CONTENT_DOES_NOT_EXIST": "目标报表内容不存在",
+  "CUSTOM_FUNCTION_ALREADY_EXISTS": "具有该ID的自定义函数已存在",
   "CUSTOM_FUNCTION_NO_EDIT_PRESET": "不能修改预设自定义函数",
   "CUSTOM_FUNCTION_NO_DELETE_PRESET": "不能删除预设自定义函数",
+  "SQL_SNIPPET_ALREADY_EXISTS": "具有该ID的sql snippet已存在",
   "SQL_SNIPPET_NO_EDIT_PRESET": "不能修改预设sql snippets",
   "SQL_SNIPPET_NO_DELETE_PRESET": "不能删除预设sql snippets"
 }

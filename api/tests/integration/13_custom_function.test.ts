@@ -13,9 +13,9 @@ describe('CustomFunctionService', () => {
   beforeAll(async () => {
     customFunctionService = new CustomFunctionService();
   });
-  describe('createOrUpdate', () => {
+  describe('create', () => {
     it('should create successfully', async () => {
-      const customFunction = await customFunctionService.createOrUpdate(
+      const customFunction = await customFunctionService.create(
         'customFunction',
         '() => console.log("hello world")',
         DEFAULT_LANGUAGE,
@@ -26,8 +26,16 @@ describe('CustomFunctionService', () => {
         is_preset: false,
       });
     });
+    it('should fail if duplicate', async () => {
+      await expect(
+        customFunctionService.create('customFunction', '() => console.log("hello world")', DEFAULT_LANGUAGE),
+      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'A custom function with that id already exists' }));
+    });
+  });
+
+  describe('createOrUpdate', () => {
     it('should update successfully', async () => {
-      const customFunctionUpdated = await customFunctionService.createOrUpdate(
+      const customFunctionUpdated = await customFunctionService.update(
         'customFunction',
         '() => console.log("hello world!!!")',
         DEFAULT_LANGUAGE,
@@ -39,9 +47,14 @@ describe('CustomFunctionService', () => {
       });
     });
     it('should fail if preset', async () => {
-      await expect(
-        customFunctionService.createOrUpdate('presetAddFunction', '', DEFAULT_LANGUAGE),
-      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Preset custom functions can not be edited' }));
+      await expect(customFunctionService.update('presetAddFunction', '', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Preset custom functions can not be edited' }),
+      );
+    });
+    it('should fail if not found', async () => {
+      await expect(customFunctionService.update(notFoundId, '', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
   });
 

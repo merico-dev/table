@@ -62,6 +62,7 @@ describe('QueryController', () => {
 
     it('should query http successfully with GET', async () => {
       const httpParams: HttpParams = {
+        host: '',
         method: 'GET',
         data: {},
         params: {},
@@ -90,6 +91,7 @@ describe('QueryController', () => {
 
     it('should query http successfully with POST', async () => {
       const httpParams: HttpParams = {
+        host: '',
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         params: {},
@@ -109,6 +111,7 @@ describe('QueryController', () => {
 
     it('should query http successfully with PUT', async () => {
       const httpParams: HttpParams = {
+        host: '',
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         params: {},
@@ -128,6 +131,7 @@ describe('QueryController', () => {
 
     it('should query http successfully with DELETE', async () => {
       const httpParams: HttpParams = {
+        host: '',
         method: 'DELETE',
         data: {},
         params: {},
