@@ -12,7 +12,7 @@ import {
 } from '~/api_models/custom_function';
 import { notFoundId } from './constants';
 
-describe('DashboardChangelogController', () => {
+describe('CustomFunctionController', () => {
   connectionHook();
   let superadminLogin: AccountLoginResponse;
 
@@ -34,7 +34,7 @@ describe('DashboardChangelogController', () => {
     await dashboardDataSource.getRepository(CustomFunction).save(presetCustomFunction);
   });
 
-  describe('createOrUpdate', () => {
+  describe('create', () => {
     it('should create successfully', async () => {
       const request1: CustomFunctionCreateOrUpdateRequest = {
         id: 'customFunction1',
@@ -42,7 +42,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response1 = await server
-        .post('/custom_function/createOrUpdate')
+        .post('/custom_function/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
@@ -59,7 +59,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response2 = await server
-        .post('/custom_function/createOrUpdate')
+        .post('/custom_function/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
@@ -70,6 +70,25 @@ describe('DashboardChangelogController', () => {
       });
     });
 
+    it('should fail if duplicate', async () => {
+      const request: CustomFunctionCreateOrUpdateRequest = {
+        id: 'customFunction1',
+        definition: '() => console.log("hello world 1")',
+      };
+
+      const response = await server
+        .post('/custom_function/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'A custom function with that id already exists' },
+      });
+    });
+  });
+
+  describe('update', () => {
     it('should update successfully', async () => {
       const request: CustomFunctionCreateOrUpdateRequest = {
         id: 'customFunction1',
@@ -77,7 +96,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response = await server
-        .post('/custom_function/createOrUpdate')
+        .put('/custom_function/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -95,7 +114,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response = await server
-        .post('/custom_function/createOrUpdate')
+        .put('/custom_function/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -103,6 +122,22 @@ describe('DashboardChangelogController', () => {
         code: 'BAD_REQUEST',
         detail: { message: 'Preset custom functions can not be edited' },
       });
+    });
+
+    it('should fail if not found', async () => {
+      const request: CustomFunctionCreateOrUpdateRequest = {
+        id: notFoundId,
+        definition: '',
+      };
+
+      const response = await server
+        .put('/custom_function/update')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body.code).toEqual('NOT_FOUND');
+      expect(response.body.detail.message).toContain('Could not find any entity of type "CustomFunction" matching');
+      expect(response.body.detail.message).toContain(notFoundId);
     });
   });
 

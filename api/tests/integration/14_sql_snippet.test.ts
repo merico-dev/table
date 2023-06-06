@@ -13,17 +13,25 @@ describe('SqlSnippetService', () => {
   beforeAll(async () => {
     sqlSnippetService = new SqlSnippetService();
   });
-  describe('createOrUpdate', () => {
+  describe('create', () => {
     it('should create successfully', async () => {
-      const sqlSnippet = await sqlSnippetService.createOrUpdate('sqlSnippet', 'test', DEFAULT_LANGUAGE);
+      const sqlSnippet = await sqlSnippetService.create('sqlSnippet', 'test', DEFAULT_LANGUAGE);
       expect(omitTime(sqlSnippet)).toMatchObject({
         id: 'sqlSnippet',
         content: 'test',
         is_preset: false,
       });
     });
+    it('should fail if duplicate', async () => {
+      await expect(sqlSnippetService.create('sqlSnippet', 'test', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'A sql snippet with that id already exists' }),
+      );
+    });
+  });
+
+  describe('update', () => {
     it('should update successfully', async () => {
-      const sqlSnippetUpdated = await sqlSnippetService.createOrUpdate('sqlSnippet', 'test_updated', DEFAULT_LANGUAGE);
+      const sqlSnippetUpdated = await sqlSnippetService.update('sqlSnippet', 'test_updated', DEFAULT_LANGUAGE);
       expect(omitTime(sqlSnippetUpdated)).toMatchObject({
         id: 'sqlSnippet',
         content: 'test_updated',
@@ -31,9 +39,14 @@ describe('SqlSnippetService', () => {
       });
     });
     it('should fail if preset', async () => {
-      await expect(
-        sqlSnippetService.createOrUpdate('presetSqlSnippet', 'presetSnippet_updated', DEFAULT_LANGUAGE),
-      ).rejects.toThrowError(new ApiError(BAD_REQUEST, { message: 'Preset sql snippets can not be edited' }));
+      await expect(sqlSnippetService.update('presetSqlSnippet', '', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Preset sql snippets can not be edited' }),
+      );
+    });
+    it('should fail if not found', async () => {
+      await expect(sqlSnippetService.update(notFoundId, '', DEFAULT_LANGUAGE)).rejects.toThrowError(
+        EntityNotFoundError,
+      );
     });
   });
 
