@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Box, Flex } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { PanelModelInstance } from '~/model/panels';
@@ -54,7 +54,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && state === 'loading';
 
-  const vizHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
+  const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   const panelStyle = getPanelBorderStyle(panel, panelNeedData, inEditMode);
   const needDropdownMenu = panelNeedData || inEditMode;
   return (
@@ -72,7 +72,9 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         </Box>
         {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
-        <Viz viz={panel.viz} data={data} loading={loading} error={error} height={vizHeight} query={query} />
+        <Flex direction="column" sx={{ height: contentHeight }}>
+          <Viz viz={panel.viz} data={data} loading={loading} error={error} query={query} />
+        </Flex>
       </Box>
     </PanelContextProvider>
   );
