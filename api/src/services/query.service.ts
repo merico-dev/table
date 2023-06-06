@@ -6,7 +6,7 @@ import { validateClass } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
 import { sqlRewriter } from '../plugins';
 import { ApiError, QUERY_ERROR } from '../utils/errors';
-import { getFsCache, getFsCacheKey, putFsCache } from '../utils/fs_cache';
+import { getFsCache, getFsCacheKey, isFsCacheEnabled, putFsCache } from '../utils/fs_cache';
 
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
@@ -48,8 +48,9 @@ export class QueryService {
       }
       q = sql;
     }
+    const fsCacheEnabled = await isFsCacheEnabled();
     const cacheKey = getFsCacheKey(`${type}:${key}:${q}`);
-    if (!refresh_cache) {
+    if (fsCacheEnabled && !refresh_cache) {
       const cached = await getFsCache(cacheKey);
       if (cached) {
         return cached;
@@ -72,7 +73,9 @@ export class QueryService {
       default:
         return null;
     }
-    await putFsCache(cacheKey, result);
+    if (fsCacheEnabled) {
+      await putFsCache(cacheKey, result);
+    }
     return result;
   }
 

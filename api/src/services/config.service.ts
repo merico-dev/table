@@ -59,6 +59,16 @@ export class ConfigService {
         WEBSITE_FAVICON_URL: process.env.WEBSITE_FAVICON_URL,
       }),
     },
+    query_cache_enabled: {
+      auth: {
+        get: {},
+        update: {
+          min: ROLE_TYPES.ADMIN,
+        },
+      },
+      isGlobal: true,
+      default: 'false',
+    },
     query_cache_expire_time: {
       auth: {
         get: {},

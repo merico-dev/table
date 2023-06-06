@@ -12,6 +12,11 @@ export const getFsCacheKey = (key: string): string => {
   return `${createHash('sha256').update(key).digest('hex')}`;
 };
 
+export const isFsCacheEnabled = async () => {
+  const config = await configService.get('query_cache_enabled');
+  return config.value === 'true';
+};
+
 const getTTL = async (): Promise<number> => {
   const ttlConfig = await configService.get('query_cache_expire_time');
   return parseInt(ttlConfig.value!) || parseInt(FS_CACHE_RETAIN_TIME);

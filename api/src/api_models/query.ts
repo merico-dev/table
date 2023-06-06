@@ -40,6 +40,7 @@ export class QueryRequest {
   })
   env?: Record<string, any>;
 
+  @IsOptional()
   @IsBoolean()
   @ApiModelProperty({
     description: 'refresh cached data',

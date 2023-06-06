@@ -1119,7 +1119,7 @@ describe('validation', () => {
               property: 'key',
               children: [],
               constraints: {
-                isIn: 'key must be one of the following values: lang, website_settings, query_cache_expire_time',
+                isIn: 'key must be one of the following values: lang, website_settings, query_cache_enabled, query_cache_expire_time',
               },
             },
           ]);
@@ -1152,7 +1152,7 @@ describe('validation', () => {
               property: 'key',
               children: [],
               constraints: {
-                isIn: 'key must be one of the following values: lang, website_settings, query_cache_expire_time',
+                isIn: 'key must be one of the following values: lang, website_settings, query_cache_enabled, query_cache_expire_time',
               },
             },
             {
