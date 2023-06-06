@@ -54,19 +54,18 @@ interface IViz {
   viz: IVizConfig;
   data: TVizData;
   loading: boolean;
-  height: string;
   error?: string;
   query?: QueryModelInstance;
 }
 
-export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, loading, error, query }: IViz) {
+export const Viz = observer(function _Viz({ viz, data, loading, error, query }: IViz) {
   const { ref, width, height } = useElementSize();
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
   const dontNeedData = typesDontNeedData.includes(viz.type);
   if (dontNeedData) {
     return (
-      <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
+      <div className="viz-root" ref={ref}>
         <ErrorBoundary>{pluginViz}</ErrorBoundary>
       </div>
     );
@@ -74,7 +73,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
 
   if (loading) {
     return (
-      <div className="viz-root" style={{ height: vizRootHeight, position: 'relative' }} ref={ref}>
+      <div className="viz-root" style={{ position: 'relative' }} ref={ref}>
         <LoadingOverlay visible={loading} exitTransitionDuration={0} />
       </div>
     );
@@ -83,7 +82,7 @@ export const Viz = observer(function _Viz({ height: vizRootHeight, viz, data, lo
   const showStateMessage = !showError && !!query?.stateMessage;
   const showViz = !showError && !showStateMessage;
   return (
-    <div className="viz-root" style={{ height: vizRootHeight }} ref={ref}>
+    <div className="viz-root" ref={ref}>
       {showError && (
         <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
           {error}

@@ -13,9 +13,6 @@ const defaultOption = {
   tooltip: {
     confine: true,
   },
-  grid: {
-    containLabel: true,
-  },
 };
 
 export function getOption(conf: IHeatmapConf, data: TVizData, variables: ITemplateVariable[]) {
