@@ -115,12 +115,16 @@ describe('RoleService', () => {
       },
       { key: '[config]set-lang', description: 'Allows updating lang' },
       {
-        key: '[config]get-website_settings',
-        description: 'Allows retrieving website settings',
-      },
-      {
         key: '[config]set-website_settings',
         description: 'Allows updating website settings',
+      },
+      {
+        key: '[config]set-query_cache_enabled',
+        description: 'Allows updating the query cache enabled status',
+      },
+      {
+        key: '[config]set-query_cache_expire_time',
+        description: 'Allows updating the query cache expire time',
       },
       {
         key: '[customfunction]view',

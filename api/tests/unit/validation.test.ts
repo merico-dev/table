@@ -560,7 +560,9 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang, website_settings' },
+              constraints: {
+                isIn: 'key must be one of the following values: lang, website_settings, query_cache_enabled, query_cache_expire_time',
+              },
             },
           ]);
         }
@@ -591,7 +593,9 @@ describe('validation', () => {
               value: undefined,
               property: 'key',
               children: [],
-              constraints: { isIn: 'key must be one of the following values: lang, website_settings' },
+              constraints: {
+                isIn: 'key must be one of the following values: lang, website_settings, query_cache_enabled, query_cache_expire_time',
+              },
             },
             {
               target: {},
@@ -1877,7 +1881,7 @@ describe('validation', () => {
               property: 'permissions',
               children: [],
               constraints: {
-                isIn: 'each value in permissions must be one of the following values: [datasource]view, [datasource]manage, [dashboard]view, [dashboard]manage, [account]list, [account]login, [account]update, [account]changepassword, [account]manage, [apikey]list, [apikey]manage, [role]manage, [config]set-lang, [config]get-website_settings, [config]set-website_settings, [customfunction]view, [customfunction]manage',
+                isIn: 'each value in permissions must be one of the following values: [datasource]view, [datasource]manage, [dashboard]view, [dashboard]manage, [account]list, [account]login, [account]update, [account]changepassword, [account]manage, [apikey]list, [apikey]manage, [role]manage, [config]set-lang, [config]set-website_settings, [config]set-query_cache_enabled, [config]set-query_cache_expire_time, [customfunction]view, [customfunction]manage, [sqlsnippet]view, [sqlsnippet]manage',
                 isString: 'each value in permissions must be a string',
               },
             },

@@ -62,10 +62,8 @@ export class ConfigService {
     query_cache_enabled: {
       description: 'CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED',
       auth: {
-        get: {},
-        update: {
-          min: ROLE_TYPES.ADMIN,
-        },
+        get: null,
+        update: PERMISSIONS.CONFIG_SET_QUERY_CACHE_ENABLED,
       },
       isGlobal: true,
       default: 'false',
@@ -73,10 +71,8 @@ export class ConfigService {
     query_cache_expire_time: {
       description: 'CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME',
       auth: {
-        get: {},
-        update: {
-          min: ROLE_TYPES.ADMIN,
-        },
+        get: null,
+        update: PERMISSIONS.CONFIG_SET_QUERY_CACHE_EXPIRE_TIME,
       },
       isGlobal: true,
       default: FS_CACHE_RETAIN_TIME,

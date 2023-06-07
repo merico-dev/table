@@ -67,6 +67,8 @@
   "ROLE_PERMISSION_CONFIG_SET_LANG": "Allows updating lang",
   "ROLE_PERMISSION_CONFIG_GET_WEBSITE_SETTINGS": "Allows retrieving website settings",
   "ROLE_PERMISSION_CONFIG_SET_WEBSITE_SETTINGS": "Allows updating website settings",
+  "ROLE_PERMISSION_CONFIG_SET_QUERY_CACHE_ENABLED": "Allows updating the query cache enabled status",
+  "ROLE_PERMISSION_CONFIG_SET_QUERY_CACHE_EXPIRE_TIME": "Allows updating the query cache expire time",
   "ROLE_PERMISSION_CUSTOM_FUNCTION_VIEW": "Allows viewing custom functions",
   "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "Allows creating, editing, deleting custom functions",
   "ROLE_PERMISSION_SQL_SNIPPET_VIEW": "Allows viewing sql snippets",
