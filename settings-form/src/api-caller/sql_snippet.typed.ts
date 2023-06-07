@@ -12,9 +12,9 @@ export type TCreateSQLSnippetPayload = Pick<SQLSnippetDBType, 'id' | 'content'>;
 export type TUpdateSQLSnippetPayload = TCreateSQLSnippetPayload;
 
 export type ListSQLSnippetReqType = {
-  filter?: {
-    id: { value: string; isFuzzy: false };
-  };
+  // filter?: {
+  //   id: { value: string; isFuzzy: false };
+  // };
   pagination: {
     page: number;
     pagesize: number;

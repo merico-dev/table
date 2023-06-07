@@ -9,15 +9,11 @@ import {
 import { APIClient } from './request';
 
 export const sql_snippet = {
-  list: async (
-    { filter, pagination }: ListSQLSnippetReqType,
-    signal?: AbortSignal,
-  ): Promise<ListSQLSnippetRespType> => {
+  list: async ({ pagination }: ListSQLSnippetReqType, signal?: AbortSignal): Promise<ListSQLSnippetRespType> => {
     const resp: ListSQLSnippetRespType = await APIClient.getRequest('POST', signal)('/sql_snippet/list', {
-      // filter,
       sort: [
         {
-          field: 'create_time',
+          field: 'update_time',
           order: 'DESC',
         },
       ],
