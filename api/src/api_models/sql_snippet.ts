@@ -57,13 +57,13 @@ export class SqlSnippetFilterObject {
   name: 'SqlSnippetSortObject',
 })
 export class SqlSnippetSortObject implements SortRequest {
-  @IsIn(['id', 'create_time', 'is_preset'])
+  @IsIn(['id', 'create_time', 'update_time', 'is_preset'])
   @ApiModelProperty({
     description: 'Field for sorting',
     required: true,
-    enum: ['id', 'create_time', 'is_preset'],
+    enum: ['id', 'create_time', 'update_time', 'is_preset'],
   })
-  field: 'id' | 'create_time' | 'is_preset';
+  field: 'id' | 'create_time' | 'update_time' | 'is_preset';
 
   @IsIn(['ASC', 'DESC'])
   @ApiModelProperty({

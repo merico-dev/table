@@ -47,7 +47,7 @@ export function Navbar() {
         <MantineNavbar.Section pb="md">
           <Group grow pt="sm" px="md" sx={{ borderTop: '1px solid #eee' }}>
             <Button size="sm" onClick={gotoSettings} leftIcon={<Settings size={20} />}>
-              Settings
+              System Settings
             </Button>
           </Group>
         </MantineNavbar.Section>

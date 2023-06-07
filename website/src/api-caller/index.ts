@@ -8,6 +8,11 @@ import { status } from './status';
 import { custom_function } from './custom-function';
 
 export const APICaller = {
+  emptyList: {
+    data: [],
+    total: 0,
+    offset: 0,
+  },
   account,
   api_key,
   custom_function,
