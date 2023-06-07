@@ -4,44 +4,45 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
-import { TCreateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
+import { TUpdateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
+import { IconEdit } from '@tabler/icons';
 
-type TFormValues = TCreateSQLSnippetPayload;
+type TFormValues = TUpdateSQLSnippetPayload;
 
-interface IAddSQLSnippetForm {
+type TUpdateSQLSnippetFormProps = {
   postSubmit: () => void;
   styles?: IStyles;
-}
+} & TFormValues;
 
-function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippetForm) {
+function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content }: TUpdateSQLSnippetFormProps) {
   const { control, handleSubmit } = useForm<TFormValues>({
     defaultValues: {
-      id: '',
-      content: '',
+      id,
+      content,
     },
   });
 
   const add = async (payload: TFormValues) => {
     try {
       showNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Pending',
-        message: 'Adding SQL Snippet...',
+        message: 'Updating SQL Snippet...',
         loading: true,
       });
-      await APICaller.sql_snippet.create(payload);
+      await APICaller.sql_snippet.update(payload);
       updateNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Successful',
-        message: 'SQL Snippet is added',
+        message: 'SQL Snippet is updated',
         color: 'green',
       });
       postSubmit();
     } catch (error: $TSFixMe) {
       updateNotification({
-        id: 'for-creating',
+        id: 'for-updating',
         title: 'Failed',
         message: error.message,
         color: 'red',
@@ -81,12 +82,12 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
   );
 }
 
-interface IAddSQLSnippet {
+type TUpdateSQLSnippetProps = {
   styles?: IStyles;
   onSuccess: () => void;
-}
+} & TFormValues;
 
-export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnippet) {
+export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }: TUpdateSQLSnippetProps) {
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -101,17 +102,17 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
         overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add a SQL Snippet"
+        title="Edit a SQL Snippet"
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
         }}
         size="80vw"
       >
-        <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
+        <UpdateSQLSnippetForm postSubmit={postSubmit} styles={styles} {...rest} />
       </Modal>
-      <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={18} />}>
-        Add a SQL Snippet
+      <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={18} />}>
+        Edit
       </Button>
     </>
   );

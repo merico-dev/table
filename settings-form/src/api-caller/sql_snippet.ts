@@ -40,7 +40,7 @@ export const sql_snippet = {
     return resp;
   },
   update: async (payload: TUpdateSQLSnippetPayload, signal?: AbortSignal): Promise<SQLSnippetDBType> => {
-    const resp: SQLSnippetDBType = await APIClient.getRequest('POST', signal)('/sql_snippet/update', payload);
+    const resp: SQLSnippetDBType = await APIClient.getRequest('PUT', signal)('/sql_snippet/update', payload);
     return resp;
   },
   delete: async (id: string, signal?: AbortSignal): Promise<void> => {

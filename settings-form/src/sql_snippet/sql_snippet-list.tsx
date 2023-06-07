@@ -1,10 +1,32 @@
-import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
+import { ActionIcon, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
+import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
 import { configureAPIClient } from '../api-caller/request';
 import { AddSQLSnippet } from './add-sql_snippet';
 import { DeleteSQLSnippet } from './delete-sql_snippet';
 import { IStyles, defaultStyles } from './styles';
+
+import { IconEye } from '@tabler/icons';
+import { UpdateSQLSnippet } from './update-sql_snippet';
+
+function HoverToSeeContent({ content }: { content: string }) {
+  return (
+    <HoverCard width="60vw" shadow="md">
+      <HoverCard.Target>
+        <ActionIcon size={16}>
+          <IconEye />
+        </ActionIcon>
+      </HoverCard.Target>
+      <HoverCard.Dropdown>
+        <Prism language="sql" noCopy withLineNumbers>
+          {content}
+        </Prism>
+        {/* <MinimalMonacoEditor height="600px" value={content} onChange={_.noop} /> */}
+      </HoverCard.Dropdown>
+    </HoverCard>
+  );
+}
 
 interface ISQLSnippetList {
   styles?: IStyles;
@@ -49,7 +71,7 @@ export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetLi
           <thead>
             <tr>
               <th>Name</th>
-              <th>Content</th>
+              <th></th>
               <th>Created At</th>
               <th>Updated At</th>
               <th>Action</th>
@@ -60,12 +82,15 @@ export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetLi
               const { id, content, create_time, update_time } = snippet;
               return (
                 <tr key={id}>
-                  <td width={200}>{id}</td>
-                  <td width={200}>{content}</td>
+                  <td>{id}</td>
+                  <td width={50}>
+                    <HoverToSeeContent content={content} />
+                  </td>
                   <td width={200}>{create_time}</td>
                   <td width={200}>{update_time}</td>
-                  <td width={200}>
+                  <td width={400}>
                     <Group position="left">
+                      <UpdateSQLSnippet {...snippet} onSuccess={refresh} />
                       <DeleteSQLSnippet id={id} onSuccess={refresh} />
                     </Group>
                   </td>
