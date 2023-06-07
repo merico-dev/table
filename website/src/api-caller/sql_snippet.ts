@@ -36,11 +36,11 @@ export const sql_snippet = {
     return resp;
   },
   create: async (payload: TCreateSQLSnippetPayload, signal?: AbortSignal): Promise<SQLSnippetDBType> => {
-    const resp: SQLSnippetDBType = await post(signal)('/sql_snippet/createOrUpdate', payload);
+    const resp: SQLSnippetDBType = await post(signal)('/sql_snippet/create', payload);
     return resp;
   },
   update: async (payload: TUpdateSQLSnippetPayload, signal?: AbortSignal): Promise<SQLSnippetDBType> => {
-    const resp: SQLSnippetDBType = await post(signal)('/sql_snippet/createOrUpdate', payload);
+    const resp: SQLSnippetDBType = await post(signal)('/sql_snippet/update', payload);
     return resp;
   },
   delete: async (id: string, signal?: AbortSignal): Promise<void> => {
