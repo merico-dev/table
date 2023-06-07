@@ -6,7 +6,6 @@ import { dashboard_content } from './dashboard-content';
 import { dashboard_permission } from './dashboard-permission';
 import { status } from './status';
 import { custom_function } from './custom-function';
-import { sql_snippet } from './sql_snippet';
 
 export const APICaller = {
   emptyList: {
@@ -22,5 +21,4 @@ export const APICaller = {
   dashboard_content,
   dashboard_permission,
   status,
-  sql_snippet,
 };
