@@ -1,13 +1,15 @@
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
+import { IconDatabase, IconInfoCircle, IconKey, IconUsers } from '@tabler/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IAdminPageLink {
   to: string;
   name: string;
+  icon: React.ReactNode;
   active: boolean;
 }
 
-function AdminPageLink({ to, name, active }: IAdminPageLink) {
+function AdminPageLink({ to, name, icon, active }: IAdminPageLink) {
   const navigate = useNavigate();
   return (
     <UnstyledButton
@@ -27,6 +29,7 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
       onClick={() => navigate(to)}
     >
       <Group>
+        {icon}
         <Text size="sm">{name}</Text>
       </Group>
     </UnstyledButton>
@@ -36,13 +39,14 @@ function AdminPageLink({ to, name, active }: IAdminPageLink) {
 type LinkType = {
   name: string;
   to: string;
+  icon: React.ReactNode;
 };
 
 const links: LinkType[] = [
-  { name: 'Data Sources', to: '/admin/data_source/list' },
-  { name: 'Accounts', to: '/admin/account/list' },
-  { name: 'API Keys', to: '/admin/api_key/list' },
-  { name: 'Status', to: '/admin/status' },
+  { name: 'Data Sources', to: '/admin/data_source/list', icon: <IconDatabase size={16} color="#868e96" /> },
+  { name: 'Accounts', to: '/admin/account/list', icon: <IconUsers size={16} color="#868e96" /> },
+  { name: 'API Keys', to: '/admin/api_key/list', icon: <IconKey size={16} color="#868e96" /> },
+  { name: 'Status', to: '/admin/status', icon: <IconInfoCircle size={16} color="#868e96" /> },
 ];
 
 export function AdminPageLinks() {
