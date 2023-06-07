@@ -5,7 +5,7 @@ import {
   SQLSnippetDBType,
   TCreateSQLSnippetPayload,
   TUpdateSQLSnippetPayload,
-} from './sql_snippet.types';
+} from './sql_snippet.typed';
 import { APIClient } from './request';
 
 export const sql_snippet = {
@@ -14,10 +14,10 @@ export const sql_snippet = {
     signal?: AbortSignal,
   ): Promise<ListSQLSnippetRespType> => {
     const resp: ListSQLSnippetRespType = await APIClient.getRequest('POST', signal)('/sql_snippet/list', {
-      filter,
+      // filter,
       sort: [
         {
-          field: 'update_time',
+          field: 'create_time',
           order: 'DESC',
         },
       ],
