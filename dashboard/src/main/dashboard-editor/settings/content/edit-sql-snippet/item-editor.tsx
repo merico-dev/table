@@ -93,7 +93,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           </ActionIcon>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
-          <MinimalMonacoEditor height="100%" value={value} onChange={setValue} />
+          <MinimalMonacoEditor height="100%" value={value} onChange={setValue} defaultLanguage="sql" theme="sql-dark" />
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
           <PreviewSnippet value={value} />
