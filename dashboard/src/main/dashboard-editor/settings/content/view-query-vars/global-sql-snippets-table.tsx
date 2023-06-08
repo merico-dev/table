@@ -24,6 +24,9 @@ function HoverToSeeContent({ content }: { content: string }) {
 export const GlobalSQLSnippetsTable = observer(() => {
   const model = useModelContext();
   const list = [...model.globalSQLSnippets.list];
+  if (list.length === 0) {
+    return null;
+  }
   return (
     <Table horizontalSpacing="xs" verticalSpacing="xs" fontSize="sm" highlightOnHover>
       <thead>
