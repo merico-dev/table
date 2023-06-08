@@ -12,8 +12,7 @@ export const PreviewSQL = observer(({ value }: IPreviewSQL) => {
   const payload = content.payloadForSQL;
 
   const explained = React.useMemo(() => {
-    const { context, mock_context, sqlSnippets, filterValues } = payload;
-    return explainSQL(value, context, mock_context, sqlSnippets, filterValues);
+    return explainSQL(value, payload);
   }, [value, payload]);
   return <PreviewSQLInMonacoEditor height="100%" value={explained} />;
 });

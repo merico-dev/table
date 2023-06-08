@@ -100,7 +100,7 @@ export function useInteractionOperationHacks(model: ContentModelInstance, inEdit
       const url = compiled(
         urlEncodeFields({
           ...payload,
-          filters: model.payloadForSQL.filterValues,
+          filters: model.payloadForSQL.filters,
           context: model.payloadForSQL.context,
         }),
       );

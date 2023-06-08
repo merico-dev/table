@@ -30,11 +30,7 @@ export const VizStats = observer(({ context }: VizViewProps) => {
 
   const semiTemplate = useMemo(() => {
     try {
-      const params = {
-        filters: contentModel.payloadForSQL.filterValues,
-        context: contentModel.payloadForSQL.context,
-      };
-      return _.template(template)(params);
+      return _.template(template)(contentModel.payloadForSQL);
     } catch (error) {
       return template;
     }

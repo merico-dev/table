@@ -10,29 +10,8 @@ export function buildHTTPRequest(
   return new Function(`return ${pre_process}`)()(params, functionUtils) as AxiosRequestConfig;
 }
 
-export function getHTTPReqeustBuilderParams(
-  real_context: ContextInfoType,
-  mock_context: Record<string, $TSFixMe>,
-  filterValues: FilterValuesType,
-) {
-  const context = {
-    ...mock_context,
-    ...real_context,
-  };
-  return {
-    context,
-    filters: filterValues,
-  };
-}
-
-export function explainHTTPRequest(
-  pre_process: string,
-  context: ContextInfoType,
-  mock_context: Record<string, $TSFixMe>,
-  filterValues: FilterValuesType,
-) {
-  const params = getHTTPReqeustBuilderParams(context, mock_context, filterValues);
-  return buildHTTPRequest(pre_process, params);
+export function explainHTTPRequest(pre_process: string, context: ContextInfoType, filters: FilterValuesType) {
+  return buildHTTPRequest(pre_process, { context, filters });
 }
 
 export function preProcessWithDataSource(datasource: IDataSource, config: AxiosRequestConfig) {

@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
+import { useMemo } from 'react';
 import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
 import { useContentModelContext } from '~/contexts';
-import { explainSQLSnippet } from '~/utils/sql';
+import { explainSQL } from '~/utils/sql';
 
 interface IPreviewSnippet {
   value: string;
@@ -9,8 +10,10 @@ interface IPreviewSnippet {
 
 export const PreviewSnippet = observer(({ value }: IPreviewSnippet) => {
   const content = useContentModelContext();
-  const { context, mock_context, filterValues } = content.payloadForSQL;
-  const explained = explainSQLSnippet(value, context, mock_context, filterValues);
+  const payload = content.payloadForSQL;
+  const explained = useMemo(() => {
+    return explainSQL(value, payload);
+  }, [value, payload]);
 
   return <MinimalMonacoEditor height="100%" value={explained} />;
 });
