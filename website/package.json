@@ -2,7 +2,7 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "9.15.0",
+  "version": "9.16.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.3.11",
-    "@devtable/dashboard": "9.15.0",
-    "@devtable/settings-form": "9.15.0",
+    "@devtable/dashboard": "9.16.0",
+    "@devtable/settings-form": "9.16.0",
     "@emotion/react": "11.10.6",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "5.9.5",

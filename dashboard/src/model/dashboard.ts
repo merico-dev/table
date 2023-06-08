@@ -6,6 +6,8 @@ import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';
 
 import { ContentModel, createContentModel } from './content';
+import { GlobalSQLSnippetDBType } from '~/api-caller';
+import { GlobalSQLSnippetsModel } from './global-sql-snippets';
 
 export const DashboardModel = types
   .model({
@@ -15,6 +17,7 @@ export const DashboardModel = types
     content: ContentModel,
     content_id: types.string,
     datasources: DataSourcesModel,
+    globalSQLSnippets: GlobalSQLSnippetsModel,
     context: ContextModel,
     editor: EditorModel,
   })
@@ -47,6 +50,7 @@ export function createDashboardModel(
   { id, name, group, content_id }: IDashboard,
   content: DashboardContentDBType,
   datasources: IDataSource[],
+  globalSQLSnippets: GlobalSQLSnippetDBType[],
   context: ContextInfoType,
 ) {
   return DashboardModel.create({
@@ -57,6 +61,9 @@ export function createDashboardModel(
     content: createContentModel(content),
     datasources: {
       list: datasources,
+    },
+    globalSQLSnippets: {
+      list: globalSQLSnippets,
     },
     context: {
       current: context,

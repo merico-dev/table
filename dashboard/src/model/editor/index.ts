@@ -26,7 +26,7 @@ export type NavActionType = {
 export type NavLinkType = {
   label: string;
   value: string;
-  _type: 'GROUP' | 'global_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
+  _type: 'GROUP' | 'query_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
   Icon?: TablerIcon;
   parentID?: string; // for panel only
   children?: NavOptionType[];
@@ -38,7 +38,7 @@ function getActionOption(_action_type: NavActionType['_action_type']): NavAction
 }
 
 export type ValidEditorPathType =
-  | ['_GLOBAL_VARS_']
+  | ['_QUERY_VARS_']
   | ['_MOCK_CONTEXT_']
   | ['_FILTERS_', string]
   | ['_SQL_SNIPPETS_', string]
@@ -52,8 +52,8 @@ function getPathFromOption(o: NavOptionType): ValidEditorPathType | null {
     case 'GROUP':
     case 'ACTION':
       return null;
-    case 'global_variables':
-      return ['_GLOBAL_VARS_'];
+    case 'query_variables':
+      return ['_QUERY_VARS_'];
     case 'mock_context':
       return ['_MOCK_CONTEXT_'];
     case 'filter':
@@ -84,9 +84,9 @@ export const EditorModel = types
       const { filters, views, sqlSnippets, queries } = content;
       const ret: Array<NavOptionType> = [
         {
-          label: 'Global Variables',
-          value: '_GLOBAL_VARS_',
-          _type: 'global_variables',
+          label: 'Query Variables',
+          value: '_QUERY_VARS_',
+          _type: 'query_variables',
           Icon: IconVariable,
         },
         {

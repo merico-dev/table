@@ -27,7 +27,7 @@ export const VizText = observer(({ context }: VizViewProps) => {
     return new Function(`return ${func_content}`)()({
       data,
       variables: variableValueMap,
-      filters: contentModel.payloadForSQL.filterValues,
+      filters: contentModel.payloadForSQL.filters,
       context: contentModel.payloadForSQL.context,
     });
   }, [func_content, data, variableValueMap, contentModel.payloadForSQL]);

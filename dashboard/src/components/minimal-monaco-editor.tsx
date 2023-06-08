@@ -5,12 +5,14 @@ interface IMinimalMonacoEditor {
   onChange?: (v: string) => void;
   height?: string;
   defaultLanguage?: string;
+  theme?: string;
 }
 export const MinimalMonacoEditor = ({
   value,
   onChange,
   height = '200px',
   defaultLanguage = 'sql',
+  theme = 'vs-dark',
 }: IMinimalMonacoEditor) => {
   const handleChange = (v: string | undefined) => {
     console.log('changing');
@@ -24,7 +26,7 @@ export const MinimalMonacoEditor = ({
       defaultLanguage={defaultLanguage}
       value={value}
       onChange={readonly ? undefined : handleChange}
-      theme="vs-dark"
+      theme={theme}
       options={{
         lineNumbers: 'off',
         folding: false,
@@ -35,6 +37,7 @@ export const MinimalMonacoEditor = ({
           enabled: false,
         },
         readOnly: readonly || !onChange,
+        'semanticHighlighting.enabled': true,
       }}
     />
   );
