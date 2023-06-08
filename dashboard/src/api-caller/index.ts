@@ -73,3 +73,33 @@ export async function listDataSources(): Promise<IDataSource[]> {
     return [];
   }
 }
+
+export type GlobalSQLSnippetDBType = {
+  id: string;
+  content: string;
+  is_preset: boolean;
+  create_time: string;
+  update_time: string;
+};
+
+export async function listGlobalSQLSnippets(): Promise<GlobalSQLSnippetDBType[]> {
+  try {
+    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.getRequest('POST')('/sql_snippet/list', {
+      filter: {},
+      sort: [
+        {
+          field: 'id',
+          order: 'ASC',
+        },
+      ],
+      pagination: {
+        page: 1,
+        pagesize: 1000,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}

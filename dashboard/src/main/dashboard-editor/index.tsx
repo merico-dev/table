@@ -1,27 +1,27 @@
 import { AppShell, Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
+import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
-import { useInteractionOperationHacks } from '~/interactions/temp-hack';
-import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
-import { DashboardViewEditor } from '~/view';
+import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { configureAPIClient } from '~/api-caller/request';
+import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
 import { ModelContextProvider } from '~/contexts/model-context';
+import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextInfoType, createDashboardModel } from '~/model';
-import { useTopLevelServices } from '../use-top-level-services';
-import { createPluginContext, PluginContext } from '~/plugins';
+import { PluginContext, createPluginContext } from '~/plugins';
+import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
+import { registerThemes } from '~/styles/register-themes';
+import { DashboardViewEditor } from '~/view';
 import { DashboardContentDBType, IDashboard } from '../../types/dashboard';
-import { listDataSources } from '~/api-caller';
-import './index.css';
+import { useTopLevelServices } from '../use-top-level-services';
 import { DashboardEditorHeader } from './header';
+import './index.css';
 import { DashboardEditorNavbar } from './navbar';
 import { Settings } from './settings';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
-import { reaction, toJS } from 'mobx';
-import { registerThemes } from '~/styles/register-themes';
-import { ContentModelContextProvider } from '~/contexts/content-model-context';
 
 registerThemes();
 
@@ -80,11 +80,12 @@ const _DashboardEditor = (
   configureAPIClient(config);
 
   const { data: datasources = [] } = useRequest(listDataSources);
+  const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
   const [layoutFrozen, freezeLayout] = React.useState(false);
 
   const model = React.useMemo(
-    () => createDashboardModel(dashboard, content, datasources, context),
+    () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context),
     [dashboard, content],
   );
   React.useImperativeHandle(ref, () => model, [model]);
@@ -97,6 +98,10 @@ const _DashboardEditor = (
   React.useEffect(() => {
     model.datasources.replace(datasources);
   }, [datasources]);
+
+  React.useEffect(() => {
+    model.globalSQLSnippets.replace(globalSQLSnippets);
+  }, [globalSQLSnippets]);
 
   React.useEffect(() => {
     return reaction(
