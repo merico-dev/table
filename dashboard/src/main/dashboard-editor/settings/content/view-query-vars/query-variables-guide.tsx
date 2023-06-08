@@ -1,17 +1,9 @@
-import { Alert, Stack, Sx, Tabs, Text } from '@mantine/core';
+import { Alert, Stack, Sx, Tabs } from '@mantine/core';
 import { Prism } from '@mantine/prism';
-import {
-  IconAlertCircle,
-  IconInfoCircle,
-  IconInfoSquare,
-  IconMessageCircle,
-  IconPhoto,
-  IconSettings,
-  IconVariable,
-  IconVariablePlus,
-} from '@tabler/icons';
+import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext, useModelContext } from '~/contexts';
+import { GlobalSQLSnippetsTable } from './global-sql-snippets-table';
 
 interface IQueryVariablesGuide {
   showSQLSnippets?: boolean;
@@ -93,9 +85,7 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
             <Alert icon={<IconAlertCircle size={16} />} title="Global SQL Snippets">
               SQL snippets worth sharing between dashboards are managed in System Settings by admins.
             </Alert>
-            <Prism language="json" sx={{ width: '100%' }} noCopy colorScheme="dark">
-              {'{}'}
-            </Prism>
+            <GlobalSQLSnippetsTable />
           </Stack>
         </Tabs.Panel>
       </Tabs>
