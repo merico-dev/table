@@ -1,6 +1,4 @@
-import { loader } from '@monaco-editor/react';
 import type { Monaco } from '@monaco-editor/react';
-import { MonacoPath } from './config';
 
 function registerGitDiffLanguage(monaco: Monaco) {
   monaco.languages.register({ id: 'git-diff-language' });
@@ -29,13 +27,7 @@ function defineGitDiffTheme(monaco: Monaco) {
     colors: {},
   });
 }
-
-const cleanURL = (str: string) => {
-  return str.replace(/([^:])(\/\/+)/g, '$1/');
-};
-const path = cleanURL(MonacoPath);
-loader.config({ paths: { vs: path } });
-loader.init().then((monaco) => {
+export function configureDiffLanguage(monaco: Monaco) {
   registerGitDiffLanguage(monaco);
   defineGitDiffTheme(monaco);
-});
+}

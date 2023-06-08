@@ -19,7 +19,7 @@ import { LoginPage } from './pages/login-page';
 import { StatusPage } from './pages/status-page';
 import { RunMiddlewares } from './frames/run-middlewares';
 import { SQLSnippetPage } from './pages/sql-snippet-page';
-import('./utils/custom-monaco-editor-languages');
+import('./utils/configure-monaco-editor');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
