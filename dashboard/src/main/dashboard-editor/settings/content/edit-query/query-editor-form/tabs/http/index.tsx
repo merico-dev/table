@@ -1,7 +1,7 @@
 import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { InlineFunctionInput } from '~/components/inline-function-input';
-import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
+import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { QueryModelInstance } from '~/model';
 
 export const DEFAULT_HTTP_REQ_PROCESSING = {

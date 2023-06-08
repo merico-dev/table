@@ -3,13 +3,13 @@ import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext, useModelContext } from '~/contexts';
 
-interface IGlobalVariablesGuide {
+interface IQueryVariablesGuide {
   showSQLSnippets?: boolean;
   sx?: Sx;
 }
 
 const example = `
--- You may reference global variables in SQL or VizConfig.
+-- You may reference query variables in SQL or VizConfig.
 SELECT *
 FROM commit
 WHERE
@@ -21,10 +21,10 @@ WHERE
   AND \$\{sql_snippets.author_email_condition\}
   \$\{sql_snippets.order_by_clause\}
 `;
-export const GlobalVariablesGuide = observer(function _GlobalVariablesGuide({
+export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
   showSQLSnippets = true,
   sx = {},
-}: IGlobalVariablesGuide) {
+}: IQueryVariablesGuide) {
   const model = useModelContext();
   const content = useContentModelContext();
   const contextInfo = model.context.current;

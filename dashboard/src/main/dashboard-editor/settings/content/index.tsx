@@ -8,7 +8,7 @@ import { EditQuery } from './edit-query';
 import { EditSQLSnippet } from './edit-sql-snippet';
 import { EditView } from './edit-view';
 import { isGlobalVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
-import { ViewGlobalVars } from './view-global-vars';
+import { ViewGlobalVars } from './view-query-vars';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;

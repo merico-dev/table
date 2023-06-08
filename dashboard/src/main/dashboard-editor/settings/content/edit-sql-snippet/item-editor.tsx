@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
-import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
+import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { SQLSnippetModelInstance } from '~/model';
 import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
