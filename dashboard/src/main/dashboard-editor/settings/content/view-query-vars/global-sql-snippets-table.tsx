@@ -8,7 +8,7 @@ function HoverToSeeContent({ content }: { content: string }) {
   return (
     <HoverCard width="60vw" shadow="md">
       <HoverCard.Target>
-        <ActionIcon size={16}>
+        <ActionIcon size={16} color="blue">
           <IconEye />
         </ActionIcon>
       </HoverCard.Target>
