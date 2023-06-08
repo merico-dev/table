@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { QueryVariablesGuide } from './query-variables-guide';
 
-export const QuerylVariablesModal = observer(() => {
+export const QueryVariablesModal = observer(() => {
   const [opened, setOpened] = useState(false);
   return (
     <>

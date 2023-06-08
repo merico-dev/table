@@ -1,7 +1,7 @@
 import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { InlineFunctionInput } from '~/components/inline-function-input';
-import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
+import { QueryVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { QueryModelInstance } from '~/model';
 
 export const DEFAULT_HTTP_REQ_PROCESSING = {
@@ -23,7 +23,7 @@ export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelI
       <Tabs.List>
         <Tabs.Tab value="pre_process">Build Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
-        <GlobalVariablesModal />
+        <QueryVariablesModal />
       </Tabs.List>
       <Tabs.Panel value="pre_process" sx={{ position: 'relative' }} p="sm">
         <InlineFunctionInput

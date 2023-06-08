@@ -7,14 +7,14 @@ import { EditPanel } from './edit-panel';
 import { EditQuery } from './edit-query';
 import { EditSQLSnippet } from './edit-sql-snippet';
 import { EditView } from './edit-view';
-import { isGlobalVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
-import { ViewGlobalVars } from './view-query-vars';
+import { isQueryVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel } from './utils';
+import { ViewQueryVars } from './view-query-vars';
 
 const Content = observer(() => {
   const editor = useModelContext().editor;
   const path = editor.path;
-  if (isGlobalVars(path)) {
-    return <ViewGlobalVars />;
+  if (isQueryVars(path)) {
+    return <ViewQueryVars />;
   }
   if (isMockContext(path)) {
     return <EditMockContext />;
