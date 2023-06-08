@@ -27,7 +27,6 @@ function defineSQLTheme(monaco: Monaco) {
         for (let match = null; (match = tokenPattern.exec(line)); ) {
           // translate token and modifiers to number representations
           const type = legend.tokenTypes.indexOf(match[1]);
-          console.log(type, match, line);
           if (type === -1) {
             continue;
           }
