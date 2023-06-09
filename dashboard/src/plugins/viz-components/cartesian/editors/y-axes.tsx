@@ -122,6 +122,9 @@ export function YAxesField({ control, watch }: IYAxesField) {
     append({
       name: '',
       label_formatter: defaultNumbroFormat,
+      min: '',
+      max: '',
+      show: true,
     });
 
   return (
