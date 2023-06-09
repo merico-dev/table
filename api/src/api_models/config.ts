@@ -11,15 +11,29 @@ import { Authentication } from './base';
 export class Config {
   @ApiModelProperty({
     description: 'Key of config',
-    required: true,
   })
   key: string;
 
   @ApiModelProperty({
     description: 'Value of config',
-    required: true,
   })
   value: string;
+}
+
+@ApiModel({
+  description: 'Config description entity',
+  name: 'ConfigDescription',
+})
+export class ConfigDescription {
+  @ApiModelProperty({
+    description: 'Key of config',
+  })
+  key: string;
+
+  @ApiModelProperty({
+    description: 'description of config',
+  })
+  description: string;
 }
 
 @ApiModel({

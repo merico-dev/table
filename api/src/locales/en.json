@@ -44,5 +44,9 @@
   "CUSTOM_FUNCTION_NO_DELETE_PRESET": "Preset custom functions can not be deleted",
   "SQL_SNIPPET_ALREADY_EXISTS": "A sql snippet with that id already exists",
   "SQL_SNIPPET_NO_EDIT_PRESET": "Preset sql snippets can not be edited",
-  "SQL_SNIPPET_NO_DELETE_PRESET": "Preset sql snippets can not be deleted"
+  "SQL_SNIPPET_NO_DELETE_PRESET": "Preset sql snippets can not be deleted",
+  "CONFIG_DESCRIPTION_LANG": "Configure the locality of server responses",
+  "CONFIG_DESCRIPTION_WEBSITE_SETTINGS": "Configurations for the website logo and favicon",
+  "CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED": "Configure whether to cache query results",
+  "CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME": "Configure the time in seconds before query cache expires"
 }

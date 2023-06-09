@@ -5,8 +5,9 @@ import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
 import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
-import i18n, { translate } from '../utils/i18n';
+import i18n, { CONFIG_DESCRIPTION_KEYS, translate } from '../utils/i18n';
 import { ROLE_TYPES } from '../api_models/role';
+import { ConfigDescription } from '../api_models/config';
 
 export enum ConfigResourceTypes {
   GLOBAL = 'GLOBAL',
@@ -18,6 +19,7 @@ type KeyConfig = {
   [key: string]: KeyConfigProperties;
 };
 type KeyConfigProperties = {
+  description: CONFIG_DESCRIPTION_KEYS;
   auth: Auth;
   isGlobal: boolean;
   acceptedValues?: string[];
@@ -34,6 +36,7 @@ type AuthConfig = {
 export class ConfigService {
   static keyConfig: KeyConfig = {
     lang: {
+      description: 'CONFIG_DESCRIPTION_LANG',
       auth: {
         get: {},
         update: {
@@ -45,6 +48,7 @@ export class ConfigService {
       default: DEFAULT_LANGUAGE,
     },
     website_settings: {
+      description: 'CONFIG_DESCRIPTION_WEBSITE_SETTINGS',
       auth: {
         get: {},
         update: {
@@ -60,6 +64,7 @@ export class ConfigService {
       }),
     },
     query_cache_enabled: {
+      description: 'CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED',
       auth: {
         get: {},
         update: {
@@ -70,6 +75,7 @@ export class ConfigService {
       default: 'false',
     },
     query_cache_expire_time: {
+      description: 'CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME',
       auth: {
         get: {},
         update: {
@@ -84,6 +90,15 @@ export class ConfigService {
   static async delete(key: string, resource_type: ConfigResourceTypes, resource_id: string): Promise<void> {
     const configRepo = dashboardDataSource.getRepository(Config);
     await configRepo.delete({ key, resource_id, resource_type });
+  }
+
+  getDescriptions(locale: string): ConfigDescription[] {
+    return Object.keys(ConfigService.keyConfig).map((key) => {
+      return {
+        key,
+        description: translate(ConfigService.keyConfig[key].description, locale),
+      };
+    });
   }
 
   async get(
