@@ -26,8 +26,8 @@ export const QueryModel = types
   .views((self) => ({
     get formattedSQL() {
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).content.payloadForSQL;
-      return explainSQL(self.sql, context, mock_context, sqlSnippets, filterValues);
+      const payload = getRoot(self).content.payloadForSQL;
+      return explainSQL(self.sql, payload);
     },
     get typedAsSQL() {
       return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
@@ -42,10 +42,10 @@ export const QueryModel = types
     },
     get httpConfigString() {
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).content.payloadForSQL;
+      const { context, filters } = getRoot(self).content.payloadForSQL;
       const { name, pre_process } = self.json;
 
-      const config = explainHTTPRequest(pre_process, context, mock_context, filterValues);
+      const config = explainHTTPRequest(pre_process, context, filters);
       console.groupCollapsed(`Request config for: ${name}`);
       console.log(config);
       console.groupEnd();
@@ -100,16 +100,13 @@ export const QueryModel = types
         self.state = 'loading';
         try {
           // @ts-expect-error untyped getRoot(self)
-          const { context, mock_context, sqlSnippets, filterValues } = getRoot(self).content.payloadForSQL;
+          const payload = getRoot(self).content.payloadForSQL;
           self.data = yield* toGenerator(
             queryBySQL(
               {
-                context,
-                mock_context,
-                sqlSnippets,
+                payload,
                 title: self.name,
                 query: self.json,
-                filterValues,
               },
               self.controller.signal,
             ),

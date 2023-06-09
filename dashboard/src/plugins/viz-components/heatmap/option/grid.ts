@@ -11,5 +11,6 @@ export function getGrid(conf: IHeatmapConf) {
     left: 5,
     right: 5,
     bottom,
+    containLabel: true,
   };
 }

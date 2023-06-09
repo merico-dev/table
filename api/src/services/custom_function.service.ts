@@ -50,15 +50,22 @@ export class CustomFunctionService {
     return await customFunctionRepo.findOneByOrFail({ id });
   }
 
-  async createOrUpdate(id: string, definition: string, locale: string): Promise<CustomFunctionAPIModel> {
+  async create(id: string, definition: string, locale: string): Promise<CustomFunctionAPIModel> {
     const customFunctionRepo = dashboardDataSource.getRepository(CustomFunction);
-    let customFunction = await customFunctionRepo.findOneBy({ id });
-    if (customFunction && customFunction.is_preset) {
-      throw new ApiError(BAD_REQUEST, { message: translate('CUSTOM_FUNCTION_NO_EDIT_PRESET', locale) });
+    if (await customFunctionRepo.exist({ where: { id } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('CUSTOM_FUNCTION_ALREADY_EXISTS', locale) });
     }
-    if (!customFunction) {
-      customFunction = new CustomFunction();
-      customFunction.id = id;
+    const customFunction = new CustomFunction();
+    customFunction.id = id;
+    customFunction.definition = definition;
+    return await customFunctionRepo.save(customFunction);
+  }
+
+  async update(id: string, definition: string, locale: string): Promise<CustomFunctionAPIModel> {
+    const customFunctionRepo = dashboardDataSource.getRepository(CustomFunction);
+    const customFunction = await customFunctionRepo.findOneByOrFail({ id });
+    if (customFunction.is_preset) {
+      throw new ApiError(BAD_REQUEST, { message: translate('CUSTOM_FUNCTION_NO_EDIT_PRESET', locale) });
     }
     customFunction.definition = definition;
     return await customFunctionRepo.save(customFunction);

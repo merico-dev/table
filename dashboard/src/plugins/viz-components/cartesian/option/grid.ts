@@ -2,7 +2,7 @@ import { ICartesianChartConf } from '../type';
 
 export function getGrid(conf: ICartesianChartConf) {
   const hasYAxisName = conf.y_axes.some((y) => !!y.name);
-  let top = 10;
+  let top = 15;
   if (hasYAxisName) {
     top += 20;
   }
@@ -20,6 +20,9 @@ export function getGrid(conf: ICartesianChartConf) {
 
   return {
     top,
+    right: 15,
     bottom,
+    left: 20,
+    containLabel: true,
   };
 }

@@ -15,7 +15,7 @@ import { createDashboardModel } from '../../model';
 import { ContextInfoType } from '../../model/context';
 import { DashboardContentDBType, IDashboard } from '../../types/dashboard';
 import { useTopLevelServices } from '../use-top-level-services';
-import { listDataSources } from '~/api-caller';
+import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { FullScreenPanelContext } from '~/contexts';
 import './index.css';
 import { registerThemes } from '~/styles/register-themes';
@@ -46,9 +46,10 @@ export const ReadOnlyDashboard = observer(
     configureAPIClient(config);
 
     const { data: datasources = [] } = useRequest(listDataSources);
+    const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
     const model = React.useMemo(
-      () => createDashboardModel(dashboard, content, datasources, context),
+      () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context),
       [dashboard, content],
     );
     useInteractionOperationHacks(model.content, false);
@@ -60,6 +61,10 @@ export const ReadOnlyDashboard = observer(
     React.useEffect(() => {
       model.datasources.replace(datasources);
     }, [datasources]);
+
+    React.useEffect(() => {
+      model.globalSQLSnippets.replace(globalSQLSnippets);
+    }, [globalSQLSnippets]);
 
     const pluginContext = useCreation(createPluginContext, []);
     const configureServices = useTopLevelServices(pluginContext);

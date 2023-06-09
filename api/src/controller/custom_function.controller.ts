@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpPost, interfaces } from 'inversify-express-utils';
-import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
 import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
@@ -54,8 +54,8 @@ export class CustomFunctionController implements interfaces.Controller {
   }
 
   @ApiOperationPost({
-    path: '/createOrUpdate',
-    description: 'Create or update a custom function',
+    path: '/create',
+    description: 'Create a custom function',
     parameters: {
       body: {
         description: 'custom function create or update request',
@@ -68,11 +68,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/createOrUpdate', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionCreateOrUpdateRequest))
-  public async createOrUpdate(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+  @httpPost('/create', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionCreateOrUpdateRequest))
+  public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, definition } = req.body as CustomFunctionCreateOrUpdateRequest;
-      const result = await this.customFunctionService.createOrUpdate(id, definition, req.locale);
+      const result = await this.customFunctionService.create(id, definition, req.locale);
       res.json(result);
     } catch (err) {
       next(err);
@@ -99,6 +99,32 @@ export class CustomFunctionController implements interfaces.Controller {
     try {
       const { id } = req.body as CustomFunctionIDRequest;
       const result = await this.customFunctionService.get(id);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @ApiOperationPut({
+    path: '/update',
+    description: 'Update a custom function',
+    parameters: {
+      body: {
+        description: 'custom function create or update request',
+        required: true,
+        model: 'CustomFunctionCreateOrUpdateRequest',
+      },
+    },
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'CustomFunction' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
+  })
+  @httpPut('/update', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionCreateOrUpdateRequest))
+  public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { id, definition } = req.body as CustomFunctionCreateOrUpdateRequest;
+      const result = await this.customFunctionService.update(id, definition, req.locale);
       res.json(result);
     } catch (err) {
       next(err);

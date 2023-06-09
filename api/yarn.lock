@@ -104,7 +104,7 @@
     inversify "*"
 
 "@types/lodash@^4.14.182":
-  version "4.14.194"
+  version "4.14.195"
   dependencies:
     "@types/node" "*"
     pg-protocol "*"

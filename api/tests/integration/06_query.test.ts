@@ -46,6 +46,7 @@ describe('QueryService', () => {
 
     it('should query http successfully with GET', async () => {
       const query: HttpParams = {
+        host: '',
         method: 'GET',
         data: {},
         params: {},
@@ -69,6 +70,7 @@ describe('QueryService', () => {
 
     it('should query http successfully with POST', async () => {
       const query: HttpParams = {
+        host: '',
         method: 'POST',
         data: { title: 'foo', body: 'bar', userId: 1 },
         params: {},
@@ -83,6 +85,7 @@ describe('QueryService', () => {
 
     it('should query http successfully with PUT', async () => {
       const query: HttpParams = {
+        host: '',
         method: 'PUT',
         data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
         params: {},
@@ -97,6 +100,7 @@ describe('QueryService', () => {
 
     it('should query http successfully with DELETE', async () => {
       const query: HttpParams = {
+        host: '',
         method: 'DELETE',
         data: {},
         params: {},

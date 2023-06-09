@@ -2,7 +2,7 @@ import { IScatterChartConf } from '../type';
 
 export function getGrid(conf: IScatterChartConf) {
   const hasYAxisName = conf.y_axes.some((y) => !!y.name);
-  let top = 10;
+  let top = 15;
   if (hasYAxisName) {
     top += 20;
   }

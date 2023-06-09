@@ -221,3 +221,27 @@ export function v15(legacyConf: any): ICartesianChartConf {
     }),
   };
 }
+
+export function v16(legacyConf: any): ICartesianChartConf {
+  const { series, y_axes, ...rest } = legacyConf;
+  return {
+    ...rest,
+    series: series.map((s: any) => {
+      const { hide_in_legend = false, aggregation_on_value = DefaultAggregation } = s;
+      return {
+        ...s,
+        hide_in_legend,
+        aggregation_on_value,
+      };
+    }),
+    y_axes: y_axes.map((y: any) => {
+      const { min = '', max = '', show = true } = y;
+      return {
+        ...y,
+        min,
+        max,
+        show,
+      };
+    }),
+  };
+}

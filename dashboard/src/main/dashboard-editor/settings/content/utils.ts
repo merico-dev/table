@@ -1,7 +1,7 @@
 import { ValidEditorPathType } from '~/model/editor';
 
-export function isGlobalVars(path: ValidEditorPathType) {
-  return path.length === 1 && path[0] === '_GLOBAL_VARS_';
+export function isQueryVars(path: ValidEditorPathType) {
+  return path.length === 1 && path[0] === '_QUERY_VARS_';
 }
 
 export function isMockContext(path: ValidEditorPathType) {

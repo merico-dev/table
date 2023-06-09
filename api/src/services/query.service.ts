@@ -6,6 +6,7 @@ import { validateClass } from '../middleware/validation';
 import { HttpParams } from '../api_models/query';
 import { sqlRewriter } from '../plugins';
 import { ApiError, QUERY_ERROR } from '../utils/errors';
+import { getFsCache, getFsCacheKey, isFsCacheEnabled, putFsCache } from '../utils/fs_cache';
 
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
@@ -38,7 +39,7 @@ export class QueryService {
     }
   }
 
-  async query(type: string, key: string, query: string, env: Record<string, any>): Promise<any> {
+  async query(type: string, key: string, query: string, env: Record<string, any>, refresh_cache = false): Promise<any> {
     let q: string = query;
     if (['postgresql', 'mysql'].includes(type)) {
       const { error, sql } = await sqlRewriter(query, env);
@@ -47,23 +48,38 @@ export class QueryService {
       }
       q = sql;
     }
-
+    const fsCacheEnabled = await isFsCacheEnabled();
+    const cacheKey = getFsCacheKey(`${type}:${key}:${q}`);
+    if (fsCacheEnabled && !refresh_cache) {
+      const cached = await getFsCache(cacheKey);
+      if (cached) {
+        return cached;
+      }
+    }
+    let result;
     switch (type) {
       case 'postgresql':
-        return await this.postgresqlQuery(key, q);
+        result = await this.postgresqlQuery(key, q);
+        break;
 
       case 'mysql':
-        return await this.mysqlQuery(key, q);
+        result = await this.mysqlQuery(key, q);
+        break;
 
       case 'http':
-        return await this.httpQuery(key, q);
+        result = await this.httpQuery(key, q);
+        break;
 
       default:
         return null;
     }
+    if (fsCacheEnabled) {
+      await putFsCache(cacheKey, result);
+    }
+    return result;
   }
 
-  private async postgresqlQuery(key: string, query: string): Promise<object[]> {
+  private async postgresqlQuery(key: string, sql: string): Promise<any> {
     let source = QueryService.getDBConnection('postgresql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('postgresql', key);
@@ -71,10 +87,10 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('postgresql', key, source);
     }
-    return await source.query(query);
+    return await source.query(sql);
   }
 
-  private async mysqlQuery(key: string, query: string): Promise<object[]> {
+  private async mysqlQuery(key: string, sql: string): Promise<any> {
     let source = QueryService.getDBConnection('mysql', key);
     if (!source) {
       const sourceConfig = await DataSourceService.getByTypeKey('mysql', key);
@@ -82,7 +98,7 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('mysql', key, source);
     }
-    return await source.query(query);
+    return await source.query(sql);
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {

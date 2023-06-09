@@ -3,7 +3,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
-import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
+import { QueryVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { SQLSnippetModelInstance } from '~/model';
 import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
@@ -81,7 +81,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
         <Tabs.List sx={{ position: 'relative' }}>
           <Tabs.Tab value="SQL">SQL</Tabs.Tab>
           <Tabs.Tab value="Preview">Preview</Tabs.Tab>
-          <GlobalVariablesModal />
+          <QueryVariablesModal />
           <ActionIcon
             color="blue"
             variant="filled"
@@ -93,7 +93,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           </ActionIcon>
         </Tabs.List>
         <Tabs.Panel value="SQL" pt="sm">
-          <MinimalMonacoEditor height="100%" value={value} onChange={setValue} />
+          <MinimalMonacoEditor height="100%" value={value} onChange={setValue} defaultLanguage="sql" theme="sql-dark" />
         </Tabs.Panel>
         <Tabs.Panel value="Preview" pt="sm">
           <PreviewSnippet value={value} />

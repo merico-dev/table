@@ -7,11 +7,13 @@ export const getVersion = () =>
 export * from './datasource';
 export * from './account';
 export * from './api-key';
+export * from './sql_snippet';
 
 export * from './api-caller/account.typed';
 export * from './api-caller/api-key.typed';
 export * from './api-caller/datasource.typed';
 export * from './api-caller/role.typed';
+export * from './api-caller/sql_snippet.typed';
 
 // NOTE: keep it align with global.d.ts
 export interface ISettingsFormConfig {

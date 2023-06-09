@@ -8,7 +8,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import { SqlSnippetCreateOrUpdateRequest, SqlSnippetIDRequest, SqlSnippetListRequest } from '~/api_models/sql_snippet';
 import { notFoundId } from './constants';
 
-describe('DashboardChangelogController', () => {
+describe('SqlSnippetController', () => {
   connectionHook();
   let superadminLogin: AccountLoginResponse;
 
@@ -38,7 +38,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response1 = await server
-        .post('/sql_snippet/createOrUpdate')
+        .post('/sql_snippet/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
@@ -55,7 +55,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response2 = await server
-        .post('/sql_snippet/createOrUpdate')
+        .post('/sql_snippet/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
@@ -66,6 +66,25 @@ describe('DashboardChangelogController', () => {
       });
     });
 
+    it('should fail if duplicate', async () => {
+      const request: SqlSnippetCreateOrUpdateRequest = {
+        id: 'sqlSnippet1',
+        content: 'sqlSnippet1',
+      };
+
+      const response = await server
+        .post('/sql_snippet/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: { message: 'A sql snippet with that id already exists' },
+      });
+    });
+  });
+
+  describe('update', () => {
     it('should update successfully', async () => {
       const request: SqlSnippetCreateOrUpdateRequest = {
         id: 'sqlSnippet1',
@@ -73,7 +92,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response = await server
-        .post('/sql_snippet/createOrUpdate')
+        .put('/sql_snippet/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -91,7 +110,7 @@ describe('DashboardChangelogController', () => {
       };
 
       const response = await server
-        .post('/sql_snippet/createOrUpdate')
+        .put('/sql_snippet/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -99,6 +118,22 @@ describe('DashboardChangelogController', () => {
         code: 'BAD_REQUEST',
         detail: { message: 'Preset sql snippets can not be edited' },
       });
+    });
+
+    it('should fail if not found', async () => {
+      const request: SqlSnippetCreateOrUpdateRequest = {
+        id: notFoundId,
+        content: '',
+      };
+
+      const response = await server
+        .put('/sql_snippet/update')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body.code).toEqual('NOT_FOUND');
+      expect(response.body.detail.message).toContain('Could not find any entity of type "SqlSnippet" matching');
+      expect(response.body.detail.message).toContain(notFoundId);
     });
   });
 

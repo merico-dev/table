@@ -1,14 +1,14 @@
 import { Button, Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { GlobalVariablesGuide } from './global-variables-guide';
+import { QueryVariablesGuide } from './query-variables-guide';
 
-export const GlobalVariablesModal = observer(() => {
+export const QueryVariablesModal = observer(() => {
   const [opened, setOpened] = useState(false);
   return (
     <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title="Global Variables" zIndex={320} size="800px">
-        <GlobalVariablesGuide />
+      <Modal opened={opened} onClose={() => setOpened(false)} title="Query Variables" zIndex={320} size="800px">
+        <QueryVariablesGuide />
       </Modal>
 
       <Button
@@ -17,7 +17,7 @@ export const GlobalVariablesModal = observer(() => {
         px={16}
         styles={{ inner: { justifyContent: 'flex-start' } }}
       >
-        See Global Variables
+        See Query Variables
       </Button>
     </>
   );

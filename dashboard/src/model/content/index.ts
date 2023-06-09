@@ -20,6 +20,22 @@ import { SQLSnippetsModel } from '../sql-snippets';
 
 import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
 import { createDashboardViewsModel, ViewsModel } from '../views';
+import { formatSQL } from '~/utils/sql';
+
+export type TPayloadForSQL = {
+  context: AnyObject;
+  sql_snippets: AnyObject;
+  global_sql_snippets: AnyObject;
+  filters: AnyObject;
+};
+export type TPayloadForSQLSnippet = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
+
+function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
+  return list.reduce((ret, curr) => {
+    ret[curr[idKey]] = formatSQL(curr[valueKey], params);
+    return ret;
+  }, {} as Record<string, string>);
+}
 
 const _ContentModel = types
   .model({
@@ -88,14 +104,23 @@ const _ContentModel = types
       const fields = 'mock_context.current';
       return !isEqual(get(self, fields), get(self.origin, fields));
     },
-    get payloadForSQL() {
+    get payloadForSQL(): TPayloadForSQL {
       // @ts-expect-error type of getParent
       const context = getParent(self).context.current;
+      // @ts-expect-error type of getParent
+      const global_sql_snippets = getParent(self).globalSQLSnippets;
+
+      const params = {
+        context: {
+          ...self.mock_context.current,
+          ...context,
+        },
+        filters: self.filters.values,
+      };
       return {
-        context,
-        mock_context: self.mock_context.current,
-        sqlSnippets: self.sqlSnippets.current,
-        filterValues: self.filters.values,
+        ...params,
+        sql_snippets: formatSQLSnippet(self.sqlSnippets.current, 'key', 'value', params),
+        global_sql_snippets: formatSQLSnippet(global_sql_snippets.list, 'id', 'content', params),
       };
     },
     get changed() {

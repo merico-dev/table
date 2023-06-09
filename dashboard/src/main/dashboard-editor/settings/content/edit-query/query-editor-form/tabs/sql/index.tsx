@@ -4,7 +4,7 @@ import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { InlineFunctionInput } from '~/components/inline-function-input';
 import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
-import { GlobalVariablesModal } from '~/main/dashboard-editor/settings/content/view-global-vars/global-variables-modal';
+import { QueryVariablesModal } from '~/main/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { QueryModelInstance } from '~/model';
 import { DBExplorerModal } from '../../../../db-explorer-modal';
 import { PreviewSQL } from './preview-sql';
@@ -66,11 +66,11 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelIn
         <Tabs.Tab value="Preview">Preview SQL</Tabs.Tab>
         <Tabs.Tab value="pre_process">Process Request</Tabs.Tab>
         <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
-        <GlobalVariablesModal />
+        <QueryVariablesModal />
         {queryModel.datasource && <DBExplorerModal dataSource={queryModel.datasource} />}
       </Tabs.List>
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
-        <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} />
+        <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} theme="sql-dark" defaultLanguage="sql" />
       </Tabs.Panel>
       <Tabs.Panel value="Preview" p={0} pl={4}>
         <PreviewSQL value={queryModel.sql} />

@@ -4,9 +4,10 @@ import ApiKey from '../models/apiKey';
 import Config from '../models/config';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { FindOptionsWhere } from 'typeorm';
-import { DEFAULT_LANGUAGE } from '../utils/constants';
-import i18n, { translate } from '../utils/i18n';
+import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
+import i18n, { CONFIG_DESCRIPTION_KEYS, translate } from '../utils/i18n';
 import { ROLE_TYPES } from '../api_models/role';
+import { ConfigDescription } from '../api_models/config';
 
 export enum ConfigResourceTypes {
   GLOBAL = 'GLOBAL',
@@ -18,6 +19,7 @@ type KeyConfig = {
   [key: string]: KeyConfigProperties;
 };
 type KeyConfigProperties = {
+  description: CONFIG_DESCRIPTION_KEYS;
   auth: Auth;
   isGlobal: boolean;
   acceptedValues?: string[];
@@ -34,6 +36,7 @@ type AuthConfig = {
 export class ConfigService {
   static keyConfig: KeyConfig = {
     lang: {
+      description: 'CONFIG_DESCRIPTION_LANG',
       auth: {
         get: {},
         update: {
@@ -45,6 +48,7 @@ export class ConfigService {
       default: DEFAULT_LANGUAGE,
     },
     website_settings: {
+      description: 'CONFIG_DESCRIPTION_WEBSITE_SETTINGS',
       auth: {
         get: {},
         update: {
@@ -59,6 +63,28 @@ export class ConfigService {
         WEBSITE_FAVICON_URL: process.env.WEBSITE_FAVICON_URL,
       }),
     },
+    query_cache_enabled: {
+      description: 'CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED',
+      auth: {
+        get: {},
+        update: {
+          min: ROLE_TYPES.ADMIN,
+        },
+      },
+      isGlobal: true,
+      default: 'false',
+    },
+    query_cache_expire_time: {
+      description: 'CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME',
+      auth: {
+        get: {},
+        update: {
+          min: ROLE_TYPES.ADMIN,
+        },
+      },
+      isGlobal: true,
+      default: FS_CACHE_RETAIN_TIME,
+    },
   };
 
   static async delete(key: string, resource_type: ConfigResourceTypes, resource_id: string): Promise<void> {
@@ -66,9 +92,18 @@ export class ConfigService {
     await configRepo.delete({ key, resource_id, resource_type });
   }
 
+  getDescriptions(locale: string): ConfigDescription[] {
+    return Object.keys(ConfigService.keyConfig).map((key) => {
+      return {
+        key,
+        description: translate(ConfigService.keyConfig[key].description, locale),
+      };
+    });
+  }
+
   async get(
     key: string,
-    auth: Account | ApiKey | undefined,
+    auth?: Account | ApiKey,
     locale: string = DEFAULT_LANGUAGE,
   ): Promise<{ key: string; value: string | undefined }> {
     const keyConfig = ConfigService.keyConfig[key];

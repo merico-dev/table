@@ -35,9 +35,9 @@ export const MuteQueryModel = types
         return [];
       }
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).content.payloadForSQL;
-      const contextOptions = Object.keys({ ...mock_context, ...context }).map((k) => `context.${k}`);
-      const filterOptions = Object.keys(filterValues).map((k) => `filters.${k}`);
+      const { context, filters } = getRoot(self).content.payloadForSQL;
+      const contextOptions = Object.keys({ ...context }).map((k) => `context.${k}`);
+      const filterOptions = Object.keys(filters).map((k) => `filters.${k}`);
       const keys = [...contextOptions, ...filterOptions];
       return keys.map((k) => ({
         label: k.split('.')[1],
@@ -56,14 +56,7 @@ export const MuteQueryModel = types
         return [];
       }
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).content.payloadForSQL;
-      const payload = {
-        context: {
-          ...mock_context,
-          ...context,
-        },
-        filters: filterValues,
-      };
+      const payload = getRoot(self).content.payloadForSQL;
 
       return run_by.filter((c) => {
         const value = _.get(payload, c);
@@ -84,14 +77,7 @@ export const MuteQueryModel = types
         return '';
       }
       // @ts-expect-error untyped getRoot(self)
-      const { context, mock_context, filterValues } = getRoot(self).content.payloadForSQL;
-      const source = {
-        context: {
-          ...context,
-          ...mock_context,
-        },
-        filters: filterValues,
-      };
+      const source = getRoot(self).content.payloadForSQL;
       const payload = [...react_to].reduce((acc, path) => {
         acc[path] = _.get(source, path);
         return acc;

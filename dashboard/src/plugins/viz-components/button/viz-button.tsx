@@ -37,10 +37,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
 
   const { width, height } = context.viewport;
 
-  const params = {
-    filters: contentModel.payloadForSQL.filterValues,
-    context: contentModel.payloadForSQL.context,
-  };
+  const payload = contentModel.payloadForSQL;
 
   const handleClick = () => {
     triggers.forEach((t) => {
@@ -57,7 +54,7 @@ export const VizButton = observer(({ context, instance }: VizViewProps) => {
       }}
     >
       <Button {...mantineProps} onClick={handleClick}>
-        {template(content)(params)}
+        {template(content)(payload)}
       </Button>
     </Center>
   );

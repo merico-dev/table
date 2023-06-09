@@ -18,7 +18,8 @@ import { DataSourcePage } from './pages/data-source-page';
 import { LoginPage } from './pages/login-page';
 import { StatusPage } from './pages/status-page';
 import { RunMiddlewares } from './frames/run-middlewares';
-import('./utils/custom-monaco-editor-languages');
+import { SQLSnippetPage } from './pages/sql-snippet-page';
+import('./utils/configure-monaco-editor');
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -46,6 +47,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                   </Route>
                   <Route path="/admin" element={<AdminFrame />}>
                     <Route path="data_source/list" element={<DataSourcePage />} />
+                    <Route path="sql_snippet/list" element={<SQLSnippetPage />} />
                     <Route path="account/list" element={<AccountsPage />} />
                     <Route path="api_key/list" element={<APIKeyPage />} />
                     <Route path="status" element={<StatusPage />} />
