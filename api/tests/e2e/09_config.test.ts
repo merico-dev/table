@@ -55,6 +55,31 @@ describe('ConfigController', () => {
     await dashboardDataSource.getRepository(Config).save(config);
   });
 
+  describe('getDescriptions', () => {
+    it('should return all descriptions', async () => {
+      const response = await server.get('/config/getDescriptions').send();
+
+      expect(response.body).toMatchObject([
+        {
+          key: 'lang',
+          description: 'Configure the locality of server responses',
+        },
+        {
+          key: 'website_settings',
+          description: 'Configurations for the website logo and favicon',
+        },
+        {
+          key: 'query_cache_enabled',
+          description: 'Configure whether to cache query results',
+        },
+        {
+          key: 'query_cache_expire_time',
+          description: 'Configure the time in seconds before query cache expires',
+        },
+      ]);
+    });
+  });
+
   describe('get', () => {
     it('should return default locale when not authenticated or not updated', async () => {
       const request1: ConfigGetRequest = {

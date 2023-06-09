@@ -63,6 +63,30 @@ describe('ConfigService', () => {
     await dashboardDataSource.getRepository(Config).save(config);
   });
 
+  describe('getDescriptions', () => {
+    it('should return descriptions', async () => {
+      const result = await configService.getDescriptions(DEFAULT_LANGUAGE);
+      expect(result).toMatchObject([
+        {
+          key: 'lang',
+          description: 'Configure the locality of server responses',
+        },
+        {
+          key: 'website_settings',
+          description: 'Configurations for the website logo and favicon',
+        },
+        {
+          key: 'query_cache_enabled',
+          description: 'Configure whether to cache query results',
+        },
+        {
+          key: 'query_cache_expire_time',
+          description: 'Configure the time in seconds before query cache expires',
+        },
+      ]);
+    });
+  });
+
   describe('get', () => {
     it('should return default value', async () => {
       const result1 = await configService.get('lang', undefined);

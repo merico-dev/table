@@ -47,7 +47,7 @@ import {
 import { Role } from './role';
 import { QueryRequest, HttpParams } from './query';
 import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job';
-import { Config, ConfigGetRequest, ConfigUpdateRequest } from './config';
+import { Config, ConfigDescription, ConfigGetRequest, ConfigUpdateRequest } from './config';
 import {
   DashboardChangelog,
   DashboardChangelogFilterObject,
@@ -168,6 +168,7 @@ export default {
   DashboardChangelogSortObject,
 
   Config,
+  ConfigDescription,
   ConfigGetRequest,
   ConfigUpdateRequest,
 

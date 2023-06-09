@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { inject, interfaces as inverfaces } from 'inversify';
-import { controller, httpPost, interfaces } from 'inversify-express-utils';
-import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpGet, httpPost, interfaces } from 'inversify-express-utils';
+import { ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { ConfigService } from '../services/config.service';
 import { validate } from '../middleware/validation';
 import { ConfigGetRequest, ConfigUpdateRequest } from '../api_models/config';
@@ -17,6 +17,24 @@ export class ConfigController implements interfaces.Controller {
 
   public constructor(@inject('Newable<ConfigService>') ConfigService: inverfaces.Newable<ConfigService>) {
     this.configService = new ConfigService();
+  }
+
+  @ApiOperationGet({
+    path: '/getDescriptions',
+    description: 'Get config descrptions',
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ConfigDescription' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
+  })
+  @httpGet('/getDescriptions')
+  public async getDescriptions(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const result = await this.configService.getDescriptions(req.locale);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
   }
 
   @ApiOperationPost({
