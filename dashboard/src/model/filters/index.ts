@@ -98,6 +98,12 @@ export const FiltersModel = types
           } as const),
       );
     },
+    get keyLabelOptions() {
+      return self.current.map((f) => ({
+        label: f.label ?? f.key,
+        value: f.key,
+      }));
+    },
     get empty() {
       return self.current.length === 0;
     },
