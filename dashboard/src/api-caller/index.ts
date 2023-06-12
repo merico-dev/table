@@ -15,10 +15,11 @@ interface IQueryBySQL {
   title: string;
   query: { type: DataSourceType; key: string; sql: string; pre_process: string; post_process: string };
   payload: TPayloadForSQL;
+  content_id: string;
   query_id: string;
 }
 
-export async function queryBySQL({ query, payload, query_id }: IQueryBySQL, signal: AbortSignal) {
+export async function queryBySQL({ query, payload, content_id, query_id }: IQueryBySQL, signal: AbortSignal) {
   if (!query.sql) {
     return [];
   }
@@ -26,7 +27,7 @@ export async function queryBySQL({ query, payload, query_id }: IQueryBySQL, sign
 
   const formattedSQL = formatSQL(sql, payload);
   const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
-  let data = await APIClient.query(signal)({ type, key, query: finalSQL, query_id }, {});
+  let data = await APIClient.query(signal)({ type, key, query: finalSQL, content_id, query_id }, {});
   data = postProcessSQLQuery(post_process, data);
   return data;
 }
@@ -35,11 +36,15 @@ interface IQueryByHTTP {
   type: DataSourceType;
   key: string;
   configString: string;
+  content_id: string;
   query_id: string;
 }
 
-export async function queryByHTTP({ type, key, configString, query_id }: IQueryByHTTP, signal: AbortSignal) {
-  const res = await APIClient.query(signal)({ type, key, query: configString, query_id }, {});
+export async function queryByHTTP(
+  { type, key, configString, content_id, query_id }: IQueryByHTTP,
+  signal: AbortSignal,
+) {
+  const res = await APIClient.query(signal)({ type, key, query: configString, content_id, query_id }, {});
   return res;
 }
 

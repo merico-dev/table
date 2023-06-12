@@ -108,6 +108,8 @@ export const QueryModel = types
                 title: self.name,
                 query: self.json,
                 query_id: self.id,
+                // @ts-expect-error typeof getRoot
+                content_id: getRoot(self).content.id,
               },
               self.controller.signal,
             ),
@@ -146,6 +148,8 @@ export const QueryModel = types
                 key,
                 configString: JSON.stringify(config),
                 query_id: self.id,
+                // @ts-expect-error typeof getRoot
+                content_id: getRoot(self).content.id,
               },
               self.controller.signal,
             ),
