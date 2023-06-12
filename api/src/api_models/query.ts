@@ -25,6 +25,13 @@ export class QueryRequest {
 
   @IsString()
   @ApiModelProperty({
+    description: 'id of the query defined in dashboard content',
+    required: true,
+  })
+  query_id: string;
+
+  @IsString()
+  @ApiModelProperty({
     description:
       'query to be executed against selected datasource. For http data sources query must be a json parsable object string',
     required: true,
