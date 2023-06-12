@@ -1,10 +1,44 @@
-import { ActionIcon, Button, Flex, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
+import { IconDeviceFloppy } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { Trash } from 'tabler-icons-react';
+import { useEffect, useState } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
+
+const TableSx: Sx = {
+  'tbody tr': {
+    opacity: 0.5,
+    transition: 'opacity 200ms ease',
+  },
+  'tr[data-affected=true]': {
+    opacity: 1,
+  },
+};
+const PayloadKeyInput = ({ value = '', onChange }: { value?: string; onChange: (k: string) => void }) => {
+  const [v, setV] = useState(value);
+  useEffect(() => {
+    setV(value);
+  }, [value]);
+  const submit = () => {
+    onChange(v);
+  };
+
+  return (
+    <TextInput
+      size="xs"
+      label=""
+      value={v}
+      onChange={(e) => setV(e.currentTarget.value)}
+      sx={{ flexGrow: 1 }}
+      rightSection={
+        <ActionIcon color="green" size="xs" onClick={submit} disabled={v === value}>
+          <IconDeviceFloppy />
+        </ActionIcon>
+      }
+    />
+  );
+};
 
 export interface ISetFilterValuesOperationConfig {
   dictionary: Record<string, string>;
@@ -20,61 +54,60 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
   );
 
   const { dictionary = {} } = value;
-  const setDictionary = (key: string, value: string) => {
+  console.log({ value: { ...value }, dictionary: { ...dictionary }, filters: [...model.filters.keyLabelOptions] });
+
+  const handleChange = (filterKey: string, payloadKey: string) => {
+    if (payloadKey === '') {
+      const newDict = {
+        ...dictionary,
+      };
+      delete newDict[filterKey];
+      set({
+        dictionary: newDict,
+      });
+      return;
+    }
+
     set({
       dictionary: {
         ...dictionary,
-        [key]: value,
+        [filterKey]: payloadKey,
       },
     });
   };
 
-  const append = () => {
-    setDictionary(model.filters.firstFilterValueKey, '');
-  };
-
-  const remove = (filterKey: string) => {
-    const newDict = {
-      ...dictionary,
-    };
-    delete newDict[filterKey];
-    set({
-      dictionary: newDict,
-    });
-  };
-
   return (
-    <Stack spacing={10}>
-      <Text>Mapping Rules</Text>
-      {Object.entries(dictionary).map(([filterKey, payloadKey]) => (
-        <Flex justify="space-between" gap={10} key={filterKey}>
-          <TextInput
-            label="Payload key"
-            value={payloadKey}
-            onChange={(e) => {
-              setDictionary(filterKey, e.currentTarget.value);
-            }}
-            sx={{ flexGrow: 1 }}
-          />
-          {/* <Text sx={{ flexGrow: 0, flexShrink: 0 }}>as</Text> */}
-          <DataFieldSelector
-            data={[model.filters.values]}
-            value={filterKey}
-            onChange={(key) => {
-              setDictionary(key, payloadKey);
-            }}
-            label="Filter key"
-            sx={{ flexGrow: 1 }}
-          />
-          <ActionIcon onClick={() => remove(filterKey)} sx={{ marginTop: '26px', flexGrow: 0 }}>
-            <Trash size={14} color="red" />
-          </ActionIcon>
-        </Flex>
-      ))}
-      <Button size="xs" onClick={append} sx={{ alignSelf: 'center', width: '300px' }}>
-        Add one mapping rule
-      </Button>
-    </Stack>
+    <Table sx={TableSx}>
+      <thead>
+        <tr>
+          <th>Set filter</th>
+          <th>with</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[...model.filters.keyLabelOptions].map((o) => {
+          const affected = o.value in dictionary;
+          return (
+            <tr key={o.value} data-affected={affected}>
+              <td>{o.label}</td>
+              <td>
+                {/* <NativeSelect
+                  size="xs"
+                  data={payloadOptions}
+                  label=""
+                  value={dictionary[o.value] ?? '$undefined'}
+                  onChange={(e) => handleChange(o.value, e.currentTarget.value)}
+                /> */}
+                <PayloadKeyInput
+                  value={dictionary[o.value]}
+                  onChange={(payloadKey: string) => handleChange(o.value, payloadKey)}
+                />
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </Table>
   );
 });
 

@@ -1,4 +1,4 @@
-import { Button, Modal, Select, Stack } from '@mantine/core';
+import { Button, Modal, Select, Stack, Tabs } from '@mantine/core';
 import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -117,8 +117,18 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
         >
           <Stack>
             <OperationSchemaSelect model={model} />
-            <OperationSettings model={model} />
-            <VariableList title="Variables" variables={model.variables} />
+            <Tabs defaultValue="settings">
+              <Tabs.List>
+                <Tabs.Tab value="settings">Settings</Tabs.Tab>
+                <Tabs.Tab value="variables">Variables</Tabs.Tab>
+              </Tabs.List>
+              <Tabs.Panel value="settings" pt={10}>
+                <OperationSettings model={model} />
+              </Tabs.Panel>
+              <Tabs.Panel value="variables" pt={10}>
+                <VariableList title="Variables" variables={model.variables} />
+              </Tabs.Panel>
+            </Tabs>
           </Stack>
         </Modal>
       </>
