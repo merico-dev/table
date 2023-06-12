@@ -56,7 +56,7 @@ export const DataSourceModel = types
       try {
         const tables: TableInfoType[] = yield* toGenerator(
           APIClient.query(self.controllers.tables.signal)(
-            { type: self.type, key: self.key, query: self.tables.sql },
+            { type: self.type, key: self.key, query: self.tables.sql, query_id: 'builtin:load_table_schema' },
             {},
           ),
         );
@@ -89,7 +89,7 @@ export const DataSourceModel = types
         try {
           self.columns.data = yield* toGenerator(
             APIClient.query(self.controllers.columns.signal)(
-              { type: self.type, key: self.key, query: self.columns.sql },
+              { type: self.type, key: self.key, query: self.columns.sql, query_id: 'builtin:load_columns' },
               {},
             ),
           );
@@ -114,7 +114,7 @@ export const DataSourceModel = types
         try {
           self.indexes.data = yield* toGenerator(
             APIClient.query(self.controllers.indexes.signal)(
-              { type: self.type, key: self.key, query: self.indexes.sql },
+              { type: self.type, key: self.key, query: self.indexes.sql, query_id: 'builtin:load_indexes' },
               {},
             ),
           );
@@ -139,11 +139,14 @@ export const DataSourceModel = types
         m.state = 'loading';
         try {
           m.data = yield* toGenerator(
-            APIClient.query(self.controllers.tableData.signal)({ type: self.type, key: self.key, query: m.sql }, {}),
+            APIClient.query(self.controllers.tableData.signal)(
+              { type: self.type, key: self.key, query: m.sql, query_id: 'builtin:load_table_data' },
+              {},
+            ),
           );
           const [{ total }] = yield* toGenerator(
             APIClient.query(self.controllers.tableData.signal)(
-              { type: self.type, key: self.key, query: m.countSql },
+              { type: self.type, key: self.key, query: m.countSql, query_id: 'builtin:load_table_row_count' },
               {},
             ),
           );

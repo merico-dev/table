@@ -7,6 +7,7 @@ type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
+  query_id: string;
   env?: AnyObject;
 };
 
