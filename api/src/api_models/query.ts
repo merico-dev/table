@@ -25,6 +25,13 @@ export class QueryRequest {
 
   @IsString()
   @ApiModelProperty({
+    description: 'id of the dashboard content',
+    required: true,
+  })
+  content_id: string;
+
+  @IsString()
+  @ApiModelProperty({
     description: 'id of the query defined in dashboard content',
     required: true,
   })
