@@ -145,7 +145,6 @@ const _ContentModel = types
       if (!q) {
         return {
           data: [],
-          dataProxy: null,
           len: 0,
           state: 'idle',
           error: undefined,
@@ -153,7 +152,6 @@ const _ContentModel = types
       }
       return {
         data: q.data.toJSON(),
-        dataProxy: q.data,
         len: q.data.length,
         state: q.state,
         error: q.error,
