@@ -17,7 +17,7 @@ import { ErrorMessageOrNotFound } from '~/filter/error-message-or-not-found';
 export type TSelectOption = {
   label: string;
   value: string;
-  description: string;
+  description?: string;
 };
 
 type StylesNames = Selectors<typeof useStyles>;
@@ -105,9 +105,11 @@ export const MultiSelectWidget = ({
                 <Text size="sm" data-role="label">
                   {o.label}
                 </Text>
-                <Text size="xs" color="dimmed" data-role="description">
-                  {o.description}
-                </Text>
+                {o.description && (
+                  <Text size="xs" color="dimmed" data-role="description">
+                    {o.description}
+                  </Text>
+                )}
               </div>
             </Group>
           </Option>
