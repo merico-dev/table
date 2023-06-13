@@ -17,13 +17,13 @@ import './index.css';
 function usePluginViz(data: TVizData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
-    panel: { viz, title, id, description, queryID, variables },
+    panel: { viz, title, id, description, queryIDs, variables },
   } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
     id,
     description,
-    queryID,
+    queryIDs,
     viz,
     layout,
   };

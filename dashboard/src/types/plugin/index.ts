@@ -86,7 +86,8 @@ type Setter<T> = (val: T) => void;
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
   setDescription: Setter<string>;
-  setQueryID: Setter<string>;
+  addQueryID: Setter<string>;
+  removeQueryID: Setter<string>;
 }
 
 export interface VizConfigContext extends VizContext {

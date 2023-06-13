@@ -27,7 +27,7 @@ export interface IDashboardPanel {
     moved?: boolean;
     static?: boolean;
   };
-  queryID: string;
+  queryIDs: string[];
   viz: IVizConfig;
   style: IDashboardPanelStyle;
   variables: ITemplateVariable[];
