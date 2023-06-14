@@ -122,6 +122,13 @@ export const PanelModel = types
       const editor = getRoot(self).editor;
       editor.setPath(['_VIEWS_', targetViewID, '_PANELS_', self.id]);
     },
+    refreshData() {
+      self.queries.forEach((q) => q.fetchData());
+    },
+    downloadData() {
+      // @ts-expect-error typeof getRoot
+      getRoot(self).content.queries.downloadDataByQueryIDs(self.queryIDs);
+    },
   }));
 
 export type PanelModelInstance = Instance<typeof PanelModel>;

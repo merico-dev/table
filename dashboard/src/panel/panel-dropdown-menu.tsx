@@ -15,10 +15,9 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
   const modals = useModals();
 
   const { panel } = usePanelContext();
-  const { id, query } = panel;
+  const { id } = panel;
 
   const { inEditMode } = React.useContext(LayoutStateContext);
-  const refreshData = () => query?.fetchData();
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
@@ -51,13 +50,10 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewModelInstance }
             <Box className="panel-dropdown-target" sx={{ width: '100%', height: '25px' }}></Box>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item onClick={refreshData} icon={<Refresh size={14} />}>
+            <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>
               Refresh
             </Menu.Item>
-            <Menu.Item
-              onClick={() => content.queries.downloadDataByQueryID(query?.id ?? '')}
-              icon={<Download size={14} />}
-            >
+            <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
               Download Data
             </Menu.Item>
             {showFullScreenOption && (

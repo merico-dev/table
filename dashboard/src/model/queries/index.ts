@@ -55,6 +55,16 @@ export const QueriesModel = types
         }));
         downloadDataListAsZip(idDataList);
       },
+      downloadDataByQueryIDs(ids: string[]) {
+        const idset = new Set(ids);
+        const idDataList = self.current
+          .filter((q) => idset.has(q.id))
+          .map(({ name, data }) => ({
+            id: name,
+            data: data.toJSON(),
+          }));
+        downloadDataListAsZip(idDataList);
+      },
       downloadDataByQueryID(id: string) {
         const query = self.findByID(id);
         if (!query) {
