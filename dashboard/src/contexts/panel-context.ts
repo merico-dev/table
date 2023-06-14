@@ -5,12 +5,12 @@ const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;
   data: Record<string, TVizData>;
   loading: boolean;
-  error: string[];
+  errors: string[];
 }>({
   panel: null,
   data: {},
   loading: false,
-  error: [],
+  errors: [],
 });
 
 export const PanelContextProvider = PanelContext.Provider;
@@ -24,6 +24,6 @@ export function usePanelContext() {
     panel: PanelModelInstance;
     data: Record<string, TVizData>;
     loading: boolean;
-    error: string[];
+    errors: string[];
   };
 }

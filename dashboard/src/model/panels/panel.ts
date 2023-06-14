@@ -31,8 +31,8 @@ export const PanelModel = types
         .filter((q) => !!q) as QueryModelInstance[];
     },
     get data() {
-      return this.queries.reduce((ret: Record<string, TVizData>, q) => {
-        ret[q.id] = q.data.toJSON() as TVizData;
+      return this.queries.reduce((ret: TPanelData, q) => {
+        ret[q.id] = q.data.toJSON();
         return ret;
       }, {});
     },
@@ -47,10 +47,10 @@ export const PanelModel = types
     get dataLoading() {
       return this.queries.some((q) => q.state === 'loading');
     },
-    get queryStateMessage() {
+    get queryStateMessages() {
       return this.queries.map((q) => q.stateMessage);
     },
-    get queryError() {
+    get queryErrors() {
       return this.queries.map((q) => q.error);
     },
     get json() {

@@ -3,18 +3,17 @@ import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 
 import { observer } from 'mobx-react-lite';
-import React, { ReactNode, useContext } from 'react';
-import { QueryModelInstance } from '~/model';
+import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
+import { ErrorBoundary } from '~/utils/error-boundary';
 import { usePanelContext } from '../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { IVizConfig } from '../../types';
-import { ErrorBoundary } from '~/utils/error-boundary';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 import './index.css';
 
-function usePluginViz(data: TVizData, layout: IViewPanelInfo['layout']): ReactNode | null {
+function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
     panel: { viz, title, id, description, queryIDs, variables },
@@ -52,13 +51,13 @@ const typesDontNeedData = ['richText', 'button'];
 
 interface IViz {
   viz: IVizConfig;
-  data: TVizData;
+  data: TPanelData;
   loading: boolean;
-  error?: string;
-  query?: QueryModelInstance;
+  errors: string[];
+  queryStateMessages: string[];
 }
 
-export const Viz = observer(function _Viz({ viz, data, loading, error, query }: IViz) {
+export const Viz = observer(function _Viz({ viz, data, loading, errors, queryStateMessages }: IViz) {
   const { ref, width, height } = useElementSize();
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
@@ -78,21 +77,21 @@ export const Viz = observer(function _Viz({ viz, data, loading, error, query }: 
       </div>
     );
   }
-  const showError = !!error;
-  const showStateMessage = !showError && !!query?.stateMessage;
-  const showViz = !showError && !showStateMessage;
+  const showViz = errors.length === 0 && queryStateMessages.length === 0;
   return (
     <div className="viz-root" ref={ref}>
-      {showError && (
-        <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
-          {error}
+      {errors.map((err, i) => (
+        <Text key={`${i}-${err}`} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+          {err}
         </Text>
-      )}
-      {showStateMessage && (
-        <Text color="gray" align="center">
-          {query.stateMessage}
+      ))}
+
+      {queryStateMessages.map((msg, i) => (
+        <Text key={`${i}-${msg}`} color="gray" align="center">
+          {msg}
         </Text>
-      )}
+      ))}
+
       {showViz && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
     </div>
   );

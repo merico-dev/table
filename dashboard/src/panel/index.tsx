@@ -1,9 +1,9 @@
 import { Box, Flex } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
-import { PanelModelInstance } from '~/model/panels';
 import { ViewModelInstance } from '~/model';
-import { LayoutStateContext, useContentModelContext } from '../contexts';
+import { PanelModelInstance } from '~/model/panels';
+import { LayoutStateContext } from '../contexts';
 import { PanelContextProvider } from '../contexts/panel-context';
 import './index.css';
 import { DescriptionPopover } from './panel-description';
@@ -46,19 +46,15 @@ function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, 
 }
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
-  const model = useContentModelContext();
   const { inEditMode } = useContext(LayoutStateContext);
-
-  const { data, state, error } = model.getDataStuffByID(panel.queryID);
-  const query = model.queries.findByID(panel.queryID);
   const panelNeedData = doesVizRequiresData(panel.viz.type);
-  const loading = panelNeedData && state === 'loading';
+  const loading = panelNeedData && panel.dataLoading;
 
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   const panelStyle = getPanelBorderStyle(panel, panelNeedData, inEditMode);
   const needDropdownMenu = panelNeedData || inEditMode;
   return (
-    <PanelContextProvider value={{ panel, data, loading }}>
+    <PanelContextProvider value={{ panel, data: panel.data, loading, errors: panel.queryErrors }}>
       <Box
         className="panel-root"
         p={5}
@@ -73,7 +69,13 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
         <Flex direction="column" sx={{ height: contentHeight }}>
-          <Viz viz={panel.viz} data={data} loading={loading} error={error} query={query} />
+          <Viz
+            viz={panel.viz}
+            data={panel.data}
+            loading={loading}
+            errors={panel.queryErrors}
+            queryStateMessages={panel.queryStateMessages}
+          />
         </Flex>
       </Box>
     </PanelContextProvider>

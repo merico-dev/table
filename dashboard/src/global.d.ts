@@ -12,4 +12,7 @@ interface IDashboardConfig {
 
 type TFunctionString = string;
 
+// NOTE: will be deprecated
 type TVizData = Record<string, $TSFixMe>[];
+
+type TPanelData = Record<string, Record<string, $TSFixMe>[]>;
