@@ -23,7 +23,8 @@ function getColorByColorConf(conf: ColorConfType, value: number | number[] | nul
   return 'black';
 }
 
-export function variable2Jsx(variable: ITemplateVariable, data: Record<string, number>[]) {
+// TODO: use TPanelData
+export function variable2Jsx(variable: ITemplateVariable, data: any) {
   const { color, data_field, aggregation, size, weight } = variable;
   const value = aggregateValue(data, data_field, aggregation);
   const valueContent = formatAggregatedValue(variable, value);
@@ -35,7 +36,8 @@ export function variable2Jsx(variable: ITemplateVariable, data: Record<string, n
   return text;
 }
 
-function variablesToElements(variables: ITemplateVariable[], data: Record<string, number>[]) {
+// TODO: use TPanelData
+function variablesToElements(variables: ITemplateVariable[], data: any) {
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach((variable) => {
     const name = variable.name;

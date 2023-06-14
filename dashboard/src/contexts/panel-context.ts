@@ -3,7 +3,7 @@ import { PanelModelInstance } from '~/model/panels';
 
 const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;
-  data: Record<string, TVizData>;
+  data: TPanelData;
   loading: boolean;
   errors: string[];
 }>({
@@ -22,7 +22,7 @@ export function usePanelContext() {
   }
   return c as {
     panel: PanelModelInstance;
-    data: Record<string, TVizData>;
+    data: TPanelData;
     loading: boolean;
     errors: string[];
   };

@@ -1,19 +1,19 @@
 import { useCreation } from 'ahooks';
 import { makeAutoObservable, runInAction } from 'mobx';
-import { AnyObject, Ready } from '~/types';
+import { Ready } from '~/types';
 import { ITrigger, ITriggerSchema, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
 export class TriggerConfigModel {
   triggerId?: string;
   trigger?: ITrigger;
   triggerSchema?: ITriggerSchema;
-  sampleData?: AnyObject[];
+  sampleData?: TPanelData;
 
   get schemaList() {
     return this.triggerManager.getTriggerSchemaList();
   }
 
-  async configTrigger(triggerId: string, sampleData: AnyObject[]) {
+  async configTrigger(triggerId: string, sampleData: TPanelData) {
     const trigger = await this.triggerManager.retrieveTrigger(triggerId);
     const schema = this.triggerManager.getTriggerSchemaList().find((it) => it.id === trigger?.schemaRef);
     runInAction(() => {

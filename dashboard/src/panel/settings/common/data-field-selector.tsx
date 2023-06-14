@@ -6,11 +6,12 @@ interface IDataFieldSelector {
   required?: boolean;
   value: string;
   onChange: (v: string) => void;
-  data: $TSFixMe[];
+  data: $TSFixMe;
   clearable?: boolean;
   sx?: Sx;
 }
 
+// TODO: use TPanelData
 function _DataFieldSelector(
   { label, required, value, onChange, data, clearable = false, sx, ...restProps }: IDataFieldSelector,
   ref: $TSFixMe,

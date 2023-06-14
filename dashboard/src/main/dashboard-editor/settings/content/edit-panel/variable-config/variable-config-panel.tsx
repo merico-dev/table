@@ -1,19 +1,18 @@
 import { ActionIcon, Box, Button, Group, Paper, Stack } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
 import { IconDeviceFloppy, IconTrash } from '@tabler/icons';
+import { observer } from 'mobx-react-lite';
 
-import { getSnapshot, Instance } from 'mobx-state-tree';
-import { createDraft, VariableModel } from '~/model/variables';
 import { useCreation } from 'ahooks';
+import { getSnapshot, Instance } from 'mobx-state-tree';
+import { usePanelContext } from '~/contexts';
 import {
   useConfigUIModel,
   VariableConfigUIModel,
 } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/model';
-import { TemplateVariableField } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-field';
 import { useStyles } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/styles';
-import { usePanelContext } from '~/contexts';
+import { TemplateVariableField } from '~/main/dashboard-editor/settings/content/edit-panel/variable-config/variable-field';
+import { createDraft, VariableModel } from '~/model/variables';
 import { ITemplateVariable, variable2Jsx } from '~/utils/template';
-import { AnyObject } from '~/types';
 
 export interface IVariableListProps {
   uiModel: VariableConfigUIModel;
@@ -39,7 +38,7 @@ const _VariableList = (props: IVariableListProps) => {
 
 export const VariableList = observer(_VariableList);
 
-const _VariablePreview = ({ variable, data }: { variable: ITemplateVariable; data: AnyObject[] }) => (
+const _VariablePreview = ({ variable, data }: { variable: ITemplateVariable; data: TPanelData }) => (
   <Group style={{ minHeight: 0, height: 'calc(100% - 68px)' }}>
     <Paper withBorder p="md">
       {variable2Jsx(variable, data)}

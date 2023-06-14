@@ -11,7 +11,7 @@ import { TemplateVariableStyleField } from '~/utils/template/editor/variable-sty
 interface ITemplateVariableField {
   value: ITemplateVariable;
   onChange: (v: ITemplateVariable) => void;
-  data: $TSFixMe[];
+  data: TPanelData;
   withStyle?: boolean;
 }
 

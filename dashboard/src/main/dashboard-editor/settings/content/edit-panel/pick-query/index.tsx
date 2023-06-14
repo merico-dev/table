@@ -1,12 +1,9 @@
 // TODO: new UI
 
-import { ActionIcon, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
-import { IconArrowCurveRight } from '@tabler/icons';
+import { Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
-import { DataPreview } from '../../data-preview';
-import { FilterMultiSelect } from '~/filter/filter-multi-select/render';
 import { MultiSelectWidget } from '~/filter/filter-multi-select/render/widget';
+import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
