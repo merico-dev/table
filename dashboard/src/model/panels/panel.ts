@@ -48,10 +48,13 @@ export const PanelModel = types
       return this.queries.some((q) => q.state === 'loading');
     },
     get queryStateMessages() {
-      return this.queries.map((q) => q.stateMessage);
+      return this.queries.map((q) => q.stateMessage).filter((m) => !!m);
     },
     get queryErrors() {
-      return this.queries.map((q) => q.error);
+      return this.queries.map((q) => q.error).filter((e) => !!e);
+    },
+    get canRenderViz() {
+      return this.queryErrors.length > 0 || this.queryStateMessages.length > 0 || !this.dataLoading;
     },
     get json() {
       const { id, title, description, queryIDs } = self;

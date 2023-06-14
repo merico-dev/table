@@ -1,4 +1,4 @@
-import { Box, Flex } from '@mantine/core';
+import { Box, Flex, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { ViewModelInstance } from '~/model';
@@ -10,6 +10,8 @@ import { DescriptionPopover } from './panel-description';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
 import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
+import { PanelErrorOrStateMessage } from './panel-error-or-state-message';
+import { PanelVizSection } from './panel-viz-section';
 
 function doesVizRequiresData(type: string) {
   const vizTypes = ['richText', 'button'];
@@ -32,14 +34,11 @@ const hoverBorder = {
   },
 };
 
-function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, inEditMode: boolean) {
+function getPanelBorderStyle(panel: PanelModelInstance, inEditMode: boolean) {
   if (panel.style.border.enabled) {
     return constantBorder;
   }
   if (inEditMode) {
-    return hoverBorder;
-  }
-  if (panelNeedData) {
     return hoverBorder;
   }
   return { border: '1px dashed transparent' };
@@ -47,14 +46,12 @@ function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, 
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
   const { inEditMode } = useContext(LayoutStateContext);
-  const panelNeedData = doesVizRequiresData(panel.viz.type);
-  const loading = panelNeedData && panel.dataLoading;
 
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
-  const panelStyle = getPanelBorderStyle(panel, panelNeedData, inEditMode);
-  const needDropdownMenu = panelNeedData || inEditMode;
+  const panelStyle = getPanelBorderStyle(panel, inEditMode);
+  const needDropdownMenu = inEditMode;
   return (
-    <PanelContextProvider value={{ panel, data: panel.data, loading, errors: panel.queryErrors }}>
+    <PanelContextProvider value={{ panel, data: panel.data, loading: panel.dataLoading, errors: panel.queryErrors }}>
       <Box
         className="panel-root"
         p={5}
@@ -68,15 +65,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         </Box>
         {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
-        <Flex direction="column" sx={{ height: contentHeight }}>
-          <Viz
-            viz={panel.viz}
-            data={panel.data}
-            loading={loading}
-            errors={panel.queryErrors}
-            queryStateMessages={panel.queryStateMessages}
-          />
-        </Flex>
+        <PanelVizSection panel={panel} height={contentHeight} />
       </Box>
     </PanelContextProvider>
   );

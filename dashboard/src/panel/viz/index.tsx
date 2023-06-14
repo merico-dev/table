@@ -1,4 +1,3 @@
-import { LoadingOverlay, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 
@@ -47,52 +46,19 @@ function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): React
   }
 }
 
-const typesDontNeedData = ['richText', 'button'];
-
 interface IViz {
   viz: IVizConfig;
   data: TPanelData;
-  loading: boolean;
-  errors: string[];
-  queryStateMessages: string[];
 }
 
-export const Viz = observer(function _Viz({ viz, data, loading, errors, queryStateMessages }: IViz) {
+export const Viz = observer(function _Viz({ data }: IViz) {
   const { ref, width, height } = useElementSize();
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
-  const dontNeedData = typesDontNeedData.includes(viz.type);
-  if (dontNeedData) {
-    return (
-      <div className="viz-root" ref={ref}>
-        <ErrorBoundary>{pluginViz}</ErrorBoundary>
-      </div>
-    );
-  }
 
-  if (loading) {
-    return (
-      <div className="viz-root" style={{ position: 'relative' }} ref={ref}>
-        <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-      </div>
-    );
-  }
-  const showViz = errors.length === 0 && queryStateMessages.length === 0;
   return (
     <div className="viz-root" ref={ref}>
-      {errors.map((err, i) => (
-        <Text key={`${i}-${err}`} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
-          {err}
-        </Text>
-      ))}
-
-      {queryStateMessages.map((msg, i) => (
-        <Text key={`${i}-${msg}`} color="gray" align="center">
-          {msg}
-        </Text>
-      ))}
-
-      {showViz && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
+      <ErrorBoundary>{pluginViz}</ErrorBoundary>
     </div>
   );
 });
