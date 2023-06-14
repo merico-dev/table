@@ -157,12 +157,6 @@ const _ContentModel = types
         error: q.error,
       };
     },
-    getDataStateByID(queryID: string) {
-      return self.queries.findByID(queryID)?.state ?? [];
-    },
-    getDataErrorByID(queryID: string) {
-      return self.queries.findByID(queryID)?.error ?? [];
-    },
   }))
   .views((self) => ({
     findQueryUsage(queryID: string) {
@@ -170,7 +164,7 @@ const _ContentModel = types
       const panels: QueryUsageType[] = self.views.current.flatMap((v) =>
         v.panelIDs
           .map((id) => panelIDMap.get(id))
-          .filter((p): p is PanelModelInstance => p?.queryID === queryID)
+          .filter((p): p is PanelModelInstance => p?.queryIDSet.has(queryID) ?? false)
           .map((p) => ({
             type: 'panel',
             id: p.id,
