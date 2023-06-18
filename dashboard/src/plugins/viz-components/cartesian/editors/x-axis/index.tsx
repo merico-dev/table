@@ -1,9 +1,16 @@
-import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
+
+const XAxisTypeOptions = [
+  { label: 'value', value: 'value' },
+  { label: 'category', value: 'category' },
+  { label: 'time', value: 'time' },
+  { label: 'log', value: 'log' },
+];
 
 interface IXAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -14,6 +21,11 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
   watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
   return (
     <Stack>
+      <Controller
+        name="x_axis_name"
+        control={control}
+        render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+      />
       <Group grow noWrap>
         <Controller
           name="x_axis_data_key"
@@ -23,9 +35,11 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           )}
         />
         <Controller
-          name="x_axis_name"
+          name="x_axis.type"
           control={control}
-          render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <Select label="X Axis Data Type" required data={XAxisTypeOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Divider mb={-15} label="Tick Label" labelPosition="center" />
