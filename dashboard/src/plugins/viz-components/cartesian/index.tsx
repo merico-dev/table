@@ -130,8 +130,15 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
         config: Migrators.v16(data.config),
       };
     });
+    this.version(17, (data) => {
+      return {
+        ...data,
+        version: 17,
+        config: Migrators.v17(data.config),
+      };
+    });
   }
-  readonly VERSION = 16;
+  readonly VERSION = 17;
 }
 
 export const CartesianVizComponent: VizComponent = {
@@ -143,7 +150,7 @@ export const CartesianVizComponent: VizComponent = {
   configRender: VizCartesianEditor,
   createConfig() {
     return {
-      version: 16,
+      version: 17,
       config: cloneDeep(DEFAULT_CONFIG) as ICartesianChartConf,
     };
   },

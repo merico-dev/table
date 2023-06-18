@@ -3,7 +3,6 @@ import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/g
 import { ICartesianChartConf } from '../type';
 
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
-  const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return [
@@ -15,7 +14,7 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
         show: true,
         alignWithLabel: true,
       },
-      type: allNumbers ? 'value' : 'category',
+      type: conf.x_axis.type,
       axisLabel: {
         ...axisLabel,
         ...overflowOption,
