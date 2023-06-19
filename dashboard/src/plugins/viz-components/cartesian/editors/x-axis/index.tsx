@@ -1,15 +1,53 @@
-import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Divider,
+  Group,
+  HoverCard,
+  NumberInput,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+  Tooltip,
+} from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
+import { IconInfoCircle } from '@tabler/icons';
+
+//https://echarts.apache.org/zh/option.html#xAxis.type
+const XAxisTypeLabel = () => {
+  return (
+    <Group sx={{ display: 'inline-flex' }} spacing={6} mr={14}>
+      <Text>X Axis Data Type</Text>
+      <HoverCard width={340} shadow="md" position="top">
+        <HoverCard.Target>
+          <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
+            <IconInfoCircle />
+          </ActionIcon>
+        </HoverCard.Target>
+        <HoverCard.Dropdown>
+          <Text size="sm">
+            Click
+            <Anchor href="https://echarts.apache.org/en/option.html#xAxis.type" target="_blank" mx={4}>
+              here
+            </Anchor>
+            to learn more about these options
+          </Text>
+        </HoverCard.Dropdown>
+      </HoverCard>
+    </Group>
+  );
+};
 
 const XAxisTypeOptions = [
-  { label: 'value', value: 'value' },
-  { label: 'category', value: 'category' },
-  { label: 'time', value: 'time' },
-  { label: 'log', value: 'log' },
+  { label: 'Value', value: 'value' },
+  { label: 'Category', value: 'category' },
+  { label: 'Time', value: 'time' },
+  { label: 'Log', value: 'log' },
 ];
 
 interface IXAxisField {
@@ -38,7 +76,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
           name="x_axis.type"
           control={control}
           render={({ field }) => (
-            <Select label="X Axis Data Type" required data={XAxisTypeOptions} sx={{ flex: 1 }} {...field} />
+            <Select label={<XAxisTypeLabel />} required data={XAxisTypeOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
