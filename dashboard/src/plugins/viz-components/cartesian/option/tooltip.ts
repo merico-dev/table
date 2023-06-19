@@ -25,6 +25,8 @@ export function getTooltip(
   }, {} as Record<string, number>);
 
   return {
+    trigger: 'axis',
+    confine: true,
     formatter: function (params: CallbackDataParams[]) {
       const arr = Array.isArray(params) ? params : [params];
       if (arr.length === 0) {
