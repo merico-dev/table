@@ -80,6 +80,7 @@ export interface ICartesianChartConf {
   x_axis_name: string;
   y_axes: IYAxisConf[];
   x_axis: {
+    type: 'value' | 'category' | 'time' | 'log',
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
@@ -104,6 +105,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
   series: [],
   stats: { templates: { bottom: '', top: '' } },
   x_axis: {
+    type: 'category',
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },

@@ -245,3 +245,14 @@ export function v16(legacyConf: any): ICartesianChartConf {
     }),
   };
 }
+
+export function v17(legacyConf: any): ICartesianChartConf {
+  const { type = 'category', ...rest} = legacyConf.x_axis
+  return {
+    ...legacyConf,
+    x_axis: {
+      ...rest,
+      type,
+    }
+  }
+}
