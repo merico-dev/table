@@ -13,10 +13,6 @@ import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
 
 const defaultOption = {
-  tooltip: {
-    trigger: 'axis',
-    confine: true,
-  },
   xAxis: [
     {
       type: 'category',
