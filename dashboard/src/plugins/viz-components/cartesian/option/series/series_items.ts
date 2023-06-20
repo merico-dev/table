@@ -6,7 +6,7 @@ import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { DataTemplateType } from './types';
 
 export function getSeriesItemOrItems(
-  { x_axis_data_key }: ICartesianChartConf,
+  { x_axis_data_key, x_axis }: ICartesianChartConf,
   {
     y_axis_data_key,
     yAxisIndex,
@@ -22,11 +22,11 @@ export function getSeriesItemOrItems(
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: DataTemplateType[],
-  valueTypedXAxis: boolean,
   data: AnyObject[],
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {
+  const valueTypedXAxis = x_axis.type !== 'category';
   const seriesItem: $TSFixMe = {
     label: {
       show: !!label_position,
