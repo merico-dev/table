@@ -36,11 +36,10 @@ export function getOption(conf: ICartesianChartConf, data: TVizData, variables: 
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);
-  const xAxisData = _.uniq(data.map((d) => d[conf.x_axis_data_key]));
-  const valueTypedXAxis = xAxisData.every((d) => !Number.isNaN(Number(d)));
+  const xAxisData = _.uniq(data.map((d) => String(d[conf.x_axis_data_key])));
 
   // options
-  const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
+  const series = getSeries(conf, xAxisData, data, labelFormatters, variables, variableValueMap);
   const regressionSeries = getRegressionConfs(conf, data);
 
   const customOptions = {

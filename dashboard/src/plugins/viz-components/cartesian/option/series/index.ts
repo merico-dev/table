@@ -9,7 +9,6 @@ import { DataTemplateType } from './types';
 export function getSeries(
   conf: ICartesianChartConf,
   xAxisData: string[],
-  valueTypedXAxis: boolean,
   data: AnyObject[],
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
@@ -17,7 +16,7 @@ export function getSeries(
 ) {
   const dataTemplate: DataTemplateType[] = xAxisData.map((v) => [v, 0]);
   const ret = conf.series
-    .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, valueTypedXAxis, data, variableValueMap, labelFormatters))
+    .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, variableValueMap, labelFormatters))
     .flat();
   return ret
     .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))

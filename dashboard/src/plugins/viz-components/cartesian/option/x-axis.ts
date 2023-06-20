@@ -7,7 +7,7 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return [
     {
-      data: conf.x_axis.type === 'category' ? undefined : xAxisData,
+      data: xAxisData,
       name: conf.x_axis_name ?? '',
       id: 'main-x-axis',
       axisTick: {
