@@ -16,6 +16,6 @@ export function main({ panels, ...rest }: Record<string, any>) {
   return {
     ...rest,
     panels: finalPanels,
-    version: '9.18.0',
+    version: '9.19.0',
   };
 }
