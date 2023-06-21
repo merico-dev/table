@@ -1,7 +1,6 @@
 import { connectionHook } from './jest.util';
 import { QueryService } from '~/services/query.service';
-import { HttpParams } from '~/api_models/query';
-import * as validation from '~/middleware/validation';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('QueryService', () => {
   connectionHook();
@@ -13,49 +12,28 @@ describe('QueryService', () => {
 
   describe('query', () => {
     it('should query pg successfully', async () => {
-      const results = await queryService.query('postgresql', 'pg', 'SELECT * FROM role ORDER BY id ASC', {});
-      expect(results).toMatchObject([
-        {
-          id: 10,
-          name: 'INACTIVE',
-          description: 'Disabled user. Can not login',
-        },
-        {
-          id: 20,
-          name: 'READER',
-          description: 'Can view dashboards',
-        },
-        {
-          id: 30,
-          name: 'AUTHOR',
-          description: 'Can view and create dashboards',
-        },
-        {
-          id: 40,
-          name: 'ADMIN',
-          description:
-            'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
-        },
-        {
-          id: 50,
-          name: 'SUPERADMIN',
-          description: 'Can do everything',
-        },
-      ]);
+      const results = await queryService.query(
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'pgQuery1',
+        { filters: { role_id: 50 }, context: { true: 'true' } },
+        {},
+        true,
+        null,
+        DEFAULT_LANGUAGE,
+      );
+      expect(results).toMatchObject([{ id: 50, description: 'Can do everything' }]);
     });
 
     it('should query http successfully with GET', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'GET',
-        data: {},
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpGetQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        null,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({
         userId: 1,
         id: 1,
@@ -69,47 +47,41 @@ describe('QueryService', () => {
     });
 
     it('should query http successfully with POST', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'POST',
-        data: { title: 'foo', body: 'bar', userId: 1 },
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpPostQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        null,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
     });
 
     it('should query http successfully with PUT', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'PUT',
-        data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpPutQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        null,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
     });
 
     it('should query http successfully with DELETE', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'DELETE',
-        data: {},
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpDeleteQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        null,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({});
     });
   });
