@@ -60,7 +60,8 @@ export function makeOneSeriesData({
   }
   const fullData = makeXYData(data, x_axis_data_key, y_axis_data_key);
   const group_by_x = _.groupBy(fullData, '0');
-  const aggregatedData = Object.entries(group_by_x).map(([x, rows]) => {
+  const aggregatedData = dataTemplate.map(([x]) => {
+    const rows = group_by_x[x];
     const y = aggregateValue(rows, '1', aggregation_on_value);
     return [x, y];
   });
