@@ -4,25 +4,32 @@ import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-e
 import { Authentication } from './base';
 
 @ApiModel({
+  description: 'Query params object',
+  name: 'QueryParams',
+})
+export class QueryParams {
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query filter params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  filters: Record<string, any>;
+
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query context params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  context: Record<string, any>;
+}
+
+@ApiModel({
   description: 'Query object',
   name: 'QueryRequest',
 })
 export class QueryRequest {
-  @IsIn(['postgresql', 'mysql', 'http'])
-  @ApiModelProperty({
-    description: 'datasource type of query',
-    required: true,
-    enum: ['postgresql', 'mysql', 'http'],
-  })
-  type: 'postgresql' | 'mysql' | 'http';
-
-  @IsString()
-  @ApiModelProperty({
-    description: 'datasource key',
-    required: true,
-  })
-  key: string;
-
   @IsString()
   @ApiModelProperty({
     description: 'id of the dashboard content',
@@ -37,13 +44,15 @@ export class QueryRequest {
   })
   query_id: string;
 
-  @IsString()
+  @IsObject()
+  @Type(() => QueryParams)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
-    description:
-      'query to be executed against selected datasource. For http data sources query must be a json parsable object string',
+    description: 'Query params',
     required: true,
+    model: 'QueryParams',
   })
-  query: string;
+  params: QueryParams;
 
   @IsOptional()
   @IsObject()

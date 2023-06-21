@@ -7,6 +7,8 @@ import { validate } from '../middleware/validation';
 import { QueryRequest } from '../api_models/query';
 import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
+import Account from '../models/account';
+import ApiKey from '../models/apiKey';
 
 @ApiPath({
   path: '/query',
@@ -35,8 +37,17 @@ export class QueryController implements interfaces.Controller {
   @httpPost('/', permission(ROLE_TYPES.READER), validate(QueryRequest))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { type, key, content_id, query_id, query, env, refresh_cache } = req.body as QueryRequest;
-      const result = await this.queryService.query(type, key, query, env || {}, refresh_cache);
+      const auth: Account | ApiKey | null = req.body.auth;
+      const { content_id, query_id, params, env, refresh_cache } = req.body as QueryRequest;
+      const result = await this.queryService.query(
+        content_id,
+        query_id,
+        params,
+        env || {},
+        refresh_cache,
+        auth,
+        req.locale,
+      );
       res.json(result);
     } catch (error) {
       next(error);

@@ -48,5 +48,7 @@
   "CONFIG_DESCRIPTION_LANG": "Configure the locality of server responses",
   "CONFIG_DESCRIPTION_WEBSITE_SETTINGS": "Configurations for the website logo and favicon",
   "CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED": "Configure whether to cache query results",
-  "CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME": "Configure the time in seconds before query cache expires"
+  "CONFIG_DESCRIPTION_QUERY_CACHE_EXPIRE_TIME": "Configure the time in seconds before query cache expires",
+  "QUERY_ID_NOT_FOUND": "A Query with that ID does not exist",
+  "QUERY_PARSING_ERROR": "Error parsing query"
 }
