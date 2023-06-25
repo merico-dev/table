@@ -54,7 +54,7 @@ export const PanelModel = types
       return this.queries.map((q) => q.error).filter((e) => !!e);
     },
     get canRenderViz() {
-      return this.queryErrors.length > 0 || this.queryStateMessages.length > 0 || !this.dataLoading;
+      return this.queryErrors.length === 0 && this.queryStateMessages.length === 0 && !this.dataLoading;
     },
     get json() {
       const { id, title, description, queryIDs } = self;
