@@ -9,7 +9,7 @@ import { DataTemplateType } from './types';
 export function getSeries(
   conf: ICartesianChartConf,
   xAxisData: string[],
-  data: AnyObject[],
+  data: TPanelData,
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,

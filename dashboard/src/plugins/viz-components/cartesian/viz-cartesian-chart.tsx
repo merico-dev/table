@@ -60,7 +60,7 @@ function Chart({
   variables,
 }: {
   conf: ICartesianChartConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
@@ -128,7 +128,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();

@@ -6,6 +6,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../editors/x-axis/x-axis-label-formatter/types';
 import { ICartesianChartConf } from '../type';
+import { IMigrationEnv } from '~/plugins';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -247,12 +248,39 @@ export function v16(legacyConf: any): ICartesianChartConf {
 }
 
 export function v17(legacyConf: any): ICartesianChartConf {
-  const { type = 'category', ...rest} = legacyConf.x_axis
+  const { type = 'category', ...rest } = legacyConf.x_axis;
   return {
     ...legacyConf,
     x_axis: {
       ...rest,
       type,
+    },
+  };
+}
+
+export function v18(legacyConf: any, { panelModel }: IMigrationEnv): ICartesianChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
     }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { x_axis_data_key, series, regressions, ...rest } = legacyConf;
+    return {
+      ...rest,
+      x_axis_data_key: changeKey(x_axis_data_key),
+      series: series.map((s: any) => ({
+        ...s,
+        y_axis_data_key: changeKey(s.y_axis_data_key),
+        group_by_key: changeKey(s.group_by_key),
+      })),
+      regressions: regressions.map((r: any) => ({
+        ...r,
+        y_axis_data_key: changeKey(r.y_axis_data_key),
+      })),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
   }
 }

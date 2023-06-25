@@ -22,7 +22,7 @@ export function getSeriesItemOrItems(
     ...rest
   }: ICartesianChartSeriesItem,
   dataTemplate: DataTemplateType[],
-  data: AnyObject[],
+  data: TPanelData,
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {

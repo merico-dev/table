@@ -2,10 +2,11 @@ import lodash, { keyBy } from 'lodash';
 import { interpolate } from 'popmotion';
 import { AnyObject } from '~/types';
 import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
+import { extractFullQueryData, parseDataKey } from '~/utils/data';
 
 export function getEchartsSymbolSize(
   { type, ...rest }: TScatterSize,
-  data: AnyObject[],
+  data: TPanelData,
   x_axis_data_key: string,
   variableValueMap: Record<string, string | number>,
 ) {
@@ -17,7 +18,8 @@ export function getEchartsSymbolSize(
     return size;
   }
   const { func_content } = rest as TScatterSize_Dynamic;
-  const rows = keyBy(data, x_axis_data_key);
+  const { queryID, columnKey } = parseDataKey(x_axis_data_key);
+  const rows = keyBy(extractFullQueryData(data, queryID), columnKey);
   return (_value: number, params: $TSFixMe) => {
     let rowData;
     if (params.name) {

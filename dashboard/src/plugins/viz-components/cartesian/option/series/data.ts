@@ -1,17 +1,20 @@
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { aggregateValue, AggregationType } from '~/utils/aggregation';
+import { aggregateValue, AggregationType, formatNumbersAndAggregateValue } from '~/utils/aggregation';
 import { DataTemplateType } from './types';
+import { extractData, extractFullQueryData, parseDataKey } from '~/utils/data';
 
 type XYDataItemType = [string | number, string | number];
 
-function makeXYData(data: AnyObject[], x_axis_data_key: string, y_axis_data_key: string): XYDataItemType[] {
-  return data.map((d) => [d[x_axis_data_key], d[y_axis_data_key]]);
+function makeXYData(data: TPanelData, x_axis_data_key: string, y_axis_data_key: string): XYDataItemType[] {
+  const xData = extractData(data, x_axis_data_key);
+  const yData = extractData(data, y_axis_data_key);
+  return _.zip(xData, yData);
 }
 
 function getFullSeriesItemData(
   dataTemplate: DataTemplateType[],
-  seriesItemData: AnyObject[],
+  seriesItemData: TPanelData,
   x_axis_data_key: string,
   y_axis_data_key: string,
 ) {
@@ -21,7 +24,7 @@ function getFullSeriesItemData(
 
 interface IMakePlainSeriesData {
   dataTemplate: DataTemplateType[];
-  data: AnyObject[];
+  data: TPanelData;
   x_axis_data_key: string;
   y_axis_data_key: string;
   valueTypedXAxis: boolean;
@@ -36,12 +39,12 @@ function makePlainSeriesData({
   if (valueTypedXAxis) {
     return getFullSeriesItemData(dataTemplate, data, x_axis_data_key, y_axis_data_key);
   }
-  return data.map((d) => d[y_axis_data_key]);
+  return extractData(data, y_axis_data_key);
 }
 
 interface IMakeOneSeriesData {
   dataTemplate: DataTemplateType[];
-  data: AnyObject[];
+  data: TPanelData;
   aggregation_on_value?: AggregationType;
   x_axis_data_key: string;
   y_axis_data_key: string;
@@ -62,7 +65,8 @@ export function makeOneSeriesData({
   const group_by_x = _.groupBy(fullData, '0');
   const aggregatedData = dataTemplate.map(([x]) => {
     const rows = group_by_x[x];
-    const y = aggregateValue(rows, '1', aggregation_on_value);
+    const yData = rows.map((r) => r[1]);
+    const y = formatNumbersAndAggregateValue(yData, aggregation_on_value);
     return [x, y];
   });
 
@@ -71,7 +75,7 @@ export function makeOneSeriesData({
 
 interface IMakeGroupedSeriesData {
   group_by_key: string;
-  data: AnyObject[];
+  data: TPanelData;
   x_axis_data_key: string;
   y_axis_data_key: string;
 }
@@ -81,10 +85,11 @@ export function makeGroupedSeriesData({
   x_axis_data_key,
   y_axis_data_key,
 }: IMakeGroupedSeriesData) {
-  const groups = _.groupBy(data, group_by_key);
+  const { queryID, columnKey } = parseDataKey(group_by_key);
+  const groups = _.groupBy(data[queryID], columnKey);
 
   Object.entries(groups).forEach(([groupName, _data]) => {
-    groups[groupName] = makeXYData(_data, x_axis_data_key, y_axis_data_key);
+    groups[groupName] = makeXYData({ [queryID]: _data }, x_axis_data_key, y_axis_data_key);
     return;
   });
 

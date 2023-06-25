@@ -77,7 +77,7 @@ export interface VizContext {
   variables: ITemplateVariable[];
   locale: string;
   msgChannels: IMessageChannels;
-  data: unknown;
+  data: TPanelData;
   vizManager: IVizManager;
 }
 

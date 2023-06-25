@@ -5,6 +5,7 @@ import {
   TDataForReg,
 } from '~/plugins/common-echarts-fields/regression-line';
 import { ICartesianChartConf, IRegressionConf } from '../type';
+import { extractData, extractFullQueryData, parseDataKey } from '~/utils/data';
 
 function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
   const { transform, plot } = reg;
@@ -29,9 +30,9 @@ function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: 
   return series;
 }
 
-export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TVizData) {
+export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICartesianChartConf, rawData: TPanelData) {
   const regressionSeries: IRegressionSeriesItem[] = [];
-  if (rawData.length === 0) {
+  if (Object.keys(rawData).length === 0) {
     return regressionSeries;
   }
 
@@ -43,13 +44,14 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
   regressions.forEach((reg) => {
     const { name, group_by_key } = reg;
     if (!group_by_key || group_by_key === x_axis_data_key) {
-      const data = rawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
+      const data = extractData(rawData, reg.y_axis_data_key).map((d, i) => [i, Number(d)]);
       getAndApplyConf(reg, name, '', data);
       return;
     }
-    const groupedData = _.groupBy(rawData, group_by_key);
+    const { columnKey } = parseDataKey(reg.y_axis_data_key);
+    const groupedData = _.groupBy(extractFullQueryData(rawData, reg.y_axis_data_key), group_by_key);
     Object.entries(groupedData).forEach(([k, subRawData]) => {
-      const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[reg.y_axis_data_key])]);
+      const subData: TDataForReg = subRawData.map((d, i) => [i, Number(d[columnKey])]);
       const subName = k;
       getAndApplyConf(reg, subName, k, subData);
     });
