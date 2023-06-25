@@ -2,7 +2,7 @@ import { aggregateValue } from '../../aggregation';
 import { ITemplateVariable } from '../types';
 import { formatAggregatedValue } from '../utils';
 
-function variablesToStrings(variables: ITemplateVariable[], data: Record<string, number>[]) {
+function variablesToStrings(variables: ITemplateVariable[], data: TPanelData) {
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach((variable) => {
     const { name, data_field, aggregation } = variable;
@@ -12,7 +12,7 @@ function variablesToStrings(variables: ITemplateVariable[], data: Record<string,
   return ret;
 }
 
-export function templateToString(template: string, variables: ITemplateVariable[], data: Record<string, number>[]) {
+export function templateToString(template: string, variables: ITemplateVariable[], data: TPanelData) {
   const variableStrings = variablesToStrings(variables, data);
   const regx = /^\{(.+)\}(.*)$/;
   return template

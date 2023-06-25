@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { quantile } from 'd3-array';
 import { AnyObject } from '~/types';
 import * as math from 'mathjs';
+import { extractData } from './data';
 
 export type AggregationType =
   | {
@@ -30,8 +31,7 @@ function median(numbers: number[]) {
   return sorted[middle];
 }
 
-function tryReadNumber(obj: AnyObject, key: string) {
-  const value = obj[key];
+function tryFormatAsNumber(value: any) {
   const num = Number(value);
   if (isFinite(num)) {
     return num;
@@ -40,34 +40,41 @@ function tryReadNumber(obj: AnyObject, key: string) {
   }
 }
 
-export function aggregateValue(data: AnyObject[], data_field: string, aggregation: AggregationType) {
+export function aggregateValueFromNumbers(numbers: number[], aggregation: AggregationType) {
+  switch (aggregation.type) {
+    case 'sum':
+      return _.sum(numbers);
+    case 'mean':
+      return _.mean(numbers);
+    case 'median':
+      return median(numbers);
+    case 'max':
+      return _.max(numbers) ?? 0;
+    case 'min':
+      return _.min(numbers) ?? 0;
+    case 'quantile':
+      return quantile(numbers, aggregation.config.p) ?? 0;
+    case 'CV':
+      const std = math.std(...numbers);
+      const mean = math.mean(...numbers);
+      if (!mean) {
+        return 'N/A';
+      }
+      return std / mean;
+    case 'std':
+      return math.std(...numbers);
+    default:
+      return numbers;
+  }
+}
+export function formatNumbersAndAggregateValue(possibleNumbers: Array<string | number>, aggregation: AggregationType) {
+  const numbers = possibleNumbers.map(tryFormatAsNumber);
+  return aggregateValueFromNumbers(numbers, aggregation);
+}
+
+export function aggregateValue(data: TPanelData, data_field: string, aggregation: AggregationType) {
   try {
-    const numbers = data.map((d) => tryReadNumber(d, data_field));
-    switch (aggregation.type) {
-      case 'sum':
-        return _.sum(numbers);
-      case 'mean':
-        return _.mean(numbers);
-      case 'median':
-        return median(numbers);
-      case 'max':
-        return _.max(numbers) ?? 0;
-      case 'min':
-        return _.min(numbers) ?? 0;
-      case 'quantile':
-        return quantile(numbers, aggregation.config.p) ?? 0;
-      case 'CV':
-        const std = math.std(...numbers);
-        const mean = math.mean(...numbers);
-        if (!mean) {
-          return 'N/A';
-        }
-        return std / mean;
-      case 'std':
-        return math.std(...numbers);
-      default:
-        return numbers;
-    }
+    return aggregateValueFromNumbers(extractData(data, data_field), aggregation);
   } catch (error) {
     console.error(error);
     return null;

@@ -15,7 +15,7 @@ export function getNonStatsDataText(data: $TSFixMe) {
   return data.toString();
 }
 
-export function getAggregatedValue({ data_field, aggregation }: ITemplateVariable, data: Record<string, number>[]) {
+export function getAggregatedValue({ data_field, aggregation }: ITemplateVariable, data: TPanelData) {
   return aggregateValue(data, data_field, aggregation);
 }
 

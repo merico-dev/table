@@ -70,7 +70,7 @@ function textToJSX(text: string) {
   return withLineBreaks(text);
 }
 
-export function templateToJSX(template: string, variables: ITemplateVariable[], data: Record<string, number>[]) {
+export function templateToJSX(template: string, variables: ITemplateVariable[], data: TPanelData) {
   const variableElements = variablesToElements(variables, data);
   const regx = /^\{(.+)\}(.*)$/;
   return template.split('$').map((text) => {
