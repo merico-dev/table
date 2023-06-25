@@ -17,7 +17,7 @@ const TooltipTriggerOptions = [
 interface ITooltipField {
   control: Control<IScatterChartConf, $TSFixMe>;
   watch: UseFormWatch<IScatterChartConf>;
-  data: TVizData;
+  data: TPanelData;
 }
 export function TooltipField({ data, control, watch }: ITooltipField) {
   watch('tooltip.trigger');

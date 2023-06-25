@@ -27,7 +27,7 @@ const labelPositions = [
 interface IScatterField {
   control: Control<IScatterChartConf, $TSFixMe>;
   watch: UseFormWatch<IScatterChartConf>;
-  data: TVizData;
+  data: TPanelData;
 }
 export function ScatterField({ data, control, watch }: IScatterField) {
   watch(['scatter']);

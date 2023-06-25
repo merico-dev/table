@@ -4,6 +4,7 @@ import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/
 import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
+import { parseDataKey, readColumnIgnoringQuery } from '~/utils/data';
 
 function formatXAxisLabel(value: string | number, index: number, conf: IScatterChartConf) {
   const { x_axis } = conf;
@@ -16,7 +17,7 @@ function formatXAxisLabel(value: string | number, index: number, conf: IScatterC
 function getXAxisLabel(params: AnyObject[], conf: IScatterChartConf) {
   const { x_axis, tooltip } = conf;
   if (tooltip.trigger === 'item') {
-    const axisValue = params[0].data[x_axis.data_key];
+    const axisValue = readColumnIgnoringQuery(params[0].data, x_axis.data_key);
     const axisIndex = 0;
     return formatXAxisLabel(axisValue, axisIndex, conf);
   }
@@ -59,7 +60,7 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
         ({ value }: { value: AnyObject }) =>
           `
           <th style="text-align: right; padding-right: 1em">
-            <div style="${xAxisLabelStyle}">${value[scatter.name_data_key]}</div>
+            <div style="${xAxisLabelStyle}">${readColumnIgnoringQuery(value, scatter.name_data_key)}</div>
           </th>
           `,
       );
@@ -77,7 +78,7 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
             .map(({ value }: { value: AnyObject }) => {
               return `
               <td style="text-align: right; padding: 0 1em;">
-                ${yLabelFormatter(value[scatter.y_data_key])}
+                ${yLabelFormatter(readColumnIgnoringQuery(value, scatter.y_data_key))}
               </td>`;
             })
             .join('')}
@@ -90,7 +91,9 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
         ${arr
           // @ts-expect-error type of value
           .map(({ value }: { value: AnyObject }) => {
-            return `<td style="text-align: right; padding: 0 1em;">${formatAdditionalMetric(value[m.data_key])}</td>`;
+            return `<td style="text-align: right; padding: 0 1em;">${formatAdditionalMetric(
+              readColumnIgnoringQuery(value, m.data_key),
+            )}</td>`;
           })
           .join('')}
       </tr>`;

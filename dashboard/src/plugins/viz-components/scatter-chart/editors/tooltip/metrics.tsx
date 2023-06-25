@@ -8,7 +8,7 @@ import { TooltipMetricField } from './metric';
 interface ITooltipMetricsField {
   control: Control<IScatterChartConf, $TSFixMe>;
   watch: UseFormWatch<IScatterChartConf>;
-  data: TVizData;
+  data: TPanelData;
 }
 
 export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsField) => {

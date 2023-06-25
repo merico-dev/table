@@ -1,3 +1,5 @@
+import { AnyObject } from '..';
+
 /**
  * extract queryID & columnKey from dataKey
  * @param dataKey queryID.columnKey or queryID
@@ -35,4 +37,9 @@ export function extractFullQueryData(data: TPanelData, dataKey: string) {
     return [];
   }
   return data[queryID];
+}
+
+export function readColumnIgnoringQuery(row: AnyObject, dataKey: string) {
+  const { queryID, columnKey } = parseDataKey(dataKey);
+  return row[columnKey];
 }

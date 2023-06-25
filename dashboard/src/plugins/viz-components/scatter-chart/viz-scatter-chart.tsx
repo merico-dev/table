@@ -13,7 +13,7 @@ import {
 } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/plugins/hooks';
 import { AnyObject } from '~/types';
@@ -22,6 +22,7 @@ import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
+import { parseDataKey } from '~/utils/data';
 
 interface IClickScatterChartSeries {
   type: 'click';
@@ -60,14 +61,15 @@ function Chart({
   variables,
 }: {
   conf: IScatterChartConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.x_axis.data_key);
+    const { queryID, columnKey } = parseDataKey(conf.x_axis.data_key);
+    return _.keyBy(data[queryID], columnKey);
   }, [data, conf.x_axis.data_key]);
 
   const triggers = useTriggerSnapshotList<IScatterChartConf>(
@@ -120,7 +122,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<IScatterChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();
