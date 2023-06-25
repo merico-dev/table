@@ -44,7 +44,8 @@ export function getRegressionConfs({ regressions = [], x_axis_data_key }: ICarte
   regressions.forEach((reg) => {
     const { name, group_by_key } = reg;
     if (!group_by_key || group_by_key === x_axis_data_key) {
-      const data = extractData(rawData, reg.y_axis_data_key).map((d, i) => [i, Number(d)]);
+      const columnData = extractData(rawData, reg.y_axis_data_key);
+      const data = columnData.map((d, i) => [i, Number(d)]);
       getAndApplyConf(reg, name, '', data);
       return;
     }

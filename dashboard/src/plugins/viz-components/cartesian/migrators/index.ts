@@ -277,6 +277,7 @@ export function v18(legacyConf: any, { panelModel }: IMigrationEnv): ICartesianC
       regressions: regressions.map((r: any) => ({
         ...r,
         y_axis_data_key: changeKey(r.y_axis_data_key),
+        group_by_key: changeKey(r.group_by_key),
       })),
     };
   } catch (error) {
