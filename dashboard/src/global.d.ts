@@ -16,3 +16,4 @@ type TFunctionString = string;
 type TVizData = Record<string, $TSFixMe>[];
 
 type TPanelData = Record<string, Record<string, $TSFixMe>[]>;
+type TDataKey = string; // queryID.columnKey
