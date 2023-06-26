@@ -23,6 +23,7 @@ import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import { parseDataKey } from '~/utils/data';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -67,7 +68,8 @@ function Chart({
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.x_axis_data_key);
+    const { queryID, columnKey } = parseDataKey(conf.x_axis_data_key);
+    return _.keyBy(data[queryID], columnKey);
   }, [data, conf.x_axis_data_key]);
 
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
