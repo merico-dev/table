@@ -48,6 +48,7 @@
   "SQL_SNIPPET_NO_EDIT_PRESET": "Preset sql snippets can not be edited",
   "SQL_SNIPPET_NO_DELETE_PRESET": "Preset sql snippets can not be deleted",
   "ROLE_NOT_FOUND": "Role not found",
+  "ROLE_ALREADY_EXISTS": "Role already exists",
   "CONFIG_DESCRIPTION_LANG": "Configure the locality of server responses",
   "CONFIG_DESCRIPTION_WEBSITE_SETTINGS": "Configurations for the website logo and favicon",
   "CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED": "Configure whether to cache query results",

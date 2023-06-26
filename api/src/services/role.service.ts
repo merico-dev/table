@@ -1,6 +1,6 @@
 import Role from '../models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
-import { ApiError, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
+import { ApiError, BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ROLE_PERMISSION_KEYS, translate } from '../utils/i18n';
 import { RolePermission } from '../api_models/role';
@@ -166,10 +166,21 @@ export class RoleService {
     });
   }
 
-  async createOrUpdate(id: string, description: string, permissions: string[]): Promise<Role> {
+  async create(id: string, description: string, permissions: string[], locale: string): Promise<Role> {
     const roleRepo = dashboardDataSource.getRepository(Role);
+    if (await roleRepo.exist({ where: { id } })) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ROLE_ALREADY_EXISTS', locale) });
+    }
     const role = new Role();
     role.id = id;
+    role.description = description;
+    role.permissions = permissions;
+    return await roleRepo.save(role);
+  }
+
+  async update(id: string, description: string, permissions: string[]): Promise<Role> {
+    const roleRepo = dashboardDataSource.getRepository(Role);
+    const role = await roleRepo.findOneByOrFail({ id });
     role.description = description;
     role.permissions = permissions;
     return await roleRepo.save(role);

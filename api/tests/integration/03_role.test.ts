@@ -11,9 +11,11 @@ import Account from '~/models/account';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { ApiKey as ApiKeyApiModel } from '~/api_models/api';
 import ApiKey from '~/models/apiKey';
-import { ApiError, FORBIDDEN, UNAUTHORIZED } from '~/utils/errors';
+import { ApiError, BAD_REQUEST, FORBIDDEN, UNAUTHORIZED } from '~/utils/errors';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import Role from '~/models/role';
+import { notFoundId } from './constants';
+import { EntityNotFoundError } from 'typeorm';
 
 describe('RoleService', () => {
   connectionHook();
@@ -183,9 +185,9 @@ describe('RoleService', () => {
     });
   });
 
-  describe('createOrUpdate', () => {
+  describe('create', () => {
     it('should create role', async () => {
-      const role = await roleService.createOrUpdate('test', 'test', []);
+      const role = await roleService.create('test', 'test', [], DEFAULT_LANGUAGE);
       expect(role).toMatchObject({
         id: 'test',
         description: 'test',
@@ -193,13 +195,25 @@ describe('RoleService', () => {
       });
     });
 
+    it('should fail if duplicate', async () => {
+      await expect(roleService.create('test', 'test', [], DEFAULT_LANGUAGE)).rejects.toThrowError(
+        new ApiError(BAD_REQUEST, { message: 'Role already exists' }),
+      );
+    });
+  });
+
+  describe('update', () => {
     it('should update role', async () => {
-      const role = await roleService.createOrUpdate('test', 'test_updated', ['test']);
+      const role = await roleService.update('test', 'test_updated', ['test']);
       expect(role).toMatchObject({
         id: 'test',
         description: 'test_updated',
         permissions: ['test'],
       });
+    });
+
+    it('should fail if not found', async () => {
+      await expect(roleService.update(notFoundId, 'non-existant role', [])).rejects.toThrowError(EntityNotFoundError);
     });
   });
 

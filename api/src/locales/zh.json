@@ -48,6 +48,7 @@
   "SQL_SNIPPET_NO_EDIT_PRESET": "不能修改预设sql snippets",
   "SQL_SNIPPET_NO_DELETE_PRESET": "不能删除预设sql snippets",
   "ROLE_NOT_FOUND": "角色不存在",
+  "ROLE_ALREADY_EXISTS": "角色已存在",
   "CONFIG_DESCRIPTION_LANG": "配置服务器响应的位置",
   "CONFIG_DESCRIPTION_WEBSITE_SETTINGS": "网站徽标的配置",
   "CONFIG_DESCRIPTION_QUERY_CACHE_ENABLED": "配置是否缓存查询结果",

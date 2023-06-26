@@ -1,7 +1,13 @@
 import * as express from 'express';
 import { inject } from 'inversify';
-import { controller, httpGet, httpPost, interfaces } from 'inversify-express-utils';
-import { ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
+import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
+import {
+  ApiOperationGet,
+  ApiOperationPost,
+  ApiOperationPut,
+  ApiPath,
+  SwaggerDefinitionConstant,
+} from 'swagger-express-ts';
 import { PERMISSIONS, RoleService } from '../services/role.service';
 import permission from '../middleware/permission';
 import { RoleCreateOrUpdateRequest, RoleIDRequest } from '../api_models/role';
@@ -55,8 +61,8 @@ export class RoleController implements interfaces.Controller {
   }
 
   @ApiOperationPost({
-    path: '/createOrUpdate',
-    description: 'Create or update role',
+    path: '/create',
+    description: 'Create role',
     parameters: {
       body: { description: 'role create request', required: true, model: 'RoleCreateOrUpdateRequest' },
     },
@@ -66,14 +72,40 @@ export class RoleController implements interfaces.Controller {
     },
   })
   @httpPost(
-    '/createOrUpdate',
+    '/create',
     permission({ match: 'all', permissions: [PERMISSIONS.ROLE_MANAGE] }),
     validate(RoleCreateOrUpdateRequest),
   )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, description, permissions } = req.body as RoleCreateOrUpdateRequest;
-      const result = await this.roleService.createOrUpdate(id, description, permissions);
+      const result = await this.roleService.create(id, description, permissions, req.locale);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @ApiOperationPut({
+    path: '/update',
+    description: 'Update role',
+    parameters: {
+      body: { description: 'role update request', required: true, model: 'RoleCreateOrUpdateRequest' },
+    },
+    responses: {
+      200: { description: 'SUCCESS', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'Role' },
+      500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
+    },
+  })
+  @httpPut(
+    '/update',
+    permission({ match: 'all', permissions: [PERMISSIONS.ROLE_MANAGE] }),
+    validate(RoleCreateOrUpdateRequest),
+  )
+  public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { id, description, permissions } = req.body as RoleCreateOrUpdateRequest;
+      const result = await this.roleService.update(id, description, permissions);
       res.json(result);
     } catch (err) {
       next(err);

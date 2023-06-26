@@ -4,6 +4,7 @@ import { app } from '~/server';
 import { FIXED_ROLE_PERMISSIONS, FIXED_ROLE_TYPES, HIDDEN_PERMISSIONS, PERMISSIONS } from '~/services/role.service';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { RoleCreateOrUpdateRequest, RoleIDRequest } from '~/api_models/role';
+import { notFoundId } from './constants';
 
 describe('RoleController', () => {
   connectionHook();
@@ -134,7 +135,7 @@ describe('RoleController', () => {
     ]);
   });
 
-  describe('createOrUpdate', () => {
+  describe('create', () => {
     it('should create successfully', async () => {
       const request: RoleCreateOrUpdateRequest = {
         id: 'TEST',
@@ -143,7 +144,7 @@ describe('RoleController', () => {
       };
 
       const response = await server
-        .post('/role/createOrUpdate')
+        .post('/role/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -154,6 +155,28 @@ describe('RoleController', () => {
       });
     });
 
+    it('should fail if duplicate', async () => {
+      const request: RoleCreateOrUpdateRequest = {
+        id: 'TEST',
+        description: 'Test role',
+        permissions: [PERMISSIONS.ACCOUNT_CHANGEPASSWORD],
+      };
+
+      const response = await server
+        .post('/role/create')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body).toMatchObject({
+        code: 'BAD_REQUEST',
+        detail: {
+          message: 'Role already exists',
+        },
+      });
+    });
+  });
+
+  describe('update', () => {
     it('should update successfully', async () => {
       const request: RoleCreateOrUpdateRequest = {
         id: 'TEST',
@@ -162,7 +185,7 @@ describe('RoleController', () => {
       };
 
       const response = await server
-        .post('/role/createOrUpdate')
+        .put('/role/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
@@ -171,6 +194,23 @@ describe('RoleController', () => {
         description: 'Test role',
         permissions: [PERMISSIONS.ACCOUNT_LIST],
       });
+    });
+
+    it('should fail if not found', async () => {
+      const request: RoleCreateOrUpdateRequest = {
+        id: notFoundId,
+        description: 'non-existant role',
+        permissions: [],
+      };
+
+      const response = await server
+        .put('/role/update')
+        .set('Authorization', `Bearer ${superadminLogin.token}`)
+        .send(request);
+
+      expect(response.body.code).toEqual('NOT_FOUND');
+      expect(response.body.detail.message).toContain('Could not find any entity of type "Role" matching');
+      expect(response.body.detail.message).toContain(notFoundId);
     });
   });
 
