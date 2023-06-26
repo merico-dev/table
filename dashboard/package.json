@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "9.18.3",
+  "version": "9.18.4",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
