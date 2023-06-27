@@ -25,7 +25,7 @@ function registerProjectTargets(projectFilePath) {
       dependsOn: ['build', '^build'],
     },
     build: {
-      executor: 'nx:run-script',
+      executor: 'nx:run-commands',
       inputs: [
         '{projectRoot}/**/*',
         '!{projectRoot}/dist/**/*',
@@ -33,7 +33,8 @@ function registerProjectTargets(projectFilePath) {
       ],
       outputs: ['{projectRoot}/dist'],
       options: {
-        script: 'build',
+        cwd: projectDir(),
+        commands: ['vite build'],
       },
       dependsOn: ['^build'],
     },
