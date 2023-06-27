@@ -9,12 +9,18 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
+import { parseDataKey } from '~/utils/data';
 
-export function getOption(conf: IHorizontalBarChartConf, data: TVizData, variables: ITemplateVariable[]) {
+export function getOption(conf: IHorizontalBarChartConf, data: TPanelData, variables: ITemplateVariable[]) {
+  if (!conf.y_axis.data_key) {
+    return {};
+  }
+
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);
-  const yAxisData = _.uniq(data.map((d) => d[conf.y_axis.data_key]));
+  const y = parseDataKey(conf.y_axis.data_key);
+  const yAxisData = _.uniq(data[y.queryID].map((d) => d[y.columnKey]));
   const valueTypedXAxis = yAxisData.every((d) => !Number.isNaN(Number(d)));
 
   // options

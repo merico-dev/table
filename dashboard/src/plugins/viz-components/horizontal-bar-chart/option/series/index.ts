@@ -9,7 +9,7 @@ export function getSeries(
   conf: IHorizontalBarChartConf,
   xAxisData: string[],
   valueTypedXAxis: boolean,
-  data: AnyObject[],
+  data: TPanelData,
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,

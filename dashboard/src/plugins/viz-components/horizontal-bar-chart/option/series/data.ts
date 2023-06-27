@@ -1,17 +1,20 @@
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { aggregateValue, AggregationType } from '~/utils/aggregation';
+import { aggregateValue, AggregationType, formatNumbersAndAggregateValue } from '~/utils/aggregation';
 import { DataTemplateType } from './types';
+import { extractData, parseDataKey } from '~/utils/data';
 
 type YXDataItemType = [string | number, string | number];
 
-function makeYXData(data: AnyObject[], name_data_key: string, value_data_key: string): YXDataItemType[] {
-  return data.map((d) => [d[value_data_key], d[name_data_key]]);
+function makeYXData(data: TPanelData, name_data_key: string, value_data_key: string): YXDataItemType[] {
+  const nameData = extractData(data, name_data_key);
+  const valueData = extractData(data, value_data_key);
+  return _.zip(valueData, nameData);
 }
 
 function getFullSeriesItemData(
   dataTemplate: DataTemplateType[],
-  seriesItemData: AnyObject[],
+  seriesItemData: TPanelData,
   name_data_key: string,
   value_data_key: string,
 ) {
@@ -21,7 +24,7 @@ function getFullSeriesItemData(
 
 interface IMakePlainSeriesData {
   dataTemplate: DataTemplateType[];
-  data: AnyObject[];
+  data: TPanelData;
   name_data_key: string;
   value_data_key: string;
   valueTypedXAxis: boolean;
@@ -36,12 +39,12 @@ function makePlainSeriesData({
   if (valueTypedXAxis) {
     return getFullSeriesItemData(dataTemplate, data, name_data_key, value_data_key);
   }
-  return data.map((d) => [d[value_data_key], d[name_data_key]]);
+  return makeYXData(data, name_data_key, value_data_key);
 }
 
 interface IMakeOneSeriesData {
   dataTemplate: DataTemplateType[];
-  data: AnyObject[];
+  data: TPanelData;
   aggregation_on_value?: AggregationType;
   name_data_key: string;
   value_data_key: string;
@@ -60,8 +63,10 @@ export function makeOneSeriesData({
   }
   const fullData = makeYXData(data, name_data_key, value_data_key);
   const group_by_x = _.groupBy(fullData, '0');
-  const aggregatedData = Object.entries(group_by_x).map(([x, rows]) => {
-    const y = aggregateValue(rows, '1', aggregation_on_value);
+  const aggregatedData = dataTemplate.map(([x]) => {
+    const rows = group_by_x[x];
+    const yData = rows.map((r) => r[1]);
+    const y = formatNumbersAndAggregateValue(yData, aggregation_on_value);
     return [x, y];
   });
 
@@ -70,15 +75,16 @@ export function makeOneSeriesData({
 
 interface IMakeGroupedSeriesData {
   group_by_key: string;
-  data: AnyObject[];
+  data: TPanelData;
   name_data_key: string;
   value_data_key: string;
 }
 export function makeGroupedSeriesData({ group_by_key, data, value_data_key, name_data_key }: IMakeGroupedSeriesData) {
-  const groups = _.groupBy(data, group_by_key);
+  const { queryID, columnKey } = parseDataKey(group_by_key);
+  const groups = _.groupBy(data[queryID], columnKey);
 
   Object.entries(groups).forEach(([groupName, _data]) => {
-    groups[groupName] = makeYXData(_data, name_data_key, value_data_key);
+    groups[groupName] = makeYXData({ [queryID]: _data }, name_data_key, value_data_key);
     return;
   });
 

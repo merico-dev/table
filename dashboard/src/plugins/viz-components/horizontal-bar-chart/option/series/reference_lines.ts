@@ -6,7 +6,7 @@ export function getReferenceLines(
   reference_lines: IHorizontalBarChartReferenceLine[],
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
-  data: AnyObject[],
+  data: TPanelData,
 ) {
   return reference_lines.map((r) => {
     const isHorizontal = r.orientation === 'horizontal';

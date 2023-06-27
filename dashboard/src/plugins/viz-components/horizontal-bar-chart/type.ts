@@ -29,12 +29,12 @@ export interface IHorizontalBarChartSeriesItem {
   stack: string;
   color?: string;
   barGap?: '0%' | '-100%';
-  data_key: string;
+  data_key: TDataKey;
   barWidth: string;
   xAxisIndex: string;
   barMinWidth: string;
   barMaxWidth: string;
-  group_by_key: string;
+  group_by_key: TDataKey;
   hide_in_legend: boolean;
   invisible: boolean;
   label_position?: string;
@@ -46,7 +46,7 @@ export interface IHorizontalBarChartXAxis {
   min: string;
   max: string;
   name: string;
-  data_key: string;
+  data_key: TDataKey;
   position: 'top' | 'bottom';
   label_formatter: TNumbroFormat;
   show: boolean;
@@ -56,7 +56,7 @@ export interface IHorizontalBarChartConf {
   x_axes: IHorizontalBarChartXAxis[];
   y_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     axisLabel: {
       overflow: IAxisLabelOverflow;
       formatter: IXAxisLabelFormatter;
