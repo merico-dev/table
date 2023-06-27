@@ -20,6 +20,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { parseDataKey } from '~/utils/data';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -53,17 +54,17 @@ function Chart({
   variables,
 }: {
   conf: IHeatmapConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
   const rowDataMap = useMemo(() => {
-    const xKey = conf.x_axis.data_key;
-    const yKey = conf.y_axis.data_key;
-    return _.keyBy(data, (i) => `${i[xKey]}---${i[yKey]}`);
-  }, [data, conf.x_axis.data_key]);
+    const x = parseDataKey(conf.x_axis.data_key);
+    const y = parseDataKey(conf.y_axis.data_key);
+    return _.keyBy(data[x.queryID], (d) => `${d[x.columnKey]}---${d[y.columnKey]}`);
+  }, [data, conf.x_axis.data_key, conf.y_axis.data_key]);
 
   const triggers = useTriggerSnapshotList<IHeatmapConf>(interactionManager.triggerManager, ClickHeatBlock.id);
 
@@ -112,7 +113,7 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   return (

@@ -15,7 +15,10 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IHeatmapConf, data: TVizData, variables: ITemplateVariable[]) {
+export function getOption(conf: IHeatmapConf, data: TPanelData, variables: ITemplateVariable[]) {
+  if (!conf.x_axis.data_key || !conf.y_axis.data_key || !conf.heat_block.data_key) {
+    return {};
+  }
   // const variableValueMap = variables.reduce((prev, variable) => {
   //   const value = getAggregatedValue(variable, data);
   //   prev[variable.name] = formatAggregatedValue(variable, value);

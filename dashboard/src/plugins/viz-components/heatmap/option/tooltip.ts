@@ -5,6 +5,7 @@ import { AnyObject } from '~/types';
 import { IHeatmapConf } from '../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
 import { getLabelOverflowStyleInTooltip } from '../../../common-echarts-fields/axis-label-overflow';
+import { parseDataKey } from '~/utils/data';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -60,9 +61,10 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
   const rowData = dataDict[`${x}---${y}`];
   if (rowData) {
     conf.tooltip.metrics.forEach((m) => {
+      const k = parseDataKey(m.data_key);
       ret.push({
         label: m.name,
-        value: formatAdditionalMetric(_.get(rowData, m.data_key, '')),
+        value: formatAdditionalMetric(_.get(rowData, k.columnKey, '')),
         style: {
           label: '',
           value: '',
@@ -76,11 +78,16 @@ function getRows({ conf, labelFormatters, valueFormatters, dataDict, params }: I
 
 export function getTooltip(
   conf: IHeatmapConf,
-  data: AnyObject[],
+  data: TPanelData,
   labelFormatters: LabelFormattersType,
   valueFormatters: ValueFormattersType,
 ) {
-  const dataDict = _.keyBy(data, (d) => `${d[conf.x_axis.data_key]}---${d[conf.y_axis.data_key]}`);
+  const { x_axis, y_axis, heat_block } = conf;
+  const x = parseDataKey(x_axis.data_key);
+  const y = parseDataKey(y_axis.data_key);
+  const h = parseDataKey(heat_block.data_key);
+
+  const dataDict = _.keyBy(data[x.queryID], (d) => `${d[x.columnKey]}---${d[y.columnKey]}`);
   return {
     confine: true,
     formatter: function (params: CallbackDataParams) {
