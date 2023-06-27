@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import _ from 'lodash';
 import { Any } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
@@ -18,6 +19,7 @@ import { ApiError, BAD_REQUEST, FORBIDDEN } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 
+@injectable()
 export class DashboardPermissionService {
   static async create(id: string, owner_id?: string, owner_type?: 'ACCOUNT' | 'APIKEY'): Promise<void> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);

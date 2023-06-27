@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpGet, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationGet, ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { ConfigService } from '../services/config.service';
@@ -13,11 +13,9 @@ import { ConfigGetRequest, ConfigUpdateRequest } from '../api_models/config';
 @controller('/config')
 export class ConfigController implements interfaces.Controller {
   public static TARGET_NAME = 'Config';
-  private configService: ConfigService;
 
-  public constructor(@inject('Newable<ConfigService>') ConfigService: inverfaces.Newable<ConfigService>) {
-    this.configService = new ConfigService();
-  }
+  @inject('ConfigService')
+  private configService: ConfigService;
 
   @ApiOperationGet({
     path: '/getDescriptions',

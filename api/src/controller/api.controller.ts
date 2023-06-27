@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
@@ -16,11 +16,9 @@ import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
 @controller('/api')
 export class APIController implements interfaces.Controller {
   public static TARGET_NAME = 'API';
-  private apiService: ApiService;
 
-  public constructor(@inject('Newable<ApiService>') ApiService: inverfaces.Newable<ApiService>) {
-    this.apiService = new ApiService();
-  }
+  @inject('ApiService')
+  private apiService: ApiService;
 
   @ApiOperationPost({
     path: '/key/list',

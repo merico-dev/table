@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import {
@@ -21,14 +21,9 @@ import { DashboardPermissionService } from '../services/dashboard_permission.ser
 @controller('/dashboard_permission')
 export class DashboardPermissionController implements interfaces.Controller {
   public static TARGET_NAME = 'DashboardPermission';
-  private dashboardPermissionService: DashboardPermissionService;
 
-  public constructor(
-    @inject('Newable<DashboardPermissionService>')
-    DashboardPermissionService: inverfaces.Newable<DashboardPermissionService>,
-  ) {
-    this.dashboardPermissionService = new DashboardPermissionService();
-  }
+  @inject('DashboardPermissionService')
+  private dashboardPermissionService: DashboardPermissionService;
 
   @ApiOperationPost({
     path: '/list',

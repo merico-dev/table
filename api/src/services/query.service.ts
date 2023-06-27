@@ -7,7 +7,9 @@ import { HttpParams } from '../api_models/query';
 import { sqlRewriter } from '../plugins';
 import { ApiError, QUERY_ERROR } from '../utils/errors';
 import { getFsCache, getFsCacheKey, isFsCacheEnabled, putFsCache } from '../utils/fs_cache';
+import { injectable } from 'inversify';
 
+@injectable()
 export class QueryService {
   static dbConnections: { [hash: string]: DataSource }[] = [];
 

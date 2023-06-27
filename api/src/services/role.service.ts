@@ -6,7 +6,9 @@ import { ApiError, FORBIDDEN, UNAUTHORIZED } from '../utils/errors';
 import { AUTH_ENABLED } from '../utils/constants';
 import ApiKey from '../models/apiKey';
 import { translate } from '../utils/i18n';
+import { injectable } from 'inversify';
 
+@injectable()
 export class RoleService {
   async list(): Promise<Role[]> {
     const roleRepo = dashboardDataSource.getRepository(Role);

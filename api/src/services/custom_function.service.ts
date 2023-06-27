@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { PaginationRequest } from '../api_models/base';
 import {
   CustomFunction as CustomFunctionAPIModel,
@@ -11,6 +12,7 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 
+@injectable()
 export class CustomFunctionService {
   async list(
     filter: CustomFunctionFilterObject | undefined,

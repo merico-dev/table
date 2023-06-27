@@ -13,7 +13,9 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
+import { injectable } from 'inversify';
 
+@injectable()
 export class ApiService {
   static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | null> {
     if (!authentication || !authentication.app_id) {

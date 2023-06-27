@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardService } from '../services/dashboard.service';
@@ -25,11 +25,9 @@ import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket'
 @controller('/dashboard')
 export class DashboardController implements interfaces.Controller {
   public static TARGET_NAME = 'Dashboard';
-  private dashboardService: DashboardService;
 
-  public constructor(@inject('Newable<DashboardService>') DashboardService: inverfaces.Newable<DashboardService>) {
-    this.dashboardService = new DashboardService();
-  }
+  @inject('DashboardService')
+  private dashboardService: DashboardService;
 
   @ApiOperationPost({
     path: '/list',

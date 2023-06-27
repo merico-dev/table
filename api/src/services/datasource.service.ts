@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { DataSource as Source } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
 import {
@@ -16,6 +17,7 @@ import { translate } from '../utils/i18n';
 import { JobService, RenameJobParams } from './job.service';
 import { QueryService } from './query.service';
 
+@injectable()
 export class DataSourceService {
   static async getByTypeKey(type: string, key: string): Promise<DataSource> {
     const dataSourceRepo = dashboardDataSource.getRepository(DataSource);

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DashboardContentChangelogListRequest } from '../api_models/dashboard_content_changelog';
@@ -15,14 +15,9 @@ import { DashboardContentChangelogService } from '../services/dashboard_content_
 @controller('/dashboard_content_changelog')
 export class DashboardContentChangelogController implements interfaces.Controller {
   public static TARGET_NAME = 'DashboardContentChangelog';
-  private dashboardContentChangelogService: DashboardContentChangelogService;
 
-  public constructor(
-    @inject('Newable<DashboardContentChangelogService>')
-    DashboardContentChangelogService: inverfaces.Newable<DashboardContentChangelogService>,
-  ) {
-    this.dashboardContentChangelogService = new DashboardContentChangelogService();
-  }
+  @inject('DashboardContentChangelogService')
+  private dashboardContentChangelogService: DashboardContentChangelogService;
 
   @ApiOperationPost({
     path: '/list',

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
@@ -15,11 +15,9 @@ import { SqlSnippetCreateOrUpdateRequest, SqlSnippetIDRequest, SqlSnippetListReq
 @controller('/sql_snippet')
 export class SqlSnippetController implements interfaces.Controller {
   public static TARGET_NAME = 'SqlSnippet';
-  private sqlSnippetService: SqlSnippetService;
 
-  public constructor(@inject('Newable<SqlSnippetService>') SqlSnippetService: inverfaces.Newable<SqlSnippetService>) {
-    this.sqlSnippetService = new SqlSnippetService();
-  }
+  @inject('SqlSnippetService')
+  private sqlSnippetService: SqlSnippetService;
 
   @ApiOperationPost({
     path: '/list',

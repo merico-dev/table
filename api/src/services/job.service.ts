@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import _ from 'lodash';
 import { PaginationRequest } from '../api_models/base';
 import { JobFilterObject, JobPaginationResponse, JobSortObject } from '../api_models/job';
@@ -37,6 +38,7 @@ export type FixDashboardPermissionJobParams = {
   auth_type: 'ACCOUNT' | 'APIKEY';
 };
 
+@injectable()
 export class JobService {
   static processingRenameDataSource = false;
   static processingFixDashboardPermission = false;

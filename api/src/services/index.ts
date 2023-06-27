@@ -1,4 +1,4 @@
-import { Container, interfaces } from 'inversify';
+import { Container } from 'inversify';
 import { DashboardService } from './dashboard.service';
 import { QueryService } from './query.service';
 import { DataSourceService } from './datasource.service';
@@ -15,38 +15,20 @@ import { CustomFunctionService } from './custom_function.service';
 import { SqlSnippetService } from './sql_snippet.service';
 
 export function bindServices(container: Container) {
-  container.bind<interfaces.Newable<JobService>>('Newable<JobService>').toConstructor<JobService>(JobService);
+  container.bind<JobService>('JobService').to(JobService);
+  container.bind<DashboardService>('DashboardService').to(DashboardService);
+  container.bind<DataSourceService>('DataSourceService').to(DataSourceService);
+  container.bind<QueryService>('QueryService').to(QueryService);
+  container.bind<AccountService>('AccountService').to(AccountService);
+  container.bind<RoleService>('RoleService').to(RoleService);
+  container.bind<ApiService>('ApiService').to(ApiService);
+  container.bind<DashboardChangelogService>('DashboardChangelogService').to(DashboardChangelogService);
+  container.bind<ConfigService>('ConfigService').to(ConfigService);
+  container.bind<DashboardPermissionService>('DashboardPermissionService').to(DashboardPermissionService);
+  container.bind<DashboardContentService>('DashboardContentService').to(DashboardContentService);
   container
-    .bind<interfaces.Newable<DashboardService>>('Newable<DashboardService>')
-    .toConstructor<DashboardService>(DashboardService);
-  container
-    .bind<interfaces.Newable<DataSourceService>>('Newable<DataSourceService>')
-    .toConstructor<DataSourceService>(DataSourceService);
-  container.bind<interfaces.Newable<QueryService>>('Newable<QueryService>').toConstructor<QueryService>(QueryService);
-  container
-    .bind<interfaces.Newable<AccountService>>('Newable<AccountService>')
-    .toConstructor<AccountService>(AccountService);
-  container.bind<interfaces.Newable<RoleService>>('Newable<RoleService>').toConstructor<RoleService>(RoleService);
-  container.bind<interfaces.Newable<ApiService>>('Newable<ApiService>').toConstructor<ApiService>(ApiService);
-  container
-    .bind<interfaces.Newable<DashboardChangelogService>>('Newable<DashboardChangelogService>')
-    .toConstructor<DashboardChangelogService>(DashboardChangelogService);
-  container
-    .bind<interfaces.Newable<ConfigService>>('Newable<ConfigService>')
-    .toConstructor<ConfigService>(ConfigService);
-  container
-    .bind<interfaces.Newable<DashboardPermissionService>>('Newable<DashboardPermissionService>')
-    .toConstructor<DashboardPermissionService>(DashboardPermissionService);
-  container
-    .bind<interfaces.Newable<DashboardContentService>>('Newable<DashboardContentService>')
-    .toConstructor<DashboardContentService>(DashboardContentService);
-  container
-    .bind<interfaces.Newable<DashboardContentChangelogService>>('Newable<DashboardContentChangelogService>')
-    .toConstructor<DashboardContentChangelogService>(DashboardContentChangelogService);
-  container
-    .bind<interfaces.Newable<CustomFunctionService>>('Newable<CustomFunctionService>')
-    .toConstructor<CustomFunctionService>(CustomFunctionService);
-  container
-    .bind<interfaces.Newable<SqlSnippetService>>('Newable<SqlSnippetService>')
-    .toConstructor<SqlSnippetService>(SqlSnippetService);
+    .bind<DashboardContentChangelogService>('DashboardContentChangelogService')
+    .to(DashboardContentChangelogService);
+  container.bind<CustomFunctionService>('CustomFunctionService').to(CustomFunctionService);
+  container.bind<SqlSnippetService>('SqlSnippetService').to(SqlSnippetService);
 }
