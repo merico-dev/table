@@ -11,6 +11,7 @@ import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 echarts.use([BarChart, LineChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -28,7 +29,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   // options
   const { variables } = context;
   const { value: confValue } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const conf = defaults({}, confValue, DEFAULT_CONFIG);
   const option = getOption(conf, data, variables);
@@ -40,9 +41,7 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
   });
   const triggers = useTriggerSnapshotList<IParetoChartConf>(interactionManager.triggerManager, ClickParetoSeries.id);
 
-  const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.x_axis.data_key);
-  }, [data, conf.x_axis.data_key]);
+  const rowDataMap = useRowDataMap(data, conf.x_axis.data_key);
 
   const handleSeriesClick = useCallback(
     (params: IClickParetoSeries) => {
