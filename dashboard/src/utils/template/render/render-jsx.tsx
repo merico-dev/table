@@ -55,7 +55,7 @@ function withLineBreaks(text: string) {
     .map((t, i) => {
       const arr: Array<React.ReactNode> = [preserveWhiteSpaces(t)];
       if (i !== splitted.length - 1) {
-        arr.push(<br />);
+        arr.push(<br key={`br-${i}`} />);
       }
       return arr;
     })
@@ -71,7 +71,7 @@ function textToJSX(text: string) {
 export function templateToJSX(template: string, variables: ITemplateVariable[], data: TPanelData) {
   const variableElements = variablesToElements(variables, data);
   const regx = /^\{(.+)\}(.*)$/;
-  return template.split('$').map((text) => {
+  return template.split('$').map((text, index) => {
     const match = regx.exec(text);
     if (!match) {
       return textToJSX(text);
@@ -82,7 +82,7 @@ export function templateToJSX(template: string, variables: ITemplateVariable[], 
     }
     const rest = match[2] ?? '';
     return (
-      <React.Fragment key={text}>
+      <React.Fragment key={`${text}-${index}`}>
         {element}
         {textToJSX(rest)}
       </React.Fragment>
