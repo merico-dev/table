@@ -14,6 +14,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 interface IClickRadarSeries {
   type: 'click';
@@ -36,15 +37,13 @@ function Chart({
   variables,
 }: {
   conf: IRadarChartConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.series_name_key);
-  }, [data, conf.series_name_key]);
+  const rowDataMap = useRowDataMap(data, conf.series_name_key);
 
   const triggers = useTriggerSnapshotList<IRadarChartConf>(interactionManager.triggerManager, ClickRadarChartSeries.id);
 
@@ -91,7 +90,7 @@ export function VizRadarChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   if (!width || !height || !conf || isEmpty(conf?.dimensions)) {

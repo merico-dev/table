@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
@@ -47,8 +47,30 @@ function v4(prev: $TSFixMe): IRadarChartConf {
   return _.defaultsDeep(patch, prev);
 }
 
+function v5(legacyConf: any, { panelModel }: IMigrationEnv): IRadarChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { series_name_key, dimensions, ...rest } = legacyConf;
+    return {
+      ...rest,
+      series_name_key: changeKey(series_name_key),
+      dimensions: dimensions.map((d: any) => ({
+        ...d,
+        data_key: changeKey(d.data_key),
+      })),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -69,6 +91,10 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 4, config: v4(config) };
     });
+    this.version(5, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 5, config: v5(config, env) };
+    });
   }
 }
 
@@ -83,7 +109,7 @@ export const RadarChartVizComponent: VizComponent = {
     version: number;
     config: IRadarChartConf;
   } => ({
-    version: 4,
+    version: 5,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickRadarChartSeries],
