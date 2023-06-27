@@ -28,6 +28,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
+      - name: Cache nx build result
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-nx-cache
+          path: |
+            ./node_modules/.cache/nx
       - run: yarn global add nx
       - uses: nrwl/nx-set-shas@v3
       - run: nx affected --target=build
