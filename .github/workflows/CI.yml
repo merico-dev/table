@@ -31,10 +31,16 @@ jobs:
       - run: yarn global add nx
       - uses: nrwl/nx-set-shas@v3
       - run: nx affected --target=check --parallel=3
-      - run: ls -al ./node_modules/.cache/nx
+      - name: debug local cache
+        run: |
+          ls -al ./node_modules/.cache/nx
+          cat ./node_modules/.cache/nx/run.json
       # - run: nx affected --target=test --parallel=3 --configuration=ci
       - run: nx build website --parallel=3
-      - run: ls -al ./node_modules/.cache/nx
+      - name: debug local cache
+        run: |
+          ls -al ./node_modules/.cache/nx
+          cat ./node_modules/.cache/nx/run.json
       - name: Archive website artifacts
         uses: actions/upload-artifact@v3
         with:
