@@ -6,7 +6,8 @@
     "api",
     "dashboard",
     "settings-form",
-    "website"
+    "website",
+    "!api/_build"
   ],
   "devDependencies": {
     "@nx/devkit": "16.0.3",

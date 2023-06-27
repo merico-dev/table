@@ -23,6 +23,13 @@ function registerProjectTargets(projectFilePath) {
         commands: [`yarn tsc --noEmit -p ${projectDir('tsconfig.json')}`],
       },
     },
+    build: {
+      executor: 'nx:run-script',
+      options: {
+        script: 'build',
+      },
+      dependsOn: ['^build'],
+    },
   };
 }
 

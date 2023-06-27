@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev-build": "tsc && vite build --watch",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
