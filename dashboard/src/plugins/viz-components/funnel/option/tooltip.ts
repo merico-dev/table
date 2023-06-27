@@ -3,6 +3,7 @@ import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IFunnelConf } from '../type';
+import { parseDataKey } from '~/utils/data';
 
 interface IGetRows {
   conf: IFunnelConf;
@@ -24,9 +25,10 @@ function getRows({ conf, params, max }: IGetRows) {
   const ret = [valueRow];
   return ret;
 }
-function getTooltipFormatter(conf: IFunnelConf, data: AnyObject[]) {
-  const valueKey = conf.series[0].level_value_data_key;
-  const max = _.maxBy(data, valueKey)?.[valueKey];
+function getTooltipFormatter(conf: IFunnelConf, data: TPanelData) {
+  const n = parseDataKey(conf.series[0].level_name_data_key);
+  const v = parseDataKey(conf.series[0].level_value_data_key);
+  const max = _.maxBy(data[n.queryID], v.columnKey)?.[v.columnKey];
   return (params: CallbackDataParams) => {
     const rows = getRows({ conf, params, max });
     const trs = rows.map((r) => {
@@ -54,9 +56,10 @@ function getTooltipFormatter(conf: IFunnelConf, data: AnyObject[]) {
   };
 }
 
-export function getTooltip(conf: IFunnelConf, data: AnyObject[]) {
+export function getTooltip(conf: IFunnelConf, data: TPanelData) {
   return {
     trigger: 'item',
+    confine: true,
     formatter: getTooltipFormatter(conf, data),
   };
 }

@@ -1,6 +1,6 @@
 import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizFunnelChart } from './viz-funnel-chart';
 import { VizFunnelEditor } from './viz-funnel-editor';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
@@ -26,8 +26,30 @@ function v2(prev: AnyObject): IFunnelConf {
   };
 }
 
+function v3(legacyConf: any, { panelModel }: IMigrationEnv): IFunnelConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { series, ...rest } = legacyConf;
+    return {
+      ...rest,
+      series: series.map((s: any) => ({
+        ...s,
+        level_name_data_key: changeKey(s.level_name_data_key),
+        level_value_data_key: changeKey(s.level_value_data_key),
+      })),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizFunnelMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -42,6 +64,14 @@ class VizFunnelMigrator extends VersionBasedMigrator {
         ...data,
         version: 2,
         config: v2(config),
+      };
+    });
+    this.version(3, (data, env) => {
+      const { config } = data;
+      return {
+        ...data,
+        version: 3,
+        config: v3(config, env),
       };
     });
   }
@@ -59,5 +89,5 @@ export const FunnelVizComponent: VizComponent = {
   name: 'funnel',
   viewRender: VizFunnelChart,
   configRender: VizFunnelEditor,
-  createConfig: (): ConfigType => ({ version: 2, config: DEFAULT_CONFIG }),
+  createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
 };
