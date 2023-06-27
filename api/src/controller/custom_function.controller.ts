@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
@@ -19,13 +19,9 @@ import {
 @controller('/custom_function')
 export class CustomFunctionController implements interfaces.Controller {
   public static TARGET_NAME = 'CustomFunction';
-  private customFunctionService: CustomFunctionService;
 
-  public constructor(
-    @inject('Newable<CustomFunctionService>') CustomFunctionService: inverfaces.Newable<CustomFunctionService>,
-  ) {
-    this.customFunctionService = new CustomFunctionService();
-  }
+  @inject('CustomFunctionService')
+  private customFunctionService: CustomFunctionService;
 
   @ApiOperationPost({
     path: '/list',

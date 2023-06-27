@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpGet, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import {
   ApiOperationGet,
@@ -34,11 +34,9 @@ import { translate } from '../utils/i18n';
 @controller('/account')
 export class AccountController implements interfaces.Controller {
   public static TARGET_NAME = 'Account';
-  private accountService: AccountService;
 
-  public constructor(@inject('Newable<AccountService>') AccountService: inverfaces.Newable<AccountService>) {
-    this.accountService = new AccountService();
-  }
+  @inject('AccountService')
+  private accountService: AccountService;
 
   @ApiOperationPost({
     path: '/login',

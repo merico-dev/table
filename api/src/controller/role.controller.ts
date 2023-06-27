@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpGet, interfaces } from 'inversify-express-utils';
 import { ApiOperationGet, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { RoleService } from '../services/role.service';
@@ -11,11 +11,9 @@ import { RoleService } from '../services/role.service';
 @controller('/role')
 export class RoleController implements interfaces.Controller {
   public static TARGET_NAME = 'Role';
-  private roleService: RoleService;
 
-  public constructor(@inject('Newable<RoleService>') RoleService: inverfaces.Newable<RoleService>) {
-    this.roleService = new RoleService();
-  }
+  @inject('RoleService')
+  private roleService: RoleService;
 
   @ApiOperationGet({
     path: '/list',

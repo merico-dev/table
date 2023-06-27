@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inversaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
 import { QueryService } from '../services/query.service';
@@ -15,11 +15,9 @@ import permission from '../middleware/permission';
 @controller('/query')
 export class QueryController implements interfaces.Controller {
   public static TARGET_NAME = 'Query';
-  private queryService: QueryService;
 
-  public constructor(@inject('Newable<QueryService>') QueryService: inversaces.Newable<QueryService>) {
-    this.queryService = new QueryService();
-  }
+  @inject('QueryService')
+  private queryService: QueryService;
 
   @ApiOperationPost({
     path: '/',

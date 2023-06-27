@@ -8,6 +8,7 @@ import { DEFAULT_LANGUAGE, FS_CACHE_RETAIN_TIME } from '../utils/constants';
 import i18n, { CONFIG_DESCRIPTION_KEYS, translate } from '../utils/i18n';
 import { ROLE_TYPES } from '../api_models/role';
 import { ConfigDescription } from '../api_models/config';
+import { injectable } from 'inversify';
 
 export enum ConfigResourceTypes {
   GLOBAL = 'GLOBAL',
@@ -33,6 +34,7 @@ type AuthConfig = {
   min?: ROLE_TYPES;
 };
 
+@injectable()
 export class ConfigService {
   static keyConfig: KeyConfig = {
     lang: {

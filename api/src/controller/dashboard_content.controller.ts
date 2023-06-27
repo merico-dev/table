@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
@@ -24,13 +24,9 @@ import { DashboardContentService } from '../services/dashboard_content.service';
 @controller('/dashboard_content')
 export class DashboardContentController implements interfaces.Controller {
   public static TARGET_NAME = 'DashboardContent';
-  private dashboardContentService: DashboardContentService;
 
-  public constructor(
-    @inject('Newable<DashboardContentService>') DashboardContentService: inverfaces.Newable<DashboardContentService>,
-  ) {
-    this.dashboardContentService = new DashboardContentService();
-  }
+  @inject('DashboardContentService')
+  private dashboardContentService: DashboardContentService;
 
   @ApiOperationPost({
     path: '/list',

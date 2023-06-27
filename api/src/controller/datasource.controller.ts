@@ -1,6 +1,6 @@
 import * as express from 'express';
 import _ from 'lodash';
-import { inject, interfaces as inverfaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { DataSourceService } from '../services/datasource.service';
@@ -27,11 +27,9 @@ import { translate } from '../utils/i18n';
 @controller('/datasource')
 export class DataSourceController implements interfaces.Controller {
   public static TARGET_NAME = 'DataSource';
-  private dataSourceService: DataSourceService;
 
-  public constructor(@inject('Newable<DataSourceService>') DataSourceService: inverfaces.Newable<DataSourceService>) {
-    this.dataSourceService = new DataSourceService();
-  }
+  @inject('DataSourceService')
+  private dataSourceService: DataSourceService;
 
   @ApiOperationPost({
     path: '/list',

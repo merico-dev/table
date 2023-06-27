@@ -8,7 +8,9 @@ import {
 } from '../api_models/dashboard_content_changelog';
 import { PaginationRequest } from '../api_models/base';
 import { getDiff, omitTime } from '../utils/helpers';
+import { injectable } from 'inversify';
 
+@injectable()
 export class DashboardContentChangelogService {
   static async createChangelog(
     oldDashboardContent: DashboardContent,

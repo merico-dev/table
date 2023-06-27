@@ -18,7 +18,9 @@ import ApiKey from '../models/apiKey';
 import DashboardContent from '../models/dashboard_content';
 import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
 import DashboardContentChangelog from '../models/dashboard_content_changelog';
+import { injectable } from 'inversify';
 
+@injectable()
 export class DashboardContentService {
   async list(
     dashboard_id: string,

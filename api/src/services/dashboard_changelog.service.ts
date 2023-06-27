@@ -8,7 +8,9 @@ import {
 } from '../api_models/dashboard_changelog';
 import { PaginationRequest } from '../api_models/base';
 import { getDiff, omitTime } from '../utils/helpers';
+import { injectable } from 'inversify';
 
+@injectable()
 export class DashboardChangelogService {
   static async createChangelog(oldDashboard: Dashboard, newDashboard: Dashboard): Promise<string | undefined> {
     const oldData = omitTime(oldDashboard);

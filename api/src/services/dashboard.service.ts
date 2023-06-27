@@ -16,7 +16,9 @@ import ApiKey from '../models/apiKey';
 import DashboardPermission from '../models/dashboard_permission';
 import { PermissionResource } from '../api_models/dashboard_permission';
 import DashboardContent from '../models/dashboard_content';
+import { injectable } from 'inversify';
 
+@injectable()
 export class DashboardService {
   async list(
     filter: DashboardFilterObject | undefined,

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { inject, interfaces as inversaces } from 'inversify';
+import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { JobListRequest, JobRunRequest } from '../api_models/job';
@@ -15,11 +15,9 @@ import { JobService } from '../services/job.service';
 @controller('/job')
 export class JobController implements interfaces.Controller {
   public static TARGET_NAME = 'Job';
-  private jobService: JobService;
 
-  public constructor(@inject('Newable<JobService>') JobService: inversaces.Newable<JobService>) {
-    this.jobService = new JobService();
-  }
+  @inject('JobService')
+  private jobService: JobService;
 
   @ApiOperationPost({
     path: '/list',

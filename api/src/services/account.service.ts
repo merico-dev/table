@@ -19,11 +19,13 @@ import { escapeLikePattern } from '../utils/helpers';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
+import { injectable } from 'inversify';
 
 export function redactPassword(account: Account) {
   return _.omit(account, 'password');
 }
 
+@injectable()
 export class AccountService {
   static async getByToken(token: string | undefined): Promise<AccountAPIModel | null> {
     if (!token) {
