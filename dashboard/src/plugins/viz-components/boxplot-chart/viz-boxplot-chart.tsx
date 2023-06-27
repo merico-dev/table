@@ -18,6 +18,7 @@ import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotDataItem } from './type';
+import { parseDataKey } from '~/utils/data';
 
 echarts.use([
   DataZoomComponent,
@@ -42,7 +43,7 @@ interface IClickBoxplotSeries {
 export function VizBoxplotChart({ context, instance }: VizViewProps) {
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const config = defaults({}, conf, DEFAULT_CONFIG);
 
@@ -54,7 +55,8 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
   const triggers = useTriggerSnapshotList<IBoxplotChartConf>(interactionManager.triggerManager, ClickBoxplotSeries.id);
 
   const rowDataMap = useMemo(() => {
-    return _.keyBy(data, config.x_axis.data_key);
+    const { queryID, columnKey } = parseDataKey(config.x_axis.data_key);
+    return _.keyBy(data[queryID], columnKey);
   }, [data, config.x_axis.data_key]);
 
   const handleSeriesClick = useCallback(

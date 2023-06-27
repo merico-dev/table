@@ -2,10 +2,11 @@ import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
+import { parseDataKey } from '~/utils/data';
 
-function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: string) {
+function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
-    const numbers: number[] = data.map((d) => d[data_key]).sort((a, b) => a - b);
+    const numbers: number[] = data.map((d) => d[columnKey]).sort((a, b) => a - b);
     const q1 = quantile(numbers, 0.25) ?? 0;
     const median = quantile(numbers, 0.5) ?? 0;
     const q3 = quantile(numbers, 0.75) ?? 0;
@@ -19,10 +20,10 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
 
     const outliers: TOutlierDataItem[] = data
       .filter((d) => {
-        const v = d[data_key];
+        const v = d[columnKey];
         return v < min || v > max;
       })
-      .map((d) => [name, d[data_key], d]);
+      .map((d) => [name, d[columnKey], d]);
 
     const boxplot: IBoxplotDataItem = {
       name,
@@ -40,10 +41,18 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, data_key: str
   return ret;
 }
 
-export function getDataset(conf: IBoxplotChartConf, data: TVizData) {
+export function getDataset(conf: IBoxplotChartConf, data: TPanelData) {
   const { x_axis, y_axis } = conf;
-  const grouped = _.groupBy(data, x_axis.data_key);
-  const boxplotData = calcBoxplotData(grouped, y_axis.data_key);
+  if (!x_axis.data_key || !y_axis.data_key) {
+    return [];
+  }
+  const x = parseDataKey(x_axis.data_key);
+  const y = parseDataKey(y_axis.data_key);
+  if (x.queryID !== y.queryID) {
+    throw new Error('Please use the same query for X & Y axis');
+  }
+  const grouped = _.groupBy(data[x.queryID], x.columnKey);
+  const boxplotData = calcBoxplotData(grouped, y.columnKey);
   const outliersData = boxplotData.map((b) => b.outliers).flat();
   return [
     {

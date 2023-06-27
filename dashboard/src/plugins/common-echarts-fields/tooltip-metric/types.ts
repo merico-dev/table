@@ -1,5 +1,5 @@
 export interface IEchartsTooltipMetric {
   id: string;
-  data_key: string;
+  data_key: TDataKey;
   name: string;
 }
