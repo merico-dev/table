@@ -36,7 +36,6 @@ jobs:
             ./node_modules/.cache/nx
       - run: yarn global add nx
       - uses: nrwl/nx-set-shas@v3
-      - run: nx affected --target=build
       - run: nx affected --target=check
       - run: nx affected --target=test --configuration=ci
       - run: nx build website
