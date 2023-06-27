@@ -65,7 +65,7 @@ function Chart({
   variables,
 }: {
   conf: ICalendarHeatmapConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
@@ -126,7 +126,7 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   if (!conf.calendar.data_key || !conf.heat_block.data_key) {
