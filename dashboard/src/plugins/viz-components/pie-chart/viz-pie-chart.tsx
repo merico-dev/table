@@ -13,7 +13,7 @@ echarts.use([PieChart, CanvasRenderer]);
 
 export function VizPieChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   const option = useMemo(() => {

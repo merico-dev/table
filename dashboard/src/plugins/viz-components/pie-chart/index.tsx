@@ -1,5 +1,5 @@
 import { VizComponent } from '~/types/plugin';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizPieChart } from './viz-pie-chart';
 import { VizPieChartEditor } from './viz-pie-chart-editor';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
@@ -13,8 +13,27 @@ function v2(legacyConf: $TSFixMe): IPieChartConf {
   };
 }
 
+function v3(legacyConf: any, { panelModel }: IMigrationEnv): IPieChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { label_field, value_field, color_field } = legacyConf;
+    return {
+      label_field: changeKey(label_field),
+      value_field: changeKey(value_field),
+      color_field: changeKey(color_field),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizPieChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -30,6 +49,13 @@ class VizPieChartMigrator extends VersionBasedMigrator {
         config: v2(data.config),
       };
     });
+    this.version(3, (data, env) => {
+      return {
+        ...data,
+        version: 3,
+        config: v3(data.config, env),
+      };
+    });
   }
 }
 
@@ -42,7 +68,7 @@ export const PieChartVizComponent: VizComponent = {
   configRender: VizPieChartEditor,
   createConfig() {
     return {
-      version: 2,
+      version: 3,
       config: cloneDeep(DEFAULT_CONFIG) as IPieChartConf,
     };
   },
