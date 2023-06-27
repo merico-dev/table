@@ -1,10 +1,14 @@
 import * as path from 'path';
+import * as fs from 'fs';
 
 export const projectFilePatterns = ['package.json'];
 
 function registerProjectTargets(projectFilePath) {
   const projectDir = (...items: string[]) =>
     path.join(path.dirname(projectFilePath), ...items);
+  if (fs.existsSync(projectDir('nx.json'))) {
+    return {};
+  }
   return {
     lint: {
       executor: '@nx/linter:eslint',
