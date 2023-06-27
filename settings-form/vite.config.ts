@@ -43,7 +43,7 @@ export default defineConfig({
       fileName: (format) => `settings-form.${format}.js`,
     },
     rollupOptions: {
-      plugins: [visualizer()],
+      plugins: [visualizer({ emitFile: true })],
       external: externals,
       output: {
         globals: (id) => {

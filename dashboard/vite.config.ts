@@ -76,7 +76,7 @@ export default defineConfig({
       fileName: (format) => `dashboard.${format}.js`,
     },
     rollupOptions: {
-      plugins: [visualizer()],
+      plugins: [visualizer({ emitFile: true })],
       external: externals,
       output: {
         globals: (name) => {
