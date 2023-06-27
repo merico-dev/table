@@ -26,6 +26,11 @@ function registerProjectTargets(projectFilePath) {
     },
     build: {
       executor: 'nx:run-script',
+      inputs: [
+        '{projectRoot}/**/*',
+        '!{projectRoot}/dist/**/*',
+        '!{projectRoot}/node_modules/**/*}',
+      ],
       options: {
         script: 'build',
       },
