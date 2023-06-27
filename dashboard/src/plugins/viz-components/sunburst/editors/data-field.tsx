@@ -15,17 +15,17 @@ export function DataField({ data, control, watch }: IDataField) {
       <Controller
         name="label_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
+        render={({ field }) => <DataFieldSelector label="Label Key" required {...field} />}
       />
       <Controller
         name="value_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+        render={({ field }) => <DataFieldSelector label="Value Key" required {...field} />}
       />
       <Controller
         name="group_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Group Key" data={data} clearable {...field} />}
+        render={({ field }) => <DataFieldSelector label="Group Key" clearable {...field} />}
       />
     </Stack>
   );

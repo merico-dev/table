@@ -34,7 +34,7 @@ export function RegressionField({ control, watch, data }: IRegressionField) {
         name="regression.group_by_key"
         control={control}
         render={({ field }) => (
-          <DataFieldSelector label="按此字段将数据分为多个系列" data={data} clearable sx={{ flex: 1 }} {...field} />
+          <DataFieldSelector label="按此字段将数据分为多个系列" clearable sx={{ flex: 1 }} {...field} />
         )}
       />
       <Group grow noWrap>

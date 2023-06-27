@@ -63,12 +63,12 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
         <Controller
           name={`series.${index}.level_name_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Name Field" data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Level Name Field" {...field} />}
         />
         <Controller
           name={`series.${index}.level_value_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Value Field" data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Level Value Field" {...field} />}
         />
       </Group>
 

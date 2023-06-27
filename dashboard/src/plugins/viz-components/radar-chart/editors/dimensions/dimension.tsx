@@ -24,9 +24,7 @@ export function DimensionField({ control, index, remove, data }: IDimensionField
         <Controller
           name={`dimensions.${index}.data_key`}
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Data Key" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Data Key" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`dimensions.${index}.max`}

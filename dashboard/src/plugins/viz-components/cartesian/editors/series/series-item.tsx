@@ -103,9 +103,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.aggregation_on_value`}
@@ -127,7 +125,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           render={({ field }) => (
             <DataFieldSelector
               label="Split into multiple series by this key..."
-              data={data}
               clearable
               sx={{ flex: 1 }}
               {...field}

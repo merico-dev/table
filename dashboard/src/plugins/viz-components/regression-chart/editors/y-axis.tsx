@@ -24,9 +24,7 @@ export function YAxisField({ data, control, watch }: IYAxisField) {
         <Controller
           name="regression.y_axis_data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Y轴数据字段" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Y轴数据字段" required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
     </Stack>

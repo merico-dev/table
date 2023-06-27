@@ -53,7 +53,7 @@ export const ColumnField = ({ control, index, watch, remove, column, data }: ICo
         <Controller
           name={`columns.${index}.value_field`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Value Field" required data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Value Field" required {...field} />}
         />
       </Group>
       <Group grow>

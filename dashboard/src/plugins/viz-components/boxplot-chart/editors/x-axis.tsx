@@ -24,9 +24,7 @@ export const XAxisField = ({ control, data, watch }: IXAxisField) => {
         <Controller
           name="x_axis.data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="X Axis Data Field" required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Divider mb={-15} label="Tick Label" labelPosition="center" />

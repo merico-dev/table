@@ -17,9 +17,7 @@ export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="heat_block.name"

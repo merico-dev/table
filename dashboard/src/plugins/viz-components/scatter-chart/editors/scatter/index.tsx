@@ -37,16 +37,12 @@ export function ScatterField({ data, control, watch }: IScatterField) {
         <Controller
           name="scatter.name_data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Name Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Name Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="scatter.y_data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Value Data Field" required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Divider mb={-15} label="Style" labelPosition="center" />

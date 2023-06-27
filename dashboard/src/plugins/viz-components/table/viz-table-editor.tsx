@@ -82,7 +82,7 @@ export function VizTableEditor({ context }: VizConfigProps) {
           <Controller
             name="id_field"
             control={control}
-            render={({ field }) => <DataFieldSelector label="ID Field" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="ID Field" required {...field} />}
           />
         </Tabs.Panel>
         <Tabs.Panel value="Style">

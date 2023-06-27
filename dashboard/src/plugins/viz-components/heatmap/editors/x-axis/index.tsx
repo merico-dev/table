@@ -18,9 +18,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="x_axis.name"

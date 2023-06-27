@@ -16,9 +16,7 @@ export function YAxisField({ data, control, watch }: IYAxisField) {
       <Controller
         name="data_key"
         control={control}
-        render={({ field }) => (
-          <DataFieldSelector label="Y Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-        )}
+        render={({ field }) => <DataFieldSelector label="Y Axis Data Field" required sx={{ flex: 1 }} {...field} />}
       />
     </Stack>
   );

@@ -40,9 +40,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
         <Controller
           name="series_name_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Series Name Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Series Name Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Group grow noWrap>
           <Controller
