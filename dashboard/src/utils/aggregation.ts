@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import { quantile } from 'd3-array';
-import { AnyObject } from '~/types';
+import _ from 'lodash';
 import * as math from 'mathjs';
 import { extractData } from './data';
 
@@ -74,7 +73,7 @@ export function formatNumbersAndAggregateValue(possibleNumbers: Array<string | n
 
 export function aggregateValue(data: TPanelData, data_field: string, aggregation: AggregationType) {
   try {
-    return aggregateValueFromNumbers(extractData(data, data_field), aggregation);
+    return formatNumbersAndAggregateValue(extractData(data, data_field), aggregation);
   } catch (error) {
     console.error(error);
     return null;

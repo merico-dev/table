@@ -47,7 +47,6 @@ export function getSeries(conf: IFunnelConf, data: TPanelData) {
     if (!level_name_data_key || !level_value_data_key) {
       return {};
     }
-    console.log({ level_name_data_key, level_value_data_key });
 
     const n = parseDataKey(level_name_data_key);
     const v = parseDataKey(level_value_data_key);
