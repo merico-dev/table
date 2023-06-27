@@ -1,5 +1,4 @@
 {
-  "root": "settings-form",
   "projectType": "library",
   "targets": {
     "build": {
@@ -16,5 +15,6 @@
       },
       "dependsOn": ["^build"]
     }
-  }
+  },
+  "name": "settings-form"
 }

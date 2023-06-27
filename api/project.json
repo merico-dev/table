@@ -1,5 +1,4 @@
 {
-  "root": "api",
   "targets": {
     "dev": {
       "executor": "nx:run-script",
@@ -8,5 +7,6 @@
       },
       "dependsOn": ["^dev"]
     }
-  }
+  },
+  "name": "api"
 }
