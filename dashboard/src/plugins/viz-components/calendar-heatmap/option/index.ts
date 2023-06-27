@@ -10,6 +10,7 @@ import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getVisualMap } from './visual-map';
+import { extractData, parseDataKey } from '~/utils/data';
 
 const defaultOption = {
   tooltip: {
@@ -22,11 +23,12 @@ const defaultOption = {
 
 const getYear = (d: string | number) => dayjs(d).get('year');
 
-function getDateStuff(conf: ICalendarHeatmapConf, data: AnyObject[]) {
-  const k = conf.calendar.data_key;
-  const dataByYear = _.groupBy(data, (d) => getYear(d[k]));
+function getDateStuff(conf: ICalendarHeatmapConf, data: TPanelData) {
+  const k = parseDataKey(conf.calendar.data_key);
+  const queryData = data[k.queryID];
+  const dataByYear = _.groupBy(queryData, (d) => getYear(d[k.columnKey]));
   const years = Object.keys(dataByYear);
-  const dates = data.map((d) => dayjs(d[k]).valueOf());
+  const dates = queryData.map((d) => dayjs(d[k.columnKey]).valueOf());
   const minDate = _.min(dates);
   const maxDate = _.max(dates);
   return {
@@ -38,7 +40,7 @@ function getDateStuff(conf: ICalendarHeatmapConf, data: AnyObject[]) {
   };
 }
 
-export function getOption(conf: ICalendarHeatmapConf, data: AnyObject[], variables: ITemplateVariable[]) {
+export function getOption(conf: ICalendarHeatmapConf, data: TPanelData, variables: ITemplateVariable[]) {
   const valueFormatters = getValueFormatters(conf);
   const { dateSpan, minDate, dataByYear, years } = getDateStuff(conf, data);
   const oneYearMode = dateSpan <= 366;

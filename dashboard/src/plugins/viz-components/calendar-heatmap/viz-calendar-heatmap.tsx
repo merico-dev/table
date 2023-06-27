@@ -21,6 +21,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 echarts.use([
   DataZoomComponent,
@@ -70,10 +71,7 @@ function Chart({
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    const k = conf.calendar.data_key;
-    return _.keyBy(data, k);
-  }, [data, conf.calendar.data_key]);
+  const rowDataMap = useRowDataMap(data, conf.calendar.data_key);
 
   const triggers = useTriggerSnapshotList<ICalendarHeatmapConf>(
     interactionManager.triggerManager,
