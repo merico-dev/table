@@ -2,17 +2,15 @@ import { Box, Button, Divider, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { DynamicColorFunctionEditor } from './dynamic-color-function-editor';
 import { DEFAULT_SERIES_COLOR, TSeriesColor, TSeriesColor_Dynamic } from './types';
 
 interface IField {
   value: TSeriesColor_Dynamic;
   onChange: (v: TSeriesColor_Dynamic) => void;
-  data: AnyObject[];
 }
 
-const Field = ({ value, onChange, data }: IField) => {
+const Field = ({ value, onChange }: IField) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<TSeriesColor_Dynamic>(value);
 
@@ -85,13 +83,12 @@ const Field = ({ value, onChange, data }: IField) => {
 export interface IDynamicSeriesColorField {
   value: TSeriesColor;
   onChange: (v: TSeriesColor) => void;
-  data: AnyObject[];
 }
 
-export const DynamicSeriesColorField = ({ value, onChange, data }: IDynamicSeriesColorField) => {
+export const DynamicSeriesColorField = ({ value, onChange }: IDynamicSeriesColorField) => {
   if (value.type !== 'dynamic') {
     return null;
   }
 
-  return <Field value={value} onChange={onChange} data={data} />;
+  return <Field value={value} onChange={onChange} />;
 };

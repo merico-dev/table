@@ -8,10 +8,9 @@ import { LevelField } from './level';
 interface ILevelsField {
   control: Control<ISunburstConf, $TSFixMe>;
   watch: UseFormWatch<ISunburstConf>;
-  data: TVizData;
 }
 
-export const LevelsField = ({ control, watch, data }: ILevelsField) => {
+export const LevelsField = ({ control, watch }: ILevelsField) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'levels',
@@ -82,7 +81,7 @@ export const LevelsField = ({ control, watch, data }: ILevelsField) => {
         </Tabs.List>
         {controlledFields.map((m, index) => (
           <Tabs.Panel key={m.id} value={m.id}>
-            <LevelField key={m.id} control={control} index={index} remove={remove} data={data} />
+            <LevelField key={m.id} control={control} index={index} remove={remove} />
           </Tabs.Panel>
         ))}
       </Tabs>

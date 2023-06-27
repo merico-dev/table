@@ -14,10 +14,9 @@ const regressionOptions = [
 interface IRegressionField {
   control: Control<IRegressionChartConf, $TSFixMe>;
   watch: UseFormWatch<IRegressionChartConf>;
-  data: TVizData;
 }
 
-export function RegressionField({ control, watch, data }: IRegressionField) {
+export function RegressionField({ control, watch }: IRegressionField) {
   watch('regression');
   const method = watch('regression.transform.config.method');
   const group_by_key = watch('regression.group_by_key');

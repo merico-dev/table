@@ -15,7 +15,6 @@ import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: IHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IHeatmapConf = useMemo(() => {
     return _.cloneDeep(conf);
@@ -70,19 +69,19 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
-            <XAxisField control={control} watch={watch} data={data} />
+            <XAxisField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Y Axis">
-            <YAxisField control={control} watch={watch} data={data} />
+            <YAxisField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Heat Block">
-            <HeatBlockField control={control} watch={watch} data={data} />
+            <HeatBlockField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Tooltip">
-            <TooltipField control={control} watch={watch} data={data} />
+            <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </form>

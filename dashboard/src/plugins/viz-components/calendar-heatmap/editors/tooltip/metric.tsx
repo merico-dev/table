@@ -6,12 +6,11 @@ import { ICalendarHeatmapConf } from '../../type';
 
 interface ITooltipMetricField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
-  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }
 
-export const TooltipMetricField = ({ control, data, index, remove }: ITooltipMetricField) => {
+export const TooltipMetricField = ({ control, index, remove }: ITooltipMetricField) => {
   return (
     <Stack>
       <Group grow noWrap>

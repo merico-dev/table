@@ -8,10 +8,9 @@ import { TooltipMetricField } from './metric';
 interface IMetricsField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
   watch: UseFormWatch<IMericoEstimationChartConf>;
-  data: TVizData;
 }
 
-export const MetricsField = ({ control, watch, data }: IMetricsField) => {
+export const MetricsField = ({ control, watch }: IMetricsField) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'metrics',
@@ -75,7 +74,7 @@ export const MetricsField = ({ control, watch, data }: IMetricsField) => {
         </Tabs.List>
         {controlledFields.map((m, index) => (
           <Tabs.Panel key={m.id} value={m.id}>
-            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} data={data} />
+            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} />
           </Tabs.Panel>
         ))}
       </Tabs>

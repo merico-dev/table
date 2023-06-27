@@ -14,7 +14,6 @@ import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
 export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: ICalendarHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ICalendarHeatmapConf = useMemo(() => {
     return _.cloneDeep(conf);
@@ -68,15 +67,15 @@ export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="Calendar">
-            <CalendarField control={control} watch={watch} data={data} />
+            <CalendarField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Heat Block">
-            <HeatBlockField control={control} watch={watch} data={data} />
+            <HeatBlockField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Tooltip">
-            <TooltipField control={control} watch={watch} data={data} />
+            <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </form>

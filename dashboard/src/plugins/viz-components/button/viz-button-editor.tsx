@@ -34,7 +34,6 @@ const verticalAlignmentOptions = [
 export function VizButtonEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IButtonConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: IButtonConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues = conf;
 

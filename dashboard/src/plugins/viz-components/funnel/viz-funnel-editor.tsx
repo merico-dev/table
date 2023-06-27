@@ -1,18 +1,16 @@
+import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, IFunnelConf } from './type';
 import { SeriesField } from './editors/series';
+import { DEFAULT_CONFIG, IFunnelConf } from './type';
 
 export function VizFunnelEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IFunnelConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as AnyObject[];
   const conf: IFunnelConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IFunnelConf>({ defaultValues: conf });
@@ -55,7 +53,7 @@ export function VizFunnelEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Basics">Basic settings</Tabs.Panel>
         </Tabs> */}
-        <SeriesField control={control} watch={watch} data={data} />
+        <SeriesField control={control} watch={watch} />
       </form>
     </Stack>
   );

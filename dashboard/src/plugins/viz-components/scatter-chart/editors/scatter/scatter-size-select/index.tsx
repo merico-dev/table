@@ -20,11 +20,10 @@ interface IScatterSizeSelect {
   label?: string;
   value: TScatterSize;
   onChange: (v: TScatterSize) => void;
-  data: AnyObject[];
 }
 
 export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect>(
-  ({ label = 'Size', value, onChange, data }: IScatterSizeSelect, ref) => {
+  ({ label = 'Size', value, onChange }: IScatterSizeSelect, ref) => {
     const changeType = (type: 'static' | 'dynamic') => {
       onChange({ ...DEFAULT_SCATTER_SIZE[type] });
     };
@@ -39,7 +38,7 @@ export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect
           sx={{ flexGrow: 1 }}
         />
         <StaticScatterSizeField value={value} onChange={onChange} />
-        <DynamicScatterSizeField value={value} onChange={onChange} data={data} />
+        <DynamicScatterSizeField value={value} onChange={onChange} />
       </SimpleGrid>
     );
   },

@@ -7,7 +7,7 @@ export function getSeries4(
   conf: IMericoEstimationChartConf,
   metric: IEchartsTooltipMetric,
   xAxisData: string[],
-  dataGroupedByX: Record<string, TVizData>,
+  dataGroupedByX: Record<string, TQueryData>,
 ) {
   const k = parseDataKey(metric.data_key);
   const name = metric.name;

@@ -12,7 +12,6 @@ import { DEFAULT_CONFIG, ISunburstConf } from './type';
 export function VizSunburstEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: ISunburstConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ISunburstConf = useMemo(() => _.clone(conf), [conf]);
 
@@ -59,10 +58,10 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="Data">
-            <DataField control={control} watch={watch} data={data} />
+            <DataField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Levels">
-            <LevelsField control={control} watch={watch} data={data} />
+            <LevelsField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </Stack>

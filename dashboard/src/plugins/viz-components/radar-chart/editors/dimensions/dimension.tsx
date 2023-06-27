@@ -9,10 +9,9 @@ interface IDimensionField {
   control: Control<IRadarChartConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
-  data: TVizData;
 }
 
-export function DimensionField({ control, index, remove, data }: IDimensionField) {
+export function DimensionField({ control, index, remove }: IDimensionField) {
   return (
     <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>

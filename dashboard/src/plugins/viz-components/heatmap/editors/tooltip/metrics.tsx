@@ -8,10 +8,9 @@ import { TooltipMetricField } from './metric';
 interface ITooltipMetricsField {
   control: Control<IHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<IHeatmapConf>;
-  data: TVizData;
 }
 
-export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsField) => {
+export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tooltip.metrics',
@@ -75,7 +74,7 @@ export const TooltipMetricsField = ({ control, watch, data }: ITooltipMetricsFie
         </Tabs.List>
         {controlledFields.map((m, index) => (
           <Tabs.Panel key={m.id} value={m.id}>
-            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} data={data} />
+            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} />
           </Tabs.Panel>
         ))}
       </Tabs>

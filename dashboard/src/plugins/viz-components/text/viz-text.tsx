@@ -12,7 +12,7 @@ export const VizText = observer(({ context }: VizViewProps) => {
   const contentModel = useContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[]; // FIXME: from TVizData[] to Record<string, number>[], or improve getAggregatedValue's type def
+  const data = context.data;
   const { func_content, horizontal_align, font_size, font_weight } = conf;
 
   const variableValueMap = useMemo(() => {

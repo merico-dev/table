@@ -35,10 +35,9 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: AnyObject[];
 }
 
-export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions, data }: ISeriesItemField) {
+export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions }: ISeriesItemField) {
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>

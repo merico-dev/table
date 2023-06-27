@@ -2,15 +2,13 @@ import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
-import { AnyObject } from '~/types';
 import { IBoxplotChartConf } from '../type';
 
 interface IYAxisField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
-  data: AnyObject[];
   watch: UseFormWatch<IBoxplotChartConf>;
 }
-export const YAxisField = ({ control, data, watch }: IYAxisField) => {
+export const YAxisField = ({ control, watch }: IYAxisField) => {
   watch(['y_axis']);
   return (
     <>

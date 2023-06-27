@@ -13,7 +13,7 @@ echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponen
 
 export function VizBar3dChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const { x_axis_data_key, y_axis_data_key, z_axis_data_key, xAxis3D, yAxis3D, zAxis3D } = defaults(
     {},

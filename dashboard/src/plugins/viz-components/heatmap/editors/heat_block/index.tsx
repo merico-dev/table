@@ -7,9 +7,8 @@ import { IHeatmapConf } from '../../type';
 interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<IHeatmapConf>;
-  data: TVizData;
 }
-export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
+export function HeatBlockField({ control, watch }: IHeatBlockField) {
   watch(['heat_block']);
   return (
     <Stack>

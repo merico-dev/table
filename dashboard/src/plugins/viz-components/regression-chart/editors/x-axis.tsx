@@ -9,9 +9,8 @@ import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-sele
 interface IXAxisField {
   control: Control<IRegressionChartConf, $TSFixMe>;
   watch: UseFormWatch<IRegressionChartConf>;
-  data: TVizData;
 }
-export function XAxisField({ data, control, watch }: IXAxisField) {
+export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis']);
   return (
     <Stack>
@@ -62,9 +61,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => (
-            <XAxisLabelFormatterField triggerButtonText="自定义标签文案内容" data={data} {...field} />
-          )}
+          render={({ field }) => <XAxisLabelFormatterField triggerButtonText="自定义标签文案内容" {...field} />}
         />
       </Group>
       <Controller

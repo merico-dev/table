@@ -10,7 +10,6 @@ import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 export function VizPieChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
 

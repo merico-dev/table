@@ -9,7 +9,7 @@ export function getSeries(
   conf: IMericoEstimationChartConf,
   metric: IEchartsTooltipMetric,
   xAxisData: string[],
-  dataGroupedByX: Record<string, TVizData>,
+  dataGroupedByX: Record<string, TQueryData>,
 ) {
   const barMinWidth = 5;
   const barMaxWidth = 20;

@@ -2,16 +2,14 @@ import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/co
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { AnyObject } from '~/types';
 import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IBoxplotChartConf } from '../type';
 
 interface IXAxisField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
-  data: AnyObject[];
   watch: UseFormWatch<IBoxplotChartConf>;
 }
-export const XAxisField = ({ control, data, watch }: IXAxisField) => {
+export const XAxisField = ({ control, watch }: IXAxisField) => {
   watch(['x_axis']);
   return (
     <Stack>
@@ -54,7 +52,7 @@ export const XAxisField = ({ control, data, watch }: IXAxisField) => {
         <Controller
           name="x_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
+          render={({ field }) => <XAxisLabelFormatterField {...field} />}
         />
       </Group>
       <Controller

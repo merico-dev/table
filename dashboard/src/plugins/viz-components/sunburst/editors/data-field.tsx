@@ -6,9 +6,8 @@ import { ISunburstConf } from '../type';
 interface IDataField {
   control: Control<ISunburstConf, $TSFixMe>;
   watch: UseFormWatch<ISunburstConf>;
-  data: TVizData;
 }
-export function DataField({ data, control, watch }: IDataField) {
+export function DataField({ control, watch }: IDataField) {
   watch(['label_key', 'value_key', 'group_key']);
   return (
     <Stack>

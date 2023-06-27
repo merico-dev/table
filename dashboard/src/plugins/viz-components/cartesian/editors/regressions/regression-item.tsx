@@ -27,10 +27,9 @@ interface IRegressionField {
     label: string;
     value: string;
   }[];
-  data: TVizData;
 }
 
-export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {
+export function RegressionField({ control, regressionItem, index, remove, yAxisOptions }: IRegressionField) {
   const method = regressionItem.transform.config.method;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>

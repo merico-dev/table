@@ -12,7 +12,6 @@ import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 
 export function VizRegressionChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IRegressionChartConf>({ defaultValues });
@@ -51,13 +50,13 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="X轴">
-            <XAxisField watch={watch} control={control} data={data} />
+            <XAxisField watch={watch} control={control} />
           </Tabs.Panel>
           <Tabs.Panel value="Y轴">
-            <YAxisField watch={watch} control={control} data={data} />
+            <YAxisField watch={watch} control={control} />
           </Tabs.Panel>
           <Tabs.Panel value="回归">
-            <RegressionField control={control} watch={watch} data={data} />
+            <RegressionField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </form>

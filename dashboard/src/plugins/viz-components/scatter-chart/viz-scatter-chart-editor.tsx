@@ -40,7 +40,6 @@ function normalizeConf({ reference_lines = [], stats, ...rest }: IScatterChartCo
 export function VizScatterChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IScatterChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: IScatterChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IScatterChartConf = useMemo(() => {
     return normalizeConf(conf);
@@ -100,7 +99,7 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
-            <XAxisField control={control} watch={watch} data={data} />
+            <XAxisField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Y Axes">
@@ -108,15 +107,15 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Scatter">
-            <ScatterField control={control} watch={watch} data={data} />
+            <ScatterField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Tooltip">
-            <TooltipField control={control} watch={watch} data={data} />
+            <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Stats">
-            <StatsField control={control} watch={watch} data={data} />
+            <StatsField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">

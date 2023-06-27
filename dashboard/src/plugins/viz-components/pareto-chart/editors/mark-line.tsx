@@ -1,10 +1,9 @@
-import { Box, Button, Collapse, Stack, Text, Textarea } from '@mantine/core';
+import { Button, Collapse, Stack, Text, Textarea } from '@mantine/core';
+import { Prism } from '@mantine/prism';
+import { useState } from 'react';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
-import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
-import { useState } from 'react';
-import { Prism } from '@mantine/prism';
 
 const structure = `
 {
@@ -52,9 +51,8 @@ export const DescribeParetoParams = () => {
 interface IMarkLineField {
   control: Control<IParetoChartConf, $TSFixMe>;
   watch: UseFormWatch<IParetoChartConf>;
-  data: AnyObject[];
 }
-export function MarkLineField({ data, control, watch }: IMarkLineField) {
+export function MarkLineField({ control, watch }: IMarkLineField) {
   watch(['markLine']);
   return (
     <Stack>

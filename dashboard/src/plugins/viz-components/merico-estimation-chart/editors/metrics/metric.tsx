@@ -6,12 +6,11 @@ import { IMericoEstimationChartConf } from '../../type';
 
 interface ITooltipMetricField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
-  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }
 
-export const TooltipMetricField = ({ control, data, index, remove }: ITooltipMetricField) => {
+export const TooltipMetricField = ({ control, index, remove }: ITooltipMetricField) => {
   return (
     <Stack>
       <Group grow noWrap>

@@ -18,12 +18,11 @@ const alignmentOptions = [
 
 interface ILevelField {
   control: Control<ISunburstConf, $TSFixMe>;
-  data: TVizData;
   index: number;
   remove: (index: number) => void;
 }
 
-export const LevelField = ({ control, data, index, remove }: ILevelField) => {
+export const LevelField = ({ control, index, remove }: ILevelField) => {
   return (
     <Stack>
       <Group grow noWrap>

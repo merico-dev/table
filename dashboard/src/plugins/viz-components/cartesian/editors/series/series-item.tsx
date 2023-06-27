@@ -1,16 +1,4 @@
-import {
-  ActionIcon,
-  Button,
-  Checkbox,
-  Divider,
-  Group,
-  SegmentedControl,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import React from 'react';
+import { Button, Checkbox, Divider, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { AggregationSelector } from '~/panel/settings/common/aggregation-selector';
@@ -48,10 +36,9 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: TVizData;
 }
 
-export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
+export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
@@ -132,9 +119,9 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
-      {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} data={data} />}
+      {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'bar' && <BarFields index={index} control={control} seriesItem={seriesItem} />}
-      {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
+      {type === 'scatter' && <ScatterFields index={index} control={control} />}
       <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
       <Controller
         name={`series.${index}.label_position`}

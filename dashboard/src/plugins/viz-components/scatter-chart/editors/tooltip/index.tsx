@@ -1,7 +1,7 @@
+import { Divider, Select, Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { IScatterChartConf } from '../../type';
 import { TooltipMetricsField } from './metrics';
-import { Divider, Select, Stack } from '@mantine/core';
 
 const TooltipTriggerOptions = [
   {
@@ -17,9 +17,8 @@ const TooltipTriggerOptions = [
 interface ITooltipField {
   control: Control<IScatterChartConf, $TSFixMe>;
   watch: UseFormWatch<IScatterChartConf>;
-  data: TPanelData;
 }
-export function TooltipField({ data, control, watch }: ITooltipField) {
+export function TooltipField({ control, watch }: ITooltipField) {
   watch('tooltip.trigger');
   return (
     <Stack>
@@ -29,7 +28,7 @@ export function TooltipField({ data, control, watch }: ITooltipField) {
         render={({ field }) => <Select label="Trigger" data={TooltipTriggerOptions} sx={{ flexGrow: 1 }} {...field} />}
       />
       <Divider variant="dashed" />
-      <TooltipMetricsField control={control} watch={watch} data={data} />
+      <TooltipMetricsField control={control} watch={watch} />
     </Stack>
   );
 }

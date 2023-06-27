@@ -10,9 +10,8 @@ import { SeriesItemField } from './series-item';
 interface ISeriesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: TVizData;
 }
-export function SeriesField({ control, watch, data }: ISeriesField) {
+export function SeriesField({ control, watch }: ISeriesField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'series',
@@ -97,7 +96,6 @@ export function SeriesField({ control, watch, data }: ISeriesField) {
             remove={remove}
             seriesItem={seriesItem}
             yAxisOptions={yAxisOptions}
-            data={data}
           />
         </Tabs.Panel>
       ))}

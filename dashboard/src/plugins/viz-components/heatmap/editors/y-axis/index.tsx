@@ -1,9 +1,8 @@
 import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { AnyObject } from '~/types';
-import { IHeatmapConf } from '../../type';
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
+import { IHeatmapConf } from '../../type';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
 
 const nameAlignmentOptions = [
@@ -14,10 +13,9 @@ const nameAlignmentOptions = [
 interface IYAxisField {
   watch: UseFormWatch<IHeatmapConf>;
   control: Control<IHeatmapConf, $TSFixMe>;
-  data: AnyObject[];
 }
 
-export function YAxisField({ control, watch, data }: IYAxisField) {
+export function YAxisField({ control, watch }: IYAxisField) {
   watch(['y_axis']);
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
@@ -74,7 +72,7 @@ export function YAxisField({ control, watch, data }: IYAxisField) {
         <Controller
           name="y_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
+          render={({ field }) => <XAxisLabelFormatterField {...field} />}
         />
       </Group>
     </Stack>

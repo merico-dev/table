@@ -9,10 +9,9 @@ import { SeriesItemField } from './series-item';
 interface ISeriesField {
   control: Control<IFunnelConf, $TSFixMe>;
   watch: UseFormWatch<IFunnelConf>;
-  data: TVizData;
 }
 
-export const SeriesField = ({ control, watch, data }: ISeriesField) => {
+export const SeriesField = ({ control, watch }: ISeriesField) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'series',
@@ -66,7 +65,7 @@ export const SeriesField = ({ control, watch, data }: ISeriesField) => {
 
       {controlledFields.map((m, index) => (
         <Tabs.Panel key={m.id} value={m.id}>
-          <SeriesItemField item={m} control={control} index={index} remove={remove} data={data} />
+          <SeriesItemField item={m} control={control} index={index} remove={remove} />
         </Tabs.Panel>
       ))}
     </Tabs>

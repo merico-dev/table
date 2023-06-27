@@ -6,9 +6,8 @@ import { IMericoEstimationChartConf } from '../type';
 interface IDeviationField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
   watch: UseFormWatch<IMericoEstimationChartConf>;
-  data: TVizData;
 }
-export function DeviationField({ data, control, watch }: IDeviationField) {
+export function DeviationField({ control, watch }: IDeviationField) {
   watch(['deviation']);
   return (
     <Stack>
