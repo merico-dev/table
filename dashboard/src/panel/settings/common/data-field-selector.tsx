@@ -1,49 +1,48 @@
-import { Select, Sx } from '@mantine/core';
-import React from 'react';
+import { Select, Sx, TextInput } from '@mantine/core';
+import { observer } from 'mobx-react-lite';
+import React, { forwardRef } from 'react';
+import { usePanelContext } from '~/contexts';
 
 interface IDataFieldSelector {
   label: string;
   required?: boolean;
   value: string;
   onChange: (v: string) => void;
-  data: $TSFixMe;
+  data: TPanelData;
   clearable?: boolean;
   sx?: Sx;
 }
 
-// TODO: use TPanelData
-function _DataFieldSelector(
-  { label, required, value, onChange, data, clearable = false, sx, ...restProps }: IDataFieldSelector,
-  ref: $TSFixMe,
-) {
-  const options = React.useMemo(() => {
-    if (!Array.isArray(data) || data.length === 0) {
-      return [];
-    }
+export const DataFieldSelector = observer(
+  forwardRef(
+    (
+      { label, required, value, onChange, clearable = false, sx, data, ...restProps }: IDataFieldSelector,
+      ref: $TSFixMe,
+    ) => {
+      const { panel } = usePanelContext();
+      const options = React.useMemo(() => {
+        const ret = panel.dataFieldOptions;
+        if (!clearable) {
+          return ret;
+        }
+        ret.unshift({ label: 'unset', value: '', group: '' });
+        return ret;
+      }, [panel.dataFieldOptions]);
 
-    const keys = Object.keys(data[0]);
-    const options = keys.map((k) => ({
-      label: k,
-      value: k,
-    }));
-    if (!clearable) {
-      return options;
-    }
-    return options.concat([{ label: 'unset', value: '' }]);
-  }, [data]);
+      return (
+        <Select
+          ref={ref}
+          label={label}
+          data={options}
+          value={value}
+          onChange={onChange}
+          required={required}
+          sx={sx}
+          {...restProps}
+        />
+      );
 
-  return (
-    <Select
-      ref={ref}
-      label={label}
-      data={options}
-      value={value}
-      onChange={onChange}
-      required={required}
-      sx={sx}
-      {...restProps}
-    />
-  );
-}
-
-export const DataFieldSelector = React.forwardRef(_DataFieldSelector);
+      // return <TextInput label={label} value={value} readOnly />;
+    },
+  ),
+);

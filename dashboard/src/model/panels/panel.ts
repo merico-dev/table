@@ -69,6 +69,26 @@ export const PanelModel = types
         description,
       };
     },
+    get dataFieldOptions() {
+      if (self.queryIDs.length === 0) {
+        return [];
+      }
+
+      return this.queries
+        .map((query) => {
+          const queryData = query.data;
+          if (queryData.length === 0) {
+            return [];
+          }
+          const keys = Object.keys(queryData[0]);
+          return keys.map((k) => ({
+            label: k,
+            value: `${query.id}.${k}`,
+            group: query.name,
+          }));
+        })
+        .flat();
+    },
   }))
   .actions((self) => ({
     setID(id: string) {
