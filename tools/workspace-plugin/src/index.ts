@@ -31,6 +31,7 @@ function registerProjectTargets(projectFilePath) {
         '!{projectRoot}/dist/**/*',
         '!{projectRoot}/node_modules/**/*}',
       ],
+      outputs: ['{projectRoot}/dist'],
       options: {
         script: 'build',
       },
