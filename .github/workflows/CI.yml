@@ -18,7 +18,6 @@ jobs:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,10 +29,17 @@ jobs:
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - run: yarn global add nx
-      - uses: nrwl/nx-set-shas@v2
+      - uses: nrwl/nx-set-shas@v3
       - run: nx affected --target=build
       - run: nx affected --target=check
       - run: nx affected --target=test --configuration=ci
+      - run: nx build website
+      - name: Archive website artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: website-dist
+          path: |
+            website/dist
 
   # only runs on the main branch or tags
   build_images:
@@ -78,6 +84,11 @@ jobs:
         run: |
           echo "VITE_API_BASE_URL=/devtable-api/" > website/.env
           echo "VITE_WEBSITE_BASE_URL=/devtable/website/" >> website/.env
+      - name: Download website artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: website-dist
+          path: website/dist
       - name: Build table  image
         run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }} .
       - name: Push table image
