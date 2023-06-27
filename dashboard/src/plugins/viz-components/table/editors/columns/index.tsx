@@ -22,7 +22,7 @@ export const ColumnsField = ({ control, watch, data }: IColumnsField) => {
     append({
       id,
       label: id,
-      value_field: 'value',
+      value_field: '',
       value_type: ValueType.string,
     });
   };
