@@ -7,6 +7,7 @@ import { getYAxes } from './y-axis';
 import _ from 'lodash';
 import { getDataWithLevelInfo } from './data';
 import { getLegend } from './legend';
+import { parseDataKey } from '~/utils/data';
 
 const defaultOption = {
   tooltip: {
@@ -14,7 +15,7 @@ const defaultOption = {
   },
 };
 
-function getMetric(conf: IMericoEstimationChartConf, metricKey: string) {
+function getMetric(conf: IMericoEstimationChartConf, metricKey: TDataKey) {
   const { deviation, metrics } = conf;
   const match = metrics.find((m) => m.data_key === metricKey);
   if (match) {
@@ -28,10 +29,11 @@ function getMetric(conf: IMericoEstimationChartConf, metricKey: string) {
   };
 }
 
-export function getOption(conf: IMericoEstimationChartConf, metricKey: string, rawData: TVizData) {
+export function getOption(conf: IMericoEstimationChartConf, metricKey: TDataKey, rawData: TPanelData) {
   const data = getDataWithLevelInfo(conf, rawData);
-  const xAxisData = _.uniqBy(rawData, conf.x_axis.data_key).map((d) => d[conf.x_axis.data_key]);
-  const dataGroupedByX = _.groupBy(data, conf.x_axis.data_key);
+  const x = parseDataKey(conf.x_axis.data_key);
+  const xAxisData = _.uniqBy(rawData[x.queryID], x.columnKey).map((d) => d[x.columnKey]);
+  const dataGroupedByX = _.groupBy(data, x.columnKey);
   const metric = getMetric(conf, metricKey);
   const series = getSeries(conf, metric, xAxisData, dataGroupedByX);
   const customOptions = {

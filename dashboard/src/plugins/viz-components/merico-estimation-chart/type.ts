@@ -6,7 +6,7 @@ import {
 
 export interface IMericoEstimationChartConf {
   x_axis: {
-    data_key: string;
+    data_key: TDataKey;
     name: string;
     axisLabel: {
       rotate: number;
@@ -16,8 +16,8 @@ export interface IMericoEstimationChartConf {
   deviation: {
     name: string;
     data_keys: {
-      estimated_value: string;
-      actual_value: string;
+      estimated_value: TDataKey;
+      actual_value: TDataKey;
     };
   };
   metrics: IEchartsTooltipMetric[];
