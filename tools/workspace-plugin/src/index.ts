@@ -22,15 +22,12 @@ function registerProjectTargets(projectFilePath) {
       options: {
         commands: [`yarn tsc --noEmit -p ${projectDir('tsconfig.json')}`],
       },
+      inputs: ['default', '^default'],
       dependsOn: ['build', '^build'],
     },
     build: {
       executor: 'nx:run-commands',
-      inputs: [
-        '{projectRoot}/**/*',
-        '!{projectRoot}/dist/**/*',
-        '!{projectRoot}/node_modules/**/*}',
-      ],
+      inputs: ['default', '^default'],
       outputs: ['{projectRoot}/dist'],
       options: {
         cwd: projectDir(),
