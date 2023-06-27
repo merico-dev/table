@@ -23,6 +23,7 @@ import { getOption } from './option';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
 import { parseDataKey } from '~/utils/data';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 interface IClickScatterChartSeries {
   type: 'click';
@@ -67,10 +68,7 @@ function Chart({
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    const { queryID, columnKey } = parseDataKey(conf.x_axis.data_key);
-    return _.keyBy(data[queryID], columnKey);
-  }, [data, conf.x_axis.data_key]);
+  const rowDataMap = useRowDataMap(data, conf.x_axis.data_key);
 
   const triggers = useTriggerSnapshotList<IScatterChartConf>(
     interactionManager.triggerManager,
