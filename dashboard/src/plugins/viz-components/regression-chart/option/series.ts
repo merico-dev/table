@@ -2,19 +2,22 @@ import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IRegressionChartConf } from '../type';
 import { getRegressionDataSource } from '~/plugins/common-echarts-fields/regression-line';
+import { parseDataKey } from '~/utils/data';
 
 export type TSeriesConf = AnyObject[];
 
-function makeXYData(conf: IRegressionChartConf, data: TVizData) {
+function makeXYData(conf: IRegressionChartConf, queryData: TQueryData) {
+  const x = parseDataKey(conf.x_axis.data_key);
+  const y = parseDataKey(conf.regression.y_axis_data_key);
   return _.uniqBy(
-    data.map((d) => [d[conf.x_axis.data_key], d[conf.regression.y_axis_data_key]]),
+    queryData.map((d) => [d[x.columnKey], d[y.columnKey]]),
     0,
   );
 }
 
-function makeSingleSeries(conf: IRegressionChartConf, data: TVizData): TSeriesConf {
+function makeSingleSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
   const { plot, transform } = conf.regression;
-  const seriesData = makeXYData(conf, data);
+  const seriesData = makeXYData(conf, queryData);
   return [
     {
       type: 'scatter',
@@ -34,9 +37,10 @@ function makeSingleSeries(conf: IRegressionChartConf, data: TVizData): TSeriesCo
   ];
 }
 
-function makeSplittedSeries(conf: IRegressionChartConf, data: TVizData): TSeriesConf {
+function makeSplittedSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
   const { plot, transform, group_by_key } = conf.regression;
-  const groupedData = _.groupBy(data, group_by_key);
+  const g = parseDataKey(group_by_key);
+  const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([key, partialData]) => {
     const seriesData = makeXYData(conf, partialData);
     return {
@@ -55,15 +59,15 @@ function makeSplittedSeries(conf: IRegressionChartConf, data: TVizData): TSeries
   });
 }
 
-export function getSeries(conf: IRegressionChartConf, data: TVizData): TSeriesConf {
-  if (data.length === 0) {
+export function getSeries(conf: IRegressionChartConf, queryData: TQueryData): TSeriesConf {
+  if (queryData.length === 0) {
     return [];
   }
   const { group_by_key } = conf.regression;
 
   if (!group_by_key) {
-    return makeSingleSeries(conf, data);
+    return makeSingleSeries(conf, queryData);
   }
 
-  return makeSplittedSeries(conf, data);
+  return makeSplittedSeries(conf, queryData);
 }

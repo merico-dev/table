@@ -5,6 +5,7 @@ import * as d3Regression from 'd3-regression';
 import numbro from 'numbro';
 import _ from 'lodash';
 import { ReactNode } from 'react';
+import { parseDataKey } from '~/utils/data';
 
 export type TDescription = {
   name: string;
@@ -26,7 +27,7 @@ function calculateAdjustedRSquared(r: number, n: number, k: number) {
 
 function getLinearDescription(
   name: string,
-  rawData: TVizData,
+  queryData: TQueryData,
   basisData: [number, number][],
   conf: IRegressionChartConf,
 ): TDescription {
@@ -51,13 +52,13 @@ function getLinearDescription(
       </Group>
     ),
     rSquared,
-    adjustedRSquared: calculateAdjustedRSquared(rSquared, rawData.length, 1),
+    adjustedRSquared: calculateAdjustedRSquared(rSquared, queryData.length, 1),
   };
 }
 
 function getExponentialDescription(
   name: string,
-  rawData: TVizData,
+  queryData: TQueryData,
   basisData: [number, number][],
   conf: IRegressionChartConf,
 ): TDescription {
@@ -85,13 +86,13 @@ function getExponentialDescription(
       </Group>
     ),
     rSquared,
-    adjustedRSquared: calculateAdjustedRSquared(rSquared, rawData.length, 1),
+    adjustedRSquared: calculateAdjustedRSquared(rSquared, queryData.length, 1),
   };
 }
 
 function getLogarithmicDescription(
   name: string,
-  rawData: TVizData,
+  queryData: TQueryData,
   basisData: [number, number][],
   conf: IRegressionChartConf,
 ): TDescription {
@@ -119,13 +120,13 @@ function getLogarithmicDescription(
       </Group>
     ),
     rSquared,
-    adjustedRSquared: calculateAdjustedRSquared(rSquared, rawData.length, 1),
+    adjustedRSquared: calculateAdjustedRSquared(rSquared, queryData.length, 1),
   };
 }
 
 function getPolynomialDescription(
   name: string,
-  rawData: TVizData,
+  queryData: TQueryData,
   basisData: [number, number][],
   conf: IRegressionChartConf,
 ): TDescription {
@@ -137,26 +138,28 @@ function getPolynomialDescription(
     name,
     expression: '',
     rSquared,
-    adjustedRSquared: calculateAdjustedRSquared(rSquared, rawData.length, 1),
+    adjustedRSquared: calculateAdjustedRSquared(rSquared, queryData.length, 1),
   };
 }
 
-function getDescription(name: string, rawData: TVizData, conf: IRegressionChartConf): TDescription {
+function getDescription(name: string, queryData: TQueryData, conf: IRegressionChartConf): TDescription {
   const { regression, x_axis } = conf;
-  const dataSource: [number, number][] = rawData.map((d) => [d[x_axis.data_key], d[regression.y_axis_data_key]]);
+  const x = parseDataKey(x_axis.data_key);
+  const y = parseDataKey(regression.y_axis_data_key);
+  const dataSource: [number, number][] = queryData.map((d) => [d[x.columnKey], d[y.columnKey]]);
 
   if (regression.transform.config.method === 'linear') {
-    return getLinearDescription(name, rawData, dataSource, conf);
+    return getLinearDescription(name, queryData, dataSource, conf);
   }
   if (regression.transform.config.method === 'exponential') {
-    return getExponentialDescription(name, rawData, dataSource, conf);
+    return getExponentialDescription(name, queryData, dataSource, conf);
   }
 
   if (regression.transform.config.method === 'logarithmic') {
-    return getLogarithmicDescription(name, rawData, dataSource, conf);
+    return getLogarithmicDescription(name, queryData, dataSource, conf);
   }
   if (regression.transform.config.method === 'polynomial') {
-    return getPolynomialDescription(name, rawData, dataSource, conf);
+    return getPolynomialDescription(name, queryData, dataSource, conf);
   }
   return {
     name,
@@ -166,7 +169,7 @@ function getDescription(name: string, rawData: TVizData, conf: IRegressionChartC
   };
 }
 
-export function getRegressionDescription(data: TVizData, conf?: IRegressionChartConf): TDescription[] {
+export function getRegressionDescription(queryData: TQueryData, conf?: IRegressionChartConf): TDescription[] {
   if (!conf) {
     return [
       {
@@ -178,10 +181,11 @@ export function getRegressionDescription(data: TVizData, conf?: IRegressionChart
     ];
   }
   if (!conf.regression.group_by_key) {
-    return [getDescription('', data, conf)];
+    return [getDescription('', queryData, conf)];
   }
 
-  const groupedData = _.groupBy(data, conf.regression.group_by_key);
+  const g = parseDataKey(conf.regression.group_by_key);
+  const groupedData = _.groupBy(queryData, g.columnKey);
   return Object.entries(groupedData).map(([group, subData]) => {
     return getDescription(group, subData, conf);
   });

@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash';
 import * as Migrators from './migrators';
 
 class VizRegressionChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -23,6 +23,10 @@ class VizRegressionChartMigrator extends VersionBasedMigrator {
         config: Migrators.v2(data.config),
       };
     });
+    this.version(3, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 3, config: Migrators.v3(config, env) };
+    });
   }
 }
 
@@ -35,7 +39,7 @@ export const RegressionChartVizComponent: VizComponent = {
   configRender: VizRegressionChartEditor,
   createConfig() {
     return {
-      version: 2,
+      version: 3,
       config: cloneDeep(DEFAULT_CONFIG) as IRegressionChartConf,
     };
   },

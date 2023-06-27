@@ -12,6 +12,7 @@ import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
+import { parseDataKey } from '~/utils/data';
 
 echarts.use([DataZoomComponent, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -20,26 +21,30 @@ export function VizRegressionChart({ context }: VizViewProps) {
   const { width, height } = context.viewport;
 
   // convert strings as numbers
-  const data = useMemo(() => {
-    const rawData = context.data as $TSFixMe[];
-    const key = conf?.regression?.y_axis_data_key;
-    if (!key) {
-      return rawData;
+  const queryData = useMemo(() => {
+    const rawData = context.data;
+    const xDataKey = conf?.x_axis.data_key;
+    const yDataKey = conf?.regression?.y_axis_data_key;
+
+    if (!xDataKey || !yDataKey) {
+      return [];
     }
-    return rawData.map((row) => {
-      if (typeof row[key] === 'number') {
+    const x = parseDataKey(xDataKey);
+    const y = parseDataKey(yDataKey);
+    return rawData[x.queryID].map((row) => {
+      if (typeof row[y.columnKey] === 'number') {
         return row;
       }
       return {
         ...row,
-        [key]: Number(row[key]),
+        [y.columnKey]: Number(row[y.columnKey]),
       };
     });
   }, [context.data, conf?.regression.y_axis_data_key]);
 
   const option = useMemo(() => {
-    return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
-  }, [conf, data]);
+    return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), queryData);
+  }, [conf, queryData]);
 
   const echartsRef = useRef<EChartsInstance | null>(null);
   const onChartReady = (echartsInstance: EChartsInstance) => {
@@ -51,7 +56,7 @@ export function VizRegressionChart({ context }: VizViewProps) {
   }
   return (
     <Box sx={{ position: 'relative' }}>
-      <Toolbox conf={conf} data={data} />
+      <Toolbox conf={conf} queryData={queryData} />
       <ReactEChartsCore
         echarts={echarts}
         onChartReady={onChartReady}
