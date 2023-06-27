@@ -35,7 +35,7 @@ jobs:
         run: |
           ls -al ./node_modules/.cache/nx
           cat ./node_modules/.cache/nx/run.json
-      # - run: nx affected --target=test --parallel=3 --configuration=ci
+      - run: nx affected --target=test --parallel=3 --configuration=ci
       - run: nx build website --parallel=3
       - name: debug local cache
         run: |
