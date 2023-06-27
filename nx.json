@@ -1,5 +1,4 @@
 {
-  "extends": "nx/presets/npm.json",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
@@ -17,13 +16,17 @@
       }
     }
   },
+  "extends": "nx/presets/npm.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
     }
   },
   "affected": {
     "defaultBase": "main"
   },
-  "plugins": ["./tools/dist/nx-plugin/nx-plugins"]
+  "plugins": ["workspace-plugin"]
 }

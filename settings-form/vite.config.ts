@@ -9,7 +9,9 @@ const GLOBAL_MODULE_IDS = {
   'crypto-js': 'CryptoJS',
   lodash: '_',
 };
-const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
+const DEPENDENCIES = new Set(
+  Object.keys(dependencies).concat(Object.keys(peerDependencies))
+);
 const externals = (id: string) => {
   // babel transforms module id of emotion, we need to exclude all of them
   if (id.startsWith('@emotion')) {
