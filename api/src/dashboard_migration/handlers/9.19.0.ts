@@ -16,7 +16,7 @@ function upgradePanels(panels: Record<string, any>[]) {
     const finalQueryIDs = queryIDs ?? [queryID];
     return {
       ...rest,
-      queryIDs,
+      queryIDs: finalQueryIDs,
       variables: upgradeVariables(variables, finalQueryIDs),
     };
   });
