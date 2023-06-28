@@ -99,9 +99,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: |
-            website/dist
-            api/_build
       - name: Build table image
         run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }} .
       - name: Push table image
