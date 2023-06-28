@@ -3,7 +3,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { DashboardContentChangelogListRequest } from '~/api_models/dashboard_content_changelog';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardChangelogController', () => {
   connectionHook();
@@ -34,7 +34,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -75,7 +75,7 @@ describe('DashboardChangelogController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,

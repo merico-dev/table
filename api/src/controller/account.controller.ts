@@ -21,7 +21,6 @@ import { AccountCreateRequest, AccountUpdateRequest } from '../api_models/accoun
 import Account from '../models/account';
 import { ROLE_TYPES } from '../api_models/role';
 import { ApiError, BAD_REQUEST, UNAUTHORIZED } from '../utils/errors';
-import { redactPassword } from '../services/account.service';
 import permission from '../middleware/permission';
 import ensureAuthIsAccount from '../middleware/ensureAuthIsAccount';
 import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
@@ -101,9 +100,7 @@ export class AccountController implements interfaces.Controller {
   @httpGet('/get', ensureAuthEnabled, ensureAuthIsAccount, permission(ROLE_TYPES.READER))
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const account: Account = req.body.auth;
-      const result = redactPassword(account);
-      res.json(result);
+      res.json(req.body.auth);
     } catch (err) {
       next(err);
     }

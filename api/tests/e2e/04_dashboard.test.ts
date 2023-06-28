@@ -14,7 +14,7 @@ import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account'
 import { notFoundId } from './constants';
 import ApiKey from '~/models/apiKey';
 import DashboardPermission from '~/models/dashboard_permission';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardController', () => {
   connectionHook();
@@ -62,7 +62,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
-      response1.body = omitTime(response1.body);
+      response1.body = omitFields(response1.body, ['create_time', 'update_time']);
       dashboard1 = response1.body;
       expect(response1.body).toMatchObject({
         name: 'dashboard1',
@@ -82,7 +82,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
-      response2.body = omitTime(response2.body);
+      response2.body = omitFields(response2.body, ['create_time', 'update_time']);
       dashboard2 = response2.body;
       expect(response2.body).toMatchObject({
         name: 'dashboard2',
@@ -125,7 +125,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
@@ -167,7 +167,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -202,7 +202,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 2,
         offset: 0,
@@ -237,7 +237,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -265,8 +265,8 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
-      expect(response.body).toMatchObject(omitTime(dashboard1));
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
+      expect(response.body).toMatchObject(omitFields(dashboard1, ['create_time', 'update_time']));
     });
 
     it('should fail', async () => {
@@ -299,8 +299,8 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
-      expect(response.body).toMatchObject(omitTime(dashboard1));
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
+      expect(response.body).toMatchObject(omitFields(dashboard1, ['create_time', 'update_time']));
     });
 
     it('should fail', async () => {
@@ -335,7 +335,7 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
         ...dashboard2,
         name: 'dashboard2_updated',
@@ -375,9 +375,9 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
-        ...omitTime(presetDashboard),
+        ...omitFields(presetDashboard, ['create_time', 'update_time']),
         name: 'preset_updated',
         is_removed: false,
         group: 'preset',
@@ -418,9 +418,9 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
-        ...omitTime(dashboard1),
+        ...omitFields(dashboard1, ['create_time', 'update_time']),
         is_removed: true,
       });
     });
@@ -452,9 +452,9 @@ describe('DashboardController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
-        ...omitTime(presetDashboard),
+        ...omitFields(presetDashboard, ['create_time', 'update_time']),
         name: 'preset_updated',
         is_removed: true,
         group: 'preset',

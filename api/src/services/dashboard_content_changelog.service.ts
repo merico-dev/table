@@ -7,7 +7,7 @@ import {
   DashboardContentChangelogSortObject,
 } from '../api_models/dashboard_content_changelog';
 import { PaginationRequest } from '../api_models/base';
-import { getDiff, omitTime } from '../utils/helpers';
+import { getDiff, omitFields } from '../utils/helpers';
 import { injectable } from 'inversify';
 
 @injectable()
@@ -16,8 +16,8 @@ export class DashboardContentChangelogService {
     oldDashboardContent: DashboardContent,
     newDashboardContent: DashboardContent,
   ): Promise<string | undefined> {
-    const oldData = omitTime(oldDashboardContent);
-    const newData = omitTime(newDashboardContent);
+    const oldData = omitFields(oldDashboardContent, ['create_time', 'update_time']);
+    const newData = omitFields(newDashboardContent, ['create_time', 'update_time']);
     return await getDiff(oldData, newData);
   }
 

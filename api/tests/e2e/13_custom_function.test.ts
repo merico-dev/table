@@ -2,7 +2,7 @@ import { connectionHook } from './jest.util';
 import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 import CustomFunction from '~/models/custom_function';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import {
@@ -46,7 +46,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request1);
 
-      response1.body = omitTime(response1.body);
+      response1.body = omitFields(response1.body, ['create_time', 'update_time']);
       expect(response1.body).toMatchObject({
         id: 'customFunction1',
         definition: '() => console.log("hello world 1")',
@@ -63,7 +63,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request2);
 
-      expect(omitTime(response2.body)).toMatchObject({
+      expect(omitFields(response2.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction2',
         definition: '() => console.log("hello world 2")',
         is_preset: false,
@@ -100,7 +100,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
-      expect(omitTime(response.body)).toMatchObject({
+      expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction1',
         definition: '() => console.log("hello world 1 updated")',
         is_preset: false,
@@ -153,7 +153,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 3,
         offset: 0,
@@ -189,7 +189,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -215,7 +215,7 @@ describe('CustomFunctionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(request);
 
-      expect(omitTime(response.body)).toMatchObject({
+      expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction1',
         definition: '() => console.log("hello world 1 updated")',
         is_preset: false,

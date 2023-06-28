@@ -17,7 +17,7 @@ import { SALT_ROUNDS } from '~/utils/constants';
 import Dashboard from '~/models/dashboard';
 import DashboardPermission from '~/models/dashboard_permission';
 import { DashboardIDRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardPermissionController', () => {
   connectionHook();
@@ -115,7 +115,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 5,
         offset: 0,
@@ -171,7 +171,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      response1.body.data = response1.body.data.map(omitTime);
+      response1.body.data = response1.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response1.body).toMatchObject({
         total: 1,
         offset: 0,
@@ -196,7 +196,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
-      response2.body.data = response2.body.data.map(omitTime);
+      response2.body.data = response2.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response2.body).toMatchObject({
         total: 4,
         offset: 0,
@@ -264,7 +264,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      response1.body = omitTime(response1.body);
+      response1.body = omitFields(response1.body, ['create_time', 'update_time']);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
         owner_id: superadminLogin.account.id,
@@ -290,7 +290,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query2);
 
-      response2.body = omitTime(response2.body);
+      response2.body = omitFields(response2.body, ['create_time', 'update_time']);
       expect(response2.body).toMatchObject({
         id: dashboardId1,
         owner_id: superadminLogin.account.id,
@@ -311,7 +311,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query3);
 
-      response3.body = omitTime(response3.body);
+      response3.body = omitFields(response3.body, ['create_time', 'update_time']);
       expect(response3.body).toMatchObject({
         id: dashboardId2,
         owner_id: superadminLogin.account.id,
@@ -431,7 +431,7 @@ describe('DashboardPermissionController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query1);
 
-      response1.body = omitTime(response1.body);
+      response1.body = omitFields(response1.body, ['create_time', 'update_time']);
       expect(response1.body).toMatchObject({
         id: dashboardId1,
         owner_id: authorApiKey.id,

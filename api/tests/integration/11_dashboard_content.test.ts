@@ -11,7 +11,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardContentService', () => {
   connectionHook();
@@ -89,7 +89,7 @@ describe('DashboardContentService', () => {
           pagesize: 20,
         },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -122,7 +122,7 @@ describe('DashboardContentService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -155,8 +155,8 @@ describe('DashboardContentService', () => {
         DEFAULT_LANGUAGE,
         superadmin,
       );
-      expect(omitTime(updatedDashboardContent)).toMatchObject({
-        ...omitTime(dashboardContent1),
+      expect(omitFields(updatedDashboardContent, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(dashboardContent1, ['create_time', 'update_time']),
         name: 'dashboardContent1_updated',
       });
     });
@@ -173,8 +173,8 @@ describe('DashboardContentService', () => {
         DEFAULT_LANGUAGE,
         superadmin,
       );
-      expect(omitTime(updatedDashboardContent)).toMatchObject({
-        ...omitTime(tempPresetDashboardContent),
+      expect(omitFields(updatedDashboardContent, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(tempPresetDashboardContent, ['create_time', 'update_time']),
         name: 'tempPresetDashboardContent_updated',
       });
     });

@@ -3,7 +3,7 @@ import { JobService } from '~/services/job.service';
 import Job from '~/models/job';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import * as crypto from 'crypto';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('JobService', () => {
   connectionHook();
@@ -26,7 +26,7 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(omitTime(job1)).toMatchObject({
+      expect(omitFields(job1, ['create_time', 'update_time'])).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: 'postgresql', old_key: 'pg', new_key: 'pg_renamed', auth_id: null, auth_type: null },
@@ -40,7 +40,7 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(omitTime(job2)).toMatchObject({
+      expect(omitFields(job2, ['create_time', 'update_time'])).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: {
@@ -60,7 +60,7 @@ describe('JobService', () => {
         auth_id: null,
         auth_type: null,
       });
-      expect(omitTime(job3)).toMatchObject({
+      expect(omitFields(job3, ['create_time', 'update_time'])).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: 'non_existent', old_key: 'old_key', new_key: 'new_key', auth_id: null, auth_type: null },
@@ -119,7 +119,7 @@ describe('JobService', () => {
         auth_id: jobAuthId1,
         auth_type: 'ACCOUNT',
       });
-      expect(omitTime(job1)).toMatchObject({
+      expect(omitFields(job1, ['create_time', 'update_time'])).toMatchObject({
         type: 'FIX_DASHBOARD_PERMISSION',
         status: 'INIT',
         params: { auth_id: jobAuthId1, auth_type: 'ACCOUNT' },
@@ -130,7 +130,7 @@ describe('JobService', () => {
         auth_id: jobAuthId2,
         auth_type: 'APIKEY',
       });
-      expect(omitTime(job2)).toMatchObject({
+      expect(omitFields(job2, ['create_time', 'update_time'])).toMatchObject({
         type: 'FIX_DASHBOARD_PERMISSION',
         status: 'INIT',
         params: { auth_id: jobAuthId2, auth_type: 'APIKEY' },
@@ -171,7 +171,7 @@ describe('JobService', () => {
         page: 1,
         pagesize: 20,
       });
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 14,
         offset: 0,
@@ -387,7 +387,7 @@ describe('JobService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 12,
         offset: 0,
@@ -566,7 +566,7 @@ describe('JobService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 2,
         offset: 0,

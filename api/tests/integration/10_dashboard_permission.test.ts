@@ -13,7 +13,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import ApiKey from '~/models/apiKey';
 import { ApiError, BAD_REQUEST, FORBIDDEN } from '~/utils/errors';
 import { translate } from '~/utils/i18n';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardPermissionService', () => {
   connectionHook();
@@ -86,7 +86,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 5,
         offset: 0,
@@ -136,7 +136,7 @@ describe('DashboardPermissionService', () => {
           pagesize: 20,
         },
       );
-      results1.data = results1.data.map(omitTime);
+      results1.data = results1.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results1).toMatchObject({
         total: 1,
         offset: 0,
@@ -159,7 +159,7 @@ describe('DashboardPermissionService', () => {
         },
       );
 
-      results2.data = results2.data.map(omitTime);
+      results2.data = results2.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results2).toMatchObject({
         total: 1,
         offset: 0,
@@ -178,7 +178,7 @@ describe('DashboardPermissionService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      results3.data = results3.data.map(omitTime);
+      results3.data = results3.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results3).toMatchObject({
         total: 4,
         offset: 0,
@@ -220,7 +220,7 @@ describe('DashboardPermissionService', () => {
         account,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result1)).toMatchObject({
+      expect(omitFields(result1, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
@@ -233,7 +233,7 @@ describe('DashboardPermissionService', () => {
         account,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result2)).toMatchObject({
+      expect(omitFields(result2, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
@@ -248,7 +248,7 @@ describe('DashboardPermissionService', () => {
         apiKey,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result)).toMatchObject({
+      expect(omitFields(result, ['create_time', 'update_time'])).toMatchObject({
         id: apiKeyDashboard.id,
         owner_id: apiKey.id,
         owner_type: 'APIKEY',
@@ -274,7 +274,7 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result)).toMatchObject({
+      expect(omitFields(result, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
@@ -300,7 +300,7 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result1)).toMatchObject({
+      expect(omitFields(result1, ['create_time', 'update_time'])).toMatchObject({
         id: noOwnerDashboardId,
         owner_id: account.id,
         owner_type: 'ACCOUNT',
@@ -313,7 +313,7 @@ describe('DashboardPermissionService', () => {
         adminAccount,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(result2)).toMatchObject({
+      expect(omitFields(result2, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: adminAccount.id,
         owner_type: 'ACCOUNT',
@@ -357,7 +357,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
-      result.data = result.data.map(omitTime);
+      result.data = result.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(result).toMatchObject({
         total: 5,
         offset: 0,
@@ -404,7 +404,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
-      result.data = result.data.map(omitTime);
+      result.data = result.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(result).toMatchObject({
         total: 5,
         offset: 0,
@@ -451,7 +451,7 @@ describe('DashboardPermissionService', () => {
         page: 1,
         pagesize: 20,
       });
-      result.data = result.data.map(omitTime);
+      result.data = result.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(result).toMatchObject({
         total: 3,
         offset: 0,
