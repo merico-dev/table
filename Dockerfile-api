@@ -4,16 +4,8 @@ ENV YARN_NPM_REGISTRY_SERVER=https://registry.npmmirror.com
 
 COPY api /code/api
 
-# Typescript
-
-WORKDIR /code/api
-
-RUN yarn install
-
-RUN yarn build
-
 # Javascript
 
-WORKDIR /code/api/\_build
+WORKDIR /code/api/_build
 
 RUN yarn install
