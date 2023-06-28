@@ -15,7 +15,7 @@ export default class Account extends BaseModel {
     length: 255,
     name: 'email',
   })
-  email: string | undefined;
+  email: string | null;
 
   @Column('character varying', {
     nullable: false,

@@ -12,7 +12,7 @@ import {
 import { PaginationRequest } from '../api_models/base';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import _ from 'lodash';
-import { FIXED_ROLE_TYPES, HIDDEN_PERMISSIONS, PERMISSIONS } from './role.service';
+import { FIXED_ROLE_TYPES, PERMISSIONS } from './role.service';
 import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
 import { escapeLikePattern, omitFields } from '../utils/helpers';
 import { ConfigResourceTypes, ConfigService } from './config.service';
@@ -38,13 +38,13 @@ export class AccountService {
     }
     try {
       const decoded_token = jwt.verify(token, SECRET_KEY as jwt.Secret) as JwtPayload;
-      const account: AccountAPIModel | undefined = await this.accountDetailsQuery()
+      const account = await this.accountDetailsQuery()
         .where('account.id = :id', { id: decoded_token.id })
-        .getRawOne();
+        .getRawOne<AccountAPIModel & { password: string }>();
       if (!account) {
         return;
       }
-      return omitFields(account, ['password']) as AccountAPIModel;
+      return omitFields(account, ['password']);
     } catch (err) {
       logger.warn(err);
       return;
@@ -52,9 +52,9 @@ export class AccountService {
   }
 
   async login(name: string, password: string, locale: string): Promise<AccountLoginResponse> {
-    const account: (AccountAPIModel & { password: string }) | undefined = await AccountService.accountDetailsQuery()
+    const account = await AccountService.accountDetailsQuery()
       .where('account.name = :name or account.email = :name', { name })
-      .getRawOne();
+      .getRawOne<AccountAPIModel & { password: string }>();
     if (!account) {
       throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale) });
     }
@@ -97,12 +97,12 @@ export class AccountService {
       qb.addOrderBy(s.field, s.order);
     });
 
-    const datasources = await qb.getRawMany<AccountAPIModel>();
+    const datasources = await qb.getRawMany<AccountAPIModel & { password: string }>();
     const total = await qb.getCount();
     return {
       total,
       offset,
-      data: datasources.map((x) => redactPassword(x)) as AccountAPIModel[],
+      data: datasources.map((x) => omitFields(x, ['password'])),
     };
   }
 
@@ -114,28 +114,30 @@ export class AccountService {
     locale: string,
   ): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
+    const roleRepo = dashboardDataSource.getRepository(Role);
     const where = [{ name }, { email }];
     if (await accountRepo.exist({ where })) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
     }
-    if (!(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
+    if (!(await roleRepo.exist({ where: { id: role_id } }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const account = new Account();
     account.name = name;
-    account.email = email;
+    account.email = email === undefined ? null : email;
     account.role_id = role_id;
     account.password = await bcrypt.hash(password, SALT_ROUNDS);
-    const result = await accountRepo.save(account);
-    const role = await dashboardDataSource.manager.findOneBy(Role, { id: role_id });
-    return {
-      ...omitFields(result, ['password']),
-      permissions: (role?.permissions || []) as (PERMISSIONS | HIDDEN_PERMISSIONS)[],
-    };
+    const { id } = await accountRepo.save(account);
+    const result = await AccountService.accountDetailsQuery()
+      .where('account.id = :id', { id })
+      .getRawOne<AccountAPIModel & { password: string }>();
+    return omitFields(result, ['password']);
   }
 
   async get(id: string, locale: string): Promise<AccountAPIModel> {
-    const result = await AccountService.accountDetailsQuery().where('account.id = :id', { id }).getRawOne();
+    const result = await AccountService.accountDetailsQuery()
+      .where('account.id = :id', { id })
+      .getRawOne<AccountAPIModel & { password: string }>();
     if (!result) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NOT_FOUND', locale) });
     }
@@ -151,7 +153,9 @@ export class AccountService {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (name === undefined && email === undefined) {
-      return omitFields(account, ['password']);
+      const roleRepo = dashboardDataSource.getRepository(Role);
+      const role = await roleRepo.findOneByOrFail({ id: account.role_id });
+      return { ...omitFields(account, ['password']), permissions: role.permissions };
     }
     const where: { [field: string]: string }[] = [];
     name !== undefined && account.name !== name ? where.push({ name }) : null;
@@ -165,12 +169,9 @@ export class AccountService {
     account.name = name ?? account.name;
     account.email = email === undefined ? account.email : email;
     await accountRepo.save(account);
-    const result: AccountAPIModel | undefined = await AccountService.accountDetailsQuery()
+    const result = await AccountService.accountDetailsQuery()
       .where('account.id = :id', { id })
-      .getRawOne();
-    if (!result) {
-      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NOT_FOUND', locale) });
-    }
+      .getRawOne<AccountAPIModel & { password: string }>();
     return omitFields(result, ['password']);
   }
 
@@ -189,10 +190,12 @@ export class AccountService {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale) });
     }
     if (name === undefined && email === undefined && role_id === undefined && reset_password === undefined) {
-      return omitFields(account, ['password']);
+      const roleRepo = dashboardDataSource.getRepository(Role);
+      const role = await roleRepo.findOneByOrFail({ id: account.role_id });
+      return { ...omitFields(account, ['password']), permissions: role.permissions };
     }
     if (role_id && !(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
-      throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) }, ['password']);
+      throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const where: { [field: string]: string }[] = [];
     name !== undefined && account.name !== name ? where.push({ name }) : null;
@@ -210,7 +213,9 @@ export class AccountService {
     account.email = email === undefined ? account.email : email;
     account.role_id = role_id === undefined ? account.role_id : role_id;
     await accountRepo.save(account);
-    const result = await accountRepo.findOneByOrFail({ id });
+    const result = await AccountService.accountDetailsQuery()
+      .where('account.id = :id', { id })
+      .getRawOne<AccountAPIModel & { password: string }>();
     return omitFields(result, ['password']);
   }
 
@@ -229,7 +234,9 @@ export class AccountService {
     }
     account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     await accountRepo.save(account);
-    const result = await accountRepo.findOneByOrFail({ id });
+    const result = await AccountService.accountDetailsQuery()
+      .where('account.id = :id', { id })
+      .getRawOne<AccountAPIModel & { password: string }>();
     return omitFields(result, ['password']);
   }
 
