@@ -1,5 +1,24 @@
 {
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vite build",
+        "cwd": "website"
+      },
+      "inputs": [
+        "default",
+        "^default",
+        {
+          "env": "VITE_API_BASE_URL"
+        },
+        {
+          "env": "VITE_WEBSITE_BASE_URL"
+        }
+      ],
+      "outputs": ["website/dist"],
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "executor": "nx:run-script",
       "options": {
