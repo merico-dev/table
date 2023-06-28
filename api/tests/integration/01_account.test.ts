@@ -8,7 +8,7 @@ import { ApiError, BAD_REQUEST, INVALID_CREDENTIALS, PASSWORD_MISMATCH } from '~
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import Account from '~/models/account';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('AccountService', () => {
   connectionHook();
@@ -31,7 +31,7 @@ describe('AccountService', () => {
         ROLE_TYPES.ADMIN,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(account5)).toMatchObject({
+      expect(omitFields(account5, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5',
         email: 'account5@test.com',
@@ -54,7 +54,7 @@ describe('AccountService', () => {
       expect(account5Login).toMatchObject({
         token: account5Login.token,
         account: {
-          ...omitTime(account5),
+          ...omitFields(account5, ['create_time', 'update_time']),
         },
       });
     });
@@ -69,7 +69,7 @@ describe('AccountService', () => {
   describe('getByToken', () => {
     it('should return account', async () => {
       const account = await AccountService.getByToken(account5Login.token);
-      expect(omitTime(account)).toMatchObject({
+      expect(omitFields(account, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5',
         email: 'account5@test.com',
@@ -102,7 +102,7 @@ describe('AccountService', () => {
         'account5_updated@test.test',
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(account5)).toMatchObject({
+      expect(omitFields(account5, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5_updated',
         email: 'account5_updated@test.test',
@@ -135,7 +135,7 @@ describe('AccountService', () => {
         ROLE_TYPES.SUPERADMIN,
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(account5)).toMatchObject({
+      expect(omitFields(account5, ['create_time', 'update_time'])).toMatchObject({
         id: account5.id,
         name: 'account5_updated_again',
         email: 'account5_updated_again@test.test',
@@ -205,7 +205,7 @@ describe('AccountService', () => {
       expect(login).toMatchObject({
         token: login.token,
         account: {
-          ...omitTime(account5),
+          ...omitFields(account5, ['create_time', 'update_time']),
         },
       });
 
@@ -219,7 +219,7 @@ describe('AccountService', () => {
       expect(login).toMatchObject({
         token: login.token,
         account: {
-          ...omitTime(account5),
+          ...omitFields(account5, ['create_time', 'update_time']),
         },
       });
     });

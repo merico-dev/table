@@ -9,7 +9,7 @@ import { DataSourceCreateRequest, DataSourceRenameRequest } from '~/api_models/d
 import { DashboardCreateRequest } from '~/api_models/dashboard';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
 import Job from '~/models/job';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('JobController', () => {
   connectionHook();
@@ -88,7 +88,7 @@ describe('JobController', () => {
         .put('/datasource/rename')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -115,7 +115,7 @@ describe('JobController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
@@ -143,7 +143,7 @@ describe('JobController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 5,
         offset: 0,
@@ -255,7 +255,7 @@ describe('JobController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
 
-      response.body.data = response.body.data.map(omitTime);
+      response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
         total: 7,
         offset: 0,

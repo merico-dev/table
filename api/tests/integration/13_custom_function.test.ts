@@ -1,7 +1,7 @@
 import { connectionHook } from './jest.util';
 import { CustomFunctionService } from '~/services/custom_function.service';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { EntityNotFoundError } from 'typeorm';
@@ -20,7 +20,7 @@ describe('CustomFunctionService', () => {
         '() => console.log("hello world")',
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(customFunction)).toMatchObject({
+      expect(omitFields(customFunction, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction',
         definition: '() => console.log("hello world")',
         is_preset: false,
@@ -40,7 +40,7 @@ describe('CustomFunctionService', () => {
         '() => console.log("hello world!!!")',
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(customFunctionUpdated)).toMatchObject({
+      expect(omitFields(customFunctionUpdated, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction',
         definition: '() => console.log("hello world!!!")',
         is_preset: false,
@@ -64,7 +64,7 @@ describe('CustomFunctionService', () => {
         page: 1,
         pagesize: 20,
       });
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 4,
         offset: 0,
@@ -102,7 +102,7 @@ describe('CustomFunctionService', () => {
           pagesize: 20,
         },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -120,7 +120,7 @@ describe('CustomFunctionService', () => {
   describe('get', () => {
     it('should return successfully', async () => {
       const customFunction = await customFunctionService.get('customFunction');
-      expect(omitTime(customFunction)).toMatchObject({
+      expect(omitFields(customFunction, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction',
         definition: '() => console.log("hello world!!!")',
         is_preset: false,

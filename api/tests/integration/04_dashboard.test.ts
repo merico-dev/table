@@ -7,7 +7,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DashboardService', () => {
   connectionHook();
@@ -38,7 +38,7 @@ describe('DashboardService', () => {
         page: 1,
         pagesize: 20,
       });
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 3,
         offset: 0,
@@ -77,7 +77,7 @@ describe('DashboardService', () => {
         [{ field: 'create_time', order: 'ASC' }],
         { page: 1, pagesize: 20 },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -130,8 +130,8 @@ describe('DashboardService', () => {
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
-      expect(omitTime(updatedDashboard)).toMatchObject({
-        ...omitTime(dashboard3),
+      expect(omitFields(updatedDashboard, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(dashboard3, ['create_time', 'update_time']),
         name: 'dashboard3_updated',
         is_removed: true,
         group: '2_updated',
@@ -162,8 +162,8 @@ describe('DashboardService', () => {
         DEFAULT_LANGUAGE,
         ROLE_TYPES.SUPERADMIN,
       );
-      expect(omitTime(updatedDashboard)).toMatchObject({
-        ...omitTime(dashboards[1]),
+      expect(omitFields(updatedDashboard, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(dashboards[1], ['create_time', 'update_time']),
         name: 'dashboard2_updated',
         is_removed: false,
         group: '1_updated',
@@ -188,8 +188,8 @@ describe('DashboardService', () => {
   describe('delete', () => {
     it('should delete successfully', async () => {
       const deletedDashboard = await dashboardService.delete(dashboard3.id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
-      expect(omitTime(deletedDashboard)).toMatchObject({
-        ...omitTime(dashboard3),
+      expect(omitFields(deletedDashboard, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(dashboard3, ['create_time', 'update_time']),
         name: 'dashboard3_updated',
         is_removed: true,
         group: '2_updated',
@@ -204,8 +204,8 @@ describe('DashboardService', () => {
 
     it('should delete preset dashboard successfully if SUPERADMIN', async () => {
       const deletedDashboard = await dashboardService.delete(dashboards[1].id, DEFAULT_LANGUAGE, ROLE_TYPES.SUPERADMIN);
-      expect(omitTime(deletedDashboard)).toMatchObject({
-        ...omitTime(dashboards[1]),
+      expect(omitFields(deletedDashboard, ['create_time', 'update_time'])).toMatchObject({
+        ...omitFields(dashboards[1], ['create_time', 'update_time']),
         name: 'dashboard2_updated',
         is_removed: true,
         group: '1_updated',

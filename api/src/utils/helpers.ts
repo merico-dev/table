@@ -6,7 +6,7 @@ import path from 'path';
 import simpleGit, { SimpleGit, SimpleGitOptions } from 'simple-git';
 import { DATABASE_CONNECTION_TIMEOUT_MS, DATABASE_POOL_SIZE } from './constants';
 import logger from 'npmlog';
-import { omit } from 'lodash';
+import { omit, PropertyName } from 'lodash';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
@@ -92,6 +92,9 @@ export const getDiff = async (oldData: any, newData: any): Promise<string | unde
   return diff;
 };
 
-export const omitTime = (obj: any): any => {
-  return omit(obj, ['create_time', 'update_time']);
-};
+export function omitFields<T extends object, K extends PropertyName[]>(
+  data: T | null | undefined,
+  fields: K,
+): Pick<T, Exclude<keyof T, K>> {
+  return omit(data, fields) as Pick<T, Exclude<keyof T, K>>;
+}

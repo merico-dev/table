@@ -15,15 +15,11 @@ import _ from 'lodash';
 import logger from 'npmlog';
 import { ROLE_TYPES } from '../api_models/role';
 import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
-import { escapeLikePattern } from '../utils/helpers';
+import { escapeLikePattern, omitFields } from '../utils/helpers';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
 import { injectable } from 'inversify';
-
-export function redactPassword(account: Account) {
-  return _.omit(account, 'password');
-}
 
 @injectable()
 export class AccountService {
@@ -35,7 +31,7 @@ export class AccountService {
       const decoded_token = jwt.verify(token, SECRET_KEY as jwt.Secret) as JwtPayload;
       const accountRepo = dashboardDataSource.getRepository(Account);
       const account = await accountRepo.findOneByOrFail({ id: decoded_token.id });
-      return redactPassword(account);
+      return omitFields(account, ['password']);
     } catch (err) {
       logger.warn(err);
       return null;
@@ -55,7 +51,7 @@ export class AccountService {
       throw new ApiError(INVALID_CREDENTIALS, { message: translate('ACCOUNT_INVALID_CREDENTIALS', locale) });
     }
     const token = jwt.sign({ id: account.id }, SECRET_KEY as jwt.Secret, { expiresIn: TOKEN_VALIDITY });
-    return { token, account: redactPassword(account) };
+    return { token, account: omitFields(account, ['password']) };
   }
 
   async list(
@@ -120,13 +116,13 @@ export class AccountService {
     account.role_id = role_id;
     account.password = await bcrypt.hash(password, SALT_ROUNDS);
     const result = await accountRepo.save(account);
-    return redactPassword(result);
+    return omitFields(result, ['password']);
   }
 
   async get(id: string): Promise<AccountAPIModel> {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const result = await accountRepo.findOneByOrFail({ id });
-    return redactPassword(result);
+    return omitFields(result, ['password']);
   }
 
   async update(
@@ -138,7 +134,7 @@ export class AccountService {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (name === undefined && email === undefined) {
-      return redactPassword(account);
+      return omitFields(account, ['password']);
     }
     const where: { [field: string]: string }[] = [];
     name !== undefined && account.name !== name ? where.push({ name }) : null;
@@ -153,7 +149,7 @@ export class AccountService {
     account.email = email === undefined ? account.email : email;
     await accountRepo.save(account);
     const result = await accountRepo.findOneByOrFail({ id });
-    return redactPassword(result);
+    return omitFields(result, ['password']);
   }
 
   async edit(
@@ -169,7 +165,7 @@ export class AccountService {
     const accountRepo = dashboardDataSource.getRepository(Account);
     const account = await accountRepo.findOneByOrFail({ id });
     if (name === undefined && email === undefined && role_id === undefined && reset_password === undefined) {
-      return redactPassword(account);
+      return omitFields(account, ['password']);
     }
     const where: { [field: string]: string }[] = [];
     name !== undefined && account.name !== name ? where.push({ name }) : null;
@@ -194,7 +190,7 @@ export class AccountService {
     account.role_id = role_id === undefined ? account.role_id : role_id;
     await accountRepo.save(account);
     const result = await accountRepo.findOneByOrFail({ id });
-    return redactPassword(result);
+    return omitFields(result, ['password']);
   }
 
   async changePassword(
@@ -213,7 +209,7 @@ export class AccountService {
     account.password = await bcrypt.hash(new_password, SALT_ROUNDS);
     await accountRepo.save(account);
     const result = await accountRepo.findOneByOrFail({ id });
-    return redactPassword(result);
+    return omitFields(result, ['password']);
   }
 
   async delete(id: string, role_id: ROLE_TYPES, locale: string): Promise<void> {

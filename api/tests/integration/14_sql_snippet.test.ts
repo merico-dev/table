@@ -1,7 +1,7 @@
 import { connectionHook } from './jest.util';
 import { SqlSnippetService } from '~/services/sql_snippet.service';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId } from './constants';
 import { EntityNotFoundError } from 'typeorm';
@@ -16,7 +16,7 @@ describe('SqlSnippetService', () => {
   describe('create', () => {
     it('should create successfully', async () => {
       const sqlSnippet = await sqlSnippetService.create('sqlSnippet', 'test', DEFAULT_LANGUAGE);
-      expect(omitTime(sqlSnippet)).toMatchObject({
+      expect(omitFields(sqlSnippet, ['create_time', 'update_time'])).toMatchObject({
         id: 'sqlSnippet',
         content: 'test',
         is_preset: false,
@@ -32,7 +32,7 @@ describe('SqlSnippetService', () => {
   describe('update', () => {
     it('should update successfully', async () => {
       const sqlSnippetUpdated = await sqlSnippetService.update('sqlSnippet', 'test_updated', DEFAULT_LANGUAGE);
-      expect(omitTime(sqlSnippetUpdated)).toMatchObject({
+      expect(omitFields(sqlSnippetUpdated, ['create_time', 'update_time'])).toMatchObject({
         id: 'sqlSnippet',
         content: 'test_updated',
         is_preset: false,
@@ -56,7 +56,7 @@ describe('SqlSnippetService', () => {
         page: 1,
         pagesize: 20,
       });
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 4,
         offset: 0,
@@ -94,7 +94,7 @@ describe('SqlSnippetService', () => {
           pagesize: 20,
         },
       );
-      results.data = results.data.map(omitTime);
+      results.data = results.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(results).toMatchObject({
         total: 1,
         offset: 0,
@@ -112,7 +112,7 @@ describe('SqlSnippetService', () => {
   describe('get', () => {
     it('should return successfully', async () => {
       const sqlSnippet = await sqlSnippetService.get('sqlSnippet');
-      expect(omitTime(sqlSnippet)).toMatchObject({
+      expect(omitFields(sqlSnippet, ['create_time', 'update_time'])).toMatchObject({
         id: 'sqlSnippet',
         content: 'test_updated',
         is_preset: false,

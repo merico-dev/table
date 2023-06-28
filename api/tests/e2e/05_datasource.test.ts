@@ -14,7 +14,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { AccountLoginRequest, AccountLoginResponse } from '~/api_models/account';
 import { notFoundId } from './constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DataSourceController', () => {
   connectionHook();
@@ -73,7 +73,7 @@ describe('DataSourceController', () => {
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(pgQuery);
 
-      pgResponse.body = omitTime(pgResponse.body);
+      pgResponse.body = omitFields(pgResponse.body, ['create_time', 'update_time']);
 
       pgDatasource = pgResponse.body;
       expect(pgResponse.body).toMatchObject({
@@ -106,7 +106,7 @@ describe('DataSourceController', () => {
         .post('/datasource/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(httpQuery);
-      httpResponse.body = omitTime(httpResponse.body);
+      httpResponse.body = omitFields(httpResponse.body, ['create_time', 'update_time']);
 
       httpDatasource = httpResponse.body;
       expect(httpResponse.body).toMatchObject({
@@ -278,7 +278,7 @@ describe('DataSourceController', () => {
         .put('/datasource/rename')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
         .send(query);
-      response.body = omitTime(response.body);
+      response.body = omitFields(response.body, ['create_time', 'update_time']);
       expect(response.body).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',

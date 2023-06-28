@@ -7,7 +7,7 @@ import { ApiError, BAD_REQUEST } from '~/utils/errors';
 import { notFoundId, pgSourceConfig } from './constants';
 import { maybeDecryptPassword } from '~/utils/encryption';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
-import { omitTime } from '~/utils/helpers';
+import { omitFields } from '~/utils/helpers';
 
 describe('DataSourceService', () => {
   connectionHook();
@@ -24,7 +24,7 @@ describe('DataSourceService', () => {
   describe('create', () => {
     it('should create successfully', async () => {
       pgDatasource = await datasourceService.create('postgresql', 'pg_2', pgSourceConfig, DEFAULT_LANGUAGE);
-      expect(omitTime(pgDatasource)).toMatchObject({
+      expect(omitFields(pgDatasource, ['create_time', 'update_time'])).toMatchObject({
         type: 'postgresql',
         key: 'pg_2',
         config: pgSourceConfig,
@@ -44,7 +44,7 @@ describe('DataSourceService', () => {
         },
         DEFAULT_LANGUAGE,
       );
-      expect(omitTime(httpDatasource)).toMatchObject({
+      expect(omitFields(httpDatasource, ['create_time', 'update_time'])).toMatchObject({
         type: 'http',
         key: 'jsonplaceholder_2',
         config: dataSources[0].config,
@@ -163,7 +163,7 @@ describe('DataSourceService', () => {
     it('should rename successfully', async () => {
       const newPGKey = pgDatasource.key + '_renamed';
       const pgResult = await datasourceService.rename(pgDatasource.id, newPGKey, DEFAULT_LANGUAGE, null, null);
-      expect(omitTime(pgResult)).toMatchObject({
+      expect(omitFields(pgResult, ['create_time', 'update_time'])).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: pgDatasource.type, old_key: pgDatasource.key, new_key: newPGKey },
@@ -172,7 +172,7 @@ describe('DataSourceService', () => {
 
       const newHTTPKey = httpDatasource.key + '_renamed';
       const httpResult = await datasourceService.rename(httpDatasource.id, newHTTPKey, DEFAULT_LANGUAGE, null, null);
-      expect(omitTime(httpResult)).toMatchObject({
+      expect(omitFields(httpResult, ['create_time', 'update_time'])).toMatchObject({
         type: 'RENAME_DATASOURCE',
         status: 'INIT',
         params: { type: httpDatasource.type, old_key: httpDatasource.key, new_key: newHTTPKey },
