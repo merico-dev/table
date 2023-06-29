@@ -33,7 +33,7 @@ interface IClickScatterChartSeries {
   name: string;
   color: string;
   value: string; // string-typed number
-  rowData: AnyObject;
+  data: AnyObject;
 }
 
 echarts.use([
@@ -77,8 +77,7 @@ function Chart({
 
   const handleSeriesClick = useCallback(
     (params: IClickScatterChartSeries) => {
-      const x = params.value[0];
-      const rowData = _.get(rowDataMap, x, { error: 'rowData is not found' });
+      const rowData = params.data;
       triggers.forEach((t) => {
         interactionManager.runInteraction(t.id, { ...params, rowData });
       });
