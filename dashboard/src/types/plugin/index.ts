@@ -168,7 +168,7 @@ export interface IInteractionConfigProps {
 
 export interface ITriggerConfigProps extends IInteractionConfigProps {
   trigger: ITrigger;
-  sampleData: Record<string, unknown>[];
+  sampleData: TPanelData;
 }
 
 export interface IOperationConfigProps extends IInteractionConfigProps {

@@ -3,6 +3,7 @@ import { defaults, isEmpty, isNumber } from 'lodash';
 import { useStorageData } from '~/plugins';
 import { ITableConf } from '~/plugins/viz-components/table/type';
 import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin';
+import { extractData, extractFullQueryData, parseDataKey } from '~/utils/data';
 
 export const ClickCellContent: ITriggerSchema = {
   id: 'builtin:table:click-cell-content',
@@ -41,30 +42,36 @@ const DEFAULT_CONFIG: IClickCellContentConfig = {
   column: '',
 };
 
-function useColumnsFromConfig(instance: VizInstance): SelectItem[] {
+function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
   const { value: config } = useStorageData<ITableConf>(instance.instanceData, 'config');
-  if (!config) {
-    return [];
+  const ret: { columnsFromConfig: SelectItem[]; columnsFromData: SelectItem[] } = {
+    columnsFromConfig: [],
+    columnsFromData: [],
+  };
+  if (config) {
+    ret.columnsFromConfig = config.columns.map((it, idx) => ({
+      label: it.label,
+      value: idx.toString(),
+    }));
   }
-  return config.columns.map((it, idx) => ({
-    label: it.label,
-    value: idx.toString(),
-  }));
-}
+  if (!panelData) {
+    return ret;
+  }
+  if (config?.id_field) {
+    const queryData = extractFullQueryData(panelData, config.id_field);
+    if (queryData.length > 0) {
+      ret.columnsFromData = Object.keys(queryData[0]).map((key) => ({
+        label: key,
+        value: key,
+      }));
+    }
+  }
 
-function getColumnsFromData(sampleData: Record<string, unknown>[]): SelectItem[] {
-  if (isEmpty(sampleData)) {
-    return [];
-  }
-  return Object.keys(sampleData[0]).map((key) => ({
-    label: key,
-    value: key,
-  }));
+  return ret;
 }
 
 export function ClickCellContentSettings(props: ITriggerConfigProps) {
-  const columnsFromConfig = useColumnsFromConfig(props.instance);
-  const columnsFromData = getColumnsFromData(props.sampleData);
+  const { columnsFromConfig, columnsFromData } = useColumnsFromConfig(props.instance, props.sampleData);
   const columns = columnsFromConfig.length > 0 ? columnsFromConfig : columnsFromData;
   const { value: config, set: setConfig } = useStorageData<IClickCellContentConfig>(
     props.trigger.triggerData,
@@ -100,7 +107,7 @@ function generateTriggerName(config: IClickCellContentConfig | undefined, column
 }
 
 function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  const columnsFromConfig = useColumnsFromConfig(props.instance);
+  const { columnsFromConfig } = useColumnsFromConfig(props.instance);
   const { value: config } = useStorageData<IClickCellContentConfig>(props.trigger.triggerData, 'config');
   return <Text>{generateTriggerName(config, columnsFromConfig)}</Text>;
 }
