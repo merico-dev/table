@@ -45,11 +45,36 @@ function copyPresetDatasourcesFolder() {
     .pipe(gulp.dest(distDir + '/preset/data_sources/'));
 }
 
+function copyPresetCustomFunctionsFolder() {
+  return gulp
+    .src(['./src/preset/custom_functions/*.js'], { cwd: __dirname })
+    .pipe(gulp.dest(distDir + '/preset/custom_functions/'));
+}
+
+function copyPresetSqlSnippetsFolder() {
+  return gulp
+    .src(['./src/preset/sql_snippets/*.json'], { cwd: __dirname })
+    .pipe(gulp.dest(distDir + '/preset/sql_snippets/'));
+}
+
+function copyLocales() {
+  return gulp.src(['./src/locales/*.json'], { cwd: __dirname }).pipe(gulp.dest(distDir + '/locales'));
+}
+
 function copySwagger() {
   return gulp.src(['./swagger/**/*'], { cwd: __dirname }).pipe(gulp.dest(buildDir + '/swagger/'));
 }
 
-const build = gulp.parallel(copyPackageJson, copyEnv, copySwagger, compile, copyPresetDatasourcesFolder);
+const build = gulp.parallel(
+  copyPackageJson,
+  copyEnv,
+  copySwagger,
+  compile,
+  copyPresetDatasourcesFolder,
+  copyPresetCustomFunctionsFolder,
+  copyPresetSqlSnippetsFolder,
+  copyLocales,
+);
 
 module.exports = {
   build,
