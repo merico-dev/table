@@ -64,7 +64,7 @@ export const PanelModel = types
         style: self.style.json,
         title,
         layout: self.layout.json,
-        queryIDs: queryIDs,
+        queryIDs: [...queryIDs],
         variables: self.variables.map((v) => v.json),
         description,
       };
