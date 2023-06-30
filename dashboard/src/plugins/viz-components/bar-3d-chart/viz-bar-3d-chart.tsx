@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/plugins/hooks';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
+import { extractFullQueryData, parseDataKey } from '~/utils/data';
 
 echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -20,16 +21,24 @@ export function VizBar3dChart({ context }: VizViewProps) {
     conf,
     DEFAULT_CONFIG,
   );
+  const queryData = useMemo(() => extractFullQueryData(data, x_axis_data_key), [data, x_axis_data_key]);
 
-  const min = useMemo(() => {
-    const minValue = minBy(data, (d) => d[z_axis_data_key]);
-    return get(minValue, z_axis_data_key);
-  }, [data, z_axis_data_key]);
+  const { x, y, z } = useMemo(() => {
+    return {
+      x: parseDataKey(x_axis_data_key),
+      y: parseDataKey(y_axis_data_key),
+      z: parseDataKey(z_axis_data_key),
+    };
+  }, [x_axis_data_key, y_axis_data_key, z_axis_data_key]);
 
-  const max = useMemo(() => {
-    const maxValue = maxBy(data, (d) => d[z_axis_data_key]);
-    return get(maxValue, z_axis_data_key);
-  }, [data, z_axis_data_key]);
+  const { min, max } = useMemo(() => {
+    const minValue = minBy(queryData, (d) => d[z.columnKey]);
+    const maxValue = maxBy(queryData, (d) => d[z.columnKey]);
+    return {
+      min: get(minValue, z.columnKey),
+      max: get(maxValue, z.columnKey),
+    };
+  }, [queryData, z]);
 
   const option = {
     tooltip: {},
@@ -77,7 +86,7 @@ export function VizBar3dChart({ context }: VizViewProps) {
         wireframe: {
           // show: false
         },
-        data: data.map((d) => [d[x_axis_data_key], d[y_axis_data_key], d[z_axis_data_key]]),
+        data: queryData.map((d) => [d[x.columnKey], d[y.columnKey], d[z.columnKey]]),
       },
     ],
   };

@@ -1,9 +1,8 @@
-import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
+import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 import { VizMericoEstimationChart } from './viz-merico-estimation-chart';
 import { VizMericoEstimationChartEditor } from './viz-merico-estimation-chart-editor';
-import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IMericoEstimationChartConf {
   try {

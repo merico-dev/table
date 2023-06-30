@@ -39,6 +39,10 @@ export function extractFullQueryData(data: TPanelData, dataKey: TDataKey) {
   return data[queryID];
 }
 
+export function extractOneQueryData(data: TPanelData): TQueryData | undefined {
+  return Object.values(data)[0];
+}
+
 export function readColumnIgnoringQuery(row: AnyObject, dataKey: TDataKey) {
   const { queryID, columnKey } = parseDataKey(dataKey);
   return row[columnKey];
