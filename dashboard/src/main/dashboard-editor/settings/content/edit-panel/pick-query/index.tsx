@@ -1,32 +1,58 @@
-// TODO: new UI
-
-import { Group, Stack, Text } from '@mantine/core';
+import { Button, Checkbox, Divider, Drawer, Group, Stack, Tabs, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { MultiSelectWidget } from '~/filter/filter-multi-select/render/widget';
 import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
+import { useState } from 'react';
+import { DataPreview } from '../../data-preview';
+import { IconLine, IconLink } from '@tabler/icons';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
   const content = useContentModelContext();
-  const {
-    panel: { queryIDs, setQueryIDs },
-  } = usePanelContext();
+  const { panel } = usePanelContext();
+  const [opened, setOpened] = useState(false);
 
   const navigateToQuery = (queryID: string) => {
     model.editor.setPath(['_QUERIES_', queryID]);
   };
 
+  const isChecked = (queryID: string) => {
+    return panel.queryIDSet.has(queryID); // TODO
+  };
+  const handleCheck = (queryID: string, checked: boolean) => {
+    const absent = !panel.queryIDSet.has(queryID);
+    if (checked && absent) {
+      panel.addQueryID(queryID);
+      return;
+    }
+    if (!checked && !absent) {
+      panel.removeQueryID(queryID);
+    }
+  };
+
   return (
-    <Stack>
-      <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Use query</Text>
-        <MultiSelectWidget
-          label={''}
-          options={content.queries.options}
-          value={queryIDs}
-          onChange={setQueryIDs}
-          disabled={false}
-        />
+    <>
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Choose queries"
+        padding="xl"
+        size="xl"
+        zIndex={320}
+      >
+        <Checkbox.Group orientation="vertical" value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
+          {content.queries.options.map((o) => (
+            <Checkbox key={o.value} label={o.label} value={o.value} />
+          ))}
+        </Checkbox.Group>
+      </Drawer>
+
+      <Stack spacing={6}>
+        <Group position="right">
+          <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
+            Click me to choose queries for this panel
+          </Button>
+        </Group>
         {/* <Select
           data={content.queries.options}
           value={queryID}
@@ -47,8 +73,22 @@ export const PickQuery = observer(function _PickQuery() {
             )
           }
         /> */}
-      </Group>
-      {/* <DataPreview id={queryID} /> */}
-    </Stack>
+        {panel.queryIDs.length === 1 && <DataPreview id={panel.queryIDs[0]} />}
+        {panel.queryIDs.length > 1 && (
+          <Tabs defaultValue={panel.queryIDs[0]}>
+            <Tabs.List>
+              {panel.queries.map((q) => (
+                <Tabs.Tab value={q.id}>{q.name}</Tabs.Tab>
+              ))}
+            </Tabs.List>
+            {panel.queries.map((q) => (
+              <Tabs.Panel value={q.id}>
+                <DataPreview id={q.id} />
+              </Tabs.Panel>
+            ))}
+          </Tabs>
+        )}
+      </Stack>
+    </>
   );
 });
