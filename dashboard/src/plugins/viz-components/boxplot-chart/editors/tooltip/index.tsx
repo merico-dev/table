@@ -6,12 +6,11 @@ import { TooltipMetricsField } from './metrics';
 interface ITooltipField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
   watch: UseFormWatch<IBoxplotChartConf>;
-  data: TVizData;
 }
-export function TooltipField({ data, control, watch }: ITooltipField) {
+export function TooltipField({ control, watch }: ITooltipField) {
   return (
     <Stack>
-      <TooltipMetricsField control={control} watch={watch} data={data} />
+      <TooltipMetricsField control={control} watch={watch} />
     </Stack>
   );
 }

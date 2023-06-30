@@ -1,7 +1,7 @@
 export interface IPieChartConf {
-  label_field: string;
-  value_field: string;
-  color_field: string;
+  label_field: TDataKey;
+  value_field: TDataKey;
+  color_field: TDataKey;
 }
 
 export const DEFAULT_CONFIG: IPieChartConf = {

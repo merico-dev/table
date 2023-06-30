@@ -19,7 +19,6 @@ import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 export function VizCartesianEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const defaultValues: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<ICartesianChartConf>({ defaultValues });
@@ -68,7 +67,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
-            <XAxisField control={control} watch={watch} data={data} />
+            <XAxisField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Y Axes">
@@ -76,15 +75,15 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Series">
-            <SeriesField control={control} watch={watch} data={data} />
+            <SeriesField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Regression Lines">
-            <RegressionsField control={control} watch={watch} data={data} />
+            <RegressionsField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Stats">
-            <StatsField control={control} watch={watch} data={data} />
+            <StatsField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">

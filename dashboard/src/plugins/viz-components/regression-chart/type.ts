@@ -9,7 +9,7 @@ import { TNumbroFormat, defaultNumbroFormat } from '~/panel/settings/common/numb
 export interface IRegressionChartConf {
   x_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     axisLabel: {
       rotate: number;
       format: TNumbroFormat;

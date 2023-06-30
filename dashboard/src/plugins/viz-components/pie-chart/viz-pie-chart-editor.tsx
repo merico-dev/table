@@ -10,7 +10,6 @@ import { DEFAULT_CONFIG, IPieChartConf } from './type';
 
 export function VizPieChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
 
@@ -39,17 +38,17 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="label_field"
-            render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="Label Key" required {...field} />}
           />
           <Controller
             control={control}
             name="value_field"
-            render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="Value Key" required {...field} />}
           />
           <Controller
             control={control}
             name="color_field"
-            render={({ field }) => <DataFieldSelector label="Color Key" data={data} clearable {...field} />}
+            render={({ field }) => <DataFieldSelector label="Color Key" clearable {...field} />}
           />
         </Stack>
       </form>

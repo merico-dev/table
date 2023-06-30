@@ -11,6 +11,7 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
+import { extractData } from '~/utils/data';
 
 const defaultOption = {
   xAxis: [
@@ -32,11 +33,11 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: ICartesianChartConf, data: TVizData, variables: ITemplateVariable[]) {
+export function getOption(conf: ICartesianChartConf, data: TPanelData, variables: ITemplateVariable[]) {
   // preparation
   const variableValueMap = getVariableValueMap(data, variables);
   const labelFormatters = getLabelFormatters(conf);
-  const xAxisData = _.uniq(data.map((d) => String(d[conf.x_axis_data_key])));
+  const xAxisData = _.uniq(extractData(data, conf.x_axis_data_key));
 
   // options
   const series = getSeries(conf, xAxisData, data, labelFormatters, variables, variableValueMap);

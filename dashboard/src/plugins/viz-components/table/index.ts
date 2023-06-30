@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { VizComponent } from '~/types/plugin';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ITableConf } from './type';
 import { VizTable } from './viz-table';
 import { VizTableEditor } from './viz-table-editor';
@@ -18,8 +18,31 @@ function v3(prev: any): ITableConf {
   };
 }
 
+function v4(legacyConf: any, { panelModel }: IMigrationEnv): ITableConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { id_field, columns, ...rest } = legacyConf;
+    return {
+      ...rest,
+      id_field: changeKey(id_field),
+
+      columns: columns.map((c: any) => ({
+        ...c,
+        value_field: changeKey(c.value_field),
+      })),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizTableMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     // @ts-expect-error data's type
@@ -50,14 +73,21 @@ class VizTableMigrator extends VersionBasedMigrator {
         config: v3(data.config),
       };
     });
+    this.version(4, (data, env) => {
+      return {
+        ...data,
+        version: 4,
+        config: v4(data.config, env),
+      };
+    });
   }
 }
 
 export const TableVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 3,
-      config: cloneDeep(DEFAULT_CONFIG),
+      version: 4,
+      config: cloneDeep(DEFAULT_CONFIG) as ITableConf,
     };
   },
   displayName: 'Table',

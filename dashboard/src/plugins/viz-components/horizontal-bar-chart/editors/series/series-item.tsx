@@ -35,10 +35,9 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: AnyObject[];
 }
 
-export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions, data }: ISeriesItemField) {
+export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions }: ISeriesItemField) {
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
@@ -65,9 +64,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
         <Controller
           name={`series.${index}.data_key`}
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.aggregation_on_value`}
@@ -89,7 +86,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           render={({ field }) => (
             <DataFieldSelector
               label="Split into multiple series by this key..."
-              data={data}
               clearable
               sx={{ flex: 1 }}
               {...field}

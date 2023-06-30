@@ -9,7 +9,7 @@ import {
 export interface IHeatmapConf {
   x_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
@@ -18,7 +18,7 @@ export interface IHeatmapConf {
   };
   y_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     nameAlignment: 'left' | 'center' | 'right';
     axisLabel: {
       rotate: number;
@@ -30,7 +30,7 @@ export interface IHeatmapConf {
     min: number;
     max: number;
     name: string;
-    data_key: '';
+    data_key: TDataKey;
     value_formatter: TNumbroFormat;
   };
   tooltip: {

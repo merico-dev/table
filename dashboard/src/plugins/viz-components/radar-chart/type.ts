@@ -3,13 +3,13 @@ import { TNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 export interface IRadarChartDimension {
   id: string;
   name: string;
-  data_key: string;
+  data_key: TDataKey;
   max: number;
   formatter: TNumbroFormat;
 }
 
 export interface IRadarChartConf {
-  series_name_key: string;
+  series_name_key: TDataKey;
   background: {
     enabled: boolean;
   };
@@ -20,7 +20,7 @@ export interface IRadarChartConf {
 }
 
 export const DEFAULT_CONFIG: IRadarChartConf = {
-  series_name_key: 'name',
+  series_name_key: '',
   background: {
     enabled: true,
   },

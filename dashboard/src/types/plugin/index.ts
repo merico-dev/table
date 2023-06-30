@@ -77,7 +77,7 @@ export interface VizContext {
   variables: ITemplateVariable[];
   locale: string;
   msgChannels: IMessageChannels;
-  data: unknown;
+  data: TPanelData;
   vizManager: IVizManager;
 }
 
@@ -86,7 +86,8 @@ type Setter<T> = (val: T) => void;
 export interface IPanelInfoEditor {
   setTitle: Setter<string>;
   setDescription: Setter<string>;
-  setQueryID: Setter<string>;
+  addQueryID: Setter<string>;
+  removeQueryID: Setter<string>;
 }
 
 export interface VizConfigContext extends VizContext {
@@ -167,7 +168,7 @@ export interface IInteractionConfigProps {
 
 export interface ITriggerConfigProps extends IInteractionConfigProps {
   trigger: ITrigger;
-  sampleData: Record<string, unknown>[];
+  sampleData: TPanelData;
 }
 
 export interface IOperationConfigProps extends IInteractionConfigProps {

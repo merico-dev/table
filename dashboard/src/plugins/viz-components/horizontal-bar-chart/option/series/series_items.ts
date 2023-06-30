@@ -22,7 +22,7 @@ export function getSeriesItemOrItems(
   }: IHorizontalBarChartSeriesItem,
   dataTemplate: DataTemplateType[],
   valueTypedXAxis: boolean,
-  data: AnyObject[],
+  data: TPanelData,
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {

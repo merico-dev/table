@@ -1,7 +1,6 @@
 import { Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
-import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
 
 const nameAlignmentOptions = [
@@ -13,9 +12,8 @@ const nameAlignmentOptions = [
 interface ILineField {
   control: Control<IParetoChartConf, $TSFixMe>;
   watch: UseFormWatch<IParetoChartConf>;
-  data: AnyObject[];
 }
-export function LineField({ data, control, watch }: ILineField) {
+export function LineField({ control, watch }: ILineField) {
   watch(['line']);
   return (
     <Stack>

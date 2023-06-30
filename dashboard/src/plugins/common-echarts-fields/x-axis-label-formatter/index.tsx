@@ -9,7 +9,6 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './types';
 interface IXAxisLabelFormatterField {
   value: IXAxisLabelFormatter;
   onChange: (v: IXAxisLabelFormatter) => void;
-  data: AnyObject[];
   triggerButtonText?: string;
 }
 

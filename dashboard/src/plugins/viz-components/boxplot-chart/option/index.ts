@@ -12,7 +12,7 @@ import { getReferenceLines } from './reference-line';
 
 interface IGetOption {
   config: IBoxplotChartConf;
-  data: AnyObject[];
+  data: TPanelData;
   variables: ITemplateVariable[];
 }
 export function getOption({ config, data, variables }: IGetOption) {

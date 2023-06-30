@@ -1,17 +1,15 @@
-import { ActionIcon, Divider, Stack, Switch, Tabs, Text } from '@mantine/core';
+import { Divider, Stack, Switch, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { Control, Controller, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
 
 interface IColumnsField {
   control: Control<ITableConf, $TSFixMe>;
   watch: UseFormWatch<ITableConf>;
-  data: AnyObject[];
 }
-export const ColumnsField = ({ control, watch, data }: IColumnsField) => {
+export const ColumnsField = ({ control, watch }: IColumnsField) => {
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: 'columns',
@@ -22,7 +20,7 @@ export const ColumnsField = ({ control, watch, data }: IColumnsField) => {
     append({
       id,
       label: id,
-      value_field: 'value',
+      value_field: '',
       value_type: ValueType.string,
     });
   };
@@ -79,7 +77,6 @@ export const ColumnsField = ({ control, watch, data }: IColumnsField) => {
                   watch={watch}
                   index={index}
                   column={column}
-                  data={data}
                   remove={remove}
                 />
               </Tabs.Panel>

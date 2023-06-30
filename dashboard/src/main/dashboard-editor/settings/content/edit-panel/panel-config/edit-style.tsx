@@ -1,4 +1,4 @@
-import { Divider, Switch } from '@mantine/core';
+import { Switch } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { usePanelContext } from '../../../../../../contexts/panel-context';
 

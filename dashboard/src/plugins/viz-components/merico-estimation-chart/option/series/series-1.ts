@@ -14,7 +14,7 @@ const formatAsPercentage = ({ value }: { value: [string, string, number] }) => {
 export function getSeries1(
   conf: IMericoEstimationChartConf,
   xAxisData: string[],
-  dataGroupedByX: Record<string, TVizData>,
+  dataGroupedByX: Record<string, TQueryData>,
 ) {
   const chartData = xAxisData.map((x) => {
     const total = dataGroupedByX[x].length;

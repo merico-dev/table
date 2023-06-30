@@ -1,6 +1,6 @@
 import _, { cloneDeep, omit } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
@@ -87,8 +87,40 @@ function v7(legacyConf: $TSFixMe): IBoxplotChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v8(legacyConf: any, { panelModel }: IMigrationEnv): IBoxplotChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { x_axis, y_axis, tooltip, ...rest } = legacyConf;
+    return {
+      ...rest,
+      x_axis: {
+        ...x_axis,
+        data_key: changeKey(x_axis.data_key),
+      },
+      y_axis: {
+        ...y_axis,
+        data_key: changeKey(y_axis.data_key),
+      },
+      tooltip: {
+        ...tooltip,
+        metrics: tooltip.metrics.map((m: any) => ({
+          ...m,
+          data_key: changeKey(m.data_key),
+        })),
+      },
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 7;
+  readonly VERSION = 8;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -127,6 +159,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 7, config: v7(config) };
     });
+    this.version(8, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 8, config: v8(config, env) };
+    });
   }
 }
 
@@ -139,7 +175,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 7,
+      version: 8,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },

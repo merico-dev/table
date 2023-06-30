@@ -21,6 +21,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -54,15 +55,13 @@ function Chart({
   variables,
 }: {
   conf: IHorizontalBarChartConf;
-  data: AnyObject[];
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.y_axis.data_key);
-  }, [data, conf.y_axis.data_key]);
+  const rowDataMap = useRowDataMap(data, conf.y_axis.data_key);
 
   const triggers = useTriggerSnapshotList<IHorizontalBarChartConf>(
     interactionManager.triggerManager,
@@ -113,7 +112,7 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<IHorizontalBarChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as AnyObject[];
+  const data = context.data;
   const { width, height } = context.viewport;
   return (
     <Box>

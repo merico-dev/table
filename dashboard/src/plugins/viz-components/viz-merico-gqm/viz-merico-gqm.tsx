@@ -51,9 +51,9 @@ export function VizMericoGQM({ context }: VizViewProps) {
   const conf: IMericoGQMConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { width, height } = context.viewport;
-  const contextData = (context.data as $TSFixMe[]) ?? [];
-  const { data, error, loading } = useRequest(callExpertSystem({ conf, data: contextData }), {
-    refreshDeps: [contextData, conf],
+  const panelData = context.data;
+  const { data, error, loading } = useRequest(callExpertSystem({ conf, panelData }), {
+    refreshDeps: [panelData, conf],
   });
 
   if (!width || !height || !conf) {

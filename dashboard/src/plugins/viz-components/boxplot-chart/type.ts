@@ -16,7 +16,7 @@ export interface IBoxplotReferenceLine {
 export interface IBoxplotChartConf {
   x_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
@@ -25,7 +25,7 @@ export interface IBoxplotChartConf {
   };
   y_axis: {
     name: string;
-    data_key: string;
+    data_key: TDataKey;
     label_formatter: TNumbroFormat;
   };
   tooltip: {

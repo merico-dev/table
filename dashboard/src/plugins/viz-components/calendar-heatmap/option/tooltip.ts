@@ -4,6 +4,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { ICalendarHeatmapConf } from '../type';
 import { ValueFormattersType } from './formatters';
+import { parseDataKey } from '~/utils/data';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -40,9 +41,10 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
   const rowData = dataDict[date];
   if (rowData) {
     conf.tooltip.metrics.forEach((m) => {
+      const k = parseDataKey(m.data_key);
       ret.push({
         label: m.name,
-        value: formatAdditionalMetric(_.get(rowData, m.data_key, '')),
+        value: formatAdditionalMetric(_.get(rowData, k.columnKey, '')),
         style: {
           label: '',
           value: '',
@@ -54,8 +56,9 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
   return ret;
 }
 
-export function getTooltip(conf: ICalendarHeatmapConf, data: AnyObject[], valueFormatters: ValueFormattersType) {
-  const dataDict = _.keyBy(data, conf.calendar.data_key);
+export function getTooltip(conf: ICalendarHeatmapConf, data: TPanelData, valueFormatters: ValueFormattersType) {
+  const c = parseDataKey(conf.calendar.data_key);
+  const dataDict = _.keyBy(data[c.queryID], c.columnKey);
   return {
     confine: true,
     formatter: function (params: CallbackDataParams) {

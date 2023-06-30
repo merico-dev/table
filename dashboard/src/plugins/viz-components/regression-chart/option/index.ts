@@ -28,8 +28,8 @@ const defaultOption = {
   ],
 };
 
-export function getOption(conf: IRegressionChartConf, data: TVizData) {
-  const series = getSeries(conf, data);
+export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
+  const series = getSeries(conf, queryData);
   const regressionSeries = getRegressionConf(conf, series);
 
   const customOptions = {

@@ -11,7 +11,7 @@ import { TemplateVariableStyleField } from '~/utils/template/editor/variable-sty
 interface ITemplateVariableField {
   value: ITemplateVariable;
   onChange: (v: ITemplateVariable) => void;
-  data: $TSFixMe[];
+  data: TPanelData;
   withStyle?: boolean;
 }
 
@@ -38,7 +38,6 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         <DataFieldSelector
           label="Data Field"
           required
-          data={data}
           value={value.data_field}
           onChange={(v) => handleChange('data_field', v)}
         />

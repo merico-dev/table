@@ -6,12 +6,14 @@ import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesia
 import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
 import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
 import { IScatterChartConf } from '../type';
+import { extractData, parseDataKey } from '~/utils/data';
+import _ from 'lodash';
 
 function getReferenceLines(
   reference_lines: ICartesianReferenceLine[],
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
-  data: TVizData,
+  data: TPanelData,
 ) {
   return reference_lines.map((r) => {
     const isHorizontal = r.orientation === 'horizontal';
@@ -50,10 +52,12 @@ function getReferenceLines(
 
 function getSeriesItemOrItems(
   { x_axis, scatter }: IScatterChartConf,
-  data: TVizData,
+  data: TPanelData,
   variableValueMap: Record<string, string | number>,
   labelFormatters: Record<string, $TSFixMe>,
 ) {
+  const x = parseDataKey(x_axis.data_key);
+  const y = parseDataKey(scatter.y_data_key);
   return {
     label: {
       show: !!scatter.label_position,
@@ -72,15 +76,13 @@ function getSeriesItemOrItems(
       color: getSeriesColor(scatter.color, variableValueMap),
     },
     symbolSize: getEchartsSymbolSize(scatter.symbolSize, data, x_axis.data_key, variableValueMap),
-    encode: { x: x_axis.data_key, y: scatter.y_data_key },
+    encode: { x: x.columnKey, y: y.columnKey },
   };
 }
 
 export function getSeries(
   conf: IScatterChartConf,
-  xAxisData: AnyObject[],
-  valueTypedXAxis: boolean,
-  data: TVizData,
+  data: TPanelData,
   labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,

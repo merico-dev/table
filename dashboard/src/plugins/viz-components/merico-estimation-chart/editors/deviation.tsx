@@ -6,9 +6,8 @@ import { IMericoEstimationChartConf } from '../type';
 interface IDeviationField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
   watch: UseFormWatch<IMericoEstimationChartConf>;
-  data: TVizData;
 }
-export function DeviationField({ data, control, watch }: IDeviationField) {
+export function DeviationField({ control, watch }: IDeviationField) {
   watch(['deviation']);
   return (
     <Stack>
@@ -23,16 +22,12 @@ export function DeviationField({ data, control, watch }: IDeviationField) {
         <Controller
           name="deviation.data_keys.estimated_value"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="估算值字段" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="估算值字段" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="deviation.data_keys.actual_value"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="实际值字段" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="实际值字段" required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
     </Stack>

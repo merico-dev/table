@@ -13,7 +13,6 @@ import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 export function VizRadarChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: IRadarChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IRadarChartConf>({ defaultValues: conf });
@@ -40,9 +39,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
         <Controller
           name="series_name_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Series Name Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Series Name Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Group grow noWrap>
           <Controller
@@ -69,7 +66,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
           />
         </Group>
 
-        <DimensionsField control={control} watch={watch} data={data} />
+        <DimensionsField control={control} watch={watch} />
       </Stack>
     </form>
   );

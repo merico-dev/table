@@ -27,10 +27,9 @@ interface IRegressionField {
     label: string;
     value: string;
   }[];
-  data: TVizData;
 }
 
-export function RegressionField({ control, regressionItem, index, remove, yAxisOptions, data }: IRegressionField) {
+export function RegressionField({ control, regressionItem, index, remove, yAxisOptions }: IRegressionField) {
   const method = regressionItem.transform.config.method;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
@@ -46,7 +45,6 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           render={({ field }) => (
             <DataFieldSelector
               label="Split into multiple regression lines by this key..."
-              data={data}
               clearable
               sx={{ flex: 1 }}
               {...field}
@@ -58,9 +56,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.y_axis_data_key`}
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`regressions.${index}.plot.yAxisIndex`}

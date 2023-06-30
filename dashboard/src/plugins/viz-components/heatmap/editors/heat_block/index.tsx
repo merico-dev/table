@@ -7,9 +7,8 @@ import { IHeatmapConf } from '../../type';
 interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<IHeatmapConf>;
-  data: TVizData;
 }
-export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
+export function HeatBlockField({ control, watch }: IHeatBlockField) {
   watch(['heat_block']);
   return (
     <Stack>
@@ -17,9 +16,7 @@ export function HeatBlockField({ data, control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="heat_block.name"

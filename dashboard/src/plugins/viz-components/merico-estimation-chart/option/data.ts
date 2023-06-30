@@ -1,3 +1,4 @@
+import { parseDataKey } from '~/utils/data';
 import { IMericoEstimationChartConf } from '../type';
 
 function fibonacci(n: number): number {
@@ -15,11 +16,14 @@ function getLevel(v: number) {
   return levels.findIndex((l) => v <= l) - 1;
 }
 
-export function getDataWithLevelInfo(conf: IMericoEstimationChartConf, rawData: TVizData) {
-  const { estimated_value, actual_value } = conf.deviation.data_keys;
-  return rawData.map((d) => {
-    const estimated_level = getLevel(d[estimated_value]);
-    const actual_level = getLevel(d[actual_value]);
+export function getDataWithLevelInfo(conf: IMericoEstimationChartConf, rawData: TPanelData) {
+  const { x_axis, deviation } = conf;
+  const x = parseDataKey(x_axis.data_key);
+  const e = parseDataKey(deviation.data_keys.estimated_value);
+  const a = parseDataKey(deviation.data_keys.actual_value);
+  return rawData[x.queryID].map((d) => {
+    const estimated_level = getLevel(d[e.columnKey]);
+    const actual_level = getLevel(d[a.columnKey]);
     const diff_level = estimated_level - actual_level;
     return {
       ...d,

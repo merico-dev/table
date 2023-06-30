@@ -2,16 +2,14 @@ import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/co
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
-import { AnyObject } from '~/types';
 import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IParetoChartConf } from '../type';
 
 interface IXAxisField {
   control: Control<IParetoChartConf, $TSFixMe>;
   watch: UseFormWatch<IParetoChartConf>;
-  data: AnyObject[];
 }
-export function XAxisField({ data, control, watch }: IXAxisField) {
+export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis']);
   return (
     <Stack>
@@ -19,9 +17,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="x_axis.name"
@@ -56,7 +52,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
+          render={({ field }) => <XAxisLabelFormatterField {...field} />}
         />
       </Group>
       <Controller

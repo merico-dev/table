@@ -5,9 +5,8 @@ import { ITableConf } from '../type';
 interface IStylingFields {
   control: Control<ITableConf, $TSFixMe>;
   watch: UseFormWatch<ITableConf>;
-  data: TVizData;
 }
-export function StylingFields({ control, watch, data }: IStylingFields) {
+export function StylingFields({ control, watch }: IStylingFields) {
   watch(['horizontalSpacing', 'verticalSpacing', 'fontSize', 'striped', 'highlightOnHover']);
   return (
     <Stack spacing="xs">

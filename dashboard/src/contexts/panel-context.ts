@@ -3,13 +3,14 @@ import { PanelModelInstance } from '~/model/panels';
 
 const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;
-  data: any;
+  data: TPanelData;
   loading: boolean;
-  error?: string;
+  errors: string[];
 }>({
   panel: null,
-  data: [],
+  data: {},
   loading: false,
+  errors: [],
 });
 
 export const PanelContextProvider = PanelContext.Provider;
@@ -21,8 +22,8 @@ export function usePanelContext() {
   }
   return c as {
     panel: PanelModelInstance;
-    data: any;
+    data: TPanelData;
     loading: boolean;
-    error?: string;
+    errors: string[];
   };
 }

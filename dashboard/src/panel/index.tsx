@@ -1,15 +1,17 @@
-import { Box, Flex } from '@mantine/core';
+import { Box, Flex, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
-import { PanelModelInstance } from '~/model/panels';
 import { ViewModelInstance } from '~/model';
-import { LayoutStateContext, useContentModelContext } from '../contexts';
+import { PanelModelInstance } from '~/model/panels';
+import { LayoutStateContext } from '../contexts';
 import { PanelContextProvider } from '../contexts/panel-context';
 import './index.css';
 import { DescriptionPopover } from './panel-description';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
 import { PanelTitleBar } from './title-bar';
 import { Viz } from './viz';
+import { PanelErrorOrStateMessage } from './panel-error-or-state-message';
+import { PanelVizSection } from './panel-viz-section';
 
 function doesVizRequiresData(type: string) {
   const vizTypes = ['richText', 'button'];
@@ -32,33 +34,23 @@ const hoverBorder = {
   },
 };
 
-function getPanelBorderStyle(panel: PanelModelInstance, panelNeedData: boolean, inEditMode: boolean) {
+function getPanelBorderStyle(panel: PanelModelInstance, inEditMode: boolean) {
   if (panel.style.border.enabled) {
     return constantBorder;
   }
   if (inEditMode) {
     return hoverBorder;
   }
-  if (panelNeedData) {
-    return hoverBorder;
-  }
   return { border: '1px dashed transparent' };
 }
 
 export const Panel = observer(function _Panel({ panel, view }: IPanel) {
-  const model = useContentModelContext();
   const { inEditMode } = useContext(LayoutStateContext);
 
-  const { data, state, error } = model.getDataStuffByID(panel.queryID);
-  const query = model.queries.findByID(panel.queryID);
-  const panelNeedData = doesVizRequiresData(panel.viz.type);
-  const loading = panelNeedData && state === 'loading';
-
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
-  const panelStyle = getPanelBorderStyle(panel, panelNeedData, inEditMode);
-  const needDropdownMenu = panelNeedData || inEditMode;
+  const panelStyle = getPanelBorderStyle(panel, inEditMode);
   return (
-    <PanelContextProvider value={{ panel, data, loading }}>
+    <PanelContextProvider value={{ panel, data: panel.data, loading: panel.dataLoading, errors: panel.queryErrors }}>
       <Box
         className="panel-root"
         p={5}
@@ -70,11 +62,9 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28, zIndex: 310 }}>
           <DescriptionPopover />
         </Box>
-        {needDropdownMenu && <PanelDropdownMenu view={view} />}
+        <PanelDropdownMenu view={view} />
         <PanelTitleBar />
-        <Flex direction="column" sx={{ height: contentHeight }}>
-          <Viz viz={panel.viz} data={data} loading={loading} error={error} query={query} />
-        </Flex>
+        <PanelVizSection panel={panel} height={contentHeight} />
       </Box>
     </PanelContextProvider>
   );

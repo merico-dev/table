@@ -31,7 +31,7 @@ function Chart({
   metricKey,
 }: {
   conf: IMericoEstimationChartConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   metricKey: string;
@@ -40,16 +40,13 @@ function Chart({
     return getOption(conf, metricKey, data);
   }, [conf, data, metricKey]);
 
-  if (!width || !height) {
-    return null;
-  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
 
 export function VizMericoEstimationChart({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IMericoEstimationChartConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as TVizData;
+  const data = context.data;
   const { width, height } = context.viewport;
   const { x_axis, deviation } = conf;
   const { estimated_value, actual_value } = deviation.data_keys;
@@ -59,6 +56,9 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
   }, [actual_value]);
 
   if (!x_axis.data_key || !estimated_value || !actual_value) {
+    return null;
+  }
+  if (!width || !height) {
     return null;
   }
   const finalWidth = Math.max(width, 300);

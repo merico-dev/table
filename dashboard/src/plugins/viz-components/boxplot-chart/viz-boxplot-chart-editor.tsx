@@ -15,7 +15,6 @@ import { TooltipField } from './editors/tooltip';
 
 export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
@@ -61,13 +60,13 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="X Axis">
-            <XAxisField control={control} data={data} watch={watch} />
+            <XAxisField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Y Axis">
-            <YAxisField control={control} data={data} watch={watch} />
+            <YAxisField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Tooltip">
-            <TooltipField control={control} data={data} watch={watch} />
+            <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Style">
             <Stack spacing={4}>

@@ -1,45 +1,81 @@
-import { ActionIcon, Group, Select, Stack, Text, Tooltip } from '@mantine/core';
-import { IconArrowCurveRight } from '@tabler/icons';
+import { ActionIcon, Button, Checkbox, Drawer, Group, Stack, Tabs, Tooltip } from '@mantine/core';
+import { IconArrowCurveRight, IconLine } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
+import { useState } from 'react';
 import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
 import { DataPreview } from '../../data-preview';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
   const content = useContentModelContext();
-  const {
-    panel: { queryID, setQueryID },
-  } = usePanelContext();
+  const { panel } = usePanelContext();
+  const [opened, setOpened] = useState(false);
 
-  const navigateToQuery = () => {
+  const navigateToQuery = (queryID: string) => {
     model.editor.setPath(['_QUERIES_', queryID]);
   };
 
   return (
-    <Stack>
-      <Group position="left" sx={{ maxWidth: '600px', alignItems: 'baseline' }}>
-        <Text>Use query</Text>
-        <Select
-          data={content.queries.options}
-          value={queryID}
-          onChange={setQueryID}
-          allowDeselect={false}
-          clearable={false}
-          // @ts-expect-error important
-          sx={{ flexGrow: '1 !important' }}
-          maxDropdownHeight={300}
-          rightSection={
-            queryID && (
+    <>
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Choose queries"
+        padding="xl"
+        size="xl"
+        zIndex={320}
+      >
+        <Checkbox.Group orientation="vertical" value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
+          {content.queries.options.map((o) => (
+            <Checkbox key={o.value} label={o.label} value={o.value} />
+          ))}
+        </Checkbox.Group>
+      </Drawer>
+
+      <Stack spacing={6}>
+        <Group position="right">
+          <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
+            Click me to choose queries for this panel
+          </Button>
+        </Group>
+        {panel.queryIDs.length === 1 && (
+          <DataPreview
+            id={panel.queryIDs[0]}
+            moreActions={
               <Tooltip label="Open this query">
-                <ActionIcon variant="subtle" color="blue" onClick={navigateToQuery}>
+                <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(panel.queryIDs[0])}>
                   <IconArrowCurveRight size={16} />
                 </ActionIcon>
               </Tooltip>
-            )
-          }
-        />
-      </Group>
-      <DataPreview id={queryID} />
-    </Stack>
+            }
+          />
+        )}
+        {panel.queryIDs.length > 1 && (
+          <Tabs defaultValue={panel.queryIDs[0]}>
+            <Tabs.List>
+              {panel.queries.map((q) => (
+                <Tabs.Tab key={q.id} value={q.id}>
+                  {q.name}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+            {panel.queries.map((q) => (
+              <Tabs.Panel key={q.id} value={q.id}>
+                <DataPreview
+                  id={q.id}
+                  moreActions={
+                    <Tooltip label="Open this query">
+                      <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(q.id)}>
+                        <IconArrowCurveRight size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  }
+                />
+              </Tabs.Panel>
+            ))}
+          </Tabs>
+        )}
+      </Stack>
+    </>
   );
 });

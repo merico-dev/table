@@ -23,6 +23,8 @@ import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import { parseDataKey } from '~/utils/data';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -60,15 +62,13 @@ function Chart({
   variables,
 }: {
   conf: ICartesianChartConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    return _.keyBy(data, conf.x_axis_data_key);
-  }, [data, conf.x_axis_data_key]);
+  const rowDataMap = useRowDataMap(data, conf.x_axis_data_key);
 
   const triggers = useTriggerSnapshotList<ICartesianChartConf>(interactionManager.triggerManager, ClickEchartSeries.id);
 
@@ -128,7 +128,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
   const { ref: topStatsRef, height: topStatsHeight } = useElementSize();
   const { ref: bottomStatsRef, height: bottomStatsHeight } = useElementSize();

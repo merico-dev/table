@@ -12,14 +12,13 @@ import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { InteractionManager } from '~/interactions/interaction-manager';
 import { OPERATIONS } from '~/interactions/operation/operations';
 import { IPanelInfo, IVizManager, PluginContext } from '~/plugins';
-import { AnyObject } from '~/types';
 import { IPayloadVariableSchema, IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
 
 export interface IInteractionSettingsProps {
   instance: VizInstance;
   vizManager: IVizManager;
   interactionManager: IVizInteractionManager;
-  sampleData: AnyObject[];
+  sampleData: TPanelData;
   variables: IPayloadVariableSchema[];
 }
 
@@ -44,7 +43,7 @@ const InteractionItem = observer(
     instance: VizInstance;
     item: IVizInteraction;
     manager: IVizInteractionManager;
-    sampleData: AnyObject[];
+    sampleData: TPanelData;
     variables: IPayloadVariableSchema[];
     onRemove: (item: IVizInteraction) => void;
   }) => {

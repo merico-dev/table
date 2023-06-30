@@ -10,6 +10,8 @@ import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/
 import { getLegend } from './legend';
 import { IYAxisConf } from '../../cartesian/type';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
+import { extractData, extractFullQueryData } from '~/utils/data';
+import { getDataset } from './dataset';
 
 const defaultOption = {
   xAxis: [
@@ -38,7 +40,7 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IScatterChartConf, data: TVizData, variables: ITemplateVariable[]) {
+export function getOption(conf: IScatterChartConf, data: TPanelData, variables: ITemplateVariable[]) {
   const variableValueMap = variables.reduce((prev, variable) => {
     const value = getAggregatedValue(variable, data);
     prev[variable.name] = formatAggregatedValue(variable, value);
@@ -74,20 +76,15 @@ export function getOption(conf: IScatterChartConf, data: TVizData, variables: IT
     },
   );
 
-  const xAxisData = _.uniq(data.map((d) => d[conf.x_axis.data_key]));
-  const valueTypedXAxis = xAxisData.every((d) => !Number.isNaN(Number(d)));
+  const xAxisData = _.uniq(extractData(data, conf.x_axis.data_key));
 
-  const series = getSeries(conf, xAxisData, valueTypedXAxis, data, labelFormatters, variables, variableValueMap);
+  const series = getSeries(conf, data, labelFormatters, variables, variableValueMap);
 
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(conf, labelFormatters),
     series,
-    dataset: [
-      {
-        source: data,
-      },
-    ],
+    dataset: getDataset(conf, data),
     tooltip: getTooltip(conf, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(),

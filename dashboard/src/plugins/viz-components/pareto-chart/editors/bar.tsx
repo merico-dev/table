@@ -2,7 +2,6 @@ import { Divider, Group, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/panel/settings/common/mantine-color';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
-import { AnyObject } from '~/types';
 import { IParetoChartConf } from '../type';
 
 const nameAlignmentOptions = [
@@ -14,9 +13,8 @@ const nameAlignmentOptions = [
 interface IBarField {
   control: Control<IParetoChartConf, $TSFixMe>;
   watch: UseFormWatch<IParetoChartConf>;
-  data: AnyObject[];
 }
-export function BarField({ data, control, watch }: IBarField) {
+export function BarField({ control, watch }: IBarField) {
   watch(['bar']);
   return (
     <Stack>

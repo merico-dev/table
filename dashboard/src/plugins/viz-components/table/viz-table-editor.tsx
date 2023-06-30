@@ -25,7 +25,6 @@ function tempMigration({ columns, ...rest }: ITableConf) {
 export function VizTableEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   // const { variables } = context;
-  const data = context.data as $TSFixMe[];
   const conf: ITableConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: ITableConf = useMemo(() => {
     return tempMigration(conf);
@@ -82,14 +81,14 @@ export function VizTableEditor({ context }: VizConfigProps) {
           <Controller
             name="id_field"
             control={control}
-            render={({ field }) => <DataFieldSelector label="ID Field" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="ID Field" required {...field} />}
           />
         </Tabs.Panel>
         <Tabs.Panel value="Style">
-          <StylingFields control={control} watch={watch} data={data} />
+          <StylingFields control={control} watch={watch} />
         </Tabs.Panel>
         <Tabs.Panel value="Columns">
-          <ColumnsField control={control} watch={watch} data={data} />
+          <ColumnsField control={control} watch={watch} />
         </Tabs.Panel>
       </Tabs>
     </form>

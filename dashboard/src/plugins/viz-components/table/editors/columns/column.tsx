@@ -35,9 +35,8 @@ interface IColumnField {
   index: number;
   remove: UseFieldArrayRemove;
   column: IColumnConf;
-  data: AnyObject[];
 }
-export const ColumnField = ({ control, index, watch, remove, column, data }: IColumnField) => {
+export const ColumnField = ({ control, index, watch, remove, column }: IColumnField) => {
   const value_type = watch(`columns.${index}.value_type`);
 
   return (
@@ -53,7 +52,7 @@ export const ColumnField = ({ control, index, watch, remove, column, data }: ICo
         <Controller
           name={`columns.${index}.value_field`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Value Field" required data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Value Field" required {...field} />}
         />
       </Group>
       <Group grow>

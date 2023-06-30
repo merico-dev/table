@@ -10,7 +10,6 @@ import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 export function VizBar3dChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const defaultValues = defaults({}, conf, DEFAULT_CONFIG);
   const { control, handleSubmit, reset } = useForm({ defaultValues });
 
@@ -30,7 +29,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
           <Controller
             name="x_axis_data_key"
             control={control}
-            render={({ field }) => <DataFieldSelector label="Data Field" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="Data Field" required {...field} />}
           />
           <Controller
             name="xAxis3D.name"
@@ -44,7 +43,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
           <Controller
             name="y_axis_data_key"
             control={control}
-            render={({ field }) => <DataFieldSelector label="Data Field" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="Data Field" required {...field} />}
           />
           <Controller
             name="yAxis3D.name"
@@ -58,7 +57,7 @@ export function VizBar3dChartEditor({ context }: VizConfigProps) {
           <Controller
             name="z_axis_data_key"
             control={control}
-            render={({ field }) => <DataFieldSelector label="Data Field" required data={data} {...field} />}
+            render={({ field }) => <DataFieldSelector label="Data Field" required {...field} />}
           />
           <Controller
             name="zAxis3D.name"

@@ -1,7 +1,7 @@
 import _, { cloneDeep } from 'lodash';
 import { defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { ClickParetoSeries } from './triggers';
@@ -101,8 +101,30 @@ function v8(legacyConf: $TSFixMe): IParetoChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v9(legacyConf: any, { panelModel }: IMigrationEnv): IParetoChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { x_axis, data_key, ...rest } = legacyConf;
+    return {
+      ...rest,
+      x_axis: {
+        ...x_axis,
+        data_key: changeKey(x_axis.data_key),
+      },
+      data_key: changeKey(data_key),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizParetoChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 8;
+  readonly VERSION = 9;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -160,6 +182,13 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
         config: v8(data.config),
       };
     });
+    this.version(9, (data, env) => {
+      return {
+        ...data,
+        version: 9,
+        config: v9(data.config, env),
+      };
+    });
   }
 }
 
@@ -172,7 +201,7 @@ export const ParetoChartVizComponent: VizComponent = {
   configRender: VizParetoChartEditor,
   createConfig() {
     return {
-      version: 8,
+      version: 9,
       config: cloneDeep(DEFAULT_CONFIG) as IParetoChartConf,
     };
   },

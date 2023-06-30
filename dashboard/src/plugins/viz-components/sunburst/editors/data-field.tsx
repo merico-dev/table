@@ -6,26 +6,25 @@ import { ISunburstConf } from '../type';
 interface IDataField {
   control: Control<ISunburstConf, $TSFixMe>;
   watch: UseFormWatch<ISunburstConf>;
-  data: TVizData;
 }
-export function DataField({ data, control, watch }: IDataField) {
+export function DataField({ control, watch }: IDataField) {
   watch(['label_key', 'value_key', 'group_key']);
   return (
     <Stack>
       <Controller
         name="label_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Label Key" required data={data} {...field} />}
+        render={({ field }) => <DataFieldSelector label="Label Key" required {...field} />}
       />
       <Controller
         name="value_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Value Key" required data={data} {...field} />}
+        render={({ field }) => <DataFieldSelector label="Value Key" required {...field} />}
       />
       <Controller
         name="group_key"
         control={control}
-        render={({ field }) => <DataFieldSelector label="Group Key" data={data} clearable {...field} />}
+        render={({ field }) => <DataFieldSelector label="Group Key" clearable {...field} />}
       />
     </Stack>
   );

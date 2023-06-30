@@ -16,7 +16,7 @@ export type ColumnAlignType = 'left' | 'center' | 'right';
 export interface IColumnConf {
   id: string;
   label: string;
-  value_field: string;
+  value_field: TDataKey;
   value_type: ValueType;
   cellBackgroundColor?: CellBackgroundColorType;
   func_content?: string;
@@ -27,7 +27,7 @@ export interface IColumnConf {
 }
 
 export interface ITableConf {
-  id_field: string;
+  id_field: TDataKey;
   use_raw_columns: boolean;
   columns: IColumnConf[];
   fontSize: string;
@@ -46,13 +46,13 @@ export const DEFAULT_CELL_FUNC_CONTENT = [
 
 export const DEFAULT_CONFIG: ITableConf = {
   columns: [],
-  fontSize: '1rem',
-  highlightOnHover: false,
-  horizontalSpacing: '1em',
+  fontSize: '14px',
+  highlightOnHover: true,
+  horizontalSpacing: '14px',
   id_field: '',
-  striped: false,
+  striped: true,
   use_raw_columns: true,
-  verticalSpacing: '1em',
+  verticalSpacing: '14px',
 };
 
 export interface ITableCellContext {

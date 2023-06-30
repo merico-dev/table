@@ -19,7 +19,7 @@ function formatValues([x, value]: [string, number]) {
 export function getSeries2(
   conf: IMericoEstimationChartConf,
   xAxisData: string[],
-  dataGroupedByX: Record<string, TVizData>,
+  dataGroupedByX: Record<string, TQueryData>,
   commonConf: AnyObject,
 ) {
   const chartData = xAxisData.map((x) => {

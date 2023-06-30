@@ -1,20 +1,18 @@
+import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
 import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
-import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
-import { XAxisField } from './editors/x_axis';
 import { DeviationField } from './editors/deviation';
 import { MetricsField } from './editors/metrics';
+import { XAxisField } from './editors/x_axis';
+import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 
 export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IMericoEstimationChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as AnyObject[];
   const conf: IMericoEstimationChartConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IMericoEstimationChartConf>({
@@ -60,13 +58,13 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
-            <XAxisField control={control} watch={watch} data={data} />
+            <XAxisField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Deviation">
-            <DeviationField control={control} watch={watch} data={data} />
+            <DeviationField control={control} watch={watch} />
           </Tabs.Panel>
           <Tabs.Panel value="Additional Metrics">
-            <MetricsField control={control} watch={watch} data={data} />
+            <MetricsField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </form>

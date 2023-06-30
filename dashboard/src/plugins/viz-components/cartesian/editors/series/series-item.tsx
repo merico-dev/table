@@ -1,16 +1,4 @@
-import {
-  ActionIcon,
-  Button,
-  Checkbox,
-  Divider,
-  Group,
-  SegmentedControl,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import React from 'react';
+import { Button, Checkbox, Divider, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { AggregationSelector } from '~/panel/settings/common/aggregation-selector';
@@ -48,10 +36,9 @@ interface ISeriesItemField {
     label: string;
     value: string;
   }[];
-  data: TVizData;
 }
 
-export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions, data }: ISeriesItemField) {
+export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
     <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
@@ -103,9 +90,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="Value Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.aggregation_on_value`}
@@ -127,7 +112,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           render={({ field }) => (
             <DataFieldSelector
               label="Split into multiple series by this key..."
-              data={data}
               clearable
               sx={{ flex: 1 }}
               {...field}
@@ -135,9 +119,9 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           )}
         />
       </Group>
-      {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} data={data} />}
+      {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'bar' && <BarFields index={index} control={control} seriesItem={seriesItem} />}
-      {type === 'scatter' && <ScatterFields index={index} control={control} data={data} />}
+      {type === 'scatter' && <ScatterFields index={index} control={control} />}
       <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
       <Controller
         name={`series.${index}.label_position`}

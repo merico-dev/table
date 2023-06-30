@@ -16,7 +16,7 @@ export interface IScatterLabelOverflow {
 
 export interface IScatterChartConf {
   x_axis: {
-    data_key: string;
+    data_key: TDataKey;
     name: string;
     axisLabel: {
       rotate: number;
@@ -25,8 +25,8 @@ export interface IScatterChartConf {
   };
   y_axes: IYAxisConf[];
   scatter: {
-    y_data_key: string;
-    name_data_key: string;
+    y_data_key: TDataKey;
+    name_data_key: TDataKey;
     symbolSize: TScatterSize;
     label_position: string;
     color: TSeriesColor;

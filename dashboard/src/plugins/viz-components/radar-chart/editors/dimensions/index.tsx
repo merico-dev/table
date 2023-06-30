@@ -10,10 +10,9 @@ import { DimensionField } from './dimension';
 interface IDimensionsField {
   control: Control<IRadarChartConf, $TSFixMe>;
   watch: UseFormWatch<IRadarChartConf>;
-  data: TVizData;
 }
 
-export function DimensionsField({ control, watch, data }: IDimensionsField) {
+export function DimensionsField({ control, watch }: IDimensionsField) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'dimensions',
@@ -82,7 +81,7 @@ export function DimensionsField({ control, watch, data }: IDimensionsField) {
         </Tabs.List>
         {controlledFields.map((field, index) => (
           <Tabs.Panel key={index} value={field.id}>
-            <DimensionField data={data} control={control} index={index} remove={removeAndResetTab} />
+            <DimensionField control={control} index={index} remove={removeAndResetTab} />
           </Tabs.Panel>
         ))}
       </Tabs>

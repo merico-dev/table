@@ -17,7 +17,7 @@ export function VizSunburst({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<ISunburstConf>(context.instanceData, 'config');
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   const option = useMemo(() => getOption(conf, data, variables), [conf, data, variables]);

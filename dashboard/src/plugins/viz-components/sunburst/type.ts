@@ -14,9 +14,9 @@ export interface ISunburstLevelConf {
 }
 
 export interface ISunburstConf {
-  label_key: string;
-  value_key: string;
-  group_key: string;
+  label_key: TDataKey;
+  value_key: TDataKey;
+  group_key: TDataKey;
   levels: ISunburstLevelConf[];
 }
 

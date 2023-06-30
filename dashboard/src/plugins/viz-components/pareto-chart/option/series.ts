@@ -3,9 +3,20 @@ import { IParetoChartConf } from '../type';
 import { getMarkLine } from './mark-line';
 import { TLineDataItem } from './types';
 import { TParetoFormatters } from './utils';
+import { parseDataKey } from '~/utils/data';
 
-export function getSeries(conf: IParetoChartConf, data: AnyObject[], formatters: TParetoFormatters) {
-  const barData = data.map((d) => [d[conf.x_axis.data_key], Number(d[conf.data_key])]).sort((a, b) => b[1] - a[1]);
+export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: TParetoFormatters) {
+  const { x_axis, data_key } = conf;
+  if (!x_axis.data_key || !data_key) {
+    return [];
+  }
+  const x = parseDataKey(x_axis.data_key);
+  const y = parseDataKey(data_key);
+  if (x.queryID !== y.queryID) {
+    throw new Error('Please use the same query for X & Y axis');
+  }
+
+  const barData = data[x.queryID].map((d) => [d[x.columnKey], Number(d[y.columnKey])]).sort((a, b) => b[1] - a[1]);
   const sum = barData.reduce((sum, curr) => sum + curr[1], 0);
   const lineData = barData
     .reduce((ret, curr, index) => {

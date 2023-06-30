@@ -41,12 +41,11 @@ const positionOptions: Record<'horizontal' | 'vertical', LabelPositionOptionType
 interface ISeriesItemField {
   item: IFunnelSeriesItem;
   control: Control<IFunnelConf, $TSFixMe>;
-  data: AnyObject[];
   index: number;
   remove: (index: number) => void;
 }
 
-export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesItemField) => {
+export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemField) => {
   const enable_min = item.min.enable_value;
   const enable_max = item.max.enable_value;
   const { orient } = item;
@@ -63,12 +62,12 @@ export const SeriesItemField = ({ item, control, data, index, remove }: ISeriesI
         <Controller
           name={`series.${index}.level_name_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Name Field" data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Level Name Field" {...field} />}
         />
         <Controller
           name={`series.${index}.level_value_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Value Field" data={data} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Level Value Field" {...field} />}
         />
       </Group>
 

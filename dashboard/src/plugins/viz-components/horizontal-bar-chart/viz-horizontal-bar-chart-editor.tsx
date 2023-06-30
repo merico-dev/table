@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { VizConfigProps } from '../../../types/plugin';
 import { useStorageData } from '../../hooks';
 import { ReferenceLinesField } from './editors/reference-lines';
@@ -15,7 +14,6 @@ import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IHorizontalBarChartConf>(context.instanceData, 'config');
   const { variables } = context;
-  const data = context.data as AnyObject[];
   const conf: IHorizontalBarChartConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IHorizontalBarChartConf>({ defaultValues: conf });
@@ -64,11 +62,11 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
 
           <Tabs.Panel value="Y Axis">
-            <YAxisField control={control} watch={watch} data={data} />
+            <YAxisField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Series">
-            <SeriesField control={control} watch={watch} data={data} />
+            <SeriesField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Reference Lines">

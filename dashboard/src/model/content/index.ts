@@ -145,7 +145,6 @@ const _ContentModel = types
       if (!q) {
         return {
           data: [],
-          dataProxy: null,
           len: 0,
           state: 'idle',
           error: undefined,
@@ -153,17 +152,10 @@ const _ContentModel = types
       }
       return {
         data: q.data.toJSON(),
-        dataProxy: q.data,
         len: q.data.length,
         state: q.state,
         error: q.error,
       };
-    },
-    getDataStateByID(queryID: string) {
-      return self.queries.findByID(queryID)?.state ?? [];
-    },
-    getDataErrorByID(queryID: string) {
-      return self.queries.findByID(queryID)?.error ?? [];
     },
   }))
   .views((self) => ({
@@ -172,7 +164,7 @@ const _ContentModel = types
       const panels: QueryUsageType[] = self.views.current.flatMap((v) =>
         v.panelIDs
           .map((id) => panelIDMap.get(id))
-          .filter((p): p is PanelModelInstance => p?.queryID === queryID)
+          .filter((p): p is PanelModelInstance => p?.queryIDSet.has(queryID) ?? false)
           .map((p) => ({
             type: 'panel',
             id: p.id,

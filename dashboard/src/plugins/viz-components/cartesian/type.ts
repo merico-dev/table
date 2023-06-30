@@ -12,7 +12,7 @@ export interface ICartesianChartSeriesItem {
   display_name_on_line: boolean;
   showSymbol: boolean;
   symbolSize: TScatterSize;
-  y_axis_data_key: string;
+  y_axis_data_key: TDataKey;
   yAxisIndex: number;
   label_position?: string;
   stack: string;
@@ -46,8 +46,8 @@ export interface IRegressionConf {
   transform: IRegressionTransform;
   plot: IRegressionLineConf;
   name: string;
-  y_axis_data_key: string;
-  group_by_key: string;
+  y_axis_data_key: TDataKey;
+  group_by_key: TDataKey;
 }
 
 export interface ICartesianReferenceLine {
@@ -80,7 +80,7 @@ export interface ICartesianChartConf {
   x_axis_name: string;
   y_axes: IYAxisConf[];
   x_axis: {
-    type: 'value' | 'category' | 'time' | 'log',
+    type: 'value' | 'category' | 'time' | 'log';
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;

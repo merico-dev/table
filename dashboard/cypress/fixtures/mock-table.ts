@@ -2,7 +2,7 @@ import { IViewPanelInfo } from '~/plugins';
 import { ITableConf, ValueType } from '~/plugins/viz-components/table/type';
 
 export const DEFAULT_TABLE_CONFIG = {
-  id_field: 'foo',
+  id_field: 'queryID-01.foo',
   horizontalSpacing: '10px',
   verticalSpacing: '10px',
   use_raw_columns: false,
@@ -10,9 +10,9 @@ export const DEFAULT_TABLE_CONFIG = {
     {
       label: 'Foo',
       value_type: ValueType.string,
-      value_field: 'foo',
+      value_field: 'queryID-01.foo',
     },
-    { label: 'Bar', value_type: ValueType.string, value_field: 'bar' },
+    { label: 'Bar', value_type: ValueType.string, value_field: 'queryID-01.bar' },
   ],
 } as Partial<ITableConf>;
 export const TABLE_PANEL: IViewPanelInfo = {
@@ -28,11 +28,13 @@ export const TABLE_PANEL: IViewPanelInfo = {
   id: 'mock-panel-01',
   queryID: 'queryID-01',
 };
-export const MOCK_DATA = [
-  { foo: 'alice', bar: 'bob' },
-  {
-    foo: 'carol',
-    bar: 'dave',
-  },
-  { foo: 'eve', bar: 'frank' },
-];
+export const MOCK_DATA = {
+  'queryID-01': [
+    { foo: 'alice', bar: 'bob' },
+    {
+      foo: 'carol',
+      bar: 'dave',
+    },
+    { foo: 'eve', bar: 'frank' },
+  ],
+};

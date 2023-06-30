@@ -1,6 +1,7 @@
 import numbro from 'numbro';
 import { getLabelOverflowStyleInTooltip } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { IBoxplotChartConf, TOutlierDataItem } from '../../type';
+import { parseDataKey } from '~/utils/data';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -24,10 +25,11 @@ export function getScatterTooltipContent(config: IBoxplotChartConf, value: TOutl
   ];
 
   const additionalMetrics = config.tooltip.metrics.map((m) => {
+    const k = parseDataKey(m.data_key);
     return `
     <tr>
       <th style="text-align: right; padding: 0 1em;">${m.name}</th>
-      <td style="text-align: left; padding: 0 1em;">${formatAdditionalMetric(value[2][m.data_key])}</td>
+      <td style="text-align: left; padding: 0 1em;">${formatAdditionalMetric(value[2][k.columnKey])}</td>
     </tr>`;
   });
 

@@ -12,4 +12,6 @@ interface IDashboardConfig {
 
 type TFunctionString = string;
 
-type TVizData = Record<string, $TSFixMe>[];
+type TPanelData = Record<string, TQueryData>;
+type TQueryData = Record<string, any>[];
+type TDataKey = string; // queryID.columnKey

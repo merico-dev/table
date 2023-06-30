@@ -1,29 +1,27 @@
-import { LoadingOverlay, Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 
 import { observer } from 'mobx-react-lite';
-import React, { ReactNode, useContext } from 'react';
-import { QueryModelInstance } from '~/model';
+import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
+import { ErrorBoundary } from '~/utils/error-boundary';
 import { usePanelContext } from '../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../plugins';
 import { IVizConfig } from '../../types';
-import { ErrorBoundary } from '~/utils/error-boundary';
 import { PluginVizViewComponent } from '../plugin-adaptor';
 import './index.css';
 
-function usePluginViz(data: TVizData, layout: IViewPanelInfo['layout']): ReactNode | null {
+function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
-    panel: { viz, title, id, description, queryID, variables },
+    panel: { viz, title, id, description, queryIDs, variables },
   } = usePanelContext();
   const panel: IViewPanelInfo = {
     title,
     id,
     description,
-    queryID,
+    queryIDs,
     viz,
     layout,
   };
@@ -48,52 +46,19 @@ function usePluginViz(data: TVizData, layout: IViewPanelInfo['layout']): ReactNo
   }
 }
 
-const typesDontNeedData = ['richText', 'button'];
-
 interface IViz {
   viz: IVizConfig;
-  data: TVizData;
-  loading: boolean;
-  error?: string;
-  query?: QueryModelInstance;
+  data: TPanelData;
 }
 
-export const Viz = observer(function _Viz({ viz, data, loading, error, query }: IViz) {
+export const Viz = observer(function _Viz({ data }: IViz) {
   const { ref, width, height } = useElementSize();
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
-  const dontNeedData = typesDontNeedData.includes(viz.type);
-  if (dontNeedData) {
-    return (
-      <div className="viz-root" ref={ref}>
-        <ErrorBoundary>{pluginViz}</ErrorBoundary>
-      </div>
-    );
-  }
 
-  if (loading) {
-    return (
-      <div className="viz-root" style={{ position: 'relative' }} ref={ref}>
-        <LoadingOverlay visible={loading} exitTransitionDuration={0} />
-      </div>
-    );
-  }
-  const showError = !!error;
-  const showStateMessage = !showError && !!query?.stateMessage;
-  const showViz = !showError && !showStateMessage;
   return (
     <div className="viz-root" ref={ref}>
-      {showError && (
-        <Text color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
-          {error}
-        </Text>
-      )}
-      {showStateMessage && (
-        <Text color="gray" align="center">
-          {query.stateMessage}
-        </Text>
-      )}
-      {showViz && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
+      <ErrorBoundary>{pluginViz}</ErrorBoundary>
     </div>
   );
 });

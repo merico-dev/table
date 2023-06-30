@@ -2,7 +2,7 @@ import { random } from 'chroma-js';
 import _, { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
 import { VizComponent } from '../../../types/plugin';
-import { VersionBasedMigrator } from '../../plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/types';
 import { ClickScatterChartSeries } from './triggers';
@@ -74,9 +74,40 @@ function v8(legacyConf: $TSFixMe): IScatterChartConf {
   return _.defaultsDeep({}, legacyConf, patch);
 }
 
-class VizScatterChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 8;
+function v9(legacyConf: any, { panelModel }: IMigrationEnv): IScatterChartConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { x_axis, scatter, tooltip, ...rest } = legacyConf;
+    return {
+      ...rest,
+      x_axis: {
+        ...x_axis,
+        data_key: changeKey(x_axis.data_key),
+      },
+      scatter: {
+        ...scatter,
+        y_data_key: changeKey(scatter.y_data_key),
+        name_data_key: changeKey(scatter.name_data_key),
+      },
+      tooltip: {
+        ...tooltip,
+        metrics: tooltip.metrics.map((m: any) => ({
+          ...m,
+          data_key: changeKey(m.data_key),
+        })),
+      },
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
 
+class VizScatterChartMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
       return {
@@ -118,7 +149,12 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 8, config: v8(config) };
     });
+    this.version(9, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 9, config: v9(config, env) };
+    });
   }
+  readonly VERSION = 9;
 }
 
 export const ScatterChartVizComponent: VizComponent = {
@@ -130,7 +166,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartEditor,
   createConfig() {
     return {
-      version: 8,
+      version: 9,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },

@@ -14,10 +14,9 @@ const regressionOptions = [
 interface IRegressionField {
   control: Control<IRegressionChartConf, $TSFixMe>;
   watch: UseFormWatch<IRegressionChartConf>;
-  data: TVizData;
 }
 
-export function RegressionField({ control, watch, data }: IRegressionField) {
+export function RegressionField({ control, watch }: IRegressionField) {
   watch('regression');
   const method = watch('regression.transform.config.method');
   const group_by_key = watch('regression.group_by_key');
@@ -34,7 +33,7 @@ export function RegressionField({ control, watch, data }: IRegressionField) {
         name="regression.group_by_key"
         control={control}
         render={({ field }) => (
-          <DataFieldSelector label="按此字段将数据分为多个系列" data={data} clearable sx={{ flex: 1 }} {...field} />
+          <DataFieldSelector label="按此字段将数据分为多个系列" clearable sx={{ flex: 1 }} {...field} />
         )}
       />
       <Group grow noWrap>

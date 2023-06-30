@@ -25,7 +25,7 @@ function formatValues([x, p, c, s]: DataItemType) {
 export function getSeries3(
   conf: IMericoEstimationChartConf,
   xAxisData: string[],
-  dataGroupedByX: Record<string, TVizData>,
+  dataGroupedByX: Record<string, TQueryData>,
   commonConf: AnyObject,
 ) {
   const dataset: ChartDatasetType = {};

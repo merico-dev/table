@@ -1,5 +1,5 @@
 import { VizComponent } from '~/types/plugin';
-import { VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
+import { IMigrationEnv, VersionBasedMigrator } from '~/plugins/plugin-data-migrator';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
 import { VizSunburstEditor } from './viz-sunburst-editor';
@@ -30,8 +30,28 @@ function v4(legacy: any): ISunburstConf {
   };
 }
 
+function v5(legacyConf: any, { panelModel }: IMigrationEnv): ISunburstConf {
+  try {
+    const queryID = panelModel.queryIDs[0];
+    if (!queryID) {
+      throw new Error('cannot migrate when queryID is empty');
+    }
+    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
+    const { label_key, value_key, group_key, ...rest } = legacyConf;
+    return {
+      ...rest,
+      label_key: changeKey(label_key),
+      value_key: changeKey(value_key),
+      group_key: changeKey(group_key),
+    };
+  } catch (error) {
+    console.error('[Migration failed]', error);
+    throw error;
+  }
+}
+
 class VizSunburstMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -61,6 +81,13 @@ class VizSunburstMigrator extends VersionBasedMigrator {
         config: v4(data.config),
       };
     });
+    this.version(5, (data, env) => {
+      return {
+        ...data,
+        version: 5,
+        config: v5(data.config, env),
+      };
+    });
   }
 }
 
@@ -73,7 +100,7 @@ export const SunburstVizComponent: VizComponent = {
   configRender: VizSunburstEditor,
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: cloneDeep(DEFAULT_CONFIG) as ISunburstConf,
     };
   },

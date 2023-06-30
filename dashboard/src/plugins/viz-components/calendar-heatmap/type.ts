@@ -3,14 +3,14 @@ import { IEchartsTooltipMetric } from '~/plugins/common-echarts-fields/tooltip-m
 
 export interface ICalendarHeatmapConf {
   calendar: {
-    data_key: string;
+    data_key: TDataKey;
     locale: 'ZH' | 'EN';
   };
   heat_block: {
     min: number;
     max: number;
     name: string;
-    data_key: '';
+    data_key: TDataKey;
     value_formatter: TNumbroFormat;
   };
   tooltip: {

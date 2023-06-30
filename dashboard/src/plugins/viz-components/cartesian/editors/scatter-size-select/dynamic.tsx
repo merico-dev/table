@@ -9,10 +9,9 @@ import { DEFAULT_SCATTER_SIZE, TScatterSize, TScatterSize_Dynamic } from './type
 interface IField {
   value: TScatterSize_Dynamic;
   onChange: (v: TScatterSize_Dynamic) => void;
-  data: AnyObject[];
 }
 
-const Field = ({ value, onChange, data }: IField) => {
+const Field = ({ value, onChange }: IField) => {
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<TScatterSize_Dynamic>(value);
 
@@ -85,13 +84,12 @@ const Field = ({ value, onChange, data }: IField) => {
 export interface IDynamicScatterSizeField {
   value: TScatterSize;
   onChange: (v: TScatterSize) => void;
-  data: AnyObject[];
 }
 
-export const DynamicScatterSizeField = ({ value, onChange, data }: IDynamicScatterSizeField) => {
+export const DynamicScatterSizeField = ({ value, onChange }: IDynamicScatterSizeField) => {
   if (value.type !== 'dynamic') {
     return null;
   }
 
-  return <Field value={value} onChange={onChange} data={data} />;
+  return <Field value={value} onChange={onChange} />;
 };

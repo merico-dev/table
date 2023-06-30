@@ -1,6 +1,5 @@
 import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
-import { AnyObject } from '~/types';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { ScatterSizeSelect } from '../scatter-size-select';
 
@@ -21,10 +20,9 @@ interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
   seriesItem: ICartesianChartSeriesItem;
   index: number;
-  data: AnyObject[];
 }
 
-export function LineFields({ control, index, seriesItem, data }: ILineFields) {
+export function LineFields({ control, index, seriesItem }: ILineFields) {
   const showSymbol = seriesItem.showSymbol;
   return (
     <>
@@ -106,7 +104,7 @@ export function LineFields({ control, index, seriesItem, data }: ILineFields) {
           <Controller
             name={`series.${index}.symbolSize`}
             control={control}
-            render={({ field }) => <ScatterSizeSelect label="Symbol Size" data={data} {...field} />}
+            render={({ field }) => <ScatterSizeSelect label="Symbol Size" {...field} />}
           />
         )}
       </Stack>

@@ -16,7 +16,6 @@ import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 
 export function VizParetoChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
-  const data = context.data as $TSFixMe[];
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IParetoChartConf>({ defaultValues });
@@ -63,23 +62,23 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
         </Tabs.List>
 
         <Tabs.Panel value="X Axis">
-          <XAxisField control={control} watch={watch} data={data} />
+          <XAxisField control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Y Axis">
-          <YAxisField control={control} watch={watch} data={data} />
+          <YAxisField control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Bar">
-          <BarField control={control} watch={watch} data={data} />
+          <BarField control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Line">
-          <LineField control={control} watch={watch} data={data} />
+          <LineField control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="80-20 Line">
-          <MarkLineField control={control} watch={watch} data={data} />
+          <MarkLineField control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Zooming">

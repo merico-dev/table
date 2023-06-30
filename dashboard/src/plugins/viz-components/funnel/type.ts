@@ -35,8 +35,8 @@ export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
 export interface IFunnelSeriesItem {
   id: string;
   name: string;
-  level_name_data_key: string;
-  level_value_data_key: string;
+  level_name_data_key: TDataKey;
+  level_value_data_key: TDataKey;
   min: {
     value: number;
     enable_value: boolean;

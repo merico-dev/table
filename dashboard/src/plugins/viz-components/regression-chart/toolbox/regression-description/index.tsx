@@ -44,11 +44,11 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
 
 export interface IRegressionDescription {
   conf: IRegressionChartConf;
-  data: TVizData;
+  queryData: TQueryData;
 }
 
-function DescriptionInTabs({ conf, data }: IRegressionDescription) {
-  const desc = useMemo(() => getRegressionDescription(data, conf), [conf, data]);
+function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
+  const desc = useMemo(() => getRegressionDescription(queryData, conf), [conf, queryData]);
 
   if (!conf.regression.group_by_key) {
     return <DescriptionContent desc={desc[0]} />;
@@ -73,7 +73,7 @@ function DescriptionInTabs({ conf, data }: IRegressionDescription) {
   );
 }
 
-export function RegressionDescription({ conf, data }: IRegressionDescription) {
+export function RegressionDescription({ conf, queryData }: IRegressionDescription) {
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
       <HoverCard.Target>
@@ -83,7 +83,7 @@ export function RegressionDescription({ conf, data }: IRegressionDescription) {
       </HoverCard.Target>
       <HoverCard.Dropdown>
         <ErrorBoundary>
-          <DescriptionInTabs conf={conf} data={data} />
+          <DescriptionInTabs conf={conf} queryData={queryData} />
         </ErrorBoundary>
       </HoverCard.Dropdown>
     </HoverCard>

@@ -3,7 +3,7 @@ import { IFunnelConf } from '../type';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 
-export function getOption(conf: IFunnelConf, data: AnyObject[]) {
+export function getOption(conf: IFunnelConf, data: TPanelData) {
   return {
     grid: {
       top: 0,

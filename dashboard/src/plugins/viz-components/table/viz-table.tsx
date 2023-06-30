@@ -23,6 +23,7 @@ import { IVizManager, PluginContext, useStorageData } from '../..';
 import { TableCellContext } from './table-cell-context';
 import { DEFAULT_CONFIG, IColumnConf, ITableConf, TriggerConfigType, ValueType } from './type';
 import { CellValue } from './value';
+import { parseDataKey } from '~/utils/data';
 
 const useGetCellContext = (context: {
   vizManager: IVizManager;
@@ -40,19 +41,27 @@ const useGetCellContext = (context: {
 };
 
 export function VizTable({ context, instance }: VizViewProps) {
-  const data = (context.data ?? []) as AnyObject[];
+  const data = context.data;
   const { height, width } = context.viewport;
   const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
-  const { use_raw_columns, columns, ...rest } = conf;
+  const { id_field, use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
 
+  const queryData = useMemo(() => {
+    if (!id_field) {
+      return [];
+    }
+    const k = parseDataKey(id_field);
+    return data[k.queryID];
+  }, [data, id_field]);
+
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
-      if (!Array.isArray(data) || data.length === 0) {
+      if (!Array.isArray(queryData) || queryData.length === 0) {
         return [];
       }
-      return Object.keys(data[0]).map((k) => ({
+      return Object.keys(queryData[0]).map((k) => ({
         id: k,
         label: k,
         value_field: k,
@@ -61,7 +70,8 @@ export function VizTable({ context, instance }: VizViewProps) {
       }));
     }
     return columns;
-  }, [use_raw_columns, columns, data]);
+  }, [use_raw_columns, columns, queryData]);
+
   const getCellContext = useGetCellContext({
     getColIndex: useCallback((cell) => finalColumns.indexOf(cell.column.columnDef.meta as IColumnConf), [finalColumns]),
     vizManager: context.vizManager,
@@ -71,7 +81,8 @@ export function VizTable({ context, instance }: VizViewProps) {
   const tableColumns = useMemo(() => {
     const columnHelper = createColumnHelper<AnyObject>();
     const valueCols = finalColumns.map((c) => {
-      return columnHelper.accessor(c.value_field, {
+      const k = parseDataKey(c.value_field);
+      return columnHelper.accessor(k.columnKey, {
         cell: (cell) => (
           <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} {...c} />
         ),
@@ -85,8 +96,8 @@ export function VizTable({ context, instance }: VizViewProps) {
     return valueCols;
   }, [finalColumns, getCellContext]);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const table = useReactTable({
-    data,
+  const table = useReactTable<AnyObject>({
+    data: queryData,
     state: {
       sorting,
     },
@@ -113,7 +124,7 @@ export function VizTable({ context, instance }: VizViewProps) {
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
-  if (!Array.isArray(data) || data.length === 0) {
+  if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">
         Empty Data

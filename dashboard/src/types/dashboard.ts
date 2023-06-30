@@ -27,7 +27,7 @@ export interface IDashboardPanel {
     moved?: boolean;
     static?: boolean;
   };
-  queryID: string;
+  queryIDs: string[];
   viz: IVizConfig;
   style: IDashboardPanelStyle;
   variables: ITemplateVariable[];
@@ -117,5 +117,5 @@ export const initialDashboardContent: TDashboardContent = {
   ],
   panels: [],
   filters: [],
-  version: '8.57.0',
+  version: '9.19.0',
 };

@@ -21,6 +21,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
+import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
 
 echarts.use([
   DataZoomComponent,
@@ -64,16 +65,13 @@ function Chart({
   variables,
 }: {
   conf: ICalendarHeatmapConf;
-  data: TVizData;
+  data: TPanelData;
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useMemo(() => {
-    const k = conf.calendar.data_key;
-    return _.keyBy(data, k);
-  }, [data, conf.calendar.data_key]);
+  const rowDataMap = useRowDataMap(data, conf.calendar.data_key);
 
   const triggers = useTriggerSnapshotList<ICalendarHeatmapConf>(
     interactionManager.triggerManager,
@@ -128,7 +126,7 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   const { value: confValue } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf = useMemo(() => _.defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
-  const data = context.data as $TSFixMe[];
+  const data = context.data;
   const { width, height } = context.viewport;
 
   if (!conf.calendar.data_key || !conf.heat_block.data_key) {

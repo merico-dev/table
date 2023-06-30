@@ -37,7 +37,7 @@ export const VizStats = observer(({ context }: VizViewProps) => {
   }, [contentModel.payloadForSQL, template]);
 
   const contents = useMemo(() => {
-    return templateToJSX(semiTemplate, variables, context.data as Record<string, number>[]);
+    return templateToJSX(semiTemplate, variables, context.data);
   }, [semiTemplate, variables, context.data, context]);
 
   return (

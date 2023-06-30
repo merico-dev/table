@@ -4,7 +4,7 @@ import { IBoxplotReferenceLine } from '../type';
 export function getReferenceLines(
   reference_lines: IBoxplotReferenceLine[],
   variables: ITemplateVariable[],
-  data: TVizData,
+  data: TPanelData,
 ) {
   const variableValueMap = variables.reduce((prev, variable) => {
     const value = getAggregatedValue(variable, data);

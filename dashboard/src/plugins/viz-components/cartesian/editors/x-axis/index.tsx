@@ -53,9 +53,8 @@ const XAxisTypeOptions = [
 interface IXAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
-  data: TVizData;
 }
-export function XAxisField({ data, control, watch }: IXAxisField) {
+export function XAxisField({ control, watch }: IXAxisField) {
   watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
   return (
     <Stack>
@@ -68,9 +67,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis_data_key"
           control={control}
-          render={({ field }) => (
-            <DataFieldSelector label="X Axis Data Field" required data={data} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <DataFieldSelector label="X Axis Data Field" required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="x_axis.type"
@@ -107,7 +104,7 @@ export function XAxisField({ data, control, watch }: IXAxisField) {
         <Controller
           name="x_axis.axisLabel.formatter"
           control={control}
-          render={({ field }) => <XAxisLabelFormatterField data={data} {...field} />}
+          render={({ field }) => <XAxisLabelFormatterField {...field} />}
         />
       </Group>
       <Controller
