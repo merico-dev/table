@@ -12,7 +12,7 @@ function upgradeVariables(vars: any[], queryIDs: string[]) {
 
 function upgradePanels(panels: Record<string, any>[]) {
   return panels.map((p) => {
-    const { queryID, queryIDs, variables, ...rest } = p;
+    const { queryID, queryIDs, variables = [], ...rest } = p;
     const finalQueryIDs = queryIDs ?? [queryID];
     return {
       ...rest,
