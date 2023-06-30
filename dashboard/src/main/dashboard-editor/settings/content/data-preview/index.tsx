@@ -1,12 +1,18 @@
 import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
 import { useContentModelContext } from '../../../../../contexts';
 import { QueryStateMessage } from './query-state-message';
 import { DataTable } from './data-table';
 
-export const DataPreview = observer(function _DataPreview({ id }: { id: string }) {
+export const DataPreview = observer(function _DataPreview({
+  id,
+  moreActions = null,
+}: {
+  id: string;
+  moreActions?: ReactNode;
+}) {
   const content = useContentModelContext();
   const { data, state } = content.getDataStuffByID(id);
   const loading = state === 'loading';
@@ -36,11 +42,12 @@ export const DataPreview = observer(function _DataPreview({ id }: { id: string }
           )}
         </Group>
         <Group pr={15}>
+          {moreActions}
           <ActionIcon variant="subtle" color="blue" disabled={loading} onClick={refresh}>
-            <Refresh size={15} />
+            <Refresh size={16} />
           </ActionIcon>
           <ActionIcon variant="subtle" color="blue" disabled={loading || dataEmpty} onClick={download}>
-            <Download size={15} />
+            <Download size={16} />
           </ActionIcon>
         </Group>
       </Group>

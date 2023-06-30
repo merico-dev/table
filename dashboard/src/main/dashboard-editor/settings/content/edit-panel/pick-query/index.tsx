@@ -1,10 +1,9 @@
-import { Button, Checkbox, Divider, Drawer, Group, Stack, Tabs, Text } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Drawer, Group, Stack, Tabs, Tooltip } from '@mantine/core';
+import { IconArrowCurveRight, IconLine } from '@tabler/icons';
 import { observer } from 'mobx-react-lite';
-import { MultiSelectWidget } from '~/filter/filter-multi-select/render/widget';
-import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
 import { useState } from 'react';
+import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
 import { DataPreview } from '../../data-preview';
-import { IconLine, IconLink } from '@tabler/icons';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
@@ -14,20 +13,6 @@ export const PickQuery = observer(function _PickQuery() {
 
   const navigateToQuery = (queryID: string) => {
     model.editor.setPath(['_QUERIES_', queryID]);
-  };
-
-  const isChecked = (queryID: string) => {
-    return panel.queryIDSet.has(queryID); // TODO
-  };
-  const handleCheck = (queryID: string, checked: boolean) => {
-    const absent = !panel.queryIDSet.has(queryID);
-    if (checked && absent) {
-      panel.addQueryID(queryID);
-      return;
-    }
-    if (!checked && !absent) {
-      panel.removeQueryID(queryID);
-    }
   };
 
   return (
@@ -53,37 +38,39 @@ export const PickQuery = observer(function _PickQuery() {
             Click me to choose queries for this panel
           </Button>
         </Group>
-        {/* <Select
-          data={content.queries.options}
-          value={queryID}
-          onChange={setQueryID}
-          allowDeselect={false}
-          clearable={false}
-
-          // @ts-expect-error important
-          sx={{ flexGrow: '1 !important' }}
-          maxDropdownHeight={300}
-          rightSection={
-            queryID && (
+        {panel.queryIDs.length === 1 && (
+          <DataPreview
+            id={panel.queryIDs[0]}
+            moreActions={
               <Tooltip label="Open this query">
-                <ActionIcon variant="subtle" color="blue" onClick={navigateToQuery}>
+                <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(panel.queryIDs[0])}>
                   <IconArrowCurveRight size={16} />
                 </ActionIcon>
               </Tooltip>
-            )
-          }
-        /> */}
-        {panel.queryIDs.length === 1 && <DataPreview id={panel.queryIDs[0]} />}
+            }
+          />
+        )}
         {panel.queryIDs.length > 1 && (
           <Tabs defaultValue={panel.queryIDs[0]}>
             <Tabs.List>
               {panel.queries.map((q) => (
-                <Tabs.Tab value={q.id}>{q.name}</Tabs.Tab>
+                <Tabs.Tab key={q.id} value={q.id}>
+                  {q.name}
+                </Tabs.Tab>
               ))}
             </Tabs.List>
             {panel.queries.map((q) => (
-              <Tabs.Panel value={q.id}>
-                <DataPreview id={q.id} />
+              <Tabs.Panel key={q.id} value={q.id}>
+                <DataPreview
+                  id={q.id}
+                  moreActions={
+                    <Tooltip label="Open this query">
+                      <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(q.id)}>
+                        <IconArrowCurveRight size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  }
+                />
               </Tabs.Panel>
             ))}
           </Tabs>
