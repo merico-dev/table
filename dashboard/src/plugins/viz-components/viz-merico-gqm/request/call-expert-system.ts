@@ -2,6 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoGQMConf } from '../type';
+import { extractOneQueryData } from '~/utils/data';
 
 function throwIfNotEmpty(error: unknown, path: string) {
   const message = _.get(error, path, '');
@@ -65,14 +66,18 @@ async function req(baseURL: string, url: string, data: IExpertSystemPayload, opt
 interface ICallExpertSystem {
   baseURL?: string;
   conf: IMericoGQMConf;
-  data: AnyObject[];
+  panelData: TPanelData;
 }
 
 export const callExpertSystem =
-  ({ conf, data }: ICallExpertSystem) =>
+  ({ conf, panelData }: ICallExpertSystem) =>
   async (): Promise<IExpertSystemResponse | undefined> => {
     const { expertSystemURL, path, goal, question } = conf;
     if (!path || !goal || !question) {
+      return undefined;
+    }
+    const data = extractOneQueryData(panelData);
+    if (!data) {
       return undefined;
     }
 
