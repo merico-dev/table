@@ -30,6 +30,6 @@ export function main({ panels, ...rest }: Record<string, any>) {
   return {
     ...rest,
     panels: finalPanels,
-    version: '9.19.1',
+    version: '9.19.0',
   };
 }
