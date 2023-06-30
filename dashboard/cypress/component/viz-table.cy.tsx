@@ -35,9 +35,9 @@ const mockPanel: IViewPanelInfo = {
   title: 'mock panel',
   description: 'mock panel desc',
   id: 'mock-panel-01',
-  queryID: 'queryID-01',
+  queryIDs: ['queryID-01'],
 };
-const mockData = [{ foo: 'alice', bar: 'bob' }];
+const mockData = { 'queryID-01': [{ foo: 'alice', bar: 'bob' }] };
 
 describe('viz-table.cy.ts', () => {
   let vizManager: IVizManager;
@@ -46,12 +46,12 @@ describe('viz-table.cy.ts', () => {
   });
   describe('viz view', () => {
     it('show data', () => {
-      cy.mount(<VizViewComponent panel={mockPanel} data={mockData} vizManager={vizManager} />);
+      cy.mount(<VizViewComponent panel={mockPanel} data={mockData} variables={[]} vizManager={vizManager} />);
       cy.findByText('alice').should('exist');
     });
     it('update config', () => {
       const instance = vizManager.getOrCreateInstance(mockPanel);
-      cy.mount(<VizViewComponent panel={mockPanel} data={mockData} vizManager={vizManager} />);
+      cy.mount(<VizViewComponent panel={mockPanel} data={mockData} variables={[]} vizManager={vizManager} />);
       cy.findByText('alice')
         .should('exist')
         .then(() => {
@@ -69,23 +69,37 @@ describe('viz-table.cy.ts', () => {
     it('render config panel', () => {
       const panelEditor: IPanelInfoEditor = {
         setDescription: cy.spy(),
-        setQueryID: cy.spy(),
+        addQueryID: cy.spy(),
+        removeQueryID: cy.spy(),
         setTitle: cy.spy(),
       };
       cy.mount(
-        <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} panelInfoEditor={panelEditor} />,
+        <VizConfigComponent
+          panel={mockPanel}
+          data={mockData}
+          vizManager={vizManager}
+          variables={[]}
+          panelInfoEditor={panelEditor}
+        />,
       );
       cy.findByText('Table Config');
     });
     it('update config', () => {
       const panelEditor: IPanelInfoEditor = {
         setDescription: cy.spy(),
-        setQueryID: cy.spy(),
+        addQueryID: cy.spy(),
+        removeQueryID: cy.spy(),
         setTitle: cy.spy(),
       };
       const instance = vizManager.getOrCreateInstance(mockPanel);
       cy.mount(
-        <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} panelInfoEditor={panelEditor} />,
+        <VizConfigComponent
+          panel={mockPanel}
+          data={mockData}
+          vizManager={vizManager}
+          variables={[]}
+          panelInfoEditor={panelEditor}
+        />,
       );
       cy.findByLabelText('Use Original Data Columns').click({ force: true });
       cy.get('button[type="submit"]', { timeout: 2000 }).should('be.enabled').click();
