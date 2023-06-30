@@ -40,9 +40,6 @@ function Chart({
     return getOption(conf, metricKey, data);
   }, [conf, data, metricKey]);
 
-  if (!width || !height) {
-    return null;
-  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
 
@@ -59,6 +56,9 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
   }, [actual_value]);
 
   if (!x_axis.data_key || !estimated_value || !actual_value) {
+    return null;
+  }
+  if (!width || !height) {
     return null;
   }
   const finalWidth = Math.max(width, 300);
