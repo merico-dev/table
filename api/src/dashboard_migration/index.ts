@@ -99,9 +99,7 @@ async function main() {
     const dashboardContents = await dashboardContentRepo.find();
 
     for (let i = 0; i < dashboardContents.length; i += 1) {
-      if (dashboardContents[i].id === '51796380-4327-49a0-afed-7af4c132706d') {
-        migrateOneDashboardContent(dashboardContents[i], dashboardContentChangelogRepo, dashboardContentRepo);
-      }
+      migrateOneDashboardContent(dashboardContents[i], dashboardContentChangelogRepo, dashboardContentRepo);
     }
   } catch (error) {
     logger.error('error migrating dashboard contents');
