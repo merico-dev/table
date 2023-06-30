@@ -17,7 +17,7 @@ export const DataFieldSelector = observer(
     ({ label, required, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector, ref: $TSFixMe) => {
       const { panel } = usePanelContext();
       const options = React.useMemo(() => {
-        const ret = panel.dataFieldOptions;
+        const ret = [...panel.dataFieldOptions];
         if (!clearable) {
           return ret;
         }
