@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingOverlay } from '@mantine/core';
+import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { ViewModelInstance } from '~/model';
@@ -8,10 +8,8 @@ import { PanelContextProvider } from '../contexts/panel-context';
 import './index.css';
 import { DescriptionPopover } from './panel-description';
 import { PanelDropdownMenu } from './panel-dropdown-menu';
-import { PanelTitleBar } from './title-bar';
-import { Viz } from './viz';
-import { PanelErrorOrStateMessage } from './panel-error-or-state-message';
 import { PanelVizSection } from './panel-viz-section';
+import { PanelTitleBar } from './title-bar';
 
 function doesVizRequiresData(type: string) {
   const vizTypes = ['richText', 'button'];
