@@ -47,7 +47,6 @@ function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): React
 }
 
 interface IViz {
-  viz: IVizConfig;
   data: TPanelData;
 }
 
