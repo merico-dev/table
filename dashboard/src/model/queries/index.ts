@@ -17,6 +17,9 @@ export const QueriesModel = types
     findByID(id: string) {
       return self.current.find((query) => query.id === id);
     },
+    findByIDSet(idset: Set<string>) {
+      return self.current.filter((q) => idset.has(q.id));
+    },
     get options() {
       const options = self.current.map(
         (d) =>
