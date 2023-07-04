@@ -18,6 +18,13 @@ export const PanelModel = types
     style: PanelStyleModel,
     variables: types.optional(types.array(VariableModel), []),
   })
+
+  .views((self) => ({
+    // FIXME: 'contentModel' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.ts(7023)
+    get contentModel(): any {
+      return getParentOfType(self, ContentModel);
+    },
+  }))
   .views((self) => ({
     getQuery(queryID: string): QueryModelInstance | undefined {
       return getParentOfType(self, ContentModel).queries.findByID(queryID) as QueryModelInstance | undefined;
@@ -26,9 +33,7 @@ export const PanelModel = types
       return new Set(self.queryIDs);
     },
     get queries(): QueryModelInstance[] {
-      return self.queryIDs
-        .map((id) => getParentOfType(self, ContentModel).queries.findByID(id))
-        .filter((q) => !!q) as QueryModelInstance[];
+      return self.contentModel.queries.findByIDSet(this.queryIDSet);
     },
     get data() {
       return this.queries.reduce((ret: TPanelData, q) => {
