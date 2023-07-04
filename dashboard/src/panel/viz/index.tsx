@@ -47,7 +47,6 @@ function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): React
 }
 
 interface IViz {
-  viz: IVizConfig;
   data: TPanelData;
 }
 
@@ -56,9 +55,10 @@ export const Viz = observer(function _Viz({ data }: IViz) {
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
 
+  const canRender = width && height;
   return (
     <div className="viz-root" ref={ref}>
-      <ErrorBoundary>{pluginViz}</ErrorBoundary>
+      {canRender && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
     </div>
   );
 });

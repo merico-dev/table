@@ -95,9 +95,6 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
-  if (!width || !height) {
-    return null;
-  }
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -134,6 +131,10 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
   }, [conf, data]);
 
   const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+
+  if (!width || !height) {
+    return null;
+  }
   return (
     <Box>
       <Text
