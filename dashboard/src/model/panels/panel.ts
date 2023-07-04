@@ -26,9 +26,6 @@ export const PanelModel = types
     },
   }))
   .views((self) => ({
-    getQuery(queryID: string): QueryModelInstance | undefined {
-      return getParentOfType(self, ContentModel).queries.findByID(queryID) as QueryModelInstance | undefined;
-    },
     get queryIDSet() {
       return new Set(self.queryIDs);
     },
@@ -40,14 +37,6 @@ export const PanelModel = types
         ret[q.id] = q.data.toJSON();
         return ret;
       }, {});
-    },
-    get dataStuff() {
-      return this.queries.map((q) => ({
-        data: q.data.toJSON(),
-        len: q.data.length,
-        state: q.state,
-        error: q.error,
-      }));
     },
     get dataLoading() {
       return this.queries.some((q) => q.state === 'loading');
