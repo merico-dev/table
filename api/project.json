@@ -1,6 +1,15 @@
 {
-  "root": "api",
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "api",
+        "command": "gulp build"
+      },
+      "inputs": ["{projectRoot}/**/*", "!{projectRoot}/_build/**/*"],
+      "outputs": ["api/_build"],
+      "dependsOn": ["^build"]
+    },
     "dev": {
       "executor": "nx:run-script",
       "options": {
@@ -8,5 +17,6 @@
       },
       "dependsOn": ["^dev"]
     }
-  }
+  },
+  "name": "api"
 }

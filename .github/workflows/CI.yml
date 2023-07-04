@@ -18,7 +18,9 @@ jobs:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    env:
+      VITE_API_BASE_URL: '/devtable-api/'
+      VITE_WEBSITE_BASE_URL: '/devtable/website/'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -30,10 +32,25 @@ jobs:
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - run: yarn global add nx
-      - uses: nrwl/nx-set-shas@v2
-      - run: nx affected --target=build
-      - run: nx affected --target=check
-      - run: nx affected --target=test --configuration=ci
+      - uses: nrwl/nx-set-shas@v3
+      - run: nx affected --target=check --parallel=3
+      - name: debug local cache
+        run: |
+          ls -al ./node_modules/.cache/nx
+          cat ./node_modules/.cache/nx/run.json
+      - run: nx affected --target=test --parallel=3 --configuration=ci
+      - run: nx run-many -t build -p website api --parallel=3
+      - name: debug local cache
+        run: |
+          ls -al ./node_modules/.cache/nx
+          cat ./node_modules/.cache/nx/run.json
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            website/dist
+            api/_build
 
   # only runs on the main branch or tags
   build_images:
@@ -78,7 +95,11 @@ jobs:
         run: |
           echo "VITE_API_BASE_URL=/devtable-api/" > website/.env
           echo "VITE_WEBSITE_BASE_URL=/devtable/website/" >> website/.env
-      - name: Build table  image
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Build table image
         run: docker build -f Dockerfile-api -t registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }} .
       - name: Push table image
         run: docker push registry.cn-hongkong.aliyuncs.com/merico/table:${{ steps.tag.outputs.TAG }}

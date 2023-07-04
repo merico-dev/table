@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "viz-component": {
+      "implementation": "./src/generators/viz-component",
+      "schema": "./src/generators/viz-component/schema.json",
+      "description": "Generator viz-component"
+    }
+  }
+}

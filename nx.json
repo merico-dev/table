@@ -1,29 +1,33 @@
 {
-  "extends": "nx/presets/npm.json",
+  "namedInputs": {
+    "shared": ["{workspaceRoot}/yarn.lock", "{workspaceRoot}/package.json"],
+    "default": [
+      "{projectRoot}/**/*",
+      "!{projectRoot}/dist/**/*",
+      "!{projectRoot}/_build/**/*",
+      "shared"
+    ]
+  },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "dev",
-          "typeorm",
-          "migration:run",
-          "migration:revert",
-          "build",
-          "migrate",
-          "dev-build",
-          "preview"
-        ]
+        "cacheableOperations": ["build", "check"],
+        "accessToken": "NGU3YTM0NjMtOWQwOS00ZjM3LWE3NGEtZWJlNWJhMGFjYzZlfHJlYWQtb25seQ=="
       }
     }
   },
+  "extends": "nx/presets/npm.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
     }
   },
   "affected": {
     "defaultBase": "main"
   },
-  "plugins": ["./tools/dist/nx-plugin/nx-plugins"]
+  "plugins": ["workspace-plugin"]
 }
