@@ -10,13 +10,13 @@ import { defaultStyles, IStyles } from './styles';
 
 interface IFormValues {
   name: string;
-  role_id: number;
+  role_id: string;
 }
 
 interface IAddAPIKeyForm {
   postSubmit: (app_id: string, app_secret: string) => void;
   styles?: IStyles;
-  initialRoleID: number;
+  initialRoleID: string;
 }
 
 function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAPIKeyForm) {
@@ -54,7 +54,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
   };
 
   return (
-    <Box mx="auto">
+    <Box mx="auto" mb={10}>
       <form onSubmit={handleSubmit(addAPIKey)}>
         <Controller
           name="name"
@@ -81,7 +81,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
 interface IAddAPIKey {
   styles?: IStyles;
   onSuccess: () => void;
-  initialRoleID: number;
+  initialRoleID: string;
 }
 
 export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAPIKey) {

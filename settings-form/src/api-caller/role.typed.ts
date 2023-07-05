@@ -1,5 +1,5 @@
 export interface IRole {
-  id: number;
-  name: string;
+  id: string;
   description: string;
+  permissions: string[];
 }
