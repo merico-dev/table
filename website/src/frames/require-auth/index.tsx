@@ -16,8 +16,8 @@ export function RequireAuth() {
     window.localStorage.setItem('redirect_to', redirect_to);
     return <Navigate to={`/login?redirect_to=${redirect_to}`} replace />;
   }
-  const canEdit = account.role_id >= 30; // AUTHOR | ADMIN | SUPERADMIN
-  const isAdmin = account.role_id >= 40; // ADMIN | SUPERADMIN
+  const canEdit = ['AUTHOR', 'ADMIN', 'SUPERADMIN'].includes(account.role_id);
+  const isAdmin = ['ADMIN', 'SUPERADMIN'].includes(account.role_id);
   return (
     <AccountContextProvider value={{ account, loading, canEdit, isAdmin }}>
       <Outlet />
