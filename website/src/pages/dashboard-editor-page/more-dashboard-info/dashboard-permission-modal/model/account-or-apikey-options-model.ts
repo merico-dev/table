@@ -44,12 +44,12 @@ export const AccountOrAPIKeyOptionsModel = types
         try {
           const accountResp = yield* toGenerator(APICaller.account.list());
           const accounts = accountResp.data
-            .filter((d) => d.role_id <= 40) // exclude superadmin
+            .filter((d) => d.role_id !== 'SUPERADMIN')
             .map((d) => ({ label: d.name, value: d.id, type: 'ACCOUNT' } as const));
 
           const apiKeysResp = yield* toGenerator(APICaller.api_key.list());
           const apiKeys = apiKeysResp.data
-            .filter((d) => d.role_id <= 40) // exclude superadmin
+            .filter((d) => d.role_id !== 'SUPERADMIN')
             .map((d) => ({ label: d.name, value: d.id, type: 'APIKEY' } as const));
 
           self.list = [...accounts, ...apiKeys];

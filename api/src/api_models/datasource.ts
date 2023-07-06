@@ -11,14 +11,12 @@ export class DataSourceProcessingConfig {
   @IsString()
   @ApiModelProperty({
     description: 'pre',
-    required: true,
   })
   pre: string;
 
   @IsString()
   @ApiModelProperty({
     description: 'post',
-    required: true,
   })
   post: string;
 }

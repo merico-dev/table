@@ -3,11 +3,11 @@ import { inject } from 'inversify';
 import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
-import { ROLE_TYPES } from '../api_models/role';
 import { ApiService } from '../services/api.service';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '../api_models/api';
 import permission from '../middleware/permission';
 import ensureAuthEnabled from '../middleware/ensureAuthEnabled';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/api',
@@ -35,7 +35,12 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/list', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyListRequest))
+  @httpPost(
+    '/key/list',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.APIKEY_LIST] }),
+    validate(ApiKeyListRequest),
+  )
   public async listKeys(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as ApiKeyListRequest;
@@ -57,7 +62,12 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/create', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyCreateRequest))
+  @httpPost(
+    '/key/create',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.APIKEY_MANAGE] }),
+    validate(ApiKeyCreateRequest),
+  )
   public async createKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { name, role_id } = req.body as ApiKeyCreateRequest;
@@ -79,7 +89,12 @@ export class APIController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/key/delete', ensureAuthEnabled, permission(ROLE_TYPES.ADMIN), validate(ApiKeyIDRequest))
+  @httpPost(
+    '/key/delete',
+    ensureAuthEnabled,
+    permission({ match: 'all', permissions: [PERMISSIONS.APIKEY_MANAGE] }),
+    validate(ApiKeyIDRequest),
+  )
   public async deleteKey(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as ApiKeyIDRequest;

@@ -21,12 +21,12 @@ export default class ApiKey extends BaseModel {
   })
   app_secret: string;
 
-  @Column('smallint', {
+  @Column('character varying', {
     nullable: false,
-    default: 10,
+    default: 'INACTIVE',
     name: 'role_id',
   })
-  role_id: number;
+  role_id: string;
 
   @Column('boolean', {
     default: false,

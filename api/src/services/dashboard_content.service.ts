@@ -1,11 +1,10 @@
-import _ from 'lodash';
+import _, { has, omit } from 'lodash';
 import { PaginationRequest } from '../api_models/base';
 import {
   DashboardContentFilterObject,
   DashboardContentPaginationResponse,
   DashboardContentSortObject,
 } from '../api_models/dashboard_content';
-import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 import { AUTH_ENABLED } from '../utils/constants';
@@ -13,11 +12,14 @@ import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 import { DashboardPermissionService } from './dashboard_permission.service';
-import Account from '../models/account';
-import ApiKey from '../models/apiKey';
+import { Account } from '../api_models/account';
+import { ApiKey } from '../api_models/api';
 import DashboardContent from '../models/dashboard_content';
 import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
 import DashboardContentChangelog from '../models/dashboard_content_changelog';
+import { HIDDEN_PERMISSIONS } from './role.service';
+import DashboardPermission from '../models/dashboard_permission';
+import { PermissionResource } from '../api_models/dashboard_permission';
 import { injectable } from 'inversify';
 
 @injectable()
@@ -27,11 +29,21 @@ export class DashboardContentService {
     filter: DashboardContentFilterObject | undefined,
     sort: DashboardContentSortObject[],
     pagination: PaginationRequest,
+    auth?: Account | ApiKey,
   ): Promise<DashboardContentPaginationResponse> {
     const offset = pagination.pagesize * (pagination.page - 1);
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(DashboardContent, 'dashboard_content')
+      .innerJoin(
+        DashboardPermission,
+        'dashboard_permission',
+        'dashboard_content.dashboard_id = dashboard_permission.id',
+      )
+      .select('dashboard_content.*')
+      .addSelect('dashboard_permission.owner_id', 'owner_id')
+      .addSelect('dashboard_permission.owner_type', 'owner_type')
+      .addSelect('dashboard_permission.access', 'access')
       .where('dashboard_content.dashboard_id = :dashboard_id', { dashboard_id })
       .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
@@ -49,13 +61,30 @@ export class DashboardContentService {
       qb.addOrderBy(s.field, s.order);
     });
 
-    const dashboardContents = await qb.getRawMany<DashboardContent>();
+    const dashboardContents = await qb.getRawMany<
+      DashboardContent & {
+        owner_id: string | null;
+        owner_type: 'ACCOUNT' | 'APIKEY' | null;
+        access: PermissionResource[];
+      }
+    >();
     const total = await qb.getCount();
 
     return {
       total,
       offset,
-      data: dashboardContents,
+      data: dashboardContents
+        .filter((x) =>
+          DashboardPermissionService.canAccess(
+            { access: x.access, owner_id: x.owner_id, owner_type: x.owner_type },
+            'VIEW',
+            auth?.id,
+            auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
+            auth?.role_id,
+            auth?.permissions,
+          ),
+        )
+        .map((x) => ({ ...omit(x, ['owner_id', 'owner_type', 'access']) })),
     };
   }
 
@@ -87,7 +116,7 @@ export class DashboardContentService {
     name: string | undefined,
     content: Record<string, any> | undefined,
     locale: string,
-    auth: Account | ApiKey | null,
+    auth?: Account | ApiKey,
   ): Promise<DashboardContent> {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     const dashboardContent = await dashboardContentRepo.findOneByOrFail({ id });
@@ -99,10 +128,11 @@ export class DashboardContentService {
       'EDIT',
       locale,
       auth?.id,
-      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
       auth?.role_id,
+      auth?.permissions,
     );
-    if (AUTH_ENABLED && dashboard.is_preset && (!auth?.role_id || auth.role_id < ROLE_TYPES.SUPERADMIN)) {
+    if (AUTH_ENABLED && dashboard.is_preset && (!auth || !auth.permissions.includes(HIDDEN_PERMISSIONS.PRESET))) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_EDIT_REQUIRES_SUPERADMIN', locale) });
     }
     if (name === undefined && content === undefined) {
@@ -129,7 +159,7 @@ export class DashboardContentService {
     return result;
   }
 
-  async delete(id: string, locale: string, auth: Account | ApiKey | null): Promise<void> {
+  async delete(id: string, locale: string, auth?: Account | ApiKey): Promise<void> {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     const dashboardContent = await dashboardContentRepo.findOneByOrFail({ id });
     const dashboard = await dashboardDataSource
@@ -140,10 +170,15 @@ export class DashboardContentService {
       'EDIT',
       locale,
       auth?.id,
-      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
       auth?.role_id,
+      auth?.permissions,
     );
-    if (AUTH_ENABLED && dashboard.is_preset && (!auth?.role_id || auth.role_id < ROLE_TYPES.SUPERADMIN)) {
+    if (
+      AUTH_ENABLED &&
+      dashboard.is_preset &&
+      (!auth?.role_id || !auth.permissions.includes(HIDDEN_PERMISSIONS.PRESET))
+    ) {
       throw new ApiError(BAD_REQUEST, {
         message: translate('DASHBOARD_CONTENT_DELETE_REQUIRES_SUPERADMIN', locale),
       });

@@ -3,7 +3,6 @@ import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
-import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
 import { CustomFunctionService } from '../services/custom_function.service';
 import {
@@ -11,6 +10,7 @@ import {
   CustomFunctionIDRequest,
   CustomFunctionListRequest,
 } from '../api_models/custom_function';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/custom_function',
@@ -38,7 +38,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER), validate(CustomFunctionListRequest))
+  @httpPost(
+    '/list',
+    permission({ match: 'all', permissions: [PERMISSIONS.CUSTOM_FUNCTION_VIEW] }),
+    validate(CustomFunctionListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as CustomFunctionListRequest;
@@ -64,7 +68,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionCreateOrUpdateRequest))
+  @httpPost(
+    '/create',
+    permission({ match: 'all', permissions: [PERMISSIONS.CUSTOM_FUNCTION_MANAGE] }),
+    validate(CustomFunctionCreateOrUpdateRequest),
+  )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, definition } = req.body as CustomFunctionCreateOrUpdateRequest;
@@ -90,7 +98,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/get', permission(ROLE_TYPES.READER), validate(CustomFunctionIDRequest))
+  @httpPost(
+    '/get',
+    permission({ match: 'all', permissions: [PERMISSIONS.CUSTOM_FUNCTION_VIEW] }),
+    validate(CustomFunctionIDRequest),
+  )
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as CustomFunctionIDRequest;
@@ -116,7 +128,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionCreateOrUpdateRequest))
+  @httpPut(
+    '/update',
+    permission({ match: 'all', permissions: [PERMISSIONS.CUSTOM_FUNCTION_MANAGE] }),
+    validate(CustomFunctionCreateOrUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, definition } = req.body as CustomFunctionCreateOrUpdateRequest;
@@ -146,7 +162,11 @@ export class CustomFunctionController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.ADMIN), validate(CustomFunctionIDRequest))
+  @httpPost(
+    '/delete',
+    permission({ match: 'all', permissions: [PERMISSIONS.CUSTOM_FUNCTION_MANAGE] }),
+    validate(CustomFunctionIDRequest),
+  )
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as CustomFunctionIDRequest;

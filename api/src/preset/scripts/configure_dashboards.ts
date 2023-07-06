@@ -7,11 +7,11 @@ import DataSource from '../../models/datasource';
 import { DashboardChangelogService } from '../../services/dashboard_changelog.service';
 import DashboardChangelog from '../../models/dashboard_changelog';
 import Account from '../../models/account';
-import { ROLE_TYPES } from '../../api_models/role';
 import DashboardPermission from '../../models/dashboard_permission';
 import DashboardContentChangelog from '../../models/dashboard_content_changelog';
 import DashboardContent from '../../models/dashboard_content';
 import { DashboardContentChangelogService } from '../../services/dashboard_content_changelog.service';
+import { FIXED_ROLE_TYPES } from '../../services/role.service';
 
 type Source = {
   type: string;
@@ -29,7 +29,7 @@ async function upsert() {
   try {
     const superadmin: Account = await queryRunner.manager
       .getRepository(Account)
-      .findOneByOrFail({ role_id: ROLE_TYPES.SUPERADMIN });
+      .findOneByOrFail({ role_id: FIXED_ROLE_TYPES.SUPERADMIN });
     const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
     const dashboardContentChangelogRepo = queryRunner.manager.getRepository(DashboardContentChangelog);

@@ -21,7 +21,7 @@ export const api_key = {
     });
     return res;
   },
-  create: async (name: string, role_id: number): Promise<{ app_id: string; app_secret: string }> => {
+  create: async (name: string, role_id: string): Promise<{ app_id: string; app_secret: string }> => {
     return APIClient.getRequest('POST')('/api/key/create', {
       name,
       role_id,

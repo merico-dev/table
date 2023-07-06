@@ -14,17 +14,23 @@ import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
 import { injectable } from 'inversify';
+import Role from '../models/role';
 
 @injectable()
 export class ApiService {
-  static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | null> {
+  static async verifyApiKey(authentication: Authentication | undefined, rest: any): Promise<ApiKeyModel | undefined> {
     if (!authentication || !authentication.app_id) {
-      return null;
+      return;
     }
-    const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
-    const apiKey = await apiKeyRepo.findOneBy({ app_id: authentication.app_id });
+    const apiKey = await dashboardDataSource.manager
+      .createQueryBuilder(ApiKey, 'apikey')
+      .innerJoin(Role, 'role', 'apikey.role_id = role.id')
+      .select('apikey.*')
+      .addSelect('role.permissions', 'permissions')
+      .where('apikey.app_id = :app_id', { app_id: authentication.app_id })
+      .getRawOne<ApiKeyModel>();
     if (!apiKey) {
-      return null;
+      return;
     }
     const validSign = cryptSign(
       { app_id: authentication.app_id, nonce_str: authentication.nonce_str, ...rest },
@@ -33,7 +39,7 @@ export class ApiService {
     if (validSign === authentication.sign) {
       return apiKey;
     }
-    return null;
+    return;
   }
 
   async listKeys(
@@ -45,12 +51,14 @@ export class ApiService {
     const qb = dashboardDataSource.manager
       .createQueryBuilder()
       .from(ApiKey, 'apikey')
+      .innerJoin(Role, 'role', 'apikey.role_id = role.id')
       .select('apikey.id', 'id')
       .addSelect('apikey.name', 'name')
       .addSelect('apikey.app_id', 'app_id')
       .addSelect('apikey.app_secret', 'app_secret')
       .addSelect('apikey.role_id', 'role_id')
       .addSelect('apikey.is_preset', 'is_preset')
+      .addSelect('role.permissions', 'permissions')
       .where('true')
       .orderBy(sort[0].field, sort[0].order)
       .offset(offset)
@@ -66,7 +74,7 @@ export class ApiService {
       qb.addOrderBy(s.field, s.order);
     });
 
-    const datasources = await qb.getRawMany<ApiKey>();
+    const datasources = await qb.getRawMany<ApiKeyModel>();
     const total = await qb.getCount();
     return {
       total,
@@ -75,10 +83,13 @@ export class ApiService {
     };
   }
 
-  async createKey(name: string, role_id: number, locale: string): Promise<{ app_id: string; app_secret: string }> {
+  async createKey(name: string, role_id: string, locale: string): Promise<{ app_id: string; app_secret: string }> {
     const apiKeyRepo = dashboardDataSource.getRepository(ApiKey);
     if (await apiKeyRepo.exist({ where: { name, is_preset: false } })) {
       throw new ApiError(BAD_REQUEST, { message: translate('APIKEY_NAME_ALREADY_EXISTS', locale) });
+    }
+    if (!(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
     const apiKey = new ApiKey();
     apiKey.name = name;

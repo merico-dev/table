@@ -1,12 +1,11 @@
 import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
-import { useMemo } from 'react';
 import { APICaller } from '../api-caller';
 import { configureAPIClient } from '../api-caller/request';
 import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
-import { defaultStyles, IStyles } from './styles';
+import { IStyles, defaultStyles } from './styles';
 
 interface IAccountList {
   styles?: IStyles;
@@ -33,10 +32,10 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
     async () => {
       const data = await APICaller.role.list();
       return data.map((d) => ({
-        label: d.name,
+        label: d.id,
         value: d.id,
         description: d.description,
-        disabled: d.id === 50, // SUPERADMIN
+        disabled: d.id === 'SUPERADMIN',
       }));
     },
     {
@@ -44,21 +43,10 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
     },
   );
 
-  const roleNameMap = useMemo(() => {
-    return roleOptions.reduce((m, r) => {
-      m.set(r.value, r.label);
-      return m;
-    }, new Map<number, string>());
-  }, [roleOptions]);
-
-  const getRoleName = (id: number) => {
-    return roleNameMap.get(id) ?? id;
-  };
-
   return (
     <>
       <Group pt={styles.spacing} position="right">
-        <AddAccount onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 0} />
+        <AddAccount onSuccess={refresh} initialRoleID={roleOptions?.[0]?.value ?? 'INACTIVE'} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
         <LoadingOverlay visible={loading || roleLoading} />
@@ -85,7 +73,7 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
                 <tr key={id}>
                   <td width={200}>{name}</td>
                   <td width={200}>{email}</td>
-                  <td width={200}>{getRoleName(role_id)}</td>
+                  <td width={200}>{role_id}</td>
                   {/* <td width={200}>{create_time}</td>
                 <td width={200}>{update_time}</td> */}
                   <td width={200}>

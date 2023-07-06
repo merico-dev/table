@@ -34,7 +34,7 @@ export const DashboardBriefModel = types
       if (!this.isEditable) {
         return false;
       }
-      if (account.role_id < 30) {
+      if (['INACTIVE', 'READER'].includes(account.role_id)) {
         return false;
       }
       if (self.owner_id === account.id) {

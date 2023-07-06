@@ -11,7 +11,7 @@ import { defaultStyles, IStyles } from './styles';
 interface IFormValues {
   name: string;
   email: string;
-  role_id: number;
+  role_id: string;
   reset_password: boolean;
   new_password: string;
 }
@@ -68,7 +68,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
   const [reset_password, new_password] = watch(['reset_password', 'new_password']);
 
   return (
-    <Box mx="auto">
+    <Box mx="auto" mb={10}>
       <form onSubmit={handleSubmit(update)}>
         <Controller
           name="name"

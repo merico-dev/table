@@ -5,8 +5,8 @@ import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
 import { QueryService } from '../services/query.service';
 import { validate } from '../middleware/validation';
 import { QueryRequest } from '../api_models/query';
-import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/query',
@@ -30,7 +30,7 @@ export class QueryController implements interfaces.Controller {
       500: { description: 'ApiError', model: 'ApiError' },
     },
   })
-  @httpPost('/', permission(ROLE_TYPES.READER), validate(QueryRequest))
+  @httpPost('/', permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }), validate(QueryRequest))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { type, key, query, env, refresh_cache } = req.body as QueryRequest;

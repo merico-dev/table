@@ -10,45 +10,38 @@ import { Authentication, FilterObject, PaginationRequest, PaginationResponse, So
 export class Job {
   @ApiModelProperty({
     description: 'Job ID in uuid format',
-    required: false,
   })
   id: string;
 
   @ApiModelProperty({
     description: 'Job type',
-    required: true,
   })
   type: string;
 
   @ApiModelProperty({
     description: 'Job status',
-    required: true,
   })
   status: string;
 
   @ApiModelProperty({
     description: 'Job params',
-    required: true,
     type: SwaggerDefinitionConstant.JSON,
   })
   params: object;
 
   @ApiModelProperty({
     description: 'Job result',
-    required: true,
     type: SwaggerDefinitionConstant.JSON,
   })
   result: object;
 
   @ApiModelProperty({
     description: 'Create time',
-    required: false,
   })
   create_time: Date;
 
   @ApiModelProperty({
     description: 'Time of last update',
-    required: false,
   })
   update_time: Date;
 }

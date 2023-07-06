@@ -1,7 +1,6 @@
-import _ from 'lodash';
+import _, { has } from 'lodash';
 import { PaginationRequest } from '../api_models/base';
 import { DashboardFilterObject, DashboardSortObject, DashboardPaginationResponse } from '../api_models/dashboard';
-import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 import DashboardChangelog from '../models/dashboard_changelog';
@@ -11,12 +10,13 @@ import { escapeLikePattern } from '../utils/helpers';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { translate } from '../utils/i18n';
 import { DashboardPermissionService } from './dashboard_permission.service';
-import Account from '../models/account';
-import ApiKey from '../models/apiKey';
+import { Account } from '../api_models/account';
+import { ApiKey } from '../api_models/api';
 import DashboardPermission from '../models/dashboard_permission';
 import { PermissionResource } from '../api_models/dashboard_permission';
 import DashboardContent from '../models/dashboard_content';
 import { injectable } from 'inversify';
+import { HIDDEN_PERMISSIONS } from './role.service';
 
 @injectable()
 export class DashboardService {
@@ -73,8 +73,9 @@ export class DashboardService {
           { access: x.access, owner_id: x.owner_id, owner_type: x.owner_type },
           'VIEW',
           auth?.id,
-          auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+          auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
           auth?.role_id,
+          auth?.permissions,
         ),
       ),
     };
@@ -93,7 +94,7 @@ export class DashboardService {
     await DashboardPermissionService.create(
       result.id,
       auth?.id,
-      auth ? (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
+      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
     );
     return result;
   }
@@ -115,7 +116,7 @@ export class DashboardService {
     is_removed: boolean | undefined,
     group: string | undefined,
     locale: string,
-    role_id?: ROLE_TYPES,
+    permissions?: string[],
   ): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
@@ -134,7 +135,7 @@ export class DashboardService {
       }
     }
     const originalDashboard = _.cloneDeep(dashboard);
-    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+    if (AUTH_ENABLED && dashboard.is_preset && (!permissions || !permissions.includes(HIDDEN_PERMISSIONS.PRESET))) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_EDIT_REQUIRES_SUPERADMIN', locale) });
     }
     dashboard.name = name === undefined ? dashboard.name : name;
@@ -154,10 +155,10 @@ export class DashboardService {
     return result;
   }
 
-  async delete(id: string, locale: string, role_id?: ROLE_TYPES): Promise<Dashboard> {
+  async delete(id: string, locale: string, permissions?: string[]): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     const dashboard = await dashboardRepo.findOneByOrFail({ id });
-    if (AUTH_ENABLED && dashboard.is_preset && (!role_id || role_id < ROLE_TYPES.SUPERADMIN)) {
+    if (AUTH_ENABLED && dashboard.is_preset && (!permissions || !permissions.includes(HIDDEN_PERMISSIONS.PRESET))) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_DELETE_PRESET_REQUIRES_SUPERADMIN', locale) });
     }
     const originalDashboard = _.cloneDeep(dashboard);

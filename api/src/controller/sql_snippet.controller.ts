@@ -3,10 +3,10 @@ import { inject } from 'inversify';
 import { controller, httpPost, httpPut, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { validate } from '../middleware/validation';
-import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
 import { SqlSnippetService } from '../services/sql_snippet.service';
 import { SqlSnippetCreateOrUpdateRequest, SqlSnippetIDRequest, SqlSnippetListRequest } from '../api_models/sql_snippet';
+import { PERMISSIONS } from '../services/role.service';
 
 @ApiPath({
   path: '/sql_snippet',
@@ -34,7 +34,11 @@ export class SqlSnippetController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER), validate(SqlSnippetListRequest))
+  @httpPost(
+    '/list',
+    permission({ match: 'all', permissions: [PERMISSIONS.SQL_SNIPPET_VIEW] }),
+    validate(SqlSnippetListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as SqlSnippetListRequest;
@@ -60,7 +64,11 @@ export class SqlSnippetController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.ADMIN), validate(SqlSnippetCreateOrUpdateRequest))
+  @httpPost(
+    '/create',
+    permission({ match: 'all', permissions: [PERMISSIONS.SQL_SNIPPET_MANAGE] }),
+    validate(SqlSnippetCreateOrUpdateRequest),
+  )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, content } = req.body as SqlSnippetCreateOrUpdateRequest;
@@ -86,7 +94,11 @@ export class SqlSnippetController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/get', permission(ROLE_TYPES.READER), validate(SqlSnippetIDRequest))
+  @httpPost(
+    '/get',
+    permission({ match: 'all', permissions: [PERMISSIONS.SQL_SNIPPET_VIEW] }),
+    validate(SqlSnippetIDRequest),
+  )
   public async get(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as SqlSnippetIDRequest;
@@ -112,7 +124,11 @@ export class SqlSnippetController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.ADMIN), validate(SqlSnippetCreateOrUpdateRequest))
+  @httpPut(
+    '/update',
+    permission({ match: 'all', permissions: [PERMISSIONS.SQL_SNIPPET_MANAGE] }),
+    validate(SqlSnippetCreateOrUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id, content } = req.body as SqlSnippetCreateOrUpdateRequest;
@@ -142,7 +158,11 @@ export class SqlSnippetController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.ADMIN), validate(SqlSnippetIDRequest))
+  @httpPost(
+    '/delete',
+    permission({ match: 'all', permissions: [PERMISSIONS.SQL_SNIPPET_MANAGE] }),
+    validate(SqlSnippetIDRequest),
+  )
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { id } = req.body as SqlSnippetIDRequest;

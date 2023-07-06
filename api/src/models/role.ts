@@ -8,16 +8,15 @@ export default class Role {
   })
   id: string;
 
-  @Column('character varying', {
-    nullable: false,
-    length: 100,
-    name: 'name',
-  })
-  name: string;
-
   @Column('text', {
     nullable: false,
     name: 'description',
   })
   description: string;
+
+  @Column('jsonb', {
+    nullable: false,
+    name: 'permissions',
+  })
+  permissions: string[];
 }

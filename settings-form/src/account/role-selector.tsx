@@ -22,8 +22,8 @@ const RoleOptionItem = forwardRef<HTMLDivElement, IRoleOptionItem>(
 );
 
 interface IRoleSelector {
-  value: number;
-  onChange: (v: number) => void;
+  value: string;
+  onChange: (v: string) => void;
   styles: IStyles;
 }
 export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelector, ref: $TSFixMe) => {
@@ -31,10 +31,10 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
     async () => {
       const data = await APICaller.role.list();
       return data.map((d) => ({
-        label: d.name,
+        label: d.id,
         value: d.id,
         description: d.description,
-        disabled: d.id === 50, // SUPERADMIN
+        disabled: d.id === 'SUPERADMIN',
       }));
     },
     {
@@ -49,7 +49,6 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       required
       label="Role"
       itemComponent={RoleOptionItem}
-      // @ts-expect-error value type
       data={roleOptions}
       disabled={roleLoading}
       styles={() => ({
@@ -63,9 +62,7 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
           },
         },
       })}
-      // @ts-expect-error value type
       value={value}
-      // @ts-expect-error value type
       onChange={onChange}
     />
   );

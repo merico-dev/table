@@ -1,5 +1,4 @@
 import { connectionHook, createAuthStruct } from './jest.util';
-import { ROLE_TYPES } from '~/api_models/role';
 import ApiKey from '~/models/apiKey';
 import crypto from 'crypto';
 import { dashboardDataSource } from '~/data_sources/dashboard';
@@ -7,6 +6,7 @@ import { app } from '~/server';
 import request from 'supertest';
 import { ApiKeyCreateRequest, ApiKeyIDRequest, ApiKeyListRequest } from '~/api_models/api';
 import { has } from 'lodash';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('APIController', () => {
   connectionHook();
@@ -17,7 +17,7 @@ describe('APIController', () => {
   beforeAll(async () => {
     const apiKey = new ApiKey();
     apiKey.name = 'preset';
-    apiKey.role_id = ROLE_TYPES.SUPERADMIN;
+    apiKey.role_id = FIXED_ROLE_TYPES.SUPERADMIN;
     apiKey.app_id = crypto.randomBytes(8).toString('hex');
     apiKey.app_secret = crypto.randomBytes(16).toString('hex');
     apiKey.is_preset = true;
@@ -26,11 +26,11 @@ describe('APIController', () => {
 
   describe('createKey', () => {
     it('should create successfully', async () => {
-      const authentication1 = createAuthStruct(presetKey, { name: 'key1', role_id: ROLE_TYPES.AUTHOR });
+      const authentication1 = createAuthStruct(presetKey, { name: 'key1', role_id: FIXED_ROLE_TYPES.AUTHOR });
 
       const createRequest1: ApiKeyCreateRequest = {
         name: 'key1',
-        role_id: ROLE_TYPES.AUTHOR,
+        role_id: FIXED_ROLE_TYPES.AUTHOR,
         authentication: authentication1,
       };
 
@@ -39,11 +39,11 @@ describe('APIController', () => {
       expect(has(response1.body, 'app_id')).toBe(true);
       expect(has(response1.body, 'app_secret')).toBe(true);
 
-      const authentication2 = createAuthStruct(presetKey, { name: 'key2', role_id: ROLE_TYPES.ADMIN });
+      const authentication2 = createAuthStruct(presetKey, { name: 'key2', role_id: FIXED_ROLE_TYPES.ADMIN });
 
       const createRequest2: ApiKeyCreateRequest = {
         name: 'key2',
-        role_id: ROLE_TYPES.ADMIN,
+        role_id: FIXED_ROLE_TYPES.ADMIN,
         authentication: authentication2,
       };
 
@@ -54,11 +54,11 @@ describe('APIController', () => {
     });
 
     it('should fail with duplicate key', async () => {
-      const authentication = createAuthStruct(presetKey, { name: 'key1', role_id: ROLE_TYPES.AUTHOR });
+      const authentication = createAuthStruct(presetKey, { name: 'key1', role_id: FIXED_ROLE_TYPES.AUTHOR });
 
       const createRequest: ApiKeyCreateRequest = {
         name: 'key1',
-        role_id: ROLE_TYPES.AUTHOR,
+        role_id: FIXED_ROLE_TYPES.AUTHOR,
         authentication,
       };
 
@@ -97,7 +97,7 @@ describe('APIController', () => {
             name: 'key1',
             app_id: response.body.data[0].app_id,
             app_secret: response.body.data[0].app_secret,
-            role_id: ROLE_TYPES.AUTHOR,
+            role_id: FIXED_ROLE_TYPES.AUTHOR,
             is_preset: false,
           },
           {
@@ -105,7 +105,7 @@ describe('APIController', () => {
             name: 'key2',
             app_id: response.body.data[1].app_id,
             app_secret: response.body.data[1].app_secret,
-            role_id: ROLE_TYPES.ADMIN,
+            role_id: FIXED_ROLE_TYPES.ADMIN,
             is_preset: false,
           },
           {
@@ -113,7 +113,7 @@ describe('APIController', () => {
             name: 'preset',
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
-            role_id: ROLE_TYPES.SUPERADMIN,
+            role_id: FIXED_ROLE_TYPES.SUPERADMIN,
             is_preset: true,
           },
         ],
@@ -146,7 +146,7 @@ describe('APIController', () => {
             name: 'preset',
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
-            role_id: ROLE_TYPES.SUPERADMIN,
+            role_id: FIXED_ROLE_TYPES.SUPERADMIN,
             is_preset: true,
           },
         ],
@@ -191,7 +191,7 @@ describe('APIController', () => {
             name: 'key1',
             app_id: listResponse.body.data[0].app_id,
             app_secret: listResponse.body.data[0].app_secret,
-            role_id: ROLE_TYPES.AUTHOR,
+            role_id: FIXED_ROLE_TYPES.AUTHOR,
             is_preset: false,
           },
           {
@@ -199,7 +199,7 @@ describe('APIController', () => {
             name: 'preset',
             app_id: presetKey.app_id,
             app_secret: presetKey.app_secret,
-            role_id: ROLE_TYPES.SUPERADMIN,
+            role_id: FIXED_ROLE_TYPES.SUPERADMIN,
             is_preset: true,
           },
         ],

@@ -2,15 +2,15 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "10.0.0",
+  "version": "10.1.0",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.3.11",
-    "@devtable/dashboard": "10.0.0",
-    "@devtable/settings-form": "10.0.0",
+    "@devtable/dashboard": "10.1.0",
+    "@devtable/settings-form": "10.1.0",
     "@emotion/react": "11.10.6",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "5.9.5",

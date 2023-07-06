@@ -11,12 +11,13 @@ import {
   DashboardIDRequest,
   DashboardNameRequest,
 } from '../api_models/dashboard';
-import { ROLE_TYPES } from '../api_models/role';
 import permission from '../middleware/permission';
-import ApiKey from '../models/apiKey';
-import Account from '../models/account';
+import { ApiKey } from '../api_models/api';
+import { Account } from '../api_models/account';
 import { DashboardPermissionService } from '../services/dashboard_permission.service';
 import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
+import { PERMISSIONS } from '../services/role.service';
+import { has } from 'lodash';
 
 @ApiPath({
   path: '/dashboard',
@@ -44,7 +45,11 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/list', permission(ROLE_TYPES.READER), validate(DashboardListRequest))
+  @httpPost(
+    '/list',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }),
+    validate(DashboardListRequest),
+  )
   public async list(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { filter, sort, pagination } = req.body as DashboardListRequest;
@@ -66,7 +71,11 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/create', permission(ROLE_TYPES.AUTHOR), validate(DashboardCreateRequest))
+  @httpPost(
+    '/create',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(DashboardCreateRequest),
+  )
   public async create(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
       const { name, group } = req.body as DashboardCreateRequest;
@@ -89,17 +98,23 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/details', permission(ROLE_TYPES.READER), validate(DashboardIDRequest))
+  @httpPost(
+    '/details',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }),
+    validate(DashboardIDRequest),
+  )
   public async details(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | undefined = req.body.auth;
       const { id } = req.body as DashboardIDRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'VIEW',
         req.locale,
-        req.body.auth?.id,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
-        req.body.auth?.role_id,
+        auth?.id,
+        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
+        auth?.role_id,
+        auth?.permissions,
       );
       const result = await this.dashboardService.get(id);
       res.json(result);
@@ -120,18 +135,24 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/detailsByName', permission(ROLE_TYPES.READER), validate(DashboardNameRequest))
+  @httpPost(
+    '/detailsByName',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }),
+    validate(DashboardNameRequest),
+  )
   public async detailsByName(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
+      const auth: Account | ApiKey | undefined = req.body.auth;
       const { name, is_preset } = req.body as DashboardNameRequest;
       const result = await this.dashboardService.getByName(name, is_preset);
       await DashboardPermissionService.checkPermission(
         result.id,
         'VIEW',
         req.locale,
-        req.body.auth?.id,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
-        req.body.auth?.role_id,
+        auth?.id,
+        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
+        auth?.role_id,
+        auth?.permissions,
       );
       res.json(result);
     } catch (err) {
@@ -151,18 +172,23 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPut('/update', permission(ROLE_TYPES.AUTHOR), validate(DashboardUpdateRequest))
+  @httpPut(
+    '/update',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(DashboardUpdateRequest),
+  )
   public async update(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const auth: Account | ApiKey | null = req.body.auth;
+      const auth: Account | ApiKey | undefined = req.body.auth;
       const { id, name, content_id, is_removed, group } = req.body as DashboardUpdateRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
         req.locale,
-        req.body.auth?.id,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
-        req.body.auth?.role_id,
+        auth?.id,
+        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
+        auth?.role_id,
+        auth?.permissions,
       );
       const result = await this.dashboardService.update(
         id,
@@ -171,13 +197,13 @@ export class DashboardController implements interfaces.Controller {
         is_removed,
         group,
         req.locale,
-        auth?.role_id,
+        auth?.permissions,
       );
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
         update_time: result.update_time,
         message: 'UPDATED',
         auth_id: auth?.id ?? null,
-        auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+        auth_type: !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
       });
       res.json(result);
     } catch (err) {
@@ -197,25 +223,30 @@ export class DashboardController implements interfaces.Controller {
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
-  @httpPost('/delete', permission(ROLE_TYPES.AUTHOR), validate(DashboardIDRequest))
+  @httpPost(
+    '/delete',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(DashboardIDRequest),
+  )
   public async delete(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const auth: Account | ApiKey | null = req.body.auth;
+      const auth: Account | ApiKey | undefined = req.body.auth;
       const { id } = req.body as DashboardIDRequest;
       await DashboardPermissionService.checkPermission(
         id,
         'EDIT',
         req.locale,
-        req.body.auth?.id,
-        req.body.auth ? (req.body.auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT') : undefined,
-        req.body.auth?.role_id,
+        auth?.id,
+        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
+        auth?.role_id,
+        auth?.permissions,
       );
-      const result = await this.dashboardService.delete(id, req.locale, auth?.role_id);
+      const result = await this.dashboardService.delete(id, req.locale, auth?.permissions);
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD, [id]), {
         update_time: result.update_time,
         message: 'UPDATED',
         auth_id: auth?.id ?? null,
-        auth_type: !auth ? null : auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT',
+        auth_type: !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
       });
       res.json(result);
     } catch (err) {

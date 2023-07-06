@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import _ from 'lodash';
+import _, { has } from 'lodash';
 import { Any } from 'typeorm';
 import { PaginationRequest } from '../api_models/base';
 import {
@@ -9,15 +9,18 @@ import {
   DashboardPermissionSortObject,
   PermissionResource,
 } from '../api_models/dashboard_permission';
-import { ROLE_TYPES } from '../api_models/role';
 import { dashboardDataSource } from '../data_sources/dashboard';
 import Account from '../models/account';
+import { Account as AccountAPIModel } from '../api_models/account';
 import ApiKey from '../models/apiKey';
+import { ApiKey as ApiKeyAPIModel } from '../api_models/api';
 import DashboardPermission from '../models/dashboard_permission';
+import Role from '../models/role';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST, FORBIDDEN } from '../utils/errors';
 import { escapeLikePattern } from '../utils/helpers';
 import { translate } from '../utils/i18n';
+import { FIXED_ROLE_TYPES, PERMISSIONS } from './role.service';
 
 @injectable()
 export class DashboardPermissionService {
@@ -35,23 +38,24 @@ export class DashboardPermissionService {
     permission_type: 'VIEW' | 'EDIT',
     auth_id?: string,
     auth_type?: 'ACCOUNT' | 'APIKEY',
-    auth_role_id?: ROLE_TYPES,
+    auth_role_id?: string,
+    auth_permissions?: string[],
   ): boolean {
     if (!AUTH_ENABLED) return true;
-    if (auth_role_id && auth_role_id >= ROLE_TYPES.ADMIN) return true;
+    if (auth_role_id === FIXED_ROLE_TYPES.ADMIN || auth_role_id === FIXED_ROLE_TYPES.SUPERADMIN) return true;
     if (!permission.owner_id || !permission.owner_type) return true;
     if (permission.access.length === 0) return true;
 
     // NOTE: check access by role
-    if (auth_role_id) {
+    if (auth_permissions) {
       const controlled = permission.access.some(
         (x) => x.permission === permission_type || (x.id === auth_id && x.type === auth_type),
       );
       if (!controlled) {
         if (permission_type === 'VIEW') {
-          return auth_role_id >= ROLE_TYPES.READER;
+          return auth_permissions.includes(PERMISSIONS.DASHBOARD_VIEW);
         }
-        return auth_role_id >= ROLE_TYPES.AUTHOR;
+        return auth_permissions.includes(PERMISSIONS.DASHBOARD_MANAGE);
       }
     }
 
@@ -84,23 +88,33 @@ export class DashboardPermissionService {
     locale: string,
     resource_id?: string,
     resource_type?: 'ACCOUNT' | 'APIKEY',
-    resource_role_id?: ROLE_TYPES,
+    resource_role_id?: string,
+    resource_permissions?: string[],
   ): Promise<void> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
-    if (!this.canAccess(dashboardPermission, permission_type, resource_id, resource_type, resource_role_id)) {
+    if (
+      !this.canAccess(
+        dashboardPermission,
+        permission_type,
+        resource_id,
+        resource_type,
+        resource_role_id,
+        resource_permissions,
+      )
+    ) {
       throw new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', locale) });
     }
   }
 
-  static async checkIsOwnerOrAdmin(id: string, auth: Account | ApiKey, locale: string): Promise<void> {
+  static async checkIsOwnerOrAdmin(id: string, auth: AccountAPIModel | ApiKeyAPIModel, locale: string): Promise<void> {
     if (!AUTH_ENABLED) return;
-    if (auth.role_id >= ROLE_TYPES.ADMIN) return;
+    if (auth.role_id === FIXED_ROLE_TYPES.ADMIN || auth.role_id === FIXED_ROLE_TYPES.SUPERADMIN) return;
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
     if (
       dashboardPermission.owner_id === auth.id &&
-      dashboardPermission.owner_type === (auth instanceof ApiKey ? 'APIKEY' : 'ACCOUNT')
+      dashboardPermission.owner_type === (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT')
     )
       return;
     throw new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', locale) });
@@ -179,7 +193,7 @@ export class DashboardPermissionService {
     id: string,
     owner_id: string,
     owner_type: 'ACCOUNT' | 'APIKEY',
-    auth: Account | ApiKey,
+    auth: AccountAPIModel | ApiKeyAPIModel,
     locale: string,
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
@@ -188,7 +202,8 @@ export class DashboardPermissionService {
     const newOwnerRepo =
       owner_type === 'ACCOUNT' ? dashboardDataSource.getRepository(Account) : dashboardDataSource.getRepository(ApiKey);
     const newOwner = await newOwnerRepo.findOneByOrFail({ id: owner_id });
-    if (newOwner.role_id < ROLE_TYPES.AUTHOR) {
+    const role = await dashboardDataSource.getRepository(Role).findOneByOrFail({ id: newOwner.role_id });
+    if (!role.permissions.includes(PERMISSIONS.DASHBOARD_MANAGE)) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_OWNER_INSUFFICIENT_PRIVILEGES', locale) });
     }
     dashboardPermission.owner_id = owner_id;
@@ -206,7 +221,7 @@ export class DashboardPermissionService {
   async update(
     id: string,
     access: PermissionResource[] = [],
-    auth: Account | ApiKey,
+    auth: AccountAPIModel | ApiKeyAPIModel,
     locale: string,
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);

@@ -1,6 +1,6 @@
-import { ROLE_TYPES } from '../../api_models/role';
 import { dashboardDataSource } from '../../data_sources/dashboard';
 import ApiKey from '../../models/apiKey';
+import Role from '../../models/role';
 
 async function upsert() {
   console.info('Starting upsert of preset apikey');
@@ -28,11 +28,14 @@ async function upsert() {
       process.exit(1);
     }
 
+    const roles = await queryRunner.manager.getRepository(Role).find();
+    const roleIds = roles.map((role) => role.id);
+
     for (let i = 0; i < names.length; i++) {
       const name = names[i];
       const app_id = app_ids[i];
       const app_secret = app_secrets[i];
-      const role_id = parseInt(role_ids[i]);
+      const role_id = role_ids[i];
 
       if (!name || !app_id || !app_secret) {
         console.error(
@@ -40,13 +43,8 @@ async function upsert() {
         );
         process.exit(1);
       }
-      if (!(role_id in ROLE_TYPES)) {
-        console.error(
-          'PRESET_ROLE_ID must be one of:',
-          Object.values(ROLE_TYPES)
-            .filter((x) => typeof x === 'string')
-            .map((x) => ({ [ROLE_TYPES[x]]: x })),
-        );
+      if (!roleIds.includes(role_id)) {
+        console.error('PRESET_ROLE_ID must be one of:', roleIds);
         process.exit(1);
       }
 

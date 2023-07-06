@@ -56,7 +56,7 @@ export const account = {
     const res: IAccount = await APIClient.getRequest('POST')('/account/changepassword', payload);
     return res;
   },
-  create: async (name: string, email: string, password: string, role_id: number): Promise<IAccount> => {
+  create: async (name: string, email: string, password: string, role_id: string): Promise<IAccount> => {
     const res: IAccount = await APIClient.getRequest('POST')('/account/create', {
       name: name.trim(),
       email: email.trim(),

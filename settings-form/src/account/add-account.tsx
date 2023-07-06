@@ -1,23 +1,23 @@
-import { Box, Button, Group, Modal, PasswordInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Button, Group, Modal, PasswordInput, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { RoleSelector } from './role-selector';
-import { defaultStyles, IStyles } from './styles';
+import { IStyles, defaultStyles } from './styles';
 
 interface IFormValues {
   name: string;
   email: string;
-  role_id: number;
+  role_id: string;
   password: string;
 }
 
 interface IAddAccountForm {
   postSubmit: () => void;
   styles?: IStyles;
-  initialRoleID: number;
+  initialRoleID: string;
 }
 
 function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAccountForm) {
@@ -57,7 +57,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
   };
 
   return (
-    <Box mx="auto">
+    <Box mx="auto" mb={10}>
       <form onSubmit={handleSubmit(addAccount)}>
         <Controller
           name="name"
@@ -107,7 +107,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
 interface IAddAccount {
   styles?: IStyles;
   onSuccess: () => void;
-  initialRoleID: number;
+  initialRoleID: string;
 }
 
 export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAccount) {

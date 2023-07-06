@@ -12,12 +12,12 @@ import {
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import ApiKey from '~/models/apiKey';
 import Account from '~/models/account';
-import { ROLE_TYPES } from '~/api_models/role';
 import { SALT_ROUNDS } from '~/utils/constants';
 import Dashboard from '~/models/dashboard';
 import DashboardPermission from '~/models/dashboard_permission';
 import { DashboardIDRequest, DashboardUpdateRequest } from '~/api_models/dashboard';
 import { omitFields } from '~/utils/helpers';
+import { FIXED_ROLE_TYPES } from '~/services/role.service';
 
 describe('DashboardPermissionController', () => {
   connectionHook();
@@ -43,28 +43,28 @@ describe('DashboardPermissionController', () => {
     readerAccountData.name = 'reader_dashboard_permission';
     readerAccountData.email = 'reader_dashboard@permission.test';
     readerAccountData.password = await bcrypt.hash(readerAccountData.name, SALT_ROUNDS);
-    readerAccountData.role_id = ROLE_TYPES.READER;
+    readerAccountData.role_id = FIXED_ROLE_TYPES.READER;
     readerAccount = await dashboardDataSource.getRepository(Account).save(readerAccountData);
 
     const authorAccountData = new Account();
     authorAccountData.name = 'author_dashboard_permission';
     authorAccountData.email = 'author_dashboard@permission.test';
     authorAccountData.password = await bcrypt.hash(authorAccountData.name, SALT_ROUNDS);
-    authorAccountData.role_id = ROLE_TYPES.AUTHOR;
+    authorAccountData.role_id = FIXED_ROLE_TYPES.AUTHOR;
     authorAccount = await dashboardDataSource.getRepository(Account).save(authorAccountData);
 
     const readerApiKeyData = new ApiKey();
     readerApiKeyData.name = 'reader_dashboard_permission';
     readerApiKeyData.app_id = crypto.randomBytes(8).toString('hex');
     readerApiKeyData.app_secret = crypto.randomBytes(16).toString('hex');
-    readerApiKeyData.role_id = ROLE_TYPES.READER;
+    readerApiKeyData.role_id = FIXED_ROLE_TYPES.READER;
     readerApiKey = await dashboardDataSource.getRepository(ApiKey).save(readerApiKeyData);
 
     const authorApiKeyData = new ApiKey();
     authorApiKeyData.name = 'author_dashboard_permission';
     authorApiKeyData.app_id = crypto.randomBytes(8).toString('hex');
     authorApiKeyData.app_secret = crypto.randomBytes(16).toString('hex');
-    authorApiKeyData.role_id = ROLE_TYPES.AUTHOR;
+    authorApiKeyData.role_id = FIXED_ROLE_TYPES.AUTHOR;
     authorApiKey = await dashboardDataSource.getRepository(ApiKey).save(authorApiKeyData);
 
     const dashboardData = new Dashboard();

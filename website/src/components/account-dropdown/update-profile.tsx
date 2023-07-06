@@ -65,7 +65,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
     }
   };
 
-  const isSuperAdmin = account.role_id === 50;
+  const isSuperAdmin = account.role_id === 'SUPERADMIN';
   return (
     <Box mx="auto">
       <LoadingOverlay visible={pending} />
