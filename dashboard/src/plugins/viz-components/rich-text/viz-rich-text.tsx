@@ -4,18 +4,27 @@ import { ReadonlyRichText } from '~/panel/settings/common/readonly-rich-text-edi
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
+import { templateToString } from '~/utils/template';
 
 export function VizRichText({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
-  const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const { variables, data } = context;
 
-  if (!conf?.content) {
+  const content = useMemo(() => {
+    const conf = defaults({}, confValue, DEFAULT_CONFIG);
+    if (!conf.content) {
+      return '';
+    }
+    return templateToString(conf.content, variables, data);
+  }, [confValue, variables]);
+
+  if (!content) {
     return null;
   }
 
   return (
     <ReadonlyRichText
-      value={conf.content}
+      value={content}
       styles={{
         root: {
           border: 'none',
