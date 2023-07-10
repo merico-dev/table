@@ -1,7 +1,7 @@
 import { Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconInfoCircle } from '@tabler/icons';
-import { ReadonlyRichText } from '~/panel/settings/common/readonly-rich-text-editor';
+import { ReadonlyRichText } from '~/components/rich-text-editor/readonly-rich-text-editor';
 import { FunctionUtilsDescription } from '~/utils/function-utils';
 
 export function AboutFunctionUtils() {

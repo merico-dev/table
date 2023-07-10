@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
 import { LayoutStateContext, usePanelContext } from '../contexts';
-import { ReadonlyRichText } from './settings/common/readonly-rich-text-editor';
+import { ReadonlyRichText } from '~/components/rich-text-editor/readonly-rich-text-editor';
 
 function isRichTextContentEmpty(str: string) {
   if (!str) {
