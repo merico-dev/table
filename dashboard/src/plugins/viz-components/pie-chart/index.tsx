@@ -4,6 +4,7 @@ import { VizPieChart } from './viz-pie-chart';
 import { VizPieChartEditor } from './viz-pie-chart-editor';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 import { cloneDeep } from 'lodash';
+import { ClickPieChart } from './triggers';
 
 function v2(legacyConf: $TSFixMe): IPieChartConf {
   const { color_field = '', ...rest } = legacyConf;
@@ -72,4 +73,5 @@ export const PieChartVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IPieChartConf,
     };
   },
+  triggers: [ClickPieChart],
 };
