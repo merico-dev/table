@@ -16,6 +16,7 @@ import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
+import { FontSize } from './font-size-extension';
 
 interface IReadonlyRichText {
   value: string;
@@ -44,6 +45,7 @@ export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
       Placeholder.configure({ placeholder: 'This is placeholder' }),
       TextStyle,
       Color,
+      FontSize,
     ],
     content: value,
     editable: false,
