@@ -15,7 +15,6 @@ export function VizRichText({ context }: VizViewProps) {
     if (!conf.content) {
       return '';
     }
-    console.log(conf.content);
     return parseRichTextContent(conf.content, variables, data);
   }, [confValue, variables]);
 
