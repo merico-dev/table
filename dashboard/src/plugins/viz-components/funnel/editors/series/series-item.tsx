@@ -77,6 +77,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.min.value`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <NumberInput
               disabled={!enable_min}
               labelProps={{ display: 'block' }}
@@ -115,6 +116,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.max.value`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <NumberInput
               disabled={!enable_max}
               labelProps={{ display: 'block' }}
@@ -152,11 +154,13 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.orient`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Orientation" data={orientationOptions} {...field} />}
         />
         <Controller
           name={`series.${index}.sort`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Sort" data={sortOptions} {...field} />}
         />
       </Group>
@@ -165,12 +169,14 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.funnelAlign`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Align" disabled={orient === 'horizontal'} data={alignmentOptions} {...field} />
           )}
         />
         <Controller
           name={`series.${index}.gap`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput placeholder="0, 5, 10..." label="Gap" {...field} />}
         />
       </Group>

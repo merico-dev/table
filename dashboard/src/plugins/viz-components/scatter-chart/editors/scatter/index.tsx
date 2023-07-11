@@ -55,6 +55,7 @@ export function ScatterField({ control, watch }: IScatterField) {
         <Controller
           name={`scatter.label_position`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
         />
       </Group>

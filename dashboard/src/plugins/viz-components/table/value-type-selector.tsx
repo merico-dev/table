@@ -12,7 +12,7 @@ const valueTypes = Object.values(ValueType).map((v) => ({ label: _.get(labels, v
 interface IValueTypeSelector {
   label: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: ValueType) => void;
   sx?: Sx;
 }
 

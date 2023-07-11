@@ -36,6 +36,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
           name="y_axis.nameAlignment"
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Name Alignment" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -51,6 +52,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
           name="y_axis.axisLabel.rotate"
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <NumberInput
               label="Rotate"
               hideControls

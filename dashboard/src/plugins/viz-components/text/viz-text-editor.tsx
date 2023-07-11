@@ -58,6 +58,7 @@ export function VizTextEditor({ context }: VizConfigProps) {
           <Controller
             name="horizontal_align"
             control={control}
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
           />
           <Controller

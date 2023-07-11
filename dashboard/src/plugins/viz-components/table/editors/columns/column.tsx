@@ -88,6 +88,7 @@ export const ColumnField = ({ control, index, watch, remove, column }: IColumnFi
         <Controller
           name={`columns.${index}.align`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Alignment" data={alignmentOptions} {...field} />}
         />
       </Group>

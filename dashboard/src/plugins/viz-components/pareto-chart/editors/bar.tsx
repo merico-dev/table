@@ -28,6 +28,7 @@ export function BarField({ control, watch }: IBarField) {
           name="bar.nameAlignment"
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

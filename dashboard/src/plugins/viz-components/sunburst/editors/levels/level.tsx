@@ -42,6 +42,7 @@ export const LevelField = ({ control, index, remove }: ILevelField) => {
         name={`levels.${index}.label.show_label_tolerance`}
         control={control}
         render={({ field }) => (
+          // @ts-expect-error type of onChange
           <NumberInput
             label="Hide label when its percentage is less than..."
             precision={4}
@@ -56,11 +57,13 @@ export const LevelField = ({ control, index, remove }: ILevelField) => {
         <Controller
           name={`levels.${index}.label.rotate`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Rotate" data={rotationOptions} {...field} />}
         />
         <Controller
           name={`levels.${index}.label.align`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Align" data={alignmentOptions} {...field} />}
         />
       </Group>
@@ -73,6 +76,7 @@ export const LevelField = ({ control, index, remove }: ILevelField) => {
         <Controller
           name={`levels.${index}.label.padding`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Padding" min={0} hideControls {...field} />}
         />
       </Group>

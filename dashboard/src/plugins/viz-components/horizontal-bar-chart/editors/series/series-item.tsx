@@ -50,6 +50,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           name={`series.${index}.xAxisIndex`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select
               label="X Axis"
               data={xAxisOptions}
@@ -98,6 +99,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
       <Controller
         name={`series.${index}.label_position`}
         control={control}
+        // @ts-expect-error type of onChange
         render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
       />
       <Stack spacing={4}>

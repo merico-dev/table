@@ -41,6 +41,7 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
           formulaOn: 'end',
         },
       },
+      group_by_key: '',
       name: '',
       y_axis_data_key: '',
       plot: {

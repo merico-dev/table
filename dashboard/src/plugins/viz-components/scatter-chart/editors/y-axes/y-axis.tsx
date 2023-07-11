@@ -34,6 +34,7 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
           name={`y_axes.${index}.nameAlignment`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -44,6 +45,7 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
           name={`y_axes.${index}.position`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

@@ -57,11 +57,13 @@ export function VizStatsEditor({ context }: VizConfigProps) {
           <Controller
             name="horizontal_align"
             control={control}
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
           />
           <Controller
             control={control}
             name="vertical_align"
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
           />
         </SimpleGrid>

@@ -41,6 +41,7 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
           name="content"
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <CustomRichTextEditor
               {...field}
               styles={{ root: { flexGrow: 1 } }}

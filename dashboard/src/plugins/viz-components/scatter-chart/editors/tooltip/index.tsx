@@ -25,6 +25,7 @@ export function TooltipField({ control, watch }: ITooltipField) {
       <Controller
         name="tooltip.trigger"
         control={control}
+        // @ts-expect-error type of onChange
         render={({ field }) => <Select label="Trigger" data={TooltipTriggerOptions} sx={{ flexGrow: 1 }} {...field} />}
       />
       <Divider variant="dashed" />
