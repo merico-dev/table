@@ -5,8 +5,11 @@ import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { parseRichTextContent } from './parse-rich-text-content';
+import { observer } from 'mobx-react-lite';
+import { useContentModelContext, useModelContext } from '~/contexts';
 
-export function VizRichText({ context }: VizViewProps) {
+export const VizRichText = observer(({ context }: VizViewProps) => {
+  const contentModel = useContentModelContext();
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const { variables, data } = context;
 
@@ -15,8 +18,8 @@ export function VizRichText({ context }: VizViewProps) {
     if (!conf.content) {
       return '';
     }
-    return parseRichTextContent(conf.content, variables, data);
-  }, [confValue, variables]);
+    return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
+  }, [confValue, variables, contentModel.payloadForViz]);
 
   if (!content) {
     return null;
@@ -36,4 +39,4 @@ export function VizRichText({ context }: VizViewProps) {
       }}
     />
   );
-}
+});

@@ -1,3 +1,4 @@
+import { TPayloadForViz } from '~/model';
 import { aggregateValue } from '~/utils/aggregation';
 import { ITemplateVariable, formatAggregatedValue } from '~/utils/template';
 
@@ -17,14 +18,19 @@ function unescapeHTML(str: string) {
   return elt.innerText;
 }
 
-function tryParsingScript(script: string, variableStrings: Record<string, string>) {
+function tryParsingScript(script: string, variableStrings: Record<string, string>, payload: TPayloadForViz) {
   try {
-    return new Function(`
+    return new Function(
+      'payload',
+      `
+      const filters = payload.filters;
+      const context = payload.context;
       ${Object.entries(variableStrings)
         .map(([k, v]) => `const ${k} = '${v}';`)
         .join('\n')}
       return ${script};
-    `)();
+    `,
+    )(payload);
   } catch (err) {
     console.error(err);
     console.log(script);
@@ -32,7 +38,12 @@ function tryParsingScript(script: string, variableStrings: Record<string, string
   }
 }
 
-export function parseRichTextContent(rawContent: string, variables: ITemplateVariable[], data: TPanelData) {
+export function parseRichTextContent(
+  rawContent: string,
+  variables: ITemplateVariable[],
+  payload: TPayloadForViz,
+  data: TPanelData,
+) {
   const variableStrings = variablesToStrings(variables, data);
   const regx = /^(.+)\}\}(.*)$/;
 
@@ -50,7 +61,7 @@ export function parseRichTextContent(rawContent: string, variables: ITemplateVar
       }
 
       const script = unescapeHTML(match[1]);
-      return `${tryParsingScript(script, variableStrings)}${match[2]}`;
+      return `${tryParsingScript(script, variableStrings, payload)}${match[2]}`;
     })
     .join('');
 }
