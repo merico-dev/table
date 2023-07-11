@@ -4,7 +4,7 @@ import { ReadonlyRichText } from '~/components/rich-text-editor/readonly-rich-te
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
-import { templateToString } from '~/utils/template';
+import { parseRichTextContent } from './parse-rich-text-content';
 
 export function VizRichText({ context }: VizViewProps) {
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
@@ -15,7 +15,8 @@ export function VizRichText({ context }: VizViewProps) {
     if (!conf.content) {
       return '';
     }
-    return templateToString(conf.content, variables, data);
+    console.log(conf.content);
+    return parseRichTextContent(conf.content, variables, data);
   }, [confValue, variables]);
 
   if (!content) {
