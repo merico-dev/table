@@ -28,11 +28,13 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.min"
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Min Value" {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Max Value" {...field} />}
         />
       </Group>

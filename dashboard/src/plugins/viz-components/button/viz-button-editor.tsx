@@ -82,6 +82,7 @@ export function VizButtonEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="variant"
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Variant" data={variantOptions} {...field} />}
           />
           <Controller
@@ -113,11 +114,13 @@ export function VizButtonEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="horizontal_align"
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
           />
           <Controller
             control={control}
             name="vertical_align"
+            // @ts-expect-error type of onChange
             render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
           />
         </SimpleGrid>
