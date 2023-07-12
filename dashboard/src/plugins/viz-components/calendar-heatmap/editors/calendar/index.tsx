@@ -32,6 +32,7 @@ export function CalendarField({ control, watch }: ICalendarField) {
       <Controller
         name="calendar.locale"
         control={control}
+        // @ts-expect-error type of onChange
         render={({ field }) => <Select label="Language" required data={localeOptions} sx={{ flex: 1 }} {...field} />}
       />
     </Stack>

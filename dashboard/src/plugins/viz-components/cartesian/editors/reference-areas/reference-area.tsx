@@ -33,6 +33,7 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           name={`reference_areas.${index}.type`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Type" required data={referenceAreaTypeOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -40,6 +41,7 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           name={`reference_areas.${index}.direction`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Direction" required data={referenceAreaDirectionOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -50,6 +52,7 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           name={`reference_areas.${index}.y_keys.upper`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Upper Boundary" required data={variableOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
@@ -57,6 +60,7 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           name={`reference_areas.${index}.y_keys.lower`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Lower Boundary" required data={variableOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

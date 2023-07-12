@@ -28,6 +28,7 @@ export function DimensionField({ control, index, remove }: IDimensionField) {
         <Controller
           name={`dimensions.${index}.max`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Max" hideControls required sx={{ flex: 1 }} {...field} />}
         />
       </Group>

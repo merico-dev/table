@@ -31,11 +31,13 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
         <Controller
           name={`series.${index}.lineStyle.type`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.lineStyle.width`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
         />
       </Group>
@@ -50,7 +52,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
               sx={{ flexGrow: 1, maxWidth: '48%' }}
               {...field}
               value={String(field.value)}
-              onChange={(v: string) => {
+              onChange={(v: 'false' | 'start' | 'middle' | 'end') => {
                 const step = v === 'false' ? false : v;
                 field.onChange(step);
               }}

@@ -20,6 +20,7 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
     append({
       id,
       label: id,
+      align: 'center',
       value_field: '',
       value_type: ValueType.string,
     });

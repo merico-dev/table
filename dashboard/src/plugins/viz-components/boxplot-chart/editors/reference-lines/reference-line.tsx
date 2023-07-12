@@ -24,6 +24,7 @@ export function ReferenceLineField({ control, index, remove, variableOptions }: 
         <Controller
           name={`reference_lines.${index}.variable_key`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Value" required data={variableOptions} sx={{ flex: 1 }} {...field} />}
         />
       </Group>

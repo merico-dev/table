@@ -27,6 +27,11 @@ export function YAxesField({ control, watch }: IYAxesField) {
     append({
       name: '',
       label_formatter: defaultNumbroFormat,
+      min: '',
+      max: '',
+      show: true,
+      position: 'right',
+      nameAlignment: 'right',
     });
 
   return (

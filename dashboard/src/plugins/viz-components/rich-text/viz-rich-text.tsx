@@ -1,21 +1,33 @@
 import { defaults } from 'lodash';
 import { useMemo } from 'react';
-import { ReadonlyRichText } from '~/panel/settings/common/readonly-rich-text-editor';
+import { ReadonlyRichText } from '~/components/rich-text-editor/readonly-rich-text-editor';
 import { useStorageData } from '~/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
+import { parseRichTextContent } from './parse-rich-text-content';
+import { observer } from 'mobx-react-lite';
+import { useContentModelContext, useModelContext } from '~/contexts';
 
-export function VizRichText({ context }: VizViewProps) {
+export const VizRichText = observer(({ context }: VizViewProps) => {
+  const contentModel = useContentModelContext();
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
-  const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const { variables, data } = context;
 
-  if (!conf?.content) {
+  const content = useMemo(() => {
+    const conf = defaults({}, confValue, DEFAULT_CONFIG);
+    if (!conf.content) {
+      return '';
+    }
+    return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
+  }, [confValue, variables, contentModel.payloadForViz]);
+
+  if (!content) {
     return null;
   }
 
   return (
     <ReadonlyRichText
-      value={conf.content}
+      value={content}
       styles={{
         root: {
           border: 'none',
@@ -27,4 +39,4 @@ export function VizRichText({ context }: VizViewProps) {
       }}
     />
   );
-}
+});

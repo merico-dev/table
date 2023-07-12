@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { usePanelContext } from '../../../../../../contexts/panel-context';
-import { CustomRichTextEditor } from '../../../../../../panel/settings/common/custom-rich-text-editor';
+import { CustomRichTextEditor } from '~/components/rich-text-editor/custom-rich-text-editor';
 
 export const EditDescription = observer(() => {
   const { panel } = usePanelContext();

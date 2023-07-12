@@ -27,6 +27,7 @@ export function LineField({ control, watch }: ILineField) {
           name="line.nameAlignment"
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

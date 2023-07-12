@@ -29,6 +29,7 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
   const add = () =>
     append({
       name: '',
+      color: 'rgba(0,0,0,0.1)',
       type: 'rectangle',
       direction: 'horizontal',
       y_keys: {

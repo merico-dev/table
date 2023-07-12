@@ -29,6 +29,7 @@ export type TPayloadForSQL = {
   filters: AnyObject;
 };
 export type TPayloadForSQLSnippet = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
+export type TPayloadForViz = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
 
 function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
   return list.reduce((ret, curr) => {
@@ -122,6 +123,18 @@ const _ContentModel = types
         sql_snippets: formatSQLSnippet(self.sqlSnippets.current, 'key', 'value', params),
         global_sql_snippets: formatSQLSnippet(global_sql_snippets.list, 'id', 'content', params),
       };
+    },
+    get payloadForViz() {
+      // @ts-expect-error type of getParent
+      const context = getParent(self).context.current;
+
+      return {
+        context: {
+          ...self.mock_context.current,
+          ...context,
+        },
+        filters: self.filters.values,
+      } as TPayloadForViz;
     },
     get changed() {
       return (

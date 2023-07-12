@@ -32,6 +32,7 @@ export function XAxisField({ control, index, remove }: IXAxisField) {
           name={`x_axes.${index}.position`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
           )}
         />

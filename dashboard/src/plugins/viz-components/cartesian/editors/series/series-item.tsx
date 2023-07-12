@@ -47,6 +47,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           name={`series.${index}.type`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type of onChange
             <SegmentedControl
               data={[
                 { label: 'Line', value: 'line' },
@@ -126,6 +127,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
       <Controller
         name={`series.${index}.label_position`}
         control={control}
+        // @ts-expect-error type of onChange
         render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
       />
       <Stack spacing={4}>

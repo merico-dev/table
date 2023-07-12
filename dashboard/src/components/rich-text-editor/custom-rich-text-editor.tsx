@@ -6,18 +6,19 @@ import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
 import SubScript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
-import TextAlign from '@tiptap/extension-text-align';
-import TextStyle from '@tiptap/extension-text-style';
-import Underline from '@tiptap/extension-underline';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
+import { ChooseFontSize, FontSize } from './font-size-extension';
 
 function InsertTableControl() {
   const { editor } = useRichTextEditorContext();
@@ -64,6 +65,7 @@ export const CustomRichTextEditor = forwardRef(
         Placeholder.configure({ placeholder: 'This is placeholder' }),
         TextStyle,
         Color,
+        FontSize,
       ],
       content,
       onUpdate: ({ editor }) => {
@@ -85,6 +87,10 @@ export const CustomRichTextEditor = forwardRef(
     const finalStyles = useMemo(() => {
       return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
     }, [styles]);
+
+    if (!editor) {
+      return null;
+    }
 
     return (
       <Stack spacing={4} sx={{ flexGrow: 1, position: 'relative' }}>
@@ -159,6 +165,8 @@ export const CustomRichTextEditor = forwardRef(
             <RichTextEditor.ControlsGroup>
               <InsertTableControl />
             </RichTextEditor.ControlsGroup>
+
+            <ChooseFontSize editor={editor} />
           </RichTextEditor.Toolbar>
           <RichTextEditor.Content />
         </RichTextEditor>

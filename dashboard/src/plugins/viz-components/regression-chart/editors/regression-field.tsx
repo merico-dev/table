@@ -40,12 +40,14 @@ export function RegressionField({ control, watch }: IRegressionField) {
         <Controller
           name={`regression.transform.config.method`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="回归方法" data={regressionOptions} sx={{ flex: 1 }} {...field} />}
         />
         {method === 'polynomial' && (
           <Controller
             name={`regression.transform.config.order`}
             control={control}
+            // @ts-expect-error type of onChange
             render={({ field }) => <NumberInput label="次" sx={{ flex: 1 }} {...field} />}
           />
         )}

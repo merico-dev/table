@@ -49,6 +49,7 @@ export function ReferenceLineField({
         <Controller
           name={`reference_lines.${index}.variable_key`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Value" required data={variableOptions} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
@@ -65,6 +66,7 @@ export function ReferenceLineField({
             name={`reference_lines.${index}.orientation`}
             control={control}
             render={({ field }) => (
+              // @ts-expect-error type of onChange
               <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
             )}
           />
@@ -103,11 +105,13 @@ export function ReferenceLineField({
         <Controller
           name={`reference_lines.${index}.lineStyle.type`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`reference_lines.${index}.lineStyle.width`}
           control={control}
+          // @ts-expect-error type of onChange
           render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
         />
       </Group>
