@@ -159,6 +159,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             name="idToDuplicate"
             control={control}
             render={({ field }) => (
+              // @ts-expect-error type of onChange
               <Select
                 data={options}
                 disabled={loading || options.length === 0}
