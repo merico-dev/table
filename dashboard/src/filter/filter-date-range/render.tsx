@@ -1,4 +1,4 @@
-import { DateRangePicker } from '@mantine/dates';
+import { DatePickerInput } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { Calendar } from 'tabler-icons-react';
@@ -21,7 +21,8 @@ export const FilterDateRange = observer(({ label, config, value = [null, null], 
   const minDate = config.getMinDate(formattedValue[0]);
   const maxDate = config.getMaxDate(formattedValue[0]);
   return (
-    <DateRangePicker
+    <DatePickerInput
+      type="range"
       label={label}
       // @ts-expect-error value's type
       value={formattedValue}
