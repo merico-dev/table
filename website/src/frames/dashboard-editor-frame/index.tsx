@@ -14,11 +14,11 @@ export function DashboardEditorFrame() {
       <MantineProvider
         theme={{
           breakpoints: {
-            xs: 1366,
-            sm: 1440,
-            md: 1536,
-            lg: 1600,
-            xl: 1920,
+            xs: '85em',
+            sm: '90em',
+            md: '96em',
+            lg: '100em',
+            xl: '120em',
           },
         }}
       >
