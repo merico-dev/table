@@ -1,13 +1,12 @@
 import { getLabelOverflowOptionOnAxis } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { getReferenceAreasSeries } from '~/plugins/common-echarts-fields/reference-area/option';
 import { AnyObject } from '~/types';
+import { parseDataKey } from '~/utils/data';
 import { ITemplateVariable, templateToString } from '~/utils/template';
-import { ICartesianReferenceArea, ICartesianReferenceLine } from '../../cartesian/type';
+import { ICartesianReferenceLine } from '../../cartesian/type';
 import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
 import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
 import { IScatterChartConf } from '../type';
-import { extractData, parseDataKey } from '~/utils/data';
-import _ from 'lodash';
 
 function getReferenceLines(
   reference_lines: ICartesianReferenceLine[],
@@ -52,9 +51,7 @@ function getReferenceLines(
 
 function getSeriesItemOrItems(
   { x_axis, scatter }: IScatterChartConf,
-  data: TPanelData,
   variableValueMap: Record<string, string | number>,
-  labelFormatters: Record<string, $TSFixMe>,
 ) {
   const x = parseDataKey(x_axis.data_key);
   const y = parseDataKey(scatter.y_data_key);
@@ -75,7 +72,7 @@ function getSeriesItemOrItems(
     itemStyle: {
       color: getSeriesColor(scatter.color, variableValueMap),
     },
-    symbolSize: getEchartsSymbolSize(scatter.symbolSize, data, x_axis.data_key, variableValueMap),
+    symbolSize: getEchartsSymbolSize(scatter.symbolSize, variableValueMap),
     encode: { x: x.columnKey, y: y.columnKey },
   };
 }
@@ -83,11 +80,10 @@ function getSeriesItemOrItems(
 export function getSeries(
   conf: IScatterChartConf,
   data: TPanelData,
-  labelFormatters: Record<string, $TSFixMe>,
   variables: ITemplateVariable[],
   variableValueMap: Record<string, string | number>,
 ) {
-  const ret: Array<AnyObject> = [getSeriesItemOrItems(conf, data, variableValueMap, labelFormatters)];
+  const ret: Array<AnyObject> = [getSeriesItemOrItems(conf, variableValueMap)];
   return ret.concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data)).concat(
     getReferenceAreasSeries({
       reference_areas: conf.reference_areas,
