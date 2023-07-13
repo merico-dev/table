@@ -66,4 +66,10 @@ export const CommonHTMLContentStyle: Sx = {
   'details + details': {
     marginTop: '10px',
   },
+  blockquote: {
+    fontSize: '14px',
+    lineHeight: '32px',
+    color: '#3D3E45',
+    margin: '0 0 14px',
+  },
 };
