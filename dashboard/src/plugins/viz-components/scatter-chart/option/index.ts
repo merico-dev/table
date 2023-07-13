@@ -1,17 +1,17 @@
 import _, { defaultsDeep } from 'lodash';
 import numbro from 'numbro';
+import { extractData } from '~/utils/data';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
+import { IYAxisConf } from '../../cartesian/type';
 import { IScatterChartConf } from '../type';
+import { getDataset } from './dataset';
 import { getGrid } from './grid';
+import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
-import { getLegend } from './legend';
-import { IYAxisConf } from '../../cartesian/type';
-import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
-import { extractData, extractFullQueryData } from '~/utils/data';
-import { getDataset } from './dataset';
 
 const defaultOption = {
   xAxis: [
@@ -78,7 +78,7 @@ export function getOption(conf: IScatterChartConf, data: TPanelData, variables: 
 
   const xAxisData = _.uniq(extractData(data, conf.x_axis.data_key));
 
-  const series = getSeries(conf, data, labelFormatters, variables, variableValueMap);
+  const series = getSeries(conf, data, variables, variableValueMap);
 
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),
