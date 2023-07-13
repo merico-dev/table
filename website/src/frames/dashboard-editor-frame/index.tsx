@@ -1,5 +1,5 @@
 import { MantineProvider } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
 import { DashboardStoreProvider } from '../app/models/dashboard-store-context';
 import { useAccountContext } from '../require-auth/account-context';
@@ -22,9 +22,9 @@ export function DashboardEditorFrame() {
           },
         }}
       >
-        <NotificationsProvider position="top-right">
+        <Notifications position="top-right">
           <Outlet />
-        </NotificationsProvider>
+        </Notifications>
       </MantineProvider>
     </DashboardStoreProvider>
   );

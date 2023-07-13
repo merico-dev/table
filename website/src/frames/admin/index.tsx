@@ -1,6 +1,6 @@
 import { AppShell, MantineProvider } from '@mantine/core';
 import { AdminHeader } from './header';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AdminNavbar } from './navbar';
 import './index.css';
@@ -33,9 +33,9 @@ export function AdminFrame() {
       }}
     >
       <MantineProvider>
-        <NotificationsProvider position="top-right">
+        <Notifications position="top-right">
           <Outlet />
-        </NotificationsProvider>
+        </Notifications>
       </MantineProvider>
     </AppShell>
   );

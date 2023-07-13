@@ -1,6 +1,6 @@
 import { ILoginResp, Login } from '@devtable/settings-form';
 import { Center, LoadingOverlay } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APICaller } from '../../api-caller';
@@ -22,11 +22,11 @@ export function LoginPage() {
   }
 
   return (
-    <NotificationsProvider position="top-right">
+    <Notifications position="top-right">
       <Center sx={{ width: '100vw', height: '100vh' }}>
         <LoadingOverlay visible={loading} />
         <Login config={SettingsFormConfig} onSuccess={onSuccess} />
       </Center>
-    </NotificationsProvider>
+    </Notifications>
   );
 }
