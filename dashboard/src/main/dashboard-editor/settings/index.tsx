@@ -45,7 +45,7 @@ export const Settings = observer(() => {
       withinPortal
       zIndex={300}
       styles={{
-        content: {
+        body: {
           padding: '0 !important',
         },
       }}

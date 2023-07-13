@@ -42,17 +42,17 @@ export const DashboardEditorNavbar = observer(() => {
         >
           <Tooltip label="Filters" withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openFilters}>
-              <IconFilter size={20} />
+              <IconFilter size={18} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Queries" withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
-              <IconDatabase size={20} />
+              <IconDatabase size={18} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Interactions Viewer" withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
-              <IconLink size={20} />
+              <IconLink size={18} />
             </ActionIcon>
           </Tooltip>
         </Group>
