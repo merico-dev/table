@@ -122,7 +122,6 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add an API Key"

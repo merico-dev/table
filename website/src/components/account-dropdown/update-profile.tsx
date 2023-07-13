@@ -114,7 +114,6 @@ export function UpdateProfileModal({ account, opened, onClose }: IUpdateProfileM
 
   return (
     <Modal
-      overflow="inside"
       opened={opened}
       onClose={onClose}
       title="Update Profile"

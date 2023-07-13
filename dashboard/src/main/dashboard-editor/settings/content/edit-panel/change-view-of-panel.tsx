@@ -28,7 +28,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
       <Button size="xs" variant="subtle" color="blue" onClick={open} leftIcon={<IconBoxMultiple size={14} />}>
         Move into Another View
       </Button>
-      <Modal opened={opened} onClose={close} title="Move panel into another view" zIndex={320} overflow="inside">
+      <Modal opened={opened} onClose={close} title="Move panel into another view" zIndex={320}>
         <Stack sx={{ maxHeight: 'calc(100vh - 185px)', overflow: 'hidden' }}>
           <Radio.Group
             value={targetViewID}

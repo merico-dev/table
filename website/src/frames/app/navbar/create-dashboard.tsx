@@ -191,7 +191,6 @@ export const CreateDashboard = observer(() => {
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Create a Dashboard"

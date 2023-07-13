@@ -99,7 +99,6 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Edit a SQL Snippet"

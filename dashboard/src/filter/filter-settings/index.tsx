@@ -19,7 +19,6 @@ export const FilterSettingsModal = observer(function _FilterSettingsModal({ open
   return (
     <Modal
       size="96vw"
-      overflow="inside"
       opened={opened}
       onClose={close}
       title="Filters"

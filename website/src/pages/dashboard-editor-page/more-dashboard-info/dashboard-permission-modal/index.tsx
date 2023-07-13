@@ -41,7 +41,6 @@ export const DashboardPermissionModal = observer(() => {
         size="600px"
         closeOnClickOutside={false}
         title={<Group>Permission</Group>}
-        overflow="inside"
       >
         <LoadingOverlay visible={model.loading} />
         {model.loaded && <PermissionControl model={model} postSubmit={postSubmit} />}

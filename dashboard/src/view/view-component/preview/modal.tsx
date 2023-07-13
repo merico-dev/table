@@ -10,7 +10,6 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
   return (
     <Modal
       size={config.width}
-      overflow="inside"
       opened={true}
       onClose={_.noop}
       withCloseButton={false}
@@ -28,7 +27,7 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
           // @ts-expect-error absolute !important
           position: 'absolute !important',
         },
-        modal: {
+        content: {
           border: '1px solid #efefef',
         },
         body: {
@@ -36,7 +35,9 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
         },
       }}
       withinPortal={false}
-      transitionDuration={0}
+      transitionProps={{
+        duration: 0,
+      }}
     >
       {children}
     </Modal>

@@ -84,7 +84,6 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add a data source"

@@ -98,7 +98,6 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add a SQL Snippet"

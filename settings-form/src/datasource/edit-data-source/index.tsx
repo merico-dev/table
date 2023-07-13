@@ -111,7 +111,6 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add a data source"

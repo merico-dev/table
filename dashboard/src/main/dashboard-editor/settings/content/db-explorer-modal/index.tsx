@@ -45,7 +45,6 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
         }
         zIndex={320}
         size="96vw"
-        overflow="inside"
         styles={modalStyles}
       >
         <Box sx={{ height: 'calc(100vh - 220px)' }}>

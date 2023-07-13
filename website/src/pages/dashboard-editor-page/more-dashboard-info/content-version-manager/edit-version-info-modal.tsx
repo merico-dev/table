@@ -45,7 +45,6 @@ export const EditVersionInfoModal = observer(
         }
         zIndex={320}
         size="450px"
-        overflow="inside"
         styles={modalStyles}
       >
         <EditVersionInfo postSubmit={closeAndUpdateVersionInfo} {...content} />

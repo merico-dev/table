@@ -112,6 +112,7 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
           opened={modalOpen}
           onClose={closeModal}
           title="Operation Settings"
+          // TODO: figure this out
           closeButtonLabel="close"
           zIndex={320}
         >

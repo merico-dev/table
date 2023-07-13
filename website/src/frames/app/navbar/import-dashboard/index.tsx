@@ -17,7 +17,6 @@ export const ImportDashboard = observer(() => {
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Import a dashboard from JSON file"
