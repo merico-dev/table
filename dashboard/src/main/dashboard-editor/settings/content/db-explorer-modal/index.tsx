@@ -7,7 +7,7 @@ import { DBExplorer } from './db-explorer';
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },
-  header: { marginBottom: 0, padding: '0 20px 10px', borderBottom: '1px solid #efefef' },
+  header: { marginBottom: 0, padding: '20px 20px 10px', borderBottom: '1px solid #efefef', gap: '20px' },
   title: { flexGrow: 1 },
   body: {
     padding: '0 0 0 20px',

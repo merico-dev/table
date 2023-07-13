@@ -15,7 +15,7 @@ const selectorStyles = {
     textAlign: 'center',
   },
   input: {
-    '&.mantine-Input-withIcon': {
+    '&[data-with-icon]': {
       paddingLeft: '50px',
     },
   },
