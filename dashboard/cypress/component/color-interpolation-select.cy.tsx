@@ -39,6 +39,7 @@ interface ITestBed<TP> {
 }
 
 describe('color-interpolation-select.cy.tsx', () => {
+  // FIXME: https://github.com/merico-dev/table/issues/1057
   const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
   Cypress.on('uncaught:exception', (err) => {
     /* returning false here prevents Cypress from failing the test */

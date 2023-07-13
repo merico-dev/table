@@ -47,6 +47,14 @@ describe('interaction-settings.cy.tsx', () => {
   }
 
   test('delete interaction', () => {
+    // FIXME: https://github.com/merico-dev/table/issues/1057
+    const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/;
+    Cypress.on('uncaught:exception', (err) => {
+      /* returning false here prevents Cypress from failing the test */
+      if (resizeObserverLoopErrRe.test(err.message)) {
+        return false;
+      }
+    });
     mount();
     addInteraction();
     const triggerBtn = cy.findByText(/click cell/gi);
