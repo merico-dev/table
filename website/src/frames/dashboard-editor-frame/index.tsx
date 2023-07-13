@@ -22,9 +22,8 @@ export function DashboardEditorFrame() {
           },
         }}
       >
-        <Notifications position="top-right">
-          <Outlet />
-        </Notifications>
+        <Notifications position="top-right" />
+        <Outlet />
       </MantineProvider>
     </DashboardStoreProvider>
   );

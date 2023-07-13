@@ -22,11 +22,10 @@ export function LoginPage() {
   }
 
   return (
-    <Notifications position="top-right">
-      <Center sx={{ width: '100vw', height: '100vh' }}>
-        <LoadingOverlay visible={loading} />
-        <Login config={SettingsFormConfig} onSuccess={onSuccess} />
-      </Center>
-    </Notifications>
+    <Center sx={{ width: '100vw', height: '100vh' }}>
+      <Notifications position="top-right" />
+      <LoadingOverlay visible={loading} />
+      <Login config={SettingsFormConfig} onSuccess={onSuccess} />
+    </Center>
   );
 }
