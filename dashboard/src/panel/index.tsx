@@ -47,6 +47,9 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
 
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   const panelStyle = getPanelBorderStyle(panel, inEditMode);
+
+  const panelNeedData = doesVizRequiresData(panel.viz.type);
+  const needDropdownMenu = panelNeedData || inEditMode;
   return (
     <PanelContextProvider value={{ panel, data: panel.data, loading: panel.dataLoading, errors: panel.queryErrors }}>
       <Box
@@ -60,7 +63,7 @@ export const Panel = observer(function _Panel({ panel, view }: IPanel) {
         <Box sx={{ position: 'absolute', left: 0, top: 0, height: 28, zIndex: 310 }}>
           <DescriptionPopover />
         </Box>
-        <PanelDropdownMenu view={view} />
+        {needDropdownMenu && <PanelDropdownMenu view={view} />}
         <PanelTitleBar />
         <PanelVizSection panel={panel} height={contentHeight} />
       </Box>
