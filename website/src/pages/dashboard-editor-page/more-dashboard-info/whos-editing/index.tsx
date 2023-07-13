@@ -1,5 +1,5 @@
 import { Badge, HoverCard } from '@mantine/core';
-import { IconArrowsShuffle } from '@tabler/icons';
+import { IconArrowsShuffle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo, useState } from 'react';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';

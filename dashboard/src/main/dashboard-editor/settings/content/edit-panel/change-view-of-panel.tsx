@@ -1,6 +1,6 @@
 import { Button, Group, Modal, Radio, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons';
+import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useContentModelContext } from '~/contexts';

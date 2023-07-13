@@ -1,6 +1,6 @@
 import { Button, Group, Header as MantineHeader, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconAlertTriangle, IconArrowLeft } from '@tabler/icons';
+import { IconAlertTriangle, IconArrowLeft } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';

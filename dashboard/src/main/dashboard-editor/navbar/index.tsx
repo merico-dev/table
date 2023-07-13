@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
-import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons';
+import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useContentModelContext, useModelContext } from '~/contexts';

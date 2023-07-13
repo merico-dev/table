@@ -1,5 +1,5 @@
 import { ActionIcon } from '@mantine/core';
-import { IconApi, IconUser } from '@tabler/icons';
+import { IconApi, IconUser } from '@tabler/icons-react';
 
 export const AccountTypeIcon = ({ type }: { type: 'ACCOUNT' | 'APIKEY' | null }) => {
   if (!type) {

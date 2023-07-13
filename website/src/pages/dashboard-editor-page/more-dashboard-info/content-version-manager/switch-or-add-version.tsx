@@ -1,6 +1,6 @@
 import { DashboardContentDBType, initialDashboardContent } from '@devtable/dashboard';
 import { ActionIcon, Badge, Button, Group, Menu, Text } from '@mantine/core';
-import { IconCaretDown, IconEdit, IconPlaylistAdd, IconVersions } from '@tabler/icons';
+import { IconCaretDown, IconEdit, IconPlaylistAdd, IconVersions } from '@tabler/icons-react';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';

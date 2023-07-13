@@ -1,7 +1,7 @@
 import { Button, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconLock } from '@tabler/icons';
+import { IconLock } from '@tabler/icons-react';
 import { Trash } from 'tabler-icons-react';
 
 import { APICaller } from '../api-caller';

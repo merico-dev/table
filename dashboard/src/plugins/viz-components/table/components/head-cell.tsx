@@ -1,5 +1,5 @@
 import { Text } from '@mantine/core';
-import { IconArrowDown, IconArrowUp } from '@tabler/icons';
+import { IconArrowDown, IconArrowUp } from '@tabler/icons-react';
 import { flexRender, Header } from '@tanstack/react-table';
 import _ from 'lodash';
 import React from 'react';

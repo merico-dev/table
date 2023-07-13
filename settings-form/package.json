@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "4.4.6",
-    "@tabler/icons": "1.119.0",
+    "@tabler/icons-react": "2.25.0",
     "monaco-editor": "0.36.0"
   },
   "devDependencies": {

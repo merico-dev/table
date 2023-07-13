@@ -1,5 +1,5 @@
 import { Box, Checkbox, Group, Text, Tooltip } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyRichText } from '~/components/rich-text-editor/readonly-rich-text-editor';
 import { FilterModelInstance } from '../../model';

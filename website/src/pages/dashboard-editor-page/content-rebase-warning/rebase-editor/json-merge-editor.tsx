@@ -1,5 +1,5 @@
 import { Button, Group, Stack, Text } from '@mantine/core';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import _, { get } from 'lodash';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';

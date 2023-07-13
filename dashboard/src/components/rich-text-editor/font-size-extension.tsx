@@ -7,7 +7,7 @@ import { Flex, NativeSelect, Text, TextInput } from '@mantine/core';
 import { Extension } from '@tiptap/core';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
-import { IconForbid, IconTextDecrease, IconTextIncrease, IconTextSize } from '@tabler/icons';
+import { IconForbid, IconTextDecrease, IconTextIncrease, IconTextSize } from '@tabler/icons-react';
 import { useMemo } from 'react';
 
 export type FontSizeOptions = {

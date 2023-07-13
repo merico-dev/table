@@ -1,6 +1,6 @@
 import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { Link, RichTextEditor, RichTextEditorProps, useRichTextEditorContext } from '@mantine/tiptap';
-import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons';
+import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons-react';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';

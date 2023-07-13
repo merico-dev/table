@@ -3,7 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { IHeatmapConf } from '../../type';
-import { IconTextSize } from '@tabler/icons';
+import { IconTextSize } from '@tabler/icons-react';
 
 interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;

@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { IconCheck } from '@tabler/icons';
+import { IconCheck } from '@tabler/icons-react';
 import { useCreation } from 'ahooks';
 import _ from 'lodash';
 import { cloneDeep } from 'lodash';

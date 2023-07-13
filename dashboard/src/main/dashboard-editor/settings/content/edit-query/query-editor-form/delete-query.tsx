@@ -1,6 +1,6 @@
 import { Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons';
+import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext, useModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/model';

@@ -1,5 +1,5 @@
 import { ActionIcon, Menu } from '@mantine/core';
-import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons';
+import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useContentModelContext, useModelContext } from '~/contexts';

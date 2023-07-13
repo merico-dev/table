@@ -6,7 +6,7 @@ import {
   IconFilter,
   IconVariable,
   TablerIcon,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { ContentModelInstance } from '../content';
 

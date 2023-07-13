@@ -1,5 +1,5 @@
 import { Box, Button, Group, Sx } from '@mantine/core';
-import { IconPlaylistAdd } from '@tabler/icons';
+import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
 

@@ -1,4 +1,4 @@
-import { IconBrandMysql, IconDatabase, IconNetwork } from '@tabler/icons';
+import { IconBrandMysql, IconDatabase, IconNetwork } from '@tabler/icons-react';
 import { DataSourceType } from '../../api-caller/datasource.typed';
 import { ActionIcon, Group, Text } from '@mantine/core';
 

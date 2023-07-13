@@ -1,6 +1,6 @@
 import { ActionIcon, Alert, Group, LoadingOverlay, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconAlertCircle, IconLock, IconLockOpen } from '@tabler/icons';
+import { IconAlertCircle, IconLock, IconLockOpen } from '@tabler/icons-react';
 import { useCreation } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { useDashboardStore } from '../../../../frames/app/models/dashboard-store-context';

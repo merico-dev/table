@@ -1,5 +1,12 @@
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
-import { IconClipboardCheck, IconClipboardCopy, IconDatabase, IconInfoCircle, IconKey, IconUsers } from '@tabler/icons';
+import {
+  IconClipboardCheck,
+  IconClipboardCopy,
+  IconDatabase,
+  IconInfoCircle,
+  IconKey,
+  IconUsers,
+} from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IAdminPageLink {

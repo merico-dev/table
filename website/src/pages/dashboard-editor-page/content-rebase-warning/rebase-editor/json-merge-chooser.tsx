@@ -1,5 +1,5 @@
 import { Badge, Button, Card, Group, Overlay, Text, Tooltip } from '@mantine/core';
-import { IconCheck } from '@tabler/icons';
+import { IconCheck } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ErrorBoundary } from '../../../../utils/error-boundary';
 import { IJsonChangesViewerProps, JsonChangesViewer } from './json-changes-viewer';

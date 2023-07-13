@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { IconUserPlus } from '@tabler/icons';
+import { IconUserPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { PermissionModelInstance } from '../model';
 

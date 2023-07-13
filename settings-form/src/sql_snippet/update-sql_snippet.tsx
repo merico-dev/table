@@ -7,7 +7,7 @@ import { APICaller } from '../api-caller';
 import { TUpdateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
-import { IconEdit } from '@tabler/icons';
+import { IconEdit } from '@tabler/icons-react';
 
 type TFormValues = TUpdateSQLSnippetPayload;
 

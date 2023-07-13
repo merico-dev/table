@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Button, Group, Paper, Stack } from '@mantine/core';
-import { IconDeviceFloppy, IconTrash } from '@tabler/icons';
+import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 
 import { useCreation } from 'ahooks';

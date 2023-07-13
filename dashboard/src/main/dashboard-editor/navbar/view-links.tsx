@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Button, Divider, Group, Text, Tooltip, UnstyledButton } from '@mantine/core';
-import { IconAdjustments, IconPlus } from '@tabler/icons';
+import { IconAdjustments, IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import { useContentModelContext, useModelContext } from '~/contexts';

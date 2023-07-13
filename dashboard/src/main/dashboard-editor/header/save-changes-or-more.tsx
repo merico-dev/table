@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Group, Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconAlertTriangle, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons';
+import { IconAlertTriangle, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
 

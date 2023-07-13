@@ -4,7 +4,7 @@ import { QueryModelInstance } from '~/model';
 import { SelectDataSource } from './select-data-source';
 import { DeleteQuery } from './delete-query';
 import { useEffect, useState } from 'react';
-import { IconDeviceFloppy } from '@tabler/icons';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 
 interface IQueryConfigurations {
   queryModel: QueryModelInstance;

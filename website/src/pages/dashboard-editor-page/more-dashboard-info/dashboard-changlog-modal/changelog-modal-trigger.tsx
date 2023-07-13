@@ -1,5 +1,5 @@
 import { Menu } from '@mantine/core';
-import { IconHistory } from '@tabler/icons';
+import { IconHistory } from '@tabler/icons-react';
 import { TModalState } from '../types';
 
 interface IProps {
