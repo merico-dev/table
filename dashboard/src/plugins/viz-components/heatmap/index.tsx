@@ -4,6 +4,7 @@ import { VizHeatmap } from './viz-heatmap';
 import { VizHeatmapEditor } from './viz-heatmap-editor';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 import { ClickHeatBlock } from './triggers';
+import _ from 'lodash';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHeatmapConf {
   try {
@@ -41,8 +42,12 @@ function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHeatmapConf {
   }
 }
 
+function v3(legacyConf: any): IHeatmapConf {
+  return _.defaultsDeep({}, legacyConf, { heat_block: { label: { show: false, fontSize: 10 } } });
+}
+
 class VizHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -59,6 +64,13 @@ class VizHeatmapMigrator extends VersionBasedMigrator {
         config: v2(data.config, env),
       };
     });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: v3(data.config),
+      };
+    });
   }
 }
 
@@ -73,7 +85,7 @@ export const HeatmapVizComponent: VizComponent = {
     version: number;
     config: IHeatmapConf;
   } => ({
-    version: 2,
+    version: 3,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],

@@ -32,6 +32,10 @@ export interface IHeatmapConf {
     name: string;
     data_key: TDataKey;
     value_formatter: TNumbroFormat;
+    label: {
+      show: boolean;
+      fontSize: number;
+    };
   };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
@@ -64,6 +68,10 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     name: 'Value',
     data_key: '',
     value_formatter: defaultNumbroFormat,
+    label: {
+      show: false,
+      fontSize: 10,
+    },
   },
   tooltip: {
     metrics: [],

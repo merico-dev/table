@@ -23,5 +23,9 @@ export function getSeries(conf: IHeatmapConf, data: TPanelData) {
       borderWidth: 2,
     },
     data: seriesData,
+    label: heat_block.label,
+    labelLayout: {
+      hideOverlap: true,
+    },
   };
 }
