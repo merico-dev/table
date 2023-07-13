@@ -1,10 +1,4 @@
-import {
-  Tree,
-  formatFiles,
-  readProjectConfiguration,
-  generateFiles,
-  joinPathFragments,
-} from '@nx/devkit';
+import { Tree, formatFiles, readProjectConfiguration, generateFiles, joinPathFragments } from '@nx/devkit';
 import { camelCase, pascalCase, paramCase } from 'change-case';
 
 interface GeneratorOptions {

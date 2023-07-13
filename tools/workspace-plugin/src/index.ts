@@ -4,8 +4,7 @@ import * as fs from 'fs';
 export const projectFilePatterns = ['package.json'];
 
 function registerProjectTargets(projectFilePath) {
-  const projectDir = (...items: string[]) =>
-    path.join(path.dirname(projectFilePath), ...items);
+  const projectDir = (...items: string[]) => path.join(path.dirname(projectFilePath), ...items);
   if (fs.existsSync(projectDir('nx.json'))) {
     return {};
   }

@@ -20,9 +20,7 @@ const EXTERNAL_PATHS = [
   '/node_modules/echarts',
   '/node_modules/dayjs',
 ];
-const DEPENDENCIES = new Set(
-  Object.keys(dependencies).concat(Object.keys(peerDependencies))
-);
+const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
 const externals = (id: string) => {
   if (id.includes('node_modules/dayjs/plugin')) {
     // FIXME: find a way to use alias on dayjs/plugins
@@ -41,9 +39,7 @@ const externals = (id: string) => {
 export default defineConfig({
   plugins: [
     tsconfigPaths({
-      projects: [
-        process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json',
-      ],
+      projects: [process.env.VITEST ? './tsconfig.test.json' : './tsconfig.json'],
     }),
     react({
       babel: {
@@ -92,10 +88,7 @@ export default defineConfig({
           if (match) {
             return match.replace('/node_modules/', '');
           }
-          const id = name.replace(
-            /^\/.+\/table\/node_modules\/([\w|\-]+)\/.+$/,
-            '$1'
-          );
+          const id = name.replace(/^\/.+\/table\/node_modules\/([\w|\-]+)\/.+$/, '$1');
           const ret = GLOBAL_MODULE_IDS[id];
           return ret ?? name;
         },
