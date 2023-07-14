@@ -1,5 +1,5 @@
 import { Box, NavLink } from '@mantine/core';
-import { IconDatabase, IconEye, IconTable } from '@tabler/icons';
+import { IconDatabase, IconEye, IconTable } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';
 import { TableInfoType } from '~/model/datasources/tables';

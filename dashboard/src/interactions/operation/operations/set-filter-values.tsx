@@ -1,5 +1,5 @@
 import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
-import { IconDeviceFloppy } from '@tabler/icons';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useContentModelContext } from '~/contexts';

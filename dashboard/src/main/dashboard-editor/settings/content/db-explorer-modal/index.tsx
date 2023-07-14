@@ -7,7 +7,7 @@ import { DBExplorer } from './db-explorer';
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },
-  header: { marginBottom: 0, padding: '0 20px 10px', borderBottom: '1px solid #efefef' },
+  header: { marginBottom: 0, padding: '20px 20px 10px', borderBottom: '1px solid #efefef', gap: '20px' },
   title: { flexGrow: 1 },
   body: {
     padding: '0 0 0 20px',
@@ -45,7 +45,6 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
         }
         zIndex={320}
         size="96vw"
-        overflow="inside"
         styles={modalStyles}
       >
         <Box sx={{ height: 'calc(100vh - 220px)' }}>

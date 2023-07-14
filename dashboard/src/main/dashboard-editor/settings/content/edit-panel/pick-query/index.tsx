@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Checkbox, Drawer, Group, Stack, Tabs, Tooltip } from '@mantine/core';
-import { IconArrowCurveRight, IconLine } from '@tabler/icons';
+import { IconArrowCurveRight, IconLine } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useContentModelContext, useModelContext, usePanelContext } from '../../../../../../contexts';
@@ -22,13 +22,15 @@ export const PickQuery = observer(function _PickQuery() {
         onClose={() => setOpened(false)}
         title="Choose queries"
         padding="xl"
-        size="xl"
+        size={500}
         zIndex={320}
       >
-        <Checkbox.Group orientation="vertical" value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
-          {content.queries.options.map((o) => (
-            <Checkbox key={o.value} label={o.label} value={o.value} />
-          ))}
+        <Checkbox.Group value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
+          <Stack spacing="lg">
+            {content.queries.options.map((o) => (
+              <Checkbox key={o.value} label={o.label} value={o.value} />
+            ))}
+          </Stack>
         </Checkbox.Group>
       </Drawer>
 

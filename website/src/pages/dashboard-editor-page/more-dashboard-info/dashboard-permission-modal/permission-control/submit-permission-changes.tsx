@@ -1,6 +1,6 @@
 import { Button } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons';
+import { IconCheck } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../../api-caller';

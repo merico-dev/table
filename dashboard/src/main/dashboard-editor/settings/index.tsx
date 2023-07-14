@@ -38,12 +38,14 @@ export const Settings = observer(() => {
       opened={editor.settings_open}
       fullScreen
       title={null}
-      transitionDuration={0}
+      transitionProps={{
+        duration: 0,
+      }}
       withCloseButton={false}
       withinPortal
       zIndex={300}
       styles={{
-        modal: {
+        body: {
           padding: '0 !important',
         },
       }}

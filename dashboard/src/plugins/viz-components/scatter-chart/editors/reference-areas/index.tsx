@@ -1,5 +1,5 @@
 import { Button, Divider, Stack, Tabs } from '@mantine/core';
-import { IconTrash } from '@tabler/icons';
+import { IconTrash } from '@tabler/icons-react';
 import { useMemo } from 'react';
 import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';

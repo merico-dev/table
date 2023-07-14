@@ -18,7 +18,6 @@ export const OverwriteWithJSONModal = observer(
     };
     return (
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={close}
         title="Overwrite with JSON file"

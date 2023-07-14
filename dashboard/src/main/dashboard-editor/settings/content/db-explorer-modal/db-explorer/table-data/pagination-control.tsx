@@ -15,7 +15,7 @@ const selectorStyles = {
     textAlign: 'center',
   },
   input: {
-    '&.mantine-Input-withIcon': {
+    '&[data-with-icon]': {
       paddingLeft: '50px',
     },
   },
@@ -29,11 +29,11 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         {tableData.maxPage > 1 && (
           <Pagination
             size="sm"
-            page={tableData.page}
+            value={tableData.page}
             onChange={tableData.setPage}
             total={tableData.maxPage}
             withEdges={tableData.maxPage > 7}
-            styles={{ item: { height: '30px' } }}
+            styles={{ control: { height: '30px' } }}
           />
         )}
         <Select

@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Tooltip } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconEdit, IconLock } from '@tabler/icons';
+import { IconEdit, IconLock } from '@tabler/icons-react';
 import React from 'react';
 import { APICaller } from '../../api-caller';
 import { IDataSource } from '../../api-caller/datasource.typed';
@@ -111,7 +111,6 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Add a data source"

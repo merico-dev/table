@@ -1,6 +1,6 @@
 import { Box, Button, ColorInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconArrowsLeftRight, IconTrash } from '@tabler/icons';
+import { IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';

@@ -43,7 +43,7 @@ function _DashboardLinks() {
         value={activeAccordion}
         onChange={setActiveAccordion}
         styles={{
-          control: {
+          label: {
             padding: '12px 4px',
           },
           content: {

@@ -1,5 +1,5 @@
 import { ThemeIcon, Text, Group } from '@mantine/core';
-import { IconCircleDashed, IconCircleDot, IconCircleOff } from '@tabler/icons';
+import { IconCircleDashed, IconCircleDot, IconCircleOff } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import './index.css';
 

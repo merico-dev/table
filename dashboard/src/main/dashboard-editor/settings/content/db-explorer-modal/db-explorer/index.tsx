@@ -1,5 +1,5 @@
 import { Box, Flex, Tabs, Text } from '@mantine/core';
-import { IconColumns, IconDatabase } from '@tabler/icons';
+import { IconColumns, IconDatabase } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { DataSourceModelInstance } from '~/model/datasources/datasource';

@@ -53,7 +53,7 @@ export const TriggerSelect = observer((props: ITriggerSelectProps) => {
   const model = props.model;
   return (
     <>
-      <Modal opened={modalOpen} onClose={closeModal} title="Setup Trigger" closeButtonLabel="close setup" zIndex={320}>
+      <Modal opened={modalOpen} onClose={closeModal} title="Setup Trigger" zIndex={320}>
         <Stack>
           <TriggerSchemaSelect model={model} />
           <TriggerSettings model={model} />

@@ -1,5 +1,5 @@
 import { Center, Tabs, Tooltip } from '@mantine/core';
-import { IconPlus } from '@tabler/icons';
+import { IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';

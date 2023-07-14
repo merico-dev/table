@@ -1,5 +1,5 @@
 import { Button, Modal } from '@mantine/core';
-import { IconGitMerge } from '@tabler/icons';
+import { IconGitMerge } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { JsonMergeEditor } from './json-merge-editor';

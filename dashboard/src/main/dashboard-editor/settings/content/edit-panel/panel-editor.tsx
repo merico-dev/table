@@ -1,6 +1,6 @@
 import { Box, Button, Group, LoadingOverlay, Tabs, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons';
+import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useContentModelContext, useModelContext } from '~/contexts';

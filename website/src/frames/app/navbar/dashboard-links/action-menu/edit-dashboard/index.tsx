@@ -17,7 +17,6 @@ export const EditDashboardModal = observer(
     };
     return (
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={close}
         title={`Edit Dashboard ${dashboard.name}`}

@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { IconShieldLock } from '@tabler/icons';
+import { IconShieldLock } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../../api-caller';

@@ -120,7 +120,6 @@ export function ChangePassword({ opened, onClose }: IChangePassword) {
 
   return (
     <Modal
-      overflow="inside"
       opened={opened}
       onClose={onClose}
       title="Change Password"

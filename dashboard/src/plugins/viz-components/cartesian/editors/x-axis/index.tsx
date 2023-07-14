@@ -16,7 +16,7 @@ import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/plugins/common-echarts-fields/axis-label-overflow';
 import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
-import { IconInfoCircle } from '@tabler/icons';
+import { IconInfoCircle } from '@tabler/icons-react';
 
 //https://echarts.apache.org/zh/option.html#xAxis.type
 const XAxisTypeLabel = () => {

@@ -1,7 +1,7 @@
 import { DashboardContentDBType } from '@devtable/dashboard';
 import { ActionIcon, Box, Group, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../../../api-caller';

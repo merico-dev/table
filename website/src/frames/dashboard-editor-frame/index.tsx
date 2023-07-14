@@ -1,5 +1,5 @@
 import { MantineProvider } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { Navigate, Outlet } from 'react-router-dom';
 import { DashboardStoreProvider } from '../app/models/dashboard-store-context';
 import { useAccountContext } from '../require-auth/account-context';
@@ -14,17 +14,16 @@ export function DashboardEditorFrame() {
       <MantineProvider
         theme={{
           breakpoints: {
-            xs: 1366,
-            sm: 1440,
-            md: 1536,
-            lg: 1600,
-            xl: 1920,
+            xs: '85em',
+            sm: '90em',
+            md: '96em',
+            lg: '100em',
+            xl: '120em',
           },
         }}
       >
-        <NotificationsProvider position="top-right">
-          <Outlet />
-        </NotificationsProvider>
+        <Notifications position="top-right" />
+        <Outlet />
       </MantineProvider>
     </DashboardStoreProvider>
   );

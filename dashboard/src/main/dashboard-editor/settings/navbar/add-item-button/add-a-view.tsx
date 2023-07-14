@@ -1,5 +1,5 @@
 import { Button } from '@mantine/core';
-import { IconPlus } from '@tabler/icons';
+import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
 

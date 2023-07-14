@@ -162,7 +162,6 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title={`Editing ${account.name}`}

@@ -1,5 +1,5 @@
 import { Button, HoverCard, Sx, Table } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons';
+import { IconInfoCircle } from '@tabler/icons-react';
 
 const TableSx: Sx = {
   'tbody th, tbody td': {

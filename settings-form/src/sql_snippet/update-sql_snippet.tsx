@@ -7,7 +7,7 @@ import { APICaller } from '../api-caller';
 import { TUpdateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
-import { IconEdit } from '@tabler/icons';
+import { IconEdit } from '@tabler/icons-react';
 
 type TFormValues = TUpdateSQLSnippetPayload;
 
@@ -99,7 +99,6 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
   return (
     <>
       <Modal
-        overflow="inside"
         opened={opened}
         onClose={() => setOpened(false)}
         title="Edit a SQL Snippet"

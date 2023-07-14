@@ -7,7 +7,7 @@ import { AddSQLSnippet } from './add-sql_snippet';
 import { DeleteSQLSnippet } from './delete-sql_snippet';
 import { IStyles, defaultStyles } from './styles';
 
-import { IconEye } from '@tabler/icons';
+import { IconEye } from '@tabler/icons-react';
 import { UpdateSQLSnippet } from './update-sql_snippet';
 
 function HoverToSeeContent({ content }: { content: string }) {

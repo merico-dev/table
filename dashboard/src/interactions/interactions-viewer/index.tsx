@@ -19,7 +19,6 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
   return (
     <Modal
       size="96vw"
-      overflow="inside"
       opened={opened}
       onClose={close}
       // closeOnClickOutside={false}
@@ -33,7 +32,7 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
         body: {
           height: '90vh',
         },
-        modal: {
+        content: {
           transform: 'none !important',
         },
       }}

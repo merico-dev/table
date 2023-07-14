@@ -1,5 +1,5 @@
 import { AppShell, MantineProvider } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { Notifications } from '@mantine/notifications';
 import { Outlet } from 'react-router-dom';
 import { Header } from './header';
 import './index.css';
@@ -26,9 +26,8 @@ export function App() {
         }}
       >
         <MantineProvider>
-          <NotificationsProvider position="top-right">
-            <Outlet />
-          </NotificationsProvider>
+          <Notifications position="top-right" />
+          <Outlet />
         </MantineProvider>
       </AppShell>
     </DashboardStoreProvider>

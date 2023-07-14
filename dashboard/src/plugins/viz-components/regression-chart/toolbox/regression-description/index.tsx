@@ -1,5 +1,5 @@
 import { Button, HoverCard, Sx, Table, Tabs, Text } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { IRegressionChartConf } from '../../type';
 import numbro from 'numbro';
 import { useMemo } from 'react';

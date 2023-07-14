@@ -14,7 +14,6 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
     <Modal
       size={config.width}
       centered
-      overflow="inside"
       opened={opened}
       onClose={close}
       withCloseButton={false}
@@ -24,7 +23,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         e.stopPropagation();
       }}
       styles={{
-        modal: {
+        content: {
           border: '1px solid #efefef',
         },
         body: {
@@ -32,7 +31,9 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
           overflow: 'auto',
         },
       }}
-      transitionDuration={0}
+      transitionProps={{
+        duration: 0,
+      }}
     >
       {children}
     </Modal>
