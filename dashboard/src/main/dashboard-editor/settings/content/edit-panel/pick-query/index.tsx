@@ -22,13 +22,15 @@ export const PickQuery = observer(function _PickQuery() {
         onClose={() => setOpened(false)}
         title="Choose queries"
         padding="xl"
-        size="xl"
+        size={500}
         zIndex={320}
       >
-        <Checkbox.Group orientation="vertical" value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
-          {content.queries.options.map((o) => (
-            <Checkbox key={o.value} label={o.label} value={o.value} />
-          ))}
+        <Checkbox.Group value={[...panel.queryIDs]} onChange={panel.setQueryIDs}>
+          <Stack spacing="lg">
+            {content.queries.options.map((o) => (
+              <Checkbox key={o.value} label={o.label} value={o.value} />
+            ))}
+          </Stack>
         </Checkbox.Group>
       </Drawer>
 
