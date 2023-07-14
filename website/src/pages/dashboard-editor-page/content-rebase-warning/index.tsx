@@ -100,7 +100,7 @@ export const ContentRebaseWarning = observer(() => {
             </Text>
           </Group>
         }
-        disallowClose
+        withCloseButton={false}
         sx={{ position: 'fixed', top: 10, right: 15, zIndex: 410 }}
       >
         <Text mt={10} color="dark">
