@@ -80,6 +80,7 @@ export const ColumnField = ({ control, index, watch, remove, column }: IColumnFi
         <Controller
           name={`columns.${index}.width`}
           control={control}
+          // @ts-expect-error typeof onChange
           render={({ field }) => <NumberInput hideControls label="Width" rightSection={<PostFixPX />} {...field} />}
         />
         <NumberInput hideControls label="Max Width" rightSection={<PostFixPX />} disabled />

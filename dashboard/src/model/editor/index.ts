@@ -5,7 +5,7 @@ import {
   IconDatabase,
   IconFilter,
   IconVariable,
-  TablerIcon,
+  Icon,
 } from '@tabler/icons-react';
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { ContentModelInstance } from '../content';
@@ -27,7 +27,7 @@ export type NavLinkType = {
   label: string;
   value: string;
   _type: 'GROUP' | 'query_variables' | 'mock_context' | 'filter' | 'sql_snippet' | 'query' | 'view' | 'panel';
-  Icon?: TablerIcon;
+  Icon?: Icon;
   parentID?: string; // for panel only
   children?: NavOptionType[];
 };

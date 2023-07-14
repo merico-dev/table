@@ -130,6 +130,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
         </Popover.Target>
         <Popover.Dropdown>
           <Stack>
+            {/* @ts-expect-error type of onChange */}
             <NumberInput size="xs" label="Map a value to this color" value={state} onChange={setState} />
             <Group position="right">
               <Button variant="subtle" size="xs" onClick={handleCancel}>
