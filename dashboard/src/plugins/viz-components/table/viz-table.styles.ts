@@ -40,16 +40,20 @@ export const useTableStyles = createStyles((theme) => ({
 
 export const baseTableSX: Sx = {
   tableLayout: 'fixed',
-  'th, td': {
-    padding: '2px 10px',
-    div: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
-    // for index column
-    '&:first-of-type': {
-      paddingLeft: 2,
-      paddingRight: 2,
+  'thead, tbody': {
+    tr: {
+      'th, td': {
+        padding: '2px 10px',
+        div: {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        // for index column
+        '&:first-of-type': {
+          paddingLeft: 2,
+          paddingRight: 2,
+        },
+      },
     },
   },
 };
