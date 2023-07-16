@@ -11,8 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-dashboard/packages/**/yarn.lock
-dashboard/packages/**/stats.html
+.yarn/
 
 .env
 
