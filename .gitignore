@@ -11,8 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-dashboard/packages/**/yarn.lock
-dashboard/packages/**/stats.html
+.yarn/
 
 .env
 
@@ -35,3 +34,4 @@ api/src/fs_cache
 
 api/.jest_cache
 api/coverage*
+api/yarn.lock
