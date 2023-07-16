@@ -1573,7 +1573,6 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/fs-extra": ^11.0.1
     "@types/i18n": ^0.13.6
-    "@types/inversify": ^2.0.33
     "@types/jest": ^29.4.0
     "@types/jsonwebtoken": ^8.5.8
     "@types/lodash": ^4.14.182
@@ -1661,7 +1660,6 @@ __metadata:
     "@types/chroma-js": ^2.1.4
     "@types/crypto-js": v4.1.1
     "@types/d3-array": 3.0.4
-    "@types/eventemitter2": ^4.1.0
     "@types/file-saver": 2.0.5
     "@types/lodash": ^4.14.182
     "@types/react": ^18.0.0
@@ -5218,15 +5216,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eventemitter2@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "@types/eventemitter2@npm:4.1.0"
-  dependencies:
-    eventemitter2: "*"
-  checksum: 977c697420554e07e9759aed5d94b85ff10684fdbf85c778df1456fd3120811ff7b8307c8c8198f312ab866d36d3d8b94e3641e6bca3f419c649a7e0cd592dc2
-  languageName: node
-  linkType: hard
-
 "@types/express-serve-static-core@npm:^4.17.33":
   version: 4.17.35
   resolution: "@types/express-serve-static-core@npm:4.17.35"
@@ -5321,15 +5310,6 @@ __metadata:
   version: 0.13.6
   resolution: "@types/i18n@npm:0.13.6"
   checksum: 73490f7248e1e6330962d5a9a9621c4a92685188d840f0799d33292350dbd88733f189b2a0f82805bb2ac9ab1c02beec5575e80fec71aa3abac43e46752fad8d
-  languageName: node
-  linkType: hard
-
-"@types/inversify@npm:^2.0.33":
-  version: 2.0.33
-  resolution: "@types/inversify@npm:2.0.33"
-  dependencies:
-    inversify: "*"
-  checksum: 7e9c8ee2c2003070d07391a1b114077553f1ab8db3b3593b7c96e25c643a54f719702d0dc5cd6216e8f47b42a4d3474b82cb8df262f03c9b1ac20bcec5de7500
   languageName: node
   linkType: hard
 
@@ -9415,17 +9395,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter2@npm:*, eventemitter2@npm:^6.4.6":
-  version: 6.4.9
-  resolution: "eventemitter2@npm:6.4.9"
-  checksum: be59577c1e1c35509c7ba0e2624335c35bbcfd9485b8a977384c6cc6759341ea1a98d3cb9dbaa5cea4fff9b687e504504e3f9c2cc1674cf3bd8a43a7c74ea3eb
-  languageName: node
-  linkType: hard
-
 "eventemitter2@npm:6.4.7":
   version: 6.4.7
   resolution: "eventemitter2@npm:6.4.7"
   checksum: 1b36a77e139d6965ebf3a36c01fa00c089ae6b80faa1911e52888f40b3a7057b36a2cc45dcd1ad87cda3798fe7b97a0aabcbb8175a8b96092a23bb7d0f039e66
+  languageName: node
+  linkType: hard
+
+"eventemitter2@npm:^6.4.6":
+  version: 6.4.9
+  resolution: "eventemitter2@npm:6.4.9"
+  checksum: be59577c1e1c35509c7ba0e2624335c35bbcfd9485b8a977384c6cc6759341ea1a98d3cb9dbaa5cea4fff9b687e504504e3f9c2cc1674cf3bd8a43a7c74ea3eb
   languageName: node
   linkType: hard
 
@@ -11284,7 +11264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inversify@npm:*, inversify@npm:^6.0.1":
+"inversify@npm:^6.0.1":
   version: 6.0.1
   resolution: "inversify@npm:6.0.1"
   checksum: b6c9b56ef7817a71534b06101c2b0a0130b67c47a769f58794d9c0643591a83ac02be30a48c00cb729c0c83ece96dde369c419d48c32d0201c6cc7407629fbc5
