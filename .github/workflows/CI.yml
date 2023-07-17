@@ -31,15 +31,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: yarn install --frozen-lockfile
-      - run: yarn global add nx
       - uses: nrwl/nx-set-shas@v3
-      - run: nx affected --target=check --parallel=3
+      - run: yarn exec nx affected --target=check --parallel=3
       - name: debug local cache
         run: |
           ls -al ./node_modules/.cache/nx
           cat ./node_modules/.cache/nx/run.json
-      - run: nx affected --target=test --parallel=3 --configuration=ci
-      - run: nx run-many -t build -p website api --parallel=3
+      - run: yarn exec nx affected --target=test --parallel=3 --configuration=ci
+      - run: yarn exec nx run-many -t build -p website api --parallel=3
       - name: debug local cache
         run: |
           ls -al ./node_modules/.cache/nx
