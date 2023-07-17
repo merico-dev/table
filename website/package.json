@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.3.11",
-    "@devtable/dashboard": "10.6.0",
-    "@devtable/settings-form": "10.6.0",
+    "@devtable/dashboard": "workspace:*",
+    "@devtable/settings-form": "workspace:*",
     "@emotion/react": "11.10.6",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "6.0.16",

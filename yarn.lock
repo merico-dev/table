@@ -1620,7 +1620,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@devtable/dashboard@10.5.3, @devtable/dashboard@workspace:dashboard":
+"@devtable/dashboard@workspace:*, @devtable/dashboard@workspace:dashboard":
   version: 0.0.0-use.local
   resolution: "@devtable/dashboard@workspace:dashboard"
   dependencies:
@@ -1802,7 +1802,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@devtable/settings-form@10.5.3, @devtable/settings-form@workspace:settings-form":
+"@devtable/settings-form@workspace:*, @devtable/settings-form@workspace:settings-form":
   version: 0.0.0-use.local
   resolution: "@devtable/settings-form@workspace:settings-form"
   dependencies:
@@ -1840,8 +1840,8 @@ __metadata:
   resolution: "@devtable/website@workspace:website"
   dependencies:
     "@ahooksjs/use-url-state": ^3.3.11
-    "@devtable/dashboard": 10.5.3
-    "@devtable/settings-form": 10.5.3
+    "@devtable/dashboard": "workspace:*"
+    "@devtable/settings-form": "workspace:*"
     "@emotion/react": 11.10.6
     "@faker-js/faker": 7.6.0
     "@mantine/core": 6.0.16
