@@ -17,24 +17,24 @@
     "vitest": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "yarn exec vitest -- --ui",
+        "command": "yarn exec vitest --ui",
         "cwd": "./dashboard/"
       },
       "configurations": {
         "ci": {
-          "command": "yarn exec vitest -- --run"
+          "command": "yarn exec vitest --run"
         }
       }
     },
     "cypress": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "yarn exec cypress open -- --component",
+        "command": "yarn exec cypress open --component",
         "cwd": "./dashboard/"
       },
       "configurations": {
         "ci": {
-          "command": "yarn exec cypress run -- --component"
+          "command": "yarn exec cypress run --component"
         }
       }
     }
