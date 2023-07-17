@@ -18,7 +18,7 @@ export const DEFAULT_VALUE = {
   dynamic: {
     type: 'dynamic',
     value: [
-      'function getSize({ rowData, params, variables }, { lodash, interpolate }) {',
+      'function getSize({ variables }, { lodash, interpolate }) {',
       '    // your code goes here',
       '    // return 100;',
       '}',
