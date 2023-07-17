@@ -8,4 +8,8 @@ COPY api /code/api
 
 WORKDIR /code/api/_build
 
+ENV YARN_VERSION 3.6.1
+
+RUN yarn set version $YARN_VERSION
+
 RUN yarn install
