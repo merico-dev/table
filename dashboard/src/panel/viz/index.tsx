@@ -55,7 +55,7 @@ export const Viz = observer(function _Viz({ data }: IViz) {
 
   const pluginViz = usePluginViz(data, { w: width, h: height });
 
-  const canRender = width && height;
+  const canRender = width > 0 && height > 0;
   return (
     <div className="viz-root" ref={ref}>
       {canRender && <ErrorBoundary>{pluginViz}</ErrorBoundary>}

@@ -5,6 +5,7 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { TNumberOrDynamic } from '~/plugins/common-echarts-fields/number-or-dynamic-value/types';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -27,8 +28,8 @@ export interface IHeatmapConf {
     };
   };
   heat_block: {
-    min: number;
-    max: number;
+    min: TNumberOrDynamic;
+    max: TNumberOrDynamic;
     name: string;
     data_key: TDataKey;
     value_formatter: TNumbroFormat;
@@ -63,8 +64,14 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     },
   },
   heat_block: {
-    min: 0,
-    max: 1000,
+    min: {
+      type: 'static',
+      value: 0,
+    },
+    max: {
+      type: 'static',
+      value: 100,
+    },
     name: 'Value',
     data_key: '',
     value_formatter: defaultNumbroFormat,

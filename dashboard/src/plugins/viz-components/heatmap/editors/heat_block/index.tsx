@@ -1,9 +1,10 @@
-import { Box, Checkbox, Divider, Group, NumberInput, Stack, Switch, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Stack, Switch, TextInput } from '@mantine/core';
+import { IconTextSize } from '@tabler/icons-react';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
+import { NumberOrDynamicValue } from '~/plugins/common-echarts-fields/number-or-dynamic-value';
 import { IHeatmapConf } from '../../type';
-import { IconTextSize } from '@tabler/icons-react';
 
 interface IHeatBlockField {
   control: Control<IHeatmapConf, $TSFixMe>;
@@ -30,14 +31,12 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.min"
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Min Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label="Min Value" {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label="Max Value" {...field} />}
         />
       </Group>
 

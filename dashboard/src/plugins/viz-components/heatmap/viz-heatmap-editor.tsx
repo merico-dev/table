@@ -39,8 +39,8 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
   }, [values, conf]);
 
   return (
-    <Stack spacing="xs">
-      <form onSubmit={handleSubmit(setConf)}>
+    <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
+      <Stack spacing="xs" sx={{ height: '100%' }}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Chart Config</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
@@ -51,6 +51,10 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
           defaultValue="X Axis"
           orientation="vertical"
           styles={{
+            root: {
+              // height: '100%',
+              flexGrow: 1,
+            },
             tab: {
               paddingLeft: '6px',
               paddingRight: '6px',
@@ -84,7 +88,7 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
             <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
-      </form>
-    </Stack>
+      </Stack>
+    </form>
   );
 }

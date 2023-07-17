@@ -1,7 +1,6 @@
 import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
+import { HeatmapChart } from 'echarts/charts';
 import {
   DataZoomComponent,
   GridComponent,
@@ -9,6 +8,7 @@ import {
   TooltipComponent,
   VisualMapComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
@@ -16,11 +16,11 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { useStorageData } from '~/plugins/hooks';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { parseDataKey } from '~/utils/data';
 import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { parseDataKey } from '~/utils/data';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -35,8 +35,6 @@ interface IClickHeatBlock {
 
 echarts.use([
   DataZoomComponent,
-  BarChart,
-  LineChart,
   HeatmapChart,
   GridComponent,
   LegendComponent,
