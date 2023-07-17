@@ -32,7 +32,7 @@ function compile() {
 }
 
 function copyPackageJson() {
-  return gulp.src(['package.json', 'yarn.lock'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
+  return gulp.src(['package.json', '../yarn.lock'], { cwd: __dirname }).pipe(gulp.dest(buildDir));
 }
 
 function copyEnv() {
