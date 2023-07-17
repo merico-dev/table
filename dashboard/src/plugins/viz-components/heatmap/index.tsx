@@ -46,8 +46,34 @@ function v3(legacyConf: any): IHeatmapConf {
   return _.defaultsDeep({}, legacyConf, { heat_block: { label: { show: false, fontSize: 10 } } });
 }
 
+function v4(legacyConf: any): IHeatmapConf {
+  const { heat_block } = legacyConf;
+  let { min, max } = heat_block;
+  if (typeof min !== 'number') {
+    min = 0;
+  }
+  if (typeof max !== 'number') {
+    max = 100;
+  }
+
+  return {
+    ...legacyConf,
+    heat_block: {
+      ...heat_block,
+      min: {
+        type: 'static',
+        value: min,
+      },
+      max: {
+        type: 'static',
+        value: max,
+      },
+    },
+  };
+}
+
 class VizHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 3;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -71,6 +97,13 @@ class VizHeatmapMigrator extends VersionBasedMigrator {
         config: v3(data.config),
       };
     });
+    this.version(4, (data) => {
+      return {
+        ...data,
+        version: 4,
+        config: v4(data.config),
+      };
+    });
   }
 }
 
@@ -85,7 +118,7 @@ export const HeatmapVizComponent: VizComponent = {
     version: number;
     config: IHeatmapConf;
   } => ({
-    version: 3,
+    version: 4,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],

@@ -1,5 +1,5 @@
 import { defaultsDeep } from 'lodash';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
 import { IHeatmapConf } from '../type';
 import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
@@ -19,11 +19,11 @@ export function getOption(conf: IHeatmapConf, data: TPanelData, variables: ITemp
   if (!conf.x_axis.data_key || !conf.y_axis.data_key || !conf.heat_block.data_key) {
     return {};
   }
-  // const variableValueMap = variables.reduce((prev, variable) => {
-  //   const value = getAggregatedValue(variable, data);
-  //   prev[variable.name] = formatAggregatedValue(variable, value);
-  //   return prev;
-  // }, {} as Record<string, string | number>);
+  const variableValueMap = variables.reduce((prev, variable) => {
+    const value = getAggregatedValue(variable, data);
+    prev[variable.name] = formatAggregatedValue(variable, value);
+    return prev;
+  }, {} as Record<string, string | number>);
 
   const labelFormatters = getLabelFormatters(conf);
   const valueFormatters = getValueFormatters(conf);
@@ -32,14 +32,9 @@ export function getOption(conf: IHeatmapConf, data: TPanelData, variables: ITemp
     xAxis: getXAxis(conf, data, labelFormatters.x_axis),
     yAxis: getYAxis(conf, data, labelFormatters.y_axis),
     series: getSeries(conf, data),
-    dataset: [
-      {
-        source: data,
-      },
-    ],
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
-    visualMap: getVisualMap(conf),
+    visualMap: getVisualMap(conf, variableValueMap),
   };
   return defaultsDeep({}, customOptions, defaultOption);
 }
