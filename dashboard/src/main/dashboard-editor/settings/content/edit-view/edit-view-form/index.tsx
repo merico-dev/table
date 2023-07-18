@@ -23,7 +23,14 @@ export const EditViewForm = observer(({ view }: { view?: ViewModelInstance }) =>
           view.setName(e.currentTarget.value);
         }}
       />
-      <Select label="Type" withinPortal value={view.type} onChange={view.setType} data={viewComponentTypeOptions} />
+      <Select
+        label="Type"
+        withinPortal
+        zIndex={320}
+        value={view.type}
+        onChange={view.setType}
+        data={viewComponentTypeOptions}
+      />
       <ConfigFields view={view} />
     </Stack>
   );
