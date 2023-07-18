@@ -1,14 +1,15 @@
-import { Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
+import { Autocomplete, Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
 import { initialDashboardContent } from '@devtable/dashboard';
+import _ from 'lodash';
 
 async function getInitialContent({
   idToDuplicate,
@@ -49,19 +50,29 @@ interface IFormValues {
 function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const navigate = useNavigate();
 
-  const { data: options = [], loading } = useRequest(
-    async () => {
-      const { data } = await APICaller.dashboard.list();
-      return data.map((d) => ({
-        label: d.name,
-        value: d.id,
-        content_id: d.content_id,
-      }));
-    },
-    {
-      refreshDeps: [],
-    },
-  );
+  const { data: dashboards, loading } = useRequest(async (signal) => {
+    const { data } = await APICaller.dashboard.list(signal);
+    return data;
+  });
+
+  const options = useMemo(() => {
+    if (!dashboards) {
+      return [];
+    }
+    return dashboards.map((d) => ({
+      label: d.name,
+      value: d.id,
+      content_id: d.content_id,
+      group: d.group,
+    }));
+  }, [dashboards]);
+
+  const groupNames = useMemo(() => {
+    if (!dashboards) {
+      return [];
+    }
+    return _.uniq(dashboards.map((d) => d.group).filter((v) => !!v));
+  }, [dashboards]);
 
   const {
     control,
@@ -154,7 +165,20 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
               />
             )}
           />
-          <Controller name="group" control={control} render={({ field }) => <TextInput label="Group" {...field} />} />
+          <Controller
+            name="group"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                disabled={loading}
+                withinPortal
+                label="Group"
+                maxDropdownHeight={500}
+                data={groupNames}
+                {...field}
+              />
+            )}
+          />
           <Controller
             name="idToDuplicate"
             control={control}
@@ -163,6 +187,8 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
               <Select
                 data={options}
                 disabled={loading || options.length === 0}
+                withinPortal
+                maxDropdownHeight={500}
                 label="Choose a dashboard to duplicate (optional)"
                 {...field}
               />
