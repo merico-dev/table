@@ -1,9 +1,11 @@
-import { Box, Button, Group, LoadingOverlay, Stack, TextInput } from '@mantine/core';
+import { Autocomplete, Box, Button, Group, LoadingOverlay, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../../../../../api-caller';
 import { DashboardBriefModelInstance } from '../../../../models/dashboard-brief-model';
+import { useRequest } from 'ahooks';
+import _ from 'lodash';
 
 interface IFormValues {
   name: string;
@@ -18,6 +20,18 @@ interface IEditDashboardForm {
 export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm) {
   const [pending, setPending] = useState(false);
 
+  const { data: dashboards, loading } = useRequest(async () => {
+    const { data } = await APICaller.dashboard.list();
+    return data;
+  });
+
+  const groupNames = useMemo(() => {
+    if (!dashboards) {
+      return [];
+    }
+    return _.uniq(dashboards.map((d) => d.group).filter((v) => !!v));
+  }, [dashboards]);
+
   const { control, handleSubmit, watch } = useForm<IFormValues>({
     defaultValues: {
       name: dashboard.name,
@@ -25,7 +39,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
     },
   });
 
-  const createDashboard = async ({ name, group }: IFormValues) => {
+  const editDashboard = async ({ name, group }: IFormValues) => {
     showNotification({
       id: 'for-updating',
       title: 'Pending',
@@ -59,14 +73,27 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <LoadingOverlay visible={pending} />
-      <form onSubmit={handleSubmit(createDashboard)}>
+      <form onSubmit={handleSubmit(editDashboard)}>
         <Stack>
           <Controller
             control={control}
             name="name"
             render={({ field }) => <TextInput label="Name" required {...field} />}
           />
-          <Controller control={control} name="group" render={({ field }) => <TextInput label="Group" {...field} />} />
+          <Controller
+            control={control}
+            name="group"
+            render={({ field }) => (
+              <Autocomplete
+                disabled={loading}
+                withinPortal
+                label="Group"
+                maxDropdownHeight={500}
+                data={groupNames}
+                {...field}
+              />
+            )}
+          />
           <Group position="right" mt="md">
             <Button type="submit" disabled={disabled}>
               Confirm

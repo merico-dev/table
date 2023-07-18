@@ -168,7 +168,14 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             name="group"
             control={control}
             render={({ field }) => (
-              <Autocomplete withinPortal label="Group" maxDropdownHeight={500} data={groupNames} {...field} />
+              <Autocomplete
+                disabled={loading}
+                withinPortal
+                label="Group"
+                maxDropdownHeight={500}
+                data={groupNames}
+                {...field}
+              />
             )}
           />
           <Controller
