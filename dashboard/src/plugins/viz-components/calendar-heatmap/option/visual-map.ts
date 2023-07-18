@@ -1,9 +1,16 @@
+import { getNumberOrDynamicValue } from '~/plugins/common-echarts-fields/number-or-dynamic-value';
 import { ICalendarHeatmapConf } from '../type';
 
-export function getVisualMap(conf: ICalendarHeatmapConf, oneYearMode: boolean) {
+export function getVisualMap(
+  conf: ICalendarHeatmapConf,
+  oneYearMode: boolean,
+  variableValueMap: Record<string, string | number>,
+) {
+  const min = getNumberOrDynamicValue(conf.heat_block.min, variableValueMap);
+  const max = getNumberOrDynamicValue(conf.heat_block.max, variableValueMap);
   return {
-    min: conf.heat_block.min ?? 0,
-    max: conf.heat_block.max ?? 100,
+    min,
+    max,
     calculable: true,
     orient: 'horizontal',
     left: oneYearMode ? 'center' : 5,

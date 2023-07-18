@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
 import { ICalendarHeatmapConf } from '../type';
 import { getCalendar } from './calendar';
 import { getValueFormatters } from './formatters';
@@ -41,6 +41,12 @@ function getDateStuff(conf: ICalendarHeatmapConf, data: TPanelData) {
 }
 
 export function getOption(conf: ICalendarHeatmapConf, data: TPanelData, variables: ITemplateVariable[]) {
+  const variableValueMap = variables.reduce((prev, variable) => {
+    const value = getAggregatedValue(variable, data);
+    prev[variable.name] = formatAggregatedValue(variable, value);
+    return prev;
+  }, {} as Record<string, string | number>);
+
   const valueFormatters = getValueFormatters(conf);
   const { dateSpan, minDate, dataByYear, years } = getDateStuff(conf, data);
   const oneYearMode = dateSpan <= 366;
@@ -48,7 +54,7 @@ export function getOption(conf: ICalendarHeatmapConf, data: TPanelData, variable
     calendar: getCalendar(oneYearMode, minDate, years),
     series: getSeries(conf, oneYearMode, dataByYear, data),
     tooltip: getTooltip(conf, data, valueFormatters),
-    visualMap: getVisualMap(conf, oneYearMode),
+    visualMap: getVisualMap(conf, oneYearMode, variableValueMap),
     legend: getLegend(oneYearMode, years),
   };
   return defaultsDeep({}, customOptions, defaultOption);

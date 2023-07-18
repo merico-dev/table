@@ -38,8 +38,34 @@ function v2(legacyConf: any, { panelModel }: IMigrationEnv): ICalendarHeatmapCon
   }
 }
 
+function v3(legacyConf: any): ICalendarHeatmapConf {
+  const { heat_block } = legacyConf;
+  let { min, max } = heat_block;
+  if (typeof min !== 'number') {
+    min = 0;
+  }
+  if (typeof max !== 'number') {
+    max = 100;
+  }
+
+  return {
+    ...legacyConf,
+    heat_block: {
+      ...heat_block,
+      min: {
+        type: 'static',
+        value: min,
+      },
+      max: {
+        type: 'static',
+        value: max,
+      },
+    },
+  };
+}
+
 class VizCalendarHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 3;
 
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -53,6 +79,13 @@ class VizCalendarHeatmapMigrator extends VersionBasedMigrator {
         ...data,
         version: 2,
         config: v2(data.config, env),
+      };
+    });
+    this.version(3, (data) => {
+      return {
+        ...data,
+        version: 3,
+        config: v3(data.config),
       };
     });
   }
@@ -70,6 +103,6 @@ export const CalendarHeatmapVizComponent: VizComponent = {
   name: 'calendarHeatmap',
   viewRender: VizCalendarHeatmap,
   configRender: VizCalendarHeatmapEditor,
-  createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
+  createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
   triggers: [ClickCalendarDate],
 };

@@ -1,7 +1,8 @@
-import { Divider, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
+import { NumberOrDynamicValue } from '~/plugins/common-echarts-fields/number-or-dynamic-value';
 import { ICalendarHeatmapConf } from '../../type';
 
 interface IHeatBlockField {
@@ -28,14 +29,12 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.min"
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Min Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label="Min Value" {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Max Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label="Max Value" {...field} />}
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Value Format" labelPosition="center" />
