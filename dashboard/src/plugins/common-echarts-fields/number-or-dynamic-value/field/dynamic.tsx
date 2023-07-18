@@ -2,7 +2,7 @@ import { Box, Button, Divider, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
-import { DynamicSizeFunctionEditor } from './dynamic-function-editor';
+import { DynamicValueFunctionEditor } from './dynamic-function-editor';
 import { DEFAULT_VALUE, TNumberOrDynamic, TNumberOrDynamic_Dynamic } from '../types';
 
 interface IField {
@@ -51,7 +51,7 @@ const Field = ({ value: conf, onChange }: IField) => {
       </Box>
       <Modal
         size={800}
-        title="Setup dynamic size"
+        title="Setup dynamic value"
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -61,7 +61,7 @@ const Field = ({ value: conf, onChange }: IField) => {
         {modalOpened && (
           <Stack>
             <Divider mt={10} mb={-10} label="Dynamic by a custom function" labelPosition="center" variant="dashed" />
-            <DynamicSizeFunctionEditor value={local.value} onChange={changeFuncContent} />
+            <DynamicValueFunctionEditor value={local.value} onChange={changeFuncContent} />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
                 Rest
@@ -80,12 +80,12 @@ const Field = ({ value: conf, onChange }: IField) => {
   );
 };
 
-export interface IDynamicScatterSizeField {
+interface IProps {
   value: TNumberOrDynamic;
   onChange: (v: TNumberOrDynamic) => void;
 }
 
-export const DynamicScatterSizeField = ({ value, onChange }: IDynamicScatterSizeField) => {
+export const DynamicValueField = ({ value, onChange }: IProps) => {
   if (value.type !== 'dynamic') {
     return null;
   }

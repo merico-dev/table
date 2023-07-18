@@ -1,6 +1,6 @@
 import { Select, SimpleGrid } from '@mantine/core';
 import { forwardRef } from 'react';
-import { DynamicScatterSizeField } from './dynamic';
+import { DynamicValueField } from './dynamic';
 import { StaticNumberField } from './static';
 import { DEFAULT_VALUE, TNumberOrDynamic } from '../types';
 
@@ -22,7 +22,7 @@ interface IProps {
 }
 
 export const NumberOrDynamicValue = forwardRef<HTMLInputElement, IProps>(
-  ({ label = 'Size', value, onChange }: IProps, ref) => {
+  ({ label = 'Value', value, onChange }: IProps, ref) => {
     const changeType = (type: 'static' | 'dynamic') => {
       onChange({ ...DEFAULT_VALUE[type] });
     };
@@ -37,7 +37,7 @@ export const NumberOrDynamicValue = forwardRef<HTMLInputElement, IProps>(
           sx={{ flexGrow: 1 }}
         />
         <StaticNumberField value={value} onChange={onChange} />
-        <DynamicScatterSizeField value={value} onChange={onChange} />
+        <DynamicValueField value={value} onChange={onChange} />
       </SimpleGrid>
     );
   },

@@ -18,9 +18,9 @@ export const DEFAULT_VALUE = {
   dynamic: {
     type: 'dynamic',
     value: [
-      'function getSize({ variables }, { lodash, interpolate }) {',
+      'function getValue({ variables }, { lodash, interpolate }) {',
       '    // your code goes here',
-      '    // return 100;',
+      '    return 100;',
       '}',
     ].join('\n'),
   } as TNumberOrDynamic_Dynamic,

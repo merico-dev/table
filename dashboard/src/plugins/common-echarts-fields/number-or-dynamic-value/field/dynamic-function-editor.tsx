@@ -2,11 +2,11 @@ import { TNumberOrDynamic_Dynamic } from '../types';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mantine/core';
 
-interface IDynamicSizeFunctionEditor {
+interface IProps {
   value: TNumberOrDynamic_Dynamic['value'];
   onChange: (v: TNumberOrDynamic_Dynamic['value']) => void;
 }
-export const DynamicSizeFunctionEditor = ({ value, onChange }: IDynamicSizeFunctionEditor) => {
+export const DynamicValueFunctionEditor = ({ value, onChange }: IProps) => {
   const handleChange = (v: string | undefined) => {
     if (!v) {
       return;
