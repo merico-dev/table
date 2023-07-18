@@ -50,8 +50,8 @@ interface IFormValues {
 function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
   const navigate = useNavigate();
 
-  const { data: dashboards, loading } = useRequest(async () => {
-    const { data } = await APICaller.dashboard.list();
+  const { data: dashboards, loading } = useRequest(async (signal) => {
+    const { data } = await APICaller.dashboard.list(signal);
     return data;
   });
 
@@ -63,6 +63,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       label: d.name,
       value: d.id,
       content_id: d.content_id,
+      group: d.group,
     }));
   }, [dashboards]);
 
