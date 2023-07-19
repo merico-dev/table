@@ -1,9 +1,8 @@
-import { ActionIcon, Box, Checkbox, Divider, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
@@ -34,7 +33,7 @@ export function VizMericoStatsEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <MetricsField control={control} watch={watch} />
+        <MetricsField control={control} watch={watch} variables={variables} />
       </Stack>
     </form>
   );

@@ -1,7 +1,6 @@
-import { ActionIcon, Divider, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { ActionIcon, Divider, Group, Select, SelectItem, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/panel/settings/common/numbro-format-selector';
 import { TMericoStatsConf } from '../../type';
 
@@ -9,9 +8,10 @@ interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
   index: number;
   remove: UseFieldArrayRemove;
+  variableOptions: SelectItem[];
 }
 
-export function MetricField({ control, index, remove }: IProps) {
+export function MetricField({ control, index, remove, variableOptions }: IProps) {
   return (
     <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
@@ -23,7 +23,10 @@ export function MetricField({ control, index, remove }: IProps) {
         <Controller
           name={`metrics.${index}.data_keys.value`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Metric Data" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select label="Metric Data" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Group grow noWrap>
@@ -35,7 +38,10 @@ export function MetricField({ control, index, remove }: IProps) {
         <Controller
           name={`metrics.${index}.data_keys.basis`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Basis Data" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select label="Basis Data" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Stack>
