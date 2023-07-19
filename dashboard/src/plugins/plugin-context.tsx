@@ -37,6 +37,7 @@ import { VizManager } from './viz-manager';
 import { CalendarHeatmapVizComponent } from './viz-components/calendar-heatmap';
 import { HorizontalBarChartVizComponent } from './viz-components/horizontal-bar-chart';
 import { MericoEstimationChartVizComponent } from './viz-components/merico-estimation-chart';
+import { MericoStatsVizComponent } from './viz-components/merico-stats';
 
 export interface IPluginContextProps {
   pluginManager: IPluginManager;
@@ -136,6 +137,7 @@ const BuiltInPlugin: () => IDashboardPlugin = () => ({
       RegressionChartVizComponent,
       MericoGQMVizComponent,
       MericoEstimationChartVizComponent,
+      MericoStatsVizComponent,
       ButtonVizComponent,
     ],
     color: [...basicColors, ...colorInterpolations],
