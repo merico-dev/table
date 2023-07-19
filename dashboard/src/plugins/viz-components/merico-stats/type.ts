@@ -1,3 +1,4 @@
+import { TAlignItems, TJustifyContent } from '~/panel/settings/common/css-types';
 import { TNumbroFormat, defaultNumbroFormat } from '~/panel/settings/common/numbro-format-selector';
 
 export type TMericoStatsMetric = {
@@ -13,11 +14,21 @@ export type TMericoStatsMetric = {
   formatter: TNumbroFormat;
 };
 
+export type TMericoStatsStyle = {
+  justify: TJustifyContent;
+  align: TAlignItems;
+};
+
 export type TMericoStatsConf = {
+  styles: TMericoStatsStyle;
   metrics: TMericoStatsMetric[];
 };
 
 export const DEFAULT_CONFIG: TMericoStatsConf = {
+  styles: {
+    justify: 'space-around',
+    align: 'start',
+  },
   metrics: [],
 };
 

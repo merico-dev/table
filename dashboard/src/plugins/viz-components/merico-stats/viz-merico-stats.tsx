@@ -20,7 +20,15 @@ export function VizMericoStats({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <Flex w={width} h={height} gap="md" justify="space-evenly" align="top" direction="row" wrap="wrap">
+    <Flex
+      w={`${width}px`}
+      h={`${height}px`}
+      justify={conf.styles.justify}
+      align={conf.styles.align}
+      direction="row"
+      wrap="nowrap"
+      sx={{ overflow: 'hidden' }}
+    >
       {conf.metrics.map((m) => (
         <Stack key={m.id} spacing={18}>
           <Stack spacing={12}>

@@ -8,6 +8,7 @@ import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { MetricsField } from './editors/metrics';
 import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
+import { StylesField } from './editors/styles';
 
 export function VizMericoStatsEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<TMericoStatsConf>(context.instanceData, 'config');
@@ -33,6 +34,7 @@ export function VizMericoStatsEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
+        <StylesField control={control} watch={watch} />
         <MetricsField control={control} watch={watch} variables={variables} />
       </Stack>
     </form>
