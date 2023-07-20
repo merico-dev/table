@@ -1,6 +1,6 @@
 import { Checkbox } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { CustomRichTextEditor } from '~/form-inputs/rich-text-editor/custom-rich-text-editor';
+import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { IFilterConfig_Checkbox } from '~/dashboard-editor/model/filters/filter/checkbox';
 
 interface IFilterEditorCheckbox {

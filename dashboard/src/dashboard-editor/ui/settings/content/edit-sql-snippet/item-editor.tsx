@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { DeviceFloppy, Trash } from 'tabler-icons-react';
 import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
 import { SQLSnippetModelInstance } from '~/dashboard-editor/model';
-import { MinimalMonacoEditor } from '~/form-inputs/minimal-monaco-editor';
+import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
 
 interface ISQLSnippetItemEditor {

@@ -2,7 +2,7 @@ import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
-import { ReadonlyRichText } from '~/form-inputs/rich-text-editor/readonly-rich-text-editor';
+import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
 import { usePanelContext } from '../../contexts';
 
 function isRichTextContentEmpty(str: string) {

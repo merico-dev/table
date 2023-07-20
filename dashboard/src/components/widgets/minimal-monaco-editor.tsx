@@ -15,7 +15,6 @@ export const MinimalMonacoEditor = ({
   theme = 'vs-dark',
 }: IMinimalMonacoEditor) => {
   const handleChange = (v: string | undefined) => {
-    console.log('changing');
     onChange?.(v ?? '');
   };
   const readonly = !onChange;

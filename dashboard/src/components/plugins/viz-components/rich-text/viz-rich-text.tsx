@@ -1,6 +1,6 @@
 import { defaults } from 'lodash';
 import { useMemo } from 'react';
-import { ReadonlyRichText } from '~/form-inputs/rich-text-editor/readonly-rich-text-editor';
+import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';

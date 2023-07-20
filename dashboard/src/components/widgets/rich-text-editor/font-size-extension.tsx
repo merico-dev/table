@@ -2,13 +2,12 @@
  * Based on https://gist.github.com/gregveres/64ec1d8a733feb735b7dd4c46331abae
  */
 
+import { NativeSelect } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
-import { Flex, NativeSelect, Text, TextInput } from '@mantine/core';
+import { IconTextSize } from '@tabler/icons-react';
 import { Extension } from '@tiptap/core';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
-import { IconForbid, IconTextDecrease, IconTextIncrease, IconTextSize } from '@tabler/icons-react';
-import { useMemo } from 'react';
 
 export type FontSizeOptions = {
   types: string[];
