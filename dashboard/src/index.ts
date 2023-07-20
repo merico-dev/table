@@ -4,8 +4,8 @@ export const getVersion = () =>
     return version;
   });
 
-export * from './main';
 export * from './dashboard-editor';
+export * from './dashboard-render';
 export * from './components/view';
 export * from './components/panel';
 export * from './contexts';
