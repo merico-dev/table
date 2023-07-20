@@ -17,11 +17,9 @@ import { ContextInfoType, createDashboardModel } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
-import { DashboardEditorHeader } from './header';
-import './index.css';
-import { DashboardEditorNavbar } from './navbar';
-import { Settings } from './settings';
+import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import './index.css';
 
 registerThemes();
 
