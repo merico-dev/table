@@ -3,7 +3,7 @@ import { defaults } from 'lodash';
 import { useEffect, useMemo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { CustomRichTextEditor } from '~/components/rich-text-editor/custom-rich-text-editor';
+import { CustomRichTextEditor } from '~/form-inputs/rich-text-editor/custom-rich-text-editor';
 import { useStorageData } from '~/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';

@@ -1,6 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { InlineFunctionInput } from '~/components/inline-function-input';
+import { InlineFunctionInput } from '~/form-inputs/inline-function-input';
 import { QueryVariablesModal } from '~/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
 import { QueryModelInstance } from '~/model';
 

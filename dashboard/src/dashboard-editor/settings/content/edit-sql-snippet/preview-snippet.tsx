@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { MinimalMonacoEditor } from '~/components/minimal-monaco-editor';
+import { MinimalMonacoEditor } from '~/form-inputs/minimal-monaco-editor';
 import { useContentModelContext } from '~/contexts';
 import { explainSQL } from '~/utils/sql';
 
