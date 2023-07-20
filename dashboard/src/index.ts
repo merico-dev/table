@@ -6,8 +6,8 @@ export const getVersion = () =>
 
 export * from './main';
 export * from './dashboard-editor';
-export * from './view';
-export * from './panel';
+export * from './components/view';
+export * from './components/panel';
 export * from './contexts';
 export * from './types';
 export * from './model';

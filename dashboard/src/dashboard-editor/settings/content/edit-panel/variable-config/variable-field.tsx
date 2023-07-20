@@ -2,9 +2,9 @@ import { Box, Divider, Group, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import React from 'react';
 import { Path } from 'react-hook-form';
-import { AggregationSelector } from '../../../../../panel/settings/common/aggregation-selector';
-import { DataFieldSelector } from '../../../../../panel/settings/common/data-field-selector';
-import { NumbroFormatSelector } from '../../../../../panel/settings/common/numbro-format-selector';
+import { AggregationSelector } from '../../../../../components/panel/settings/common/aggregation-selector';
+import { DataFieldSelector } from '../../../../../components/panel/settings/common/data-field-selector';
+import { NumbroFormatSelector } from '../../../../../components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '~/utils/template';
 import { TemplateVariableStyleField } from '~/utils/template/editor/variable-style';
 

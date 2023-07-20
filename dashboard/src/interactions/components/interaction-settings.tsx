@@ -11,7 +11,7 @@ import { useTriggerConfigModel } from '~/interactions/components/trigger-config-
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { InteractionManager } from '~/interactions/interaction-manager';
 import { OPERATIONS } from '~/interactions/operation/operations';
-import { IPanelInfo, IVizManager, PluginContext } from '~/plugins';
+import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { IPayloadVariableSchema, IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
 
 export interface IInteractionSettingsProps {

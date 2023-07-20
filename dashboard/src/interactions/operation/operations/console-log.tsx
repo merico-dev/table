@@ -1,6 +1,6 @@
 import { TextInput } from '@mantine/core';
 import { template } from 'lodash';
-import { useStorageData } from '~/plugins';
+import { useStorageData } from '~/components/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 export interface IConsoleLogOperationConfig {

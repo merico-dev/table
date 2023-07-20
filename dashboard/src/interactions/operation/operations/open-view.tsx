@@ -1,7 +1,7 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
-import { useStorageData } from '~/plugins';
+import { useStorageData } from '~/components/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 export interface IOpenViewOperationConfig {

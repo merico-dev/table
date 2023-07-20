@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPluginContextProps, tokens } from '~/plugins';
+import { IPluginContextProps, tokens } from '~/components/plugins';
 import { IServiceLocator } from '~/service-locator';
 
 export function useTopLevelServices(pluginContext: IPluginContextProps) {

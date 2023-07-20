@@ -1,7 +1,7 @@
 import { useCreation } from 'ahooks';
 import { InteractionManager } from '~/interactions/interaction-manager';
 import { OPERATIONS } from '~/interactions/operation/operations';
-import { IVizManager } from '~/plugins';
+import { IVizManager } from '~/components/plugins';
 import { IVizInteractionManager, VizInstance } from '~/types/plugin';
 
 export const useCurrentInteractionManager = ({

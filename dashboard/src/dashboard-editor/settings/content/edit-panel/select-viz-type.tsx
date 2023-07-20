@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useMemo } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { PluginContext } from '~/plugins';
+import { PluginContext } from '~/components/plugins';
 
 type OptionType = { label: string; value: string; group: string };
 function useVizSelectData() {

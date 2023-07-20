@@ -1,6 +1,6 @@
 import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
-import { IVizManager } from '~/plugins';
+import { IVizManager } from '~/components/plugins';
 import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { PanelModelInstance } from '~/model/panels';

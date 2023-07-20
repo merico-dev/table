@@ -1,9 +1,9 @@
 import { addDisposer, cast, Instance, types, getRoot, getParent } from 'mobx-state-tree';
 import { Text, TextProps } from '@mantine/core';
 import { FilterConfigModel_BaseSelect } from './select-base';
-import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/filter/filter-tree-select/types';
+import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
 import React from 'react';
-import { queryDataToTree } from '~/filter/filter-tree-select/render/query-data-to-tree';
+import { queryDataToTree } from '~/components/filter/filter-tree-select/render/query-data-to-tree';
 import { reaction } from 'mobx';
 
 function addLabelToData(data: ITreeDataQueryOption[]) {

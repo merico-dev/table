@@ -1,9 +1,9 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { PanelVizSection } from '~/panel/panel-viz-section';
+import { PanelVizSection } from '~/components/panel/panel-viz-section';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { usePanelContext } from '../../../../contexts';
-import { DescriptionPopover } from '../../../../panel/panel-description';
+import { DescriptionPopover } from '../../../../components/panel/panel-description';
 
 export const PreviewPanel = observer(() => {
   const { panel } = usePanelContext();

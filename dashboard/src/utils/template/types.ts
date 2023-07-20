@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '../../panel/settings/common/numbro-format-selector';
+import { TNumbroFormat } from '../../components/panel/settings/common/numbro-format-selector';
 import { AggregationType } from '../aggregation';
 
 export type ColorConfType =

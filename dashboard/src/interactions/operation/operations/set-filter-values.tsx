@@ -3,7 +3,7 @@ import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { useStorageData } from '~/plugins';
+import { useStorageData } from '~/components/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 const TableSx: Sx = {
