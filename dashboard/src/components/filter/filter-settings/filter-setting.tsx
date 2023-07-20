@@ -2,7 +2,7 @@ import { Box, Checkbox, Group, MultiSelect, NumberInput, Select, Stack, Text, Te
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '../../../model';
+import { FilterModelInstance } from '~/dashboard-editor/model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
 import { FilterEditorMultiSelect } from '../filter-multi-select/editor';

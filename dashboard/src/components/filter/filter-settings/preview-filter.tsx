@@ -2,7 +2,7 @@ import { Box, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { FilterModelInstance } from '../../../model';
+import { FilterModelInstance } from '~/dashboard-editor/model';
 import { Filter } from '../filter';
 
 interface IPreviewFilter {

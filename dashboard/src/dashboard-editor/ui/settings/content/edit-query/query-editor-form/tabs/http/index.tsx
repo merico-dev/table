@@ -1,8 +1,8 @@
 import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { InlineFunctionInput } from '~/form-inputs/inline-function-input';
-import { QueryVariablesModal } from '~/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
-import { QueryModelInstance } from '~/model';
+import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
+import { QueryModelInstance } from '~/dashboard-editor/model';
 
 export const DEFAULT_HTTP_REQ_PROCESSING = {
   pre: [

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
-import { NavActionType } from '~/model/editor';
+import { NavActionType } from '~/dashboard-editor/model/editor';
 import { AddAFilter } from './add-a-filter';
 import { AddAPanel } from './add-a-panel';
 import { AddAQuery } from './add-a-query';

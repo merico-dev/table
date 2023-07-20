@@ -1,5 +1,5 @@
 import React from 'react';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
 const PanelContext = React.createContext<{
   panel: PanelModelInstance | null;

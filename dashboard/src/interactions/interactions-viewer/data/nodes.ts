@@ -1,7 +1,12 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
-import { ContentModelInstance, FiltersModelInstance, PanelModelInstance, ViewsModelInstance } from '~/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
+import {
+  ContentModelInstance,
+  FiltersModelInstance,
+  PanelModelInstance,
+  ViewsModelInstance,
+} from '~/dashboard-editor/model';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/dashboard-editor/model/views/view/tabs';
 import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
 import {
   calc,

@@ -2,8 +2,8 @@ import { Box, Modal } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Modal } from '~/model/views/view/modal';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Modal } from '~/dashboard-editor/model/views/view/modal';
 
 function viewportSizeToPercentage(size: string) {
   return size.replace(/(vw|vh)/, '%');

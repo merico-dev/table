@@ -2,7 +2,7 @@ import { Anchor, Box, Stack, Table } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { QueryUsageType } from '~/model';
+import { QueryUsageType } from '~/dashboard-editor/model';
 
 interface IQueryUsage {
   queryID: string;

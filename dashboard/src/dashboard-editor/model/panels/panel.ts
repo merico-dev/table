@@ -1,6 +1,6 @@
 import { cast, getParent, getParentOfType, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { ContentModel } from '~/model';
-import { VariableModel } from '~/model/variables';
+import { ContentModel } from '~/dashboard-editor/model';
+import { VariableModel } from '~/dashboard-editor/model/variables';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { QueryModelInstance } from '../queries';
 import { PanelLayoutModel } from './layout';

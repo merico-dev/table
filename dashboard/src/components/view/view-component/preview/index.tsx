@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
-import { ViewModelInstance } from '~/model';
+import { ViewModelInstance } from '~/dashboard-editor/model';
 import { EViewComponentType } from '~/types';
 import { PreviewViewDivision } from './division';
 import { PreviewViewModal } from './modal';

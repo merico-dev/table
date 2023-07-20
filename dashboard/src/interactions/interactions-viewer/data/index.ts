@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { makeEdges } from './edges';
 import { makeNodes } from './nodes';
 import { reposition } from './position';
-import { ContentModelInstance } from '~/model';
+import { ContentModelInstance } from '~/dashboard-editor/model';
 
 export function makeNodesAndEdges(model: ContentModelInstance) {
   const staticNodes = makeNodes(model);

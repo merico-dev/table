@@ -3,7 +3,7 @@ import { useInputState } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { usePanelContext } from '../../../../../contexts/panel-context';
+import { usePanelContext } from '~/contexts/panel-context';
 
 export const EditTitle = observer(() => {
   const { panel } = usePanelContext();

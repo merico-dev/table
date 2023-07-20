@@ -1,6 +1,6 @@
 import { TextInput } from '@mantine/core';
-import { FilterModelInstance } from '../../../model';
-import { IFilterConfig_TextInput } from '../../../model/filters/filter/text-input';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { IFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
 
 interface IFilterTextInput extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
   config: IFilterConfig_TextInput;

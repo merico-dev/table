@@ -2,8 +2,8 @@ import { Box, Checkbox, Group, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyRichText } from '~/form-inputs/rich-text-editor/readonly-rich-text-editor';
-import { FilterModelInstance } from '../../../model';
-import { IFilterConfig_Checkbox } from '../../../model/filters/filter/checkbox';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { IFilterConfig_Checkbox } from '~/dashboard-editor/model/filters/filter/checkbox';
 
 const CheckboxTooltip = ({ description, isDescriptionEmpty }: { description: string; isDescriptionEmpty: boolean }) => {
   if (isDescriptionEmpty) {

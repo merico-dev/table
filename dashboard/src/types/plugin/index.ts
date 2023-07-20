@@ -3,7 +3,7 @@ import React from 'react';
 import { IVizManager } from '~/components/plugins';
 import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { TRIGGERS_KEY } from '~/interactions';
 
 /**

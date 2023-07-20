@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { cast, detach, Instance, types } from 'mobx-state-tree';
-import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../utils/download';
+import { downloadCSV, downloadDataListAsZip, makeCSV } from '../../../utils/download';
 import { QueryModel, QueryModelInstance } from './query';
 
 export const QueriesModel = types

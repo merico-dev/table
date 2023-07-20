@@ -12,7 +12,7 @@ import {
   SnapshotOut,
   types,
 } from 'mobx-state-tree';
-import { AnyObject, DashboardContentDBType, TDashboardContent } from '../../types';
+import { AnyObject, DashboardContentDBType, TDashboardContent } from '../../../types';
 import { FiltersModel, getInitialFiltersPayload } from '../filters';
 import { MockContextModel } from '../mock-context';
 import { QueriesModel, QueryUsageType } from '../queries';

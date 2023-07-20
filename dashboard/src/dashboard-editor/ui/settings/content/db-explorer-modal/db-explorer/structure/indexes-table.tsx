@@ -1,9 +1,9 @@
 import { Table } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
-import { MYSQLIndexInfoType, PGIndexInfoType } from '~/model/datasources/indexes';
-import { DataSourceType } from '~/model/queries/types';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { MYSQLIndexInfoType, PGIndexInfoType } from '~/dashboard-editor/model/datasources/indexes';
+import { DataSourceType } from '~/dashboard-editor/model/queries/types';
 import { TooltipValue } from './tooltip-value';
 
 export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {

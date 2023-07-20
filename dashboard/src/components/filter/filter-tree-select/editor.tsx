@@ -1,6 +1,6 @@
 import { Divider, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_TreeSelect } from '../../../model/filters/filter/tree-select';
+import { IFilterConfig_TreeSelect } from '~/dashboard-editor/model/filters/filter/tree-select';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForTreeSelect } from './expected-structure';
 

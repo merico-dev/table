@@ -1,6 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
-import { IDashboard, DashboardContentDBType } from '../types';
+import { IDashboard, DashboardContentDBType } from '../../types';
 import { ContextInfoType, ContextModel } from './context';
 import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';

@@ -3,7 +3,7 @@ import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/components/plu
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
 import { token } from '~/components/plugins/service/service-locator';
 
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import {
   IDashboardPlugin,
   IPluginManager,

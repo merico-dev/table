@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/model';
+import { ViewModelInstance } from '~/dashboard-editor/model';
 import { Panel } from '../../panel';
 import './index.css';
 

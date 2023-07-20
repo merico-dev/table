@@ -2,8 +2,8 @@ import { Box, Sx, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/dashboard-editor/model/views/view/tabs';
 import { DashboardViewRender } from '~/components/view';
 
 const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {

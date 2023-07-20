@@ -1,8 +1,8 @@
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
-import { FilterModelSnapshotOut } from '../model';
-import { QueryModelSnapshotIn } from '../model/queries';
-import { SQLSnippetModelSnapshotIn } from '../model/sql-snippets';
+import { FilterModelSnapshotOut } from '../dashboard-editor/model';
+import { QueryModelSnapshotIn } from '../dashboard-editor/model/queries';
+import { SQLSnippetModelSnapshotIn } from '../dashboard-editor/model/sql-snippets';
 
 export interface IVizConfig {
   type: string;

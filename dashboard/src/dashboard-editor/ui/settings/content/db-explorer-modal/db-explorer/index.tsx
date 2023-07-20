@@ -2,7 +2,7 @@ import { Box, Flex, Tabs, Text } from '@mantine/core';
 import { IconColumns, IconDatabase } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { Structure } from './structure';
 import { TableNavLinks } from './table-nav-links';

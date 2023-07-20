@@ -1,6 +1,6 @@
 import { last, orderBy } from 'lodash';
 import { TRIGGERS_KEY } from '~/interactions';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { AnyObject } from '~/types';
 
 export interface IMigrationEnv {

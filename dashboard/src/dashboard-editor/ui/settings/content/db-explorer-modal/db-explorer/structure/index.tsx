@@ -1,6 +1,6 @@
 import { Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { ColumnsTable } from './columns-table';
 import { IndexesTable } from './indexes-table';

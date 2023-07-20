@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentModelInstance } from '~/model/content';
+import { ContentModelInstance } from '~/dashboard-editor/model/content';
 
 const ContentModelContext = React.createContext<ContentModelInstance | null>(null);
 

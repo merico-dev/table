@@ -1,8 +1,8 @@
 import { Box, NavLink } from '@mantine/core';
 import { IconDatabase, IconEye, IconTable } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
-import { TableInfoType } from '~/model/datasources/tables';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
+import { TableInfoType } from '~/dashboard-editor/model/datasources/tables';
 import { LoadingSkeleton } from './structure/loading-skeleton';
 
 function TableIcon({ table_type }: { table_type: TableInfoType['table_type'] }) {

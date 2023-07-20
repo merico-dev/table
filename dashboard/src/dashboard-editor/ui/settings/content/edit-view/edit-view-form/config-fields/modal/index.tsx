@@ -1,8 +1,8 @@
 import { Divider, Flex, Group, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Modal } from '~/model/views/view/modal';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Modal } from '~/dashboard-editor/model/views/view/modal';
 import { EViewComponentType } from '~/types';
 import { CustomModalTitleField } from './modal-title-editor';
 

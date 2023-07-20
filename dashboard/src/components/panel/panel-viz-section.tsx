@@ -2,7 +2,7 @@ import { Flex, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PanelErrorOrStateMessage } from './panel-error-or-state-message';
 import { Viz } from './viz';
-import { PanelModelInstance } from '~/model';
+import { PanelModelInstance } from '~/dashboard-editor/model';
 
 export const PanelVizSection = observer(({ panel, height }: { panel: PanelModelInstance; height: string }) => {
   return (

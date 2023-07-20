@@ -2,8 +2,8 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { QueryModelInstance } from '~/model';
-import { DataSourceType } from '~/model/queries/types';
+import { QueryModelInstance } from '~/dashboard-editor/model';
+import { DataSourceType } from '~/dashboard-editor/model/queries/types';
 
 export const AddAQuery = observer(() => {
   const model = useModelContext();

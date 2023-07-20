@@ -4,8 +4,8 @@ import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { InlineFunctionInput } from '~/form-inputs/inline-function-input';
 import { MinimalMonacoEditor } from '~/form-inputs/minimal-monaco-editor';
-import { QueryVariablesModal } from '~/dashboard-editor/settings/content/view-query-vars/query-variables-modal';
-import { QueryModelInstance } from '~/model';
+import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
+import { QueryModelInstance } from '~/dashboard-editor/model';
 import { DBExplorerModal } from '../../../../db-explorer-modal';
 import { PreviewSQL } from './preview-sql';
 

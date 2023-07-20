@@ -5,12 +5,12 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
 import { PanelContextProvider, useContentModelContext, useModelContext } from '~/contexts';
 import { InteractionSettingsPanel } from '~/interactions';
-import { PanelConfig } from '~/dashboard-editor/settings/content/edit-panel/panel-config';
-import { PickQuery } from '~/dashboard-editor/settings/content/edit-panel/pick-query';
-import { PreviewPanel } from '~/dashboard-editor/settings/content/edit-panel/preview-panel';
-import { VariableConfig } from '~/dashboard-editor/settings/content/edit-panel/variable-config/variable-config-panel';
-import { EditVizConf } from '~/dashboard-editor/settings/content/edit-panel/viz-conf';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
+import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
+import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
+import { VariableConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-config-panel';
+import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 

@@ -1,6 +1,6 @@
 import { Divider, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ViewModelInstance } from '~/model';
+import { ViewModelInstance } from '~/dashboard-editor/model';
 import { EViewComponentType } from '~/types';
 
 export const ViewDivisionConfigFields = observer(({ view }: { view: ViewModelInstance }) => {

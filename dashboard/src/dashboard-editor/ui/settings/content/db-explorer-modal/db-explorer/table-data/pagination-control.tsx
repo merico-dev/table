@@ -1,6 +1,6 @@
 import { Group, Pagination, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 
 const limitOptions = [
   { label: '10', value: '10' },

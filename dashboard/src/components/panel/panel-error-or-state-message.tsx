@@ -1,6 +1,6 @@
 import { Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { PanelModelInstance } from '~/model';
+import { PanelModelInstance } from '~/dashboard-editor/model';
 
 export const PanelErrorOrStateMessage = observer(({ panel }: { panel: PanelModelInstance }) => {
   return (

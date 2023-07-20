@@ -3,8 +3,8 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
-import { DataSourceType } from '~/model/queries/types';
-import { listDataSources } from '../../../../../api-caller';
+import { DataSourceType } from '~/dashboard-editor/model/queries/types';
+import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(

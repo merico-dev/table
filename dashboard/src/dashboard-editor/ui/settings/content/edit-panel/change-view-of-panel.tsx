@@ -4,7 +4,7 @@ import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
 interface IChangeViewOfPanel {
   panel: PanelModelInstance;

@@ -3,7 +3,7 @@ import { IVizOperationManager, IVizTriggerManager, VizInstance } from '~/types/p
 
 import { tokens } from '../plugin-context';
 import { IVizManager } from '../viz-manager';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
 export enum MigrationResultType {
   migrated = 'migrated',

@@ -2,7 +2,7 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { SQLSnippetModelInstance } from '~/model';
+import { SQLSnippetModelInstance } from '~/dashboard-editor/model';
 
 export const AddASQLSnippet = observer(() => {
   const model = useModelContext();

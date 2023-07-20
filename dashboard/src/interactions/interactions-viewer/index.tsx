@@ -1,7 +1,5 @@
 import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { LayoutStateContext } from '~/contexts';
 import { InteractionsViewer } from './viewer';
 
 interface IInteractionsViewerModal {
@@ -10,12 +8,6 @@ interface IInteractionsViewerModal {
 }
 
 export const InteractionsViewerModal = observer(({ opened, close }: IInteractionsViewerModal) => {
-  const { freezeLayout } = React.useContext(LayoutStateContext);
-
-  React.useEffect(() => {
-    freezeLayout(opened);
-  }, [opened]);
-
   return (
     <Modal
       size="96vw"

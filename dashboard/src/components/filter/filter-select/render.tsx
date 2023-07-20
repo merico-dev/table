@@ -2,8 +2,8 @@ import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '../../../model';
-import { IFilterConfig_Select } from '../../../model/filters/filter/select';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { IFilterConfig_Select } from '~/dashboard-editor/model/filters/filter/select';
 import { FilterSelectItem } from '../select-item';
 
 interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {

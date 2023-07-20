@@ -1,6 +1,6 @@
 import { Select, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ViewModelInstance } from '~/model';
+import { ViewModelInstance } from '~/dashboard-editor/model';
 import { EViewComponentType } from '~/types';
 import { ConfigFields } from './config-fields';
 

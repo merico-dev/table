@@ -1,7 +1,7 @@
 import { randomId } from '@mantine/hooks';
 import _ from 'lodash';
 import { castToSnapshot, Instance, types } from 'mobx-state-tree';
-import { NavOptionType } from '~/model/editor';
+import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';
 
 export const PanelsModel = types

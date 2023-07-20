@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Group, Modal, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { AnyObject } from '~/types';
 import { DBExplorer } from './db-explorer';
 

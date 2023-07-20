@@ -10,7 +10,7 @@ export * from './components/view';
 export * from './components/panel';
 export * from './contexts';
 export * from './types';
-export * from './model';
+export * from './dashboard-editor/model';
 
 import './init-dayjs';
 

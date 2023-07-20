@@ -2,7 +2,7 @@ import { DatePickerInput } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { Calendar } from 'tabler-icons-react';
-import { IFilterConfig_DateRange, TDateRangePickerValue } from '../../../model/filters/filter/date-range';
+import { IFilterConfig_DateRange, TDateRangePickerValue } from '~/dashboard-editor/model/filters/filter/date-range';
 
 interface IFilterDateRange {
   label: string;

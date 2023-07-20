@@ -1,8 +1,8 @@
 import { Badge, Table, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ColumnInfoType } from '~/model/datasources/columns';
+import { ColumnInfoType } from '~/dashboard-editor/model/datasources/columns';
 
-import { DataSourceModelInstance } from '~/model/datasources/datasource';
+import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { LoadingSkeleton } from './loading-skeleton';
 import { TooltipValue } from './tooltip-value';
 

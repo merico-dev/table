@@ -8,10 +8,10 @@ import { usePanelContext } from '~/contexts';
 import {
   useConfigUIModel,
   VariableConfigUIModel,
-} from '~/dashboard-editor/settings/content/edit-panel/variable-config/model';
-import { useStyles } from '~/dashboard-editor/settings/content/edit-panel/variable-config/styles';
-import { TemplateVariableField } from '~/dashboard-editor/settings/content/edit-panel/variable-config/variable-field';
-import { createDraft, VariableModel } from '~/model/variables';
+} from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/model';
+import { useStyles } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/styles';
+import { TemplateVariableField } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-field';
+import { createDraft, VariableModel } from '~/dashboard-editor/model/variables';
 import { ITemplateVariable, variable2Jsx } from '~/utils/template';
 
 export interface IVariableListProps {

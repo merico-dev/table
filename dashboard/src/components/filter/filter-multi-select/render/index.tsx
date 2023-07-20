@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '../../../../model';
-import { IFilterConfig_MultiSelect } from '../../../../model/filters/filter/multi-select';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { IFilterConfig_MultiSelect } from '~/dashboard-editor/model/filters/filter/multi-select';
 import { MultiSelectWidget } from './widget';
 
 interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {

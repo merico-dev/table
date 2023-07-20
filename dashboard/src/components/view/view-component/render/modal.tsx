@@ -2,8 +2,8 @@ import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Modal } from '~/model/views/view/modal';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Modal } from '~/dashboard-editor/model/views/view/modal';
 
 export const RenderViewModal = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
   const model = useContentModelContext();

@@ -4,7 +4,7 @@ import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/model';
+import { ViewModelInstance } from '~/dashboard-editor/model';
 import { Panel } from '../../panel';
 import './index.css';
 

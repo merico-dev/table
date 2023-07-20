@@ -2,8 +2,8 @@ import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
-import { LayoutStateContext, usePanelContext } from '../../contexts';
 import { ReadonlyRichText } from '~/form-inputs/rich-text-editor/readonly-rich-text-editor';
+import { usePanelContext } from '../../contexts';
 
 function isRichTextContentEmpty(str: string) {
   if (!str) {
@@ -13,13 +13,8 @@ function isRichTextContentEmpty(str: string) {
 }
 
 export const DescriptionPopover = observer(() => {
-  const { freezeLayout } = React.useContext(LayoutStateContext);
   const [opened, setOpened] = React.useState(false);
   const { panel } = usePanelContext();
-
-  React.useEffect(() => {
-    freezeLayout(opened);
-  }, [opened]);
 
   if (isRichTextContentEmpty(panel.description)) {
     return null;

@@ -3,10 +3,10 @@ import { randomId } from '@mantine/hooks';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
-import { useContentModelContext } from '../../../contexts';
-import { FilterModelInstance } from '../../../model';
-import { DashboardFilterType } from '../../../model/filters/filter/common';
-import { createFilterConfig_TextInput } from '../../../model/filters/filter/text-input';
+import { useContentModelContext } from '~/contexts';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { DashboardFilterType } from '~/dashboard-editor/model/filters/filter/common';
+import { createFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
 

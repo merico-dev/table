@@ -1,7 +1,7 @@
 import { Divider, Select, Stack, Switch } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Tabs } from '~/model/views/view/tabs';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Tabs } from '~/dashboard-editor/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 
 const tabVariantOptions = [

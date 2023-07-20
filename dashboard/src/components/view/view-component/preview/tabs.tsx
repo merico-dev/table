@@ -5,8 +5,8 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/dashboard-editor/model/views/view/tabs';
 import { EViewComponentType } from '~/types';
 import { DashboardViewRender } from '~/components/view';
 

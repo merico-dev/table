@@ -1,4 +1,4 @@
-import { ValidEditorPathType } from '~/model/editor';
+import { ValidEditorPathType } from '~/dashboard-editor/model/editor';
 
 export function isQueryVars(path: ValidEditorPathType) {
   return path.length === 1 && path[0] === '_QUERY_VARS_';

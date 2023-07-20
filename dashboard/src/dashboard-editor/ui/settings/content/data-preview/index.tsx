@@ -2,7 +2,7 @@ import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/co
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
-import { useContentModelContext } from '../../../../contexts';
+import { useContentModelContext } from '~/contexts';
 import { QueryStateMessage } from './query-state-message';
 import { DataTable } from './data-table';
 

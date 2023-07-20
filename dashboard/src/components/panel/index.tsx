@@ -1,8 +1,8 @@
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
-import { ViewModelInstance } from '~/model';
-import { PanelModelInstance } from '~/model/panels';
+import { ViewModelInstance } from '~/dashboard-editor/model';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { LayoutStateContext } from '../../contexts';
 import { PanelContextProvider } from '../../contexts/panel-context';
 import './index.css';

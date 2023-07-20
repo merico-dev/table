@@ -13,7 +13,7 @@ import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
 import { ModelContextProvider } from '~/contexts/model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
-import { ContextInfoType, createDashboardModel } from '~/model';
+import { ContextInfoType, createDashboardModel } from '~/dashboard-editor/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';

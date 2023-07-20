@@ -1,6 +1,6 @@
 import { ActionIcon, Center, Divider, MultiSelect, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/model';
+import { QueryModelInstance } from '~/dashboard-editor/model';
 import { SelectDataSource } from './select-data-source';
 import { DeleteQuery } from './delete-query';
 import { useEffect, useState } from 'react';

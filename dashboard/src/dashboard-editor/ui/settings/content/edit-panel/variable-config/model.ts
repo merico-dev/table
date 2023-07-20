@@ -1,10 +1,10 @@
 import { Instance, SnapshotIn } from 'mobx-state-tree';
-import { VariableModel } from '~/model/variables';
+import { VariableModel } from '~/dashboard-editor/model/variables';
 import { usePanelContext } from '~/contexts';
 import { useCreation } from 'ahooks';
 import { makeAutoObservable } from 'mobx';
 import { cloneDeep, isEmpty, last } from 'lodash';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
 export const NEW_VAR = {
   name: 'new_var',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { DashboardModelInstance } from '../model';
+import { DashboardModelInstance } from '../dashboard-editor/model';
 
 const ModelContext = React.createContext<DashboardModelInstance | null>(null);
 

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { FilterModelInstance } from '../../../../model';
-import { IFilterConfig_TreeSelect } from '../../../../model/filters/filter/tree-select';
+import { FilterModelInstance } from '~/dashboard-editor/model';
+import { IFilterConfig_TreeSelect } from '~/dashboard-editor/model/filters/filter/tree-select';
 import { FilterTreeSelectWidget } from './widget';
 
 interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {

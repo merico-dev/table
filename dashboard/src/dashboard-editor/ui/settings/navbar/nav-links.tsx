@@ -2,7 +2,7 @@ import { Box, NavLink } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useModelContext } from '~/contexts';
-import { NavOptionType } from '~/model/editor';
+import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { AddItemButton } from './add-item-button';
 
 interface ISettingsNavLink {
