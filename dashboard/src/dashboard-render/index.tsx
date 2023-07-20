@@ -80,8 +80,6 @@ export const ReadOnlyDashboard = observer(
             >
               <LayoutStateContext.Provider
                 value={{
-                  layoutFrozen: true,
-                  freezeLayout: _.noop,
                   inEditMode: false,
                 }}
               >

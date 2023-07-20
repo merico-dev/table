@@ -6,17 +6,17 @@ import { observer } from 'mobx-react-lite';
 import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { configureAPIClient } from '~/api-caller/request';
+import { PluginContext, createPluginContext } from '~/components/plugins';
+import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
+import { DashboardViewEditor } from '~/components/view';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
 import { ModelContextProvider } from '~/contexts/model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextInfoType, createDashboardModel } from '~/model';
-import { PluginContext, createPluginContext } from '~/components/plugins';
-import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { registerThemes } from '~/styles/register-themes';
-import { DashboardViewEditor } from '~/components/view';
-import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
+import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import { DashboardEditorHeader } from './header';
 import './index.css';
 import { DashboardEditorNavbar } from './navbar';
@@ -82,8 +82,6 @@ const _DashboardEditor = (
   const { data: datasources = [] } = useRequest(listDataSources);
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
-  const [layoutFrozen, freezeLayout] = React.useState(false);
-
   const model = React.useMemo(
     () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context),
     [dashboard, content],
@@ -124,8 +122,6 @@ const _DashboardEditor = (
         <ContentModelContextProvider value={model.content}>
           <LayoutStateContext.Provider
             value={{
-              layoutFrozen,
-              freezeLayout,
               inEditMode: true,
             }}
           >
