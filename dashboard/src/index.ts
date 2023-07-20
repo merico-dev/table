@@ -5,6 +5,7 @@ export const getVersion = () =>
   });
 
 export * from './main';
+export * from './dashboard-editor';
 export * from './view';
 export * from './panel';
 export * from './contexts';
