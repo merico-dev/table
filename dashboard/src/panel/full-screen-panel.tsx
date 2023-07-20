@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
 import { PanelModelInstance } from '~/model/panels';
 import { ViewModelInstance } from '..';
-import { Panel } from '../panel';
+import { Panel } from '.';
 const modalStyles = {
   modal: {
     display: 'flex',
