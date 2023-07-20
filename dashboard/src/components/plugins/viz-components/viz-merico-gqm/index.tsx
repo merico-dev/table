@@ -1,4 +1,4 @@
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizMericoGQM } from './viz-merico-gqm';
 import { VizMericoGQMEditor } from './viz-merico-gqm-editor';

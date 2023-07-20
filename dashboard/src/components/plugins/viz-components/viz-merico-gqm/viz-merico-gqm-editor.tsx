@@ -3,7 +3,7 @@ import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { VizConfigProps } from '../../../../types/plugin';
+import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 

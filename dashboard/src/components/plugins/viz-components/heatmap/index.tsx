@@ -1,4 +1,4 @@
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizHeatmap } from './viz-heatmap';
 import { VizHeatmapEditor } from './viz-heatmap-editor';

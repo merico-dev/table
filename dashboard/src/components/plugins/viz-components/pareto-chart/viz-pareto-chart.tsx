@@ -6,7 +6,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
-import { VizViewProps } from '../../../../types/plugin';
+import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { ClickParetoSeries } from './triggers';

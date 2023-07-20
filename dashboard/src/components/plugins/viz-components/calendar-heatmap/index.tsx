@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types';
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizCalendarHeatmap } from './viz-calendar-heatmap';
 import { VizCalendarHeatmapEditor } from './viz-calendar-heatmap-editor';

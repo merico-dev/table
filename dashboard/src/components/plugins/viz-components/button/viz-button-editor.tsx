@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { MantineColorSwatches } from '~/components/panel/settings/common/mantine-color-swatches';
 import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
-import { VizConfigProps } from '../../../../types/plugin';
+import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 

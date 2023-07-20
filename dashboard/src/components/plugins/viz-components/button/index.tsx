@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { ClickButton } from './triggers';
 import { DEFAULT_CONFIG, IButtonConf } from './type';

@@ -1,7 +1,7 @@
 import { random } from 'chroma-js';
 import _, { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/types';

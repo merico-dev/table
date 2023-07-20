@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { useContentModelContext } from '~/contexts';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
-import { VizViewProps } from '../../../../types/plugin';
+import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { ClickButton } from './triggers';
 import { IClickButtonConfig } from './triggers/click-button';

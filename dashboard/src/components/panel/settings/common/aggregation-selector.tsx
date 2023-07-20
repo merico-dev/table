@@ -1,6 +1,6 @@
 import { Group, NumberInput, Select, SpacingValue, Sx, SystemProp } from '@mantine/core';
 import React, { useEffect } from 'react';
-import { AggregationType } from '../../../../utils/aggregation';
+import { AggregationType } from '~/utils/aggregation';
 
 const options: { label: string; value: AggregationType['type'] }[] = [
   { label: 'None', value: 'none' },

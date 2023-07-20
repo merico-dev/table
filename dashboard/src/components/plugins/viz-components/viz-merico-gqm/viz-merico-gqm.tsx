@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { defaultsDeep } from 'lodash';
 import { useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
-import { VizViewProps } from '../../../../types/plugin';
+import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { MericoGQMErrorFigure } from './error-figure';
 import { callExpertSystem } from './request/call-expert-system';

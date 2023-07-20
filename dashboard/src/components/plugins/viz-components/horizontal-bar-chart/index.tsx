@@ -1,4 +1,4 @@
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 import { VizHorizontalBarChart } from './viz-horizontal-bar-chart';

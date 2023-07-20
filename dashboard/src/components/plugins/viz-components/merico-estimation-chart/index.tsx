@@ -1,4 +1,4 @@
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 import { VizMericoEstimationChart } from './viz-merico-estimation-chart';

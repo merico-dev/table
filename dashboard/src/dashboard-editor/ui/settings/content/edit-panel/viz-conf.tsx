@@ -7,7 +7,7 @@ import { ServiceLocatorProvider } from '~/components/plugins/service/service-loc
 import { usePanelContext } from '~/contexts';
 import { PluginVizConfigComponent } from '~/components/panel/plugin-adaptor';
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
-import { IPanelInfoEditor } from '../../../../types/plugin';
+import { IPanelInfoEditor } from '~/types/plugin';
 import { SelectVizType } from './select-viz-type';
 import { ErrorBoundary } from '~/utils/error-boundary';
 

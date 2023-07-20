@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '../../../api-caller';
-import { explainSQL } from '../../../utils/sql';
+import { explainSQL } from '~/utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from './types';
 import {

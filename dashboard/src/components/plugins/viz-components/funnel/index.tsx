@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types';
-import { VizComponent } from '../../../../types/plugin';
+import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { VizFunnelChart } from './viz-funnel-chart';
 import { VizFunnelEditor } from './viz-funnel-editor';

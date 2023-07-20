@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { VizConfigProps } from '../../../../types/plugin';
+import { VizConfigProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { DeviationField } from './editors/deviation';
 import { MetricsField } from './editors/metrics';
