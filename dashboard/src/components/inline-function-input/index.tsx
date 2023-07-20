@@ -2,7 +2,7 @@ import { Button, Group, Stack, Text } from '@mantine/core';
 import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons-react';
 import { forwardRef, useEffect, useState } from 'react';
 import { AboutFunctionUtils } from '../about-function-utils';
-import { FunctionEditor } from '../function-editor.tsx';
+import { FunctionEditor } from '../function-editor';
 
 interface IInlineFunctionInput {
   value: TFunctionString;
