@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { createElement, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
-import { ServiceLocatorProvider } from '~/service-locator/use-service-locator';
+import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { usePanelContext } from '../../../../contexts';
 import { PluginVizConfigComponent } from '../../../../components/panel/plugin-adaptor';
 import { IPanelInfo, IVizManager, PluginContext } from '../../../../components/plugins';

@@ -1,4 +1,4 @@
-import { IDisposable, ServiceLocator, token } from '~/service-locator';
+import { IDisposable, ServiceLocator, token } from '~/components/plugins/service/service-locator';
 
 describe('ServiceLocator', () => {
   test('provide factor', () => {

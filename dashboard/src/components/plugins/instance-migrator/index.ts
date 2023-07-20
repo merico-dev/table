@@ -1,4 +1,4 @@
-import { IServiceLocator } from '~/service-locator';
+import { IServiceLocator } from '~/components/plugins/service/service-locator';
 import { IVizOperationManager, IVizTriggerManager, VizInstance } from '~/types/plugin';
 
 import { tokens } from '../plugin-context';

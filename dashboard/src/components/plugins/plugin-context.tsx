@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { Blue, Green, Orange, Red, RedGreen, YellowBlue } from '~/components/plugins/colors';
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
-import { token } from '~/service-locator';
+import { token } from '~/components/plugins/service/service-locator';
 
 import { PanelModelInstance } from '~/model/panels';
 import {

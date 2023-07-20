@@ -3,7 +3,7 @@ import { showNotification } from '@mantine/notifications';
 import { useAsyncEffect } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { MigrationResultType, MigrationStatus } from '~/components/plugins/instance-migrator';
-import { useServiceLocator } from '~/service-locator/use-service-locator';
+import { useServiceLocator } from '~/components/plugins/service/service-locator/use-service-locator';
 import { IPanelInfo, tokens } from '../plugins';
 import {
   IConfigComponentProps,

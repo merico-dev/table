@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { InteractionManager, OPERATIONS } from '~/interactions';
 import { IPanelInfo, tokens } from '~/components/plugins';
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
-import { IServiceLocator } from '~/service-locator';
+import { IServiceLocator } from '~/components/plugins/service/service-locator';
 import { usePanelContext } from '~/contexts';
 
 export function useConfigVizInstanceService(panel: IPanelInfo) {

@@ -1,2 +1,2 @@
 export * from './dashboard-render';
-export { useTopLevelServices } from '~/main/use-top-level-services';
+export { useTopLevelServices } from '~/components/plugins/service/use-top-level-services';

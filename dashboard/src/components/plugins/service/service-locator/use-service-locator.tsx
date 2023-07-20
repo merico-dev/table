@@ -1,6 +1,6 @@
 import { useCreation, usePrevious } from 'ahooks';
 import React, { createContext, ReactNode } from 'react';
-import { IServiceLocator, ServiceLocator } from '~/service-locator/index';
+import { IServiceLocator, ServiceLocator } from '~/components/plugins/service/service-locator/index';
 
 export const ServiceLocatorContext = createContext(null as unknown as IServiceLocator);
 
