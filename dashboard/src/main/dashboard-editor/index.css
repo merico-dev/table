@@ -26,6 +26,10 @@
   -ms-overflow-style: initial !important;
 }
 
+.mantine-RichTextEditor-content .ProseMirror {
+  padding: 0;
+}
+
 .dashboard-root
   *:not(.mantine-RichTextEditor-root):not(.dashboard-view):not(.mantine-Modal-body):not([data-enable-scrollbar])::-webkit-scrollbar {
   width: 0 !important;
