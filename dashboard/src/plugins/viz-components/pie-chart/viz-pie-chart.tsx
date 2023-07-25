@@ -60,7 +60,7 @@ function Chart({
     };
   }, [handleSeriesClick]);
 
-  if (!width || !height) {
+  if (!width || !height || !option.series.name) {
     return null;
   }
   return (

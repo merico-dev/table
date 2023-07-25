@@ -11,7 +11,7 @@ type TDataItem = {
 
 export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) {
   const { label_field, value_field, color_field } = conf;
-  if (!label_field || !value_field || !color_field) {
+  if (!label_field || !value_field) {
     return {};
   }
   const label = parseDataKey(label_field);
@@ -21,12 +21,13 @@ export function getSeries(conf: IPieChartConf, data: TPanelData, width: number) 
   const chartData: TDataItem[] = data[label.queryID].map((d) => ({
     name: d[label.columnKey],
     value: Number(d[value.columnKey]),
-    color: d[color.columnKey],
+    color: color.columnKey ? d[color.columnKey] : undefined,
   }));
 
   const colorFeed = getColorFeed('multiple');
   return {
     type: 'pie',
+    name: 'pie',
     radius: ['50%', '80%'],
     itemStyle: {
       color: ({ data }: { data: TDataItem }) => (data.color ? data.color : colorFeed.next().value),
