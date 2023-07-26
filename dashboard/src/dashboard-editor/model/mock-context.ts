@@ -1,29 +1,22 @@
-import { types } from 'mobx-state-tree';
+import { MockContextRecordType, MockContextMeta } from '~/model';
 
-export const MockContextModel = types
-  .model('MockContextModel', {
-    current: types.optional(types.frozen(), {}),
-  })
-  .views((self) => ({
-    get keys() {
-      return Object.keys(self.current);
+export const MockContextModel = MockContextMeta.views((self) => ({
+  get keys() {
+    return Object.keys(self.current);
+  },
+  get entries() {
+    return Object.entries(self.current);
+  },
+})).actions((self) => {
+  return {
+    replace(record: MockContextRecordType) {
+      self.current = record;
     },
-    get entries() {
-      return Object.entries(self.current);
+    get(key: string) {
+      return self.current[key];
     },
-  }))
-  .actions((self) => {
-    return {
-      replace(record: Record<string, $TSFixMe>) {
-        self.current = record;
-      },
-      get(key: string) {
-        return self.current[key];
-      },
-      set(key: string, value: $TSFixMe) {
-        self.current[key] = value;
-      },
-    };
-  });
-
-export type MockContextInfoType = Record<string, $TSFixMe>;
+    set(key: string, value: any) {
+      self.current[key] = value;
+    },
+  };
+});
