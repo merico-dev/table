@@ -36,16 +36,15 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
         render={({ field }) => (
           <Switch
             mt={20}
+            mb={20}
             label="Use Original Data Columns"
             checked={field.value}
             onChange={(e) => field.onChange(e.currentTarget.checked)}
           />
         )}
       />
-      <Divider mt={20} mb={10} variant="dashed" />
       {!use_raw_columns && (
         <Stack>
-          <Text my={0}>Custom Columns</Text>
           <Tabs
             defaultValue={'0'}
             styles={{
