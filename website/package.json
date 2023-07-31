@@ -2,7 +2,7 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "10.9.2",
+  "version": "10.9.3",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview"
