@@ -124,6 +124,13 @@ export function VizTable({ context, instance }: VizViewProps) {
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
+  if (!id_field) {
+    return (
+      <Text color="red" align="center">
+        ID Field is not set, can't render a table without it
+      </Text>
+    );
+  }
   if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">
