@@ -46,7 +46,7 @@ export const AccountOrAPIKeySelector = ({
       onChange={onChange}
       disabled={disabled}
       withinPortal
-      zIndex={320}
+      zIndex={340}
     />
   );
 };

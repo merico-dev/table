@@ -11,6 +11,9 @@ export const TableStyle: Sx = {
   th: {
     position: 'relative',
   },
+  'th, td': {
+    wordBreak: 'break-word',
+  },
 
   '.resizer': {
     position: 'absolute',
