@@ -1,15 +1,14 @@
 import { Box, Table, TableProps, Text } from '@mantine/core';
 import {
   Cell,
+  Row,
+  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
-import _ from 'lodash';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
@@ -18,12 +17,12 @@ import { HeadCell } from '~/plugins/viz-components/table/components/head-cell';
 import { ClickCellContent } from '~/plugins/viz-components/table/triggers/click-cell-content';
 import { baseTableSX, useTableStyles } from '~/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
-import { VizInstance, VizViewProps } from '~/types/plugin';
+import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
+import { parseDataKey } from '~/utils/data';
 import { IVizManager, PluginContext, useStorageData } from '../..';
 import { TableCellContext } from './table-cell-context';
-import { DEFAULT_CONFIG, IColumnConf, ITableConf, TriggerConfigType, ValueType } from './type';
+import { IColumnConf, ITableConf, TriggerConfigType, ValueType } from './type';
 import { CellValue } from './value';
-import { parseDataKey } from '~/utils/data';
 
 const useGetCellContext = (context: {
   vizManager: IVizManager;
@@ -40,10 +39,16 @@ const useGetCellContext = (context: {
   );
 };
 
-export function VizTable({ context, instance }: VizViewProps) {
-  const data = context.data;
-  const { height, width } = context.viewport;
-  const { value: conf = DEFAULT_CONFIG } = useStorageData<ITableConf>(context.instanceData, 'config');
+type IVizTableComponent = {
+  data: TPanelData;
+  width: number;
+  height: number;
+  conf: ITableConf;
+  instance: VizInstance;
+  context: VizViewContext;
+};
+
+function VizTableComponent({ data, width, height, conf, context, instance }: IVizTableComponent) {
   const { id_field, use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
@@ -126,13 +131,6 @@ export function VizTable({ context, instance }: VizViewProps) {
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
-  if (!id_field) {
-    return (
-      <Text color="red" align="center">
-        ID Field is not set, can't render a table without it
-      </Text>
-    );
-  }
   if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">
@@ -192,5 +190,29 @@ export function VizTable({ context, instance }: VizViewProps) {
         </tbody>
       </Table>
     </div>
+  );
+}
+export function VizTable({ context, instance }: VizViewProps) {
+  const data = context.data;
+  const { height, width } = context.viewport;
+  const { value: conf } = useStorageData<ITableConf>(context.instanceData, 'config');
+
+  if (!conf) {
+    return null;
+  }
+
+  if (!conf.id_field) {
+    console.group('🔴 what the fuck');
+    console.log(conf);
+    console.groupEnd();
+    return (
+      <Text color="red" align="center">
+        ID Field is not set, can't render a table without it
+      </Text>
+    );
+  }
+
+  return (
+    <VizTableComponent data={data} width={width} height={height} conf={conf} context={context} instance={instance} />
   );
 }
