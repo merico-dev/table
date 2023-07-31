@@ -67,6 +67,8 @@ export function VizTable({ context, instance }: VizViewProps) {
         value_field: k,
         value_type: ValueType.string,
         align: 'left',
+        width: '',
+        cellBackgroundColor: '',
       }));
     }
     return columns;
@@ -89,8 +91,8 @@ export function VizTable({ context, instance }: VizViewProps) {
         header: c.label,
         enableSorting: true,
         meta: c,
-        size: c.width,
-        minSize: c.width,
+        size: typeof c.width === 'number' ? c.width : undefined,
+        minSize: typeof c.width === 'number' ? c.width : undefined,
       });
     });
     return valueCols;

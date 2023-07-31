@@ -2,7 +2,7 @@ import { Divider, Stack, Switch, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { Control, Controller, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { ITableConf, ValueType } from '../../type';
+import { IColumnConf, ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
 
 interface IColumnsField {
@@ -23,7 +23,8 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
       align: 'center',
       value_field: '',
       value_type: ValueType.string,
-    });
+      width: '',
+    } as IColumnConf);
   };
 
   watch('columns');
