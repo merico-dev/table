@@ -55,13 +55,14 @@ function getSeriesItemOrItems(
 ) {
   const x = parseDataKey(x_axis.data_key);
   const y = parseDataKey(scatter.y_data_key);
+  const n = parseDataKey(scatter.name_data_key);
   return {
     label: {
       show: !!scatter.label_position,
       position: scatter.label_position,
       ...getLabelOverflowOptionOnAxis(scatter.label_overflow.label),
       formatter: ({ value }: { value: AnyObject }) => {
-        return value[scatter.name_data_key]; // [x, y, name]
+        return value[n.columnKey]; // [x, y, name]
       },
     },
     type: 'scatter',
