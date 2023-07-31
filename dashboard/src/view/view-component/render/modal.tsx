@@ -23,6 +23,17 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         e.stopPropagation();
       }}
       styles={{
+        root: {
+          position: 'fixed',
+          zIndex: 200,
+          inset: 0,
+        },
+        overlay: {
+          zIndex: 'unset',
+        },
+        inner: {
+          zIndex: 'unset',
+        },
         content: {
           border: '1px solid #efefef',
         },
