@@ -20,6 +20,7 @@ import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotDataItem } from './type';
 import { parseDataKey } from '~/utils/data';
 import { useRowDataMap } from '~/plugins/hooks/use-row-data-map';
+import { Box } from '@mantine/core';
 
 echarts.use([
   DataZoomComponent,
@@ -79,13 +80,15 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={onEvents}
-      notMerge
-      theme="merico-light"
-    />
+    <Box sx={{ width, height, overflow: 'hidden' }}>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={{ width, height }}
+        onEvents={onEvents}
+        notMerge
+        theme="merico-light"
+      />
+    </Box>
   );
 }
