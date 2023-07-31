@@ -41,8 +41,21 @@ function v4(legacyConf: any, { panelModel }: IMigrationEnv): ITableConf {
   }
 }
 
+function v5(prev: any): ITableConf {
+  const { columns, ...rest } = prev;
+  return {
+    ...rest,
+    columns: columns.map((c: any) => ({
+      ...c,
+      align: c.align ?? 'left',
+      cellBackgroundColor: c.cellBackgroundColor ?? '',
+      width: c.width ?? '',
+    })),
+  };
+}
+
 class VizTableMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     // @ts-expect-error data's type
@@ -80,13 +93,20 @@ class VizTableMigrator extends VersionBasedMigrator {
         config: v4(data.config, env),
       };
     });
+    this.version(5, (data) => {
+      return {
+        ...data,
+        version: 5,
+        config: v5(data.config),
+      };
+    });
   }
 }
 
 export const TableVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: cloneDeep(DEFAULT_CONFIG) as ITableConf,
     };
   },

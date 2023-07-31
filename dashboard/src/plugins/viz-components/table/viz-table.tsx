@@ -67,6 +67,8 @@ export function VizTable({ context, instance }: VizViewProps) {
         value_field: k,
         value_type: ValueType.string,
         align: 'left',
+        width: '',
+        cellBackgroundColor: '',
       }));
     }
     return columns;
@@ -89,8 +91,8 @@ export function VizTable({ context, instance }: VizViewProps) {
         header: c.label,
         enableSorting: true,
         meta: c,
-        size: c.width,
-        minSize: c.width,
+        size: typeof c.width === 'number' ? c.width : undefined,
+        minSize: typeof c.width === 'number' ? c.width : undefined,
       });
     });
     return valueCols;
@@ -124,6 +126,13 @@ export function VizTable({ context, instance }: VizViewProps) {
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
+  if (!id_field) {
+    return (
+      <Text color="red" align="center">
+        ID Field is not set, can't render a table without it
+      </Text>
+    );
+  }
   if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">

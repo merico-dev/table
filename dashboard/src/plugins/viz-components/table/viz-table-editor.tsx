@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Tabs, Text } from '@mantine/core';
+import { ActionIcon, Divider, Group, Tabs, Text } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
@@ -72,23 +72,22 @@ export function VizTableEditor({ context }: VizConfigProps) {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value="Data">Data</Tabs.Tab>
-          <Tabs.Tab value="Style">Style</Tabs.Tab>
           <Tabs.Tab value="Columns">Columns</Tabs.Tab>
+          <Tabs.Tab value="Style">Style</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="Data">
+        <Tabs.Panel value="Columns">
           <Controller
             name="id_field"
             control={control}
             render={({ field }) => <DataFieldSelector label="ID Field" required {...field} />}
           />
+          <Divider mt={20} mb={10} variant="dashed" />
+          <ColumnsField control={control} watch={watch} />
         </Tabs.Panel>
+
         <Tabs.Panel value="Style">
           <StylingFields control={control} watch={watch} />
-        </Tabs.Panel>
-        <Tabs.Panel value="Columns">
-          <ColumnsField control={control} watch={watch} />
         </Tabs.Panel>
       </Tabs>
     </form>
