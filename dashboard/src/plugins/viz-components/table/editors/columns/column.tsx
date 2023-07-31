@@ -2,7 +2,6 @@ import { Button, Divider, Group, NumberInput, Select, Stack, Text, TextInput } f
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/panel/settings/common/data-field-selector';
-import { AnyObject } from '~/types';
 import { BackgroundColorSelect } from '../../components/background-color-select';
 import { DEFAULT_CELL_FUNC_CONTENT, IColumnConf, ITableConf, ValueType } from '../../type';
 import { ValueTypeSelector } from '../../value-type-selector';
@@ -80,7 +79,6 @@ export const ColumnField = ({ control, index, watch, remove, column }: IColumnFi
         <Controller
           name={`columns.${index}.width`}
           control={control}
-          // @ts-expect-error typeof onChange
           render={({ field }) => <NumberInput hideControls label="Width" rightSection={<PostFixPX />} {...field} />}
         />
         <NumberInput hideControls label="Max Width" rightSection={<PostFixPX />} disabled />
