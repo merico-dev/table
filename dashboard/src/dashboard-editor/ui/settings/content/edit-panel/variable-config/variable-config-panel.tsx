@@ -3,7 +3,7 @@ import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 
 import { useCreation } from 'ahooks';
-import { getSnapshot, Instance } from 'mobx-state-tree';
+import { getSnapshot } from 'mobx-state-tree';
 import { usePanelContext } from '~/contexts';
 import {
   useConfigUIModel,
@@ -11,7 +11,7 @@ import {
 } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/model';
 import { useStyles } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/styles';
 import { TemplateVariableField } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-field';
-import { createDraft, VariableModel } from '~/dashboard-editor/model/variables';
+import { createDraft, VariableMetaInstance } from '~/model';
 import { ITemplateVariable, variable2Jsx } from '~/utils/template';
 
 export interface IVariableListProps {
@@ -49,7 +49,7 @@ const VariablePreview = observer(_VariablePreview);
 
 // todo: support validation
 
-const _VariableEditor = (props: { variable: Instance<typeof VariableModel>; uiModel: VariableConfigUIModel }) => {
+const _VariableEditor = (props: { variable: VariableMetaInstance; uiModel: VariableConfigUIModel }) => {
   const draft = useCreation(() => createDraft(props.variable), [props.variable]);
   const { classes } = useStyles();
   const { data } = usePanelContext();

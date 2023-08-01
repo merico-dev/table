@@ -1,7 +1,7 @@
-import { Instance, SnapshotIn, cast, types } from 'mobx-state-tree';
-import { VariableModel } from '~/dashboard-editor/model/variables';
+import { cast, types } from 'mobx-state-tree';
 import { PanelLayoutMeta } from './layout';
 import { PanelStyleMeta } from './style';
+import { VariableMeta, VariableMetaInstance, VariableMetaSnapshotIn } from './variable';
 import { PanelVizMeta } from './viz';
 
 export const PanelMeta = types
@@ -13,7 +13,7 @@ export const PanelMeta = types
     queryIDs: types.array(types.string),
     viz: PanelVizMeta,
     style: PanelStyleMeta,
-    variables: types.optional(types.array(VariableModel), []),
+    variables: types.optional(types.array(VariableMeta), []),
   })
   .views((self) => ({
     get json() {
@@ -60,10 +60,10 @@ export const PanelMeta = types
     setQueryIDs(queryIDs: string[]) {
       self.queryIDs = cast(queryIDs);
     },
-    addVariable(variable: SnapshotIn<typeof VariableModel>) {
+    addVariable(variable: VariableMetaSnapshotIn) {
       self.variables.push(variable);
     },
-    removeVariable(variable: Instance<typeof VariableModel>) {
+    removeVariable(variable: VariableMetaInstance) {
       self.variables.remove(variable);
     },
   }));

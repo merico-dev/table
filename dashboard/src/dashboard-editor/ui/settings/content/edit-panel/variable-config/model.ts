@@ -1,10 +1,9 @@
-import { Instance, SnapshotIn } from 'mobx-state-tree';
-import { VariableModel } from '~/dashboard-editor/model/variables';
-import { usePanelContext } from '~/contexts';
 import { useCreation } from 'ahooks';
-import { makeAutoObservable } from 'mobx';
 import { cloneDeep, isEmpty, last } from 'lodash';
+import { makeAutoObservable } from 'mobx';
+import { usePanelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
+import { VariableMetaInstance, VariableMetaSnapshotIn } from '~/model';
 
 export const NEW_VAR = {
   name: 'new_var',
@@ -25,11 +24,11 @@ export const NEW_VAR = {
     trimMantissa: false,
     average: false,
   },
-} as SnapshotIn<typeof VariableModel>;
+} as VariableMetaSnapshotIn;
 
 export class VariableConfigUIModel {
   panel: PanelModelInstance;
-  selected?: Instance<typeof VariableModel>;
+  selected?: VariableMetaInstance;
 
   constructor(panel: PanelModelInstance) {
     this.panel = panel;
@@ -46,11 +45,11 @@ export class VariableConfigUIModel {
     this.selected = last(this.panel.variables);
   }
 
-  select(variable: Instance<typeof VariableModel>) {
+  select(variable: VariableMetaInstance) {
     this.selected = variable;
   }
 
-  remove(variable: Instance<typeof VariableModel>) {
+  remove(variable: VariableMetaInstance) {
     if (this.selected === variable) {
       this.selected = undefined;
     }
