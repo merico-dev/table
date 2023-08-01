@@ -18,17 +18,17 @@ import { FiltersModel, getInitialFiltersPayload } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
-import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
-import { createDashboardViewsModel, ViewsModel } from '../views';
-import { formatSQL } from '~/utils/sql';
 import {
-  createMockContextMeta,
+  getInitialMockContextMeta,
   MockContextMeta,
   QueryUsageType,
   TPayloadForSQL,
   TPayloadForSQLSnippet,
   TPayloadForViz,
 } from '~/model';
+import { formatSQL } from '~/utils/sql';
+import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
+import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 
 function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
   return list.reduce((ret, curr) => {
@@ -283,7 +283,7 @@ const _ContentModel = types
         self.name = name;
         self.version = version;
         applySnapshot(self.filters.current, filters);
-        applySnapshot(self.views.current, createDashboardViewsModel(views).current);
+        applySnapshot(self.views.current, getInitialDashboardViewsModel(views).current);
         applySnapshot(self.panels.list, panels);
         applySnapshot(self.queries.current, queries);
         applySnapshot(self.sqlSnippets.current, sqlSnippets);
@@ -357,12 +357,11 @@ export function createContentModel({
     sqlSnippets: {
       current: sqlSnippets,
     },
-    mock_context: createMockContextMeta(mock_context),
-    views: createDashboardViewsModel(views),
+    mock_context: getInitialMockContextMeta(mock_context),
+    views: getInitialDashboardViewsModel(views),
     panels: {
       list: panels,
     },
-    origin: {},
   });
 }
 

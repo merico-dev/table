@@ -27,6 +27,6 @@ export const MockContextMeta = types
     };
   });
 
-export function createMockContextMeta(context: ContextRecordType) {
-  return MockContextMeta.create({ current: context });
+export function getInitialMockContextMeta(context: ContextRecordType) {
+  return { current: context };
 }

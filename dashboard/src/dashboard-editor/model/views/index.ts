@@ -101,7 +101,7 @@ export const ViewsModel = types
 
 export type ViewsModelInstance = Instance<typeof ViewsModel>;
 
-export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {
+export function getInitialDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const idOfVIE = views.length > 0 ? views[0].id : '';
   const processedViews = views.map((view) => {
@@ -115,9 +115,9 @@ export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<I
       panelIDs: view.panelIDs,
     };
   });
-  return ViewsModel.create({
+  return {
     current: processedViews,
     visibleViewIDs,
     idOfVIE,
-  });
+  };
 }
