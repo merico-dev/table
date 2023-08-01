@@ -131,7 +131,8 @@ export const CustomRichTextEditor = forwardRef(
               <RichTextEditor.Bold />
               <RichTextEditor.Italic />
               <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
+              {/* https://github.com/merico-dev/table/issues/1088 */}
+              {/* <RichTextEditor.Strikethrough /> */}
               <RichTextEditor.ClearFormatting />
               <RichTextEditor.Highlight />
               <RichTextEditor.Code />
