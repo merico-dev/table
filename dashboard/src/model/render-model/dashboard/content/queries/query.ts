@@ -2,7 +2,7 @@ import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
-import { queryByHTTP, queryBySQL, QueryFailureError } from '../../../api-caller';
+import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { explainSQL } from '~/utils/sql';
 import { MuteQueryModel } from './mute-query';
 import { DataSourceType } from '~/model';
@@ -13,9 +13,9 @@ import {
   preProcessWithDataSource,
 } from '~/utils/http-query';
 
-export const QueryModel = types
+export const QueryRenderModel = types
   .compose(
-    'QueryModel',
+    'QueryRenderModel',
     MuteQueryModel,
     types.model({
       state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
@@ -197,8 +197,8 @@ export const QueryModel = types
     },
   }));
 
-export type QueryModelInstance = Instance<typeof QueryModel>;
-export type QueryModelSnapshotIn = SnapshotIn<QueryModelInstance>;
+export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
+export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
 
 export type QueryUsageType =
   | { type: 'filter'; id: string; label: string; views: { id: string; label: string }[] }
