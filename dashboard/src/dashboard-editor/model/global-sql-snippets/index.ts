@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 import { GlobalSQLSnippetDBType } from '~/api-caller';
-import { GlobalSQLSnippetMeta } from '~/model/meta-model/global-sql-snippets';
+import { GlobalSQLSnippetMeta } from '~/model/meta-model/global-sql-snippet';
 
 export const GlobalSQLSnippetsModel = types
   .model('GlobalSQLSnippetsModel', {
