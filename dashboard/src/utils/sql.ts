@@ -1,4 +1,4 @@
-import { TPayloadForSQL, TPayloadForSQLSnippet } from '../dashboard-editor/model';
+import { TPayloadForSQL, TPayloadForSQLSnippet } from '~/model';
 import { functionUtils } from './function-utils';
 
 export function formatSQL(sql: string, payload: TPayloadForSQL | TPayloadForSQLSnippet) {

@@ -1,4 +1,4 @@
-import { TPayloadForViz } from '~/dashboard-editor/model';
+import { TPayloadForViz } from '~/model';
 import { aggregateValue } from '~/utils/aggregation';
 import { ITemplateVariable, formatAggregatedValue } from '~/utils/template';
 
