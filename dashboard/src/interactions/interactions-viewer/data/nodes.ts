@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
 import { ContentModelInstance, PanelModelInstance, ViewsModelInstance } from '~/dashboard-editor/model';
-import { EViewComponentType, ViewComponentTypeBackground, ViewTabsConfigInstance } from '~/types';
+import { ViewComponentTypeBackground } from '~/types';
+import { EViewComponentType, ViewTabsConfigInstance } from '~/model';
 import {
   PanelGapY,
   PanelHeight,

@@ -1,8 +1,9 @@
 import { getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { EViewComponentType, IDashboardView } from '~/types';
+import { IDashboardView } from '~/types';
+import { EViewComponentType } from '~/model';
 import { PanelsModelInstance } from '../panels';
 
-import { ViewModalConfigSnapshotIn, ViewDivisionConfigSnapshotIn, ViewMeta, ViewMetaInstance } from '~/model';
+import { ViewDivisionConfigSnapshotIn, ViewMeta, ViewMetaInstance, ViewModalConfigSnapshotIn } from '~/model';
 import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const ViewsModel = types

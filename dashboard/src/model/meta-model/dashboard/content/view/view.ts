@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType } from './types';
 import { createViewDivisionConfig, ViewDivisionConfig } from './widgets/division';
 import { createViewModalConfig, ViewModalConfig } from './widgets/modal';
 import { createViewTabsConfig, ViewTabsConfig } from './widgets/tabs';

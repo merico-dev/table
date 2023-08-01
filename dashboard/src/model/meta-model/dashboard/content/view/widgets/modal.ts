@@ -1,5 +1,5 @@
 import { getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType, TPayloadForSQLSnippet } from '~/model';
 
 const CustomModalTitleModel = types
   .model('CustomModalTitleModel', {

@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType } from '../types';
 
 export const ViewDivisionConfig = types
   .model('ViewDivisionConfig', {

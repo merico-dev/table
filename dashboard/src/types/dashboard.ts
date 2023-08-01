@@ -1,4 +1,3 @@
-export * from '~/model';
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
 import { QueryModelSnapshotIn } from '../dashboard-editor/model/queries';

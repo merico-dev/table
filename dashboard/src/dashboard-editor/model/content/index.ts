@@ -13,6 +13,7 @@ import {
   types,
 } from 'mobx-state-tree';
 import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
+
 import { FiltersModel, getInitialFiltersPayload } from '../filters';
 import { MockContextModel } from '../mock-context';
 import { QueriesModel, QueryUsageType } from '../queries';
@@ -21,15 +22,7 @@ import { SQLSnippetsModel } from '../sql-snippets';
 import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
 import { createDashboardViewsModel, ViewsModel } from '../views';
 import { formatSQL } from '~/utils/sql';
-
-export type TPayloadForSQL = {
-  context: AnyObject;
-  sql_snippets: AnyObject;
-  global_sql_snippets: AnyObject;
-  filters: AnyObject;
-};
-export type TPayloadForSQLSnippet = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
-export type TPayloadForViz = Omit<TPayloadForSQL, 'sql_snippets' | 'global_sql_snippets'>;
+import { TPayloadForSQL, TPayloadForSQLSnippet, TPayloadForViz } from '~/model';
 
 function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
   return list.reduce((ret, curr) => {
