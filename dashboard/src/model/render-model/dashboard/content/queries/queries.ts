@@ -1,10 +1,9 @@
-import _ from 'lodash';
-import { cast, detach, Instance, types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
+import { QueryRenderModel } from './query';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '~/utils/download';
-import { QueryRenderModel, QueryRenderModelInstance } from '~/model';
 
 export const QueriesRenderModel = types
-  .model('QueriesModel', {
+  .model('QueriesRenderModel', {
     current: types.optional(types.array(QueryRenderModel), []),
   })
   .views((self) => ({

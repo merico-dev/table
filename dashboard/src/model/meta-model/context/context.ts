@@ -28,3 +28,7 @@ export const ContextMeta = types
       },
     };
   });
+
+export function createContextMeta(context: ContextRecordType) {
+  return ContextMeta.create({ current: context });
+}

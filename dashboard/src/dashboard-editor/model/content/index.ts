@@ -15,13 +15,20 @@ import {
 import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
 
 import { FiltersModel, getInitialFiltersPayload } from '../filters';
-import { QueriesModel, QueryUsageType } from '../queries';
+import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
 import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
 import { createDashboardViewsModel, ViewsModel } from '../views';
 import { formatSQL } from '~/utils/sql';
-import { MockContextMeta, TPayloadForSQL, TPayloadForSQLSnippet, TPayloadForViz } from '~/model';
+import {
+  createMockContextMeta,
+  MockContextMeta,
+  QueryUsageType,
+  TPayloadForSQL,
+  TPayloadForSQLSnippet,
+  TPayloadForViz,
+} from '~/model';
 
 function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
   return list.reduce((ret, curr) => {
@@ -350,13 +357,12 @@ export function createContentModel({
     sqlSnippets: {
       current: sqlSnippets,
     },
-    mock_context: {
-      current: mock_context,
-    },
+    mock_context: createMockContextMeta(mock_context),
     views: createDashboardViewsModel(views),
     panels: {
       list: panels,
     },
+    origin: {},
   });
 }
 

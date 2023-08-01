@@ -5,7 +5,7 @@ import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';
 
 import { GlobalSQLSnippetDBType } from '~/api-caller';
-import { ContextMeta, ContextRecordType } from '~/model';
+import { ContextMeta, ContextRecordType, createContextMeta } from '~/model';
 import { ContentModel, createContentModel } from './content';
 import { GlobalSQLSnippetsMeta } from '~/model';
 
@@ -65,9 +65,7 @@ export function createDashboardModel(
     globalSQLSnippets: {
       list: globalSQLSnippets,
     },
-    context: {
-      current: context,
-    },
+    context: createContextMeta(context),
     editor: {},
   });
 }
