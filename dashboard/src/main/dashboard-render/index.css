@@ -27,7 +27,7 @@
 }
 
 .mantine-RichTextEditor-content .ProseMirror {
-  padding: 0;
+  padding: .5em .5em 0;
 }
 
 .dashboard-root
