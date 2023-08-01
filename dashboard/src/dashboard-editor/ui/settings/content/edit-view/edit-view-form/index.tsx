@@ -1,7 +1,6 @@
 import { Select, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ViewModelInstance } from '~/dashboard-editor/model';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { ConfigFields } from './config-fields';
 
 const viewComponentTypeOptions = [
@@ -10,7 +9,7 @@ const viewComponentTypeOptions = [
   { label: 'Tabs', value: EViewComponentType.Tabs },
 ];
 
-export const EditViewForm = observer(({ view }: { view?: ViewModelInstance }) => {
+export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => {
   if (!view) {
     return null;
   }

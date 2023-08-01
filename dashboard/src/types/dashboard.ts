@@ -1,6 +1,6 @@
+export * from '~/model';
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
-import { FilterModelSnapshotOut } from '../dashboard-editor/model';
 import { QueryModelSnapshotIn } from '../dashboard-editor/model/queries';
 import { SQLSnippetModelSnapshotIn } from '../dashboard-editor/model/sql-snippets';
 
@@ -44,11 +44,7 @@ export interface IDashboardDefinition {
   mock_context: Record<string, $TSFixMe>;
 }
 
-export enum EViewComponentType {
-  Division = 'div',
-  Modal = 'modal',
-  Tabs = 'tabs',
-}
+import { EViewComponentType, FilterMetaSnapshotOut } from '~/model';
 
 export const ViewComponentTypeName = {
   [EViewComponentType.Division]: 'Division',
@@ -87,7 +83,7 @@ export interface TDashboardContent {
   definition: IDashboardDefinition;
   views: IDashboardView[];
   panels: IDashboardPanel[];
-  filters: FilterModelSnapshotOut[];
+  filters: FilterMetaSnapshotOut[];
   version: string;
 }
 

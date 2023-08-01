@@ -2,12 +2,11 @@ import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/dashboard-editor/model';
-import { IViewConfigModel_Modal } from '~/dashboard-editor/model/views/view/modal';
+import { ViewMetaInstance, ViewModalConfigInstance } from '~/model';
 
-export const RenderViewModal = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+export const RenderViewModal = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
   const model = useContentModelContext();
-  const config = view.config as IViewConfigModel_Modal;
+  const config = view.config as ViewModalConfigInstance;
   const opened = model.views.visibleViewIDs.includes(view.id);
   const close = () => model.views.rmVisibleViewID(view.id);
   return (

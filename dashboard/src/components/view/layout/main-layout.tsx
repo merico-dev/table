@@ -4,7 +4,7 @@ import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/dashboard-editor/model';
+import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
 
@@ -50,7 +50,7 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
 const ReactGridLayout = WidthProvider(RGL);
 
 interface IMainDashboardLayout {
-  view: ViewModelInstance;
+  view: ViewMetaInstance;
   className?: string;
 }
 

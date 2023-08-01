@@ -3,12 +3,12 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { Filters } from '~/components/filter';
-import { ViewModelInstance } from '../..';
+import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { MainDashboardLayout } from './layout';
 import { PreviewViewComponent } from './view-component/preview';
 
 interface IDashboardViewEditor {
-  view: ViewModelInstance;
+  view: ViewMetaInstance;
 }
 
 export const DashboardViewEditor = observer(function _DashboardViewEditor({ view }: IDashboardViewEditor) {

@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/dashboard-editor/model';
+import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
 interface IReadOnlyDashboardLayout {
-  view: ViewModelInstance;
+  view: ViewMetaInstance;
   className?: string;
 }
 

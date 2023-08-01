@@ -1,15 +1,16 @@
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { Filters } from '~/components/filter';
 import { FullScreenPanel } from '~/components/panel/full-screen-panel';
 import { usePanelFullScreen } from '~/components/panel/use-panel-full-screen';
-import { useFullScreenPanelContext, ViewModelInstance } from '../..';
+import { DashboardActionContext } from '~/contexts/dashboard-action-context';
+import { ViewMetaInstance } from '~/model';
+import { useFullScreenPanelContext } from '../..';
 import { ReadOnlyDashboardLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
 
 interface IDashboardViewRender {
-  view: ViewModelInstance;
+  view: ViewMetaInstance;
 }
 
 export const DashboardViewRender = observer(function _DashboardLayout({ view }: IDashboardViewRender) {

@@ -1,23 +1,8 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
+import { ContentModelInstance, PanelModelInstance, ViewsModelInstance } from '~/dashboard-editor/model';
+import { EViewComponentType, ViewComponentTypeBackground, ViewTabsConfigInstance } from '~/types';
 import {
-  ContentModelInstance,
-  FiltersModelInstance,
-  PanelModelInstance,
-  ViewsModelInstance,
-} from '~/dashboard-editor/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/dashboard-editor/model/views/view/tabs';
-import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
-import {
-  calc,
-  calcTotal,
-  FilterGap,
-  FilterHeight,
-  FilterPaddingB,
-  FilterPaddingL,
-  FilterPaddingR,
-  FilterPaddingT,
-  FilterWidth,
   PanelGapY,
   PanelHeight,
   PanelWidth,
@@ -25,6 +10,8 @@ import {
   ViewPaddingT,
   ViewPaddingX,
   ViewWidth,
+  calc,
+  calcTotal,
 } from './metrics';
 import { TFlowNode } from './types';
 
@@ -79,7 +66,7 @@ function makeViewNodes(views: ViewsModelInstance) {
     const height = calcTotal(v.panelIDs.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
     let _tab_view_ids: string[] = [];
     if (v.type === EViewComponentType.Tabs) {
-      const config = v.config as IViewConfigModel_Tabs;
+      const config = v.config as ViewTabsConfigInstance;
       _tab_view_ids = config.tabs.map((t) => t.view_id);
     }
     return {

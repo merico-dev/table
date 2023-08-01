@@ -3,7 +3,7 @@ import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { Edit, Recycle, Settings } from 'tabler-icons-react';
 import { CustomModalTitleFunctionEditor } from './function-editor';
-import { DEFAULT_CUSTOM_MODAL_TITLE, ICustomModalTitle } from './types';
+import { DEFAULT_CUSTOM_MODAL_TITLE, ICustomModalTitle } from '~/model';
 
 interface ICustomModalTitleField {
   value: ICustomModalTitle;

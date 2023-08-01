@@ -1,5 +1,4 @@
 import { getParent, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { DEFAULT_CUSTOM_MODAL_TITLE } from '~/dashboard-editor/ui/settings/content/edit-view/edit-view-form/config-fields/modal/modal-title-editor/types';
 import { EViewComponentType } from '~/types';
 
 const CustomModalTitleModel = types
@@ -17,8 +16,8 @@ const CustomModalTitleModel = types
     },
     get value() {
       const { enabled, func_content } = self;
-      const view = getParent(self, 2) as any;
-      const root = getRoot(self) as any;
+      const view = getParent(self, 2) as any; // ViewMeta
+      const root = getRoot(self) as any; // FIXME: it shouldn't be in meta model
       if (!enabled) {
         return view.name;
       }
@@ -49,8 +48,20 @@ const CustomModalTitleModel = types
     },
   }));
 
-export const ViewConfigModel_Modal = types
-  .model('ViewModel_Modal', {
+export interface ICustomModalTitle {
+  enabled: boolean;
+  func_content: string;
+}
+
+export const DEFAULT_CUSTOM_MODAL_TITLE = {
+  enabled: false,
+  func_content: ['function text({ filters, context}) {', '    // your code goes here', '    return "text"', '}'].join(
+    '\n',
+  ),
+};
+
+export const ViewModalConfig = types
+  .model('ViewModalConfig', {
     _name: types.literal(EViewComponentType.Modal),
     width: types.string,
     height: types.string,
@@ -76,11 +87,11 @@ export const ViewConfigModel_Modal = types
     },
   }));
 
-export type IViewConfigModel_Modal = Instance<typeof ViewConfigModel_Modal>;
-export type IViewConfigModel_ModalIn = SnapshotIn<IViewConfigModel_Modal>;
+export type ViewModalConfigInstance = Instance<typeof ViewModalConfig>;
+export type ViewModalConfigSnapshotIn = SnapshotIn<ViewModalConfigInstance>;
 
-export const createViewConfig_Modal = () =>
-  ViewConfigModel_Modal.create({
+export const createViewModalConfig = () =>
+  ViewModalConfig.create({
     _name: EViewComponentType.Modal,
     width: '90vw',
     height: '90vh',

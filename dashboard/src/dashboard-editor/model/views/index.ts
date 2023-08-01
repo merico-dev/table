@@ -1,14 +1,13 @@
 import { getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType, IDashboardView } from '~/types';
 import { PanelsModelInstance } from '../panels';
-import { ViewModel, ViewModelInstance } from './view';
-import { IViewConfigModel_DivisionIn } from './view/division';
-import { IViewConfigModel_ModalIn } from './view/modal';
+
+import { ViewModalConfigSnapshotIn, ViewDivisionConfigSnapshotIn, ViewMeta, ViewMetaInstance } from '~/model';
 import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const ViewsModel = types
   .model('ViewsModel', {
-    current: types.optional(types.array(ViewModel), []),
+    current: types.optional(types.array(ViewMeta), []),
     visibleViewIDs: types.array(types.string),
     idOfVIE: types.string, // VIE: view in edit
   })
@@ -17,7 +16,7 @@ export const ViewsModel = types
       return self.current.map((o) => shallowToJS(o.json));
     },
     get idMap() {
-      const map = new Map<string, ViewModelInstance>();
+      const map = new Map<string, ViewMetaInstance>();
       self.current.forEach((v) => {
         map.set(v.id, v);
       });
@@ -66,14 +65,14 @@ export const ViewsModel = types
   }))
   .actions((self) => {
     return {
-      replace(current: Array<ViewModelInstance>) {
+      replace(current: Array<ViewMetaInstance>) {
         self.current.replace(current);
       },
       addANewView(
         id: string,
         name: string,
         type: EViewComponentType,
-        config: IViewConfigModel_DivisionIn | IViewConfigModel_ModalIn,
+        config: ViewDivisionConfigSnapshotIn | ViewModalConfigSnapshotIn,
       ) {
         self.current.push({
           id,
@@ -83,7 +82,7 @@ export const ViewsModel = types
           panelIDs: [],
         });
       },
-      append(item: ViewModelInstance) {
+      append(item: ViewMetaInstance) {
         self.current.push(item);
       },
       remove(index: number) {
@@ -96,7 +95,7 @@ export const ViewsModel = types
         }
         self.current.splice(index, 1);
       },
-      replaceByIndex(index: number, replacement: ViewModelInstance) {
+      replaceByIndex(index: number, replacement: ViewMetaInstance) {
         self.current.splice(index, 1, replacement);
       },
       setIDOfVIE(id: string) {
@@ -137,7 +136,6 @@ export const ViewsModel = types
   }));
 
 export type ViewsModelInstance = Instance<typeof ViewsModel>;
-export * from './view';
 
 export function createDashboardViewsModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];

@@ -4,13 +4,11 @@ import { IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
-import { useContentModelContext } from '~/contexts';
-import { ViewModelInstance } from '~/dashboard-editor/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/dashboard-editor/model/views/view/tabs';
-import { EViewComponentType } from '~/types';
 import { DashboardViewRender } from '~/components/view';
+import { useContentModelContext } from '~/contexts';
+import { EViewComponentType, TabModelInstance, ViewMetaInstance, ViewTabsConfigInstance } from '~/model';
 
-const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
+const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   const ret: Record<string, any> = {
     tab: {},
     panel: {
@@ -35,14 +33,14 @@ const getStyles = ({ variant, orientation }: IViewConfigModel_Tabs) => {
   return ret;
 };
 
-const getTabSX = (t: ViewConfigModel_Tabs_Tab_Instance): Sx => {
+const getTabSX = (t: TabModelInstance): Sx => {
   if (t.color) {
     return { '&[data-active], &[data-active]:hover': { borderColor: t.color ? t.color : '...' } };
   }
   return {};
 };
 
-export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewModelInstance }) => {
+export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
   const modals = useModals();
   const model = useContentModelContext();
   const options = useMemo(
@@ -50,7 +48,7 @@ export const PreviewViewTabs = observer(({ children, view }: { children: ReactNo
     [view.id, model.views.options],
   );
 
-  const config = view.config as IViewConfigModel_Tabs;
+  const config = view.config as ViewTabsConfigInstance;
 
   const remove = (index: number) =>
     modals.openConfirmModal({

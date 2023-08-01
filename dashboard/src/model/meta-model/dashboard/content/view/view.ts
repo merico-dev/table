@@ -1,10 +1,10 @@
 import { Instance, types } from 'mobx-state-tree';
 import { EViewComponentType } from '~/types';
-import { createViewConfig_Division, ViewConfigModel_Division } from './division';
-import { createViewConfig_Modal, ViewConfigModel_Modal } from './modal';
-import { createViewConfig_Tabs, ViewConfigModel_Tabs } from './tabs';
+import { createViewDivisionConfig, ViewDivisionConfig } from './widgets/division';
+import { createViewModalConfig, ViewModalConfig } from './widgets/modal';
+import { createViewTabsConfig, ViewTabsConfig } from './widgets/tabs';
 
-export const ViewModel = types
+export const ViewMeta = types
   .model({
     id: types.identifier,
     name: types.string,
@@ -13,7 +13,7 @@ export const ViewModel = types
       EViewComponentType.Modal,
       EViewComponentType.Tabs,
     ]),
-    config: types.union(ViewConfigModel_Division, ViewConfigModel_Modal, ViewConfigModel_Tabs),
+    config: types.union(ViewDivisionConfig, ViewModalConfig, ViewTabsConfig),
     panelIDs: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
@@ -38,13 +38,13 @@ export const ViewModel = types
       }
       switch (type) {
         case EViewComponentType.Division:
-          self.config = createViewConfig_Division();
+          self.config = createViewDivisionConfig();
           break;
         case EViewComponentType.Modal:
-          self.config = createViewConfig_Modal();
+          self.config = createViewModalConfig();
           break;
         case EViewComponentType.Tabs:
-          self.config = createViewConfig_Tabs();
+          self.config = createViewTabsConfig();
           break;
       }
       self.type = type;
@@ -57,7 +57,6 @@ export const ViewModel = types
       self.panelIDs.length = 0;
       self.panelIDs.push(...newIDs);
     },
-  }))
-  .actions((self) => ({}));
+  }));
 
-export type ViewModelInstance = Instance<typeof ViewModel>;
+export type ViewMetaInstance = Instance<typeof ViewMeta>;

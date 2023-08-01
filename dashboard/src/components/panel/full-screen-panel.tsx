@@ -2,7 +2,7 @@ import { Button, Group, Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
-import { ViewModelInstance } from '../..';
+import { ViewMetaInstance } from '~/model';
 import { Panel } from '.';
 const modalStyles = {
   modal: {
@@ -20,7 +20,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
   panel,
   exitFullScreen,
 }: {
-  view: ViewModelInstance;
+  view: ViewMetaInstance;
   panel: PanelModelInstance;
   exitFullScreen: () => void;
 }) {

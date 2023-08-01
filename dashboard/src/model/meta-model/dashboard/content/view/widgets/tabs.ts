@@ -4,7 +4,7 @@ import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '~/types';
 
 const TabModel = types
-  .model('ViewModel_Tabs_Tab', {
+  .model('ViewTabsTabModel', {
     id: types.identifier,
     name: types.string,
     view_id: types.string,
@@ -33,12 +33,11 @@ const TabModel = types
     },
   }));
 
-type TabModelInstance = Instance<typeof TabModel>;
-export type ViewConfigModel_Tabs_Tab_Instance = TabModelInstance;
+export type TabModelInstance = Instance<typeof TabModel>;
 type TabModelSnapshotIn = SnapshotIn<TabModelInstance>;
 
-export const ViewConfigModel_Tabs = types
-  .model('ViewModel_Tabs', {
+export const ViewTabsConfig = types
+  .model('ViewTabsConfig', {
     _name: types.literal(EViewComponentType.Modal),
     tabs: types.optional(types.array(TabModel), []),
     variant: types.optional(types.enumeration<TabsVariant>('variant', ['default', 'outline', 'pills']), 'default'),
@@ -88,11 +87,11 @@ export const ViewConfigModel_Tabs = types
     },
   }));
 
-export type IViewConfigModel_Tabs = Instance<typeof ViewConfigModel_Tabs>;
-export type IViewConfigModel_TabsIn = SnapshotIn<IViewConfigModel_Tabs>;
+export type ViewTabsConfigInstance = Instance<typeof ViewTabsConfig>;
+export type ViewTabsConfigSnapshotIn = SnapshotIn<ViewTabsConfigInstance>;
 
-export const createViewConfig_Tabs = () =>
-  ViewConfigModel_Tabs.create({
+export const createViewTabsConfig = () =>
+  ViewTabsConfig.create({
     _name: EViewComponentType.Modal,
     tabs: [],
   });
