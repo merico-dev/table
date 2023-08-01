@@ -13,13 +13,14 @@ import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
 import { ModelContextProvider } from '~/contexts/model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
-import { ContextInfoType, createDashboardModel } from '~/dashboard-editor/model';
+import { createDashboardModel } from '~/dashboard-editor/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import './index.css';
+import { ContextRecordType } from '~/model';
 
 registerThemes();
 
@@ -43,7 +44,7 @@ const AppShellStyles = {
 } as const;
 
 interface IDashboardProps {
-  context: ContextInfoType;
+  context: ContextRecordType;
   dashboard: IDashboard;
   content: DashboardContentDBType;
   className?: string;

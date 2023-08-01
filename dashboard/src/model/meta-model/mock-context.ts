@@ -1,8 +1,6 @@
 import { types } from 'mobx-state-tree';
-
-export type MockContextRecordValueType = any;
-export type MockContextRecordType = Record<string, MockContextRecordValueType>;
+import { ContextRecordType } from './context';
 
 export const MockContextMeta = types.model('MockContextMeta', {
-  current: types.optional(types.frozen<MockContextRecordType>(), {}),
+  current: types.optional(types.frozen<ContextRecordType>(), {}),
 });

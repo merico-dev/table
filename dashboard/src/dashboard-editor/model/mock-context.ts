@@ -1,4 +1,4 @@
-import { MockContextRecordType, MockContextMeta } from '~/model';
+import { ContextRecordType, MockContextMeta } from '~/model';
 
 export const MockContextModel = MockContextMeta.views((self) => ({
   get keys() {
@@ -9,7 +9,7 @@ export const MockContextModel = MockContextMeta.views((self) => ({
   },
 })).actions((self) => {
   return {
-    replace(record: MockContextRecordType) {
+    replace(record: ContextRecordType) {
       self.current = record;
     },
     get(key: string) {

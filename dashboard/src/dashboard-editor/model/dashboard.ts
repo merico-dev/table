@@ -1,12 +1,13 @@
 import { Instance, types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
-import { IDashboard, DashboardContentDBType } from '../../types';
-import { ContextInfoType, ContextModel } from './context';
+import { DashboardContentDBType, IDashboard } from '../../types';
+import { ContextModel } from './context';
 import { DataSourcesModel } from './datasources';
 import { EditorModel } from './editor';
 
-import { ContentModel, createContentModel } from './content';
 import { GlobalSQLSnippetDBType } from '~/api-caller';
+import { ContextRecordType } from '~/model';
+import { ContentModel, createContentModel } from './content';
 import { GlobalSQLSnippetsModel } from './global-sql-snippets';
 
 export const DashboardModel = types
@@ -51,7 +52,7 @@ export function createDashboardModel(
   content: DashboardContentDBType,
   datasources: IDataSource[],
   globalSQLSnippets: GlobalSQLSnippetDBType[],
-  context: ContextInfoType,
+  context: ContextRecordType,
 ) {
   return DashboardModel.create({
     id,
