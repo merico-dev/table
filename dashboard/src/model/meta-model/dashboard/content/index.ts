@@ -1,4 +1,4 @@
-export * from './context';
+export * from './mock-context';
 export * from './panel';
 export * from './query';
 export * from './sql-snippet';
