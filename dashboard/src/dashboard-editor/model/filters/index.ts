@@ -11,11 +11,11 @@ import {
   types,
 } from 'mobx-state-tree';
 import { AnyObject } from '~/types';
-import { FilterModel, FilterModelInstance, FilterModelSnapshotOut } from './filter';
+import { FilterMeta, FilterMetaInstance, FilterMetaSnapshotOut } from '~/model';
 
 function formatDefaultValue(
   v: string | boolean | string[] | (string | null)[],
-  config: FilterModelSnapshotOut['config'],
+  config: FilterMetaSnapshotOut['config'],
 ) {
   if (v === undefined) {
     return v;
@@ -39,7 +39,7 @@ function formatDefaultValue(
   return v;
 }
 
-function getValuesFromFilters(filters: FilterModelSnapshotOut[]) {
+function getValuesFromFilters(filters: FilterMetaSnapshotOut[]) {
   return filters.reduce((ret, filter) => {
     ret[filter.key] = formatDefaultValue(filter.config.default_value, filter.config);
     return ret;
@@ -63,9 +63,10 @@ function afterModelAction<T extends IAnyComplexType>(
   );
 }
 
+// TODO(leto): use DraftModel?
 export const FiltersModel = types
   .model('FiltersModel', {
-    current: types.optional(types.array(FilterModel), []),
+    current: types.optional(types.array(FilterMeta), []),
     values: types.optional(types.frozen(), {}),
     /**
      * values to be displayed in preview content, e.g. Data Settings
@@ -125,10 +126,10 @@ export const FiltersModel = types
   }))
   .actions((self) => {
     return {
-      replace(current: Array<FilterModelInstance>) {
+      replace(current: Array<FilterMetaInstance>) {
         self.current = cast(current);
       },
-      append(item: FilterModelInstance) {
+      append(item: FilterMetaInstance) {
         self.current.push(item);
       },
       remove(index: number) {
@@ -159,7 +160,7 @@ export const FiltersModel = types
   })
   .actions((self) => {
     function updateValuesAfterChangeFilterType() {
-      afterModelAction(self.current, FilterModel, (action, filter) => {
+      afterModelAction(self.current, FilterMeta, (action, filter) => {
         if (action === 'setType') {
           const defaultValue = formatDefaultValue(filter.config.default_value, filter.config);
           self.setValueByKey(filter.key, defaultValue);
@@ -178,11 +179,10 @@ export const FiltersModel = types
     };
   });
 export type FiltersModelInstance = Instance<typeof FiltersModel>;
-export * from './filter';
 
 export type FilterValuesType = Record<string, $TSFixMe>;
 
-export function getInitialFiltersPayload(filters: FilterModelSnapshotOut[]) {
+export function getInitialFiltersPayload(filters: FilterMetaSnapshotOut[]) {
   return {
     current: filters,
     values: getValuesFromFilters(filters),

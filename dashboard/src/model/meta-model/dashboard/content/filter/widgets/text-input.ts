@@ -1,7 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
 
-export const FilterConfigModel_TextInput = types
-  .model('FilterConfigModel_TextInput', {
+export const FilterTextInputConfigMeta = types
+  .model('FilterTextInputConfigMeta', {
     _name: types.literal('text-input'),
     required: types.boolean,
     default_value: types.string,
@@ -31,10 +31,10 @@ export const FilterConfigModel_TextInput = types
     },
   }));
 
-export type IFilterConfig_TextInput = Instance<typeof FilterConfigModel_TextInput>;
+export type FilterTextInputConfigInstance = Instance<typeof FilterTextInputConfigMeta>;
 
-export const createFilterConfig_TextInput = () =>
-  FilterConfigModel_TextInput.create({
+export const createFilterTextInputConfig = () =>
+  FilterTextInputConfigMeta.create({
     _name: 'text-input',
     required: false,
     default_value: '',

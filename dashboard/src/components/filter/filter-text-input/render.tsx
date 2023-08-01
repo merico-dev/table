@@ -1,9 +1,9 @@
 import { TextInput } from '@mantine/core';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { IFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
+import { FilterMetaInstance } from '~/model';
+import { FilterTextInputConfigInstance } from '~/model';
 
-interface IFilterTextInput extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
-  config: IFilterConfig_TextInput;
+interface IFilterTextInput extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
+  config: FilterTextInputConfigInstance;
   value: $TSFixMe;
   onChange: (v: $TSFixMe) => void;
 }

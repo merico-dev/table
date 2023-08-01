@@ -1,5 +1,5 @@
-import { FilterModelInstance } from '~/dashboard-editor/model';
+import { FilterMetaInstance } from '~/model';
 
 export interface IFilterSettingsForm {
-  filters: FilterModelInstance[];
+  filters: FilterMetaInstance[];
 }

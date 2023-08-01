@@ -1,17 +1,17 @@
 import { reaction, toJS } from 'mobx';
 import { addDisposer, cast, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { FilterConfigModel_BaseSelect } from './select-base';
+import { FilterBaseSelectConfigMeta } from './select-base';
 import { shallowToJS } from '~/utils/shallow-to-js';
 
-export const FilterConfigModel_MultiSelect = types
+export const FilterMultiSelectConfigMeta = types
   .compose(
-    'FilterConfigModel_MultiSelect',
+    'FilterMultiSelectConfigMeta',
     types.model({
       _name: types.literal('multi-select'),
       min_width: types.optional(types.string, ''),
       default_value: types.optional(types.array(types.string), []),
     }),
-    FilterConfigModel_BaseSelect,
+    FilterBaseSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
@@ -59,10 +59,10 @@ export const FilterConfigModel_MultiSelect = types
     },
   }));
 
-export type IFilterConfig_MultiSelect = Instance<typeof FilterConfigModel_MultiSelect>;
+export type FilterMultiSelectConfigInstance = Instance<typeof FilterMultiSelectConfigMeta>;
 
-export const createFilterConfig_MultiSelect = () =>
-  FilterConfigModel_MultiSelect.create({
+export const createFilterMultiSelectConfig = () =>
+  FilterMultiSelectConfigMeta.create({
     _name: 'multi-select',
     default_value: [],
     static_options: [],

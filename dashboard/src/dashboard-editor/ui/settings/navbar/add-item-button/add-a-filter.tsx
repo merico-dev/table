@@ -2,8 +2,8 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { createFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
+import { FilterMetaInstance } from '~/model';
+import { createFilterTextInputConfig } from '~/model';
 import { DashboardFilterType } from '~/types';
 
 export const AddAFilter = observer(() => {
@@ -16,10 +16,10 @@ export const AddAFilter = observer(() => {
       label: id,
       order: model.content.filters.current.length + 1,
       type: DashboardFilterType.TextInput,
-      config: createFilterConfig_TextInput(),
+      config: createFilterTextInputConfig(),
       visibleInViewsIDs: ['Main'],
       auto_submit: false,
-    } as FilterModelInstance;
+    } as FilterMetaInstance;
     model.content.filters.append(filter);
     model.editor.setPath(['_FILTERS_', id]);
   };

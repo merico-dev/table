@@ -1,9 +1,9 @@
 import { Checkbox, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
+import { FilterTextInputConfigInstance } from '~/model';
 
 interface IFilterEditorTextInput {
-  config: IFilterConfig_TextInput;
+  config: FilterTextInputConfigInstance;
 }
 
 export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ config }: IFilterEditorTextInput) {

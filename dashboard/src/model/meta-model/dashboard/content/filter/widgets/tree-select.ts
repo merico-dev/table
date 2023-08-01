@@ -1,6 +1,6 @@
 import { addDisposer, cast, Instance, types, getRoot, getParent } from 'mobx-state-tree';
 import { Text, TextProps } from '@mantine/core';
-import { FilterConfigModel_BaseSelect } from './select-base';
+import { FilterBaseSelectConfigMeta } from './select-base';
 import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
 import React from 'react';
 import { queryDataToTree } from '~/components/filter/filter-tree-select/render/query-data-to-tree';
@@ -29,15 +29,15 @@ function addLabelToData(data: ITreeDataQueryOption[]) {
   });
 }
 
-export const FilterConfigModel_TreeSelect = types
+export const FilterTreeSelectConfigMeta = types
   .compose(
-    'FilterConfigModel_TreeSelect',
+    'FilterTreeSelectConfigMeta',
     types.model({
       _name: types.literal('tree-select'),
       min_width: types.optional(types.string, ''),
       default_value: types.optional(types.array(types.string), []),
     }),
-    FilterConfigModel_BaseSelect,
+    FilterBaseSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
@@ -101,10 +101,10 @@ export const FilterConfigModel_TreeSelect = types
     },
   }));
 
-export type IFilterConfig_TreeSelect = Instance<typeof FilterConfigModel_TreeSelect>;
+export type FilterTreeSelectConfigInstance = Instance<typeof FilterTreeSelectConfigMeta>;
 
-export const createFilterConfig_TreeSelect = () =>
-  FilterConfigModel_TreeSelect.create({
+export const createFilterTreeSelectConfig = () =>
+  FilterTreeSelectConfigMeta.create({
     _name: 'tree-select',
     default_value: [],
     static_options: [],

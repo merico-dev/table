@@ -2,12 +2,12 @@ import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { IFilterConfig_Select } from '~/dashboard-editor/model/filters/filter/select';
+import { FilterMetaInstance } from '~/model';
+import { FilterSelectConfigInstance } from '~/model';
 import { FilterSelectItem } from '../select-item';
 
-interface IFilterSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
-  config: IFilterConfig_Select;
+interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
+  config: FilterSelectConfigInstance;
   value: $TSFixMe;
   onChange: (v: string, forceSubmit?: boolean) => void;
 }

@@ -17,8 +17,8 @@ function postProcessDefaultValue(default_value: Array<number | string | null>, i
   });
 }
 
-const _FilterConfigModel_DateRange = types
-  .model('FilterConfigModel_DateRange', {
+const _FilterDateRangeConfigMeta = types
+  .model('FilterDateRangeConfigMeta', {
     _name: types.literal('date-range'),
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
@@ -97,7 +97,7 @@ const _FilterConfigModel_DateRange = types
     },
   }));
 
-export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfigModel_DateRange, {
+export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRangeConfigMeta, {
   preProcessor({ default_value, ...rest }: $TSFixMe) {
     return {
       ...rest,
@@ -115,10 +115,10 @@ export const FilterConfigModel_DateRange = types.snapshotProcessor(_FilterConfig
   },
 });
 
-export type IFilterConfig_DateRange = Instance<typeof FilterConfigModel_DateRange>;
+export type FilterDateRangeConfigInstance = Instance<typeof FilterDateRangeConfigMeta>;
 
-export const createFilterConfig_DateRange = () =>
-  FilterConfigModel_DateRange.create({
+export const createFilterDateRangeConfig = () =>
+  FilterDateRangeConfigMeta.create({
     _name: 'date-range',
     required: false,
     inputFormat: 'YYYY-MM-DD',

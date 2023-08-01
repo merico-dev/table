@@ -4,9 +4,7 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { DashboardFilterType } from '~/dashboard-editor/model/filters/filter/common';
-import { createFilterConfig_TextInput } from '~/dashboard-editor/model/filters/filter/text-input';
+import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
 
@@ -22,10 +20,10 @@ export const FilterSettings = observer(function _FilterSettings() {
       label: id,
       order: filters.length + 1,
       type: DashboardFilterType.TextInput,
-      config: createFilterConfig_TextInput(),
+      config: createFilterTextInputConfig(),
       visibleInViewsIDs: ['Main'],
       auto_submit: false,
-    } as FilterModelInstance;
+    } as FilterMetaInstance;
     model.filters.append(filter);
   };
 

@@ -13,12 +13,12 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
-import { IFilterConfig_Select } from '~/dashboard-editor/model/filters/filter/select';
+import { FilterSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 
 interface IFilterEditorSelect {
-  config: IFilterConfig_Select;
+  config: FilterSelectConfigInstance;
 }
 
 export const FilterEditorSelect = observer(function _FilterEditorSelect({ config }: IFilterEditorSelect) {

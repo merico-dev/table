@@ -1,16 +1,16 @@
-import { Instance, SnapshotOut, types } from 'mobx-state-tree';
-import { createFilterConfig_Checkbox, FilterConfigModel_Checkbox } from './checkbox';
-import { DashboardFilterType } from './common';
-import { createFilterConfig_DateRange, FilterConfigModel_DateRange } from './date-range';
-import { createFilterConfig_MultiSelect, FilterConfigModel_MultiSelect } from './multi-select';
-import { createFilterConfig_TreeSelect, FilterConfigModel_TreeSelect } from './tree-select';
-import { createFilterConfig_Select, FilterConfigModel_Select } from './select';
-import { createFilterConfig_TextInput, FilterConfigModel_TextInput } from './text-input';
 import _ from 'lodash';
 import { toJS } from 'mobx';
+import { Instance, SnapshotOut, types } from 'mobx-state-tree';
+import { DashboardFilterType } from './types';
+import { FilterCheckboxConfigMeta, createFilterCheckboxConfig } from './widgets/checkbox';
+import { FilterDateRangeConfigMeta, createFilterDateRangeConfig } from './widgets/date-range';
+import { FilterMultiSelectConfigMeta, createFilterMultiSelectConfig } from './widgets/multi-select';
+import { FilterSelectConfigMeta, createFilterSelectConfig } from './widgets/select';
+import { FilterTextInputConfigMeta, createFilterTextInputConfig } from './widgets/text-input';
+import { FilterTreeSelectConfigMeta, createFilterTreeSelectConfig } from './widgets/tree-select';
 
-export const FilterModel = types
-  .model('FilterModel', {
+export const FilterMeta = types
+  .model('FilterMeta', {
     id: types.identifier,
     key: types.string,
     label: types.string,
@@ -26,12 +26,12 @@ export const FilterModel = types
       DashboardFilterType.DateRange,
     ]),
     config: types.union(
-      FilterConfigModel_Select,
-      FilterConfigModel_MultiSelect,
-      FilterConfigModel_TreeSelect,
-      FilterConfigModel_TextInput,
-      FilterConfigModel_Checkbox,
-      FilterConfigModel_DateRange,
+      FilterSelectConfigMeta,
+      FilterMultiSelectConfigMeta,
+      FilterTreeSelectConfigMeta,
+      FilterTextInputConfigMeta,
+      FilterCheckboxConfigMeta,
+      FilterDateRangeConfigMeta,
     ),
   })
   .views((self) => ({
@@ -91,22 +91,22 @@ export const FilterModel = types
     setType(type: DashboardFilterType) {
       switch (type) {
         case DashboardFilterType.Select:
-          self.config = createFilterConfig_Select();
+          self.config = createFilterSelectConfig();
           break;
         case DashboardFilterType.MultiSelect:
-          self.config = createFilterConfig_MultiSelect();
+          self.config = createFilterMultiSelectConfig();
           break;
         case DashboardFilterType.TreeSelect:
-          self.config = createFilterConfig_TreeSelect();
+          self.config = createFilterTreeSelectConfig();
           break;
         case DashboardFilterType.TextInput:
-          self.config = createFilterConfig_TextInput();
+          self.config = createFilterTextInputConfig();
           break;
         case DashboardFilterType.Checkbox:
-          self.config = createFilterConfig_Checkbox();
+          self.config = createFilterCheckboxConfig();
           break;
         case DashboardFilterType.DateRange:
-          self.config = createFilterConfig_DateRange();
+          self.config = createFilterDateRangeConfig();
           break;
       }
       self.type = type;
@@ -120,5 +120,5 @@ export const FilterModel = types
     },
   }));
 
-export type FilterModelInstance = Instance<typeof FilterModel>;
-export type FilterModelSnapshotOut = SnapshotOut<FilterModelInstance>;
+export type FilterMetaInstance = Instance<typeof FilterMeta>;
+export type FilterMetaSnapshotOut = SnapshotOut<FilterMetaInstance>;

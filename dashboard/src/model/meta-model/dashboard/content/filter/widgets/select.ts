@@ -1,8 +1,8 @@
 import { Instance, types } from 'mobx-state-tree';
-import { FilterConfigModel_BaseSelect } from './select-base';
+import { FilterBaseSelectConfigMeta } from './select-base';
 import { shallowToJS } from '~/utils/shallow-to-js';
 
-export const FilterConfigModel_Select = types
+export const FilterSelectConfigMeta = types
   .compose(
     'FilterConfigModel_Select',
     types.model({
@@ -11,7 +11,7 @@ export const FilterConfigModel_Select = types
       required: types.boolean,
       width: types.optional(types.string, ''),
     }),
-    FilterConfigModel_BaseSelect,
+    FilterBaseSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
@@ -42,10 +42,10 @@ export const FilterConfigModel_Select = types
     },
   }));
 
-export type IFilterConfig_Select = Instance<typeof FilterConfigModel_Select>;
+export type FilterSelectConfigInstance = Instance<typeof FilterSelectConfigMeta>;
 
-export const createFilterConfig_Select = () =>
-  FilterConfigModel_Select.create({
+export const createFilterSelectConfig = () =>
+  FilterSelectConfigMeta.create({
     _name: 'select',
     required: false,
     default_value: '',

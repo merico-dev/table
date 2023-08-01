@@ -1,7 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
 
-export const FilterConfigModel_Checkbox = types
-  .model('FilterConfigModel_Checkbox', {
+export const FilterCheckboxConfigMeta = types
+  .model('FilterCheckboxConfigMeta', {
     _name: types.literal('checkbox'),
     description: types.optional(types.string, ''),
     default_value: types.boolean,
@@ -29,10 +29,10 @@ export const FilterConfigModel_Checkbox = types
     },
   }));
 
-export type IFilterConfig_Checkbox = Instance<typeof FilterConfigModel_Checkbox>;
+export type FilterCheckboxConfigInstance = Instance<typeof FilterCheckboxConfigMeta>;
 
-export const createFilterConfig_Checkbox = () =>
-  FilterConfigModel_Checkbox.create({
+export const createFilterCheckboxConfig = () =>
+  FilterCheckboxConfigMeta.create({
     _name: 'checkbox',
     description: '',
     default_value: false,

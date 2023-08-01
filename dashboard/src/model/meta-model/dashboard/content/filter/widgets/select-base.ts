@@ -14,9 +14,9 @@ export const FilterConfigModel_SelectOption = types
     },
   }));
 
-export type IFilterConfig_SelectOption = Instance<typeof FilterConfigModel_SelectOption>;
+export type IFilterSelectConfigMetaOption = Instance<typeof FilterConfigModel_SelectOption>;
 
-export const FilterConfigModel_BaseSelect = types
+export const FilterBaseSelectConfigMeta = types
   .model('FilterConfigModel_BaseSelect', {
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query_id: types.optional(types.string, ''),
@@ -55,4 +55,4 @@ export const FilterConfigModel_BaseSelect = types
     },
   }));
 
-export type IFilterConfig_BaseSelect = Instance<typeof FilterConfigModel_BaseSelect>;
+export type FilterBaseSelectConfigInstance = Instance<typeof FilterBaseSelectConfigMeta>;

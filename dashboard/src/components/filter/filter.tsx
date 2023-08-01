@@ -1,12 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { IFilterConfig_TreeSelect } from '~/dashboard-editor/model/filters/filter/tree-select';
-import { FilterModelInstance } from '../../dashboard-editor/model';
-import { IFilterConfig_Checkbox } from '../../dashboard-editor/model/filters/filter/checkbox';
-import { IFilterConfig_DateRange } from '../../dashboard-editor/model/filters/filter/date-range';
-import { IFilterConfig_MultiSelect } from '../../dashboard-editor/model/filters/filter/multi-select';
-import { IFilterConfig_Select } from '../../dashboard-editor/model/filters/filter/select';
-import { IFilterConfig_TextInput } from '../../dashboard-editor/model/filters/filter/text-input';
+import {
+  FilterDateRangeConfigInstance,
+  FilterMetaInstance,
+  FilterMultiSelectConfigInstance,
+  FilterSelectConfigInstance,
+  FilterTextInputConfigInstance,
+  FilterTreeSelectConfigInstance,
+} from '~/model';
+import { FilterCheckboxConfigInstance } from '../../model/meta-model/dashboard/content/filter/widgets/checkbox';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import { FilterCheckbox } from './filter-checkbox/render';
 import { FilterDateRange } from './filter-date-range/render';
@@ -16,7 +18,7 @@ import { FilterTextInput } from './filter-text-input/render';
 import { FilterTreeSelect } from './filter-tree-select/render';
 
 interface IFilter {
-  filter: FilterModelInstance;
+  filter: FilterMetaInstance;
   value: $TSFixMe;
   onChange: (v: $TSFixMe) => void;
 }
@@ -26,22 +28,22 @@ const RenderFilter = observer(
     filter: { type, config, key, ...rest },
     formFieldProps,
   }: {
-    filter: FilterModelInstance;
+    filter: FilterMetaInstance;
     formFieldProps: Omit<IFilter, 'filter'>;
   }) => {
     switch (type) {
       case 'select':
-        return <FilterSelect {...rest} {...formFieldProps} config={config as IFilterConfig_Select} />;
+        return <FilterSelect {...rest} {...formFieldProps} config={config as FilterSelectConfigInstance} />;
       case 'multi-select':
-        return <FilterMultiSelect {...rest} {...formFieldProps} config={config as IFilterConfig_MultiSelect} />;
+        return <FilterMultiSelect {...rest} {...formFieldProps} config={config as FilterMultiSelectConfigInstance} />;
       case 'tree-select':
-        return <FilterTreeSelect {...rest} {...formFieldProps} config={config as IFilterConfig_TreeSelect} />;
+        return <FilterTreeSelect {...rest} {...formFieldProps} config={config as FilterTreeSelectConfigInstance} />;
       case 'text-input':
-        return <FilterTextInput {...rest} {...formFieldProps} config={config as IFilterConfig_TextInput} />;
+        return <FilterTextInput {...rest} {...formFieldProps} config={config as FilterTextInputConfigInstance} />;
       case 'date-range':
-        return <FilterDateRange {...rest} {...formFieldProps} config={config as IFilterConfig_DateRange} />;
+        return <FilterDateRange {...rest} {...formFieldProps} config={config as FilterDateRangeConfigInstance} />;
       case 'checkbox':
-        return <FilterCheckbox {...rest} {...formFieldProps} config={config as IFilterConfig_Checkbox} />;
+        return <FilterCheckbox {...rest} {...formFieldProps} config={config as FilterCheckboxConfigInstance} />;
       default:
         return null;
     }

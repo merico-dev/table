@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { useContentModelContext } from '~/contexts';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { IFilterConfig_MultiSelect } from '~/dashboard-editor/model/filters/filter/multi-select';
+import { FilterMetaInstance } from '~/model';
+import { FilterMultiSelectConfigInstance } from '~/model';
 import { MultiSelectWidget } from './widget';
 
-interface IFilterMultiSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
-  config: IFilterConfig_MultiSelect;
+interface IFilterMultiSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
+  config: FilterMultiSelectConfigInstance;
   value: $TSFixMe;
   onChange: (v: string[], forceSubmit?: boolean) => void;
 }

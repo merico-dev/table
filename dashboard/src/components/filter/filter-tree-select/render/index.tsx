@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { IFilterConfig_TreeSelect } from '~/dashboard-editor/model/filters/filter/tree-select';
+import { FilterMetaInstance } from '~/model';
+import { FilterTreeSelectConfigInstance } from '~/model';
 import { FilterTreeSelectWidget } from './widget';
 
-interface IFilterTreeSelect extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
-  config: IFilterConfig_TreeSelect;
+interface IFilterTreeSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
+  config: FilterTreeSelectConfigInstance;
   value: $TSFixMe;
   onChange: (v: string[], forceSubmit?: boolean) => void;
 }

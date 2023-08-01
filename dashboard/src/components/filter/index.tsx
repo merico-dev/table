@@ -3,9 +3,10 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { FilterModelInstance, ViewModelInstance } from '../..';
+import { ViewModelInstance } from '../..';
 import { useContentModelContext } from '~/contexts';
 import { Filter } from './filter';
+import { FilterMetaInstance } from '~/model';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewModelInstance }) {
   const content = useContentModelContext();
@@ -40,7 +41,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewModelIns
   }
 
   const getChangeHandler =
-    (filter: FilterModelInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
+    (filter: FilterMetaInstance, onChange: (v: any) => void) => (v: any, forceSubmit?: boolean) => {
       onChange(v);
       if (filter.should_auto_submit || forceSubmit) {
         content.filters.setValueByKey(filter.key, v);

@@ -1,11 +1,11 @@
 import { Divider, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_TreeSelect } from '~/dashboard-editor/model/filters/filter/tree-select';
+import { FilterTreeSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForTreeSelect } from './expected-structure';
 
 interface IFilterEditorTreeSelect {
-  config: IFilterConfig_TreeSelect;
+  config: FilterTreeSelectConfigInstance;
 }
 
 export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ config }: IFilterEditorTreeSelect) {

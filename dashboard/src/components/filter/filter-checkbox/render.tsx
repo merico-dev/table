@@ -2,8 +2,8 @@ import { Box, Checkbox, Group, Text, Tooltip } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
-import { FilterModelInstance } from '~/dashboard-editor/model';
-import { IFilterConfig_Checkbox } from '~/dashboard-editor/model/filters/filter/checkbox';
+import { FilterMetaInstance } from '~/model';
+import { FilterCheckboxConfigInstance } from '~/model';
 
 const CheckboxTooltip = ({ description, isDescriptionEmpty }: { description: string; isDescriptionEmpty: boolean }) => {
   if (isDescriptionEmpty) {
@@ -29,8 +29,8 @@ const CheckboxTooltip = ({ description, isDescriptionEmpty }: { description: str
   );
 };
 
-interface IFilterCheckbox extends Omit<FilterModelInstance, 'key' | 'type' | 'config'> {
-  config: IFilterConfig_Checkbox;
+interface IFilterCheckbox extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
+  config: FilterCheckboxConfigInstance;
   value: boolean;
   onChange: (v: boolean) => void;
 }

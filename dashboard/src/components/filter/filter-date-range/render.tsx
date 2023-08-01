@@ -2,11 +2,11 @@ import { DatePickerInput } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
 import { Calendar } from 'tabler-icons-react';
-import { IFilterConfig_DateRange, TDateRangePickerValue } from '~/dashboard-editor/model/filters/filter/date-range';
+import { FilterDateRangeConfigInstance, TDateRangePickerValue } from '~/model';
 
 interface IFilterDateRange {
   label: string;
-  config: IFilterConfig_DateRange;
+  config: FilterDateRangeConfigInstance;
   value: TDateRangePickerValue;
   onChange: (v: $TSFixMe) => void;
 }

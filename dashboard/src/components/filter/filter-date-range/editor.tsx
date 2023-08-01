@@ -1,10 +1,10 @@
 import { Checkbox, Group, NumberInput, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { IFilterConfig_DateRange } from '~/dashboard-editor/model/filters/filter/date-range';
+import { FilterDateRangeConfigInstance } from '~/model';
 import { FilterDateRange } from './render';
 
 interface IFilterEditorDateRange {
-  config: IFilterConfig_DateRange;
+  config: FilterDateRangeConfigInstance;
 }
 
 const inputFormatOptions = [
