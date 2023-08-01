@@ -122,13 +122,17 @@ export const CustomRichTextEditor = forwardRef(
                   '#fab005',
                   '#fd7e14',
                 ]}
+                popoverProps={{
+                  zIndex: 320,
+                }}
               />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
               <RichTextEditor.Bold />
               <RichTextEditor.Italic />
               <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
+              {/* https://github.com/merico-dev/table/issues/1088 */}
+              {/* <RichTextEditor.Strikethrough /> */}
               <RichTextEditor.ClearFormatting />
               <RichTextEditor.Highlight />
               <RichTextEditor.Code />
