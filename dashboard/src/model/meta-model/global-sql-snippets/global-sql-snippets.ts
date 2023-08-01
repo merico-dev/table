@@ -1,9 +1,9 @@
 import { types } from 'mobx-state-tree';
 import { GlobalSQLSnippetDBType } from '~/api-caller';
-import { GlobalSQLSnippetMeta } from '~/model/meta-model/global-sql-snippet';
+import { GlobalSQLSnippetMeta } from './global-sql-snippet';
 
-export const GlobalSQLSnippetsModel = types
-  .model('GlobalSQLSnippetsModel', {
+export const GlobalSQLSnippetsMeta = types
+  .model('GlobalSQLSnippetsMeta', {
     list: types.optional(types.array(GlobalSQLSnippetMeta), []),
   })
   .views((self) => ({
@@ -24,4 +24,4 @@ export const GlobalSQLSnippetsModel = types
     },
   }));
 
-export type GlobalSQLSnippetsModelType = typeof GlobalSQLSnippetsModel;
+export type GlobalSQLSnippetsMetaType = typeof GlobalSQLSnippetsMeta;
