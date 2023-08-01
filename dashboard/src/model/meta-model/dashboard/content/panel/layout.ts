@@ -1,10 +1,10 @@
-import { Instance, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 
-export const PanelLayoutModel = types
-  .model('PanelLayoutModel', {
+export const PanelLayoutMeta = types
+  .model('PanelLayoutMeta', {
     x: types.number,
-    y: types.maybeNull(types.number), // https://github.com/merico-dev/table/issues/814
+    y: types.maybeNull(types.number),
     w: types.number,
     h: types.number,
     moved: types.optional(types.boolean, false),
@@ -34,5 +34,3 @@ export const PanelLayoutModel = types
       self.static = !!layout.static;
     },
   }));
-
-export type PanelLayoutModelInstance = Instance<typeof PanelLayoutModel>;

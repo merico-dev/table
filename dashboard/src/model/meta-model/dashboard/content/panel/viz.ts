@@ -1,8 +1,8 @@
-import { Instance, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 import { AnyObject } from '~/types';
 
-export const PanelVizModel = types
-  .model('PanelVizModel', {
+export const PanelVizMeta = types
+  .model('PanelVizMeta', {
     type: types.string,
     conf: types.frozen<AnyObject>(),
   })
@@ -22,5 +22,3 @@ export const PanelVizModel = types
       self.conf = conf;
     },
   }));
-
-export type PanelVizModelInstance = Instance<typeof PanelVizModel>;

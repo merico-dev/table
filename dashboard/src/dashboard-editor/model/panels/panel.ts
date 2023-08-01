@@ -1,36 +1,18 @@
-import { cast, getParent, getParentOfType, getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { ContentModel } from '~/dashboard-editor/model';
-import { VariableModel } from '~/dashboard-editor/model/variables';
+import { getParent, getParentOfType, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
+import { ContentModel } from '~/dashboard-editor/model';
+import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryModelInstance } from '../queries';
-import { PanelLayoutModel } from './layout';
-import { PanelStyleModel } from './style';
-import { PanelVizModel } from './viz';
 
-export const PanelModel = types
-  .model({
-    id: types.string,
-    title: types.string,
-    description: types.string,
-    layout: PanelLayoutModel,
-    queryIDs: types.array(types.string),
-    viz: PanelVizModel,
-    style: PanelStyleModel,
-    variables: types.optional(types.array(VariableModel), []),
-  })
-
+export const PanelModel = PanelMeta.views((self) => ({
+  // FIXME: 'contentModel' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.ts(7023)
+  get contentModel(): any {
+    return getParentOfType(self, ContentModel);
+  },
+}))
   .views((self) => ({
-    // FIXME: 'contentModel' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.ts(7023)
-    get contentModel(): any {
-      return getParentOfType(self, ContentModel);
-    },
-  }))
-  .views((self) => ({
-    get queryIDSet() {
-      return new Set(self.queryIDs);
-    },
     get queries(): QueryModelInstance[] {
-      return self.contentModel.queries.findByIDSet(this.queryIDSet);
+      return self.contentModel.queries.findByIDSet(self.queryIDSet);
     },
     get data() {
       return this.queries.reduce((ret: TPanelData, q) => {
@@ -49,19 +31,6 @@ export const PanelModel = types
     },
     get canRenderViz() {
       return this.queryErrors.length === 0 && this.queryStateMessages.length === 0 && !this.dataLoading;
-    },
-    get json() {
-      const { id, title, description, queryIDs } = self;
-      return {
-        id,
-        viz: self.viz.json,
-        style: self.style.json,
-        title,
-        layout: self.layout.json,
-        queryIDs: [...queryIDs],
-        variables: self.variables.map((v) => v.json),
-        description,
-      };
     },
     get dataFieldOptions() {
       if (self.queryIDs.length === 0) {
@@ -85,38 +54,6 @@ export const PanelModel = types
     },
   }))
   .actions((self) => ({
-    setID(id: string) {
-      self.id = id;
-    },
-    setTitle(title: string) {
-      self.title = title;
-    },
-    setDescription(description: string) {
-      self.description = description;
-    },
-    addQueryID(queryID: string) {
-      if (self.queryIDSet.has(queryID)) {
-        return;
-      }
-      self.queryIDs.push(queryID);
-    },
-    removeQueryID(queryID: string) {
-      if (!self.queryIDSet.has(queryID)) {
-        return;
-      }
-      const s = new Set(self.queryIDSet);
-      s.delete(queryID);
-      self.queryIDs = cast(Array.from(s));
-    },
-    setQueryIDs(queryIDs: string[]) {
-      self.queryIDs = cast(queryIDs);
-    },
-    addVariable(variable: SnapshotIn<typeof VariableModel>) {
-      self.variables.push(variable);
-    },
-    removeVariable(variable: Instance<typeof VariableModel>) {
-      self.variables.remove(variable);
-    },
     removeSelf() {
       const parent = getParent(self, 2) as any;
       parent.removeByID(self.id);

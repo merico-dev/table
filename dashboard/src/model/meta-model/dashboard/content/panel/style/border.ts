@@ -1,7 +1,7 @@
-import { Instance, types } from 'mobx-state-tree';
+import { types } from 'mobx-state-tree';
 
-export const PanelStyleBorderModel = types
-  .model('PanelStyleBorderModel', {
+export const PanelStyleBorderMeta = types
+  .model('PanelStyleBorderMeta', {
     enabled: types.boolean,
   })
   .views((self) => ({
@@ -17,5 +17,3 @@ export const PanelStyleBorderModel = types
       self.enabled = v;
     },
   }));
-
-export type PanelStyleBorderModelInstance = Instance<typeof PanelStyleBorderModel>;
