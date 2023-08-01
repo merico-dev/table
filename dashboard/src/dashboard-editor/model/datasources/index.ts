@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
-import { DataSourceType } from '../queries/types';
+import { DataSourceType } from '~/model';
 import { DataSourceModel } from './datasource';
 
 export const DataSourcesModel = types

@@ -1,5 +1,5 @@
 import { getParent, types } from 'mobx-state-tree';
-import { DataSourceType } from '../queries/types';
+import { DataSourceType } from '~/model';
 
 export type MYSQLIndexInfoType = {
   index_length: string;

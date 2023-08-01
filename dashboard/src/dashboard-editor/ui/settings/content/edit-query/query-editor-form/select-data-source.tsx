@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
 import { useModelContext } from '~/contexts';
-import { DataSourceType } from '~/dashboard-editor/model/queries/types';
+import { DataSourceType } from '~/model';
 import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
 

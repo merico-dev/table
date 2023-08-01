@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { MYSQLIndexInfoType, PGIndexInfoType } from '~/dashboard-editor/model/datasources/indexes';
-import { DataSourceType } from '~/dashboard-editor/model/queries/types';
+import { DataSourceType } from '~/model';
 import { TooltipValue } from './tooltip-value';
 
 export const MySQLIndexesTable = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {

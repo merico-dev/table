@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
-import { DataSourceType } from '~/dashboard-editor/model/queries/types';
+import { DataSourceType } from '~/model';
 
 export enum DashboardFilterType {
   Select = 'select',

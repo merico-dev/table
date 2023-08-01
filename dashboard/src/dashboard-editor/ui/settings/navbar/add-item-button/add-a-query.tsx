@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
 import { QueryModelInstance } from '~/dashboard-editor/model';
-import { DataSourceType } from '~/dashboard-editor/model/queries/types';
+import { DataSourceType } from '~/model';
 
 export const AddAQuery = observer(() => {
   const model = useModelContext();

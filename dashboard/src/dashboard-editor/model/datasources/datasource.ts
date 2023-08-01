@@ -5,7 +5,7 @@ import { addDisposer, flow, Instance, toGenerator, types } from 'mobx-state-tree
 import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
 import { TDataSourceConfig } from '~/api-caller/types';
-import { DataSourceType } from '../queries/types';
+import { DataSourceType } from '~/model';
 import { ColumnsModel } from './columns';
 import { IndexesModel } from './indexes';
 import { TableInfoType, TablesModel } from './tables';

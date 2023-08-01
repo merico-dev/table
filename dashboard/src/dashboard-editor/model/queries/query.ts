@@ -5,7 +5,7 @@ import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } 
 import { queryByHTTP, queryBySQL, QueryFailureError } from '../../../api-caller';
 import { explainSQL } from '~/utils/sql';
 import { MuteQueryModel } from './mute-query';
-import { DataSourceType } from './types';
+import { DataSourceType } from '~/model';
 import {
   explainHTTPRequest,
   postProcessWithDataSource,

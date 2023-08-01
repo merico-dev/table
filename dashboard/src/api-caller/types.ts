@@ -1,4 +1,4 @@
-import { DataSourceType } from '../dashboard-editor/model/queries/types';
+import { DataSourceType } from '~/model';
 
 export type PaginationResponse<T> = {
   total: number;
