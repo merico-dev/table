@@ -122,6 +122,9 @@ export const CustomRichTextEditor = forwardRef(
                   '#fab005',
                   '#fd7e14',
                 ]}
+                popoverProps={{
+                  zIndex: 320,
+                }}
               />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
