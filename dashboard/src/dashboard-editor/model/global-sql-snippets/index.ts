@@ -1,10 +1,10 @@
 import { types } from 'mobx-state-tree';
 import { GlobalSQLSnippetDBType } from '~/api-caller';
-import { GlobalSQLSnippetModel } from './global-sql-snippet';
+import { GlobalSQLSnippetMeta } from '~/model/meta-model/global-sql-snippets';
 
 export const GlobalSQLSnippetsModel = types
   .model('GlobalSQLSnippetsModel', {
-    list: types.optional(types.array(GlobalSQLSnippetModel), []),
+    list: types.optional(types.array(GlobalSQLSnippetMeta), []),
   })
   .views((self) => ({
     find(id: string) {

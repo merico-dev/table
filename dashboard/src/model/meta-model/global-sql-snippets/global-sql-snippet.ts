@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 
-export const GlobalSQLSnippetModel = types.model({
+export const GlobalSQLSnippetMeta = types.model({
   id: types.string,
   content: types.string,
   create_time: types.string,
