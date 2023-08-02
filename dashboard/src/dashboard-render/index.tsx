@@ -11,14 +11,14 @@ import { FullScreenPanelContext } from '~/contexts';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
-import { createDashboardRenderModel } from './model/dashboard';
 import { registerThemes } from '~/styles/register-themes';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
+import { DashboardModelContextProvider } from '../contexts/dashboard-context';
 import { LayoutStateContext } from '../contexts/layout-state-context';
-import { ModelContextProvider } from '../contexts/model-context';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './index.css';
+import { createDashboardRenderModel } from './model/dashboard';
 
 registerThemes();
 
@@ -69,7 +69,7 @@ export const ReadOnlyDashboard = observer(
     const configureServices = useTopLevelServices(pluginContext);
     return (
       <ModalsProvider>
-        <ModelContextProvider value={model}>
+        <DashboardModelContextProvider value={model}>
           <ContentModelContextProvider value={model.content}>
             <FullScreenPanelContext.Provider
               value={{
@@ -94,7 +94,7 @@ export const ReadOnlyDashboard = observer(
               </LayoutStateContext.Provider>
             </FullScreenPanelContext.Provider>
           </ContentModelContextProvider>
-        </ModelContextProvider>
+        </DashboardModelContextProvider>
       </ModalsProvider>
     );
   },

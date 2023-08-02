@@ -10,17 +10,17 @@ import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewEditor } from '~/components/view';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
+import { DashboardModelContextProvider } from '~/contexts/dashboard-context';
 import { LayoutStateContext } from '~/contexts/layout-state-context';
-import { ModelContextProvider } from '~/contexts/model-context';
-import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { createDashboardModel } from '~/dashboard-editor/model';
+import { useInteractionOperationHacks } from '~/interactions/temp-hack';
+import { ContextRecordType } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
+import './index.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
-import './index.css';
-import { ContextRecordType } from '~/model';
 
 registerThemes();
 
@@ -117,7 +117,7 @@ const _DashboardEditor = (
   const configureServices = useTopLevelServices(pluginContext);
   return (
     <ModalsProvider>
-      <ModelContextProvider value={model}>
+      <DashboardModelContextProvider value={model}>
         <ContentModelContextProvider value={model.content}>
           <LayoutStateContext.Provider
             value={{
@@ -154,7 +154,7 @@ const _DashboardEditor = (
             </PluginContext.Provider>
           </LayoutStateContext.Provider>
         </ContentModelContextProvider>
-      </ModelContextProvider>
+      </DashboardModelContextProvider>
     </ModalsProvider>
   );
 };
