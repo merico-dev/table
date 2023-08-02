@@ -27,7 +27,7 @@ import {
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
 
-const ContentRenderModel = types
+export const ContentRenderModel = types
   .model({
     id: types.string,
     name: types.string,

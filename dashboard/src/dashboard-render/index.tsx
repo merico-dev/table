@@ -11,12 +11,12 @@ import { FullScreenPanelContext } from '~/contexts';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
+import { createDashboardRenderModel } from '~/model/render-model/dashboard/dashboard';
 import { registerThemes } from '~/styles/register-themes';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { LayoutStateContext } from '../contexts/layout-state-context';
 import { ModelContextProvider } from '../contexts/model-context';
-import { createDashboardModel } from '../dashboard-editor/model';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './index.css';
 
@@ -48,7 +48,7 @@ export const ReadOnlyDashboard = observer(
     const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
     const model = React.useMemo(
-      () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context),
+      () => createDashboardRenderModel(dashboard, content, datasources, globalSQLSnippets, context),
       [dashboard, content],
     );
     useInteractionOperationHacks(model.content, false);
