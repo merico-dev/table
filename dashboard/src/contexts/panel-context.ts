@@ -16,7 +16,7 @@ const PanelContext = React.createContext<{
 
 export const PanelContextProvider = PanelContext.Provider;
 
-export function usePanelContext<T = PanelRenderModelInstance>() {
+function usePanelContext<T = PanelRenderModelInstance>() {
   const c = React.useContext(PanelContext);
   if (!c.panel) {
     throw new Error('Please use PanelContextProvider');

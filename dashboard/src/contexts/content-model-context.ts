@@ -6,7 +6,7 @@ const ContentModelContext = React.createContext<ContentModelInstance | ContentRe
 
 export const ContentModelContextProvider = ContentModelContext.Provider;
 
-export function useContentModelContext<T = ContentModelInstance>() {
+function useContentModelContext<T = ContentModelInstance>() {
   const model = React.useContext(ContentModelContext);
   if (!model) {
     throw new Error('Please use ContentModelContextProvider');
