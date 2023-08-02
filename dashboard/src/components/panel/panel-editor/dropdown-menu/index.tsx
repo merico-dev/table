@@ -3,13 +3,13 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
-import { useEditContentModelContext, useEditModelContext } from '~/contexts';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
-  const model = useEditModelContext();
+  const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const modals = useModals();
 
