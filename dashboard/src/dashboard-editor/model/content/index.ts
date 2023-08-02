@@ -20,6 +20,7 @@ import { SQLSnippetsModel } from '../sql-snippets';
 
 import {
   getInitialMockContextMeta,
+  getNewPanel,
   MockContextMeta,
   QueryUsageType,
   TPayloadForSQL,
@@ -27,7 +28,7 @@ import {
   TPayloadForViz,
 } from '~/model';
 import { formatSQL } from '~/utils/sql';
-import { getNewPanel, PanelModelInstance, PanelsModel } from '../panels';
+import { PanelModelInstance, PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 
 function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
