@@ -4,7 +4,6 @@ import {
   SnapshotOut,
   addDisposer,
   applyPatch,
-  applySnapshot,
   getParent,
   onSnapshot,
   types,
@@ -43,26 +42,6 @@ export const ContentRenderModel = types
     mock_context: MockContextMeta,
   })
   .views((self) => ({
-    get json(): DashboardContentDBType {
-      return {
-        id: self.id,
-        name: self.name,
-        create_time: self.create_time,
-        update_time: self.update_time,
-        dashboard_id: self.dashboard_id,
-        content: {
-          views: self.views.json,
-          panels: self.panels.json,
-          filters: self.filters.json,
-          version: self.version,
-          definition: {
-            queries: self.queries.json,
-            sqlSnippets: self.sqlSnippets.json,
-            mock_context: self.mock_context.current,
-          },
-        },
-      };
-    },
     get payloadForSQL(): TPayloadForSQL {
       // @ts-expect-error type of getParent
       const context = getParent(self).context.current;
@@ -147,29 +126,6 @@ export const ContentRenderModel = types
       // afterCreate() {
       //   setupAutoSave();
       // },
-      updateCurrent(config: DashboardContentDBType) {
-        const { id, name, content } = config;
-        if (!content) {
-          throw new Error('unexpected null content when updating a content model');
-        }
-        const {
-          version,
-          filters,
-          views,
-          panels,
-          definition: { queries, sqlSnippets, mock_context = {} },
-        } = content;
-
-        self.id = id;
-        self.name = name;
-        self.version = version;
-        applySnapshot(self.filters.current, filters);
-        applySnapshot(self.views.current, getInitialViewsRenderModel(views).current);
-        applySnapshot(self.panels.list, panels);
-        applySnapshot(self.queries.current, queries);
-        applySnapshot(self.sqlSnippets.current, sqlSnippets);
-        self.mock_context.current = mock_context;
-      },
     };
   });
 
