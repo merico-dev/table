@@ -202,9 +202,6 @@ export function VizTable({ context, instance }: VizViewProps) {
   }
 
   if (!conf.id_field) {
-    console.group('🔴 what the fuck');
-    console.log(conf);
-    console.groupEnd();
     return (
       <Text color="red" align="center">
         ID Field is not set, can't render a table without it

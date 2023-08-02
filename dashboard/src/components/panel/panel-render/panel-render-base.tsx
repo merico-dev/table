@@ -2,7 +2,7 @@ import { Box, Sx } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { PanelContextProvider } from '~/contexts/panel-context';
-import { PanelRenderModelInstance, ViewMetaInstance } from '~/model';
+import { PanelRenderModelInstance } from '~/model';
 import { DescriptionPopover } from './description-popover';
 import './panel-render-base.css';
 import { PanelTitleBar } from './title-bar';
