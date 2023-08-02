@@ -1,8 +1,8 @@
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { Filters } from '~/components/filter';
-import { FullScreenPanel } from '~/components/panel/full-screen-panel';
-import { usePanelFullScreen } from '~/components/panel/use-panel-full-screen';
+import { FullScreenPanel } from '~/components/panel';
+import { usePanelFullScreen } from '~/components/panel/panel-render/full-screen-render/use-panel-full-screen';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { ViewMetaInstance } from '~/model';
 import { useFullScreenPanelContext } from '../..';

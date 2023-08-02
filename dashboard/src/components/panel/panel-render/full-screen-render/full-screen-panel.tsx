@@ -1,9 +1,9 @@
 import { Button, Group, Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ArrowLeft } from 'tabler-icons-react';
-import { PanelModelInstance } from '~/dashboard-editor/model/panels';
-import { ViewMetaInstance } from '~/model';
-import { Panel } from '.';
+import { PanelRenderModelInstance, ViewMetaInstance } from '~/model';
+import { PanelRender } from '../panel-render';
+
 const modalStyles = {
   modal: {
     display: 'flex',
@@ -15,13 +15,14 @@ const modalStyles = {
     height: 'calc(100vh - 88px)',
   },
 } as const;
+
 export const FullScreenPanel = observer(function _FullScreenPanel({
   view,
   panel,
   exitFullScreen,
 }: {
   view: ViewMetaInstance;
-  panel: PanelModelInstance;
+  panel: PanelRenderModelInstance;
   exitFullScreen: () => void;
 }) {
   return (
@@ -37,7 +38,7 @@ export const FullScreenPanel = observer(function _FullScreenPanel({
       styles={modalStyles}
     >
       <Group grow sx={{ flexGrow: 1, flexShrink: 0 }}>
-        <Panel view={view} panel={panel} />
+        <PanelRender view={view} panel={panel} />
       </Group>
     </Modal>
   );

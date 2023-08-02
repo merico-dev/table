@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { InfoCircle } from 'tabler-icons-react';
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
-import { usePanelContext } from '../../contexts';
+import { useRenderPanelContext } from '~/contexts';
 
 function isRichTextContentEmpty(str: string) {
   if (!str) {
@@ -14,7 +14,7 @@ function isRichTextContentEmpty(str: string) {
 
 export const DescriptionPopover = observer(() => {
   const [opened, setOpened] = React.useState(false);
-  const { panel } = usePanelContext();
+  const { panel } = useRenderPanelContext();
 
   if (isRichTextContentEmpty(panel.description)) {
     return null;

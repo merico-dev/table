@@ -1,9 +1,9 @@
 import React from 'react';
 import { ViewMetaInstance } from '~/model';
-import { useContentModelContext } from '../..';
+import { useRenderContentModelContext } from '~/contexts';
 
 export function usePanelFullScreen(view: ViewMetaInstance, panelID: string, setPanelID: (v: string) => void) {
-  const { panels } = useContentModelContext();
+  const { panels } = useRenderContentModelContext();
   const acceptsCallback = view.id === 'Main';
   const [fullScreenPanelID, setFullScreenPanelID] = React.useState<string | null>(() => {
     if (acceptsCallback && panels.findByID(panelID)) {

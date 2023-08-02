@@ -4,10 +4,10 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
-import { useContentModelContext, useModelContext } from '../../contexts';
-import { DashboardActionContext } from '../../contexts/dashboard-action-context';
-import { LayoutStateContext } from '../../contexts/layout-state-context';
-import { usePanelContext } from '../../contexts/panel-context';
+import { useContentModelContext, useModelContext } from '~/contexts';
+import { DashboardActionContext } from '~/contexts/dashboard-action-context';
+import { LayoutStateContext } from '~/contexts/layout-state-context';
+import { usePanelContext } from '~/contexts/panel-context';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
   const model = useModelContext();
@@ -16,8 +16,6 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
 
   const { panel } = usePanelContext();
   const { id } = panel;
-
-  const { inEditMode } = React.useContext(LayoutStateContext);
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
   const duplicate = () => {
@@ -57,24 +55,21 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
               Download Data
             </Menu.Item>
             {showFullScreenOption && (
-              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled={inEditMode}>
+              <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled>
                 Full Screen
               </Menu.Item>
             )}
-            {inEditMode && (
-              <>
-                <Divider label="Edit" labelPosition="center" />
-                <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
-                  Settings
-                </Menu.Item>
-                <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
-                  Duplicate
-                </Menu.Item>
-                <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>
-                  Delete
-                </Menu.Item>
-              </>
-            )}
+
+            <Divider label="Edit" labelPosition="center" />
+            <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
+              Settings
+            </Menu.Item>
+            <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
+              Duplicate
+            </Menu.Item>
+            <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>
+              Delete
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Box>

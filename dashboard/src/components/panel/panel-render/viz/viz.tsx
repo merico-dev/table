@@ -6,11 +6,10 @@ import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { ErrorBoundary } from '~/utils/error-boundary';
-import { usePanelContext } from '../../../contexts';
-import { IViewPanelInfo, PluginContext } from '../../plugins';
-import { IVizConfig } from '~/types';
-import { PluginVizViewComponent } from '../plugin-adaptor';
-import './index.css';
+import { usePanelContext } from '../../../../contexts';
+import { IViewPanelInfo, PluginContext } from '../../../plugins';
+import { PluginVizViewComponent } from '../../plugin-adaptor';
+import './viz.css';
 
 function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);

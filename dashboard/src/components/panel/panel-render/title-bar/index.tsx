@@ -1,7 +1,7 @@
 import { Group, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { usePanelContext } from '../../contexts/panel-context';
-import './title-bar.css';
+import { usePanelContext } from '~/contexts';
+import './index.css';
 
 export const PanelTitleBar = observer(function _PanelTitleBar() {
   const { panel } = usePanelContext();

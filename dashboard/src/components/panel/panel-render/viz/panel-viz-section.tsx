@@ -1,10 +1,10 @@
 import { Flex, LoadingOverlay } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { PanelRenderModelInstance } from '~/model';
 import { PanelErrorOrStateMessage } from './panel-error-or-state-message';
 import { Viz } from './viz';
-import { PanelModelInstance } from '~/dashboard-editor/model';
 
-export const PanelVizSection = observer(({ panel, height }: { panel: PanelModelInstance; height: string }) => {
+export const PanelVizSection = observer(({ panel, height }: { panel: PanelRenderModelInstance; height: string }) => {
   return (
     <Flex direction="column" sx={{ height, position: 'relative', width: '100%' }}>
       <LoadingOverlay visible={panel.dataLoading} exitTransitionDuration={0} />
