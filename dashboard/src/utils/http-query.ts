@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { IDataSource } from '~/api-caller/types';
-import { ContextRecordType } from '~/model';
-import { FilterValuesType } from '..';
+import { ContextRecordType, FilterValuesType } from '~/model';
 import { functionUtils } from './function-utils';
 
 export function buildHTTPRequest(

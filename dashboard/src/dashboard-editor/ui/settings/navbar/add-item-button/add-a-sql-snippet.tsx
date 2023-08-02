@@ -2,16 +2,16 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { SQLSnippetModelInstance } from '~/dashboard-editor/model';
+import { SQLSnippetRenderModelSnapshotIn } from '~/model';
 
 export const AddASQLSnippet = observer(() => {
   const model = useModelContext();
   const add = () => {
     const id = new Date().getTime().toString();
-    const v = {
+    const v: SQLSnippetRenderModelSnapshotIn = {
       key: id,
       value: '',
-    } as SQLSnippetModelInstance;
+    };
     model.content.sqlSnippets.append(v);
     model.editor.setPath(['_SQL_SNIPPETS_', id]);
   };

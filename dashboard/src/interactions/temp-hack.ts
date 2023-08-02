@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
-import { ContentRenderModelInstance } from '~/model';
+import { ContentRenderModelInstance } from '~/dashboard-render/model';
 
 export function useInteractionOperationHacks(
   model: ContentModelInstance | ContentRenderModelInstance,

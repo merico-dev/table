@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { cast, Instance } from 'mobx-state-tree';
-import { SQLSnippetRenderModelInstance, SQLSnippetsRenderModel } from '~/model';
+import { SQLSnippetRenderModelInstance, SQLSnippetRenderModelSnapshotIn, SQLSnippetsRenderModel } from '~/model';
 
 export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
   get options() {
@@ -19,7 +19,7 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
     replace(current: Array<SQLSnippetRenderModelInstance>) {
       self.current = cast(current);
     },
-    append(item: SQLSnippetRenderModelInstance) {
+    append(item: SQLSnippetRenderModelSnapshotIn) {
       self.current.push(item);
     },
     remove(index: number) {
@@ -31,7 +31,7 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
         self.current.splice(index, 1);
       }
     },
-    replaceByIndex(index: number, replacement: SQLSnippetRenderModelInstance) {
+    replaceByIndex(index: number, replacement: SQLSnippetRenderModelSnapshotIn) {
       self.current.splice(index, 1, replacement);
     },
   };
