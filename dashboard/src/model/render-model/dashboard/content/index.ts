@@ -1,4 +1,3 @@
-export * from './content';
 export * from './views';
 export * from './panels';
 export * from './filters';

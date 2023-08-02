@@ -11,7 +11,7 @@ import { FullScreenPanelContext } from '~/contexts';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
-import { createDashboardRenderModel } from '~/model/render-model/dashboard/dashboard';
+import { createDashboardRenderModel } from './model/dashboard';
 import { registerThemes } from '~/styles/register-themes';
 import { configureAPIClient } from '../api-caller/request';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
