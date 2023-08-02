@@ -51,15 +51,19 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
             right: 'unset',
             bottom: 'unset',
             transform: 'translate(-50%, -50%)',
+            padding: '0 !important',
 
             width,
             height,
+            maxHeight: height,
           },
           content: {
             border: '1px solid #efefef',
+            height: '100%',
           },
           body: {
-            maxHeight: 'calc(100vh - 325px)',
+            maxHeight: 'calc(100% - 48px)',
+            overflow: 'auto',
           },
         }}
         withinPortal={false}

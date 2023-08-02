@@ -32,6 +32,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         },
         inner: {
           zIndex: 'unset',
+          padding: '0 !important',
         },
         content: {
           border: '1px solid #efefef',
