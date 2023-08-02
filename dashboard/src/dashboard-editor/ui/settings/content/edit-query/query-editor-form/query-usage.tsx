@@ -1,7 +1,7 @@
 import { Anchor, Box, Stack, Table } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { QueryUsageType } from '~/model';
 
 interface IQueryUsage {
@@ -10,7 +10,7 @@ interface IQueryUsage {
 }
 
 export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
-  const editor = useModelContext().editor;
+  const editor = useEditDashboardContext().editor;
   const open = (u: QueryUsageType) => {
     if (u.type === 'filter') {
       editor.setPath(['_FILTERS_', u.id]);

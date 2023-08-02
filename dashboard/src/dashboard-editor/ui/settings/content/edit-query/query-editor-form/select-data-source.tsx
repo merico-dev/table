@@ -2,7 +2,7 @@ import { Box, Group, Select, Text } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType } from '~/model';
 import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
@@ -21,7 +21,7 @@ interface ISelectDataSource {
   onChange: (v: { type: DataSourceType; key: string }) => void;
 }
 export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource) => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const { data: dataSources = [], loading } = useRequest(
     listDataSources,
     {

@@ -1,11 +1,11 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType, QueryRenderModelInstance } from '~/model';
 
 export const AddAQuery = observer(() => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const add = () => {
     const id = new Date().getTime().toString();
     const v = {

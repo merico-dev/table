@@ -1,13 +1,12 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
-import { FilterMetaInstance } from '~/model';
-import { createFilterTextInputConfig } from '~/model';
+import { useEditDashboardContext } from '~/contexts';
+import { FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { DashboardFilterType } from '~/types';
 
 export const AddAFilter = observer(() => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const addFilter = () => {
     const id = new Date().getTime().toString();
     const filter = {

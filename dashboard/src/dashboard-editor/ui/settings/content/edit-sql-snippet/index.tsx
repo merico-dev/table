@@ -1,11 +1,11 @@
 import { Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
-import { useEditContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { SQLSnippetItemEditor } from './item-editor';
 
 export const EditSQLSnippet = observer(({ id }: { id: string }) => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const item = useMemo(() => content.sqlSnippets.findByKey(id), [id]);
   if (!id) {

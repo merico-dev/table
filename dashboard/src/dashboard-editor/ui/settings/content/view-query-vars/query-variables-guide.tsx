@@ -2,7 +2,7 @@ import { Alert, Stack, Sx, Tabs } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useEditContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { GlobalSQLSnippetsTable } from './global-sql-snippets-table';
 
 interface IQueryVariablesGuide {
@@ -28,7 +28,7 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
   showSQLSnippets = true,
   sx = {},
 }: IQueryVariablesGuide) {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const contextInfo = model.context.current;
 

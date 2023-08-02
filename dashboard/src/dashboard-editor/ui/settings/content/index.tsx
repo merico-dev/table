@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { EditFilter } from './edit-filter';
 import { EditMockContext } from './edit-mock-context';
 import { EditPanel } from './edit-panel';
@@ -11,7 +11,7 @@ import { isQueryVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, is
 import { ViewQueryVars } from './view-query-vars';
 
 const Content = observer(() => {
-  const editor = useModelContext().editor;
+  const editor = useEditDashboardContext().editor;
   const path = editor.path;
   if (isQueryVars(path)) {
     return <ViewQueryVars />;

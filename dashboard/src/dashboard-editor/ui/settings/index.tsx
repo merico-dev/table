@@ -1,6 +1,6 @@
 import { AppShell, Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { SettingsContent } from './content';
 import { SettingsNavbar } from './navbar';
 
@@ -28,7 +28,7 @@ const SettingsAppShellStyles = {
 } as const;
 
 export const Settings = observer(() => {
-  const editor = useModelContext().editor;
+  const editor = useEditDashboardContext().editor;
 
   return (
     <Modal

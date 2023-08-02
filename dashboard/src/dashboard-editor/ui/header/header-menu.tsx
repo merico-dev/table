@@ -2,14 +2,14 @@ import { ActionIcon, Menu } from '@mantine/core';
 import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
-import { useEditContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useRenderDashboardContext } from '~/contexts';
 import { downloadJSON } from '~/utils/download';
 
 interface IProps {
   headerMenuItems?: ReactNode;
 }
 export const HeaderMenu = observer(({ headerMenuItems = null }: IProps) => {
-  const model = useModelContext();
+  const model = useRenderDashboardContext();
   const content = useEditContentModelContext();
 
   const downloadSchema = () => {

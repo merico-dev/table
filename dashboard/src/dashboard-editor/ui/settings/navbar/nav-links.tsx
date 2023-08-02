@@ -1,7 +1,7 @@
 import { Box, NavLink } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { AddItemButton } from './add-item-button';
 
@@ -10,7 +10,7 @@ interface ISettingsNavLink {
 }
 
 const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
-  const editor = useModelContext().editor;
+  const editor = useEditDashboardContext().editor;
   const isActive = editor.isOptionActive;
   const active = isActive(editor.path, option);
   const isOpened = editor.isOptionOpened;
@@ -44,7 +44,7 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
 });
 
 export const SettingsNavLinks = observer(() => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
 
   return (
     <Box sx={{ position: 'relative' }}>

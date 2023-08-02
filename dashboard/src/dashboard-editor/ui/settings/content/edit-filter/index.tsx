@@ -3,11 +3,11 @@ import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { Trash } from 'tabler-icons-react';
 import { FilterSetting } from '~/components/filter/filter-settings/filter-setting';
-import { useEditContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 
 export const EditFilter = observer(({ id }: { id: string }) => {
   const modals = useModals();
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   if (id === '') {
     return null;

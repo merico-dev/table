@@ -1,11 +1,11 @@
 import { Button, Group, Navbar as MantineNavbar, Text } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 import { SettingsNavLinks } from './nav-links';
 
 export const SettingsNavbar = observer(() => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
 
   return (
     <MantineNavbar

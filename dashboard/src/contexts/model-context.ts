@@ -6,7 +6,7 @@ const ModelContext = React.createContext<DashboardModelInstance | DashboardRende
 
 export const ModelContextProvider = ModelContext.Provider;
 
-export function useModelContext<T = DashboardModelInstance>() {
+export function useDashboardContext<T = DashboardModelInstance>() {
   const model = React.useContext(ModelContext);
   if (!model) {
     throw new Error('Please use ModelContextProvider');
@@ -14,5 +14,5 @@ export function useModelContext<T = DashboardModelInstance>() {
   return model as T;
 }
 
-export const useEditModelContext = () => useModelContext<DashboardModelInstance>();
-export const useRenderModelContext = () => useModelContext<DashboardRenderModelInstance>();
+export const useEditDashboardContext = () => useDashboardContext<DashboardModelInstance>();
+export const useRenderDashboardContext = () => useDashboardContext<DashboardRenderModelInstance>();

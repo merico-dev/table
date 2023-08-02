@@ -2,7 +2,7 @@ import { ActionIcon, HoverCard, Table } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { IconEye } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useModelContext } from '~/contexts';
+import { useEditDashboardContext } from '~/contexts';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
@@ -22,7 +22,7 @@ function HoverToSeeContent({ content }: { content: string }) {
 }
 
 export const GlobalSQLSnippetsTable = observer(() => {
-  const model = useModelContext();
+  const model = useEditDashboardContext();
   const list = [...model.globalSQLSnippets.list];
   if (list.length === 0) {
     return null;
