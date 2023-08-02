@@ -2,10 +2,14 @@ import { Instance, types } from 'mobx-state-tree';
 import { IDataSource } from '~/api-caller/types';
 
 import { GlobalSQLSnippetDBType } from '~/api-caller';
-import { ContextMeta, ContextRecordType, createContextMeta } from '~/model';
-import { GlobalSQLSnippetsMeta } from '~/model';
+import {
+  ContextMeta,
+  ContextRecordType,
+  DataSourcesMetaModel,
+  GlobalSQLSnippetsMeta,
+  createContextMeta,
+} from '~/model';
 import { DashboardContentDBType, IDashboard } from '~/types';
-import { DataSourcesModel } from '~/dashboard-editor/model/datasources';
 import { ContentRenderModel, createContentRenderModel } from './content';
 
 export const DashboardRenderModel = types.model({
@@ -14,7 +18,7 @@ export const DashboardRenderModel = types.model({
   group: types.string,
   content: ContentRenderModel,
   content_id: types.string,
-  datasources: DataSourcesModel,
+  datasources: DataSourcesMetaModel,
   globalSQLSnippets: GlobalSQLSnippetsMeta,
   context: ContextMeta,
 });

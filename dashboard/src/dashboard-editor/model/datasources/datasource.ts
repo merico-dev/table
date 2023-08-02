@@ -4,26 +4,25 @@ import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, toGenerator, types } from 'mobx-state-tree';
 import { QueryFailureError } from '~/api-caller';
 import { APIClient } from '~/api-caller/request';
-import { TDataSourceConfig } from '~/api-caller/types';
-import { DataSourceType } from '~/model';
+import { DataSourceMetaModel } from '~/model/meta-model/datasources';
 import { ColumnsModel } from './columns';
 import { IndexesModel } from './indexes';
-import { TableInfoType, TablesModel } from './tables';
 import { TableDataModel } from './table-data';
+import { TableInfoType, TablesModel } from './tables';
 
 export const DataSourceModel = types
-  .model('DataSourceModel', {
-    id: types.string,
-    type: types.enumeration('DataSourceType', [DataSourceType.HTTP, DataSourceType.MySQL, DataSourceType.Postgresql]),
-    key: types.string,
-    config: types.frozen<TDataSourceConfig>(),
-    tables: types.optional(TablesModel, {}),
-    columns: types.optional(ColumnsModel, {}),
-    tableData: types.optional(TableDataModel, {}),
-    indexes: types.optional(IndexesModel, {}),
-    table_schema: types.optional(types.string, ''),
-    table_name: types.optional(types.string, ''),
-  })
+  .compose(
+    'DataSourceModel',
+    DataSourceMetaModel,
+    types.model({
+      tables: types.optional(TablesModel, {}),
+      columns: types.optional(ColumnsModel, {}),
+      tableData: types.optional(TableDataModel, {}),
+      indexes: types.optional(IndexesModel, {}),
+      table_schema: types.optional(types.string, ''),
+      table_name: types.optional(types.string, ''),
+    }),
+  )
   .volatile(() => ({
     controllers: {
       tables: new AbortController(),

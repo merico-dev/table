@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
+import { ContentRenderModelInstance } from '~/model';
 
-export function useInteractionOperationHacks(model: ContentModelInstance, inEditMode: boolean) {
+export function useInteractionOperationHacks(
+  model: ContentModelInstance | ContentRenderModelInstance,
+  inEditMode: boolean,
+) {
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
       console.log(e);
@@ -13,7 +17,7 @@ export function useInteractionOperationHacks(model: ContentModelInstance, inEdit
       }
       model.views.appendToVisibles(viewID);
       if (inEditMode) {
-        model.views.setIDOfVIE(viewID);
+        (model as ContentModelInstance).views.setIDOfVIE(viewID);
       }
     };
     window.addEventListener('open-view', handler);
