@@ -1,13 +1,13 @@
 import { ActionIcon, Center, Divider, MultiSelect, Stack, TextInput } from '@mantine/core';
-import { observer } from 'mobx-react-lite';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { SelectDataSource } from './select-data-source';
-import { DeleteQuery } from './delete-query';
-import { useEffect, useState } from 'react';
 import { IconDeviceFloppy } from '@tabler/icons-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
+import { QueryRenderModelInstance } from '~/model';
+import { DeleteQuery } from './delete-query';
+import { SelectDataSource } from './select-data-source';
 
 interface IQueryConfigurations {
-  queryModel: QueryModelInstance;
+  queryModel: QueryRenderModelInstance;
 }
 
 export const QueryConfigurations = observer(({ queryModel }: IQueryConfigurations) => {

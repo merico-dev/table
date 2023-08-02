@@ -5,7 +5,7 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
-import { QueryModelInstance } from '~/dashboard-editor/model';
+import { QueryRenderModelInstance } from '~/model';
 import { DBExplorerModal } from '../../../../db-explorer-modal';
 import { PreviewSQL } from './preview-sql';
 
@@ -24,7 +24,7 @@ export const DEFAULT_SQL_REQ_PROCESSING = {
   ].join('\n'),
 };
 
-export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
+export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
   // form stuff
   const [sql, setSQL] = React.useState(queryModel.sql);
 

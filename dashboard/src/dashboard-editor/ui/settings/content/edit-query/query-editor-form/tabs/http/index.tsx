@@ -2,7 +2,7 @@ import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
 import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
-import { QueryModelInstance } from '~/dashboard-editor/model';
+import { QueryRenderModelInstance } from '~/model';
 
 export const DEFAULT_HTTP_REQ_PROCESSING = {
   pre: [
@@ -14,7 +14,7 @@ export const DEFAULT_HTTP_REQ_PROCESSING = {
   post: ['function process_result(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
 };
 
-export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryModelInstance }) => {
+export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
   if (!queryModel.typedAsHTTP) {
     return null;
   }

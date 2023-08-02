@@ -2,8 +2,7 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useModelContext } from '~/contexts';
-import { QueryModelInstance } from '~/dashboard-editor/model';
-import { DataSourceType } from '~/model';
+import { DataSourceType, QueryRenderModelInstance } from '~/model';
 
 export const AddAQuery = observer(() => {
   const model = useModelContext();
@@ -15,7 +14,7 @@ export const AddAQuery = observer(() => {
       type: DataSourceType.Postgresql,
       key: '',
       sql: '',
-    } as QueryModelInstance;
+    } as QueryRenderModelInstance;
     model.content.queries.append(v);
     model.editor.setPath(['_QUERIES_', id]);
   };
