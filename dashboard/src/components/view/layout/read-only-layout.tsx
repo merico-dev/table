@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { useContentModelContext } from '~/contexts';
+import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
@@ -16,7 +16,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   view,
   className = 'layout',
 }: IReadOnlyDashboardLayout) {
-  const { panels, layouts } = useContentModelContext().panels.panelsByIDs(view.panelIDs);
+  const { panels, layouts } = useRenderContentModelContext().panels.panelsByIDs(view.panelIDs);
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}

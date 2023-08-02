@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useContentModelContext } from '~/contexts';
+import { useRenderContentModelContext } from '~/contexts';
 import { explainSQL } from '~/utils/sql';
 import { PreviewSQLInMonacoEditor } from './preview-sql-in-monaco-editor';
 
@@ -8,7 +8,7 @@ interface IPreviewSQL {
   value: string;
 }
 export const PreviewSQL = observer(({ value }: IPreviewSQL) => {
-  const content = useContentModelContext();
+  const content = useRenderContentModelContext();
   const payload = content.payloadForSQL;
 
   const explained = React.useMemo(() => {

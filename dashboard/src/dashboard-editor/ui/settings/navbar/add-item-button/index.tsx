@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
 import { NavActionType } from '~/dashboard-editor/model/editor';
 import { AddAFilter } from './add-a-filter';
 import { AddAPanel } from './add-a-panel';
@@ -13,8 +12,6 @@ interface IAddItemButton {
 }
 
 export const AddItemButton = observer(({ action_type, parentID }: IAddItemButton) => {
-  const model = useContentModelContext();
-
   if (action_type === '_Add_A_Filter_') {
     return <AddAFilter />;
   }

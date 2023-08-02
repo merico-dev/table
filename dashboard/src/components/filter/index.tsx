@@ -3,13 +3,13 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import { useContentModelContext } from '~/contexts';
+import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, ViewMetaInstance } from '~/model';
 import { Filter } from './filter';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewMetaInstance }) {
-  const content = useContentModelContext();
+  const content = useRenderContentModelContext();
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: content.filters.values,

@@ -9,8 +9,8 @@ export const PanelsRenderModel = types
     get json() {
       return self.list.map((o) => o.json);
     },
-    findByID(id: string) {
-      return self.list.find((query) => query.id === id);
+    findByID<T = PanelRenderModelInstance>(id: string) {
+      return self.list.find((query) => query.id === id) as T | undefined;
     },
     get idMap() {
       const map = new Map<string, PanelRenderModelInstance>();

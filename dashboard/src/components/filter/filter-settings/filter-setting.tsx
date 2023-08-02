@@ -1,7 +1,7 @@
 import { Box, Checkbox, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { FilterMetaInstance } from '~/model';
 import { FilterEditorCheckbox } from '../filter-checkbox/editor';
 import { FilterEditorDateRange } from '../filter-date-range/editor';
@@ -34,7 +34,7 @@ interface IFilterSetting {
 }
 
 export const FilterSetting = observer(function _FilterSetting({ filter }: IFilterSetting) {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const FilterEditor = React.useMemo(() => {
     return editors[filter.type];
   }, [filter.type]);

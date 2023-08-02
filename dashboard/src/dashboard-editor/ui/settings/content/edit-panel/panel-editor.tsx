@@ -3,14 +3,14 @@ import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
-import { PanelContextProvider, useContentModelContext, useModelContext } from '~/contexts';
-import { InteractionSettingsPanel } from '~/interactions';
+import { PanelContextProvider, useEditContentModelContext, useModelContext } from '~/contexts';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
 import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
 import { VariableConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-config-panel';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
-import { PanelModelInstance } from '~/dashboard-editor/model/panels';
+import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 
@@ -53,7 +53,7 @@ function doesVizRequiresData(type: string) {
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
   const modals = useModals();
   const model = useModelContext();
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const [tab, setTab] = useState<string | null>('Data');
   const queries = panel.queries;
 

@@ -2,17 +2,17 @@ import { Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext, useModelContext } from '~/contexts';
-import { QueryModelInstance } from '~/dashboard-editor/model';
+import { useEditContentModelContext, useModelContext } from '~/contexts';
+import { QueryRenderModelInstance } from '~/model';
 
 export interface IDeleteQueryProps {
-  queryModel: QueryModelInstance;
+  queryModel: QueryRenderModelInstance;
 }
 
 const _DeleteQuery = (props: IDeleteQueryProps) => {
   const { queryModel } = props;
   const model = useModelContext();
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const usage = content.findQueryUsage(queryModel.id);
   const disabled = usage.length > 0;
 

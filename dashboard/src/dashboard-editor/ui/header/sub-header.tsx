@@ -1,7 +1,7 @@
 import { Box, Button, Group, Sx } from '@mantine/core';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -15,7 +15,7 @@ const SubHeaderSx: Sx = {
 };
 
 export const SubHeader = observer(() => {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
       <Group position="apart" align="center" sx={{ height: '30px' }} pr={16}>

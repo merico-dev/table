@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
 interface IChangeViewOfPanel {
@@ -11,7 +11,7 @@ interface IChangeViewOfPanel {
   sourceViewID: string;
 }
 export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewOfPanel) => {
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const [targetViewID, setTargetViewID] = useState(sourceViewID);
   useEffect(() => {
     setTargetViewID(sourceViewID);

@@ -1,9 +1,8 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { useContentModelContext } from '~/contexts';
-import { FilterMetaInstance } from '~/model';
-import { FilterSelectConfigInstance } from '~/model';
+import { useRenderContentModelContext } from '~/contexts';
+import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { FilterSelectItem } from '../select-item';
 
 interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
@@ -13,7 +12,7 @@ interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'confi
 }
 
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
-  const model = useContentModelContext();
+  const model = useRenderContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
   const { state, error } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';

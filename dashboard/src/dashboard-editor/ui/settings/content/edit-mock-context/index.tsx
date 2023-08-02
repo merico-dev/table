@@ -3,10 +3,10 @@ import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 
 export const EditMockContext = observer(() => {
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const [v, setV] = useState(() => JSON.stringify(content.mock_context.current, null, 4));
   const submit = () => {
     try {

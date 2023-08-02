@@ -2,14 +2,14 @@ import { Text } from '@mantine/core';
 import { useMemo } from 'react';
 
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useRenderContentModelContext } from '~/contexts';
 import { VizViewProps } from '~/types/plugin';
-import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { formatAggregatedValue, getAggregatedValue } from '~/utils/template';
+import { DEFAULT_CONFIG, IVizTextConf } from './type';
 
 export const VizText = observer(({ context }: VizViewProps) => {
-  const contentModel = useContentModelContext();
+  const contentModel = useRenderContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizTextConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data;

@@ -1,8 +1,13 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
-import { ContentModelInstance, PanelModelInstance, ViewsModelInstance } from '~/dashboard-editor/model';
+import { ContentRenderModelInstance } from '~/dashboard-render/model/content';
+import {
+  EViewComponentType,
+  PanelRenderModelInstance,
+  ViewTabsConfigInstance,
+  ViewsRenderModelInstance,
+} from '~/model';
 import { ViewComponentTypeBackground } from '~/types';
-import { EViewComponentType, ViewTabsConfigInstance } from '~/model';
 import {
   PanelGapY,
   PanelHeight,
@@ -16,7 +21,7 @@ import {
 } from './metrics';
 import { TFlowNode } from './types';
 
-function makePanelNodes(views: ViewsModelInstance, panels: PanelModelInstance[]) {
+function makePanelNodes(views: ViewsRenderModelInstance, panels: PanelRenderModelInstance[]) {
   const panelsMap = _.keyBy(panels, (p) => p.id);
   const panelNodes: TFlowNode[] = [];
   views.current.forEach((v, i) => {
@@ -62,7 +67,7 @@ const ViewTypeName = {
 };
 const ViewBackground = ViewComponentTypeBackground;
 
-function makeViewNodes(views: ViewsModelInstance) {
+function makeViewNodes(views: ViewsRenderModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {
     const height = calcTotal(v.panelIDs.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
     let _tab_view_ids: string[] = [];
@@ -105,7 +110,7 @@ function addParentToTabView(viewNodes: TFlowNode[]) {
   });
 }
 
-export function makeNodes(model: ContentModelInstance) {
+export function makeNodes(model: ContentRenderModelInstance) {
   const viewNodes = makeViewNodes(model.views);
   addParentToTabView(viewNodes);
   const panelNodes = makePanelNodes(model.views, model.panels.list);

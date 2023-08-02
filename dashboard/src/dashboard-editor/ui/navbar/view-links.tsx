@@ -2,7 +2,7 @@ import { ActionIcon, Box, Button, Divider, Group, Text, Tooltip, UnstyledButton 
 import { IconAdjustments, IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
-import { useContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useModelContext, useRenderContentModelContext } from '~/contexts';
 
 interface IViewLink {
   onClick: () => void;
@@ -52,7 +52,7 @@ function ViewLink({ onClick, name, active, openSettings }: IViewLink) {
 
 export const ViewLinks = observer(() => {
   const model = useModelContext();
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const getClickHandler = useCallback((id: string) => () => content.views.setIDOfVIE(id), [content]);
   const openSettings = (id: string) => {
     model.editor.open(['_VIEWS_', id]);

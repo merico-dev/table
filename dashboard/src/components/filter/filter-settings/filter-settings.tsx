@@ -3,13 +3,13 @@ import { randomId } from '@mantine/hooks';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Recycle, Trash } from 'tabler-icons-react';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
 
 export const FilterSettings = observer(function _FilterSettings() {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const filters = model.filters.current;
 
   const addFilter = () => {

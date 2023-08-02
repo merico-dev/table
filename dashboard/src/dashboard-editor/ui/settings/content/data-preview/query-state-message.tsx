@@ -1,12 +1,12 @@
-import React from 'react';
 import { Text } from '@mantine/core';
-import { useContentModelContext } from '~/contexts';
+import React from 'react';
+import { useRenderContentModelContext } from '~/contexts';
 
 interface IQueryStateMessage {
   queryID: string;
 }
 export const QueryStateMessage = ({ queryID }: IQueryStateMessage) => {
-  const model = useContentModelContext();
+  const model = useRenderContentModelContext();
   const { state, error } = model.getDataStuffByID(queryID);
   const query = React.useMemo(() => model.queries.findByID(queryID), [model, queryID]);
   if (state === 'loading') {

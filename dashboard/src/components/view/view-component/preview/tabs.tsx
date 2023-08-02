@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { DashboardViewRender } from '~/components/view';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType, TabModelInstance, ViewMetaInstance, ViewTabsConfigInstance } from '~/model';
 
 const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
@@ -42,7 +42,7 @@ const getTabSX = (t: TabModelInstance): Sx => {
 
 export const PreviewViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
   const modals = useModals();
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const options = useMemo(
     () => model.views.options.filter((o) => o.type === EViewComponentType.Division),
     [view.id, model.views.options],

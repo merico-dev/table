@@ -1,10 +1,10 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 
 export const PickQueryForFilter = observer(({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const options = React.useMemo(() => {
     return model.queries.options;
   }, [model.queries.current]);

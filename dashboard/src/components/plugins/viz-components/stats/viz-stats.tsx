@@ -1,13 +1,13 @@
+import { Box, Center } from '@mantine/core';
 import React, { useMemo } from 'react';
-import { Box, Center, Text } from '@mantine/core';
 
+import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
+import { useStorageData } from '~/components/plugins/hooks';
+import { useRenderContentModelContext } from '~/contexts';
 import { VizViewProps } from '~/types/plugin';
 import { templateToJSX } from '~/utils/template';
-import { useStorageData } from '~/components/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
-import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
-import _ from 'lodash';
 
 const horizontalAlignments = {
   left: 'flex-start',
@@ -22,7 +22,7 @@ const verticalAlignments = {
 };
 
 export const VizStats = observer(({ context }: VizViewProps) => {
-  const contentModel = useContentModelContext();
+  const contentModel = useRenderContentModelContext();
   const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
   const { variables } = context;
   const { template, horizontal_align, vertical_align } = conf;

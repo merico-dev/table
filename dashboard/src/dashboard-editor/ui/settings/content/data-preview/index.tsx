@@ -2,9 +2,9 @@ import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/co
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
-import { useContentModelContext } from '~/contexts';
-import { QueryStateMessage } from './query-state-message';
+import { useRenderContentModelContext } from '~/contexts';
 import { DataTable } from './data-table';
+import { QueryStateMessage } from './query-state-message';
 
 export const DataPreview = observer(function _DataPreview({
   id,
@@ -13,7 +13,7 @@ export const DataPreview = observer(function _DataPreview({
   id: string;
   moreActions?: ReactNode;
 }) {
-  const content = useContentModelContext();
+  const content = useRenderContentModelContext();
   const { data, state } = content.getDataStuffByID(id);
   const loading = state === 'loading';
   const refresh = () => {

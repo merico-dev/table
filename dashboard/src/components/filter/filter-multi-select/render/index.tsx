@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
-import { FilterMetaInstance } from '~/model';
-import { FilterMultiSelectConfigInstance } from '~/model';
+import { useRenderContentModelContext } from '~/contexts';
+import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { MultiSelectWidget } from './widget';
 
 interface IFilterMultiSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
@@ -11,7 +10,7 @@ interface IFilterMultiSelect extends Omit<FilterMetaInstance, 'key' | 'type' | '
 }
 
 export const FilterMultiSelect = observer(({ label, config, value, onChange }: IFilterMultiSelect) => {
-  const model = useContentModelContext();
+  const model = useRenderContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
   const { state, error } = model.getDataStuffByID(config.options_query_id);
   const loading = state === 'loading';

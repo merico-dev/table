@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import { PanelModelInstance } from '~/dashboard-editor/model/panels';
-import { ViewMetaInstance } from '~/model';
+import { PanelRenderModelInstance, ViewMetaInstance } from '~/model';
 import { PanelDropdownMenu } from '../panel-render/dropdown-menu';
 import { PanelRenderBase } from '../panel-render/panel-render-base';
 
 interface IPanel {
   view: ViewMetaInstance;
-  panel: PanelModelInstance;
+  panel: PanelRenderModelInstance;
 }
 
 const hoverBorder = {
@@ -17,7 +16,7 @@ const hoverBorder = {
   },
 };
 
-function getPanelBorderStyle(panel: PanelModelInstance) {
+function getPanelBorderStyle(panel: PanelRenderModelInstance) {
   if (panel.style.border.enabled) {
     return {};
   }

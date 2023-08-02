@@ -1,15 +1,15 @@
 import { defaults } from 'lodash';
-import { useMemo } from 'react';
-import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
-import { useStorageData } from '~/components/plugins/hooks';
-import { VizViewProps } from '~/types/plugin';
-import { DEFAULT_CONFIG, IRichTextConf } from './type';
-import { parseRichTextContent } from './parse-rich-text-content';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext, useModelContext } from '~/contexts';
+import { useMemo } from 'react';
+import { useStorageData } from '~/components/plugins/hooks';
+import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
+import { useRenderContentModelContext } from '~/contexts';
+import { VizViewProps } from '~/types/plugin';
+import { parseRichTextContent } from './parse-rich-text-content';
+import { DEFAULT_CONFIG, IRichTextConf } from './type';
 
 export const VizRichText = observer(({ context }: VizViewProps) => {
-  const contentModel = useContentModelContext();
+  const contentModel = useRenderContentModelContext();
   const { value: confValue } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const { variables, data } = context;
 

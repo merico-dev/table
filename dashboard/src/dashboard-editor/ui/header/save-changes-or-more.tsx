@@ -2,7 +2,7 @@ import { ActionIcon, Button, Group, Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconAlertTriangle, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 
 export interface ISaveChangesOrMore {
   saveDashboardChanges: () => void;
@@ -10,7 +10,7 @@ export interface ISaveChangesOrMore {
 
 export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChangesOrMore) => {
   const modals = useModals();
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
 
   const revertWithConfirmation = () => {
     modals.openConfirmModal({

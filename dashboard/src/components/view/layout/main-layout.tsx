@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import RGL, { Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
-import { useContentModelContext } from '~/contexts';
+import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
@@ -55,7 +55,7 @@ interface IMainDashboardLayout {
 }
 
 export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
-  const model = useContentModelContext();
+  const model = useRenderContentModelContext();
   const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
 
   const onLayoutChange = React.useCallback(

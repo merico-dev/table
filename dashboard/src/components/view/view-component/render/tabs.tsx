@@ -2,7 +2,7 @@ import { Box, Sx, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { DashboardViewRender } from '~/components/view';
-import { useContentModelContext } from '~/contexts';
+import { useRenderContentModelContext } from '~/contexts';
 import { TabModelInstance, ViewMetaInstance, ViewTabsConfigInstance } from '~/model';
 
 const getTabSX = (t: TabModelInstance): Sx => {
@@ -13,7 +13,7 @@ const getTabSX = (t: TabModelInstance): Sx => {
 };
 
 export const RenderViewTabs = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
-  const model = useContentModelContext();
+  const model = useRenderContentModelContext();
   const config = view.config as ViewTabsConfigInstance;
   return (
     <Box className="render-view-tabs">

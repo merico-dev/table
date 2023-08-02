@@ -2,14 +2,14 @@ import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } fro
 import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { useContentModelContext, useModelContext } from '~/contexts';
+import { useEditContentModelContext, useModelContext } from '~/contexts';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { ViewLinks } from './view-links';
 
 export const DashboardEditorNavbar = observer(() => {
   const model = useModelContext();
-  const content = useContentModelContext();
+  const content = useEditContentModelContext();
   const openQueries = () => {
     if (!content.queries.firstID) {
       model.editor.open(['_QUERIES_', '']);
