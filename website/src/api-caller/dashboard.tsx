@@ -11,6 +11,10 @@ export const dashboard = {
       },
       sort: [
         {
+          field: 'name',
+          order: 'ASC',
+        },
+        {
           field: 'create_time',
           order: 'ASC',
         },
