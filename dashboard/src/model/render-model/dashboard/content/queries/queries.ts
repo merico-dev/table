@@ -1,6 +1,7 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { QueryRenderModel } from './query';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '~/utils/download';
+import { QueryMetaSnapshotIn } from '~/model/meta-model';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -64,3 +65,10 @@ export const QueriesRenderModel = types
   });
 
 export type QueriesRenderModelInstance = Instance<typeof QueriesRenderModel>;
+export type QueriesRenderModelSnapshotIn = SnapshotIn<QueriesRenderModelInstance>;
+
+export function getInitialQueriesRenderModel(queries: QueryMetaSnapshotIn[]): QueriesRenderModelSnapshotIn {
+  return {
+    current: queries,
+  };
+}

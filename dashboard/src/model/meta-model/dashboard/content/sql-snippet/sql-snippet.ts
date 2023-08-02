@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 
 export const SQLSnippetMeta = types
   .model('SQLSnippetMeta', {
@@ -22,3 +22,5 @@ export const SQLSnippetMeta = types
       self.value = value;
     },
   }));
+
+export type SQLSnippetMetaSnapshotIn = SnapshotIn<Instance<typeof SQLSnippetMeta>>;

@@ -19,25 +19,17 @@ import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
 import {
+  formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
   getNewPanel,
   MockContextMeta,
   QueryUsageType,
   TPayloadForSQL,
-  TPayloadForSQLSnippet,
   TPayloadForViz,
 } from '~/model';
-import { formatSQL } from '~/utils/sql';
 import { PanelModelInstance, PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
-
-function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
-  return list.reduce((ret, curr) => {
-    ret[curr[idKey]] = formatSQL(curr[valueKey], params);
-    return ret;
-  }, {} as Record<string, string>);
-}
 
 const _ContentModel = types
   .model({

@@ -51,9 +51,7 @@ export const ViewsRenderModel = types
 
 export type ViewsRenderModelInstance = Instance<typeof ViewsRenderModel>;
 
-export function createDashboardViewsRenderModel(
-  views: IDashboardView[],
-): SnapshotIn<Instance<typeof ViewsRenderModel>> {
+export function getInitialViewsRenderModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsRenderModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const processedViews = views.map((view) => {
     const { _name = view.type } = view.config;

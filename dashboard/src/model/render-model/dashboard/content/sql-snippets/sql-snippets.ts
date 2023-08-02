@@ -1,5 +1,6 @@
-import { types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { SQLSnippetRenderModel } from './sql-snippet';
+import { SQLSnippetMetaSnapshotIn } from '~/model';
 
 export const SQLSnippetsRenderModel = types
   .model('SQLSnippetsRenderModel', {
@@ -25,3 +26,13 @@ export const SQLSnippetsRenderModel = types
       return self.current.find((item) => item.key === key);
     },
   }));
+
+export type SQLSnippetsRenderModelSnapshotIn = SnapshotIn<Instance<typeof SQLSnippetsRenderModel>>;
+
+export function getInitialSQLSnippetsRenderModel(
+  snippets: SQLSnippetMetaSnapshotIn[],
+): SQLSnippetsRenderModelSnapshotIn {
+  return {
+    current: snippets,
+  };
+}

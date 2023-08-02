@@ -1,4 +1,4 @@
-import { types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils/shallow-to-js';
 import { DataSourceType } from './types';
 
@@ -60,3 +60,5 @@ export const QueryMeta = types
       },
     };
   });
+export type QueryMetaInstance = Instance<typeof QueryMeta>;
+export type QueryMetaSnapshotIn = SnapshotIn<QueryMetaInstance>;
