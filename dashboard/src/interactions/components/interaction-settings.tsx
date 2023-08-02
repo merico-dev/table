@@ -5,13 +5,13 @@ import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { AlertCircle, Trash } from 'tabler-icons-react';
-import { usePanelContext } from '~/contexts';
+import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
+import { useRenderPanelContext } from '~/contexts';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { useTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { InteractionManager } from '~/interactions/interaction-manager';
 import { OPERATIONS } from '~/interactions/operation/operations';
-import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { IPayloadVariableSchema, IVizInteraction, IVizInteractionManager, VizInstance } from '~/types/plugin';
 
 export interface IInteractionSettingsProps {
@@ -131,7 +131,7 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
 };
 
 const useInteractionSettingsProps = (): IInteractionSettingsProps => {
-  const { panel, data } = usePanelContext();
+  const { panel, data } = useRenderPanelContext();
   const viz = panel.viz;
   const { vizManager } = useContext(PluginContext);
   const panelInfo: IPanelInfo = panel.json;

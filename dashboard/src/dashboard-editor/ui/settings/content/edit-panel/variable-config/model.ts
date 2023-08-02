@@ -1,7 +1,7 @@
 import { useCreation } from 'ahooks';
 import { cloneDeep, isEmpty, last } from 'lodash';
 import { makeAutoObservable } from 'mobx';
-import { usePanelContext } from '~/contexts';
+import { useEditPanelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { VariableMetaInstance, VariableMetaSnapshotIn } from '~/model';
 
@@ -63,6 +63,6 @@ export class VariableConfigUIModel {
 }
 
 export function useConfigUIModel() {
-  const { panel } = usePanelContext();
+  const { panel } = useEditPanelContext();
   return useCreation(() => new VariableConfigUIModel(panel), [panel]);
 }

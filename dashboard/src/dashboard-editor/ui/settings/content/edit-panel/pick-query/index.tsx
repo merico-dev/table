@@ -2,13 +2,13 @@ import { ActionIcon, Button, Checkbox, Drawer, Group, Stack, Tabs, Tooltip } fro
 import { IconArrowCurveRight, IconLine } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { useEditContentModelContext, useModelContext, usePanelContext } from '~/contexts';
+import { useEditContentModelContext, useEditPanelContext, useModelContext } from '~/contexts';
 import { DataPreview } from '../../data-preview';
 
 export const PickQuery = observer(function _PickQuery() {
   const model = useModelContext();
   const content = useEditContentModelContext();
-  const { panel } = usePanelContext();
+  const { panel } = useEditPanelContext();
   const [opened, setOpened] = useState(false);
 
   const navigateToQuery = (queryID: string) => {

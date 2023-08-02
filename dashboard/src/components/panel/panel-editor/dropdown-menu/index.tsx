@@ -5,7 +5,7 @@ import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useModelContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
-import { usePanelContext } from '~/contexts/panel-context';
+import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
@@ -13,7 +13,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
   const content = useEditContentModelContext();
   const modals = useModals();
 
-  const { panel } = usePanelContext();
+  const { panel } = useEditPanelContext();
   const { id } = panel;
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);

@@ -4,14 +4,14 @@ import { observer } from 'mobx-react-lite';
 
 import { useCreation } from 'ahooks';
 import { getSnapshot } from 'mobx-state-tree';
-import { usePanelContext } from '~/contexts';
+import { useEditPanelContext } from '~/contexts';
 import {
-  useConfigUIModel,
   VariableConfigUIModel,
+  useConfigUIModel,
 } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/model';
 import { useStyles } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/styles';
 import { TemplateVariableField } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-field';
-import { createDraft, VariableMetaInstance } from '~/model';
+import { VariableMetaInstance, createDraft } from '~/model';
 import { ITemplateVariable, variable2Jsx } from '~/utils/template';
 
 export interface IVariableListProps {
@@ -52,7 +52,7 @@ const VariablePreview = observer(_VariablePreview);
 const _VariableEditor = (props: { variable: VariableMetaInstance; uiModel: VariableConfigUIModel }) => {
   const draft = useCreation(() => createDraft(props.variable), [props.variable]);
   const { classes } = useStyles();
-  const { data } = usePanelContext();
+  const { data } = useEditPanelContext();
   return (
     <Group style={{ height: '100%' }} align="start">
       <Stack data-testid="variable-editor" align="stretch" className={classes.config}>

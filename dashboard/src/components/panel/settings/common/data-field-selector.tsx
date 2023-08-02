@@ -1,7 +1,7 @@
 import { Select, Sx } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
-import { usePanelContext } from '~/contexts';
+import { useEditPanelContext } from '~/contexts';
 
 interface IDataFieldSelector {
   label: string;
@@ -15,7 +15,7 @@ interface IDataFieldSelector {
 export const DataFieldSelector = observer(
   forwardRef(
     ({ label, required, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector, ref: $TSFixMe) => {
-      const { panel } = usePanelContext();
+      const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
         const ret = [...panel.dataFieldOptions];
         if (!clearable) {

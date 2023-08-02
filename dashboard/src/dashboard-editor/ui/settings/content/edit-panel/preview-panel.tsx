@@ -1,12 +1,12 @@
 import { Box, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { PanelVizSection } from '~/components/panel/panel-render/viz/panel-viz-section';
-import { ErrorBoundary } from '~/utils/error-boundary';
-import { usePanelContext } from '~/contexts';
 import { DescriptionPopover } from '~/components/panel';
+import { PanelVizSection } from '~/components/panel/panel-render/viz/panel-viz-section';
+import { useRenderPanelContext } from '~/contexts';
+import { ErrorBoundary } from '~/utils/error-boundary';
 
 export const PreviewPanel = observer(() => {
-  const { panel } = usePanelContext();
+  const { panel } = useRenderPanelContext();
   return (
     <ErrorBoundary>
       <Box sx={{ height: '100%', flexGrow: 0, flexShrink: 0, width: '600px' }}>

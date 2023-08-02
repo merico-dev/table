@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { InteractionManager, OPERATIONS } from '~/interactions';
 import { IPanelInfo, tokens } from '~/components/plugins';
 import { InstanceMigrator } from '~/components/plugins/instance-migrator';
 import { IServiceLocator } from '~/components/plugins/service/service-locator';
-import { usePanelContext } from '~/contexts';
+import { useRenderPanelContext } from '~/contexts';
+import { InteractionManager, OPERATIONS } from '~/interactions';
 
 export function useConfigVizInstanceService(panel: IPanelInfo) {
-  const { panel: panelModel } = usePanelContext();
+  const { panel: panelModel } = useRenderPanelContext();
   return useCallback(
     (services: IServiceLocator) => {
       const vizManager = services.getRequired(tokens.vizManager);

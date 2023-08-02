@@ -3,12 +3,12 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Download, Refresh } from 'tabler-icons-react';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
-import { usePanelContext } from '~/contexts/panel-context';
+import { useRenderPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { doesVizRequiresData } from '../../utils';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
-  const { panel } = usePanelContext();
+  const { panel } = useRenderPanelContext();
   const { id } = panel;
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);

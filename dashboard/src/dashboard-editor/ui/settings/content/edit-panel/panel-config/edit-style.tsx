@@ -1,9 +1,9 @@
 import { Switch } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { usePanelContext } from '~/contexts/panel-context';
+import { useEditPanelContext } from '~/contexts/panel-context';
 
 export const EditStyle = observer(() => {
-  const { panel } = usePanelContext();
+  const { panel } = useEditPanelContext();
   const { style } = panel;
 
   return (

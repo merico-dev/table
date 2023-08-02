@@ -1,15 +1,15 @@
-import { Box, JsonInput, Stack } from '@mantine/core';
+import { JsonInput, Stack } from '@mantine/core';
 import { get } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { createElement, useContext } from 'react';
-import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
-import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
-import { usePanelContext } from '~/contexts';
 import { PluginVizConfigComponent } from '~/components/panel/plugin-adaptor';
+import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
+import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
+import { useEditPanelContext } from '~/contexts';
 import { IPanelInfoEditor } from '~/types/plugin';
-import { SelectVizType } from './select-viz-type';
 import { ErrorBoundary } from '~/utils/error-boundary';
+import { SelectVizType } from './select-viz-type';
 
 const types = [] as $TSFixMe[];
 
@@ -25,7 +25,7 @@ function usePluginVizConfig() {
   const {
     data,
     panel: { variables, viz, title, queryIDs, description, setDescription, setTitle, addQueryID, removeQueryID, id },
-  } = usePanelContext();
+  } = useEditPanelContext();
   const { vizManager } = useContext(PluginContext);
 
   const panel: IPanelInfo = {
@@ -66,7 +66,7 @@ export const EditVizConf = observer(() => {
   const {
     data,
     panel: { viz },
-  } = usePanelContext();
+  } = useEditPanelContext();
 
   const { vizManager } = useContext(PluginContext);
 

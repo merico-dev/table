@@ -1,10 +1,10 @@
 import { Group, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { usePanelContext } from '~/contexts';
+import { useRenderPanelContext } from '~/contexts';
 import './index.css';
 
 export const PanelTitleBar = observer(function _PanelTitleBar() {
-  const { panel } = usePanelContext();
+  const { panel } = useRenderPanelContext();
   const { title } = panel;
 
   if (!title) {

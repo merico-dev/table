@@ -1,10 +1,10 @@
 import { useCreation } from 'ahooks';
 import { useContext } from 'react';
-import { usePanelContext } from '~/contexts';
 import { IPanelInfo, PluginContext } from '~/components/plugins';
+import { useRenderPanelContext } from '~/contexts';
 
 export const useCurrentVizInstance = () => {
-  const { panel } = usePanelContext();
+  const { panel } = useRenderPanelContext();
   const { vizManager } = useContext(PluginContext);
   const panelInfo: IPanelInfo = panel.json;
 
