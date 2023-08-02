@@ -14,11 +14,12 @@ import {
 } from 'mobx-state-tree';
 import { AnyObject, DashboardContentDBType, TDashboardContent } from '~/types';
 
-import { FiltersModel, getInitialFiltersPayload } from '../filters';
+import { FiltersModel } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
 import {
+  getInitialFiltersConfig,
   getInitialMockContextMeta,
   getNewPanel,
   MockContextMeta,
@@ -351,7 +352,7 @@ export function createContentModel({
     create_time,
     update_time,
     version,
-    filters: getInitialFiltersPayload(filters),
+    filters: getInitialFiltersConfig(filters),
     queries: {
       current: queries,
     },

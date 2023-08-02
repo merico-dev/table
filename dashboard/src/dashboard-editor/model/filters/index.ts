@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-import _ from 'lodash';
 import {
   addDisposer,
   addMiddleware,
@@ -10,41 +8,9 @@ import {
   Instance,
   types,
 } from 'mobx-state-tree';
+import { FilterMeta, FilterMetaInstance, FiltersRenderModel } from '~/model';
+import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 import { AnyObject } from '~/types';
-import { FilterMeta, FilterMetaInstance, FilterMetaSnapshotOut } from '~/model';
-
-function formatDefaultValue(
-  v: string | boolean | string[] | (string | null)[],
-  config: FilterMetaSnapshotOut['config'],
-) {
-  if (v === undefined) {
-    return v;
-  }
-  if (config._name === 'date-range') {
-    try {
-      const [...dateTimeStrings] = v as [string | null, string | null];
-      return dateTimeStrings.map((v) => {
-        if (v === null) {
-          return v;
-        }
-        const d = dayjs.tz(v, 'UTC').format(config.inputFormat);
-        return d ?? v;
-      });
-    } catch (error) {
-      console.error(error);
-      return v;
-    }
-  }
-
-  return v;
-}
-
-function getValuesFromFilters(filters: FilterMetaSnapshotOut[]) {
-  return filters.reduce((ret, filter) => {
-    ret[filter.key] = formatDefaultValue(filter.config.default_value, filter.config);
-    return ret;
-  }, {} as FilterValuesType);
-}
 
 function afterModelAction<T extends IAnyComplexType>(
   target: IAnyStateTreeNode,
@@ -65,30 +31,15 @@ function afterModelAction<T extends IAnyComplexType>(
 
 // TODO(leto): use DraftModel?
 export const FiltersModel = types
-  .model('FiltersModel', {
-    current: types.optional(types.array(FilterMeta), []),
-    values: types.optional(types.frozen(), {}),
-    /**
-     * values to be displayed in preview content, e.g. Data Settings
-     */
-    previewValues: types.optional(types.frozen(), {}),
-  })
+  .compose(
+    'FiltersModel',
+    FiltersRenderModel,
+    types.model('FiltersModel', {
+      // values to be displayed in preview content, e.g. Data Settings
+      previewValues: types.optional(types.frozen(), {}),
+    }),
+  )
   .views((self) => ({
-    get json() {
-      return self.current.map((f) => f.json);
-    },
-    get firstID() {
-      if (self.current.length === 0) {
-        return undefined;
-      }
-      return self.current[0].id;
-    },
-    findByID(id: string) {
-      return self.current.find((f) => f.id === id);
-    },
-    get inOrder() {
-      return _.sortBy(self.current, 'order');
-    },
     get options() {
       return self.current.map(
         (f) =>
@@ -104,24 +55,6 @@ export const FiltersModel = types
         label: f.label ?? f.key,
         value: f.key,
       }));
-    },
-    get empty() {
-      return self.current.length === 0;
-    },
-    visibleInView(viewID: string) {
-      return _.sortBy(
-        self.current.filter((f) => f.visibleInViewsIDs.includes(viewID)),
-        'order',
-      );
-    },
-    get firstFilterValueKey() {
-      return Object.keys(self.values)[0] ?? '';
-    },
-    get keyLabelMap() {
-      return self.current.reduce((ret, f) => {
-        ret[f.key] = f.label;
-        return ret;
-      }, {} as Record<string, string>);
     },
   }))
   .actions((self) => {
@@ -140,18 +73,6 @@ export const FiltersModel = types
         if (index >= 0) {
           self.current.splice(index, 1);
         }
-      },
-      setValues(values: Record<string, $TSFixMe>) {
-        self.values = values;
-      },
-      setValueByKey(key: string, value: $TSFixMe) {
-        self.values = {
-          ...self.values,
-          [key]: value,
-        };
-      },
-      getValueByKey(key: string) {
-        return self.values[key];
       },
       updatePreviewValues(values: AnyObject) {
         self.previewValues = values;
@@ -179,12 +100,3 @@ export const FiltersModel = types
     };
   });
 export type FiltersModelInstance = Instance<typeof FiltersModel>;
-
-export type FilterValuesType = Record<string, $TSFixMe>;
-
-export function getInitialFiltersPayload(filters: FilterMetaSnapshotOut[]) {
-  return {
-    current: filters,
-    values: getValuesFromFilters(filters),
-  };
-}
