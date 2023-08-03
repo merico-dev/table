@@ -29,6 +29,9 @@ export const FilterSelectConfigMeta = types
     truthy(value: any) {
       return !!value;
     },
+    getSelectOption(value: string) {
+      return self.options.find((o) => o.value === value);
+    },
   }))
   .actions((self) => ({
     setRequired(required: boolean) {

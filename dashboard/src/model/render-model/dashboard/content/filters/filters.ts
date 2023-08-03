@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Instance, types } from 'mobx-state-tree';
-import { FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import { DashboardFilterType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { getValuesFromFilters } from './utils';
 
 export const FiltersRenderModel = types
@@ -41,6 +41,15 @@ export const FiltersRenderModel = types
         ret[f.key] = f.label;
         return ret;
       }, {} as Record<string, string>);
+    },
+    getSelectOption(id: string) {
+      const filter = this.findByID(id);
+      if (!filter || !('getSelectOption' in filter.config)) {
+        return null;
+      }
+
+      const value = self.values[id];
+      return filter.config.getSelectOption(value);
     },
   }))
   .actions((self) => ({

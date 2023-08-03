@@ -1,5 +1,11 @@
 import { Instance, getRoot, types } from 'mobx-state-tree';
 
+export type TSelectOption = {
+  label: string;
+  value: string;
+  description?: string;
+};
+
 export const FilterConfigModel_SelectOption = types
   .model({
     label: types.string,
@@ -28,7 +34,7 @@ export const FilterBaseSelectConfigMeta = types
     },
   }))
   .views((self) => ({
-    get options() {
+    get options(): TSelectOption[] {
       if (!self.usingQuery) {
         return self.static_options;
       }
