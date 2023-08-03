@@ -51,7 +51,6 @@ export const RebaseConfigModel = types
       console.log(Object.keys(d));
     },
     setLocal(local: DashboardContentDBType) {
-      console.log(local);
       self.local = local;
       self.rebaseResult = undefined;
     },
