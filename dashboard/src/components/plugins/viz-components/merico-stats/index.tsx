@@ -1,7 +1,7 @@
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
-import { VizMericoStats } from './viz-merico-stats';
+import { VizMericoStats } from './render';
 import { VizMericoStatsEditor } from './viz-merico-stats-editor';
 import { v2 } from './migrators';
 
