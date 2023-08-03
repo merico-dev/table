@@ -1,10 +1,10 @@
 import _ from 'lodash';
+import { ContentRenderModelInstance } from '~/dashboard-render/model/content';
 import { makeEdges } from './edges';
 import { makeNodes } from './nodes';
 import { reposition } from './position';
-import { ContentModelInstance } from '~/model';
 
-export function makeNodesAndEdges(model: ContentModelInstance) {
+export function makeNodesAndEdges(model: ContentRenderModelInstance) {
   const staticNodes = makeNodes(model);
   const staticNodeMap = _.keyBy(staticNodes, (n) => n.id);
   const { edges, edgeNodes } = makeEdges(model, staticNodeMap);

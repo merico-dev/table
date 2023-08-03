@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Edge, Position } from 'reactflow';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType } from '~/model';
 import {
   calc,
   LaneGapX,

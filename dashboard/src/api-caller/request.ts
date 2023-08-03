@@ -1,5 +1,5 @@
 import axios, { Method } from 'axios';
-import { DataSourceType } from '~/model/queries/types';
+import { DataSourceType } from '~/model';
 import { AnyObject } from '..';
 import { cryptSign } from './utils';
 

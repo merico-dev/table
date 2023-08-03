@@ -2,8 +2,8 @@ import { TABLE_PANEL } from '@cy/fixtures/mock-table';
 import { OperationSelect } from '~/interactions/components/operation-select';
 import { OperationManager } from '~/interactions/operation/operation-manager-impl';
 import { ConsoleLog } from '~/interactions/operation/operations/console-log';
-import { IVizManager, pluginManager, VizManager } from '~/plugins';
-import { IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
+import { IVizManager, pluginManager, VizManager } from '~/components/plugins';
+import { IClickCellContentConfig } from '~/components/plugins/viz-components/table/triggers/click-cell-content';
 import { IPayloadVariableSchema, IVizOperationManager, VizInstance } from '~/types/plugin';
 
 const VARIABLES: IPayloadVariableSchema[] = [

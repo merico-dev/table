@@ -1,5 +1,4 @@
-import { TPayloadForSQL } from '../model';
-import { DataSourceType } from '../model/queries/types';
+import { DataSourceType, TPayloadForSQL } from '~/model';
 import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';

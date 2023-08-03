@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { IDataSource } from '~/api-caller/types';
-import { ContextInfoType, FilterValuesType } from '..';
+import { ContextRecordType, FilterValuesType } from '~/model';
 import { functionUtils } from './function-utils';
 
 export function buildHTTPRequest(
@@ -10,7 +10,7 @@ export function buildHTTPRequest(
   return new Function(`return ${pre_process}`)()(params, functionUtils) as AxiosRequestConfig;
 }
 
-export function explainHTTPRequest(pre_process: string, context: ContextInfoType, filters: FilterValuesType) {
+export function explainHTTPRequest(pre_process: string, context: ContextRecordType, filters: FilterValuesType) {
   return buildHTTPRequest(pre_process, { context, filters });
 }
 

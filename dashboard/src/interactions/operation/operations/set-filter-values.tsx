@@ -2,8 +2,8 @@ import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { useContentModelContext } from '~/contexts';
-import { useStorageData } from '~/plugins';
+import { useStorageData } from '~/components/plugins';
+import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 const TableSx: Sx = {
@@ -47,7 +47,7 @@ export interface ISetFilterValuesOperationConfig {
 const defaultValue: ISetFilterValuesOperationConfig = { dictionary: {} };
 
 const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps) => {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const { value = defaultValue, set } = useStorageData<ISetFilterValuesOperationConfig>(
     props.operation.operationData,
     'config',

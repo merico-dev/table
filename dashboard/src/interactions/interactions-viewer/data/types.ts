@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 import { Node } from 'reactflow';
-import { EViewComponentType } from '~/types';
+import { EViewComponentType } from '~/model';
 
 export type TFlowNode_View = Node & {
   _node_type: 'view-root';

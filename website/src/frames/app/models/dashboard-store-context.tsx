@@ -11,7 +11,6 @@ function HooksHolder({ store }: { store: Instance<typeof DashboardStore> }) {
     store.setCurrentID(id);
     store.setCurrentContentID(content_id);
   }, [id, content_id]);
-  console.log({ id, content_id });
   return null;
 }
 

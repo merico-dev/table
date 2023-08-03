@@ -1,6 +1,6 @@
 import { InteractionSettings } from '~/interactions/components/interaction-settings';
 import { InteractionManager } from '~/interactions';
-import { IVizManager, pluginManager, VizManager } from '~/plugins';
+import { IVizManager, pluginManager, VizManager } from '~/components/plugins';
 import { VizInstance } from '~/types/plugin';
 import { MOCK_DATA, TABLE_PANEL } from '../fixtures/mock-table';
 

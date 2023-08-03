@@ -1,4 +1,4 @@
-import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
+import { SubTreeJsonPluginStorage } from '~/components/plugins/sub-tree-json-plugin-storage';
 import {
   IConfigMigrationContext,
   IDashboardOperation,

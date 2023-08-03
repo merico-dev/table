@@ -1,0 +1,9 @@
+.panel-root {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    border-radius: 4px;
+    position: relative;
+  }
+  

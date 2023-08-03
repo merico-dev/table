@@ -1,12 +1,12 @@
 import { useUpdate } from 'ahooks';
 import { noop } from 'lodash';
 import React, { ComponentProps, ComponentType, useEffect } from 'react';
-import { ColorManager, pluginManager } from '~/plugins';
-import { RedGreen } from '~/plugins/colors';
+import { ColorManager, pluginManager } from '~/components/plugins';
+import { RedGreen } from '~/components/plugins/colors';
 import {
   ColorInterpolationSelect,
   IColorInterpolationSelectProps,
-} from '~/plugins/controls/color-interpolation-select';
+} from '~/components/plugins/controls/color-interpolation-select';
 import { AnyObject } from '~/types';
 
 const withTestBed = <TP extends AnyObject = AnyObject, TC extends React.ComponentType<TP> = React.ComponentType<TP>>(

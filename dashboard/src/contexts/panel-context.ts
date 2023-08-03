@@ -1,8 +1,9 @@
 import React from 'react';
-import { PanelModelInstance } from '~/model/panels';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
+import { PanelRenderModelInstance } from '~/model';
 
 const PanelContext = React.createContext<{
-  panel: PanelModelInstance | null;
+  panel: PanelModelInstance | PanelRenderModelInstance | null;
   data: TPanelData;
   loading: boolean;
   errors: string[];
@@ -15,15 +16,18 @@ const PanelContext = React.createContext<{
 
 export const PanelContextProvider = PanelContext.Provider;
 
-export function usePanelContext() {
+function usePanelContext<T = PanelRenderModelInstance>() {
   const c = React.useContext(PanelContext);
   if (!c.panel) {
     throw new Error('Please use PanelContextProvider');
   }
   return c as {
-    panel: PanelModelInstance;
+    panel: T;
     data: TPanelData;
     loading: boolean;
     errors: string[];
   };
 }
+
+export const useRenderPanelContext = () => usePanelContext<PanelRenderModelInstance>();
+export const useEditPanelContext = () => usePanelContext<PanelModelInstance>();

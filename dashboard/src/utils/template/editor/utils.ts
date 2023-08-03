@@ -1,5 +1,5 @@
 import { randomId } from '@mantine/hooks';
-import { defaultNumbroFormat } from '../../../panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat } from '../../../components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '../types';
 
 export function getANewVariable() {

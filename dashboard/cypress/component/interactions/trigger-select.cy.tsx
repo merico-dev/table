@@ -1,9 +1,9 @@
 import { ReadyTriggerConfigModel, TriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { TriggerSelect } from '~/interactions/components/trigger-select';
 import { VizTriggerManager } from '~/interactions/trigger';
-import { IVizManager, pluginManager, VizManager } from '~/plugins';
-import { ClickCellContent } from '~/plugins/viz-components/table/triggers';
-import { IClickCellContentConfig } from '~/plugins/viz-components/table/triggers/click-cell-content';
+import { IVizManager, pluginManager, VizManager } from '~/components/plugins';
+import { ClickCellContent } from '~/components/plugins/viz-components/table/triggers';
+import { IClickCellContentConfig } from '~/components/plugins/viz-components/table/triggers/click-cell-content';
 import { VizInstance } from '~/types/plugin';
 import { MOCK_DATA, TABLE_PANEL } from '@cy/fixtures/mock-table';
 

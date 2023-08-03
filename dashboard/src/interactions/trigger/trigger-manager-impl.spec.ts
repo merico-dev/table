@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { JsonPluginStorage } from '~/plugins/json-plugin-storage';
-import { MessageChannels } from '~/plugins/message-channels';
+import { JsonPluginStorage } from '~/components/plugins/json-plugin-storage';
+import { MessageChannels } from '~/components/plugins/message-channels';
 import { ITriggerSchema, VizInstance } from '~/types/plugin';
 import { FAKE_TRIGGERS, testVizComponent } from '../test/helpers';
 import { VizTriggerManager } from './trigger-manager-impl';

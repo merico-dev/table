@@ -1,7 +1,7 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useContentModelContext } from '~/contexts';
-import { useStorageData } from '~/plugins';
+import { useStorageData } from '~/components/plugins';
+import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
 export interface IOpenViewOperationConfig {
@@ -9,7 +9,7 @@ export interface IOpenViewOperationConfig {
 }
 
 const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
-  const model = useContentModelContext();
+  const model = useEditContentModelContext();
   const { value, set } = useStorageData<IOpenViewOperationConfig>(props.operation.operationData, 'config');
   console.log({ value, viewID: value?.viewID });
 

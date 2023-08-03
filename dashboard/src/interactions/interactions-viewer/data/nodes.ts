@@ -1,18 +1,14 @@
 import _ from 'lodash';
 import { Position } from 'reactflow';
-import { ContentModelInstance, FiltersModelInstance, PanelModelInstance, ViewsModelInstance } from '~/model';
-import { IViewConfigModel_Tabs, ViewConfigModel_Tabs_Tab_Instance } from '~/model/views/view/tabs';
-import { EViewComponentType, ViewComponentTypeBackground } from '~/types';
+import { ContentRenderModelInstance } from '~/dashboard-render/model/content';
 import {
-  calc,
-  calcTotal,
-  FilterGap,
-  FilterHeight,
-  FilterPaddingB,
-  FilterPaddingL,
-  FilterPaddingR,
-  FilterPaddingT,
-  FilterWidth,
+  EViewComponentType,
+  PanelRenderModelInstance,
+  ViewTabsConfigInstance,
+  ViewsRenderModelInstance,
+} from '~/model';
+import { ViewComponentTypeBackground } from '~/types';
+import {
   PanelGapY,
   PanelHeight,
   PanelWidth,
@@ -20,10 +16,12 @@ import {
   ViewPaddingT,
   ViewPaddingX,
   ViewWidth,
+  calc,
+  calcTotal,
 } from './metrics';
 import { TFlowNode } from './types';
 
-function makePanelNodes(views: ViewsModelInstance, panels: PanelModelInstance[]) {
+function makePanelNodes(views: ViewsRenderModelInstance, panels: PanelRenderModelInstance[]) {
   const panelsMap = _.keyBy(panels, (p) => p.id);
   const panelNodes: TFlowNode[] = [];
   views.current.forEach((v, i) => {
@@ -69,12 +67,12 @@ const ViewTypeName = {
 };
 const ViewBackground = ViewComponentTypeBackground;
 
-function makeViewNodes(views: ViewsModelInstance) {
+function makeViewNodes(views: ViewsRenderModelInstance) {
   const viewNodes: TFlowNode[] = views.current.map((v, i) => {
     const height = calcTotal(v.panelIDs.length, PanelHeight, PanelGapY) + ViewPaddingT + ViewPaddingB;
     let _tab_view_ids: string[] = [];
     if (v.type === EViewComponentType.Tabs) {
-      const config = v.config as IViewConfigModel_Tabs;
+      const config = v.config as ViewTabsConfigInstance;
       _tab_view_ids = config.tabs.map((t) => t.view_id);
     }
     return {
@@ -112,7 +110,7 @@ function addParentToTabView(viewNodes: TFlowNode[]) {
   });
 }
 
-export function makeNodes(model: ContentModelInstance) {
+export function makeNodes(model: ContentRenderModelInstance) {
   const viewNodes = makeViewNodes(model.views);
   addParentToTabView(viewNodes);
   const panelNodes = makePanelNodes(model.views, model.panels.list);

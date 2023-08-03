@@ -1,4 +1,4 @@
-import { JsonPluginStorage } from '~/plugins/json-plugin-storage';
+import { JsonPluginStorage } from '~/components/plugins/json-plugin-storage';
 import { IDashboardOperationSchema, VizInstance } from '~/types/plugin';
 import { OperationManager } from './operation-manager-impl';
 

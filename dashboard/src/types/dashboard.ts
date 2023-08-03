@@ -1,8 +1,7 @@
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils/template';
-import { FilterModelSnapshotOut } from '../model';
-import { QueryModelSnapshotIn } from '../model/queries';
-import { SQLSnippetModelSnapshotIn } from '../model/sql-snippets';
+
+import { EViewComponentType, FilterMetaSnapshotOut, QueryMetaSnapshotIn, SQLSnippetMetaSnapshotIn } from '~/model';
 
 export interface IVizConfig {
   type: string;
@@ -39,15 +38,9 @@ export enum DashboardMode {
 }
 
 export interface IDashboardDefinition {
-  sqlSnippets: SQLSnippetModelSnapshotIn[];
-  queries: QueryModelSnapshotIn[];
+  sqlSnippets: SQLSnippetMetaSnapshotIn[];
+  queries: QueryMetaSnapshotIn[];
   mock_context: Record<string, $TSFixMe>;
-}
-
-export enum EViewComponentType {
-  Division = 'div',
-  Modal = 'modal',
-  Tabs = 'tabs',
 }
 
 export const ViewComponentTypeName = {
@@ -87,7 +80,7 @@ export interface TDashboardContent {
   definition: IDashboardDefinition;
   views: IDashboardView[];
   panels: IDashboardPanel[];
-  filters: FilterModelSnapshotOut[];
+  filters: FilterMetaSnapshotOut[];
   version: string;
 }
 

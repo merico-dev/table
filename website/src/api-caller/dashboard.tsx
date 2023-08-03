@@ -5,11 +5,15 @@ import { PaginationResponse } from './types';
 
 export const dashboard = {
   list: async (signal?: AbortSignal): Promise<PaginationResponse<TDashboardMetaInfo>> => {
-    return await post(signal)('/dashboard/list', {
+    return post(signal)('/dashboard/list', {
       filter: {
         is_removed: false,
       },
       sort: [
+        {
+          field: 'name',
+          order: 'ASC',
+        },
         {
           field: 'create_time',
           order: 'ASC',
@@ -17,7 +21,7 @@ export const dashboard = {
       ],
       pagination: {
         page: 1,
-        pagesize: 100,
+        pagesize: 1000,
       },
     });
   },

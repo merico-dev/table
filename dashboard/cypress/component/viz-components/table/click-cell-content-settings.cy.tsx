@@ -1,10 +1,10 @@
 import { VizTriggerManager } from '~/interactions/trigger';
-import { pluginManager, VizManager } from '~/plugins';
+import { pluginManager, VizManager } from '~/components/plugins';
 import {
   ClickCellContent,
   ClickCellContentSettings,
   IClickCellContentConfig,
-} from '~/plugins/viz-components/table/triggers/click-cell-content';
+} from '~/components/plugins/viz-components/table/triggers/click-cell-content';
 import { VizInstance } from '~/types/plugin';
 import { DEFAULT_TABLE_CONFIG, MOCK_DATA, TABLE_PANEL } from '../../../fixtures/mock-table';
 

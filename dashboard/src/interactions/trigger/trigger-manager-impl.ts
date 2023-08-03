@@ -1,6 +1,6 @@
 import { get, values } from 'lodash';
 import { toJS } from 'mobx';
-import { SubTreeJsonPluginStorage } from '~/plugins/sub-tree-json-plugin-storage';
+import { SubTreeJsonPluginStorage } from '~/components/plugins/sub-tree-json-plugin-storage';
 import { AnyObject } from '~/types';
 import {
   IConfigMigrationContext,

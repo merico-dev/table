@@ -6,10 +6,10 @@ import {
   VizConfigComponent,
   VizManager,
   VizViewComponent,
-} from '../../src/plugins';
+} from '~/components/plugins';
 import { PanelContextProvider } from '~/contexts';
-import { ITableConf, ValueType } from '../../src/plugins/viz-components/table/type';
-import { IPanelInfoEditor } from '../../src/types/plugin';
+import { ITableConf, ValueType } from '~/components/plugins/viz-components/table/type';
+import { IPanelInfoEditor } from '~/types/plugin';
 
 const mockQueryID = 'queryID-01';
 const defaultConfig = {

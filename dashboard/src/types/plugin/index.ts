@@ -1,10 +1,9 @@
 import { EventEmitter2 } from 'eventemitter2';
 import React from 'react';
-import { IVizManager } from '~/plugins';
+import { IVizManager } from '~/components/plugins';
+import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
-import { PanelModelInstance } from '~/model/panels';
-import { TRIGGERS_KEY } from '~/interactions';
 
 /**
  * Basic information of a viz component instance
