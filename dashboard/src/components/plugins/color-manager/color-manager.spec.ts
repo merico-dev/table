@@ -1,6 +1,6 @@
 import { ISingleColor } from '~/types/plugin';
 import { PluginManager } from '../plugin-manager';
-import { IColorManager } from '~/plugins/color-manager';
+import { IColorManager } from '~/components/plugins/color-manager';
 import { ColorManager } from './impl';
 
 const fooColor = {

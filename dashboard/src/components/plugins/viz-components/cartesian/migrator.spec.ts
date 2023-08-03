@@ -1,6 +1,6 @@
 // import { ITemplateVariable } from '~/utils/template';
-// import { VizCartesianMigrator } from '~/plugins/viz-components/cartesian/index';
-// import { JsonPluginStorage } from '~/plugins/json-plugin-storage';
+// import { VizCartesianMigrator } from '~/components/plugins/viz-components/cartesian/index';
+// import { JsonPluginStorage } from '~/components/plugins/json-plugin-storage';
 // import { PanelModelInstance } from '~/model/views/view/panels';
 // import { get } from 'lodash';
 

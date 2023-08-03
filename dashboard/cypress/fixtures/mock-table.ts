@@ -1,5 +1,5 @@
-import { IViewPanelInfo } from '~/plugins';
-import { ITableConf, ValueType } from '~/plugins/viz-components/table/type';
+import { IViewPanelInfo } from '~/components/plugins';
+import { ITableConf, ValueType } from '~/components/plugins/viz-components/table/type';
 
 export const DEFAULT_TABLE_CONFIG = {
   id_field: 'queryID-01.foo',

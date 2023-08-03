@@ -1,8 +1,8 @@
 import { useUpdate } from 'ahooks';
 import { noop } from 'lodash';
 import { MutableRefObject, useEffect, useState } from 'react';
-import { RedGreen } from '~/plugins/colors';
-import { ColorMappingEditor, IColorMappingEditorProps } from '~/plugins/controls/color-mapping-editor';
+import { RedGreen } from '~/components/plugins/colors';
+import { ColorMappingEditor, IColorMappingEditorProps } from '~/components/plugins/controls/color-mapping-editor';
 import { IValueStep } from '~/types/plugin';
 
 const steps: IValueStep[] = [

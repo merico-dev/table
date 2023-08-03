@@ -3,7 +3,7 @@
 // import type { PanelModelInstance } from '~/model/views/view/panels';
 // import { VizBoxplotChartMigrator } from './index';
 // import { IBoxplotChartConf } from './type';
-// import { JsonPluginStorage } from '~/plugins/json-plugin-storage';
+// import { JsonPluginStorage } from '~/components/plugins/json-plugin-storage';
 
 describe('VizBoxplotChartMigrator', () => {
   test('move variables', async () => {
