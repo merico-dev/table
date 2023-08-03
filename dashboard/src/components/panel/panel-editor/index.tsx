@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { PanelRenderModelInstance, ViewMetaInstance } from '~/model';
-import { PanelDropdownMenu } from '../panel-render/dropdown-menu';
+import { PanelDropdownMenu } from './dropdown-menu';
 import { PanelRenderBase } from '../panel-render/panel-render-base';
 
 interface IPanel {
