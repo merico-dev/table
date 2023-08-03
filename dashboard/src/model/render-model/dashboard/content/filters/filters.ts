@@ -48,7 +48,7 @@ export const FiltersRenderModel = types
         return null;
       }
 
-      const value = self.values[id];
+      const value = self.values[filter.key];
       return filter.config.getSelectOption(value);
     },
   }))

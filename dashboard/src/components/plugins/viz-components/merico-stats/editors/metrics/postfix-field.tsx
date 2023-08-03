@@ -1,4 +1,4 @@
-import { Autocomplete, Select, Group, TextInput } from '@mantine/core';
+import { Group, Select, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { forwardRef } from 'react';
 import { useEditContentModelContext } from '~/contexts';
