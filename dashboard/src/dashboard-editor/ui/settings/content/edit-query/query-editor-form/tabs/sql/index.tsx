@@ -1,12 +1,10 @@
-import { ActionIcon, Group, Tabs } from '@mantine/core';
+import { Group, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
-import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
 import { QueryRenderModelInstance } from '~/model';
 import { DBExplorerModal } from '../../../../db-explorer-modal';
+import { EditSQL } from './edit-sql';
 import { PreviewSQL } from './preview-sql';
 
 export const DEFAULT_SQL_REQ_PROCESSING = {
@@ -25,24 +23,6 @@ export const DEFAULT_SQL_REQ_PROCESSING = {
 };
 
 export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
-  // form stuff
-  const [sql, setSQL] = React.useState(queryModel.sql);
-
-  React.useEffect(() => {
-    setSQL((sql) => {
-      if (sql !== queryModel.sql) {
-        return queryModel.sql;
-      }
-      return sql;
-    });
-  }, [queryModel.sql]);
-
-  const sqlChanged = sql !== queryModel.sql;
-
-  const submitSQLChanges = () => {
-    queryModel.setSQL(sql);
-  };
-
   if (!queryModel.typedAsSQL) {
     return null;
   }
@@ -58,9 +38,6 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
         <Tabs.Tab value="Edit">
           <Group spacing={14} position="apart">
             Edit SQL
-            <ActionIcon mr={5} variant="filled" color="blue" disabled={!sqlChanged} onClick={submitSQLChanges}>
-              <DeviceFloppy size={20} />
-            </ActionIcon>
           </Group>
         </Tabs.Tab>
         <Tabs.Tab value="Preview">Preview SQL</Tabs.Tab>
@@ -70,7 +47,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
         {queryModel.datasource && <DBExplorerModal dataSource={queryModel.datasource} />}
       </Tabs.List>
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
-        <MinimalMonacoEditor height="100%" value={sql} onChange={setSQL} theme="sql-dark" defaultLanguage="sql" />
+        <EditSQL value={queryModel.sql} onChange={queryModel.setSQL} defaultValue="SELECT 1" />
       </Tabs.Panel>
       <Tabs.Panel value="Preview" p={0} pl={4}>
         <PreviewSQL value={queryModel.sql} />
