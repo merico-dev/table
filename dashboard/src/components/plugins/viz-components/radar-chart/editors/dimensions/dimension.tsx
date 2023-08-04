@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Divider, Group, NumberInput, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
@@ -40,15 +40,16 @@ export function DimensionField({ control, index, remove }: IDimensionField) {
           render={({ field }) => <NumbroFormatSelector {...field} />}
         />
       </Stack>
-      <ActionIcon
+      <Button
+        mt={20}
+        leftIcon={<Trash size={16} />}
         color="red"
-        variant="subtle"
+        variant="light"
         onClick={() => remove(index)}
-        sx={{ position: 'absolute', top: 15, right: 5 }}
         disabled={index === 0}
       >
-        <Trash size={16} />
-      </ActionIcon>
+        Delete this Metric
+      </Button>
     </Stack>
   );
 }

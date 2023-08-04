@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Checkbox, Divider, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Box, Checkbox, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -35,38 +35,54 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
-        <Divider mt={15} variant="dashed" label="Basics" labelPosition="center" />
-        <Controller
-          name="series_name_key"
-          control={control}
-          render={({ field }) => <DataFieldSelector label="Series Name Field" required sx={{ flex: 1 }} {...field} />}
-        />
-        <Group grow noWrap>
-          <Controller
-            name="background.enabled"
-            control={control}
-            render={({ field }) => (
-              <Checkbox
-                label="Show background"
-                checked={field.value}
-                onChange={(event) => field.onChange(event.currentTarget.checked)}
-              />
-            )}
-          />
-          <Controller
-            name="label.enabled"
-            control={control}
-            render={({ field }) => (
-              <Checkbox
-                label="Show value label"
-                checked={field.value}
-                onChange={(event) => field.onChange(event.currentTarget.checked)}
-              />
-            )}
-          />
-        </Group>
+        <Tabs defaultValue="series">
+          <Tabs.List>
+            <Tabs.Tab value="series">Series</Tabs.Tab>
+            <Tabs.Tab value="metrics">Metrics</Tabs.Tab>
+            <Tabs.Tab value="style">Style</Tabs.Tab>
+          </Tabs.List>
 
-        <DimensionsField control={control} watch={watch} />
+          <Tabs.Panel value="series" p="md">
+            <Controller
+              name="series_name_key"
+              control={control}
+              render={({ field }) => (
+                <DataFieldSelector label="Series Name Field" required sx={{ flex: 1 }} {...field} />
+              )}
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="metrics" p="md">
+            <DimensionsField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="style" p="md">
+            <Group grow noWrap>
+              <Controller
+                name="background.enabled"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    label="Show background"
+                    checked={field.value}
+                    onChange={(event) => field.onChange(event.currentTarget.checked)}
+                  />
+                )}
+              />
+              <Controller
+                name="label.enabled"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    label="Show value label"
+                    checked={field.value}
+                    onChange={(event) => field.onChange(event.currentTarget.checked)}
+                  />
+                )}
+              />
+            </Group>
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
     </form>
   );

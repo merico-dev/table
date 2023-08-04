@@ -1,5 +1,5 @@
-import { Divider, Stack, Tabs, Text } from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { Alert, Divider, Stack, Tabs, Text } from '@mantine/core';
+import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
@@ -55,7 +55,6 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
   };
   return (
     <>
-      <Divider mt={15} variant="dashed" label="Metrics" labelPosition="center" />
       <Tabs
         value={tab}
         onTabChange={setTab}
