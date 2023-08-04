@@ -10,7 +10,7 @@ import {
 } from 'mobx-state-tree';
 import { FilterMeta, FilterMetaInstance, FiltersRenderModel } from '~/model';
 import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
-import { AnyObject } from '~/types';
+import { AnyObject, DashboardFilterType } from '~/types';
 
 function afterModelAction<T extends IAnyComplexType>(
   target: IAnyStateTreeNode,
@@ -49,6 +49,17 @@ export const FiltersModel = types
             _type: 'filter',
           } as const),
       );
+    },
+    get selects() {
+      return self.current
+        .filter((f) => f.type === DashboardFilterType.Select)
+        .map(
+          (f) =>
+            ({
+              label: f.label ?? f.id,
+              value: f.id,
+            } as const),
+        );
     },
     get keyLabelOptions() {
       return self.current.map((f) => ({

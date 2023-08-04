@@ -1,11 +1,12 @@
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
-import { VizMericoStats } from './viz-merico-stats';
+import { VizMericoStats } from './render';
 import { VizMericoStatsEditor } from './viz-merico-stats-editor';
+import { v2 } from './migrators';
 
 class VizMericoStatsMigrator extends VersionBasedMigrator {
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -13,6 +14,13 @@ class VizMericoStatsMigrator extends VersionBasedMigrator {
         ...data,
         version: 1,
         config: data.config,
+      };
+    });
+    this.version(2, (data) => {
+      return {
+        ...data,
+        version: 2,
+        config: v2(data.config),
       };
     });
   }
@@ -29,7 +37,7 @@ export const MericoStatsVizComponent: VizComponent = {
     version: number;
     config: TMericoStatsConf;
   } => ({
-    version: 1,
+    version: 2,
     config: DEFAULT_CONFIG,
   }),
 };

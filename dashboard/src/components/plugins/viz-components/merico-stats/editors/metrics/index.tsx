@@ -3,9 +3,9 @@ import { IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { ITemplateVariable } from '~/utils/template';
 import { TMericoStatsConf, getNewMetric } from '../../type';
 import { MetricField } from './metric';
-import { ITemplateVariable } from '~/utils/template';
 
 interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
@@ -13,7 +13,7 @@ interface IProps {
   variables: ITemplateVariable[];
 }
 
-export function MetricsField({ control, watch, variables }: IProps) {
+export const MetricsField = ({ control, watch, variables }: IProps) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'metrics',
@@ -83,10 +83,16 @@ export function MetricsField({ control, watch, variables }: IProps) {
         </Tabs.List>
         {controlledFields.map((field, index) => (
           <Tabs.Panel key={index} value={field.id}>
-            <MetricField control={control} index={index} remove={removeAndResetTab} variableOptions={variableOptions} />
+            <MetricField
+              control={control}
+              index={index}
+              remove={removeAndResetTab}
+              variableOptions={variableOptions}
+              watch={watch}
+            />
           </Tabs.Panel>
         ))}
       </Tabs>
     </>
   );
-}
+};

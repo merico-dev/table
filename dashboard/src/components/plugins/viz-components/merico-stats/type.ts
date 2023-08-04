@@ -1,6 +1,11 @@
 import { TAlignItems, TJustifyContent } from '~/components/panel/settings/common/css-types';
 import { TNumbroFormat, defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
 
+export type TMetricPostfix = {
+  type: 'filter-option-label' | 'text';
+  value: string;
+};
+
 export type TMericoStatsMetric = {
   id: string;
   names: {
@@ -12,6 +17,7 @@ export type TMericoStatsMetric = {
     basis: TDataKey;
   };
   formatter: TNumbroFormat;
+  postfix: TMetricPostfix;
 };
 
 export type TMericoStatsStyle = {
@@ -44,5 +50,9 @@ export function getNewMetric(): TMericoStatsMetric {
       basis: '',
     },
     formatter: defaultNumbroFormat,
+    postfix: {
+      type: 'text',
+      value: '',
+    },
   };
 }
