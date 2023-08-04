@@ -2,7 +2,7 @@ import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-
 
 export type TAdditionalSeriesItem = {
   id: string;
-  data_key: TDataKey;
+  name_key: TDataKey;
   color_key: TDataKey;
 };
 export interface IRadarChartDimension {

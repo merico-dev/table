@@ -66,6 +66,7 @@ function Chart({
   const option = useMemo(() => {
     return getOption(defaultsDeep({}, conf, DEFAULT_CONFIG), data);
   }, [conf, data]);
+
   if (!width || !height) {
     return null;
   }

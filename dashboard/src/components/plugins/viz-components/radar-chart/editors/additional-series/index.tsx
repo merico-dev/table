@@ -1,4 +1,4 @@
-import { Alert, Highlight, Mark, Tabs } from '@mantine/core';
+import { Alert, Mark, Tabs } from '@mantine/core';
 import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
@@ -29,7 +29,7 @@ export function AdditionalSeriesField({ control, watch }: Props) {
     const id = new Date().getTime().toString();
     append({
       id,
-      data_key: '',
+      name_key: '',
       color_key: '',
     });
   };
@@ -69,8 +69,8 @@ export function AdditionalSeriesField({ control, watch }: Props) {
       >
         <Tabs.List>
           {controlledFields.map((field, index) => (
-            <Tabs.Tab key={index} value={field.id}>
-              {field.id ? field.id : index + 1}
+            <Tabs.Tab key={field.id} value={field.id}>
+              {index + 1}
             </Tabs.Tab>
           ))}
           <Tabs.Tab onClick={add} value="add">

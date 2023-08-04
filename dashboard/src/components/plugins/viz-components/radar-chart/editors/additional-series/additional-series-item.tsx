@@ -15,7 +15,7 @@ export function AdditionalSeriesItemField({ control, index, remove }: Props) {
     <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
         <Controller
-          name={`additional_series.${index}.data_key`}
+          name={`additional_series.${index}.name_key`}
           control={control}
           render={({ field }) => <DataFieldSelector label="Series Name Key" required sx={{ flex: 1 }} {...field} />}
         />
