@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
-import { Panel } from '../../panel';
+import { PanelRender } from '../../panel';
 import './index.css';
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -30,7 +30,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
       {panels.map((panel) => {
         return (
           <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            <Panel view={view} panel={panel} />
+            <PanelRender view={view} panel={panel} />
           </div>
         );
       })}
