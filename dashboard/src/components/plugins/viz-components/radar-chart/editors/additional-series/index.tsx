@@ -1,24 +1,23 @@
-import { Alert, Divider, Stack, Tabs, Text } from '@mantine/core';
+import { Alert, Mark, Tabs } from '@mantine/core';
 import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { IRadarChartConf } from '../../type';
-import { DimensionField } from './dimension';
+import { AdditionalSeriesItemField } from './additional-series-item';
 
-interface IDimensionsField {
+type Props = {
   control: Control<IRadarChartConf, $TSFixMe>;
   watch: UseFormWatch<IRadarChartConf>;
-}
+};
 
-export function DimensionsField({ control, watch }: IDimensionsField) {
+export function AdditionalSeriesField({ control, watch }: Props) {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'dimensions',
+    name: 'additional_series',
   });
 
-  const watchFieldArray = watch('dimensions');
+  const watchFieldArray = watch('additional_series');
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -26,14 +25,12 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
     };
   });
 
-  const addDimension = () => {
+  const add = () => {
     const id = new Date().getTime().toString();
     append({
       id,
-      name: id,
-      data_key: '',
-      max: 100,
-      formatter: defaultNumbroFormat,
+      name_key: '',
+      color_key: '',
     });
   };
   const firstTab = _.get(controlledFields, '0.id', null);
@@ -55,12 +52,14 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
   };
   return (
     <>
+      <Alert icon={<IconInfoCircle size={16} />} title="Additional Series">
+        By setting <Mark>Series Name Key</Mark>, you may add series from more queries to the chart.
+      </Alert>
       <Tabs
         value={tab}
         onTabChange={setTab}
         styles={{
           tab: {
-            paddingTop: '0px',
             paddingBottom: '0px',
           },
           panel: {
@@ -70,17 +69,17 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
       >
         <Tabs.List>
           {controlledFields.map((field, index) => (
-            <Tabs.Tab key={index} value={field.id}>
-              {field.name ? field.name : index + 1}
+            <Tabs.Tab key={field.id} value={field.id}>
+              {index + 1}
             </Tabs.Tab>
           ))}
-          <Tabs.Tab onClick={addDimension} value="add">
+          <Tabs.Tab onClick={add} value="add">
             <IconPlus size={18} color="#228be6" />
           </Tabs.Tab>
         </Tabs.List>
         {controlledFields.map((field, index) => (
           <Tabs.Panel key={index} value={field.id}>
-            <DimensionField control={control} index={index} remove={removeAndResetTab} />
+            <AdditionalSeriesItemField control={control} index={index} remove={removeAndResetTab} />
           </Tabs.Panel>
         ))}
       </Tabs>

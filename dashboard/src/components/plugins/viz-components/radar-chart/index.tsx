@@ -69,8 +69,15 @@ function v5(legacyConf: any, { panelModel }: IMigrationEnv): IRadarChartConf {
   }
 }
 
+function v6(legacyConf: $TSFixMe): IRadarChartConf {
+  const patch = {
+    additionalSeries: [],
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 5;
+  readonly VERSION = 6;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -95,6 +102,10 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 5, config: v5(config, env) };
     });
+    this.version(6, (data) => {
+      const { config } = data;
+      return { ...data, version: 6, config: v6(config) };
+    });
   }
 }
 
@@ -109,7 +120,7 @@ export const RadarChartVizComponent: VizComponent = {
     version: number;
     config: IRadarChartConf;
   } => ({
-    version: 5,
+    version: 6,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickRadarChartSeries],
