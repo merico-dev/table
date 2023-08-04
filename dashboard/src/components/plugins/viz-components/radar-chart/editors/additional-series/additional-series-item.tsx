@@ -24,7 +24,7 @@ export function AdditionalSeriesItemField({ control, index, remove }: Props) {
         <Controller
           name={`additional_series.${index}.color_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Color Key" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <DataFieldSelector label="Color Key" required clearable sx={{ flex: 1 }} {...field} />}
         />
       </Stack>
       <Button
