@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Checkbox, Divider, Group, Stack, Tabs, Text } from '@mantine/core';
+import { ActionIcon, Checkbox, Group, Stack, Tabs, Text } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,6 +7,7 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { AdditionalSeriesField } from './editors/additional-series';
 import { DimensionsField } from './editors/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 
@@ -40,6 +41,9 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="series">Series</Tabs.Tab>
             <Tabs.Tab value="metrics">Metrics</Tabs.Tab>
             <Tabs.Tab value="style">Style</Tabs.Tab>
+            <Tabs.Tab value="additional_series" ml="auto">
+              Additional Series
+            </Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="series" p="md">
@@ -81,6 +85,9 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
                 )}
               />
             </Group>
+          </Tabs.Panel>
+          <Tabs.Panel value="additional_series" p="md">
+            <AdditionalSeriesField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </Stack>

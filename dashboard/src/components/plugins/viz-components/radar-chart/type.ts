@@ -1,6 +1,7 @@
 import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
 
 export type TAdditionalSeriesItem = {
+  id: string;
   data_key: TDataKey;
   color_key: TDataKey;
 };
