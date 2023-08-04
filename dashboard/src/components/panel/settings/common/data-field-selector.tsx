@@ -34,6 +34,7 @@ export const DataFieldSelector = observer(
           onChange={onChange}
           required={required}
           sx={sx}
+          maxDropdownHeight={500}
           {...restProps}
         />
       );
