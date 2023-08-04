@@ -15,6 +15,7 @@ import { getOption } from './option';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { parseDataKey } from '~/utils/data';
 
 interface IClickRadarSeries {
   type: 'click';
@@ -43,7 +44,16 @@ function Chart({
   interactionManager: IVizInteractionManager;
   variables: ITemplateVariable[];
 }) {
-  const rowDataMap = useRowDataMap(data, conf.series_name_key);
+  const rowDataMap = useMemo(() => {
+    const { queryID, columnKey } = parseDataKey(conf.series_name_key);
+    const main = _.keyBy(data[queryID], columnKey);
+    const additionals = conf.additional_series.reduce((acc, s) => {
+      const seriesKey = parseDataKey(s.name_key);
+      const m = _.keyBy(data[seriesKey.queryID], seriesKey.columnKey);
+      return { ...acc, ...m };
+    }, main);
+    return { ...main, ...additionals };
+  }, [data, conf.series_name_key, conf.additional_series]);
 
   const triggers = useTriggerSnapshotList<IRadarChartConf>(interactionManager.triggerManager, ClickRadarChartSeries.id);
 
