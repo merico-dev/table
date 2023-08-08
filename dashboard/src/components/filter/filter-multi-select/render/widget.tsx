@@ -99,7 +99,7 @@ export const MultiSelectWidget = ({
         filterOption={false}
       >
         {filteredOptions.map((o) => (
-          <Option key={o.value}>
+          <Option key={o.value} title={o.label}>
             <Group noWrap>
               <div>
                 <Text size="sm" data-role="label">
