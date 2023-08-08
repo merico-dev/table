@@ -137,8 +137,7 @@ export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParam
     '.rc-select-item-option': {
       boxSizing: 'border-box',
       textAlign: 'left',
-      width: 'auto',
-      minWidth: '100%',
+      width: '100%',
       padding: '8px 12px 8px 2px',
       cursor: 'pointer',
       fontSize: '14px',
@@ -161,7 +160,11 @@ export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParam
         justifyContent: 'center',
       },
       '.rc-select-item-option-content': {
-        flexGrow: 1,
+        width: 'calc(100% - 30px)',
+        overflow: 'hidden',
+        'div[data-role="label"]': {
+          overflowWrap: 'break-word',
+        },
       },
     },
     '.rc-virtual-list-holder-inner': {

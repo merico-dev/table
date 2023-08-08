@@ -100,18 +100,14 @@ export const MultiSelectWidget = ({
       >
         {filteredOptions.map((o) => (
           <Option key={o.value} title={o.label}>
-            <Group noWrap>
-              <div>
-                <Text size="sm" data-role="label">
-                  {o.label}
-                </Text>
-                {o.description && (
-                  <Text size="xs" color="dimmed" data-role="description">
-                    {o.description}
-                  </Text>
-                )}
-              </div>
-            </Group>
+            <Text size="sm" data-role="label">
+              {o.label}
+            </Text>
+            {o.description && (
+              <Text size="xs" color="dimmed" data-role="description">
+                {o.description}
+              </Text>
+            )}
           </Option>
         ))}
       </Select>
