@@ -160,8 +160,15 @@ export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParam
         justifyContent: 'center',
       },
       '.rc-select-item-option-content': {
-        flexGrow: 1,
+        width: 'calc(100% - 30px)',
+        overflow: 'hidden',
+        'div[data-role="label"]': {
+          overflowWrap: 'break-word',
+        },
       },
+    },
+    '.rc-virtual-list-holder-inner': {
+      alignItems: 'flex-start',
     },
   },
 }));
