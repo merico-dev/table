@@ -11,14 +11,14 @@ import {
 } from '@tanstack/react-table';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
-import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
-import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
 import { ClickCellContent } from '~/components/plugins/viz-components/table/triggers/click-cell-content';
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
+import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
+import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
 import { AnyObject } from '~/types';
 import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey, parseDataKeyOrColumnKey } from '~/utils/data';
 import { IVizManager, PluginContext, useStorageData } from '../..';
 import { TableCellContext } from './table-cell-context';
 import { IColumnConf, ITableConf, TriggerConfigType, ValueType } from './type';
@@ -88,7 +88,7 @@ function VizTableComponent({ data, width, height, conf, context, instance }: IVi
   const tableColumns = useMemo(() => {
     const columnHelper = createColumnHelper<AnyObject>();
     const valueCols = finalColumns.map((c) => {
-      const k = parseDataKey(c.value_field);
+      const k = parseDataKeyOrColumnKey(c.value_field);
       return columnHelper.accessor(k.columnKey, {
         cell: (cell) => (
           <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} {...c} />

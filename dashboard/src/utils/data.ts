@@ -10,6 +10,13 @@ export function parseDataKey(dataKey: TDataKey) {
   return { queryID, columnKey };
 }
 
+export function parseDataKeyOrColumnKey(dataKeyOrColumnKey: TDataKey) {
+  if (!dataKeyOrColumnKey.includes('.')) {
+    return { queryID: '', columnKey: dataKeyOrColumnKey };
+  }
+  return parseDataKey(dataKeyOrColumnKey);
+}
+
 /**
  * extract rows from panel data
  * @param data TPanelData
