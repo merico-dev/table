@@ -1671,6 +1671,7 @@ __metadata:
     crypto-js: ^4.1.1
     cypress: ^12.9.0
     cypress-wait-until: ^1.7.2
+    dom-to-image-more: 3.1.6
     echarts: ^5.3.2
     echarts-for-react: ^3.0.2
     echarts-gl: ^2.0.9
@@ -8689,6 +8690,13 @@ __metadata:
     "@babel/runtime": ^7.8.7
     csstype: ^3.0.2
   checksum: 863ba9e086f7093df3376b43e74ce4422571d404fc9828bf2c56140963d5edf0e56160f9b2f3bb61b282c07f8fc8134f023c98fd684bddcb12daf7b0f14d951c
+  languageName: node
+  linkType: hard
+
+"dom-to-image-more@npm:3.1.6":
+  version: 3.1.6
+  resolution: "dom-to-image-more@npm:3.1.6"
+  checksum: ea47d516528e77d51d9937b334c0a61fbeb9ac9a9fd3cc5fbf62e505d33fa00a7cf37b8b1080dcc9f204117b06e9299bb1bbb8af0dd5c449ab3a8f3b79b759e0
   languageName: node
   linkType: hard
 
