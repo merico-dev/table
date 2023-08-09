@@ -108,13 +108,13 @@ export class DataSourceController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | null = req.body.auth;
       const { id, key } = req.body as DataSourceRenameRequest;
-      const result = await this.dataSourceService.rename(
-        id,
-        key,
-        req.locale,
-        auth?.id ?? null,
-        !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
-      );
+      let auth_id: string | undefined;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      }
+      const result = await this.dataSourceService.rename(id, key, req.locale, auth_id ?? null, auth_type ?? null);
       res.json(result);
     } catch (err) {
       next(err);

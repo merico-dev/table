@@ -11,14 +11,15 @@ import {
 import { AccountService } from '../services/account.service';
 import { validate } from '../middleware/validation';
 import {
+  Account,
+  AccountCreateRequest,
+  AccountUpdateRequest,
   AccountChangePasswordRequest,
   AccountEditRequest,
   AccountIDRequest,
   AccountListRequest,
   AccountLoginRequest,
 } from '../api_models/account';
-import { AccountCreateRequest, AccountUpdateRequest } from '../api_models/account';
-import { Account } from '../api_models/account';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import permission from '../middleware/permission';
 import ensureAuthIsAccount from '../middleware/ensureAuthIsAccount';

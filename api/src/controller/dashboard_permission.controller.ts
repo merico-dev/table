@@ -167,7 +167,7 @@ export class DashboardPermissionController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey = req.body.auth;
       const { id, access } = req.body as DashboardPermissionUpdateRequest;
-      const result = await this.dashboardPermissionService.update(id, access, auth, req.locale);
+      const result = await this.dashboardPermissionService.update(id, auth, req.locale, access);
       res.json(result);
     } catch (err) {
       next(err);

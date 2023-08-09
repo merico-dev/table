@@ -1,4 +1,4 @@
-import { DataSourceOptions } from 'typeorm';
+import { DataSourceOptions, ObjectLiteral, SelectQueryBuilder } from 'typeorm';
 import { DataSourceConfig } from '../api_models/datasource';
 import crypto from 'crypto';
 import fs from 'fs-extra';
@@ -7,6 +7,7 @@ import simpleGit, { SimpleGit, SimpleGitOptions } from 'simple-git';
 import { DATABASE_CONNECTION_TIMEOUT_MS, DATABASE_POOL_SIZE } from './constants';
 import logger from 'npmlog';
 import { omit, PropertyName } from 'lodash';
+import { FilterObject } from '../api_models/base';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
@@ -46,10 +47,9 @@ const marshall = (params: { [propName: string]: any }): string => {
   params = params || {};
   const keys = Object.keys(params).sort();
   const kvs: string[] = [];
-  for (let i = 0; i < keys.length; i++) {
-    const k = keys[i];
+  for (const k of keys) {
     if (typeof params[k] !== 'undefined') {
-      kvs.push(`${keys[i]}=${typeof params[k] === 'object' ? JSON.stringify(params[k]) : params[k]}`);
+      kvs.push(`${k}=${typeof params[k] === 'object' ? JSON.stringify(params[k]) : params[k]}`);
     }
   }
   return kvs.join('&');
@@ -97,4 +97,29 @@ export function omitFields<T extends object, K extends PropertyName[]>(
   fields: K,
 ): Pick<T, Exclude<keyof T, K>> {
   return omit(data, fields) as Pick<T, Exclude<keyof T, K>>;
+}
+
+export function applyQueryFilterObjects<A extends ObjectLiteral, B extends object>(
+  qb: SelectQueryBuilder<A>,
+  filterProperties: { property: string; type: 'FilterObject' | 'FilterObjectNoFuzzy' | 'Primitive' }[],
+  tableAlias: string,
+  filter?: B,
+): void {
+  if (filter !== undefined) {
+    for (const { property, type } of filterProperties) {
+      if (type === 'FilterObject' || type === 'FilterObjectNoFuzzy') {
+        const filterField: FilterObject | undefined = filter[property];
+        if (filterField === undefined) continue;
+        type === 'FilterObject' && filterField.isFuzzy
+          ? qb.andWhere(`${tableAlias}.${property} ilike :${property}`, {
+              [property]: `%${escapeLikePattern(filterField.value)}%`,
+            })
+          : qb.andWhere(`${tableAlias}.${property} = :${property}`, { [property]: filterField.value });
+      } else if (type === 'Primitive') {
+        const filterField = filter[property];
+        if (filterField === undefined) continue;
+        qb.andWhere(`${tableAlias}.${property} = :${property}`, { [property]: filterField });
+      }
+    }
+  }
 }

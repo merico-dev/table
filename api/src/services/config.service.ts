@@ -79,6 +79,17 @@ export class ConfigService {
     },
   };
 
+  private checkCanUpdate(keyConfig: KeyConfigProperties, auth: Account | ApiKey | undefined, locale: string) {
+    if (keyConfig.auth.update || !keyConfig.isGlobal) {
+      if (!auth) {
+        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale) });
+      }
+      if (keyConfig.auth.update && !auth.permissions.includes(keyConfig.auth.update)) {
+        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INSUFFICIENT_PRIVILEGES', locale) });
+      }
+    }
+  }
+
   static async delete(key: string, resource_type: ConfigResourceTypes, resource_id: string): Promise<void> {
     const configRepo = dashboardDataSource.getRepository(Config);
     await configRepo.delete({ key, resource_id, resource_type });
@@ -128,20 +139,14 @@ export class ConfigService {
     auth: Account | ApiKey | undefined,
     locale: string,
   ): Promise<{ key: string; value: string }> {
-    const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
     const keyConfig = ConfigService.keyConfig[key];
 
-    if (keyConfig.auth.update || !keyConfig.isGlobal) {
-      if (!auth) {
-        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_REQUIRES_AUTHENTICATION', locale) });
-      }
-      if (keyConfig.auth.update && !auth.permissions.includes(keyConfig.auth.update)) {
-        throw new ApiError(BAD_REQUEST, { message: translate('CONFIG_INSUFFICIENT_PRIVILEGES', locale) });
-      }
-      if (!keyConfig.isGlobal) {
-        where.resource_type = has(auth, 'app_id') ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
-        where.resource_id = auth.id;
-      }
+    this.checkCanUpdate(keyConfig, auth, locale);
+
+    const where: FindOptionsWhere<Config> = { key, resource_type: ConfigResourceTypes.GLOBAL };
+    if (!keyConfig.isGlobal) {
+      where.resource_type = has(auth, 'app_id') ? ConfigResourceTypes.APIKEY : ConfigResourceTypes.ACCOUNT;
+      where.resource_id = auth!.id;
     }
 
     this.validateKey(keyConfig, value, locale);

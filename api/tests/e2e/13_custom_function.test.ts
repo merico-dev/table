@@ -71,7 +71,7 @@ describe('CustomFunctionController', () => {
     });
 
     it('should fail if duplicate', async () => {
-      const request: CustomFunctionCreateOrUpdateRequest = {
+      const req: CustomFunctionCreateOrUpdateRequest = {
         id: 'customFunction1',
         definition: '() => console.log("hello world 1")',
       };
@@ -79,7 +79,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .post('/custom_function/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -90,7 +90,7 @@ describe('CustomFunctionController', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      const request: CustomFunctionCreateOrUpdateRequest = {
+      const req: CustomFunctionCreateOrUpdateRequest = {
         id: 'customFunction1',
         definition: '() => console.log("hello world 1 updated")',
       };
@@ -98,7 +98,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .put('/custom_function/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction1',
@@ -108,7 +108,7 @@ describe('CustomFunctionController', () => {
     });
 
     it('should fail if preset', async () => {
-      const request: CustomFunctionCreateOrUpdateRequest = {
+      const req: CustomFunctionCreateOrUpdateRequest = {
         id: 'presetCustomFunction',
         definition: '() => console.log("hello world preset")',
       };
@@ -116,7 +116,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .put('/custom_function/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -125,7 +125,7 @@ describe('CustomFunctionController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: CustomFunctionCreateOrUpdateRequest = {
+      const req: CustomFunctionCreateOrUpdateRequest = {
         id: notFoundId,
         definition: '',
       };
@@ -133,7 +133,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .put('/custom_function/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "CustomFunction" matching');
@@ -143,7 +143,7 @@ describe('CustomFunctionController', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const request: CustomFunctionListRequest = {
+      const req: CustomFunctionListRequest = {
         sort: [{ field: 'id', order: 'ASC' }],
         pagination: { page: 1, pagesize: 20 },
       };
@@ -151,7 +151,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .post('/custom_function/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
@@ -178,7 +178,7 @@ describe('CustomFunctionController', () => {
     });
 
     it('with filters', async () => {
-      const request: CustomFunctionListRequest = {
+      const req: CustomFunctionListRequest = {
         filter: { id: { isFuzzy: true, value: 'preset' } },
         sort: [{ field: 'id', order: 'ASC' }],
         pagination: { page: 1, pagesize: 20 },
@@ -187,7 +187,7 @@ describe('CustomFunctionController', () => {
       const response = await server
         .post('/custom_function/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
@@ -206,14 +206,14 @@ describe('CustomFunctionController', () => {
 
   describe('get', () => {
     it('should return successfully', async () => {
-      const request: CustomFunctionIDRequest = {
+      const req: CustomFunctionIDRequest = {
         id: 'customFunction1',
       };
 
       const response = await server
         .post('/custom_function/get')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'customFunction1',
@@ -223,14 +223,14 @@ describe('CustomFunctionController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: CustomFunctionIDRequest = {
+      const req: CustomFunctionIDRequest = {
         id: notFoundId,
       };
 
       const response = await server
         .post('/custom_function/get')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "CustomFunction" matching');
@@ -240,27 +240,27 @@ describe('CustomFunctionController', () => {
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      const request: CustomFunctionIDRequest = {
+      const req: CustomFunctionIDRequest = {
         id: 'customFunction1',
       };
 
       const response = await server
         .post('/custom_function/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({ id: 'customFunction1' });
     });
 
     it('should fail if preset', async () => {
-      const request: CustomFunctionIDRequest = {
+      const req: CustomFunctionIDRequest = {
         id: 'presetCustomFunction',
       };
 
       const response = await server
         .post('/custom_function/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -269,14 +269,14 @@ describe('CustomFunctionController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: CustomFunctionIDRequest = {
+      const req: CustomFunctionIDRequest = {
         id: notFoundId,
       };
 
       const response = await server
         .post('/custom_function/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "CustomFunction" matching');

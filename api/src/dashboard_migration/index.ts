@@ -98,8 +98,8 @@ async function main() {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     const dashboardContents = await dashboardContentRepo.find();
 
-    for (let i = 0; i < dashboardContents.length; i += 1) {
-      migrateOneDashboardContent(dashboardContents[i], dashboardContentChangelogRepo, dashboardContentRepo);
+    for (const dashboardContent of dashboardContents) {
+      migrateOneDashboardContent(dashboardContent, dashboardContentChangelogRepo, dashboardContentRepo);
     }
   } catch (error) {
     logger.error('error migrating dashboard contents');

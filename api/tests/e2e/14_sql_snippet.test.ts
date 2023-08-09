@@ -67,7 +67,7 @@ describe('SqlSnippetController', () => {
     });
 
     it('should fail if duplicate', async () => {
-      const request: SqlSnippetCreateOrUpdateRequest = {
+      const req: SqlSnippetCreateOrUpdateRequest = {
         id: 'sqlSnippet1',
         content: 'sqlSnippet1',
       };
@@ -75,7 +75,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .post('/sql_snippet/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -86,7 +86,7 @@ describe('SqlSnippetController', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      const request: SqlSnippetCreateOrUpdateRequest = {
+      const req: SqlSnippetCreateOrUpdateRequest = {
         id: 'sqlSnippet1',
         content: 'sqlSnippet1_updated',
       };
@@ -94,7 +94,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .put('/sql_snippet/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'sqlSnippet1',
@@ -104,7 +104,7 @@ describe('SqlSnippetController', () => {
     });
 
     it('should fail if preset', async () => {
-      const request: SqlSnippetCreateOrUpdateRequest = {
+      const req: SqlSnippetCreateOrUpdateRequest = {
         id: 'presetSqlSnippet',
         content: 'presetSqlSnippet_updated',
       };
@@ -112,7 +112,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .put('/sql_snippet/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -121,7 +121,7 @@ describe('SqlSnippetController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: SqlSnippetCreateOrUpdateRequest = {
+      const req: SqlSnippetCreateOrUpdateRequest = {
         id: notFoundId,
         content: '',
       };
@@ -129,7 +129,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .put('/sql_snippet/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "SqlSnippet" matching');
@@ -139,7 +139,7 @@ describe('SqlSnippetController', () => {
 
   describe('list', () => {
     it('no filters', async () => {
-      const request: SqlSnippetListRequest = {
+      const req: SqlSnippetListRequest = {
         sort: [{ field: 'id', order: 'ASC' }],
         pagination: { page: 1, pagesize: 20 },
       };
@@ -147,7 +147,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .post('/sql_snippet/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
@@ -174,7 +174,7 @@ describe('SqlSnippetController', () => {
     });
 
     it('with filters', async () => {
-      const request: SqlSnippetListRequest = {
+      const req: SqlSnippetListRequest = {
         filter: { id: { isFuzzy: true, value: 'preset' } },
         sort: [{ field: 'id', order: 'ASC' }],
         pagination: { page: 1, pagesize: 20 },
@@ -183,7 +183,7 @@ describe('SqlSnippetController', () => {
       const response = await server
         .post('/sql_snippet/list')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       response.body.data = response.body.data.map((el) => omitFields(el, ['create_time', 'update_time']));
       expect(response.body).toMatchObject({
@@ -202,14 +202,14 @@ describe('SqlSnippetController', () => {
 
   describe('get', () => {
     it('should return successfully', async () => {
-      const request: SqlSnippetIDRequest = {
+      const req: SqlSnippetIDRequest = {
         id: 'sqlSnippet1',
       };
 
       const response = await server
         .post('/sql_snippet/get')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(omitFields(response.body, ['create_time', 'update_time'])).toMatchObject({
         id: 'sqlSnippet1',
@@ -219,14 +219,14 @@ describe('SqlSnippetController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: SqlSnippetIDRequest = {
+      const req: SqlSnippetIDRequest = {
         id: notFoundId,
       };
 
       const response = await server
         .post('/sql_snippet/get')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "SqlSnippet" matching');
@@ -236,27 +236,27 @@ describe('SqlSnippetController', () => {
 
   describe('delete', () => {
     it('should delete successfully', async () => {
-      const request: SqlSnippetIDRequest = {
+      const req: SqlSnippetIDRequest = {
         id: 'sqlSnippet1',
       };
 
       const response = await server
         .post('/sql_snippet/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({ id: 'sqlSnippet1' });
     });
 
     it('should fail if preset', async () => {
-      const request: SqlSnippetIDRequest = {
+      const req: SqlSnippetIDRequest = {
         id: 'presetSqlSnippet',
       };
 
       const response = await server
         .post('/sql_snippet/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -265,14 +265,14 @@ describe('SqlSnippetController', () => {
     });
 
     it('should fail if not found', async () => {
-      const request: SqlSnippetIDRequest = {
+      const req: SqlSnippetIDRequest = {
         id: notFoundId,
       };
 
       const response = await server
         .post('/sql_snippet/delete')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body.code).toEqual('NOT_FOUND');
       expect(response.body.detail.message).toContain('Could not find any entity of type "SqlSnippet" matching');

@@ -7,7 +7,7 @@ import {
   DashboardChangelogSortObject,
 } from '../api_models/dashboard_changelog';
 import { PaginationRequest } from '../api_models/base';
-import { getDiff, omitFields } from '../utils/helpers';
+import { applyQueryFilterObjects, getDiff, omitFields } from '../utils/helpers';
 import { injectable } from 'inversify';
 
 @injectable()
@@ -15,7 +15,7 @@ export class DashboardChangelogService {
   static async createChangelog(oldDashboard: Dashboard, newDashboard: Dashboard): Promise<string | undefined> {
     const oldData = omitFields(oldDashboard, ['create_time', 'update_time']);
     const newData = omitFields(newDashboard, ['create_time', 'update_time']);
-    return await getDiff(oldData, newData);
+    return getDiff(oldData, newData);
   }
 
   async list(
@@ -36,9 +36,7 @@ export class DashboardChangelogService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.dashboard_id) {
-      qb.andWhere('dc.dashboard_id = :dashboard_id', { dashboard_id: filter.dashboard_id.value });
-    }
+    applyQueryFilterObjects(qb, [{ property: 'dashboard_id', type: 'FilterObjectNoFuzzy' }], 'dc', filter);
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);

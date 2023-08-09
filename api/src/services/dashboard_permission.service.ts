@@ -18,12 +18,42 @@ import DashboardPermission from '../models/dashboard_permission';
 import Role from '../models/role';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST, FORBIDDEN } from '../utils/errors';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 import { FIXED_ROLE_TYPES, PERMISSIONS } from './role.service';
 
 @injectable()
 export class DashboardPermissionService {
+  private static hasAccessByDefault(
+    permission: { owner_id: string | null; owner_type: 'ACCOUNT' | 'APIKEY' | null; access: PermissionResource[] },
+    auth_role_id?: string,
+  ): boolean {
+    if (!AUTH_ENABLED) return true;
+    if (auth_role_id === FIXED_ROLE_TYPES.ADMIN || auth_role_id === FIXED_ROLE_TYPES.SUPERADMIN) return true;
+    if (!permission.owner_id || !permission.owner_type) return true;
+    if (permission.access.length === 0) return true;
+    return false;
+  }
+
+  private static getAllowedList(
+    permission: { owner_id: string; owner_type: 'ACCOUNT' | 'APIKEY'; access: PermissionResource[] },
+    permission_type: 'VIEW' | 'EDIT',
+  ): PermissionResource[] {
+    let allowed: PermissionResource[] = [];
+    if (permission_type === 'VIEW') {
+      allowed = permission.access.concat([
+        { id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' },
+      ]);
+    } else {
+      allowed = permission.access
+        .concat([{ id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' }])
+        .filter((x) => {
+          return x.permission === 'EDIT';
+        });
+    }
+    return allowed;
+  }
+
   static async create(id: string, owner_id?: string, owner_type?: 'ACCOUNT' | 'APIKEY'): Promise<void> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const permission = new DashboardPermission();
@@ -41,10 +71,7 @@ export class DashboardPermissionService {
     auth_role_id?: string,
     auth_permissions?: string[],
   ): boolean {
-    if (!AUTH_ENABLED) return true;
-    if (auth_role_id === FIXED_ROLE_TYPES.ADMIN || auth_role_id === FIXED_ROLE_TYPES.SUPERADMIN) return true;
-    if (!permission.owner_id || !permission.owner_type) return true;
-    if (permission.access.length === 0) return true;
+    if (this.hasAccessByDefault(permission, auth_role_id)) return true;
 
     // NOTE: check access by role
     if (auth_permissions) {
@@ -60,26 +87,13 @@ export class DashboardPermissionService {
     }
 
     // NOTE: check access by permission.access
-    let allowed: PermissionResource[] = [];
-    if (permission_type === 'VIEW') {
-      allowed = permission.access.concat([
-        { id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' },
-      ]);
-    } else {
-      allowed = permission.access
-        .concat([{ id: permission.owner_id, type: permission.owner_type, permission: 'EDIT' }])
-        .filter((x) => {
-          return x.permission === 'EDIT';
-        });
-    }
-    if (
-      allowed.some((x) => {
-        return x.id === auth_id && x.type === auth_type;
-      })
-    ) {
-      return true;
-    }
-    return false;
+    const allowed: PermissionResource[] = this.getAllowedList(
+      { owner_id: permission.owner_id!, owner_type: permission.owner_type!, access: permission.access },
+      permission_type,
+    );
+    return allowed.some((x) => {
+      return x.id === auth_id && x.type === auth_type;
+    });
   }
 
   static async checkPermission(
@@ -134,23 +148,16 @@ export class DashboardPermissionService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.id) {
-        qb.andWhere('dashboard_permission.id = :id', { id: filter.id.value });
-      }
-      if (filter.owner_id) {
-        qb.andWhere('dashboard_permission.owner_id = :owner_id', { owner_id: filter.owner_id.value });
-      }
-      if (filter.owner_type) {
-        filter.owner_type.isFuzzy
-          ? qb.andWhere('dashboard_permission.owner_type ilike ANY(:owner_type)', {
-              owner_type: filter.owner_type.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
-            })
-          : qb.andWhere('dashboard_permission.owner_type = ANY(:owner_type)', {
-              owner_type: filter.owner_type.value.split(';'),
-            });
-      }
-    }
+    applyQueryFilterObjects(
+      qb,
+      [
+        { property: 'owner_type', type: 'FilterObject' },
+        { property: 'id', type: 'FilterObjectNoFuzzy' },
+        { property: 'owner_id', type: 'FilterObjectNoFuzzy' },
+      ],
+      'dashboard_permission',
+      filter,
+    );
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -214,15 +221,14 @@ export class DashboardPermissionService {
       [],
     );
     await dashboardPermissionRepo.save(dashboardPermission);
-    const result = await dashboardPermissionRepo.findOneByOrFail({ id });
-    return result;
+    return dashboardPermissionRepo.findOneByOrFail({ id });
   }
 
   async update(
     id: string,
-    access: PermissionResource[] = [],
     auth: AccountAPIModel | ApiKeyAPIModel,
     locale: string,
+    access: PermissionResource[] = [],
   ): Promise<DashboardPermissionAPIModel> {
     const dashboardPermissionRepo = dashboardDataSource.getRepository(DashboardPermission);
     const dashboardPermission = await dashboardPermissionRepo.findOneByOrFail({ id });
@@ -267,8 +273,7 @@ export class DashboardPermissionService {
       access,
     );
     await dashboardPermissionRepo.save(dashboardPermission);
-    const result = await dashboardPermissionRepo.findOneByOrFail({ id });
-    return result;
+    return dashboardPermissionRepo.findOneByOrFail({ id });
   }
 
   private modifyPermissions(

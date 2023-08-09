@@ -14,15 +14,17 @@ export class addDashboardPermissionsToExistingDashboards1678931621869 implements
       permissions.push(permission);
     });
     if (permissions.length) {
-      for (let i = 0; i < permissions.length; i++) {
+      for (const permission of permissions) {
         await queryRunner.query(
           'INSERT INTO dashboard_permission (id, owner_id, owner_type) values($1, $2, $3) ON CONFLICT (id) DO NOTHING',
-          permissions[i],
+          permission,
         );
       }
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    // NOTHING TO DO
+  }
 }

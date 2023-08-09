@@ -53,7 +53,7 @@ export class RoleController implements interfaces.Controller {
   @httpGet('/permissions')
   public async permissions(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const result = await this.roleService.permissions(req.locale);
+      const result = this.roleService.permissions(req.locale);
       res.json(result);
     } catch (err) {
       next(err);

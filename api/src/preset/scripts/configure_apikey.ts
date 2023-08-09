@@ -14,19 +14,7 @@ async function upsert() {
     const apikeyRepo = queryRunner.manager.getRepository(ApiKey);
     await apikeyRepo.delete({ is_preset: true });
 
-    const names: string[] = process.env.PRESET_API_KEY_NAME ? process.env.PRESET_API_KEY_NAME.split(';') : [];
-    const app_ids: string[] = process.env.PRESET_API_KEY_APP_ID ? process.env.PRESET_API_KEY_APP_ID.split(';') : [];
-    const app_secrets: string[] = process.env.PRESET_API_KEY_APP_SECRET
-      ? process.env.PRESET_API_KEY_APP_SECRET.split(';')
-      : [];
-    const role_ids: string[] = process.env.PRESET_API_KEY_ROLE_ID ? process.env.PRESET_API_KEY_ROLE_ID.split(';') : [];
-
-    if (names.length !== app_ids.length || names.length !== app_secrets.length || names.length !== role_ids.length) {
-      console.error(
-        'Configuration mismatch. Make sure that for each key the name, app_id, app_secret, and role_id are configured',
-      );
-      process.exit(1);
-    }
+    const { names, app_ids, app_secrets, role_ids } = prepareInputs();
 
     const roles = await queryRunner.manager.getRepository(Role).find();
     const roleIds = roles.map((role) => role.id);
@@ -69,6 +57,23 @@ async function upsert() {
     await queryRunner.release();
     await dashboardDataSource.destroy();
   }
+}
+
+function prepareInputs(): { names: string[]; app_ids: string[]; app_secrets: string[]; role_ids: string[] } {
+  const names: string[] = process.env.PRESET_API_KEY_NAME ? process.env.PRESET_API_KEY_NAME.split(';') : [];
+  const app_ids: string[] = process.env.PRESET_API_KEY_APP_ID ? process.env.PRESET_API_KEY_APP_ID.split(';') : [];
+  const app_secrets: string[] = process.env.PRESET_API_KEY_APP_SECRET
+    ? process.env.PRESET_API_KEY_APP_SECRET.split(';')
+    : [];
+  const role_ids: string[] = process.env.PRESET_API_KEY_ROLE_ID ? process.env.PRESET_API_KEY_ROLE_ID.split(';') : [];
+
+  if (names.length !== app_ids.length || names.length !== app_secrets.length || names.length !== role_ids.length) {
+    console.error(
+      'Configuration mismatch. Make sure that for each key the name, app_id, app_secret, and role_id are configured',
+    );
+    process.exit(1);
+  }
+  return { names, app_ids, app_secrets, role_ids };
 }
 
 upsert();

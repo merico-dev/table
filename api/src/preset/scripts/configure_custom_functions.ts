@@ -22,8 +22,7 @@ async function upsert() {
     if (!functions) throw new Error('custom functions config file not found');
 
     const functionNames = Object.keys(functions);
-    for (let i = 0; i < functionNames.length; i++) {
-      const functionName = functionNames[i];
+    for (const functionName of functionNames) {
       const customFunction = new CustomFunction();
       customFunction.id = functionName;
       customFunction.definition = functions[functionName].toString();

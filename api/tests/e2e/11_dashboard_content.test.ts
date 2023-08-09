@@ -176,7 +176,7 @@ describe('DashboardContentController', () => {
     });
 
     it('should fail if duplicate name', async () => {
-      const request: DashboardContentCreateRequest = {
+      const req: DashboardContentCreateRequest = {
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content1',
         content: {},
@@ -185,7 +185,7 @@ describe('DashboardContentController', () => {
       const response = await server
         .post('/dashboard_content/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',

@@ -11,7 +11,7 @@ import { injectable } from 'inversify';
 
 @injectable()
 export class QueryService {
-  static dbConnections: { [hash: string]: DataSource }[] = [];
+  static dbConnections: { [hash: string]: DataSource } = {};
 
   static createDBConnectionHash(type: string, key: string): string {
     return `${type}_${key}`;
@@ -89,7 +89,7 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('postgresql', key, source);
     }
-    return await source.query(sql);
+    return source.query(sql);
   }
 
   private async mysqlQuery(key: string, sql: string): Promise<any> {
@@ -100,7 +100,7 @@ export class QueryService {
       source = new DataSource(configuration);
       await QueryService.addDBConnection('mysql', key, source);
     }
-    return await source.query(sql);
+    return source.query(sql);
   }
 
   private async httpQuery(key: string, query: string): Promise<any> {
@@ -110,6 +110,6 @@ export class QueryService {
     if (!host) {
       host = options.host;
     }
-    return await APIClient.request(host)(options);
+    return APIClient.request(host)(options);
   }
 }

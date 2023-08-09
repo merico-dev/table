@@ -75,7 +75,7 @@ describe('ConfigService', () => {
 
   describe('getDescriptions', () => {
     it('should return descriptions', async () => {
-      const result = await configService.getDescriptions(DEFAULT_LANGUAGE);
+      const result = configService.getDescriptions(DEFAULT_LANGUAGE);
       expect(result).toMatchObject([
         {
           key: 'lang',
@@ -99,7 +99,7 @@ describe('ConfigService', () => {
 
   describe('get', () => {
     it('should return default value', async () => {
-      const result1 = await configService.get('lang', undefined);
+      const result1 = await configService.get('lang');
       expect(result1).toMatchObject({
         key: 'lang',
         value: 'en',
@@ -117,7 +117,7 @@ describe('ConfigService', () => {
         value: 'en',
       });
 
-      const result4 = await configService.get('website_settings', undefined);
+      const result4 = await configService.get('website_settings');
       expect(result4).toMatchObject({
         key: 'website_settings',
         value:

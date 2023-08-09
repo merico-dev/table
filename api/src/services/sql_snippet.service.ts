@@ -9,7 +9,7 @@ import {
 import { dashboardDataSource } from '../data_sources/dashboard';
 import SqlSnippet from '../models/sql_snippet';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 
 @injectable()
@@ -28,11 +28,7 @@ export class SqlSnippetService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.id) {
-      filter.id.isFuzzy
-        ? qb.andWhere('sql_snippet.id ilike :id', { id: `%${escapeLikePattern(filter.id.value)}%` })
-        : qb.andWhere('sql_snippet.id = :id', { id: filter.id.value });
-    }
+    applyQueryFilterObjects(qb, [{ property: 'id', type: 'FilterObject' }], 'sql_snippet', filter);
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -49,7 +45,7 @@ export class SqlSnippetService {
 
   async get(id: string): Promise<SqlSnippetAPIModel> {
     const sqlSnippetRepo = dashboardDataSource.getRepository(SqlSnippet);
-    return await sqlSnippetRepo.findOneByOrFail({ id });
+    return sqlSnippetRepo.findOneByOrFail({ id });
   }
 
   async create(id: string, content: string, locale: string): Promise<SqlSnippetAPIModel> {
@@ -60,7 +56,7 @@ export class SqlSnippetService {
     const sqlSnippet = new SqlSnippet();
     sqlSnippet.id = id;
     sqlSnippet.content = content;
-    return await sqlSnippetRepo.save(sqlSnippet);
+    return sqlSnippetRepo.save(sqlSnippet);
   }
 
   async update(id: string, content: string, locale: string): Promise<SqlSnippetAPIModel> {
@@ -70,7 +66,7 @@ export class SqlSnippetService {
       throw new ApiError(BAD_REQUEST, { message: translate('SQL_SNIPPET_NO_EDIT_PRESET', locale) });
     }
     sqlSnippet.content = content;
-    return await sqlSnippetRepo.save(sqlSnippet);
+    return sqlSnippetRepo.save(sqlSnippet);
   }
 
   async delete(id: string, locale: string): Promise<void> {

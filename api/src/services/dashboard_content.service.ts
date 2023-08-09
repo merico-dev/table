@@ -9,7 +9,7 @@ import { dashboardDataSource } from '../data_sources/dashboard';
 import Dashboard from '../models/dashboard';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 import { DashboardPermissionService } from './dashboard_permission.service';
 import { Account } from '../api_models/account';
@@ -49,13 +49,7 @@ export class DashboardContentService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.name) {
-        filter.name.isFuzzy
-          ? qb.andWhere('dashboard_content.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
-          : qb.andWhere('dashboard_content.name = :name', { name: filter.name.value });
-      }
-    }
+    applyQueryFilterObjects(qb, [{ property: 'name', type: 'FilterObject' }], 'dashboard_content', filter);
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -70,6 +64,17 @@ export class DashboardContentService {
     >();
     const total = await qb.getCount();
 
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    let auth_role_id: string | undefined;
+    let auth_permissions: string[] | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      auth_role_id = auth.role_id;
+      auth_permissions = auth.permissions;
+    }
+
     return {
       total,
       offset,
@@ -78,10 +83,10 @@ export class DashboardContentService {
           DashboardPermissionService.canAccess(
             { access: x.access, owner_id: x.owner_id, owner_type: x.owner_type },
             'VIEW',
-            auth?.id,
-            auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-            auth?.role_id,
-            auth?.permissions,
+            auth_id,
+            auth_type,
+            auth_role_id,
+            auth_permissions,
           ),
         )
         .map((x) => ({ ...omit(x, ['owner_id', 'owner_type', 'access']) })),
@@ -102,13 +107,12 @@ export class DashboardContentService {
     dashboardContent.dashboard_id = dashboard_id;
     dashboardContent.name = name;
     dashboardContent.content = content;
-    const result = await dashboardContentRepo.save(dashboardContent);
-    return result;
+    return dashboardContentRepo.save(dashboardContent);
   }
 
   async get(id: string): Promise<DashboardContent> {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
-    return await dashboardContentRepo.findOneByOrFail({ id });
+    return dashboardContentRepo.findOneByOrFail({ id });
   }
 
   async update(
@@ -123,14 +127,24 @@ export class DashboardContentService {
     const dashboard = await dashboardDataSource
       .getRepository(Dashboard)
       .findOneByOrFail({ id: dashboardContent.dashboard_id });
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    let auth_role_id: string | undefined;
+    let auth_permissions: string[] | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      auth_role_id = auth.role_id;
+      auth_permissions = auth.permissions;
+    }
     await DashboardPermissionService.checkPermission(
       dashboard.id,
       'EDIT',
       locale,
-      auth?.id,
-      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-      auth?.role_id,
-      auth?.permissions,
+      auth_id,
+      auth_type,
+      auth_role_id,
+      auth_permissions,
     );
     if (AUTH_ENABLED && dashboard.is_preset && (!auth || !auth.permissions.includes(HIDDEN_PERMISSIONS.PRESET))) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_EDIT_REQUIRES_SUPERADMIN', locale) });
@@ -165,14 +179,24 @@ export class DashboardContentService {
     const dashboard = await dashboardDataSource
       .getRepository(Dashboard)
       .findOneByOrFail({ id: dashboardContent.dashboard_id });
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    let auth_role_id: string | undefined;
+    let auth_permissions: string[] | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      auth_role_id = auth.role_id;
+      auth_permissions = auth.permissions;
+    }
     await DashboardPermissionService.checkPermission(
       dashboard.id,
       'EDIT',
       locale,
-      auth?.id,
-      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-      auth?.role_id,
-      auth?.permissions,
+      auth_id,
+      auth_type,
+      auth_role_id,
+      auth_permissions,
     );
     if (
       AUTH_ENABLED &&

@@ -42,8 +42,7 @@ export const getFsCache = async (key: string): Promise<any> => {
       await fs.remove(path.join(cacheDir, filename));
       return null;
     }
-    const data = await fs.readJSON(path.join(cacheDir, filename));
-    return data;
+    return fs.readJSON(path.join(cacheDir, filename));
   } catch (err) {
     return null;
   }

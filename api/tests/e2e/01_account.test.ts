@@ -10,8 +10,8 @@ import {
   AccountListRequest,
   AccountLoginRequest,
   AccountUpdateRequest,
+  AccountLoginResponse,
 } from '~/api_models/account';
-import { AccountLoginResponse } from '~/api_models/account';
 import request from 'supertest';
 import { app } from '~/server';
 import { omitFields } from '~/utils/helpers';

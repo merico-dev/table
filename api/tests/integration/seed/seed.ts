@@ -36,8 +36,7 @@ export async function seed() {
 async function addAccounts() {
   const accountRepo = dashboardDataSource.getRepository(Account);
   await accountRepo.clear();
-  for (let i = 0; i < accounts.length; i++) {
-    const account = accounts[i];
+  for (const account of accounts) {
     account.password = await bcrypt.hash(account.name, SALT_ROUNDS);
     await accountRepo.save(account);
   }
@@ -45,16 +44,14 @@ async function addAccounts() {
 
 async function addApiKeys() {
   const apikeyRepo = dashboardDataSource.getRepository(ApiKey);
-  for (let i = 0; i < apiKeys.length; i++) {
-    const apikey = apiKeys[i];
+  for (const apikey of apiKeys) {
     await apikeyRepo.save(apikey);
   }
 }
 
 async function addDataSources() {
   const datasourceRepo = dashboardDataSource.getRepository(DataSource);
-  for (let i = 0; i < dataSources.length; i++) {
-    const datasource = dataSources[i];
+  for (const datasource of dataSources) {
     maybeEncryptPassword(datasource.config);
     await datasourceRepo.save(datasource);
   }
@@ -83,16 +80,14 @@ async function addDashboardsAndContent() {
 
 async function addCustomFunctions() {
   const customFunctionRepo = dashboardDataSource.getRepository(CustomFunction);
-  for (let i = 0; i < customFunctions.length; i++) {
-    const customFunction = customFunctions[i];
+  for (const customFunction of customFunctions) {
     await customFunctionRepo.save(customFunction);
   }
 }
 
 async function addSqlSnippets() {
   const sqlSnippetRepo = dashboardDataSource.getRepository(SqlSnippet);
-  for (let i = 0; i < sqlSnippets.length; i++) {
-    const sqlSnippet = sqlSnippets[i];
+  for (const sqlSnippet of sqlSnippets) {
     await sqlSnippetRepo.save(sqlSnippet);
   }
 }

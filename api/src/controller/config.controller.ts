@@ -28,7 +28,7 @@ export class ConfigController implements interfaces.Controller {
   @httpGet('/getDescriptions')
   public async getDescriptions(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const result = await this.configService.getDescriptions(req.locale);
+      const result = this.configService.getDescriptions(req.locale);
       res.json(result);
     } catch (err) {
       next(err);
