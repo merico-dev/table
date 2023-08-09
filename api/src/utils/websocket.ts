@@ -38,18 +38,18 @@ export function initWebsocket(server: http.Server, origin: string[]) {
     allowEIO3: true,
   });
 
-  socket.use(async (socket, next) => {
+  socket.use(async (client: Socket, next) => {
     let authenticated = false;
     if (!AUTH_ENABLED) {
       authenticated = true;
-      socket.handshake.auth.auth = { auth_id: '0', auth_name: 'NO_AUTH', auth_type: 'NO_AUTH' } as SOCKET_AUTH;
+      client.handshake.auth.auth = { auth_id: '0', auth_name: 'NO_AUTH', auth_type: 'NO_AUTH' } as SOCKET_AUTH;
     }
 
     if (!authenticated) {
-      const account = await AccountService.getByToken(socket.handshake.auth.account);
+      const account = await AccountService.getByToken(client.handshake.auth.account);
       if (account) {
         authenticated = true;
-        socket.handshake.auth.auth = {
+        client.handshake.auth.auth = {
           auth_id: account.id,
           auth_name: account.name,
           auth_type: 'ACCOUNT',
@@ -58,10 +58,10 @@ export function initWebsocket(server: http.Server, origin: string[]) {
     }
 
     if (!authenticated) {
-      const apiKey = await ApiService.verifyApiKey(socket.handshake.auth.apikey, {});
+      const apiKey = await ApiService.verifyApiKey(client.handshake.auth.apikey, {});
       if (apiKey) {
         authenticated = true;
-        socket.handshake.auth.auth = { auth_id: apiKey.id, auth_name: apiKey.name, auth_type: 'APIKEY' } as SOCKET_AUTH;
+        client.handshake.auth.auth = { auth_id: apiKey.id, auth_name: apiKey.name, auth_type: 'APIKEY' } as SOCKET_AUTH;
       }
     }
 
