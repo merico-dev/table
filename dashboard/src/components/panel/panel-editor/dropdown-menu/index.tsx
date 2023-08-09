@@ -1,5 +1,6 @@
 import { Box, Divider, Menu } from '@mantine/core';
 import { useModals } from '@mantine/modals';
+import { IconCamera } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
@@ -13,7 +14,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
   const content = useEditContentModelContext();
   const modals = useModals();
 
-  const { panel } = useEditPanelContext();
+  const { panel, downloadPanelScreenshot } = useEditPanelContext();
   const { id } = panel;
 
   const { viewPanelInFullScreen, inFullScreen } = React.useContext(DashboardActionContext);
@@ -52,6 +53,9 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
             </Menu.Item>
             <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
               Download Data
+            </Menu.Item>
+            <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
+              Screenshot
             </Menu.Item>
             {showFullScreenOption && (
               <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled>

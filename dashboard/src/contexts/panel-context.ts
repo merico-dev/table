@@ -7,11 +7,13 @@ const PanelContext = React.createContext<{
   data: TPanelData;
   loading: boolean;
   errors: string[];
+  downloadPanelScreenshot: () => void;
 }>({
   panel: null,
   data: {},
   loading: false,
   errors: [],
+  downloadPanelScreenshot: () => {},
 });
 
 export const PanelContextProvider = PanelContext.Provider;
@@ -26,6 +28,7 @@ function usePanelContext<T = PanelRenderModelInstance>() {
     data: TPanelData;
     loading: boolean;
     errors: string[];
+    downloadPanelScreenshot: () => {};
   };
 }
 
