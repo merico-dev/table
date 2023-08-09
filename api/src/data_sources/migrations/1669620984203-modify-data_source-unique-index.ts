@@ -13,8 +13,7 @@ export class modifyDataSourceUniqueIndex1669620984203 implements MigrationInterf
       .addGroupBy('key')
       .getRawMany();
 
-    for (let i = 0; i < duplicates.length; i++) {
-      const info = duplicates[i];
+    for (const info of duplicates) {
       if (parseInt(info.num) === 1) continue;
       await queryRunner.manager
         .createQueryBuilder()
