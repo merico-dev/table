@@ -31,28 +31,28 @@ bindControllers(container);
 bindServices(container);
 
 const server = new InversifyExpressServer(container);
-server.setConfig((app: any) => {
-  app.use(express.json({ limit: requestMaxSize }));
-  app.use(bodyparser.json());
-  app.use(
+server.setConfig((application: any) => {
+  application.use(express.json({ limit: requestMaxSize }));
+  application.use(bodyparser.json());
+  application.use(
     cors({
       origin: corsOrigins,
     }),
   );
-  app.use(i18n.init);
-  app.use(authorizationMiddleware);
-  app.use(localization);
-  app.use('/api-docs/swagger', express.static('swagger'));
-  app.use('/api-docs/swagger/assets', express.static('swagger/assets'));
+  application.use(i18n.init);
+  application.use(authorizationMiddleware);
+  application.use(localization);
+  application.use('/api-docs/swagger', express.static('swagger'));
+  application.use('/api-docs/swagger/assets', express.static('swagger/assets'));
 
-  app.get('/ping', (req: express.Request, res: express.Response) => {
+  application.get('/ping', (req: express.Request, res: express.Response) => {
     res.send('pong 1');
   });
 
-  app.get('/version', (req: express.Request, res: express.Response) => {
+  application.get('/version', (req: express.Request, res: express.Response) => {
     res.send(process.env.npm_package_version);
   });
-  app.use(
+  application.use(
     swagger.express({
       definition: {
         info: {
@@ -63,8 +63,8 @@ server.setConfig((app: any) => {
     }),
   );
 });
-server.setErrorConfig((app: any) => {
-  app.use(errorMiddleware);
+server.setErrorConfig((application: any) => {
+  application.use(errorMiddleware);
 });
 
 const serverBuild = server.build();
