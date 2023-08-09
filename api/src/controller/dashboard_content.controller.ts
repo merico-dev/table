@@ -53,14 +53,24 @@ export class DashboardContentController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { dashboard_id, filter, sort, pagination } = req.body as DashboardContentListRequest;
+      let auth_id: string | undefined;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+      let auth_role_id: string | undefined;
+      let auth_permissions: string[] | undefined;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+        auth_role_id = auth.role_id;
+        auth_permissions = auth.permissions;
+      }
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'VIEW',
         req.locale,
-        auth?.id,
-        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-        auth?.role_id,
-        auth?.permissions,
+        auth_id,
+        auth_type,
+        auth_role_id,
+        auth_permissions,
       );
       const result = await this.dashboardContentService.list(dashboard_id, filter, sort, pagination, auth);
       res.json(result);
@@ -89,14 +99,24 @@ export class DashboardContentController implements interfaces.Controller {
     try {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { dashboard_id, name, content } = req.body as DashboardContentCreateRequest;
+      let auth_id: string | undefined;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+      let auth_role_id: string | undefined;
+      let auth_permissions: string[] | undefined;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+        auth_role_id = auth.role_id;
+        auth_permissions = auth.permissions;
+      }
       await DashboardPermissionService.checkPermission(
         dashboard_id,
         'EDIT',
         req.locale,
-        auth?.id,
-        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-        auth?.role_id,
-        auth?.permissions,
+        auth_id,
+        auth_type,
+        auth_role_id,
+        auth_permissions,
       );
       const result = await this.dashboardContentService.create(dashboard_id, name, content, req.locale);
       res.json(result);
@@ -127,14 +147,24 @@ export class DashboardContentController implements interfaces.Controller {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { id } = req.body as DashboardContentIDRequest;
       const result = await this.dashboardContentService.get(id);
+      let auth_id: string | undefined;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+      let auth_role_id: string | undefined;
+      let auth_permissions: string[] | undefined;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+        auth_role_id = auth.role_id;
+        auth_permissions = auth.permissions;
+      }
       await DashboardPermissionService.checkPermission(
         result.dashboard_id,
         'VIEW',
         req.locale,
-        auth?.id,
-        auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-        auth?.role_id,
-        auth?.permissions,
+        auth_id,
+        auth_type,
+        auth_role_id,
+        auth_permissions,
       );
       res.json(result);
     } catch (err) {
@@ -164,11 +194,17 @@ export class DashboardContentController implements interfaces.Controller {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { id, name, content } = req.body as DashboardContentUpdateRequest;
       const result = await this.dashboardContentService.update(id, name, content, req.locale, auth);
+      let auth_id: string | null = null;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | null = null;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      }
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT, [id]), {
         update_time: result.update_time,
         message: 'UPDATED',
-        auth_id: auth?.id ?? null,
-        auth_type: !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
+        auth_id,
+        auth_type,
       });
       res.json(result);
     } catch (err) {
@@ -202,11 +238,17 @@ export class DashboardContentController implements interfaces.Controller {
       const auth: Account | ApiKey | undefined = req.body.auth;
       const { id } = req.body as DashboardContentIDRequest;
       await this.dashboardContentService.delete(id, req.locale, auth);
+      let auth_id: string | null = null;
+      let auth_type: 'APIKEY' | 'ACCOUNT' | null = null;
+      if (auth) {
+        auth_id = auth.id;
+        auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      }
       socketEmit(channelBuilder(SERVER_CHANNELS.DASHBOARD_CONTENT, [id]), {
         update_time: new Date(),
         message: 'DELETED',
-        auth_id: auth?.id ?? null,
-        auth_type: !auth ? null : has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT',
+        auth_id,
+        auth_type,
       });
       res.json({ id });
     } catch (err) {
