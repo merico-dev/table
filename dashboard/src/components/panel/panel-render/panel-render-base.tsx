@@ -22,12 +22,23 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
   const panelRootRef = useRef<HTMLDivElement>(null);
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   const downloadPanelScreenshot = () => {
-    domtoimage.toJpeg(panelRootRef.current, { quality: 1, bgcolor: 'white' }).then((dataUrl: string) => {
-      const link = document.createElement('a');
-      link.download = 'my-image-name.jpeg';
-      link.href = dataUrl;
-      link.click();
-    });
+    const dom = panelRootRef.current;
+    if (!dom) {
+      return;
+    }
+
+    const width = dom.offsetWidth * 2;
+    const height = dom.offsetHeight * 2;
+    domtoimage
+      .toBlob(panelRootRef.current, {
+        bgcolor: 'white',
+        width,
+        height,
+        style: { transformOrigin: '0 0', transform: 'scale(2)' },
+      })
+      .then((blob: string) => {
+        window.saveAs(blob, `${panel.title ? panel.title : panel.viz.type}.png`);
+      });
   };
   return (
     <PanelContextProvider
