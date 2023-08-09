@@ -232,12 +232,9 @@ describe('DashboardPermissionService', () => {
 
   describe('update', () => {
     it('should update successfully', async () => {
-      const result1 = await dashboardPermissionService.update(
-        accountDashboard.id,
-        [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
-        account,
-        DEFAULT_LANGUAGE,
-      );
+      const result1 = await dashboardPermissionService.update(accountDashboard.id, account, DEFAULT_LANGUAGE, [
+        { id: apiKey.id, type: 'APIKEY', permission: 'VIEW' },
+      ]);
       expect(omitFields(result1, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
@@ -245,12 +242,9 @@ describe('DashboardPermissionService', () => {
         access: [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
       });
 
-      const result2 = await dashboardPermissionService.update(
-        accountDashboard.id,
-        [{ id: apiKey.id, type: 'APIKEY', permission: 'REMOVE' }],
-        account,
-        DEFAULT_LANGUAGE,
-      );
+      const result2 = await dashboardPermissionService.update(accountDashboard.id, account, DEFAULT_LANGUAGE, [
+        { id: apiKey.id, type: 'APIKEY', permission: 'REMOVE' },
+      ]);
       expect(omitFields(result2, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
@@ -260,12 +254,9 @@ describe('DashboardPermissionService', () => {
     });
 
     it('adding owner to access should not add', async () => {
-      const result = await dashboardPermissionService.update(
-        apiKeyDashboard.id,
-        [{ id: apiKey.id, type: 'APIKEY', permission: 'VIEW' }],
-        apiKey,
-        DEFAULT_LANGUAGE,
-      );
+      const result = await dashboardPermissionService.update(apiKeyDashboard.id, apiKey, DEFAULT_LANGUAGE, [
+        { id: apiKey.id, type: 'APIKEY', permission: 'VIEW' },
+      ]);
       expect(omitFields(result, ['create_time', 'update_time'])).toMatchObject({
         id: apiKeyDashboard.id,
         owner_id: apiKey.id,
@@ -276,22 +267,16 @@ describe('DashboardPermissionService', () => {
 
     it('modify other owner dashboard permission should fail if not admin', async () => {
       await expect(
-        dashboardPermissionService.update(
-          accountDashboard.id,
-          [{ id: apiKey.id, type: 'APIKEY', permission: 'EDIT' }],
-          apiKey,
-          DEFAULT_LANGUAGE,
-        ),
+        dashboardPermissionService.update(accountDashboard.id, apiKey, DEFAULT_LANGUAGE, [
+          { id: apiKey.id, type: 'APIKEY', permission: 'EDIT' },
+        ]),
       ).rejects.toThrowError(
         new ApiError(FORBIDDEN, { message: translate('DASHBOARD_PERMISSION_FORBIDDEN', DEFAULT_LANGUAGE) }),
       );
 
-      const result = await dashboardPermissionService.update(
-        accountDashboard.id,
-        [{ id: adminAccount.id, type: 'ACCOUNT', permission: 'EDIT' }],
-        adminAccount,
-        DEFAULT_LANGUAGE,
-      );
+      const result = await dashboardPermissionService.update(accountDashboard.id, adminAccount, DEFAULT_LANGUAGE, [
+        { id: adminAccount.id, type: 'ACCOUNT', permission: 'EDIT' },
+      ]);
       expect(omitFields(result, ['create_time', 'update_time'])).toMatchObject({
         id: accountDashboard.id,
         owner_id: account.id,
@@ -302,7 +287,7 @@ describe('DashboardPermissionService', () => {
 
     it('should fail if no owner', async () => {
       await expect(
-        dashboardPermissionService.update(noOwnerDashboardId, [], adminAccount, DEFAULT_LANGUAGE),
+        dashboardPermissionService.update(noOwnerDashboardId, adminAccount, DEFAULT_LANGUAGE, []),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_PERMISSION_NO_OWNER', DEFAULT_LANGUAGE) }),
       );

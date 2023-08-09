@@ -94,7 +94,7 @@ describe('DashboardController', () => {
     });
 
     it('should fail if duplicate name', async () => {
-      const request: DashboardCreateRequest = {
+      const req: DashboardCreateRequest = {
         name: 'dashboard1',
         group: '1',
       };
@@ -102,7 +102,7 @@ describe('DashboardController', () => {
       const response = await server
         .post('/dashboard/create')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',

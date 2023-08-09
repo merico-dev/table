@@ -222,7 +222,7 @@ describe('ConfigController', () => {
     });
 
     it('should fail if incorrect value', async () => {
-      const request: ConfigUpdateRequest = {
+      const req: ConfigUpdateRequest = {
         key: 'lang',
         value: 'incorrect_lang',
       };
@@ -230,7 +230,7 @@ describe('ConfigController', () => {
       const response = await server
         .post('/config/update')
         .set('Authorization', `Bearer ${superadminLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
@@ -265,7 +265,7 @@ describe('ConfigController', () => {
     });
 
     it('should fail if not enough privileges', async () => {
-      const request: ConfigUpdateRequest = {
+      const req: ConfigUpdateRequest = {
         key: 'website_settings',
         value: '',
       };
@@ -273,7 +273,7 @@ describe('ConfigController', () => {
       const response = await server
         .post('/config/update')
         .set('Authorization', `Bearer ${readerLogin.token}`)
-        .send(request);
+        .send(req);
 
       expect(response.body).toMatchObject({
         code: 'BAD_REQUEST',
