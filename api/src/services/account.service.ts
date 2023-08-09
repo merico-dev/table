@@ -11,10 +11,9 @@ import {
 } from '../api_models/account';
 import { PaginationRequest } from '../api_models/base';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import _ from 'lodash';
 import { FIXED_ROLE_TYPES, PERMISSIONS } from './role.service';
 import { SALT_ROUNDS, SECRET_KEY, TOKEN_VALIDITY } from '../utils/constants';
-import { escapeLikePattern, omitFields } from '../utils/helpers';
+import { applyQueryFilterObjects, omitFields } from '../utils/helpers';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
@@ -51,6 +50,25 @@ export class AccountService {
     }
   }
 
+  private async _checkAccountExists(
+    name: string | undefined,
+    email: string | undefined,
+    account: Account,
+    locale: string,
+  ) {
+    const accountRepo = dashboardDataSource.getRepository(Account);
+    const where: { [field: string]: string }[] = [];
+    if (name !== undefined && account.name !== name) {
+      where.push({ name });
+    }
+    if (email !== undefined && account.email !== email) {
+      where.push({ email });
+    }
+    if (where.length && (await accountRepo.exist({ where }))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
+    }
+  }
+
   async login(name: string, password: string, locale: string): Promise<AccountLoginResponse> {
     const account = await AccountService.accountDetailsQuery()
       .where('account.name = :name or account.email = :name', { name })
@@ -80,18 +98,15 @@ export class AccountService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.name) {
-        filter.name.isFuzzy
-          ? qb.andWhere('account.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
-          : qb.andWhere('account.name = :name', { name: filter.name.value });
-      }
-      if (filter.email) {
-        filter.email.isFuzzy
-          ? qb.andWhere('account.email ilike :email', { email: `%${escapeLikePattern(filter.email.value)}%` })
-          : qb.andWhere('account.email = :email', { email: filter.email.value });
-      }
-    }
+    applyQueryFilterObjects(
+      qb,
+      [
+        { property: 'name', type: 'FilterObject' },
+        { property: 'email', type: 'FilterObject' },
+      ],
+      'account',
+      filter,
+    );
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -157,12 +172,7 @@ export class AccountService {
       const role = await roleRepo.findOneByOrFail({ id: account.role_id });
       return { ...omitFields(account, ['password']), permissions: role.permissions };
     }
-    const where: { [field: string]: string }[] = [];
-    name !== undefined && account.name !== name ? where.push({ name }) : null;
-    email !== undefined && account.email !== email ? where.push({ email }) : null;
-    if (where.length && (await accountRepo.exist({ where }))) {
-      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
-    }
+    await this._checkAccountExists(name, email, account, locale);
     if (account.role_id === FIXED_ROLE_TYPES.SUPERADMIN) {
       throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EDIT_SUPERADMIN', locale) });
     }
@@ -197,12 +207,7 @@ export class AccountService {
     if (role_id && !(await dashboardDataSource.getRepository(Role).exist({ where: { id: role_id } }))) {
       throw new ApiError(BAD_REQUEST, { message: translate('ROLE_NOT_FOUND', locale) });
     }
-    const where: { [field: string]: string }[] = [];
-    name !== undefined && account.name !== name ? where.push({ name }) : null;
-    email !== undefined && account.email !== email ? where.push({ email }) : null;
-    if (where.length && (await accountRepo.exist({ where }))) {
-      throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NAME_EMAIL_ALREADY_EXISTS', locale) });
-    }
+    await this._checkAccountExists(name, email, account, locale);
     if (reset_password) {
       if (!new_password) {
         throw new ApiError(BAD_REQUEST, { message: translate('ACCOUNT_NO_EMPTY_RESET_PASSWORD', locale) });

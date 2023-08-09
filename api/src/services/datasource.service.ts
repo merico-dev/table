@@ -12,7 +12,7 @@ import { dashboardDataSource } from '../data_sources/dashboard';
 import DataSource from '../models/datasource';
 import { maybeEncryptPassword, maybeDecryptPassword } from '../utils/encryption';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { configureDatabaseSource, escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects, configureDatabaseSource } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 import { JobService, RenameJobParams } from './job.service';
 import { QueryService } from './query.service';
@@ -45,18 +45,15 @@ export class DataSourceService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.type) {
-        filter.type.isFuzzy
-          ? qb.andWhere('datasource.type ilike :type', { type: `%${escapeLikePattern(filter.type.value)}%` })
-          : qb.andWhere('datasource.type = :type', { type: filter.type.value });
-      }
-      if (filter.key) {
-        filter.key.isFuzzy
-          ? qb.andWhere('datasource.key ilike :key', { key: `%${escapeLikePattern(filter.key.value)}%` })
-          : qb.andWhere('datasource.key = :key', { key: filter.key.value });
-      }
-    }
+    applyQueryFilterObjects(
+      qb,
+      [
+        { property: 'type', type: 'FilterObject' },
+        { property: 'key', type: 'FilterObject' },
+      ],
+      'datasource',
+      filter,
+    );
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -116,8 +113,7 @@ export class DataSourceService {
       auth_id,
       auth_type,
     };
-    const result = await JobService.addRenameDataSourceJob(jobParams);
-    return result;
+    return JobService.addRenameDataSourceJob(jobParams);
   }
 
   async update(id: string, config: DataSourceConfig, locale: string): Promise<DataSource> {

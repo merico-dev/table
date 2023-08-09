@@ -6,7 +6,7 @@ import Dashboard from '../models/dashboard';
 import DashboardChangelog from '../models/dashboard_changelog';
 import { AUTH_ENABLED } from '../utils/constants';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { DashboardChangelogService } from './dashboard_changelog.service';
 import { translate } from '../utils/i18n';
 import { DashboardPermissionService } from './dashboard_permission.service';
@@ -40,21 +40,16 @@ export class DashboardService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.name) {
-        filter.name.isFuzzy
-          ? qb.andWhere('dashboard.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
-          : qb.andWhere('dashboard.name = :name', { name: filter.name.value });
-      }
-      if (filter.group) {
-        filter.group.isFuzzy
-          ? qb.andWhere('dashboard.group ilike :group', { group: `%${escapeLikePattern(filter.group.value)}%` })
-          : qb.andWhere('dashboard.group = :group', { name: filter.group.value });
-      }
-      if (filter.is_removed !== undefined) {
-        qb.andWhere('dashboard.is_removed = :is_removed', { is_removed: filter.is_removed });
-      }
-    }
+    applyQueryFilterObjects(
+      qb,
+      [
+        { property: 'name', type: 'FilterObject' },
+        { property: 'group', type: 'FilterObject' },
+        { property: 'is_removed', type: 'Primitive' },
+      ],
+      'dashboard',
+      filter,
+    );
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(`dashboard."${s.field}"`, s.order);
@@ -65,6 +60,17 @@ export class DashboardService {
     >();
     const total = await qb.getCount();
 
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    let auth_role_id: string | undefined;
+    let auth_permissions: string[] | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      auth_role_id = auth.role_id;
+      auth_permissions = auth.permissions;
+    }
+
     return {
       total,
       offset,
@@ -72,10 +78,10 @@ export class DashboardService {
         DashboardPermissionService.canAccess(
           { access: x.access, owner_id: x.owner_id, owner_type: x.owner_type },
           'VIEW',
-          auth?.id,
-          auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-          auth?.role_id,
-          auth?.permissions,
+          auth_id,
+          auth_type,
+          auth_role_id,
+          auth_permissions,
         ),
       ),
     };
@@ -91,22 +97,24 @@ export class DashboardService {
     dashboard.group = group;
     const result = await dashboardRepo.save(dashboard);
 
-    await DashboardPermissionService.create(
-      result.id,
-      auth?.id,
-      auth ? (has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT') : undefined,
-    );
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+    }
+    await DashboardPermissionService.create(result.id, auth_id, auth_type);
     return result;
   }
 
   async get(id: string): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    return await dashboardRepo.findOneByOrFail({ id });
+    return dashboardRepo.findOneByOrFail({ id });
   }
 
   async getByName(name: string, is_preset: boolean): Promise<Dashboard> {
     const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
-    return await dashboardRepo.findOneByOrFail({ name, is_preset, is_removed: false });
+    return dashboardRepo.findOneByOrFail({ name, is_preset, is_removed: false });
   }
 
   async update(

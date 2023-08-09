@@ -156,7 +156,7 @@ export class RoleService {
 
   async list(): Promise<Role[]> {
     const roleRepo = dashboardDataSource.getRepository(Role);
-    return await roleRepo.find();
+    return roleRepo.find();
   }
 
   permissions(locale: string): RolePermission[] {
@@ -175,7 +175,7 @@ export class RoleService {
     role.id = id;
     role.description = description;
     role.permissions = permissions;
-    return await roleRepo.save(role);
+    return roleRepo.save(role);
   }
 
   async update(id: string, description: string, permissions: string[]): Promise<Role> {
@@ -183,7 +183,7 @@ export class RoleService {
     const role = await roleRepo.findOneByOrFail({ id });
     role.description = description;
     role.permissions = permissions;
-    return await roleRepo.save(role);
+    return roleRepo.save(role);
   }
 
   async delete(id: string): Promise<void> {

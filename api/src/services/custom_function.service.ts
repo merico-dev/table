@@ -9,7 +9,7 @@ import {
 import { dashboardDataSource } from '../data_sources/dashboard';
 import CustomFunction from '../models/custom_function';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { translate } from '../utils/i18n';
 
 @injectable()
@@ -28,11 +28,7 @@ export class CustomFunctionService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.id) {
-      filter.id.isFuzzy
-        ? qb.andWhere('custom_function.id ilike :id', { id: `%${escapeLikePattern(filter.id.value)}%` })
-        : qb.andWhere('custom_function.id = :id', { id: filter.id.value });
-    }
+    applyQueryFilterObjects(qb, [{ property: 'id', type: 'FilterObject' }], 'custom_function', filter);
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
@@ -49,7 +45,7 @@ export class CustomFunctionService {
 
   async get(id: string): Promise<CustomFunctionAPIModel> {
     const customFunctionRepo = dashboardDataSource.getRepository(CustomFunction);
-    return await customFunctionRepo.findOneByOrFail({ id });
+    return customFunctionRepo.findOneByOrFail({ id });
   }
 
   async create(id: string, definition: string, locale: string): Promise<CustomFunctionAPIModel> {
@@ -60,7 +56,7 @@ export class CustomFunctionService {
     const customFunction = new CustomFunction();
     customFunction.id = id;
     customFunction.definition = definition;
-    return await customFunctionRepo.save(customFunction);
+    return customFunctionRepo.save(customFunction);
   }
 
   async update(id: string, definition: string, locale: string): Promise<CustomFunctionAPIModel> {
@@ -70,7 +66,7 @@ export class CustomFunctionService {
       throw new ApiError(BAD_REQUEST, { message: translate('CUSTOM_FUNCTION_NO_EDIT_PRESET', locale) });
     }
     customFunction.definition = definition;
-    return await customFunctionRepo.save(customFunction);
+    return customFunctionRepo.save(customFunction);
   }
 
   async delete(id: string, locale: string): Promise<void> {

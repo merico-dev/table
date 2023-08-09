@@ -8,7 +8,7 @@ import {
 } from '../api_models/api';
 import { Authentication, PaginationRequest } from '../api_models/base';
 import ApiKey from '../models/apiKey';
-import { cryptSign, escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects, cryptSign } from '../utils/helpers';
 import { ApiError, BAD_REQUEST } from '../utils/errors';
 import { ConfigResourceTypes, ConfigService } from './config.service';
 import { translate } from '../utils/i18n';
@@ -39,7 +39,6 @@ export class ApiService {
     if (validSign === authentication.sign) {
       return apiKey;
     }
-    return;
   }
 
   async listKeys(
@@ -64,11 +63,7 @@ export class ApiService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter?.name) {
-      filter.name.isFuzzy
-        ? qb.andWhere('apikey.name ilike :name', { name: `%${escapeLikePattern(filter.name.value)}%` })
-        : qb.andWhere('apikey.name = :name', { name: filter.name.value });
-    }
+    applyQueryFilterObjects(qb, [{ property: 'name', type: 'FilterObject' }], 'apiKey', filter);
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);

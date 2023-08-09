@@ -9,7 +9,7 @@ import DashboardContentChangelog from '../models/dashboard_content_changelog';
 import DashboardPermission from '../models/dashboard_permission';
 import DataSource from '../models/datasource';
 import Job from '../models/job';
-import { escapeLikePattern } from '../utils/helpers';
+import { applyQueryFilterObjects } from '../utils/helpers';
 import { channelBuilder, SERVER_CHANNELS, socketEmit } from '../utils/websocket';
 import { DashboardContentChangelogService } from './dashboard_content_changelog.service';
 import { QueryService } from './query.service';
@@ -113,8 +113,7 @@ export class JobService {
             let updated = false;
             const originalDashboardContent = _.cloneDeep(dashboardContent);
             const queries: string[] = [];
-            for (let i = 0; i < dashboardContent.content.definition.queries.length; i++) {
-              const query = dashboardContent.content.definition.queries[i];
+            for (const query of dashboardContent.content.definition.queries) {
               if (query.type !== params.type || query.key !== params.old_key) continue;
               query.key = params.new_key;
               queries.push(query.id);
@@ -253,22 +252,15 @@ export class JobService {
       .offset(offset)
       .limit(pagination.pagesize);
 
-    if (filter !== undefined) {
-      if (filter.type) {
-        filter.type.isFuzzy
-          ? qb.andWhere('job.type ilike ANY(:type)', {
-              type: filter.type.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
-            })
-          : qb.andWhere('job.type = ANY(:type)', { type: filter.type.value.split(';') });
-      }
-      if (filter.status) {
-        filter.status.isFuzzy
-          ? qb.andWhere('job.status ilike ANY(:status)', {
-              status: filter.status.value.split(';').map((x) => `%${escapeLikePattern(x)}%`),
-            })
-          : qb.andWhere('job.status = ANY(:status)', { status: filter.status.value.split(';') });
-      }
-    }
+    applyQueryFilterObjects(
+      qb,
+      [
+        { property: 'type', type: 'FilterObject' },
+        { property: 'status', type: 'FilterObject' },
+      ],
+      'job',
+      filter,
+    );
 
     sort.slice(1).forEach((s) => {
       qb.addOrderBy(s.field, s.order);
