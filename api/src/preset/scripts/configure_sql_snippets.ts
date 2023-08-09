@@ -22,8 +22,7 @@ async function upsert() {
     if (!sqlSnippets) throw new Error('sql snippets config file not found');
 
     const sqlSnippetNames = Object.keys(sqlSnippets);
-    for (let i = 0; i < sqlSnippetNames.length; i++) {
-      const sqlSnippetName = sqlSnippetNames[i];
+    for (const sqlSnippetName of sqlSnippetNames) {
       const sqlSnippet = new SqlSnippet();
       sqlSnippet.id = sqlSnippetName;
       sqlSnippet.content = sqlSnippets[sqlSnippetName];
