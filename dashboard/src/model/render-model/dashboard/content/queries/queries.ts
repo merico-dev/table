@@ -21,7 +21,7 @@ export const QueriesRenderModel = types
       return self.current.filter((q) => idset.has(q.id));
     },
     get json() {
-      return self.current.filter((o) => o.id).map((o) => o.json);
+      return self.current.filter((o) => o.id && o.key).map((o) => o.json);
     },
   }))
   .actions((self) => {
