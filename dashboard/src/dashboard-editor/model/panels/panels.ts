@@ -57,6 +57,11 @@ export const PanelsModel = types
       }
       self.list.splice(index, 1);
     },
+    removeByIDs(ids: string[]) {
+      ids.forEach((id) => {
+        this.removeByID(id);
+      });
+    },
     duplicateByID(id: string) {
       const base = self.list.find((o) => o.id === id);
       if (!base) {

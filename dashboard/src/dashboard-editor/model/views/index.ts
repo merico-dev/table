@@ -78,6 +78,11 @@ export const ViewsModel = types
       if (index === -1) {
         return;
       }
+      const view = self.current[index];
+      // @ts-expect-error getRoot type, reading panels
+      const panels: PanelsModelInstance = getRoot(self).content.panels;
+
+      panels.removeByIDs(view.panelIDs);
       self.current.splice(index, 1);
     },
     replaceByIndex(index: number, replacement: ViewMetaInstance) {
