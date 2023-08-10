@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Menu, Sx } from '@mantine/core';
+import { ActionIcon, Affix, Box, Button, Menu, Sx, Transition } from '@mantine/core';
 import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
@@ -6,8 +6,11 @@ import { useRenderContentModelContext, useRenderDashboardContext } from '~/conte
 import { ViewMetaInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
+import { useWindowScroll } from '@mantine/hooks';
+import { useBoolean } from 'ahooks';
 
 export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot: () => void }) => {
+  const [flag, { setTrue, setFalse }] = useBoolean(false);
   const model = useRenderDashboardContext();
   const content = useRenderContentModelContext();
 
@@ -18,11 +21,25 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
   };
 
   return (
-    <Menu shadow="md" width={200} trigger="hover" openDelay={100} closeDelay={400} withinPortal position="bottom-end">
+    <Menu shadow="md" width={200} trigger="hover" openDelay={200} closeDelay={400} withinPortal position="bottom-end">
       <Menu.Target>
-        <ActionIcon variant="light" color="grape" sx={{ position: 'fixed', bottom: '20px', right: '20px' }}>
-          <IconShare3 size={14} />
-        </ActionIcon>
+        <Affix position={{ bottom: '20px', right: '10px' }} zIndex={1}>
+          <Button
+            size="xs"
+            variant="gradient"
+            leftIcon={<IconShare3 size="1rem" />}
+            gradient={{ from: 'indigo', to: 'cyan' }}
+            onMouseEnter={setTrue}
+            onMouseLeave={setFalse}
+            sx={{
+              opacity: flag ? 1 : 0.6,
+              transform: `translateX(${flag ? 0 : '2px'})`,
+              transition: 'all ease 300ms',
+            }}
+          >
+            Share
+          </Button>
+        </Affix>
       </Menu.Target>
 
       <Menu.Dropdown>
