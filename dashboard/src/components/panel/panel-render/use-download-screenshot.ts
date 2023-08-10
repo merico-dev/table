@@ -18,7 +18,7 @@ export function useDownloadScreenshot(panel: PanelRenderModelInstance) {
         bgcolor: 'white',
         width,
         height,
-        style: { transformOrigin: '0 0', transform: 'scale(2)' },
+        style: { border: 'none', borderRadius: 0, transformOrigin: '0 0', transform: 'scale(2)' },
       })
       .then((blob: string) => {
         window.saveAs(blob, `${panel.title ? panel.title : panel.viz.type}.png`);
