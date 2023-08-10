@@ -51,26 +51,6 @@ const _ContentModel = types
     origin: types.maybe(types.frozen()),
   })
   .views((self) => ({
-    get json(): DashboardContentDBType {
-      return {
-        id: self.id,
-        name: self.name,
-        create_time: self.create_time,
-        update_time: self.update_time,
-        dashboard_id: self.dashboard_id,
-        content: {
-          views: self.views.json,
-          panels: self.panels.json,
-          filters: self.filters.json,
-          version: self.version,
-          definition: {
-            queries: self.queries.json,
-            sqlSnippets: self.sqlSnippets.json,
-            mock_context: self.mock_context.current,
-          },
-        },
-      };
-    },
     get filtersChanged() {
       const fields = 'filters.current';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
