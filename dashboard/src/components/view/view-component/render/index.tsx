@@ -16,3 +16,5 @@ export const RenderViewComponent = observer(({ view, children }: { view: ViewMet
       return <RenderViewDivision view={view}>{children}</RenderViewDivision>;
   }
 });
+
+export * from './division';

@@ -13,6 +13,6 @@ export const PreviewViewComponent = observer(({ view, children }: { view: ViewMe
       return <PreviewViewTabs view={view}>{children}</PreviewViewTabs>;
     case EViewComponentType.Division:
     default:
-      return <PreviewViewDivision>{children}</PreviewViewDivision>;
+      return <PreviewViewDivision view={view}>{children}</PreviewViewDivision>;
   }
 });

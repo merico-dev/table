@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Menu } from '@mantine/core';
+import { ActionIcon, Box, Menu, Sx } from '@mantine/core';
 import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
@@ -41,12 +41,16 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
   );
 });
 
-export const RenderViewDivision = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
-  const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
-  return (
-    <>
-      <Box ref={ref}>{children}</Box>
-      <DivActions downloadScreenShot={downloadScreenshot} />
-    </>
-  );
-});
+export const RenderViewDivision = observer(
+  ({ children, view, sx = {} }: { children: ReactNode; view: ViewMetaInstance; sx?: Sx }) => {
+    const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
+    return (
+      <>
+        <Box ref={ref} sx={sx}>
+          {children}
+        </Box>
+        <DivActions downloadScreenShot={downloadScreenshot} />
+      </>
+    );
+  },
+);
