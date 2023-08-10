@@ -6,15 +6,15 @@ import { ViewMetaInstance } from '~/model';
 export function useDownloadDivScreenshot(view: ViewMetaInstance) {
   const ref = useRef<HTMLDivElement>(null);
   const downloadScreenshot = () => {
-    const dom = ref.current;
+    const dom = ref.current?.querySelector<HTMLElement>('.react-grid-layout');
     if (!dom) {
       return;
     }
 
-    const width = dom.offsetWidth * 2;
-    const height = dom.offsetHeight * 2;
+    const width = dom.offsetWidth * 2 + 10; // padding-right of react-grid-layout
+    const height = dom.offsetHeight * 2 + 10; // padding-bottom of react-grid-layout
     domtoimage
-      .toBlob(ref.current, {
+      .toBlob(dom, {
         bgcolor: 'white',
         width,
         height,
