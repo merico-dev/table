@@ -1,13 +1,12 @@
-import { ActionIcon, Affix, Box, Button, Menu, Sx, Transition } from '@mantine/core';
+import { Affix, Box, Button, Menu, Sx } from '@mantine/core';
 import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-react';
+import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useRenderContentModelContext, useRenderDashboardContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
-import { useWindowScroll } from '@mantine/hooks';
-import { useBoolean } from 'ahooks';
 
 export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot: () => void }) => {
   const [flag, { setTrue, setFalse }] = useBoolean(false);
