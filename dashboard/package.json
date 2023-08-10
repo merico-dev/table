@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "10.12.4",
+  "version": "10.13.1",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -32,6 +32,7 @@
   "dependencies": {
     "@monaco-editor/react": "4.4.6",
     "@types/chroma-js": "^2.1.4",
+    "dom-to-image-more": "3.1.6",
     "file-saver": "2.0.5",
     "mathjs": "11.8.0",
     "monaco-editor": "0.36.0",
