@@ -3,7 +3,7 @@ import domtoimage from 'dom-to-image-more';
 import { useRef } from 'react';
 import { PanelRenderModelInstance } from '~/model';
 
-export function useDownloadScreenshot(panel: PanelRenderModelInstance) {
+export function useDownloadPanelScreenshot(panel: PanelRenderModelInstance) {
   const ref = useRef<HTMLDivElement>(null);
   const downloadPanelScreenshot = () => {
     const dom = ref.current;

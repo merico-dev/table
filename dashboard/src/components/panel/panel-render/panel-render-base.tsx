@@ -6,7 +6,7 @@ import { PanelRenderModelInstance } from '~/model';
 import { DescriptionPopover } from './description-popover';
 import './panel-render-base.css';
 import { PanelTitleBar } from './title-bar';
-import { useDownloadScreenshot } from './use-download-screenshot';
+import { useDownloadPanelScreenshot } from './use-download-panel-screenshot';
 import { PanelVizSection } from './viz';
 
 interface IPanelBase {
@@ -18,7 +18,7 @@ interface IPanelBase {
 const baseStyle: Sx = { border: '1px solid #e9ecef' };
 
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
-  const { ref, downloadPanelScreenshot } = useDownloadScreenshot(panel);
+  const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
   const contentHeight = !panel.title ? '100%' : 'calc(100% - 25px - 5px)';
   return (
     <PanelContextProvider

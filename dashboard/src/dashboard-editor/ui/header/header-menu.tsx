@@ -1,14 +1,10 @@
 import { ActionIcon, Menu } from '@mantine/core';
 import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { ReactNode } from 'react';
 import { useEditContentModelContext, useRenderDashboardContext } from '~/contexts';
 import { downloadJSON } from '~/utils/download';
 
-interface IProps {
-  headerMenuItems?: ReactNode;
-}
-export const HeaderMenu = observer(({ headerMenuItems = null }: IProps) => {
+export const HeaderMenu = observer(() => {
   const model = useRenderDashboardContext();
   const content = useEditContentModelContext();
 
@@ -33,7 +29,6 @@ export const HeaderMenu = observer(({ headerMenuItems = null }: IProps) => {
         <Menu.Item icon={<IconCode size={14} />} onClick={downloadSchema}>
           Download Schema
         </Menu.Item>
-        {headerMenuItems}
       </Menu.Dropdown>
     </Menu>
   );

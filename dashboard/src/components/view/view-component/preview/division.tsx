@@ -1,11 +1,12 @@
-import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
+import { ViewMetaInstance } from '~/model';
+import { RenderViewDivision } from '../render';
 
-export const PreviewViewDivision = observer(({ children }: { children: ReactNode }) => {
+export const PreviewViewDivision = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
   return (
-    <Box pt={10} pb={100}>
+    <RenderViewDivision sx={{ paddingTop: '10px', paddingBottom: '100px' }} view={view}>
       {children}
-    </Box>
+    </RenderViewDivision>
   );
 });
