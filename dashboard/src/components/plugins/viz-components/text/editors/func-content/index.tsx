@@ -52,7 +52,7 @@ export const FuncContentField = forwardRef(({ value, onChange }: IFuncContentFie
             <FuncContentEditor value={localValue} onChange={setLocalValue} />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Rest
+                Reset
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">

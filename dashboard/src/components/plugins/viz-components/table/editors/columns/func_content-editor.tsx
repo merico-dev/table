@@ -64,7 +64,7 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
             </Box>
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Rest
+                Reset
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
