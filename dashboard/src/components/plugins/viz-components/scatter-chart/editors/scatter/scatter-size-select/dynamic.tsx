@@ -64,7 +64,7 @@ const Field = ({ value, onChange }: IField) => {
             <DynamicSizeFunctionEditor value={localValue.func_content} onChange={changeFuncContent} />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Rest
+                Reset
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
