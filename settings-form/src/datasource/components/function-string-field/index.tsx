@@ -55,7 +55,7 @@ export const FunctionStringField = forwardRef(
               <FunctionStringEditor value={localValue} onChange={setLocalValue} />
               <Group position="apart">
                 <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                  Rest
+                  Reset
                 </Button>
                 <Group position="right">
                   <Button onClick={handleCancel} variant="subtle">
