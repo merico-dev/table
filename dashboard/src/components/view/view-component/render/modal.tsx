@@ -54,6 +54,8 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
         },
         content: {
           border: '1px solid #efefef',
+          maxHeight: 'unset !important',
+          overflow: 'hidden',
         },
         body: {
           maxHeight: config.height,
