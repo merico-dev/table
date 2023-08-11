@@ -4,7 +4,7 @@ import { Filters } from '~/components/filter';
 import { FullScreenPanel } from '~/components/panel';
 import { usePanelFullScreen } from '~/components/panel/panel-render/full-screen-render/use-panel-full-screen';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
-import { ViewMetaInstance } from '~/model';
+import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { useFullScreenPanelContext } from '../..';
 import { ReadOnlyDashboardLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
@@ -27,7 +27,11 @@ export const DashboardViewRender = observer(function _DashboardLayout({ view }: 
         inFullScreen,
       }}
     >
-      <Box className="dashboard-view" data-enable-scrollbar>
+      <Box
+        className="dashboard-view"
+        data-enable-scrollbar
+        sx={{ height: view.type === EViewComponentType.Modal ? '0 !important' : '100%' }}
+      >
         {inFullScreen && <FullScreenPanel view={view} panel={fullScreenPanel!} exitFullScreen={exitFullScreen} />}
         <RenderViewComponent view={view}>
           <Box sx={{ position: 'relative' }}>
