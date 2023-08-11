@@ -1,4 +1,4 @@
-import { Affix, Box, Button, Menu, Sx } from '@mantine/core';
+import { ActionIcon, Affix, Box, Menu, Sx } from '@mantine/core';
 import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
@@ -23,10 +23,9 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
     <Menu shadow="md" width={200} trigger="hover" openDelay={200} closeDelay={400} withinPortal position="bottom-end">
       <Menu.Target>
         <Affix position={{ bottom: '20px', right: '10px' }} zIndex={1}>
-          <Button
-            size="xs"
+          <ActionIcon
+            size="md"
             variant="gradient"
-            leftIcon={<IconShare3 size="1rem" />}
             gradient={{ from: 'indigo', to: 'cyan' }}
             onMouseEnter={setTrue}
             onMouseLeave={setFalse}
@@ -34,10 +33,11 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
               opacity: flag ? 1 : 0.6,
               transform: `translateX(${flag ? 0 : '2px'})`,
               transition: 'all ease 300ms',
+              borderRadius: '50%',
             }}
           >
-            Share
-          </Button>
+            <IconShare3 size="1rem" />
+          </ActionIcon>
         </Affix>
       </Menu.Target>
 
