@@ -1,3 +1,4 @@
+import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
 import { getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { QueryMeta } from '~/model';
@@ -8,15 +9,24 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       return [];
     }
     // @ts-expect-error untyped getRoot(self)
-    const { context, filters } = getRoot(self).content.payloadForSQL;
-    const contextOptions = Object.keys({ ...context }).map((k) => `context.${k}`);
-    const filterOptions = Object.keys(filters).map((k) => `filters.${k}`);
-    const keys = [...contextOptions, ...filterOptions];
-    return keys.map((k) => ({
-      label: k.split('.')[1],
-      value: k,
-      group: _.capitalize(k.split('.')[0]),
+    const contentModel = getRoot(self).content;
+
+    const { context } = contentModel.payloadForSQL;
+    const contextOptions: SelectItem[] = Object.keys(context).map((k) => ({
+      group: 'Context',
+      label: k,
+      value: `context.${k}`,
+      description: undefined,
     }));
+
+    const filterOptions: SelectItem[] = contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
+      group: 'Filters',
+      label: o.label,
+      value: `filters.${o.value}`,
+      description: o.value,
+    }));
+
+    return [...contextOptions, ...filterOptions];
   },
   get unmetRunByConditions() {
     // this computed has dependencies on reactive values outside the model,

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { QueryRenderModelInstance } from '~/model';
 import { DeleteQuery } from './delete-query';
 import { SelectDataSource } from './select-data-source';
+import { CustomSelectorItem } from '~/components/widgets/custom-selector-item';
 
 interface IQueryConfigurations {
   queryModel: QueryRenderModelInstance;
@@ -60,6 +61,8 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
           data={queryModel.conditionOptions}
           value={[...queryModel.run_by]}
           onChange={queryModel.setRunBy}
+          itemComponent={CustomSelectorItem}
+          maxDropdownHeight={500}
         />
         {queryModel.typedAsHTTP && (
           <MultiSelect
@@ -68,6 +71,8 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
             data={queryModel.conditionOptions}
             value={[...queryModel.react_to]}
             onChange={queryModel.setReactTo}
+            itemComponent={CustomSelectorItem}
+            maxDropdownHeight={500}
           />
         )}
 
