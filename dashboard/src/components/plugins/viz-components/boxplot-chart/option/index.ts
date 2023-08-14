@@ -51,6 +51,7 @@ export function getOption({ config, data, variables }: IGetOption) {
     yAxis: [
       {
         name: y_axis.name,
+        minInterval: 1,
         nameTextStyle: {
           fontWeight: 'bold',
         },

@@ -8,6 +8,7 @@ export function getYAxes(conf: ICartesianChartConf, labelFormatters: Record<stri
     }
     return {
       ...rest,
+      minInterval: 1,
       show,
       min: min ? min : undefined,
       max: max ? max : undefined,
