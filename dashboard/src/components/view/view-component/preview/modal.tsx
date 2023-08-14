@@ -1,8 +1,10 @@
-import { Box, Modal } from '@mantine/core';
+import { Box, Group, Modal } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useMemo } from 'react';
 import { ViewMetaInstance, ViewModalConfigInstance } from '~/model';
+import { TakeScreenshot } from '../render/modal';
+import { useDownloadDivScreenshot } from '../utils';
 
 function viewportSizeToPercentage(size: string) {
   return size.replace(/(vw|vh)/, '%');
@@ -16,6 +18,9 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
       height: viewportSizeToPercentage(config.height),
     };
   }, [config.width, config.height]);
+
+  // const { ref, downloadScreenshot } = useDownloadModalScreenshot(view);
+  const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
   return (
     <Box
       sx={{
@@ -30,7 +35,12 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
         opened={true}
         onClose={_.noop}
         withCloseButton={false}
-        title={config.custom_modal_title.value}
+        title={
+          <Group position="apart" px="1rem" h="48px">
+            <Box>{config.custom_modal_title.value}</Box>
+            <TakeScreenshot downloadScreenshot={downloadScreenshot} />
+          </Group>
+        }
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -65,13 +75,19 @@ export const PreviewViewModal = observer(({ children, view }: { children: ReactN
             maxHeight: 'calc(100% - 48px)',
             overflow: 'auto',
           },
+          header: {
+            padding: 0,
+          },
+          title: {
+            flexGrow: 1,
+          },
         }}
         withinPortal={false}
         transitionProps={{
           duration: 0,
         }}
       >
-        {children}
+        <Box ref={ref}>{children}</Box>
       </Modal>
     </Box>
   );
