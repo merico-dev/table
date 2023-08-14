@@ -16,13 +16,15 @@ export interface IBoxplotReferenceLine {
   variable_key: string;
 }
 
+export type TLegendOrientation = 'horizontal' | 'vertical';
+
 export type TBoxplotLegend = {
   show: boolean;
   top: string;
   right: string;
   bottom: string;
   left: string;
-  orient: 'horizontal' | 'vertical';
+  orient: TLegendOrientation;
   type: 'scroll';
 };
 
