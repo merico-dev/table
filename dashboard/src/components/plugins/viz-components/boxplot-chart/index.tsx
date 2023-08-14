@@ -119,8 +119,23 @@ function v8(legacyConf: any, { panelModel }: IMigrationEnv): IBoxplotChartConf {
   }
 }
 
+function v9(legacyConf: any): IBoxplotChartConf {
+  const patch = {
+    legend: {
+      show: true,
+      top: '0',
+      right: '10',
+      left: 'auto',
+      bottom: 'auto',
+      orient: 'horizontal',
+      type: 'scroll',
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 8;
+  readonly VERSION = 9;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -163,6 +178,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 8, config: v8(config, env) };
     });
+    this.version(9, (data) => {
+      const { config } = data;
+      return { ...data, version: 9, config: v9(config) };
+    });
   }
 }
 
@@ -175,7 +194,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 8,
+      version: 9,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },
