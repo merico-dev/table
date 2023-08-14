@@ -6,6 +6,7 @@ export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) 
     {
       name: conf.bar.name,
       nameGap: 20,
+      minInterval: 1,
       nameTextStyle: {
         fontWeight: 'bold',
         align: conf.bar.nameAlignment,

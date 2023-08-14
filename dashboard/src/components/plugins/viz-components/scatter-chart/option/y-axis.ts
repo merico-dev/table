@@ -9,6 +9,7 @@ export function getYAxes(conf: IScatterChartConf, labelFormatters: Record<string
     }
     return {
       ...rest,
+      minInterval: 1,
       min: min ? min : undefined,
       max: max ? max : undefined,
       position,
