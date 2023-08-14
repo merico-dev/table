@@ -16,6 +16,18 @@ export interface IBoxplotReferenceLine {
   variable_key: string;
 }
 
+export type TLegendOrientation = 'horizontal' | 'vertical';
+
+export type TBoxplotLegend = {
+  show: boolean;
+  top: string;
+  right: string;
+  bottom: string;
+  left: string;
+  orient: TLegendOrientation;
+  type: 'scroll';
+};
+
 export interface IBoxplotChartConf {
   x_axis: {
     name: string;
@@ -36,6 +48,7 @@ export interface IBoxplotChartConf {
   };
   color: string;
   reference_lines: IBoxplotReferenceLine[];
+  legend: TBoxplotLegend;
 }
 
 export const DEFAULT_CONFIG: IBoxplotChartConf = {
@@ -58,6 +71,15 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   },
   color: '#228be6',
   reference_lines: [],
+  legend: {
+    show: true,
+    top: '10',
+    right: '0',
+    left: 'auto',
+    bottom: 'auto',
+    orient: 'vertical',
+    type: 'scroll',
+  },
 };
 
 export type TOutlierDataItem = [string, number, AnyObject];

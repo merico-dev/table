@@ -9,6 +9,7 @@ import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getReferenceLines } from './reference-line';
+import { getGrid } from './grid';
 
 interface IGetOption {
   config: IBoxplotChartConf;
@@ -22,13 +23,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   const series = getSeries(config);
   return {
-    grid: {
-      top: 30,
-      left: 20,
-      right: 15,
-      bottom: 25,
-      containLabel: true,
-    },
+    grid: getGrid(config),
     dataset,
     legend: getLegend({ config }),
     tooltip: getTooltip({ config }),

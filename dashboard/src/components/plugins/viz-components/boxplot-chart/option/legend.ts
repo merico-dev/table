@@ -2,10 +2,7 @@ import { IBoxplotChartConf } from '../type';
 
 export function getLegend({ config }: { config: IBoxplotChartConf }) {
   const ret: Record<string, any> = {
-    show: true,
-    top: 0,
-    right: 10,
-    type: 'scroll',
+    ...config.legend,
     data: [
       {
         name: 'Box',
