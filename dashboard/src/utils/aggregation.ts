@@ -1,7 +1,20 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import * as math from 'mathjs';
-import { extractData } from './data';
+import { extractData, extractFullQueryData } from './data';
+import { functionUtils } from './function-utils';
+
+export type TCustomAggregation = {
+  type: 'custom';
+  config: {
+    func: string;
+  };
+};
+export const DefaultCustomAggregationFunc = [
+  'function aggregation({ queryData }, utils) {',
+  '    return "Aggregation Result";',
+  '}',
+].join('\n');
 
 export type AggregationType =
   | {
@@ -13,7 +26,8 @@ export type AggregationType =
       config: {
         p: number;
       };
-    };
+    }
+  | TCustomAggregation;
 export const DefaultAggregation: AggregationType = {
   type: 'none',
   config: {},
@@ -71,8 +85,21 @@ export function formatNumbersAndAggregateValue(possibleNumbers: Array<string | n
   return aggregateValueFromNumbers(numbers, aggregation);
 }
 
+function runCustomAggregation(data: TPanelData, data_field: string, aggregation: TCustomAggregation) {
+  try {
+    const queryData = extractFullQueryData(data, data_field);
+    return new Function(`return ${aggregation.config.func}`)()({ queryData }, functionUtils);
+  } catch (error) {
+    console.error(error);
+    return (error as any).message;
+  }
+}
+
 export function aggregateValue(data: TPanelData, data_field: string, aggregation: AggregationType) {
   try {
+    if (aggregation.type === 'custom') {
+      return runCustomAggregation(data, data_field, aggregation);
+    }
     return formatNumbersAndAggregateValue(extractData(data, data_field), aggregation);
   } catch (error) {
     console.error(error);

@@ -9,7 +9,7 @@ export function AboutFunctionUtils() {
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="About FunctionUtils" zIndex={320}>
+      <Modal opened={opened} onClose={close} title="About FunctionUtils" zIndex={330} withinPortal>
         <ReadonlyRichText
           value={FunctionUtilsDescription}
           styles={{ root: { border: 'none' }, content: { padding: 0, table: { marginBottom: 0 } } }}

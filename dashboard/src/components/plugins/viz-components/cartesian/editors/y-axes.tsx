@@ -35,7 +35,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
+            <Select label="Name Anchor" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
