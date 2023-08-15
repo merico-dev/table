@@ -12,7 +12,7 @@ import DashboardContentChangelog from '../../models/dashboard_content_changelog'
 import DashboardContent from '../../models/dashboard_content';
 import { DashboardContentChangelogService } from '../../services/dashboard_content_changelog.service';
 import { FIXED_ROLE_TYPES } from '../../services/role.service';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { ensureDirSync } from 'fs-extra';
 
 type Source = {
@@ -32,11 +32,7 @@ async function upsert() {
     const superadmin: Account = await queryRunner.manager
       .getRepository(Account)
       .findOneByOrFail({ role_id: FIXED_ROLE_TYPES.SUPERADMIN });
-    const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
     const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
-    const dashboardContentChangelogRepo = queryRunner.manager.getRepository(DashboardContentChangelog);
-    const dashboardContentRepo = queryRunner.manager.getRepository(DashboardContent);
-    const dashboardPermissionRepo = queryRunner.manager.getRepository(DashboardPermission);
     const datasourceRepo = queryRunner.manager.getRepository(DataSource);
 
     const basePath = path.join(__dirname, '../dashboards');
@@ -48,16 +44,7 @@ async function upsert() {
       const config: Record<string, any> = JSON.parse(readFileSync(path.join(basePath, files[i]), 'utf-8'));
       await checkConfigForErrors(datasourceRepo, config, errors);
       const name = dashboardNames[i];
-      await upsertDashboard(
-        dashboardRepo,
-        dashboardPermissionRepo,
-        dashboardContentRepo,
-        dashboardChangelogRepo,
-        dashboardContentChangelogRepo,
-        name,
-        config,
-        superadmin.id,
-      );
+      await upsertDashboard(queryRunner, name, config, superadmin.id);
     }
     if (!_.isEmpty(errors)) {
       throw new Error(`Missing preset datasources: ${JSON.stringify(errors)}`);
@@ -119,15 +106,16 @@ async function checkConfigForErrors(
 }
 
 async function upsertDashboard(
-  dashboardRepo: Repository<Dashboard>,
-  dashboardPermissionRepo: Repository<DashboardPermission>,
-  dashboardContentRepo: Repository<DashboardContent>,
-  dashboardChangelogRepo: Repository<DashboardChangelog>,
-  dashboardContentChangelogRepo: Repository<DashboardContentChangelog>,
+  queryRunner: QueryRunner,
   name: string,
   config: Record<string, any>,
   superadminId: string,
 ) {
+  const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
+  const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
+  const dashboardContentChangelogRepo = queryRunner.manager.getRepository(DashboardContentChangelog);
+  const dashboardContentRepo = queryRunner.manager.getRepository(DashboardContent);
+  const dashboardPermissionRepo = queryRunner.manager.getRepository(DashboardPermission);
   let dashboard = await dashboardRepo.findOneBy({ name, is_preset: true });
   const originalDashboard: Dashboard | null = _.cloneDeep(dashboard);
   let isNew = false;
