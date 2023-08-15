@@ -1,6 +1,7 @@
-import { Instance, types } from 'mobx-state-tree';
+import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterBaseSelectConfigMeta } from './select-base';
 import { shallowToJS } from '~/utils/shallow-to-js';
+import { reaction, toJS } from 'mobx';
 
 export const FilterSelectConfigMeta = types
   .compose(
@@ -32,6 +33,15 @@ export const FilterSelectConfigMeta = types
     getSelectOption(value: string) {
       return self.options.find((o) => o.value === value);
     },
+    get default_selection() {
+      if (!self.usingQuery) {
+        return self.default_value;
+      }
+      if (self.default_selection_count > 0 && self.options.length > 0) {
+        return self.options[0].value;
+      }
+      return '';
+    },
   }))
   .actions((self) => ({
     setRequired(required: boolean) {
@@ -42,6 +52,24 @@ export const FilterSelectConfigMeta = types
     },
     setWidth(v: string) {
       self.width = v;
+    },
+    setDefaultSelection() {
+      // @ts-expect-error getRoot type
+      const filters = getRoot(self).content.filters;
+      // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
+      const key = getParent(self).key;
+      filters.setValueByKey(key, self.default_selection);
+    },
+  }))
+  .actions((self) => ({
+    afterCreate() {
+      addDisposer(
+        self,
+        reaction(() => toJS(self.default_selection), self.setDefaultSelection, {
+          fireImmediately: true,
+          delay: 0,
+        }),
+      );
     },
   }));
 
