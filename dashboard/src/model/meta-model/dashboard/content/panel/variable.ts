@@ -32,6 +32,10 @@ export const VariableMeta = types
         type: types.literal('quantile'),
         config: types.model({ p: types.number }),
       }),
+      types.model({
+        type: types.literal('custom'),
+        config: types.model({ func: types.string }),
+      }),
     ),
   })
   .views((self) => ({

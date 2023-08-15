@@ -1,6 +1,9 @@
-import { Group, NumberInput, Select, SpacingValue, Sx, SystemProp } from '@mantine/core';
+import { Group, NumberInput, Select, SpacingValue, SystemProp } from '@mantine/core';
+import { IconMathFunction } from '@tabler/icons-react';
 import React, { useEffect } from 'react';
-import { AggregationType } from '~/utils/aggregation';
+import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
+import { ModalFunctionEditor } from '~/components/widgets/modal-function-editor';
+import { AggregationType, DefaultCustomAggregationFunc } from '~/utils/aggregation';
 
 const options: { label: string; value: AggregationType['type'] }[] = [
   { label: 'None', value: 'none' },
@@ -12,6 +15,7 @@ const options: { label: string; value: AggregationType['type'] }[] = [
   { label: 'Coefficient of Variation', value: 'CV' },
   { label: 'Standard Variation', value: 'std' },
   { label: 'Quantile(99%, 95%, ...)', value: 'quantile' },
+  { label: 'Custom', value: 'custom' },
 ];
 
 interface IAggregationSelector {
@@ -25,7 +29,6 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {
-      console.log(value);
       onChange({
         type: value,
         config: {},
@@ -36,6 +39,8 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
   const changeType = (type: AggregationType['type']) => {
     if (type === 'quantile') {
       onChange({ type: 'quantile', config: { p: 0.99 } });
+    } else if (type === 'custom') {
+      onChange({ type: 'custom', config: { func: DefaultCustomAggregationFunc } });
     } else {
       onChange({ type, config: {} });
     }
@@ -46,6 +51,15 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
       type: 'quantile',
       config: {
         p,
+      },
+    });
+  };
+
+  const changeCustomFunc = (func: TFunctionString) => {
+    onChange({
+      type: 'custom',
+      config: {
+        func,
       },
     });
   };
@@ -61,6 +75,20 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
           min={0.05}
           step={0.05}
           max={1}
+        />
+      )}
+      {value.type === 'custom' && (
+        <ModalFunctionEditor
+          label=""
+          triggerLabel="Edit Function"
+          value={value.config.func}
+          onChange={changeCustomFunc}
+          defaultValue={DefaultCustomAggregationFunc}
+          triggerButtonProps={{
+            size: 'xs',
+            sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
+            leftIcon: <IconMathFunction size={16} />,
+          }}
         />
       )}
     </Group>

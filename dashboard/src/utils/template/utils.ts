@@ -19,9 +19,15 @@ export function getAggregatedValue({ data_field, aggregation }: ITemplateVariabl
   return aggregateValue(data, data_field, aggregation);
 }
 
-export function formatAggregatedValue({ formatter }: ITemplateVariable, value: number | string | number[] | null) {
+export function formatAggregatedValue(
+  { formatter, aggregation }: ITemplateVariable,
+  value: number | string | number[] | null,
+) {
   if (!['string', 'number'].includes(typeof value)) {
     return getNonStatsDataText(value);
+  }
+  if (aggregation.type === 'custom') {
+    return value;
   }
   try {
     return numbro(value).format(formatter);

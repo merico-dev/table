@@ -47,9 +47,12 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         value={value.aggregation}
         onChange={(v) => handleChange('aggregation', v)}
       />
-
-      <Divider my="xs" label="Format" labelPosition="center" />
-      <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
+      {value.aggregation.type !== 'custom' && (
+        <>
+          <Divider my="xs" label="Format" labelPosition="center" />
+          <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
+        </>
+      )}
 
       {withStyle && <TemplateVariableStyleField value={value} onChange={onChange} />}
     </Box>
