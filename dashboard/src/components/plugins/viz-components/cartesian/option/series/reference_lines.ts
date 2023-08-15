@@ -23,7 +23,7 @@ export function getReferenceLines(
         data: [
           {
             name: r.name,
-            [keyOfAxis]: Number(variableValueMap[r.variable_key]),
+            [keyOfAxis]: variableValueMap[r.variable_key],
           },
         ],
         silent: true,
