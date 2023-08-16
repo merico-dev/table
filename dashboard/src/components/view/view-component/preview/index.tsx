@@ -10,7 +10,7 @@ export const PreviewViewComponent = observer(({ view, children }: { view: ViewMe
     case EViewComponentType.Modal:
       return <PreviewViewModal view={view}>{children}</PreviewViewModal>;
     case EViewComponentType.Tabs:
-      return <PreviewViewTabs view={view}>{children}</PreviewViewTabs>;
+      return <PreviewViewTabs view={view} />;
     case EViewComponentType.Division:
     default:
       return <PreviewViewDivision view={view}>{children}</PreviewViewDivision>;
