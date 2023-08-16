@@ -10,6 +10,9 @@ import { EViewComponentType, TabModelInstance, ViewMetaInstance, ViewTabsConfigI
 
 const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   const ret: Record<string, any> = {
+    root: {
+      height: '100%',
+    },
     tab: {},
     panel: {
       padding: '16px',
