@@ -2,6 +2,7 @@ import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
+import { EViewComponentType } from '~/model';
 
 interface IAddAPanel {
   parentID?: string;
@@ -13,7 +14,7 @@ export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
     return null;
   }
   const view = model.views.findByID(parentID);
-  if (!view) {
+  if (!view || view.type === EViewComponentType.Tabs) {
     return null;
   }
   return (

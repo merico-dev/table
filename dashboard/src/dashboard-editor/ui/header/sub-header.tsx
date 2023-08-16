@@ -2,6 +2,7 @@ import { Box, Button, Group, Sx } from '@mantine/core';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
+import { EViewComponentType } from '~/model';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -16,6 +17,7 @@ const SubHeaderSx: Sx = {
 
 export const SubHeader = observer(() => {
   const model = useEditContentModelContext();
+  const cant = model.views.VIE?.type === EViewComponentType.Tabs;
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
       <Group position="apart" align="center" sx={{ height: '30px' }} pr={16}>
@@ -24,7 +26,7 @@ export const SubHeader = observer(() => {
           color="blue"
           radius={0}
           size="xs"
-          disabled={!model.views.VIE}
+          disabled={!model.views.VIE || cant}
           onClick={() => model.addANewPanel(model.views.idOfVIE)}
           leftIcon={<IconPlaylistAdd size={20} />}
           sx={{
