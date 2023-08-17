@@ -23,9 +23,10 @@ export const RenderViewTabs = observer(({ view }: { view: ViewMetaInstance }) =>
       styles={{
         root: {
           height: '100%',
+          overflow: config.orientation === 'horizontal' ? 'hidden' : 'auto',
         },
         panel: {
-          padding: config.orientation === 'horizontal' ? '16px 0px' : '0',
+          padding: config.orientation === 'horizontal' ? '8px 0px 8px' : '0',
           height: '100%',
           overflow: 'auto',
         },

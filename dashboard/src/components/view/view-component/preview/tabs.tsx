@@ -12,6 +12,7 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   const ret: Record<string, any> = {
     root: {
       height: '100%',
+      overflow: 'hidden',
     },
     tab: {},
     panel: {
