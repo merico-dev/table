@@ -6,16 +6,14 @@ export const PanelErrorOrStateMessage = observer(({ panel }: { panel: PanelRende
   return (
     <Stack>
       {panel.queryErrors.map((err, i) => (
-        <Text key={`${i}-${err}`} color="red" size="md" align="center" sx={{ fontFamily: 'monospace' }}>
+        <Text key={`${i}-${err}`} color="red" size="sm" align="center" sx={{ fontFamily: 'monospace' }}>
           {err}
         </Text>
       ))}
 
-      {panel.queryStateMessages.map((msg, i) => (
-        <Text key={`${i}-${msg}`} color="gray" align="center">
-          {msg}
-        </Text>
-      ))}
+      <Text color="gray" align="center" size="sm">
+        {panel.queryStateMessages}
+      </Text>
     </Stack>
   );
 });
