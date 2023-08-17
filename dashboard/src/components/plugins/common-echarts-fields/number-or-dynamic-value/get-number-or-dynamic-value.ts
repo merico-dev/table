@@ -18,7 +18,6 @@ export function getNumberOrDynamicValue(
 
   const { value } = conf as TNumberOrDynamic_Dynamic;
   try {
-    console.log('returning here');
     return new Function(`return ${value}`)()({ variables: variableValueMap }, { lodash, interpolate });
   } catch (error) {
     // @ts-expect-error Object is of type 'unknown'.
