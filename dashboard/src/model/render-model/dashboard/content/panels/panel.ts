@@ -24,13 +24,36 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return this.queries.some((q) => q.state === 'loading');
     },
     get queryStateMessages() {
-      return this.queries.map((q) => q.stateMessage).filter((m) => !!m);
+      const queries = this.queries.filter((q) => !q.runByConditionsMet);
+      if (queries.length === 0) {
+        return '';
+      }
+      const context = new Set();
+      const filters = new Set();
+      queries.forEach((q) => {
+        const names = q.conditionNames;
+        names.context.forEach((c) => context.add(c));
+        names.filters.forEach((f) => filters.add(f));
+      });
+      const arr = [];
+      if (context.size > 0) {
+        console.log(context);
+        arr.push(`context: ${Array.from(context).join(', ')}`);
+      }
+      if (filters.size > 0) {
+        arr.push(`filter${filters.size > 1 ? 's' : ''}: ${Array.from(filters).join(', ')}`);
+      }
+      if (arr.length === 2) {
+        arr.splice(1, 0, 'and');
+      }
+      arr.unshift('Waiting for');
+      return arr.join(' ');
     },
     get queryErrors() {
       return this.queries.map((q) => q.error).filter((e) => !!e);
     },
     get canRenderViz() {
-      return this.queryErrors.length === 0 && this.queryStateMessages.length === 0 && !this.dataLoading;
+      return this.queryErrors.length === 0 && this.queryStateMessages === '' && !this.dataLoading;
     },
   }))
   .actions((self) => ({

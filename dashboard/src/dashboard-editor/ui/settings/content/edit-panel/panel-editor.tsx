@@ -60,7 +60,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const panelNeedData = doesVizRequiresData(panel.viz.type);
   const loading = panelNeedData && panel.dataLoading;
   const dataNotReady =
-    loading || panel.queryErrors.length > 0 || panel.queryStateMessages.length > 0 || queries.length === 0;
+    loading || panel.queryErrors.length > 0 || panel.queryStateMessages !== '' || queries.length === 0;
 
   const viewID = model.editor.path[1];
   useEffect(() => {
