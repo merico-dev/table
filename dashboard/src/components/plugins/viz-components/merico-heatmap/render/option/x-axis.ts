@@ -35,6 +35,6 @@ export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFu
       fontWeight: 'bold',
       align: 'center',
     },
-    z: 1,
+    z: 2,
   };
 }

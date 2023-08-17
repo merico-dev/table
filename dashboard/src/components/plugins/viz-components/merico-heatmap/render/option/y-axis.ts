@@ -40,6 +40,6 @@ export function getYAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFu
     },
     nameLocation: 'end',
     nameGap: 15,
-    z: 1,
+    z: 2,
   };
 }
