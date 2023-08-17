@@ -20,7 +20,7 @@ class MericoHeatmapMigrator extends VersionBasedMigrator {
 
 export const MericoHeatmapVizComponent: VizComponent = {
   displayName: 'Merico Heatmap',
-  displayGroup: 'Merico Suite',
+  displayGroup: 'Merico suite',
   migrator: new MericoHeatmapMigrator(),
   name: 'merico-heatmap',
   viewRender: RenderMericoHeatmap,
