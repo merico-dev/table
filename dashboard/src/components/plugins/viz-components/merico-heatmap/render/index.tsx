@@ -22,7 +22,6 @@ import { getOption } from './option';
 import { ClickHeatBlock } from '../triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
 
-const MERICO_HEATMAP_UNIT_SIZE = 25;
 interface IClickHeatBlock {
   type: 'click';
   seriesType: 'heatblock';
@@ -88,39 +87,19 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
-  const size = useMemo(() => {
-    const ret = {
-      w: width,
-      h: height,
-    };
-    try {
-      const xCount = option.xAxis?.data.length ?? 0;
-      const yCount = option.yAxis?.data.length ?? 0;
-      ret.w = Math.max(ret.w, xCount * MERICO_HEATMAP_UNIT_SIZE);
-      ret.h = Math.max(ret.h, yCount * MERICO_HEATMAP_UNIT_SIZE);
-    } catch (error) {
-      console.error(error);
-    }
-    return ret;
-  }, [width, height, option]);
-
   if (!width || !height) {
     return null;
   }
-  console.log({ size, width, height });
+
   return (
-    <ScrollArea w={width} h={height} type="auto" pr={size.w > width ? '13px' : 0} pb={size.h > height ? '15px' : 0}>
-      <Box w={size.w} h={size.h} pb={size.h > height ? '15px' : 0}>
-        <ReactEChartsCore
-          echarts={echarts}
-          option={option}
-          style={{ width: '100%', height: '100%' }}
-          onEvents={onEvents}
-          notMerge
-          theme="merico-light"
-        />
-      </Box>
-    </ScrollArea>
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={onEvents}
+      notMerge
+      theme="merico-light"
+    />
   );
 }
 
