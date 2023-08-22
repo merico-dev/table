@@ -1,4 +1,4 @@
-import { Switch } from '@mantine/core';
+import { Divider, Group, NumberInput, Stack, Switch, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
@@ -8,11 +8,38 @@ export const EditStyle = observer(() => {
 
   return (
     <>
-      <Switch
-        label="Border"
-        checked={style.border.enabled}
-        onChange={(event) => style.border.setEnabled(event.currentTarget.checked)}
-      />
+      <Divider mb={-10} label="Style" labelPosition="center" variant="dashed" />
+      <Stack spacing={20}>
+        <Group grow align="top">
+          <NumberInput
+            label="Width"
+            min={1}
+            max={36}
+            step={1}
+            precision={0}
+            rightSection={<Text size={12}>of 36 columns</Text>}
+            styles={{ rightSection: { width: '110px' } }}
+            value={panel.layout.w}
+            onChange={(v) => {
+              v && panel.layout.setWidth(v);
+            }}
+          />
+          <NumberInput
+            label="Height"
+            rightSection={<Text size={12}>px</Text>}
+            styles={{ rightSection: { width: '40px' } }}
+            value={panel.layout.h}
+            onChange={(v) => {
+              v && panel.layout.setHeight(v);
+            }}
+          />
+        </Group>
+        <Switch
+          label="Border"
+          checked={style.border.enabled}
+          onChange={(event) => style.border.setEnabled(event.currentTarget.checked)}
+        />
+      </Stack>
     </>
   );
 });
