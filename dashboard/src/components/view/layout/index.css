@@ -5,7 +5,8 @@
   padding: 0;
 }
 .react-grid-item.react-grid-placeholder {
-  /* background: none !important; */
+  background: black !important;
+  opacity: 0.3 !important;
 }
 .panel-grid-item {
   padding: 5px;
