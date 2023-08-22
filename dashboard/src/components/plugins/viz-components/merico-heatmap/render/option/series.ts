@@ -19,8 +19,7 @@ export function getSeries(conf: TMericoHeatmapConf, data: TPanelData) {
     yAxisIndex: 0,
     datasetIndex: 0,
     itemStyle: {
-      borderColor: 'white',
-      borderWidth: 2,
+      borderWidth: 0,
     },
     data: seriesData,
     label: heat_block.label,
