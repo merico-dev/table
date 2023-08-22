@@ -33,4 +33,10 @@ export const PanelLayoutMeta = types
       self.moved = !!moved;
       self.static = !!layout.static;
     },
+    setWidth(w: number) {
+      self.w = w;
+    },
+    setHeight(h: number) {
+      self.h = h;
+    },
   }));
