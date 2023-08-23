@@ -25,6 +25,27 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
     onChange(v);
   };
 
+  const changeColor = (c: 'static' | 'continuous') => {
+    if (c === 'static') {
+      onChange({
+        ...value,
+        color: {
+          type: 'static',
+          staticColor: '#25262B',
+        },
+      });
+      return;
+    }
+    onChange({
+      ...value,
+      color: {
+        type: 'continuous',
+        colorRange: [],
+        valueRange: [],
+      },
+    });
+  };
+
   return (
     <>
       <Divider my="xs" label="Typography" labelPosition="center" />
@@ -51,7 +72,7 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
             { label: 'Continuous Color', value: 'continuous' },
           ]}
           value={value.color.type}
-          onChange={(v) => handleChange('color.type', v)}
+          onChange={changeColor}
         />
         {colorType === 'static' && (
           <MantineColorSelector
