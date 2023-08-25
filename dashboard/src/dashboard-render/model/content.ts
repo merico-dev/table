@@ -111,7 +111,7 @@ export const ContentRenderModel = types
         };
       }
       return {
-        data: q.data.toJSON(),
+        data: q.data,
         len: q.data.length,
         state: q.state,
         error: q.error,

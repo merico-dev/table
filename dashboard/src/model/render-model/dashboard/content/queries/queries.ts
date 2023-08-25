@@ -29,7 +29,7 @@ export const QueriesRenderModel = types
       downloadAllData() {
         const idDataList = self.current.map(({ name, data }) => ({
           id: name,
-          data: data.toJSON(),
+          data,
         }));
         downloadDataListAsZip(idDataList);
       },
@@ -39,7 +39,7 @@ export const QueriesRenderModel = types
           .filter((q) => idset.has(q.id))
           .map(({ name, data }) => ({
             id: name,
-            data: data.toJSON(),
+            data,
           }));
         downloadDataListAsZip(idDataList);
       },

@@ -19,7 +19,7 @@ export const QueryRenderModel = types
     MuteQueryModel,
     types.model({
       state: types.optional(types.enumeration(['idle', 'loading', 'error']), 'idle'),
-      data: types.optional(types.array(types.frozen<string[] | number[]>()), []),
+      data: types.optional(types.frozen<string[][] | number[][]>([]), []),
       error: types.frozen(),
     }),
   )
