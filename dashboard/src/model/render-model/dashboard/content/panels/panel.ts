@@ -16,7 +16,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     },
     get data() {
       return this.queries.reduce((ret: TPanelData, q) => {
-        ret[q.id] = q.data.toJSON();
+        ret[q.id] = q.data;
         return ret;
       }, {});
     },
