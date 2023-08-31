@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { RadarChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -6,16 +5,15 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaultsDeep, isEmpty } from 'lodash';
 import { useCallback, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
+import { parseDataKey } from '~/utils/data';
 import { ITemplateVariable } from '~/utils/template';
 import { getOption } from './option';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
-import { parseDataKey } from '~/utils/data';
 
 interface IClickRadarSeries {
   type: 'click';
@@ -108,15 +106,13 @@ export function VizRadarChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <Box>
-      <Chart
-        variables={variables}
-        width={width}
-        height={height}
-        data={data}
-        conf={conf}
-        interactionManager={interactionManager}
-      />
-    </Box>
+    <Chart
+      variables={variables}
+      width={width}
+      height={height}
+      data={data}
+      conf={conf}
+      interactionManager={interactionManager}
+    />
   );
 }

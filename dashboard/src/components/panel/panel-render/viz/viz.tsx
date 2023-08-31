@@ -10,6 +10,7 @@ import { useRenderPanelContext } from '../../../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../../plugins';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
+import { Box } from '@mantine/core';
 
 function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
@@ -57,7 +58,7 @@ export const Viz = observer(function _Viz({ data }: IViz) {
   const canRender = width > 0 && height > 0;
   return (
     <div className="viz-root" ref={ref}>
-      {canRender && <ErrorBoundary>{pluginViz}</ErrorBoundary>}
+      <Box sx={{ width, height, overflow: 'hidden' }}>{canRender && <ErrorBoundary>{pluginViz}</ErrorBoundary>}</Box>
     </div>
   );
 });

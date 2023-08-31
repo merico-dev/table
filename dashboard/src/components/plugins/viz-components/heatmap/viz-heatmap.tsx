@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { HeatmapChart } from 'echarts/charts';
 import {
@@ -12,8 +11,8 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils/data';
@@ -115,15 +114,13 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const { width, height } = context.viewport;
 
   return (
-    <Box>
-      <Chart
-        variables={variables}
-        width={width}
-        height={height}
-        data={data}
-        conf={conf}
-        interactionManager={interactionManager}
-      />
-    </Box>
+    <Chart
+      variables={variables}
+      width={width}
+      height={height}
+      data={data}
+      conf={conf}
+      interactionManager={interactionManager}
+    />
   );
 }

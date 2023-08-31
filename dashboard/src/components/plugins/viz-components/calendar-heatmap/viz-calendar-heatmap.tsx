@@ -134,15 +134,13 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
   }
 
   return (
-    <Box>
-      <Chart
-        variables={variables}
-        width={width}
-        height={height}
-        data={data}
-        conf={conf}
-        interactionManager={interactionManager}
-      />
-    </Box>
+    <Chart
+      variables={variables}
+      width={width}
+      height={height}
+      data={data}
+      conf={conf}
+      interactionManager={interactionManager}
+    />
   );
 }

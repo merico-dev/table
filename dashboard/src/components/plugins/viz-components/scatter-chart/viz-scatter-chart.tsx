@@ -136,7 +136,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <Box>
+    <>
       <Text
         ref={topStatsRef}
         align="left"
@@ -165,6 +165,6 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
       >
         {Object.values(templates.bottom).map((c) => c)}
       </Text>
-    </Box>
+    </>
   );
 }

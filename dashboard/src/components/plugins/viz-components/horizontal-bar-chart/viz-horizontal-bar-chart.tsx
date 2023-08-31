@@ -1,7 +1,5 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
 import {
   DataZoomComponent,
   GridComponent,
@@ -10,18 +8,18 @@ import {
   MarkLineComponent,
   TooltipComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
-import { AnyObject } from '~/types';
+import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -115,15 +113,13 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
   return (
-    <Box>
-      <Chart
-        variables={variables}
-        width={width}
-        height={height}
-        data={data}
-        conf={conf}
-        interactionManager={interactionManager}
-      />
-    </Box>
+    <Chart
+      variables={variables}
+      width={width}
+      height={height}
+      data={data}
+      conf={conf}
+      interactionManager={interactionManager}
+    />
   );
 }

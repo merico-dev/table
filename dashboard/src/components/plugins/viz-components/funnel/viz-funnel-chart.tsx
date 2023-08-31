@@ -1,8 +1,7 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { FunnelChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
 import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useMemo } from 'react';
@@ -30,9 +29,5 @@ export function VizFunnelChart({ context }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
 
-  return (
-    <Box>
-      <Chart width={width} height={height} data={data} conf={conf} />
-    </Box>
-  );
+  return <Chart width={width} height={height} data={data} conf={conf} />;
 }
