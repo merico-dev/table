@@ -141,7 +141,7 @@ function VizTableComponent({ data, width, height, conf, context, instance }: IVi
   return (
     <div
       ref={tableContainerRef}
-      style={{ height, width }}
+      style={{ height, width, padding: '0 5px' }}
       data-enable-scrollbar
       className={cx(classes.root, { 'table-highlight-on-hover': conf.highlightOnHover })}
     >

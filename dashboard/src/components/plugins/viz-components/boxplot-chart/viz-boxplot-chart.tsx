@@ -79,15 +79,13 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <Box sx={{ width, height, overflow: 'hidden' }}>
-      <ReactEChartsCore
-        echarts={echarts}
-        option={option}
-        style={{ width, height }}
-        onEvents={onEvents}
-        notMerge
-        theme="merico-light"
-      />
-    </Box>
+    <ReactEChartsCore
+      echarts={echarts}
+      option={option}
+      style={{ width, height }}
+      onEvents={onEvents}
+      notMerge
+      theme="merico-light"
+    />
   );
 }

@@ -144,7 +144,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
 
   const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
   return (
-    <Box sx={{ width, height, overflow: 'hidden' }}>
+    <>
       <Text
         ref={topStatsRef}
         align="left"
@@ -177,6 +177,6 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
           <React.Fragment key={i}>{c}</React.Fragment>
         ))}
       </Text>
-    </Box>
+    </>
   );
 }
