@@ -26,6 +26,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
       treeData={treeData}
       errorMessage={errorMessage}
       label={label}
+      required={config.required}
     />
   );
 });

@@ -27,6 +27,7 @@ export const FilterBaseSelectConfigMeta = types
     static_options: types.optional(types.array(FilterConfigModel_SelectOption), []),
     options_query_id: types.optional(types.string, ''),
     default_selection_count: types.optional(types.number, 0),
+    required: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get usingQuery() {
@@ -47,6 +48,9 @@ export const FilterBaseSelectConfigMeta = types
     },
   }))
   .actions((self) => ({
+    setRequired(required: boolean) {
+      self.required = required;
+    },
     addStaticOption(option: { label: string; value: string }) {
       self.static_options.push(option);
     },

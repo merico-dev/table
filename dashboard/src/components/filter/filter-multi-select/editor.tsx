@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Button,
   Center,
+  Checkbox,
   Divider,
   Flex,
   MultiSelect,
@@ -36,6 +37,11 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
+      <Checkbox
+        checked={config.required}
+        onChange={(e) => config.setRequired(e.currentTarget.checked)}
+        label="Required"
+      />
       <TextInput
         label="Width"
         description="At least 160px"

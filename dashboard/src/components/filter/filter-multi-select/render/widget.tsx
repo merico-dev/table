@@ -31,6 +31,7 @@ interface IProps extends DefaultProps<StylesNames, MultiSelectWidgetStylesParams
   options: TSelectOption[];
   disabled: boolean;
   errorMessage?: string;
+  required: boolean;
 }
 
 export const MultiSelectWidget = ({
@@ -47,6 +48,7 @@ export const MultiSelectWidget = ({
   onChange,
   options,
   errorMessage,
+  required,
 }: IProps) => {
   const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -69,7 +71,14 @@ export const MultiSelectWidget = ({
   return (
     <Stack spacing={3}>
       <Group position="apart">
-        <Text className={classes.label}>{label}</Text>
+        <Text className={classes.label}>
+          {label}
+          {required && (
+            <span className={classes.required} aria-hidden="true">
+              *
+            </span>
+          )}
+        </Text>
         {tooltipVisible && (
           <Tooltip label={`${value.length} selected`}>
             <Badge>{value.length}</Badge>
