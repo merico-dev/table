@@ -1,4 +1,4 @@
-import { Divider, NumberInput, TextInput } from '@mantine/core';
+import { Checkbox, Divider, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { FilterTreeSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
@@ -11,6 +11,11 @@ interface IFilterEditorTreeSelect {
 export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ config }: IFilterEditorTreeSelect) {
   return (
     <>
+      <Checkbox
+        checked={config.required}
+        onChange={(e) => config.setRequired(e.currentTarget.checked)}
+        label="Required"
+      />
       <TextInput
         label="Min-width"
         value={config.min_width}
