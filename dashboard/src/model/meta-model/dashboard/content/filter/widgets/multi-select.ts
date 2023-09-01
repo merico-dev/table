@@ -33,6 +33,9 @@ export const FilterMultiSelectConfigMeta = types
       }
       return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
     },
+    truthy(value: any) {
+      return Array.isArray(value) && value.length > 0;
+    },
   }))
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {

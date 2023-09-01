@@ -77,6 +77,9 @@ export const FilterTreeSelectConfigMeta = types
       const treeData = this.treeData;
       return treeData.slice(0, default_selection_count).map((o) => o.value);
     },
+    truthy(value: any) {
+      return Array.isArray(value) && value.length > 0;
+    },
   }))
   .actions((self) => ({
     setDefaultValue(default_value: string[]) {
