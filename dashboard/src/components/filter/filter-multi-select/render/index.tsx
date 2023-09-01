@@ -28,6 +28,7 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
       value={value}
       onChange={handleChange}
       errorMessage={error}
+      required={config.required}
     />
   );
 });

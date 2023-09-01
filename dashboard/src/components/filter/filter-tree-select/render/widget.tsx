@@ -31,6 +31,7 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   treeData: $TSFixMe;
   disabled: boolean;
   errorMessage?: string;
+  required: boolean;
 }
 
 export const FilterTreeSelectWidget = ({
@@ -47,6 +48,7 @@ export const FilterTreeSelectWidget = ({
   onChange,
   treeData,
   errorMessage,
+  required,
 }: IFilterTreeSelectWidget) => {
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
 
@@ -58,7 +60,14 @@ export const FilterTreeSelectWidget = ({
   return (
     <Stack spacing={3}>
       <Group position="apart">
-        <Text className={classes.label}>{label}</Text>
+        <Text className={classes.label}>
+          {label}
+          {required && (
+            <span className={classes.required} aria-hidden="true">
+              *
+            </span>
+          )}
+        </Text>
         {tooltipVisible && (
           <Tooltip label={`${value.length} selected`}>
             <Badge>{value.length}</Badge>

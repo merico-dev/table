@@ -118,6 +118,7 @@ export default createStyles((theme, { radius = 4 }: MultiSelectWidgetStylesParam
     },
   },
   label: { fontSize: theme.fontSizes.sm, fontWeight: 500, color: '#212529' },
+  required: { color: '#fa5252', paddingLeft: '3px' },
 
   dropdown: {
     fontSize: theme.fontSizes.xs,
