@@ -9,7 +9,6 @@ export const FilterSelectConfigMeta = types
     types.model({
       _name: types.literal('select'),
       default_value: types.string,
-      required: types.boolean,
       width: types.optional(types.string, ''),
     }),
     FilterBaseSelectConfigMeta,
@@ -44,9 +43,6 @@ export const FilterSelectConfigMeta = types
     },
   }))
   .actions((self) => ({
-    setRequired(required: boolean) {
-      self.required = required;
-    },
     setDefaultValue(default_value: string) {
       self.default_value = default_value;
     },
