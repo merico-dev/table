@@ -4,13 +4,13 @@ import { Filters } from '~/components/filter';
 import { FullScreenPanel } from '~/components/panel';
 import { usePanelFullScreen } from '~/components/panel/panel-render/full-screen-render/use-panel-full-screen';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
-import { EViewComponentType, ViewMetaInstance } from '~/model';
+import { EViewComponentType, ViewRenderModelInstance } from '~/model';
 import { useFullScreenPanelContext } from '../..';
 import { ReadOnlyDashboardLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
 
 interface IDashboardViewRender {
-  view: ViewMetaInstance;
+  view: ViewRenderModelInstance;
 }
 
 export const DashboardViewRender = observer(function _DashboardLayout({ view }: IDashboardViewRender) {

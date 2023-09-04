@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 import { Plus } from 'tabler-icons-react';
 import { DashboardViewRender } from '~/components/view';
 import { useEditContentModelContext } from '~/contexts';
-import { EViewComponentType, TabModelInstance, ViewMetaInstance, ViewTabsConfigInstance } from '~/model';
+import { EViewComponentType, TabModelInstance, ViewRenderModelInstance, ViewTabsConfigInstance } from '~/model';
 
 const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
   const ret: Record<string, any> = {
@@ -44,7 +44,7 @@ const getTabSX = (t: TabModelInstance): Sx => {
   return {};
 };
 
-export const PreviewViewTabs = observer(({ view }: { view: ViewMetaInstance }) => {
+export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstance }) => {
   const modals = useModals();
   const model = useEditContentModelContext();
   const options = useMemo(
@@ -72,7 +72,8 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewMetaInstance }) =
       className="preview-view-tabs"
       variant={config.variant}
       orientation={config.orientation}
-      defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
+      value={view.tab}
+      onTabChange={view.setTab}
       styles={getStyles(config)}
     >
       <Tabs.List grow={config.grow}>

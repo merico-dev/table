@@ -1,5 +1,5 @@
 import { getRoot, Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { EViewComponentType, ViewsRenderModel } from '~/model';
+import { EViewComponentType, ViewRenderModelInstance, ViewsRenderModel } from '~/model';
 import { IDashboardView } from '~/types';
 import { PanelsModelInstance } from '../panels';
 
@@ -50,7 +50,7 @@ export const ViewsModel = types
       self.visibleViewIDs.length = 0;
       self.visibleViewIDs.push(id);
     },
-    replace(current: Array<ViewMetaInstance>) {
+    replace(current: Array<ViewRenderModelInstance>) {
       self.current.replace(current);
     },
     addANewView(
@@ -67,7 +67,7 @@ export const ViewsModel = types
         panelIDs: [],
       });
     },
-    append(item: ViewMetaInstance) {
+    append(item: ViewRenderModelInstance) {
       self.current.push(item);
     },
     remove(index: number) {
@@ -85,7 +85,7 @@ export const ViewsModel = types
       panels.removeByIDs(view.panelIDs);
       self.current.splice(index, 1);
     },
-    replaceByIndex(index: number, replacement: ViewMetaInstance) {
+    replaceByIndex(index: number, replacement: ViewRenderModelInstance) {
       self.current.splice(index, 1, replacement);
     },
     addARandomNewView() {
