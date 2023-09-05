@@ -1,12 +1,12 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { IDashboardView } from '~/types';
 
-import { ViewMeta, ViewMetaInstance } from '~/model';
+import { ViewMetaInstance, ViewRenderModel } from '~/model';
 import { shallowToJS } from '~/utils/shallow-to-js';
 
 export const ViewsRenderModel = types
   .model('ViewsRenderModel', {
-    current: types.optional(types.array(ViewMeta), []),
+    current: types.optional(types.array(ViewRenderModel), []),
     visibleViewIDs: types.array(types.string),
   })
   .views((self) => ({

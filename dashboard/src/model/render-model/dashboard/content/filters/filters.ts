@@ -29,7 +29,7 @@ export const FiltersRenderModel = types
     },
     visibleInView(viewID: string) {
       return _.sortBy(
-        self.current.filter((f) => f.visibleInViewsIDs.includes(viewID)),
+        self.current.filter((f) => f.visibleInViewsIDSet.has(viewID)),
         'order',
       );
     },

@@ -1,6 +1,6 @@
 import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
-import { getRoot, Instance, isAlive } from 'mobx-state-tree';
+import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { QueryMeta } from '~/model';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
@@ -87,6 +87,12 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       context: contextNames,
       filters: filterNames,
     };
+  },
+  get queries() {
+    return getParent(self, 2) as any;
+  },
+  get inUse() {
+    return this.queries.isQueryInUse(self.id);
   },
 }));
 

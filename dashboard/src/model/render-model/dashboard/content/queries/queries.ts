@@ -1,7 +1,8 @@
-import { Instance, SnapshotIn, types } from 'mobx-state-tree';
+import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
 import { QueryRenderModel } from './query';
 import { downloadCSV, downloadDataListAsZip, makeCSV } from '~/utils/download';
 import { QueryMetaSnapshotIn } from '~/model/meta-model';
+import _ from 'lodash';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -22,6 +23,41 @@ export const QueriesRenderModel = types
     },
     get json() {
       return self.current.filter((o) => o.id && o.key).map((o) => o.json);
+    },
+    get contentModel() {
+      return getParent(self, 1);
+    },
+    get visibleQueryIDSet() {
+      // FIXME: type
+      const { views, filters } = this.contentModel as any;
+      const queryIDs: string[] = [];
+
+      views.visibleViews.forEach((v: any) => {
+        v.panels.forEach((p: any) => {
+          queryIDs.push(...p.queryIDs);
+        });
+      });
+
+      const viewIDs: string[] = _.uniq(views.visibleViews.map((v: any) => v.renderViewIDs).flat());
+
+      filters.current.forEach((f: any) => {
+        const id = _.get(f, 'config.options_query_id');
+        if (!id) {
+          return;
+        }
+
+        const visible = viewIDs.some((viewID) => f.visibleInViewsIDSet.has(viewID));
+        if (visible) {
+          queryIDs.push(id);
+        }
+      });
+
+      const ret = new Set(queryIDs);
+      console.debug('QueryIDs:', ret);
+      return ret;
+    },
+    isQueryInUse(queryID: string) {
+      return this.visibleQueryIDSet.has(queryID);
     },
   }))
   .actions((self) => {

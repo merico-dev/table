@@ -1,14 +1,14 @@
 import { Box } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { Filters } from '~/components/filter';
-import { EViewComponentType, ViewMetaInstance } from '~/model';
+import { DashboardActionContext } from '~/contexts/dashboard-action-context';
+import { ViewRenderModelInstance } from '~/model';
 import { MainDashboardLayout } from './layout';
 import { PreviewViewComponent } from './view-component/preview';
 
 interface IDashboardViewEditor {
-  view: ViewMetaInstance;
+  view: ViewRenderModelInstance;
 }
 
 export const DashboardViewEditor = observer(function _DashboardViewEditor({ view }: IDashboardViewEditor) {

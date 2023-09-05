@@ -2,7 +2,7 @@ import { Sx, Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DashboardViewRender } from '~/components/view';
 import { useRenderContentModelContext } from '~/contexts';
-import { TabModelInstance, ViewMetaInstance, ViewTabsConfigInstance } from '~/model';
+import { TabModelInstance, ViewRenderModelInstance, ViewTabsConfigInstance } from '~/model';
 
 const getTabSX = (t: TabModelInstance): Sx => {
   if (t.color) {
@@ -11,7 +11,7 @@ const getTabSX = (t: TabModelInstance): Sx => {
   return {};
 };
 
-export const RenderViewTabs = observer(({ view }: { view: ViewMetaInstance }) => {
+export const RenderViewTabs = observer(({ view }: { view: ViewRenderModelInstance }) => {
   const model = useRenderContentModelContext();
   const config = view.config as ViewTabsConfigInstance;
   return (
@@ -19,7 +19,8 @@ export const RenderViewTabs = observer(({ view }: { view: ViewMetaInstance }) =>
       className="render-view-tabs"
       variant={config.variant}
       orientation={config.orientation}
-      defaultValue={config.tabs.length > 0 ? config.tabs[0].id : '0'}
+      value={view.tab}
+      onTabChange={view.setTab}
       styles={{
         root: {
           height: '100%',

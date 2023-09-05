@@ -65,6 +65,9 @@ export const FilterMeta = types
         visibleInViewsIDs: toJS(visibleInViewsIDs),
       };
     },
+    get visibleInViewsIDSet() {
+      return new Set(self.visibleInViewsIDs);
+    },
     // FIXME: this is a temp workaround. auto_submit should be moved into config
     get should_auto_submit() {
       return self.auto_submit_supported && self.auto_submit;
