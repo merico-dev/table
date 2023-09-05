@@ -115,7 +115,7 @@ export const QueryRenderModel = types
           self.error = null;
         } catch (error) {
           if (!axios.isCancel(error)) {
-            self.data.length = 0;
+            self.data = [];
             const fallback = get(error, 'message', 'unkown error');
             self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
@@ -157,7 +157,7 @@ export const QueryRenderModel = types
         } catch (error) {
           console.error(error);
           if (!axios.isCancel(error)) {
-            self.data.length = 0;
+            self.data = [];
             const fallback = get(error, 'message', 'unkown error');
             self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
