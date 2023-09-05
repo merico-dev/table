@@ -88,6 +88,10 @@ export const QueryRenderModel = types
   .actions((self) => {
     return {
       runSQL: flow(function* () {
+        if (!self.inUse) {
+          console.debug(`Skipping query[${self.name}]`);
+          return;
+        }
         if (!self.valid) {
           return;
         }
@@ -123,6 +127,10 @@ export const QueryRenderModel = types
         }
       }),
       runHTTP: flow(function* () {
+        if (!self.inUse) {
+          console.debug(`Skipping query[${self.name}]`);
+          return;
+        }
         if (!self.valid || !self.datasource) {
           return;
         }
@@ -183,9 +191,9 @@ export const QueryRenderModel = types
         reaction(
           () => {
             if (self.typedAsHTTP) {
-              return `${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
+              return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
-            return `${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
+            return `${self.inUse}--${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
           },
           self.fetchData,
           {

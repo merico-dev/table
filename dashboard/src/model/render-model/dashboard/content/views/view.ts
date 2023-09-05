@@ -1,5 +1,5 @@
 import { reaction } from 'mobx';
-import { addDisposer, flow, getParent, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { addDisposer, getParent, Instance, types } from 'mobx-state-tree';
 import { EViewComponentType, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
 
 export const ViewRenderModel = types
@@ -23,14 +23,33 @@ export const ViewRenderModel = types
 
       return '';
     },
-    get panels() {
-      // FIXME: type
-      const contentModel = getParent(self, 3) as any;
-      const directPanels = contentModel.panels.panelsByIDs(self.panelIDs);
+    get tabViewID() {
       if (self.type !== EViewComponentType.Tabs) {
-        return directPanels;
+        return '';
       }
-      return directPanels.concat([]);
+
+      const config = self.config as ViewTabsConfigInstance;
+      return config.tabs.find((t) => t.id === self.tab)?.view_id ?? '';
+    },
+    get contentModel() {
+      // FIXME: type
+      return getParent(self, 3) as any;
+    },
+    get panels() {
+      if (self.type !== EViewComponentType.Tabs) {
+        return this.contentModel.panels.panelsByIDs(self.panelIDs).panels;
+      }
+
+      const viewID = this.tabViewID;
+      const view = this.contentModel.views.findByID(viewID);
+      return view.panels;
+    },
+    get renderViewIDs() {
+      const ret = [self.id];
+      if (self.type === EViewComponentType.Tabs) {
+        ret.push(this.tabViewID);
+      }
+      return ret;
     },
   }))
   .actions((self) => ({
