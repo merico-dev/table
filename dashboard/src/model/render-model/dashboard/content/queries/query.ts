@@ -109,7 +109,7 @@ export const QueryRenderModel = types
             queryBySQL(
               {
                 payload,
-                title: self.name,
+                name: self.name,
                 query: self.json,
               },
               self.controller.signal,
@@ -152,6 +152,7 @@ export const QueryRenderModel = types
                 type,
                 key,
                 configString: JSON.stringify(config),
+                name: self.name,
               },
               self.controller.signal,
             ),
