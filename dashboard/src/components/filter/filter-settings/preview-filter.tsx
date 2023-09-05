@@ -9,23 +9,23 @@ interface IPreviewFilter {
   filter: FilterMetaInstance;
 }
 export const PreviewFilter = observer(function _PreviewFilter({ filter }: IPreviewFilter) {
-  const [value, setValue] = React.useState(filter.plainDefaultValue);
+  // const [value, setValue] = React.useState(filter.plainDefaultValue);
 
-  React.useEffect(() => {
-    setValue(filter.plainDefaultValue);
-  }, [filter]);
+  // React.useEffect(() => {
+  //   setValue(filter.plainDefaultValue);
+  // }, [filter]);
 
   return (
     <Box sx={{ maxWidth: '480px' }}>
-      <Text pb="md" color="gray">
+      {/* <Text pb="md" color="gray">
         Preview
       </Text>
-      <Filter filter={filter} value={value} onChange={setValue} />
+      <Filter filter={filter} value={value} onChange={setValue} /> */}
 
-      <Text pt="lg" pb="md" color="gray">
+      <Text pt="0" pb="md" color="gray">
         Config
       </Text>
-      <Prism language="json" colorScheme="dark" noCopy>
+      <Prism mt={22} language="json" colorScheme="dark" noCopy>
         {JSON.stringify(filter, null, 4)}
       </Prism>
     </Box>
