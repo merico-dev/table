@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import arraySupport from 'dayjs/plugin/arraySupport';
-import badMutable from 'dayjs/plugin/badMutable';
 import buddhistEra from 'dayjs/plugin/buddhistEra';
 import calendar from 'dayjs/plugin/calendar';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -36,7 +35,6 @@ import weekYear from 'dayjs/plugin/weekYear';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(arraySupport);
-dayjs.extend(badMutable);
 dayjs.extend(buddhistEra);
 dayjs.extend(calendar);
 dayjs.extend(customParseFormat);
