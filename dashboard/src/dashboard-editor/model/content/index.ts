@@ -88,7 +88,7 @@ const _ContentModel = types
     },
     get viewsChanged() {
       const fields = 'views.current';
-      return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
+      return !isEqual(self.views.json, get(self.origin, fields));
     },
     get panelsChanged() {
       const fields = 'panels.list';
