@@ -1,13 +1,8 @@
-import _ from 'lodash';
-import { parseDataKey } from '~/utils/data';
 import { getLabelOverflowOptionOnAxis } from '../../../common-echarts-fields/axis-label-overflow';
 import { FormatterFuncType } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHeatmapConf } from '../type';
 
-export function getXAxis(conf: IHeatmapConf, data: TPanelData, formatterFunc: FormatterFuncType) {
-  const x = parseDataKey(conf.x_axis.data_key);
-  const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
-
+export function getXAxis(conf: IHeatmapConf, xData: any[], formatterFunc: FormatterFuncType) {
   const { overflow, rotate } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return {
