@@ -17,7 +17,23 @@ const defaultOption = {
   },
 };
 
-export function getOption(conf: IHeatmapConf, data: TPanelData, variables: ITemplateVariable[]) {
+function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
+  if (width < xlen * 10 || height < ylen * 10) {
+    return 0;
+  }
+  if (width < xlen * 20 || height < ylen * 20) {
+    return 1;
+  }
+  return 2;
+}
+
+export function getOption(
+  conf: IHeatmapConf,
+  data: TPanelData,
+  variables: ITemplateVariable[],
+  width: number,
+  height: number,
+) {
   if (!conf.x_axis.data_key || !conf.y_axis.data_key || !conf.heat_block.data_key) {
     return {};
   }
@@ -36,7 +52,7 @@ export function getOption(conf: IHeatmapConf, data: TPanelData, variables: ITemp
   const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
   const yData = _.uniq(data[x.queryID].map((d) => d[y.columnKey]));
   const seriesData = data[x.queryID].map((d) => [_.get(d, x.columnKey), _.get(d, y.columnKey), _.get(d, h.columnKey)]);
-  const borderWidth = 2;
+  const borderWidth = calcBorderWidth(xData.length, yData.length, width, height);
 
   const customOptions = {
     xAxis: getXAxis(conf, xData, labelFormatters.x_axis),

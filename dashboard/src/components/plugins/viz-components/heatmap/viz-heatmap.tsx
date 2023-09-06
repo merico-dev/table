@@ -83,8 +83,8 @@ function Chart({
   }, [handleHeatBlockClick]);
 
   const option = React.useMemo(() => {
-    return getOption(conf, data, variables);
-  }, [conf, data]);
+    return getOption(conf, data, variables, width, height);
+  }, [conf, data, width, height]);
 
   if (!width || !height) {
     return null;
