@@ -154,7 +154,11 @@ export class DataSourceController implements interfaces.Controller {
       body: { description: 'datasource ID request', required: true, model: 'DataSourceIDRequest' },
     },
     responses: {
-      200: { description: 'SUCCESS' },
+      200: {
+        description: 'SUCCESS',
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: 'DataSourceIDRequest',
+      },
       500: { description: 'SERVER ERROR', type: SwaggerDefinitionConstant.Response.Type.OBJECT, model: 'ApiError' },
     },
   })
@@ -167,7 +171,7 @@ export class DataSourceController implements interfaces.Controller {
     try {
       const { id } = req.body as DataSourceIDRequest;
       await this.dataSourceService.delete(id, req.locale);
-      res.json();
+      res.json({ id });
     } catch (err) {
       next(err);
     }
