@@ -21,7 +21,7 @@ export const QueriesSettingsButton = observer(() => {
         },
       }}
     >
-      Settings
+      Manage Queries
     </Button>
   );
 });

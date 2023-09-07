@@ -14,6 +14,9 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
     );
     return _.sortBy(options, (o) => o.label.toLowerCase());
   },
+  get sortedList() {
+    return _.sortBy(self.current, (o) => o.name.toLowerCase());
+  },
 })).actions((self) => ({
   replace(current: Array<QueryRenderModelInstance>) {
     self.current = cast(current);
