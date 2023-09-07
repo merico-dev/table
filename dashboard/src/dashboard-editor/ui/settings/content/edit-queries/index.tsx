@@ -1,12 +1,26 @@
 import { Box, Button, Flex, Stack, Table, Text } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditQueries = observer(() => {
+  const modals = useModals();
   const model = useEditDashboardContext();
   const navigateToQuery = (queryID: string) => {
     model.editor.setPath(['_QUERIES_', queryID]);
+  };
+
+  const removeUnusedQueriesWithConfirmation = () => {
+    modals.openConfirmModal({
+      title: 'Delete ununsed queries?',
+      children: <Text size="sm">This action cannot be undone.</Text>,
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onCancel: () => console.log('Cancel'),
+      onConfirm: () => model.content.removeUnusedQueries(),
+      confirmProps: { color: 'red' },
+      zIndex: 320,
+    });
   };
 
   const usages = model.content.queriesUsage;
@@ -24,7 +38,7 @@ export const EditQueries = observer(() => {
           color="red"
           leftIcon={<IconTrash size={14} />}
           disabled={!model.content.hasUnusedQueries}
-          onClick={model.content.removeUnusedQueries}
+          onClick={removeUnusedQueriesWithConfirmation}
         >
           Delete unused queries
         </Button>
