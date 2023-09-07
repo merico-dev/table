@@ -28,6 +28,7 @@ export const EditQueries = observer(() => {
               <th>Name</th>
               <th style={{ width: '200px' }}>Data Source</th>
               <th style={{ width: '100px' }}>Type</th>
+              <th style={{ width: '100px' }}>Usage</th>
               <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
             </tr>
           </thead>
@@ -37,6 +38,7 @@ export const EditQueries = observer(() => {
                 <td>{q.name}</td>
                 <td>{q.key}</td>
                 <td>{q.type}</td>
+                <td>{model.content.queriesUsage[q.id].length}</td>
                 <td>
                   <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
                     Open

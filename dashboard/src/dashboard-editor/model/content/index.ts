@@ -165,41 +165,57 @@ const _ContentModel = types
     },
   }))
   .views((self) => ({
-    findQueryUsage(queryID: string) {
+    get queriesUsage() {
       const panelIDMap = self.panels.idMap;
-      const panels: QueryUsageType[] = self.views.current.flatMap((v) =>
-        v.panelIDs
-          .map((id) => panelIDMap.get(id))
-          .filter((p): p is PanelModelInstance => p?.queryIDSet.has(queryID) ?? false)
-          .map((p) => ({
-            type: 'panel',
-            id: p.id,
-            label: p.title ? p.title : p.viz.type,
-            views: [
-              {
-                id: v.id,
-                label: v.name,
-              },
-            ],
-          })),
-      );
+      const usages: QueryUsageType[] = [];
+      self.views.current.forEach((v) => {
+        v.panelIDs.forEach((pid) => {
+          const p = panelIDMap.get(pid);
+          if (!p) {
+            return;
+          }
+
+          const type = 'panel';
+          const label = p.title ? p.title : p.viz.type;
+          const views = [
+            {
+              id: v.id,
+              label: v.name,
+            },
+          ];
+          p.queryIDs.forEach((queryID) => {
+            usages.push({
+              id: pid,
+              queryID,
+              type,
+              label,
+              views,
+            });
+          });
+        });
+      });
 
       const viewIDMap = self.views.idMap;
-      const filters: QueryUsageType[] = self.filters.current
+      self.filters.current
         .filter((f) => {
           const filterQueryID = _.get(f, 'config.options_query_id');
-          return filterQueryID === queryID;
+          return !!filterQueryID;
         })
         .map((f) => ({
           type: 'filter',
           id: f.id,
+          queryID: _.get(f, 'config.options_query_id'),
           label: f.label,
           views: f.visibleInViewsIDs.map((id) => ({
             id,
             label: viewIDMap.get(id)?.name ?? id,
           })),
         }));
-      return panels.concat(filters);
+
+      return _.groupBy(usages, 'queryID');
+    },
+    findQueryUsage(queryID: string) {
+      return this.queriesUsage[queryID] ?? [];
     },
   }))
   .actions((self) => ({

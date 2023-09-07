@@ -210,5 +210,5 @@ export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
 export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
 
 export type QueryUsageType =
-  | { type: 'filter'; id: string; label: string; views: { id: string; label: string }[] }
-  | { type: 'panel'; id: string; label: string; views: { id: string; label: string }[] };
+  | { type: 'filter'; queryID: string; id: string; label: string; views: { id: string; label: string }[] }
+  | { type: 'panel'; queryID: string; id: string; label: string; views: { id: string; label: string }[] };
