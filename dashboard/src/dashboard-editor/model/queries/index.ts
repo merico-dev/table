@@ -14,6 +14,9 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
     );
     return _.sortBy(options, (o) => o.label.toLowerCase());
   },
+  get sortedList() {
+    return _.sortBy(self.current, (o) => o.name.toLowerCase());
+  },
 })).actions((self) => ({
   replace(current: Array<QueryRenderModelInstance>) {
     self.current = cast(current);
@@ -33,6 +36,17 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
       detach(query);
       self.current.remove(query);
     }
+  },
+  removeQueries(queryIDs: string[]) {
+    const set = new Set(queryIDs);
+    self.current.forEach((q) => {
+      if (set.has(q.id)) {
+        detach(q);
+      }
+    });
+    const list = [...self.current];
+    _.remove(list, (q) => set.has(q.id));
+    self.current = cast(list);
   },
 }));
 

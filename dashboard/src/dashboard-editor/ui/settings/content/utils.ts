@@ -20,6 +20,10 @@ export function isQuery(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_QUERIES_';
 }
 
+export function isQueries(path: ValidEditorPathType) {
+  return path.length === 1 && path[0] === '_QUERIES_';
+}
+
 export function isView(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_VIEWS_';
 }

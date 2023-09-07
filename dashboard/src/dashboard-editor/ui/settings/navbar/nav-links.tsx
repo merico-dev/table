@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 import { NavOptionType } from '~/dashboard-editor/model/editor';
-import { AddItemButton } from './add-item-button';
+import { ActionButton } from './action-button';
 
 interface ISettingsNavLink {
   option: NavOptionType;
@@ -34,7 +34,7 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
     >
       {option.children?.map((o) =>
         o._type === 'ACTION' ? (
-          <AddItemButton key={`_ADD_${o.value}_`} action_type={o._action_type} parentID={o.parentID} />
+          <ActionButton key={`_ADD_${o.value}_`} action_type={o._action_type} parentID={o.parentID} />
         ) : (
           <SettingsNavLink key={o.value} option={o} />
         ),
