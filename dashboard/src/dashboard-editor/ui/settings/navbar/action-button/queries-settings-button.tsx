@@ -8,10 +8,9 @@ export const QueriesSettingsButton = observer(() => {
   return (
     <Button
       variant="subtle"
-      // leftIcon={<IconSettings size={14} />}
       rightIcon={<IconSettings size={14} />}
       size="sm"
-      px="xs"
+      px={12}
       mb={0}
       color="blue"
       onClick={() => model.editor.setPath(['_QUERIES_'])}
