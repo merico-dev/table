@@ -6,12 +6,12 @@ import { AddAQuery } from './add-a-query';
 import { AddASQLSnippet } from './add-a-sql-snippet';
 import { AddAView } from './add-a-view';
 
-interface IAddItemButton {
+interface Props {
   action_type: NavActionType['_action_type'];
   parentID?: string;
 }
 
-export const AddItemButton = observer(({ action_type, parentID }: IAddItemButton) => {
+export const ActionButton = observer(({ action_type, parentID }: Props) => {
   if (action_type === '_Add_A_Filter_') {
     return <AddAFilter />;
   }
