@@ -214,11 +214,19 @@ const _ContentModel = types
 
       return _.groupBy(usages, 'queryID');
     },
+    get hasUnusedQueries() {
+      return self.queries.current.length > Object.keys(this.queriesUsage).length;
+    },
     findQueryUsage(queryID: string) {
       return this.queriesUsage[queryID] ?? [];
     },
   }))
   .actions((self) => ({
+    removeUnusedQueries() {
+      const usedQueries = new Set(Object.keys(self.queriesUsage));
+      const ids = self.queries.current.filter((q) => !usedQueries.has(q.id)).map((q) => q.id);
+      self.queries.removeQueries(ids);
+    },
     duplicatePanelByID(panelID: string, viewID: string) {
       const newID = self.panels.duplicateByID(panelID);
       if (!newID) {

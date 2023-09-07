@@ -37,6 +37,17 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
       self.current.remove(query);
     }
   },
+  removeQueries(queryIDs: string[]) {
+    const set = new Set(queryIDs);
+    self.current.forEach((q) => {
+      if (set.has(q.id)) {
+        detach(q);
+      }
+    });
+    const list = [...self.current];
+    _.remove(list, (q) => set.has(q.id));
+    self.current = cast(list);
+  },
 }));
 
 export type QueriesModelInstance = Instance<typeof QueriesModel>;

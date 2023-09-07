@@ -18,7 +18,14 @@ export const EditQueries = observer(() => {
         </Text>
       </Box>
       <Flex justify="flex-end" align="center" px={12}>
-        <Button variant="subtle" size="xs" color="red" leftIcon={<IconTrash size={14} />} disabled>
+        <Button
+          variant="subtle"
+          size="xs"
+          color="red"
+          leftIcon={<IconTrash size={14} />}
+          disabled={!model.content.hasUnusedQueries}
+          onClick={model.content.removeUnusedQueries}
+        >
           Delete unused queries
         </Button>
       </Flex>
