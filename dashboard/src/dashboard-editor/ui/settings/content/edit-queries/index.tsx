@@ -9,6 +9,7 @@ export const EditQueries = observer(() => {
     model.editor.setPath(['_QUERIES_', queryID]);
   };
 
+  const usages = model.content.queriesUsage;
   return (
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
@@ -27,25 +28,36 @@ export const EditQueries = observer(() => {
             <tr>
               <th>Name</th>
               <th style={{ width: '200px' }}>Data Source</th>
-              <th style={{ width: '100px' }}>Type</th>
-              <th style={{ width: '100px' }}>Usage</th>
+              <th style={{ width: '100px', textAlign: 'right' }}>Type</th>
+              <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
               <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
             </tr>
           </thead>
           <tbody>
-            {model.content.queries.sortedList.map((q) => (
-              <tr key={q.id}>
-                <td>{q.name}</td>
-                <td>{q.key}</td>
-                <td>{q.type}</td>
-                <td>{model.content.queriesUsage[q.id].length}</td>
-                <td>
-                  <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
-                    Open
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {model.content.queries.sortedList.map((q) => {
+              const usageCount = usages[q.id].length;
+              return (
+                <tr key={q.id}>
+                  <td>{q.name}</td>
+                  <td>{q.key}</td>
+                  <td style={{ textAlign: 'right' }}>{q.type}</td>
+                  <td
+                    style={{
+                      color: usageCount > 2 ? '#ff0000' : '#000',
+                      fontWeight: usageCount > 1 ? 'bold' : 'normal',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {usageCount}
+                  </td>
+                  <td>
+                    <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
+                      Open
+                    </Button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </Box>
