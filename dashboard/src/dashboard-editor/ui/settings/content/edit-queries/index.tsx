@@ -35,7 +35,7 @@ export const EditQueries = observer(() => {
           </thead>
           <tbody>
             {model.content.queries.sortedList.map((q) => {
-              const usageCount = usages[q.id].length;
+              const usageCount = usages[q.id]?.length ?? 0;
               return (
                 <tr key={q.id}>
                   <td>{q.name}</td>
@@ -43,8 +43,8 @@ export const EditQueries = observer(() => {
                   <td style={{ textAlign: 'right' }}>{q.type}</td>
                   <td
                     style={{
-                      color: usageCount > 2 ? '#ff0000' : '#000',
-                      fontWeight: usageCount > 1 ? 'bold' : 'normal',
+                      color: usageCount === 0 ? '#ff0000' : '#000',
+                      fontWeight: usageCount === 0 ? 'bold' : 'normal',
                       textAlign: 'center',
                     }}
                   >
