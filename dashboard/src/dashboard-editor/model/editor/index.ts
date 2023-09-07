@@ -18,7 +18,13 @@ export type NavActionType = {
   label: string;
   value: string;
   _type: 'ACTION';
-  _action_type: '_Add_A_Filter_' | '_Add_A_SQL_SNIPPET_' | '_Add_A_QUERY_' | '_Add_A_VIEW_' | '_Add_A_PANEL_';
+  _action_type:
+    | '_Add_A_Filter_'
+    | '_Add_A_SQL_SNIPPET_'
+    | '_Add_A_QUERY_'
+    | '_Add_A_VIEW_'
+    | '_Add_A_PANEL_'
+    | '_QUERIES_SETTINGS_';
   parentID?: string; // for panel only
   Icon: null;
   children: null;
@@ -42,6 +48,7 @@ export type ValidEditorPathType =
   | ['_MOCK_CONTEXT_']
   | ['_FILTERS_', string]
   | ['_SQL_SNIPPETS_', string]
+  | ['_QUERIES_']
   | ['_QUERIES_', string]
   | ['_VIEWS_', string]
   | ['_VIEWS_', string, '_PANELS_', string]
@@ -113,7 +120,7 @@ export const EditorModel = types
           label: 'Queries',
           value: '_QUERIES_',
           Icon: IconDatabase,
-          children: [...queries.options, getActionOption('_Add_A_QUERY_')],
+          children: [getActionOption('_QUERIES_SETTINGS_'), ...queries.options, getActionOption('_Add_A_QUERY_')],
           _type: 'GROUP',
         },
         {

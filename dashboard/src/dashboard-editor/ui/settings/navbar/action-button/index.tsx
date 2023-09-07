@@ -5,6 +5,7 @@ import { AddAPanel } from './add-a-panel';
 import { AddAQuery } from './add-a-query';
 import { AddASQLSnippet } from './add-a-sql-snippet';
 import { AddAView } from './add-a-view';
+import { QueriesSettingsButton } from './queries-settings-button';
 
 interface Props {
   action_type: NavActionType['_action_type'];
@@ -30,6 +31,9 @@ export const ActionButton = observer(({ action_type, parentID }: Props) => {
 
   if (action_type === '_Add_A_PANEL_') {
     return <AddAPanel parentID={parentID} />;
+  }
+  if (action_type === '_QUERIES_SETTINGS_') {
+    return <QueriesSettingsButton />;
   }
   return null;
 });
