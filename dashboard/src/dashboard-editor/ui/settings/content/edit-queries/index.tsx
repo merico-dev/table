@@ -10,7 +10,7 @@ export const EditQueries = observer(() => {
   };
 
   return (
-    <Stack sx={{ height: '100%' }} spacing="sm">
+    <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
           Manage Queries
@@ -21,28 +21,32 @@ export const EditQueries = observer(() => {
           Delete unused queries
         </Button>
       </Flex>
-      <Table fontSize="sm" highlightOnHover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Data Source</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {model.content.queries.sortedList.map((q) => (
-            <tr key={q.id}>
-              <td>{q.name}</td>
-              <td>{q.type}</td>
-              <td>
-                <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
-                  Open
-                </Button>
-              </td>
+      <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
+        <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th style={{ width: '200px' }}>Data Source</th>
+              <th style={{ width: '100px' }}>Type</th>
+              <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {model.content.queries.sortedList.map((q) => (
+              <tr key={q.id}>
+                <td>{q.name}</td>
+                <td>{q.key}</td>
+                <td>{q.type}</td>
+                <td>
+                  <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
+                    Open
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Box>
     </Stack>
   );
 });
