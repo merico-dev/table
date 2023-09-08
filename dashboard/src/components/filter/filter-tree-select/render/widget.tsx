@@ -32,6 +32,7 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   disabled: boolean;
   errorMessage?: string;
   required: boolean;
+  treeCheckStrictly: boolean;
 }
 
 export const FilterTreeSelectWidget = ({
@@ -49,6 +50,7 @@ export const FilterTreeSelectWidget = ({
   treeData,
   errorMessage,
   required,
+  treeCheckStrictly,
 }: IFilterTreeSelectWidget) => {
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
 
@@ -77,6 +79,7 @@ export const FilterTreeSelectWidget = ({
       <TreeSelect
         disabled={disabled}
         allowClear
+        treeCheckStrictly={treeCheckStrictly}
         className={cx(classes.root, 'check-select')}
         dropdownClassName={cx(classes.dropdown, '')}
         onDropdownVisibleChange={handleDropdownVisibleChange}
