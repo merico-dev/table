@@ -24,6 +24,7 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
       data={model.views.options}
       withinPortal
       zIndex={340}
+      maxDropdownHeight={500}
     />
   );
 });
