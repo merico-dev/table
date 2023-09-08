@@ -66,7 +66,7 @@ function NumberCell(props: ICellValue) {
 }
 
 function PercentageCell(props: ICellValue) {
-  const num = numbro(props.value).format({ output: 'percent', mantissa: 3 });
+  const num = numbro(props.value).format({ output: 'percent', mantissa: 3, trimMantissa: true });
   return <CellRender {...props}>{num}</CellRender>;
 }
 
