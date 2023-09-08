@@ -23,6 +23,11 @@ export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect(
         placeholder="200px"
       />
       <Divider label="Fetch options from database" labelPosition="center" />
+      <Checkbox
+        checked={config.treeCheckStrictly}
+        onChange={(e) => config.setTreeCheckStrictly(e.currentTarget.checked)}
+        label="Parent and children nodes are not associated"
+      />
       <NumberInput
         value={config.default_selection_count}
         onChange={config.setDefaultSelectionCount}

@@ -36,6 +36,7 @@ export const FilterTreeSelectConfigMeta = types
       _name: types.literal('tree-select'),
       min_width: types.optional(types.string, ''),
       default_value: types.optional(types.array(types.string), []),
+      treeCheckStrictly: types.optional(types.boolean, false),
     }),
     FilterBaseSelectConfigMeta,
   )
@@ -87,6 +88,9 @@ export const FilterTreeSelectConfigMeta = types
     },
     setMinWidth(v: string) {
       self.min_width = v;
+    },
+    setTreeCheckStrictly(v: boolean) {
+      self.treeCheckStrictly = v;
     },
     applyDefaultSelection() {
       // @ts-expect-error typeof getParent
