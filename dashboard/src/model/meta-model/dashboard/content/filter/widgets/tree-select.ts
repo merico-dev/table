@@ -42,8 +42,16 @@ export const FilterTreeSelectConfigMeta = types
   )
   .views((self) => ({
     get json() {
-      const { _name, default_value, required, min_width, static_options, options_query_id, default_selection_count } =
-        self;
+      const {
+        _name,
+        default_value,
+        required,
+        min_width,
+        static_options,
+        options_query_id,
+        default_selection_count,
+        treeCheckStrictly,
+      } = self;
       return {
         _name,
         required: !!required,
@@ -51,6 +59,7 @@ export const FilterTreeSelectConfigMeta = types
         default_value,
         static_options,
         options_query_id,
+        treeCheckStrictly,
         default_selection_count,
       };
     },
