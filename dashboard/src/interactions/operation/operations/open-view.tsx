@@ -15,7 +15,18 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
 
   const viewID = value?.viewID || '';
   const setViewID = (viewID: string) => void set({ viewID });
-  return <Select defaultValue={viewID} value={viewID} onChange={setViewID} label="View" data={model.views.options} />;
+  return (
+    <Select
+      defaultValue={viewID}
+      value={viewID}
+      onChange={setViewID}
+      label="View"
+      data={model.views.options}
+      withinPortal
+      zIndex={340}
+      maxDropdownHeight={500}
+    />
+  );
 });
 
 async function run(payload: Record<string, unknown>, operation: IDashboardOperation) {

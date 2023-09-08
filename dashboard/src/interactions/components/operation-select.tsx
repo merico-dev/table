@@ -80,7 +80,7 @@ const OperationSettings = observer(({ model }: { model: ReadyOperationConfigMode
   return createElement(model.operationSchema.configRender, configProps);
 });
 
-function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) {
+const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfigModel }) => {
   const schemaList = model.schemaList;
   const selectItems = schemaList.map((it) => ({
     label: it.displayName,
@@ -92,8 +92,17 @@ function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) 
     await model.changeSchema(schemaList.find((it) => it.id === schemaId)!);
   }
 
-  return <Select label="Operation" data={selectItems} onChange={handleChange} value={model.operationSchema.id} />;
-}
+  return (
+    <Select
+      label="Operation"
+      data={selectItems}
+      onChange={handleChange}
+      value={model.operationSchema.id}
+      withinPortal
+      zIndex={340}
+    />
+  );
+});
 
 export const OperationSelect = observer((props: IOperationSelectProps) => {
   const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
