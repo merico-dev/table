@@ -92,7 +92,16 @@ function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) 
     await model.changeSchema(schemaList.find((it) => it.id === schemaId)!);
   }
 
-  return <Select label="Operation" data={selectItems} onChange={handleChange} value={model.operationSchema.id} />;
+  return (
+    <Select
+      label="Operation"
+      data={selectItems}
+      onChange={handleChange}
+      value={model.operationSchema.id}
+      withinPortal
+      zIndex={340}
+    />
+  );
 }
 
 export const OperationSelect = observer((props: IOperationSelectProps) => {
