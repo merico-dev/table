@@ -80,7 +80,7 @@ const OperationSettings = observer(({ model }: { model: ReadyOperationConfigMode
   return createElement(model.operationSchema.configRender, configProps);
 });
 
-function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) {
+const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfigModel }) => {
   const schemaList = model.schemaList;
   const selectItems = schemaList.map((it) => ({
     label: it.displayName,
@@ -102,7 +102,7 @@ function OperationSchemaSelect({ model }: { model: ReadyOperationConfigModel }) 
       zIndex={340}
     />
   );
-}
+});
 
 export const OperationSelect = observer((props: IOperationSelectProps) => {
   const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
