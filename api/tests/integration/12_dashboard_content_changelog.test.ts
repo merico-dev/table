@@ -23,7 +23,7 @@ describe('DashboardContentChangelogService', () => {
       expect(results.data[0].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
       expect(results.data[0].diff).toContain('@@ -7,7 +7,7 @@');
       expect(results.data[0].diff).toContain('-\t\t\t\t\t"key": "pg",\n' + '+\t\t\t\t\t"key": "pg_renamed",\n');
-      expect(results.data[0].diff).toContain('@@ -17,5 +17,9 @@');
+      expect(results.data[0].diff).toContain('@@ -48,5 +48,9 @@');
       expect(results.data[0].diff).toContain(
         '-\t}\n' +
           '+\t},\n' +
@@ -51,7 +51,7 @@ describe('DashboardContentChangelogService', () => {
 
       expect(results.data[2].diff).toContain('diff --git a/data.json b/data.json');
       expect(results.data[2].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
-      expect(results.data[2].diff).toContain('@@ -12,7 +12,7 @@');
+      expect(results.data[2].diff).toContain('@@ -14,28 +14,28 @@');
       expect(results.data[2].diff).toContain(
         '-\t\t\t\t\t"key": "jsonplaceholder",\n' + '+\t\t\t\t\t"key": "jsonplaceholder_renamed",\n',
       );
@@ -80,7 +80,7 @@ describe('DashboardContentChangelogService', () => {
       expect(results.data[0].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
       expect(results.data[0].diff).toContain('@@ -7,7 +7,7 @@');
       expect(results.data[0].diff).toContain('-\t\t\t\t\t"key": "pg",\n' + '+\t\t\t\t\t"key": "pg_renamed",\n');
-      expect(results.data[0].diff).toContain('@@ -17,5 +17,9 @@');
+      expect(results.data[0].diff).toContain('@@ -48,5 +48,9 @@');
       expect(results.data[0].diff).toContain(
         '-\t}\n' +
           '+\t},\n' +
@@ -93,7 +93,7 @@ describe('DashboardContentChangelogService', () => {
 
       expect(results.data[1].diff).toContain('diff --git a/data.json b/data.json');
       expect(results.data[1].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
-      expect(results.data[1].diff).toContain('@@ -12,7 +12,7 @@');
+      expect(results.data[1].diff).toContain('@@ -14,28 +14,28 @@');
       expect(results.data[1].diff).toContain(
         '-\t\t\t\t\t"key": "jsonplaceholder",\n' + '+\t\t\t\t\t"key": "jsonplaceholder_renamed",\n',
       );

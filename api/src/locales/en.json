@@ -74,5 +74,7 @@
   "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "Allows creating, editing, deleting custom functions",
   "ROLE_PERMISSION_SQL_SNIPPET_VIEW": "Allows viewing sql snippets",
   "ROLE_PERMISSION_SQL_SNIPPET_MANAGE": "Allows creating, editing, deleting sql snippets",
-  "ROLE_PERMISSION_PRESET": "Allows modification of preset assets"
+  "ROLE_PERMISSION_PRESET": "Allows modification of preset assets",
+  "QUERY_ID_NOT_FOUND": "A Query with that ID does not exist",
+  "QUERY_PARSING_ERROR": "Error parsing query"
 }

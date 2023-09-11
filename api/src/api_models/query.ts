@@ -4,6 +4,28 @@ import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-e
 import { Authentication } from './base';
 
 @ApiModel({
+  description: 'Query params object',
+  name: 'QueryParams',
+})
+export class QueryParams {
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query filter params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  filters: Record<string, any>;
+
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query context params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  context: Record<string, any>;
+}
+
+@ApiModel({
   description: 'Query object',
   name: 'QueryRequest',
 })
@@ -30,6 +52,30 @@ export class QueryRequest {
     required: true,
   })
   query: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'id of the dashboard content',
+    required: true,
+  })
+  content_id: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'id of the query defined in dashboard content',
+    required: true,
+  })
+  query_id: string;
+
+  @IsObject()
+  @Type(() => QueryParams)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Query params',
+    required: true,
+    model: 'QueryParams',
+  })
+  params: QueryParams;
 
   @IsOptional()
   @IsObject()

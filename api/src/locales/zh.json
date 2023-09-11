@@ -74,5 +74,7 @@
   "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "允许创建、编辑、删除自定义功能",
   "ROLE_PERMISSION_SQL_SNIPPET_VIEW": "允许查看sql snippets",
   "ROLE_PERMISSION_SQL_SNIPPET_MANAGE": "允许创建、编辑、删除 sql snippets",
-  "ROLE_PERMISSION_PRESET": "允许修改预设资产"
+  "ROLE_PERMISSION_PRESET": "允许修改预设资产",
+  "QUERY_ID_NOT_FOUND": "找不到查询",
+  "QUERY_PARSING_ERROR": "查询解析错误"
 }

@@ -1,13 +1,42 @@
 import { APIClient } from '../utils/api_client';
 import { DataSourceService } from './datasource.service';
-import { DataSource } from 'typeorm';
+import { Any, DataSource } from 'typeorm';
 import { configureDatabaseSource } from '../utils/helpers';
 import { validateClass } from '../middleware/validation';
-import { HttpParams } from '../api_models/query';
+import { HttpParams, QueryParams } from '../api_models/query';
 import { sqlRewriter } from '../plugins';
-import { ApiError, QUERY_ERROR } from '../utils/errors';
+import { ApiError, BAD_REQUEST, QUERY_ERROR } from '../utils/errors';
 import { getFsCache, getFsCacheKey, isFsCacheEnabled, putFsCache } from '../utils/fs_cache';
 import { injectable } from 'inversify';
+import { ApiKey } from '../api_models/api';
+import { Account } from '../api_models/account';
+import { dashboardDataSource } from '../data_sources/dashboard';
+import DashboardContent from '../models/dashboard_content';
+import { DashboardPermissionService } from './dashboard_permission.service';
+import { has } from 'lodash';
+import { translate } from '../utils/i18n';
+import SqlSnippet from '../models/sql_snippet';
+import { QUERY_PARSING_ENABLED } from '../utils/constants';
+
+type Query = {
+  id: string;
+  type: 'postgresql' | 'mysql' | 'http';
+  key: string;
+  sql: string;
+  pre_process: string;
+};
+
+type Snippet = {
+  key: string;
+  value: string;
+};
+
+type Content = {
+  definition: {
+    queries: Query[];
+    sqlSnippets: Snippet[];
+  };
+};
 
 @injectable()
 export class QueryService {
@@ -41,17 +70,39 @@ export class QueryService {
     }
   }
 
-  async query(type: string, key: string, query: string, env: Record<string, any>, refresh_cache = false): Promise<any> {
-    let q: string = query;
-    if (['postgresql', 'mysql'].includes(type)) {
-      const { error, sql } = await sqlRewriter(query, env);
+  async query(
+    type: string,
+    key: string,
+    query: string,
+    content_id: string,
+    query_id: string,
+    params: QueryParams,
+    env: Record<string, any>,
+    refresh_cache = false,
+    locale: string,
+    auth?: Account | ApiKey,
+  ): Promise<any> {
+    const { parsedType, parsedKey, parsedQuery } = await this.prepareQuery(
+      type,
+      key,
+      query,
+      content_id,
+      query_id,
+      params,
+      locale,
+      auth,
+    );
+
+    let q: string = parsedQuery;
+    if (['postgresql', 'mysql'].includes(parsedType)) {
+      const { error, sql } = await sqlRewriter(q, env);
       if (error) {
         throw new ApiError(QUERY_ERROR, { message: error });
       }
       q = sql;
     }
     const fsCacheEnabled = await isFsCacheEnabled();
-    const cacheKey = getFsCacheKey(`${type}:${key}:${q}`);
+    const cacheKey = getFsCacheKey(`${parsedType}:${parsedKey}:${q}`);
     if (fsCacheEnabled && !refresh_cache) {
       const cached = await getFsCache(cacheKey);
       if (cached) {
@@ -59,17 +110,17 @@ export class QueryService {
       }
     }
     let result;
-    switch (type) {
+    switch (parsedType) {
       case 'postgresql':
-        result = await this.postgresqlQuery(key, q);
+        result = await this.postgresqlQuery(parsedKey, q);
         break;
 
       case 'mysql':
-        result = await this.mysqlQuery(key, q);
+        result = await this.mysqlQuery(parsedKey, q);
         break;
 
       case 'http':
-        result = await this.httpQuery(key, q);
+        result = await this.httpQuery(parsedKey, q);
         break;
 
       default:
@@ -79,6 +130,125 @@ export class QueryService {
       await putFsCache(cacheKey, result);
     }
     return result;
+  }
+
+  private async prepareQuery(
+    type: string,
+    key: string,
+    query: string,
+    content_id: string,
+    query_id: string,
+    params: QueryParams,
+    locale: string,
+    auth?: Account | ApiKey,
+  ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
+    if (!QUERY_PARSING_ENABLED) {
+      return { parsedType: type, parsedKey: key, parsedQuery: query };
+    }
+    const dashboardContent = await dashboardDataSource
+      .getRepository(DashboardContent)
+      .findOneByOrFail({ id: content_id });
+
+    let auth_id: string | undefined;
+    let auth_type: 'APIKEY' | 'ACCOUNT' | undefined;
+    let auth_role_id: string | undefined;
+    let auth_permissions: string[] | undefined;
+    if (auth) {
+      auth_id = auth.id;
+      auth_type = has(auth, 'app_id') ? 'APIKEY' : 'ACCOUNT';
+      auth_role_id = auth.role_id;
+      auth_permissions = auth.permissions;
+    }
+    await DashboardPermissionService.checkPermission(
+      dashboardContent.dashboard_id,
+      'VIEW',
+      locale,
+      auth_id,
+      auth_type,
+      auth_role_id,
+      auth_permissions,
+    );
+
+    const content = dashboardContent.content as Content;
+    const rawQuery = content.definition.queries.find((x) => x.id === query_id);
+    if (!rawQuery) {
+      throw new ApiError(BAD_REQUEST, { message: translate('QUERY_ID_NOT_FOUND', locale) });
+    }
+    if (rawQuery.type === 'http') {
+      return await this.prepareHTTPQuery(rawQuery, params, locale);
+    }
+    return await this.prepareDBQuery(rawQuery, content.definition.sqlSnippets, params, locale);
+  }
+
+  private async prepareHTTPQuery(
+    rawQuery: Query,
+    params: QueryParams,
+    locale: string,
+  ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
+    try {
+      const queryFunc = new Function(`return ${rawQuery.pre_process}`)();
+      const query = queryFunc(params);
+      return { parsedKey: rawQuery.key, parsedType: rawQuery.type, parsedQuery: JSON.stringify(query) };
+    } catch (err) {
+      throw new ApiError(BAD_REQUEST, { message: translate('QUERY_PARSING_ERROR', locale), details: err.message });
+    }
+  }
+
+  private async prepareDBQuery(
+    rawQuery: Query,
+    snippets: Snippet[],
+    params: QueryParams,
+    locale: string,
+  ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
+    try {
+      const query = rawQuery.sql;
+
+      const sqlSnippetKeys = this.extractKeysFromQuery(query, /sql_snippets\.[\w]+/gm, 'sql_snippets.', '');
+      const sqlSnippets =
+        sqlSnippetKeys.size > 0
+          ? snippets
+              .filter((el) => sqlSnippetKeys.has(el.key))
+              .reduce((acc, cur) => {
+                acc[cur.key] = new Function(...Object.keys(params), `return \`${cur.value}\``)(
+                  ...Object.values(params),
+                );
+                return acc;
+              }, {})
+          : {};
+
+      const globalSqlSnippetKeys = this.extractKeysFromQuery(
+        query,
+        /global_sql_snippets\.[\w]+/gm,
+        'global_sql_snippets.',
+        '',
+      );
+      const globalSqlSnippets =
+        globalSqlSnippetKeys.size > 0
+          ? (await dashboardDataSource.getRepository(SqlSnippet).findBy({ id: Any([...globalSqlSnippetKeys]) })).reduce(
+              (acc, cur) => {
+                acc[cur.id] = new Function(...Object.keys(params), `return \`${cur.content}\``)(
+                  ...Object.values(params),
+                );
+                return acc;
+              },
+              {},
+            )
+          : [];
+
+      const sql = new Function(...Object.keys(params), 'sql_snippets', 'global_sql_snippets', `return \`${query}\``)(
+        ...Object.values(params),
+        sqlSnippets,
+        globalSqlSnippets,
+      );
+
+      return { parsedType: rawQuery.type, parsedKey: rawQuery.key, parsedQuery: sql };
+    } catch (err) {
+      throw new ApiError(BAD_REQUEST, { message: translate('QUERY_PARSING_ERROR', locale), details: err.message });
+    }
+  }
+
+  private extractKeysFromQuery(query: string, regex: RegExp, search: string, replace: string): Set<string> {
+    return new Set(query.match(regex)?.map((match) => match.replace(search, replace)));
   }
 
   private async postgresqlQuery(key: string, sql: string): Promise<any> {

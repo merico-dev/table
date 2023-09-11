@@ -7,6 +7,8 @@ import { validate } from '../middleware/validation';
 import { QueryRequest } from '../api_models/query';
 import permission from '../middleware/permission';
 import { PERMISSIONS } from '../services/role.service';
+import { ApiKey } from '../api_models/api';
+import { Account } from '../api_models/account';
 
 @ApiPath({
   path: '/query',
@@ -33,8 +35,20 @@ export class QueryController implements interfaces.Controller {
   @httpPost('/', permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }), validate(QueryRequest))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { type, key, query, env, refresh_cache } = req.body as QueryRequest;
-      const result = await this.queryService.query(type, key, query, env || {}, refresh_cache);
+      const auth: Account | ApiKey | undefined = req.body.auth;
+      const { type, key, query, content_id, query_id, params, env, refresh_cache } = req.body as QueryRequest;
+      const result = await this.queryService.query(
+        type,
+        key,
+        query,
+        content_id,
+        query_id,
+        params,
+        env || {},
+        refresh_cache,
+        req.locale,
+        auth,
+      );
       res.json(result);
     } catch (error) {
       next(error);

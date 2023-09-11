@@ -1,8 +1,6 @@
 import { connectionHook } from './jest.util';
 import { QueryService } from '~/services/query.service';
-import { HttpParams } from '~/api_models/query';
-import * as validation from '~/middleware/validation';
-import { FIXED_ROLE_PERMISSIONS, FIXED_ROLE_TYPES } from '~/services/role.service';
+import { DEFAULT_LANGUAGE } from '~/utils/constants';
 
 describe('QueryService', () => {
   connectionHook();
@@ -14,49 +12,39 @@ describe('QueryService', () => {
 
   describe('query', () => {
     it('should query pg successfully', async () => {
-      const results = await queryService.query('postgresql', 'pg', 'SELECT * FROM role ORDER BY id ASC', {});
-      expect(results).toMatchObject([
-        {
-          id: FIXED_ROLE_TYPES.ADMIN,
-          description:
-            'Can view and create dashboards. Can add and delete datasources. Can add users except other admins',
-          permissions: FIXED_ROLE_PERMISSIONS.ADMIN,
-        },
-        {
-          id: FIXED_ROLE_TYPES.AUTHOR,
-          description: 'Can view and create dashboards',
-          permissions: FIXED_ROLE_PERMISSIONS.AUTHOR,
-        },
-        {
-          id: FIXED_ROLE_TYPES.INACTIVE,
-          description: 'Disabled user. Can not login',
-          permissions: [],
-        },
-        {
-          id: FIXED_ROLE_TYPES.READER,
-          description: 'Can view dashboards',
-          permissions: FIXED_ROLE_PERMISSIONS.READER,
-        },
-        {
-          id: FIXED_ROLE_TYPES.SUPERADMIN,
-          description: 'Can do everything',
-          permissions: FIXED_ROLE_PERMISSIONS.SUPERADMIN,
-        },
-      ]);
+      const results = await queryService.query(
+        'postgresql',
+        'pg',
+        "SELECT id, description FROM role WHERE id = 'SUPERADMIN' AND true",
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'pgQuery1',
+        { filters: { role_id: "'SUPERADMIN'" }, context: { true: 'true' } },
+        {},
+        true,
+        DEFAULT_LANGUAGE,
+      );
+      expect(results).toMatchObject([{ id: 'SUPERADMIN', description: 'Can do everything' }]);
     });
 
     it('should query http successfully with GET', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'GET',
-        data: {},
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        'http',
+        'jsonplaceholder',
+        JSON.stringify({
+          host: '',
+          method: 'GET',
+          data: {},
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpGetQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({
         userId: 1,
         id: 1,
@@ -70,47 +58,68 @@ describe('QueryService', () => {
     });
 
     it('should query http successfully with POST', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'POST',
-        data: { title: 'foo', body: 'bar', userId: 1 },
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        'http',
+        'jsonplaceholder',
+        JSON.stringify({
+          host: '',
+          method: 'POST',
+          data: { title: 'foo', body: 'bar', userId: 1 },
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts',
+        }),
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpPostQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 101 });
     });
 
     it('should query http successfully with PUT', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'PUT',
-        data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        'http',
+        'jsonplaceholder',
+        JSON.stringify({
+          host: '',
+          method: 'PUT',
+          data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpPutQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({ title: 'foo', body: 'bar', userId: 1, id: 1 });
     });
 
     it('should query http successfully with DELETE', async () => {
-      const query: HttpParams = {
-        host: '',
-        method: 'DELETE',
-        data: {},
-        params: {},
-        headers: { 'Content-Type': 'application/json' },
-        url: '/posts/1',
-      };
-      const validateClass = jest.spyOn(validation, 'validateClass');
-      validateClass.mockReturnValueOnce(query);
-      const results = await queryService.query('http', 'jsonplaceholder', JSON.stringify(query), {});
+      const results = await queryService.query(
+        'http',
+        'jsonplaceholder',
+        JSON.stringify({
+          host: '',
+          method: 'DELETE',
+          data: {},
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
+        '9afa4842-77ef-4b19-8a53-034cb41ee7f6',
+        'httpDeleteQuery',
+        { filters: {}, context: {} },
+        {},
+        true,
+        DEFAULT_LANGUAGE,
+      );
       expect(results).toMatchObject({});
     });
   });

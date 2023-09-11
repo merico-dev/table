@@ -260,7 +260,7 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [
                 {
-                  queries: ['httpQuery1'],
+                  queries: ['httpGetQuery', 'httpPostQuery', 'httpPutQuery', 'httpDeleteQuery'],
                   contentId: results.data[5].result['affected_dashboard_contents'][0].contentId,
                 },
                 {
@@ -476,7 +476,7 @@ describe('JobService', () => {
             result: {
               affected_dashboard_contents: [
                 {
-                  queries: ['httpQuery1'],
+                  queries: ['httpGetQuery', 'httpPostQuery', 'httpPutQuery', 'httpDeleteQuery'],
                   contentId: results.data[5].result['affected_dashboard_contents'][0].contentId,
                 },
                 {
