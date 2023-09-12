@@ -3,6 +3,9 @@ import { cast, Instance } from 'mobx-state-tree';
 import { SQLSnippetRenderModelInstance, SQLSnippetRenderModelSnapshotIn, SQLSnippetsRenderModel } from '~/model';
 
 export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
+  get sortedList() {
+    return _.sortBy(self.current, (o) => o.key.toLowerCase());
+  },
   get options() {
     const options = self.current.map(
       (o) =>
