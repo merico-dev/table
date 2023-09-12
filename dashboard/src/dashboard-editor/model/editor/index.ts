@@ -24,6 +24,7 @@ export type NavActionType = {
     | '_Add_A_QUERY_'
     | '_Add_A_VIEW_'
     | '_Add_A_PANEL_'
+    | '_SQL_SNIPPETS_SETTINGS_'
     | '_QUERIES_SETTINGS_';
   parentID?: string; // for panel only
   Icon: null;
@@ -47,6 +48,7 @@ export type ValidEditorPathType =
   | ['_QUERY_VARS_']
   | ['_MOCK_CONTEXT_']
   | ['_FILTERS_', string]
+  | ['_SQL_SNIPPETS_']
   | ['_SQL_SNIPPETS_', string]
   | ['_QUERIES_']
   | ['_QUERIES_', string]
@@ -113,7 +115,11 @@ export const EditorModel = types
           label: 'SQL Snippets',
           value: '_SQL_SNIPPETS_',
           Icon: IconCopy,
-          children: [...sqlSnippets.options, getActionOption('_Add_A_SQL_SNIPPET_')],
+          children: [
+            getActionOption('_SQL_SNIPPETS_SETTINGS_'),
+            ...sqlSnippets.options,
+            getActionOption('_Add_A_SQL_SNIPPET_'),
+          ],
           _type: 'GROUP',
         },
         {

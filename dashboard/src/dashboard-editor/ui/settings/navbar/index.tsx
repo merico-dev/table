@@ -10,7 +10,7 @@ export const SettingsNavbar = observer(() => {
   return (
     <MantineNavbar
       p={0}
-      width={{ base: 200, xs: 200, sm: 220, md: 240, lg: 280, xl: 300 }}
+      width={{ base: 220, xs: 220, sm: 240, md: 260, lg: 300, xl: 320 }}
       sx={{ height: '100vh - 60px - 60px' }}
     >
       <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>

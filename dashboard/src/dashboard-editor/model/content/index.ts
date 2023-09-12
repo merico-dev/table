@@ -25,6 +25,7 @@ import {
   getNewPanel,
   MockContextMeta,
   QueryUsageType,
+  SQLSnippetUsageType,
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
@@ -220,12 +221,42 @@ const _ContentModel = types
     findQueryUsage(queryID: string) {
       return this.queriesUsage[queryID] ?? [];
     },
+    get sqlSnippetsUsage() {
+      const usages: SQLSnippetUsageType[] = [];
+      const reg = /(?<=sql_snippets\.)([^}.]+)/gm;
+      self.queries.current.forEach((q) => {
+        if (!q.typedAsSQL) {
+          return;
+        }
+        const keys = _.uniq(q.sql.match(reg));
+        keys.forEach((k) => {
+          usages.push({
+            queryID: q.id,
+            sqlSnippetKey: k,
+            queryName: q.name,
+          });
+        });
+      });
+
+      return _.groupBy(usages, 'sqlSnippetKey');
+    },
+    get hasUnusedSQLSnippets() {
+      return self.sqlSnippets.current.length > Object.keys(this.sqlSnippetsUsage).length;
+    },
+    findSQLSnippetUsage(key: string) {
+      return this.sqlSnippetsUsage[key] ?? [];
+    },
   }))
   .actions((self) => ({
     removeUnusedQueries() {
       const usedQueries = new Set(Object.keys(self.queriesUsage));
       const ids = self.queries.current.filter((q) => !usedQueries.has(q.id)).map((q) => q.id);
       self.queries.removeQueries(ids);
+    },
+    removeUnusedSQLSnippets() {
+      const usedSQLSnippets = new Set(Object.keys(self.sqlSnippetsUsage));
+      const keys = self.sqlSnippets.current.filter((s) => !usedSQLSnippets.has(s.key)).map((s) => s.key);
+      self.sqlSnippets.removeByKeys(keys);
     },
     duplicatePanelByID(panelID: string, viewID: string) {
       const newID = self.panels.duplicateByID(panelID);

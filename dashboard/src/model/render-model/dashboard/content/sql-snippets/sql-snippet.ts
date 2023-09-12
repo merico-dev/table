@@ -21,3 +21,5 @@ export const SQLSnippetRenderModel = SQLSnippetMeta.views((self) => ({
 
 export type SQLSnippetRenderModelInstance = Instance<typeof SQLSnippetRenderModel>;
 export type SQLSnippetRenderModelSnapshotIn = SnapshotIn<SQLSnippetRenderModelInstance>;
+
+export type SQLSnippetUsageType = { queryID: string; sqlSnippetKey: string; queryName: string };

@@ -12,6 +12,10 @@ export function isFilter(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_FILTERS_';
 }
 
+export function isSQLSnippets(path: ValidEditorPathType) {
+  return path.length === 1 && path[0] === '_SQL_SNIPPETS_';
+}
+
 export function isSQLSnippet(path: ValidEditorPathType) {
   return path.length === 2 && path[0] === '_SQL_SNIPPETS_';
 }

@@ -64,13 +64,12 @@ export const DashboardChangelogModal = observer(({ state }: IDashboardChangelogM
       title={
         <Group position="apart" sx={{ flexGrow: 1 }}>
           <Text fw={500}>Changelog</Text>
-          <Group spacing={7}>
-            {name && (
-              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-                Version: {name}
-              </Badge>
-            )}
-          </Group>
+
+          {name && (
+            <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} mr={16}>
+              Version: {name}
+            </Badge>
+          )}
         </Group>
       }
       fullScreen

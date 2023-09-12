@@ -6,6 +6,7 @@ import { AddAQuery } from './add-a-query';
 import { AddASQLSnippet } from './add-a-sql-snippet';
 import { AddAView } from './add-a-view';
 import { QueriesSettingsButton } from './queries-settings-button';
+import { SQLSnippetsSettingsButton } from './sql-snippets-settings-button';
 
 interface Props {
   action_type: NavActionType['_action_type'];
@@ -34,6 +35,9 @@ export const ActionButton = observer(({ action_type, parentID }: Props) => {
   }
   if (action_type === '_QUERIES_SETTINGS_') {
     return <QueriesSettingsButton />;
+  }
+  if (action_type === '_SQL_SNIPPETS_SETTINGS_') {
+    return <SQLSnippetsSettingsButton />;
   }
   return null;
 });

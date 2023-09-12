@@ -7,9 +7,20 @@ import { EditPanel } from './edit-panel';
 import { EditQuery } from './edit-query';
 import { EditSQLSnippet } from './edit-sql-snippet';
 import { EditView } from './edit-view';
-import { isQueryVars, isMockContext, isFilter, isSQLSnippet, isQuery, isView, isPanel, isQueries } from './utils';
+import {
+  isQueryVars,
+  isMockContext,
+  isFilter,
+  isSQLSnippet,
+  isQuery,
+  isView,
+  isPanel,
+  isQueries,
+  isSQLSnippets,
+} from './utils';
 import { ViewQueryVars } from './view-query-vars';
 import { EditQueries } from './edit-queries';
+import { EditSQLSnippets } from './edit-sql-snippets';
 
 const Content = observer(() => {
   const editor = useEditDashboardContext().editor;
@@ -26,6 +37,9 @@ const Content = observer(() => {
         <EditFilter id={path[1]} />
       </Box>
     );
+  }
+  if (isSQLSnippets(path)) {
+    return <EditSQLSnippets />;
   }
   if (isSQLSnippet(path)) {
     return <EditSQLSnippet id={path[1]} />;
