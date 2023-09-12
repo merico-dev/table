@@ -253,6 +253,11 @@ const _ContentModel = types
       const ids = self.queries.current.filter((q) => !usedQueries.has(q.id)).map((q) => q.id);
       self.queries.removeQueries(ids);
     },
+    removeUnusedSQLSnippets() {
+      const usedSQLSnippets = new Set(Object.keys(self.sqlSnippetsUsage));
+      const keys = self.sqlSnippets.current.filter((s) => !usedSQLSnippets.has(s.key)).map((s) => s.key);
+      self.sqlSnippets.removeByKeys(keys);
+    },
     duplicatePanelByID(panelID: string, viewID: string) {
       const newID = self.panels.duplicateByID(panelID);
       if (!newID) {

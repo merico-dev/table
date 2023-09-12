@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { cast, Instance } from 'mobx-state-tree';
+import { cast, detach, Instance } from 'mobx-state-tree';
 import { SQLSnippetRenderModelInstance, SQLSnippetRenderModelSnapshotIn, SQLSnippetsRenderModel } from '~/model';
 
 export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
@@ -33,6 +33,17 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
       if (index >= 0) {
         self.current.splice(index, 1);
       }
+    },
+    removeByKeys(keys: string[]) {
+      const set = new Set(keys);
+      self.current.forEach((s) => {
+        if (set.has(s.key)) {
+          detach(s);
+        }
+      });
+      const list = [...self.current];
+      _.remove(list, (s) => set.has(s.key));
+      self.current = cast(list);
     },
     replaceByIndex(index: number, replacement: SQLSnippetRenderModelSnapshotIn) {
       self.current.splice(index, 1, replacement);

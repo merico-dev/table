@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Stack, Table, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 
@@ -18,8 +17,7 @@ export const EditSQLSnippets = observer(() => {
       children: <Text size="sm">This action cannot be undone.</Text>,
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onCancel: () => console.log('Cancel'),
-      // onConfirm: () => model.content.removeUnusedQueries(),
-      onConfirm: _.noop,
+      onConfirm: () => model.content.removeUnusedSQLSnippets(),
       confirmProps: { color: 'red' },
       zIndex: 320,
     });
@@ -30,7 +28,7 @@ export const EditSQLSnippets = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage Queries
+          Manage SQL Snippets
         </Text>
       </Box>
       <Flex justify="flex-end" align="center" px={12}>
