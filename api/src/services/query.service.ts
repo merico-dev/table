@@ -70,6 +70,148 @@ export class QueryService {
     }
   }
 
+  private getDBStructureSql(): string {
+    return 'SELECT table_schema, table_name, table_type FROM information_schema.tables ORDER BY table_schema, table_name';
+  }
+
+  private getColumnStructureSql(type: string, table_schema: string, table_name: string): string {
+    if (type === 'postgresql') {
+      const attrelid = `'${table_schema}.${table_name}'::regclass`;
+      return `
+          SELECT
+            ordinal_position,
+            UPPER(pc.contype) AS column_key,
+            pg_get_constraintdef(pc.oid) AS column_key_text,
+            column_name,
+            format_type(atttypid, atttypmod) AS column_type,
+            is_nullable,
+            column_default,
+            pg_catalog.col_description(${attrelid}, ordinal_position) AS column_comment
+          FROM
+            information_schema.columns
+            JOIN pg_attribute pa ON pa.attrelid = ${attrelid}
+              AND attname = column_name
+            LEFT JOIN pg_constraint pc ON pc.conrelid = ${attrelid} AND ordinal_position = any(pc.conkey)
+          WHERE
+            table_name = '${table_name}' AND table_schema = '${table_schema}';
+        `;
+    }
+    if (type === 'mysql') {
+      return `
+          SELECT ordinal_position, column_key, column_name, column_type, is_nullable, column_default, column_comment
+          FROM information_schema.columns
+          WHERE table_name = '${table_name}' AND table_schema = '${table_schema}'
+        `;
+    }
+    return '';
+  }
+
+  private getDataSql(table_schema: string, table_name: string, limit: number, offset: number): string {
+    return `
+      SELECT *
+      FROM ${table_schema}.${table_name}
+      LIMIT ${limit} OFFSET ${offset}`;
+  }
+
+  private getIndexesSql(type: string, table_schema: string, table_name: string): string {
+    if (type === 'postgresql') {
+      return `
+          SELECT
+            ix.relname AS index_name,
+            upper(am.amname) AS index_algorithm,
+            indisunique AS is_unique,
+            pg_get_indexdef(indexrelid) AS index_definition,
+            CASE WHEN position(' WHERE ' IN pg_get_indexdef(indexrelid)) > 0 THEN
+              regexp_replace(pg_get_indexdef(indexrelid), '.+WHERE ', '')
+            WHEN position(' WITH ' IN pg_get_indexdef(indexrelid)) > 0 THEN
+              regexp_replace(pg_get_indexdef(indexrelid), '.+WITH ', '')
+            ELSE
+              ''
+            END AS condition,
+            pg_catalog.obj_description(i.indexrelid, 'pg_class') AS comment
+          FROM
+            pg_index i
+            JOIN pg_class t ON t.oid = i.indrelid
+            JOIN pg_class ix ON ix.oid = i.indexrelid
+            JOIN pg_namespace n ON t.relnamespace = n.oid
+            JOIN pg_am AS am ON ix.relam = am.oid
+          WHERE
+            t.relname = '${table_name}' AND n.nspname = '${table_schema}';
+        `;
+    }
+    if (type === 'mysql') {
+      return `
+          SELECT
+            sub_part AS index_length,
+            index_name AS index_name,
+            index_type AS index_algorithm,
+            CASE non_unique WHEN 0 THEN 'TRUE' ELSE 'FALSE' END AS is_unique,
+            column_name AS column_name
+          FROM
+            information_schema.statistics
+          WHERE
+            table_name = '${table_name}' AND table_schema = '${table_schema}'
+          ORDER BY
+            seq_in_index ASC;
+        `;
+    }
+    return '';
+  }
+
+  private getCountSql(table_schema: string, table_name: string): string {
+    return `
+        SELECT count(*) AS total
+        FROM ${table_schema}.${table_name}
+      `;
+  }
+
+  async queryStructure(
+    query_type: string,
+    type: string,
+    key: string,
+    table_schema: string,
+    table_name: string,
+    limit = 20,
+    offset = 0,
+  ): Promise<any> {
+    let sql: string;
+    switch (query_type) {
+      case 'TABLES':
+        sql = this.getDBStructureSql();
+        break;
+      case 'COLUMNS':
+        sql = this.getColumnStructureSql(type, table_schema, table_name);
+        break;
+      case 'DATA':
+        sql = this.getDataSql(table_schema, table_name, limit, offset);
+        break;
+      case 'INDEXES':
+        sql = this.getIndexesSql(type, table_schema, table_name);
+        break;
+      case 'COUNT':
+        sql = this.getCountSql(table_schema, table_name);
+        break;
+
+      default:
+        return null;
+    }
+
+    let result;
+    switch (type) {
+      case 'postgresql':
+        result = await this.postgresqlQuery(key, sql);
+        break;
+
+      case 'mysql':
+        result = await this.mysqlQuery(key, sql);
+        break;
+
+      default:
+        return null;
+    }
+    return result;
+  }
+
   async query(
     type: string,
     key: string,

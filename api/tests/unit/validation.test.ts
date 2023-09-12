@@ -23,7 +23,7 @@ import {
   DataSourceUpdateRequest,
 } from '~/api_models/datasource';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
-import { QueryRequest } from '~/api_models/query';
+import { QueryRequest, QueryStructureRequest } from '~/api_models/query';
 import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
 import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
 import {
@@ -1874,6 +1874,73 @@ describe('QueryRequest', () => {
               constraints: { isObject: 'context must be an object' },
             },
           ],
+        },
+      ]);
+    }
+  });
+});
+
+describe('QueryStructureRequest', () => {
+  it('Should have no validation errors', () => {
+    const data: QueryStructureRequest = {
+      query_type: 'TABLES',
+      type: 'postgresql',
+      key: '',
+      table_schema: '',
+      table_name: '',
+      limit: 20,
+      offset: 0,
+    };
+
+    const result = validateClass(QueryStructureRequest, data);
+    expect(result).toMatchObject(data);
+  });
+
+  it('Should have validation errors', () => {
+    const data = {};
+    expect(() => validateClass(QueryStructureRequest, data)).toThrow(
+      new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+    );
+    try {
+      validateClass(QueryStructureRequest, data);
+    } catch (error) {
+      expect(error.detail.errors).toMatchObject([
+        {
+          target: {},
+          value: undefined,
+          property: 'query_type',
+          children: [],
+          constraints: {
+            isIn: 'query_type must be one of the following values: TABLES, COLUMNS, DATA, INDEXES, COUNT',
+          },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'type',
+          children: [],
+          constraints: { isIn: 'type must be one of the following values: postgresql, mysql' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'key',
+          children: [],
+          constraints: { isString: 'key must be a string' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'table_schema',
+          children: [],
+          constraints: { isString: 'table_schema must be a string' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'table_name',
+          children: [],
+          constraints: { isString: 'table_name must be a string' },
         },
       ]);
     }

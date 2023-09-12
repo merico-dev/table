@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsIn, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { Authentication } from './base';
 
@@ -154,4 +154,68 @@ export class HttpParams {
     required: true,
   })
   url: string;
+}
+
+@ApiModel({
+  description: 'Query Structure object',
+  name: 'QueryStructureRequest',
+})
+export class QueryStructureRequest {
+  @IsIn(['TABLES', 'COLUMNS', 'DATA', 'INDEXES', 'COUNT'])
+  @ApiModelProperty({
+    description: `type of query. 
+      TABLES = get all tables in database
+      COLUMNS = get column structure of table
+      DATA = get data of table
+      INDEXES = get indexes of table
+      COUNT = get total number of rows in table`,
+    required: true,
+    enum: ['TABLES', 'COLUMNS', 'DATA', 'INDEXES', 'COUNT'],
+  })
+  query_type: 'TABLES' | 'COLUMNS' | 'DATA' | 'INDEXES' | 'COUNT';
+
+  @IsIn(['postgresql', 'mysql'])
+  @ApiModelProperty({
+    description: 'datasource type of query',
+    required: true,
+    enum: ['postgresql', 'mysql'],
+  })
+  type: 'postgresql' | 'mysql';
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'datasource key',
+    required: true,
+  })
+  key: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'table schema',
+    required: true,
+  })
+  table_schema: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'table schema',
+    required: true,
+  })
+  table_name: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'Limit of query results. Default = 20',
+    required: false,
+  })
+  limit?: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'Offset of query results, Default = 0',
+    required: false,
+  })
+  offset?: number;
 }

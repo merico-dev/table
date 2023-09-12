@@ -4,7 +4,7 @@ import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
 import { QueryService } from '../services/query.service';
 import { validate } from '../middleware/validation';
-import { QueryRequest } from '../api_models/query';
+import { QueryRequest, QueryStructureRequest } from '../api_models/query';
 import permission from '../middleware/permission';
 import { PERMISSIONS } from '../services/role.service';
 import { ApiKey } from '../api_models/api';
@@ -48,6 +48,40 @@ export class QueryController implements interfaces.Controller {
         refresh_cache,
         req.locale,
         auth,
+      );
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @ApiOperationPost({
+    path: '/structure',
+    description: 'query structure of selected datasource',
+    parameters: {
+      body: { description: 'Query Structure object', required: true, model: 'QueryStructureRequest' },
+    },
+    responses: {
+      200: { description: 'Query result' },
+      500: { description: 'ApiError', model: 'ApiError' },
+    },
+  })
+  @httpPost(
+    '/structure',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(QueryStructureRequest),
+  )
+  public async queryStructure(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { query_type, type, key, table_schema, table_name, limit, offset } = req.body as QueryStructureRequest;
+      const result = await this.queryService.queryStructure(
+        query_type,
+        type,
+        key,
+        table_schema,
+        table_name,
+        limit,
+        offset,
       );
       res.json(result);
     } catch (error) {

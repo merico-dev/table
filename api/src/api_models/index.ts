@@ -45,7 +45,7 @@ import {
   ApiKeyIDRequest,
 } from './api';
 import { Role, RolePermission, RoleCreateOrUpdateRequest, RoleIDRequest } from './role';
-import { QueryParams, QueryRequest, HttpParams } from './query';
+import { QueryParams, QueryRequest, HttpParams, QueryStructureRequest } from './query';
 import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job';
 import { Config, ConfigDescription, ConfigGetRequest, ConfigUpdateRequest } from './config';
 import {
@@ -157,6 +157,7 @@ export default {
   QueryParams,
   QueryRequest,
   HttpParams,
+  QueryStructureRequest,
 
   Job,
   JobFilterObject,
