@@ -17,6 +17,7 @@ import { has } from 'lodash';
 import { translate } from '../utils/i18n';
 import SqlSnippet from '../models/sql_snippet';
 import { QUERY_PARSING_ENABLED } from '../utils/constants';
+import { PERMISSIONS } from './role.service';
 
 type Query = {
   id: string;
@@ -284,7 +285,7 @@ export class QueryService {
     locale: string,
     auth?: Account | ApiKey,
   ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
-    if (!QUERY_PARSING_ENABLED) {
+    if (!QUERY_PARSING_ENABLED || auth?.permissions.includes(PERMISSIONS.DASHBOARD_MANAGE)) {
       return { parsedType: type, parsedKey: key, parsedQuery: query };
     }
     const dashboardContent = await dashboardDataSource
