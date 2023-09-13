@@ -9,7 +9,7 @@ export interface IRadarChartDimension {
   id: string;
   name: string;
   data_key: TDataKey;
-  max: number;
+  max: string;
   formatter: TNumbroFormat;
 }
 

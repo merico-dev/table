@@ -32,7 +32,7 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
       id,
       name: id,
       data_key: '',
-      max: 100,
+      max: '100',
       formatter: defaultNumbroFormat,
     });
   };
