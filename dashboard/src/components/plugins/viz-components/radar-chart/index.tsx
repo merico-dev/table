@@ -10,7 +10,7 @@ import { VizRadarChartEditor } from './viz-radar-chart-editor';
 // replace withDefaults function in editor
 function v2(prev: $TSFixMe): IRadarChartConf {
   const { dimensions = [], ...rest } = prev;
-  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumbroFormat }: IRadarChartDimension) {
+  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumbroFormat }: any) {
     return {
       name,
       data_key,
@@ -76,8 +76,20 @@ function v6(legacyConf: $TSFixMe): IRadarChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v7(legacyConf: $TSFixMe): IRadarChartConf {
+  const ret = {
+    ...legacyConf,
+    dimensions: legacyConf.dimensions.map((d: any) => ({
+      ...d,
+      max: String(d.max),
+    })),
+  };
+  delete ret.additionalSeries;
+  return ret;
+}
+
 class VizRadarChartMigrator extends VersionBasedMigrator {
-  readonly VERSION = 6;
+  readonly VERSION = 7;
 
   configVersions(): void {
     this.version(1, (data: $TSFixMe) => {
@@ -106,6 +118,10 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 6, config: v6(config) };
     });
+    this.version(7, (data) => {
+      const { config } = data;
+      return { ...data, version: 7, config: v7(config) };
+    });
   }
 }
 
@@ -120,7 +136,7 @@ export const RadarChartVizComponent: VizComponent = {
     version: number;
     config: IRadarChartConf;
   } => ({
-    version: 6,
+    version: 7,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickRadarChartSeries],
