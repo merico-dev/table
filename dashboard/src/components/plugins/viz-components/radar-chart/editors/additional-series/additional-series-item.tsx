@@ -27,14 +27,7 @@ export function AdditionalSeriesItemField({ control, index, remove }: Props) {
           render={({ field }) => <DataFieldSelector label="Color Key" required clearable sx={{ flex: 1 }} {...field} />}
         />
       </Stack>
-      <Button
-        mt={20}
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        disabled={index === 0}
-      >
+      <Button mt={20} leftIcon={<Trash size={16} />} color="red" variant="light" onClick={() => remove(index)}>
         Delete
       </Button>
     </Stack>
