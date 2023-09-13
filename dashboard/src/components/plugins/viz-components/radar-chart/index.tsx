@@ -71,7 +71,7 @@ function v5(legacyConf: any, { panelModel }: IMigrationEnv): IRadarChartConf {
 
 function v6(legacyConf: $TSFixMe): IRadarChartConf {
   const patch = {
-    additionalSeries: [],
+    additional_series: [],
   };
   return _.defaultsDeep(patch, legacyConf);
 }
