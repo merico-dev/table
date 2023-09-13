@@ -16,7 +16,10 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   const { variables } = context;
   const conf: IRadarChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IRadarChartConf>({ defaultValues: conf });
+  const { control, handleSubmit, watch, getValues, reset, formState } = useForm<IRadarChartConf>({
+    defaultValues: conf,
+    mode: 'all',
+  });
   useEffect(() => {
     reset(conf);
   }, [conf]);
@@ -32,7 +35,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
       <Stack spacing="xs">
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Text>Radar Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
+          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed || !formState.isValid}>
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
