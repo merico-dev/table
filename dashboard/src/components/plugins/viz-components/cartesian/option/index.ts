@@ -45,7 +45,7 @@ export function getOption(conf: ICartesianChartConf, data: TPanelData, variables
 
   const customOptions = {
     xAxis: getXAxes(conf, xAxisData),
-    yAxis: getYAxes(conf, labelFormatters),
+    yAxis: getYAxes(conf, labelFormatters, series),
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf, series, labelFormatters),
     grid: getGrid(conf),
