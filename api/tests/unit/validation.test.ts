@@ -931,7 +931,7 @@ describe('DashboardContentCreateRequest', () => {
     const data: DashboardContentCreateRequest = {
       dashboard_id: crypto.randomUUID(),
       name: 'test',
-      content: {},
+      content: { version: '', definition: { queries: [], sqlSnippets: [] } },
     };
     const result = validateClass(DashboardContentCreateRequest, data);
     expect(result).toMatchObject(data);
@@ -1010,7 +1010,7 @@ describe('DashboardContentUpdateRequest', () => {
     const data: DashboardContentUpdateRequest = {
       id: crypto.randomUUID(),
       name: 'test',
-      content: {},
+      content: { version: '', definition: { queries: [], sqlSnippets: [] } },
     };
     const result = validateClass(DashboardContentUpdateRequest, data);
     expect(result).toMatchObject(data);

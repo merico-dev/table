@@ -74,6 +74,10 @@ import {
   DashboardContentSortObject,
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
+  Content,
+  ContentDefinition,
+  Query,
+  Snippet,
 } from './dashboard_content';
 import {
   DashboardContentChangelog,
@@ -194,6 +198,10 @@ export default {
   DashboardContentSortObject,
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
+  Content,
+  ContentDefinition,
+  Query,
+  Snippet,
 
   DashboardContentChangelog,
   DashboardContentChangelogFilterObject,

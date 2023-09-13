@@ -172,6 +172,7 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '63c52cf7-0783-40fb-803a-68abc6564de0',
     name: 'dashboard1',
     content: {
+      version: '',
       definition: {
         queries: [
           {
@@ -230,19 +231,25 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
     name: 'dashboard2',
     content: {
+      version: '',
       definition: {
         queries: [
           {
             id: 'pgQuery2',
             type: 'postgresql',
             key: 'pg',
+            sql: '',
+            pre_process: '',
           },
           {
             id: 'httpQuery2',
             type: 'http',
             key: 'jsonplaceholder',
+            sql: '',
+            pre_process: '',
           },
         ],
+        sqlSnippets: [],
       },
     },
     create_time: new Date(),

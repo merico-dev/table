@@ -49,15 +49,9 @@ describe('DashboardChangelogController', () => {
 
       expect(response.body.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[0].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
-      expect(response.body.data[0].diff).toContain('@@ -1,6 +1,8 @@');
+      expect(response.body.data[0].diff).toContain('@@ -1,7 +1,7 @@');
       expect(response.body.data[0].diff).toContain(
-        '-\t"name": "dashboard1_content2",\n' +
-          '-\t"content": {}\n' +
-          '+\t"name": "dashboard1_content2_updated",\n' +
-          '+\t"content": {\n' +
-          '+\t\t"tmp": "tmp1"\n' +
-          '+\t}\n' +
-          ' }\n',
+        '-\t"name": "dashboard1_content2",\n' + '+\t"name": "dashboard1_content2_updated",\n',
       );
 
       changelogDashboardContentId = response.body.data[0].dashboard_content_id;
@@ -90,15 +84,9 @@ describe('DashboardChangelogController', () => {
 
       expect(response.body.data[0].diff).toContain('diff --git a/data.json b/data.json');
       expect(response.body.data[0].diff).toContain('--- a/data.json\n' + '+++ b/data.json');
-      expect(response.body.data[0].diff).toContain('@@ -1,6 +1,8 @@');
+      expect(response.body.data[0].diff).toContain('@@ -1,7 +1,7 @@');
       expect(response.body.data[0].diff).toContain(
-        '-\t"name": "dashboard1_content2",\n' +
-          '-\t"content": {}\n' +
-          '+\t"name": "dashboard1_content2_updated",\n' +
-          '+\t"content": {\n' +
-          '+\t\t"tmp": "tmp1"\n' +
-          '+\t}\n' +
-          ' }\n',
+        '-\t"name": "dashboard1_content2",\n' + '+\t"name": "dashboard1_content2_updated",\n',
       );
     });
   });

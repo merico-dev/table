@@ -58,13 +58,13 @@ describe('DashboardContentController', () => {
     const presetContent1Data = new DashboardContent();
     presetContent1Data.dashboard_id = presetDashboard.id;
     presetContent1Data.name = 'presetContent1';
-    presetContent1Data.content = {};
+    presetContent1Data.content = { version: '', definition: { queries: [], sqlSnippets: [] } };
     presetDashboardContent1 = await dashboardDataSource.getRepository(DashboardContent).save(presetContent1Data);
 
     const presetContent2Data = new DashboardContent();
     presetContent2Data.dashboard_id = presetDashboard.id;
     presetContent2Data.name = 'presetContent2';
-    presetContent2Data.content = {};
+    presetContent2Data.content = { version: '', definition: { queries: [], sqlSnippets: [] } };
     presetDashboardContent2 = await dashboardDataSource.getRepository(DashboardContent).save(presetContent2Data);
 
     const dashboard1Data = new Dashboard();
@@ -97,7 +97,7 @@ describe('DashboardContentController', () => {
       const request1: DashboardContentCreateRequest = {
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content1',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response1 = await server
@@ -111,13 +111,13 @@ describe('DashboardContentController', () => {
         id: response1.body.id,
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content1',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       });
 
       const request2: DashboardContentCreateRequest = {
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content2',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response2 = await server
@@ -131,13 +131,13 @@ describe('DashboardContentController', () => {
         id: response2.body.id,
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content2',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       });
 
       const request3: DashboardContentCreateRequest = {
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content1',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response3 = await server
@@ -151,13 +151,13 @@ describe('DashboardContentController', () => {
         id: response3.body.id,
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content1',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       });
 
       const request4: DashboardContentCreateRequest = {
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content2',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response4 = await server
@@ -171,7 +171,7 @@ describe('DashboardContentController', () => {
         id: response4.body.id,
         dashboard_id: dashboard2.id,
         name: 'dashboard2_content2',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       });
     });
 
@@ -179,7 +179,7 @@ describe('DashboardContentController', () => {
       const req: DashboardContentCreateRequest = {
         dashboard_id: dashboard1.id,
         name: 'dashboard1_content1',
-        content: {},
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response = await server
@@ -218,13 +218,13 @@ describe('DashboardContentController', () => {
             id: response1.body.data[0].id,
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content1',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: response1.body.data[1].id,
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content2',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
@@ -249,13 +249,13 @@ describe('DashboardContentController', () => {
             id: response2.body.data[0].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content1',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: response2.body.data[1].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content2',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
@@ -283,7 +283,7 @@ describe('DashboardContentController', () => {
             id: response.body.data[0].id,
             dashboard_id: dashboard1.id,
             name: 'dashboard1_content1',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
@@ -326,7 +326,7 @@ describe('DashboardContentController', () => {
       const query1: DashboardContentUpdateRequest = {
         id: dashboard1Content1.id,
         name: 'dashboard1_content1_updated',
-        content: { tmp: 'tmp' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response1 = await server
@@ -343,7 +343,7 @@ describe('DashboardContentController', () => {
       const query2: DashboardContentUpdateRequest = {
         id: dashboard2Content1.id,
         name: 'dashboard2_content1_updated',
-        content: { tmp: 'tmp' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response2 = await server
@@ -360,7 +360,7 @@ describe('DashboardContentController', () => {
       const query3: DashboardContentUpdateRequest = {
         id: dashboard2Content2.id,
         name: 'dashboard2_content2_updated',
-        content: { tmp: 'tmp' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response3 = await server
@@ -377,7 +377,7 @@ describe('DashboardContentController', () => {
       const query4: DashboardContentUpdateRequest = {
         id: dashboard1Content2.id,
         name: 'dashboard1_content2_updated',
-        content: { tmp: 'tmp1' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response4 = await server
@@ -412,7 +412,7 @@ describe('DashboardContentController', () => {
       const query: DashboardContentUpdateRequest = {
         id: presetDashboardContent1.id,
         name: 'presetContent1_updated',
-        content: { tmp: 'tmp' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       };
 
       const response = await server
@@ -424,7 +424,7 @@ describe('DashboardContentController', () => {
       expect(response.body).toMatchObject({
         ...omitFields(presetDashboardContent1, ['create_time', 'update_time']),
         name: 'presetContent1_updated',
-        content: { tmp: 'tmp' },
+        content: { version: '', definition: { queries: [], sqlSnippets: [] } },
       });
     });
 
@@ -552,13 +552,13 @@ describe('DashboardContentController', () => {
             id: response1.body.data[0].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content1_updated',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: response1.body.data[1].id,
             dashboard_id: dashboard2.id,
             name: 'dashboard2_content2_updated',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });

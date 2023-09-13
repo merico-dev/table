@@ -1,6 +1,7 @@
 import _, { has, omit } from 'lodash';
 import { PaginationRequest } from '../api_models/base';
 import {
+  Content,
   DashboardContentFilterObject,
   DashboardContentPaginationResponse,
   DashboardContentSortObject,
@@ -21,9 +22,34 @@ import { HIDDEN_PERMISSIONS } from './role.service';
 import DashboardPermission from '../models/dashboard_permission';
 import { PermissionResource } from '../api_models/dashboard_permission';
 import { injectable } from 'inversify';
+import DataSource from '../models/datasource';
+import { Any } from 'typeorm';
 
 @injectable()
 export class DashboardContentService {
+  private async checkQueryDatasources(content: Content, locale: string): Promise<void> {
+    const dataSourceRepo = dashboardDataSource.getRepository(DataSource);
+    const errors: { [type: string]: string[] } = {};
+    const keys = new Set(content.definition.queries.map((x) => x.key));
+    const sources = await dataSourceRepo.findBy({ key: Any(Array.from(keys)) });
+    content.definition.queries.forEach((q) => {
+      if (!sources.find((s) => s.type === q.type && s.key === q.key)) {
+        if (!errors[q.type]) {
+          errors[q.type] = [];
+        }
+        if (!errors[q.type].includes(q.key)) {
+          errors[q.type].push(q.key);
+        }
+      }
+    });
+    if (!_.isEmpty(errors)) {
+      throw new ApiError(BAD_REQUEST, {
+        message: translate('DATASOURCE_MISSING', locale),
+        missing: errors,
+      });
+    }
+  }
+
   async list(
     dashboard_id: string,
     filter: DashboardContentFilterObject | undefined,
@@ -93,16 +119,12 @@ export class DashboardContentService {
     };
   }
 
-  async create(
-    dashboard_id: string,
-    name: string,
-    content: Record<string, any>,
-    locale: string,
-  ): Promise<DashboardContent> {
+  async create(dashboard_id: string, name: string, content: Content, locale: string): Promise<DashboardContent> {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
     if (await dashboardContentRepo.exist({ where: { dashboard_id, name } })) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_NAME_ALREADY_EXISTS', locale) });
     }
+    await this.checkQueryDatasources(content, locale);
     const dashboardContent = new DashboardContent();
     dashboardContent.dashboard_id = dashboard_id;
     dashboardContent.name = name;
@@ -118,7 +140,7 @@ export class DashboardContentService {
   async update(
     id: string,
     name: string | undefined,
-    content: Record<string, any> | undefined,
+    content: Content | undefined,
     locale: string,
     auth?: Account | ApiKey,
   ): Promise<DashboardContent> {
@@ -156,6 +178,9 @@ export class DashboardContentService {
       if (await dashboardContentRepo.exist({ where: { name, dashboard_id: dashboardContent.dashboard_id } })) {
         throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_NAME_ALREADY_EXISTS', locale) });
       }
+    }
+    if (content !== undefined) {
+      await this.checkQueryDatasources(content, locale);
     }
     const originalDashboardContent = _.cloneDeep(dashboardContent);
     dashboardContent.name = name === undefined ? dashboardContent.name : name;

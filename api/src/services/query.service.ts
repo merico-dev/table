@@ -18,26 +18,7 @@ import { translate } from '../utils/i18n';
 import SqlSnippet from '../models/sql_snippet';
 import { QUERY_PARSING_ENABLED } from '../utils/constants';
 import { PERMISSIONS } from './role.service';
-
-type Query = {
-  id: string;
-  type: 'postgresql' | 'mysql' | 'http';
-  key: string;
-  sql: string;
-  pre_process: string;
-};
-
-type Snippet = {
-  key: string;
-  value: string;
-};
-
-type Content = {
-  definition: {
-    queries: Query[];
-    sqlSnippets: Snippet[];
-  };
-};
+import { Query, Snippet } from '../api_models/dashboard_content';
 
 @injectable()
 export class QueryService {
@@ -312,7 +293,7 @@ export class QueryService {
       auth_permissions,
     );
 
-    const content = dashboardContent.content as Content;
+    const content = dashboardContent.content;
     const rawQuery = content.definition.queries.find((x) => x.id === query_id);
     if (!rawQuery) {
       throw new ApiError(BAD_REQUEST, { message: translate('QUERY_ID_NOT_FOUND', locale) });

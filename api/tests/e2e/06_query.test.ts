@@ -40,6 +40,7 @@ describe('QueryController', () => {
       dashboard_id: dashboardId,
       name: 'queryDashboardContent',
       content: {
+        version: '',
         definition: {
           queries: [
             {
@@ -47,6 +48,7 @@ describe('QueryController', () => {
               type: 'postgresql',
               key: 'preset',
               sql: 'SELECT ${sql_snippets.role_columns} FROM role WHERE id = ${filters.role_id} AND ${context.true}',
+              pre_process: '',
             },
             {
               id: 'httpGetQuery',

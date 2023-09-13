@@ -68,25 +68,30 @@ describe('DashboardContentService', () => {
       dashboardContent1 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent1',
-        {},
+        { version: '', definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
       dashboardContent2 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent2',
-        {},
+        { version: '', definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
       dashboardContent3 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent3',
-        {},
+        { version: '', definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
     });
     it('should fail if duplicate name', async () => {
       await expect(
-        dashboardContentService.create(tempDashboard.id, 'dashboardContent1', {}, DEFAULT_LANGUAGE),
+        dashboardContentService.create(
+          tempDashboard.id,
+          'dashboardContent1',
+          { version: '', definition: { queries: [], sqlSnippets: [] } },
+          DEFAULT_LANGUAGE,
+        ),
       ).rejects.toThrowError(
         new ApiError(BAD_REQUEST, { message: 'A dashboard content with that name already exists' }),
       );
@@ -112,19 +117,19 @@ describe('DashboardContentService', () => {
             id: dashboardContent1.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent1',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: dashboardContent2.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent2',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: dashboardContent3.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
@@ -145,7 +150,7 @@ describe('DashboardContentService', () => {
             id: dashboardContent3.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
-            content: {},
+            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
