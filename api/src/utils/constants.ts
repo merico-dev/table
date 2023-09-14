@@ -6,4 +6,4 @@ export const DATABASE_CONNECTION_TIMEOUT_MS = parseInt(process.env.DATABASE_CONN
 export const DATABASE_POOL_SIZE = parseInt(process.env.DATABASE_POOL_SIZE ?? '10');
 export const DEFAULT_LANGUAGE = 'en';
 export const FS_CACHE_RETAIN_TIME = '86400';
-export const QUERY_PARSING_ENABLED = process.env.ENABLE_SQL_PARSER === '1';
+export const QUERY_PARSING_ENABLED = process.env.ENABLE_QUERY_PARSER === '1';

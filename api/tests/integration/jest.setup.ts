@@ -8,7 +8,7 @@ module.exports = async (globalConfig) => {
   process.env.WEBSITE_LOGO_URL_EN = 'WEBSITE_LOGO_URL_EN';
   process.env.WEBSITE_LOGO_JUMP_URL = '/WEBSITE_LOGO_JUMP_URL';
   process.env.WEBSITE_FAVICON_URL = '/WEBSITE_FAVICON_URL';
-  process.env.ENABLE_SQL_PARSER = '1';
+  process.env.ENABLE_QUERY_PARSER = '1';
 
   dashboardDataSource.setOptions({ url: process.env.INTEGRATION_TEST_PG_URL! });
 
