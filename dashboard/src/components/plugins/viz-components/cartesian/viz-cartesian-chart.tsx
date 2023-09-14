@@ -119,6 +119,13 @@ function Chart({
   );
 }
 
+const paddings = {
+  top: 16,
+  right: 16,
+  bottom: 16,
+  left: 16,
+};
+
 export function VizCartesianChart({ context, instance }: VizViewProps) {
   const interactionManager = useCurrentInteractionManager({
     vizManager: context.vizManager,
@@ -142,9 +149,10 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
     };
   }, [conf, data]);
 
-  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight - paddings.top - paddings.bottom);
+  const finalWidth = Math.max(0, width - paddings.left - paddings.right);
   return (
-    <>
+    <Box pt={paddings.top} pr={paddings.right} pb={paddings.bottom} pl={paddings.left} sx={{ width }}>
       <Text
         ref={topStatsRef}
         align="left"
@@ -159,7 +167,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
 
       <Chart
         variables={variables}
-        width={width}
+        width={finalWidth}
         height={finalHeight}
         data={data}
         conf={conf}
@@ -177,6 +185,6 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
           <React.Fragment key={i}>{c}</React.Fragment>
         ))}
       </Text>
-    </>
+    </Box>
   );
 }
