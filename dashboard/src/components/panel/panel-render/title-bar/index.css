@@ -1,8 +1,0 @@
-.panel-dropdown-target {
-  text-align: center;
-  transition: background-color 300ms ease;
-}
-.panel-dropdown-target:hover {
-  cursor: pointer;
-  background-color: rgba(100, 100, 100, 0.05);
-}
