@@ -1,8 +1,7 @@
-import { Box, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import * as echarts from 'echarts/core';
 import {
   DataZoomComponent,
   GridComponent,
@@ -11,19 +10,20 @@ import {
   MarkLineComponent,
   TooltipComponent,
 } from 'echarts/components';
+import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import _, { defaults } from 'lodash';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { defaults } from 'lodash';
+import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
-import { parseDataKey } from '~/utils/data';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 
 interface IClickScatterChartSeries {
   type: 'click';
@@ -130,13 +130,13 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
     };
   }, [conf, data]);
 
-  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+  const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
 
   if (!width || !height) {
     return null;
   }
   return (
-    <>
+    <DefaultVizBox width={width} height={height}>
       <Text
         ref={topStatsRef}
         align="left"
@@ -149,7 +149,7 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
 
       <Chart
         variables={variables}
-        width={width}
+        width={getBoxContentWidth(width)}
         height={finalHeight}
         data={data}
         conf={conf}
@@ -165,6 +165,6 @@ export function VizScatterChart({ context, instance }: VizViewProps) {
       >
         {Object.values(templates.bottom).map((c) => c)}
       </Text>
-    </>
+    </DefaultVizBox>
   );
 }

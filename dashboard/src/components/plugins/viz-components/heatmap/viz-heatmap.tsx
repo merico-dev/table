@@ -13,6 +13,7 @@ import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils/data';
@@ -86,9 +87,6 @@ function Chart({
     return getOption(conf, data, variables, width, height);
   }, [conf, data, width, height]);
 
-  if (!width || !height) {
-    return null;
-  }
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -113,14 +111,20 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
 
+  if (!width || !height) {
+    return null;
+  }
+
   return (
-    <Chart
-      variables={variables}
-      width={width}
-      height={height}
-      data={data}
-      conf={conf}
-      interactionManager={interactionManager}
-    />
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        variables={variables}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
   );
 }

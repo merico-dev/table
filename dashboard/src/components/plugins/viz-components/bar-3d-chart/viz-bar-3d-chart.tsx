@@ -1,16 +1,24 @@
-import 'echarts-gl';
-import * as echarts from 'echarts/core';
-import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
-import { CanvasRenderer } from 'echarts/renderers';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
+import 'echarts-gl';
+import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
+import * as echarts from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
 import { defaults, get, maxBy, minBy } from 'lodash';
 import { useMemo } from 'react';
-import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/components/plugins/hooks';
-import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
+import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
+import { VizViewProps } from '~/types/plugin';
 import { extractFullQueryData, parseDataKey } from '~/utils/data';
+import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
+
+const paddings = {
+  top: 16,
+  right: 16,
+  bottom: 16,
+  left: 16,
+};
 
 export function VizBar3dChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IBar3dChartConf>(context.instanceData, 'config');
@@ -94,5 +102,16 @@ export function VizBar3dChart({ context }: VizViewProps) {
   if (!conf) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
+
+  return (
+    <DefaultVizBox width={width} height={height}>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={getBoxContentStyle(width, height)}
+        notMerge
+        theme="merico-light"
+      />
+    </DefaultVizBox>
+  );
 }

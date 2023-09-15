@@ -9,6 +9,7 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 
 echarts.use([FunnelChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -17,9 +18,6 @@ function Chart({ conf, data, width, height }: { conf: IFunnelConf; data: TPanelD
     return getOption(conf, data);
   }, [conf, data]);
 
-  if (!width || !height) {
-    return null;
-  }
   return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
 }
 
@@ -29,5 +27,13 @@ export function VizFunnelChart({ context }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
 
-  return <Chart width={width} height={height} data={data} conf={conf} />;
+  if (!width || !height) {
+    return null;
+  }
+
+  return (
+    <DefaultVizBox width={width} height={height}>
+      <Chart width={getBoxContentWidth(width)} height={getBoxContentHeight(height)} data={data} conf={conf} />
+    </DefaultVizBox>
+  );
 }

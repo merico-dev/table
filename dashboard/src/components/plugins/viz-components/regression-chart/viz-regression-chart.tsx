@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { ScatterChart } from 'echarts/charts';
@@ -8,11 +7,12 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
 import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
+import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
+import { parseDataKey } from '~/utils/data';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
-import { parseDataKey } from '~/utils/data';
 
 echarts.use([DataZoomComponent, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -55,16 +55,16 @@ export function VizRegressionChart({ context }: VizViewProps) {
     return null;
   }
   return (
-    <Box sx={{ position: 'relative' }}>
+    <DefaultVizBox width={width} height={height}>
       <Toolbox conf={conf} queryData={queryData} />
       <ReactEChartsCore
         echarts={echarts}
         onChartReady={onChartReady}
         option={option}
-        style={{ width: width, height }}
+        style={getBoxContentStyle(width, height)}
         notMerge
         theme="merico-light"
       />
-    </Box>
+    </DefaultVizBox>
   );
 }

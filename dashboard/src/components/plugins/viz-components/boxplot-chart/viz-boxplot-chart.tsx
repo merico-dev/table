@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
 import { BoxplotChart } from 'echarts/charts';
@@ -16,6 +15,7 @@ import { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickBoxplotSeries } from './triggers';
@@ -79,13 +79,15 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={onEvents}
-      notMerge
-      theme="merico-light"
-    />
+    <DefaultVizBox width={width} height={height}>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={getBoxContentStyle(width, height)}
+        onEvents={onEvents}
+        notMerge
+        theme="merico-light"
+      />
+    </DefaultVizBox>
   );
 }

@@ -5,13 +5,14 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import { useCallback, useMemo } from 'react';
+import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 
 echarts.use([BarChart, LineChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
@@ -63,13 +64,15 @@ export function VizParetoChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={option}
-      style={{ width, height }}
-      onEvents={onEvents}
-      notMerge
-      theme="merico-light"
-    />
+    <DefaultVizBox width={width} height={height}>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={getBoxContentStyle(width, height)}
+        onEvents={onEvents}
+        notMerge
+        theme="merico-light"
+      />
+    </DefaultVizBox>
   );
 }
