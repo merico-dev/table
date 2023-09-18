@@ -11,6 +11,7 @@ import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickPieChart } from './triggers';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 
 echarts.use([PieChart, CanvasRenderer]);
 
@@ -87,5 +88,15 @@ export function VizPieChart({ context, instance }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
-  return <Chart conf={conf} width={width} height={height} data={data} interactionManager={interactionManager} />;
+  return (
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        conf={conf}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
+  );
 }

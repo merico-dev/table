@@ -2,13 +2,14 @@ import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { SunburstChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { defaults, maxBy, merge } from 'lodash';
+import { defaults } from 'lodash';
 import { useMemo } from 'react';
 
-import { VizViewProps } from '~/types/plugin';
 import { useStorageData } from '~/components/plugins/hooks';
-import { DEFAULT_CONFIG, ISunburstConf } from './type';
+import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
+import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
+import { DEFAULT_CONFIG, ISunburstConf } from './type';
 
 echarts.use([SunburstChart, CanvasRenderer]);
 
@@ -25,5 +26,15 @@ export function VizSunburst({ context }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
-  return <ReactEChartsCore echarts={echarts} option={option} style={{ width, height }} notMerge theme="merico-light" />;
+  return (
+    <DefaultVizBox width={width} height={height}>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={option}
+        style={getBoxContentStyle(width, height)}
+        notMerge
+        theme="merico-light"
+      />
+    </DefaultVizBox>
+  );
 }

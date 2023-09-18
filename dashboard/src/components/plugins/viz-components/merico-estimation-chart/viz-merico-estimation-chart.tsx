@@ -7,10 +7,11 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
+import { getBoxContentHeight, getBoxContentWidth, paddings } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
-import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 import { Toolbox } from './toolbox';
+import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 
 echarts.use([
   BarChart,
@@ -61,10 +62,16 @@ export function VizMericoEstimationChart({ context }: VizViewProps) {
   if (!width || !height) {
     return null;
   }
-  const finalWidth = Math.max(width, 300);
-  const finalHeight = Math.max(height, 370);
+  const finalWidth = Math.max(getBoxContentWidth(width), 300);
+  const finalHeight = Math.max(getBoxContentHeight(height), 370);
   return (
-    <Box sx={{ overflow: 'hidden', height: finalHeight, width: finalWidth }}>
+    <Box
+      pt={paddings.top}
+      pr={paddings.right}
+      pb={paddings.bottom}
+      pl={paddings.left}
+      sx={{ overflow: 'hidden', height, width }}
+    >
       <Toolbox conf={conf} metricKey={metricKey} setMetricKey={setMetricKey} />
       <Chart width={finalWidth} height={finalHeight - 30} data={data} conf={conf} metricKey={metricKey} />
     </Box>

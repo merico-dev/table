@@ -1,4 +1,3 @@
-import { Box, ScrollArea } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { HeatmapChart } from 'echarts/charts';
 import {
@@ -12,15 +11,16 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils/data';
 import { ITemplateVariable } from '~/utils/template';
-import { getOption } from './option';
 import { ClickHeatBlock } from '../triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
+import { getOption } from './option';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -87,10 +87,6 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
-  if (!width || !height) {
-    return null;
-  }
-
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -115,14 +111,20 @@ export function RenderMericoHeatmap({ context, instance }: VizViewProps) {
   const data = context.data;
   const { width, height } = context.viewport;
 
+  if (!width || !height) {
+    return null;
+  }
+
   return (
-    <Chart
-      variables={variables}
-      width={width}
-      height={height}
-      data={data}
-      conf={conf}
-      interactionManager={interactionManager}
-    />
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        variables={variables}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
   );
 }

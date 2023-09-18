@@ -20,6 +20,7 @@ import { ITemplateVariable } from '~/utils/template';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -86,9 +87,6 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
-  if (!width || !height) {
-    return null;
-  }
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -112,14 +110,20 @@ export function VizHorizontalBarChart({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
+  if (!width || !height) {
+    return null;
+  }
+
   return (
-    <Chart
-      variables={variables}
-      width={width}
-      height={height}
-      data={data}
-      conf={conf}
-      interactionManager={interactionManager}
-    />
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        variables={variables}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
   );
 }

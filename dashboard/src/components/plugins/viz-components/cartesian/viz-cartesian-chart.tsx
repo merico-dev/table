@@ -1,4 +1,4 @@
-import { Box, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import type { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
@@ -15,16 +15,16 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, templateToJSX } from '~/utils/template';
 import { getOption } from './option';
 import { updateRegressionLinesColor } from './option/events';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { parseDataKey } from '~/utils/data';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -142,9 +142,10 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
     };
   }, [conf, data]);
 
-  const finalHeight = Math.max(0, height - topStatsHeight - bottomStatsHeight);
+  const finalHeight = Math.max(0, getBoxContentHeight(height) - topStatsHeight - bottomStatsHeight);
+  const finalWidth = getBoxContentWidth(width);
   return (
-    <>
+    <DefaultVizBox width={width} height={height}>
       <Text
         ref={topStatsRef}
         align="left"
@@ -159,7 +160,7 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
 
       <Chart
         variables={variables}
-        width={width}
+        width={finalWidth}
         height={finalHeight}
         data={data}
         conf={conf}
@@ -177,6 +178,6 @@ export function VizCartesianChart({ context, instance }: VizViewProps) {
           <React.Fragment key={i}>{c}</React.Fragment>
         ))}
       </Text>
-    </>
+    </DefaultVizBox>
   );
 }

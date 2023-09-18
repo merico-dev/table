@@ -28,7 +28,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
     <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }}>
       <Menu withinPortal>
         <Menu.Target>
-          <Box className="panel-dropdown-target" sx={{ width: '100%', height: '25px' }}></Box>
+          <Box className="panel-dropdown-target" />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>

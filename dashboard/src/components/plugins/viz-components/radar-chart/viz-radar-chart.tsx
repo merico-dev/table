@@ -7,6 +7,7 @@ import _, { defaultsDeep, isEmpty } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { parseDataKey } from '~/utils/data';
@@ -106,13 +107,15 @@ export function VizRadarChart({ context, instance }: VizViewProps) {
     return null;
   }
   return (
-    <Chart
-      variables={variables}
-      width={width}
-      height={height}
-      data={data}
-      conf={conf}
-      interactionManager={interactionManager}
-    />
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        variables={variables}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
   );
 }

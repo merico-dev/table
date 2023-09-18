@@ -22,6 +22,7 @@ import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 
 echarts.use([
   DataZoomComponent,
@@ -100,10 +101,6 @@ function Chart({
     return getOption(conf, data, variables);
   }, [conf, data]);
 
-  if (!width || !height) {
-    return null;
-  }
-
   return (
     <ReactEChartsCore
       echarts={echarts}
@@ -133,14 +130,20 @@ export function VizCalendarHeatmap({ context, instance }: VizViewProps) {
     return null;
   }
 
+  if (!width || !height) {
+    return null;
+  }
+
   return (
-    <Chart
-      variables={variables}
-      width={width}
-      height={height}
-      data={data}
-      conf={conf}
-      interactionManager={interactionManager}
-    />
+    <DefaultVizBox width={width} height={height}>
+      <Chart
+        variables={variables}
+        width={getBoxContentWidth(width)}
+        height={getBoxContentHeight(height)}
+        data={data}
+        conf={conf}
+        interactionManager={interactionManager}
+      />
+    </DefaultVizBox>
   );
 }
