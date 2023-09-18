@@ -3,26 +3,6 @@ import { saveAs } from 'file-saver';
 
 const BOM = '\uFEFF';
 
-export function downloadCSV(id: string, csv: string) {
-  const blob = new Blob([BOM + csv], { type: 'text/csv' });
-  saveAs(blob, `${id}.csv`);
-}
-
-export function downloadJSON(name: string, json: string) {
-  const blob = new Blob([json], { type: 'application/json' });
-  saveAs(blob, `${name}.json`);
-}
-
-export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQueryData }>) {
-  const zip = new JSZip();
-  idDataList.forEach(({ id, data }) => {
-    zip.file(`${id}.csv`, makeCSV(data));
-  });
-  zip.generateAsync({ type: 'blob' }).then((content) => {
-    saveAs(content, 'dashboard_data.zip');
-  });
-}
-
 function escapeComma(v: string | number | null) {
   if (typeof v === 'string' && v.includes(',')) {
     return `"${v}"`;
@@ -46,4 +26,25 @@ export function makeCSV(data: TQueryData) {
   });
 
   return BOM + csvRows.join('\n');
+}
+
+export function downloadDataAsCSV(id: string, data: TQueryData) {
+  const csv = makeCSV(data);
+  const blob = new Blob([BOM + csv], { type: 'text/csv' });
+  saveAs(blob, `${id}.csv`);
+}
+
+export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQueryData }>) {
+  const zip = new JSZip();
+  idDataList.forEach(({ id, data }) => {
+    zip.file(`${id}.csv`, makeCSV(data));
+  });
+  zip.generateAsync({ type: 'blob' }).then((content) => {
+    saveAs(content, 'dashboard_data.zip');
+  });
+}
+
+export function downloadJSON(name: string, json: string) {
+  const blob = new Blob([json], { type: 'application/json' });
+  saveAs(blob, `${name}.json`);
 }

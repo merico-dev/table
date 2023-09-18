@@ -1,8 +1,8 @@
-import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
-import { QueryRenderModel } from './query';
-import { downloadCSV, downloadDataListAsZip, makeCSV } from '~/utils/download';
-import { QueryMetaSnapshotIn } from '~/model/meta-model';
 import _ from 'lodash';
+import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
+import { QueryMetaSnapshotIn } from '~/model/meta-model';
+import { downloadDataAsCSV, downloadDataListAsZip } from '~/utils/download';
+import { QueryRenderModel } from './query';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -86,8 +86,7 @@ export const QueriesRenderModel = types
           return;
         }
         const { name, data } = query;
-        const csv = makeCSV(data);
-        downloadCSV(name, csv);
+        downloadDataAsCSV(name, data);
       },
       refetchDataByQueryID(queryID: string) {
         const query = self.findByID(queryID);
