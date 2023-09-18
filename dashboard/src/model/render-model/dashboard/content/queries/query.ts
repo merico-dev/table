@@ -196,7 +196,9 @@ export const QueryRenderModel = types
             if (self.typedAsHTTP) {
               return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }
-            return `${self.inUse}--${self.id}--${self.key}--${self.formattedSQL}--${self.pre_process}--${self.post_process}--${self.datasource?.id}`;
+            // NOTE(leto): sql queries don't need datasource info
+            const deps = [self.inUse, self.id, self.key, self.formattedSQL, self.pre_process, self.post_process];
+            return deps.join('--');
           },
           self.fetchData,
           {
