@@ -24,9 +24,14 @@ export const QueryRenderModel = types
     }),
   )
   .views((self) => ({
+    get rootModel(): any {
+      return getRoot(self);
+    },
+    get contentModel(): any {
+      return this.rootModel.content; // dashboard content model
+    },
     get formattedSQL() {
-      // @ts-expect-error untyped getRoot(self)
-      const payload = getRoot(self).content.payloadForSQL;
+      const payload = this.contentModel.payloadForSQL;
       return explainSQL(self.sql, payload);
     },
     get typedAsSQL() {
@@ -37,12 +42,10 @@ export const QueryRenderModel = types
     },
     get datasource() {
       const { key, type } = self;
-      // @ts-expect-error untyped getRoot(self)
-      return getRoot(self).datasources.find({ type, key });
+      return this.rootModel.datasources.find({ type, key });
     },
     get httpConfigString() {
-      // @ts-expect-error untyped getRoot(self)
-      const { context, filters } = getRoot(self).content.payloadForSQL;
+      const { context, filters } = this.contentModel.payloadForSQL;
       const { name, pre_process } = self.json;
 
       const config = explainHTTPRequest(pre_process, context, filters);
@@ -103,8 +106,7 @@ export const QueryRenderModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          // @ts-expect-error untyped getRoot(self)
-          const payload = getRoot(self).content.payloadForSQL;
+          const payload = self.contentModel.payloadForSQL;
           self.data = yield* toGenerator(
             queryBySQL(
               {
