@@ -30,6 +30,7 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@json2csv/whatwg": "7.0.3",
     "@monaco-editor/react": "4.4.6",
     "@types/chroma-js": "^2.1.4",
     "dom-to-image-more": "3.1.6",

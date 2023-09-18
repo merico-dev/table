@@ -1626,6 +1626,7 @@ __metadata:
   dependencies:
     "@emotion/babel-plugin": 11.11.0
     "@faker-js/faker": 7.6.0
+    "@json2csv/whatwg": 7.0.3
     "@mantine/core": 6.0.16
     "@mantine/dates": 6.0.16
     "@mantine/hooks": 6.0.16
@@ -2792,6 +2793,33 @@ __metadata:
     "@jridgewell/resolve-uri": 3.1.0
     "@jridgewell/sourcemap-codec": 1.4.14
   checksum: 0572669f855260808c16fe8f78f5f1b4356463b11d3f2c7c0b5580c8ba1cbf4ae53efe9f627595830856e57dbac2325ac17eb0c3dd0ec42102e6f227cc289c02
+  languageName: node
+  linkType: hard
+
+"@json2csv/formatters@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "@json2csv/formatters@npm:7.0.3"
+  checksum: 283ae93eda527a25f0dedbfe3350f06a2c35c925da293e92a54b31fba979fa9afc39de2b3766012e52f8f8539bfa0468eb25081370d8728f93bf5cb8d08a9a8f
+  languageName: node
+  linkType: hard
+
+"@json2csv/plainjs@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "@json2csv/plainjs@npm:7.0.3"
+  dependencies:
+    "@json2csv/formatters": ^7.0.3
+    "@streamparser/json": ^0.0.17
+    lodash.get: ^4.4.2
+  checksum: 34d0d9558494f530938bf4a259c65413bb069bd4ab66f6c56e1e46e02c20d35f68b3c994e2784aeae81dc365e59b22be2d2d88a11a0777b168a76ebf68f350f7
+  languageName: node
+  linkType: hard
+
+"@json2csv/whatwg@npm:7.0.3":
+  version: 7.0.3
+  resolution: "@json2csv/whatwg@npm:7.0.3"
+  dependencies:
+    "@json2csv/plainjs": ^7.0.3
+  checksum: b0ed9f0b99ac539abe7777c67f3aeb69bca408e7dc16d8d867af83913f90d21cad269920678f3b3721671e2646d40e3244367b3e33024da6152677adde4a9e5a
   languageName: node
   linkType: hard
 
@@ -4012,6 +4040,13 @@ __metadata:
   version: 1.2.5
   resolution: "@sqltools/formatter@npm:1.2.5"
   checksum: 9b8354e715467d660daa5afe044860b5686bbb1a5cb67a60866b932effafbf5e8b429f19a8ae67cd412065a4f067161f227e182f3664a0245339d5eb1e26e355
+  languageName: node
+  linkType: hard
+
+"@streamparser/json@npm:^0.0.17":
+  version: 0.0.17
+  resolution: "@streamparser/json@npm:0.0.17"
+  checksum: 5e1cb2113d3393b5858a2d32133ba9efed2ea732100f9967c50ec6104bc4d4948546d3263cbdb6b69185a49420dc216fb5f341b38eaad57293d6693357036c46
   languageName: node
   linkType: hard
 
