@@ -94,7 +94,7 @@ export const QueriesRenderModel = types
           console.error(new Error(`[downloadDataByQueryID] query by ID[${queryID}] not found`));
           return;
         }
-        return query.fetchData();
+        return query.fetchData(true);
       },
     };
   });

@@ -171,13 +171,14 @@ export const QueryRenderModel = types
   })
   .actions((self) => {
     return {
-      fetchData: () => {
-        if (!self.inUse) {
+      fetchData: (force: boolean) => {
+        if (!self.inUse && !force) {
           console.debug(`Skipping query[${self.name}]`);
           return;
         }
         return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
       },
+
       beforeDestroy() {
         self.controller?.abort();
       },
@@ -196,7 +197,7 @@ export const QueryRenderModel = types
             const deps = [self.inUse, self.id, self.key, self.formattedSQL, self.pre_process, self.post_process];
             return deps.join('--');
           },
-          self.fetchData,
+          () => self.fetchData(false),
           {
             fireImmediately: true,
             delay: 0,
