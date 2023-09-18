@@ -1,16 +1,24 @@
-import JSZip from 'jszip';
+import { AsyncParser } from '@json2csv/whatwg';
 import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 
-const BOM = '\uFEFF';
+const parser = new AsyncParser({ withBOM: true });
 
-export function downloadCSV(id: string, csv: string) {
-  const blob = new Blob([BOM + csv], { type: 'text/csv' });
-  saveAs(blob, `${id}.csv`);
+export async function makeCSV(data: TQueryData) {
+  if (!Array.isArray(data) || data.length === 0) {
+    // Not dealing with object-typed data for now
+    return '';
+  }
+
+  // @ts-expect-error Property 'promise' does not exist on type 'ReadableStream<string>'.ts(2339)
+  const csv = await parser.parse(data).promise();
+  return csv;
 }
 
-export function downloadJSON(name: string, json: string) {
-  const blob = new Blob([json], { type: 'application/json' });
-  saveAs(blob, `${name}.json`);
+export async function downloadDataAsCSV(id: string, data: TQueryData) {
+  const csv = await makeCSV(data);
+  const blob = new Blob([csv], { type: 'text/csv' });
+  saveAs(blob, `${id}.csv`);
 }
 
 export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQueryData }>) {
@@ -23,27 +31,7 @@ export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQue
   });
 }
 
-function escapeComma(v: string | number | null) {
-  if (typeof v === 'string' && v.includes(',')) {
-    return `"${v}"`;
-  }
-  return v;
-}
-
-export function makeCSV(data: TQueryData) {
-  if (!Array.isArray(data) || data.length === 0) {
-    // Not dealing with object-typed data for now
-    return '';
-  }
-
-  const csvRows = [];
-  const headers = Object.keys(data[0]).map(escapeComma);
-  csvRows.push(headers.join(','));
-
-  data.forEach((row) => {
-    const values = Object.values(row).map(escapeComma).join(',');
-    csvRows.push(values);
-  });
-
-  return BOM + csvRows.join('\n');
+export function downloadJSON(name: string, json: string) {
+  const blob = new Blob([json], { type: 'application/json' });
+  saveAs(blob, `${name}.json`);
 }
