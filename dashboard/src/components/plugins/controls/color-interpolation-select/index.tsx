@@ -57,6 +57,9 @@ export const ColorInterpolationSelect = (props: IColorInterpolationSelectProps) 
               value={localValue.interpolation}
               data={selectData}
               onChange={handleStyleChange}
+              withinPortal
+              zIndex={340}
+              maxDropdownHeight={500}
             />
             <ColorMappingEditor steps={localValue.steps} interpolation={interpolation} onChange={handleStepsChange} />
             <Group position="right">

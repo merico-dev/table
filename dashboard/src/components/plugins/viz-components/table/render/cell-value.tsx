@@ -3,8 +3,8 @@ import chroma from 'chroma-js';
 import numbro from 'numbro';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
-import { ColumnAlignType, ITableCellContext, ValueType } from './type';
-import { AlignmentToFlexJustify } from './utils';
+import { ColumnAlignType, ITableCellContext, ValueType } from '../type';
+import { AlignmentToFlexJustify } from '../utils';
 
 const useCellStyles = createStyles((theme, params: { clickable?: boolean; align: ColumnAlignType }) => ({
   content: {
@@ -66,7 +66,7 @@ function NumberCell(props: ICellValue) {
 }
 
 function PercentageCell(props: ICellValue) {
-  const num = numbro(props.value).format({ output: 'percent', mantissa: 3 });
+  const num = numbro(props.value).format({ output: 'percent', mantissa: 3, trimMantissa: true });
   return <CellRender {...props}>{num}</CellRender>;
 }
 

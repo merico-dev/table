@@ -1712,7 +1712,7 @@ __metadata:
     "@mantine/prism": 6.0.16
     "@mantine/tiptap": 6.0.16
     "@tabler/icons-react": 2.25.0
-    "@tanstack/react-table": ^8.5.13
+    "@tanstack/react-table": 8.10.0
     "@tiptap/extension-code-block-lowlight": 2.0.3
     "@tiptap/extension-color": 2.0.3
     "@tiptap/extension-highlight": 2.0.3
@@ -1854,7 +1854,7 @@ __metadata:
     "@mantine/prism": 6.0.16
     "@mantine/tiptap": 6.0.16
     "@tabler/icons-react": 2.25.0
-    "@tanstack/react-table": ^8.5.13
+    "@tanstack/react-table": 8.10.0
     "@tiptap/extension-code-block-lowlight": 2.0.3
     "@tiptap/extension-color": 2.0.3
     "@tiptap/extension-highlight": 2.0.3
@@ -4258,22 +4258,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:^8.5.13":
-  version: 8.9.3
-  resolution: "@tanstack/react-table@npm:8.9.3"
+"@tanstack/react-table@npm:8.10.0":
+  version: 8.10.0
+  resolution: "@tanstack/react-table@npm:8.10.0"
   dependencies:
-    "@tanstack/table-core": 8.9.3
+    "@tanstack/table-core": 8.10.0
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: a71fbbc608bb11b79ecd2b1a838fad2fc4140f9eb1a25bd44b6b1b4c6acd52741b5745e3e022390c642c284d0d528249360e322c0dbc3d34fea031611c207a7d
+  checksum: 3fab32dc36b55187449c3527c6f28eeb5bbdcc72b01d1e9009b1d7d70bf4f094a4170a5f2a71c36fbe8802a786273326461865d0c5700b8c75e28141c5116e58
   languageName: node
   linkType: hard
 
-"@tanstack/table-core@npm:8.9.3":
-  version: 8.9.3
-  resolution: "@tanstack/table-core@npm:8.9.3"
-  checksum: 52c7e57daaa3160450fb0bde702ec0b8aab159e2b19efd1012e03b3e167acc52839f5b39578cc8bf96e91346719f400d0435a5191384c168d9477da82f276c38
+"@tanstack/table-core@npm:8.10.0":
+  version: 8.10.0
+  resolution: "@tanstack/table-core@npm:8.10.0"
+  checksum: f276909f417fcccae17f4ded1722f92cb70c83d6093b4bf92c75922b27df5c750a3ec1cfd165627b0f701271bacbf631ef89c64d756b780447cc404704d64282
   languageName: node
   linkType: hard
 

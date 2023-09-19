@@ -2,7 +2,7 @@
   "name": "@devtable/website",
   "private": true,
   "license": "Apache-2.0",
-  "version": "10.34.6",
+  "version": "10.34.7",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview"
@@ -21,7 +21,7 @@
     "@mantine/prism": "6.0.16",
     "@mantine/tiptap": "6.0.16",
     "@tabler/icons-react": "2.25.0",
-    "@tanstack/react-table": "^8.5.13",
+    "@tanstack/react-table": "8.10.0",
     "@tiptap/extension-code-block-lowlight": "2.0.3",
     "@tiptap/extension-color": "2.0.3",
     "@tiptap/extension-highlight": "2.0.3",
