@@ -18,6 +18,8 @@ import { parseDataKeyOrColumnKey } from '~/utils/data';
 import { IColumnConf, ITableConf, ValueType } from '../type';
 import { CellValue } from '../value';
 import { useGetCellContext } from './use-get-cell-context';
+import { useWhyDidYouUpdate } from 'ahooks';
+import { TableBody } from './table-body';
 
 type IVizTableComponent = {
   queryData: TQueryData;
@@ -88,22 +90,25 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
   const { rows } = table.getRowModel();
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const rowVirtualizer = useVirtual({
-    parentRef: tableContainerRef,
-    size: rows.length,
-    estimateSize: useCallback(() => 28, []),
-    overscan: 20,
-  });
-  const { virtualItems: virtualRows, totalSize } = rowVirtualizer;
-
-  const paddingTop = virtualRows.length > 0 ? virtualRows?.[0]?.start || 0 : 0;
-  const paddingBottom = virtualRows.length > 0 ? totalSize - (virtualRows?.[virtualRows.length - 1]?.end || 0) : 0;
-
   const totalRows = rows.length;
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
 
+  useWhyDidYouUpdate('VizTableComponent', {
+    queryData,
+    width,
+    height,
+    conf,
+    context,
+    instance,
+    finalColumns,
+    getCellContext,
+    tableColumns,
+    table,
+    rows,
+    tableContainerRef,
+  });
   return (
     <div
       ref={tableContainerRef}
@@ -132,28 +137,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
             </tr>
           ))}
         </thead>
-        <tbody>
-          {paddingTop > 0 && (
-            <tr>
-              <td style={{ height: `${paddingTop}px` }} />
-            </tr>
-          )}
-          {virtualRows.map((virtualRow) => {
-            const row = rows[virtualRow.index] as Row<AnyObject>;
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                ))}
-              </tr>
-            );
-          })}
-          {paddingBottom > 0 && (
-            <tr>
-              <td style={{ height: `${paddingBottom}px` }} />
-            </tr>
-          )}
-        </tbody>
+        <TableBody tableContainerRef={tableContainerRef} rows={rows} />
       </Table>
     </div>
   );

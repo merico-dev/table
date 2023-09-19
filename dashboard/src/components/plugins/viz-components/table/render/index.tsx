@@ -5,6 +5,7 @@ import { parseDataKey } from '~/utils/data';
 import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 type IPrepareDataAndRender = {
   data: TPanelData;
@@ -15,7 +16,7 @@ type IPrepareDataAndRender = {
   context: VizViewContext;
 };
 function PrepareDataAndRender({ data, width, height, conf, context, instance }: IPrepareDataAndRender) {
-  const { id_field, use_raw_columns, columns, ...rest } = conf;
+  const { id_field, use_raw_columns, columns } = conf;
 
   const queryData = useMemo(() => {
     if (!id_field) {
@@ -32,6 +33,7 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
       </Text>
     );
   }
+
   return (
     <VizTableComponent
       queryData={queryData}
