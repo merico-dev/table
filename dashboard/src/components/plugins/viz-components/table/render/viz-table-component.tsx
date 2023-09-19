@@ -1,25 +1,22 @@
 import { Box, Table, TableProps, Text } from '@mantine/core';
 import {
-  Row,
   SortingState,
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useWhyDidYouUpdate } from 'ahooks';
 import React, { useCallback, useMemo, useState } from 'react';
-import { useVirtual } from 'react-virtual';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
 import { VizInstance, VizViewContext } from '~/types/plugin';
 import { parseDataKeyOrColumnKey } from '~/utils/data';
 import { IColumnConf, ITableConf, ValueType } from '../type';
-import { CellValue } from '../value';
-import { useGetCellContext } from './use-get-cell-context';
-import { useWhyDidYouUpdate } from 'ahooks';
+import { CellValue } from './cell-value';
 import { TableBody } from './table-body';
+import { useGetCellContext } from './use-get-cell-context';
 
 type IVizTableComponent = {
   queryData: TQueryData;
