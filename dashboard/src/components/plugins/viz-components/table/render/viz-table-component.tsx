@@ -1,6 +1,5 @@
 import { Box, Table, TableProps, Text } from '@mantine/core';
 import {
-  Cell,
   Row,
   SortingState,
   createColumnHelper,
@@ -9,38 +8,19 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useVirtual } from 'react-virtual';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
-import { ClickCellContent } from '~/components/plugins/viz-components/table/triggers/click-cell-content';
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
-import { useCurrentInteractionManager } from '~/interactions/hooks/use-current-interaction-manager';
-import { useTriggerSnapshotList } from '~/interactions/hooks/use-watch-triggers';
 import { AnyObject } from '~/types';
-import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
-import { parseDataKey, parseDataKeyOrColumnKey } from '~/utils/data';
-import { IVizManager, PluginContext, useStorageData } from '../..';
-import { TableCellContext } from './table-cell-context';
-import { IColumnConf, ITableConf, TriggerConfigType, ValueType } from './type';
-import { CellValue } from './value';
-
-const useGetCellContext = (context: {
-  vizManager: IVizManager;
-  instance: VizInstance;
-  getColIndex: (cell: Cell<AnyObject, unknown>) => number;
-}) => {
-  const interactionManager = useCurrentInteractionManager(context);
-  const triggers = useTriggerSnapshotList<TriggerConfigType>(interactionManager.triggerManager, ClickCellContent.id);
-  const { colorManager } = useContext(PluginContext);
-  return useCallback(
-    (cell: Cell<AnyObject, unknown>) =>
-      new TableCellContext(context.getColIndex, cell, triggers, interactionManager, colorManager),
-    [triggers, interactionManager, context.getColIndex],
-  );
-};
+import { VizInstance, VizViewContext } from '~/types/plugin';
+import { parseDataKeyOrColumnKey } from '~/utils/data';
+import { IColumnConf, ITableConf, ValueType } from '../type';
+import { CellValue } from '../value';
+import { useGetCellContext } from './use-get-cell-context';
 
 type IVizTableComponent = {
-  data: TPanelData;
+  queryData: TQueryData;
   width: number;
   height: number;
   conf: ITableConf;
@@ -48,18 +28,10 @@ type IVizTableComponent = {
   context: VizViewContext;
 };
 
-function VizTableComponent({ data, width, height, conf, context, instance }: IVizTableComponent) {
+export function VizTableComponent({ queryData, width, height, conf, context, instance }: IVizTableComponent) {
   const { id_field, use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
-
-  const queryData = useMemo(() => {
-    if (!id_field) {
-      return [];
-    }
-    const k = parseDataKey(id_field);
-    return data[k.queryID];
-  }, [data, id_field]);
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
     if (use_raw_columns) {
@@ -131,13 +103,7 @@ function VizTableComponent({ data, width, height, conf, context, instance }: IVi
   const showInfoBar = totalRows > 0;
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
-  if (!Array.isArray(queryData) || queryData.length === 0) {
-    return (
-      <Text color="gray" align="center">
-        Empty Data
-      </Text>
-    );
-  }
+
   return (
     <div
       ref={tableContainerRef}
@@ -190,26 +156,5 @@ function VizTableComponent({ data, width, height, conf, context, instance }: IVi
         </tbody>
       </Table>
     </div>
-  );
-}
-export function VizTable({ context, instance }: VizViewProps) {
-  const data = context.data;
-  const { height, width } = context.viewport;
-  const { value: conf } = useStorageData<ITableConf>(context.instanceData, 'config');
-
-  if (!conf) {
-    return null;
-  }
-
-  if (!conf.id_field) {
-    return (
-      <Text color="red" align="center">
-        ID Field is not set, can't render a table without it
-      </Text>
-    );
-  }
-
-  return (
-    <VizTableComponent data={data} width={width} height={height} conf={conf} context={context} instance={instance} />
   );
 }
