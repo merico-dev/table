@@ -1,4 +1,3 @@
-import { AnyObject } from '~/types';
 import { ITemplateVariable } from '~/utils/template';
 import { ICartesianChartConf } from '../../type';
 import { getReferenceAreas } from './reference_areas';
@@ -19,6 +18,6 @@ export function getSeries(
     .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, variableValueMap, labelFormatters))
     .flat();
   return ret
-    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data))
+    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data, xAxisData))
     .concat(getReferenceAreas(conf.reference_areas, variableValueMap));
 }
