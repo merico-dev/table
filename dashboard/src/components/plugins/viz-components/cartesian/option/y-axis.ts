@@ -1,11 +1,26 @@
 import _ from 'lodash';
 import { ICartesianChartConf, IYAxisConf } from '../type';
 
-type SeriesData = number[];
+type SeriesDataOut = number[];
+type SeriesDataIn = [string | number, number][] | SeriesDataOut;
 type PartialSeriesConfType = {
   yAxisIndex: number;
-  data: SeriesData;
+  data: SeriesDataIn;
 };
+
+function getNumbersFromData(seriesData: SeriesDataIn): SeriesDataOut {
+  try {
+    if (Array.isArray(seriesData[0]) && seriesData[0]?.length >= 2) {
+      const s = seriesData as [string | number, number][];
+      return s.map((d) => Number(d[1]));
+    }
+
+    return [...seriesData] as SeriesDataOut;
+  } catch (error) {
+    console.error(error);
+    return [...seriesData] as SeriesDataOut;
+  }
+}
 
 function getReduceIntervalNeeds(series: PartialSeriesConfType[]) {
   if (series.length === 0) {
@@ -13,13 +28,14 @@ function getReduceIntervalNeeds(series: PartialSeriesConfType[]) {
   }
 
   const ret: Record<string, number> = {};
-  const datas: Record<number, SeriesData> = {};
+  const datas: Record<number, SeriesDataOut> = {};
   series.forEach((s) => {
+    const data = getNumbersFromData(s.data);
     if (!datas[s.yAxisIndex]) {
-      datas[s.yAxisIndex] = [...s.data];
+      datas[s.yAxisIndex] = data;
       return;
     }
-    datas[s.yAxisIndex] = datas[s.yAxisIndex].concat(s.data);
+    datas[s.yAxisIndex] = datas[s.yAxisIndex].concat(data);
   });
 
   Object.entries(datas).forEach(([index, data]) => {
