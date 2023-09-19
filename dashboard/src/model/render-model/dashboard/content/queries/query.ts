@@ -91,10 +91,6 @@ export const QueryRenderModel = types
   .actions((self) => {
     return {
       runSQL: flow(function* () {
-        if (!self.inUse) {
-          console.debug(`Skipping query[${self.name}]`);
-          return;
-        }
         if (!self.valid) {
           return;
         }
@@ -129,10 +125,6 @@ export const QueryRenderModel = types
         }
       }),
       runHTTP: flow(function* () {
-        if (!self.inUse) {
-          console.debug(`Skipping query[${self.name}]`);
-          return;
-        }
         if (!self.valid || !self.datasource) {
           return;
         }
@@ -179,9 +171,14 @@ export const QueryRenderModel = types
   })
   .actions((self) => {
     return {
-      fetchData: () => {
+      fetchData: (force: boolean) => {
+        if (!self.inUse && !force) {
+          console.debug(`Skipping query[${self.name}]`);
+          return;
+        }
         return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
       },
+
       beforeDestroy() {
         self.controller?.abort();
       },
@@ -200,7 +197,7 @@ export const QueryRenderModel = types
             const deps = [self.inUse, self.id, self.key, self.formattedSQL, self.pre_process, self.post_process];
             return deps.join('--');
           },
-          self.fetchData,
+          () => self.fetchData(false),
           {
             fireImmediately: true,
             delay: 0,

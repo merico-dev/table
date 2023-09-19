@@ -58,7 +58,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
   }))
   .actions((self) => ({
     refreshData() {
-      self.queries.forEach((q) => q.fetchData());
+      self.queries.forEach((q) => q.fetchData(true));
     },
     downloadData() {
       // @ts-expect-error typeof getRoot
