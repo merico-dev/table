@@ -12,6 +12,7 @@ import {
   postProcessWithQuery,
   preProcessWithDataSource,
 } from '~/utils/http-query';
+import { payloadToDashboardState } from '~/utils/dashboard-state';
 
 export const QueryRenderModel = types
   .compose(
@@ -30,9 +31,14 @@ export const QueryRenderModel = types
     get contentModel(): any {
       return this.rootModel.content; // dashboard content model
     },
+    get payload() {
+      return this.contentModel.payloadForSQL;
+    },
+    get dashboardState() {
+      return payloadToDashboardState(this.payload);
+    },
     get formattedSQL() {
-      const payload = this.contentModel.payloadForSQL;
-      return explainSQL(self.sql, payload);
+      return explainSQL(self.sql, this.payload);
     },
     get typedAsSQL() {
       return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
@@ -45,7 +51,7 @@ export const QueryRenderModel = types
       return this.rootModel.datasources.find({ type, key });
     },
     get httpConfigString() {
-      const { context, filters } = this.contentModel.payloadForSQL;
+      const { context, filters } = this.payload;
       const { name, pre_process } = self.json;
 
       const config = explainHTTPRequest(pre_process, context, filters);
@@ -102,7 +108,7 @@ export const QueryRenderModel = types
         self.controller = new AbortController();
         self.state = 'loading';
         try {
-          const payload = self.contentModel.payloadForSQL;
+          const payload = self.payload;
           self.data = yield* toGenerator(
             queryBySQL(
               {
@@ -152,7 +158,7 @@ export const QueryRenderModel = types
             ),
           );
           let data = postProcessWithDataSource(self.datasource, res);
-          data = postProcessWithQuery(post_process, data);
+          data = postProcessWithQuery(post_process, data, self.dashboardState);
 
           self.data = data;
           self.state = 'idle';
