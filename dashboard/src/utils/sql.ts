@@ -1,4 +1,4 @@
-import { TPayloadForSQL, TPayloadForSQLSnippet } from '~/model';
+import { TDashboardState, TPayloadForSQL, TPayloadForSQLSnippet } from '~/model';
 import { functionUtils } from './function-utils';
 
 export function formatSQL(sql: string, payload: TPayloadForSQL | TPayloadForSQLSnippet) {
@@ -35,12 +35,12 @@ export function preProcessSQLQuery({ sql, pre_process }: { sql: string; pre_proc
   }
 }
 
-export function postProcessSQLQuery(post_process: TFunctionString, data: any) {
+export function postProcessSQLQuery(post_process: TFunctionString, data: any, state: TDashboardState) {
   if (!post_process.trim()) {
     return data;
   }
   try {
-    return new Function(`return ${post_process}`)()(data, functionUtils);
+    return new Function(`return ${post_process}`)()(data, functionUtils, state);
   } catch (error) {
     console.error(error);
     return data;

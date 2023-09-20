@@ -2,6 +2,7 @@ import { DataSourceType, TPayloadForSQL } from '~/model';
 import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
+import { payloadToDashboardState } from '~/utils/dashboard-state';
 
 export type QueryFailureError = {
   code: 'BAD_REQUEST';
@@ -25,7 +26,7 @@ export async function queryBySQL({ query, name, payload }: IQueryBySQL, signal: 
   const formattedSQL = formatSQL(sql, payload);
   const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
   let data = await APIClient.query(signal)({ type, key, query: finalSQL }, { params: { name } });
-  data = postProcessSQLQuery(post_process, data);
+  data = postProcessSQLQuery(post_process, data, payloadToDashboardState(payload));
   return data;
 }
 
