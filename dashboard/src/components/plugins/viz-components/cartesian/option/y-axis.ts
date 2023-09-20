@@ -41,7 +41,7 @@ function getReduceIntervalNeeds(series: PartialSeriesConfType[]) {
   Object.entries(datas).forEach(([index, data]) => {
     const min = _.minBy(data) ?? 0;
     const max = _.maxBy(data) ?? 0;
-    if (min === 0 && max === 0) {
+    if (min == 0 && max == 0) {
       ret[index] = 1;
     }
   });
