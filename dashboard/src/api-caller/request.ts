@@ -132,7 +132,7 @@ export function configureAPIClient(config: IDashboardConfig) {
   }
 }
 
-class FacadeApiClient implements IAPIClient {
+export class FacadeApiClient implements IAPIClient {
   implementation: IAPIClient = Default;
 
   getRequest<T>(
@@ -147,6 +147,9 @@ class FacadeApiClient implements IAPIClient {
   }
 }
 
+/**
+ * @example facadeApiClient.implementation = new MyAPIClient();
+ */
 export const facadeApiClient = new FacadeApiClient();
 
 export const APIClient: IAPIClient = facadeApiClient;
