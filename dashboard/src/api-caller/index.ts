@@ -3,6 +3,7 @@ import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { AxiosError } from 'axios';
 
 export type QueryFailureError = {
   code: 'BAD_REQUEST';
@@ -38,8 +39,12 @@ interface IQueryByHTTP {
 }
 
 export async function queryByHTTP({ type, key, configString, name }: IQueryByHTTP, signal: AbortSignal) {
-  const res = await APIClient.query(signal)({ type, key, query: configString }, { params: { name } });
-  return res;
+  try {
+    const res = await APIClient.query(signal)({ type, key, query: configString }, { params: { name } });
+    return res;
+  } catch (error) {
+    return (error as AxiosError).message;
+  }
 }
 
 export type TQuerySources = Record<string, string[]>;
