@@ -1,20 +1,43 @@
-import axios, { Method } from 'axios';
+import axios, { AxiosRequestConfig, Method } from 'axios';
 import { DataSourceType } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
 import { cryptSign } from './utils';
 
-type TQueryPayload = {
+export type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
   env?: AnyObject;
 };
 
-export const APIClient = {
-  baseURL: 'http://localhost:31200',
-  app_id: '',
-  app_secret: '',
-  getAuthentication(params: Record<string, $TSFixMe>) {
+export interface IAPIClientRequestOptions {
+  string?: boolean;
+  params?: AnyObject;
+  headers?: AnyObject;
+}
+
+export interface IAPIClient {
+  getRequest: <T = $TSFixMe>(
+    method: Method,
+    signal?: AbortSignal,
+  ) => (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T>;
+  query: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryPayload, options?: AnyObject) => Promise<T>;
+}
+
+export class DefaultApiClient implements IAPIClient {
+  baseURL: string;
+  app_id: string;
+  app_secret: string;
+  makeQueryENV: (() => AnyObject) | null;
+
+  constructor() {
+    this.baseURL = 'http://localhost:31200';
+    this.app_id = '';
+    this.app_secret = '';
+    this.makeQueryENV = null;
+  }
+
+  getAuthentication(params: Record<string, unknown>) {
     if (!this.app_id || !this.app_secret) {
       return undefined;
     }
@@ -31,41 +54,57 @@ export const APIClient = {
         this.app_secret,
       ),
     };
-  },
+  }
+
   getRequest(method: Method, signal?: AbortSignal) {
-    return (url: string, data: $TSFixMe, options: $TSFixMe = {}) => {
-      const token = window.localStorage.getItem('token');
-      const headers = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
-        authorization: token ? `bearer ${token}` : '',
-        ...options.headers,
-      };
-
-      const conf: $TSFixMe = {
-        baseURL: this.baseURL,
-        method,
-        url,
-        params: method === 'GET' ? data : options.params,
-        headers,
-        signal,
-      };
-
-      if (['POST', 'PUT'].includes(method)) {
-        conf.data = options.string ? JSON.stringify(data) : data;
-        conf.data.authentication = this.getAuthentication(conf.data);
-      }
+    return (url: string, data: AnyObject, options: IAPIClientRequestOptions = {}) => {
+      const headers = this.buildHeader(options);
+      const conf = this.buildAxiosConfig(method, url, data, options, headers, signal);
 
       return axios(conf)
-        .then((res: $TSFixMe) => {
+        .then((res) => {
           return res.data;
         })
-        .catch((err: $TSFixMe) => {
+        .catch((err: Error) => {
           return Promise.reject(err);
         });
     };
-  },
-  makeQueryENV: null as null | (() => AnyObject),
+  }
+
+  buildAxiosConfig(
+    method: Method,
+    url: string,
+    data: AnyObject,
+    options: IAPIClientRequestOptions,
+    headers: AnyObject,
+    signal: AbortSignal | undefined,
+  ) {
+    const conf: AxiosRequestConfig = {
+      baseURL: this.baseURL,
+      method,
+      url,
+      params: method === 'GET' ? data : options.params,
+      headers,
+      signal,
+    };
+
+    if (['POST', 'PUT'].includes(method)) {
+      conf.data = options.string ? JSON.stringify(data) : data;
+      conf.data.authentication = this.getAuthentication(conf.data);
+    }
+    return conf;
+  }
+
+  buildHeader(options: IAPIClientRequestOptions): AnyObject {
+    const token = window.localStorage.getItem('token');
+    return {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
+      authorization: token ? `bearer ${token}` : '',
+      ...options.headers,
+    };
+  }
+
   query(signal?: AbortSignal) {
     return async (data: TQueryPayload, options: AnyObject = {}) => {
       if (!data.env) {
@@ -73,20 +112,44 @@ export const APIClient = {
       }
       return this.getRequest('POST', signal)('/query', data, options);
     };
-  },
-};
-
-export function configureAPIClient(config: IDashboardConfig) {
-  if (APIClient.baseURL !== config.apiBaseURL) {
-    APIClient.baseURL = config.apiBaseURL;
-  }
-  if (config.app_id) {
-    APIClient.app_id = config.app_id;
-  }
-  if (config.app_secret) {
-    APIClient.app_secret = config.app_secret;
-  }
-  if (config.makeQueryENV) {
-    APIClient.makeQueryENV = config.makeQueryENV;
   }
 }
+
+const Default = new DefaultApiClient();
+
+export function configureAPIClient(config: IDashboardConfig) {
+  if (Default.baseURL !== config.apiBaseURL) {
+    Default.baseURL = config.apiBaseURL;
+  }
+  if (config.app_id) {
+    Default.app_id = config.app_id;
+  }
+  if (config.app_secret) {
+    Default.app_secret = config.app_secret;
+  }
+  if (config.makeQueryENV) {
+    Default.makeQueryENV = config.makeQueryENV;
+  }
+}
+
+export class FacadeApiClient implements IAPIClient {
+  implementation: IAPIClient = Default;
+
+  getRequest<T>(
+    method: Method,
+    signal?: AbortSignal,
+  ): (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T> {
+    return this.implementation.getRequest(method, signal);
+  }
+
+  query<T>(signal?: AbortSignal): (data: TQueryPayload, options?: AnyObject) => Promise<T> {
+    return this.implementation.query(signal);
+  }
+}
+
+/**
+ * @example facadeApiClient.implementation = new MyAPIClient();
+ */
+export const facadeApiClient = new FacadeApiClient();
+
+export const APIClient: IAPIClient = facadeApiClient;
