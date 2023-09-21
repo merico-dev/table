@@ -1,4 +1,4 @@
-import { Button, Group } from '@mantine/core';
+import { Group } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
@@ -6,6 +6,7 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, ViewMetaInstance } from '~/model';
 import { Filter } from './filter';
+import { SearchButton } from './search-button';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
 
 export const Filters = observer(function _Filters({ view }: { view: ViewMetaInstance }) {
@@ -67,9 +68,7 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
         </Group>
         {!allAutoSubmit && (
           <Group sx={{ alignSelf: 'flex-end' }}>
-            <Button color="blue" size="sm" type="submit" disabled={searchButtonDisabled}>
-              Search
-            </Button>
+            <SearchButton disabled={searchButtonDisabled} />
           </Group>
         )}
       </Group>
