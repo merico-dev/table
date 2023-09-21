@@ -3,7 +3,7 @@ import { DataSourceType } from '~/model';
 import { AnyObject } from '..';
 import { cryptSign } from './utils';
 
-type TQueryPayload = {
+export type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
@@ -95,7 +95,7 @@ export class DefaultApiClient implements IAPIClient {
     return conf;
   }
 
-  buildHeader(options: IAPIClientRequestOptions) {
+  buildHeader(options: IAPIClientRequestOptions): AnyObject {
     const token = window.localStorage.getItem('token');
     return {
       'X-Requested-With': 'XMLHttpRequest',
@@ -137,12 +137,12 @@ export class FacadeApiClient implements IAPIClient {
 
   getRequest<T>(
     method: Method,
-    signal: AbortSignal | undefined,
+    signal?: AbortSignal,
   ): (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T> {
     return this.implementation.getRequest(method, signal);
   }
 
-  query<T>(signal: AbortSignal | undefined): (data: TQueryPayload, options?: AnyObject) => Promise<T> {
+  query<T>(signal?: AbortSignal): (data: TQueryPayload, options?: AnyObject) => Promise<T> {
     return this.implementation.query(signal);
   }
 }
