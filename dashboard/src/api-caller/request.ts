@@ -58,27 +58,8 @@ export class DefaultApiClient implements IAPIClient {
 
   getRequest(method: Method, signal?: AbortSignal) {
     return (url: string, data: AnyObject, options: IAPIClientRequestOptions = {}) => {
-      const token = window.localStorage.getItem('token');
-      const headers = {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
-        authorization: token ? `bearer ${token}` : '',
-        ...options.headers,
-      };
-
-      const conf: AxiosRequestConfig = {
-        baseURL: this.baseURL,
-        method,
-        url,
-        params: method === 'GET' ? data : options.params,
-        headers,
-        signal,
-      };
-
-      if (['POST', 'PUT'].includes(method)) {
-        conf.data = options.string ? JSON.stringify(data) : data;
-        conf.data.authentication = this.getAuthentication(conf.data);
-      }
+      const headers = this.buildHeader(options);
+      const conf = this.buildAxiosConfig(method, url, data, options, headers, signal);
 
       return axios(conf)
         .then((res) => {
@@ -87,6 +68,40 @@ export class DefaultApiClient implements IAPIClient {
         .catch((err: Error) => {
           return Promise.reject(err);
         });
+    };
+  }
+
+  buildAxiosConfig(
+    method: Method,
+    url: string,
+    data: AnyObject,
+    options: IAPIClientRequestOptions,
+    headers: AnyObject,
+    signal: AbortSignal | undefined,
+  ) {
+    const conf: AxiosRequestConfig = {
+      baseURL: this.baseURL,
+      method,
+      url,
+      params: method === 'GET' ? data : options.params,
+      headers,
+      signal,
+    };
+
+    if (['POST', 'PUT'].includes(method)) {
+      conf.data = options.string ? JSON.stringify(data) : data;
+      conf.data.authentication = this.getAuthentication(conf.data);
+    }
+    return conf;
+  }
+
+  buildHeader(options: IAPIClientRequestOptions) {
+    const token = window.localStorage.getItem('token');
+    return {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
+      authorization: token ? `bearer ${token}` : '',
+      ...options.headers,
     };
   }
 
