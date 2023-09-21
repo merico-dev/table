@@ -19,6 +19,7 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './index.css';
 import { createDashboardRenderModel } from './model/dashboard';
+import { IDashboardConfig } from '..';
 
 registerThemes();
 

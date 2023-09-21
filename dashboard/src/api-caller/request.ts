@@ -1,6 +1,6 @@
 import axios, { Method } from 'axios';
 import { DataSourceType } from '~/model';
-import { AnyObject } from '..';
+import { AnyObject, IDashboardConfig } from '..';
 import { cryptSign } from './utils';
 
 type TQueryPayload = {

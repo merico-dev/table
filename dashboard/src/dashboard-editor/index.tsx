@@ -21,6 +21,7 @@ import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './index.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
+import { IDashboardConfig } from '..';
 
 registerThemes();
 
