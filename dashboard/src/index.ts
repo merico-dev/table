@@ -1,3 +1,5 @@
+import { ButtonProps } from '@mantine/core';
+
 export const getVersion = () =>
   import('../package.json').then(({ version }) => {
     console.log(`[@devtable/dashboard] version: ${version}`);
@@ -22,4 +24,5 @@ export interface IDashboardConfig {
   app_id?: string;
   app_secret?: string;
   monacoPath: string;
+  searchButtonProps: ButtonProps;
 }

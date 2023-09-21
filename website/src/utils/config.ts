@@ -9,14 +9,15 @@ export const BaseDashboardConfig: IDashboardConfig = {
   basename: import.meta.env.VITE_WEBSITE_BASE_URL,
   monacoPath: MonacoPath,
   makeQueryENV: () => ({}),
+  searchButtonProps: {},
 };
 
-export const getDashboardConfig = async (signal: AbortSignal) => {
+export const getDashboardConfig = async (signal: AbortSignal): Promise<IDashboardConfig> => {
   try {
     const makeQueryENV = await APICaller.custom_function.get('makeQueryENV', signal)();
     return {
       ...BaseDashboardConfig,
-      makeQueryENV,
+      makeQueryENV: makeQueryENV ?? undefined,
     };
   } catch (error) {
     return BaseDashboardConfig;
