@@ -7,7 +7,7 @@ import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewRender } from '~/components/view';
-import { FullScreenPanelContext } from '~/contexts';
+import { DashboardThemeContextProvider, FullScreenPanelContext } from '~/contexts';
 import { ContentModelContextProvider } from '~/contexts/content-model-context';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
@@ -70,32 +70,34 @@ export const ReadOnlyDashboard = observer(
     const configureServices = useTopLevelServices(pluginContext);
     return (
       <ModalsProvider>
-        <DashboardModelContextProvider value={model}>
-          <ContentModelContextProvider value={model.content}>
-            <FullScreenPanelContext.Provider
-              value={{
-                fullScreenPanelID,
-                setFullScreenPanelID,
-              }}
-            >
-              <LayoutStateContext.Provider
+        <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+          <DashboardModelContextProvider value={model}>
+            <ContentModelContextProvider value={model.content}>
+              <FullScreenPanelContext.Provider
                 value={{
-                  inEditMode: false,
+                  fullScreenPanelID,
+                  setFullScreenPanelID,
                 }}
               >
-                <Box className={`${className} dashboard-root`}>
-                  <PluginContext.Provider value={pluginContext}>
-                    <ServiceLocatorProvider configure={configureServices}>
-                      {model.content.views.visibleViews.map((view) => (
-                        <DashboardViewRender key={view.id} view={view} />
-                      ))}
-                    </ServiceLocatorProvider>
-                  </PluginContext.Provider>
-                </Box>
-              </LayoutStateContext.Provider>
-            </FullScreenPanelContext.Provider>
-          </ContentModelContextProvider>
-        </DashboardModelContextProvider>
+                <LayoutStateContext.Provider
+                  value={{
+                    inEditMode: false,
+                  }}
+                >
+                  <Box className={`${className} dashboard-root`}>
+                    <PluginContext.Provider value={pluginContext}>
+                      <ServiceLocatorProvider configure={configureServices}>
+                        {model.content.views.visibleViews.map((view) => (
+                          <DashboardViewRender key={view.id} view={view} />
+                        ))}
+                      </ServiceLocatorProvider>
+                    </PluginContext.Provider>
+                  </Box>
+                </LayoutStateContext.Provider>
+              </FullScreenPanelContext.Provider>
+            </ContentModelContextProvider>
+          </DashboardModelContextProvider>
+        </DashboardThemeContextProvider>
       </ModalsProvider>
     );
   },

@@ -24,5 +24,5 @@ export interface IDashboardConfig {
   app_id?: string;
   app_secret?: string;
   monacoPath: string;
-  searchButtonProps?: ButtonProps;
+  searchButtonProps: ButtonProps;
 }
