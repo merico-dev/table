@@ -70,7 +70,7 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
       >
         <Tabs.List>
           {controlledFields.map((field, index) => (
-            <Tabs.Tab key={index} value={field.id}>
+            <Tabs.Tab key={field.id} value={field.id}>
               {field.name ? field.name : index + 1}
             </Tabs.Tab>
           ))}

@@ -146,7 +146,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={index.toString()}>
+          <Tabs.Tab key={field.id} value={index.toString()}>
             {index + 1}
             {/* {field.name.trim() ? field.name : index + 1} */}
           </Tabs.Tab>
@@ -156,7 +156,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={index} value={index.toString()}>
+        <Tabs.Panel key={field.id} value={index.toString()}>
           <YAxisField control={control} index={index} remove={remove} />
         </Tabs.Panel>
       ))}
