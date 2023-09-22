@@ -15,7 +15,7 @@ interface IReferenceAreaField {
 
 export function ReferenceAreaField({ control, index, remove, variableOptions }: IReferenceAreaField) {
   return (
-    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`reference_areas.${index}.name`}

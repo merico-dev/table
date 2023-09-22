@@ -83,7 +83,6 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
       {controlledFields.map((regressionItem, index) => (
         <Tabs.Panel key={index} value={index.toString()}>
           <RegressionField
-            key={index}
             regressionItem={regressionItem}
             control={control}
             index={index}

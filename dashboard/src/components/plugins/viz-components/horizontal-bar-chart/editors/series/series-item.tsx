@@ -39,7 +39,7 @@ interface ISeriesItemField {
 
 export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions }: ISeriesItemField) {
   return (
-    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`series.${index}.name`}

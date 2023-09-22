@@ -16,7 +16,7 @@ interface IProps {
 export function MetricField({ control, index, remove, watch, variableOptions }: IProps) {
   watch(`metrics.${index}.postfix`);
   return (
-    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`metrics.${index}.names.value`}
