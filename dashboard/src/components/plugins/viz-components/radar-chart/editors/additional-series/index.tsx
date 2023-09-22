@@ -78,7 +78,7 @@ export function AdditionalSeriesField({ control, watch }: Props) {
           </Tabs.Tab>
         </Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Panel key={index} value={field.id}>
+          <Tabs.Panel key={field.id} value={field.id}>
             <AdditionalSeriesItemField control={control} index={index} remove={removeAndResetTab} />
           </Tabs.Panel>
         ))}
