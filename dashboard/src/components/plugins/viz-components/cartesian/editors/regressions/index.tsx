@@ -71,7 +71,7 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={index.toString()}>
+          <Tabs.Tab key={field.id} value={index.toString()}>
             {index + 1}
             {/* {field.name.trim() ? field.name : index + 1} */}
           </Tabs.Tab>
@@ -81,9 +81,8 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((regressionItem, index) => (
-        <Tabs.Panel key={index} value={index.toString()}>
+        <Tabs.Panel key={regressionItem.id} value={index.toString()}>
           <RegressionField
-            key={index}
             regressionItem={regressionItem}
             control={control}
             index={index}

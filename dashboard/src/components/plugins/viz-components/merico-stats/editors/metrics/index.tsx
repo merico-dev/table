@@ -73,7 +73,7 @@ export const MetricsField = ({ control, watch, variables }: IProps) => {
       >
         <Tabs.List>
           {controlledFields.map((field, index) => (
-            <Tabs.Tab key={index} value={field.id}>
+            <Tabs.Tab key={field.id} value={field.id}>
               {field.names.value ? field.names.value : index + 1}
             </Tabs.Tab>
           ))}
@@ -82,7 +82,7 @@ export const MetricsField = ({ control, watch, variables }: IProps) => {
           </Tabs.Tab>
         </Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Panel key={index} value={field.id}>
+          <Tabs.Panel key={field.id} value={field.id}>
             <MetricField
               control={control}
               index={index}

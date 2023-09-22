@@ -5,8 +5,8 @@ import { StatusTable } from './table';
 const items = [
   { name: 'Settings', to: '/admin' },
   { name: 'Status', to: '/admin/status' },
-].map((item, index) => (
-  <Anchor href={item.to} key={index}>
+].map((item) => (
+  <Anchor href={item.to} key={item.to}>
     {item.name}
   </Anchor>
 ));

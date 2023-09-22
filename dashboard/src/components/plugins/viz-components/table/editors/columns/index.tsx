@@ -72,14 +72,7 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
             </Tabs.List>
             {fields.map((column, index) => (
               <Tabs.Panel key={column.id} value={index.toString()}>
-                <ColumnField
-                  key={index}
-                  control={control}
-                  watch={watch}
-                  index={index}
-                  column={column}
-                  remove={remove}
-                />
+                <ColumnField control={control} watch={watch} index={index} column={column} remove={remove} />
               </Tabs.Panel>
             ))}
           </Tabs>

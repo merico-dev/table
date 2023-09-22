@@ -12,7 +12,7 @@ interface IReferenceLineField {
 
 export function ReferenceLineField({ control, index, remove, variableOptions }: IReferenceLineField) {
   return (
-    <Stack key={index} my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
+    <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`reference_lines.${index}.name`}

@@ -6,8 +6,8 @@ import { SettingsFormConfig } from '../../utils/config';
 const items = [
   { name: 'Settings', to: '/admin' },
   { name: 'API Keys', to: '/admin/api_key/list' },
-].map((item, index) => (
-  <Anchor href={item.to} key={index}>
+].map((item) => (
+  <Anchor href={item.to} key={item.to}>
     {item.name}
   </Anchor>
 ));

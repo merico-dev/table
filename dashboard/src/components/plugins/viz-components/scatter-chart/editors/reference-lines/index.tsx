@@ -76,7 +76,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={index.toString()}>
+          <Tabs.Tab key={field.id} value={index.toString()}>
             {index + 1}
             {/* {field.name.trim() ? field.name : index + 1} */}
           </Tabs.Tab>
@@ -86,7 +86,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={index} value={index.toString()}>
+        <Tabs.Panel key={field.id} value={index.toString()}>
           <ReferenceLineField
             control={control}
             index={index}

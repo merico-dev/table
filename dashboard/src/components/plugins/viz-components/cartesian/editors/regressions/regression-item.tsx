@@ -32,7 +32,7 @@ interface IRegressionField {
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions }: IRegressionField) {
   const method = regressionItem.transform.config.method;
   return (
-    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow>
         <Controller
           name={`regressions.${index}.name`}

@@ -63,7 +63,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={field.id}>
+          <Tabs.Tab key={field.id} value={field.id}>
             {field.name}
           </Tabs.Tab>
         ))}
@@ -72,7 +72,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={index} value={field.id}>
+        <Tabs.Panel key={field.id} value={field.id}>
           <ReferenceLineField
             control={control}
             index={index}

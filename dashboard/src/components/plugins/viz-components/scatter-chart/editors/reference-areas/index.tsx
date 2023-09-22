@@ -64,7 +64,7 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
     >
       <Tabs.List>
         {controlledFields.map((field, index) => (
-          <Tabs.Tab key={index} value={index.toString()}>
+          <Tabs.Tab key={field.id} value={index.toString()}>
             {index + 1}
             {/* {field.name.trim() ? field.name : index + 1} */}
           </Tabs.Tab>
@@ -74,7 +74,7 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={index} value={index.toString()}>
+        <Tabs.Panel key={field.id} value={index.toString()}>
           <Controller
             name={`reference_areas.${index}`}
             control={control}

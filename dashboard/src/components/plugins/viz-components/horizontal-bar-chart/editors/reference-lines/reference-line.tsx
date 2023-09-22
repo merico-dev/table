@@ -37,7 +37,7 @@ export function ReferenceLineField({
 }: IReferenceLineField) {
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
-    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`reference_lines.${index}.name`}

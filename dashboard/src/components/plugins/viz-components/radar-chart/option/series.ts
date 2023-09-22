@@ -91,6 +91,5 @@ function getAdditionalSeries(data: TPanelData, conf: IRadarChartConf) {
 
 export function getSeries(data: TPanelData, conf: IRadarChartConf) {
   const ret = [...getMainSeries(data, conf), ...getAdditionalSeries(data, conf)];
-  console.log(ret);
   return ret;
 }

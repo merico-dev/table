@@ -41,7 +41,7 @@ interface ISeriesItemField {
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
   const type = seriesItem.type;
   return (
-    <Stack key={index} my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Stack>
         <Controller
           name={`series.${index}.type`}
