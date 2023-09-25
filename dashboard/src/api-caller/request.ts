@@ -1,8 +1,10 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
 import { DataSourceType } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
-import { cryptSign } from './utils';
+import { DefaultApiClient, IAPIClient } from '../shared';
+import { Method } from 'axios';
 
+export { FacadeApiClient, DefaultApiClient } from '../shared';
+export type { IAPIClient, IAPIClientRequestOptions } from '../shared';
 export type TQueryPayload = {
   type: DataSourceType;
   key: string;
@@ -10,112 +12,36 @@ export type TQueryPayload = {
   env?: AnyObject;
 };
 
-export interface IAPIClientRequestOptions {
-  string?: boolean;
-  params?: AnyObject;
-  headers?: AnyObject;
-}
-
-export interface IAPIClient {
-  getRequest: <T = $TSFixMe>(
-    method: Method,
-    signal?: AbortSignal,
-  ) => (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T>;
+export interface IDashboardAPIClient extends IAPIClient {
   query: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryPayload, options?: AnyObject) => Promise<T>;
 }
 
-export class DefaultApiClient implements IAPIClient {
-  baseURL: string;
-  app_id: string;
-  app_secret: string;
-  makeQueryENV: (() => AnyObject) | null;
+export class DashboardApiClient extends DefaultApiClient implements IDashboardAPIClient {
+  makeQueryENV?: (() => AnyObject) | null = null;
 
-  constructor() {
-    this.baseURL = 'http://localhost:31200';
-    this.app_id = '';
-    this.app_secret = '';
-    this.makeQueryENV = null;
-  }
-
-  getAuthentication(params: Record<string, unknown>) {
-    if (!this.app_id || !this.app_secret) {
-      return undefined;
-    }
-    const nonce_str = new Date().getTime().toString();
-    return {
-      app_id: this.app_id,
-      nonce_str,
-      sign: cryptSign(
-        {
-          app_id: this.app_id,
-          nonce_str,
-          ...params,
-        },
-        this.app_secret,
-      ),
-    };
-  }
-
-  getRequest(method: Method, signal?: AbortSignal) {
-    return (url: string, data: AnyObject, options: IAPIClientRequestOptions = {}) => {
-      const headers = this.buildHeader(options);
-      const conf = this.buildAxiosConfig(method, url, data, options, headers, signal);
-
-      return axios(conf)
-        .then((res) => {
-          return res.data;
-        })
-        .catch((err: Error) => {
-          return Promise.reject(err);
-        });
-    };
-  }
-
-  buildAxiosConfig(
-    method: Method,
-    url: string,
-    data: AnyObject,
-    options: IAPIClientRequestOptions,
-    headers: AnyObject,
-    signal: AbortSignal | undefined,
-  ) {
-    const conf: AxiosRequestConfig = {
-      baseURL: this.baseURL,
-      method,
-      url,
-      params: method === 'GET' ? data : options.params,
-      headers,
-      signal,
-    };
-
-    if (['POST', 'PUT'].includes(method)) {
-      conf.data = options.string ? JSON.stringify(data) : data;
-      conf.data.authentication = this.getAuthentication(conf.data);
-    }
-    return conf;
-  }
-
-  buildHeader(options: IAPIClientRequestOptions): AnyObject {
-    const token = window.localStorage.getItem('token');
-    return {
-      'X-Requested-With': 'XMLHttpRequest',
-      'Content-Type': options.string ? 'application/x-www-form-urlencoded' : 'application/json',
-      authorization: token ? `bearer ${token}` : '',
-      ...options.headers,
-    };
-  }
-
-  query(signal?: AbortSignal) {
+  query<T>(signal: AbortSignal | undefined): (data: TQueryPayload, options?: AnyObject) => Promise<T> {
     return async (data: TQueryPayload, options: AnyObject = {}) => {
       if (!data.env) {
         data.env = this.makeQueryENV?.() ?? { error: 'failed to run makeQueryENV' };
       }
-      return this.getRequest('POST', signal)('/query', data, options);
+      return this.getRequest<T>('POST', signal)('/query', data, options);
     };
   }
 }
 
-const Default = new DefaultApiClient();
+export class DashboardApiFacadeClient implements IDashboardAPIClient {
+  constructor(public implementation: IDashboardAPIClient) {}
+
+  query<T>(signal?: AbortSignal) {
+    return this.implementation.query<T>(signal);
+  }
+
+  getRequest<T>(method: Method, signal?: AbortSignal) {
+    return this.implementation.getRequest<T>(method, signal);
+  }
+}
+
+const Default = new DashboardApiClient();
 
 export function configureAPIClient(config: IDashboardConfig) {
   if (Default.baseURL !== config.apiBaseURL) {
@@ -127,29 +53,15 @@ export function configureAPIClient(config: IDashboardConfig) {
   if (config.app_secret) {
     Default.app_secret = config.app_secret;
   }
+
   if (config.makeQueryENV) {
     Default.makeQueryENV = config.makeQueryENV;
-  }
-}
-
-export class FacadeApiClient implements IAPIClient {
-  implementation: IAPIClient = Default;
-
-  getRequest<T>(
-    method: Method,
-    signal?: AbortSignal,
-  ): (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T> {
-    return this.implementation.getRequest(method, signal);
-  }
-
-  query<T>(signal?: AbortSignal): (data: TQueryPayload, options?: AnyObject) => Promise<T> {
-    return this.implementation.query(signal);
   }
 }
 
 /**
  * @example facadeApiClient.implementation = new MyAPIClient();
  */
-export const facadeApiClient = new FacadeApiClient();
+export const facadeApiClient = new DashboardApiFacadeClient(Default);
 
-export const APIClient: IAPIClient = facadeApiClient;
+export const APIClient: IDashboardAPIClient = facadeApiClient;
