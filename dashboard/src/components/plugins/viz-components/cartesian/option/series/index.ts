@@ -18,6 +18,6 @@ export function getSeries(
     .map((c) => getSeriesItemOrItems(conf, c, dataTemplate, data, variableValueMap, labelFormatters))
     .flat();
   return ret
-    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data, xAxisData))
+    .concat(getReferenceLines(conf.reference_lines, variables, variableValueMap, data, xAxisData, conf.x_axis.type))
     .concat(getReferenceAreas(conf.reference_areas, variableValueMap));
 }
