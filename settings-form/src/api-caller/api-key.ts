@@ -4,7 +4,7 @@ import { PaginationResponse } from './types';
 
 export const api_key = {
   list: async (): Promise<PaginationResponse<IAPIKey>> => {
-    const res = await APIClient.getRequest('POST')('/api/key/list', {
+    const res = await APIClient.post()('/api/key/list', {
       filter: {
         search: '',
       },
@@ -22,7 +22,7 @@ export const api_key = {
     return res;
   },
   create: async (name: string, role_id: string): Promise<{ app_id: string; app_secret: string }> => {
-    return APIClient.getRequest('POST')('/api/key/create', {
+    return APIClient.post()('/api/key/create', {
       name,
       role_id,
     });
@@ -31,6 +31,6 @@ export const api_key = {
     if (!id) {
       return;
     }
-    return APIClient.getRequest('POST')('/api/key/delete', { id });
+    return APIClient.post()('/api/key/delete', { id });
   },
 };
