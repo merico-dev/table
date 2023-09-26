@@ -1,7 +1,7 @@
 import { DataSourceType } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
-import { DefaultApiClient, IAPIClient } from '../shared';
-import { Method } from 'axios';
+import { DefaultApiClient, IAPIClient, IAPIClientRequestOptions } from '../shared';
+import axios, { AxiosResponse, Method } from 'axios';
 
 export { FacadeApiClient, DefaultApiClient } from '../shared';
 export type { IAPIClient, IAPIClientRequestOptions } from '../shared';
@@ -14,6 +14,9 @@ export type TQueryPayload = {
 
 export interface IDashboardAPIClient extends IAPIClient {
   query: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryPayload, options?: AnyObject) => Promise<T>;
+  httpDataSourceQuery: <T = $TSFixMe>(
+    signal?: AbortSignal,
+  ) => (data: TQueryPayload, options?: AnyObject) => Promise<AxiosResponse<T>>;
 }
 
 export class DashboardApiClient extends DefaultApiClient implements IDashboardAPIClient {
@@ -27,6 +30,17 @@ export class DashboardApiClient extends DefaultApiClient implements IDashboardAP
       return this.post<T>(signal)('/query', data, options);
     };
   }
+
+  httpDataSourceQuery<T>(
+    signal: AbortSignal | undefined,
+  ): (data: TQueryPayload, options?: AnyObject) => Promise<AxiosResponse<T>> {
+    return async (data: TQueryPayload, options: AnyObject = {}) => {
+      if (!data.env) {
+        data.env = this.makeQueryENV?.() ?? { error: 'failed to run makeQueryENV' };
+      }
+      return this.getRequest<AxiosResponse<T>>('POST', signal)('/query', data, options, true);
+    };
+  }
 }
 
 export class DashboardApiFacadeClient implements IDashboardAPIClient {
@@ -34,6 +48,10 @@ export class DashboardApiFacadeClient implements IDashboardAPIClient {
 
   query<T>(signal?: AbortSignal) {
     return this.implementation.query<T>(signal);
+  }
+
+  httpDataSourceQuery<T>(signal?: AbortSignal) {
+    return this.implementation.httpDataSourceQuery<T>(signal);
   }
 
   getRequest<T>(method: Method, signal?: AbortSignal) {

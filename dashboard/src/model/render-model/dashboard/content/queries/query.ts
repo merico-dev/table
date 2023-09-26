@@ -146,7 +146,7 @@ export const QueryRenderModel = types
           let config = JSON.parse(self.httpConfigString);
           config = preProcessWithDataSource(self.datasource, config);
 
-          const res = yield* toGenerator(
+          const response = yield* toGenerator(
             queryByHTTP(
               {
                 type,
@@ -157,8 +157,8 @@ export const QueryRenderModel = types
               self.controller.signal,
             ),
           );
-          let data = postProcessWithDataSource(self.datasource, res);
-          data = postProcessWithQuery(post_process, data, self.dashboardState);
+          const result = postProcessWithDataSource(self.datasource, response);
+          const data = postProcessWithQuery(post_process, result, self.dashboardState);
 
           self.data = data;
           self.state = 'idle';
