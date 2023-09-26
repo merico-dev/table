@@ -51,7 +51,7 @@ export type TQuerySources = Record<string, string[]>;
 
 export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {
+    const res: PaginationResponse<IDataSource> = await APIClient.post()('/datasource/list', {
       filter: {},
       sort: [
         {
@@ -81,7 +81,7 @@ export type GlobalSQLSnippetDBType = {
 
 export async function listGlobalSQLSnippets(): Promise<GlobalSQLSnippetDBType[]> {
   try {
-    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.getRequest('POST')('/sql_snippet/list', {
+    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.post()('/sql_snippet/list', {
       filter: {},
       sort: [
         {

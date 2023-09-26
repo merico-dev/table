@@ -24,7 +24,7 @@ export class DashboardApiClient extends DefaultApiClient implements IDashboardAP
       if (!data.env) {
         data.env = this.makeQueryENV?.() ?? { error: 'failed to run makeQueryENV' };
       }
-      return this.getRequest<T>('POST', signal)('/query', data, options);
+      return this.post<T>(signal)('/query', data, options);
     };
   }
 }
