@@ -1,5 +1,4 @@
-import { IAccount } from '@devtable/settings-form';
-import { IStyles } from '@devtable/settings-form/dist/account/styles';
+import { IAccount, IStyles } from '@devtable/settings-form';
 import { Box, Button, Group, LoadingOverlay, Modal, Text, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useBoolean } from 'ahooks';

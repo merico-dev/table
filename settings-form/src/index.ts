@@ -8,6 +8,14 @@ export * from './datasource';
 export * from './account';
 export * from './api-key';
 export * from './sql_snippet';
+export {
+  FacadeApiClient,
+  DefaultApiClient,
+  facadeApiClient,
+  APIClient,
+  configureAPIClient,
+} from './api-caller/request';
+export type { IAPIClient, IAPIClientRequestOptions } from './api-caller/request';
 
 export * from './api-caller/account.typed';
 export * from './api-caller/api-key.typed';
