@@ -58,7 +58,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
   };
 
   return (
-    <Box p="md">
+    <Box p="sm">
       <ErrorBoundary>
         <form onSubmit={handleSubmit(updateVersionInfo)}>
           <Stack>
@@ -68,6 +68,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
               render={({ field }) => (
                 <TextInput
                   required
+                  data-1p-ignore
                   label="Version Name"
                   {...field}
                   error={errors.name?.message}

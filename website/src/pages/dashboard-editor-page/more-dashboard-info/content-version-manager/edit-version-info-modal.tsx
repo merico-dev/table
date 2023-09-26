@@ -6,7 +6,7 @@ import { useDashboardStore } from '../../../../frames/app/models/dashboard-store
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },
-  header: { marginBottom: 0, padding: '0 20px 10px', borderBottom: '1px solid #efefef' },
+  header: { marginBottom: 0, padding: '10px 20px 10px', borderBottom: '1px solid #efefef' },
   title: { flexGrow: 1 },
 };
 
@@ -34,13 +34,11 @@ export const EditVersionInfoModal = observer(
         onClose={close}
         closeOnEscape={false}
         title={
-          <Group position="apart" sx={{ flexGrow: 1 }}>
+          <Group position="apart" pr={7} sx={{ flexGrow: 1 }}>
             <Text fw={500}>Edit Version</Text>
-            <Group spacing={7}>
-              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
-                Dashboard: {dashboardName}
-              </Badge>
-            </Group>
+            <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+              Dashboard: {dashboardName}
+            </Badge>
           </Group>
         }
         zIndex={320}
