@@ -7,7 +7,7 @@ export class FacadeApiClient implements IAPIClient {
   getRequest<T>(
     method: Method,
     signal?: AbortSignal,
-  ): (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T> {
+  ): (url: string, data: AnyObject, options: IAPIClientRequestOptions) => Promise<T> {
     return this.implementation.getRequest(method, signal);
   }
 

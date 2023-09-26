@@ -51,19 +51,23 @@ export type TQuerySources = Record<string, string[]>;
 
 export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res: PaginationResponse<IDataSource> = await APIClient.post()('/datasource/list', {
-      filter: {},
-      sort: [
-        {
-          field: 'create_time',
-          order: 'ASC',
+    const res: PaginationResponse<IDataSource> = await APIClient.post()(
+      '/datasource/list',
+      {
+        filter: {},
+        sort: [
+          {
+            field: 'create_time',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 100,
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 100,
       },
-    });
+      {},
+    );
     return res.data;
   } catch (error) {
     console.error(error);
@@ -81,19 +85,23 @@ export type GlobalSQLSnippetDBType = {
 
 export async function listGlobalSQLSnippets(): Promise<GlobalSQLSnippetDBType[]> {
   try {
-    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.post()('/sql_snippet/list', {
-      filter: {},
-      sort: [
-        {
-          field: 'id',
-          order: 'ASC',
+    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.post()(
+      '/sql_snippet/list',
+      {
+        filter: {},
+        sort: [
+          {
+            field: 'id',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 1000,
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 1000,
       },
-    });
+      {},
+    );
     return res.data;
   } catch (error) {
     console.error(error);
