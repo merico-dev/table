@@ -4,33 +4,41 @@ import { PaginationResponse } from './types';
 
 export const api_key = {
   list: async (): Promise<PaginationResponse<IAPIKey>> => {
-    const res = await APIClient.getRequest('POST')('/api/key/list', {
-      filter: {
-        search: '',
-      },
-      sort: [
-        {
-          field: 'name',
-          order: 'ASC',
+    const res = await APIClient.post()(
+      '/api/key/list',
+      {
+        filter: {
+          search: '',
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 100,
+        sort: [
+          {
+            field: 'name',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 100,
+        },
       },
-    });
+      {},
+    );
     return res;
   },
   create: async (name: string, role_id: string): Promise<{ app_id: string; app_secret: string }> => {
-    return APIClient.getRequest('POST')('/api/key/create', {
-      name,
-      role_id,
-    });
+    return APIClient.post()(
+      '/api/key/create',
+      {
+        name,
+        role_id,
+      },
+      {},
+    );
   },
   delete: async (id: string): Promise<void> => {
     if (!id) {
       return;
     }
-    return APIClient.getRequest('POST')('/api/key/delete', { id });
+    return APIClient.post()('/api/key/delete', { id }, {});
   },
 };

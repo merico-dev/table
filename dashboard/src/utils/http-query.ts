@@ -1,7 +1,8 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { IDataSource } from '~/api-caller/types';
 import { ContextRecordType, FilterValuesType, TDashboardState } from '~/model';
 import { functionUtils } from './function-utils';
+import { AnyObject } from '..';
 
 export function buildHTTPRequest(
   pre_process: string,
@@ -22,12 +23,15 @@ export function preProcessWithDataSource(datasource: IDataSource, config: AxiosR
     return config;
   }
 }
-export function postProcessWithDataSource(datasource: IDataSource, res: any) {
-  return new Function(`return ${datasource.config.processing.post}`)()(res, functionUtils);
+export function postProcessWithDataSource(
+  datasource: IDataSource,
+  response: AxiosResponse<AnyObject> | AxiosError<AnyObject>,
+) {
+  return new Function(`return ${datasource.config.processing.post}`)()(response, functionUtils);
 }
-export function postProcessWithQuery(post_process: TFunctionString, res: any, state: TDashboardState) {
+export function postProcessWithQuery(post_process: TFunctionString, result: any, state: TDashboardState) {
   if (!post_process) {
-    return res;
+    return result;
   }
-  return new Function(`return ${post_process}`)()(res, functionUtils, state);
+  return new Function(`return ${post_process}`)()(result, functionUtils, state);
 }

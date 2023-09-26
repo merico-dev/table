@@ -65,14 +65,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
           name="config.host"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label="Base URL"
-              sx={{ flexGrow: 1 }}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} label="Base URL" sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Group grow>

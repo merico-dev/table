@@ -7,7 +7,17 @@ export class FacadeApiClient implements IAPIClient {
   getRequest<T>(
     method: Method,
     signal?: AbortSignal,
-  ): (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T> {
+  ): (url: string, data: AnyObject, options: IAPIClientRequestOptions) => Promise<T> {
     return this.implementation.getRequest(method, signal);
+  }
+
+  get<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('GET', signal);
+  }
+  post<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('POST', signal);
+  }
+  put<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('PUT', signal);
   }
 }

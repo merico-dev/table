@@ -8,30 +8,34 @@ export const account = {
       name,
       password,
     };
-    const res: ILoginResp = await APIClient.getRequest('POST')('/account/login', payload);
+    const res: ILoginResp = await APIClient.post()('/account/login', payload, {});
     return res;
   },
   list: async (): Promise<PaginationResponse<IAccount>> => {
-    const res = await APIClient.getRequest('POST')('/account/list', {
-      filter: {},
-      sort: [
-        {
-          field: 'name',
-          order: 'ASC',
+    const res = await APIClient.post()(
+      '/account/list',
+      {
+        filter: {},
+        sort: [
+          {
+            field: 'name',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 100,
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 100,
       },
-    });
+      {},
+    );
     return res;
   },
   /**
    * get current account
    */
   get: async (): Promise<IAccount> => {
-    const res = await APIClient.getRequest('GET')('/account/get', {});
+    const res = await APIClient.get()('/account/get', {}, {});
     return res;
   },
   /**
@@ -42,7 +46,7 @@ export const account = {
       name: name.trim(),
       email: email.trim(),
     };
-    const res: IAccount = await APIClient.getRequest('PUT')('/account/update', payload);
+    const res: IAccount = await APIClient.put()('/account/update', payload, {});
     return res;
   },
   /**
@@ -53,29 +57,33 @@ export const account = {
       old_password: old_password.trim(),
       new_password: new_password.trim(),
     };
-    const res: IAccount = await APIClient.getRequest('POST')('/account/changepassword', payload);
+    const res: IAccount = await APIClient.post()('/account/changepassword', payload, {});
     return res;
   },
   create: async (name: string, email: string, password: string, role_id: string): Promise<IAccount> => {
-    const res: IAccount = await APIClient.getRequest('POST')('/account/create', {
-      name: name.trim(),
-      email: email.trim(),
-      password: password.trim(),
-      role_id,
-    });
+    const res: IAccount = await APIClient.post()(
+      '/account/create',
+      {
+        name: name.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        role_id,
+      },
+      {},
+    );
     return res;
   },
   edit: async (payload: IEditAccountPayload): Promise<IAccount> => {
     if (!payload.reset_password) {
       payload.new_password = undefined;
     }
-    const res: IAccount = await APIClient.getRequest('PUT')('/account/edit', payload);
+    const res: IAccount = await APIClient.put()('/account/edit', payload, {});
     return res;
   },
   delete: async (id: string): Promise<void> => {
     if (!id) {
       return;
     }
-    return APIClient.getRequest('POST')('/account/delete', { id });
+    return APIClient.post()('/account/delete', { id }, {});
   },
 };

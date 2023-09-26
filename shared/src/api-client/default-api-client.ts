@@ -1,6 +1,6 @@
 import { AnyObject, IAPIClient, IAPIClientRequestOptions } from './types';
 import { cryptSign } from './utils';
-import axios, { Method, AxiosRequestConfig } from 'axios';
+import axios, { Method, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export class DefaultApiClient implements IAPIClient {
   baseURL: string;
@@ -34,18 +34,31 @@ export class DefaultApiClient implements IAPIClient {
   }
 
   getRequest<T>(method: Method, signal?: AbortSignal) {
-    return (url: string, data: AnyObject, options: IAPIClientRequestOptions = {}) => {
+    return (url: string, data: AnyObject, options: IAPIClientRequestOptions, forResponse?: boolean) => {
       const headers = this.buildHeader(options);
       const conf = this.buildAxiosConfig(method, url, data, options, headers, signal);
 
       return axios(conf)
         .then((res) => {
+          if (forResponse) {
+            return res as AxiosResponse<T>;
+          }
           return res.data;
         })
         .catch((err: Error) => {
           return Promise.reject(err);
         }) as Promise<T>;
     };
+  }
+
+  get<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('GET', signal);
+  }
+  post<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('POST', signal);
+  }
+  put<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('PUT', signal);
   }
 
   buildAxiosConfig(

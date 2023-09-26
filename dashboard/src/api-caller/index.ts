@@ -3,7 +3,8 @@ import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql
 import { APIClient } from './request';
 import { IDataSource, PaginationResponse } from './types';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
+import { AnyObject } from '..';
 
 export type QueryFailureError = {
   code: 'BAD_REQUEST';
@@ -40,10 +41,17 @@ interface IQueryByHTTP {
 
 export async function queryByHTTP({ type, key, configString, name }: IQueryByHTTP, signal: AbortSignal) {
   try {
-    const res = await APIClient.query(signal)({ type, key, query: configString }, { params: { name } });
-    return res;
+    const ret = await APIClient.httpDataSourceQuery<AnyObject>(signal)(
+      { type, key, query: configString },
+      { params: { name } },
+    );
+    return ret;
   } catch (error) {
-    return (error as AxiosError).message;
+    if (axios.isCancel(error)) {
+      throw error;
+    }
+    console.error(error);
+    return error as AxiosError<AnyObject>;
   }
 }
 
@@ -51,19 +59,23 @@ export type TQuerySources = Record<string, string[]>;
 
 export async function listDataSources(): Promise<IDataSource[]> {
   try {
-    const res: PaginationResponse<IDataSource> = await APIClient.getRequest('POST')('/datasource/list', {
-      filter: {},
-      sort: [
-        {
-          field: 'create_time',
-          order: 'ASC',
+    const res: PaginationResponse<IDataSource> = await APIClient.post()(
+      '/datasource/list',
+      {
+        filter: {},
+        sort: [
+          {
+            field: 'create_time',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 100,
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 100,
       },
-    });
+      {},
+    );
     return res.data;
   } catch (error) {
     console.error(error);
@@ -81,19 +93,23 @@ export type GlobalSQLSnippetDBType = {
 
 export async function listGlobalSQLSnippets(): Promise<GlobalSQLSnippetDBType[]> {
   try {
-    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.getRequest('POST')('/sql_snippet/list', {
-      filter: {},
-      sort: [
-        {
-          field: 'id',
-          order: 'ASC',
+    const res: PaginationResponse<GlobalSQLSnippetDBType> = await APIClient.post()(
+      '/sql_snippet/list',
+      {
+        filter: {},
+        sort: [
+          {
+            field: 'id',
+            order: 'ASC',
+          },
+        ],
+        pagination: {
+          page: 1,
+          pagesize: 1000,
         },
-      ],
-      pagination: {
-        page: 1,
-        pagesize: 1000,
       },
-    });
+      {},
+    );
     return res.data;
   } catch (error) {
     console.error(error);
