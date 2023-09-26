@@ -9,9 +9,8 @@ export interface IAPIClientRequestOptions {
   headers?: AnyObject;
 }
 
+type TRequest<T> = (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T>;
+
 export interface IAPIClient {
-  getRequest: <T = $TSFixMe>(
-    method: Method,
-    signal?: AbortSignal,
-  ) => (url: string, data: AnyObject, options?: IAPIClientRequestOptions) => Promise<T>;
+  getRequest: <T = $TSFixMe>(method: Method, signal?: AbortSignal) => TRequest<T>;
 }
