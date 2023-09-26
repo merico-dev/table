@@ -13,4 +13,7 @@ type TRequest<T> = (url: string, data: AnyObject, options?: IAPIClientRequestOpt
 
 export interface IAPIClient {
   getRequest: <T = $TSFixMe>(method: Method, signal?: AbortSignal) => TRequest<T>;
+  get: <T = $TSFixMe>(signal?: AbortSignal) => TRequest<T>;
+  post: <T = $TSFixMe>(signal?: AbortSignal) => TRequest<T>;
+  put: <T = $TSFixMe>(signal?: AbortSignal) => TRequest<T>;
 }

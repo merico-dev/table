@@ -48,6 +48,16 @@ export class DefaultApiClient implements IAPIClient {
     };
   }
 
+  get<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('GET', signal);
+  }
+  post<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('POST', signal);
+  }
+  put<T>(signal?: AbortSignal) {
+    return this.getRequest<T>('PUT', signal);
+  }
+
   buildAxiosConfig(
     method: Method,
     url: string,
