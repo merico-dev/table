@@ -1,18 +1,12 @@
-import { ActionIcon, Box, Group, LoadingOverlay, Stack, Text } from '@mantine/core';
+import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
 import { useRenderContentModelContext } from '~/contexts';
-import { DataTable } from './data-table';
+import { DataTableWithPagination } from './data-table-with-pagination';
 import { QueryStateMessage } from './query-state-message';
 
-export const DataPreview = observer(function _DataPreview({
-  id,
-  moreActions = null,
-}: {
-  id: string;
-  moreActions?: ReactNode;
-}) {
+export const DataPreview = observer(({ id, moreActions = null }: { id: string; moreActions?: ReactNode }) => {
   const content = useRenderContentModelContext();
   const { data, state } = content.getDataStuffByID(id);
   const loading = state === 'loading';
@@ -22,24 +16,13 @@ export const DataPreview = observer(function _DataPreview({
   const download = () => {
     content.queries.downloadDataByQueryID(id);
   };
-  const firstTenRows = useMemo(() => {
-    if (!Array.isArray(data)) {
-      return [];
-    }
-    return data.slice(0, 10);
-  }, [data]);
 
   const dataEmpty = !Array.isArray(data) || data.length === 0;
   return (
-    <Stack sx={{ border: '1px solid #eee' }}>
+    <Stack spacing={0} sx={{ height: '100%', border: '1px solid #eee' }}>
       <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
         <Group position="left">
           <Text weight={500}>Preview Data</Text>
-          {data.length > 10 && (
-            <Text size="sm" color="gray">
-              Showing 10 rows of {data.length}
-            </Text>
-          )}
         </Group>
         <Group pr={15}>
           {moreActions}
@@ -51,10 +34,9 @@ export const DataPreview = observer(function _DataPreview({
           </ActionIcon>
         </Group>
       </Group>
-      <Box sx={{ position: 'relative', overflow: 'auto' }}>
-        <LoadingOverlay visible={loading} />
+      <Box pb={20} sx={{ position: 'relative', flexGrow: 1, overflow: 'auto' }}>
         <QueryStateMessage queryID={id} />
-        <DataTable data={firstTenRows} />
+        <DataTableWithPagination data={data} loading={loading} />
       </Box>
     </Stack>
   );
