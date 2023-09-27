@@ -1,4 +1,4 @@
-import { Stack, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryEditorForm } from './query-editor-form';
@@ -19,9 +19,5 @@ export const EditQuery = observer(({ id }: { id: string }) => {
     );
   }
 
-  return (
-    <Stack sx={{ height: '100%' }} spacing="sm">
-      <QueryEditorForm queryModel={query} />
-    </Stack>
-  );
+  return <QueryEditorForm queryModel={query} />;
 });
