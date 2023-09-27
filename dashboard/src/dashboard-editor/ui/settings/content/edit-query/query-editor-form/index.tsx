@@ -86,7 +86,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
       )}
 
       <Tabs.Panel value="Data" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>
-        <DataPreview id={queryModel.id} />
+        <DataPreview id={queryModel.id} moreActions={null} />
       </Tabs.Panel>
 
       <Tabs.Panel value="Usage" sx={{ ...TabPanelStyle, overflow: 'hidden' }}>

@@ -1,21 +1,26 @@
 import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import { Download, Refresh } from 'tabler-icons-react';
 import { useRenderContentModelContext } from '~/contexts';
 import { DataTableWithPagination } from './data-table-with-pagination';
 import { QueryStateMessage } from './query-state-message';
 
-export const DataPreview = observer(({ id, moreActions = null }: { id: string; moreActions?: ReactNode }) => {
+export const DataPreview = observer(({ id, moreActions }: { id: string; moreActions: ReactNode | null }) => {
   const content = useRenderContentModelContext();
   const { data, state } = content.getDataStuffByID(id);
   const loading = state === 'loading';
-  const refresh = () => {
+  const refresh = useCallback(() => {
     content.queries.refetchDataByQueryID(id);
-  };
+  }, [id, content]);
+
   const download = () => {
     content.queries.downloadDataByQueryID(id);
   };
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
 
   const dataEmpty = !Array.isArray(data) || data.length === 0;
   return (
