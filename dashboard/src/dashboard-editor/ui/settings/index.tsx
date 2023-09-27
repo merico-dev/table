@@ -10,6 +10,7 @@ const SettingsAppShellStyles = {
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
+    minWidth: 'calc(var(--mantine-navbar-width, 0px) + 1000px)',
   },
   body: {
     flexGrow: 1,
@@ -47,6 +48,10 @@ export const Settings = observer(() => {
       styles={{
         body: {
           padding: '0 !important',
+        },
+        content: {
+          // @ts-expect-error important
+          overflowY: 'hidden !important',
         },
       }}
     >
