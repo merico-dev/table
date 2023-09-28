@@ -5,7 +5,7 @@ function upgradePanels(panels: Record<string, any>[]) {
       console.log(p);
       throw new Error(`Unexpected type of panel.title: ${typeof title}`);
     }
-    const name = title ? title : new Date().getTime().toString();
+    const name = title ? title : p.id;
     return {
       ...rest,
       name,
