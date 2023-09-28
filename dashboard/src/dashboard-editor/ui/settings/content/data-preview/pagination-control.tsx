@@ -40,6 +40,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
     return null;
   }
 
+  const hideLimitSelector = maxPage === 1 && total <= 10;
   return (
     <Group pt={10} px={10} position="apart">
       <Group position="left">
@@ -53,19 +54,21 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
             styles={{ control: { height: '30px' } }}
           />
         )}
-        <Select
-          icon={
-            <Text ta="center" color="dimmed" size={14}>
-              Page Size
-            </Text>
-          }
-          size="xs"
-          // @ts-expect-error type error caused by !important
-          styles={selectorStyles}
-          data={limitOptions}
-          value={String(limit)}
-          onChange={changeLimit}
-        />
+        {!hideLimitSelector && (
+          <Select
+            icon={
+              <Text ta="center" color="dimmed" size={14}>
+                Page Size
+              </Text>
+            }
+            size="xs"
+            // @ts-expect-error type error caused by !important
+            styles={selectorStyles}
+            data={limitOptions}
+            value={String(limit)}
+            onChange={changeLimit}
+          />
+        )}
       </Group>
       <Group position="right">
         <Text color="dimmed" my={0} size={14}>
