@@ -1,4 +1,4 @@
-import { Divider, Group, NumberInput, Stack, Switch, Text } from '@mantine/core';
+import { Checkbox, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
@@ -34,7 +34,8 @@ export const EditStyle = observer(() => {
             }}
           />
         </Group>
-        <Switch
+        <Checkbox
+          ml={6}
           label="Border"
           checked={style.border.enabled}
           onChange={(event) => style.border.setEnabled(event.currentTarget.checked)}

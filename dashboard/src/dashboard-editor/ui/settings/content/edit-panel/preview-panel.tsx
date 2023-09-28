@@ -28,7 +28,7 @@ export const PreviewPanel = observer(() => {
             </Group>
             <Group grow position="center">
               <Text lineClamp={1} weight="bold">
-                {panel.title}
+                {panel.title.show ? panel.name : ''}
               </Text>
             </Group>
             <Group position="right" spacing={0} sx={{ height: '28px' }} />

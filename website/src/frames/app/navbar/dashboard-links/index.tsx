@@ -72,7 +72,7 @@ function _DashboardLinks() {
           );
         })}
       </Accordion>
-      <Divider mt={20} variant="dashed" label="Ungrouped" labelPosition="center" />
+      {store.strayList.length > 0 && <Divider mt={20} variant="dashed" label="Ungrouped" labelPosition="center" />}
       {[...store.strayList].map((d) => (
         <DashboardLink
           key={d.id}

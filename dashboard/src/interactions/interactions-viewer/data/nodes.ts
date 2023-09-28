@@ -43,7 +43,7 @@ function makePanelNodes(views: ViewsRenderModelInstance, panels: PanelRenderMode
         return;
       }
 
-      const label = p.title.trim() ? `${p.title}` : p.viz.type;
+      const label = p.name;
       panelNodes.push({
         id: p.id,
         _node_type: 'panel',
