@@ -22,7 +22,7 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
       }}
       styles={{
         body: {
-          height: '90vh',
+          height: 'calc(90vh - 54px)',
         },
         content: {
           transform: 'none !important',
