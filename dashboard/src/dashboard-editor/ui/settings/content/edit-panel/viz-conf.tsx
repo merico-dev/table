@@ -7,7 +7,6 @@ import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-i
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { useEditPanelContext } from '~/contexts';
-import { IPanelInfoEditor } from '~/types/plugin';
 import { ErrorBoundary } from '~/utils/error-boundary';
 import { SelectVizType } from './select-viz-type';
 
@@ -35,12 +34,6 @@ function usePluginVizConfig() {
     queryIDs,
     id,
   };
-  const panelEditor: IPanelInfoEditor = {
-    setDescription: setDescription,
-    addQueryID,
-    removeQueryID,
-    setTitle: setTitle,
-  };
   const configureService = useConfigVizInstanceService(panel);
   try {
     vizManager.resolveComponent(panel.viz.type);
@@ -50,7 +43,6 @@ function usePluginVizConfig() {
           variables={variables}
           setVizConf={viz.setConf}
           panel={panel}
-          panelInfoEditor={panelEditor}
           vizManager={vizManager}
           data={data}
         />

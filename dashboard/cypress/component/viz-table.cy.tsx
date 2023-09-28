@@ -1,15 +1,14 @@
-import { get, set } from 'lodash';
+import { set } from 'lodash';
 import {
   IViewPanelInfo,
   IVizManager,
-  pluginManager,
   VizConfigComponent,
   VizManager,
   VizViewComponent,
+  pluginManager,
 } from '~/components/plugins';
-import { PanelContextProvider } from '~/contexts';
 import { ITableConf, ValueType } from '~/components/plugins/viz-components/table/type';
-import { IPanelInfoEditor } from '~/types/plugin';
+import { PanelContextProvider } from '~/contexts';
 
 const mockQueryID = 'queryID-01';
 const defaultConfig = {
@@ -84,42 +83,18 @@ describe('viz-table.cy.ts', () => {
   });
   describe('config panel', () => {
     it('render config panel', () => {
-      const panelEditor: IPanelInfoEditor = {
-        setDescription: cy.spy(),
-        addQueryID: cy.spy(),
-        removeQueryID: cy.spy(),
-        setTitle: cy.spy(),
-      };
       cy.mount(
         <PanelContextProvider value={{ panel: mockPanel, data: mockData, loading: false, errors: [] }}>
-          <VizConfigComponent
-            panel={mockPanel}
-            data={mockData}
-            vizManager={vizManager}
-            variables={[]}
-            panelInfoEditor={panelEditor}
-          />
+          <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} variables={[]} />
         </PanelContextProvider>,
       );
       cy.findByText('Table Config');
     });
     it('update config', () => {
-      const panelEditor: IPanelInfoEditor = {
-        setDescription: cy.spy(),
-        addQueryID: cy.spy(),
-        removeQueryID: cy.spy(),
-        setTitle: cy.spy(),
-      };
       const instance = vizManager.getOrCreateInstance(mockPanel);
       cy.mount(
         <PanelContextProvider value={{ panel: mockPanel, data: mockData, loading: false, errors: [] }}>
-          <VizConfigComponent
-            panel={mockPanel}
-            data={mockData}
-            vizManager={vizManager}
-            variables={[]}
-            panelInfoEditor={panelEditor}
-          />
+          <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} variables={[]} />
         </PanelContextProvider>,
       );
       cy.findByLabelText('Use Original Data Columns').click({ force: true });

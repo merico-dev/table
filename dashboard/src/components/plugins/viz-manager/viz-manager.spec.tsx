@@ -75,18 +75,7 @@ describe('VizManager', () => {
     });
   });
   test('create config', async () => {
-    render(
-      <VizConfigComponent
-        panel={mockPanel}
-        panelInfoEditor={{
-          setTitle: vi.fn(),
-          setQueryID: vi.fn(),
-          setDescription: vi.fn(),
-        }}
-        vizManager={vizManager}
-        data={[]}
-      />,
-    );
+    render(<VizConfigComponent panel={mockPanel} vizManager={vizManager} data={[]} />);
     await waitFor(() => {
       expect(screen.getByText('World')).toBeInTheDocument();
     });
@@ -101,11 +90,6 @@ describe('VizManager', () => {
       <VizConfigComponent<IMockVizDebugProps>
         helper={vizInstance}
         panel={mockPanel}
-        panelInfoEditor={{
-          setTitle: vi.fn(),
-          setQueryID: vi.fn(),
-          setDescription: vi.fn(),
-        }}
         vizManager={vizManager}
         data={[]}
       />,

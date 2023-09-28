@@ -82,16 +82,7 @@ export interface VizContext {
 
 type Setter<T> = (val: T) => void;
 
-export interface IPanelInfoEditor {
-  setTitle: Setter<string>;
-  setDescription: Setter<string>;
-  addQueryID: Setter<string>;
-  removeQueryID: Setter<string>;
-}
-
-export interface VizConfigContext extends VizContext {
-  panelInfoEditor: IPanelInfoEditor;
-}
+export interface VizConfigContext extends VizContext {}
 
 export interface VizViewContext extends VizContext {
   viewport: { width: number; height: number };
