@@ -23,11 +23,12 @@ function getPluginVizDefaultConfig(vizManager: IVizManager, type: string) {
 function usePluginVizConfig() {
   const {
     data,
-    panel: { variables, viz, title, queryIDs, description, setDescription, setTitle, addQueryID, removeQueryID, id },
+    panel: { variables, viz, title, name, queryIDs, description, id },
   } = useEditPanelContext();
   const { vizManager } = useContext(PluginContext);
 
   const panel: IPanelInfo = {
+    name,
     title,
     description,
     viz,

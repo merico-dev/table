@@ -61,7 +61,7 @@ export function PluginVizConfigComponent({ setVizConf, ...props }: IConfigCompon
 
   const migrated = usePluginMigration(() => {
     showNotification({
-      title: `${panel.title} - Updated`,
+      title: `${panel.name} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',
     });
   });
@@ -87,7 +87,7 @@ export function PluginVizViewComponent(props: IViewComponentProps & SetVizConfTy
     }
 
     showNotification({
-      title: `${panel.title} - Updated`,
+      title: `${panel.name} - Updated`,
       message: 'Your plugin configuration has been migrated to the latest version',
     });
   });

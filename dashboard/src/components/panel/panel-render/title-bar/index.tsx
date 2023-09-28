@@ -4,15 +4,15 @@ import { useRenderPanelContext } from '~/contexts';
 
 export const PanelTitleBar = observer(function _PanelTitleBar() {
   const { panel } = useRenderPanelContext();
-  const { title } = panel;
+  const { name, title } = panel;
 
-  if (!title) {
+  if (!title.show) {
     return null;
   }
   return (
     <Group grow position="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
       <Text align="center" lineClamp={1} className="panel-title-text">
-        {title}
+        {name}
       </Text>
     </Group>
   );

@@ -21,7 +21,7 @@ export const PanelsModel = types
       const ret = panels.map(
         (o) =>
           ({
-            label: o.title ? o.title : _.capitalize(o.viz.type),
+            label: o.name,
             value: o.id,
             _type: 'panel',
             parentID: viewID,

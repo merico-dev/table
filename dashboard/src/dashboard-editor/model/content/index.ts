@@ -177,7 +177,7 @@ const _ContentModel = types
           }
 
           const type = 'panel';
-          const label = p.title ? p.title : p.viz.type;
+          const label = p.name;
           const views = [
             {
               id: v.id,

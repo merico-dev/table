@@ -19,9 +19,7 @@ const baseStyle: Sx = { border: '1px solid #e9ecef' };
 
 export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }: IPanelBase) => {
   const { ref, downloadPanelScreenshot } = useDownloadPanelScreenshot(panel);
-  const showTitle = !!panel.title;
-  const titleHeight = showTitle ? '60px' : '28px';
-  const contentHeight = !panel.title ? '100%' : `calc(100% - ${titleHeight})`;
+  const titleHeight = panel.title.show ? '60px' : '28px';
   return (
     <PanelContextProvider
       value={{
@@ -33,7 +31,7 @@ export const PanelRenderBase = observer(({ panel, panelStyle, dropdownContent }:
       }}
     >
       <Box
-        className={`panel-root ${showTitle ? 'panel-root--show-title' : ''}`}
+        className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
         ref={ref}
         p={0}
         sx={{

@@ -95,7 +95,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
     >
       <Group px={16} position="apart" sx={{ borderBottom: '1px solid #eee' }}>
         <Text pt={9} pb={8}>
-          {panel.title ? panel.title : panel.viz.type}{' '}
+          {panel.name}
         </Text>
         <Group position="right" noWrap>
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />

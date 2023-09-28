@@ -15,11 +15,12 @@ import { Box } from '@mantine/core';
 function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
-    panel: { viz, title, id, description, queryIDs, variables },
+    panel: { viz, title, id, name, description, queryIDs, variables },
   } = useRenderPanelContext();
   const panel: IViewPanelInfo = {
-    title,
     id,
+    name,
+    title,
     description,
     queryIDs,
     viz,
