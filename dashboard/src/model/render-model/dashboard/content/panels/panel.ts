@@ -72,13 +72,14 @@ export type PanelRenderModelSnapshotIn = SnapshotIn<PanelRenderModelInstance>;
 export function getNewPanel(id: string): PanelRenderModelSnapshotIn {
   return {
     id,
+    name: id,
     layout: {
       x: 0,
       y: Infinity, // puts it at the bottom
       w: 18,
       h: 300,
     },
-    title: id,
+    title: { show: true },
     description: '<p></p>',
     queryIDs: [],
     viz: {

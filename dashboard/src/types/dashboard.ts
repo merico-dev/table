@@ -16,7 +16,10 @@ interface IDashboardPanelStyle {
 
 export interface IDashboardPanel {
   id: string;
-  title: string;
+  name: string;
+  title: {
+    show: boolean;
+  };
   description: string;
   layout: {
     x: number;
