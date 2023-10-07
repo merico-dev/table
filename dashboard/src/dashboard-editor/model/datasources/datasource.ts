@@ -28,6 +28,10 @@ export const DataSourceModel = types
     get sqlDataSourceType() {
       return self.type as TQueryStructureRequest['type'];
     },
+    get reloadConditionString() {
+      const { type, table_name, table_schema } = self;
+      return `${type};${table_name};${table_schema}`;
+    },
   }))
   .volatile(() => ({
     controllers: {
@@ -68,7 +72,7 @@ export const DataSourceModel = types
               table_schema: '',
               table_name: '',
             },
-            {},
+            { params: { query_type: 'TABLES' } },
           ),
         );
         self.tables.data = _.groupBy(tables, 'table_schema');
@@ -107,7 +111,7 @@ export const DataSourceModel = types
                 table_schema: self.table_schema,
                 table_name: self.table_name,
               },
-              {},
+              { params: { query_type: 'COLUMNS' } },
             ),
           );
           self.columns.state = 'idle';
@@ -138,7 +142,7 @@ export const DataSourceModel = types
                 table_schema: self.table_schema,
                 table_name: self.table_name,
               },
-              {},
+              { params: { query_type: 'INDEXES' } },
             ),
           );
           self.indexes.state = 'idle';
@@ -172,7 +176,7 @@ export const DataSourceModel = types
                 limit: m.limit,
                 offset: m.offset,
               },
-              {},
+              { params: { query_type: 'DATA' } },
             ),
           );
           const [{ total }] = yield* toGenerator(
@@ -184,7 +188,7 @@ export const DataSourceModel = types
                 table_schema: self.table_schema,
                 table_name: self.table_name,
               },
-              {},
+              { params: { query_type: 'COUNT' } },
             ),
           );
           m.total = Number(total);
@@ -208,17 +212,10 @@ export const DataSourceModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(
-          () => {
-            const { type, table_name, table_schema } = self;
-            return `${type};${table_name};${table_schema}`;
-          },
-          self.loadColumns,
-          {
-            fireImmediately: false,
-            delay: 500,
-          },
-        ),
+        reaction(() => self.reloadConditionString, self.loadColumns, {
+          fireImmediately: false,
+          delay: 500,
+        }),
       );
     },
   }))
@@ -226,24 +223,21 @@ export const DataSourceModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(
-          () => {
-            const { type, table_name, table_schema } = self;
-            return `${type};${table_name};${table_schema}`;
-          },
-          self.loadIndexes,
-          {
-            fireImmediately: false,
-            delay: 500,
-          },
-        ),
+        reaction(() => self.reloadConditionString, self.loadIndexes, {
+          fireImmediately: false,
+          delay: 500,
+        }),
       );
       addDisposer(
         self,
-        reaction(() => `limit:${self.tableData.limit};offset:${self.tableData.offset}`, self.loadTableData, {
-          fireImmediately: false,
-          delay: 0,
-        }),
+        reaction(
+          () => `${self.reloadConditionString};limit:${self.tableData.limit};offset:${self.tableData.offset}`,
+          self.loadTableData,
+          {
+            fireImmediately: false,
+            delay: 0,
+          },
+        ),
       );
     },
   }));

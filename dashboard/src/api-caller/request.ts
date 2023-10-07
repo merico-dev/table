@@ -59,9 +59,9 @@ export class DashboardApiClient extends DefaultApiClient implements IDashboardAP
     };
   }
 
-  structure<T>(signal?: AbortSignal): (data: TQueryStructureRequest) => Promise<T> {
+  structure<T>(signal?: AbortSignal): (data: TQueryStructureRequest, options?: AnyObject) => Promise<T> {
     return async (data: TQueryStructureRequest, options: AnyObject = {}) => {
-      return this.getRequest<T>('POST', signal)('/structure', data, options);
+      return this.post<T>(signal)('/query/structure', data, options);
     };
   }
 }
