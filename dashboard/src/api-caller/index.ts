@@ -1,6 +1,6 @@
 import { DataSourceType, TPayloadForSQL } from '~/model';
 import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
-import { APIClient } from './request';
+import { APIClient, TAdditionalQueryInfo } from './request';
 import { IDataSource, PaginationResponse } from './types';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
 import axios, { AxiosError } from 'axios';
@@ -17,9 +17,10 @@ interface IQueryBySQL {
   name: string;
   query: { type: DataSourceType; key: string; sql: string; pre_process: string; post_process: string };
   payload: TPayloadForSQL;
+  additionals: TAdditionalQueryInfo;
 }
 
-export async function queryBySQL({ query, name, payload }: IQueryBySQL, signal: AbortSignal) {
+export async function queryBySQL({ query, name, payload, additionals }: IQueryBySQL, signal: AbortSignal) {
   if (!query.sql) {
     return [];
   }
@@ -27,7 +28,7 @@ export async function queryBySQL({ query, name, payload }: IQueryBySQL, signal: 
 
   const formattedSQL = formatSQL(sql, payload);
   const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
-  let data = await APIClient.query(signal)({ type, key, query: finalSQL }, { params: { name } });
+  let data = await APIClient.query(signal)({ type, key, query: finalSQL, ...additionals }, { params: { name } });
   data = postProcessSQLQuery(post_process, data, payloadToDashboardState(payload));
   return data;
 }
@@ -37,12 +38,13 @@ interface IQueryByHTTP {
   key: string;
   configString: string;
   name: string;
+  additionals: TAdditionalQueryInfo;
 }
 
-export async function queryByHTTP({ type, key, configString, name }: IQueryByHTTP, signal: AbortSignal) {
+export async function queryByHTTP({ type, key, configString, name, additionals }: IQueryByHTTP, signal: AbortSignal) {
   try {
     const ret = await APIClient.httpDataSourceQuery<AnyObject>(signal)(
-      { type, key, query: configString },
+      { type, key, query: configString, ...additionals },
       { params: { name } },
     );
     return ret;

@@ -1,16 +1,22 @@
-import { DataSourceType } from '~/model';
+import { AxiosResponse, Method } from 'axios';
+import { DataSourceType, TDashboardState } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
-import { DefaultApiClient, IAPIClient, IAPIClientRequestOptions } from '../shared';
-import axios, { AxiosResponse, Method } from 'axios';
+import { DefaultApiClient, IAPIClient } from '../shared';
 
-export { FacadeApiClient, DefaultApiClient } from '../shared';
+export { DefaultApiClient, FacadeApiClient } from '../shared';
 export type { IAPIClient, IAPIClientRequestOptions } from '../shared';
+
+export type TAdditionalQueryInfo = {
+  content_id: string;
+  query_id: string;
+  params: TDashboardState;
+};
 export type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
   env?: AnyObject;
-};
+} & TAdditionalQueryInfo;
 
 export interface IDashboardAPIClient extends IAPIClient {
   query: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryPayload, options?: AnyObject) => Promise<T>;
