@@ -3,10 +3,11 @@ import _ from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, toGenerator, types } from 'mobx-state-tree';
 import { QueryFailureError } from '~/api-caller';
-import { APIClient } from '~/api-caller/request';
+import { APIClient, TQueryStructureRequest } from '~/api-caller/request';
 import { DataSourceMetaModel } from '~/model/meta-model/datasources';
-import { ColumnsModel } from './columns';
-import { IndexesModel } from './indexes';
+import { AnyObject } from '~/types';
+import { ColumnInfoType, ColumnsModel } from './columns';
+import { IndexesModel, IndexInfoType } from './indexes';
 import { TableDataModel } from './table-data';
 import { TableInfoType, TablesModel } from './tables';
 
@@ -23,6 +24,15 @@ export const DataSourceModel = types
       table_name: types.optional(types.string, ''),
     }),
   )
+  .views((self) => ({
+    get sqlDataSourceType() {
+      return self.type as TQueryStructureRequest['type'];
+    },
+    get reloadConditionString() {
+      const { type, table_name, table_schema } = self;
+      return `${type};${table_name};${table_schema}`;
+    },
+  }))
   .volatile(() => ({
     controllers: {
       tables: new AbortController(),
@@ -53,10 +63,16 @@ export const DataSourceModel = types
       self.controllers.tables = new AbortController();
       self.tables.state = 'loading';
       try {
-        const tables: TableInfoType[] = yield* toGenerator(
-          APIClient.query(self.controllers.tables.signal)(
-            { type: self.type, key: self.key, query: self.tables.sql },
-            {},
+        const tables = yield* toGenerator(
+          APIClient.structure<TableInfoType[]>(self.controllers.tables.signal)(
+            {
+              query_type: 'TABLES',
+              type: self.sqlDataSourceType,
+              key: self.key,
+              table_schema: '',
+              table_name: '',
+            },
+            { params: { query_type: 'TABLES' } },
           ),
         );
         self.tables.data = _.groupBy(tables, 'table_schema');
@@ -87,9 +103,15 @@ export const DataSourceModel = types
         self.columns.state = 'loading';
         try {
           self.columns.data = yield* toGenerator(
-            APIClient.query(self.controllers.columns.signal)(
-              { type: self.type, key: self.key, query: self.columns.sql },
-              {},
+            APIClient.structure<ColumnInfoType[]>(self.controllers.columns.signal)(
+              {
+                query_type: 'COLUMNS',
+                type: self.sqlDataSourceType,
+                key: self.key,
+                table_schema: self.table_schema,
+                table_name: self.table_name,
+              },
+              { params: { query_type: 'COLUMNS' } },
             ),
           );
           self.columns.state = 'idle';
@@ -112,9 +134,15 @@ export const DataSourceModel = types
         self.indexes.state = 'loading';
         try {
           self.indexes.data = yield* toGenerator(
-            APIClient.query(self.controllers.indexes.signal)(
-              { type: self.type, key: self.key, query: self.indexes.sql },
-              {},
+            APIClient.structure<IndexInfoType[]>(self.controllers.indexes.signal)(
+              {
+                query_type: 'INDEXES',
+                type: self.sqlDataSourceType,
+                key: self.key,
+                table_schema: self.table_schema,
+                table_name: self.table_name,
+              },
+              { params: { query_type: 'INDEXES' } },
             ),
           );
           self.indexes.state = 'idle';
@@ -138,12 +166,29 @@ export const DataSourceModel = types
         m.state = 'loading';
         try {
           m.data = yield* toGenerator(
-            APIClient.query(self.controllers.tableData.signal)({ type: self.type, key: self.key, query: m.sql }, {}),
+            APIClient.structure<AnyObject[]>(self.controllers.tableData.signal)(
+              {
+                query_type: 'DATA',
+                type: self.sqlDataSourceType,
+                key: self.key,
+                table_schema: self.table_schema,
+                table_name: self.table_name,
+                limit: m.limit,
+                offset: m.offset,
+              },
+              { params: { query_type: 'DATA' } },
+            ),
           );
           const [{ total }] = yield* toGenerator(
-            APIClient.query(self.controllers.tableData.signal)(
-              { type: self.type, key: self.key, query: m.countSql },
-              {},
+            APIClient.structure(self.controllers.tableData.signal)(
+              {
+                query_type: 'COUNT',
+                type: self.sqlDataSourceType,
+                key: self.key,
+                table_schema: self.table_schema,
+                table_name: self.table_name,
+              },
+              { params: { query_type: 'COUNT' } },
             ),
           );
           m.total = Number(total);
@@ -167,7 +212,7 @@ export const DataSourceModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => self.columns.sql, self.loadColumns, {
+        reaction(() => self.reloadConditionString, self.loadColumns, {
           fireImmediately: false,
           delay: 500,
         }),
@@ -178,17 +223,21 @@ export const DataSourceModel = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => self.indexes.sql, self.loadIndexes, {
+        reaction(() => self.reloadConditionString, self.loadIndexes, {
           fireImmediately: false,
           delay: 500,
         }),
       );
       addDisposer(
         self,
-        reaction(() => self.tableData.sql, self.loadTableData, {
-          fireImmediately: false,
-          delay: 0,
-        }),
+        reaction(
+          () => `${self.reloadConditionString};limit:${self.tableData.limit};offset:${self.tableData.offset}`,
+          self.loadTableData,
+          {
+            fireImmediately: false,
+            delay: 0,
+          },
+        ),
       );
     },
   }));

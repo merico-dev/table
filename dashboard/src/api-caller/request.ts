@@ -1,15 +1,31 @@
-import { DataSourceType } from '~/model';
+import { AxiosResponse, Method } from 'axios';
+import { DataSourceType, TDashboardState } from '~/model';
 import { AnyObject, IDashboardConfig } from '..';
-import { DefaultApiClient, IAPIClient, IAPIClientRequestOptions } from '../shared';
-import axios, { AxiosResponse, Method } from 'axios';
+import { DefaultApiClient, IAPIClient } from '../shared';
 
-export { FacadeApiClient, DefaultApiClient } from '../shared';
+export { DefaultApiClient, FacadeApiClient } from '../shared';
 export type { IAPIClient, IAPIClientRequestOptions } from '../shared';
+
+export type TAdditionalQueryInfo = {
+  content_id: string;
+  query_id: string;
+  params: TDashboardState;
+};
 export type TQueryPayload = {
   type: DataSourceType;
   key: string;
   query: string;
   env?: AnyObject;
+} & TAdditionalQueryInfo;
+
+export type TQueryStructureRequest = {
+  query_type: 'TABLES' | 'COLUMNS' | 'DATA' | 'INDEXES' | 'COUNT';
+  type: 'postgresql' | 'mysql';
+  key: string; // datasource key
+  table_schema: string;
+  table_name: string;
+  limit?: number; // default 20
+  offset?: number; // default 0
 };
 
 export interface IDashboardAPIClient extends IAPIClient {
@@ -17,6 +33,7 @@ export interface IDashboardAPIClient extends IAPIClient {
   httpDataSourceQuery: <T = $TSFixMe>(
     signal?: AbortSignal,
   ) => (data: TQueryPayload, options?: AnyObject) => Promise<AxiosResponse<T>>;
+  structure: <T = $TSFixMe>(signal?: AbortSignal) => (data: TQueryStructureRequest, options?: AnyObject) => Promise<T>;
 }
 
 export class DashboardApiClient extends DefaultApiClient implements IDashboardAPIClient {
@@ -41,6 +58,12 @@ export class DashboardApiClient extends DefaultApiClient implements IDashboardAP
       return this.getRequest<AxiosResponse<T>>('POST', signal)('/query', data, options, true);
     };
   }
+
+  structure<T>(signal?: AbortSignal): (data: TQueryStructureRequest, options?: AnyObject) => Promise<T> {
+    return async (data: TQueryStructureRequest, options: AnyObject = {}) => {
+      return this.post<T>(signal)('/query/structure', data, options);
+    };
+  }
 }
 
 export class DashboardApiFacadeClient implements IDashboardAPIClient {
@@ -52,6 +75,10 @@ export class DashboardApiFacadeClient implements IDashboardAPIClient {
 
   httpDataSourceQuery<T>(signal?: AbortSignal) {
     return this.implementation.httpDataSourceQuery<T>(signal);
+  }
+
+  structure(signal?: AbortSignal) {
+    return this.implementation.structure(signal);
   }
 
   getRequest<T>(method: Method, signal?: AbortSignal) {

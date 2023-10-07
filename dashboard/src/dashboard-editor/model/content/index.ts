@@ -31,6 +31,8 @@ import {
 } from '~/model';
 import { PanelModelInstance, PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
+import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { TAdditionalQueryInfo } from '~/api-caller/request';
 
 const _ContentModel = types
   .model({
@@ -129,6 +131,12 @@ const _ContentModel = types
         },
         filters: self.filters.values,
       } as TPayloadForViz;
+    },
+    get dashboardState() {
+      return payloadToDashboardState(this.payloadForSQL);
+    },
+    getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
+      return { content_id: self.id, query_id, params: this.dashboardState };
     },
     get changed() {
       return (

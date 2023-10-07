@@ -8,6 +8,7 @@ import {
   onSnapshot,
   types,
 } from 'mobx-state-tree';
+import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   FiltersRenderModel,
   MockContextMeta,
@@ -25,6 +26,7 @@ import {
   getInitialViewsRenderModel,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
+import { payloadToDashboardState } from '~/utils/dashboard-state';
 
 export const ContentRenderModel = types
   .model({
@@ -92,6 +94,12 @@ export const ContentRenderModel = types
         },
         filters: self.filters.values,
       } as TPayloadForViz;
+    },
+    get dashboardState() {
+      return payloadToDashboardState(this.payloadForSQL);
+    },
+    getAdditionalQueryInfo(query_id: string): TAdditionalQueryInfo {
+      return { content_id: self.id, query_id, params: this.dashboardState };
     },
     get data() {
       const data = self.queries.current.map(({ id, data }) => ({ id, data }));

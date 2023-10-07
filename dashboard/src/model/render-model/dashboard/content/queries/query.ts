@@ -3,8 +3,7 @@ import { get } from 'lodash';
 import { reaction } from 'mobx';
 import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
-import { explainSQL } from '~/utils/sql';
-import { MuteQueryModel } from './mute-query';
+import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { DataSourceType } from '~/model';
 import {
   explainHTTPRequest,
@@ -12,7 +11,8 @@ import {
   postProcessWithQuery,
   preProcessWithDataSource,
 } from '~/utils/http-query';
-import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { explainSQL } from '~/utils/sql';
+import { MuteQueryModel } from './mute-query';
 
 export const QueryRenderModel = types
   .compose(
@@ -33,9 +33,6 @@ export const QueryRenderModel = types
     },
     get payload() {
       return this.contentModel.payloadForSQL;
-    },
-    get dashboardState() {
-      return payloadToDashboardState(this.payload);
     },
     get formattedSQL() {
       return explainSQL(self.sql, this.payload);
@@ -60,6 +57,9 @@ export const QueryRenderModel = types
       console.groupEnd();
 
       return JSON.stringify(config);
+    },
+    get additionalQueryInfo(): TAdditionalQueryInfo {
+      return this.contentModel.getAdditionalQueryInfo(self.id);
     },
   }))
   .views((self) => ({
@@ -115,6 +115,7 @@ export const QueryRenderModel = types
                 payload,
                 name: self.name,
                 query: self.json,
+                additionals: self.additionalQueryInfo,
               },
               self.controller.signal,
             ),
@@ -153,12 +154,13 @@ export const QueryRenderModel = types
                 key,
                 configString: JSON.stringify(config),
                 name: self.name,
+                additionals: self.additionalQueryInfo,
               },
               self.controller.signal,
             ),
           );
           const result = postProcessWithDataSource(self.datasource, response);
-          const data = postProcessWithQuery(post_process, result, self.dashboardState);
+          const data = postProcessWithQuery(post_process, result, self.contentModel.dashboardState);
 
           self.data = data;
           self.state = 'idle';

@@ -31,14 +31,8 @@ export const TableDataModel = types
     get maxPage() {
       return Math.ceil(self.total / self.limit);
     },
-    get sql() {
-      const payload: { table_name: string; table_schema: string } = getParent(self, 1);
-      const { table_name, table_schema } = payload;
-      return `
-        SELECT *
-        FROM ${table_schema}.${table_name}
-        LIMIT ${self.limit} OFFSET ${(self.page - 1) * self.limit}
-      `;
+    get offset() {
+      return (self.page - 1) * self.limit;
     },
     get countSql() {
       const { table_name, table_schema } = self.keywords;
