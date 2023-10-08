@@ -86,7 +86,7 @@ export const FilterTreeSelectWidget = ({
         transitionName="rc-tree-select-dropdown-slide-up"
         choiceTransitionName="rc-tree-select-selection__choice-zoom"
         style={style}
-        // dropdownStyle={{ height: 200, overflow: 'auto' }}
+        listHeight={510}
         treeLine
         clearIcon={() => <CloseButton />}
         // @ts-expect-error rc-tree-selecct's TreeNodeProps
