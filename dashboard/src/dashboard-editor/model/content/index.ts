@@ -210,16 +210,18 @@ const _ContentModel = types
           const filterQueryID = _.get(f, 'config.options_query_id');
           return !!filterQueryID;
         })
-        .map((f) => ({
-          type: 'filter',
-          id: f.id,
-          queryID: _.get(f, 'config.options_query_id'),
-          label: f.label,
-          views: f.visibleInViewsIDs.map((id) => ({
-            id,
-            label: viewIDMap.get(id)?.name ?? id,
-          })),
-        }));
+        .forEach((f) => {
+          usages.push({
+            type: 'filter',
+            id: f.id,
+            queryID: _.get(f, 'config.options_query_id'),
+            label: f.label,
+            views: f.visibleInViewsIDs.map((id) => ({
+              id,
+              label: viewIDMap.get(id)?.name ?? id,
+            })),
+          });
+        });
 
       return _.groupBy(usages, 'queryID');
     },
