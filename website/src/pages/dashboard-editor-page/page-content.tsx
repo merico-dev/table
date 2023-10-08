@@ -61,12 +61,13 @@ export const DashboardEditorPageContent = observer(
         });
         await store.currentDetail?.content.load();
       } catch (error) {
+        console.error(error);
         updateNotification({
           id: 'for-updating',
-          title: 'Successful',
+          title: 'Failed',
           // @ts-expect-error type of error
           message: error.message,
-          color: 'green',
+          color: 'red',
         });
       }
     };
