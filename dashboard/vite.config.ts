@@ -21,11 +21,7 @@ const EXTERNAL_PATHS = [
   '/node_modules/dayjs',
 ];
 const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
-const externals = (id: string) => {
-  if (id.includes('node_modules/dayjs/plugin')) {
-    // FIXME: find a way to use alias on dayjs/plugins
-    return false;
-  }
+const externals = (id: string, importer: any, isResolved: boolean) => {
   // babel transforms module id of emotion, we need to exclude all of them
   if (id.startsWith('@emotion')) {
     return true;
