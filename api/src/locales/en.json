@@ -20,6 +20,7 @@
   "DATASOURCE_CONNECTION_TEST_FAILED": "Testing datasource connection failed",
   "DATASOURCE_TYPE_KEY_ALREADY_EXISTS": "A data source with that type and key already exists",
   "DATASOURCE_ONLY_HTTP_IS_EDITABLE": "Only HTTP data source is editable",
+  "DATASOURCE_MISSING": "Several datasources were not found",
   "AUTH_NOT_ENABLED": "Authentication system is not enabled",
   "AUTH_MUST_BEARER": "Must authenticate with bearer token",
   "APIKEY_NO_DELETE_PRESET": "Preset apikey can not be deleted",
@@ -74,5 +75,7 @@
   "ROLE_PERMISSION_CUSTOM_FUNCTION_MANAGE": "Allows creating, editing, deleting custom functions",
   "ROLE_PERMISSION_SQL_SNIPPET_VIEW": "Allows viewing sql snippets",
   "ROLE_PERMISSION_SQL_SNIPPET_MANAGE": "Allows creating, editing, deleting sql snippets",
-  "ROLE_PERMISSION_PRESET": "Allows modification of preset assets"
+  "ROLE_PERMISSION_PRESET": "Allows modification of preset assets",
+  "QUERY_ID_NOT_FOUND": "A Query with that ID does not exist",
+  "QUERY_PARSING_ERROR": "Error parsing query"
 }

@@ -4,9 +4,11 @@ import { controller, httpPost, interfaces } from 'inversify-express-utils';
 import { ApiOperationPost, ApiPath } from 'swagger-express-ts';
 import { QueryService } from '../services/query.service';
 import { validate } from '../middleware/validation';
-import { QueryRequest } from '../api_models/query';
+import { QueryRequest, QueryStructureRequest } from '../api_models/query';
 import permission from '../middleware/permission';
 import { PERMISSIONS } from '../services/role.service';
+import { ApiKey } from '../api_models/api';
+import { Account } from '../api_models/account';
 
 @ApiPath({
   path: '/query',
@@ -33,8 +35,54 @@ export class QueryController implements interfaces.Controller {
   @httpPost('/', permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_VIEW] }), validate(QueryRequest))
   public async query(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
     try {
-      const { type, key, query, env, refresh_cache } = req.body as QueryRequest;
-      const result = await this.queryService.query(type, key, query, env || {}, refresh_cache);
+      const auth: Account | ApiKey | undefined = req.body.auth;
+      const { type, key, query, content_id, query_id, params, env, refresh_cache } = req.body as QueryRequest;
+      const result = await this.queryService.query(
+        type,
+        key,
+        query,
+        content_id,
+        query_id,
+        params,
+        env || {},
+        refresh_cache,
+        req.locale,
+        auth,
+      );
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @ApiOperationPost({
+    path: '/structure',
+    description: 'query structure of selected datasource',
+    parameters: {
+      body: { description: 'Query Structure object', required: true, model: 'QueryStructureRequest' },
+    },
+    responses: {
+      200: { description: 'Query result' },
+      500: { description: 'ApiError', model: 'ApiError' },
+    },
+  })
+  @httpPost(
+    '/structure',
+    permission({ match: 'all', permissions: [PERMISSIONS.DASHBOARD_MANAGE] }),
+    validate(QueryStructureRequest),
+  )
+  public async queryStructure(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+    try {
+      const { query_type, type, key, table_schema, table_name, limit, offset } = req.body as QueryStructureRequest;
+      const result = await this.queryService.queryStructure(
+        query_type,
+        type,
+        key,
+        table_schema,
+        table_name,
+        limit,
+        offset,
+      );
       res.json(result);
     } catch (error) {
       next(error);

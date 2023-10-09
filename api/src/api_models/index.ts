@@ -45,7 +45,7 @@ import {
   ApiKeyIDRequest,
 } from './api';
 import { Role, RolePermission, RoleCreateOrUpdateRequest, RoleIDRequest } from './role';
-import { QueryRequest, HttpParams } from './query';
+import { QueryParams, QueryRequest, HttpParams, QueryStructureRequest } from './query';
 import { Job, JobFilterObject, JobListRequest, JobPaginationResponse, JobSortObject, JobRunRequest } from './job';
 import { Config, ConfigDescription, ConfigGetRequest, ConfigUpdateRequest } from './config';
 import {
@@ -74,6 +74,10 @@ import {
   DashboardContentSortObject,
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
+  Content,
+  ContentDefinition,
+  Query,
+  Snippet,
 } from './dashboard_content';
 import {
   DashboardContentChangelog,
@@ -154,8 +158,10 @@ export default {
   RoleCreateOrUpdateRequest,
   RoleIDRequest,
 
+  QueryParams,
   QueryRequest,
   HttpParams,
+  QueryStructureRequest,
 
   Job,
   JobFilterObject,
@@ -192,6 +198,10 @@ export default {
   DashboardContentSortObject,
   DashboardContentIDRequest,
   DashboardContentUpdateRequest,
+  Content,
+  ContentDefinition,
+  Query,
+  Snippet,
 
   DashboardContentChangelog,
   DashboardContentChangelogFilterObject,

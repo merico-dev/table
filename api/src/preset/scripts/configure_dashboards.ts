@@ -14,6 +14,7 @@ import { DashboardContentChangelogService } from '../../services/dashboard_conte
 import { FIXED_ROLE_TYPES } from '../../services/role.service';
 import { QueryRunner, Repository } from 'typeorm';
 import { ensureDirSync } from 'fs-extra';
+import { Content } from '../../api_models/dashboard_content';
 
 type Source = {
   type: string;
@@ -41,7 +42,7 @@ async function upsert() {
 
     const errors: { [type: string]: string[] } = {};
     for (let i = 0; i < files.length; i++) {
-      const config: Record<string, any> = JSON.parse(readFileSync(path.join(basePath, files[i]), 'utf-8'));
+      const config: Content = JSON.parse(readFileSync(path.join(basePath, files[i]), 'utf-8'));
       await checkConfigForErrors(datasourceRepo, config, errors);
       const name = dashboardNames[i];
       await upsertDashboard(queryRunner, name, config, superadmin.id);
@@ -89,7 +90,7 @@ async function purgeRemovedDashboards(dashboardRepo: Repository<Dashboard>, dash
 
 async function checkConfigForErrors(
   datasourceRepo: Repository<DataSource>,
-  config: Record<string, any>,
+  config: Content,
   errors: { [type: string]: string[] },
 ) {
   for (let i = 0; i < config.definition.queries.length; i++) {
@@ -105,12 +106,7 @@ async function checkConfigForErrors(
   }
 }
 
-async function upsertDashboard(
-  queryRunner: QueryRunner,
-  name: string,
-  config: Record<string, any>,
-  superadminId: string,
-) {
+async function upsertDashboard(queryRunner: QueryRunner, name: string, config: Content, superadminId: string) {
   const dashboardChangelogRepo = queryRunner.manager.getRepository(DashboardChangelog);
   const dashboardRepo = queryRunner.manager.getRepository(Dashboard);
   const dashboardContentChangelogRepo = queryRunner.manager.getRepository(DashboardContentChangelog);

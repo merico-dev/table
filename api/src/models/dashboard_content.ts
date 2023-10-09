@@ -1,5 +1,6 @@
 import { Entity, Column } from 'typeorm';
 import { BaseModel } from './base';
+import { Content } from '../api_models/dashboard_content';
 
 @Entity()
 export default class DashboardContent extends BaseModel {
@@ -20,5 +21,5 @@ export default class DashboardContent extends BaseModel {
     nullable: false,
     name: 'content',
   })
-  content: Record<string, any>;
+  content: Content;
 }

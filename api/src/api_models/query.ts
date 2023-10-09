@@ -1,7 +1,29 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsIn, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsIn, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { Authentication } from './base';
+
+@ApiModel({
+  description: 'Query params object',
+  name: 'QueryParams',
+})
+export class QueryParams {
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query filter params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  filters: Record<string, any>;
+
+  @IsObject()
+  @ApiModelProperty({
+    description: 'Query context params',
+    required: true,
+    type: SwaggerDefinitionConstant.JSON,
+  })
+  context: Record<string, any>;
+}
 
 @ApiModel({
   description: 'Query object',
@@ -30,6 +52,30 @@ export class QueryRequest {
     required: true,
   })
   query: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'id of the dashboard content',
+    required: true,
+  })
+  content_id: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'id of the query defined in dashboard content',
+    required: true,
+  })
+  query_id: string;
+
+  @IsObject()
+  @Type(() => QueryParams)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Query params',
+    required: true,
+    model: 'QueryParams',
+  })
+  params: QueryParams;
 
   @IsOptional()
   @IsObject()
@@ -108,4 +154,68 @@ export class HttpParams {
     required: true,
   })
   url: string;
+}
+
+@ApiModel({
+  description: 'Query Structure object',
+  name: 'QueryStructureRequest',
+})
+export class QueryStructureRequest {
+  @IsIn(['TABLES', 'COLUMNS', 'DATA', 'INDEXES', 'COUNT'])
+  @ApiModelProperty({
+    description: `type of query. 
+      TABLES = get all tables in database
+      COLUMNS = get column structure of table
+      DATA = get data of table
+      INDEXES = get indexes of table
+      COUNT = get total number of rows in table`,
+    required: true,
+    enum: ['TABLES', 'COLUMNS', 'DATA', 'INDEXES', 'COUNT'],
+  })
+  query_type: 'TABLES' | 'COLUMNS' | 'DATA' | 'INDEXES' | 'COUNT';
+
+  @IsIn(['postgresql', 'mysql'])
+  @ApiModelProperty({
+    description: 'datasource type of query',
+    required: true,
+    enum: ['postgresql', 'mysql'],
+  })
+  type: 'postgresql' | 'mysql';
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'datasource key',
+    required: true,
+  })
+  key: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'table schema',
+    required: true,
+  })
+  table_schema: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'table schema',
+    required: true,
+  })
+  table_name: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'Limit of query results. Default = 20',
+    required: false,
+  })
+  limit?: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiModelProperty({
+    description: 'Offset of query results, Default = 0',
+    required: false,
+  })
+  offset?: number;
 }

@@ -172,17 +172,53 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '63c52cf7-0783-40fb-803a-68abc6564de0',
     name: 'dashboard1',
     content: {
+      version: '',
       definition: {
         queries: [
           {
             id: 'pgQuery1',
             type: 'postgresql',
             key: 'pg',
+            sql: 'SELECT ${sql_snippets.role_columns} FROM role WHERE id = ${filters.role_id} AND ${context.true}',
+            pre_process: '',
           },
           {
-            id: 'httpQuery1',
+            id: 'httpGetQuery',
             type: 'http',
             key: 'jsonplaceholder',
+            sql: '',
+            pre_process:
+              'function build_request({ context, filters }, utils) {\n const data = {};\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "GET",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
+          },
+          {
+            id: 'httpPostQuery',
+            type: 'http',
+            key: 'jsonplaceholder',
+            sql: '',
+            pre_process:
+              'function build_request({ context, filters }, utils) {\n const data = { "title": "foo", "body": "bar", "userId": 1 };\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "POST",\n    url: "/posts",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
+          },
+          {
+            id: 'httpPutQuery',
+            type: 'http',
+            key: 'jsonplaceholder',
+            sql: '',
+            pre_process:
+              'function build_request({ context, filters }, utils) {\n const data = { "id": 1, "title": "foo", "body": "bar", "userId": 1 };\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "PUT",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
+          },
+          {
+            id: 'httpDeleteQuery',
+            type: 'http',
+            key: 'jsonplaceholder',
+            sql: '',
+            pre_process:
+              'function build_request({ context, filters }, utils) {\n const data = {};\n const headers = { "Content-Type": "application/json" };\n\n  return {\n    method: "DELETE",\n    url: "/posts/1",\n    params: {},\n    headers,\n    data,\n  };\n}\n',
+          },
+        ],
+        sqlSnippets: [
+          {
+            key: 'role_columns',
+            value: 'id, description',
           },
         ],
       },
@@ -195,19 +231,25 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
     name: 'dashboard2',
     content: {
+      version: '',
       definition: {
         queries: [
           {
             id: 'pgQuery2',
             type: 'postgresql',
             key: 'pg',
+            sql: '',
+            pre_process: '',
           },
           {
             id: 'httpQuery2',
             type: 'http',
             key: 'jsonplaceholder',
+            sql: '',
+            pre_process: '',
           },
         ],
+        sqlSnippets: [],
       },
     },
     create_time: new Date(),

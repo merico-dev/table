@@ -1,7 +1,117 @@
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
-import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsIn } from 'class-validator';
+import { IsObject, Length, IsString, IsOptional, ValidateNested, IsUUID, IsIn, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Authentication, FilterObject, PaginationRequest, PaginationResponse, SortRequest } from './base';
+
+@ApiModel({
+  description: 'Definition Query object',
+  name: 'Query',
+})
+export class Query {
+  @IsString()
+  @ApiModelProperty({
+    description: 'Query ID',
+    required: true,
+  })
+  id: string;
+
+  @IsIn(['postgresql', 'mysql', 'http'])
+  @ApiModelProperty({
+    description: 'Datasource type',
+    required: true,
+  })
+  type: 'postgresql' | 'mysql' | 'http';
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'Datasource key',
+    required: true,
+  })
+  key: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'Query SQL',
+    required: true,
+  })
+  sql: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'Query pre-processing',
+    required: true,
+  })
+  pre_process: string;
+}
+
+@ApiModel({
+  description: 'Definition SQL Snippets object',
+  name: 'Snippet',
+})
+export class Snippet {
+  @IsString()
+  @ApiModelProperty({
+    description: 'Snippet ID',
+    required: true,
+  })
+  key: string;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'Snippet definition',
+    required: true,
+  })
+  value: string;
+}
+
+@ApiModel({
+  description: 'Content definition object',
+  name: 'ContentDefinition',
+})
+export class ContentDefinition {
+  @IsArray()
+  @Type(() => Query)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Content query definitions',
+    required: true,
+    model: 'Query',
+  })
+  queries: Query[];
+
+  @IsArray()
+  @Type(() => Snippet)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Content sql snippet definitions',
+    required: true,
+    model: 'Snippet',
+  })
+  sqlSnippets: Snippet[];
+}
+
+@ApiModel({
+  description: 'Content object',
+  name: 'Content',
+})
+export class Content {
+  @IsObject()
+  @Type(() => ContentDefinition)
+  @ValidateNested({ each: true })
+  @ApiModelProperty({
+    description: 'Content definitions',
+    required: true,
+    model: 'ContentDefinition',
+  })
+  definition: ContentDefinition;
+
+  @IsString()
+  @ApiModelProperty({
+    description: 'Content schema version',
+    required: true,
+  })
+  version: string;
+}
 
 @ApiModel({
   description: 'Dashboard content entity',
@@ -23,11 +133,12 @@ export class DashboardContent {
   })
   name: string;
 
+  @Type(() => Content)
   @ApiModelProperty({
     description: 'content of the dashboard stored in json object format',
-    type: SwaggerDefinitionConstant.JSON,
+    model: 'Content',
   })
-  content: object | null;
+  content: Content;
 
   @ApiModelProperty({
     description: 'Create time',
@@ -176,12 +287,14 @@ export class DashboardContentCreateRequest {
   name: string;
 
   @IsObject()
+  @Type(() => Content)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'content stored in json object format',
     required: true,
-    type: SwaggerDefinitionConstant.JSON,
+    model: 'Content',
   })
-  content: Record<string, any>;
+  content: Content;
 
   @IsOptional()
   @Type(() => Authentication)
@@ -217,12 +330,14 @@ export class DashboardContentUpdateRequest {
 
   @IsOptional()
   @IsObject()
+  @Type(() => Content)
+  @ValidateNested({ each: true })
   @ApiModelProperty({
     description: 'content of the dashboard stored in json object format',
     required: false,
-    type: SwaggerDefinitionConstant.JSON,
+    model: 'Content',
   })
-  content?: Record<string, any>;
+  content?: Content;
 
   @IsOptional()
   @Type(() => Authentication)

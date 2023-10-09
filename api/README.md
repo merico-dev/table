@@ -11,6 +11,7 @@ Add a `.env` file based on `.env.sample`
 - `CORS_ALLOW_ORIGIN` for configuring cors. separate multiple origins by `;`. Defaults to `http://localhost`
 - `SECRET_KEY` for encrypting and decrypting passwords used in datasource configurations
 - `ENABLE_AUTH` Whether to add authentication and authorization to routes. 0 = disabled, 1 = enabled
+- `ENABLE_QUERY_PARSER` Whether to enable Server-Side Query parsing. 0 = disabled, 1 = enabled
 - `SUPER_ADMIN_PASSWORD` The password which will be configured for the superadmin account during migration. Must be configured before migration is run. If value is not set, password will be 'secret'
 - `DATABASE_CONNECTION_TIMEOUT_MS` for configuration the time after which the db connection will timeout in milliseconds. Default is 30000ms (30 seconds)
 - `DATABASE_POOL_SIZE` for configuration the maximum number of clients in the pool
