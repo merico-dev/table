@@ -19,14 +19,29 @@ const EXTERNAL_PATHS = [
   'echarts-for-react/lib/core',
   '/node_modules/echarts',
   '/node_modules/dayjs',
-];
-const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
-const externals = (id: string, importer: any, isResolved: boolean) => {
+  /^dayjs\/plugin/,
+  /^dayjs$/,
   // babel transforms module id of emotion, we need to exclude all of them
-  if (id.startsWith('@emotion')) {
-    return true;
+  /^@emotion/,
+];
+
+function shouldExternalize(id: string) {
+  // check id against external paths
+  for (const path of EXTERNAL_PATHS) {
+    if (typeof path === 'string') {
+      if (id.includes(path)) {
+        return true;
+      }
+    } else if (path.test(id)) {
+      return true;
+    }
   }
-  if (EXTERNAL_PATHS.some((p) => id.includes(p))) {
+  return false;
+}
+
+const DEPENDENCIES = new Set(Object.keys(dependencies).concat(Object.keys(peerDependencies)));
+const externals = (id: string) => {
+  if (shouldExternalize(id)) {
     return true;
   }
   return DEPENDENCIES.has(id);
@@ -61,7 +76,6 @@ export default defineConfig({
       react: 'react',
       'react/jsx-runtime.js': 'react/jsx-runtime.js',
       'reactflow/dist/style.css': 'reactflow/dist/style.css',
-      'dayjs/plugin': 'dayjs/plugin',
     },
   },
   build: {
@@ -80,7 +94,9 @@ export default defineConfig({
             const ret = GLOBAL_MODULE_IDS[name];
             return ret ?? name;
           }
-          const match = EXTERNAL_PATHS.find((p) => name.includes(p));
+          const match = (EXTERNAL_PATHS.filter((it) => typeof it === 'string') as string[]).find((p) =>
+            name.includes(p),
+          );
           if (match) {
             return match.replace('/node_modules/', '');
           }

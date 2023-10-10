@@ -34,7 +34,8 @@ function registerProjectTargets(projectFilePath) {
       outputs: ['{projectRoot}/dist'],
       options: {
         cwd: projectDir(),
-        commands: ['vite build'],
+        // redirect stderr to stdout
+        commands: ['vite build 2>&1 | grep -v "TS7056"'],
       },
       dependsOn: ['^build'],
     },
