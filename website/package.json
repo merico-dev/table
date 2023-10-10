@@ -80,6 +80,6 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "typescript": "^4.6.3",
-    "vite-plugin-static-copy": "0.13.1"
+    "vite-plugin-static-copy": "^0.17.0"
   }
 }
