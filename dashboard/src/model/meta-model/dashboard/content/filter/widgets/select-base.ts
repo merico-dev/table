@@ -30,6 +30,10 @@ export const FilterBaseSelectConfigMeta = types
     required: types.optional(types.boolean, false),
   })
   .views((self) => ({
+    get contentModel(): any {
+      // @ts-expect-error typeof getRoot
+      return getRoot(self).content;
+    },
     get usingQuery() {
       return !!self.options_query_id;
     },
@@ -39,8 +43,7 @@ export const FilterBaseSelectConfigMeta = types
       if (!self.usingQuery) {
         return self.static_options;
       }
-      // @ts-expect-error untyped getRoot(self)
-      const { data, state, error } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      const { data, state, error } = self.contentModel.getDataStuffByID(self.options_query_id);
       if (state === 'idle') {
         return Array.isArray(data) ? data : [];
       }
