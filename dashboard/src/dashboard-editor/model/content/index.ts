@@ -33,6 +33,7 @@ import { PanelModelInstance, PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
+import { UsageRegs } from '~/utils/usage';
 
 const _ContentModel = types
   .model({
@@ -233,12 +234,11 @@ const _ContentModel = types
     },
     get sqlSnippetsUsage() {
       const usages: SQLSnippetUsageType[] = [];
-      const reg = /(?<=sql_snippets\.)([^}.]+)/gm;
       self.queries.current.forEach((q) => {
         if (!q.typedAsSQL) {
           return;
         }
-        const keys = _.uniq(q.sql.match(reg));
+        const keys = _.uniq(q.sql.match(UsageRegs.sqlSnippet));
         keys.forEach((k) => {
           usages.push({
             queryID: q.id,
