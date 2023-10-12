@@ -25,7 +25,7 @@ export const PanelMeta = types
         viz: self.viz.json,
         name,
         style: self.style.json,
-        title,
+        title: title.json,
         layout: self.layout.json,
         queryIDs: [...queryIDs],
         variables: self.variables.map((v) => v.json),
