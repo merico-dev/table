@@ -1,13 +1,12 @@
-import { getParent, getParentOfType, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
+import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
-import { ContentModel } from '~/dashboard-editor/model';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
     // @ts-expect-error typeof getRoot
-    return getRoot(self).content; // dashboard model
+    return getRoot(self).content;
   },
 }))
   .views((self) => ({
@@ -61,8 +60,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       self.queries.forEach((q) => q.fetchData(true));
     },
     downloadData() {
-      // @ts-expect-error typeof getRoot
-      getRoot(self).content.queries.downloadDataByQueryIDs(self.queryIDs);
+      self.contentModel.queries.downloadDataByQueryIDs(self.queryIDs);
     },
   }));
 
