@@ -25,6 +25,15 @@ export const SQLSnippetsModel = SQLSnippetsRenderModel.views((self) => ({
     append(item: SQLSnippetRenderModelSnapshotIn) {
       self.current.push(item);
     },
+
+    appendMultiple(items: SQLSnippetRenderModelSnapshotIn[]) {
+      if (items.length === 0) {
+        return;
+      }
+
+      const newItems = items.filter((item) => !self.keySet.has(item.key));
+      self.current.push(...newItems);
+    },
     remove(index: number) {
       self.current.splice(index, 1);
     },

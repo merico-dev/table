@@ -9,6 +9,9 @@ export const QueriesRenderModel = types
     current: types.optional(types.array(QueryRenderModel), []),
   })
   .views((self) => ({
+    get idSet() {
+      return new Set(self.current.map((q) => q.id));
+    },
     get firstID() {
       if (self.current.length === 0) {
         return undefined;

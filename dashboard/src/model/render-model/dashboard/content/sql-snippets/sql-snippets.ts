@@ -16,6 +16,9 @@ export const SQLSnippetsRenderModel = types
         return prev;
       }, {} as Record<string, string>);
     },
+    get keySet() {
+      return new Set(self.current.map((o) => o.key));
+    },
     get firstKey() {
       if (self.current.length === 0) {
         return undefined;

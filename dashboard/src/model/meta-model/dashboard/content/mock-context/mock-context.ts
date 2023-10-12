@@ -18,6 +18,12 @@ export const MockContextMeta = types
       replace(record: ContextRecordType) {
         self.current = record;
       },
+      defaults(record: ContextRecordType) {
+        self.current = {
+          ...record,
+          ...self.current,
+        };
+      },
       get(key: string) {
         return self.current[key];
       },

@@ -40,6 +40,9 @@ export const FiltersModel = types
     }),
   )
   .views((self) => ({
+    get keySet() {
+      return new Set(self.current.map((f) => f.key));
+    },
     get options() {
       return self.current.map(
         (f) =>
@@ -75,6 +78,14 @@ export const FiltersModel = types
       },
       append(item: FilterMetaInstance) {
         self.current.push(item);
+      },
+      appendMultiple(items: FilterMetaInstance[]) {
+        if (items.length === 0) {
+          return;
+        }
+
+        const newItems = items.filter((item) => !self.keySet.has(item.id));
+        self.current.push(...newItems);
       },
       remove(index: number) {
         self.current.splice(index, 1);

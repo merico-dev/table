@@ -3,6 +3,7 @@ import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
+import { ImportWithSchema } from './import-with-schema';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -20,7 +21,7 @@ export const SubHeader = observer(() => {
   const cant = model.views.VIE?.type === EViewComponentType.Tabs;
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
-      <Group position="apart" align="center" sx={{ height: '30px' }} pr={16}>
+      <Group position="apart" align="center" sx={{ height: '30px' }}>
         <Button
           variant="outline"
           color="blue"
@@ -41,7 +42,7 @@ export const SubHeader = observer(() => {
           Add a Panel
         </Button>
         <Box />
-        <Box />
+        <ImportWithSchema />
       </Group>
     </Box>
   );
