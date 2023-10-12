@@ -25,30 +25,12 @@ export const QueryRenderModel = types
     }),
   )
   .views((self) => ({
-    get rootModel(): any {
-      return getRoot(self);
-    },
-    get contentModel(): any {
-      return this.rootModel.content; // dashboard content model
-    },
-    get payload() {
-      return this.contentModel.payloadForSQL;
-    },
-    get formattedSQL() {
-      return explainSQL(self.sql, this.payload);
-    },
-    get typedAsSQL() {
-      return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
-    },
-    get typedAsHTTP() {
-      return [DataSourceType.HTTP].includes(self.type);
-    },
     get datasource() {
       const { key, type } = self;
-      return this.rootModel.datasources.find({ type, key });
+      return self.rootModel.datasources.find({ type, key });
     },
     get httpConfigString() {
-      const { context, filters } = this.payload;
+      const { context, filters } = self.payload;
       const { name, pre_process } = self.json;
 
       const config = explainHTTPRequest(pre_process, context, filters);
@@ -59,7 +41,7 @@ export const QueryRenderModel = types
       return JSON.stringify(config);
     },
     get additionalQueryInfo(): TAdditionalQueryInfo {
-      return this.contentModel.getAdditionalQueryInfo(self.id);
+      return self.contentModel.getAdditionalQueryInfo(self.id);
     },
   }))
   .views((self) => ({

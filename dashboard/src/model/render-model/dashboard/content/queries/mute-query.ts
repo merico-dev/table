@@ -1,9 +1,16 @@
 import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
-import { QueryMeta } from '~/model';
+import { DataSourceType, QueryMeta } from '~/model';
+import { explainSQL } from '~/utils/sql';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
+  get rootModel(): any {
+    return getRoot(self);
+  },
+  get contentModel(): any {
+    return this.rootModel.content; // dashboard content model
+  },
   get conditionOptions() {
     if (!isAlive(self)) {
       return [];
@@ -53,6 +60,18 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     });
   },
 })).views((self) => ({
+  get payload() {
+    return self.contentModel.payloadForSQL;
+  },
+  get formattedSQL() {
+    return explainSQL(self.sql, this.payload);
+  },
+  get typedAsSQL() {
+    return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
+  },
+  get typedAsHTTP() {
+    return [DataSourceType.HTTP].includes(self.type);
+  },
   get reQueryKey() {
     const { react_to = [] } = self;
     if (react_to.length === 0) {
