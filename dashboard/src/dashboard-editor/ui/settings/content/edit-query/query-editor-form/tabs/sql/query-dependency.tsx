@@ -1,5 +1,5 @@
 import { Box, Button, HoverCard, List, Text, Tooltip } from '@mantine/core';
-import { IconHierarchy, IconPointFilled } from '@tabler/icons-react';
+import { IconAlertTriangle, IconDiscountCheckFilled, IconHierarchy, IconPointFilled } from '@tabler/icons-react';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
@@ -8,6 +8,10 @@ import { QueryRenderModelInstance } from '~/model';
 export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
   const groupedDependencies = useMemo(() => {
     return _.groupBy(queryModel.dependencies, 'type');
+  }, [queryModel.dependencies]);
+
+  const hasUnmetDependencies = useMemo(() => {
+    return queryModel.dependencies.some((d) => !d.valid);
   }, [queryModel.dependencies]);
 
   const hasDependency = queryModel.dependencies.length > 0;
@@ -33,9 +37,9 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
         <Button
           size="xs"
           variant="subtle"
-          color="orange"
+          color={hasUnmetDependencies ? 'red' : 'green'}
           disabled={!hasDependency}
-          leftIcon={<IconHierarchy size={16} style={{ transform: 'rotate(180deg)' }} />}
+          leftIcon={hasUnmetDependencies ? <IconAlertTriangle size={16} /> : <IconDiscountCheckFilled size={16} />}
         >
           Dependency
         </Button>
