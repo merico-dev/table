@@ -1,4 +1,4 @@
-import { Button, Modal } from '@mantine/core';
+import { Button, Modal, Sx, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconFileImport } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -6,11 +6,38 @@ import { useEditDashboardContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 import { ImportWithSchemaForm } from './form';
 
+const ButtonSx: Sx = {
+  height: '30px',
+  borderRight: 'none',
+  borderTop: 'none',
+  borderLeft: '1px solid #e9ecef',
+  borderBottom: '1px solid #e9ecef',
+};
+
 export const ImportWithSchema = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const model = useEditDashboardContext();
   const cant = model.content.views.VIE?.type === EViewComponentType.Tabs;
+  if (cant) {
+    return (
+      <Tooltip label="Please choose a tab first">
+        <Button
+          variant="outline"
+          color="gray"
+          radius={0}
+          size="xs"
+          leftIcon={<IconFileImport size={16} />}
+          sx={{
+            ...ButtonSx,
+            transform: 'none !important',
+          }}
+        >
+          Import
+        </Button>
+      </Tooltip>
+    );
+  }
   return (
     <>
       <Button
@@ -22,11 +49,8 @@ export const ImportWithSchema = observer(() => {
         onClick={open}
         leftIcon={<IconFileImport size={16} />}
         sx={{
-          height: '30px',
-          borderLeft: 'none',
-          borderTop: 'none',
-          borderRight: '1px solid #e9ecef',
-          borderBottom: '1px solid #e9ecef',
+          ...ButtonSx,
+          background: 'rgb(231, 245, 255)',
         }}
       >
         Import
