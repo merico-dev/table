@@ -72,6 +72,9 @@ export const PanelsModel = types
       self.list.push({
         ...base.json,
         id: newID,
+        title: {
+          ...base.json.title,
+        },
         layout: {
           ...base.layout,
           y: Infinity,
