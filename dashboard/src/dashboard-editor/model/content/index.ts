@@ -18,6 +18,7 @@ import { FiltersModel } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
+import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   formatSQLSnippet,
   getInitialFiltersConfig,
@@ -29,11 +30,10 @@ import {
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
-import { PanelModelInstance, PanelsModel } from '../panels';
-import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
-import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { UsageRegs } from '~/utils/usage';
+import { PanelsModel } from '../panels';
+import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 
 const _ContentModel = types
   .model({

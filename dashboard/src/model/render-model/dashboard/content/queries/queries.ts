@@ -111,7 +111,7 @@ export const QueriesRenderModel = types
       },
       downloadSchema(ids: string[]) {
         const schema = JSON.stringify(this.getSchema(ids), null, 2);
-        const filename = 'queries';
+        const filename = 'Queries';
         downloadJSON(filename, schema);
       },
     };

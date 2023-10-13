@@ -1,6 +1,7 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { SQLSnippetRenderModel } from './sql-snippet';
 import { SQLSnippetMetaSnapshotIn } from '~/model';
+import { downloadJSON } from '~/utils/download';
+import { SQLSnippetRenderModel } from './sql-snippet';
 
 export const SQLSnippetsRenderModel = types
   .model('SQLSnippetsRenderModel', {
@@ -27,6 +28,27 @@ export const SQLSnippetsRenderModel = types
     },
     findByKey(key: string) {
       return self.current.find((item) => item.key === key);
+    },
+
+    findByKeySet(keySet: Set<string>) {
+      return self.current.filter((s) => keySet.has(s.key));
+    },
+  }))
+  .actions((self) => ({
+    getSchema(keys: string[]) {
+      const sqlSnippets = self.findByKeySet(new Set(keys));
+
+      const ret = {
+        definition: {
+          sqlSnippets: sqlSnippets.map((s) => s.json),
+        },
+      };
+      return ret;
+    },
+    downloadSchema(keys: string[]) {
+      const schema = JSON.stringify(this.getSchema(keys), null, 2);
+      const filename = 'SQL Snippets';
+      downloadJSON(filename, schema);
     },
   }));
 

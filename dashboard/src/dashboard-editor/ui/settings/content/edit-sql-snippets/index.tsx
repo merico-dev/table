@@ -1,10 +1,12 @@
-import { Box, Button, Flex, Stack, Table, Text } from '@mantine/core';
+import { Box, Button, Checkbox, Flex, Group, Stack, Table, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons-react';
+import { IconCode, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useMemo, useState } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditSQLSnippets = observer(() => {
+  const [value, setValue] = useState<string[]>([]);
   const modals = useModals();
   const model = useEditDashboardContext();
   const navigateToSnippet = (id: string) => {
@@ -23,6 +25,21 @@ export const EditSQLSnippets = observer(() => {
     });
   };
 
+  const downloadSchema = () => {
+    model.content.sqlSnippets.downloadSchema(value);
+  };
+
+  const allKeys = useMemo(() => {
+    return model.content.sqlSnippets.sortedList.map((q) => q.key);
+  }, [model.content.sqlSnippets.sortedList]);
+
+  const selectAll = () => {
+    setValue(allKeys);
+  };
+  const selectNone = () => {
+    setValue([]);
+  };
+
   const usages = model.content.sqlSnippetsUsage;
   return (
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
@@ -31,7 +48,27 @@ export const EditSQLSnippets = observer(() => {
           Manage SQL Snippets
         </Text>
       </Box>
-      <Flex justify="flex-end" align="center" px={12}>
+      <Flex justify="space-between" align="center" px={12}>
+        <Group position="left">
+          <Button.Group>
+            <Button variant="default" size="xs" onClick={selectAll}>
+              Select All
+            </Button>
+            <Button variant="default" size="xs" onClick={selectNone}>
+              Clear Selection
+            </Button>
+          </Button.Group>
+          <Button
+            // variant="subtle"
+            size="xs"
+            color="blue"
+            leftIcon={<IconCode size={14} />}
+            disabled={value.length === 0}
+            onClick={downloadSchema}
+          >
+            Download Schema
+          </Button>
+        </Group>
         <Button
           variant="subtle"
           size="xs"
@@ -44,39 +81,45 @@ export const EditSQLSnippets = observer(() => {
         </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-        <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
-          <thead>
-            <tr>
-              <th>Key</th>
-              <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
-              <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {model.content.sqlSnippets.sortedList.map((s) => {
-              const usageCount = usages[s.key]?.length ?? 0;
-              return (
-                <tr key={s.key}>
-                  <td>{s.key}</td>
-                  <td
-                    style={{
-                      color: usageCount === 0 ? '#ff0000' : '#000',
-                      fontWeight: usageCount === 0 ? 'bold' : 'normal',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {usageCount}
-                  </td>
-                  <td>
-                    <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
-                      Open
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <Checkbox.Group size="xs" value={value} onChange={setValue}>
+          <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr>
+                <th style={{ width: '40px' }}></th>
+                <th>Key</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {model.content.sqlSnippets.sortedList.map((s) => {
+                const usageCount = usages[s.key]?.length ?? 0;
+                return (
+                  <tr key={s.key}>
+                    <td>
+                      <Checkbox value={s.key} styles={{ input: { cursor: 'pointer' } }} />
+                    </td>
+                    <td>{s.key}</td>
+                    <td
+                      style={{
+                        color: usageCount === 0 ? '#ff0000' : '#000',
+                        fontWeight: usageCount === 0 ? 'bold' : 'normal',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {usageCount}
+                    </td>
+                    <td>
+                      <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
+                        Open
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Checkbox.Group>
       </Box>
     </Stack>
   );
