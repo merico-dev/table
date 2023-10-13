@@ -73,16 +73,16 @@ export const FiltersRenderModel = types
       return self.values[key];
     },
 
-    getSchema(ids: string[]) {
+    getSchema(ids: string[], raw?: boolean) {
       const filters = self.findByIDSet(new Set(ids));
 
       const ret = {
-        filters: filters.map((f) => f.json),
+        filters: filters.map((f) => ({ ...f.json, visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : [] })),
       };
       return ret;
     },
     downloadSchema(ids: string[]) {
-      const schema = JSON.stringify(this.getSchema(ids), null, 2);
+      const schema = JSON.stringify(this.getSchema(ids, false), null, 2);
       const filename = 'Filters';
       downloadJSON(filename, schema);
     },
