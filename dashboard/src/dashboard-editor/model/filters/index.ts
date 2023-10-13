@@ -41,6 +41,9 @@ export const FiltersModel = types
     }),
   )
   .views((self) => ({
+    get idSet() {
+      return new Set(self.current.map((f) => f.id));
+    },
     get keySet() {
       return new Set(self.current.map((f) => f.key));
     },
@@ -88,7 +91,7 @@ export const FiltersModel = types
           return;
         }
 
-        const newItems = items.filter((item) => !self.keySet.has(item.id));
+        const newItems = items.filter((item) => !self.idSet.has(item.id));
         self.current.push(...newItems);
       },
       remove(index: number) {
