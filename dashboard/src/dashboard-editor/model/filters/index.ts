@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   addDisposer,
   addMiddleware,
@@ -69,6 +70,9 @@ export const FiltersModel = types
         label: f.label ?? f.key,
         value: f.key,
       }));
+    },
+    get sortedList() {
+      return _.sortBy(self.current, (o) => o.label.toLowerCase());
     },
   }))
   .actions((self) => {

@@ -20,13 +20,22 @@ const editors = {
   'date-range': FilterEditorDateRange,
 };
 
+export const filterTypeNames = {
+  select: 'Select',
+  'multi-select': 'Multi Select',
+  'tree-select': 'Tree Select',
+  'text-input': 'Text Input',
+  checkbox: 'Checkbox',
+  'date-range': 'Date Range',
+};
+
 const filterTypeOptions = [
-  { label: 'Select', value: 'select' },
-  { label: 'Multi Select', value: 'multi-select' },
-  { label: 'Tree Select', value: 'tree-select' },
-  { label: 'Text Input', value: 'text-input' },
-  { label: 'Checkbox', value: 'checkbox' },
-  { label: 'Date Range', value: 'date-range' },
+  { label: filterTypeNames['select'], value: 'select' },
+  { label: filterTypeNames['multi-select'], value: 'multi-select' },
+  { label: filterTypeNames['tree-select'], value: 'tree-select' },
+  { label: filterTypeNames['text-input'], value: 'text-input' },
+  { label: filterTypeNames['checkbox'], value: 'checkbox' },
+  { label: filterTypeNames['date-range'], value: 'date-range' },
 ];
 
 interface IFilterSetting {

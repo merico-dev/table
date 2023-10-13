@@ -24,6 +24,7 @@ export type NavActionType = {
     | '_Add_A_QUERY_'
     | '_Add_A_VIEW_'
     | '_Add_A_PANEL_'
+    | '_FILTERS_SETTINGS_'
     | '_SQL_SNIPPETS_SETTINGS_'
     | '_QUERIES_SETTINGS_';
   parentID?: string; // for panel only
@@ -47,6 +48,7 @@ function getActionOption(_action_type: NavActionType['_action_type']): NavAction
 export type ValidEditorPathType =
   | ['_QUERY_VARS_']
   | ['_MOCK_CONTEXT_']
+  | ['_FILTERS_']
   | ['_FILTERS_', string]
   | ['_SQL_SNIPPETS_']
   | ['_SQL_SNIPPETS_', string]
@@ -108,7 +110,7 @@ export const EditorModel = types
           label: 'Filters',
           value: '_FILTERS_',
           Icon: IconFilter,
-          children: [...filters.options, getActionOption('_Add_A_Filter_')],
+          children: [getActionOption('_FILTERS_SETTINGS_'), ...filters.options, getActionOption('_Add_A_Filter_')],
           _type: 'GROUP',
         },
         {
