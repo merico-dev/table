@@ -2,6 +2,7 @@ import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { DataSourceType, QueryMeta } from '~/model';
+import { explainHTTPRequest } from '~/utils/http-query';
 import { explainSQL } from '~/utils/sql';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
@@ -65,6 +66,18 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get formattedSQL() {
     return explainSQL(self.sql, this.payload);
+  },
+
+  get httpConfigString() {
+    const { context, filters } = this.payload;
+    const { name, pre_process } = self.json;
+
+    const config = explainHTTPRequest(pre_process, context, filters);
+    console.groupCollapsed(`Request config for: ${name}`);
+    console.log(config);
+    console.groupEnd();
+
+    return JSON.stringify(config);
   },
   get typedAsSQL() {
     return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);

@@ -1,17 +1,10 @@
 import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
-import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
-import { DataSourceType } from '~/model';
-import {
-  explainHTTPRequest,
-  postProcessWithDataSource,
-  postProcessWithQuery,
-  preProcessWithDataSource,
-} from '~/utils/http-query';
-import { explainSQL } from '~/utils/sql';
+import { postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils/http-query';
 import { MuteQueryModel } from './mute-query';
 
 export const QueryRenderModel = types
@@ -28,17 +21,6 @@ export const QueryRenderModel = types
     get datasource() {
       const { key, type } = self;
       return self.rootModel.datasources.find({ type, key });
-    },
-    get httpConfigString() {
-      const { context, filters } = self.payload;
-      const { name, pre_process } = self.json;
-
-      const config = explainHTTPRequest(pre_process, context, filters);
-      console.groupCollapsed(`Request config for: ${name}`);
-      console.log(config);
-      console.groupEnd();
-
-      return JSON.stringify(config);
     },
     get additionalQueryInfo(): TAdditionalQueryInfo {
       return self.contentModel.getAdditionalQueryInfo(self.id);
