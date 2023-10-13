@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { QueryRenderModelInstance } from '~/model';
+import { QueryDependency } from './query-dependency';
 
 interface IEditSQL {
   queryModel: QueryRenderModelInstance;
@@ -36,11 +37,12 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
     <Stack spacing={4} sx={{ height: '100%' }}>
       <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
         <Group position="left">
+          <QueryDependency queryModel={queryModel} />
+        </Group>
+        <Group position="right">
           <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
             Reset to default
           </Button>
-        </Group>
-        <Group position="right">
           <Button
             onClick={handleCancel}
             color="red"

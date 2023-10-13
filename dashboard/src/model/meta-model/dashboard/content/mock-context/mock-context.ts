@@ -9,6 +9,9 @@ export const MockContextMeta = types
     get keys() {
       return Object.keys(self.current);
     },
+    get keySet() {
+      return new Set(this.keys);
+    },
     get entries() {
       return Object.entries(self.current);
     },

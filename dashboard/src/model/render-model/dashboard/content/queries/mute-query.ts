@@ -4,6 +4,7 @@ import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { DataSourceType, QueryMeta } from '~/model';
 import { explainHTTPRequest } from '~/utils/http-query';
 import { explainSQL } from '~/utils/sql';
+import { DependencyInfo, UsageRegs } from '~/utils/usage';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
   get rootModel(): any {
@@ -125,6 +126,30 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get inUse() {
     return this.queries.isQueryInUse(self.id);
+  },
+  get dependencies() {
+    if (!this.typedAsSQL) {
+      return [];
+    }
+
+    const sqlSnippetKeys = _.uniq(self.sql.match(UsageRegs.sqlSnippet));
+    const filterKeys = _.uniq(self.sql.match(UsageRegs.filter));
+    const contextKeys = _.uniq(self.sql.match(UsageRegs.context));
+
+    const ret: DependencyInfo[] = [];
+    sqlSnippetKeys.forEach((key) => {
+      ret.push({ type: 'SQL Snippet', key, valid: self.contentModel.sqlSnippets.keySet.has(key) });
+    });
+
+    filterKeys.forEach((key) => {
+      ret.push({ type: 'Filter', key, valid: self.contentModel.filters.keySet.has(key) });
+    });
+
+    contextKeys.forEach((key) => {
+      ret.push({ type: 'Context', key, valid: self.contentModel.mock_context.keySet.has(key) });
+    });
+
+    return ret;
   },
 }));
 

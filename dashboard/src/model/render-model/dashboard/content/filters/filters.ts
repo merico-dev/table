@@ -36,6 +36,9 @@ export const FiltersRenderModel = types
     get firstFilterValueKey() {
       return Object.keys(self.values)[0] ?? '';
     },
+    get keySet() {
+      return new Set(self.current.map((o) => o.key));
+    },
     get keyLabelMap() {
       return self.current.reduce((ret, f) => {
         ret[f.key] = f.label;
