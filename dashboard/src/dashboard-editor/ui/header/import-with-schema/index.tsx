@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 import { ImportWithSchemaForm } from './form';
+import { useBoolean } from 'ahooks';
 
 const ButtonSx: Sx = {
   height: '30px',
@@ -16,6 +17,7 @@ const ButtonSx: Sx = {
 
 export const ImportWithSchema = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [bigModal, { setTrue, setFalse }] = useBoolean(false);
 
   const model = useEditDashboardContext();
   const cant = model.content.views.VIE?.type === EViewComponentType.Tabs;
@@ -65,8 +67,9 @@ export const ImportWithSchema = observer(() => {
         }}
         withinPortal
         zIndex={320}
+        size={bigModal ? '90vw' : 500}
       >
-        <ImportWithSchemaForm onSuccess={close} />
+        <ImportWithSchemaForm onSuccess={close} stretchModal={setTrue} shrinkModal={setFalse} />
       </Modal>
     </>
   );

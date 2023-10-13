@@ -6,12 +6,19 @@ import { useForm } from 'react-hook-form';
 import { useEditContentModelContext } from '~/contexts';
 import { TDashboardContent } from '~/types';
 import { validateDashboardJSONFile } from './validate';
+import { ExplainJSONSchema } from './explain-json-schema';
 
 interface IFormValues {
   content: Partial<TDashboardContent> | null;
 }
 
-export const ImportWithSchemaForm = observer(({ onSuccess }: { onSuccess: () => void }) => {
+type Props = {
+  onSuccess: () => void;
+  stretchModal: () => void;
+  shrinkModal: () => void;
+};
+
+export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkModal }: Props) => {
   const model = useEditContentModelContext();
 
   const {
@@ -78,12 +85,28 @@ export const ImportWithSchemaForm = observer(({ onSuccess }: { onSuccess: () => 
 
   const [content] = watch(['content']);
   const disabled = !content;
+
+  useEffect(() => {
+    if (content) {
+      stretchModal();
+    } else {
+      shrinkModal();
+    }
+  }, [content]);
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <form onSubmit={handleSubmit(updateDashboardWithJSON)}>
-        <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
+        <FileInput
+          label="JSON File"
+          required
+          value={file}
+          onChange={setFile}
+          error={errors?.content?.message}
+          sx={{ maxWidth: 500 }}
+        />
+        <ExplainJSONSchema content={content} />
         <Group position="right" my="md">
-          <Button type="submit" disabled={disabled}>
+          <Button type="submit" color="green" disabled={disabled}>
             Confirm
           </Button>
         </Group>
