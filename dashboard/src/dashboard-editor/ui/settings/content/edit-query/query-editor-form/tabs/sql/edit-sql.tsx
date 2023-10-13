@@ -1,23 +1,25 @@
 import { Button, Group, Stack } from '@mantine/core';
 import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons-react';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
+import { QueryRenderModelInstance } from '~/model';
 
 interface IEditSQL {
-  value: string;
-  onChange: (v: string) => void;
-  defaultValue: string;
+  queryModel: QueryRenderModelInstance;
 }
 
-export const EditSQL = ({ value, onChange, defaultValue }: IEditSQL) => {
-  const [localValue, setLocalValue] = useState<string>(value);
+const defaultValue = 'SELECT 1';
+
+export const EditSQL = observer(({ queryModel }: IEditSQL) => {
+  const [localValue, setLocalValue] = useState<string>(queryModel.sql);
 
   const handleOk = () => {
-    onChange(localValue);
+    queryModel.setSQL(localValue);
   };
 
   const handleCancel = () => {
-    setLocalValue(value);
+    setLocalValue(queryModel.sql);
   };
 
   const resetFuncContent = () => {
@@ -25,10 +27,10 @@ export const EditSQL = ({ value, onChange, defaultValue }: IEditSQL) => {
   };
 
   useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
+    setLocalValue(queryModel.sql);
+  }, [queryModel.sql]);
 
-  const hasChanges = localValue !== value;
+  const hasChanges = localValue !== queryModel.sql;
 
   return (
     <Stack spacing={4} sx={{ height: '100%' }}>
@@ -62,4 +64,4 @@ export const EditSQL = ({ value, onChange, defaultValue }: IEditSQL) => {
       />
     </Stack>
   );
-};
+});
