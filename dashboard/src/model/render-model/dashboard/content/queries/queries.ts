@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
 import { QueryMetaSnapshotIn } from '~/model/meta-model';
-import { downloadDataAsCSV, downloadDataListAsZip } from '~/utils/download';
+import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
 import { QueryRenderModel } from './query';
 
 export const QueriesRenderModel = types
@@ -98,6 +98,21 @@ export const QueriesRenderModel = types
           return;
         }
         return query.fetchData(true);
+      },
+      getSchema(ids: string[]) {
+        const queries = self.findByIDSet(new Set(ids));
+
+        const ret = {
+          definition: {
+            queries: queries.map((q) => q.json),
+          },
+        };
+        return ret;
+      },
+      downloadSchema(ids: string[]) {
+        const schema = JSON.stringify(this.getSchema(ids), null, 2);
+        const filename = 'queries';
+        downloadJSON(filename, schema);
       },
     };
   });

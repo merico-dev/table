@@ -1,10 +1,12 @@
-import { Box, Button, Flex, Stack, Table, Text } from '@mantine/core';
+import { Box, Button, Checkbox, Flex, Group, Stack, Table, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconTrash } from '@tabler/icons-react';
+import { IconCode, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useMemo, useState } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditQueries = observer(() => {
+  const [value, setValue] = useState<string[]>([]);
   const modals = useModals();
   const model = useEditDashboardContext();
   const navigateToQuery = (queryID: string) => {
@@ -22,6 +24,20 @@ export const EditQueries = observer(() => {
       zIndex: 320,
     });
   };
+  const downloadSchema = () => {
+    model.content.queries.downloadSchema(value);
+  };
+
+  const allIDs = useMemo(() => {
+    return model.content.queries.sortedList.map((q) => q.id);
+  }, [model.content.queries.sortedList]);
+
+  const selectAll = () => {
+    setValue(allIDs);
+  };
+  const selectNone = () => {
+    setValue([]);
+  };
 
   const usages = model.content.queriesUsage;
   return (
@@ -31,7 +47,28 @@ export const EditQueries = observer(() => {
           Manage Queries
         </Text>
       </Box>
-      <Flex justify="flex-end" align="center" px={12}>
+      <Flex justify="space-between" align="center" px={12}>
+        <Group position="left">
+          <Button.Group>
+            <Button variant="default" size="xs" onClick={selectAll}>
+              Select All
+            </Button>
+            <Button variant="default" size="xs" onClick={selectNone}>
+              Clear Selection
+            </Button>
+          </Button.Group>
+          <Button
+            // variant="subtle"
+            size="xs"
+            color="blue"
+            leftIcon={<IconCode size={14} />}
+            disabled={value.length === 0}
+            onClick={downloadSchema}
+          >
+            Download Schema
+          </Button>
+        </Group>
+
         <Button
           variant="subtle"
           size="xs"
@@ -44,43 +81,49 @@ export const EditQueries = observer(() => {
         </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-        <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th style={{ width: '200px' }}>Data Source</th>
-              <th style={{ width: '100px', textAlign: 'right' }}>Type</th>
-              <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
-              <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {model.content.queries.sortedList.map((q) => {
-              const usageCount = usages[q.id]?.length ?? 0;
-              return (
-                <tr key={q.id}>
-                  <td>{q.name}</td>
-                  <td>{q.key}</td>
-                  <td style={{ textAlign: 'right' }}>{q.type}</td>
-                  <td
-                    style={{
-                      color: usageCount === 0 ? '#ff0000' : '#000',
-                      fontWeight: usageCount === 0 ? 'bold' : 'normal',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {usageCount}
-                  </td>
-                  <td>
-                    <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
-                      Open
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <Checkbox.Group size="xs" value={value} onChange={setValue}>
+          <Table fontSize="sm" highlightOnHover sx={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr>
+                <th style={{ width: '40px' }}></th>
+                <th>Name</th>
+                <th style={{ width: '200px' }}>Data Source</th>
+                <th style={{ width: '100px', textAlign: 'right' }}>Type</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {model.content.queries.sortedList.map((q) => {
+                const usageCount = usages[q.id]?.length ?? 0;
+                return (
+                  <tr key={q.id}>
+                    <td>
+                      <Checkbox value={q.id} styles={{ input: { cursor: 'pointer' } }} />
+                    </td>
+                    <td>{q.name}</td>
+                    <td>{q.key}</td>
+                    <td style={{ textAlign: 'right' }}>{q.type}</td>
+                    <td
+                      style={{
+                        color: usageCount === 0 ? '#ff0000' : '#000',
+                        fontWeight: usageCount === 0 ? 'bold' : 'normal',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {usageCount}
+                    </td>
+                    <td>
+                      <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
+                        Open
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Checkbox.Group>
       </Box>
     </Stack>
   );
