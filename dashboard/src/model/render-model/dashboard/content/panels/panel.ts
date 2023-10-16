@@ -73,18 +73,22 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         __TRIGGERS: {},
       };
 
-      const ret = {
-        panels: [panel],
-        definition: {
-          queries: self.queries.map((q) => q.json),
-        },
+      return {
+        panel,
+        queries: self.queries.map((q) => q.json),
       };
-      return ret;
     },
     downloadSchema() {
-      const schema = JSON.stringify(this.getSchema(), null, 2);
+      const { panel, queries } = this.getSchema();
+      const schema = {
+        panels: [panel],
+        definition: {
+          queries,
+        },
+      };
+      const schemaStr = JSON.stringify(schema, null, 2);
       const filename = self.name;
-      downloadJSON(filename, schema);
+      downloadJSON(filename, schemaStr);
     },
   }));
 

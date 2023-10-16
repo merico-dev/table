@@ -15,7 +15,7 @@ const ButtonSx: Sx = {
 export const DownloadThisView = observer(() => {
   const contentModel = useEditContentModelContext();
   const cant = contentModel.views.VIE?.type === EViewComponentType.Tabs;
-  const download = () => contentModel.views.VIE.downloadSchema();
+  const download = () => contentModel.views.VIE?.downloadSchema();
   if (cant) {
     return (
       <Tooltip label="Please choose a tab first">

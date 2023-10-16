@@ -18,6 +18,7 @@ import { FiltersModel } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
+import { v4 as uuidv4 } from 'uuid';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   formatSQLSnippet,
@@ -281,24 +282,45 @@ const _ContentModel = types
       self.views.findByID(viewID)?.removePanelID(panelID);
     },
     addANewPanel(viewID: string) {
-      const id = new Date().getTime().toString();
+      const id = uuidv4();
       self.panels.append(getNewPanel(id));
       self.views.findByID(viewID)?.appendPanelID(id);
     },
     applyJSONSchema(partialSchema: AnyObject) {
-      const { panels, filters, definition = {} } = partialSchema;
+      const { views, panels, filters, definition = {} } = partialSchema;
       const { queries, sqlSnippets, mock_context } = definition;
+      const panelIDMap: Map<string, string> = new Map(); // old -> new
 
       // PANELS
       if (Array.isArray(panels)) {
-        const newPanels = panels.map((p) => ({
-          ...p,
-          id: new Date().getTime().toString(),
-        }));
+        const newPanels = panels.map((p) => {
+          const newID = uuidv4();
+          panelIDMap.set(p.id, newID);
+          return {
+            ...p,
+            id: newID,
+          };
+        });
         self.panels.appendMultiple(newPanels);
 
-        const panelIDs = newPanels.map((p) => p.id);
-        self.views.VIE?.appendPanelIDs(panelIDs);
+        // import panels to current view
+        if (!Array.isArray(views) || views.length === 0) {
+          const panelIDs = newPanels.map((p) => p.id);
+          self.views.VIE?.appendPanelIDs(panelIDs);
+        }
+      }
+
+      // VIEWS
+      if (Array.isArray(views)) {
+        const newViews = views.map((v) => {
+          const panelIDs = v.panelIDs.map((oldID: string) => panelIDMap.get(oldID) ?? oldID);
+          return {
+            ...v,
+            id: uuidv4(),
+            panelIDs,
+          };
+        });
+        self.views.appendMultiple(newViews);
       }
 
       // FILTERS
