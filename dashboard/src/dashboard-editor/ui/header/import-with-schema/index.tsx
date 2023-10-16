@@ -9,9 +9,9 @@ import { useBoolean } from 'ahooks';
 
 const ButtonSx: Sx = {
   height: '30px',
-  borderRight: 'none',
+  borderLeft: 'none',
   borderTop: 'none',
-  borderLeft: '1px solid #e9ecef',
+  borderRight: '1px solid #e9ecef',
   borderBottom: '1px solid #e9ecef',
 };
 
@@ -35,7 +35,7 @@ export const ImportWithSchema = observer(() => {
             transform: 'none !important',
           }}
         >
-          Import
+          Import...
         </Button>
       </Tooltip>
     );
@@ -52,10 +52,10 @@ export const ImportWithSchema = observer(() => {
         leftIcon={<IconFileImport size={16} />}
         sx={{
           ...ButtonSx,
-          background: 'rgb(231, 245, 255)',
+          // background: 'rgb(231, 245, 255)',
         }}
       >
-        Import
+        Import...
       </Button>
       <Modal
         opened={opened}
