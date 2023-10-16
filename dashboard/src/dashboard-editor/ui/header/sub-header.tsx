@@ -1,8 +1,7 @@
-import { Box, Button, Group, Sx } from '@mantine/core';
-import { IconPlaylistAdd } from '@tabler/icons-react';
+import { Box, Group, Sx } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { useEditContentModelContext } from '~/contexts';
-import { EViewComponentType } from '~/model';
+import { AddAPanel } from './add-a-panel';
+import { ImportWithSchema } from './import-with-schema';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -16,32 +15,12 @@ const SubHeaderSx: Sx = {
 };
 
 export const SubHeader = observer(() => {
-  const model = useEditContentModelContext();
-  const cant = model.views.VIE?.type === EViewComponentType.Tabs;
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
-      <Group position="apart" align="center" sx={{ height: '30px' }} pr={16}>
-        <Button
-          variant="outline"
-          color="blue"
-          radius={0}
-          size="xs"
-          disabled={!model.views.VIE || cant}
-          onClick={() => model.addANewPanel(model.views.idOfVIE)}
-          leftIcon={<IconPlaylistAdd size={20} />}
-          sx={{
-            height: '30px',
-            borderLeft: 'none',
-            borderTop: 'none',
-            borderRight: '1px solid #e9ecef',
-            borderBottom: '1px solid #e9ecef',
-            background: 'rgb(231, 245, 255)',
-          }}
-        >
-          Add a Panel
-        </Button>
+      <Group position="apart" align="center" sx={{ height: '30px' }}>
+        <AddAPanel />
         <Box />
-        <Box />
+        <ImportWithSchema />
       </Group>
     </Box>
   );

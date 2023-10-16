@@ -18,6 +18,7 @@ import { FiltersModel } from '../filters';
 import { QueriesModel } from '../queries';
 import { SQLSnippetsModel } from '../sql-snippets';
 
+import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   formatSQLSnippet,
   getInitialFiltersConfig,
@@ -29,10 +30,10 @@ import {
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
-import { PanelModelInstance, PanelsModel } from '../panels';
-import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
-import { TAdditionalQueryInfo } from '~/api-caller/request';
+import { UsageRegs } from '~/utils/usage';
+import { PanelsModel } from '../panels';
+import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 
 const _ContentModel = types
   .model({
@@ -233,12 +234,11 @@ const _ContentModel = types
     },
     get sqlSnippetsUsage() {
       const usages: SQLSnippetUsageType[] = [];
-      const reg = /(?<=sql_snippets\.)([^}.]+)/gm;
       self.queries.current.forEach((q) => {
         if (!q.typedAsSQL) {
           return;
         }
-        const keys = _.uniq(q.sql.match(reg));
+        const keys = _.uniq(q.sql.match(UsageRegs.sqlSnippet));
         keys.forEach((k) => {
           usages.push({
             queryID: q.id,
@@ -284,6 +284,42 @@ const _ContentModel = types
       const id = new Date().getTime().toString();
       self.panels.append(getNewPanel(id));
       self.views.findByID(viewID)?.appendPanelID(id);
+    },
+    applyJSONSchema(partialSchema: AnyObject) {
+      const { panels, filters, definition = {} } = partialSchema;
+      const { queries, sqlSnippets, mock_context } = definition;
+
+      // PANELS
+      if (Array.isArray(panels)) {
+        const newPanels = panels.map((p) => ({
+          ...p,
+          id: new Date().getTime().toString(),
+        }));
+        self.panels.appendMultiple(newPanels);
+
+        const panelIDs = newPanels.map((p) => p.id);
+        self.views.VIE?.appendPanelIDs(panelIDs);
+      }
+
+      // FILTERS
+      if (Array.isArray(filters)) {
+        self.filters.appendMultiple(filters);
+      }
+
+      // QUERIES
+      if (Array.isArray(queries)) {
+        self.queries.appendMultiple(queries);
+      }
+
+      // SQL SNIPPETS
+      if (Array.isArray(sqlSnippets)) {
+        self.sqlSnippets.appendMultiple(sqlSnippets);
+      }
+
+      // MOCK_CONTEXT
+      if (mock_context && Object.keys(mock_context).length > 0) {
+        self.mock_context.defaults(mock_context);
+      }
     },
   }))
   .actions((self) => {

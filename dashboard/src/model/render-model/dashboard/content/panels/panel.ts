@@ -1,13 +1,14 @@
-import { getParent, getParentOfType, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
+import _ from 'lodash';
+import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
-import { ContentModel } from '~/dashboard-editor/model';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
+import { downloadJSON } from '~/utils/download';
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
     // @ts-expect-error typeof getRoot
-    return getRoot(self).content; // dashboard model
+    return getRoot(self).content;
   },
 }))
   .views((self) => ({
@@ -61,8 +62,29 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       self.queries.forEach((q) => q.fetchData(true));
     },
     downloadData() {
-      // @ts-expect-error typeof getRoot
-      getRoot(self).content.queries.downloadDataByQueryIDs(self.queryIDs);
+      self.contentModel.queries.downloadDataByQueryIDs(self.queryIDs);
+    },
+    getSchema() {
+      const panel = self.json;
+      panel.viz.conf = {
+        ...panel.viz.conf,
+        __INTERACTIONS: {},
+        __OPERATIONS: {},
+        __TRIGGERS: {},
+      };
+
+      const ret = {
+        panels: [panel],
+        definition: {
+          queries: self.queries.map((q) => q.json),
+        },
+      };
+      return ret;
+    },
+    downloadSchema() {
+      const schema = JSON.stringify(this.getSchema(), null, 2);
+      const filename = self.name;
+      downloadJSON(filename, schema);
     },
   }));
 

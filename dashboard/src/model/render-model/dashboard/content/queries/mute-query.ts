@@ -1,9 +1,18 @@
 import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
-import { QueryMeta } from '~/model';
+import { DataSourceType, QueryMeta } from '~/model';
+import { explainHTTPRequest } from '~/utils/http-query';
+import { explainSQL } from '~/utils/sql';
+import { DependencyInfo, UsageRegs } from '~/utils/usage';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
+  get rootModel(): any {
+    return getRoot(self);
+  },
+  get contentModel(): any {
+    return this.rootModel.content; // dashboard content model
+  },
   get conditionOptions() {
     if (!isAlive(self)) {
       return [];
@@ -53,6 +62,30 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     });
   },
 })).views((self) => ({
+  get payload() {
+    return self.contentModel.payloadForSQL;
+  },
+  get formattedSQL() {
+    return explainSQL(self.sql, this.payload);
+  },
+
+  get httpConfigString() {
+    const { context, filters } = this.payload;
+    const { name, pre_process } = self.json;
+
+    const config = explainHTTPRequest(pre_process, context, filters);
+    console.groupCollapsed(`Request config for: ${name}`);
+    console.log(config);
+    console.groupEnd();
+
+    return JSON.stringify(config);
+  },
+  get typedAsSQL() {
+    return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
+  },
+  get typedAsHTTP() {
+    return [DataSourceType.HTTP].includes(self.type);
+  },
   get reQueryKey() {
     const { react_to = [] } = self;
     if (react_to.length === 0) {
@@ -93,6 +126,30 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   },
   get inUse() {
     return this.queries.isQueryInUse(self.id);
+  },
+  get dependencies() {
+    if (!this.typedAsSQL) {
+      return [];
+    }
+
+    const sqlSnippetKeys = _.uniq(self.sql.match(UsageRegs.sqlSnippet));
+    const filterKeys = _.uniq(self.sql.match(UsageRegs.filter));
+    const contextKeys = _.uniq(self.sql.match(UsageRegs.context));
+
+    const ret: DependencyInfo[] = [];
+    sqlSnippetKeys.forEach((key) => {
+      ret.push({ type: 'SQL Snippet', key, valid: self.contentModel.sqlSnippets.keySet.has(key) });
+    });
+
+    filterKeys.forEach((key) => {
+      ret.push({ type: 'Filter', key, valid: self.contentModel.filters.keySet.has(key) });
+    });
+
+    contextKeys.forEach((key) => {
+      ret.push({ type: 'Context', key, valid: self.contentModel.mock_context.keySet.has(key) });
+    });
+
+    return ret;
   },
 }));
 

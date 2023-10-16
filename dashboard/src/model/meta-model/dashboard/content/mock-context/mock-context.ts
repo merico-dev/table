@@ -9,6 +9,9 @@ export const MockContextMeta = types
     get keys() {
       return Object.keys(self.current);
     },
+    get keySet() {
+      return new Set(this.keys);
+    },
     get entries() {
       return Object.entries(self.current);
     },
@@ -17,6 +20,12 @@ export const MockContextMeta = types
     return {
       replace(record: ContextRecordType) {
         self.current = record;
+      },
+      defaults(record: ContextRecordType) {
+        self.current = {
+          ...record,
+          ...self.current,
+        };
       },
       get(key: string) {
         return self.current[key];

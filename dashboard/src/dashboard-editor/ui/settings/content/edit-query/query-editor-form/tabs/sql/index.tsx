@@ -47,7 +47,7 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
         {queryModel.datasource && <DBExplorerModal dataSource={queryModel.datasource} />}
       </Tabs.List>
       <Tabs.Panel value="Edit" sx={{ position: 'relative' }} p="sm">
-        <EditSQL value={queryModel.sql} onChange={queryModel.setSQL} defaultValue="SELECT 1" />
+        <EditSQL queryModel={queryModel} />
       </Tabs.Panel>
       <Tabs.Panel value="Preview" p={0} pl={4}>
         <PreviewSQL value={queryModel.sql} />

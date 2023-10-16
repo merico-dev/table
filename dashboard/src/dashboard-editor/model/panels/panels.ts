@@ -47,6 +47,13 @@ export const PanelsModel = types
     append(item: PanelModelSnapshotIn) {
       self.list.push(item);
     },
+    appendMultiple(items: PanelModelSnapshotIn[]) {
+      if (items.length === 0) {
+        return;
+      }
+
+      self.list.push(...items);
+    },
     remove(index: number) {
       self.list.splice(index, 1);
     },

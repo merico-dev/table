@@ -24,6 +24,14 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
   append(item: QueryRenderModelInstance) {
     self.current.push(item);
   },
+  appendMultiple(items: QueryRenderModelInstance[]) {
+    if (items.length === 0) {
+      return;
+    }
+
+    const newItems = items.filter((item) => !self.idSet.has(item.id));
+    self.current.push(...newItems);
+  },
   remove(index: number) {
     self.current.splice(index, 1);
   },

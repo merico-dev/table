@@ -24,7 +24,7 @@ export const ViewMeta = types
         name,
         type,
         config: config.json,
-        panelIDs: self.panelIDs,
+        panelIDs: self.panelIDs.map((id) => id),
       };
     },
   }))
@@ -51,6 +51,9 @@ export const ViewMeta = types
     },
     appendPanelID(id: string) {
       self.panelIDs.push(id);
+    },
+    appendPanelIDs(ids: string[]) {
+      self.panelIDs.push(...ids);
     },
     removePanelID(id: string) {
       const newIDs = self.panelIDs.filter((pid) => pid !== id);

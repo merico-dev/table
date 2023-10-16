@@ -1,51 +1,37 @@
 import { Box, Button, Checkbox, Flex, Group, Stack, Table, Text } from '@mantine/core';
-import { useModals } from '@mantine/modals';
-import { IconCode, IconTrash } from '@tabler/icons-react';
+import { IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { useEditDashboardContext } from '~/contexts';
 
-export const EditSQLSnippets = observer(() => {
+export const EditFilters = observer(() => {
   const [value, setValue] = useState<string[]>([]);
-  const modals = useModals();
   const model = useEditDashboardContext();
-  const navigateToSnippet = (id: string) => {
-    model.editor.setPath(['_SQL_SNIPPETS_', id]);
-  };
-
-  const removeUnusedSQLSnippetsWithConfirmation = () => {
-    modals.openConfirmModal({
-      title: 'Delete ununsed SQL snippets?',
-      children: <Text size="sm">This action cannot be undone.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onCancel: () => console.log('Cancel'),
-      onConfirm: () => model.content.removeUnusedSQLSnippets(),
-      confirmProps: { color: 'red' },
-      zIndex: 320,
-    });
+  const navigateToFilter = (filterID: string) => {
+    model.editor.setPath(['_FILTERS_', filterID]);
   };
 
   const downloadSchema = () => {
-    model.content.sqlSnippets.downloadSchema(value);
+    model.content.filters.downloadSchema(value);
   };
 
-  const allKeys = useMemo(() => {
-    return model.content.sqlSnippets.sortedList.map((q) => q.key);
-  }, [model.content.sqlSnippets.sortedList]);
+  const allIDs = useMemo(() => {
+    return model.content.filters.sortedList.map((q) => q.id);
+  }, [model.content.filters.sortedList]);
 
   const selectAll = () => {
-    setValue(allKeys);
+    setValue(allIDs);
   };
   const selectNone = () => {
     setValue([]);
   };
 
-  const usages = model.content.sqlSnippetsUsage;
   return (
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage SQL Snippets
+          Manage Filters
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>
@@ -69,16 +55,6 @@ export const EditSQLSnippets = observer(() => {
             Download Schema
           </Button>
         </Group>
-        <Button
-          variant="subtle"
-          size="xs"
-          color="red"
-          leftIcon={<IconTrash size={14} />}
-          disabled={!model.content.hasUnusedSQLSnippets}
-          onClick={removeUnusedSQLSnippetsWithConfirmation}
-        >
-          Delete unused SQL snippets
-        </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
         <Checkbox.Group size="xs" value={value} onChange={setValue}>
@@ -86,31 +62,24 @@ export const EditSQLSnippets = observer(() => {
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>
+                <th style={{ width: '300px' }}>Label</th>
                 <th>Key</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
+                <th style={{ width: '100px' }}>Widget</th>
                 <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
-              {model.content.sqlSnippets.sortedList.map((s) => {
-                const usageCount = usages[s.key]?.length ?? 0;
+              {model.content.filters.sortedList.map((f) => {
                 return (
-                  <tr key={s.key}>
+                  <tr key={f.id}>
                     <td>
-                      <Checkbox value={s.key} styles={{ input: { cursor: 'pointer' } }} />
+                      <Checkbox value={f.id} styles={{ input: { cursor: 'pointer' } }} />
                     </td>
-                    <td>{s.key}</td>
-                    <td
-                      style={{
-                        color: usageCount === 0 ? '#ff0000' : '#000',
-                        fontWeight: usageCount === 0 ? 'bold' : 'normal',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {usageCount}
-                    </td>
+                    <td>{f.label}</td>
+                    <td>{f.key}</td>
+                    <td>{filterTypeNames[f.type]}</td>
                     <td>
-                      <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
+                      <Button variant="subtle" size="xs" onClick={() => navigateToFilter(f.id)}>
                         Open
                       </Button>
                     </td>

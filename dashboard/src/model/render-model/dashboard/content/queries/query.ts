@@ -1,17 +1,10 @@
 import axios from 'axios';
 import { get } from 'lodash';
 import { reaction } from 'mobx';
-import { addDisposer, flow, getRoot, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
+import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
-import { DataSourceType } from '~/model';
-import {
-  explainHTTPRequest,
-  postProcessWithDataSource,
-  postProcessWithQuery,
-  preProcessWithDataSource,
-} from '~/utils/http-query';
-import { explainSQL } from '~/utils/sql';
+import { postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils/http-query';
 import { MuteQueryModel } from './mute-query';
 
 export const QueryRenderModel = types
@@ -25,41 +18,12 @@ export const QueryRenderModel = types
     }),
   )
   .views((self) => ({
-    get rootModel(): any {
-      return getRoot(self);
-    },
-    get contentModel(): any {
-      return this.rootModel.content; // dashboard content model
-    },
-    get payload() {
-      return this.contentModel.payloadForSQL;
-    },
-    get formattedSQL() {
-      return explainSQL(self.sql, this.payload);
-    },
-    get typedAsSQL() {
-      return [DataSourceType.Postgresql, DataSourceType.MySQL].includes(self.type);
-    },
-    get typedAsHTTP() {
-      return [DataSourceType.HTTP].includes(self.type);
-    },
     get datasource() {
       const { key, type } = self;
-      return this.rootModel.datasources.find({ type, key });
-    },
-    get httpConfigString() {
-      const { context, filters } = this.payload;
-      const { name, pre_process } = self.json;
-
-      const config = explainHTTPRequest(pre_process, context, filters);
-      console.groupCollapsed(`Request config for: ${name}`);
-      console.log(config);
-      console.groupEnd();
-
-      return JSON.stringify(config);
+      return self.rootModel.datasources.find({ type, key });
     },
     get additionalQueryInfo(): TAdditionalQueryInfo {
-      return this.contentModel.getAdditionalQueryInfo(self.id);
+      return self.contentModel.getAdditionalQueryInfo(self.id);
     },
   }))
   .views((self) => ({

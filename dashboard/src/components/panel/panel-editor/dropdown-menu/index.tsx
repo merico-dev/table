@@ -1,6 +1,6 @@
 import { Box, Divider, Menu } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { IconCamera } from '@tabler/icons-react';
+import { IconCamera, IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
@@ -53,6 +53,9 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
             </Menu.Item>
             <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
               Download Data
+            </Menu.Item>
+            <Menu.Item onClick={panel.downloadSchema} icon={<IconCode size={14} />}>
+              Download Schema
             </Menu.Item>
             <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
               Screenshot

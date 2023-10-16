@@ -3,10 +3,16 @@ import { observer } from 'mobx-react-lite';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { ConfigFields } from './config-fields';
 
+export const viewComponentNames = {
+  [EViewComponentType.Division]: 'Division',
+  [EViewComponentType.Modal]: 'Modal',
+  [EViewComponentType.Tabs]: 'Tabs',
+};
+
 const viewComponentTypeOptions = [
-  { label: 'Division', value: EViewComponentType.Division },
-  { label: 'Modal', value: EViewComponentType.Modal },
-  { label: 'Tabs', value: EViewComponentType.Tabs },
+  { label: viewComponentNames[EViewComponentType.Division], value: EViewComponentType.Division },
+  { label: viewComponentNames[EViewComponentType.Modal], value: EViewComponentType.Modal },
+  { label: viewComponentNames[EViewComponentType.Tabs], value: EViewComponentType.Tabs },
 ];
 
 export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => {

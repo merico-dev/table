@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { Instance, types } from 'mobx-state-tree';
-import { DashboardFilterType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import { FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters } from './utils';
 
 export const FiltersRenderModel = types
@@ -21,6 +22,9 @@ export const FiltersRenderModel = types
     findByID(id: string) {
       return self.current.find((f) => f.id === id);
     },
+    findByIDSet(idset: Set<string>) {
+      return self.current.filter((f) => idset.has(f.id));
+    },
     get inOrder() {
       return _.sortBy(self.current, 'order');
     },
@@ -35,6 +39,9 @@ export const FiltersRenderModel = types
     },
     get firstFilterValueKey() {
       return Object.keys(self.values)[0] ?? '';
+    },
+    get keySet() {
+      return new Set(self.current.map((o) => o.key));
     },
     get keyLabelMap() {
       return self.current.reduce((ret, f) => {
@@ -64,6 +71,20 @@ export const FiltersRenderModel = types
     },
     getValueByKey(key: string) {
       return self.values[key];
+    },
+
+    getSchema(ids: string[], raw?: boolean) {
+      const filters = self.findByIDSet(new Set(ids));
+
+      const ret = {
+        filters: filters.map((f) => ({ ...f.json, visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : [] })),
+      };
+      return ret;
+    },
+    downloadSchema(ids: string[]) {
+      const schema = JSON.stringify(this.getSchema(ids, false), null, 2);
+      const filename = 'Filters';
+      downloadJSON(filename, schema);
     },
   }));
 export type FiltersRenderModelInstance = Instance<typeof FiltersRenderModel>;
