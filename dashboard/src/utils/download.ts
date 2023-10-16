@@ -1,4 +1,5 @@
 import { AsyncParser } from '@json2csv/whatwg';
+import { notifications } from '@mantine/notifications';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 
@@ -23,12 +24,24 @@ export async function downloadDataAsCSV(id: string, data: TQueryData) {
 
 export function downloadDataListAsZip(idDataList: Array<{ id: string; data: TQueryData }>) {
   const zip = new JSZip();
-  idDataList.forEach(({ id, data }) => {
-    zip.file(`${id}.csv`, makeCSV(data));
+  const promises = idDataList.map(async ({ id, data }) => {
+    const csv = await makeCSV(data);
+    zip.file(`${id}.csv`, csv);
   });
-  zip.generateAsync({ type: 'blob' }).then((content) => {
-    saveAs(content, 'dashboard_data.zip');
-  });
+  Promise.all(promises)
+    .then(() => {
+      zip.generateAsync({ type: 'blob' }).then((content) => {
+        saveAs(content, 'dashboard_data.zip');
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      notifications.show({
+        color: 'red',
+        title: 'Failed to download data',
+        message: err.message,
+      });
+    });
 }
 
 export function downloadJSON(name: string, json: string) {
