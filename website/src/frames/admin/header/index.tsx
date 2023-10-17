@@ -10,7 +10,7 @@ export function AdminHeader() {
           <Logo />
         </Group>
         <Group position="right">
-          <AccountDropdown />
+          <AccountDropdown height={60} />
         </Group>
       </Group>
     </MantineHeader>

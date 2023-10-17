@@ -11,7 +11,7 @@ const _Header = () => {
           <Logo />
         </Group>
         <Group position="right">
-          <AccountDropdown />
+          <AccountDropdown height={39} />
         </Group>
       </Group>
     </MantineHeader>
