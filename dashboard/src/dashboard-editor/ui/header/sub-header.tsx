@@ -2,6 +2,7 @@ import { Box, Group, Sx } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { AddAPanel } from './add-a-panel';
 import { ImportWithSchema } from './import-with-schema';
+import { DownloadThisView } from './download-this-view';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',
@@ -18,9 +19,14 @@ export const SubHeader = observer(() => {
   return (
     <Box sx={SubHeaderSx} pl={{ base: 200, xs: 200, sm: 200, md: 220, lg: 240, xl: 260 }}>
       <Group position="apart" align="center" sx={{ height: '30px' }}>
-        <AddAPanel />
+        <Group position="left" spacing={0}>
+          <AddAPanel />
+          <ImportWithSchema />
+        </Group>
         <Box />
-        <ImportWithSchema />
+        <Group position="right" spacing={0}>
+          <DownloadThisView />
+        </Group>
       </Group>
     </Box>
   );

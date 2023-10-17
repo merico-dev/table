@@ -4,12 +4,14 @@ import { IDashboardView } from '~/types';
 import { PanelsModelInstance } from '../panels';
 
 import { ViewDivisionConfigSnapshotIn, ViewMetaInstance, ViewModalConfigSnapshotIn } from '~/model';
+import { ViewModel, ViewModelInstance } from './view';
 
 export const ViewsModel = types
   .compose(
     'ViewsModel',
     ViewsRenderModel,
     types.model({
+      current: types.optional(types.array(ViewModel), []),
       idOfVIE: types.string, // VIE: view in edit
     }),
   )
@@ -21,7 +23,7 @@ export const ViewsModel = types
       return self.current[0].id === self.idOfVIE;
     },
     get VIE() {
-      return self.current.find(({ id }) => id === self.idOfVIE);
+      return self.current.find(({ id }) => id === self.idOfVIE) as ViewModelInstance;
     },
     get options() {
       return self.current.map((v) => ({
@@ -69,6 +71,13 @@ export const ViewsModel = types
     },
     append(item: ViewRenderModelInstance) {
       self.current.push(item);
+    },
+    appendMultiple(items: ViewRenderModelInstance[]) {
+      if (items.length === 0) {
+        return;
+      }
+
+      self.current.push(...items);
     },
     remove(index: number) {
       self.current.splice(index, 1);

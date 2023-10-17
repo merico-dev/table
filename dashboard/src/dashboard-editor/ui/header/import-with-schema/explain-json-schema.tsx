@@ -165,7 +165,7 @@ const SQLSnippets = ({ content }: Props) => {
 
 const MockContext = ({ content }: Props) => {
   const list = Object.keys(content.definition?.mock_context ?? {});
-  if (!list) {
+  if (list.length === 0) {
     return null;
   }
 
