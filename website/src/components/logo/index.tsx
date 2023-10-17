@@ -8,9 +8,5 @@ export const Logo = () => {
     return null;
   }
 
-  return (
-    <>
-      <LogoLink data={data} />
-    </>
-  );
+  return <LogoLink data={data} />;
 };
