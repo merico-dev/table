@@ -5,6 +5,7 @@ import { AccountDropdown } from '../../components/account-dropdown';
 import { useAccountContext } from '../require-auth/account-context';
 import './index.css';
 import { AdminNavbar } from './navbar';
+import { AdminBreadcrumbs } from './breadcrumbs';
 
 export function AdminFrame() {
   const { isAdmin } = useAccountContext();
@@ -32,7 +33,7 @@ export function AdminFrame() {
         <Group position="apart" px={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
           <Group position="left">
             {/* should place breadcrumbs here */}
-            <Box />
+            <AdminBreadcrumbs />
           </Group>
           <AccountDropdown height={39} />
         </Group>
