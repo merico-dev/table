@@ -2,7 +2,6 @@ import { ActionIcon, Group, Navbar as MantineNavbar, Tooltip } from '@mantine/co
 import { IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../components/logo';
-import { useAccountContext } from '../../require-auth/account-context';
 
 export const AdminSystemNavActions = () => {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ export const AdminSystemNavActions = () => {
         <Logo height="24px" />
         <Group position="right">
           <Tooltip label="Back to dashboards">
-            <ActionIcon size="xs" onClick={gotoDashboard}>
+            <ActionIcon color="blue" size="xs" onClick={gotoDashboard}>
               <IconX size={20} />
             </ActionIcon>
           </Tooltip>

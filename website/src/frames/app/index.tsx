@@ -7,6 +7,7 @@ import './index.css';
 import { DashboardStoreProvider } from './models/dashboard-store-context';
 import { Navbar } from './navbar';
 import { NavbarToggler } from './navbar-toggler';
+import { DashboardBreadcrumbs } from './breadcrumbs';
 
 export function App() {
   const [navbarCollapsed, { setTrue, setFalse }] = useBoolean(false);
@@ -41,6 +42,7 @@ export function App() {
           <Group position="apart" px={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
             <Group position="left">
               <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
+              <DashboardBreadcrumbs />
             </Group>
             <AccountDropdown height={39} />
           </Group>
