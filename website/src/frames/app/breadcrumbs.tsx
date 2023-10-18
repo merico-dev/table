@@ -1,9 +1,7 @@
 import { Breadcrumbs, Text, TextProps } from '@mantine/core';
-
-import { ReactNode } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Helmet } from 'react-helmet-async';
 import { useDashboardStore } from './models/dashboard-store-context';
-import { observer } from 'mobx-react-lite';
 
 const BreadcrumbText = ({ children, ...rest }: TextProps) => {
   return (
