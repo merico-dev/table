@@ -1,16 +1,24 @@
 import { AppShell, Box, Group, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { useBoolean } from 'ahooks';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AccountDropdown } from '../../components/account-dropdown';
+import { DashboardBreadcrumbs } from './breadcrumbs';
 import './index.css';
 import { DashboardStoreProvider } from './models/dashboard-store-context';
 import { Navbar } from './navbar';
 import { NavbarToggler } from './navbar-toggler';
-import { DashboardBreadcrumbs } from './breadcrumbs';
 
 export function App() {
   const [navbarCollapsed, { setTrue, setFalse }] = useBoolean(false);
+  useEffect(() => {
+    // force react-grid-layout to re-render
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
+  }, [navbarCollapsed]);
+
   return (
     <DashboardStoreProvider>
       <AppShell
