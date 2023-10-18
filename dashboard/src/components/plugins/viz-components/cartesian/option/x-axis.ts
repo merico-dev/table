@@ -5,10 +5,12 @@ import { ICartesianChartConf } from '../type';
 export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
   const { overflow, ...axisLabel } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
+  const xDataEmpty = xAxisData.length === 0;
   return [
     {
       data: xAxisData,
       name: conf.x_axis_name ?? '',
+      nameGap: xDataEmpty ? 5 : undefined,
       id: 'main-x-axis',
       axisTick: {
         show: true,
