@@ -1672,9 +1672,9 @@ __metadata:
     cypress: ^12.9.0
     cypress-wait-until: ^1.7.2
     dom-to-image-more: 3.1.6
-    echarts: ^5.3.2
-    echarts-for-react: ^3.0.2
-    echarts-gl: ^2.0.9
+    echarts: 5.4.1
+    echarts-for-react: 3.0.2
+    echarts-gl: 2.0.9
     file-saver: 2.0.5
     jsdom: ^20.0.0
     jsdom-testing-mocks: ^1.5.0
@@ -1737,9 +1737,9 @@ __metadata:
     d3-array: 3.2.3
     d3-regression: 1.3.10
     dayjs: 1.11.9
-    echarts: ^5.3.2
-    echarts-for-react: ^3.0.2
-    echarts-gl: ^2.0.9
+    echarts: 5.4.1
+    echarts-for-react: 3.0.2
+    echarts-gl: 2.0.9
     eventemitter2: ^6.4.6
     jszip: 3.10.1
     lodash: ^4.17.21
@@ -1885,9 +1885,9 @@ __metadata:
     d3-array: 3.2.3
     d3-regression: 1.3.10
     dayjs: 1.11.9
-    echarts: ^5.3.2
-    echarts-for-react: ^3.0.2
-    echarts-gl: ^2.0.9
+    echarts: 5.4.1
+    echarts-for-react: 3.0.2
+    echarts-gl: 2.0.9
     eventemitter2: ^6.4.6
     json-stable-stringify: ^1.0.2
     jszip: 3.10.1
@@ -8795,7 +8795,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"echarts-for-react@npm:^3.0.2":
+"echarts-for-react@npm:3.0.2":
   version: 3.0.2
   resolution: "echarts-for-react@npm:3.0.2"
   dependencies:
@@ -8808,7 +8808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"echarts-gl@npm:^2.0.9":
+"echarts-gl@npm:2.0.9":
   version: 2.0.9
   resolution: "echarts-gl@npm:2.0.9"
   dependencies:
@@ -8820,13 +8820,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"echarts@npm:^5.3.2":
-  version: 5.4.2
-  resolution: "echarts@npm:5.4.2"
+"echarts@npm:5.4.1":
+  version: 5.4.1
+  resolution: "echarts@npm:5.4.1"
   dependencies:
     tslib: 2.3.0
-    zrender: 5.4.3
-  checksum: 933c28dada362314f7c7a5fd4243b44b24f75adb233f7c87541ac9a81734cb380a9683c3f56c8e559dacfddd363879e95a96f0047e33820123cd8f5b95b60f8f
+    zrender: 5.4.1
+  checksum: 2868541087045d27691e99950a96896da48be2c758cb9cd6ab57244bfa40967edecc5a215e02f63a48fa9d56aa1dc91c8339982fdb8d2b1323b19852e91d9fa8
   languageName: node
   linkType: hard
 
@@ -19445,7 +19445,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zrender@npm:5.4.3, zrender@npm:^5.1.1":
+"zrender@npm:5.4.1":
+  version: 5.4.1
+  resolution: "zrender@npm:5.4.1"
+  dependencies:
+    tslib: 2.3.0
+  checksum: 9a50cc2cc42ef44a436cfca5a29d6378b92790f50755b4d54f513a55dc7dab9698cecbc5640d731b380ad282aab1c33ae8cc1d14b61c0d51f0e951085a1bf17c
+  languageName: node
+  linkType: hard
+
+"zrender@npm:^5.1.1":
   version: 5.4.3
   resolution: "zrender@npm:5.4.3"
   dependencies:
