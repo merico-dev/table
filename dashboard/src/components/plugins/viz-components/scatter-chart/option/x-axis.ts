@@ -4,10 +4,12 @@ import { IScatterChartConf } from '../type';
 export function getXAxes(conf: IScatterChartConf, xAxisData: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));
   const { axisLabel } = conf.x_axis;
+  const xDataEmpty = xAxisData.length === 0;
   return [
     {
       data: xAxisData,
       name: conf.x_axis.name ?? '',
+      nameGap: xDataEmpty ? 5 : undefined,
       id: 'main-x-axis',
       axisTick: {
         show: true,
