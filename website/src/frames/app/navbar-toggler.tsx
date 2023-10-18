@@ -7,7 +7,7 @@ export const NavbarToggler = ({ collapsed, expand }: { collapsed: boolean; expan
   }
   return (
     <Tooltip label="Show sidebar">
-      <ActionIcon size="xs" onClick={expand}>
+      <ActionIcon size="xs" color="blue" onClick={expand}>
         <IconLayoutSidebar />
       </ActionIcon>
     </Tooltip>
