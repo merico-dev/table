@@ -1,7 +1,7 @@
-import { ActionIcon, Modal, Tooltip } from '@mantine/core';
+import { Button, Modal } from '@mantine/core';
+import { IconFileImport } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { FileImport } from 'tabler-icons-react';
 import { useDashboardStore } from '../../models/dashboard-store-context';
 import { ImportDashboardForm } from './form';
 
@@ -27,11 +27,9 @@ export const ImportDashboard = observer(() => {
       >
         <ImportDashboardForm postSubmit={closeOnSuccess} />
       </Modal>
-      <Tooltip label="Import a dashboard">
-        <ActionIcon color="blue" variant="light" onClick={open}>
-          <FileImport size={17} />
-        </ActionIcon>
-      </Tooltip>
+      <Button size="xs" variant="light" onClick={open} leftIcon={<IconFileImport size={15} />}>
+        Import...
+      </Button>
     </>
   );
 });

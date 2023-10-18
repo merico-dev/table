@@ -1,15 +1,15 @@
+import { initialDashboardContent } from '@devtable/dashboard';
 import { Autocomplete, Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconPlus } from '@tabler/icons-react';
 import { useRequest } from 'ahooks';
+import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../../../api-caller';
 import { useDashboardStore } from '../models/dashboard-store-context';
-import { initialDashboardContent } from '@devtable/dashboard';
-import _ from 'lodash';
 
 async function getInitialContent({
   idToDuplicate,
@@ -227,8 +227,8 @@ export const CreateDashboard = observer(() => {
       >
         <CreateDashboardForm postSubmit={closeAndReload} />
       </Modal>
-      <Button size="xs" onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add a new dashboard
+      <Button size="xs" onClick={open} variant="filled" leftIcon={<IconPlus size={16} />}>
+        Add a dashboard
       </Button>
     </>
   );

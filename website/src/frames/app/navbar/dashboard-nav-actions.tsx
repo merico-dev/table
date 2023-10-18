@@ -1,4 +1,4 @@
-import { Group, Navbar as MantineNavbar } from '@mantine/core';
+import { Button, Navbar as MantineNavbar } from '@mantine/core';
 import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
 import { ImportDashboard } from './import-dashboard';
@@ -10,11 +10,20 @@ export const DashboardNavActions = () => {
   }
 
   return (
-    <MantineNavbar.Section pt="xs">
-      <Group px="xs" pb="sm" sx={{ borderBottom: '1px solid #eee', '> button': { flexGrow: 1 } }}>
+    <MantineNavbar.Section>
+      <Button.Group
+        sx={{
+          width: '100%',
+          borderBottom: '1px solid #eee',
+          '> button ': {
+            borderRadius: 0,
+            flexGrow: 1,
+          },
+        }}
+      >
         <CreateDashboard />
         <ImportDashboard />
-      </Group>
+      </Button.Group>
     </MantineNavbar.Section>
   );
 };
