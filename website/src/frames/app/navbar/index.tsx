@@ -24,9 +24,7 @@ export function Navbar({ collapsed, collapse }: { collapsed: boolean; collapse: 
     <MantineNavbar width={{ base: 300 }} height="100vh" sx={{ overflow: 'hidden' }}>
       <MantineNavbar.Section>
         <Group position="apart" py={5} px={10} h={40}>
-          <Box sx={{ height: '30px' }}>
-            <Logo />
-          </Box>
+          <Logo height="24px" />
           <Tooltip label="Hide sidebar">
             <ActionIcon size="xs" onClick={collapse}>
               <IconLayoutSidebar />

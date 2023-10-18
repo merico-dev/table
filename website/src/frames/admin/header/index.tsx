@@ -7,7 +7,7 @@ export function AdminHeader() {
     <MantineHeader height={60} px="md" py={0}>
       <Group position="apart" sx={{ height: 60 }}>
         <Group position="left">
-          <Logo />
+          <Logo height="30px" />
         </Group>
         <Group position="right">
           <AccountDropdown height={60} />
