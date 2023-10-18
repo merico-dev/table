@@ -24,7 +24,7 @@ function AdminPageLink({ to, name, icon, active }: IAdminPageLink) {
         display: 'block',
         width: '100%',
         padding: theme.spacing.xs,
-        borderRadius: theme.radius.sm,
+        borderRadius: 0,
         color: theme.black,
 
         '&:hover': {
