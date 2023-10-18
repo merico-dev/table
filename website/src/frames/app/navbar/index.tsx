@@ -1,7 +1,6 @@
-import { ActionIcon, Box, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
-import { IconLayoutSidebar } from '@tabler/icons-react';
+import { ActionIcon, Box, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
+import { IconLayoutSidebar, IconList, IconSettings } from '@tabler/icons-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { List, Settings } from 'tabler-icons-react';
 import { Logo } from '../../../components/logo';
 import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
@@ -25,11 +24,21 @@ export function Navbar({ collapse }: { collapse: () => void }) {
       <MantineNavbar.Section>
         <Group position="apart" py={5} px={10} h={40}>
           <Logo height="24px" />
-          <Tooltip label="Hide sidebar">
-            <ActionIcon size="xs" onClick={collapse}>
-              <IconLayoutSidebar />
-            </ActionIcon>
-          </Tooltip>
+          <Group position="right">
+            {isAdmin && (
+              <Tooltip label="System Settings">
+                <ActionIcon size="xs" onClick={gotoSettings}>
+                  <IconSettings size={20} />
+                </ActionIcon>
+              </Tooltip>
+            )}
+
+            <Tooltip label="Hide sidebar">
+              <ActionIcon size="xs" onClick={collapse}>
+                <IconLayoutSidebar />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
         </Group>
       </MantineNavbar.Section>
       <MantineNavbar.Section pt="xs">
@@ -42,7 +51,7 @@ export function Navbar({ collapse }: { collapse: () => void }) {
           )}
           {!canEdit && (
             <Group pl={12}>
-              <List size={16} />
+              <IconList size={16} />
               <Text sx={{ cursor: 'default' }}>Dashboards</Text>
             </Group>
           )}
@@ -54,16 +63,6 @@ export function Navbar({ collapse }: { collapse: () => void }) {
           <DashboardLinks />
         </Box>
       </MantineNavbar.Section>
-
-      {isAdmin && (
-        <MantineNavbar.Section pb="xs">
-          <Group grow pt="sm" px="xs" sx={{ borderTop: '1px solid #eee' }}>
-            <Button size="sm" onClick={gotoSettings} leftIcon={<Settings size={20} />}>
-              System Settings
-            </Button>
-          </Group>
-        </MantineNavbar.Section>
-      )}
     </MantineNavbar>
   );
 }
