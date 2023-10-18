@@ -1,14 +1,14 @@
 import { ActionIcon, Box, Button, Group, Navbar as MantineNavbar, Text, Tooltip } from '@mantine/core';
+import { IconLayoutSidebar } from '@tabler/icons-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { List, Settings } from 'tabler-icons-react';
+import { Logo } from '../../../components/logo';
 import { useAccountContext } from '../../require-auth/account-context';
 import { CreateDashboard } from './create-dashboard';
 import { DashboardLinks } from './dashboard-links';
 import { ImportDashboard } from './import-dashboard';
-import { Logo } from '../../../components/logo';
-import { IconLayoutSidebar } from '@tabler/icons-react';
 
-export function Navbar({ collapsed, collapse }: { collapsed: boolean; collapse: () => void }) {
+export function Navbar({ collapse }: { collapse: () => void }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const gotoSettings = () => {

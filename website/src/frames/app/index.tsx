@@ -15,8 +15,7 @@ export function App() {
       <AppShell
         className="website-app"
         padding="md"
-        // header={<Header />}
-        navbar={<Navbar collapsed={navbarCollapsed} collapse={setTrue} />}
+        navbar={<Navbar collapse={setTrue} />}
         styles={{
           main: {
             height: '100vh',
