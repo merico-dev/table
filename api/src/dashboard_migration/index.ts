@@ -1,13 +1,12 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
 import logger from 'npmlog';
 import _ from 'lodash';
-import { Repository } from 'typeorm';
 import DashboardContent from '../models/dashboard_content';
 import DashboardContentChangelog from '../models/dashboard_content_changelog';
 import { DashboardContentChangelogService } from '../services/dashboard_content_changelog.service';
 
 // NOTE: Keep versions in order
-const versions = [
+export const versions = [
   '2.0.0',
   '2.1.0',
   '4.5.0',
@@ -49,11 +48,7 @@ async function findHandler(currentVersion: string | undefined) {
   return import(`./handlers/${nextVersion}`);
 }
 
-async function migrateOneDashboardContent(
-  dashboardContent: DashboardContent,
-  dashboardContentChangelogRepo: Repository<DashboardContentChangelog>,
-  dashboardContentRepo: Repository<DashboardContent>,
-) {
+export async function migrateOneDashboardContent(dashboardContent: DashboardContent): Promise<boolean> {
   try {
     const version = dashboardContent.content.version as string;
     if (version && !versions.includes(version)) {
@@ -63,8 +58,34 @@ async function migrateOneDashboardContent(
     }
     let handler = await findHandler(version);
     while (handler) {
-      const originalDashboardContent = _.cloneDeep(dashboardContent);
       dashboardContent.content = handler.main(dashboardContent.content);
+      handler = await findHandler(dashboardContent.content.version as string);
+    }
+  } catch (error) {
+    /**
+     * NOTE(LETO): happens when dashboard's content is not migratable
+     * Skip to provide a chance to fix it
+     */
+    logger.error(`error migrating dashboard content. ID: ${dashboardContent.id}  name: ${dashboardContent.name}`);
+    logger.error(error.message);
+    return false;
+  }
+  return true;
+}
+
+export async function migrateDashboardContents() {
+  logger.info('STARTING MIGRATION OF DASHBOARD CONTENTS');
+  try {
+    if (!dashboardDataSource.isInitialized) {
+      await dashboardDataSource.initialize();
+    }
+    const dashboardContentChangelogRepo = dashboardDataSource.getRepository(DashboardContentChangelog);
+    const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
+    const dashboardContents = await dashboardContentRepo.find();
+
+    for (const dashboardContent of dashboardContents) {
+      const originalDashboardContent = _.cloneDeep(dashboardContent);
+      await migrateOneDashboardContent(dashboardContent);
       const updatedDashboardContent = await dashboardContentRepo.save(dashboardContent);
       const diff = await DashboardContentChangelogService.createChangelog(
         originalDashboardContent,
@@ -77,30 +98,6 @@ async function migrateOneDashboardContent(
         await dashboardContentChangelogRepo.save(changelog);
       }
       logger.info(`MIGRATED ${dashboardContent.id} TO VERSION ${dashboardContent.content.version}`);
-      handler = await findHandler(dashboardContent.content.version as string);
-    }
-  } catch (error) {
-    /**
-     * NOTE(LETO): happens when dashboard's content is not migratable
-     * Skip to provide a chance to fix it
-     */
-    logger.error(`error migrating dashboard content. ID: ${dashboardContent.id}  name: ${dashboardContent.name}`);
-    logger.error(error.message);
-  }
-}
-
-async function main() {
-  logger.info('STARTING MIGRATION OF DASHBOARD CONTENTS');
-  try {
-    if (!dashboardDataSource.isInitialized) {
-      await dashboardDataSource.initialize();
-    }
-    const dashboardContentChangelogRepo = dashboardDataSource.getRepository(DashboardContentChangelog);
-    const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
-    const dashboardContents = await dashboardContentRepo.find();
-
-    for (const dashboardContent of dashboardContents) {
-      migrateOneDashboardContent(dashboardContent, dashboardContentChangelogRepo, dashboardContentRepo);
     }
   } catch (error) {
     logger.error('error migrating dashboard contents');
@@ -109,5 +106,3 @@ async function main() {
   }
   logger.info('MIGRATION OF DASHBOARD CONTENTS FINISHED');
 }
-
-main();

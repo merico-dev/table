@@ -12,6 +12,7 @@ import { dashboardDataSource } from '~/data_sources/dashboard';
 import { DEFAULT_LANGUAGE } from '~/utils/constants';
 import { omitFields } from '~/utils/helpers';
 import { AccountService } from '~/services/account.service';
+import { versions } from '~/dashboard_migration';
 
 describe('DashboardContentService', () => {
   connectionHook();
@@ -61,6 +62,10 @@ describe('DashboardContentService', () => {
     tempPresetDashboardContent = new DashboardContent();
     tempPresetDashboardContent.dashboard_id = tempPresetDashboard.id;
     tempPresetDashboardContent.name = 'tempPresetDashboardContent';
+    tempPresetDashboardContent.content = {
+      definition: { queries: [], sqlSnippets: [] },
+      version: versions[versions.length - 1],
+    };
     tempPresetDashboardContent = await dashboardDataSource.manager.save(tempPresetDashboardContent);
   });
   describe('create', () => {
@@ -68,19 +73,19 @@ describe('DashboardContentService', () => {
       dashboardContent1 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent1',
-        { version: '', definition: { queries: [], sqlSnippets: [] } },
+        { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
       dashboardContent2 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent2',
-        { version: '', definition: { queries: [], sqlSnippets: [] } },
+        { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
       dashboardContent3 = await dashboardContentService.create(
         tempDashboard.id,
         'dashboardContent3',
-        { version: '', definition: { queries: [], sqlSnippets: [] } },
+        { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
         DEFAULT_LANGUAGE,
       );
     });
@@ -89,7 +94,7 @@ describe('DashboardContentService', () => {
         dashboardContentService.create(
           tempDashboard.id,
           'dashboardContent1',
-          { version: '', definition: { queries: [], sqlSnippets: [] } },
+          { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
           DEFAULT_LANGUAGE,
         ),
       ).rejects.toThrowError(
@@ -117,19 +122,19 @@ describe('DashboardContentService', () => {
             id: dashboardContent1.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent1',
-            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
+            content: { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: dashboardContent2.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent2',
-            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
+            content: { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
           },
           {
             id: dashboardContent3.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
-            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
+            content: { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });
@@ -150,7 +155,7 @@ describe('DashboardContentService', () => {
             id: dashboardContent3.id,
             dashboard_id: tempDashboard.id,
             name: 'dashboardContent3',
-            content: { version: '', definition: { queries: [], sqlSnippets: [] } },
+            content: { version: versions[versions.length - 1], definition: { queries: [], sqlSnippets: [] } },
           },
         ],
       });

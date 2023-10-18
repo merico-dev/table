@@ -24,6 +24,7 @@ import { PermissionResource } from '../api_models/dashboard_permission';
 import { injectable } from 'inversify';
 import DataSource from '../models/datasource';
 import { Any } from 'typeorm';
+import { migrateOneDashboardContent } from '../dashboard_migration';
 
 @injectable()
 export class DashboardContentService {
@@ -129,6 +130,9 @@ export class DashboardContentService {
     dashboardContent.dashboard_id = dashboard_id;
     dashboardContent.name = name;
     dashboardContent.content = content;
+    if (!(await migrateOneDashboardContent(dashboardContent))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_MIGRATION_FAILED', locale) });
+    }
     return dashboardContentRepo.save(dashboardContent);
   }
 
@@ -185,6 +189,9 @@ export class DashboardContentService {
     const originalDashboardContent = _.cloneDeep(dashboardContent);
     dashboardContent.name = name === undefined ? dashboardContent.name : name;
     dashboardContent.content = content === undefined ? dashboardContent.content : content;
+    if (!(await migrateOneDashboardContent(dashboardContent))) {
+      throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_MIGRATION_FAILED', locale) });
+    }
     await dashboardContentRepo.save(dashboardContent);
     const result = await dashboardContentRepo.findOneByOrFail({ id });
     const diff = await DashboardContentChangelogService.createChangelog(originalDashboardContent, _.cloneDeep(result));
