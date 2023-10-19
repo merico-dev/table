@@ -8,12 +8,17 @@ export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) 
       nameGap: 20,
       minInterval: 1,
       nameTextStyle: {
-        fontWeight: 'bold',
         align: conf.bar.nameAlignment,
       },
       position: 'left',
       axisLine: {
-        show: true,
+        show: false,
+        lineStyle: {
+          width: 3,
+        },
+      },
+      axisTick: {
+        show: false,
       },
       axisLabel: {
         show: true,
@@ -21,25 +26,36 @@ export function getYAxes(conf: IParetoChartConf, formatters: TParetoFormatters) 
       },
       splitLine: {
         show: false,
+        lineStyle: {
+          type: 'dashed',
+        },
       },
     },
     {
       name: conf.line.name,
       nameGap: 20,
       nameTextStyle: {
-        fontWeight: 'bold',
         align: conf.line.nameAlignment,
       },
       position: 'right',
       axisLine: {
-        show: true,
+        show: false,
+        lineStyle: {
+          width: 3,
+        },
+      },
+      axisTick: {
+        show: false,
       },
       axisLabel: {
         show: true,
         formatter: formatters.lineValue,
       },
       splitLine: {
-        show: false,
+        show: true,
+        lineStyle: {
+          type: 'dashed',
+        },
       },
     },
   ];

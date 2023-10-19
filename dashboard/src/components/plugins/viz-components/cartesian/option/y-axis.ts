@@ -70,17 +70,25 @@ export function getYAxes(
         show,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
+      axisTick: {
+        show: false,
+      },
       axisLine: {
-        show,
+        show: false,
+        lineStyle: {
+          width: 3,
+        },
       },
       nameTextStyle: {
-        fontWeight: 'bold',
         align: nameAlignment,
       },
       nameLocation: 'end',
       nameGap: show ? 15 : 0,
       splitLine: {
-        show: false,
+        show,
+        lineStyle: {
+          type: 'dashed',
+        },
       },
     };
   });

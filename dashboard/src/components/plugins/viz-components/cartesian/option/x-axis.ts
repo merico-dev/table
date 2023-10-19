@@ -15,6 +15,15 @@ export function getXAxes(conf: ICartesianChartConf, xAxisData: $TSFixMe[]) {
       axisTick: {
         show: true,
         alignWithLabel: true,
+        lineStyle: {
+          width: 2,
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          width: 3,
+        },
       },
       type: conf.x_axis.type,
       axisLabel: {

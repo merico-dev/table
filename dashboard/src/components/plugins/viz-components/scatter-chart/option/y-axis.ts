@@ -17,11 +17,20 @@ export function getYAxes(conf: IScatterChartConf, labelFormatters: Record<string
         show: true,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
+      axisTick: {
+        show: true,
+        alignWithLabel: true,
+        lineStyle: {
+          width: 2,
+        },
+      },
       axisLine: {
         show: true,
+        lineStyle: {
+          width: 3,
+        },
       },
       nameTextStyle: {
-        fontWeight: 'bold',
         align: nameAlignment,
       },
       nameLocation: 'end',

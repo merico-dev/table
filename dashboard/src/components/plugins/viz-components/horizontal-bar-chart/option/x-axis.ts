@@ -18,16 +18,19 @@ export function getXAxes(conf: IHorizontalBarChartConf, labelFormatters: Record<
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
       axisLine: {
-        show: true,
+        show: false,
+        lineStyle: {
+          width: 3,
+        },
       },
       axisTick: {
         show: false,
       },
       splitLine: {
         show: true,
-      },
-      nameTextStyle: {
-        fontWeight: 'bold',
+        lineStyle: {
+          type: 'dashed',
+        },
       },
       nameLocation: 'center',
       nameGap: 15,

@@ -14,6 +14,15 @@ export function getXAxes(conf: IScatterChartConf, xAxisData: $TSFixMe[]) {
       axisTick: {
         show: true,
         alignWithLabel: true,
+        lineStyle: {
+          width: 2,
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          width: 3,
+        },
       },
       type: allNumbers ? 'value' : 'category',
       axisLabel: {
