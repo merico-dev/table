@@ -69,7 +69,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   tooltip: {
     metrics: [],
   },
-  color: '#228be6',
+  color: 'rgba(99, 152, 199, 0.10)',
   reference_lines: [],
   legend: {
     show: true,
