@@ -10,6 +10,7 @@ import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getReferenceLines } from './reference-line';
 import { getGrid } from './grid';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 interface IGetOption {
   config: IBoxplotChartConf;
@@ -28,7 +29,7 @@ export function getOption({ config, data, variables }: IGetOption) {
     legend: getLegend({ config }),
     tooltip: getTooltip({ config }),
     xAxis: [
-      {
+      defaultEchartsOptions.getXAxis({
         type: 'category',
         name: x_axis.name,
         nameGap: 25,
@@ -36,28 +37,12 @@ export function getOption({ config, data, variables }: IGetOption) {
         nameTextStyle: {
           align: 'center',
         },
-        splitLine: {
-          show: false,
-        },
-        axisTick: {
-          show: true,
-          alignWithLabel: true,
-          lineStyle: {
-            width: 2,
-          },
-        },
-        axisLine: {
-          show: true,
-          lineStyle: {
-            width: 3,
-          },
-        },
         axisLabel: {
           ...x_axis.axisLabel,
           ...overflowOption,
           formatter: getEchartsXAxisLabel(x_axis.axisLabel.formatter),
         },
-      },
+      }),
     ],
     yAxis: [
       {
