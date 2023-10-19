@@ -1,3 +1,4 @@
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IHorizontalBarChartConf } from '../type';
 
 export function getXAxes(conf: IHorizontalBarChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
@@ -6,7 +7,7 @@ export function getXAxes(conf: IHorizontalBarChartConf, labelFormatters: Record<
     if (!position) {
       position = index > 0 ? 'bottom' : 'top';
     }
-    return {
+    return defaultEchartsOptions.getYAxis({
       ...rest,
       type: 'value',
       min: min ? min : undefined,
@@ -17,23 +18,8 @@ export function getXAxes(conf: IHorizontalBarChartConf, labelFormatters: Record<
         margin: 2,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
-      axisLine: {
-        show: false,
-        lineStyle: {
-          width: 3,
-        },
-      },
-      axisTick: {
-        show: false,
-      },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          type: 'dashed',
-        },
-      },
       nameLocation: 'center',
       nameGap: 15,
-    };
+    });
   });
 }
