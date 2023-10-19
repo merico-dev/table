@@ -34,12 +34,23 @@ export function getOption({ config, data, variables }: IGetOption) {
         nameGap: 25,
         nameLocation: 'center',
         nameTextStyle: {
-          fontWeight: 'bold',
           align: 'center',
+        },
+        splitLine: {
+          show: false,
         },
         axisTick: {
           show: true,
           alignWithLabel: true,
+          lineStyle: {
+            width: 2,
+          },
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            width: 3,
+          },
         },
         axisLabel: {
           ...x_axis.axisLabel,
@@ -52,15 +63,24 @@ export function getOption({ config, data, variables }: IGetOption) {
       {
         name: y_axis.name,
         minInterval: 1,
-        nameTextStyle: {
-          fontWeight: 'bold',
-        },
         axisLine: {
-          show: true,
+          show: false,
+          lineStyle: {
+            width: 3,
+          },
+        },
+        axisTick: {
+          show: false,
         },
         axisLabel: {
           formatter: function (value: number) {
             return numbro(value).format(y_axis.label_formatter);
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'dashed',
           },
         },
       },

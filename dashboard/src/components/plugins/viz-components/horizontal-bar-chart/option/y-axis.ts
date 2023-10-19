@@ -14,12 +14,20 @@ export function getYAxes(conf: IHorizontalBarChartConf, yAxisData: $TSFixMe[]) {
       nameLocation: 'end',
       nameTextStyle: {
         align: 'center',
-        fontWeight: 'bold',
       },
       id: 'main-y-axis',
       axisTick: {
         show: true,
         alignWithLabel: true,
+        lineStyle: {
+          width: 2,
+        },
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          width: 3,
+        },
       },
       type: allNumbers ? 'value' : 'category',
       axisLabel: {
