@@ -1,4 +1,4 @@
-import { Group, Menu, Text, UnstyledButton } from '@mantine/core';
+import { Group, Menu, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +10,11 @@ import { UpdateProfileModal } from './update-profile';
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   username: string;
   email: string;
+  height: number;
 }
 
 const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-  ({ username, email, ...rest }: UserButtonProps, ref) => (
+  ({ username, email, height, ...rest }: UserButtonProps, ref) => (
     <UnstyledButton
       ref={ref}
       px="md"
@@ -21,7 +22,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       sx={(theme) => ({
         display: 'block',
         width: '100%',
-        height: '60px',
+        height,
         color: theme.black,
 
         '&:hover': {
@@ -31,15 +32,16 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...rest}
     >
       <Group>
-        <div style={{ flex: 1 }}>
+        <Stack spacing={0} style={{ flex: 1 }}>
           <Text size="sm" weight={500}>
             {username}
           </Text>
-
-          <Text color="dimmed" size="xs">
-            {email}
-          </Text>
-        </div>
+          {email && (
+            <Text mt={-4} color="dimmed" size={11}>
+              {email}
+            </Text>
+          )}
+        </Stack>
 
         <ChevronRight size={16} />
       </Group>
@@ -47,7 +49,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
   ),
 );
 
-export function AccountDropdown() {
+export function AccountDropdown({ height }: { height: number }) {
   const { account } = useAccountContext();
   const navigate = useNavigate();
   const logout = () => {
@@ -62,7 +64,7 @@ export function AccountDropdown() {
     <Group position="center">
       <Menu withinPortal>
         <Menu.Target>
-          <UserButton username={account.name} email={account.email} />
+          <UserButton username={account.name} email={account.email} height={height} />
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>Account Settings</Menu.Label>

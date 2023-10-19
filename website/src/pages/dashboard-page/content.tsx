@@ -52,9 +52,6 @@ export const DashboardPageContent = observer(() => {
   if (!store.currentDetail?.content.fullData) {
     return (
       <div className="dashboard-page-content">
-        <Helmet>
-          <title>{store.currentDetail.name}</title>
-        </Helmet>
         <DashboardIsEmpty />
       </div>
     );
@@ -62,9 +59,6 @@ export const DashboardPageContent = observer(() => {
 
   return (
     <div className="dashboard-page-content">
-      <Helmet>
-        <title>{store.currentDetail.name}</title>
-      </Helmet>
       <ErrorBoundary>
         <ReadOnlyDashboard
           context={context}
