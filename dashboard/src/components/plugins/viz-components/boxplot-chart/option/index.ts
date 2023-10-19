@@ -45,30 +45,15 @@ export function getOption({ config, data, variables }: IGetOption) {
       }),
     ],
     yAxis: [
-      {
+      defaultEchartsOptions.getYAxis({
         name: y_axis.name,
         minInterval: 1,
-        axisLine: {
-          show: false,
-          lineStyle: {
-            width: 3,
-          },
-        },
-        axisTick: {
-          show: false,
-        },
         axisLabel: {
           formatter: function (value: number) {
             return numbro(value).format(y_axis.label_formatter);
           },
         },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            type: 'dashed',
-          },
-        },
-      },
+      }),
     ],
     series: [...series, ...getReferenceLines(reference_lines, variables, data)],
   };

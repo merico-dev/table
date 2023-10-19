@@ -21,5 +21,5 @@ export const xAxis = {
 };
 
 export function getXAxis(option: AnyObject) {
-  return _.defaultsDeep({}, xAxis, option);
+  return _.defaultsDeep({}, option, xAxis);
 }

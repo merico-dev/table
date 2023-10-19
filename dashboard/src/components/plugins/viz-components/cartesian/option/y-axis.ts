@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { ICartesianChartConf, IYAxisConf } from '../type';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 type SeriesDataOut = number[];
 type SeriesDataIn = [string | number, number][] | SeriesDataOut;
@@ -59,7 +60,7 @@ export function getYAxes(
     if (!position) {
       position = index > 0 ? 'right' : 'left';
     }
-    return {
+    return defaultEchartsOptions.getYAxis({
       ...rest,
       minInterval: intervals[index] ?? 0,
       show,
@@ -70,26 +71,14 @@ export function getYAxes(
         show,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
-      axisTick: {
-        show: false,
-      },
-      axisLine: {
-        show: false,
-        lineStyle: {
-          width: 3,
-        },
-      },
       nameTextStyle: {
         align: nameAlignment,
       },
       nameLocation: 'end',
       nameGap: show ? 15 : 0,
       splitLine: {
-        show,
-        lineStyle: {
-          type: 'dashed',
-        },
+        show: index === 0,
       },
-    };
+    });
   });
 }
