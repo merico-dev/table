@@ -2,19 +2,16 @@ import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echart
 import { IRegressionChartConf } from '../type';
 import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import numbro from 'numbro';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 export function getXAxis(conf: IRegressionChartConf) {
   const { overflow, format, formatter, ...axisLabel } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
-  return {
+  return defaultEchartsOptions.getXAxis({
     type: 'value',
     name: conf.x_axis.name ?? '',
     nameLocation: 'middle',
     nameGap: 25,
-    axisTick: {
-      show: true,
-      alignWithLabel: true,
-    },
     axisLabel: {
       ...axisLabel,
       ...overflowOption,
@@ -26,5 +23,5 @@ export function getXAxis(conf: IRegressionChartConf) {
         return getEchartsXAxisLabel(formatter)(v, index);
       },
     },
-  };
+  });
 }
