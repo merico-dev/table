@@ -30,7 +30,7 @@ export function AdminFrame() {
       }}
     >
       <MantineProvider>
-        <Group position="apart" px={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
+        <Group position="apart" pl={10} sx={{ height: '40px', borderBottom: '0.0625rem solid #e9ecef' }}>
           <Group position="left">
             {/* should place breadcrumbs here */}
             <AdminBreadcrumbs />

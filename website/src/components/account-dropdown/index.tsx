@@ -1,4 +1,4 @@
-import { Group, Menu, Text, UnstyledButton } from '@mantine/core';
+import { Group, Menu, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -32,15 +32,16 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...rest}
     >
       <Group>
-        <div style={{ flex: 1 }}>
+        <Stack spacing={0} style={{ flex: 1 }}>
           <Text size="sm" weight={500}>
             {username}
           </Text>
-
-          <Text color="dimmed" size="xs">
-            {email}
-          </Text>
-        </div>
+          {email && (
+            <Text mt={-4} color="dimmed" size={11}>
+              {email}
+            </Text>
+          )}
+        </Stack>
 
         <ChevronRight size={16} />
       </Group>
