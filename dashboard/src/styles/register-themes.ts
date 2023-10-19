@@ -72,6 +72,18 @@ function registerEchartsThemes() {
     visualMap: {
       color: Object.values(ChartTheme.graphics.depth).reverse(),
     },
+    axes: [
+      {
+        type: 'all',
+        name: '通用坐标轴',
+        axisLineColor: '#97999D',
+        axisTickColor: '#97999D',
+        axisLabelShow: true,
+        axisLabelColor: '#818388',
+        splitLineShow: true,
+        splitLineColor: ['#E0E6F1'],
+      },
+    ],
   });
 }
 
