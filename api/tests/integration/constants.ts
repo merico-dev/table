@@ -7,6 +7,7 @@ import { parseDBUrl } from '../utils';
 import DashboardContent from '~/models/dashboard_content';
 import CustomFunction from '~/models/custom_function';
 import SqlSnippet from '~/models/sql_snippet';
+import { versions } from '~/dashboard_migration';
 
 export const accounts: Account[] = [
   {
@@ -172,7 +173,7 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '63c52cf7-0783-40fb-803a-68abc6564de0',
     name: 'dashboard1',
     content: {
-      version: '',
+      version: versions[versions.length - 1],
       definition: {
         queries: [
           {
@@ -231,7 +232,7 @@ export const dashboardContents: DashboardContent[] = [
     dashboard_id: '173b84d2-7ed9-4d1a-a386-e68a6cce192b',
     name: 'dashboard2',
     content: {
-      version: '',
+      version: versions[versions.length - 1],
       definition: {
         queries: [
           {
