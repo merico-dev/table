@@ -24,7 +24,9 @@ export function getReferenceLines(
         },
       ],
       silent: true,
-      symbol: ['none', 'none'],
+      symbol: ['none', 'triangle'],
+      symbolRotate: 90,
+      symbolSize: [10, 8],
       label: {
         formatter: function () {
           return templateToString(r.template, variables, data);
