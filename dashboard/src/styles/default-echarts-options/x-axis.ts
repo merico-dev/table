@@ -18,6 +18,7 @@ export const xAxis = {
   splitLine: {
     show: false,
   },
+  z: 3,
 };
 
 export function getXAxis(option: AnyObject) {
