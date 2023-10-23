@@ -51,6 +51,10 @@ export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: 
       symbolSize: 2,
       lineStyle: {
         width: 1,
+        shadowColor: 'rgba(255,255,255,1)',
+        shadowBlur: 0,
+        shadowOffsetX: 0,
+        shadowOffsetY: 1,
       },
       label: {
         show: false,
