@@ -45,6 +45,14 @@ export function getSeriesItemOrItems(
     },
     ...rest,
   };
+  if (rest.type === 'line') {
+    seriesItem.lineStyle = {
+      shadowColor: 'rgba(255,255,255,1)',
+      shadowBlur: 0,
+      shadowOffsetX: 0,
+      shadowOffsetY: 3,
+    };
+  }
   if (display_name_on_line) {
     seriesItem.endLabel = {
       show: true,
