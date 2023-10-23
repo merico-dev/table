@@ -98,6 +98,14 @@ export class DashboardFilterObject {
     required: false,
   })
   is_removed?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiModelProperty({
+    description: 'filter based on is_preset',
+    required: false,
+  })
+  is_preset?: boolean;
 }
 
 @ApiModel({

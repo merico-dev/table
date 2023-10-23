@@ -46,6 +46,7 @@ export class DashboardService {
         { property: 'name', type: 'FilterObject' },
         { property: 'group', type: 'FilterObject' },
         { property: 'is_removed', type: 'Primitive' },
+        { property: 'is_preset', type: 'Primitive' },
       ],
       'dashboard',
       filter,
