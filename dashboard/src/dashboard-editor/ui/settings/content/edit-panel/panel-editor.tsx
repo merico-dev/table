@@ -8,7 +8,7 @@ import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
 import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
-import { VariableConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-config-panel';
+import { VariablesEditor } from './variable-config';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils/error-boundary';
@@ -135,7 +135,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Tabs.Panel>
 
         <Tabs.Panel value="Variables">
-          <VariableConfig />
+          <VariablesEditor />
         </Tabs.Panel>
 
         <Tabs.Panel value="Visualization">
