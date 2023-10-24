@@ -2,12 +2,16 @@ import { aggregateValue } from '../../aggregation';
 import { ITemplateVariable } from '../types';
 import { formatAggregatedValue } from '../utils';
 
-function variablesToStrings(variables: ITemplateVariable[], data: TPanelData) {
+export function variableToString(variable: ITemplateVariable, data: TPanelData) {
+  const { data_field, aggregation } = variable;
+  const value = aggregateValue(data, data_field, aggregation);
+  return formatAggregatedValue(variable, value);
+}
+
+export function variablesToStrings(variables: ITemplateVariable[], data: TPanelData) {
   const ret: Record<string, React.ReactNode> = {};
   variables.forEach((variable) => {
-    const { name, data_field, aggregation } = variable;
-    const value = aggregateValue(data, data_field, aggregation);
-    ret[name] = formatAggregatedValue(variable, value);
+    ret[variable.name] = variableToString(variable, data);
   });
   return ret;
 }

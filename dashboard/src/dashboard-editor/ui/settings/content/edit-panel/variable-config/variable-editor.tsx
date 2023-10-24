@@ -7,9 +7,8 @@ import { getSnapshot } from 'mobx-state-tree';
 import { useEditPanelContext } from '~/contexts';
 import { VariableConfigUIModel } from './model';
 
-import { TemplateVariableField } from './variable-field';
 import { VariableMetaInstance, createDraft } from '~/model';
-import { VariablePreview } from './variable-preview';
+import { TemplateVariableField } from './variable-field';
 
 // todo: support validation
 
@@ -18,7 +17,6 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
   const { data } = useEditPanelContext();
   return (
     <Stack data-testid="variable-editor" align="stretch">
-      {/* <VariablePreview variable={getSnapshot(draft.copy)} data={data} /> */}
       <Group position="apart">
         <Button
           size="xs"
@@ -52,6 +50,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
           </Button>
         </Group>
       </Group>
+
       <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
     </Stack>
   );

@@ -1,4 +1,4 @@
-import { Box, Button, Group, LoadingOverlay, Tabs, Text, Tooltip } from '@mantine/core';
+import { Box, Button, Group, LoadingOverlay, Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -8,7 +8,7 @@ import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
 import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
-import { VariablesEditor } from './variable-config';
+import { PreviewVariables, VariablesEditor } from './variable-config';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils/error-boundary';
@@ -42,7 +42,12 @@ const WithPreview = ({ children }: { children: ReactNode }) => {
       >
         {children}
       </Box>
-      <PreviewPanel />
+      <Stack justify="flex-start" sx={{ alignSelf: 'flex-start', width: '600px', flexGrow: 0, flexShrink: 0 }}>
+        <PreviewPanel />
+        <Box sx={{ flexGrow: 1 }}>
+          <PreviewVariables />
+        </Box>
+      </Stack>
     </Group>
   );
 };
