@@ -65,7 +65,7 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
   };
   return (
     <Group grow noWrap pt={pt}>
-      <Select ref={ref} label={label} data={options} value={value.type} onChange={changeType} />
+      <Select ref={ref} label={label} data={options} value={value.type} onChange={changeType} maxDropdownHeight={600} />
       {value.type === 'quantile' && (
         <NumberInput
           label="p"

@@ -15,43 +15,33 @@ import { TemplateVariableField } from './variable-field';
 export const VariableEditor = observer((props: { variable: VariableMetaInstance; uiModel: VariableConfigUIModel }) => {
   const draft = useCreation(() => createDraft(props.variable), [props.variable]);
   const { data } = useEditPanelContext();
+  const remove = () => props.uiModel.remove(props.variable);
   return (
     <Stack data-testid="variable-editor" align="stretch">
       <Group position="apart">
         <Button
+          variant="subtle"
           size="xs"
-          variant="light"
+          disabled={!draft.changed}
           color="red"
-          leftIcon={<IconTrash size={16} />}
-          onClick={() => props.uiModel.remove(props.variable)}
+          onClick={draft.reset}
+          leftIcon={<IconRecycle size={18} />}
         >
-          Delete this variable
+          Revert Changes
         </Button>
-        <Group position="right">
-          <Button
-            variant="subtle"
-            size="xs"
-            disabled={!draft.changed}
-            color="red"
-            onClick={draft.reset}
-            leftIcon={<IconRecycle size={18} />}
-          >
-            Revert Changes
-          </Button>
-          <Button
-            variant="filled"
-            size="xs"
-            disabled={!draft.changed}
-            color="green"
-            onClick={draft.commit}
-            leftIcon={<IconDeviceFloppy size={18} />}
-          >
-            Save Changes
-          </Button>
-        </Group>
+        <Button
+          variant="filled"
+          size="xs"
+          disabled={!draft.changed}
+          color="green"
+          onClick={draft.commit}
+          leftIcon={<IconDeviceFloppy size={18} />}
+        >
+          Save Changes
+        </Button>
       </Group>
 
-      <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
+      <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} remove={remove} />
     </Stack>
   );
 });
