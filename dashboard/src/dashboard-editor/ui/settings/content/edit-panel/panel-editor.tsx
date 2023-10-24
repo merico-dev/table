@@ -18,10 +18,12 @@ const TabsStyles = {
   root: {
     flexGrow: 1,
     width: '100%',
+    minWidth: '1200px',
     overflow: 'hidden',
   },
   panel: {
     width: '100%',
+    minWidth: '1200px',
     height: 'calc(100% - 44px)',
     padding: 10,
     overflow: 'auto',
