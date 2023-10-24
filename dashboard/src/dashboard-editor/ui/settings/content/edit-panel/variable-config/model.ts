@@ -32,6 +32,9 @@ export class VariableConfigUIModel {
 
   constructor(panel: PanelModelInstance) {
     this.panel = panel;
+    if (panel.variables.length > 0) {
+      this.selected = panel.variables[0];
+    }
     makeAutoObservable(this, {}, { deep: false, autoBind: true });
   }
 
