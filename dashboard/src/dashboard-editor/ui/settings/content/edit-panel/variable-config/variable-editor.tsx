@@ -1,5 +1,5 @@
 import { Button, Group, Stack } from '@mantine/core';
-import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconRecycle, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 
 import { useCreation } from 'ahooks';
@@ -22,23 +22,35 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
       <Group position="apart">
         <Button
           size="xs"
-          variant="subtle"
+          variant="light"
           color="red"
           leftIcon={<IconTrash size={16} />}
           onClick={() => props.uiModel.remove(props.variable)}
         >
           Delete this variable
         </Button>
-        <Button
-          variant="filled"
-          size="xs"
-          disabled={!draft.changed}
-          color="green"
-          onClick={draft.commit}
-          leftIcon={<IconDeviceFloppy size={18} />}
-        >
-          Save Changes
-        </Button>
+        <Group position="right">
+          <Button
+            variant="subtle"
+            size="xs"
+            disabled={!draft.changed}
+            color="red"
+            onClick={draft.reset}
+            leftIcon={<IconRecycle size={18} />}
+          >
+            Revert Changes
+          </Button>
+          <Button
+            variant="filled"
+            size="xs"
+            disabled={!draft.changed}
+            color="green"
+            onClick={draft.commit}
+            leftIcon={<IconDeviceFloppy size={18} />}
+          >
+            Save Changes
+          </Button>
+        </Group>
       </Group>
       <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
     </Stack>

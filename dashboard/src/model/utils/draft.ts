@@ -20,6 +20,10 @@ export class DraftModel<T extends IAnyStateTreeNode> {
     applySnapshot(this.origin, getSnapshot(this.copy));
   }
 
+  reset() {
+    applySnapshot(this.copy, getSnapshot(this.origin));
+  }
+
   update(patch: SnapshotIn<T>) {
     applySnapshot(this.copy, patch);
   }
