@@ -64,6 +64,9 @@ export const ContentRenderModel = types
         },
       };
     },
+    get contentJSON(): DashboardContentDBType['content'] {
+      return this.json.content;
+    },
     get payloadForSQL(): TPayloadForSQL {
       // @ts-expect-error type of getParent
       const context = getParent(self).context.current;
