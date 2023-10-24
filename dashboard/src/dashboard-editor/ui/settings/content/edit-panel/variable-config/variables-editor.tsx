@@ -1,4 +1,4 @@
-import { Button, Divider, Group, Select, Stack } from '@mantine/core';
+import { Button, Divider, Group, Overlay, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 
 import { VariableConfigUIModel, useConfigUIModel } from './model';
@@ -28,9 +28,27 @@ export const VariableList = observer((props: IVariableListProps) => {
   );
 });
 
+const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel }) => {
+  return (
+    <Overlay color="#fff" opacity={1} sx={{ position: 'absolute' }}>
+      <Button
+        variant="light"
+        size="xs"
+        leftIcon={<IconPlus size={16} />}
+        onClick={model.addNew}
+        sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
+      >
+        Add a Variable
+      </Button>
+    </Overlay>
+  );
+});
+
 export const VariablesEditor = observer(() => {
   const model = useConfigUIModel();
-
+  if (model.variableOptions.length === 0) {
+    return <AddAVariableGuide model={model} />;
+  }
   return (
     <Stack>
       <Group position="left">
@@ -49,7 +67,7 @@ export const VariablesEditor = observer(() => {
           onClick={model.addNew}
           sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
         >
-          Add Variable
+          Add a Variable
         </Button>
       </Group>
       <Divider variant="dashed" />

@@ -32,7 +32,7 @@ const TabsStyles = {
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%' }}>
+    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
