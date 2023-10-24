@@ -39,6 +39,14 @@ export class VariableConfigUIModel {
     return this.panel.variables;
   }
 
+  get variableOptions() {
+    return this.panel.variables.map((v) => ({
+      label: v.name,
+      value: v.name,
+      description: v.aggregation.type,
+    }));
+  }
+
   addNew() {
     const newVarCount = this.panel.variables.filter((it) => it.name.startsWith(NEW_VAR.name)).length;
     this.panel.addVariable(cloneDeep({ ...NEW_VAR, name: `${NEW_VAR.name}${newVarCount || ''}` }));
@@ -47,6 +55,21 @@ export class VariableConfigUIModel {
 
   select(variable: VariableMetaInstance) {
     this.selected = variable;
+  }
+
+  selectByName(name: string | null) {
+    if (!name) {
+      console.warn('Unexpected null name when calling selectByName');
+      return;
+    }
+
+    const v = this.variables.find((v) => v.name === name);
+    if (!v) {
+      console.error(`Variable by name[${name}] not found`);
+      return;
+    }
+
+    this.selected = v;
   }
 
   remove(variable: VariableMetaInstance) {

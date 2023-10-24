@@ -24,7 +24,7 @@ const TabsStyles = {
     width: '100%',
     height: 'calc(100% - 44px)',
     padding: 10,
-    overflow: 'scroll',
+    overflow: 'auto',
   },
 } as const;
 
@@ -135,7 +135,9 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Tabs.Panel>
 
         <Tabs.Panel value="Variables">
-          <VariablesEditor />
+          <WithPreview>
+            <VariablesEditor />
+          </WithPreview>
         </Tabs.Panel>
 
         <Tabs.Panel value="Visualization">

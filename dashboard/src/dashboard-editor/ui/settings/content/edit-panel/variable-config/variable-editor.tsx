@@ -1,13 +1,13 @@
-import { ActionIcon, Group, Stack } from '@mantine/core';
+import { Button, Group, Stack } from '@mantine/core';
 import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 
 import { useCreation } from 'ahooks';
 import { getSnapshot } from 'mobx-state-tree';
 import { useEditPanelContext } from '~/contexts';
-import { VariableConfigUIModel } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/model';
-import { useStyles } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/styles';
-import { TemplateVariableField } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-field';
+import { VariableConfigUIModel } from './model';
+
+import { TemplateVariableField } from './variable-field';
 import { VariableMetaInstance, createDraft } from '~/model';
 import { VariablePreview } from './variable-preview';
 
@@ -15,22 +15,32 @@ import { VariablePreview } from './variable-preview';
 
 export const VariableEditor = observer((props: { variable: VariableMetaInstance; uiModel: VariableConfigUIModel }) => {
   const draft = useCreation(() => createDraft(props.variable), [props.variable]);
-  const { classes } = useStyles();
   const { data } = useEditPanelContext();
   return (
-    <Group style={{ height: '100%' }} align="start">
-      <Stack data-testid="variable-editor" align="stretch" className={classes.config}>
-        <Group position="right">
-          <ActionIcon variant="filled" disabled={!draft.changed} color="primary" onClick={draft.commit}>
-            <IconDeviceFloppy size={18} />
-          </ActionIcon>
-          <ActionIcon color="red" onClick={() => props.uiModel.remove(props.variable)}>
-            <IconTrash size={18} />
-          </ActionIcon>
-        </Group>
-        <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
-      </Stack>
-      <VariablePreview variable={getSnapshot(draft.copy)} data={data} />
-    </Group>
+    <Stack data-testid="variable-editor" align="stretch">
+      {/* <VariablePreview variable={getSnapshot(draft.copy)} data={data} /> */}
+      <Group position="apart">
+        <Button
+          size="xs"
+          variant="subtle"
+          color="red"
+          leftIcon={<IconTrash size={16} />}
+          onClick={() => props.uiModel.remove(props.variable)}
+        >
+          Delete this variable
+        </Button>
+        <Button
+          variant="filled"
+          size="xs"
+          disabled={!draft.changed}
+          color="green"
+          onClick={draft.commit}
+          leftIcon={<IconDeviceFloppy size={18} />}
+        >
+          Save Changes
+        </Button>
+      </Group>
+      <TemplateVariableField value={getSnapshot(draft.copy)} onChange={draft.update} data={data} />
+    </Stack>
   );
 });
