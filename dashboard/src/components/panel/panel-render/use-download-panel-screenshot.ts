@@ -21,7 +21,7 @@ export function useDownloadPanelScreenshot(panel: PanelRenderModelInstance) {
         style: { border: 'none', borderRadius: 0, transformOrigin: '0 0', transform: 'scale(2)' },
       })
       .then((blob: string) => {
-        window.saveAs(blob, `${panel.title ? panel.title : panel.viz.type}.png`);
+        window.saveAs(blob, `${panel.name ? panel.name : panel.viz.type}.png`);
       });
   };
   return { ref, downloadPanelScreenshot };

@@ -29,7 +29,7 @@ function getMarkLineLabel(conf: IParetoChartConf, percentage: IPercentage, count
   return new Function(...names, `return \`${label_template}\`;`)(...vals);
 }
 
-export function getMarkLine(conf: IParetoChartConf, lineData: TLineDataItem[]) {
+export function getMarkLineAndArea(conf: IParetoChartConf, lineData: TLineDataItem[]) {
   if (lineData.length === 0) {
     return {};
   }
@@ -55,23 +55,42 @@ export function getMarkLine(conf: IParetoChartConf, lineData: TLineDataItem[]) {
   }
 
   return {
-    name: '',
-    silent: true,
-    symbol: 'triangle',
-    symbolRotate: 180,
-    symbolSize: [10, 8],
-    data: [
-      {
-        name: '',
-        symbol: 'none',
-        xAxis,
-        lineStyle: {
-          color: conf.markLine.color,
+    markLine: {
+      name: '',
+      silent: true,
+      symbol: 'triangle',
+      symbolRotate: 180,
+      symbolSize: [10, 8],
+      data: [
+        {
+          name: '',
+          symbol: 'none',
+          xAxis,
+          lineStyle: {
+            color: conf.markLine.color,
+          },
+          label: {
+            formatter: getMarkLineLabel(conf, percentage, count),
+          },
         },
-        label: {
-          formatter: getMarkLineLabel(conf, percentage, count),
-        },
+      ],
+    },
+    markArea: {
+      name: '',
+      silent: true,
+      itemStyle: {
+        color: 'rgba(47, 140, 192, 0.05)',
       },
-    ],
+      data: [
+        [
+          {
+            type: 'min',
+          },
+          {
+            xAxis,
+          },
+        ],
+      ],
+    },
   };
 }

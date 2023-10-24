@@ -15,7 +15,7 @@ export function getLegend({ config }: { config: IBoxplotChartConf }) {
         name: 'Outlier',
         icon: 'circle',
         itemStyle: {
-          color: '#2F8CC0',
+          color: '#ED6A45',
         },
       },
     ],

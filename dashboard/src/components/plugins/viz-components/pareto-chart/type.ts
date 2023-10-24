@@ -11,7 +11,7 @@ import {
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
-  color: 'rgba(0,0,0,0.3)',
+  color: '#789AB4',
 };
 
 export interface IParetoChartConf {

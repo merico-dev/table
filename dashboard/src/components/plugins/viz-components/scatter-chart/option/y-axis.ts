@@ -1,3 +1,4 @@
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IYAxisConf } from '../../cartesian/type';
 import { IScatterChartConf } from '../type';
 
@@ -7,21 +8,20 @@ export function getYAxes(conf: IScatterChartConf, labelFormatters: Record<string
     if (!position) {
       position = index > 0 ? 'right' : 'left';
     }
-    return {
+    return defaultEchartsOptions.getYAxis({
       ...rest,
       minInterval: 1,
       min: min ? min : undefined,
       max: max ? max : undefined,
       position,
+      axisLine: {
+        show: true,
+      },
       axisLabel: {
         show: true,
         formatter: labelFormatters[index] ?? labelFormatters.default,
       },
-      axisLine: {
-        show: true,
-      },
       nameTextStyle: {
-        fontWeight: 'bold',
         align: nameAlignment,
       },
       nameLocation: 'end',
@@ -29,6 +29,6 @@ export function getYAxes(conf: IScatterChartConf, labelFormatters: Record<string
       splitLine: {
         show: false,
       },
-    };
+    });
   });
 }

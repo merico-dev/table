@@ -27,9 +27,9 @@ export function getSeries(conf: IBoxplotChartConf) {
     {
       name: 'Outlier',
       type: 'scatter',
-      symbolSize: 5,
+      symbolSize: 7,
       itemStyle: {
-        color: '#2F8CC0',
+        color: '#ED6A45',
       },
       emphasis: {
         scale: 2,

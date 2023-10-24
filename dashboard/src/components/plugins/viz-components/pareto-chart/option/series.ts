@@ -1,9 +1,8 @@
-import { AnyObject } from '~/types';
+import { parseDataKey } from '~/utils/data';
 import { IParetoChartConf } from '../type';
-import { getMarkLine } from './mark-line';
+import { getMarkLineAndArea } from './mark-line-and-area';
 import { TLineDataItem } from './types';
 import { TParetoFormatters } from './utils';
-import { parseDataKey } from '~/utils/data';
 
 export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: TParetoFormatters) {
   const { x_axis, data_key } = conf;
@@ -26,7 +25,7 @@ export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: 
     }, [] as TLineDataItem[])
     .map((row) => [row[0], row[1] / sum] as TLineDataItem);
 
-  const markLine = getMarkLine(conf, lineData);
+  const { markLine, markArea } = getMarkLineAndArea(conf, lineData);
   return [
     {
       name: conf.bar.name,
@@ -52,6 +51,10 @@ export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: 
       symbolSize: 2,
       lineStyle: {
         width: 1,
+        shadowColor: 'rgba(255,255,255,1)',
+        shadowBlur: 0,
+        shadowOffsetX: 0,
+        shadowOffsetY: 1,
       },
       label: {
         show: false,
@@ -61,6 +64,7 @@ export function getSeries(conf: IParetoChartConf, data: TPanelData, formatters: 
       yAxisIndex: 1,
       data: lineData,
       markLine,
+      markArea,
     },
   ];
 }

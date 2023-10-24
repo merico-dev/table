@@ -4,6 +4,7 @@ import { getRegressionConf } from './regression-series';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getXAxis } from './x-axis';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const defaultOption = {
   tooltip: {
@@ -34,17 +35,14 @@ export function getOption(conf: IRegressionChartConf, queryData: TQueryData) {
 
   const customOptions = {
     xAxis: getXAxis(conf),
-    yAxis: {
+    yAxis: defaultEchartsOptions.getYAxis({
       name: conf.y_axis.name ?? '',
       nameLocation: 'end',
       nameTextStyle: {
         align: 'left',
       },
       nameGap: 5,
-      axisLine: {
-        show: true,
-      },
-    },
+    }),
     series: [...series, ...regressionSeries],
     tooltip: getTooltip(conf),
     legend: {
