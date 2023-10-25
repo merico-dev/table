@@ -9,7 +9,7 @@ export const HeaderMenu = observer(() => {
   const content = useEditContentModelContext();
 
   const downloadSchema = () => {
-    const schema = JSON.stringify(content.json, null, 2);
+    const schema = JSON.stringify(content.contentJSON, null, 2);
     const filename = `${model.name}__${content.name}`;
     downloadJSON(filename, schema);
   };

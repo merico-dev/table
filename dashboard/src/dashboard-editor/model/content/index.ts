@@ -76,6 +76,9 @@ const _ContentModel = types
         },
       };
     },
+    get contentJSON(): DashboardContentDBType['content'] {
+      return this.json.content;
+    },
     get filtersChanged() {
       const fields = 'filters.current';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
