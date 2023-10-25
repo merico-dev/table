@@ -51,7 +51,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         />
         {value.aggregation.type !== 'custom' && (
           <>
-            <Divider my="xs" label="Format" labelPosition="center" />
+            <Divider mt="xl" mb={0} label="Format" labelPosition="center" variant="dashed" />
             <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
           </>
         )}

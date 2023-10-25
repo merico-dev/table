@@ -18,6 +18,18 @@ export const defaultNumbroFormat: TNumbroFormat = {
   average: false,
 };
 
+const SwitchStyles = {
+  root: {
+    alignSelf: 'flex-end',
+  },
+  body: {
+    alignItems: 'center',
+  },
+  label: {
+    display: 'block',
+  },
+};
+
 interface INumbroFormatSelector {
   value: TNumbroFormat;
   onChange: (v: TNumbroFormat) => void;
@@ -63,17 +75,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           onChange={changeAverage}
           disabled={value.output !== 'number'}
           sx={{ flexGrow: 1 }}
-          styles={{
-            root: {
-              alignSelf: 'flex-end',
-            },
-            body: {
-              alignItems: 'center',
-            },
-            label: {
-              display: 'block',
-            },
-          }}
+          styles={SwitchStyles}
         />
       </Group>
       <Group grow>
@@ -87,18 +89,18 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           onChange={changeMantissa}
         />
         <Switch
-          label="Trim mantissa"
+          label={
+            <Stack spacing={0}>
+              <Text>Trim mantissa</Text>
+              <Text size={12} color="gray">
+                hide trailing zero(s)
+              </Text>
+            </Stack>
+          }
           checked={value.trimMantissa}
           onChange={changeTrimMantissa}
           disabled={value.mantissa === 0}
-          styles={{
-            root: {
-              alignSelf: 'flex-end',
-            },
-            body: {
-              alignItems: 'center',
-            },
-          }}
+          styles={SwitchStyles}
         />
       </Group>
       <Stack spacing={0}>
