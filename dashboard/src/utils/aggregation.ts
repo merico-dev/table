@@ -9,28 +9,33 @@ export type TCustomAggregation = {
   config: {
     func: string;
   };
+  fallback: string;
 };
+export type TSimpleAggregation = {
+  type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV' | 'std';
+  config: Record<string, never>;
+  fallback: string;
+};
+export type TQuantileAggregation = {
+  type: 'quantile';
+  config: {
+    p: number;
+  };
+  fallback: string;
+};
+
 export const DefaultCustomAggregationFunc = [
   'function aggregation({ queryData }, utils) {',
   '    return "Aggregation Result";',
   '}',
 ].join('\n');
 
-export type AggregationType =
-  | {
-      type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV' | 'std';
-      config: Record<$TSFixMe, never>;
-    }
-  | {
-      type: 'quantile';
-      config: {
-        p: number;
-      };
-    }
-  | TCustomAggregation;
+export type AggregationType = TSimpleAggregation | TQuantileAggregation | TCustomAggregation;
+
 export const DefaultAggregation: AggregationType = {
   type: 'none',
   config: {},
+  fallback: '0',
 };
 
 function median(numbers: number[]) {
@@ -53,7 +58,7 @@ function tryFormatAsNumber(value: any) {
   }
 }
 
-export function aggregateValueFromNumbers(numbers: number[], aggregation: AggregationType) {
+function aggregateValueFromNumbers(numbers: number[], aggregation: AggregationType) {
   switch (aggregation.type) {
     case 'sum':
       return _.sum(numbers);
@@ -62,16 +67,16 @@ export function aggregateValueFromNumbers(numbers: number[], aggregation: Aggreg
     case 'median':
       return median(numbers);
     case 'max':
-      return _.max(numbers) ?? 0;
+      return _.max(numbers);
     case 'min':
-      return _.min(numbers) ?? 0;
+      return _.min(numbers);
     case 'quantile':
-      return quantile(numbers, aggregation.config.p) ?? 0;
+      return quantile(numbers, aggregation.config.p);
     case 'CV':
       const std = math.std(...numbers);
       const mean = math.mean(...numbers);
       if (!mean) {
-        return 'N/A';
+        return Number.NaN;
       }
       return std / mean;
     case 'std':
@@ -81,8 +86,13 @@ export function aggregateValueFromNumbers(numbers: number[], aggregation: Aggreg
   }
 }
 export function formatNumbersAndAggregateValue(possibleNumbers: Array<string | number>, aggregation: AggregationType) {
-  const numbers = possibleNumbers.map(tryFormatAsNumber);
-  return aggregateValueFromNumbers(numbers, aggregation);
+  const numbers = possibleNumbers.map(Number);
+  const ret = aggregateValueFromNumbers(numbers, aggregation);
+  if (typeof ret === 'number') {
+    return Number.isFinite(ret) ? ret : aggregation.fallback;
+  }
+
+  return ret ?? aggregation.fallback;
 }
 
 function runCustomAggregation(data: TPanelData, data_field: string, aggregation: TCustomAggregation) {

@@ -1,4 +1,4 @@
-import { Accordion, Box, Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Accordion, Button, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import _ from 'lodash';
 import React from 'react';
@@ -7,7 +7,7 @@ import { AggregationSelector } from '~/components/panel/settings/common/aggregat
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '~/utils/template';
-import { TemplateVariableStyleField } from '~/utils/template/editor/variable-style';
+import { TemplateVariableStyleField } from './variable-style';
 
 interface ITemplateVariableField {
   value: ITemplateVariable;
@@ -29,7 +29,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
 
   return (
     <Stack ref={ref}>
-      <Box px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
+      <Stack spacing="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
         <Group grow noWrap>
           <TextInput
             label="Name"
@@ -46,16 +46,19 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
         </Group>
         <AggregationSelector
           label="Aggregation"
+          pt={0}
           value={value.aggregation}
           onChange={(v) => handleChange('aggregation', v)}
+          withFallback
         />
+
         {value.aggregation.type !== 'custom' && (
           <>
             <Divider mt="xl" mb={0} label="Format" labelPosition="center" variant="dashed" />
             <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
           </>
         )}
-      </Box>
+      </Stack>
       {withStyle && (
         <Accordion variant="contained">
           <Accordion.Item value="Styles">

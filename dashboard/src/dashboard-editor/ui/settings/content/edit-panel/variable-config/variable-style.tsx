@@ -2,11 +2,11 @@ import { Divider, Group, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import React from 'react';
 import { Path } from 'react-hook-form';
-import { ColorArrayInput } from '../../../components/panel/settings/common/color-array-input';
-import { MantineColorSelector } from '../../../components/panel/settings/common/mantine-color';
-import { MantineFontWeightSlider } from '../../../components/panel/settings/common/mantine-font-weight';
-import { TextArrayInput } from '../../../components/panel/settings/common/text-array-input';
-import { ITemplateVariable } from '../types';
+import { ColorArrayInput } from '../../../../../../components/panel/settings/common/color-array-input';
+import { MantineColorSelector } from '../../../../../../components/panel/settings/common/mantine-color';
+import { MantineFontWeightSlider } from '../../../../../../components/panel/settings/common/mantine-font-weight';
+import { TextArrayInput } from '../../../../../../components/panel/settings/common/text-array-input';
+import { ITemplateVariable } from '../../../../../../utils/template/types';
 
 interface ITemplateVariableStyleField {
   value: ITemplateVariable;

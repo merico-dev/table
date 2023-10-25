@@ -76,6 +76,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
               value={field.value ?? DefaultAggregation}
               onChange={field.onChange}
               pt={0}
+              withFallback={false}
             />
           )}
         />

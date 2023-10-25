@@ -5,7 +5,7 @@ import { useEditPanelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { VariableMetaInstance, VariableMetaSnapshotIn } from '~/model';
 
-export const NEW_VAR = {
+export const NEW_VAR: VariableMetaSnapshotIn = {
   name: 'new_var',
   size: '1rem',
   weight: 'initial',
@@ -17,6 +17,7 @@ export const NEW_VAR = {
   aggregation: {
     type: 'sum',
     config: {},
+    fallback: '0',
   },
   formatter: {
     output: 'number',
@@ -24,7 +25,7 @@ export const NEW_VAR = {
     trimMantissa: false,
     average: false,
   },
-} as VariableMetaSnapshotIn;
+};
 
 export class VariableConfigUIModel {
   panel: PanelModelInstance;

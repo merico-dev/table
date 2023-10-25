@@ -27,14 +27,17 @@ export const VariableMeta = types
         type: types.enumeration(['none', 'sum', 'mean', 'median', 'min', 'max', 'CV', 'std']),
         // maybe undefined is better
         config: types.frozen(),
+        fallback: types.optional(types.string, '0'),
       }),
       types.model({
         type: types.literal('quantile'),
         config: types.model({ p: types.number }),
+        fallback: types.optional(types.string, '0'),
       }),
       types.model({
         type: types.literal('custom'),
         config: types.model({ func: types.string }),
+        fallback: types.optional(types.string, '0'),
       }),
     ),
   })

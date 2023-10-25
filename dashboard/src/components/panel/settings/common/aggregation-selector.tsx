@@ -1,7 +1,6 @@
-import { Group, NumberInput, Select, SpacingValue, SystemProp } from '@mantine/core';
+import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
-import React, { useEffect } from 'react';
-import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
+import React, { ChangeEvent, useEffect } from 'react';
 import { ModalFunctionEditor } from '~/components/widgets/modal-function-editor';
 import { AggregationType, DefaultCustomAggregationFunc } from '~/utils/aggregation';
 
@@ -23,26 +22,31 @@ interface IAggregationSelector {
   onChange: (v: AggregationType) => void;
   label: string;
   pt?: SystemProp<SpacingValue>;
+  withFallback: boolean;
 }
 
-function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregationSelector, ref: $TSFixMe) {
+function _AggregationSelector(
+  { label, value, onChange, pt = 'sm', withFallback }: IAggregationSelector,
+  ref: $TSFixMe,
+) {
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {
       onChange({
         type: value,
         config: {},
+        fallback: '0',
       });
     }
   }, [value, onChange]);
 
   const changeType = (type: AggregationType['type']) => {
     if (type === 'quantile') {
-      onChange({ type: 'quantile', config: { p: 0.99 } });
+      onChange({ type: 'quantile', config: { p: 0.99 }, fallback: value.fallback });
     } else if (type === 'custom') {
-      onChange({ type: 'custom', config: { func: DefaultCustomAggregationFunc } });
+      onChange({ type: 'custom', config: { func: DefaultCustomAggregationFunc }, fallback: value.fallback });
     } else {
-      onChange({ type, config: {} });
+      onChange({ type, config: {}, fallback: value.fallback });
     }
   };
 
@@ -52,6 +56,7 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
       config: {
         p,
       },
+      fallback: value.fallback,
     });
   };
 
@@ -61,37 +66,61 @@ function _AggregationSelector({ label, value, onChange, pt = 'sm' }: IAggregatio
       config: {
         func,
       },
+      fallback: value.fallback,
+    });
+  };
+  const changeFallback = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange({
+      ...value,
+      fallback: e.currentTarget.value,
     });
   };
   return (
-    <Group grow noWrap pt={pt}>
-      <Select ref={ref} label={label} data={options} value={value.type} onChange={changeType} maxDropdownHeight={600} />
-      {value.type === 'quantile' && (
-        <NumberInput
-          label="p"
-          value={value.config.p}
-          onChange={changePOfQuantile}
-          precision={2}
-          min={0.05}
-          step={0.05}
-          max={1}
+    <>
+      <Group grow noWrap pt={pt}>
+        <Select
+          ref={ref}
+          label={label}
+          data={options}
+          value={value.type}
+          onChange={changeType}
+          maxDropdownHeight={600}
+        />
+        {value.type === 'quantile' && (
+          <NumberInput
+            label="p"
+            value={value.config.p}
+            onChange={changePOfQuantile}
+            precision={2}
+            min={0.05}
+            step={0.05}
+            max={1}
+          />
+        )}
+        {value.type === 'custom' && (
+          <ModalFunctionEditor
+            label=""
+            triggerLabel="Edit Function"
+            value={value.config.func}
+            onChange={changeCustomFunc}
+            defaultValue={DefaultCustomAggregationFunc}
+            triggerButtonProps={{
+              size: 'xs',
+              sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
+              leftIcon: <IconMathFunction size={16} />,
+            }}
+          />
+        )}
+      </Group>
+      {withFallback && (
+        <TextInput
+          label="Fallback Value"
+          description="Used when data is empty or the aggregation yields NaN"
+          value={value.fallback}
+          onChange={changeFallback}
         />
       )}
-      {value.type === 'custom' && (
-        <ModalFunctionEditor
-          label=""
-          triggerLabel="Edit Function"
-          value={value.config.func}
-          onChange={changeCustomFunc}
-          defaultValue={DefaultCustomAggregationFunc}
-          triggerButtonProps={{
-            size: 'xs',
-            sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
-            leftIcon: <IconMathFunction size={16} />,
-          }}
-        />
-      )}
-    </Group>
+    </>
   );
 }
 
