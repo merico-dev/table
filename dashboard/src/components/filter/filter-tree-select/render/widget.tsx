@@ -105,9 +105,7 @@ export const FilterTreeSelectWidget = ({
         onChange={onChange}
         onSelect={console.log}
         maxTagCount={0}
-        maxTagPlaceholder={(valueList) => {
-          return `${valueList.length} selected`;
-        }}
+        maxTagPlaceholder={() => `${value.length} selected`}
       />
     </Stack>
   );
