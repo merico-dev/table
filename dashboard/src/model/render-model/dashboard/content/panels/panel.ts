@@ -4,6 +4,7 @@ import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
 import { downloadJSON } from '~/utils/download';
+import { variablesToStrings } from '~/utils/template';
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
@@ -20,6 +21,9 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         ret[q.id] = q.data;
         return ret;
       }, {});
+    },
+    get variableStrings() {
+      return variablesToStrings(self.variables, this.data);
     },
     get dataLoading() {
       return this.queries.some((q) => q.state === 'loading');

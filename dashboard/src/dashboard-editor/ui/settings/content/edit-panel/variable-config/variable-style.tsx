@@ -2,11 +2,11 @@ import { Divider, Group, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
 import React from 'react';
 import { Path } from 'react-hook-form';
-import { ColorArrayInput } from '../../../components/panel/settings/common/color-array-input';
-import { MantineColorSelector } from '../../../components/panel/settings/common/mantine-color';
-import { MantineFontWeightSlider } from '../../../components/panel/settings/common/mantine-font-weight';
-import { TextArrayInput } from '../../../components/panel/settings/common/text-array-input';
-import { ITemplateVariable } from '../types';
+import { ColorArrayInput } from '../../../../../../components/panel/settings/common/color-array-input';
+import { MantineColorSelector } from '../../../../../../components/panel/settings/common/mantine-color';
+import { MantineFontWeightSlider } from '../../../../../../components/panel/settings/common/mantine-font-weight';
+import { TextArrayInput } from '../../../../../../components/panel/settings/common/text-array-input';
+import { ITemplateVariable } from '../../../../../../utils/template/types';
 
 interface ITemplateVariableStyleField {
   value: ITemplateVariable;
@@ -48,7 +48,6 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
 
   return (
     <>
-      <Divider my="xs" label="Typography" labelPosition="center" />
       <Stack>
         <TextInput
           label="Font Size"
@@ -63,7 +62,7 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
         <MantineFontWeightSlider label="Font Weight" value={value.weight} onChange={(v) => handleChange('weight', v)} />
       </Group>
 
-      <Divider my="xs" label="Style" labelPosition="center" />
+      <Divider mt="lg" mb={0} variant="dashed" label="Style" labelPosition="center" />
       <Stack>
         <Select
           label="Color Type"

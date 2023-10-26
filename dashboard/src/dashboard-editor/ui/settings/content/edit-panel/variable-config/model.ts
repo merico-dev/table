@@ -5,7 +5,7 @@ import { useEditPanelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { VariableMetaInstance, VariableMetaSnapshotIn } from '~/model';
 
-export const NEW_VAR = {
+export const NEW_VAR: VariableMetaSnapshotIn = {
   name: 'new_var',
   size: '1rem',
   weight: 'initial',
@@ -17,6 +17,7 @@ export const NEW_VAR = {
   aggregation: {
     type: 'sum',
     config: {},
+    fallback: '0',
   },
   formatter: {
     output: 'number',
@@ -24,7 +25,7 @@ export const NEW_VAR = {
     trimMantissa: false,
     average: false,
   },
-} as VariableMetaSnapshotIn;
+};
 
 export class VariableConfigUIModel {
   panel: PanelModelInstance;
@@ -32,11 +33,22 @@ export class VariableConfigUIModel {
 
   constructor(panel: PanelModelInstance) {
     this.panel = panel;
+    if (panel.variables.length > 0) {
+      this.selected = panel.variables[0];
+    }
     makeAutoObservable(this, {}, { deep: false, autoBind: true });
   }
 
   get variables() {
     return this.panel.variables;
+  }
+
+  get variableOptions() {
+    return this.panel.variables.map((v) => ({
+      label: v.name,
+      value: v.name,
+      description: v.aggregation.type,
+    }));
   }
 
   addNew() {
@@ -47,6 +59,21 @@ export class VariableConfigUIModel {
 
   select(variable: VariableMetaInstance) {
     this.selected = variable;
+  }
+
+  selectByName(name: string | null) {
+    if (!name) {
+      console.warn('Unexpected null name when calling selectByName');
+      return;
+    }
+
+    const v = this.variables.find((v) => v.name === name);
+    if (!v) {
+      console.error(`Variable by name[${name}] not found`);
+      return;
+    }
+
+    this.selected = v;
   }
 
   remove(variable: VariableMetaInstance) {

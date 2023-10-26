@@ -1,9 +1,9 @@
 import { cast, types } from 'mobx-state-tree';
 import { PanelLayoutMeta } from './layout';
 import { PanelStyleMeta } from './style';
+import { PanelTitleMeta } from './title';
 import { VariableMeta, VariableMetaInstance, VariableMetaSnapshotIn } from './variable';
 import { PanelVizMeta } from './viz';
-import { PanelTitleMeta } from './title';
 
 export const PanelMeta = types
   .model({

@@ -1,4 +1,4 @@
-import { Box, Button, Group, LoadingOverlay, Tabs, Text, Tooltip } from '@mantine/core';
+import { Box, Button, Group, LoadingOverlay, Stack, Tabs, Text, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -8,7 +8,7 @@ import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
 import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
-import { VariableConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/variable-config/variable-config-panel';
+import { PreviewVariables, VariablesEditor } from './variable-config';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils/error-boundary';
@@ -18,19 +18,21 @@ const TabsStyles = {
   root: {
     flexGrow: 1,
     width: '100%',
+    minWidth: '1200px',
     overflow: 'hidden',
   },
   panel: {
     width: '100%',
+    minWidth: '1200px',
     height: 'calc(100% - 44px)',
     padding: 10,
-    overflow: 'scroll',
+    overflow: 'auto',
   },
 } as const;
 
 const WithPreview = ({ children }: { children: ReactNode }) => {
   return (
-    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%' }}>
+    <Group noWrap grow position="left" spacing={20} sx={{ width: '100%', height: '100%', position: 'relative' }}>
       <Box
         sx={{
           maxWidth: 'calc(100% - 610px - 10px)',
@@ -40,7 +42,12 @@ const WithPreview = ({ children }: { children: ReactNode }) => {
       >
         {children}
       </Box>
-      <PreviewPanel />
+      <Stack justify="flex-start" sx={{ alignSelf: 'flex-start', width: '600px', flexGrow: 0, flexShrink: 0 }}>
+        <PreviewPanel />
+        <Box sx={{ flexGrow: 1 }}>
+          <PreviewVariables />
+        </Box>
+      </Stack>
     </Group>
   );
 };
@@ -135,7 +142,9 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         </Tabs.Panel>
 
         <Tabs.Panel value="Variables">
-          <VariableConfig />
+          <WithPreview>
+            <VariablesEditor />
+          </WithPreview>
         </Tabs.Panel>
 
         <Tabs.Panel value="Visualization">
