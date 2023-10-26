@@ -63,20 +63,21 @@ export const FilterTreeSelectConfigMeta = types
         default_selection_count,
       };
     },
+    get plainData() {
+      const { data } = self.contentModel.getDataStuffByID(self.options_query_id);
+      return data;
+    },
     get treeData() {
-      // @ts-expect-error type of getRoot
-      const { data } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      const data = this.plainData;
       const dataWithCustomLabel = addLabelToData(data);
       return queryDataToTree(dataWithCustomLabel);
     },
     get errorMessage() {
-      // @ts-expect-error type of getRoot
-      const { error } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      const { error } = self.contentModel.getDataStuffByID(self.options_query_id);
       return error;
     },
     get treeDataLoading() {
-      // @ts-expect-error type of getRoot
-      const { state } = getRoot(self).content.getDataStuffByID(self.options_query_id);
+      const { state } = self.contentModel.getDataStuffByID(self.options_query_id);
       return state === 'loading';
     },
     get defaultSelection() {
@@ -89,6 +90,10 @@ export const FilterTreeSelectConfigMeta = types
     },
     truthy(value: any) {
       return Array.isArray(value) && value.length > 0;
+    },
+    valueObjects(value: string[]) {
+      const set = new Set(value);
+      return this.plainData.filter((d: any) => set.has(d.value));
     },
   }))
   .actions((self) => ({
@@ -104,8 +109,7 @@ export const FilterTreeSelectConfigMeta = types
     applyDefaultSelection() {
       // @ts-expect-error typeof getParent
       const key = getParent(self, 1).key;
-      // @ts-expect-error typeof getRoot
-      const filters = getRoot(self).content.filters;
+      const filters = self.contentModel.filters;
       filters.setValueByKey(key, self.defaultSelection);
     },
     afterCreate() {

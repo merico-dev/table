@@ -15,6 +15,7 @@ import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
+import { AnyObject } from '~/types';
 
 // This type will contain a union with all selectors defined in useStyles,
 // in this case it will be `'root' | 'title' | 'description'`
@@ -26,8 +27,8 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   radius?: MantineNumberSize;
   style?: Record<string, any>;
   label: string;
-  value: string[];
-  onChange: (v: string[]) => void;
+  value: AnyObject[];
+  onChange: (v: AnyObject[]) => void;
   treeData: $TSFixMe;
   disabled: boolean;
   errorMessage?: string;
@@ -80,6 +81,7 @@ export const FilterTreeSelectWidget = ({
         disabled={disabled}
         allowClear
         treeCheckStrictly={treeCheckStrictly}
+        labelInValue={true}
         className={cx(classes.root, 'check-select')}
         dropdownClassName={cx(classes.dropdown, '')}
         onDropdownVisibleChange={handleDropdownVisibleChange}
