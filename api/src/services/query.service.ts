@@ -299,23 +299,9 @@ export class QueryService {
       throw new ApiError(BAD_REQUEST, { message: translate('QUERY_ID_NOT_FOUND', locale) });
     }
     if (rawQuery.type === 'http') {
-      return await this.prepareHTTPQuery(rawQuery, params, locale);
+      return { parsedType: type, parsedKey: key, parsedQuery: query };
     }
     return await this.prepareDBQuery(rawQuery, content.definition.sqlSnippets, params, locale);
-  }
-
-  private async prepareHTTPQuery(
-    rawQuery: Query,
-    params: QueryParams,
-    locale: string,
-  ): Promise<{ parsedType: string; parsedKey: string; parsedQuery: string }> {
-    try {
-      const queryFunc = new Function(`return ${rawQuery.pre_process}`)();
-      const query = queryFunc(params);
-      return { parsedKey: rawQuery.key, parsedType: rawQuery.type, parsedQuery: JSON.stringify(query) };
-    } catch (err) {
-      throw new ApiError(BAD_REQUEST, { message: translate('QUERY_PARSING_ERROR', locale), details: err.message });
-    }
   }
 
   private async prepareDBQuery(
