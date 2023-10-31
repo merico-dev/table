@@ -122,6 +122,7 @@ export class DashboardContentService {
 
   async create(dashboard_id: string, name: string, content: Content, locale: string): Promise<DashboardContent> {
     const dashboardContentRepo = dashboardDataSource.getRepository(DashboardContent);
+    const dashboardRepo = dashboardDataSource.getRepository(Dashboard);
     if (await dashboardContentRepo.exist({ where: { dashboard_id, name } })) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_NAME_ALREADY_EXISTS', locale) });
     }
@@ -133,7 +134,13 @@ export class DashboardContentService {
     if (!(await migrateOneDashboardContent(dashboardContent))) {
       throw new ApiError(BAD_REQUEST, { message: translate('DASHBOARD_CONTENT_MIGRATION_FAILED', locale) });
     }
-    return dashboardContentRepo.save(dashboardContent);
+    const result = await dashboardContentRepo.save(dashboardContent);
+    const dashboard = await dashboardRepo.findOneByOrFail({ id: dashboard_id });
+    if (!dashboard.content_id) {
+      dashboard.content_id = result.id;
+      await dashboardRepo.save(dashboard);
+    }
+    return result;
   }
 
   async get(id: string): Promise<DashboardContent> {
