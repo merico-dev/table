@@ -22,7 +22,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const dataset = getDataset(config, data);
 
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
-  const series = getSeries(config);
+  const series = getSeries(config, dataset);
   return {
     grid: getGrid(config),
     dataset,
