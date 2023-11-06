@@ -92,4 +92,6 @@ export interface IBoxplotDataItem {
   q3: number;
   max: number;
   outliers: TOutlierDataItem[];
+  outlierSet: Set<number>;
+  violinData: number[];
 }

@@ -2,7 +2,7 @@ import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
-import { parseDataKey } from '~/utils/data';
+import { extractData, parseDataKey } from '~/utils/data';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -25,6 +25,15 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
       })
       .map((d) => [name, d[columnKey], d]);
 
+    const outlierSet = new Set(outliers.map((o) => o[1]));
+
+    const violinData: number[] = data
+      .filter((d) => {
+        const v = d[columnKey];
+        return v >= min && v <= max;
+      })
+      .map((d) => d[columnKey]);
+
     const boxplot: IBoxplotDataItem = {
       name,
       min,
@@ -33,6 +42,8 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
       q3,
       max,
       outliers,
+      outlierSet,
+      violinData,
     };
 
     return boxplot;
