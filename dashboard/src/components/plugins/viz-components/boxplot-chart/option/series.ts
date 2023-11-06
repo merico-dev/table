@@ -61,37 +61,68 @@ const getRenderItem =
     });
     points.l.push(lowest);
 
+    // Horizontal lines
+    const lines: AnyObject[] = [];
+    arr.forEach(([value, count]) => {
+      const [x, y] = api.coord([categoryIndex, value]);
+      const li = maxCount - 1 - (count - 1); // center to left
+      const ri = maxCount - 1 + count; // center to right
+      const shiftL = barLayout[li].offsetCenter;
+      const shiftR = barLayout[ri].offsetCenter;
+      lines.push({
+        x1: x + shiftL,
+        y1: y,
+        x2: x + shiftR,
+        y2: y,
+      });
+    });
+
     return {
       type: 'group',
       x: 0,
       y: 0,
       children: [
+        // {
+        //   type: 'polyline',
+        //   transition: ['shape'],
+        //   shape: {
+        //     points: points.l,
+        //     // smooth: 0.2,
+        //   },
+        //   style: api.style({
+        //     fill: 'transparent',
+        //     stroke: api.visual('color'),
+        //     lineWidth: 1,
+        //     opacity: 0.5,
+        //   }),
+        // },
+        // {
+        //   type: 'polyline',
+        //   transition: ['shape'],
+        //   shape: {
+        //     points: points.r,
+        //   },
+        //   style: api.style({
+        //     fill: 'transparent',
+        //     stroke: api.visual('color'),
+        //     lineWidth: 1,
+        //     opacity: 0.5,
+        //   }),
+        // },
         {
-          type: 'polyline',
-          transition: ['shape'],
-          shape: {
-            points: points.l,
-            // smooth: 0.2,
-          },
-          style: api.style({
-            fill: 'transparent',
-            stroke: api.visual('color'),
-            lineWidth: 1,
-            opacity: 0.5,
-          }),
-        },
-        {
-          type: 'polyline',
-          transition: ['shape'],
-          shape: {
-            points: points.r,
-          },
-          style: api.style({
-            fill: 'transparent',
-            stroke: api.visual('color'),
-            lineWidth: 1,
-            opacity: 0.5,
-          }),
+          type: 'group',
+          children: lines.map((l) => ({
+            type: 'line',
+            transition: ['shape'],
+            shape: l,
+            style: api.style({
+              fill: 'transparent',
+              stroke: api.visual('color'),
+              lineWidth: 1,
+              opacity: 0.5,
+              lineDash: 'dotted',
+            }),
+          })),
         },
       ],
     };
