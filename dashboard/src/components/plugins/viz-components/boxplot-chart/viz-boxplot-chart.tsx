@@ -1,6 +1,6 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
-import { BoxplotChart } from 'echarts/charts';
+import { BoxplotChart, CustomChart } from 'echarts/charts';
 import {
   DataZoomComponent,
   GridComponent,
@@ -24,6 +24,7 @@ import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotDataItem } from './type';
 echarts.use([
   DataZoomComponent,
   BoxplotChart,
+  CustomChart,
   MarkLineComponent,
   GridComponent,
   LegendComponent,
