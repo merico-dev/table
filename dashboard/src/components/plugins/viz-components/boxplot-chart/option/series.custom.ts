@@ -2,7 +2,6 @@ import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts
 import { AnyObject } from '~/types';
 import { IBoxplotChartConf, IBoxplotDataItem } from '../type';
 
-type Point = any[];
 export type BoxplotDataset = { source: IBoxplotDataItem[] };
 
 function countData(data: number[]) {
@@ -14,28 +13,24 @@ function countData(data: number[]) {
     group[level] = count + 1;
   });
 
-  const maxCount = Math.max(...Object.values(group));
-  return { group, maxCount };
+  return group;
 }
 
 function prepare({ boxplotDataset, api }: Props) {
   const categoryIndex = api.value(0) as number;
   const source = boxplotDataset.source[categoryIndex];
-  const { min, max, violinData, outliers } = source;
+  const { violinData, outliers } = source;
 
-  const { group, maxCount } = countData(violinData);
+  const group = countData(violinData);
   const arr = Object.entries(group).sort((a, b) => Number(b[0]) - Number(a[0]));
 
   const outlierGroup = countData(outliers.map((o) => o[1]));
   return {
-    group,
-    maxCount,
-    min,
-    max,
-    source,
-    categoryIndex,
+    api,
     arr,
+    source,
     outlierGroup,
+    categoryIndex,
   };
 }
 
@@ -44,153 +39,6 @@ type Props = {
   params: CustomSeriesRenderItemParams;
   api: CustomSeriesRenderItemAPI;
 };
-
-export function getViolin(props: Props) {
-  const { api } = props;
-  const { categoryIndex, min, max, maxCount, arr } = prepare(props);
-
-  const barLayout = api.barLayout({
-    barGap: '0%',
-    barCategoryGap: '0%',
-    count: maxCount * 2,
-  });
-  const points: { l: Point[]; r: Point[] } = {
-    l: [],
-    r: [],
-  };
-  const highest = api.coord([categoryIndex, max]);
-  const lowest = api.coord([categoryIndex, min]);
-
-  // Right part
-  points.r.push(highest);
-  arr.forEach(([value, count]) => {
-    const [x, y] = api.coord([categoryIndex, Number(value)]);
-    const index = maxCount - 1 + count; // center to right
-    const shift = barLayout[index].offsetCenter;
-    points.r.push([x + shift, y, value]);
-  });
-  points.r.push(lowest);
-
-  // Left part
-  points.l.push(highest);
-  arr.forEach(([value, count]) => {
-    const [x, y] = api.coord([categoryIndex, value]);
-    const index = maxCount - 1 - (count - 1); // center to left
-    const shift = barLayout[index].offsetCenter;
-    points.l.push([x + shift, y, value]);
-  });
-  points.l.push(lowest);
-  return {
-    type: 'group',
-    children: [
-      {
-        type: 'polyline',
-        transition: ['shape'],
-        shape: {
-          points: points.l,
-          // smooth: 0.2,
-        },
-        style: api.style({
-          fill: 'transparent',
-          stroke: api.visual('color'),
-          lineWidth: 1,
-          opacity: 0.5,
-        }),
-      },
-      {
-        type: 'polyline',
-        transition: ['shape'],
-        shape: {
-          points: points.r,
-        },
-        style: api.style({
-          fill: 'transparent',
-          stroke: api.visual('color'),
-          lineWidth: 1,
-          opacity: 0.5,
-        }),
-      },
-    ],
-  };
-}
-
-export function getLines(props: Props) {
-  const { api } = props;
-  const { categoryIndex, maxCount, arr } = prepare(props);
-  const barLayout = api.barLayout({
-    barGap: '0%',
-    barCategoryGap: '0%',
-    count: maxCount * 2,
-  });
-
-  // Horizontal lines
-  const lines: AnyObject[] = [];
-  arr.forEach(([value, count]) => {
-    const [x, y] = api.coord([categoryIndex, value]);
-    const li = maxCount - 1 - (count - 1); // center to left
-    const ri = maxCount - 1 + count; // center to right
-    const shiftL = barLayout[li].offsetCenter;
-    const shiftR = barLayout[ri].offsetCenter;
-    lines.push({
-      x1: x + shiftL,
-      y1: y,
-      x2: x + shiftR,
-      y2: y,
-    });
-  });
-  return {
-    type: 'group',
-    children: lines.map((l) => ({
-      type: 'line',
-      transition: ['shape'],
-      shape: l,
-      style: api.style({
-        fill: 'transparent',
-        stroke: api.visual('color'),
-        lineWidth: 1,
-        opacity: 0.5,
-        lineDash: 'dotted',
-      }),
-    })),
-  };
-}
-export function getDots(props: Props) {
-  const { api } = props;
-  const { categoryIndex, arr } = prepare(props);
-
-  // Dots
-  const dots: AnyObject[] = [];
-  arr.forEach(([value, count]) => {
-    const dotsLayout = api.barLayout({
-      barGap: '0%',
-      barCategoryGap: '90%',
-      count,
-    });
-    const [x, y] = api.coord([categoryIndex, value]);
-    for (let i = 0; i < count; i++) {
-      const shift = dotsLayout[i].offsetCenter;
-      dots.push({ cx: x + shift, cy: y });
-    }
-  });
-  return {
-    type: 'group',
-    children: dots.map((d) => ({
-      type: 'circle',
-      transition: ['shape'],
-      shape: {
-        ...d,
-        r: 1,
-      },
-      style: api.style({
-        // fill: 'transparent',
-        fill: api.visual('color'),
-        stroke: 'transparent',
-        opacity: 0.8,
-        lineDash: 'dotted',
-      }),
-    })),
-  };
-}
 
 type BoxplotSeries = {
   name: string;
@@ -203,18 +51,19 @@ type BoxplotSeries = {
 // TODO:
 // 1. tooltip on scatter
 // 2. update on resize
-function getBox(props: Props, seriesConf: BoxplotSeries) {
-  const { api } = props;
-  const { categoryIndex, arr, maxCount, source, outlierGroup } = prepare(props);
-
+function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
+  const { categoryIndex, arr, source, outlierGroup, api } = prepare(props);
+  const { min, q1, median, q3, max } = source;
   const { boxWidth, itemStyle } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
   const layout = api.barLayout({
     barMinWidth: boxWidth[0],
     barMaxWidth: boxWidth[1],
     count: 2,
   });
 
-  const { min, q1, median, q3, max } = source;
   const centers = {
     min: api.coord([categoryIndex, min]),
     q1: api.coord([categoryIndex, q1]),
@@ -332,7 +181,7 @@ function getBox(props: Props, seriesConf: BoxplotSeries) {
 
   // Outliers
   const outlierDots: AnyObject[] = [];
-  Object.entries(outlierGroup.group).forEach(([value, count]) => {
+  Object.entries(outlierGroup).forEach(([value, count]) => {
     const [x, y] = api.coord([categoryIndex, value]);
     const start = x + layout[0].offset;
     for (let i = 0; i < count; i++) {
@@ -380,7 +229,7 @@ export function getCustomBoxplot(boxplotDataset: BoxplotDataset, conf: IBoxplotC
   };
 
   series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
-    return getBox({ boxplotDataset, params, api }, series);
+    return renderBoxScatterAndOutliers({ boxplotDataset, params, api }, series);
   };
   return series;
 }
