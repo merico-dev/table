@@ -44,26 +44,25 @@ type BoxplotSeries = {
   name: string;
   type: 'custom';
   boxWidth: [number, number];
+  itemStyle: {
+    color: string;
+    borderColor: string;
+    borderWidth: number;
+  };
 
   [key: string]: any;
 };
 
-// TODO:
-// 1. tooltip on scatter
-// 2. update on resize
-function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
-  const { categoryIndex, arr, source, outlierGroup, api } = prepare(props);
+type RenderProps = {
+  api: CustomSeriesRenderItemAPI;
+  categoryIndex: number;
+  layout: AnyObject[];
+  source: IBoxplotDataItem;
+  seriesConf: BoxplotSeries;
+};
+function getBox({ api, categoryIndex, layout, source, seriesConf }: RenderProps) {
+  const { itemStyle } = seriesConf;
   const { min, q1, median, q3, max } = source;
-  const { boxWidth, itemStyle } = seriesConf;
-
-  // Leftside for scatter
-  // Rightside for box
-  const layout = api.barLayout({
-    barMinWidth: boxWidth[0],
-    barMaxWidth: boxWidth[1],
-    count: 2,
-  });
-
   const centers = {
     min: api.coord([categoryIndex, min]),
     q1: api.coord([categoryIndex, q1]),
@@ -148,6 +147,24 @@ function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
     },
   });
 
+  return box;
+}
+
+// TODO:
+// 1. tooltip on scatter
+// 2. update on resize
+function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
+  const { categoryIndex, arr, source, outlierGroup, api } = prepare(props);
+  const { boxWidth, itemStyle } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
+  const layout = api.barLayout({
+    barMinWidth: boxWidth[0],
+    barMaxWidth: boxWidth[1],
+    count: 2,
+  });
+
   // Dots
   const w = layout[0].width;
 
@@ -205,6 +222,7 @@ function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
       style: outlierDotStyle,
     })),
   };
+  const box = getBox({ api, categoryIndex, layout, source, seriesConf });
   return {
     type: 'group',
     children: [box, scatter, outliers],
