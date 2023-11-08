@@ -15,9 +15,11 @@ function render(api: CustomSeriesRenderItemAPI) {
   return {
     type: 'circle',
     transition: ['shape'],
+    x: cx,
+    y: cy,
     shape: {
-      cx,
-      cy,
+      cx: 0,
+      cy: 0,
       r: 2,
     },
     style: {
