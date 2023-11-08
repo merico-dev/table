@@ -32,6 +32,5 @@ export type RenderProps = {
 
 export type Props = {
   boxplotDataset: { source: IBoxplotDataItem[] };
-  params: CustomSeriesRenderItemParams;
   api: CustomSeriesRenderItemAPI;
 };

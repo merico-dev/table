@@ -1,6 +1,9 @@
-import { RenderProps } from './type';
+import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
+import { BoxplotDataset, BoxplotSeries, Props, RenderProps } from './type';
+import { prepare } from './utils';
+import { IBoxplotChartConf } from '../../../type';
 
-export function getBox({ layout, seriesConf, payload }: RenderProps) {
+function getBox({ layout, seriesConf, payload }: RenderProps) {
   const { categoryIndex, source, api } = payload;
   const { itemStyle } = seriesConf;
   const { min, q1, median, q3, max } = source;
@@ -89,4 +92,44 @@ export function getBox({ layout, seriesConf, payload }: RenderProps) {
   });
 
   return box;
+}
+
+function render(props: Props, seriesConf: BoxplotSeries) {
+  const payload = prepare(props);
+  const { boxWidth } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
+  const layout = payload.api.barLayout({
+    barMinWidth: boxWidth[0],
+    barMaxWidth: boxWidth[1],
+    count: 2,
+  });
+
+  const renderProps = { payload, layout, seriesConf };
+  const box = getBox(renderProps);
+  return box;
+}
+
+export function getCustomBox(boxplotDataset: BoxplotDataset, conf: IBoxplotChartConf) {
+  const { color } = conf;
+  const series: BoxplotSeries = {
+    name: 'Custom Box',
+    type: 'custom',
+    itemStyle: {
+      color,
+      borderColor: '#2F8CC0',
+      borderWidth: 2,
+    },
+    emphasis: {
+      disabled: true,
+    },
+    boxWidth: [10, 40],
+    datasetIndex: 0,
+  };
+
+  series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
+    return render({ boxplotDataset, api }, series);
+  };
+  return series;
 }

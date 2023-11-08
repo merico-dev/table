@@ -1,5 +1,7 @@
+import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
 import { AnyObject } from '~/types';
-import { RenderProps } from './type';
+import { BoxplotDataset, BoxplotSeries, Props, RenderProps } from './type';
+import { prepare } from './utils';
 
 export function getOutliers({ payload, layout }: RenderProps) {
   const { categoryIndex, outlierGroup, api } = payload;
@@ -31,4 +33,43 @@ export function getOutliers({ payload, layout }: RenderProps) {
     })),
   };
   return outliers;
+}
+
+function render(props: Props, seriesConf: BoxplotSeries) {
+  const payload = prepare(props);
+  const { boxWidth } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
+  const layout = payload.api.barLayout({
+    barMinWidth: boxWidth[0],
+    barMaxWidth: boxWidth[1],
+    count: 2,
+  });
+
+  const renderProps = { payload, layout, seriesConf };
+  const outliers = getOutliers(renderProps);
+  return outliers;
+}
+
+export function getCustomOutliers(boxplotDataset: BoxplotDataset) {
+  const series: BoxplotSeries = {
+    name: 'Custom Outliers',
+    type: 'custom',
+    itemStyle: {
+      color: '',
+      borderColor: '#2F8CC0',
+      borderWidth: 2,
+    },
+    emphasis: {
+      disabled: true,
+    },
+    boxWidth: [10, 40],
+    datasetIndex: 0,
+  };
+
+  series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
+    return render({ boxplotDataset, api }, series);
+  };
+  return series;
 }

@@ -15,6 +15,7 @@ type TTooltipFormatterParams =
 const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterParams) => {
   const { componentSubType, value } = params;
 
+  console.log(componentSubType, value, params);
   if (componentSubType === 'scatter') {
     return getScatterTooltipContent(config, value);
   }

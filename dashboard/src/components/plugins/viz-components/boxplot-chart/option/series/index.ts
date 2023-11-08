@@ -1,8 +1,12 @@
 import { IBoxplotChartConf } from '../../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from '../common';
-import { getCustomBoxplot } from './custom';
+import { getCustomBox, getCustomOutliers, getCustomScatter } from './custom';
 
 export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
+  const boxplotDataset = dataset[0];
+  const customBox = getCustomBox(boxplotDataset, conf);
+  const customScatter = getCustomScatter(boxplotDataset);
+  const customOutliers = getCustomOutliers(boxplotDataset);
   return [
     {
       name: 'Placeholder Box',
@@ -37,6 +41,8 @@ export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
       },
       datasetIndex: 1,
     },
-    getCustomBoxplot(dataset[0], conf),
+    customBox,
+    customScatter,
+    customOutliers,
   ];
 }
