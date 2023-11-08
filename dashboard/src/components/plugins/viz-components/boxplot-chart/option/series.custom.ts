@@ -200,6 +200,9 @@ type BoxplotSeries = {
   [key: string]: any;
 };
 
+// TODO:
+// 1. tooltip on scatter
+// 2. update on resize
 function getBox(props: Props, seriesConf: BoxplotSeries) {
   const { api } = props;
   const { categoryIndex, arr, maxCount, source, outlierGroup } = prepare(props);
@@ -297,24 +300,21 @@ function getBox(props: Props, seriesConf: BoxplotSeries) {
   });
 
   // Dots
-  const unit = layout[0].width / maxCount;
-  const generalShift = layout[0].offset - layout[1].offset;
+  const w = layout[0].width;
 
   const dots: AnyObject[] = [];
   arr.forEach(([value, count]) => {
     const [x, y] = api.coord([categoryIndex, value]);
-    const start = Math.floor((maxCount - count) / 2) * unit;
+    const start = x + layout[0].offset;
     for (let i = 0; i < count; i++) {
-      const shift = start + i * unit + generalShift;
-      dots.push({ cx: x + shift, cy: y });
+      const cx = start + Math.random() * w;
+      dots.push({ cx, cy: y });
     }
   });
 
   const dotStyle = {
     fill: '#ED6A45',
-    stroke: 'transparent',
-    opacity: 0.3,
-    lineDash: 'dotted',
+    opacity: 0.5,
   };
 
   const scatter = {
@@ -324,7 +324,7 @@ function getBox(props: Props, seriesConf: BoxplotSeries) {
       transition: ['shape'],
       shape: {
         ...d,
-        r: 1,
+        r: 2,
       },
       style: dotStyle,
     })),
@@ -334,17 +334,15 @@ function getBox(props: Props, seriesConf: BoxplotSeries) {
   const outlierDots: AnyObject[] = [];
   Object.entries(outlierGroup.group).forEach(([value, count]) => {
     const [x, y] = api.coord([categoryIndex, value]);
-    const start = Math.floor((maxCount - count) / 2) * unit;
+    const start = x + layout[0].offset;
     for (let i = 0; i < count; i++) {
-      const shift = start + i * unit + generalShift;
-      outlierDots.push({ cx: x + shift, cy: y });
+      const cx = start + Math.random() * w;
+      outlierDots.push({ cx, cy: y });
     }
   });
 
   const outlierDotStyle = {
     fill: '#ED6A45',
-    stroke: 'transparent',
-    lineDash: 'dotted',
   };
   const outliers = {
     type: 'group',
