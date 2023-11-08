@@ -1,6 +1,6 @@
-import { IBoxplotChartConf } from '../type';
-import { BOXPLOT_DATA_ITEM_KEYS } from './common';
-import { getCustomBoxplot } from './series.custom';
+import { IBoxplotChartConf } from '../../type';
+import { BOXPLOT_DATA_ITEM_KEYS } from '../common';
+import { getCustomBoxplot } from './custom';
 
 export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
   return [

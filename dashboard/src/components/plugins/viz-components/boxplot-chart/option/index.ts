@@ -1,16 +1,15 @@
 import numbro from 'numbro';
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { AnyObject } from '~/types';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { ITemplateVariable } from '~/utils/template';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf } from '../type';
 import { getDataset } from './dataset';
+import { getGrid } from './grid';
 import { getLegend } from './legend';
+import { getReferenceLines } from './reference-line';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
-import { getReferenceLines } from './reference-line';
-import { getGrid } from './grid';
-import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 interface IGetOption {
   config: IBoxplotChartConf;
