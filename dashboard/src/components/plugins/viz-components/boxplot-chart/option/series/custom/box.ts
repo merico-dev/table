@@ -106,7 +106,7 @@ function render(
 export function getCustomBox(boxplotDataset: BoxplotDataset, conf: IBoxplotChartConf) {
   const { color } = conf;
   const series: BoxplotSeries = {
-    name: 'Custom Box',
+    name: 'Box',
     type: 'custom',
     itemStyle: {
       color,

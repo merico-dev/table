@@ -30,7 +30,7 @@ function render(api: CustomSeriesRenderItemAPI, seriesConf: ScatterSeries) {
 
 export function getCustomOutliers() {
   const series: ScatterSeries = {
-    name: 'Custom Outliers',
+    name: 'Outlier',
     type: 'custom',
     itemStyle: {
       color: '#ED6A45',

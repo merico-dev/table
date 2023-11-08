@@ -31,7 +31,7 @@ function render(api: CustomSeriesRenderItemAPI) {
 
 export function getCustomScatter() {
   const series: ScatterSeries = {
-    name: 'Custom Scatter',
+    name: 'Scatter',
     type: 'custom',
     itemStyle: {
       color: '#ED6A45',

@@ -5,15 +5,15 @@ import { getScatterTooltipContent } from './scatter';
 
 type TTooltipFormatterParams =
   | {
-      seriesName: 'Custom Scatter';
+      seriesName: 'Scatter';
       value: TScatterDataItem;
     }
   | {
-      seriesName: 'Custom Outliers';
+      seriesName: 'Outlier';
       value: TOutlierDataItem;
     }
   | {
-      seriesName: 'Custom Box';
+      seriesName: 'Box';
       value: IBoxplotDataItem;
     };
 
@@ -21,11 +21,11 @@ const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterPa
   const { seriesName, value } = params;
 
   switch (seriesName) {
-    case 'Custom Box':
+    case 'Box':
       return getBoxplotTooltipContent(config, value);
-    case 'Custom Outliers':
+    case 'Outlier':
       return getOutlierTooltipContent(config, value);
-    case 'Custom Scatter':
+    case 'Scatter':
       return getScatterTooltipContent(config, value);
   }
 };
