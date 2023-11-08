@@ -1,8 +1,8 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
-import { extractData, parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils/data';
+import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem } from '../type';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: string) {
   const ret = Object.entries(groupedData).map(([name, data]) => {
@@ -25,14 +25,12 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
       })
       .map((d) => [name, d[columnKey], d]);
 
-    const outlierSet = new Set(outliers.map((o) => o[1]));
-
-    const violinData: number[] = data
+    const scatter: TScatterDataItem[] = data
       .filter((d) => {
         const v = d[columnKey];
         return v >= min && v <= max;
       })
-      .map((d) => d[columnKey]);
+      .map((d) => [name, d[columnKey], d]);
 
     const boxplot: IBoxplotDataItem = {
       name,
@@ -42,8 +40,7 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
       q3,
       max,
       outliers,
-      outlierSet,
-      violinData,
+      scatter,
     };
 
     return boxplot;
@@ -65,12 +62,16 @@ export function getDataset(conf: IBoxplotChartConf, data: TPanelData) {
   const grouped = _.groupBy(data[x.queryID], x.columnKey);
   const boxplotData = calcBoxplotData(grouped, y.columnKey);
   const outliersData = boxplotData.map((b) => b.outliers).flat();
+  const scatterData = boxplotData.map((b) => b.scatter).flat();
   return [
     {
       source: boxplotData,
     },
     {
       source: outliersData,
+    },
+    {
+      source: scatterData,
     },
   ];
 }

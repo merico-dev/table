@@ -1,10 +1,25 @@
 import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
-import { BoxplotDataset, BoxplotSeries, Props, RenderProps } from './type';
-import { prepare } from './utils';
-import { IBoxplotChartConf } from '../../../type';
+import { IBoxplotChartConf, IBoxplotDataItem } from '../../../type';
+import { BoxplotDataset, BoxplotSeries } from './type';
 
-function getBox({ layout, seriesConf, payload }: RenderProps) {
-  const { categoryIndex, source, api } = payload;
+function render(
+  boxplotDataset: { source: IBoxplotDataItem[] },
+  api: CustomSeriesRenderItemAPI,
+  seriesConf: BoxplotSeries,
+) {
+  const categoryIndex = api.value(0) as number;
+  const source = boxplotDataset.source[categoryIndex];
+
+  const { boxWidth } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
+  const layout = api.barLayout({
+    barMinWidth: boxWidth[0],
+    barMaxWidth: boxWidth[1],
+    count: 2,
+  });
+
   const { itemStyle } = seriesConf;
   const { min, q1, median, q3, max } = source;
   const centers = {
@@ -90,24 +105,6 @@ function getBox({ layout, seriesConf, payload }: RenderProps) {
       lineWidth: itemStyle.borderWidth,
     },
   });
-
-  return box;
-}
-
-function render(props: Props, seriesConf: BoxplotSeries) {
-  const payload = prepare(props);
-  const { boxWidth } = seriesConf;
-
-  // Leftside for scatter
-  // Rightside for box
-  const layout = payload.api.barLayout({
-    barMinWidth: boxWidth[0],
-    barMaxWidth: boxWidth[1],
-    count: 2,
-  });
-
-  const renderProps = { payload, layout, seriesConf };
-  const box = getBox(renderProps);
   return box;
 }
 
@@ -129,7 +126,7 @@ export function getCustomBox(boxplotDataset: BoxplotDataset, conf: IBoxplotChart
   };
 
   series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
-    return render({ boxplotDataset, api }, series);
+    return render(boxplotDataset, api, series);
   };
   return series;
 }

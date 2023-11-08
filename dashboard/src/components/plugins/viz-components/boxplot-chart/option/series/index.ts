@@ -5,8 +5,8 @@ import { getCustomBox, getCustomOutliers, getCustomScatter } from './custom';
 export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
   const boxplotDataset = dataset[0];
   const customBox = getCustomBox(boxplotDataset, conf);
-  const customScatter = getCustomScatter(boxplotDataset);
-  const customOutliers = getCustomOutliers(boxplotDataset);
+  const customScatter = getCustomScatter();
+  const customOutliers = getCustomOutliers();
   return [
     {
       name: 'Placeholder Box',
@@ -37,7 +37,7 @@ export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
       ignore: true,
       silent: true,
       emphasis: {
-        scale: 2,
+        disabled: true,
       },
       datasetIndex: 1,
     },

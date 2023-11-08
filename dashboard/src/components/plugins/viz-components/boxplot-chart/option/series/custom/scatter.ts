@@ -1,78 +1,56 @@
 import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
-import { AnyObject } from '~/types';
-import { BoxplotDataset, BoxplotSeries, Props, RenderProps } from './type';
-import { prepare } from './utils';
+import { ScatterSeries } from './type';
 
-function getScatter({ layout, payload }: RenderProps) {
-  const { categoryIndex, arr, api } = payload;
-  const w = layout[0].width;
-
-  const dots: AnyObject[] = [];
-  arr.forEach(([value, count]) => {
-    const [x, y] = api.coord([categoryIndex, value]);
-    const start = x + layout[0].offset;
-    for (let i = 0; i < count; i++) {
-      const cx = start + Math.random() * w;
-      dots.push({ cx, cy: y });
-    }
-  });
-
-  const dotStyle = {
-    fill: '#ED6A45',
-    opacity: 0.5,
-  };
-
-  const scatter = {
-    type: 'group',
-    children: dots.map((d) => ({
-      type: 'circle',
-      transition: ['shape'],
-      shape: {
-        ...d,
-        r: 2,
-      },
-      style: dotStyle,
-    })),
-  };
-
-  return scatter;
-}
-
-function render(props: Props, seriesConf: BoxplotSeries) {
-  const payload = prepare(props);
+function render(api: CustomSeriesRenderItemAPI, seriesConf: ScatterSeries) {
+  const categoryIndex = api.value(0) as number;
   const { boxWidth } = seriesConf;
 
   // Leftside for scatter
   // Rightside for box
-  const layout = payload.api.barLayout({
+  const layout = api.barLayout({
     barMinWidth: boxWidth[0],
     barMaxWidth: boxWidth[1],
     count: 2,
   });
 
-  const renderProps = { payload, layout, seriesConf };
-  const scatter = getScatter(renderProps);
-  return scatter;
+  const w = layout[0].width;
+
+  const value = api.value(1);
+  const [x, y] = api.coord([categoryIndex, value]);
+  const start = x + layout[0].offset;
+  const cx = start + Math.random() * w;
+  const cy = y;
+  return {
+    type: 'circle',
+    transition: ['shape'],
+    shape: {
+      cx,
+      cy,
+      r: 2,
+    },
+    style: {
+      fill: api.visual('color'),
+      opacity: 0.5,
+    },
+  };
 }
 
-export function getCustomScatter(boxplotDataset: BoxplotDataset) {
-  const series: BoxplotSeries = {
+export function getCustomScatter() {
+  const series: ScatterSeries = {
     name: 'Custom Scatter',
     type: 'custom',
     itemStyle: {
-      color: '',
-      borderColor: '#2F8CC0',
-      borderWidth: 2,
+      color: '#ED6A45',
     },
     emphasis: {
-      disabled: true,
+      scale: 2,
     },
     boxWidth: [10, 40],
-    datasetIndex: 0,
+    datasetIndex: 2,
   };
 
   series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
-    return render({ boxplotDataset, api }, series);
+    return render(api, series);
   };
   return series;
 }

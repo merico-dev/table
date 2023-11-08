@@ -1,8 +1,8 @@
-import { AnyObject } from '~/types';
-import { IBoxplotDataItem } from '../../../type';
-import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
+import { IBoxplotDataItem, TOutlierDataItem } from '../../../type';
 
 export type BoxplotDataset = { source: IBoxplotDataItem[] };
+export type OutlierDataset = { source: TOutlierDataItem[] };
+
 export type BoxplotSeries = {
   name: string;
   type: 'custom';
@@ -16,21 +16,13 @@ export type BoxplotSeries = {
   [key: string]: any;
 };
 
-export type Payload = {
-  api: CustomSeriesRenderItemAPI;
-  arr: [string, any][];
-  source: IBoxplotDataItem;
-  categoryIndex: number;
-  outlierGroup: Record<string, number>;
-};
+export type ScatterSeries = {
+  name: string;
+  type: 'custom';
+  boxWidth: [number, number];
+  itemStyle: {
+    color: string;
+  };
 
-export type RenderProps = {
-  layout: AnyObject[];
-  seriesConf: BoxplotSeries;
-  payload: Payload;
-};
-
-export type Props = {
-  boxplotDataset: { source: IBoxplotDataItem[] };
-  api: CustomSeriesRenderItemAPI;
+  [key: string]: any;
 };

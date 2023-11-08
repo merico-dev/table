@@ -83,6 +83,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
 };
 
 export type TOutlierDataItem = [string, number, AnyObject];
+export type TScatterDataItem = [string, number, AnyObject];
 
 export interface IBoxplotDataItem {
   name: string;
@@ -92,6 +93,5 @@ export interface IBoxplotDataItem {
   q3: number;
   max: number;
   outliers: TOutlierDataItem[];
-  outlierSet: Set<number>;
-  violinData: number[];
+  scatter: TScatterDataItem[];
 }
