@@ -92,6 +92,4 @@ export interface IBoxplotDataItem {
   median: number;
   q3: number;
   max: number;
-  outliers: TOutlierDataItem[];
-  scatter: TScatterDataItem[];
 }
