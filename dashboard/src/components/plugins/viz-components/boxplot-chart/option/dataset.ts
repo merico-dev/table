@@ -1,11 +1,13 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../type';
 import { parseDataKey } from '~/utils/data';
+import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem } from '../type';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: string) {
-  const ret = Object.entries(groupedData).map(([name, data]) => {
+  const outliersData: TOutlierDataItem[] = [];
+  const scatterData: TScatterDataItem[] = [];
+  const boxplotData = Object.entries(groupedData).map(([name, data]) => {
     const numbers: number[] = data.map((d) => d[columnKey]).sort((a, b) => a - b);
     const q1 = quantile(numbers, 0.25) ?? 0;
     const median = quantile(numbers, 0.5) ?? 0;
@@ -18,12 +20,19 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
     const min = Math.max(numbers[0], minLimit);
     const max = Math.min(_.last(numbers) ?? 0, maxLimit);
 
-    const outliers: TOutlierDataItem[] = data
+    data
       .filter((d) => {
         const v = d[columnKey];
         return v < min || v > max;
       })
-      .map((d) => [name, d[columnKey], d]);
+      .forEach((d) => outliersData.push([name, d[columnKey], d]));
+
+    data
+      .filter((d) => {
+        const v = d[columnKey];
+        return v >= min && v <= max;
+      })
+      .forEach((d) => scatterData.push([name, d[columnKey], d]));
 
     const boxplot: IBoxplotDataItem = {
       name,
@@ -32,13 +41,16 @@ function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: st
       median,
       q3,
       max,
-      outliers,
     };
 
     return boxplot;
   });
 
-  return ret;
+  return {
+    boxplotData,
+    outliersData,
+    scatterData,
+  };
 }
 
 export function getDataset(conf: IBoxplotChartConf, data: TPanelData) {
@@ -52,14 +64,16 @@ export function getDataset(conf: IBoxplotChartConf, data: TPanelData) {
     throw new Error('Please use the same query for X & Y axis');
   }
   const grouped = _.groupBy(data[x.queryID], x.columnKey);
-  const boxplotData = calcBoxplotData(grouped, y.columnKey);
-  const outliersData = boxplotData.map((b) => b.outliers).flat();
+  const { boxplotData, outliersData, scatterData } = calcBoxplotData(grouped, y.columnKey);
   return [
     {
       source: boxplotData,
     },
     {
       source: outliersData,
+    },
+    {
+      source: scatterData,
     },
   ];
 }

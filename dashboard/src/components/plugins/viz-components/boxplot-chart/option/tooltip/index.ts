@@ -1,24 +1,33 @@
-import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem } from '../../type';
+import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem } from '../../type';
 import { getBoxplotTooltipContent } from './boxplot';
+import { getOutlierTooltipContent } from './outlier';
 import { getScatterTooltipContent } from './scatter';
 
 type TTooltipFormatterParams =
   | {
-      componentSubType: 'scatter';
+      seriesName: 'Scatter';
+      value: TScatterDataItem;
+    }
+  | {
+      seriesName: 'Outlier';
       value: TOutlierDataItem;
     }
   | {
-      componentSubType: 'boxplot';
+      seriesName: 'Box';
       value: IBoxplotDataItem;
     };
 
 const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterParams) => {
-  const { componentSubType, value } = params;
+  const { seriesName, value } = params;
 
-  if (componentSubType === 'scatter') {
-    return getScatterTooltipContent(config, value);
+  switch (seriesName) {
+    case 'Box':
+      return getBoxplotTooltipContent(config, value);
+    case 'Outlier':
+      return getOutlierTooltipContent(config, value);
+    case 'Scatter':
+      return getScatterTooltipContent(config, value);
   }
-  return getBoxplotTooltipContent(config, value);
 };
 
 export function getTooltip({ config }: { config: IBoxplotChartConf }) {

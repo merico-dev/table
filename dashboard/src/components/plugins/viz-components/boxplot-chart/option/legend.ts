@@ -12,6 +12,14 @@ export function getLegend({ config }: { config: IBoxplotChartConf }) {
         },
       },
       {
+        name: 'Scatter',
+        icon: 'circle',
+        itemStyle: {
+          color: '#ED6A45',
+          opacity: 0.5,
+        },
+      },
+      {
         name: 'Outlier',
         icon: 'circle',
         itemStyle: {

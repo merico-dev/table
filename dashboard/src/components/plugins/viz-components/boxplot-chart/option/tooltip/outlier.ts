@@ -1,8 +1,8 @@
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { IBoxplotChartConf, TScatterDataItem } from '../../type';
+import { IBoxplotChartConf, TOutlierDataItem } from '../../type';
 import { getAdditionalMetrics } from './additional-metrics';
 
-export function getScatterTooltipContent(config: IBoxplotChartConf, value: TScatterDataItem) {
+export function getOutlierTooltipContent(config: IBoxplotChartConf, value: TOutlierDataItem) {
   const xAxisLabelStyle = getLabelOverflowStyleInTooltip(config.x_axis.axisLabel.overflow.in_tooltip);
   const metrics = [
     `<tr>
