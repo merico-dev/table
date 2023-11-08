@@ -16,7 +16,15 @@ function countData(data: number[]) {
   return group;
 }
 
-function prepare({ boxplotDataset, api }: Props) {
+type Payload = {
+  api: CustomSeriesRenderItemAPI;
+  arr: [string, any][];
+  source: IBoxplotDataItem;
+  categoryIndex: number;
+  outlierGroup: Record<string, number>;
+};
+
+function prepare({ boxplotDataset, api }: Props): Payload {
   const categoryIndex = api.value(0) as number;
   const source = boxplotDataset.source[categoryIndex];
   const { violinData, outliers } = source;
@@ -54,13 +62,12 @@ type BoxplotSeries = {
 };
 
 type RenderProps = {
-  api: CustomSeriesRenderItemAPI;
-  categoryIndex: number;
   layout: AnyObject[];
-  source: IBoxplotDataItem;
   seriesConf: BoxplotSeries;
+  payload: Payload;
 };
-function getBox({ api, categoryIndex, layout, source, seriesConf }: RenderProps) {
+function getBox({ layout, seriesConf, payload }: RenderProps) {
+  const { categoryIndex, source, api } = payload;
   const { itemStyle } = seriesConf;
   const { min, q1, median, q3, max } = source;
   const centers = {
@@ -150,22 +157,8 @@ function getBox({ api, categoryIndex, layout, source, seriesConf }: RenderProps)
   return box;
 }
 
-// TODO:
-// 1. tooltip on scatter
-// 2. update on resize
-function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
-  const { categoryIndex, arr, source, outlierGroup, api } = prepare(props);
-  const { boxWidth, itemStyle } = seriesConf;
-
-  // Leftside for scatter
-  // Rightside for box
-  const layout = api.barLayout({
-    barMinWidth: boxWidth[0],
-    barMaxWidth: boxWidth[1],
-    count: 2,
-  });
-
-  // Dots
+function getScatter({ layout, payload }: RenderProps) {
+  const { categoryIndex, arr, api } = payload;
   const w = layout[0].width;
 
   const dots: AnyObject[] = [];
@@ -196,33 +189,62 @@ function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
     })),
   };
 
-  // Outliers
-  const outlierDots: AnyObject[] = [];
+  return scatter;
+}
+
+function getOutliers({ payload, layout }: RenderProps) {
+  const { categoryIndex, outlierGroup, api } = payload;
+  const w = layout[0].width;
+
+  const dots: AnyObject[] = [];
   Object.entries(outlierGroup).forEach(([value, count]) => {
     const [x, y] = api.coord([categoryIndex, value]);
     const start = x + layout[0].offset;
     for (let i = 0; i < count; i++) {
       const cx = start + Math.random() * w;
-      outlierDots.push({ cx, cy: y });
+      dots.push({ cx, cy: y });
     }
   });
 
-  const outlierDotStyle = {
+  const dotStyle = {
     fill: '#ED6A45',
   };
   const outliers = {
     type: 'group',
-    children: outlierDots.map((d) => ({
+    children: dots.map((d) => ({
       type: 'circle',
       transition: ['shape'],
       shape: {
         ...d,
         r: 3,
       },
-      style: outlierDotStyle,
+      style: dotStyle,
     })),
   };
-  const box = getBox({ api, categoryIndex, layout, source, seriesConf });
+  return outliers;
+}
+
+// TODO:
+// 1. tooltip on scatter
+// 2. update on resize
+function renderBoxScatterAndOutliers(props: Props, seriesConf: BoxplotSeries) {
+  const payload = prepare(props);
+  const { boxWidth } = seriesConf;
+
+  // Leftside for scatter
+  // Rightside for box
+  const layout = payload.api.barLayout({
+    barMinWidth: boxWidth[0],
+    barMaxWidth: boxWidth[1],
+    count: 2,
+  });
+
+  // Outliers
+
+  const renderProps = { payload, layout, seriesConf };
+  const box = getBox(renderProps);
+  const scatter = getScatter(renderProps);
+  const outliers = getOutliers(renderProps);
   return {
     type: 'group',
     children: [box, scatter, outliers],
