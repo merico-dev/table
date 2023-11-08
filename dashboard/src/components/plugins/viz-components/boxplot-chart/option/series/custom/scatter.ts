@@ -1,20 +1,12 @@
 import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
 import { ScatterSeries } from './type';
+import { getLayout } from './utils';
 
-function render(api: CustomSeriesRenderItemAPI, seriesConf: ScatterSeries) {
-  const categoryIndex = api.value(0) as number;
-  const { boxWidth } = seriesConf;
-
-  // Leftside for scatter
-  // Rightside for box
-  const layout = api.barLayout({
-    barMinWidth: boxWidth[0],
-    barMaxWidth: boxWidth[1],
-    count: 2,
-  });
-
+function render(api: CustomSeriesRenderItemAPI) {
+  const layout = getLayout(api);
   const w = layout[0].width;
 
+  const categoryIndex = api.value(0) as number;
   const value = api.value(1);
   const [x, y] = api.coord([categoryIndex, value]);
   const start = x + layout[0].offset;
@@ -45,12 +37,9 @@ export function getCustomScatter() {
     emphasis: {
       scale: 2,
     },
-    boxWidth: [10, 40],
     datasetIndex: 2,
   };
 
-  series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => {
-    return render(api, series);
-  };
+  series.renderItem = (params: CustomSeriesRenderItemParams, api: CustomSeriesRenderItemAPI) => render(api);
   return series;
 }

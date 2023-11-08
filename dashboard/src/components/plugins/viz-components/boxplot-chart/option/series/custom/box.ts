@@ -1,27 +1,22 @@
 import { CustomSeriesRenderItemAPI, CustomSeriesRenderItemParams } from 'echarts';
 import { IBoxplotChartConf, IBoxplotDataItem } from '../../../type';
 import { BoxplotDataset, BoxplotSeries } from './type';
+import { BOX_WIDTH, getLayout } from './utils';
 
 function render(
   boxplotDataset: { source: IBoxplotDataItem[] },
   api: CustomSeriesRenderItemAPI,
   seriesConf: BoxplotSeries,
 ) {
+  const {
+    itemStyle: { color, borderColor, borderWidth },
+  } = seriesConf;
+  const layout = getLayout(api);
+
   const categoryIndex = api.value(0) as number;
   const source = boxplotDataset.source[categoryIndex];
-
-  const { boxWidth } = seriesConf;
-
-  // Leftside for scatter
-  // Rightside for box
-  const layout = api.barLayout({
-    barMinWidth: boxWidth[0],
-    barMaxWidth: boxWidth[1],
-    count: 2,
-  });
-
-  const { itemStyle } = seriesConf;
   const { min, q1, median, q3, max } = source;
+
   const centers = {
     min: api.coord([categoryIndex, min]),
     q1: api.coord([categoryIndex, q1]),
@@ -78,8 +73,8 @@ function render(
     },
   ];
   const lineStyle = {
-    stroke: itemStyle.borderColor,
-    lineWidth: itemStyle.borderWidth,
+    stroke: borderColor,
+    lineWidth: borderWidth,
   };
 
   lines.forEach((l) => {
@@ -100,9 +95,9 @@ function render(
       height: centers.q3[1] - centers.q1[1],
     },
     style: {
-      fill: itemStyle.color,
-      stroke: itemStyle.borderColor,
-      lineWidth: itemStyle.borderWidth,
+      fill: color,
+      stroke: borderColor,
+      lineWidth: borderWidth,
     },
   });
   return box;
@@ -121,7 +116,7 @@ export function getCustomBox(boxplotDataset: BoxplotDataset, conf: IBoxplotChart
     emphasis: {
       disabled: true,
     },
-    boxWidth: [10, 40],
+    boxWidth: BOX_WIDTH,
     datasetIndex: 0,
   };
 

@@ -6,7 +6,6 @@ export type OutlierDataset = { source: TOutlierDataItem[] };
 export type BoxplotSeries = {
   name: string;
   type: 'custom';
-  boxWidth: [number, number];
   itemStyle: {
     color: string;
     borderColor: string;
@@ -19,7 +18,6 @@ export type BoxplotSeries = {
 export type ScatterSeries = {
   name: string;
   type: 'custom';
-  boxWidth: [number, number];
   itemStyle: {
     color: string;
   };
