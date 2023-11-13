@@ -75,19 +75,19 @@ const port = process.env.SERVER_PORT || 31200;
 
 if (process.env.NODE_ENV !== 'test') {
   (async function init() {
+    app.listen(port, () => {
+      logger.info(`Listening on port ${port}`);
+    });
+
+    process.on('uncaughtException', (err) => {
+      logger.info(err.message);
+    });
+
     await dashboardDataSource.initialize();
     await migrateDashboardContents();
 
     await RoleService.ensureFixedRolePermissions();
 
-    app.listen(port, () => {
-      logger.info(`Listening on port ${port}`);
-    });
-
     initWebsocket(app, corsOrigins);
-
-    process.on('uncaughtException', (err) => {
-      logger.info(err.message);
-    });
   })();
 }
