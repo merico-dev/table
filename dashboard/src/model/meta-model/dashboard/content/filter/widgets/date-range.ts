@@ -44,22 +44,6 @@ const _FilterDateRangeConfigMeta = types
       return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
     },
   }))
-  .views((self) => ({
-    getMaxDate(startDate: Date | null) {
-      const { max_days } = self;
-      if (!max_days || !startDate) {
-        return undefined;
-      }
-      return dayjs(startDate).startOf('day').add(max_days, 'days').toDate();
-    },
-    getMinDate(endDate: Date | null) {
-      const { max_days } = self;
-      if (!max_days || !endDate) {
-        return undefined;
-      }
-      return dayjs(endDate).startOf('day').subtract(max_days, 'days').toDate();
-    },
-  }))
   .actions((self) => ({
     setFilterValue(v: TDateRangePickerValue) {
       try {
