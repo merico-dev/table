@@ -43,7 +43,14 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         value={config.default_value}
         onChange={config.setDefaultValue}
       />
-      <NumberInput label="Max Days" min={0} value={config.max_days} onChange={config.setMaxDays} hideControls />
+      <NumberInput
+        label="Max Days"
+        min={0}
+        value={config.max_days}
+        onChange={config.setMaxDays}
+        hideControls
+        sx={{ width: '149px' }}
+      />
     </>
   );
 });
