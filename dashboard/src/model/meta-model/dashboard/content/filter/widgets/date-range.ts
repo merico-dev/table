@@ -23,7 +23,7 @@ const _FilterDateRangeConfigMeta = types
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
-    clearable: types.boolean,
+    clearable: types.boolean, // TODO: will be deprecated
     max_days: types.optional(types.number, 0),
     allowSingleDateInRange: types.optional(types.boolean, false),
   })

@@ -1,8 +1,8 @@
-import { DatePickerInput } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
-import { Calendar } from 'tabler-icons-react';
 import { FilterDateRangeConfigInstance, TDateRangePickerValue } from '~/model';
+import { DateRangeWidget } from './widget';
+import { DateRangeValue } from './widget/type';
 
 interface IFilterDateRange {
   label: string;
@@ -12,30 +12,38 @@ interface IFilterDateRange {
 }
 
 export const FilterDateRange = observer(({ label, config, value = [null, null], onChange }: IFilterDateRange) => {
-  const { inputFormat, ...restConfig } = config;
+  const { inputFormat, max_days, required, allowSingleDateInRange } = config;
 
-  const formattedValue = Array.isArray(value)
-    ? (value.map((v) => (v ? dayjs(v).toDate() : null)) as [Date | null, Date | null])
+  const formattedValue: DateRangeValue = Array.isArray(value)
+    ? (value.map((v) => (v ? dayjs(v).toDate() : null)) as DateRangeValue)
     : [null, null];
-  const handleChange = (values: [Date | null, Date | null]) => {
+  const handleChange = (values: DateRangeValue) => {
     onChange(values.map((d) => (d ? dayjs(d).format(inputFormat) : d)));
   };
   return (
-    <DatePickerInput
-      type="range"
+    // <DatePickerInput
+    //   type="range"
+    //   label={label}
+    //   value={formattedValue}
+    //   onChange={handleChange}
+    //   icon={<Calendar size={16} />}
+    //   sx={{ minWidth: '16em' }}
+    //   valueFormat={inputFormat}
+    //   styles={{
+    //     input: {
+    //       borderColor: '#e9ecef',
+    //     },
+    //   }}
+    //   required={required}
+    //   allowSingleDateInRange={allowSingleDateInRange}
+    // />
+    <DateRangeWidget
       label={label}
-      // @ts-expect-error value's type
       value={formattedValue}
       onChange={handleChange}
-      icon={<Calendar size={16} />}
-      sx={{ minWidth: '16em' }}
-      valueFormat={inputFormat}
-      styles={{
-        input: {
-          borderColor: '#e9ecef',
-        },
-      }}
-      {...restConfig}
+      inputFormat={inputFormat}
+      allowSingleDateInRange={allowSingleDateInRange}
+      max_days={max_days}
     />
   );
 });
