@@ -1,5 +1,5 @@
 import { Button, Divider, Table, Text } from '@mantine/core';
-import { DateRangeValue, SetDateValue } from './type';
+import { DateRangeValue } from './type';
 
 const shortcutGroups = {
   last: [

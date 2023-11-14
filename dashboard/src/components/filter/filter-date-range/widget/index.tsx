@@ -1,12 +1,12 @@
 import { Group, Popover, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconCalendar } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { Calendar } from './calendar';
 import { CountDays } from './count-days';
 import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
 import { DateRangeValue } from './type';
-import { IconCalendar, IconX } from '@tabler/icons-react';
 const inputStyles = {
   label: { display: 'block', height: '22px' },
 };
