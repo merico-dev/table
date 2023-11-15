@@ -1,6 +1,5 @@
 import { Button, Divider, Table, Text } from '@mantine/core';
 import { DateRangeValue } from '../type';
-import dayjs from 'dayjs';
 import { GetRange, shortcutGroups } from './shortcuts';
 
 export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void }) => {
