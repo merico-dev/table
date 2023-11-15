@@ -1,8 +1,9 @@
 import { Badge, Tooltip } from '@mantine/core';
+import { DateValue } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-export const CountDays = ({ begin, end }: { begin: Date | null; end: Date | null }) => {
+export const CountDays = ({ begin, end }: { begin: DateValue; end: DateValue }) => {
   const count = useMemo(() => {
     return dayjs(end).diff(dayjs(begin), 'days');
   }, [begin, end]);
