@@ -8,7 +8,7 @@ import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
 import { DateRangeValue } from './type';
 const getInputStyles = (opened: boolean) => ({
-  label: { display: 'block', height: '22px' },
+  label: { display: 'block', height: '21.7px' },
   input: { borderColor: opened ? '#228be6' : '#e9ecef' },
 });
 
@@ -29,7 +29,7 @@ export const DateRangeWidget = ({ label, value, onChange, max_days, allowSingleD
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group position="left" grow noWrap spacing={0} w="18em">
+      <Group position="left" grow noWrap spacing={0} w="18em" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
