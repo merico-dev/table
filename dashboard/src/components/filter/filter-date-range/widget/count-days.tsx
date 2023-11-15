@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 export const CountDays = ({ begin, end }: { begin: DateValue; end: DateValue }) => {
   const count = useMemo(() => {
-    return dayjs(end).diff(dayjs(begin), 'days');
+    return dayjs(end).diff(dayjs(begin), 'days') + 1;
   }, [begin, end]);
 
   if (Number.isNaN(count)) {

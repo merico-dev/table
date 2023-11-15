@@ -28,9 +28,11 @@ export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRa
   }, [begin, end]);
 
   const maxDate = useMemo(() => {
-    if (begin && !end) {
+    if (begin && !end && max_days > 0) {
       // during select
-      return dayjs(begin).add(max_days, 'days').toDate();
+      return dayjs(begin)
+        .add(max_days - 1, 'days')
+        .toDate();
     }
     return undefined;
   }, [begin, end, max_days]);
@@ -45,11 +47,12 @@ export const Calendar = ({ value, onChange, close, max_days, allowSingleDateInRa
 
   return (
     <DatePicker
-      date={dateLeft}
+      defaultDate={dateLeft}
       numberOfColumns={2}
       type="range"
       value={value}
       onChange={handleRangeChange}
+      onNextMonth={console.log}
       minDate={minDate}
       maxDate={maxDate}
       allowSingleDateInRange={allowSingleDateInRange}
