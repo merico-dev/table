@@ -1,15 +1,16 @@
 import { Group, Popover, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconCalendar } from '@tabler/icons-react';
+import { IconCalendar, IconMinus } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { Calendar } from './calendar';
 import { CountDays } from './count-days';
 import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
 import { DateRangeValue } from './type';
-const inputStyles = {
+const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '22px' },
-};
+  input: { borderColor: opened ? '#228be6' : '#e9ecef' },
+});
 
 type Props = {
   value: DateRangeValue;
@@ -28,16 +29,19 @@ export const DateRangeWidget = ({ label, value, onChange, max_days, allowSingleD
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group position="left" grow noWrap spacing={6} w="19em">
+      <Group position="left" grow noWrap spacing={0} w="18em">
         <Popover.Target>
           <TextInput
             label={label}
             icon={<IconCalendar size={16} />}
             placeholder="Start date"
-            styles={inputStyles}
             readOnly
             value={beginStr}
             onFocus={open}
+            styles={getInputStyles(opened)}
+            sx={{
+              '.mantine-Input-input': { borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 },
+            }}
           />
         </Popover.Target>
         <TextInput
@@ -46,12 +50,17 @@ export const DateRangeWidget = ({ label, value, onChange, max_days, allowSingleD
               <CountDays begin={begin} end={end} />
             </Group>
           }
+          icon={<IconMinus size={16} />}
           placeholder="End date"
           readOnly
           disabled={!begin}
           value={endStr}
           onFocus={open}
-          styles={inputStyles}
+          styles={getInputStyles(opened)}
+          sx={{
+            '.mantine-Input-icon': { transform: 'translateX(-22px)' },
+            '.mantine-Input-input': { borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 },
+          }}
         />
       </Group>
       <Popover.Dropdown p="sm">
