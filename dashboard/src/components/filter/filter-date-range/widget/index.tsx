@@ -17,11 +17,20 @@ type Props = {
   value: DateRangeValue;
   onChange: (v: DateRangeValue) => void;
   label: string;
+  required: boolean;
   inputFormat: string;
   allowSingleDateInRange: boolean;
   max_days: number;
 };
-export const DateRangeWidget = ({ label, value, onChange, max_days, allowSingleDateInRange, inputFormat }: Props) => {
+export const DateRangeWidget = ({
+  label,
+  required,
+  value,
+  onChange,
+  max_days,
+  allowSingleDateInRange,
+  inputFormat,
+}: Props) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [begin, end] = value;
@@ -34,6 +43,7 @@ export const DateRangeWidget = ({ label, value, onChange, max_days, allowSingleD
         <Popover.Target>
           <TextInput
             label={label}
+            required={required}
             icon={<IconCalendar size={16} />}
             placeholder="Start date"
             readOnly

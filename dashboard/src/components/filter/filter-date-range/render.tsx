@@ -12,7 +12,7 @@ interface IFilterDateRange {
 }
 
 export const FilterDateRange = observer(({ label, config, value = [null, null], onChange }: IFilterDateRange) => {
-  const { inputFormat, max_days, allowSingleDateInRange } = config;
+  const { inputFormat, required, max_days, allowSingleDateInRange } = config;
 
   const formattedValue: DateRangeValue = Array.isArray(value)
     ? (value.map((v) => (v ? dayjs(v).toDate() : null)) as DateRangeValue)
@@ -28,6 +28,7 @@ export const FilterDateRange = observer(({ label, config, value = [null, null], 
       inputFormat={inputFormat}
       allowSingleDateInRange={allowSingleDateInRange}
       max_days={max_days}
+      required={required}
     />
   );
 });
