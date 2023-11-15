@@ -7,6 +7,7 @@ import { CountDays } from './count-days';
 import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
 import { DateRangeValue } from './type';
+
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
   input: { borderColor: opened ? '#228be6' : '#e9ecef' },
