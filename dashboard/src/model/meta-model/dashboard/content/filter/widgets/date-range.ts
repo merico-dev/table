@@ -23,7 +23,7 @@ const _FilterDateRangeConfigMeta = types
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
-    clearable: types.boolean,
+    clearable: types.boolean, // TODO: will be deprecated
     max_days: types.optional(types.number, 0),
     allowSingleDateInRange: types.optional(types.boolean, false),
   })
@@ -42,22 +42,6 @@ const _FilterDateRangeConfigMeta = types
     },
     truthy(value: any) {
       return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
-    },
-  }))
-  .views((self) => ({
-    getMaxDate(startDate: Date | null) {
-      const { max_days } = self;
-      if (!max_days || !startDate) {
-        return undefined;
-      }
-      return dayjs(startDate).startOf('day').add(max_days, 'days').toDate();
-    },
-    getMinDate(endDate: Date | null) {
-      const { max_days } = self;
-      if (!max_days || !endDate) {
-        return undefined;
-      }
-      return dayjs(endDate).startOf('day').subtract(max_days, 'days').toDate();
     },
   }))
   .actions((self) => ({

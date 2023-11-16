@@ -68,3 +68,6 @@ dayjs.extend(weekYear);
 dayjs.extend(weekday);
 
 dayjs.tz.setDefault('UTC');
+dayjs.updateLocale('en', {
+  weekStart: 1,
+});

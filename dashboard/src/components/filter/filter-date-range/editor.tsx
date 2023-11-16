@@ -25,12 +25,6 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           label="Required"
         />
         <Checkbox
-          checked={config.clearable}
-          onChange={(e) => config.setClearable(e.currentTarget.checked)}
-          disabled={config.max_days > 0}
-          label="Clearable"
-        />
-        <Checkbox
           checked={config.allowSingleDateInRange}
           onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
           label="Allow choosing 1 day"
@@ -51,20 +45,11 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
       />
       <NumberInput
         label="Max Days"
-        description={
-          <Group position="apart">
-            <Text>Set 0 to disable.</Text>
-            <Group spacing={4}>
-              <Text>This feature requires</Text>
-              <Text color="blue">Clearable</Text>
-              <Text>to be checked</Text>
-            </Group>
-          </Group>
-        }
         min={0}
         value={config.max_days}
         onChange={config.setMaxDays}
         hideControls
+        sx={{ width: '149px' }}
       />
     </>
   );
