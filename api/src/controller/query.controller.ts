@@ -40,7 +40,7 @@ export class QueryController implements interfaces.Controller {
       const result = await this.queryService.query(
         type,
         key,
-        query,
+        Buffer.from(query, 'base64').toString(),
         content_id,
         query_id,
         params,
