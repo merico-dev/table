@@ -1676,6 +1676,7 @@ __metadata:
     echarts-for-react: 3.0.2
     echarts-gl: 2.0.9
     file-saver: 2.0.5
+    js-base64: 3.7.5
     jsdom: ^20.0.0
     jsdom-testing-mocks: ^1.5.0
     lodash: ^4.17.21
@@ -12329,6 +12330,13 @@ __metadata:
   version: 1.4.0
   resolution: "jju@npm:1.4.0"
   checksum: 3790481bd2b7827dd6336e6e3dc2dcc6d425679ba7ebde7b679f61dceb4457ea0cda330972494de608571f4973c6dfb5f70fab6f3c5037dbab19ac449a60424f
+  languageName: node
+  linkType: hard
+
+"js-base64@npm:3.7.5":
+  version: 3.7.5
+  resolution: "js-base64@npm:3.7.5"
+  checksum: 67a78c8b1c47b73f1c6fba1957e9fe6fd9dc78ac93ac46cc2e43472dcb9cf150d126fb0e593192e88e0497354fa634d17d255add7cc6ee3c7b4d29870faa8e18
   languageName: node
   linkType: hard
 
