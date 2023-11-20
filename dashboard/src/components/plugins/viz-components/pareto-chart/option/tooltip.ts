@@ -2,6 +2,7 @@ import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IParetoChartConf } from '../type';
 import { TParetoFormatters } from './utils';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const getTooltipFormatter = (conf: IParetoChartConf, formatters: TParetoFormatters) => (params: CallbackDataParams) => {
   const arr = Array.isArray(params) ? params : [params];
@@ -38,8 +39,8 @@ const getTooltipFormatter = (conf: IParetoChartConf, formatters: TParetoFormatte
 };
 
 export function getTooltip(conf: IParetoChartConf, formatters: TParetoFormatters) {
-  return {
+  return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     formatter: getTooltipFormatter(conf, formatters),
-  };
+  });
 }

@@ -4,6 +4,7 @@ import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHorizontalBarChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 function getYAxisLabel(params: AnyObject[], conf: IHorizontalBarChartConf) {
   const basis = params.find((p) => p.axisDim === 'y' && p.axisId === 'main-y-axis');
@@ -27,7 +28,7 @@ export function getTooltip(
     return ret;
   }, {} as Record<string, number>);
 
-  return {
+  return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     axisPointer: {
       type: 'shadow',
@@ -69,5 +70,5 @@ export function getTooltip(
       </table>
       `;
     },
-  };
+  });
 }
