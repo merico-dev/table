@@ -9,6 +9,7 @@ import permission from '../middleware/permission';
 import { PERMISSIONS } from '../services/role.service';
 import { ApiKey } from '../api_models/api';
 import { Account } from '../api_models/account';
+import { decode } from 'js-base64';
 
 @ApiPath({
   path: '/query',
@@ -40,7 +41,7 @@ export class QueryController implements interfaces.Controller {
       const result = await this.queryService.query(
         type,
         key,
-        query,
+        decode(query),
         content_id,
         query_id,
         params,

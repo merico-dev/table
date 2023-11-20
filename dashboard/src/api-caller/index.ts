@@ -3,6 +3,7 @@ import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql
 import { APIClient, TAdditionalQueryInfo } from './request';
 import { IDataSource, PaginationResponse } from './types';
 import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { encode, decode } from 'js-base64';
 import axios, { AxiosError } from 'axios';
 import { AnyObject } from '..';
 
@@ -12,6 +13,18 @@ export type QueryFailureError = {
     message: string;
   };
 };
+
+function consistencyCheck(before: string, after: string) {
+  const v = decode(after);
+  if (v === before) {
+    return;
+  }
+
+  console.error('Inconsistent sql');
+  console.groupCollapsed('Inconsistent sql');
+  console.table({ before, after, v });
+  console.groupEnd();
+}
 
 interface IQueryBySQL {
   name: string;
@@ -27,7 +40,9 @@ export async function queryBySQL({ query, name, payload, additionals }: IQueryBy
   const { type, key, sql, pre_process, post_process } = query;
 
   const formattedSQL = formatSQL(sql, payload);
-  const finalSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
+  const processedSQL = preProcessSQLQuery({ sql: formattedSQL, pre_process });
+  const finalSQL = encode(processedSQL);
+  consistencyCheck(processedSQL, finalSQL);
   let data = await APIClient.query(signal)({ type, key, query: finalSQL, ...additionals }, { params: { name } });
   data = postProcessSQLQuery(post_process, data, payloadToDashboardState(payload));
   return data;

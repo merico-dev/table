@@ -7,6 +7,7 @@ import { DashboardCreateRequest } from '~/api_models/dashboard';
 import { DashboardContentCreateRequest } from '~/api_models/dashboard_content';
 import { dashboardDataSource } from '~/data_sources/dashboard';
 import Dashboard from '~/models/dashboard';
+import { encode } from 'js-base64';
 
 describe('QueryController', () => {
   connectionHook();
@@ -114,7 +115,7 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'postgresql',
         key: 'preset',
-        query: "SELECT id, description FROM role WHERE id = 'SUPERADMIN' AND true",
+        query: encode("SELECT id, description FROM role WHERE id = 'SUPERADMIN' AND true"),
         content_id: dashboardContentId,
         query_id: 'pgQuery',
         params: { filters: { role_id: "'SUPERADMIN'" }, context: { true: 'true' } },
@@ -129,14 +130,16 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify({
-          host: '',
-          method: 'GET',
-          data: {},
-          params: {},
-          headers: { 'Content-Type': 'application/json' },
-          url: '/posts/1',
-        }),
+        query: encode(
+          JSON.stringify({
+            host: '',
+            method: 'GET',
+            data: {},
+            params: {},
+            headers: { 'Content-Type': 'application/json' },
+            url: '/posts/1',
+          }),
+        ),
         content_id: dashboardContentId,
         query_id: 'httpGetQuery',
         params: { filters: {}, context: {} },
@@ -160,14 +163,16 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify({
-          host: '',
-          method: 'POST',
-          data: { title: 'foo', body: 'bar', userId: 1 },
-          params: {},
-          headers: { 'Content-Type': 'application/json' },
-          url: '/posts',
-        }),
+        query: encode(
+          JSON.stringify({
+            host: '',
+            method: 'POST',
+            data: { title: 'foo', body: 'bar', userId: 1 },
+            params: {},
+            headers: { 'Content-Type': 'application/json' },
+            url: '/posts',
+          }),
+        ),
         content_id: dashboardContentId,
         query_id: 'httpPostQuery',
         params: { filters: {}, context: {} },
@@ -182,14 +187,16 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify({
-          host: '',
-          method: 'PUT',
-          data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
-          params: {},
-          headers: { 'Content-Type': 'application/json' },
-          url: '/posts/1',
-        }),
+        query: encode(
+          JSON.stringify({
+            host: '',
+            method: 'PUT',
+            data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
+            params: {},
+            headers: { 'Content-Type': 'application/json' },
+            url: '/posts/1',
+          }),
+        ),
         content_id: dashboardContentId,
         query_id: 'httpPutQuery',
         params: { filters: {}, context: {} },
@@ -204,14 +211,16 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: JSON.stringify({
-          host: '',
-          method: 'DELETE',
-          data: {},
-          params: {},
-          headers: { 'Content-Type': 'application/json' },
-          url: '/posts/1',
-        }),
+        query: encode(
+          JSON.stringify({
+            host: '',
+            method: 'DELETE',
+            data: {},
+            params: {},
+            headers: { 'Content-Type': 'application/json' },
+            url: '/posts/1',
+          }),
+        ),
         content_id: dashboardContentId,
         query_id: 'httpDeleteQuery',
         params: { filters: {}, context: {} },
