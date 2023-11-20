@@ -1598,6 +1598,7 @@ __metadata:
     inversify: ^6.0.1
     inversify-express-utils: ^6.4.3
     jest: ^29.4.1
+    js-base64: ^3.7.5
     jsonwebtoken: ^8.5.1
     lodash: ^4.17.21
     mysql: ^2.18.1
@@ -12333,7 +12334,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-base64@npm:3.7.5":
+"js-base64@npm:3.7.5, js-base64@npm:^3.7.5":
   version: 3.7.5
   resolution: "js-base64@npm:3.7.5"
   checksum: 67a78c8b1c47b73f1c6fba1957e9fe6fd9dc78ac93ac46cc2e43472dcb9cf150d126fb0e593192e88e0497354fa634d17d255add7cc6ee3c7b4d29870faa8e18
