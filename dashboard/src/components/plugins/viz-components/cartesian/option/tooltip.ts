@@ -4,6 +4,7 @@ import { AnyObject } from '~/types';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
   const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');
@@ -24,9 +25,8 @@ export function getTooltip(
     return ret;
   }, {} as Record<string, number>);
 
-  return {
+  return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
-    confine: true,
     formatter: function (params: CallbackDataParams[]) {
       const arr = Array.isArray(params) ? params : [params];
       if (arr.length === 0) {
@@ -64,5 +64,5 @@ export function getTooltip(
       </table>
       `;
     },
-  };
+  });
 }

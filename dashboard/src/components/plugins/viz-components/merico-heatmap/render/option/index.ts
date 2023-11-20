@@ -1,4 +1,3 @@
-import { defaultsDeep } from 'lodash';
 import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
 import { TMericoHeatmapConf } from '../../type';
 import { getLabelFormatters, getValueFormatters } from './formatters';
@@ -8,12 +7,6 @@ import { getTooltip } from './tooltip';
 import { getVisualMap } from './visual-map';
 import { getXAxis } from './x-axis';
 import { getYAxis } from './y-axis';
-
-const defaultOption = {
-  tooltip: {
-    confine: true,
-  },
-};
 
 export function getOption(conf: TMericoHeatmapConf, data: TPanelData, variables: ITemplateVariable[]) {
   if (!conf.x_axis.data_key || !conf.y_axis.data_key || !conf.heat_block.data_key) {
@@ -28,7 +21,7 @@ export function getOption(conf: TMericoHeatmapConf, data: TPanelData, variables:
   const labelFormatters = getLabelFormatters(conf);
   const valueFormatters = getValueFormatters(conf);
 
-  const customOptions = {
+  const options = {
     xAxis: getXAxis(conf, data, labelFormatters.x_axis),
     yAxis: getYAxis(conf, data, labelFormatters.y_axis),
     series: getSeries(conf, data),
@@ -36,5 +29,5 @@ export function getOption(conf: TMericoHeatmapConf, data: TPanelData, variables:
     grid: getGrid(conf),
     visualMap: getVisualMap(conf, variableValueMap),
   };
-  return defaultsDeep({}, customOptions, defaultOption);
+  return options;
 }

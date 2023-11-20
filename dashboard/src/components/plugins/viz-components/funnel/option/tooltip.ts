@@ -4,6 +4,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IFunnelConf } from '../type';
 import { parseDataKey } from '~/utils/data';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 interface IGetRows {
   conf: IFunnelConf;
@@ -57,9 +58,8 @@ function getTooltipFormatter(conf: IFunnelConf, data: TPanelData) {
 }
 
 export function getTooltip(conf: IFunnelConf, data: TPanelData) {
-  return {
+  return defaultEchartsOptions.getTooltip({
     trigger: 'item',
-    confine: true,
     formatter: getTooltipFormatter(conf, data),
-  };
+  });
 }

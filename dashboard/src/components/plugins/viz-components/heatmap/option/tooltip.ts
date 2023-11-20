@@ -6,6 +6,7 @@ import { IHeatmapConf } from '../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
 import { getLabelOverflowStyleInTooltip } from '../../../common-echarts-fields/axis-label-overflow';
 import { parseDataKey } from '~/utils/data';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -88,8 +89,7 @@ export function getTooltip(
   const h = parseDataKey(heat_block.data_key);
 
   const dataDict = _.keyBy(data[x.queryID], (d) => `${d[x.columnKey]}---${d[y.columnKey]}`);
-  return {
-    confine: true,
+  return defaultEchartsOptions.getTooltip({
     formatter: function (params: CallbackDataParams) {
       const rows = getRows({ conf, labelFormatters, valueFormatters, dataDict, params });
       const trs = rows.map((r) => {
@@ -121,5 +121,5 @@ export function getTooltip(
 
       return template;
     },
-  };
+  });
 }

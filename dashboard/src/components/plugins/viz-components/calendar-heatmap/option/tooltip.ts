@@ -5,6 +5,7 @@ import { AnyObject } from '~/types';
 import { ICalendarHeatmapConf } from '../type';
 import { ValueFormattersType } from './formatters';
 import { parseDataKey } from '~/utils/data';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const formatAdditionalMetric = (v: number) => {
   try {
@@ -59,8 +60,7 @@ function getRows({ conf, valueFormatters, dataDict, params }: IGetRows) {
 export function getTooltip(conf: ICalendarHeatmapConf, data: TPanelData, valueFormatters: ValueFormattersType) {
   const c = parseDataKey(conf.calendar.data_key);
   const dataDict = _.keyBy(data[c.queryID], c.columnKey);
-  return {
-    confine: true,
+  return defaultEchartsOptions.getTooltip({
     formatter: function (params: CallbackDataParams) {
       const rows = getRows({ conf, valueFormatters, dataDict, params });
       const trs = rows.map((r) => {
@@ -98,5 +98,5 @@ export function getTooltip(conf: ICalendarHeatmapConf, data: TPanelData, valueFo
 
       return template;
     },
-  };
+  });
 }
