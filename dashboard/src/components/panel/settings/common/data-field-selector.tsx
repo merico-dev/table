@@ -20,13 +20,8 @@ export const DataFieldSelector = observer(
     ) => {
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
-        const ret = [...panel.dataFieldOptions];
-        if (!clearable) {
-          return ret;
-        }
-        ret.unshift({ label: 'unset', value: '', group: '' });
-        return ret;
-      }, [panel.dataFieldOptions]);
+        return panel.dataFieldOptions(value, clearable);
+      }, [value, clearable]);
 
       if (options.length === 0) {
         const v = panel.explainDataKey(value);

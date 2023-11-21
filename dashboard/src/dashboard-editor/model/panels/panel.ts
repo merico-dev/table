@@ -3,7 +3,7 @@ import { PanelRenderModel } from '~/model';
 import { parseDataKey } from '~/utils/data';
 
 export const PanelModel = PanelRenderModel.views((self) => ({
-  get dataFieldOptions() {
+  get realDataFieldOptions() {
     if (self.queryIDs.length === 0) {
       return [];
     }
@@ -19,9 +19,29 @@ export const PanelModel = PanelRenderModel.views((self) => ({
           label: k,
           value: `${query.id}.${k}`,
           group: query.name,
+          disabled: false,
         }));
       })
       .flat();
+  },
+
+  dataFieldOptions(selected: TDataKey, clearable: boolean) {
+    const options = [...this.realDataFieldOptions];
+    if (selected && !options.find((o) => o.value === selected)) {
+      const s = parseDataKey(selected);
+      const q = self.queryByID(s.queryID);
+      options.unshift({
+        label: s.columnKey,
+        value: selected,
+        group: q ? q.name : s.queryID,
+        disabled: true,
+      });
+    }
+
+    if (clearable) {
+      options.unshift({ label: 'unset', value: '', group: '', disabled: false });
+    }
+    return options;
   },
   explainDataKey(dataKey: TDataKey) {
     const { queryID, columnKey } = parseDataKey(dataKey);
