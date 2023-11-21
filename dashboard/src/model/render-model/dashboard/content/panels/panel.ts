@@ -16,6 +16,9 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     get queries(): QueryRenderModelInstance[] {
       return self.contentModel.queries.findByIDSet(self.queryIDSet);
     },
+    queryByID(queryID: string) {
+      return this.queries.find((q) => q.id === queryID);
+    },
     get data() {
       return this.queries.reduce((ret: TPanelData, q) => {
         ret[q.id] = q.data;
