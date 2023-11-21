@@ -17,13 +17,15 @@ import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { FontSize } from './font-size-extension';
+import { Sx } from '@mantine/core';
 
 interface IReadonlyRichText {
   value: string;
   styles?: RichTextEditorProps['styles'];
+  sx?: Sx;
 }
 
-export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
+export const ReadonlyRichText = ({ value, styles = {}, sx = {} }: IReadonlyRichText) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -60,7 +62,7 @@ export const ReadonlyRichText = ({ value, styles = {} }: IReadonlyRichText) => {
   }, [styles]);
 
   return (
-    <RichTextEditor editor={editor} styles={finalStyles}>
+    <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>
       <RichTextEditor.Content />
     </RichTextEditor>
   );
