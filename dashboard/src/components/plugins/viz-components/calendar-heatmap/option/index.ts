@@ -13,9 +13,6 @@ import { getVisualMap } from './visual-map';
 import { extractData, parseDataKey } from '~/utils/data';
 
 const defaultOption = {
-  tooltip: {
-    confine: true,
-  },
   grid: {
     containLabel: true,
   },

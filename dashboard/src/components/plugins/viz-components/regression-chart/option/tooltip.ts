@@ -1,3 +1,4 @@
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IRegressionChartConf } from '../type';
 
 type TFormatterParams = {
@@ -22,8 +23,7 @@ function getRows(params: TFormatterParams | TFormatterParams[]) {
 }
 
 export function getTooltip(conf: IRegressionChartConf) {
-  return {
-    confine: true,
+  return defaultEchartsOptions.getTooltip({
     trigger: 'axis',
     formatter: (params: TFormatterParams | TFormatterParams[]) => {
       const rows = getRows(params);
@@ -53,5 +53,5 @@ export function getTooltip(conf: IRegressionChartConf) {
 
       return template;
     },
-  };
+  });
 }

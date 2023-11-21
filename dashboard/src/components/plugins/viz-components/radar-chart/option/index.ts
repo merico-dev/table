@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IRadarChartConf } from '../type';
 import { getSeries } from './series';
 import { getTooltipFormatter } from './tooltip';
@@ -55,11 +56,10 @@ export function getOption(conf: IRadarChartConf, data: TPanelData) {
         show: false,
       },
     },
-    tooltip: {
-      confine: true,
+    tooltip: defaultEchartsOptions.getTooltip({
       backgroundColor: 'rgba(255,255,255,0.6)',
       formatter: getTooltipFormatter(conf),
-    },
+    }),
     legend: {
       show: true,
       bottom: 0,

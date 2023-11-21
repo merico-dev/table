@@ -1,3 +1,4 @@
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem } from '../../type';
 import { getBoxplotTooltipContent } from './boxplot';
 import { getOutlierTooltipContent } from './outlier';
@@ -31,9 +32,8 @@ const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterPa
 };
 
 export function getTooltip({ config }: { config: IBoxplotChartConf }) {
-  return {
+  return defaultEchartsOptions.getTooltip({
     trigger: 'item',
-    confine: true,
     formatter: getFormatter(config),
-  };
+  });
 }

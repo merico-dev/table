@@ -11,12 +11,6 @@ import { getYAxis } from './y-axis';
 import _ from 'lodash';
 import { parseDataKey } from '~/utils/data';
 
-const defaultOption = {
-  tooltip: {
-    confine: true,
-  },
-};
-
 function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
   if (width < xlen * 10 || height < ylen * 10) {
     return 0;
@@ -54,7 +48,7 @@ export function getOption(
   const seriesData = data[x.queryID].map((d) => [_.get(d, x.columnKey), _.get(d, y.columnKey), _.get(d, h.columnKey)]);
   const borderWidth = calcBorderWidth(xData.length, yData.length, width, height);
 
-  const customOptions = {
+  const options = {
     xAxis: getXAxis(conf, xData, labelFormatters.x_axis),
     yAxis: getYAxis(conf, yData, labelFormatters.y_axis),
     series: getSeries(conf, seriesData, borderWidth),
@@ -62,5 +56,5 @@ export function getOption(
     grid: getGrid(conf),
     visualMap: getVisualMap(conf, variableValueMap),
   };
-  return defaultsDeep({}, customOptions, defaultOption);
+  return options;
 }

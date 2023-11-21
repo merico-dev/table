@@ -1,5 +1,6 @@
 import numbro from 'numbro';
 import { IEchartsSunburstLabelFormatter } from './types';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 function getFormatter() {
   return ({ treePathInfo, name, value, color, marker, ...rest }: IEchartsSunburstLabelFormatter) => {
@@ -37,10 +38,8 @@ function getFormatter() {
 }
 
 export function getTooltip() {
-  return {
-    show: true,
+  return defaultEchartsOptions.getTooltip({
     trigger: 'item',
-    confine: true,
     formatter: getFormatter(),
-  };
+  });
 }

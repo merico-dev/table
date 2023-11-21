@@ -1,10 +1,11 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
 import numbro from 'numbro';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { AnyObject } from '~/types';
+import { readColumnIgnoringQuery } from '~/utils/data';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
-import { parseDataKey, readColumnIgnoringQuery } from '~/utils/data';
 
 function formatXAxisLabel(value: string | number, index: number, conf: IScatterChartConf) {
   const { x_axis } = conf;
@@ -43,8 +44,7 @@ const formatAdditionalMetric = (v: number) => {
 
 export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<string, (p: $TSFixMe) => string>) {
   const { scatter, tooltip } = conf;
-  return {
-    confine: true,
+  return defaultEchartsOptions.getTooltip({
     trigger: tooltip.trigger,
     formatter: function (params: TopLevelFormatterParams) {
       const yLabelFormatter = labelFormatters[0] ?? labelFormatters.default;
@@ -109,5 +109,5 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
 
       return template;
     },
-  };
+  });
 }
