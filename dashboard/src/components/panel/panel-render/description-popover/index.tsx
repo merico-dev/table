@@ -29,7 +29,16 @@ export const DescriptionPopover = observer(() => {
         withinPortal
         zIndex={310}
       >
-        <ReadonlyRichText value={panel.description} styles={{ root: { border: 'none' }, content: { padding: 0 } }} />
+        <ReadonlyRichText
+          value={panel.description}
+          styles={{
+            root: { border: 'none' },
+            content: { padding: 0 },
+          }}
+          sx={{
+            '.mantine-RichTextEditor-content .ProseMirror': { padding: '0 !important' },
+          }}
+        />
       </Modal>
       <Tooltip label="Click to see description" position="top-start" withinPortal>
         <ActionIcon
