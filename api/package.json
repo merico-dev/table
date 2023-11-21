@@ -62,7 +62,7 @@
     "swagger-express-ts": "^1.1.0",
     "swagger-ui-dist": "^4.11.1",
     "tsconfig-paths": "^4.0.0",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.17"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
