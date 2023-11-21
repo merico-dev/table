@@ -14,7 +14,10 @@ interface IDataFieldSelector {
 
 export const DataFieldSelector = observer(
   forwardRef(
-    ({ label, required, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector, ref: $TSFixMe) => {
+    (
+      { label, required, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector,
+      ref: React.ForwardedRef<HTMLInputElement>,
+    ) => {
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
         const ret = [...panel.dataFieldOptions];
