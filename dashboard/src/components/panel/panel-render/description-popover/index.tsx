@@ -24,7 +24,7 @@ export const DescriptionPopover = observer(() => {
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={panel.name}
+        title={panel.title.show ? panel.name : ''}
         withCloseButton={false}
         withinPortal
         zIndex={310}
