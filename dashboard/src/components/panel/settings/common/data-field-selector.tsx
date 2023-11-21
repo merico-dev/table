@@ -1,4 +1,4 @@
-import { Select, Sx } from '@mantine/core';
+import { Box, Group, HoverCard, Select, Sx, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React, { forwardRef } from 'react';
 import { useEditPanelContext } from '~/contexts';
@@ -27,6 +27,32 @@ export const DataFieldSelector = observer(
         ret.unshift({ label: 'unset', value: '', group: '' });
         return ret;
       }, [panel.dataFieldOptions]);
+
+      if (options.length === 0) {
+        const v = panel.explainDataKey(value);
+        return (
+          <HoverCard shadow="md" position="bottom-start" withinPortal zIndex={320}>
+            <HoverCard.Target>
+              <Box>
+                <TextInput label={label} required={required} defaultValue={v.columnKey} readOnly disabled />
+              </Box>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>
+              <Group position="left" spacing={0}>
+                <Text size="xs" color={v.queryName ? 'black' : 'red'} sx={{ fontFamily: 'monospace' }}>
+                  {v.queryName ?? v.queryID}
+                </Text>
+                <Text size="xs" color="black" sx={{ fontFamily: 'monospace' }}>
+                  .
+                </Text>
+                <Text size="xs" color="red" sx={{ fontFamily: 'monospace' }}>
+                  {v.columnKey}
+                </Text>
+              </Group>
+            </HoverCard.Dropdown>
+          </HoverCard>
+        );
+      }
 
       return (
         <Select

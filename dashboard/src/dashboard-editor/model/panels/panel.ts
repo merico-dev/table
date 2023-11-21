@@ -1,5 +1,6 @@
 import { getParent, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { PanelRenderModel } from '~/model';
+import { parseDataKey } from '~/utils/data';
 
 export const PanelModel = PanelRenderModel.views((self) => ({
   get dataFieldOptions() {
@@ -21,6 +22,14 @@ export const PanelModel = PanelRenderModel.views((self) => ({
         }));
       })
       .flat();
+  },
+  explainDataKey(dataKey: TDataKey) {
+    const { queryID, columnKey } = parseDataKey(dataKey);
+    const q = self.queries.find((q) => q.id === queryID);
+    if (!q) {
+      return { queryID, queryName: null, columnKey };
+    }
+    return { queryID, queryName: q.name, columnKey };
   },
 }))
   .actions((self) => ({
