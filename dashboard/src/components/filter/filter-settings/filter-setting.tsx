@@ -98,7 +98,14 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
               filter.setLabel(e.currentTarget.value);
             }}
           />
-          <Select label="Widget" data={filterTypeOptions} required value={filter.type} onChange={filter.setType} />
+          <Select
+            label="Widget"
+            data={filterTypeOptions}
+            required
+            value={filter.type}
+            onChange={filter.setType}
+            maxDropdownHeight={500}
+          />
           {/* @ts-expect-error type mismatch */}
           <FilterEditor config={filter.config} />
         </Stack>
