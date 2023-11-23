@@ -2,6 +2,8 @@ import { Checkbox, Group, NumberInput, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { FilterDateRangeConfigInstance } from '~/model';
 import { FilterDateRange } from './render';
+import { useMemo } from 'react';
+import { getDateRangeShortcuts } from './widget/shortcuts/shortcuts';
 
 interface IFilterEditorDateRange {
   config: FilterDateRangeConfigInstance;
@@ -16,6 +18,10 @@ const inputFormatOptions = [
 ];
 
 export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ config }: IFilterEditorDateRange) {
+  const shortcuts = useMemo(
+    () => getDateRangeShortcuts().map(({ value, group }) => ({ label: value, value, group })),
+    [],
+  );
   return (
     <>
       <Group>
@@ -30,19 +36,6 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           label="Allow choosing 1 day"
         />
       </Group>
-      <Select
-        data={inputFormatOptions}
-        label="Display Format"
-        value={config.inputFormat}
-        onChange={config.setInputFormat}
-      />
-      <FilterDateRange
-        label="Default Value"
-        config={config}
-        // @ts-expect-error type of default_value
-        value={config.default_value}
-        onChange={config.setDefaultValue}
-      />
       <NumberInput
         label="Max Days"
         min={0}
@@ -51,6 +44,32 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         hideControls
         sx={{ width: '149px' }}
       />
+      <Select
+        data={inputFormatOptions}
+        label="Display Format"
+        value={config.inputFormat}
+        onChange={config.setInputFormat}
+      />
+      <Group>
+        <FilterDateRange
+          label="Default Value"
+          config={config}
+          // @ts-expect-error type of default_value
+          value={config.default_value}
+          onChange={config.setDefaultValue}
+          disabled={!!config.default_shortcut}
+        />
+        <Select
+          data={shortcuts}
+          label="Default by Shortcut"
+          value={config.default_shortcut}
+          onChange={config.setDefaultShortcut}
+          placeholder="Priors default value"
+          clearable
+          sx={{ flexGrow: 1 }}
+          maxDropdownHeight={500}
+        />
+      </Group>
     </>
   );
 });

@@ -9,7 +9,7 @@ type Shrotcut = {
   getRange: GetRange;
 };
 
-export const getShortcuts = (): Shrotcut[] => [
+export const getDateRangeShortcuts = (): Shrotcut[] => [
   {
     label: 'yesterday',
     value: 'yesterday',
@@ -209,3 +209,12 @@ export const getShortcuts = (): Shrotcut[] => [
     },
   },
 ];
+
+export function getDateRangeShortcutValue(shortcutValue: string) {
+  const shortcuts = getDateRangeShortcuts();
+  const shortcut = shortcuts.find((s) => s.value === shortcutValue);
+  if (shortcut) {
+    return shortcut.getRange();
+  }
+  return null;
+}

@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
+import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 import { FilterMetaSnapshotOut } from '~/model';
 import { FilterValuesType } from './types';
-import dayjs from 'dayjs';
 
 export function formatDefaultValue(
   v: string | boolean | string[] | (string | null)[],
@@ -11,6 +12,12 @@ export function formatDefaultValue(
   }
   if (config._name === 'date-range') {
     try {
+      if (config.default_shortcut) {
+        const range = getDateRangeShortcutValue(config.default_shortcut);
+        if (range) {
+          return range.map((d) => dayjs(d).format(config.inputFormat));
+        }
+      }
       const [...dateTimeStrings] = v as [string | null, string | null];
       return dateTimeStrings.map((v) => {
         if (v === null) {

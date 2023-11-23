@@ -1,6 +1,6 @@
 import { Button, Divider, Table, Text } from '@mantine/core';
 import { DateRangeValue } from '../type';
-import { GetRange, getShortcuts } from './shortcuts';
+import { GetRange, getDateRangeShortcuts } from './shortcuts';
 import { useMemo } from 'react';
 import _ from 'lodash';
 
@@ -9,7 +9,7 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
     const range = getRange();
     onChange(range);
   };
-  const shortcutGroups = useMemo(() => _.groupBy(getShortcuts(), 'group'), []);
+  const shortcutGroups = useMemo(() => _.groupBy(getDateRangeShortcuts(), 'group'), []);
   return (
     <>
       <Divider variant="dashed" my={10} />

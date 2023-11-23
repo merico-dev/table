@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
+import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 export type TDateRangePickerValue = [string | null, string | null];
 
 function postProcessDefaultValue(default_value: Array<number | string | null>, inputFormat: string) {
@@ -23,13 +24,23 @@ const _FilterDateRangeConfigMeta = types
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
     default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
+    default_shortcut: types.optional(types.string, ''),
     clearable: types.boolean, // TODO: will be deprecated
     max_days: types.optional(types.number, 0),
     allowSingleDateInRange: types.optional(types.boolean, false),
   })
   .views((self) => ({
     get json() {
-      const { _name, max_days, required, clearable, inputFormat, default_value, allowSingleDateInRange } = self;
+      const {
+        _name,
+        max_days,
+        required,
+        clearable,
+        inputFormat,
+        default_value,
+        default_shortcut,
+        allowSingleDateInRange,
+      } = self;
       return {
         _name,
         max_days,
@@ -37,6 +48,7 @@ const _FilterDateRangeConfigMeta = types
         clearable,
         inputFormat,
         default_value: postProcessDefaultValue(default_value, inputFormat),
+        default_shortcut,
         allowSingleDateInRange,
       };
     },
@@ -48,8 +60,8 @@ const _FilterDateRangeConfigMeta = types
     setFilterValue(v: TDateRangePickerValue) {
       try {
         const filter = getParent(self) as any;
-        const contentModel = getRoot(self) as any;
-        contentModel.filters.setValueByKey(filter.key, v);
+        const filters = getParent(filter, 2) as any;
+        filters.setValueByKey(filter.key, v);
       } catch (error) {
         console.error(error);
       }
@@ -69,6 +81,19 @@ const _FilterDateRangeConfigMeta = types
       self.default_value.length = 0;
       self.default_value.push(...v);
       self.setFilterValue(v);
+    },
+    setDefaultShortcut(v: string) {
+      self.default_shortcut = v;
+      if (!v) {
+        return;
+      }
+
+      const range = getDateRangeShortcutValue(self.default_shortcut);
+      console.log(range);
+      if (range) {
+        const newValue = range.map((d) => dayjs(d).format(self.inputFormat)) as TDateRangePickerValue;
+        self.setFilterValue(newValue);
+      }
     },
     setMaxDays(v: number) {
       self.max_days = v;
