@@ -130,16 +130,14 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: encode(
-          JSON.stringify({
-            host: '',
-            method: 'GET',
-            data: {},
-            params: {},
-            headers: { 'Content-Type': 'application/json' },
-            url: '/posts/1',
-          }),
-        ),
+        query: JSON.stringify({
+          host: '',
+          method: 'GET',
+          data: {},
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
         content_id: dashboardContentId,
         query_id: 'httpGetQuery',
         params: { filters: {}, context: {} },
@@ -163,16 +161,14 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: encode(
-          JSON.stringify({
-            host: '',
-            method: 'POST',
-            data: { title: 'foo', body: 'bar', userId: 1 },
-            params: {},
-            headers: { 'Content-Type': 'application/json' },
-            url: '/posts',
-          }),
-        ),
+        query: JSON.stringify({
+          host: '',
+          method: 'POST',
+          data: { title: 'foo', body: 'bar', userId: 1 },
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts',
+        }),
         content_id: dashboardContentId,
         query_id: 'httpPostQuery',
         params: { filters: {}, context: {} },
@@ -187,16 +183,14 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: encode(
-          JSON.stringify({
-            host: '',
-            method: 'PUT',
-            data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
-            params: {},
-            headers: { 'Content-Type': 'application/json' },
-            url: '/posts/1',
-          }),
-        ),
+        query: JSON.stringify({
+          host: '',
+          method: 'PUT',
+          data: { id: 1, title: 'foo', body: 'bar', userId: 1 },
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
         content_id: dashboardContentId,
         query_id: 'httpPutQuery',
         params: { filters: {}, context: {} },
@@ -211,16 +205,14 @@ describe('QueryController', () => {
       const query: QueryRequest = {
         type: 'http',
         key: 'jsonplaceholder_renamed',
-        query: encode(
-          JSON.stringify({
-            host: '',
-            method: 'DELETE',
-            data: {},
-            params: {},
-            headers: { 'Content-Type': 'application/json' },
-            url: '/posts/1',
-          }),
-        ),
+        query: JSON.stringify({
+          host: '',
+          method: 'DELETE',
+          data: {},
+          params: {},
+          headers: { 'Content-Type': 'application/json' },
+          url: '/posts/1',
+        }),
         content_id: dashboardContentId,
         query_id: 'httpDeleteQuery',
         params: { filters: {}, context: {} },
