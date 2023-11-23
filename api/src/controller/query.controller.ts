@@ -41,7 +41,7 @@ export class QueryController implements interfaces.Controller {
       const result = await this.queryService.query(
         type,
         key,
-        decode(query),
+        type !== 'http' ? decode(query) : query,
         content_id,
         query_id,
         params,
