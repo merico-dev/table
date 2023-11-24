@@ -1,4 +1,6 @@
-import { Group } from '@mantine/core';
+import { Button, Collapse, Group } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconChevronsDown, IconChevronsUp } from '@tabler/icons-react';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useMemo } from 'react';
@@ -9,7 +11,26 @@ import { Filter } from './filter';
 import { SearchButton } from './search-button';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
 
+const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
+  return (
+    <Group position="right" ml={-4} mt={-4} mb={opened ? 4 : 0}>
+      <Button
+        size="xs"
+        compact
+        variant="subtle"
+        color={opened ? 'gray' : 'blue'}
+        leftIcon={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
+        onClick={toggle}
+      >
+        {opened ? 'Hide Filters' : 'Show Filters'}
+      </Button>
+    </Group>
+  );
+};
+
 export const Filters = observer(function _Filters({ view }: { view: ViewMetaInstance }) {
+  const [opened, { toggle }] = useDisclosure(true);
+
   const content = useRenderContentModelContext();
 
   const { control, handleSubmit, reset } = useForm({
@@ -48,30 +69,33 @@ export const Filters = observer(function _Filters({ view }: { view: ViewMetaInst
 
   return (
     <form onSubmit={handleSubmit(content.filters.setValues)}>
-      <Group
-        className="dashboard-filters"
-        position="apart"
-        noWrap
-        sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
-      >
-        <Group align="flex-start">
-          {filters.map((filter) => (
-            <Controller
-              key={filter.id}
-              name={filter.key}
-              control={control}
-              render={({ field }) => (
-                <Filter filter={filter} value={field.value} onChange={getChangeHandler(filter, field.onChange)} />
-              )}
-            />
-          ))}
-        </Group>
-        {!allAutoSubmit && (
-          <Group sx={{ alignSelf: 'flex-end' }}>
-            <SearchButton disabled={searchButtonDisabled} />
+      <FilterToggler opened={opened} toggle={toggle} />
+      <Collapse in={opened}>
+        <Group
+          className="dashboard-filters"
+          position="apart"
+          noWrap
+          sx={allAutoSubmit ? {} : { border: '1px solid #e9ecef', borderRadius: '4px', padding: '16px' }}
+        >
+          <Group align="flex-start">
+            {filters.map((filter) => (
+              <Controller
+                key={filter.id}
+                name={filter.key}
+                control={control}
+                render={({ field }) => (
+                  <Filter filter={filter} value={field.value} onChange={getChangeHandler(filter, field.onChange)} />
+                )}
+              />
+            ))}
           </Group>
-        )}
-      </Group>
+          {!allAutoSubmit && (
+            <Group sx={{ alignSelf: 'flex-end' }}>
+              <SearchButton disabled={searchButtonDisabled} />
+            </Group>
+          )}
+        </Group>
+      </Collapse>
     </form>
   );
 });

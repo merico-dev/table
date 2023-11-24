@@ -5,7 +5,7 @@ import { RenderViewDivision } from '../render';
 
 export const PreviewViewDivision = observer(({ children, view }: { children: ReactNode; view: ViewMetaInstance }) => {
   return (
-    <RenderViewDivision sx={{ paddingTop: '10px', paddingBottom: '100px' }} view={view}>
+    <RenderViewDivision sx={{ paddingBottom: '100px' }} view={view}>
       {children}
     </RenderViewDivision>
   );
