@@ -113,5 +113,5 @@ export const initialDashboardContent: TDashboardContent = {
   ],
   panels: [],
   filters: [],
-  version: '9.19.0',
+  version: '10.41.0',
 };

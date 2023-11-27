@@ -17,10 +17,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (!isAlive(self)) {
       return [];
     }
-    // @ts-expect-error untyped getRoot(self)
-    const contentModel = getRoot(self).content;
 
-    const { context } = contentModel.payloadForSQL;
+    const { context } = this.contentModel.payloadForSQL;
     const contextOptions: SelectItem[] = Object.keys(context).map((k) => ({
       group: 'Context',
       label: k,
@@ -28,14 +26,28 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       description: undefined,
     }));
 
-    const filterOptions: SelectItem[] = contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
+    const filterOptions: SelectItem[] = this.contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
       group: 'Filters',
       label: o.label,
       value: `filters.${o.value}`,
       description: o.value,
     }));
 
-    return [...contextOptions, ...filterOptions];
+    const ret = [...contextOptions, ...filterOptions];
+    const validValues = new Set(ret.map((r) => r.value));
+    self.run_by.forEach((c) => {
+      if (validValues.has(c)) {
+        return;
+      }
+
+      ret.push({
+        group: 'Invalid',
+        label: c,
+        value: c,
+      });
+    });
+
+    return ret;
   },
   get unmetRunByConditions() {
     // this computed has dependencies on reactive values outside the model,
@@ -47,8 +59,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (run_by.length === 0) {
       return [];
     }
-    // @ts-expect-error untyped getRoot(self)
-    const payload = getRoot(self).content.payloadForSQL;
+    const payload = this.contentModel.payloadForSQL;
 
     return run_by.filter((c) => {
       const value = _.get(payload, c);
@@ -91,8 +102,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (react_to.length === 0) {
       return '';
     }
-    // @ts-expect-error untyped getRoot(self)
-    const source = getRoot(self).content.payloadForSQL;
+    const source = self.contentModel.payloadForSQL;
     const payload = [...react_to].reduce((acc, path) => {
       acc[path] = _.get(source, path);
       return acc;
@@ -107,14 +117,13 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (self.unmetRunByConditions.length === 0) {
       return { context: [], filters: [] };
     }
-    // @ts-expect-error untyped getRoot(self)
-    const { keyLabelMap } = getRoot(self).content.filters;
+    const { keyLabelMap } = self.contentModel.filters;
     const contextNames = self.unmetRunByConditions
       .filter((k) => k.startsWith('context.'))
-      .map((k) => k.split('context.')[0]);
+      .map((k) => k.replace('context.', ''));
     const filterNames = self.unmetRunByConditions
       .filter((k) => k.startsWith('filters.'))
-      .map((k) => _.get({ filters: keyLabelMap }, k))
+      .map((k) => _.get({ filters: keyLabelMap }, k, k.replace('filters.', '')))
       .filter((v) => !!v);
     return {
       context: contextNames,

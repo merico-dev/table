@@ -2,8 +2,7 @@ function upgradePanels(panels: Record<string, any>[]) {
   return panels.map((p) => {
     const { title, ...rest } = p;
     if (typeof title !== 'string') {
-      console.log(p);
-      throw new Error(`Unexpected type of panel.title: ${typeof title}`);
+      return p;
     }
     const name = title ? title : p.id;
     return {
