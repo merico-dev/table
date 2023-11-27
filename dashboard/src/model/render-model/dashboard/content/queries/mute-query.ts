@@ -59,8 +59,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (run_by.length === 0) {
       return [];
     }
-    // @ts-expect-error untyped getRoot(self)
-    const payload = getRoot(self).content.payloadForSQL;
+    const payload = this.contentModel.payloadForSQL;
 
     return run_by.filter((c) => {
       const value = _.get(payload, c);
@@ -103,8 +102,7 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (react_to.length === 0) {
       return '';
     }
-    // @ts-expect-error untyped getRoot(self)
-    const source = getRoot(self).content.payloadForSQL;
+    const source = self.contentModel.payloadForSQL;
     const payload = [...react_to].reduce((acc, path) => {
       acc[path] = _.get(source, path);
       return acc;
