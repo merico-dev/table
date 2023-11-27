@@ -117,14 +117,13 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (self.unmetRunByConditions.length === 0) {
       return { context: [], filters: [] };
     }
-    // @ts-expect-error untyped getRoot(self)
-    const { keyLabelMap } = getRoot(self).content.filters;
+    const { keyLabelMap } = self.contentModel.filters;
     const contextNames = self.unmetRunByConditions
       .filter((k) => k.startsWith('context.'))
-      .map((k) => k.split('context.')[0]);
+      .map((k) => k.replace('context.', ''));
     const filterNames = self.unmetRunByConditions
       .filter((k) => k.startsWith('filters.'))
-      .map((k) => _.get({ filters: keyLabelMap }, k))
+      .map((k) => _.get({ filters: keyLabelMap }, k, k.replace('filters.', '')))
       .filter((v) => !!v);
     return {
       context: contextNames,
