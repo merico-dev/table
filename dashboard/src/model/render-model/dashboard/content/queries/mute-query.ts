@@ -17,10 +17,8 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
     if (!isAlive(self)) {
       return [];
     }
-    // @ts-expect-error untyped getRoot(self)
-    const contentModel = getRoot(self).content;
 
-    const { context } = contentModel.payloadForSQL;
+    const { context } = this.contentModel.payloadForSQL;
     const contextOptions: SelectItem[] = Object.keys(context).map((k) => ({
       group: 'Context',
       label: k,
@@ -28,14 +26,28 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
       description: undefined,
     }));
 
-    const filterOptions: SelectItem[] = contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
+    const filterOptions: SelectItem[] = this.contentModel.filters.keyLabelOptions.map((o: SelectItem) => ({
       group: 'Filters',
       label: o.label,
       value: `filters.${o.value}`,
       description: o.value,
     }));
 
-    return [...contextOptions, ...filterOptions];
+    const ret = [...contextOptions, ...filterOptions];
+    const validValues = new Set(ret.map((r) => r.value));
+    self.run_by.forEach((c) => {
+      if (validValues.has(c)) {
+        return;
+      }
+
+      ret.push({
+        group: 'Invalid',
+        label: c,
+        value: c,
+      });
+    });
+
+    return ret;
   },
   get unmetRunByConditions() {
     // this computed has dependencies on reactive values outside the model,
