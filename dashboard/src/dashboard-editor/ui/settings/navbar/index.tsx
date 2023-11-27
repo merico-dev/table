@@ -11,7 +11,12 @@ export const SettingsNavbar = observer(() => {
     <MantineNavbar
       p={0}
       width={{ base: 220, xs: 220, sm: 240, md: 260, lg: 300, xl: 320 }}
-      sx={{ height: '100vh - 60px - 60px' }}
+      sx={{
+        height: '100vh - 60px - 60px',
+        '.mantine-NavLink-body': {
+          wordWrap: 'break-word',
+        },
+      }}
     >
       <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
