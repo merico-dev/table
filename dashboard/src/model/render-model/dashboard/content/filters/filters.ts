@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Instance, types } from 'mobx-state-tree';
-import { FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import { CURRENT_SCHEMA_VERSION, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters } from './utils';
 
@@ -78,6 +78,7 @@ export const FiltersRenderModel = types
 
       const ret = {
         filters: filters.map((f) => ({ ...f.json, visibleInViewsIDs: raw ? f.json.visibleInViewsIDs : [] })),
+        version: CURRENT_SCHEMA_VERSION,
       };
       return ret;
     },

@@ -13,6 +13,7 @@ export * from './components/panel';
 export * from './contexts';
 export * from './types';
 export * from './dashboard-editor/model';
+export * from './model';
 export * from './api-caller/request';
 export type { AnyObject } from './types/utils';
 

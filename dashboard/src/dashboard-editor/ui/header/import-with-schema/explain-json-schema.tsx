@@ -1,4 +1,4 @@
-import { Text, List, Table, Stack, Box, Divider } from '@mantine/core';
+import { Box, Divider, List, Stack, Table, Text } from '@mantine/core';
 import { IconPointFilled } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import { TDashboardContent } from '~/types';

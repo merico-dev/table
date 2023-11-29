@@ -5,6 +5,7 @@ import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
 import { downloadJSON } from '~/utils/download';
 import { variablesToStrings } from '~/utils/template';
+import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
@@ -92,6 +93,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
         definition: {
           queries,
         },
+        version: CURRENT_SCHEMA_VERSION,
       };
       const schemaStr = JSON.stringify(schema, null, 2);
       const filename = self.name;
