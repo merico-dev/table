@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Instance, SnapshotIn } from 'mobx-state-tree';
-import { EViewComponentType, ViewRenderModel } from '~/model';
+import { CURRENT_SCHEMA_VERSION, EViewComponentType, ViewRenderModel } from '~/model';
 import { AnyObject } from '~/types';
 import { downloadJSON } from '~/utils/download';
 
@@ -23,6 +23,7 @@ export const ViewModel = ViewRenderModel.actions((self) => ({
       definition: {
         queries: _.uniqBy(queries, (q) => q.id),
       },
+      version: CURRENT_SCHEMA_VERSION,
     };
     return ret;
   },

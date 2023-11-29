@@ -10,6 +10,7 @@ import {
 } from 'mobx-state-tree';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
+  CURRENT_SCHEMA_VERSION,
   FiltersRenderModel,
   MockContextMeta,
   PanelsRenderModel,
