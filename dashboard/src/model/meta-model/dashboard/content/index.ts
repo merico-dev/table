@@ -5,3 +5,4 @@ export * from './sql-snippet';
 export * from './filter';
 export * from './view';
 export * from './types';
+export * from './initial-content';
