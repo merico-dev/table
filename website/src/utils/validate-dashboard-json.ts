@@ -1,6 +1,7 @@
-import { AnyObject } from '@devtable/dashboard';
+import { AnyObject, CURRENT_SCHEMA_VERSION } from '@devtable/dashboard';
 import Ajv from 'ajv';
 import { DashboardJSONTypeDef } from './dashboard-json-type-def';
+import { compare } from 'compare-versions';
 
 export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
   if (e.target === null) {
@@ -17,6 +18,10 @@ export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
   }
 
   validateDashboardJSONContent(content);
+
+  if (compare(content.version, CURRENT_SCHEMA_VERSION, '>')) {
+    throw new Error('Unsupported schema version (ahead of current version)');
+  }
 
   return content;
 }
