@@ -1,3 +1,5 @@
+import { CURRENT_SCHEMA_VERSION } from '~/model';
+
 export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
   if (e.target === null) {
     throw new Error('FileReader failed with null result');
@@ -10,6 +12,10 @@ export function validateDashboardJSONFile(e: ProgressEvent<FileReader>) {
   let content = JSON.parse(e.target.result);
   if ('content' in content) {
     content = content.content;
+  }
+
+  if (content.version !== CURRENT_SCHEMA_VERSION) {
+    throw new Error('Schema version mismatch');
   }
 
   return content;

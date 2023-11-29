@@ -1,12 +1,13 @@
-import { Box, Button, FileInput, Group, LoadingOverlay } from '@mantine/core';
+import { Box, Button, FileInput, Group, Table } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useEditContentModelContext } from '~/contexts';
+import { CURRENT_SCHEMA_VERSION } from '~/model';
 import { TDashboardContent } from '~/types';
-import { validateDashboardJSONFile } from './validate';
 import { ExplainJSONSchema } from './explain-json-schema';
+import { validateDashboardJSONFile } from './validate';
 
 interface IFormValues {
   content: Partial<TDashboardContent> | null;
@@ -85,14 +86,16 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
 
   const [content] = watch(['content']);
   const disabled = !content;
+  const contentErrorMessage = errors?.content?.message;
 
   useEffect(() => {
-    if (content) {
-      stretchModal();
-    } else {
+    if (contentErrorMessage) {
       shrinkModal();
+    } else {
+      stretchModal();
     }
-  }, [content]);
+  }, [content, contentErrorMessage]);
+
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
       <form onSubmit={handleSubmit(updateDashboardWithJSON)}>
@@ -104,12 +107,29 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
           error={errors?.content?.message}
           sx={{ maxWidth: 500 }}
         />
-        <ExplainJSONSchema content={content} />
-        <Group position="right" my="md">
-          <Button type="submit" color="green" disabled={disabled}>
-            Confirm
-          </Button>
-        </Group>
+        {contentErrorMessage ? (
+          <Table fontSize={12} mt={10}>
+            <tbody>
+              <tr>
+                <th>Dashboard</th>
+                <td>{CURRENT_SCHEMA_VERSION}</td>
+              </tr>
+              <tr>
+                <th>This file</th>
+                <td style={{ color: 'red' }}>{content?.version}</td>
+              </tr>
+            </tbody>
+          </Table>
+        ) : (
+          <>
+            <ExplainJSONSchema content={content} />
+            <Group position="right" my="md">
+              <Button type="submit" color="green" disabled={disabled}>
+                Confirm
+              </Button>
+            </Group>
+          </>
+        )}
       </form>
     </Box>
   );
