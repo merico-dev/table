@@ -101,7 +101,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
     closePopover();
     onChange?.(state);
   };
-  const valueText = formatNumber(value, { average: true });
+  const valueText = formatNumber(value ?? null, { output: 'number', mantissa: 0, average: true, absolute: false });
 
   return (
     <div data-testid={`palette-item-${index}`} className={classes.paletteItem}>
