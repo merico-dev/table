@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '~/utils';
+import { TNumberFormat } from '~/utils';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';
@@ -13,7 +13,7 @@ interface ILegacyStatsConf {
   content: {
     prefix: string;
     data_field: string;
-    formatter: TNumbroFormat;
+    formatter: TNumberFormat;
     postfix: string;
   };
 }

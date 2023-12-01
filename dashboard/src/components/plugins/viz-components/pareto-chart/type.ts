@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
@@ -29,7 +29,7 @@ export interface IParetoChartConf {
     name: string;
     nameAlignment: 'left' | 'center' | 'right';
     color: string;
-    label_formatter: TNumbroFormat;
+    label_formatter: TNumberFormat;
   };
   line: {
     name: string;
@@ -58,7 +58,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     name: 'Value',
     nameAlignment: 'left',
     color: '#228be6',
-    label_formatter: defaultNumbroFormat,
+    label_formatter: defaultNumberFormat,
   },
   line: {
     name: 'Value',

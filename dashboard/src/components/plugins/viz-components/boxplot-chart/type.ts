@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
@@ -41,7 +41,7 @@ export interface IBoxplotChartConf {
   y_axis: {
     name: string;
     data_key: TDataKey;
-    label_formatter: TNumbroFormat;
+    label_formatter: TNumberFormat;
   };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
@@ -64,7 +64,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
   y_axis: {
     name: 'Y Axis',
     data_key: 'value',
-    label_formatter: defaultNumbroFormat,
+    label_formatter: defaultNumberFormat,
   },
   tooltip: {
     metrics: [],

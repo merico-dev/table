@@ -1,5 +1,5 @@
 import _, { cloneDeep, omit } from 'lodash';
-import { defaultNumbroFormat } from '~/utils';
+import { defaultNumberFormat } from '~/utils';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils/template';
@@ -14,7 +14,7 @@ function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVar
 }
 
 function updateToSchema3(legacyConf: $TSFixMe): IBoxplotChartConf {
-  const { label_formatter = defaultNumbroFormat, ...rest } = legacyConf.y_axis;
+  const { label_formatter = defaultNumberFormat, ...rest } = legacyConf.y_axis;
   return {
     ...legacyConf,
     y_axis: {

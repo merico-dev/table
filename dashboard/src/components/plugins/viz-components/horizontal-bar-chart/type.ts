@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
@@ -51,7 +51,7 @@ export interface IHorizontalBarChartXAxis {
   name: string;
   data_key: TDataKey;
   position: 'top' | 'bottom';
-  label_formatter: TNumbroFormat;
+  label_formatter: TNumberFormat;
   show: boolean;
 }
 
@@ -82,7 +82,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
       name: 'X Axis',
       data_key: '',
       position: 'bottom',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
       show: true,
     },
   ],
@@ -111,7 +111,7 @@ export function getNewXAxis(): IHorizontalBarChartXAxis {
     name: id,
     data_key: '',
     position: 'bottom',
-    label_formatter: defaultNumbroFormat,
+    label_formatter: defaultNumberFormat,
     show: true,
   };
 }

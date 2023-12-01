@@ -1,7 +1,7 @@
 import numbro from 'numbro';
-import { TNumbroFormat } from '~/utils';
+import { TNumberFormat } from '~/utils';
 
-export function getFormatter(formatter: TNumbroFormat) {
+export function getFormatter(formatter: TNumberFormat) {
   if (!formatter) {
     return (value: number) => value;
   }

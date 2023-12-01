@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
@@ -42,7 +42,7 @@ export interface IYAxisConf {
   show: boolean;
   position: 'left' | 'right';
   nameAlignment: 'left' | 'center' | 'right';
-  label_formatter: TNumbroFormat;
+  label_formatter: TNumberFormat;
 }
 
 export interface IRegressionConf {
@@ -125,7 +125,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       show: true,
       position: 'left',
       nameAlignment: 'center',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
     },
   ],
   reference_lines: [],

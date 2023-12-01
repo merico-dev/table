@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
@@ -35,7 +35,7 @@ export interface IHeatmapConf {
     max: TNumberOrDynamic;
     name: string;
     data_key: TDataKey;
-    value_formatter: TNumbroFormat;
+    value_formatter: TNumberFormat;
     label: {
       show: boolean;
       fontSize: number;
@@ -77,7 +77,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     },
     name: 'Value',
     data_key: '',
-    value_formatter: defaultNumbroFormat,
+    value_formatter: defaultNumberFormat,
     label: {
       show: false,
       fontSize: 10,

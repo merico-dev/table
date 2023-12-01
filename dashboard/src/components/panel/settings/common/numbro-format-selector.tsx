@@ -2,7 +2,7 @@ import { Box, Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/c
 import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
-import { TNumbroFormat } from '~/utils';
+import { TNumberFormat } from '~/utils';
 import { ErrorBoundary } from '~/utils/error-boundary';
 
 const SwitchStyles = {
@@ -18,15 +18,15 @@ const SwitchStyles = {
 };
 
 interface INumbroFormatSelector {
-  value: TNumbroFormat;
-  onChange: (v: TNumbroFormat) => void;
+  value: TNumberFormat;
+  onChange: (v: TNumberFormat) => void;
 }
 
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
-  const changeOutput = (output: TNumbroFormat['output']) => {
+  const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output });
   };
-  const changeMantissa = (mantissa: TNumbroFormat['mantissa']) => {
+  const changeMantissa = (mantissa: TNumberFormat['mantissa']) => {
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };

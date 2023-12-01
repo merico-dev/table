@@ -1,5 +1,5 @@
 import { randomId } from '@mantine/hooks';
-import { defaultNumbroFormat } from '../../../components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '../../../components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '../types';
 
 export function getANewVariable() {
@@ -13,6 +13,6 @@ export function getANewVariable() {
     },
     data_field: '',
     aggregation: { type: 'none', config: {} },
-    formatter: defaultNumbroFormat,
+    formatter: defaultNumberFormat,
   } as ITemplateVariable;
 }
