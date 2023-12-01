@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat } from '~/utils';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';

@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,

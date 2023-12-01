@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat, TNumbroFormat } from '~/utils';
 import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 

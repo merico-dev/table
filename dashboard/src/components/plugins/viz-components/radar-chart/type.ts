@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumbroFormat } from '~/utils';
 
 export type TAdditionalSeriesItem = {
   id: string;

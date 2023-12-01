@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumbroFormat } from '~/utils';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';

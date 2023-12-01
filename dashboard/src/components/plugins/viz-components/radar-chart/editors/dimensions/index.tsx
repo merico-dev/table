@@ -3,7 +3,7 @@ import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat } from '~/utils';
 import { IRadarChartConf } from '../../type';
 import { DimensionField } from './dimension';
 

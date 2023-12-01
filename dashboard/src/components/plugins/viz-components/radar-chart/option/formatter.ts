@@ -1,5 +1,5 @@
 import numbro from 'numbro';
-import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumbroFormat } from '~/utils';
 
 export function getFormatter(formatter: TNumbroFormat) {
   if (!formatter) {

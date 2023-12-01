@@ -1,7 +1,7 @@
 import { ActionIcon, Tabs } from '@mantine/core';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumbroFormat } from '~/utils';
 import { IScatterChartConf } from '../../type';
 import { YAxisField } from './y-axis';
 

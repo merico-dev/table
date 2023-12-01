@@ -2,23 +2,8 @@ import { Box, Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/c
 import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
+import { TNumbroFormat } from '~/utils';
 import { ErrorBoundary } from '~/utils/error-boundary';
-
-export type TNumbroFormat = {
-  mantissa: number;
-  output: 'percent' | 'number';
-  average?: boolean;
-  trimMantissa?: boolean;
-  absolute: boolean;
-};
-
-export const defaultNumbroFormat: TNumbroFormat = {
-  mantissa: 0,
-  output: 'number',
-  trimMantissa: false,
-  average: false,
-  absolute: false,
-};
 
 const SwitchStyles = {
   root: {
