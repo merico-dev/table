@@ -1,1 +1,1 @@
-export * from './numbro';
+export * from './number';
