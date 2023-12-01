@@ -1,5 +1,5 @@
 import { TAlignItems, TJustifyContent } from '~/components/panel/settings/common/css-types';
-import { TNumberFormat, defaultNumberFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumberFormat, defaultNumberFormat } from '~/utils';
 
 export type TMetricPostfix = {
   type: 'filter-option-label' | 'text';
