@@ -1,8 +1,8 @@
 import { createStyles, Text } from '@mantine/core';
 import chroma from 'chroma-js';
-import numbro from 'numbro';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
+import { formatNumber } from '~/utils';
 import { ColumnAlignType, ITableCellContext, ValueType } from '../type';
 import { AlignmentToFlexJustify } from '../utils';
 
@@ -56,17 +56,23 @@ function StringCell(props: ICellValue) {
 }
 
 function ELOCCell(props: ICellValue) {
-  const v = numbro(props.value).format({ average: true, mantissa: 2, trimMantissa: true });
+  const v = formatNumber(props.value, {
+    output: 'number',
+    average: true,
+    mantissa: 2,
+    trimMantissa: true,
+    absolute: false,
+  });
   return <CellRender {...props}>{v}</CellRender>;
 }
 
 function NumberCell(props: ICellValue) {
-  const num = numbro(props.value).format({ thousandSeparated: true });
+  const num = formatNumber(props.value, { output: 'number', mantissa: 0, thousandSeparated: true, absolute: false });
   return <CellRender {...props}>{num}</CellRender>;
 }
 
 function PercentageCell(props: ICellValue) {
-  const num = numbro(props.value).format({ output: 'percent', mantissa: 3, trimMantissa: true });
+  const num = formatNumber(props.value, { output: 'percent', mantissa: 3, trimMantissa: true, absolute: false });
   return <CellRender {...props}>{num}</CellRender>;
 }
 

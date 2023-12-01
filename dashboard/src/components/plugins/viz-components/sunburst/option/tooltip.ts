@@ -1,6 +1,6 @@
-import numbro from 'numbro';
-import { IEchartsSunburstLabelFormatter } from './types';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { formatNumber } from '~/utils';
+import { IEchartsSunburstLabelFormatter } from './types';
 
 function getFormatter() {
   return ({ treePathInfo, name, value, color, marker, ...rest }: IEchartsSunburstLabelFormatter) => {
@@ -18,7 +18,7 @@ function getFormatter() {
         <tr>
           <th style="text-align: right; padding: 0 1em;">${pn ? pn : 'Total'}</th>
           <td style="text-align: left; padding: 0 1em;">
-            ${numbro(value / pv).format({ output: 'percent', mantissa: 2, trimMantissa: true })}
+            ${formatNumber(value / pv, { output: 'percent', mantissa: 2, trimMantissa: true, absolute: false })}
           </td>
         </tr>
       `);

@@ -1,10 +1,10 @@
+import { faker } from '@faker-js/faker';
 import CryptoJS from 'crypto-js';
+import * as d3Array from 'd3-array';
 import dayjs from 'dayjs';
 import lodash from 'lodash';
-import numbro from 'numbro';
-import * as d3Array from 'd3-array';
 import * as mathjs from 'mathjs';
-import { faker } from '@faker-js/faker';
+import numbro from 'numbro';
 
 export const functionUtils = {
   CryptoJS,

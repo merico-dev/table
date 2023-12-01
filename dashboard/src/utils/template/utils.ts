@@ -1,5 +1,5 @@
-import numbro from 'numbro';
 import { aggregateValue } from '../aggregation';
+import { formatNumber } from '../number';
 import { ITemplateVariable } from './types';
 
 export function getNonStatsDataText(data: $TSFixMe) {
@@ -23,14 +23,14 @@ export function formatAggregatedValue(
   { formatter, aggregation }: ITemplateVariable,
   value: number | string | number[] | null,
 ) {
-  if (!['string', 'number'].includes(typeof value)) {
+  if (typeof value !== 'string' || typeof value !== 'number') {
     return getNonStatsDataText(value);
   }
   if (aggregation.type === 'custom') {
     return value;
   }
   try {
-    return numbro(value).format(formatter);
+    return formatNumber(value, formatter);
   } catch (e) {
     console.error(e);
     return value;

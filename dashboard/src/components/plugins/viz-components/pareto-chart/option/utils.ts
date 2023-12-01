@@ -1,10 +1,11 @@
-import numbro from 'numbro';
+import { formatNumber } from '~/utils';
 import { IParetoChartConf } from '../type';
 
 export function formatPercentage(value: number) {
-  return numbro(value).format({
+  return formatNumber(value, {
     output: 'percent',
     mantissa: 0,
+    absolute: false,
   });
 }
 
@@ -39,7 +40,7 @@ export function getFormatters(conf: IParetoChartConf): TParetoFormatters {
       return value;
     }
     try {
-      return numbro(value).format(conf.bar.label_formatter);
+      return formatNumber(value, conf.bar.label_formatter);
     } catch (error) {
       console.error(error);
       return value;

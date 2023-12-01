@@ -1,5 +1,4 @@
-import numbro from 'numbro';
-import { TNumberFormat } from '~/utils';
+import { TNumberFormat, formatNumber } from '~/utils';
 
 export function getFormatter(formatter: TNumberFormat) {
   if (!formatter) {
@@ -7,7 +6,7 @@ export function getFormatter(formatter: TNumberFormat) {
   }
   return (value: number) => {
     try {
-      return numbro(value).format(formatter);
+      return formatNumber(value, formatter);
     } catch (error) {
       console.error(error);
       return value;

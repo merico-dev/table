@@ -1,8 +1,8 @@
 import { Group, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import numbro from 'numbro';
 import { useMemo } from 'react';
 import { useRenderContentModelContext } from '~/contexts';
+import { formatNumber } from '~/utils';
 import { TMericoStatsMetric } from '../type';
 
 const Postfix = ({ postfix }: { postfix: string | null }) => {
@@ -54,7 +54,7 @@ export const VizMericoStatsMetric = observer(({ metric, variableValueMap }: Prop
         </Text>
         <Group spacing="2px" align="baseline">
           <Text size="24px" fw="bold" color="#3D3E45" sx={{ lineHeight: 1 }}>
-            {numbro(variableValueMap[data_keys.value]).format(formatter)}
+            {formatNumber(variableValueMap[data_keys.value], formatter)}
           </Text>
           <Postfix postfix={postfixContent} />
         </Group>
@@ -65,7 +65,7 @@ export const VizMericoStatsMetric = observer(({ metric, variableValueMap }: Prop
         </Text>
         <Group spacing="2px" align="baseline">
           <Text size="12px" color="#3D3E45" sx={{ lineHeight: 1 }}>
-            {numbro(variableValueMap[data_keys.basis]).format(formatter)}
+            {formatNumber(variableValueMap[data_keys.basis], formatter)}
           </Text>
           <Postfix postfix={postfixContent} />
         </Group>

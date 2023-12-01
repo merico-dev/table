@@ -1,9 +1,8 @@
 import { TopLevelFormatterParams } from 'echarts/types/dist/shared';
-import numbro from 'numbro';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { AnyObject } from '~/types';
-import { readColumnIgnoringQuery } from '~/utils';
+import { formatNumber, readColumnIgnoringQuery } from '~/utils';
 import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
 
@@ -33,9 +32,11 @@ function getXAxisLabel(params: AnyObject[], conf: IScatterChartConf) {
 
 const formatAdditionalMetric = (v: number) => {
   try {
-    return numbro(v).format({
+    return formatNumber(v, {
+      output: 'number',
       trimMantissa: true,
       mantissa: 2,
+      absolute: false,
     });
   } catch (error) {
     return v;

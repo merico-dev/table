@@ -1,10 +1,9 @@
 import { Button, HoverCard, Sx, Table, Tabs, Text } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { IRegressionChartConf } from '../../type';
-import numbro from 'numbro';
 import { useMemo } from 'react';
+import { ErrorBoundary, formatNumber } from '~/utils';
+import { IRegressionChartConf } from '../../type';
 import { TDescription, getRegressionDescription } from './desc';
-import { ErrorBoundary } from '~/utils';
 
 const TableSx: Sx = {
   marginTop: '10px',
@@ -31,11 +30,15 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
         </tr>
         <tr>
           <td>R-Sq</td>
-          <td style={{ textAlign: 'right' }}>{numbro(rSquared).format({ output: 'percent', mantissa: 1 })}</td>
+          <td style={{ textAlign: 'right' }}>
+            {formatNumber(rSquared, { output: 'percent', mantissa: 1, absolute: false })}
+          </td>
         </tr>
         <tr>
           <td>R-Sq(Adjusted)</td>
-          <td style={{ textAlign: 'right' }}>{numbro(adjustedRSquared).format({ output: 'percent', mantissa: 1 })}</td>
+          <td style={{ textAlign: 'right' }}>
+            {formatNumber(adjustedRSquared, { output: 'percent', mantissa: 1, absolute: false })}
+          </td>
         </tr>
       </tbody>
     </Table>

@@ -1,18 +1,19 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import _ from 'lodash';
-import numbro from 'numbro';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { AnyObject } from '~/types';
+import { formatNumber, parseDataKey } from '~/utils';
+import { getLabelOverflowStyleInTooltip } from '../../../../common-echarts-fields/axis-label-overflow';
 import { TMericoHeatmapConf } from '../../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
-import { getLabelOverflowStyleInTooltip } from '../../../../common-echarts-fields/axis-label-overflow';
-import { parseDataKey } from '~/utils';
-import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const formatAdditionalMetric = (v: number) => {
   try {
-    return numbro(v).format({
+    return formatNumber(v, {
+      output: 'number',
       trimMantissa: true,
       mantissa: 2,
+      absolute: false,
     });
   } catch (error) {
     return v;

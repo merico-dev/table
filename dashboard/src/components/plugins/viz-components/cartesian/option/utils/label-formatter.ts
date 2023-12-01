@@ -1,4 +1,4 @@
-import numbro from 'numbro';
+import { formatNumber } from '~/utils';
 import { ICartesianChartConf, IYAxisConf } from '../../type';
 
 export function getLabelFormatters(conf: ICartesianChartConf) {
@@ -18,7 +18,7 @@ export function getLabelFormatters(conf: ICartesianChartConf) {
           return value;
         }
         try {
-          return numbro(value).format(label_formatter);
+          return formatNumber(value, label_formatter);
         } catch (error) {
           console.error(error);
           return value;

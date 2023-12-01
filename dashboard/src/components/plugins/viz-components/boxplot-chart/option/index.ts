@@ -1,7 +1,6 @@
-import numbro from 'numbro';
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { ITemplateVariable } from '~/utils';
+import { ITemplateVariable, formatNumber } from '~/utils';
 import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf } from '../type';
 import { getDataset } from './dataset';
@@ -49,7 +48,7 @@ export function getOption({ config, data, variables }: IGetOption) {
         minInterval: 1,
         axisLabel: {
           formatter: function (value: number) {
-            return numbro(value).format(y_axis.label_formatter);
+            return formatNumber(value, y_axis.label_formatter);
           },
         },
       }),

@@ -5,6 +5,7 @@ export type TNumbroFormat = {
   output: 'percent' | 'number';
   average?: boolean;
   trimMantissa?: boolean;
+  thousandSeparated?: boolean; // not supported yet
 };
 
 export type TNumberFormat = TNumbroFormat & {

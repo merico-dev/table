@@ -1,10 +1,8 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import _ from 'lodash';
-import numbro from 'numbro';
-import { AnyObject } from '~/types';
-import { IFunnelConf } from '../type';
-import { parseDataKey } from '~/utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { formatNumber, parseDataKey } from '~/utils';
+import { IFunnelConf } from '../type';
 
 interface IGetRows {
   conf: IFunnelConf;
@@ -14,7 +12,7 @@ interface IGetRows {
 
 function getRows({ conf, params, max }: IGetRows) {
   const { name, value } = params.data as { name: string; value: number };
-  const percentage = numbro(value / max).format({ output: 'percent', mantissa: 2, trimMantissa: true });
+  const percentage = formatNumber(value / max, { output: 'percent', mantissa: 2, trimMantissa: true, absolute: false });
   const valueRow = {
     label: `${params.marker} ${name}`,
     value: `${value} (${percentage})`,

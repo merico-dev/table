@@ -1,13 +1,13 @@
-import { Text, NumberInput, Popover, Stack, Group, Button } from '@mantine/core';
+import { Button, Group, NumberInput, Popover, Stack, Text } from '@mantine/core';
 import { useBoolean, useCreation } from 'ahooks';
 import chroma from 'chroma-js';
 import { range } from 'lodash';
 import { makeAutoObservable, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import numbro from 'numbro';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import { useStyles } from '~/components/plugins/controls/color-mapping-editor/style';
 import { IColorInterpolation, IValueStep } from '~/types/plugin';
+import { formatNumber } from '~/utils';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },
@@ -101,7 +101,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
     closePopover();
     onChange?.(state);
   };
-  const valueText = numbro(value).format({ average: true });
+  const valueText = formatNumber(value, { average: true });
 
   return (
     <div data-testid={`palette-item-${index}`} className={classes.paletteItem}>

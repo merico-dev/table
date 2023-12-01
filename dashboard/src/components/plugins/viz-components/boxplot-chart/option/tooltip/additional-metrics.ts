@@ -1,13 +1,14 @@
-import { parseDataKey } from '~/utils';
-import { IBoxplotChartConf, TOutlierDataItem, TScatterDataItem } from '../../type';
-import numbro from 'numbro';
 import { AnyObject } from '~/types';
+import { formatNumber, parseDataKey } from '~/utils';
+import { IBoxplotChartConf } from '../../type';
 
 const formatAdditionalMetric = (v: number) => {
   try {
-    return numbro(v).format({
+    return formatNumber(v, {
+      output: 'number',
       trimMantissa: true,
       mantissa: 2,
+      absolute: false,
     });
   } catch (error) {
     return v;
