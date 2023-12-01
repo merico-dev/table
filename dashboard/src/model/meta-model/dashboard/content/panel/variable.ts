@@ -20,6 +20,7 @@ export const VariableMeta = types
       average: types.optional(types.boolean, false),
       mantissa: types.number,
       trimMantissa: types.optional(types.boolean, false),
+      absolute: types.optional(types.boolean, false),
     }),
     data_field: types.string,
     aggregation: types.union(
