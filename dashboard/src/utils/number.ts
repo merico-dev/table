@@ -20,9 +20,9 @@ export const defaultNumberFormat: TNumberFormat = {
   absolute: false,
 };
 
-export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat) {
+export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat): string {
   if (number === null) {
-    return number;
+    return '';
   }
 
   try {
@@ -33,6 +33,6 @@ export function formatNumber(number: string | number | null, { absolute, ...form
     return numbro(num).format(format);
   } catch (e) {
     console.error(e);
-    return number;
+    return '';
   }
 }
