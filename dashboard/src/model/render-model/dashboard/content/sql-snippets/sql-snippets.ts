@@ -1,6 +1,6 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, SQLSnippetMetaSnapshotIn } from '~/model';
-import { downloadJSON } from '~/utils';
+import { downloadJSON } from '~/utils/download';
 import { SQLSnippetRenderModel } from './sql-snippet';
 
 export const SQLSnippetsRenderModel = types

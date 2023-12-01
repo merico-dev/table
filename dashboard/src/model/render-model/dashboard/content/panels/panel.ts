@@ -3,7 +3,7 @@ import { getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
-import { downloadJSON } from '~/utils';
+import { downloadJSON } from '~/utils/download';
 import { variablesToStrings } from '~/utils';
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 

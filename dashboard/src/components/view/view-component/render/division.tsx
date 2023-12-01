@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useRenderContentModelContext, useRenderDashboardContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
-import { downloadJSON } from '~/utils';
+import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
 
 export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot: () => void }) => {

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Instance, SnapshotIn } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, EViewComponentType, ViewRenderModel } from '~/model';
 import { AnyObject } from '~/types';
-import { downloadJSON } from '~/utils';
+import { downloadJSON } from '~/utils/download';
 
 export const ViewModel = ViewRenderModel.actions((self) => ({
   getSchema() {

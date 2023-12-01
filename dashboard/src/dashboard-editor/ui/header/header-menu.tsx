@@ -2,7 +2,7 @@ import { ActionIcon, Menu } from '@mantine/core';
 import { IconCode, IconDownload, IconMenu2 } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext, useRenderDashboardContext } from '~/contexts';
-import { downloadJSON } from '~/utils';
+import { downloadJSON } from '~/utils/download';
 
 export const HeaderMenu = observer(() => {
   const model = useRenderDashboardContext();
