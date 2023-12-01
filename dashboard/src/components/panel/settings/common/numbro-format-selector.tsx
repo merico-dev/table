@@ -80,7 +80,6 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   };
   const changeAbsolute = (event: $TSFixMe) => {
     const payload = { ...value, absolute: event.currentTarget.checked };
-    console.log(payload);
     onChange(payload);
   };
   console.log({ value });
