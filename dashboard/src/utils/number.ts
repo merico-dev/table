@@ -21,9 +21,18 @@ export const defaultNumberFormat: TNumberFormat = {
 };
 
 export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat) {
-  let num = numbro(number).value();
-  if (absolute) {
-    num = Math.abs(num);
+  if (number === null) {
+    return number;
   }
-  return numbro(num).format(format);
+
+  try {
+    let num = numbro(number).value();
+    if (absolute) {
+      num = Math.abs(num);
+    }
+    return numbro(num).format(format);
+  } catch (e) {
+    console.error(e);
+    return number;
+  }
 }
