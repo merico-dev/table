@@ -1,4 +1,4 @@
-import { Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
+import { Box, Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
 import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
@@ -9,6 +9,7 @@ export type TNumbroFormat = {
   output: 'percent' | 'number';
   average?: boolean;
   trimMantissa?: boolean;
+  absolute: boolean;
 };
 
 export const defaultNumbroFormat: TNumbroFormat = {
@@ -16,6 +17,7 @@ export const defaultNumbroFormat: TNumbroFormat = {
   output: 'number',
   trimMantissa: false,
   average: false,
+  absolute: false,
 };
 
 const SwitchStyles = {
@@ -49,6 +51,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   const changeAverage = (event: $TSFixMe) => {
     onChange({ ...value, average: event.currentTarget.checked });
   };
+  const changeAbsolute = (event: $TSFixMe) => {
+    onChange({ ...value, absolute: event.currentTarget.checked });
+  };
   return (
     <Stack ref={ref}>
       <Group grow>
@@ -61,6 +66,20 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           value={value.output}
           onChange={changeOutput}
           sx={{ flexGrow: 1 }}
+        />
+        <Switch
+          label={
+            <Stack spacing={0}>
+              <Text>Absolute</Text>
+              <Text size={12} color="gray">
+                Non-negative
+              </Text>
+            </Stack>
+          }
+          checked={value.absolute}
+          onChange={changeAbsolute}
+          sx={{ flexGrow: 1 }}
+          styles={SwitchStyles}
         />
         <Switch
           label={
@@ -102,6 +121,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           disabled={value.mantissa === 0}
           styles={SwitchStyles}
         />
+        <Box />
       </Group>
       <Stack spacing={0}>
         <Text weight="bold">Preview</Text>
