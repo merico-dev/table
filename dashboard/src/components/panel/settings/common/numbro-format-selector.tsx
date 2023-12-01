@@ -1,9 +1,8 @@
-import { Box, Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
-import numbro from 'numbro';
+import { Box, Button, Collapse, Group, NumberInput, Select, Stack, Switch, Table, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
-import { ArrowRight } from 'tabler-icons-react';
-import { TNumberFormat } from '~/utils';
-import { ErrorBoundary } from '~/utils';
+import { ErrorBoundary, TNumberFormat, formatNumber } from '~/utils';
 
 const SwitchStyles = {
   root: {
@@ -16,6 +15,49 @@ const SwitchStyles = {
     display: 'block',
   },
 };
+
+const numbersToPreview = ['123456789', '1234', '1234.56789', '1.234', '0.123456789', '-0.123456789'];
+
+function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
+  const [opened, { toggle }] = useDisclosure(false);
+
+  return (
+    <Box>
+      <Button
+        variant="subtle"
+        w="100%"
+        compact
+        onClick={toggle}
+        leftIcon={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
+      >
+        {opened ? 'Close preview' : 'Open preview'}
+      </Button>
+
+      <Collapse in={opened}>
+        {opened && (
+          <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr>
+                <th>In</th>
+                <th>Out</th>
+              </tr>
+            </thead>
+            <tbody>
+              {numbersToPreview.map((n) => (
+                <tr key={n}>
+                  <td>{n}</td>
+                  <td>
+                    <ErrorBoundary>{formatNumber(n, format)}</ErrorBoundary>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Collapse>
+    </Box>
+  );
+}
 
 interface INumbroFormatSelector {
   value: TNumberFormat;
@@ -37,8 +79,11 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     onChange({ ...value, average: event.currentTarget.checked });
   };
   const changeAbsolute = (event: $TSFixMe) => {
-    onChange({ ...value, absolute: event.currentTarget.checked });
+    const payload = { ...value, absolute: event.currentTarget.checked };
+    console.log(payload);
+    onChange(payload);
   };
+  console.log({ value });
   return (
     <Stack ref={ref}>
       <Group grow>
@@ -108,22 +153,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         />
         <Box />
       </Group>
-      <Stack spacing={0}>
-        <Text weight="bold">Preview</Text>
-        <ErrorBoundary>
-          <Group position="apart">
-            <Text size={12} color="gray">
-              123456789 <ArrowRight size={9} /> {numbro(123456789).format(value)}
-            </Text>
-            <Text size={12} color="gray">
-              1234 <ArrowRight size={9} /> {numbro(1234).format(value)}
-            </Text>
-            <Text size={12} color="gray">
-              0.1234 <ArrowRight size={9} /> {numbro(0.1234).format(value)}
-            </Text>
-          </Group>
-        </ErrorBoundary>
-      </Stack>
+      <PreviewNumberFormat format={value} />
     </Stack>
   );
 }
