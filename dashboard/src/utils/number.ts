@@ -1,3 +1,5 @@
+import numbro from 'numbro';
+
 export type TNumbroFormat = {
   mantissa: number;
   output: 'percent' | 'number';
@@ -16,3 +18,11 @@ export const defaultNumberFormat: TNumberFormat = {
   average: false,
   absolute: false,
 };
+
+export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat) {
+  let num = numbro(number).value();
+  if (absolute) {
+    num = Math.abs(num);
+  }
+  return numbro(num).format(format);
+}
