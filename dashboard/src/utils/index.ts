@@ -5,7 +5,6 @@ export * from './color-mapping';
 export * from './dashboard-state';
 export * from './data';
 export * from './diff-json';
-export * from './download';
 export * from './error-boundary';
 export * from './function-utils';
 export * from './http-query';
