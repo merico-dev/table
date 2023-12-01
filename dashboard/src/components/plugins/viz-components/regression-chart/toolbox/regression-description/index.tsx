@@ -4,7 +4,7 @@ import { IRegressionChartConf } from '../../type';
 import numbro from 'numbro';
 import { useMemo } from 'react';
 import { TDescription, getRegressionDescription } from './desc';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 
 const TableSx: Sx = {
   marginTop: '10px',

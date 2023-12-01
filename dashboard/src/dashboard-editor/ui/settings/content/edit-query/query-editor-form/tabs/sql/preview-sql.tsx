@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useRenderContentModelContext } from '~/contexts';
-import { explainSQL } from '~/utils/sql';
+import { explainSQL } from '~/utils';
 import { PreviewSQLInMonacoEditor } from './preview-sql-in-monaco-editor';
 
 interface IPreviewSQL {

@@ -2,7 +2,7 @@ import { TNumberFormat } from '~/utils';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';
-import { ColorConfType, ITemplateVariable } from '~/utils/template';
+import { ColorConfType, ITemplateVariable } from '~/utils';
 import { cloneDeep, get, omit, set } from 'lodash';
 
 interface ILegacyStatsConf {

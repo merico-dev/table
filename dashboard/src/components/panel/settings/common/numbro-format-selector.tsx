@@ -3,7 +3,7 @@ import numbro from 'numbro';
 import React from 'react';
 import { ArrowRight } from 'tabler-icons-react';
 import { TNumberFormat } from '~/utils';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 
 const SwitchStyles = {
   root: {

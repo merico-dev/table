@@ -3,7 +3,7 @@ import { defaults, isEmpty, isNumber } from 'lodash';
 import { useStorageData } from '~/components/plugins';
 import { ITableConf } from '~/components/plugins/viz-components/table/type';
 import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin';
-import { extractData, extractFullQueryData, parseDataKey } from '~/utils/data';
+import { extractData, extractFullQueryData, parseDataKey } from '~/utils';
 
 export const ClickCellContent: ITriggerSchema = {
   id: 'builtin:table:click-cell-content',

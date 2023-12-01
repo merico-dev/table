@@ -7,7 +7,7 @@ import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-i
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { useEditPanelContext } from '~/contexts';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { SelectVizType } from './select-viz-type';
 
 const types = [] as $TSFixMe[];

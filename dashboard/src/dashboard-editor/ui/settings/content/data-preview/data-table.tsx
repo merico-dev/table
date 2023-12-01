@@ -3,7 +3,7 @@ import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '
 import { useMemo } from 'react';
 import { ArrowBarToRight } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { TableStyle } from './data-table.style';
 
 export function DataTable({ data }: { data: AnyObject[] }) {

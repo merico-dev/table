@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { IMericoEstimationChartConf } from '../../type';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export function getSeries4(
   conf: IMericoEstimationChartConf,

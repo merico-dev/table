@@ -4,7 +4,7 @@ import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
 import { ReferenceAreaField } from './reference-area';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 
 interface IReferenceAreasField {
   control: Control<ICartesianChartConf, $TSFixMe>;

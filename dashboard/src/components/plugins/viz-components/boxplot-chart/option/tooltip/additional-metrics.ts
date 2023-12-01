@@ -1,4 +1,4 @@
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { IBoxplotChartConf, TOutlierDataItem, TScatterDataItem } from '../../type';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';

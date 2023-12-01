@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
-import { extractFullQueryData, parseDataKey } from '~/utils/data';
+import { extractFullQueryData, parseDataKey } from '~/utils';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 
 echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);

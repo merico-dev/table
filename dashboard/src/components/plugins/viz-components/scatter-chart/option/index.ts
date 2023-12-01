@@ -1,7 +1,7 @@
 import _, { defaultsDeep } from 'lodash';
 import numbro from 'numbro';
-import { extractData } from '~/utils/data';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { extractData } from '~/utils';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { IYAxisConf } from '../../cartesian/type';
 import { IScatterChartConf } from '../type';

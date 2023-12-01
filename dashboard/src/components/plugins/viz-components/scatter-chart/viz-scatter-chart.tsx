@@ -20,7 +20,7 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable, templateToJSX } from '~/utils/template';
+import { ITemplateVariable, templateToJSX } from '~/utils';
 import { getOption } from './option';
 import { ClickScatterChartSeries } from './triggers';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';

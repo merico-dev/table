@@ -1,5 +1,5 @@
 // import { get } from 'lodash';
-// import { ITemplateVariable } from '~/utils/template';
+// import { ITemplateVariable } from '~/utils';
 // import type { PanelModelInstance } from '~/model/views/view/panels';
 // import { VizBoxplotChartMigrator } from './index';
 // import { IBoxplotChartConf } from './type';

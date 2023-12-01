@@ -4,7 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { AggregationSelector } from '~/components/panel/settings/common/aggregation-selector';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { DefaultAggregation } from '~/utils/aggregation';
+import { DefaultAggregation } from '~/utils';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';

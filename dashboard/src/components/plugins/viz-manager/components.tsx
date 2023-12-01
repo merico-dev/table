@@ -1,6 +1,6 @@
 import { omit } from 'lodash';
 import { VizConfigContext, VizContext, VizInstance, VizViewContext } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { JsonPluginStorage } from '../json-plugin-storage';
 import { IPanelInfo, IVizManager } from './types';
 

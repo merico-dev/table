@@ -3,7 +3,7 @@ import React from 'react';
 import { IVizManager } from '~/components/plugins';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { AnyObject } from '~/types';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 
 /**
  * Basic information of a viz component instance

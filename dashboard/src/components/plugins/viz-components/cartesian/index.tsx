@@ -1,7 +1,7 @@
 import { cloneDeep, get } from 'lodash';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { ClickEchartSeries } from './triggers/click-echart';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { VizCartesianChart } from './viz-cartesian-chart';

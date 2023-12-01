@@ -4,7 +4,7 @@ import {
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/common-echarts-fields/regression-line';
-import { AggregationType } from '~/utils/aggregation';
+import { AggregationType } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';

@@ -12,7 +12,7 @@ import { HeadCell } from '~/components/plugins/viz-components/table/components/h
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
 import { VizInstance, VizViewContext } from '~/types/plugin';
-import { parseDataKeyOrColumnKey } from '~/utils/data';
+import { parseDataKeyOrColumnKey } from '~/utils';
 import { IColumnConf, ITableConf, ValueType } from '../type';
 import { CellValue } from './cell-value';
 import { TableBody } from './table-body';

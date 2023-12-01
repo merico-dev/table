@@ -1,5 +1,5 @@
 import { defaultsDeep } from 'lodash';
-import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
+import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils';
 import { IHeatmapConf } from '../type';
 import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
@@ -9,7 +9,7 @@ import { getVisualMap } from './visual-map';
 import { getXAxis } from './x-axis';
 import { getYAxis } from './y-axis';
 import _ from 'lodash';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
   if (width < xlen * 10 || height < ylen * 10) {

@@ -1,6 +1,6 @@
 import { getParent, getRoot, Instance, SnapshotIn } from 'mobx-state-tree';
 import { PanelRenderModel } from '~/model';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export const PanelModel = PanelRenderModel.views((self) => ({
   get realDataFieldOptions() {

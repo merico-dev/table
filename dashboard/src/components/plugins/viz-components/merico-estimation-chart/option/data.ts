@@ -1,4 +1,4 @@
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { IMericoEstimationChartConf } from '../type';
 
 function fibonacci(n: number): number {

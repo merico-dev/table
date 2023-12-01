@@ -5,7 +5,7 @@ import { Control, Controller, useFieldArray, UseFormWatch } from 'react-hook-for
 import { Plus } from 'tabler-icons-react';
 import { ReferenceAreaField } from '~/components/plugins/common-echarts-fields/reference-area/field';
 import { getNewReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { IScatterChartConf } from '../../type';
 
 interface IReferenceAreasField {

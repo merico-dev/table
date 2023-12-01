@@ -7,7 +7,7 @@ import { getYAxes } from './y-axis';
 import _ from 'lodash';
 import { getDataWithLevelInfo } from './data';
 import { getLegend } from './legend';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 const defaultOption = {
   tooltip: {

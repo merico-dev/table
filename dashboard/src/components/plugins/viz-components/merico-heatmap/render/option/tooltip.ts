@@ -5,7 +5,7 @@ import { AnyObject } from '~/types';
 import { TMericoHeatmapConf } from '../../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
 import { getLabelOverflowStyleInTooltip } from '../../../../common-echarts-fields/axis-label-overflow';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const formatAdditionalMetric = (v: number) => {

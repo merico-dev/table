@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { DescriptionPopover } from '~/components/panel';
 import { PanelVizSection } from '~/components/panel/panel-render/viz/panel-viz-section';
 import { useRenderPanelContext } from '~/contexts';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 
 export const PreviewPanel = observer(() => {
   const { panel } = useRenderPanelContext();

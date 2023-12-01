@@ -4,7 +4,7 @@ import {
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
-import { AggregationType, DefaultAggregation } from '~/utils/aggregation';
+import { AggregationType, DefaultAggregation } from '~/utils';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,

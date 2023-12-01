@@ -11,7 +11,7 @@ import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/
 import { PreviewVariables, VariablesEditor } from './variable-config';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
 import { InteractionSettingsPanel } from '~/interactions';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
 
 const TabsStyles = {

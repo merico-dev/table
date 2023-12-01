@@ -2,7 +2,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IMericoGQMConf } from '../type';
-import { extractOneQueryData } from '~/utils/data';
+import { extractOneQueryData } from '~/utils';
 
 function throwIfNotEmpty(error: unknown, path: string) {
   const message = _.get(error, path, '');

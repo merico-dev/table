@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
-import { shallowToJS } from '~/utils/shallow-to-js';
+import { shallowToJS } from '~/utils';
 import { DataSourceType } from './types';
 
 export const QueryMeta = types

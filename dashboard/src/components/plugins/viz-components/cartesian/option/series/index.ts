@@ -1,4 +1,4 @@
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { ICartesianChartConf } from '../../type';
 import { getReferenceAreas } from './reference_areas';
 import { getReferenceLines } from './reference_lines';

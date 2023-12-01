@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Instance, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, FilterMeta, FilterMetaSnapshotOut } from '~/model';
-import { downloadJSON } from '~/utils/download';
+import { downloadJSON } from '~/utils';
 import { getValuesFromFilters } from './utils';
 
 export const FiltersRenderModel = types

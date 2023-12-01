@@ -4,7 +4,7 @@ import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { ICalendarHeatmapConf } from '../type';
 import { ValueFormattersType } from './formatters';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 const formatAdditionalMetric = (v: number) => {

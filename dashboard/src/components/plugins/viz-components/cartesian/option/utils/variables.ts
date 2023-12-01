@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils';
 
 export function getVariableValueMap(data: TPanelData, variables: ITemplateVariable[]) {
   const ret: Record<string, string | number> = {};

@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types';
-import { ITemplateVariable, templateToString } from '~/utils/template';
+import { ITemplateVariable, templateToString } from '~/utils';
 import { IHorizontalBarChartReferenceLine } from '../../type';
 
 export function getReferenceLines(

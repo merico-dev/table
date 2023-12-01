@@ -1,7 +1,7 @@
 import { set } from 'lodash';
 import { IPieChartConf } from '../type';
-import { getColorFeed } from '~/utils/color-feed';
-import { parseDataKey } from '~/utils/data';
+import { getColorFeed } from '~/utils';
+import { parseDataKey } from '~/utils';
 
 type TDataItem = {
   name: string;

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
-import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
+import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils';
 import { QueryRenderModel } from './query';
 
 export const QueriesRenderModel = types

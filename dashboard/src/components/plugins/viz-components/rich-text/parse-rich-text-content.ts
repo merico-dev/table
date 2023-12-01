@@ -1,6 +1,6 @@
 import { TPayloadForViz } from '~/model';
-import { aggregateValue } from '~/utils/aggregation';
-import { ITemplateVariable, formatAggregatedValue } from '~/utils/template';
+import { aggregateValue } from '~/utils';
+import { ITemplateVariable, formatAggregatedValue } from '~/utils';
 
 function variablesToStrings(variables: ITemplateVariable[], data: TPanelData) {
   const ret: Record<string, string> = {};

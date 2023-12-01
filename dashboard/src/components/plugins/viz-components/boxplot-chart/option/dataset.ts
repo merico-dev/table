@@ -1,7 +1,7 @@
 import { quantile } from 'd3-array';
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem } from '../type';
 
 function calcBoxplotData(groupedData: Record<string, AnyObject[]>, columnKey: string) {

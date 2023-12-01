@@ -9,7 +9,7 @@ import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';

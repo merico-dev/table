@@ -1,5 +1,5 @@
 import _, { defaultsDeep } from 'lodash';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { getEchartsDataZoomOption } from '../editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { ICartesianChartConf } from '../type';
 import { getGrid } from './grid';
@@ -11,7 +11,7 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-import { extractData } from '~/utils/data';
+import { extractData } from '~/utils';
 
 const defaultOption = {
   xAxis: [

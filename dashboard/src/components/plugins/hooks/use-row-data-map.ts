@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { useMemo } from 'react';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export function useRowDataMap(data: TPanelData, dataKey: TDataKey) {
   return useMemo(() => {

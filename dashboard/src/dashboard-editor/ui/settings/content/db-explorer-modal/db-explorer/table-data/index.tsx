@@ -1,7 +1,7 @@
 import { Box, LoadingOverlay, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { DataTable } from '../../../data-preview/data-table';
 import { FullSpaceLoading } from '../full-space-loading';
 import { PaginationControl } from './pagination-control';

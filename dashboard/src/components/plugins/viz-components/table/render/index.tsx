@@ -1,7 +1,7 @@
 import { Text } from '@mantine/core';
 import { useMemo } from 'react';
 import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';

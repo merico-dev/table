@@ -5,7 +5,7 @@ import {
   TDataForReg,
 } from '~/components/plugins/common-echarts-fields/regression-line';
 import { ICartesianChartConf, IRegressionConf } from '../type';
-import { extractData, extractFullQueryData, parseDataKey } from '~/utils/data';
+import { extractData, extractFullQueryData, parseDataKey } from '~/utils';
 
 function getOneRegressionConf(reg: IRegressionConf, name: string, targetSeries: string, data: TDataForReg) {
   const { transform, plot } = reg;

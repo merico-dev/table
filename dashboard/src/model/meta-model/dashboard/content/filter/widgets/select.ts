@@ -1,6 +1,6 @@
 import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterBaseSelectConfigMeta } from './select-base';
-import { shallowToJS } from '~/utils/shallow-to-js';
+import { shallowToJS } from '~/utils';
 import { reaction, toJS } from 'mobx';
 
 export const FilterSelectConfigMeta = types

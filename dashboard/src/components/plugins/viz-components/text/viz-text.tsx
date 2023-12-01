@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRenderContentModelContext } from '~/contexts';
 import { VizViewProps } from '~/types/plugin';
-import { formatAggregatedValue, getAggregatedValue } from '~/utils/template';
+import { formatAggregatedValue, getAggregatedValue } from '~/utils';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 
 export const VizText = observer(({ context }: VizViewProps) => {

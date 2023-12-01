@@ -5,7 +5,7 @@ import * as d3Regression from 'd3-regression';
 import numbro from 'numbro';
 import _ from 'lodash';
 import { ReactNode } from 'react';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export type TDescription = {
   name: string;

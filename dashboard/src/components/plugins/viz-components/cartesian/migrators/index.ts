@@ -1,8 +1,8 @@
 import { random } from 'chroma-js';
 import _, { cloneDeep, omit } from 'lodash';
 import { AnyObject } from '~/types';
-import { DefaultAggregation } from '~/utils/aggregation';
-import { ITemplateVariable } from '~/utils/template';
+import { DefaultAggregation } from '~/utils';
+import { ITemplateVariable } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../editors/x-axis/x-axis-label-formatter/types';
 import { ICartesianChartConf } from '../type';

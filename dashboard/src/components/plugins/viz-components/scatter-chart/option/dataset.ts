@@ -1,4 +1,4 @@
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { IScatterChartConf } from '../type';
 
 export function getDataset(conf: IScatterChartConf, data: TPanelData) {

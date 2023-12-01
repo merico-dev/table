@@ -3,7 +3,7 @@ import _ from 'lodash';
 import numbro from 'numbro';
 import { AnyObject } from '~/types';
 import { IFunnelConf } from '../type';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 interface IGetRows {

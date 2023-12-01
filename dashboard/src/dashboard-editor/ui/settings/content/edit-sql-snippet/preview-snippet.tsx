@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { useRenderContentModelContext } from '~/contexts';
-import { explainSQL } from '~/utils/sql';
+import { explainSQL } from '~/utils';
 
 interface IPreviewSnippet {
   value: string;

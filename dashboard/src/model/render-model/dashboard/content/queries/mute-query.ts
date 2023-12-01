@@ -2,9 +2,9 @@ import { SelectItem } from '@mantine/core';
 import _ from 'lodash';
 import { getParent, getRoot, Instance, isAlive } from 'mobx-state-tree';
 import { DataSourceType, QueryMeta } from '~/model';
-import { explainHTTPRequest } from '~/utils/http-query';
-import { explainSQL } from '~/utils/sql';
-import { DependencyInfo, UsageRegs } from '~/utils/usage';
+import { explainHTTPRequest } from '~/utils';
+import { explainSQL } from '~/utils';
+import { DependencyInfo, UsageRegs } from '~/utils';
 
 export const MuteQueryModel = QueryMeta.views((self) => ({
   get rootModel(): any {
