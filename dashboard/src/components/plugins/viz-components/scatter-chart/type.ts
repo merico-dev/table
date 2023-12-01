@@ -1,4 +1,4 @@
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 
@@ -86,7 +86,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
       name: 'Y Axis',
       position: 'left',
       nameAlignment: 'center',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
       min: '',
       max: '',
       show: true,

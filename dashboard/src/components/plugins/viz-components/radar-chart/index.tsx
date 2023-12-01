@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '~/utils';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
@@ -10,7 +10,7 @@ import { VizRadarChartEditor } from './viz-radar-chart-editor';
 // replace withDefaults function in editor
 function v2(prev: $TSFixMe): IRadarChartConf {
   const { dimensions = [], ...rest } = prev;
-  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumbroFormat }: any) {
+  function setDefaults({ name = '', data_key = '', max = 10, formatter = defaultNumberFormat }: any) {
     return {
       name,
       data_key,

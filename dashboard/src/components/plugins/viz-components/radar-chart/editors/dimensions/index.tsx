@@ -3,7 +3,7 @@ import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '~/utils';
 import { IRadarChartConf } from '../../type';
 import { DimensionField } from './dimension';
 
@@ -33,7 +33,7 @@ export function DimensionsField({ control, watch }: IDimensionsField) {
       name: id,
       data_key: '',
       max: '100',
-      formatter: defaultNumbroFormat,
+      formatter: defaultNumberFormat,
     });
   };
   const firstTab = _.get(controlledFields, '0.id', null);

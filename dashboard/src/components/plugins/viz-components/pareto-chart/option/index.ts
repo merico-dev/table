@@ -1,4 +1,4 @@
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { IParetoChartConf } from '../type';
 import { getSeries } from './series';

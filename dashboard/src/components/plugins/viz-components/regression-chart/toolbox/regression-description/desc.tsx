@@ -2,10 +2,9 @@ import { Group, Text } from '@mantine/core';
 import { IRegressionChartConf } from '../../type';
 // @ts-expect-error type lib for d3-regression
 import * as d3Regression from 'd3-regression';
-import numbro from 'numbro';
 import _ from 'lodash';
 import { ReactNode } from 'react';
-import { parseDataKey } from '~/utils/data';
+import { TNumberFormat, formatNumber, parseDataKey } from '~/utils';
 
 export type TDescription = {
   name: string;
@@ -14,6 +13,7 @@ export type TDescription = {
   adjustedRSquared: number;
 };
 
+const numberFormat: TNumberFormat = { output: 'number', mantissa: 2, trimMantissa: true, absolute: false };
 /**
  * calculate Adjusted RSquared
  * @param r RSquared
@@ -41,11 +41,11 @@ function getLinearDescription(
         <Text>{y_axis.name}</Text>
         <Text>=</Text>
         <Text weight="bold" color="red">
-          {numbro(b).format({ mantissa: 2, trimMantissa: true })}
+          {formatNumber(b, numberFormat)}
         </Text>
         <Text>+</Text>
         <Text weight="bold" color="red">
-          {numbro(a).format({ mantissa: 2, trimMantissa: true })}
+          {formatNumber(a, numberFormat)}
         </Text>
         <Text>×</Text>
         <Text>{x_axis.name}</Text>

@@ -6,7 +6,7 @@ import { Path } from 'react-hook-form';
 import { AggregationSelector } from '~/components/panel/settings/common/aggregation-selector';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { TemplateVariableStyleField } from './variable-style';
 
 interface ITemplateVariableField {

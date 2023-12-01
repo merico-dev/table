@@ -1,8 +1,8 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { IRegressionChartConf } from '../type';
 import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import numbro from 'numbro';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { formatNumber } from '~/utils';
+import { IRegressionChartConf } from '../type';
 
 export function getXAxis(conf: IRegressionChartConf) {
   const { overflow, format, formatter, ...axisLabel } = conf.x_axis.axisLabel;
@@ -18,7 +18,7 @@ export function getXAxis(conf: IRegressionChartConf) {
       formatter: (value: number, index: number) => {
         let v: string | number = value;
         try {
-          v = numbro(value).format(format);
+          v = formatNumber(value, format);
         } catch (err) {}
         return getEchartsXAxisLabel(formatter)(v, index);
       },

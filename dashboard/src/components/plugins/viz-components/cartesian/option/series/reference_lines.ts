@@ -1,4 +1,4 @@
-import { ITemplateVariable, templateToString } from '~/utils/template';
+import { ITemplateVariable, templateToString } from '~/utils';
 import { ICartesianChartConf, ICartesianReferenceLine } from '../../type';
 
 function getInvisibleScatterData(

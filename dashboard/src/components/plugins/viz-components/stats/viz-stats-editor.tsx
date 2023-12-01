@@ -2,7 +2,7 @@ import { ActionIcon, Group, Select, SimpleGrid, Stack, Text } from '@mantine/cor
 import React from 'react';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
-import { TemplateInput } from '~/utils/template';
+import { TemplateInput } from '~/utils';
 import { useStorageData } from '~/components/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import _, { defaultsDeep } from 'lodash';

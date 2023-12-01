@@ -1,6 +1,6 @@
 import { TPayloadForSQLSnippet } from '~/model';
 import { AnyObject } from '~/types';
-import { formatSQL } from '~/utils/sql';
+import { formatSQL } from '~/utils';
 
 export function formatSQLSnippet(list: AnyObject[], idKey: string, valueKey: string, params: TPayloadForSQLSnippet) {
   return list.reduce((ret, curr) => {

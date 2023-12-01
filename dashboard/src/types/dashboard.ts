@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types/utils';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 
 import { EViewComponentType, FilterMetaSnapshotOut, QueryMetaSnapshotIn, SQLSnippetMetaSnapshotIn } from '~/model';
 

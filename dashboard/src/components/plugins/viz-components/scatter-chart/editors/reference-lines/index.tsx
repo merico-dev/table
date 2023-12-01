@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ICartesianReferenceLine } from '~/components/plugins/viz-components/cartesian/type';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { IScatterChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 

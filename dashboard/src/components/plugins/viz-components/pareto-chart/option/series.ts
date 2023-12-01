@@ -1,4 +1,4 @@
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { IParetoChartConf } from '../type';
 import { getMarkLineAndArea } from './mark-line-and-area';
 import { TLineDataItem } from './types';

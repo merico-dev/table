@@ -1,6 +1,6 @@
 import { Box, LoadingOverlay } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { DataTable } from './data-table';
 import { PaginationControl } from './pagination-control';
 

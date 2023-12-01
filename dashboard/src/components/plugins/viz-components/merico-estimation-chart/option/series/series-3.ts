@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import { AnyObject } from '~/types';
-import { IMericoEstimationChartConf } from '../../type';
 import { interpolate } from 'popmotion';
-import numbro from 'numbro';
+import { AnyObject } from '~/types';
+import { formatNumber } from '~/utils';
+import { IMericoEstimationChartConf } from '../../type';
 import { getIndicatorColorStyle } from './utils';
 
 type DataItemType = [string | number, number, number, number];
@@ -17,7 +17,7 @@ function formatValues([x, p, c, s]: DataItemType) {
     sum: s,
   };
   try {
-    ret.percentage = numbro(p).format({ output: 'percent', mantissa: 2, trimMantissa: true });
+    ret.percentage = formatNumber(p, { output: 'percent', mantissa: 2, trimMantissa: true, absolute: false });
   } catch (error) {}
   return ret;
 }

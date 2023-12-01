@@ -1,4 +1,4 @@
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils/template';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable, templateToString } from '~/utils';
 import { IBoxplotReferenceLine } from '../type';
 
 export function getReferenceLines(

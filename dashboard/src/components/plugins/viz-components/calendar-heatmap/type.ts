@@ -1,4 +1,4 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 
@@ -12,7 +12,7 @@ export interface ICalendarHeatmapConf {
     max: TNumberOrDynamic;
     name: string;
     data_key: TDataKey;
-    value_formatter: TNumbroFormat;
+    value_formatter: TNumberFormat;
   };
   tooltip: {
     metrics: IEchartsTooltipMetric[];
@@ -35,7 +35,7 @@ export const DEFAULT_CONFIG: ICalendarHeatmapConf = {
     },
     name: 'Value',
     data_key: '',
-    value_formatter: defaultNumbroFormat,
+    value_formatter: defaultNumberFormat,
   },
   tooltip: {
     metrics: [],

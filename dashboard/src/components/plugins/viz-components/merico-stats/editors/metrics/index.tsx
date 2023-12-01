@@ -3,7 +3,7 @@ import { IconPlus } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { TMericoStatsConf, getNewMetric } from '../../type';
 import { MetricField } from './metric';
 

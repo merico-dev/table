@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
 import { IFunnelConf, IFunnelSeriesItem } from '../type';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 type SeriesDataType = {
   name: string;

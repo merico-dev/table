@@ -5,7 +5,7 @@ import { AggregationSelector } from '~/components/panel/settings/common/aggregat
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { AnyObject } from '~/types';
-import { DefaultAggregation } from '~/utils/aggregation';
+import { DefaultAggregation } from '~/utils';
 import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 

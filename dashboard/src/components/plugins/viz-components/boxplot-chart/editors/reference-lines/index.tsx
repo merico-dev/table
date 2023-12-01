@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { IBoxplotChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 
 interface IReferenceLinesField {
   control: Control<IBoxplotChartConf, $TSFixMe>;

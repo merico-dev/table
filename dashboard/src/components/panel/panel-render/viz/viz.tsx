@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
-import { ErrorBoundary } from '~/utils/error-boundary';
+import { ErrorBoundary } from '~/utils';
 import { useRenderPanelContext } from '../../../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../../plugins';
 import { PluginVizViewComponent } from '../../plugin-adaptor';

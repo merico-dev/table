@@ -1,6 +1,6 @@
 import { AnyObject } from '~/types';
 import { IRadarChartConf, IRadarChartDimension } from '../type';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { getSeriesLabel } from './series.label';
 
 function getDimensionValues(row: AnyObject, dimensions: IRadarChartDimension[]) {

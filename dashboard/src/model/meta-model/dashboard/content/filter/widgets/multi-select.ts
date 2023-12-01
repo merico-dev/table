@@ -1,7 +1,7 @@
 import { reaction, toJS } from 'mobx';
 import { addDisposer, cast, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { FilterBaseSelectConfigMeta } from './select-base';
-import { shallowToJS } from '~/utils/shallow-to-js';
+import { shallowToJS } from '~/utils';
 
 export const FilterMultiSelectConfigMeta = types
   .compose(

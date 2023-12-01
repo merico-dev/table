@@ -1,6 +1,6 @@
 import lodash, { keyBy } from 'lodash';
 import { interpolate } from 'popmotion';
-import { extractFullQueryData, parseDataKey } from '~/utils/data';
+import { extractFullQueryData, parseDataKey } from '~/utils';
 import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
 
 export function getEchartsSymbolSize(

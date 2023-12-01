@@ -1,5 +1,5 @@
 import { AnyObject } from '~/types';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { IHorizontalBarChartConf } from '../../type';
 import { getReferenceLines } from './reference_lines';
 import { getSeriesItemOrItems } from './series_items';

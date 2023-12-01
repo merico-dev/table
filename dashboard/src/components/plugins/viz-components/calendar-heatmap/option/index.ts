@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { defaultsDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
+import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils';
 import { ICalendarHeatmapConf } from '../type';
 import { getCalendar } from './calendar';
 import { getValueFormatters } from './formatters';
@@ -10,7 +10,7 @@ import { getLegend } from './legend';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getVisualMap } from './visual-map';
-import { extractData, parseDataKey } from '~/utils/data';
+import { extractData, parseDataKey } from '~/utils';
 
 const defaultOption = {
   grid: {

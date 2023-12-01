@@ -1,13 +1,13 @@
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
-  IXAxisLabelFormatter,
-} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/types';
-import { IRegressionConf } from '../cartesian/type';
-import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { TNumbroFormat, defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import {
+  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  IXAxisLabelFormatter,
+} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/types';
+import { TNumberFormat, defaultNumberFormat } from '~/utils';
+import { IRegressionConf } from '../cartesian/type';
 
 export interface IRegressionChartConf {
   x_axis: {
@@ -15,7 +15,7 @@ export interface IRegressionChartConf {
     data_key: TDataKey;
     axisLabel: {
       rotate: number;
-      format: TNumbroFormat;
+      format: TNumberFormat;
       overflow: IAxisLabelOverflow;
       formatter: IXAxisLabelFormatter;
     };
@@ -32,7 +32,7 @@ export const DEFAULT_CONFIG: IRegressionChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      format: defaultNumbroFormat,
+      format: defaultNumberFormat,
       overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },

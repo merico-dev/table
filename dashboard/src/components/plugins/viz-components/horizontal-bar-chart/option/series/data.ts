@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { AnyObject } from '~/types';
-import { aggregateValue, AggregationType, formatNumbersAndAggregateValue } from '~/utils/aggregation';
+import { aggregateValue, AggregationType, formatNumbersAndAggregateValue } from '~/utils';
 import { DataTemplateType } from './types';
-import { extractData, parseDataKey } from '~/utils/data';
+import { extractData, parseDataKey } from '~/utils';
 
 type YXDataItemType = [string | number, string | number];
 

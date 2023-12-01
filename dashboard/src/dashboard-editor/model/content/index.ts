@@ -31,8 +31,8 @@ import {
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
-import { payloadToDashboardState } from '~/utils/dashboard-state';
-import { UsageRegs } from '~/utils/usage';
+import { payloadToDashboardState } from '~/utils';
+import { UsageRegs } from '~/utils';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 

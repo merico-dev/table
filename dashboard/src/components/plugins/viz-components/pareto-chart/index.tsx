@@ -1,5 +1,5 @@
 import _, { cloneDeep } from 'lodash';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '~/utils';
 import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
@@ -41,7 +41,7 @@ function v4(legacyConf: $TSFixMe): IParetoChartConf {
 }
 
 function v5(legacyConf: $TSFixMe): IParetoChartConf {
-  const { label_formatter = defaultNumbroFormat } = legacyConf.bar;
+  const { label_formatter = defaultNumberFormat } = legacyConf.bar;
   return {
     ...legacyConf,
     bar: {

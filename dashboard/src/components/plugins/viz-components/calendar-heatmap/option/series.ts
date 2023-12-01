@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { ICalendarHeatmapConf } from '../type';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export function getSeries(
   conf: ICalendarHeatmapConf,

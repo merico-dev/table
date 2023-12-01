@@ -1,4 +1,4 @@
-import numbro from 'numbro';
+import { formatNumber } from '~/utils';
 import {
   FormatterFuncType,
   getEchartsXAxisLabel,
@@ -30,7 +30,7 @@ export function getValueFormatters(conf: TMericoHeatmapConf): ValueFormattersTyp
       return value;
     }
     try {
-      return numbro(value).format(conf.heat_block.value_formatter);
+      return formatNumber(value, conf.heat_block.value_formatter);
     } catch (error) {
       console.error(error);
       return value;

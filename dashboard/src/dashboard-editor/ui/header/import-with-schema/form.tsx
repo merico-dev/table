@@ -89,7 +89,7 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
   const contentErrorMessage = errors?.content?.message;
 
   useEffect(() => {
-    if (contentErrorMessage) {
+    if (!content || contentErrorMessage) {
       shrinkModal();
     } else {
       stretchModal();

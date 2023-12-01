@@ -4,7 +4,7 @@
  */
 import { Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { TemplateInput } from '~/utils/template';
+import { TemplateInput } from '~/utils';
 import { ICartesianChartConf } from '../../type';
 
 interface IVariablesField {

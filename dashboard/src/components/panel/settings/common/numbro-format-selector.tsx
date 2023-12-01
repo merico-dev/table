@@ -1,22 +1,8 @@
-import { Group, NumberInput, Select, Stack, Switch, Text } from '@mantine/core';
-import numbro from 'numbro';
+import { Box, Button, Collapse, Group, NumberInput, Select, Stack, Switch, Table, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
-import { ArrowRight } from 'tabler-icons-react';
-import { ErrorBoundary } from '~/utils/error-boundary';
-
-export type TNumbroFormat = {
-  mantissa: number;
-  output: 'percent' | 'number';
-  average?: boolean;
-  trimMantissa?: boolean;
-};
-
-export const defaultNumbroFormat: TNumbroFormat = {
-  mantissa: 0,
-  output: 'number',
-  trimMantissa: false,
-  average: false,
-};
+import { ErrorBoundary, TNumberFormat, formatNumber } from '~/utils';
 
 const SwitchStyles = {
   root: {
@@ -30,16 +16,59 @@ const SwitchStyles = {
   },
 };
 
+const numbersToPreview = ['123456789', '1234', '1234.56789', '1.234', '0.123456789', '-0.123456789'];
+
+function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
+  const [opened, { toggle }] = useDisclosure(false);
+
+  return (
+    <Box>
+      <Button
+        variant="subtle"
+        w="100%"
+        compact
+        onClick={toggle}
+        leftIcon={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
+      >
+        {opened ? 'Close preview' : 'Open preview'}
+      </Button>
+
+      <Collapse in={opened}>
+        {opened && (
+          <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr>
+                <th>In</th>
+                <th>Out</th>
+              </tr>
+            </thead>
+            <tbody>
+              {numbersToPreview.map((n) => (
+                <tr key={n}>
+                  <td>{n}</td>
+                  <td>
+                    <ErrorBoundary>{formatNumber(n, format)}</ErrorBoundary>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </Collapse>
+    </Box>
+  );
+}
+
 interface INumbroFormatSelector {
-  value: TNumbroFormat;
-  onChange: (v: TNumbroFormat) => void;
+  value: TNumberFormat;
+  onChange: (v: TNumberFormat) => void;
 }
 
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
-  const changeOutput = (output: TNumbroFormat['output']) => {
+  const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output });
   };
-  const changeMantissa = (mantissa: TNumbroFormat['mantissa']) => {
+  const changeMantissa = (mantissa: TNumberFormat['mantissa']) => {
     const trimMantissa = mantissa === 0 ? false : value.trimMantissa;
     onChange({ ...value, mantissa, trimMantissa });
   };
@@ -49,6 +78,11 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
   const changeAverage = (event: $TSFixMe) => {
     onChange({ ...value, average: event.currentTarget.checked });
   };
+  const changeAbsolute = (event: $TSFixMe) => {
+    const payload = { ...value, absolute: event.currentTarget.checked };
+    onChange(payload);
+  };
+  console.log({ value });
   return (
     <Stack ref={ref}>
       <Group grow>
@@ -61,6 +95,20 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           value={value.output}
           onChange={changeOutput}
           sx={{ flexGrow: 1 }}
+        />
+        <Switch
+          label={
+            <Stack spacing={0}>
+              <Text>Absolute</Text>
+              <Text size={12} color="gray">
+                Non-negative
+              </Text>
+            </Stack>
+          }
+          checked={value.absolute}
+          onChange={changeAbsolute}
+          sx={{ flexGrow: 1 }}
+          styles={SwitchStyles}
         />
         <Switch
           label={
@@ -102,23 +150,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
           disabled={value.mantissa === 0}
           styles={SwitchStyles}
         />
+        <Box />
       </Group>
-      <Stack spacing={0}>
-        <Text weight="bold">Preview</Text>
-        <ErrorBoundary>
-          <Group position="apart">
-            <Text size={12} color="gray">
-              123456789 <ArrowRight size={9} /> {numbro(123456789).format(value)}
-            </Text>
-            <Text size={12} color="gray">
-              1234 <ArrowRight size={9} /> {numbro(1234).format(value)}
-            </Text>
-            <Text size={12} color="gray">
-              0.1234 <ArrowRight size={9} /> {numbro(0.1234).format(value)}
-            </Text>
-          </Group>
-        </ErrorBoundary>
-      </Stack>
+      <PreviewNumberFormat format={value} />
     </Stack>
   );
 }

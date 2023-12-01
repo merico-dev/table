@@ -16,8 +16,8 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils/data';
-import { ITemplateVariable } from '~/utils/template';
+import { parseDataKey } from '~/utils';
+import { ITemplateVariable } from '~/utils';
 import { getOption } from './option';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';

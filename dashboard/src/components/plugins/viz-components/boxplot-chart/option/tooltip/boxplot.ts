@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import numbro from 'numbro';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { formatNumber } from '~/utils';
 import { IBoxplotChartConf, IBoxplotDataItem } from '../../type';
 import { BOXPLOT_DATA_ITEM_KEYS } from '../common';
 
@@ -10,7 +10,7 @@ export const getBoxplotTooltipContent = (config: IBoxplotChartConf, value: IBoxp
     <tr>
       <th style="text-align: right; padding: 0 1em;">${_.capitalize(key)}</th>
       <td style="text-align: left; padding: 0 1em;">
-        ${numbro(value[key]).format(config.y_axis.label_formatter)}
+        ${formatNumber(value[key], config.y_axis.label_formatter)}
       </td>
     </tr>`;
   });

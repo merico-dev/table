@@ -4,7 +4,7 @@ import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
-import { postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils/http-query';
+import { postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
 
 export const QueryRenderModel = types

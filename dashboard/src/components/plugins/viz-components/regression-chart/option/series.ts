@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { AnyObject } from '~/types';
 import { IRegressionChartConf } from '../type';
 import { getRegressionDataSource } from '~/components/plugins/common-echarts-fields/regression-line';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export type TSeriesConf = AnyObject[];
 

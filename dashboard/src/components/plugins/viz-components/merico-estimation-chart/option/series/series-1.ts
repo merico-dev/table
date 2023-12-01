@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import numbro from 'numbro';
+import { formatNumber } from '~/utils';
 import { IMericoEstimationChartConf } from '../../type';
 
 const formatAsPercentage = ({ value }: { value: [string, string, number] }) => {
   try {
-    return numbro(value[2]).format({ output: 'percent', mantissa: 0 });
+    return formatNumber(value[2], { output: 'percent', mantissa: 0, absolute: false });
   } catch (error) {
     console.error(error);
     return value;

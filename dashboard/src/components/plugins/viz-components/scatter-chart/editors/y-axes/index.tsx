@@ -1,7 +1,7 @@
 import { ActionIcon, Tabs } from '@mantine/core';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat } from '~/utils';
 import { IScatterChartConf } from '../../type';
 import { YAxisField } from './y-axis';
 
@@ -26,7 +26,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
   const addYAxis = () =>
     append({
       name: '',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
       min: '',
       max: '',
       show: true,

@@ -17,7 +17,7 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { useStorageData } from '~/components/plugins/hooks';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';

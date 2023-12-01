@@ -1,8 +1,8 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { getReferenceAreasSeries } from '~/components/plugins/common-echarts-fields/reference-area/option';
 import { AnyObject } from '~/types';
-import { parseDataKey } from '~/utils/data';
-import { ITemplateVariable, templateToString } from '~/utils/template';
+import { parseDataKey } from '~/utils';
+import { ITemplateVariable, templateToString } from '~/utils';
 import { ICartesianReferenceLine } from '../../cartesian/type';
 import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
 import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';

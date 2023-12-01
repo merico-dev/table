@@ -1,8 +1,7 @@
 import _, { cloneDeep, omit } from 'lodash';
-import { defaultNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable, defaultNumberFormat } from '~/utils';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
@@ -14,7 +13,7 @@ function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVar
 }
 
 function updateToSchema3(legacyConf: $TSFixMe): IBoxplotChartConf {
-  const { label_formatter = defaultNumbroFormat, ...rest } = legacyConf.y_axis;
+  const { label_formatter = defaultNumberFormat, ...rest } = legacyConf.y_axis;
   return {
     ...legacyConf,
     y_axis: {

@@ -1,10 +1,10 @@
-import { defaultNumbroFormat, TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/common-echarts-fields/regression-line';
-import { AggregationType } from '~/utils/aggregation';
+import { AggregationType } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
@@ -42,7 +42,7 @@ export interface IYAxisConf {
   show: boolean;
   position: 'left' | 'right';
   nameAlignment: 'left' | 'center' | 'right';
-  label_formatter: TNumbroFormat;
+  label_formatter: TNumberFormat;
 }
 
 export interface IRegressionConf {
@@ -125,7 +125,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       show: true,
       position: 'left',
       nameAlignment: 'center',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
     },
   ],
   reference_lines: [],

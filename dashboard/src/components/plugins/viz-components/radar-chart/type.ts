@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumberFormat } from '~/utils';
 
 export type TAdditionalSeriesItem = {
   id: string;
@@ -10,7 +10,7 @@ export interface IRadarChartDimension {
   name: string;
   data_key: TDataKey;
   max: string;
-  formatter: TNumbroFormat;
+  formatter: TNumberFormat;
 }
 
 export interface IRadarChartConf {

@@ -1,7 +1,5 @@
 import _, { defaultsDeep } from 'lodash';
-import numbro from 'numbro';
-import { extractData } from '~/utils/data';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable, extractData, formatAggregatedValue, formatNumber, getAggregatedValue } from '~/utils';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import { IYAxisConf } from '../../cartesian/type';
 import { IScatterChartConf } from '../type';
@@ -63,7 +61,7 @@ export function getOption(conf: IScatterChartConf, data: TPanelData, variables: 
           return value;
         }
         try {
-          return numbro(value).format(label_formatter);
+          return formatNumber(value, label_formatter);
         } catch (error) {
           console.error(error);
           return value;

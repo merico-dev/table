@@ -2,7 +2,7 @@ import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from 
 import { IconMathFunction } from '@tabler/icons-react';
 import React, { ChangeEvent, useEffect } from 'react';
 import { ModalFunctionEditor } from '~/components/widgets/modal-function-editor';
-import { AggregationType, DefaultCustomAggregationFunc } from '~/utils/aggregation';
+import { AggregationType, DefaultCustomAggregationFunc } from '~/utils';
 
 const options: { label: string; value: AggregationType['type'] }[] = [
   { label: 'None', value: 'none' },

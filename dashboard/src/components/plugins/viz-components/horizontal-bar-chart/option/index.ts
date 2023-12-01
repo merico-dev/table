@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { IHorizontalBarChartConf } from '../type';
 import { getGrid } from './grid';
 import { getLegend } from './legend';
@@ -9,7 +9,7 @@ import { getLabelFormatters } from './utils/label-formatter';
 import { getVariableValueMap } from './utils/variables';
 import { getXAxes } from './x-axis';
 import { getYAxes } from './y-axis';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export function getOption(conf: IHorizontalBarChartConf, data: TPanelData, variables: ITemplateVariable[]) {
   if (!conf.y_axis.data_key) {

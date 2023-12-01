@@ -1,4 +1,4 @@
-import { TNumbroFormat } from '../../components/panel/settings/common/numbro-format-selector';
+import { TNumberFormat } from '~/utils';
 import { AggregationType } from '../aggregation';
 
 export type ColorConfType =
@@ -19,7 +19,7 @@ export interface ITemplateVariable {
   name: string;
   data_field: string;
   aggregation: AggregationType;
-  formatter: TNumbroFormat;
+  formatter: TNumberFormat;
   color: ColorConfType;
   size: string;
   weight: string;

@@ -1,13 +1,12 @@
-import numbro from 'numbro';
-import { TNumbroFormat } from '~/components/panel/settings/common/numbro-format-selector';
+import { TNumberFormat, formatNumber } from '~/utils';
 
-export function getFormatter(formatter: TNumbroFormat) {
+export function getFormatter(formatter: TNumberFormat) {
   if (!formatter) {
     return (value: number) => value;
   }
   return (value: number) => {
     try {
-      return numbro(value).format(formatter);
+      return formatNumber(value, formatter);
     } catch (error) {
       console.error(error);
       return value;

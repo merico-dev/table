@@ -2,7 +2,7 @@ import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { IDashboardView } from '~/types';
 
 import { ViewMetaInstance, ViewRenderModel } from '~/model';
-import { shallowToJS } from '~/utils/shallow-to-js';
+import { shallowToJS } from '~/utils';
 
 export const ViewsRenderModel = types
   .model('ViewsRenderModel', {

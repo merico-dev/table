@@ -27,7 +27,7 @@ import {
   getInitialViewsRenderModel,
 } from '~/model';
 import { DashboardContentDBType } from '~/types';
-import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { payloadToDashboardState } from '~/utils';
 
 export const ContentRenderModel = types
   .model({

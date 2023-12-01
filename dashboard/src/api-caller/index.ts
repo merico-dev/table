@@ -2,7 +2,7 @@ import { DataSourceType, TPayloadForSQL } from '~/model';
 import { formatSQL, postProcessSQLQuery, preProcessSQLQuery } from '../utils/sql';
 import { APIClient, TAdditionalQueryInfo } from './request';
 import { IDataSource, PaginationResponse } from './types';
-import { payloadToDashboardState } from '~/utils/dashboard-state';
+import { payloadToDashboardState } from '~/utils';
 import { encode, decode } from 'js-base64';
 import axios, { AxiosError } from 'axios';
 import { AnyObject } from '..';

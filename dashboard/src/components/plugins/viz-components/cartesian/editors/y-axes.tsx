@@ -1,8 +1,9 @@
 import { ActionIcon, Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
 import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
 import { Plus, Trash } from 'tabler-icons-react';
-import { defaultNumbroFormat, NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { ICartesianChartConf } from '../type';
+import { defaultNumberFormat } from '~/utils';
 
 const nameAlignmentOptions = [
   { label: 'left', value: 'left' },
@@ -125,7 +126,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
       name: '',
       position: 'left',
       nameAlignment: 'left',
-      label_formatter: defaultNumbroFormat,
+      label_formatter: defaultNumberFormat,
       min: '',
       max: '',
       show: true,

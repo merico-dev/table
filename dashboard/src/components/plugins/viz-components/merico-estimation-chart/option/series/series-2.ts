@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import numbro from 'numbro';
-import { AnyObject } from '~/types';
-import { IMericoEstimationChartConf } from '../../type';
 import { interpolate } from 'popmotion';
+import { AnyObject } from '~/types';
+import { formatNumber } from '~/utils';
+import { IMericoEstimationChartConf } from '../../type';
 import { getIndicatorColorStyle } from './utils';
 
 function formatValues([x, value]: [string, number]) {
@@ -11,7 +11,7 @@ function formatValues([x, value]: [string, number]) {
     v: `${value}`,
   };
   try {
-    ret.v = numbro(value).format({ output: 'number', mantissa: 2, trimMantissa: true });
+    ret.v = formatNumber(value, { output: 'number', mantissa: 2, trimMantissa: true, absolute: false });
   } catch (error) {}
   return ret;
 }
@@ -51,7 +51,7 @@ export function getSeries2(
       show: true,
       formatter: ({ value }: any) => {
         try {
-          return numbro(value[1]).format({ output: 'number', mantissa: 1, trimMantissa: true });
+          return formatNumber(value[1], { output: 'number', mantissa: 1, trimMantissa: true, absolute: false });
         } catch (error) {
           return value[1];
         }

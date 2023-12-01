@@ -2,7 +2,7 @@ import { AnyObject } from '~/types';
 import { ISunburstConf } from '../type';
 import { arrayToTree } from './array-to-tree';
 import { TreeItemIn } from './types';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 
 export function buildSunburstData(conf: ISunburstConf, data: TPanelData) {
   const { label_key, value_key, group_key } = conf;

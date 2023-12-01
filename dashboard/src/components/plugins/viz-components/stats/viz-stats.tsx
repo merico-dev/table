@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRenderContentModelContext } from '~/contexts';
 import { VizViewProps } from '~/types/plugin';
-import { templateToJSX } from '~/utils/template';
+import { templateToJSX } from '~/utils';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 
 const horizontalAlignments = {

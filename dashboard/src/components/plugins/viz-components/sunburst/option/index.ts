@@ -1,5 +1,5 @@
 import { defaultsDeep, maxBy } from 'lodash';
-import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils/template';
+import { formatAggregatedValue, getAggregatedValue, ITemplateVariable } from '~/utils';
 import { ISunburstConf } from '../type';
 import { buildSunburstData } from './data';
 import { getLevels } from './levels';

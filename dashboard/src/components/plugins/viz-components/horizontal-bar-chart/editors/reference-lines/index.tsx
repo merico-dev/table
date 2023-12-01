@@ -2,7 +2,7 @@ import { Tabs } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { ITemplateVariable } from '~/utils/template';
+import { ITemplateVariable } from '~/utils';
 import { getNewReferenceLine, IHorizontalBarChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 

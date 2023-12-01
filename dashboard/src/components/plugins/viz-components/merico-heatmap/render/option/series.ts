@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { parseDataKey } from '~/utils/data';
+import { parseDataKey } from '~/utils';
 import { TMericoHeatmapConf } from '../../type';
 
 export function getSeries(conf: TMericoHeatmapConf, data: TPanelData) {

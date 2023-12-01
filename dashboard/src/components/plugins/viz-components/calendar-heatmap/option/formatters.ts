@@ -1,4 +1,4 @@
-import numbro from 'numbro';
+import { formatNumber } from '~/utils';
 import { FormatterFuncType } from '../../heatmap/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICalendarHeatmapConf } from '../type';
 
@@ -12,7 +12,7 @@ export function getValueFormatters(conf: ICalendarHeatmapConf): ValueFormattersT
       return value;
     }
     try {
-      return numbro(value).format(conf.heat_block.value_formatter);
+      return formatNumber(value, conf.heat_block.value_formatter);
     } catch (error) {
       console.error(error);
       return value;

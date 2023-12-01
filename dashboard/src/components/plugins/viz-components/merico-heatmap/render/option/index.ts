@@ -1,4 +1,4 @@
-import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils/template';
+import { ITemplateVariable, formatAggregatedValue, getAggregatedValue } from '~/utils';
 import { TMericoHeatmapConf } from '../../type';
 import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
