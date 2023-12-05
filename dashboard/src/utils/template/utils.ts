@@ -23,7 +23,7 @@ export function formatAggregatedValue(
   { formatter, aggregation }: ITemplateVariable,
   value: number | string | number[] | null,
 ) {
-  if (typeof value !== 'string' || typeof value !== 'number') {
+  if (typeof value !== 'string' && typeof value !== 'number') {
     return getNonStatsDataText(value);
   }
   if (aggregation.type === 'custom') {
