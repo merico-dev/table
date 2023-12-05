@@ -5,6 +5,7 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Group,
   MultiSelect,
   NumberInput,
   Overlay,
@@ -17,6 +18,7 @@ import { PlaylistAdd, Trash } from 'tabler-icons-react';
 import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorMultiSelect {
   filter: FilterMetaInstance;
@@ -39,11 +41,14 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
-      <Checkbox
-        checked={config.required}
-        onChange={(e) => config.setRequired(e.currentTarget.checked)}
-        label="Required"
-      />
+      <Group position="apart">
+        <Checkbox
+          checked={config.required}
+          onChange={(e) => config.setRequired(e.currentTarget.checked)}
+          label="Required"
+        />
+        <CustomDefaultValueEditor filter={filter} />
+      </Group>
       <TextInput
         label="Width"
         description="At least 160px"

@@ -39,20 +39,15 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           label="Allow choosing 1 day"
         />
       </Group>
-      <NumberInput
-        label="Max Days"
-        min={0}
-        value={config.max_days}
-        onChange={config.setMaxDays}
-        hideControls
-        sx={{ width: '149px' }}
-      />
-      <Select
-        data={inputFormatOptions}
-        label="Display Format"
-        value={config.inputFormat}
-        onChange={config.setInputFormat}
-      />
+      <Group grow>
+        <Select
+          data={inputFormatOptions}
+          label="Display Format"
+          value={config.inputFormat}
+          onChange={config.setInputFormat}
+        />
+        <NumberInput label="Max Days" min={0} value={config.max_days} onChange={config.setMaxDays} hideControls />
+      </Group>
       <Group>
         <FilterDateRange
           label="Default Value"
@@ -73,6 +68,7 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
           maxDropdownHeight={500}
         />
       </Group>
+      <CustomDefaultValueEditor filter={filter} />
     </>
   );
 });
