@@ -1,25 +1,40 @@
-import { Box, Button, Group, Modal } from '@mantine/core';
+import { Alert, Box, Button, List, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { forwardRef } from 'react';
-import { InlineFunctionInput } from '../inline-function-input';
+import { ReactNode, forwardRef } from 'react';
 import { AnyObject } from '~/types';
+import { InlineFunctionInput } from '../inline-function-input';
 
 interface Props {
+  title: string;
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
   defaultValue: TFunctionString;
   label: string;
+  description?: ReactNode;
   triggerLabel?: string;
   triggerButtonProps?: AnyObject;
 }
 
 export const ModalFunctionEditor = forwardRef(
-  ({ value, onChange, label, triggerLabel = 'Edit', triggerButtonProps = {}, defaultValue }: Props, _ref: any) => {
+  (
+    {
+      title,
+      value,
+      onChange,
+      label,
+      description = null,
+      triggerLabel = 'Edit',
+      triggerButtonProps = {},
+      defaultValue,
+    }: Props,
+    _ref: any,
+  ) => {
     const [opened, { open, close }] = useDisclosure(false);
 
     return (
       <>
-        <Modal opened={opened} onClose={close} title="Authentication" withinPortal zIndex={320} size="900px">
+        <Modal opened={opened} onClose={close} title={title} withinPortal zIndex={320} size="900px">
+          {description}
           <Box h={600}>
             <InlineFunctionInput value={value} onChange={onChange} defaultValue={defaultValue} label={label} />
           </Box>

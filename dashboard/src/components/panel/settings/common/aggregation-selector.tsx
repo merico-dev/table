@@ -99,6 +99,7 @@ function _AggregationSelector(
         )}
         {value.type === 'custom' && (
           <ModalFunctionEditor
+            title="Custom Aggregation"
             label=""
             triggerLabel="Edit Function"
             value={value.config.func}
