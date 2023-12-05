@@ -17,6 +17,7 @@ export const FilterMeta = types
     order: types.number,
     visibleInViewsIDs: types.array(types.string),
     auto_submit: types.optional(types.boolean, false),
+    default_value_func: types.optional(types.string, ''),
     type: types.enumeration('DashboardFilterType', [
       DashboardFilterType.Select,
       DashboardFilterType.MultiSelect,
@@ -45,6 +46,9 @@ export const FilterMeta = types
     get usingDefaultValue() {
       return self.type !== DashboardFilterType.TreeSelect;
     },
+    get usingDefaultValueFunc() {
+      return !!self.default_value_func;
+    },
     get auto_submit_supported() {
       return [DashboardFilterType.Select, DashboardFilterType.Checkbox, DashboardFilterType.DateRange].includes(
         self.type,
@@ -53,7 +57,7 @@ export const FilterMeta = types
   }))
   .views((self) => ({
     get json() {
-      const { id, key, label, order, visibleInViewsIDs, auto_submit, type, config } = self;
+      const { id, key, label, order, visibleInViewsIDs, default_value_func, auto_submit, type, config } = self;
       return {
         id,
         key,
@@ -63,6 +67,7 @@ export const FilterMeta = types
         config: config.json,
         auto_submit,
         visibleInViewsIDs: toJS(visibleInViewsIDs),
+        default_value_func,
       };
     },
     get visibleInViewsIDSet() {
@@ -120,6 +125,9 @@ export const FilterMeta = types
     },
     setAutoSubmit(v: boolean) {
       self.auto_submit = self.auto_submit_supported && v;
+    },
+    setDefaultValueFunc(v: string) {
+      self.default_value_func = v;
     },
   }));
 
