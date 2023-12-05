@@ -1,4 +1,4 @@
-import { Box, Checkbox, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Checkbox, Divider, Group, MultiSelect, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { useEditContentModelContext } from '~/contexts';
@@ -105,6 +105,13 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
             value={filter.type}
             onChange={filter.setType}
             maxDropdownHeight={500}
+          />
+          <Divider
+            mb={0}
+            mt={10}
+            variant="dashed"
+            label={`${filterTypeNames[filter.type]} Settings`}
+            labelPosition="center"
           />
           {/* @ts-expect-error type mismatch */}
           <FilterEditor config={filter.config} />
