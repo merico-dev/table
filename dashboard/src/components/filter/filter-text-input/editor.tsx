@@ -1,12 +1,13 @@
 import { Checkbox, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterTextInputConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterTextInputConfigInstance } from '~/model';
 
 interface IFilterEditorTextInput {
-  config: FilterTextInputConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ config }: IFilterEditorTextInput) {
+export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ filter }: IFilterEditorTextInput) {
+  const config = filter.config as FilterTextInputConfigInstance;
   return (
     <>
       <TextInput

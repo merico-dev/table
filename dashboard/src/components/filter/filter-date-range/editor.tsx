@@ -1,12 +1,13 @@
-import { Checkbox, Group, NumberInput, Select, Text } from '@mantine/core';
+import { Checkbox, Group, NumberInput, Select, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterDateRangeConfigInstance } from '~/model';
+import { FilterDateRangeConfigInstance, FilterMetaInstance } from '~/model';
 import { FilterDateRange } from './render';
 import { useMemo } from 'react';
 import { getDateRangeShortcuts } from './widget/shortcuts/shortcuts';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorDateRange {
-  config: FilterDateRangeConfigInstance;
+  filter: FilterMetaInstance;
 }
 
 const inputFormatOptions = [
@@ -17,7 +18,9 @@ const inputFormatOptions = [
   { label: '2022-01-01', value: 'YYYY-MM-DD' },
 ];
 
-export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ config }: IFilterEditorDateRange) {
+export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ filter }: IFilterEditorDateRange) {
+  const config = filter.config as FilterDateRangeConfigInstance;
+
   const shortcuts = useMemo(
     () => getDateRangeShortcuts().map(({ value, group }) => ({ label: value, value, group })),
     [],

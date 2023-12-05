@@ -1,14 +1,14 @@
 import { Checkbox } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
-import { FilterCheckboxConfigInstance } from '~/model';
+import { FilterCheckboxConfigInstance, FilterMetaInstance } from '~/model';
 
 interface IFilterEditorCheckbox {
-  config: FilterCheckboxConfigInstance;
-  index: number;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ config }: IFilterEditorCheckbox) {
+export const FilterEditorCheckbox = observer(function _FilterEditorCheckbox({ filter }: IFilterEditorCheckbox) {
+  const config = filter.config as FilterCheckboxConfigInstance;
   return (
     <>
       <Checkbox

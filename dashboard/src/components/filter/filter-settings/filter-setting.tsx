@@ -113,8 +113,8 @@ export const FilterSetting = observer(function _FilterSetting({ filter }: IFilte
             label={`${filterTypeNames[filter.type]} Settings`}
             labelPosition="center"
           />
-          {/* @ts-expect-error type mismatch */}
-          <FilterEditor config={filter.config} />
+
+          <FilterEditor filter={filter} />
         </Stack>
       </Box>
       <PreviewFilter filter={filter} />

@@ -1,14 +1,15 @@
 import { Checkbox, Divider, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterTreeSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForTreeSelect } from './expected-structure';
 
 interface IFilterEditorTreeSelect {
-  config: FilterTreeSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ config }: IFilterEditorTreeSelect) {
+export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ filter }: IFilterEditorTreeSelect) {
+  const config = filter.config as FilterTreeSelectConfigInstance;
   return (
     <>
       <Checkbox

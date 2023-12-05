@@ -14,17 +14,19 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
-import { FilterMultiSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 
 interface IFilterEditorMultiSelect {
-  config: FilterMultiSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
 export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelect({
-  config,
+  filter,
 }: IFilterEditorMultiSelect) {
+  const config = filter.config as FilterMultiSelectConfigInstance;
+
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',

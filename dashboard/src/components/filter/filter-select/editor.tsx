@@ -13,15 +13,17 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
-import { FilterSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 
 interface IFilterEditorSelect {
-  config: FilterSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorSelect = observer(function _FilterEditorSelect({ config }: IFilterEditorSelect) {
+export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter }: IFilterEditorSelect) {
+  const config = filter.config as FilterSelectConfigInstance;
+
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
