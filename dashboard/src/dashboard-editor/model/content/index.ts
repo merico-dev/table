@@ -107,17 +107,20 @@ const _ContentModel = types
       const fields = 'mock_context.current';
       return !isEqual(get(self, fields), get(self.origin, fields));
     },
-    get payloadForSQL(): TPayloadForSQL {
+    get context() {
       // @ts-expect-error type of getParent
       const context = getParent(self).context.current;
+      return {
+        ...self.mock_context.current,
+        ...context,
+      };
+    },
+    get payloadForSQL(): TPayloadForSQL {
       // @ts-expect-error type of getParent
       const global_sql_snippets = getParent(self).globalSQLSnippets;
 
       const params = {
-        context: {
-          ...self.mock_context.current,
-          ...context,
-        },
+        context: this.context,
         filters: self.filters.values,
       };
       return {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, getRoot, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, ContextRecordType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters } from './utils';
@@ -12,6 +12,22 @@ export const FiltersRenderModel = types
   .views((self) => ({
     get json() {
       return self.current.map((f) => f.json);
+    },
+    get contentModel(): any {
+      // @ts-expect-error typeof getRoot
+      return getRoot(self).content;
+    },
+    get context() {
+      return this.contentModel.payloadForSQL.context;
+    },
+    get initialValuesDep() {
+      return JSON.stringify({
+        filters: self.current.map(({ default_value_func, config }) => ({ default_value_func, config })),
+        context: this.contentModel.payloadForSQL.context,
+      });
+    },
+    get formattedDefaultValues() {
+      return getValuesFromFilters(this.json, this.contentModel.context);
     },
     get firstID() {
       if (self.current.length === 0) {
@@ -95,8 +111,9 @@ export function getInitialFiltersConfig(
   context: ContextRecordType,
   mock_context: ContextRecordType,
 ) {
+  const initialValues = getValuesFromFilters(filters, { ...mock_context, ...context });
   return {
     current: filters,
-    values: getValuesFromFilters(filters, { ...mock_context, ...context }),
+    values: initialValues,
   };
 }

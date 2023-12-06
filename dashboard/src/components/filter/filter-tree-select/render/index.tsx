@@ -1,10 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import { FilterMetaInstance } from '~/model';
-import { FilterTreeSelectConfigInstance } from '~/model';
-import { FilterTreeSelectWidget } from './widget';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
 import { AnyObject } from '~/types';
-import { useWhyDidYouUpdate } from 'ahooks';
+import { FilterTreeSelectWidget } from './widget';
 
 interface IFilterTreeSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
   config: FilterTreeSelectConfigInstance;
@@ -15,7 +13,7 @@ interface IFilterTreeSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'c
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const { treeData, treeDataLoading, errorMessage } = config;
 
-  const [local, setLocal] = useState(config.valueObjects(value));
+  const [local, setLocal] = useState(config.defaultSelectionOptions);
   const handleChange = (newLocal: AnyObject[]) => {
     setLocal(newLocal);
 
@@ -23,8 +21,8 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
     onChange(newValue, false);
   };
   useEffect(() => {
-    setLocal(config.valueObjects(value));
-  }, [value]);
+    setLocal(config.defaultSelectionOptions);
+  }, [config.defaultSelectionOptions]);
 
   const width = config.min_width ? config.min_width : '200px';
   const usingRemoteOptions = !!config.options_query_id;

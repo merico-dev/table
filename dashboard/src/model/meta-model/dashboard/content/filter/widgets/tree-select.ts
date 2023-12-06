@@ -81,6 +81,11 @@ export const FilterTreeSelectConfigMeta = types
       return state === 'loading';
     },
     get defaultSelection() {
+      const defaultValue = self.filter.formattedDefaultValue;
+      if (Array.isArray(defaultValue) && defaultValue.length > 0) {
+        return defaultValue;
+      }
+
       const { default_selection_count } = self;
       if (!default_selection_count) {
         return [];
@@ -88,12 +93,15 @@ export const FilterTreeSelectConfigMeta = types
       const treeData = this.treeData;
       return treeData.slice(0, default_selection_count).map((o) => o.value);
     },
-    truthy(value: any) {
-      return Array.isArray(value) && value.length > 0;
-    },
     valueObjects(value: string[]) {
       const set = new Set(value);
       return this.plainData.filter((d: any) => set.has(d.value));
+    },
+    get defaultSelectionOptions() {
+      return this.valueObjects(this.defaultSelection);
+    },
+    truthy(value: any) {
+      return Array.isArray(value) && value.length > 0;
     },
   }))
   .actions((self) => ({

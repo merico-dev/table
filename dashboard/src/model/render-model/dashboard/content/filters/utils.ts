@@ -57,7 +57,7 @@ export function getDefaultValueWithFunc(filter: LocalFilterMetaSnapshotOut, cont
 }
 
 export function formatDefaultValue(filter: LocalFilterMetaSnapshotOut, context: ContextRecordType) {
-  if (filter.default_value_func.trim()) {
+  if (filter.default_value_func?.trim()) {
     return getDefaultValueWithFunc(filter, context);
   }
   return getStaticDefaultValue(filter);
