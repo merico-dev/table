@@ -35,7 +35,7 @@ export function createDashboardRenderModel(
     name,
     group,
     content_id,
-    content: createContentRenderModel(content),
+    content: createContentRenderModel(content, context),
     datasources: {
       list: datasources,
     },

@@ -95,6 +95,7 @@ export const DashboardEditorPageContent = observer(
         update={updateDashboard}
         config={dashboardConfig}
         headerSlot={<MoreDashboardInfo />}
+        // onFilterValuesChange={console.log}
       />
     );
   },

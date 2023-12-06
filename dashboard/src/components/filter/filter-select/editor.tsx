@@ -5,6 +5,7 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Group,
   Overlay,
   Select,
   Stack,
@@ -13,15 +14,18 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
-import { FilterSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorSelect {
-  config: FilterSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorSelect = observer(function _FilterEditorSelect({ config }: IFilterEditorSelect) {
+export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter }: IFilterEditorSelect) {
+  const config = filter.config as FilterSelectConfigInstance;
+
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
@@ -35,11 +39,14 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ config
 
   return (
     <>
-      <Checkbox
-        checked={config.required}
-        onChange={(e) => config.setRequired(e.currentTarget.checked)}
-        label="Required"
-      />
+      <Group position="apart">
+        <Checkbox
+          checked={config.required}
+          onChange={(e) => config.setRequired(e.currentTarget.checked)}
+          label="Required"
+        />
+        <CustomDefaultValueEditor filter={filter} />
+      </Group>
       <TextInput
         label="Width"
         value={config.width}

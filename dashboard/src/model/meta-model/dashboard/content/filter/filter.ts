@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { toJS } from 'mobx';
-import { Instance, SnapshotOut, types } from 'mobx-state-tree';
+import { Instance, SnapshotOut, getRoot, types } from 'mobx-state-tree';
 import { DashboardFilterType } from './types';
 import { FilterCheckboxConfigMeta, createFilterCheckboxConfig } from './widgets/checkbox';
 import { FilterDateRangeConfigMeta, createFilterDateRangeConfig } from './widgets/date-range';
@@ -8,6 +8,7 @@ import { FilterMultiSelectConfigMeta, createFilterMultiSelectConfig } from './wi
 import { FilterSelectConfigMeta, createFilterSelectConfig } from './widgets/select';
 import { FilterTextInputConfigMeta, createFilterTextInputConfig } from './widgets/text-input';
 import { FilterTreeSelectConfigMeta, createFilterTreeSelectConfig } from './widgets/tree-select';
+import { formatDefaultValue } from '~/model/render-model/dashboard/content/filters/utils';
 
 export const FilterMeta = types
   .model('FilterMeta', {
@@ -17,6 +18,7 @@ export const FilterMeta = types
     order: types.number,
     visibleInViewsIDs: types.array(types.string),
     auto_submit: types.optional(types.boolean, false),
+    default_value_func: types.optional(types.string, ''),
     type: types.enumeration('DashboardFilterType', [
       DashboardFilterType.Select,
       DashboardFilterType.MultiSelect,
@@ -35,6 +37,13 @@ export const FilterMeta = types
     ),
   })
   .views((self) => ({
+    get contentModel(): any {
+      // @ts-expect-error typeof getRoot
+      return getRoot(self).content;
+    },
+    get filters(): any {
+      return this.contentModel.filters;
+    },
     get plainDefaultValue() {
       const v = self.config.default_value;
       if (Array.isArray(v)) {
@@ -45,6 +54,12 @@ export const FilterMeta = types
     get usingDefaultValue() {
       return self.type !== DashboardFilterType.TreeSelect;
     },
+    get usingDefaultValueFunc() {
+      return !!self.default_value_func;
+    },
+    get formattedDefaultValue() {
+      return this.filters.formattedDefaultValues[self.key];
+    },
     get auto_submit_supported() {
       return [DashboardFilterType.Select, DashboardFilterType.Checkbox, DashboardFilterType.DateRange].includes(
         self.type,
@@ -53,7 +68,7 @@ export const FilterMeta = types
   }))
   .views((self) => ({
     get json() {
-      const { id, key, label, order, visibleInViewsIDs, auto_submit, type, config } = self;
+      const { id, key, label, order, visibleInViewsIDs, default_value_func, auto_submit, type, config } = self;
       return {
         id,
         key,
@@ -63,6 +78,7 @@ export const FilterMeta = types
         config: config.json,
         auto_submit,
         visibleInViewsIDs: toJS(visibleInViewsIDs),
+        default_value_func,
       };
     },
     get visibleInViewsIDSet() {
@@ -120,6 +136,9 @@ export const FilterMeta = types
     },
     setAutoSubmit(v: boolean) {
       self.auto_submit = self.auto_submit_supported && v;
+    },
+    setDefaultValueFunc(v: string) {
+      self.default_value_func = v;
     },
   }));
 

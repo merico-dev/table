@@ -18,7 +18,7 @@ import { ContextRecordType } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
-import './index.css';
+import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
@@ -53,6 +53,7 @@ interface IDashboardProps {
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
+  onFilterValuesChange?: (filterValues: Record<string, any>) => void;
 }
 
 export interface IDashboardModel {
@@ -62,7 +63,17 @@ export interface IDashboardModel {
 }
 
 const _DashboardEditor = (
-  { context, dashboard, content, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
+  {
+    context,
+    dashboard,
+    content,
+    update,
+    className = 'dashboard',
+    config,
+    onChange,
+    headerSlot,
+    onFilterValuesChange,
+  }: IDashboardProps,
   ref: ForwardedRef<IDashboardModel>,
 ) => {
   useLoadMonacoEditor(config.monacoPath);
@@ -89,6 +100,10 @@ const _DashboardEditor = (
   React.useEffect(() => {
     model.globalSQLSnippets.replace(globalSQLSnippets);
   }, [globalSQLSnippets]);
+
+  React.useEffect(() => {
+    onFilterValuesChange?.(model.content.filters.values);
+  }, [onFilterValuesChange, model.content.filters.values]);
 
   React.useEffect(() => {
     return reaction(

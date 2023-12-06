@@ -1,4 +1,4 @@
-import { Instance, getRoot, types } from 'mobx-state-tree';
+import { Instance, getParent, getRoot, types } from 'mobx-state-tree';
 
 export type TSelectOption = {
   label: string;
@@ -33,6 +33,9 @@ export const FilterBaseSelectConfigMeta = types
     get contentModel(): any {
       // @ts-expect-error typeof getRoot
       return getRoot(self).content;
+    },
+    get filter(): any {
+      return getParent(self);
     },
     get usingQuery() {
       return !!self.options_query_id;

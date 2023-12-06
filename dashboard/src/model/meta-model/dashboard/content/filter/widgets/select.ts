@@ -1,7 +1,7 @@
-import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { FilterBaseSelectConfigMeta } from './select-base';
-import { shallowToJS } from '~/utils';
 import { reaction, toJS } from 'mobx';
+import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
+import { shallowToJS } from '~/utils';
+import { FilterBaseSelectConfigMeta } from './select-base';
 
 export const FilterSelectConfigMeta = types
   .compose(
@@ -34,7 +34,7 @@ export const FilterSelectConfigMeta = types
     },
     get default_selection() {
       if (!self.usingQuery) {
-        return self.default_value;
+        return self.filter.formattedDefaultValue;
       }
       if (self.default_selection_count > 0 && self.options.length > 0) {
         return self.options[0].value;

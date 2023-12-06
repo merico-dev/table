@@ -5,6 +5,7 @@ import {
   Checkbox,
   Divider,
   Flex,
+  Group,
   MultiSelect,
   NumberInput,
   Overlay,
@@ -14,17 +15,20 @@ import {
 } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { PlaylistAdd, Trash } from 'tabler-icons-react';
-import { FilterMultiSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorMultiSelect {
-  config: FilterMultiSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
 export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelect({
-  config,
+  filter,
 }: IFilterEditorMultiSelect) {
+  const config = filter.config as FilterMultiSelectConfigInstance;
+
   const addStaticOption = () => {
     config.addStaticOption({
       label: '',
@@ -37,11 +41,14 @@ export const FilterEditorMultiSelect = observer(function _FilterEditorMultiSelec
   const optionsForDefaultValue = [...staticOptionFields];
   return (
     <>
-      <Checkbox
-        checked={config.required}
-        onChange={(e) => config.setRequired(e.currentTarget.checked)}
-        label="Required"
-      />
+      <Group position="apart">
+        <Checkbox
+          checked={config.required}
+          onChange={(e) => config.setRequired(e.currentTarget.checked)}
+          label="Required"
+        />
+        <CustomDefaultValueEditor filter={filter} />
+      </Group>
       <TextInput
         label="Width"
         description="At least 160px"

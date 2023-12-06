@@ -29,7 +29,7 @@ export const FilterMultiSelectConfigMeta = types
     },
     get default_selection() {
       if (!self.usingQuery) {
-        return self.default_value;
+        return self.filter.formattedDefaultValue;
       }
       return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
     },

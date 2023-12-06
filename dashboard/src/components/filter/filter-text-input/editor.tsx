@@ -1,21 +1,29 @@
-import { Checkbox, TextInput } from '@mantine/core';
+import { Box, Checkbox, Group, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterTextInputConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterTextInputConfigInstance } from '~/model';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorTextInput {
-  config: FilterTextInputConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ config }: IFilterEditorTextInput) {
+export const FilterEditorTextInput = observer(function _FilterEditorTextInput({ filter }: IFilterEditorTextInput) {
+  const config = filter.config as FilterTextInputConfigInstance;
   return (
     <>
-      <TextInput
-        label="Default Value"
-        value={config.default_value}
-        onChange={(e) => {
-          config.setDefaultValue(e.currentTarget.value);
-        }}
-      />
+      <Group>
+        <TextInput
+          label="Default Value"
+          value={config.default_value}
+          onChange={(e) => {
+            config.setDefaultValue(e.currentTarget.value);
+          }}
+          sx={{ flexGrow: 1 }}
+        />
+        <Box mt={22}>
+          <CustomDefaultValueEditor filter={filter} />
+        </Box>
+      </Group>
       <Checkbox
         checked={config.required}
         onChange={(e) => config.setRequired(e.currentTarget.checked)}

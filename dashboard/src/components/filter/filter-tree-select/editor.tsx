@@ -1,21 +1,26 @@
-import { Checkbox, Divider, NumberInput, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Group, NumberInput, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { FilterTreeSelectConfigInstance } from '~/model';
+import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForTreeSelect } from './expected-structure';
+import { CustomDefaultValueEditor } from '../custom-default-value-editor';
 
 interface IFilterEditorTreeSelect {
-  config: FilterTreeSelectConfigInstance;
+  filter: FilterMetaInstance;
 }
 
-export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ config }: IFilterEditorTreeSelect) {
+export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ filter }: IFilterEditorTreeSelect) {
+  const config = filter.config as FilterTreeSelectConfigInstance;
   return (
     <>
-      <Checkbox
-        checked={config.required}
-        onChange={(e) => config.setRequired(e.currentTarget.checked)}
-        label="Required"
-      />
+      <Group position="apart">
+        <Checkbox
+          checked={config.required}
+          onChange={(e) => config.setRequired(e.currentTarget.checked)}
+          label="Required"
+        />
+        <CustomDefaultValueEditor filter={filter} />
+      </Group>
       <TextInput
         label="Min-width"
         value={config.min_width}
