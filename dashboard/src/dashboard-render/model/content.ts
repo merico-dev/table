@@ -11,6 +11,7 @@ import {
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
   CURRENT_SCHEMA_VERSION,
+  ContextRecordType,
   FiltersRenderModel,
   MockContextMeta,
   PanelsRenderModel,
@@ -165,14 +166,10 @@ export type ContentRenderModelInstance = Instance<typeof ContentRenderModel>;
 export type ContentRenderModelCreationType = SnapshotIn<ContentRenderModelInstance>;
 export type ContentRenderModelSnapshotType = SnapshotOut<ContentRenderModelInstance>;
 
-export function createContentRenderModel({
-  id,
-  name,
-  dashboard_id,
-  create_time,
-  update_time,
-  content,
-}: DashboardContentDBType) {
+export function createContentRenderModel(
+  { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,
+  context: ContextRecordType,
+) {
   if (!content) {
     throw new Error('unexpected null content when creating a content model');
   }
@@ -191,7 +188,7 @@ export function createContentRenderModel({
     create_time,
     update_time,
     version,
-    filters: getInitialFiltersConfig(filters),
+    filters: getInitialFiltersConfig(filters, context, mock_context),
     queries: getInitialQueriesRenderModel(queries),
     sqlSnippets: getInitialSQLSnippetsRenderModel(sqlSnippets),
     mock_context: getInitialMockContextMeta(mock_context),
