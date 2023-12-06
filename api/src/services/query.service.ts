@@ -313,7 +313,7 @@ export class QueryService {
     try {
       const query = rawQuery.sql;
 
-      const sqlSnippetKeys = this.extractKeysFromQuery(query, /sql_snippets\.[\w]+/gm, 'sql_snippets.', '');
+      const sqlSnippetKeys = this.extractKeysFromQuery(query, /(?<=sql_snippets\.)([^\?}.]+)/gm, 'sql_snippets.', '');
       const sqlSnippets =
         sqlSnippetKeys.size > 0
           ? snippets
@@ -328,7 +328,7 @@ export class QueryService {
 
       const globalSqlSnippetKeys = this.extractKeysFromQuery(
         query,
-        /global_sql_snippets\.[\w]+/gm,
+        /(?<=global_sql_snippets\.)([^\?}.]+)/gm,
         'global_sql_snippets.',
         '',
       );
