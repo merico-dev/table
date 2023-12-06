@@ -58,7 +58,7 @@ export function createDashboardModel(
     name,
     group,
     content_id,
-    content: createContentModel(content),
+    content: createContentModel(content, context),
     datasources: {
       list: datasources,
     },

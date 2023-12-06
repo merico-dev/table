@@ -21,6 +21,7 @@ import { SQLSnippetsModel } from '../sql-snippets';
 import { v4 as uuidv4 } from 'uuid';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import {
+  ContextRecordType,
   formatSQLSnippet,
   getInitialFiltersConfig,
   getInitialMockContextMeta,
@@ -444,14 +445,10 @@ export function applyPartialDashboard(model: ContentModelInstance, changes: Patc
   }
 }
 
-export function createContentModel({
-  id,
-  name,
-  dashboard_id,
-  create_time,
-  update_time,
-  content,
-}: DashboardContentDBType) {
+export function createContentModel(
+  { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,
+  context: ContextRecordType,
+) {
   if (!content) {
     throw new Error('unexpected null content when creating a content model');
   }
@@ -470,7 +467,7 @@ export function createContentModel({
     create_time,
     update_time,
     version,
-    filters: getInitialFiltersConfig(filters),
+    filters: getInitialFiltersConfig(filters, context, mock_context),
     queries: {
       current: queries,
     },

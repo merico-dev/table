@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Instance, types } from 'mobx-state-tree';
-import { CURRENT_SCHEMA_VERSION, FilterMeta, FilterMetaSnapshotOut } from '~/model';
+import { CURRENT_SCHEMA_VERSION, ContextRecordType, FilterMeta, FilterMetaSnapshotOut } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { getValuesFromFilters } from './utils';
 
@@ -90,9 +90,13 @@ export const FiltersRenderModel = types
   }));
 export type FiltersRenderModelInstance = Instance<typeof FiltersRenderModel>;
 
-export function getInitialFiltersConfig(filters: FilterMetaSnapshotOut[]) {
+export function getInitialFiltersConfig(
+  filters: FilterMetaSnapshotOut[],
+  context: ContextRecordType,
+  mock_context: ContextRecordType,
+) {
   return {
     current: filters,
-    values: getValuesFromFilters(filters),
+    values: getValuesFromFilters(filters, { ...mock_context, ...context }),
   };
 }
