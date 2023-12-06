@@ -53,6 +53,7 @@ interface IDashboardProps {
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
+  onFilterValuesChange?: (filterValues: Record<string, any>) => void;
 }
 
 export interface IDashboardModel {
@@ -62,7 +63,17 @@ export interface IDashboardModel {
 }
 
 const _DashboardEditor = (
-  { context, dashboard, content, update, className = 'dashboard', config, onChange, headerSlot }: IDashboardProps,
+  {
+    context,
+    dashboard,
+    content,
+    update,
+    className = 'dashboard',
+    config,
+    onChange,
+    headerSlot,
+    onFilterValuesChange,
+  }: IDashboardProps,
   ref: ForwardedRef<IDashboardModel>,
 ) => {
   useLoadMonacoEditor(config.monacoPath);
@@ -89,6 +100,10 @@ const _DashboardEditor = (
   React.useEffect(() => {
     model.globalSQLSnippets.replace(globalSQLSnippets);
   }, [globalSQLSnippets]);
+
+  React.useEffect(() => {
+    onFilterValuesChange?.(model.content.filters.values);
+  }, [onFilterValuesChange, model.content.filters.values]);
 
   React.useEffect(() => {
     return reaction(
