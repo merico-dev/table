@@ -18,7 +18,7 @@ import { ContextRecordType } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
-import './index.css';
+import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
