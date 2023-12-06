@@ -4,8 +4,9 @@ import { ModalFunctionEditor } from '../widgets/modal-function-editor';
 import { IconMathFunction } from '@tabler/icons-react';
 import { Alert, List } from '@mantine/core';
 
-// TODO: introduce filter & state
-const DefaultValueFuncTemplate = ['function getDefaultValue(filter, utils, state) {', '    return "";', '}'].join('\n');
+const DefaultValueFuncTemplate = ['function getDefaultValue(filter, utils, context) {', '    return "";', '}'].join(
+  '\n',
+);
 
 type Props = {
   filter: FilterMetaInstance;
