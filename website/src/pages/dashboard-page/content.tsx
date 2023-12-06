@@ -67,6 +67,7 @@ export const DashboardPageContent = observer(() => {
           config={dashboardConfig}
           fullScreenPanelID={search.full_screen_panel_id}
           setFullScreenPanelID={setFullScreenPanelID}
+          // onFilterValuesChange={console.log}
         />
       </ErrorBoundary>
     </div>
