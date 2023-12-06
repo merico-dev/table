@@ -12,7 +12,7 @@ ENV YARN_VERSION 3.6.1
 ENV YARN_IGNORE_NODE 1
 
 RUN yarn set version $YARN_VERSION
-
+RUN yarn config set nodeLinker node-modules
 RUN yarn install
 
 FROM registry.cn-hongkong.aliyuncs.com/merico/node:20.10.0
@@ -20,4 +20,4 @@ FROM registry.cn-hongkong.aliyuncs.com/merico/node:20.10.0
 COPY --from=installer /code/api/_build /code/api/_build
 
 WORKDIR /code/api/_build
-
+RUN yarn config set nodeLinker node-modules
