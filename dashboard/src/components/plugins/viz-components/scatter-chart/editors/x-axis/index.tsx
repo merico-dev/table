@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { IScatterChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
+import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 
 interface IXAxisField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -55,6 +56,11 @@ export function XAxisField({ control, watch }: IXAxisField) {
           render={({ field }) => <XAxisLabelFormatterField {...field} />}
         />
       </Group>
+      <Controller
+        name="x_axis.axisLabel.overflow"
+        control={control}
+        render={({ field }) => <LabelOverflowField {...field} />}
+      />
     </Stack>
   );
 }
