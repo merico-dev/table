@@ -52,10 +52,13 @@ export interface IScatterChartConf {
   dataZoom: TEchartsDataZoomConfig;
 }
 
-export const DEFAULT_SCATTER_CHART_LABEL_OVERFLOW = {
-  label: getDefaultAxisLabelOverflow().on_axis,
-  tooltip: getDefaultAxisLabelOverflow().in_tooltip,
-};
+export function getDefaultScatterLabelOverfow() {
+  const { on_axis, in_tooltip } = getDefaultAxisLabelOverflow();
+  return {
+    label: on_axis,
+    tooltip: in_tooltip,
+  };
+}
 
 export const DEFAULT_CONFIG: IScatterChartConf = {
   scatter: {
@@ -67,7 +70,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     },
     color: DEFAULT_SERIES_COLOR.static,
     label_position: 'right',
-    label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
+    label_overflow: getDefaultScatterLabelOverfow(),
   },
   stats: {
     templates: {
