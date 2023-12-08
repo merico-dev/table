@@ -4,6 +4,7 @@ import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-col
 
 import {
   DEFAULT_AXIS_LABEL_OVERFLOW,
+  IAxisLabelOverflow,
   IEchartsOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
@@ -24,6 +25,7 @@ export interface IScatterChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
+      overflow: IAxisLabelOverflow;
     };
   };
   y_axes: IYAxisConf[];
@@ -79,6 +81,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
     },
   },
   y_axes: [
