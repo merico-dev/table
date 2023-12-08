@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance, ViewModalConfigInstance } from '~/model';
-import { useDownloadDivScreenshot, useDownloadModalScreenshot } from '../utils';
+import { useDownloadDivScreenshot } from '../utils';
 
 export const TakeScreenshot = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
   return (
@@ -20,7 +20,6 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
   const opened = model.views.visibleViewIDs.includes(view.id);
   const close = () => model.views.rmVisibleViewID(view.id);
 
-  // const { ref, downloadScreenshot } = useDownloadModalScreenshot(view);
   const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
   return (
     <Modal
@@ -61,6 +60,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
           maxHeight: config.height,
           overflow: 'auto',
           position: 'relative',
+          paddingBottom: 10,
         },
         header: {
           padding: 0,

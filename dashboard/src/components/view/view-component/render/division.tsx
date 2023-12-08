@@ -62,7 +62,7 @@ export const RenderViewDivision = observer(
     const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
     return (
       <>
-        <Box ref={ref} pt={10} sx={sx}>
+        <Box ref={ref} pt={10} pb={10} sx={sx}>
           {children}
         </Box>
         <DivActions downloadScreenShot={downloadScreenshot} />

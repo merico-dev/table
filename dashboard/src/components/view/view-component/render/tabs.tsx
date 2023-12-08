@@ -27,7 +27,7 @@ export const RenderViewTabs = observer(({ view }: { view: ViewRenderModelInstanc
           overflow: config.orientation === 'horizontal' ? 'hidden' : 'auto',
         },
         panel: {
-          padding: config.orientation === 'horizontal' ? '0px 0px 8px' : '0',
+          padding: config.orientation === 'horizontal' ? '0px 0px 36px' : '0',
           height: '100%',
           overflow: 'auto',
         },
