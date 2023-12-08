@@ -61,6 +61,7 @@ export const RenderViewModal = observer(({ children, view }: { children: ReactNo
           maxHeight: config.height,
           overflow: 'auto',
           position: 'relative',
+          paddingBottom: 10,
         },
         header: {
           padding: 0,
