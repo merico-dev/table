@@ -55,22 +55,28 @@ export function getTooltip(conf: IScatterChartConf, labelFormatters: Record<stri
       }
       const xAxisLabel = getXAxisLabel(arr, conf);
 
-      const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.scatter.label_overflow.tooltip);
+      const scatterLabelStyle = getLabelOverflowStyleInTooltip(conf.scatter.label_overflow.tooltip);
       const headers = arr.map(
         // @ts-expect-error type of value
         ({ value }: { value: AnyObject }) =>
           `
           <th style="text-align: right; padding-right: 1em">
-            <div style="${xAxisLabelStyle}">${readColumnIgnoringQuery(value, scatter.name_data_key)}</div>
+            <div style="${scatterLabelStyle}">${readColumnIgnoringQuery(value, scatter.name_data_key)}</div>
           </th>
           `,
       );
       headers.unshift('<th></th>');
 
+      const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip);
       const metrics = [
         `<tr>
           <th style="text-align: right;">${conf.x_axis.name}</th>
-          ${arr.map((i) => `<td style="text-align: right; padding: 0 1em;">${xAxisLabel}</td>`).join('')}
+          ${arr
+            .map(
+              (i) =>
+                `<td style="text-align: right; padding: 0 1em;"><div style="${xAxisLabelStyle}">${xAxisLabel}</div></td>`,
+            )
+            .join('')}
         </tr>`,
         `<tr>
           <th style="text-align: right;">${conf.y_axes[0].name}</th>
