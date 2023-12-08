@@ -1,10 +1,9 @@
-import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
+  getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
-import { AggregationType, DefaultAggregation } from '~/utils';
+import { AggregationType, DefaultAggregation, defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
@@ -91,7 +90,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
     data_key: '',
     axisLabel: {
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
     },
     nameAlignment: 'center',
   },

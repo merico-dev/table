@@ -1,6 +1,6 @@
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
+  getDefaultAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsLabelPosition } from '~/components/plugins/common-echarts-fields/label-position';
 
@@ -27,7 +27,7 @@ export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
     axisLabel: {
       show: true,
       position: 'inside',
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
     },
     sort: 'descending',
     orient: 'vertical',

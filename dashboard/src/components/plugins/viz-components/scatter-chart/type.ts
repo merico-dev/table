@@ -3,9 +3,9 @@ import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/e
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
   IAxisLabelOverflow,
   IEchartsOverflow,
+  getDefaultAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
@@ -53,8 +53,8 @@ export interface IScatterChartConf {
 }
 
 export const DEFAULT_SCATTER_CHART_LABEL_OVERFLOW = {
-  label: DEFAULT_AXIS_LABEL_OVERFLOW.on_axis,
-  tooltip: DEFAULT_AXIS_LABEL_OVERFLOW.in_tooltip,
+  label: getDefaultAxisLabelOverflow().on_axis,
+  tooltip: getDefaultAxisLabelOverflow().in_tooltip,
 };
 
 export const DEFAULT_CONFIG: IScatterChartConf = {
@@ -81,7 +81,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
     },
   },
   y_axes: [

@@ -1,10 +1,9 @@
-import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
+  getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/common-echarts-fields/regression-line';
-import { AggregationType } from '~/utils';
+import { AggregationType, defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
@@ -112,7 +111,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
     },
   },
   x_axis_data_key: '',
