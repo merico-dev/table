@@ -11,7 +11,7 @@ import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-field
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
+import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;
@@ -83,7 +83,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
   },
