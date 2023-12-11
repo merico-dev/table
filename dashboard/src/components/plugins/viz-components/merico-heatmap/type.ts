@@ -1,6 +1,6 @@
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
+  getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
@@ -52,7 +52,7 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },
@@ -62,7 +62,7 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
     nameAlignment: 'center',
     axisLabel: {
       rotate: 0,
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
     },
   },

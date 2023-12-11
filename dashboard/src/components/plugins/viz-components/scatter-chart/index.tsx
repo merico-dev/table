@@ -6,9 +6,10 @@ import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator'
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
 import { DEFAULT_SERIES_COLOR } from './editors/scatter/series-color-select/types';
 import { ClickScatterChartSeries } from './triggers';
-import { DEFAULT_CONFIG, DEFAULT_SCATTER_CHART_LABEL_OVERFLOW, IScatterChartConf } from './type';
+import { DEFAULT_CONFIG, getDefaultScatterLabelOverfow, IScatterChartConf } from './type';
 import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartEditor } from './viz-scatter-chart-editor';
+import { getDefaultAxisLabelOverflow } from '../../common-echarts-fields/axis-label-overflow';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -21,7 +22,7 @@ function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
 function v4(legacyConf: $TSFixMe): IScatterChartConf {
   const patch = {
     scatter: {
-      label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
+      label_overflow: getDefaultScatterLabelOverfow(),
     },
   };
   return _.defaultsDeep(patch, legacyConf);
@@ -107,6 +108,17 @@ function v9(legacyConf: any, { panelModel }: IMigrationEnv): IScatterChartConf {
   }
 }
 
+function v10(legacyConf: $TSFixMe): IScatterChartConf {
+  const patch = {
+    x_axis: {
+      axisLabel: {
+        overflow: getDefaultAxisLabelOverflow(),
+      },
+    },
+  };
+  return _.defaultsDeep(patch, legacyConf);
+}
+
 class VizScatterChartMigrator extends VersionBasedMigrator {
   configVersions(): void {
     this.version(1, (data: any) => {
@@ -153,8 +165,12 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 9, config: v9(config, env) };
     });
+    this.version(10, (data, env) => {
+      const { config } = data;
+      return { ...data, version: 10, config: v10(config) };
+    });
   }
-  readonly VERSION = 9;
+  readonly VERSION = 10;
 }
 
 export const ScatterChartVizComponent: VizComponent = {
@@ -166,7 +182,7 @@ export const ScatterChartVizComponent: VizComponent = {
   configRender: VizScatterChartEditor,
   createConfig() {
     return {
-      version: 9,
+      version: 10,
       config: cloneDeep(DEFAULT_CONFIG) as IScatterChartConf,
     };
   },

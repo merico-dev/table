@@ -9,15 +9,17 @@ export interface IAxisLabelOverflow {
   in_tooltip: IEchartsOverflow;
 }
 
-export const DEFAULT_AXIS_LABEL_OVERFLOW: IAxisLabelOverflow = {
-  on_axis: {
-    width: 80,
-    overflow: 'truncate',
-    ellipsis: '...',
-  },
-  in_tooltip: {
-    width: 200,
-    overflow: 'break',
-    ellipsis: '...',
-  },
-};
+export function getDefaultAxisLabelOverflow(): IAxisLabelOverflow {
+  return {
+    on_axis: {
+      width: 80,
+      overflow: 'truncate',
+      ellipsis: '...',
+    },
+    in_tooltip: {
+      width: 200,
+      overflow: 'break',
+      ellipsis: '...',
+    },
+  };
+}

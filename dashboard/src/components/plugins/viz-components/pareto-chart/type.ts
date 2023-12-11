@@ -1,8 +1,8 @@
-import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
+  getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     axisLabel: {
       rotate: 0,
       formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
-      overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+      overflow: getDefaultAxisLabelOverflow(),
     },
   },
   data_key: 'value',

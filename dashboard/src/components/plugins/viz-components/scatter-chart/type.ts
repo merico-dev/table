@@ -3,14 +3,15 @@ import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/e
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './editors/scatter/series-color-select/types';
 
 import {
-  DEFAULT_AXIS_LABEL_OVERFLOW,
+  IAxisLabelOverflow,
   IEchartsOverflow,
+  getDefaultAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
 import { TScatterSize } from './editors/scatter/scatter-size-select/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
+import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;
@@ -24,6 +25,7 @@ export interface IScatterChartConf {
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
+      overflow: IAxisLabelOverflow;
     };
   };
   y_axes: IYAxisConf[];
@@ -50,10 +52,13 @@ export interface IScatterChartConf {
   dataZoom: TEchartsDataZoomConfig;
 }
 
-export const DEFAULT_SCATTER_CHART_LABEL_OVERFLOW = {
-  label: DEFAULT_AXIS_LABEL_OVERFLOW.on_axis,
-  tooltip: DEFAULT_AXIS_LABEL_OVERFLOW.in_tooltip,
-};
+export function getDefaultScatterLabelOverfow() {
+  const { on_axis, in_tooltip } = getDefaultAxisLabelOverflow();
+  return {
+    label: on_axis,
+    tooltip: in_tooltip,
+  };
+}
 
 export const DEFAULT_CONFIG: IScatterChartConf = {
   scatter: {
@@ -65,7 +70,7 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     },
     color: DEFAULT_SERIES_COLOR.static,
     label_position: 'right',
-    label_overflow: DEFAULT_SCATTER_CHART_LABEL_OVERFLOW,
+    label_overflow: getDefaultScatterLabelOverfow(),
   },
   stats: {
     templates: {
@@ -78,7 +83,8 @@ export const DEFAULT_CONFIG: IScatterChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
+      overflow: getDefaultAxisLabelOverflow(),
     },
   },
   y_axes: [

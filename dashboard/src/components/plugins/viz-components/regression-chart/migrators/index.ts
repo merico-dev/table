@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { IRegressionChartConf } from '../type';
 import { defaultNumberFormat } from '~/utils';
-import { DEFAULT_AXIS_LABEL_OVERFLOW } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { getDefaultAxisLabelOverflow } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/types';
 import { IMigrationEnv } from '~/components/plugins';
 
@@ -11,7 +11,7 @@ export function v2(legacyConf: $TSFixMe): IRegressionChartConf {
       axisLabel: {
         rotate: 0,
         format: defaultNumberFormat,
-        overflow: DEFAULT_AXIS_LABEL_OVERFLOW,
+        overflow: getDefaultAxisLabelOverflow(),
         formatter: DEFAULT_X_AXIS_LABEL_FORMATTER,
       },
     },
