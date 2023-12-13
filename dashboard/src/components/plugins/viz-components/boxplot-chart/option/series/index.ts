@@ -28,7 +28,9 @@ export function getSeries(conf: IBoxplotChartConf, dataset: any[]) {
       },
     },
     {
-      name: 'Placeholder Outlier',
+      // Placeholder Outlier
+      // using same name to be toggled from legend
+      name: 'Outlier',
       type: 'scatter',
       symbolSize: 7,
       itemStyle: {
