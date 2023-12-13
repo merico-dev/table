@@ -139,6 +139,9 @@ export const QueryRenderModel = types
           }
         }
       }),
+      runTransformation() {
+        console.log('foo');
+      },
     };
   })
   .actions((self) => {
@@ -147,6 +150,9 @@ export const QueryRenderModel = types
         if (!self.inUse && !force) {
           console.debug(`Skipping query[${self.name}]`);
           return;
+        }
+        if (self.isTransform) {
+          return self.runTransformation();
         }
         return self.typedAsHTTP ? self.runHTTP() : self.runSQL();
       },
@@ -162,6 +168,9 @@ export const QueryRenderModel = types
         self,
         reaction(
           () => {
+            if (self.isTransform) {
+              return `${self.inUse}--${self.id}--${self.key}--${''}`; // TODO: add queryIDs & post_process to deps
+            }
             if (self.typedAsHTTP) {
               return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
             }

@@ -97,6 +97,9 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
   get typedAsHTTP() {
     return [DataSourceType.HTTP].includes(self.type);
   },
+  get isTransform() {
+    return self.type === DataSourceType.Transform;
+  },
   get reQueryKey() {
     const { react_to = [] } = self;
     if (react_to.length === 0) {

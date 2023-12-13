@@ -6,13 +6,19 @@ export const QueryMeta = types
   .model('QueryMeta', {
     id: types.string,
     name: types.string,
-    type: types.enumeration('DataSourceType', [DataSourceType.Postgresql, DataSourceType.MySQL, DataSourceType.HTTP]),
+    type: types.enumeration('DataSourceType', [
+      DataSourceType.Postgresql,
+      DataSourceType.MySQL,
+      DataSourceType.HTTP,
+      DataSourceType.Transform,
+    ]),
     key: types.string,
     sql: types.string,
     pre_process: types.optional(types.string, ''),
     post_process: types.optional(types.string, ''),
     run_by: types.optional(types.array(types.string), []),
     react_to: types.optional(types.array(types.string), []),
+    dep_query_ids: types.optional(types.array(types.string), []),
   })
   .views((self) => ({
     get valid() {
@@ -26,8 +32,8 @@ export const QueryMeta = types
       return !!self.sql;
     },
     get json() {
-      const { id, name, type, key, sql, run_by, react_to, pre_process, post_process } = self;
-      return shallowToJS({ id, key, sql, name, type, run_by, react_to, pre_process, post_process });
+      const { id, name, type, key, sql, run_by, react_to, pre_process, post_process, dep_query_ids } = self;
+      return shallowToJS({ id, key, sql, name, type, run_by, react_to, pre_process, post_process, dep_query_ids });
     },
   }))
   .actions((self) => {
@@ -57,6 +63,10 @@ export const QueryMeta = types
       },
       setPostProcess(v: string) {
         self.post_process = v;
+      },
+      setDependantQueryIDs(v: string[]) {
+        self.dep_query_ids.length = 0;
+        self.dep_query_ids.push(...v);
       },
     };
   });
