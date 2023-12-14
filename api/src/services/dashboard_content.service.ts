@@ -34,6 +34,9 @@ export class DashboardContentService {
     const keys = new Set(content.definition.queries.map((x) => x.key));
     const sources = await dataSourceRepo.findBy({ key: Any(Array.from(keys)) });
     content.definition.queries.forEach((q) => {
+      if (q.type === 'transform') {
+        return;
+      }
       if (!sources.find((s) => s.type === q.type && s.key === q.key)) {
         if (!errors[q.type]) {
           errors[q.type] = [];
