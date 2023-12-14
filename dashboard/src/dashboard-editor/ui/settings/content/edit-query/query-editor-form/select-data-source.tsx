@@ -1,4 +1,4 @@
-import { Box, Group, Select, Text } from '@mantine/core';
+import { Box, Group, Select, Text, ThemeIcon } from '@mantine/core';
 import { useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { forwardRef, useMemo } from 'react';
@@ -6,14 +6,21 @@ import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType } from '~/model';
 import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
+import { IconVectorTriangle } from '@tabler/icons-react';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
-  ({ label, type, ...others }, ref) => (
-    <Group position="apart" ref={ref} {...others}>
-      <Text>{label}</Text>
-      <Text>{type}</Text>
-    </Group>
-  ),
+  ({ label, type, ...others }, ref) =>
+    type === DataSourceType.Transform ? (
+      <Group position="left" ref={ref} {...others}>
+        <IconVectorTriangle size={14} color="#228be6" />
+        <Text color="blue">{label}</Text>
+      </Group>
+    ) : (
+      <Group position="apart" ref={ref} {...others}>
+        <Text>{label}</Text>
+        <Text>{type}</Text>
+      </Group>
+    ),
 );
 
 interface ISelectDataSource {
@@ -31,11 +38,17 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
   );
 
   const dataSourceOptions = useMemo(() => {
-    return dataSources.map((ds) => ({
+    const ret = dataSources.map((ds) => ({
       label: ds.key,
       value: ds.key,
       type: ds.type,
     }));
+    ret.push({
+      label: "Use other queries' data",
+      value: DataSourceType.Transform,
+      type: DataSourceType.Transform,
+    });
+    return ret;
   }, [dataSources]);
 
   const dataSourceTypeMap = useMemo(() => {
@@ -78,7 +91,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
         ) : undefined
       }
       rightSectionWidth={85}
-      maxDropdownHeight={280}
+      maxDropdownHeight={500}
       styles={{
         root: { flex: 1 },
         label: { display: 'block' },
