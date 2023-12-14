@@ -56,6 +56,7 @@ export async function migrateOneDashboardContent(dashboardContent: DashboardCont
         `MIGRATION FAILED, dashboard content [${dashboardContent.name}]'s version [${version}] is not migratable`,
       );
     }
+    // TODO: skip if current version is the latest version
     let handler = await findHandler(version);
     while (handler) {
       dashboardContent.content = handler.main(dashboardContent.content);
