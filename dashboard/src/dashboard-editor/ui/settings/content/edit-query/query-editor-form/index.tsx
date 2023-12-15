@@ -9,6 +9,7 @@ import { useEditContentModelContext } from '~/contexts';
 import { QueryRenderModelInstance } from '~/model';
 import { QueryUsage } from './query-usage';
 import { TabPanel_SQL } from './tabs/sql';
+import { TabPanel_Transform } from './tabs/transform';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -54,6 +55,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
         {queryModel.typedAsSQL && <Tabs.Tab value="SQL">Request</Tabs.Tab>}
         {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
+        {queryModel.isTransform && <Tabs.Tab value="Transform">Transform</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
           <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>
             <Text>Data</Text>
@@ -81,6 +83,13 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         <Tabs.Panel value="HTTP" sx={TabPanelStyle}>
           <Stack sx={{ height: '100%' }}>
             <TabPanel_HTTP queryModel={queryModel} />
+          </Stack>
+        </Tabs.Panel>
+      )}
+      {queryModel.isTransform && (
+        <Tabs.Panel value="Transform" sx={TabPanelStyle}>
+          <Stack sx={{ height: '100%' }}>
+            <TabPanel_Transform queryModel={queryModel} />
           </Stack>
         </Tabs.Panel>
       )}

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { cast, detach, Instance } from 'mobx-state-tree';
-import { QueriesRenderModel, QueryRenderModelInstance } from '~/model';
+import { DataSourceType, QueriesRenderModel, QueryRenderModelInstance } from '~/model';
 
 export const QueriesModel = QueriesRenderModel.views((self) => ({
   get options() {
@@ -12,6 +12,19 @@ export const QueriesModel = QueriesRenderModel.views((self) => ({
           _type: 'query',
         } as const),
     );
+    return _.sortBy(options, (o) => o.label.toLowerCase());
+  },
+  get optionsWithoutTransform() {
+    const options = self.current
+      .filter((q) => q.type !== DataSourceType.Transform)
+      .map(
+        (d) =>
+          ({
+            value: d.id,
+            label: d.name,
+            _type: 'query',
+          } as const),
+      );
     return _.sortBy(options, (o) => o.label.toLowerCase());
   },
   get sortedList() {
