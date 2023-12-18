@@ -4,7 +4,7 @@ import { reaction } from 'mobx';
 import { addDisposer, flow, Instance, SnapshotIn, toGenerator, types } from 'mobx-state-tree';
 import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
-import { postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
+import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
 
 export const QueryRenderModel = types
@@ -140,7 +140,27 @@ export const QueryRenderModel = types
         }
       }),
       runTransformation() {
-        console.log('foo');
+        self.state = 'loading';
+        try {
+          const queries = self.contentModel.queries
+            .findByIDSet(new Set(self.dep_query_ids))
+            .map((q: QueryRenderModelInstance) => ({
+              id: q.id,
+              name: q.name,
+              data: q.data,
+            }));
+          const state = self.contentModel.dashboardState;
+          const transform = self.pre_process;
+          const data = new Function(`return ${transform}`)()(queries, state, functionUtils);
+          self.data = data;
+          self.state = 'idle';
+          self.error = null;
+        } catch (error) {
+          self.data = [];
+          // @ts-expect-error type of error
+          self.error = error.message;
+          self.state = 'error';
+        }
       },
     };
   })
