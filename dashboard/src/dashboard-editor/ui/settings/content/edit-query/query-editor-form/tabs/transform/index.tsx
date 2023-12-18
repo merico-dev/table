@@ -27,7 +27,7 @@ export const TabPanel_Transform = observer(({ queryModel }: { queryModel: QueryR
       <Text size="md">Step 1: Pick queries for data input</Text>
       <MultiSelect
         data={content.queries.optionsWithoutTransform}
-        value={queryModel.dep_query_ids}
+        value={[...queryModel.dep_query_ids]}
         onChange={queryModel.setDependantQueryIDs}
         maxDropdownHeight={800}
       />
