@@ -23,7 +23,7 @@ export const TabPanel_Transform = observer(({ queryModel }: { queryModel: QueryR
   }
 
   return (
-    <Stack py={10} px={10} sx={{ height: '100%' }}>
+    <Stack py={20} px={20} sx={{ height: '100%' }}>
       <Text size="md">Step 1: Pick queries for data input</Text>
       <MultiSelect
         data={content.queries.optionsWithoutTransform}
