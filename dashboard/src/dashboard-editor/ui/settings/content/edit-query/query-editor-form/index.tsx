@@ -10,6 +10,7 @@ import { QueryRenderModelInstance } from '~/model';
 import { QueryUsage } from './query-usage';
 import { TabPanel_SQL } from './tabs/sql';
 import { TabPanel_Transform } from './tabs/transform';
+import { QueryModelInstance } from '~/dashboard-editor/model/queries';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -17,7 +18,7 @@ const TabPanelStyle: Sx = {
 };
 
 interface IQueryEditorForm {
-  queryModel: QueryRenderModelInstance;
+  queryModel: QueryModelInstance;
 }
 
 export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
@@ -56,8 +57,8 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         {queryModel.typedAsSQL && <Tabs.Tab value="SQL">Request</Tabs.Tab>}
         {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
         {queryModel.isTransform && <Tabs.Tab value="Transform">Transform</Tabs.Tab>}
-        <Tabs.Tab value="Data" disabled={!queryModel.datasource}>
-          <Tooltip label={'Need to pick a Data Source first'} disabled={queryModel.datasource} withinPortal>
+        <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
+          <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
             <Text>Data</Text>
           </Tooltip>
         </Tabs.Tab>
