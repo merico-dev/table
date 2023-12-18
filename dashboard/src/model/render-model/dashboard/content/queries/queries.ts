@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Instance, SnapshotIn, getParent, types } from 'mobx-state-tree';
 import { CURRENT_SCHEMA_VERSION, QueryMetaSnapshotIn } from '~/model/meta-model';
 import { downloadDataAsCSV, downloadDataListAsZip, downloadJSON } from '~/utils/download';
-import { QueryRenderModel } from './query';
+import { QueryRenderModel, QueryRenderModelInstance } from './query';
 
 export const QueriesRenderModel = types
   .model('QueriesRenderModel', {
@@ -32,7 +32,7 @@ export const QueriesRenderModel = types
     },
     get visibleQueryIDSet() {
       // FIXME: type
-      const { views, filters } = this.contentModel as any;
+      const { views, filters, queries } = this.contentModel as any;
       const queryIDs: string[] = [];
 
       views.visibleViews.forEach((v: any) => {
@@ -53,6 +53,13 @@ export const QueriesRenderModel = types
         if (visible) {
           queryIDs.push(id);
         }
+      });
+
+      queries.findByIDSet(new Set(queryIDs)).forEach((q: QueryRenderModelInstance) => {
+        if (!q.isTransform || q.dep_query_ids.length === 0) {
+          return;
+        }
+        queryIDs.push(...q.dep_query_ids);
       });
 
       const ret = new Set(queryIDs);
