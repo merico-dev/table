@@ -22,17 +22,20 @@ export const defaultNumberFormat: TNumberFormat = {
 
 export function formatNumber(number: string | number | null, { absolute, ...format }: TNumberFormat): string {
   if (number === null) {
-    return '';
+    return String(number);
   }
 
   try {
     let num = numbro(number).value();
+    if (num === undefined) {
+      throw new Error(`[formatNumber]Not a number: ${number}`);
+    }
     if (absolute) {
       num = Math.abs(num);
     }
     return numbro(num).format(format);
   } catch (e) {
-    console.error(e);
-    return '';
+    console.debug(e);
+    return String(number);
   }
 }

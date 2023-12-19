@@ -3,16 +3,12 @@ import { formatNumber, parseDataKey } from '~/utils';
 import { IBoxplotChartConf } from '../../type';
 
 const formatAdditionalMetric = (v: number) => {
-  try {
-    return formatNumber(v, {
-      output: 'number',
-      trimMantissa: true,
-      mantissa: 2,
-      absolute: false,
-    });
-  } catch (error) {
-    return v;
-  }
+  return formatNumber(v, {
+    output: 'number',
+    trimMantissa: true,
+    mantissa: 2,
+    absolute: false,
+  });
 };
 
 export function getAdditionalMetrics(config: IBoxplotChartConf, dataItem: AnyObject) {
