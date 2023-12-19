@@ -8,16 +8,12 @@ import { IHeatmapConf } from '../type';
 import { LabelFormattersType, ValueFormattersType } from './formatters';
 
 const formatAdditionalMetric = (v: number) => {
-  try {
-    return formatNumber(v, {
-      output: 'number',
-      trimMantissa: true,
-      mantissa: 2,
-      absolute: false,
-    });
-  } catch (error) {
-    return v;
-  }
+  return formatNumber(v, {
+    output: 'number',
+    trimMantissa: true,
+    mantissa: 2,
+    absolute: false,
+  });
 };
 
 interface IGetRows {
