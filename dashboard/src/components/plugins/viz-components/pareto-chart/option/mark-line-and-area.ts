@@ -84,7 +84,7 @@ export function getMarkLineAndArea(conf: IParetoChartConf, lineData: TLineDataIt
       data: [
         [
           {
-            type: 'min',
+            coord: ['min', 0],
           },
           {
             xAxis,
