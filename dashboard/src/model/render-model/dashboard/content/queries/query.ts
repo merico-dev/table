@@ -168,9 +168,10 @@ export const QueryRenderModel = types
     return {
       fetchData: (force: boolean) => {
         if (!self.inUse && !force) {
-          console.debug(`Skipping query[${self.name}]`);
+          console.debug(`🟡 Skipping query[${self.name}]`);
           return;
         }
+        console.debug(`🔵 Running query[${self.name}]`);
         if (self.isTransform) {
           return self.runTransformation();
         }
