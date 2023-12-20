@@ -7,6 +7,12 @@ import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
 
+enum QueryState {
+  idle = 'idle',
+  loading = 'loading',
+  error = 'error',
+}
+
 export const QueryRenderModel = types
   .compose(
     'QueryRenderModel',
@@ -24,6 +30,16 @@ export const QueryRenderModel = types
     },
     get additionalQueryInfo(): TAdditionalQueryInfo {
       return self.contentModel.getAdditionalQueryInfo(self.id);
+    },
+    get depQueryModels() {
+      return self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
+    },
+    get depQueryModelStates() {
+      // NOTE(leto): can't use QueryRenderModelInstance. 'QueryRenderModel' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.ts(7022)
+      return this.depQueryModels.map((q: any) => q.state as QueryState);
+    },
+    get depQueryModelStatesString() {
+      return this.depQueryModelStates.toString();
     },
   }))
   .views((self) => ({
@@ -142,13 +158,12 @@ export const QueryRenderModel = types
       runTransformation() {
         self.state = 'loading';
         try {
-          const queries = self.contentModel.queries
-            .findByIDSet(new Set(self.dep_query_ids))
-            .map((q: QueryRenderModelInstance) => ({
-              id: q.id,
-              name: q.name,
-              data: q.data,
-            }));
+          const queryModels = self.contentModel.queries.findByIDSet(new Set(self.dep_query_ids));
+          const queries = queryModels.map((q: QueryRenderModelInstance) => ({
+            id: q.id,
+            name: q.name,
+            data: q.data,
+          }));
           const state = self.contentModel.dashboardState;
           const transform = self.pre_process;
           const data = new Function(`return ${transform}`)()(queries, state, functionUtils);
@@ -190,7 +205,15 @@ export const QueryRenderModel = types
         reaction(
           () => {
             if (self.isTransform) {
-              return `${self.inUse}--${self.id}--${self.key}--${''}`; // TODO: add queryIDs & post_process to deps
+              const deps = [
+                self.inUse,
+                self.id,
+                self.key,
+                self.dep_query_ids.toString(),
+                self.pre_process,
+                self.depQueryModelStatesString,
+              ];
+              return deps.join('--');
             }
             if (self.typedAsHTTP) {
               return `${self.inUse}--${self.id}--${self.key}--${self.reQueryKey}--${self.datasource?.id}`;
