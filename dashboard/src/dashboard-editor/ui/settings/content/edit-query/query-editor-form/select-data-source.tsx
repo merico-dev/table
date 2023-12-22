@@ -11,7 +11,13 @@ import { IconVectorTriangle } from '@tabler/icons-react';
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) =>
     type === DataSourceType.Transform ? (
-      <Group position="left" ref={ref} {...others}>
+      <Group
+        className="transform-query-option"
+        position="left"
+        ref={ref}
+        {...others}
+        sx={{ '&[data-selected="true"]': { '.mantine-Text-root': { color: 'white' }, svg: { stroke: 'white' } } }}
+      >
         <IconVectorTriangle size={14} color="#228be6" />
         <Text color="blue">{label}</Text>
       </Group>
