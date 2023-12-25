@@ -177,7 +177,11 @@ export class DataSourceController implements interfaces.Controller {
     }
   }
 
-  private validateConfig(type: 'mysql' | 'postgresql' | 'http', config: DataSourceConfig, locale: string): void {
+  private validateConfig(
+    type: 'mysql' | 'postgresql' | 'http' | 'transform',
+    config: DataSourceConfig,
+    locale: string,
+  ): void {
     switch (type) {
       case 'http':
         if (!_.has(config, 'processing') || !_.has(config, 'processing.pre') || !_.has(config, 'processing.post'))

@@ -20,7 +20,7 @@ export type TQueryPayload = {
 
 export type TQueryStructureRequest = {
   query_type: 'TABLES' | 'COLUMNS' | 'DATA' | 'INDEXES' | 'COUNT';
-  type: 'postgresql' | 'mysql';
+  type: DataSourceType.Postgresql | DataSourceType.MySQL;
   key: string; // datasource key
   table_schema: string;
   table_name: string;

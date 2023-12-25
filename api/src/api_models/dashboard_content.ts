@@ -15,12 +15,12 @@ export class Query {
   })
   id: string;
 
-  @IsIn(['postgresql', 'mysql', 'http'])
+  @IsIn(['postgresql', 'mysql', 'http', 'transform'])
   @ApiModelProperty({
     description: 'Datasource type',
     required: true,
   })
-  type: 'postgresql' | 'mysql' | 'http';
+  type: 'postgresql' | 'mysql' | 'http' | 'transform';
 
   @IsString()
   @ApiModelProperty({

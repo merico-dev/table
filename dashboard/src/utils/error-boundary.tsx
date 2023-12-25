@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { Box, Button, Text } from '@mantine/core';
 
 type PropType = {
@@ -35,4 +35,14 @@ export class ErrorBoundary extends React.Component<PropType, StateType> {
 
     return this.props.children;
   }
+}
+
+export function errorBoundary(Component: $TSFixMe, options = { handleError: true }) {
+  return (props: $TSFixMe) => {
+    return (
+      <ErrorBoundary {...options}>
+        <Component {...props} />
+      </ErrorBoundary>
+    );
+  };
 }

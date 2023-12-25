@@ -42,7 +42,7 @@ export const ViewRenderModel = types
 
       const viewID = this.tabViewID;
       const view = this.contentModel.views.findByID(viewID);
-      return view.panels;
+      return view?.panels ?? [];
     },
     get renderViewIDs() {
       const ret = [self.id];

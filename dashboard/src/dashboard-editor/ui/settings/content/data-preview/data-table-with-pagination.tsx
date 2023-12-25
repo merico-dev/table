@@ -1,10 +1,10 @@
 import { Box, LoadingOverlay } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { ErrorBoundary } from '~/utils';
+import { ErrorBoundary, errorBoundary } from '~/utils';
 import { DataTable } from './data-table';
 import { PaginationControl } from './pagination-control';
 
-export const DataTableWithPagination = ({ data, loading }: { data: TQueryData; loading: boolean }) => {
+export const DataTableWithPagination = errorBoundary(({ data, loading }: { data: TQueryData; loading: boolean }) => {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(20);
   const tableData = useMemo(() => {
@@ -21,4 +21,4 @@ export const DataTableWithPagination = ({ data, loading }: { data: TQueryData; l
       </Box>
     </ErrorBoundary>
   );
-};
+});

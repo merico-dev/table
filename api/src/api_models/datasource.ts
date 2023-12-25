@@ -91,7 +91,7 @@ export class DataSource {
   @ApiModelProperty({
     description: 'type of the datasource',
     required: true,
-    enum: ['postgresql', 'mysql', 'http'],
+    enum: ['postgresql', 'mysql', 'http', 'transform'],
   })
   type: string;
 
@@ -232,13 +232,13 @@ export class DataSourcePaginationResponse implements PaginationResponse<DataSour
 })
 export class DataSourceCreateRequest {
   @IsString()
-  @IsIn(['postgresql', 'mysql', 'http'])
+  @IsIn(['postgresql', 'mysql', 'http', 'transform'])
   @ApiModelProperty({
     description: 'type of the datasource',
     required: true,
-    enum: ['postgresql', 'mysql', 'http'],
+    enum: ['postgresql', 'mysql', 'http', 'transform'],
   })
-  type: 'postgresql' | 'mysql' | 'http';
+  type: 'postgresql' | 'mysql' | 'http' | 'transform';
 
   @IsString()
   @Length(1, 250)
