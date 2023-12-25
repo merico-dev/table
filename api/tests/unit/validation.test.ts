@@ -23,7 +23,7 @@ import {
   DataSourceUpdateRequest,
 } from '~/api_models/datasource';
 import { JobListRequest, JobRunRequest } from '~/api_models/job';
-import { QueryRequest, QueryStructureRequest } from '~/api_models/query';
+import { HttpParams, QueryRequest, QueryStructureRequest } from '~/api_models/query';
 import { ConfigGetRequest, ConfigUpdateRequest } from '~/api_models/config';
 import { DashboardChangelogListRequest } from '~/api_models/dashboard_changelog';
 import {
@@ -1520,7 +1520,7 @@ describe('DataSourceCreateRequest', () => {
           property: 'type',
           children: [],
           constraints: {
-            isIn: 'type must be one of the following values: postgresql, mysql, http',
+            isIn: 'type must be one of the following values: postgresql, mysql, http, transform',
             isString: 'type must be a string',
           },
         },
@@ -1874,6 +1874,85 @@ describe('QueryRequest', () => {
               constraints: { isObject: 'context must be an object' },
             },
           ],
+        },
+      ]);
+    }
+  });
+});
+
+describe('HttpParams', () => {
+  it('should have no validation errors', () => {
+    const dataArray: HttpParams = {
+      host: '',
+      method: 'GET',
+      data: [],
+      headers: {},
+      params: {},
+      url: '',
+    };
+
+    const resultArray = validateClass(HttpParams, dataArray);
+    expect(resultArray).toMatchObject(dataArray);
+
+    const dataObject: HttpParams = {
+      host: '',
+      method: 'GET',
+      data: {},
+      headers: {},
+      params: {},
+      url: '',
+    };
+
+    const resultObject = validateClass(HttpParams, dataObject);
+    expect(resultObject).toMatchObject(dataObject);
+  });
+
+  it('Should have validation errors', () => {
+    const data = {};
+    expect(() => validateClass(HttpParams, data)).toThrow(
+      new ApiError(VALIDATION_FAILED, { message: `request body is incorrect` }),
+    );
+    try {
+      validateClass(HttpParams, data);
+    } catch (error) {
+      console.log(error.detail.errors);
+      expect(error.detail.errors).toMatchObject([
+        {
+          target: {},
+          value: undefined,
+          property: 'method',
+          children: [],
+          constraints: {
+            isIn: 'method must be one of the following values: GET, POST, PUT, DELETE',
+          },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'data',
+          children: [],
+          constraints: { isNotEmpty: 'data should not be empty' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'params',
+          children: [],
+          constraints: { isObject: 'params must be an object' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'headers',
+          children: [],
+          constraints: { isObject: 'headers must be an object' },
+        },
+        {
+          target: {},
+          value: undefined,
+          property: 'url',
+          children: [],
+          constraints: { isString: 'url must be a string' },
         },
       ]);
     }
