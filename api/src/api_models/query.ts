@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsIn, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsIn, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiModel, ApiModelProperty, SwaggerDefinitionConstant } from 'swagger-express-ts';
 import { Authentication } from './base';
 
@@ -126,12 +126,12 @@ export class HttpParams {
   })
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-  @IsObject()
+  @IsNotEmpty()
   @ApiModelProperty({
     description: 'Request parameters',
     required: true,
   })
-  data: Record<string, any>;
+  data: NonNullable<unknown>;
 
   @IsObject()
   @ApiModelProperty({
