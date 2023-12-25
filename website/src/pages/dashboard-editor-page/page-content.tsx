@@ -1,7 +1,7 @@
 import { DashboardContentDBType, DashboardEditor, IDashboard } from '@devtable/dashboard';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
@@ -15,6 +15,12 @@ import { getDashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
 import { LoadingPlaceholder } from './placeholder';
+import { useEditDashboardContext } from '@devtable/dashboard/src';
+import { useNavigate } from 'react-router-dom';
+import { useModals } from '@mantine/modals';
+import { IconAlertTriangle } from '@tabler/icons-react';
+import { Group, Text } from '@mantine/core';
+import { OnExitParams } from '@devtable/dashboard';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
@@ -22,6 +28,7 @@ export const DashboardEditorPageContent = observer(
     const [context] = React.useState({});
     const rebaseModel = useRebaseModel();
     const dashboardModelRef = React.useRef<IDashboardModel>(null);
+    const handleExit = useHandleExitEditPage();
 
     React.useEffect(() => {
       return reaction(
@@ -95,8 +102,41 @@ export const DashboardEditorPageContent = observer(
         update={updateDashboard}
         config={dashboardConfig}
         headerSlot={<MoreDashboardInfo />}
+        onExit={handleExit}
         // onFilterValuesChange={console.log}
       />
     );
   },
 );
+
+function useHandleExitEditPage() {
+  const navigate = useNavigate();
+  const modals = useModals();
+  return useCallback(
+    ({ hasChanges, dashboardId }: OnExitParams) => {
+      function goBack() {
+        navigate(`/dashboard/${dashboardId}`);
+      }
+
+      if (hasChanges) {
+        modals.openConfirmModal({
+          title: (
+            <Group position="left">
+              <IconAlertTriangle size={18} color="red" />
+              <Text>There are unsaved changes</Text>
+            </Group>
+          ),
+          labels: { confirm: 'Discard', cancel: 'Cancel' },
+          confirmProps: { color: 'red' },
+          onCancel: () => console.log('Cancel'),
+          onConfirm: goBack,
+          zIndex: 320,
+          withCloseButton: false,
+        });
+      } else {
+        goBack();
+      }
+    },
+    [navigate, modals],
+  );
+}
