@@ -53,7 +53,7 @@ function _DashboardLinks() {
           },
         }}
       >
-        {Object.entries(store.groupedList).map(([group, list]) => {
+        {store.groupedList.map(([group, list]) => {
           return (
             <Accordion.Item key={group} value={group}>
               <Accordion.Control>{group}</Accordion.Control>

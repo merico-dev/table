@@ -4,6 +4,7 @@ import { APICaller } from '../../../api-caller';
 import { DashboardBriefModel, DashboardBriefModelInstance } from './dashboard-brief-model';
 import { DashboardDetailModel } from './dashboard-detail-model';
 import { TDashboardMetaInfo } from '../../../api-caller/dashboard.typed';
+import _ from 'lodash';
 
 export const DashboardStore = types
   .model('DashboardStore', {
@@ -24,7 +25,7 @@ export const DashboardStore = types
       return self.list.find((d) => d.id === id);
     },
     get groupedList() {
-      return self.list
+      const groups = self.list
         .filter((d) => d.group)
         .reduce((ret, d) => {
           if (!ret[d.group]) {
@@ -33,6 +34,7 @@ export const DashboardStore = types
           ret[d.group].push(d);
           return ret;
         }, {} as Record<string, DashboardBriefModelInstance[]>);
+      return _.sortBy(Object.entries(groups), (o) => o[0]);
     },
     get strayList() {
       return self.list.filter((d) => !d.group);
