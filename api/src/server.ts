@@ -5,6 +5,7 @@ import * as swagger from 'swagger-express-ts';
 import http from 'http';
 import path from 'path';
 import cors from 'cors';
+import morgan from 'morgan';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import authorizationMiddleware from './middleware/authorization';
@@ -35,6 +36,7 @@ const server = new InversifyExpressServer(container);
 server.setConfig((application: any) => {
   application.use(express.json({ limit: requestMaxSize }));
   application.use(bodyparser.json());
+  application.use(morgan('[:date[clf]] :method :url :status :res[content-length] - :response-time ms'));
   application.use(
     cors({
       origin: corsOrigins,
