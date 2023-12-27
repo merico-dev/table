@@ -22,6 +22,7 @@ import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
+import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
 
 registerThemes();
 
@@ -54,6 +55,7 @@ interface IDashboardProps {
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
+  onExit: OnExitCallback;
 }
 
 export interface IDashboardModel {
@@ -73,6 +75,7 @@ const _DashboardEditor = (
     onChange,
     headerSlot,
     onFilterValuesChange,
+    onExit,
   }: IDashboardProps,
   ref: ForwardedRef<IDashboardModel>,
 ) => {
@@ -135,7 +138,11 @@ const _DashboardEditor = (
                   <AppShell
                     padding={0}
                     header={
-                      <DashboardEditorHeader saveDashboardChanges={saveDashboardChanges} headerSlot={headerSlot} />
+                      <DashboardEditorHeader
+                        onExit={onExit}
+                        saveDashboardChanges={saveDashboardChanges}
+                        headerSlot={headerSlot}
+                      />
                     }
                     navbar={<DashboardEditorNavbar />}
                     styles={AppShellStyles}
@@ -163,3 +170,5 @@ const _DashboardEditor = (
 };
 
 export const DashboardEditor = observer(forwardRef(_DashboardEditor));
+
+export type { OnExitCallback, OnExitParams } from './ui';
