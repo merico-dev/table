@@ -3,7 +3,6 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useEditDashboardContext } from '~/contexts';
-import { HeaderMenu } from './header-menu';
 import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
 
 export type OnExitParams = { hasChanges: boolean; dashboardId: string };
@@ -43,7 +42,6 @@ export const MainHeader = observer(
           </Group>
           <Group position="right" sx={{ flexGrow: 1 }}>
             {headerSlot}
-            <HeaderMenu />
           </Group>
         </Group>
       </MantineHeader>
