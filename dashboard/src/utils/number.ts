@@ -27,7 +27,7 @@ export function formatNumber(number: string | number | null, { absolute, ...form
 
   try {
     let num = numbro(number).value();
-    if (num === undefined) {
+    if (num === undefined || Number.isNaN(num)) {
       throw new Error(`[formatNumber]Not a number: ${number}`);
     }
     if (absolute) {
