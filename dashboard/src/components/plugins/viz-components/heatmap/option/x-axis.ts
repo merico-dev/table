@@ -3,7 +3,7 @@ import { getLabelOverflowOptionOnAxis } from '../../../common-echarts-fields/axi
 import { FormatterFuncType } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHeatmapConf } from '../type';
 
-export function getXAxis(conf: IHeatmapConf, xData: any[], formatterFunc: FormatterFuncType) {
+export function getXAxis(conf: IHeatmapConf, xData: any[], formatterFunc: FormatterFuncType, borderWidth: number) {
   const { overflow, rotate } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return defaultEchartsOptions.getXAxis({
@@ -28,7 +28,7 @@ export function getXAxis(conf: IHeatmapConf, xData: any[], formatterFunc: Format
       },
     },
     splitLine: {
-      show: true,
+      show: borderWidth > 0,
       interval: 0,
       lineStyle: {
         type: 'solid',

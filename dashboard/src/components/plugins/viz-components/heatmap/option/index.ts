@@ -49,8 +49,8 @@ export function getOption(
   const borderWidth = calcBorderWidth(xData.length, yData.length, width, height);
 
   const options = {
-    xAxis: getXAxis(conf, xData, labelFormatters.x_axis),
-    yAxis: getYAxis(conf, yData, labelFormatters.y_axis),
+    xAxis: getXAxis(conf, xData, labelFormatters.x_axis, borderWidth),
+    yAxis: getYAxis(conf, yData, labelFormatters.y_axis, borderWidth),
     series: getSeries(conf, seriesData, borderWidth),
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
