@@ -77,7 +77,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
       styles={getStyles(config)}
     >
       <Tabs.List grow={config.grow}>
-        {config.tabs.map((t) => (
+        {config.tabsInOrder.map((t) => (
           <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)}>
             {t.name ?? t.id}
           </Tabs.Tab>
@@ -86,7 +86,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
           <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
-      {config.tabs.map((t, i) => {
+      {config.tabsInOrder.map((t, i) => {
         const tabView = model.views.findByID(t.view_id);
         return (
           <Tabs.Panel key={t.id} value={t.id} sx={{ position: 'relative' }}>

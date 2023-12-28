@@ -35,13 +35,13 @@ export const RenderViewTabs = observer(({ view }: { view: ViewRenderModelInstanc
       keepMounted={false}
     >
       <Tabs.List grow={config.grow}>
-        {config.tabs.map((t) => (
+        {config.tabsInOrder.map((t) => (
           <Tabs.Tab key={t.id} value={t.id} sx={getTabSX(t)} disabled={!t.view_id}>
             {t.name ?? t.id}
           </Tabs.Tab>
         ))}
       </Tabs.List>
-      {config.tabs.map((t) => {
+      {config.tabsInOrder.map((t) => {
         const tabView = model.views.findByID(t.view_id);
         if (!tabView) {
           return null;

@@ -73,7 +73,7 @@ function makeViewNodes(views: ViewsRenderModelInstance) {
     let _tab_view_ids: string[] = [];
     if (v.type === EViewComponentType.Tabs) {
       const config = v.config as ViewTabsConfigInstance;
-      _tab_view_ids = config.tabs.map((t) => t.view_id);
+      _tab_view_ids = config.tabsInOrder.map((t) => t.view_id);
     }
     return {
       id: v.id,
