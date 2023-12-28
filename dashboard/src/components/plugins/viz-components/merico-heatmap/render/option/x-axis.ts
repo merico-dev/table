@@ -4,6 +4,7 @@ import { FormatterFuncType } from '../../editors/x-axis/x-axis-label-formatter/g
 import { TMericoHeatmapConf } from '../../type';
 import { getLabelOverflowOptionOnAxis } from '../../../../common-echarts-fields/axis-label-overflow';
 import { parseDataKey } from '~/utils';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 
 export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFunc: FormatterFuncType) {
   const x = parseDataKey(conf.x_axis.data_key);
@@ -11,7 +12,7 @@ export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFu
 
   const { overflow, rotate } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
-  return {
+  return defaultEchartsOptions.getXAxis({
     id: 'main-x-axis',
     type: 'category',
     data: xData,
@@ -27,7 +28,13 @@ export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFu
       formatter: formatterFunc,
     },
     splitArea: {
-      show: true,
+      show: false,
+      areaStyle: {
+        color: '#E7E7E9',
+      },
+    },
+    splitLine: {
+      show: false,
     },
     nameLocation: 'center',
     nameGap: 25,
@@ -35,6 +42,6 @@ export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFu
       fontWeight: 'bold',
       align: 'center',
     },
-    z: 2,
-  };
+    z: 3,
+  });
 }
