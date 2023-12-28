@@ -9,6 +9,7 @@ const TabModel = types
     name: types.string,
     view_id: types.string,
     color: types.optional(types.string, ''),
+    order: types.optional(types.number, 0),
   })
   .views((self) => ({
     get json() {
@@ -30,6 +31,9 @@ const TabModel = types
     },
     setColor(v: string) {
       self.color = v;
+    },
+    setOrder(v: number) {
+      self.order = v;
     },
   }));
 
