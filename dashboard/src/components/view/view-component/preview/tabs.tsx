@@ -1,4 +1,4 @@
-import { Box, Button, ColorInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
+import { Box, Button, ColorInput, NumberInput, Overlay, Select, Stack, Sx, Tabs, TextInput } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -94,8 +94,22 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
               <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={100} />
 
               <Stack mx="auto" mt={100} sx={{ width: '300px', position: 'relative', zIndex: 200 }}>
-                <TextInput label="Tab Name" value={t.name} onChange={(e) => t.setName(e.currentTarget.value)} />
+                <TextInput
+                  label="Tab Name"
+                  required
+                  value={t.name}
+                  onChange={(e) => t.setName(e.currentTarget.value)}
+                />
                 <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
+                <NumberInput
+                  label="Placement Order"
+                  required
+                  value={t.order}
+                  onChange={(v) => t.setOrder(v ? v : 0)}
+                  min={0}
+                  max={1000}
+                  step={1}
+                />
                 <ColorInput
                   label="Color"
                   value={t.color}
