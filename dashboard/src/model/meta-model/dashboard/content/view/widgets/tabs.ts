@@ -14,11 +14,12 @@ const TabModel = types
   })
   .views((self) => ({
     get json() {
-      const { id, name, view_id, color } = self;
+      const { id, name, view_id, color, order } = self;
       return {
         id,
         name,
         color,
+        order,
         view_id,
       };
     },
