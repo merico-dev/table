@@ -26,5 +26,6 @@ export function getSeries(conf: TMericoHeatmapConf, data: TPanelData) {
     labelLayout: {
       hideOverlap: true,
     },
+    z: 2,
   };
 }

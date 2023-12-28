@@ -18,5 +18,6 @@ export function getSeries(conf: IHeatmapConf, seriesData: any[], borderWidth: nu
     labelLayout: {
       hideOverlap: true,
     },
+    z: 2,
   };
 }

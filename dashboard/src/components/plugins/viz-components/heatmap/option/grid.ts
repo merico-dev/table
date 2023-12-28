@@ -7,10 +7,14 @@ export function getGrid(conf: IHeatmapConf) {
   }
 
   return {
+    show: true,
     top: 45,
     left: 5,
     right: 5,
     bottom,
     containLabel: true,
+    borderColor: 'none',
+    backgroundColor: '#E7E7E9',
+    z: 1,
   };
 }

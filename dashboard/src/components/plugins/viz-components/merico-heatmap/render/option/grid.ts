@@ -12,5 +12,8 @@ export function getGrid(conf: TMericoHeatmapConf) {
     right: 5,
     bottom,
     containLabel: true,
+    borderColor: 'none',
+    backgroundColor: '#E7E7E9',
+    z: 1,
   };
 }
