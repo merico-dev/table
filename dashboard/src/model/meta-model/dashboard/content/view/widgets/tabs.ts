@@ -2,6 +2,7 @@ import { TabsOrientation, TabsVariant } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
+import _ from 'lodash';
 
 const TabModel = types
   .model('ViewTabsTabModel', {
@@ -9,14 +10,16 @@ const TabModel = types
     name: types.string,
     view_id: types.string,
     color: types.optional(types.string, ''),
+    order: types.optional(types.number, 0),
   })
   .views((self) => ({
     get json() {
-      const { id, name, view_id, color } = self;
+      const { id, name, view_id, color, order } = self;
       return {
         id,
         name,
         color,
+        order,
         view_id,
       };
     },
@@ -30,6 +33,9 @@ const TabModel = types
     },
     setColor(v: string) {
       self.color = v;
+    },
+    setOrder(v: number) {
+      self.order = v;
     },
   }));
 
@@ -57,6 +63,9 @@ export const ViewTabsConfig = types
         variant,
         orientation,
       };
+    },
+    get tabsInOrder() {
+      return _.sortBy(self.tabs, 'order');
     },
   }))
   .actions((self) => ({
