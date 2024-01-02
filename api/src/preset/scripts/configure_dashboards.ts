@@ -95,6 +95,9 @@ async function checkConfigForErrors(
 ) {
   for (let i = 0; i < config.definition.queries.length; i++) {
     const { type, key } = config.definition.queries[i] as Source;
+    if (type === 'transform') {
+      continue;
+    }
     if (!(await datasourceRepo.exist({ where: { type, key, is_preset: true } }))) {
       if (!errors[type]) {
         errors[type] = [];
