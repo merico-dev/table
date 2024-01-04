@@ -8,6 +8,7 @@ interface IFunctionEditor {
 export const FunctionEditor = ({ value, onChange }: IFunctionEditor) => {
   const changeContent = (v?: TFunctionString) => {
     if (!v) {
+      onChange('');
       return;
     }
     onChange(v);
