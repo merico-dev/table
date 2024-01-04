@@ -9,13 +9,13 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
+import { TreeItem } from 'performant-array-to-tree';
 import TreeSelect, { SHOW_PARENT } from 'rc-tree-select';
 import { useState } from 'react';
+import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
 import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
-import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
-import { AnyObject } from '~/types';
 
 // This type will contain a union with all selectors defined in useStyles,
 // in this case it will be `'root' | 'title' | 'description'`
@@ -27,8 +27,8 @@ interface IFilterTreeSelectWidget extends DefaultProps<MyComponentStylesNames, T
   radius?: MantineNumberSize;
   style?: Record<string, any>;
   label: string;
-  value: AnyObject[];
-  onChange: (v: AnyObject[]) => void;
+  value: TreeItem[];
+  onChange: (v: TreeItem[]) => void;
   treeData: $TSFixMe;
   disabled: boolean;
   errorMessage?: string;

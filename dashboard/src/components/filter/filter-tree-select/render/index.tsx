@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import { TreeItem } from 'performant-array-to-tree';
+import { useMemo } from 'react';
 import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
-import { AnyObject } from '~/types';
 import { FilterTreeSelectWidget } from './widget';
 
 interface IFilterTreeSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
@@ -13,16 +13,14 @@ interface IFilterTreeSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'c
 export const FilterTreeSelect = observer(({ label, config, value, onChange }: IFilterTreeSelect) => {
   const { treeData, treeDataLoading, errorMessage } = config;
 
-  const [local, setLocal] = useState(config.defaultSelectionOptions);
-  const handleChange = (newLocal: AnyObject[]) => {
-    setLocal(newLocal);
-
+  const handleChange = (newLocal: TreeItem[]) => {
     const newValue = newLocal.map((o) => o.value);
     onChange(newValue, false);
   };
-  useEffect(() => {
-    setLocal(config.defaultSelectionOptions);
-  }, [config.defaultSelectionOptions]);
+
+  const widgetValue = useMemo(() => {
+    return config.initialSelection(value);
+  }, [value, config.plainData, config.defaultSelection, config.initialSelection]);
 
   const width = config.min_width ? config.min_width : '200px';
   const usingRemoteOptions = !!config.options_query_id;
@@ -31,7 +29,7 @@ export const FilterTreeSelect = observer(({ label, config, value, onChange }: IF
     <FilterTreeSelectWidget
       disabled={disabled}
       style={{ minWidth: '160px', width, maxWidth: disabled ? width : 'unset', borderColor: '#e9ecef' }}
-      value={local}
+      value={[...widgetValue]}
       onChange={handleChange}
       treeData={treeData}
       errorMessage={errorMessage}
