@@ -97,8 +97,11 @@ export const FilterTreeSelectConfigMeta = types
       const set = new Set(value);
       return this.plainData.filter((d: any) => set.has(d.value));
     },
-    get defaultSelectionOptions() {
-      return this.valueObjects(this.defaultSelection);
+    initialSelection(value: string[] | null) {
+      if (!value || value.length === 0) {
+        return this.valueObjects(this.defaultSelection);
+      }
+      return this.valueObjects(value);
     },
     truthy(value: any) {
       return Array.isArray(value) && value.length > 0;
