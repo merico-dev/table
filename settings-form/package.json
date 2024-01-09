@@ -1,6 +1,6 @@
 {
   "name": "@devtable/settings-form",
-  "version": "11.5.3",
+  "version": "11.6.1",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",

@@ -47,7 +47,7 @@ export function getOption(conf: ICartesianChartConf, data: TPanelData, variables
     xAxis: getXAxes(conf, xAxisData),
     yAxis: getYAxes(conf, labelFormatters, series),
     series: [...series, ...regressionSeries],
-    tooltip: getTooltip(conf, series, labelFormatters),
+    tooltip: getTooltip(conf, data, series, labelFormatters),
     grid: getGrid(conf),
     legend: getLegend(series),
     dataZoom: getEchartsDataZoomOption(conf.dataZoom),

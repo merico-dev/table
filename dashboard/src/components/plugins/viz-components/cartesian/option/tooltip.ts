@@ -5,6 +5,8 @@ import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/g
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { extractData, formatNumber, readColumnIgnoringQuery } from '~/utils';
+import _ from 'lodash';
 
 function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
   const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');
@@ -15,8 +17,18 @@ function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
   return getEchartsXAxisLabel(conf.x_axis.axisLabel.formatter)(axisValue, axisIndex);
 }
 
+const formatAdditionalMetric = (v: number) => {
+  return formatNumber(v, {
+    output: 'number',
+    trimMantissa: true,
+    mantissa: 2,
+    absolute: false,
+  });
+};
+
 export function getTooltip(
   conf: ICartesianChartConf,
+  data: TPanelData,
   series: IEchartsSeriesItem[],
   labelFormatters: Record<string, (p: $TSFixMe) => string>,
 ) {
@@ -50,6 +62,23 @@ export function getTooltip(
         </tr>
         `;
       });
+
+      const additionalMetrics = conf.tooltip.metrics.map((m) => {
+        const metricData = extractData(data, m.data_key);
+        const metricValues = _.uniq(
+          arr.map(({ dataIndex }) => {
+            return metricData[dataIndex];
+          }),
+        );
+        return `<tr>
+        <td />
+        <th style="text-align: right; padding: 0 1em;">${m.name}</th>
+        ${metricValues.map((v) => {
+          return `<td style="text-align: left; padding: 0 1em;">${formatAdditionalMetric(v)}</td>`;
+        })}
+        </tr>`;
+      });
+      lines.push(...additionalMetrics);
 
       const xAxisLabelStyle = getLabelOverflowStyleInTooltip(conf.x_axis.axisLabel.overflow.in_tooltip);
       const xAxisLabel = getXAxisLabel(arr, conf);
