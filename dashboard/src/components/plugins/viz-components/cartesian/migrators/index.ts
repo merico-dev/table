@@ -285,3 +285,10 @@ export function v18(legacyConf: any, { panelModel }: IMigrationEnv): ICartesianC
     throw error;
   }
 }
+export function v19(legacyConf: any): ICartesianChartConf {
+  const { tooltip = { metrics: [] }, ...rest } = legacyConf;
+  return {
+    ...legacyConf,
+    tooltip,
+  };
+}
