@@ -7,6 +7,7 @@ import { AggregationType, defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
+import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -97,6 +98,9 @@ export interface ICartesianChartConf {
       bottom: string;
     };
   };
+  tooltip: {
+    metrics: IEchartsTooltipMetric[];
+  };
   reference_lines: ICartesianReferenceLine[];
   reference_areas: ICartesianReferenceArea[];
   dataZoom: TEchartsDataZoomConfig;
@@ -114,6 +118,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
       overflow: getDefaultAxisLabelOverflow(),
     },
   },
+  tooltip: { metrics: [] },
   x_axis_data_key: '',
   x_axis_name: '',
   y_axes: [

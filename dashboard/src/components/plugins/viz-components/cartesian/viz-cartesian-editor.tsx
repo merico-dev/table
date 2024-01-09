@@ -15,6 +15,7 @@ import { StatsField } from './editors/stats';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
+import { TooltipField } from './editors/tooltip';
 
 export function VizCartesianEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
@@ -60,6 +61,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
             <Tabs.Tab value="Series">Series</Tabs.Tab>
             <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
             <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
@@ -80,6 +82,10 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Regression Lines">
             <RegressionsField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Tooltip">
+            <TooltipField control={control} watch={watch} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Stats">
