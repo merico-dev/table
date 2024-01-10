@@ -4,7 +4,7 @@ import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useRenderContentModelContext, useRenderDashboardContext } from '~/contexts';
-import { ViewMetaInstance } from '~/model';
+import { ViewMetaInstance, ViewRenderModelInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
 
@@ -58,7 +58,7 @@ export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot
 });
 
 export const RenderViewDivision = observer(
-  ({ children, view, sx = {} }: { children: ReactNode; view: ViewMetaInstance; sx?: Sx }) => {
+  ({ children, view, sx = {} }: { children: ReactNode; view: ViewRenderModelInstance; sx?: Sx }) => {
     const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
     return (
       <>
