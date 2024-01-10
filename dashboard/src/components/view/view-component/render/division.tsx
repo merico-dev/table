@@ -8,7 +8,7 @@ import { ViewMetaInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
 
-export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot: () => void }) => {
+export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
   const [flag, { setTrue, setFalse }] = useBoolean(false);
   const model = useRenderDashboardContext();
   const content = useRenderContentModelContext();
@@ -42,7 +42,7 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenShot}>
+        <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenshot}>
           Screenshot
         </Menu.Item>
         <Menu.Divider />
@@ -65,7 +65,7 @@ export const RenderViewDivision = observer(
         <Box ref={ref} pt={10} pb={10} sx={sx}>
           {children}
         </Box>
-        <DivActions downloadScreenShot={downloadScreenshot} />
+        <DivActions downloadScreenshot={downloadScreenshot} />
       </>
     );
   },
