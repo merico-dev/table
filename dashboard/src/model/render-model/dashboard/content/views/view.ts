@@ -1,6 +1,6 @@
 import { reaction } from 'mobx';
 import { saveAs } from 'file-saver';
-import { addDisposer, getParent, Instance, types } from 'mobx-state-tree';
+import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
 import { EViewComponentType, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
 // @ts-expect-error dom-to-image-more's declaration file
 import domtoimage from 'dom-to-image-more';
@@ -69,7 +69,7 @@ export const ViewRenderModel = types
         style: { transformOrigin: '0 0', transform: 'scale(2)' },
       });
       zip.file(`${self.name}_${t}.png`, blob);
-      zip.file(`dashboard_state_${t}.json`, '{}');
+      zip.file(`dashboard_state_${t}.json`, JSON.stringify(this.contentModel.dashboardState, null, 4));
 
       zip
         .generateAsync({ type: 'blob' })
