@@ -4,11 +4,11 @@ import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useRenderContentModelContext, useRenderDashboardContext } from '~/contexts';
-import { ViewMetaInstance } from '~/model';
+import { ViewMetaInstance, ViewRenderModelInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
 
-export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot: () => void }) => {
+export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
   const [flag, { setTrue, setFalse }] = useBoolean(false);
   const model = useRenderDashboardContext();
   const content = useRenderContentModelContext();
@@ -42,7 +42,7 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenShot}>
+        <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenshot}>
           Screenshot
         </Menu.Item>
         <Menu.Divider />
@@ -58,14 +58,14 @@ export const DivActions = observer(({ downloadScreenShot }: { downloadScreenShot
 });
 
 export const RenderViewDivision = observer(
-  ({ children, view, sx = {} }: { children: ReactNode; view: ViewMetaInstance; sx?: Sx }) => {
+  ({ children, view, sx = {} }: { children: ReactNode; view: ViewRenderModelInstance; sx?: Sx }) => {
     const { ref, downloadScreenshot } = useDownloadDivScreenshot(view);
     return (
       <>
         <Box ref={ref} pt={10} pb={10} sx={sx}>
           {children}
         </Box>
-        <DivActions downloadScreenShot={downloadScreenshot} />
+        <DivActions downloadScreenshot={downloadScreenshot} />
       </>
     );
   },
