@@ -10,7 +10,6 @@ import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import authorizationMiddleware from './middleware/authorization';
 import errorMiddleware from './middleware/error';
-import logger from 'npmlog';
 import { bindControllers } from './controller';
 import { bindServices } from './services';
 import { dashboardDataSource } from './data_sources/dashboard';
@@ -20,6 +19,7 @@ import './api_models';
 import { initWebsocket } from './utils/websocket';
 import { RoleService } from './services/role.service';
 import { migrateDashboardContents } from './dashboard_migration';
+import log, { LOG_LABELS, LOG_LEVELS } from './utils/logger';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
@@ -78,11 +78,11 @@ const port = process.env.SERVER_PORT || 31200;
 if (process.env.NODE_ENV !== 'test') {
   (async function init() {
     app.listen(port, () => {
-      logger.info(`Listening on port ${port}`);
+      log(LOG_LEVELS.INFO, LOG_LABELS.SERVER, `Listening on port ${port}`);
     });
 
     process.on('uncaughtException', (err) => {
-      logger.info(err.message);
+      log(LOG_LEVELS.ERROR, LOG_LABELS.SERVER, err.message);
     });
 
     await dashboardDataSource.initialize();

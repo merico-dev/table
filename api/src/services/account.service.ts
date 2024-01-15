@@ -19,7 +19,7 @@ import { translate } from '../utils/i18n';
 import { JobService } from './job.service';
 import { injectable } from 'inversify';
 import Role from '../models/role';
-import logger from 'npmlog';
+import log, { LOG_LABELS, LOG_LEVELS } from '../utils/logger';
 
 @injectable()
 export class AccountService {
@@ -45,7 +45,7 @@ export class AccountService {
       }
       return omitFields(account, ['password']);
     } catch (err) {
-      logger.warn(err);
+      log(LOG_LEVELS.WARN, LOG_LABELS.SERVICE, err);
       return;
     }
   }

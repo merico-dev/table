@@ -1576,6 +1576,7 @@ __metadata:
     "@types/lodash": ^4.14.202
     "@types/morgan": ^1.9.9
     "@types/node": ^20.10.1
+    "@types/npmlog": ^7.0.0
     "@types/pg": ^8.10.9
     "@types/supertest": ^2.0.16
     argparse: ^2.0.1
@@ -5624,6 +5625,15 @@ __metadata:
   dependencies:
     undici-types: ~5.26.4
   checksum: 9dfdcd2496ce535dba0ae496985d6e991a8a5d70a180db3a94c947a2123d99318a95dce4aa2a192f7e57c3afa3fdb44d6fd63e18efd49568950d6c239dadcc39
+  languageName: node
+  linkType: hard
+
+"@types/npmlog@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@types/npmlog@npm:7.0.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 0fbddf3b9647fcdbd47fa5851ba55d05d9a25c5a6ca0029a2a25d3a69bbe966c5dd1dfe7e4f051af6294b59d457e931e524338a20e9cfeea90fd994f5779537a
   languageName: node
   linkType: hard
 
