@@ -5,9 +5,9 @@ import fs from 'fs-extra';
 import path from 'path';
 import simpleGit, { SimpleGit, SimpleGitOptions } from 'simple-git';
 import { DATABASE_CONNECTION_TIMEOUT_MS, DATABASE_POOL_SIZE } from './constants';
-import logger from 'npmlog';
 import { omit, PropertyName } from 'lodash';
 import { FilterObject } from '../api_models/base';
+import log, { LOG_LABELS, LOG_LEVELS } from './logger';
 
 export function configureDatabaseSource(type: 'mysql' | 'postgresql', config: DataSourceConfig): DataSourceOptions {
   const commonConfig = {
@@ -85,8 +85,8 @@ export const getDiff = async (oldData: any, newData: any): Promise<string | unde
     await fs.writeJson(filename, newData, { spaces: '\t' });
     diff = await git.diff();
   } catch (e) {
-    logger.warn('get diff failed');
-    logger.warn(e);
+    log(LOG_LEVELS.WARN, LOG_LABELS.SERVICE, 'get diff failed');
+    log(LOG_LEVELS.WARN, LOG_LABELS.SERVICE, e);
   }
   await fs.rm(dir, { recursive: true, force: true });
   return diff;

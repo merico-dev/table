@@ -1,9 +1,9 @@
 import { dashboardDataSource } from '../data_sources/dashboard';
-import logger from 'npmlog';
 import _ from 'lodash';
 import DashboardContent from '../models/dashboard_content';
 import DashboardContentChangelog from '../models/dashboard_content_changelog';
 import { DashboardContentChangelogService } from '../services/dashboard_content_changelog.service';
+import log, { LOG_LABELS, LOG_LEVELS } from '../utils/logger';
 
 // NOTE: Keep versions in order
 export const versions = [
@@ -68,15 +68,19 @@ export async function migrateOneDashboardContent(dashboardContent: DashboardCont
      * NOTE(LETO): happens when dashboard's content is not migratable
      * Skip to provide a chance to fix it
      */
-    logger.error(`error migrating dashboard content. ID: ${dashboardContent.id}  name: ${dashboardContent.name}`);
-    logger.error(error.message);
+    log(
+      LOG_LEVELS.ERROR,
+      LOG_LABELS.DASHBOARD_SCHEMA,
+      `error migrating dashboard content. ID: ${dashboardContent.id}  name: ${dashboardContent.name}`,
+    );
+    log(LOG_LEVELS.ERROR, LOG_LABELS.DASHBOARD_SCHEMA, error.message);
     return false;
   }
   return true;
 }
 
 export async function migrateDashboardContents() {
-  logger.info('STARTING MIGRATION OF DASHBOARD CONTENTS');
+  log(LOG_LEVELS.INFO, LOG_LABELS.DASHBOARD_SCHEMA, 'STARTING MIGRATION OF DASHBOARD CONTENTS');
   try {
     if (!dashboardDataSource.isInitialized) {
       await dashboardDataSource.initialize();
@@ -99,12 +103,16 @@ export async function migrateDashboardContents() {
         changelog.diff = diff;
         await dashboardContentChangelogRepo.save(changelog);
       }
-      logger.info(`MIGRATED ${dashboardContent.id} TO VERSION ${dashboardContent.content.version}`);
+      log(
+        LOG_LEVELS.INFO,
+        LOG_LABELS.DASHBOARD_SCHEMA,
+        `MIGRATED ${dashboardContent.id} TO VERSION ${dashboardContent.content.version}`,
+      );
     }
   } catch (error) {
-    logger.error('error migrating dashboard contents');
-    logger.error(error.message);
+    log(LOG_LEVELS.ERROR, LOG_LABELS.DASHBOARD_SCHEMA, 'error migrating dashboard contents');
+    log(LOG_LEVELS.ERROR, LOG_LABELS.DASHBOARD_SCHEMA, error.message);
     process.exit(1);
   }
-  logger.info('MIGRATION OF DASHBOARD CONTENTS FINISHED');
+  log(LOG_LEVELS.ERROR, LOG_LABELS.DASHBOARD_SCHEMA, 'MIGRATION OF DASHBOARD CONTENTS FINISHED');
 }

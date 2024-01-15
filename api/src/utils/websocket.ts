@@ -1,11 +1,11 @@
 import { Server, Socket } from 'socket.io';
 import http from 'http';
-import logger from 'npmlog';
 import { AUTH_ENABLED, DEFAULT_LANGUAGE } from './constants';
 import { AccountService } from '../services/account.service';
 import { ApiService } from '../services/api.service';
 import { ApiError, FORBIDDEN } from './errors';
 import { translate } from './i18n';
+import log, { LOG_LABELS, LOG_LEVELS } from './logger';
 
 export enum SERVER_CHANNELS {
   DASHBOARD = 'DASHBOARD',
@@ -74,15 +74,15 @@ export function initWebsocket(server: http.Server, origin: string[]) {
 
   socket.engine.on('connection_error', (err) => {
     const msg = `EngineIO connection error, code: ${err.code}, message: ${err.message}`;
-    logger.error(msg);
-    logger.info(JSON.stringify(err.context, null, 2));
+    log(LOG_LEVELS.ERROR, LOG_LABELS.WEBSOCKET, msg);
+    log(LOG_LEVELS.INFO, LOG_LABELS.WEBSOCKET, JSON.stringify(err.context, null, 2));
   });
 
   socket.on('connection', (client: Socket) => {
-    logger.info(`user connected to websocket with id: ${client.id}`);
+    log(LOG_LEVELS.INFO, LOG_LABELS.WEBSOCKET, `user connected to websocket with id: ${client.id}`);
 
     client.on('disconnect', () => {
-      logger.info(`user disconnected from websocket with id: ${client.id}`);
+      log(LOG_LEVELS.INFO, LOG_LABELS.WEBSOCKET, `user disconnected from websocket with id: ${client.id}`);
       const dashboardEditInfos = removePresence(
         dashboardEditPresence,
         client.handshake.auth.auth as SOCKET_AUTH,

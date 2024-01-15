@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { HttpParams } from '../api_models/query';
-import logger from 'npmlog';
+import log, { LOG_LABELS, LOG_LEVELS } from './logger';
 
 export const APIClient = {
   request(host: string) {
@@ -28,7 +28,7 @@ export const APIClient = {
           return res.data;
         })
         .catch((err: any) => {
-          logger.error(JSON.stringify(err.toJSON()));
+          log(LOG_LEVELS.ERROR, LOG_LABELS.AXIOS, JSON.stringify(err.toJSON()));
           return Promise.reject(err);
         });
     };

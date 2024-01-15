@@ -19,6 +19,7 @@ import SqlSnippet from '../models/sql_snippet';
 import { QUERY_PARSING_ENABLED } from '../utils/constants';
 import { PERMISSIONS } from './role.service';
 import { Query, Snippet } from '../api_models/dashboard_content';
+import log, { LOG_LABELS, LOG_LEVELS } from '../utils/logger';
 
 @injectable()
 export class QueryService {
@@ -216,6 +217,10 @@ export class QueryService {
       locale,
       auth,
     );
+
+    if (query !== parsedQuery) {
+      log(LOG_LEVELS.WARN, LOG_LABELS.QUERY_MISMATCH, { frontendQuery: query, serverQuery: parsedQuery });
+    }
 
     let q: string = parsedQuery;
     if (['postgresql', 'mysql'].includes(parsedType)) {
