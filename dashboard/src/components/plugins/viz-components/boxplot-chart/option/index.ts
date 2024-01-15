@@ -9,6 +9,7 @@ import { getLegend } from './legend';
 import { getReferenceLines } from './reference-line';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
+import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 
 interface IGetOption {
   config: IBoxplotChartConf;
@@ -22,6 +23,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   const series = getSeries(config, dataset);
   return {
+    dataZoom: getEchartsDataZoomOption(config.dataZoom),
     grid: getGrid(config),
     dataset,
     legend: getLegend({ config }),

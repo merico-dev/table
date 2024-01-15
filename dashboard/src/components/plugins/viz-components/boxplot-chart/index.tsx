@@ -7,6 +7,7 @@ import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
+import { getDefaultDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -133,6 +134,14 @@ function v9(legacyConf: any): IBoxplotChartConf {
   return _.defaultsDeep(patch, legacyConf);
 }
 
+function v10(legacyConf: any): IBoxplotChartConf {
+  const { dataZoom, ...rest } = legacyConf;
+  return {
+    ...rest,
+    dataZoom: dataZoom ?? getDefaultDataZoomConfig(),
+  };
+}
+
 export class VizBoxplotChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 9;
 
@@ -181,6 +190,10 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
       const { config } = data;
       return { ...data, version: 9, config: v9(config) };
     });
+    this.version(10, (data) => {
+      const { config } = data;
+      return { ...data, version: 10, config: v10(config) };
+    });
   }
 }
 
@@ -193,7 +206,7 @@ export const BoxplotChartVizComponent: VizComponent = {
   configRender: VizBoxplotChartEditor,
   createConfig() {
     return {
-      version: 9,
+      version: 10,
       config: cloneDeep(DEFAULT_CONFIG) as IBoxplotChartConf,
     };
   },
