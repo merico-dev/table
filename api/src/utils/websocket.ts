@@ -33,7 +33,7 @@ let socket: Server;
 export function initWebsocket(server: http.Server, origin: string[]) {
   socket = new Server(server, {
     cors: {
-      origin: origin,
+      origin: process.env.CORS_ALLOW_ORIGIN === '*' ? '*' : origin,
     },
     allowEIO3: true,
   });

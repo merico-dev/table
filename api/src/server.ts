@@ -39,7 +39,7 @@ server.setConfig((application: any) => {
   application.use(morgan('[:date[clf]] :method :url :status :res[content-length] - :response-time ms'));
   application.use(
     cors({
-      origin: corsOrigins,
+      origin: process.env.CORS_ALLOW_ORIGIN === '*' ? '*' : corsOrigins,
     }),
   );
   application.use(i18n.init);
