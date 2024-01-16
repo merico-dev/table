@@ -23,7 +23,7 @@ export function getOption({ config, data, variables }: IGetOption) {
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
   const series = getSeries(config, dataset);
   return {
-    dataZoom: getEchartsDataZoomOption(config.dataZoom),
+    dataZoom: getEchartsDataZoomOption(config.dataZoom, 'filter'),
     grid: getGrid(config),
     dataset,
     legend: getLegend({ config }),
