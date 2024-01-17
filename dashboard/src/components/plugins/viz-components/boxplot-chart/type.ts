@@ -9,6 +9,11 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import {
+  DEFAULT_DATA_ZOOM_CONFIG,
+  getDefaultDataZoomConfig,
+  TEchartsDataZoomConfig,
+} from '../cartesian/editors/echarts-zooming-field/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -49,6 +54,7 @@ export interface IBoxplotChartConf {
   color: string;
   reference_lines: IBoxplotReferenceLine[];
   legend: TBoxplotLegend;
+  dataZoom: TEchartsDataZoomConfig;
 }
 
 export const DEFAULT_CONFIG: IBoxplotChartConf = {
@@ -80,6 +86,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     orient: 'vertical',
     type: 'scroll',
   },
+  dataZoom: getDefaultDataZoomConfig(),
 };
 
 export type TOutlierDataItem = [string, number, AnyObject];

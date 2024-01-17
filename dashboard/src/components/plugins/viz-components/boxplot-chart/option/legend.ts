@@ -28,6 +28,9 @@ export function getLegend({ config }: { config: IBoxplotChartConf }) {
       },
     ],
   };
+  if (config.legend.orient === 'horizontal' && config.dataZoom.x_axis_slider) {
+    ret.top = 15;
+  }
 
   return ret;
 }

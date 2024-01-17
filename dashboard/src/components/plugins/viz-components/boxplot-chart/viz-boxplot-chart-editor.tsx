@@ -13,6 +13,7 @@ import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { TooltipField } from './editors/tooltip';
 import { LegendField } from './editors/legend';
+import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 
 export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
@@ -24,7 +25,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['x_axis', 'y_axis', 'reference_lines', 'color']);
+  watch(['x_axis', 'y_axis', 'reference_lines', 'color', 'dataZoom']);
   const values = getValues();
   const changed = useMemo(() => {
     return !isEqual(values, conf);
@@ -60,6 +61,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Style">Style</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="X Axis">
             <XAxisField control={control} watch={watch} />
@@ -81,6 +83,9 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
           <Tabs.Panel value="Reference Lines">
             <ReferenceLinesField variables={variables} control={control} watch={watch} />
+          </Tabs.Panel>
+          <Tabs.Panel value="Zooming">
+            <Controller name="dataZoom" control={control} render={({ field }) => <EchartsZoomingField {...field} />} />
           </Tabs.Panel>
         </Tabs>
       </form>

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export type TEchartsDataZoomConfig = {
   x_axis_scroll: boolean;
   y_axis_scroll: boolean;
@@ -11,3 +13,7 @@ export const DEFAULT_DATA_ZOOM_CONFIG = {
   x_axis_slider: false,
   y_axis_slider: false,
 };
+
+export function getDefaultDataZoomConfig() {
+  return _.cloneDeep(DEFAULT_DATA_ZOOM_CONFIG);
+}
