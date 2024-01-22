@@ -110,8 +110,9 @@ export function getInitialFiltersConfig(
   filters: FilterMetaSnapshotOut[],
   context: ContextRecordType,
   mock_context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
-  const initialValues = getValuesFromFilters(filters, { ...mock_context, ...context });
+  const initialValues = _.defaults({}, filterValues, getValuesFromFilters(filters, { ...mock_context, ...context }));
   return {
     current: filters,
     values: initialValues,

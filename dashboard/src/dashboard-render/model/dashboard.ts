@@ -29,13 +29,14 @@ export function createDashboardRenderModel(
   datasources: IDataSource[],
   globalSQLSnippets: GlobalSQLSnippetDBType[],
   context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
   return DashboardRenderModel.create({
     id,
     name,
     group,
     content_id,
-    content: createContentRenderModel(content, context),
+    content: createContentRenderModel(content, context, filterValues),
     datasources: {
       list: datasources,
     },

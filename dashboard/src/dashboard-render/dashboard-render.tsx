@@ -31,6 +31,7 @@ interface IReadOnlyDashboard {
   config: IDashboardConfig;
   fullScreenPanelID: string;
   setFullScreenPanelID: (v: string) => void;
+  filterValues?: Record<string, any>;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
 }
 
@@ -42,6 +43,7 @@ const _ReadOnlyDashboard = ({
   config,
   fullScreenPanelID,
   setFullScreenPanelID,
+  filterValues,
   onFilterValuesChange,
 }: IReadOnlyDashboard) => {
   configureAPIClient(config);
@@ -50,7 +52,7 @@ const _ReadOnlyDashboard = ({
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
   const model = React.useMemo(
-    () => createDashboardRenderModel(dashboard, content, datasources, globalSQLSnippets, context),
+    () => createDashboardRenderModel(dashboard, content, datasources, globalSQLSnippets, context, filterValues ?? {}),
     [dashboard, content],
   );
   useInteractionOperationHacks(model.content, false);
@@ -70,6 +72,12 @@ const _ReadOnlyDashboard = ({
   React.useEffect(() => {
     onFilterValuesChange?.(model.content.filters.values);
   }, [onFilterValuesChange, model.content.filters.values]);
+
+  React.useEffect(() => {
+    if (filterValues) {
+      model.content.filters.setValues(filterValues);
+    }
+  }, [filterValues, model.content.filters.setValues]);
 
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
