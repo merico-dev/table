@@ -52,13 +52,14 @@ export function createDashboardModel(
   datasources: IDataSource[],
   globalSQLSnippets: GlobalSQLSnippetDBType[],
   context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
   return DashboardModel.create({
     id,
     name,
     group,
     content_id,
-    content: createContentModel(content, context),
+    content: createContentModel(content, context, filterValues),
     datasources: {
       list: datasources,
     },

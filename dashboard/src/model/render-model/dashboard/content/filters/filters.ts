@@ -79,6 +79,9 @@ export const FiltersRenderModel = types
     setValues(values: Record<string, $TSFixMe>) {
       self.values = values;
     },
+    patchValues(values: Record<string, any>) {
+      self.values = _.defaults({}, values, self.values);
+    },
     setValueByKey(key: string, value: $TSFixMe) {
       self.values = {
         ...self.values,
@@ -110,8 +113,9 @@ export function getInitialFiltersConfig(
   filters: FilterMetaSnapshotOut[],
   context: ContextRecordType,
   mock_context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
-  const initialValues = getValuesFromFilters(filters, { ...mock_context, ...context });
+  const initialValues = _.defaults({}, filterValues, getValuesFromFilters(filters, { ...mock_context, ...context }));
   return {
     current: filters,
     values: initialValues,

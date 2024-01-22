@@ -169,6 +169,7 @@ export type ContentRenderModelSnapshotType = SnapshotOut<ContentRenderModelInsta
 export function createContentRenderModel(
   { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,
   context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
   if (!content) {
     throw new Error('unexpected null content when creating a content model');
@@ -188,7 +189,7 @@ export function createContentRenderModel(
     create_time,
     update_time,
     version,
-    filters: getInitialFiltersConfig(filters, context, mock_context),
+    filters: getInitialFiltersConfig(filters, context, mock_context, filterValues),
     queries: getInitialQueriesRenderModel(queries),
     sqlSnippets: getInitialSQLSnippetsRenderModel(sqlSnippets),
     mock_context: getInitialMockContextMeta(mock_context),

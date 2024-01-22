@@ -54,6 +54,7 @@ interface IDashboardProps {
   config: IDashboardConfig;
   onChange?: (dashboard: IDashboard) => void;
   headerSlot?: ReactNode;
+  filterValues?: Record<string, any>;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
   onExit: OnExitCallback;
 }
@@ -74,6 +75,7 @@ const _DashboardEditor = (
     config,
     onChange,
     headerSlot,
+    filterValues,
     onFilterValuesChange,
     onExit,
   }: IDashboardProps,
@@ -86,7 +88,7 @@ const _DashboardEditor = (
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
   const model = React.useMemo(
-    () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context),
+    () => createDashboardModel(dashboard, content, datasources, globalSQLSnippets, context, filterValues ?? {}),
     [dashboard, content],
   );
   React.useImperativeHandle(ref, () => model, [model]);
@@ -107,6 +109,12 @@ const _DashboardEditor = (
   React.useEffect(() => {
     onFilterValuesChange?.(model.content.filters.values);
   }, [onFilterValuesChange, model.content.filters.values]);
+
+  React.useEffect(() => {
+    if (filterValues) {
+      model.content.filters.patchValues(filterValues);
+    }
+  }, [filterValues, model.content.filters.patchValues]);
 
   React.useEffect(() => {
     return reaction(

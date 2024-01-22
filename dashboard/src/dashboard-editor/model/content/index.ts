@@ -462,6 +462,7 @@ export function applyPartialDashboard(model: ContentModelInstance, changes: Patc
 export function createContentModel(
   { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,
   context: ContextRecordType,
+  filterValues: Record<string, any>,
 ) {
   if (!content) {
     throw new Error('unexpected null content when creating a content model');
@@ -481,7 +482,7 @@ export function createContentModel(
     create_time,
     update_time,
     version,
-    filters: getInitialFiltersConfig(filters, context, mock_context),
+    filters: getInitialFiltersConfig(filters, context, mock_context, filterValues),
     queries: {
       current: queries,
     },
