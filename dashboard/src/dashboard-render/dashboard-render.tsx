@@ -75,9 +75,9 @@ const _ReadOnlyDashboard = ({
 
   React.useEffect(() => {
     if (filterValues) {
-      model.content.filters.setValues(filterValues);
+      model.content.filters.patchValues(filterValues);
     }
-  }, [filterValues, model.content.filters.setValues]);
+  }, [filterValues, model.content.filters.patchValues]);
 
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);

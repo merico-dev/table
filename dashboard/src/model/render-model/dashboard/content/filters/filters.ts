@@ -79,6 +79,9 @@ export const FiltersRenderModel = types
     setValues(values: Record<string, $TSFixMe>) {
       self.values = values;
     },
+    patchValues(values: Record<string, any>) {
+      self.values = _.defaults({}, values, self.values);
+    },
     setValueByKey(key: string, value: $TSFixMe) {
       self.values = {
         ...self.values,
