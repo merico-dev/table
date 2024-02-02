@@ -108,12 +108,6 @@ export function getNewPanel(id: string): PanelRenderModelSnapshotIn {
   return {
     id,
     name: id,
-    layout: {
-      x: 0,
-      y: Infinity, // puts it at the bottom
-      w: 18,
-      h: 300,
-    },
     title: { show: true },
     description: '<p></p>',
     queryIDs: [],

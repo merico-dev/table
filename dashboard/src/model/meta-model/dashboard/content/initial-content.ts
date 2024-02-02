@@ -1,7 +1,7 @@
 import { TDashboardContent } from '~/types';
 import { EViewComponentType } from './view';
 
-export const CURRENT_SCHEMA_VERSION = '11.0.0';
+export const CURRENT_SCHEMA_VERSION = '11.10.0';
 
 export const initialDashboardContent: TDashboardContent = {
   definition: {
@@ -21,4 +21,11 @@ export const initialDashboardContent: TDashboardContent = {
   panels: [],
   filters: [],
   version: CURRENT_SCHEMA_VERSION,
+  layouts: [
+    {
+      id: 'medium',
+      list: [],
+      breakpoint: 0,
+    },
+  ],
 };

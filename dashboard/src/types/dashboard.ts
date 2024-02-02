@@ -1,7 +1,13 @@
 import { AnyObject } from '~/types/utils';
 import { ITemplateVariable } from '~/utils';
 
-import { EViewComponentType, FilterMetaSnapshotOut, QueryMetaSnapshotIn, SQLSnippetMetaSnapshotIn } from '~/model';
+import {
+  EViewComponentType,
+  FilterMetaSnapshotOut,
+  QueryMetaSnapshotIn,
+  SQLSnippetMetaSnapshotIn,
+  LayoutSetMetaSnapshotOut,
+} from '~/model';
 
 export interface IVizConfig {
   type: string;
@@ -21,14 +27,6 @@ export interface IDashboardPanel {
     show: boolean;
   };
   description: string;
-  layout: {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-    moved?: boolean;
-    static?: boolean;
-  };
   queryIDs: string[];
   viz: IVizConfig;
   style: IDashboardPanelStyle;
@@ -84,6 +82,7 @@ export interface TDashboardContent {
   views: IDashboardView[];
   panels: IDashboardPanel[];
   filters: FilterMetaSnapshotOut[];
+  layouts: LayoutSetMetaSnapshotOut[];
   version: string;
 }
 
