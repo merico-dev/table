@@ -31,12 +31,7 @@ export const PanelsRenderModel = types
           console.warn(`Panel is not found, id:${id}`);
         }
       });
-
-      const layouts = panels.map((o) => ({
-        ...o.layout.json,
-        i: o.id,
-      }));
-      return { panels, layouts };
+      return panels;
     },
   }));
 
