@@ -36,6 +36,7 @@ import { payloadToDashboardState } from '~/utils';
 import { UsageRegs } from '~/utils';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
+import { LayoutsModel } from '../layouts';
 
 const _ContentModel = types
   .model({
@@ -50,6 +51,7 @@ const _ContentModel = types
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
     panels: PanelsModel,
+    layouts: LayoutsModel,
     mock_context: MockContextMeta,
     /**
      * this field should be excluded from snapshot
@@ -69,6 +71,7 @@ const _ContentModel = types
           panels: self.panels.json,
           filters: self.filters.json,
           version: self.version,
+          layouts: self.layouts.json,
           definition: {
             queries: self.queries.json,
             sqlSnippets: self.sqlSnippets.json,
@@ -473,6 +476,7 @@ export function createContentModel(
     filters,
     views,
     panels,
+    layouts,
     definition: { queries, sqlSnippets, mock_context = {} },
   } = content;
   return ContentModel.create({
@@ -493,6 +497,9 @@ export function createContentModel(
     views: getInitialDashboardViewsModel(views),
     panels: {
       list: panels,
+    },
+    layouts: {
+      list: layouts,
     },
   });
 }

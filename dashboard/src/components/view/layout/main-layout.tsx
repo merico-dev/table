@@ -55,20 +55,19 @@ interface IMainDashboardLayout {
 }
 
 export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
-  const model = useRenderContentModelContext();
-  const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
-
+  const contentModel = useRenderContentModelContext();
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
       currentLayout.forEach(({ i, ...rest }) => {
-        const p = model.panels.findByID(i);
-        if (!p) {
-          return;
-        }
-        p.layout.set(rest);
+        // TODO: find layout by panelID, then set it
+        // const p = contentModel.panels.findByID(i);
+        // if (!p) {
+        //   return;
+        // }
+        // p.layout.set(rest);
       });
     },
-    [model],
+    [contentModel],
   );
 
   const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
@@ -93,16 +92,17 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
       isBounded={true}
       isDraggable
       isResizable
-      layout={layouts}
+      layout={contentModel.layouts.pureLayouts}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
       onResize={onResize}
     >
-      {panels.map((panel, index) => {
+      {/* TODO: load by breakpoint */}
+      {contentModel.layouts.tempLayouts.map((l, index) => {
         return (
-          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            <CustomDragHandle h={panel.layout.h} />
-            <Panel view={view} panel={panel} />
+          <div key={l.id} data-grid={{ ...l.layoutProperies }} className="panel-grid-item">
+            <CustomDragHandle h={l.h} />
+            <Panel view={view} panel={l.panel} />
           </div>
         );
       })}
