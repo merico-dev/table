@@ -13,6 +13,7 @@ import {
   CURRENT_SCHEMA_VERSION,
   ContextRecordType,
   FiltersRenderModel,
+  LayoutsRenderModel,
   MockContextMeta,
   PanelsRenderModel,
   QueriesRenderModel,
@@ -43,6 +44,7 @@ export const ContentRenderModel = types
     sqlSnippets: SQLSnippetsRenderModel,
     views: ViewsRenderModel,
     panels: PanelsRenderModel,
+    layouts: LayoutsRenderModel,
     mock_context: MockContextMeta,
   })
   .views((self) => ({
@@ -58,6 +60,7 @@ export const ContentRenderModel = types
           panels: self.panels.json,
           filters: self.filters.json,
           version: self.version,
+          layouts: self.layouts.json,
           definition: {
             queries: self.queries.json,
             sqlSnippets: self.sqlSnippets.json,
@@ -180,6 +183,7 @@ export function createContentRenderModel(
     filters,
     views,
     panels,
+    layouts,
     definition: { queries, sqlSnippets, mock_context = {} },
   } = content;
   return ContentRenderModel.create({
@@ -196,6 +200,9 @@ export function createContentRenderModel(
     views: getInitialViewsRenderModel(views),
     panels: {
       list: panels,
+    },
+    layouts: {
+      list: layouts,
     },
   });
 }

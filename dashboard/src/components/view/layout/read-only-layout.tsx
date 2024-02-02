@@ -16,7 +16,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   view,
   className = 'layout',
 }: IReadOnlyDashboardLayout) {
-  const { panels, layouts } = useRenderContentModelContext().panels.panelsByIDs(view.panelIDs);
+  const contentModel = useRenderContentModelContext();
   return (
     <ReactGridLayout
       className={`dashboard-layout ${className}`}
@@ -25,12 +25,13 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
       margin={[0, 0]}
       isDraggable={false}
       isResizable={false}
-      layout={layouts}
+      layout={contentModel.layouts.pureLayouts}
     >
-      {panels.map((panel) => {
+      {/* TODO: load by breakpoint */}
+      {contentModel.layouts.tempLayouts.map((l) => {
         return (
-          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            <PanelRender view={view} panel={panel} />
+          <div key={l.id} data-grid={{ ...l.layoutProperies }} className="panel-grid-item">
+            <PanelRender view={view} panel={l.panel} />
           </div>
         );
       })}
