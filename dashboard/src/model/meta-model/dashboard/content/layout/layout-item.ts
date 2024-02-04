@@ -1,4 +1,4 @@
-import { getRoot, types } from 'mobx-state-tree';
+import { Instance, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 
 export const LayoutItemMeta = types
@@ -57,3 +57,5 @@ export const LayoutItemMeta = types
       self.h = h;
     },
   }));
+
+export type LayoutItemMetaInstance = Instance<typeof LayoutItemMeta>;
