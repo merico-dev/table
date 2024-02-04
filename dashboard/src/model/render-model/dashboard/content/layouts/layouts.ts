@@ -1,6 +1,6 @@
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
-import { LayoutItemMetaInstance, LayoutSetMeta } from '~/model/meta-model';
+import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance } from '~/model/meta-model';
 
 export const LayoutsRenderModel = types
   .model('LayoutsRenderModel', {
@@ -18,6 +18,9 @@ export const LayoutsRenderModel = types
       // @ts-expect-error type of getRoot
       return this.root.content;
     },
+    get currentLayoutSet() {
+      return self.list.find((s) => s.id === self.currentBreakpoint) as LayoutSetMetaInstance;
+    },
     get cols() {
       const ret: Record<string, 36> = {};
       self.list.forEach((set) => {
@@ -31,6 +34,14 @@ export const LayoutsRenderModel = types
         ret[set.id] = set.breakpoint;
       });
       return ret;
+    },
+    get breakpointOptions() {
+      return self.list
+        .map((l) => ({
+          label: l.id,
+          value: l.breakpoint,
+        }))
+        .sort((a, b) => a.value - b.value);
     },
     items(panelIDs: string[]) {
       const panelIDSet = new Set(panelIDs);
