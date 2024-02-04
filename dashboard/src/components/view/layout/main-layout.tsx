@@ -1,7 +1,7 @@
 import { ActionIcon } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import RGL, { Layout, WidthProvider } from 'react-grid-layout';
+import { Responsive, Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
@@ -47,7 +47,7 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
   </ActionIcon>
 ));
 
-const ReactGridLayout = WidthProvider(RGL);
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface IMainDashboardLayout {
   view: ViewMetaInstance;
@@ -56,6 +56,9 @@ interface IMainDashboardLayout {
 
 export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
   const contentModel = useRenderContentModelContext();
+  const layoutItems = contentModel.layouts.items(view.panelIDs);
+  const gridLayouts = contentModel.layouts.gridLayouts(view.panelIDs);
+
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[]) => {
       currentLayout.forEach(({ i, ...rest }) => {
@@ -83,29 +86,29 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
   };
 
   return (
-    <ReactGridLayout
+    <ResponsiveGridLayout
       onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={1}
-      cols={36}
       margin={[0, 0]}
       isBounded={true}
       isDraggable
       isResizable
-      layout={contentModel.layouts.pureLayouts}
+      cols={contentModel.layouts.cols}
+      layouts={gridLayouts}
+      breakpoints={contentModel.layouts.breakpoints}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
       onResize={onResize}
     >
-      {/* TODO: load by breakpoint */}
-      {contentModel.layouts.tempLayouts.map((l, index) => {
+      {layoutItems.map((l) => {
         return (
-          <div key={l.id} data-grid={{ ...l.layoutProperies }} className="panel-grid-item">
+          <div key={l.id} className="panel-grid-item">
             <CustomDragHandle h={l.h} />
             <Panel view={view} panel={l.panel} />
           </div>
         );
       })}
-    </ReactGridLayout>
+    </ResponsiveGridLayout>
   );
 });

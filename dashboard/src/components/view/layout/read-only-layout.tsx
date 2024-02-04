@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import RGL, { WidthProvider } from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import { useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { PanelRender } from '../../panel';
 import './index.css';
 
-const ReactGridLayout = WidthProvider(RGL);
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface IReadOnlyDashboardLayout {
   view: ViewMetaInstance;
@@ -17,24 +17,26 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
   className = 'layout',
 }: IReadOnlyDashboardLayout) {
   const contentModel = useRenderContentModelContext();
+  const layoutItems = contentModel.layouts.items(view.panelIDs);
+  const gridLayouts = contentModel.layouts.gridLayouts(view.panelIDs);
   return (
-    <ReactGridLayout
+    <ResponsiveGridLayout
       className={`dashboard-layout ${className}`}
-      cols={36}
       rowHeight={1}
       margin={[0, 0]}
       isDraggable={false}
       isResizable={false}
-      layout={contentModel.layouts.pureLayouts}
+      cols={contentModel.layouts.cols}
+      layouts={gridLayouts}
+      breakpoints={contentModel.layouts.breakpoints}
     >
-      {/* TODO: load by breakpoint */}
-      {contentModel.layouts.tempLayouts.map((l) => {
+      {layoutItems.map((l) => {
         return (
-          <div key={l.id} data-grid={{ ...l.layoutProperies }} className="panel-grid-item">
+          <div key={l.id} className="panel-grid-item">
             <PanelRender view={view} panel={l.panel} />
           </div>
         );
       })}
-    </ReactGridLayout>
+    </ResponsiveGridLayout>
   );
 });
