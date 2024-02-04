@@ -1,6 +1,4 @@
-import _ from 'lodash';
-import { castToSnapshot, Instance, types } from 'mobx-state-tree';
-import { NavOptionType } from '~/dashboard-editor/model/editor';
+import { Instance } from 'mobx-state-tree';
 import { LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/model';
 
 export const LayoutsModel = LayoutsRenderModel.actions((self) => ({

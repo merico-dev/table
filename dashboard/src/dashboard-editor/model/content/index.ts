@@ -500,6 +500,7 @@ export function createContentModel(
     },
     layouts: {
       list: layouts,
+      currentBreakpoint: layouts[0].id,
     },
   });
 }

@@ -29,6 +29,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
       cols={contentModel.layouts.cols}
       layouts={gridLayouts}
       breakpoints={contentModel.layouts.breakpoints}
+      onBreakpointChange={contentModel.layouts.setCurrentBreakpoint}
     >
       {layoutItems.map((l) => {
         return (

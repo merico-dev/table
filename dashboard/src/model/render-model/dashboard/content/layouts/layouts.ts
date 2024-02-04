@@ -5,6 +5,7 @@ import { LayoutItemMetaInstance, LayoutSetMeta } from '~/model/meta-model';
 export const LayoutsRenderModel = types
   .model('LayoutsRenderModel', {
     list: types.array(LayoutSetMeta),
+    currentBreakpoint: types.string,
   })
   .views((self) => ({
     get json() {
@@ -49,6 +50,10 @@ export const LayoutsRenderModel = types
       return layout as LayoutItemMetaInstance;
     },
   }))
-  .views((self) => ({}));
+  .actions((self) => ({
+    setCurrentBreakpoint(b: string) {
+      self.currentBreakpoint = b;
+    },
+  }));
 
 export type LayoutsRenderModelInstance = Instance<typeof LayoutsRenderModel>;

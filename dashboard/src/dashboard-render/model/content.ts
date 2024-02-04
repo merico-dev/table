@@ -203,6 +203,7 @@ export function createContentRenderModel(
     },
     layouts: {
       list: layouts,
+      currentBreakpoint: layouts[0].id,
     },
   });
 }
