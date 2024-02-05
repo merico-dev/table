@@ -4,6 +4,7 @@ import { IconDevices, IconSettings } from '@tabler/icons-react';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
+import { ManageBreakpoints } from './manage-breakpoints';
 
 export const BreakpointSwitcher = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -15,7 +16,14 @@ export const BreakpointSwitcher = observer(() => {
       <Menu withArrow withinPortal zIndex={320} trigger="hover">
         <Menu.Target>
           <Button size="xs" variant="light" leftIcon={<IconDevices size={16} />}>
-            {_.capitalize(layoutSet.id)}
+            <Group spacing={6}>
+              <Text size="xs" fw="normal">
+                {layoutSet.id}
+              </Text>
+              <Text size="xs" sx={{ opacity: 0.6 }}>
+                (width ≥ {layoutSet.breakpoint}px)
+              </Text>
+            </Group>
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
@@ -26,9 +34,9 @@ export const BreakpointSwitcher = observer(() => {
               disabled={currentBreakpoint === o.label}
             >
               <Group position="apart">
-                <Text size="sm">{_.capitalize(o.label)}</Text>
+                <Text size="sm">{o.label}</Text>
                 <Text size="xs" color="dimmed">
-                  {o.value}
+                  width ≥ {o.value}px
                 </Text>
               </Group>
             </Menu.Item>
@@ -40,8 +48,8 @@ export const BreakpointSwitcher = observer(() => {
         </Menu.Dropdown>
       </Menu>
 
-      <Modal opened={opened} onClose={close} title="Screen sizes" withinPortal zIndex={320}>
-        foo
+      <Modal opened={opened} onClose={close} title="Screen sizes" withinPortal zIndex={320} size={600}>
+        <ManageBreakpoints />
       </Modal>
     </>
   );

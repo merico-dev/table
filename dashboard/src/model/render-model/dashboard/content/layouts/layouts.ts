@@ -35,6 +35,24 @@ export const LayoutsRenderModel = types
       });
       return ret;
     },
+    get breakpointRanges() {
+      const ret = self.list.map((s) => {
+        return {
+          id: s.id,
+          min: s.breakpoint,
+          max: Infinity,
+        };
+      });
+      ret
+        .sort((a, b) => a.min - b.min)
+        .forEach((r, i) => {
+          if (i === ret.length - 1) {
+            return;
+          }
+          r.max = ret[i + 1].min - 1;
+        });
+      return ret;
+    },
     get breakpointOptions() {
       return self.list
         .map((l) => ({
