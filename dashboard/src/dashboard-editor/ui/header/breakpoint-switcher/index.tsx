@@ -15,7 +15,7 @@ export const BreakpointSwitcher = observer(() => {
     <>
       <Menu withArrow withinPortal zIndex={320} trigger="hover">
         <Menu.Target>
-          <Button size="xs" variant="light" leftIcon={<IconDevices size={16} />}>
+          <Button size="xs" variant="subtle" leftIcon={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
             <Group spacing={6}>
               <Text size="xs" fw="normal">
                 {layoutSet.id}
