@@ -5,11 +5,12 @@ import { useEditContentModelContext } from '~/contexts';
 
 export const ManageBreakpoints = observer(() => {
   const contentModel = useEditContentModelContext();
-  const canDelete = contentModel.layouts.list.length > 1;
+  const layouts = contentModel.layouts;
+  const canDelete = layouts.list.length > 1;
   return (
     <>
       <Group mb={10} position="left">
-        <Button variant="light" size="xs" leftIcon={<IconPlaylistAdd size={18} />}>
+        <Button variant="light" size="xs" leftIcon={<IconPlaylistAdd size={18} />} onClick={layouts.addALayoutSet}>
           Add a screen size
         </Button>
       </Group>
@@ -23,7 +24,7 @@ export const ManageBreakpoints = observer(() => {
           </tr>
         </thead>
         <tbody>
-          {contentModel.layouts.breakpointRanges.map((b) => (
+          {layouts.breakpointRanges.map((b) => (
             <tr key={b.id}>
               <th>{b.id}</th>
               <td>{b.min}px</td>

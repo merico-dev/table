@@ -18,6 +18,9 @@ export const LayoutsRenderModel = types
       // @ts-expect-error type of getRoot
       return this.root.content;
     },
+    get basisLayoutSet() {
+      return self.list.find((s) => s.id === 'basis')!;
+    },
     get currentLayoutSet() {
       return self.list.find((s) => s.id === self.currentBreakpoint) as LayoutSetMetaInstance;
     },
