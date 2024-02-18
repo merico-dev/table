@@ -1,4 +1,5 @@
-import { Instance, getRoot, types } from 'mobx-state-tree';
+import { reaction } from 'mobx';
+import { Instance, addDisposer, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance } from '~/model/meta-model';
 
@@ -99,6 +100,21 @@ export const LayoutsRenderModel = types
     setCurrentBreakpoint(b: string) {
       console.log('🔴 onBreakpointChange:', b);
       self.currentBreakpoint = b;
+    },
+    afterCreate() {
+      addDisposer(
+        self,
+        reaction(
+          () => self.currentBreakpoint,
+          () => {
+            window.dispatchEvent(new Event('resize'));
+          },
+          {
+            fireImmediately: false,
+            delay: 0,
+          },
+        ),
+      );
     },
   }));
 

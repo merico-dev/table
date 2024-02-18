@@ -63,7 +63,6 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
 
   const onLayoutChange = React.useCallback(
     (currentLayout: Layout[], allLayouts: Record<string, Layout[]>) => {
-      console.log('🔴 onLayoutChange', currentLayout, allLayouts);
       layoutsModel.updateCurrentLayoutItems(allLayouts);
     },
     [contentModel],
@@ -82,12 +81,6 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     }
   };
 
-  // console.log(
-  //   '🔵',
-  //   layoutsModel.currentBreakpoint,
-  //   layoutItems.map((i) => i.json),
-  // );
-  console.log('⚡️layoutsModel.currentLayoutPreviewWidth', layoutsModel.currentLayoutPreviewWidth);
   return (
     <Box sx={{ minHeight: '100%', background: '#efefef' }}>
       <Box
@@ -116,7 +109,7 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
         >
           {layoutItems.map((l) => {
             return (
-              <div key={l.id} className="panel-grid-item">
+              <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
                 <CustomDragHandle h={l.h} />
                 <Panel view={view} panel={l.panel} />
               </div>
