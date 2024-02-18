@@ -1,12 +1,13 @@
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Responsive, Layout, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
-import { useRenderContentModelContext } from '~/contexts';
+import { useEditContentModelContext, useRenderContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
+import { c } from 'vitest/dist/reporters-5f784f42';
 
 const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
@@ -55,25 +56,21 @@ interface IMainDashboardLayout {
 }
 
 export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
-  const contentModel = useRenderContentModelContext();
-  const layoutItems = contentModel.layouts.items(view.panelIDs);
-  const gridLayouts = contentModel.layouts.gridLayouts(view.panelIDs);
+  const contentModel = useEditContentModelContext();
+  const layoutsModel = contentModel.layouts;
+  const layoutItems = layoutsModel.items(view.panelIDs);
+  const gridLayouts = layoutsModel.gridLayouts(view.panelIDs);
 
   const onLayoutChange = React.useCallback(
-    (currentLayout: Layout[]) => {
-      currentLayout.forEach(({ i, ...rest }) => {
-        // TODO: find layout by panelID, then set it
-        // const p = contentModel.panels.findByID(i);
-        // if (!p) {
-        //   return;
-        // }
-        // p.layout.set(rest);
-      });
+    (currentLayout: Layout[], allLayouts: Record<string, Layout[]>) => {
+      console.log('🔴 onLayoutChange', currentLayout, allLayouts);
+      layoutsModel.updateCurrentLayoutItems(allLayouts);
     },
     [contentModel],
   );
 
   const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
+    console.log('🔴 onResize', _layout);
     if (layoutItem.h < 30) {
       layoutItem.h = 30;
       placeholder.h = 30;
@@ -85,30 +82,48 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     }
   };
 
+  // console.log(
+  //   '🔵',
+  //   layoutsModel.currentBreakpoint,
+  //   layoutItems.map((i) => i.json),
+  // );
+  console.log('⚡️layoutsModel.currentLayoutPreviewWidth', layoutsModel.currentLayoutPreviewWidth);
   return (
-    <ResponsiveGridLayout
-      onLayoutChange={onLayoutChange}
-      className={`dashboard-layout ${className}`}
-      rowHeight={1}
-      margin={[0, 0]}
-      isBounded={true}
-      isDraggable
-      isResizable
-      cols={contentModel.layouts.cols}
-      layouts={gridLayouts}
-      breakpoints={contentModel.layouts.breakpoints}
-      draggableHandle=".react-grid-customDragHandle"
-      resizeHandle={<CustomResizeHandle />}
-      onResize={onResize}
-    >
-      {layoutItems.map((l) => {
-        return (
-          <div key={l.id} className="panel-grid-item">
-            <CustomDragHandle h={l.h} />
-            <Panel view={view} panel={l.panel} />
-          </div>
-        );
-      })}
-    </ResponsiveGridLayout>
+    <Box sx={{ minHeight: '100%', background: '#efefef' }}>
+      <Box
+        w={layoutsModel.currentLayoutPreviewWidth}
+        sx={{ minHeight: '100%', paddingBottom: '100px', background: 'blue', margin: '0 auto' }}
+      >
+        <ResponsiveGridLayout
+          onLayoutChange={onLayoutChange}
+          className={`dashboard-layout ${className}`}
+          rowHeight={1}
+          margin={[0, 0]}
+          isBounded={true}
+          isDraggable
+          isResizable
+          cols={layoutsModel.cols}
+          layouts={gridLayouts}
+          draggableHandle=".react-grid-customDragHandle"
+          resizeHandle={<CustomResizeHandle />}
+          onResize={onResize}
+          breakpoints={layoutsModel.breakpoints}
+          onBreakpointChange={layoutsModel.setCurrentBreakpoint}
+          onDragStop={(...args) => {
+            console.log('🔴 onDragStop', ...args);
+          }}
+          width={layoutsModel.currentLayoutPreviewWidth}
+        >
+          {layoutItems.map((l) => {
+            return (
+              <div key={l.id} className="panel-grid-item">
+                <CustomDragHandle h={l.h} />
+                <Panel view={view} panel={l.panel} />
+              </div>
+            );
+          })}
+        </ResponsiveGridLayout>
+      </Box>
+    </Box>
   );
 });

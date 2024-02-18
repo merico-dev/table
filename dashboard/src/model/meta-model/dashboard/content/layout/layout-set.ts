@@ -3,6 +3,8 @@ import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { v4 as uuidv4 } from 'uuid';
 import { shallowToJS } from '~/utils';
 import { LayoutItemMeta } from './layout-item';
+import { Layout } from 'react-grid-layout';
+import _ from 'lodash';
 
 export const LayoutSetMeta = types
   .model('LayoutSetMeta', {
@@ -34,6 +36,16 @@ export const LayoutSetMeta = types
         h: 300,
         static: false,
         moved: false,
+      });
+    },
+    updateLayouts(layouts: Layout[]) {
+      const record = _.keyBy(layouts, 'i');
+      self.list.forEach((l) => {
+        const r = record[l.id];
+        if (!r) {
+          return;
+        }
+        l.set(r);
       });
     },
   }));

@@ -61,9 +61,22 @@ export const LayoutsRenderModel = types
         }))
         .sort((a, b) => a.value - b.value);
     },
+    get currentBreakpointRange() {
+      return this.breakpointRanges.find((r) => r.id === self.currentBreakpoint);
+    },
+    get currentLayoutPreviewWidth() {
+      const r = this.currentBreakpointRange;
+      if (!r) {
+        return undefined;
+      }
+      if (r.max === Infinity) {
+        return r.min === 0 ? undefined : r.min;
+      }
+      return r.max;
+    },
     items(panelIDs: string[]) {
       const panelIDSet = new Set(panelIDs);
-      const layoutset = self.list[0];
+      const layoutset = this.currentLayoutSet;
       return layoutset.list.filter((l) => panelIDSet.has(l.panelID));
     },
     gridLayouts(panelIDs: string[]) {
@@ -75,12 +88,13 @@ export const LayoutsRenderModel = types
       return ret;
     },
     findByPanelID(panelID: string) {
-      const layout = self.list[0].findByID(panelID);
+      const layout = this.currentLayoutSet.findByID(panelID);
       return layout as LayoutItemMetaInstance;
     },
   }))
   .actions((self) => ({
     setCurrentBreakpoint(b: string) {
+      console.log('🔴 onBreakpointChange:', b);
       self.currentBreakpoint = b;
     },
   }));

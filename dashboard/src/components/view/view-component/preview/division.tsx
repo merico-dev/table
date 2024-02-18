@@ -6,7 +6,10 @@ import { RenderViewDivision } from '../render';
 export const PreviewViewDivision = observer(
   ({ children, view }: { children: ReactNode; view: ViewRenderModelInstance }) => {
     return (
-      <RenderViewDivision sx={{ paddingBottom: '100px' }} view={view}>
+      <RenderViewDivision
+        view={view}
+        sx={{ paddingTop: '0 !important', paddingBottom: '0 !important', '.dashboard-layout': { margin: 0 } }}
+      >
         {children}
       </RenderViewDivision>
     );
