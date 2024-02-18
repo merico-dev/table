@@ -23,7 +23,7 @@ export const initialDashboardContent: TDashboardContent = {
   version: CURRENT_SCHEMA_VERSION,
   layouts: [
     {
-      id: 'medium',
+      id: 'basis',
       list: [],
       breakpoint: 0,
     },

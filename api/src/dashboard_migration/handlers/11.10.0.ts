@@ -16,7 +16,7 @@ export function main({ panels, ...rest }: Record<string, any>) {
     panels: panelsWithoutLayout,
     layouts: [
       {
-        id: 'medium',
+        id: 'basis',
         breakpoint: 0,
         list: initialLayouts,
       },
