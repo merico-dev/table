@@ -10,7 +10,7 @@ export const BreakpointSwitcher = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);
   const contentModel = useEditContentModelContext();
   const currentBreakpoint = contentModel.layouts.currentBreakpoint;
-  const layoutSet = contentModel.layouts.currentLayoutSet;
+  const range = contentModel.layouts.currentLayoutRange;
   return (
     <>
       <Menu withArrow withinPortal zIndex={320} trigger="hover">
@@ -18,25 +18,25 @@ export const BreakpointSwitcher = observer(() => {
           <Button size="xs" variant="subtle" leftIcon={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
             <Group spacing={6}>
               <Text size="xs" fw="normal">
-                {layoutSet.id}
+                {range.id}
               </Text>
-              <Text size="xs" sx={{ opacity: 0.6 }}>
-                (width ≥ {layoutSet.breakpoint}px)
+              <Text size="xs" color="#777">
+                {contentModel.layouts.currentRangeText}
               </Text>
             </Group>
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          {contentModel.layouts.breakpointOptions.map((o) => (
+          {contentModel.layouts.breakpointRanges.map((r) => (
             <Menu.Item
-              key={o.label}
-              onClick={() => contentModel.layouts.setCurrentBreakpoint(o.label)}
-              disabled={currentBreakpoint === o.label}
+              key={r.id}
+              onClick={() => contentModel.layouts.setCurrentBreakpoint(r.id)}
+              disabled={currentBreakpoint === r.id}
             >
               <Group position="apart">
-                <Text size="sm">{o.label}</Text>
+                <Text size="sm">{r.id}</Text>
                 <Text size="xs" color="dimmed">
-                  width ≥ {o.value}px
+                  {r.text}
                 </Text>
               </Group>
             </Menu.Item>

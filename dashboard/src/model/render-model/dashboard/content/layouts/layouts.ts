@@ -3,6 +3,12 @@ import { Instance, addDisposer, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import { LayoutItemMetaInstance, LayoutSetMeta, LayoutSetMetaInstance } from '~/model/meta-model';
 
+function getRangeText({ min, max }: any) {
+  const _min = `${min}px`;
+  const _max = Number.isFinite(max) ? `${max}px` : '∞';
+  return `[${_min}, ${_max})`;
+}
+
 export const LayoutsRenderModel = types
   .model('LayoutsRenderModel', {
     list: types.array(LayoutSetMeta),
@@ -25,6 +31,13 @@ export const LayoutsRenderModel = types
     get currentLayoutSet() {
       return self.list.find((s) => s.id === self.currentBreakpoint) as LayoutSetMetaInstance;
     },
+    get currentLayoutRange() {
+      return this.breakpointRanges.find((r) => r.id === self.currentBreakpoint)!;
+    },
+    get currentRangeText() {
+      const range = this.currentLayoutRange;
+      return getRangeText(range);
+    },
     get cols() {
       const ret: Record<string, 36> = {};
       self.list.forEach((set) => {
@@ -45,6 +58,7 @@ export const LayoutsRenderModel = types
           id: s.id,
           min: s.breakpoint,
           max: Infinity,
+          text: '',
         };
       });
       ret
@@ -53,8 +67,12 @@ export const LayoutsRenderModel = types
           if (i === ret.length - 1) {
             return;
           }
-          r.max = ret[i + 1].min - 1;
+          r.max = ret[i + 1].min;
         });
+
+      ret.forEach((r) => {
+        r.text = getRangeText(r);
+      });
       return ret;
     },
     get breakpointOptions() {

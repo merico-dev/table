@@ -18,8 +18,7 @@ export const ManageBreakpoints = observer(() => {
         <thead>
           <tr>
             <th style={{ width: '200px' }}>Name</th>
-            <th style={{ width: '100px' }}>Min Width</th>
-            <th style={{ width: '100px' }}>Max Width</th>
+            <th style={{ width: '240px' }}>Range</th>
             <th></th>
           </tr>
         </thead>
@@ -27,8 +26,7 @@ export const ManageBreakpoints = observer(() => {
           {layouts.breakpointRanges.map((b) => (
             <tr key={b.id}>
               <th>{b.id}</th>
-              <td>{b.min}px</td>
-              <td>{Number.isFinite(b.max) ? `${b.max}px` : '∞'}</td>
+              <td style={{ fontFamily: 'monospace' }}>{b.text}</td>
               <td>
                 {canDelete && (
                   <Tooltip label="Delete this one">

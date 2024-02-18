@@ -1,13 +1,12 @@
 import { ActionIcon, Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Responsive, Layout, WidthProvider } from 'react-grid-layout';
+import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
-import { useEditContentModelContext, useRenderContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
-import { c } from 'vitest/dist/reporters-5f784f42';
 
 const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
@@ -84,8 +83,13 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
   return (
     <Box sx={{ minHeight: '100%', background: '#efefef' }}>
       <Box
-        w={layoutsModel.currentLayoutPreviewWidth}
-        sx={{ minHeight: '100%', paddingBottom: '100px', background: 'blue', margin: '0 auto' }}
+        sx={{
+          minHeight: '100%',
+          paddingBottom: '100px',
+          background: 'white',
+          margin: '0 auto',
+          width: layoutsModel.currentLayoutPreviewWidth ?? '100%',
+        }}
       >
         <ResponsiveGridLayout
           onLayoutChange={onLayoutChange}
