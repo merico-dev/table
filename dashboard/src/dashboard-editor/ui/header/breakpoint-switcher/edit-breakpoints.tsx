@@ -1,5 +1,6 @@
 import { ActionIcon, Button, Group, NumberInput, Table, Text, TextInput, Tooltip } from '@mantine/core';
 import { IconDeviceFloppy, IconPlus, IconRecycle, IconTrash } from '@tabler/icons-react';
+import _ from 'lodash';
 import { isEqual } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
@@ -18,10 +19,18 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
   const layouts = contentModel.layouts;
 
   const defaultValues = useMemo(() => ({ list: layouts.breakpointsInfo }), [layouts.breakpointsInfo]);
-  const { control, handleSubmit, watch, getValues, reset } = useForm<Breakpoints>({ defaultValues });
+  const { control, handleSubmit, watch, getValues, reset, formState } = useForm<Breakpoints>({ defaultValues });
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'list',
+    rules: {
+      validate: (values: LayoutSetFormInfo[]) => {
+        console.log({ values });
+        if (_.uniqBy(values, 'breakpoint').length !== values.length) {
+          return 'Screen sizes should be unique by min width';
+        }
+      },
+    },
   });
 
   const watchFieldArray = watch('list');
@@ -52,6 +61,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
     return !isEqual(validValues, defaultValues);
   }, [values, defaultValues]);
 
+  const errorMessage = formState.errors.list?.root?.message;
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
@@ -121,7 +131,10 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             </tr>
           </tbody>
         </Table>
-        <Group mt={20} position="apart">
+        <Text mt={6} ta="right" size="xs" color="red">
+          {errorMessage ?? '　'}
+        </Text>
+        <Group mt={6} position="apart">
           <Button
             color="orange"
             size="xs"
