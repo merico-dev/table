@@ -7,14 +7,15 @@ import { LayoutSetInfo, LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/mo
 export const LayoutsModel = LayoutsRenderModel.actions((self) => ({
   addALayoutSet(id: string, name: string, breakpoint: number) {
     const target = self.basisLayoutSet;
-    const newSet = target.json;
-    newSet.id = id;
-    newSet.name = name;
-    newSet.breakpoint = breakpoint;
-    newSet.list = newSet.list.map((l) => ({
-      ...l,
-      id: uuidV4(),
-    }));
+    const newSet = {
+      id,
+      name,
+      breakpoint,
+      list: target.json.list.map((l) => ({
+        ...l,
+        id: uuidV4(),
+      })),
+    };
     self.list.push(newSet);
   },
   updateLayoutSetsInfo(infos: LayoutSetInfo[]) {
