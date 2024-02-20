@@ -66,7 +66,7 @@ export const BreakpointSwitcher = observer(() => {
         size={600}
         closeOnClickOutside={false}
       >
-        <EditBreakpoints done={resize} />
+        <EditBreakpoints done={closeModal} />
       </Modal>
     </>
   );
