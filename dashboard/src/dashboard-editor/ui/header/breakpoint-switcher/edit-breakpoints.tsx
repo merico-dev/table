@@ -88,6 +88,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
                           size="xs"
                           label=""
                           required
+                          max={10000}
                           hideControls
                           rightSection={<Text color="dimmed">px</Text>}
                           rightSectionProps={{ style: { width: '30px' } }}
