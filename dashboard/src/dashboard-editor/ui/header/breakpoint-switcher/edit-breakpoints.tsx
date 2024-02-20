@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Group, NumberInput, Table, Text, TextInput, Tooltip } from '@mantine/core';
-import { IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconPlus, IconRecycle, IconTrash } from '@tabler/icons-react';
 import { isEqual } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
@@ -120,7 +120,16 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             </tr>
           </tbody>
         </Table>
-        <Group mt={20} position="right">
+        <Group mt={20} position="apart">
+          <Button
+            color="orange"
+            size="xs"
+            onClick={() => reset()}
+            leftIcon={<IconRecycle size={18} />}
+            disabled={!changed}
+          >
+            Revert
+          </Button>
           <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />} disabled={!changed}>
             Save changes
           </Button>
