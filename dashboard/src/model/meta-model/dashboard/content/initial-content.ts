@@ -24,6 +24,7 @@ export const initialDashboardContent: TDashboardContent = {
   layouts: [
     {
       id: 'basis',
+      name: 'basis',
       list: [],
       breakpoint: 0,
     },

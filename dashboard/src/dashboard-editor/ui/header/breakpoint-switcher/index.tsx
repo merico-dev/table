@@ -17,7 +17,7 @@ export const BreakpointSwitcher = observer(() => {
           <Button size="xs" variant="subtle" leftIcon={<IconDevices size={16} />} sx={{ borderRadius: 0 }}>
             <Group spacing={6}>
               <Text size="xs" fw="normal">
-                {range.id}
+                {range.name}
               </Text>
               <Text size="xs" color="#777">
                 {contentModel.layouts.currentRangeText}
@@ -33,7 +33,7 @@ export const BreakpointSwitcher = observer(() => {
               disabled={currentBreakpoint === r.id}
             >
               <Group position="apart">
-                <Text size="sm">{r.id}</Text>
+                <Text size="sm">{r.name}</Text>
                 <Text size="xs" color="dimmed">
                   {r.text}
                 </Text>

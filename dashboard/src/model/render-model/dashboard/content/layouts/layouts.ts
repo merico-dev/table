@@ -56,6 +56,7 @@ export const LayoutsRenderModel = types
       const ret = self.list.map((s) => {
         return {
           id: s.id,
+          name: s.name,
           min: s.breakpoint,
           max: Infinity,
           text: '',
@@ -79,6 +80,7 @@ export const LayoutsRenderModel = types
       return self.list
         .map((l) => ({
           id: l.id,
+          name: l.name,
           breakpoint: l.breakpoint,
         }))
         .sort((a, b) => a.breakpoint - b.breakpoint);
