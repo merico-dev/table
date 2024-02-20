@@ -117,6 +117,10 @@ const _ContentModel = types
       const fields = 'panels.list';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
     },
+    get layoutsChanged() {
+      const fields = 'layouts.list';
+      return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
+    },
     get mockContextChanged() {
       const fields = 'mock_context.current';
       return !isEqual(get(self, fields), get(self.origin, fields));
@@ -168,6 +172,7 @@ const _ContentModel = types
         this.sqlSnippetsChanged ||
         this.viewsChanged ||
         this.panelsChanged ||
+        this.layoutsChanged ||
         this.mockContextChanged
       );
     },
