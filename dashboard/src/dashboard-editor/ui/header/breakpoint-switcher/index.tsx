@@ -1,10 +1,8 @@
 import { Button, Group, Menu, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconDevices, IconSettings } from '@tabler/icons-react';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
-import { ManageBreakpoints } from './manage-breakpoints';
 import { EditBreakpoints } from './edit-breakpoints';
 
 export const BreakpointSwitcher = observer(() => {

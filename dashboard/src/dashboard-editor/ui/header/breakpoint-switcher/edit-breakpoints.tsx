@@ -8,7 +8,7 @@ import { useEditContentModelContext } from '~/contexts';
 import { isEqual } from 'lodash';
 
 type Breakpoints = {
-  list: { id: string; breakpoint: number | '' }[];
+  list: { id: string; name: string; breakpoint: number | '' }[];
 };
 
 export const EditBreakpoints = observer(() => {
@@ -33,6 +33,7 @@ export const EditBreakpoints = observer(() => {
   const add = () =>
     append({
       id: uuidV4(),
+      name: '',
       breakpoint: '',
     });
 
@@ -60,7 +61,7 @@ export const EditBreakpoints = observer(() => {
                     'basis'
                   ) : (
                     <Controller
-                      name={`list.${i}.id`}
+                      name={`list.${i}.name`}
                       control={control}
                       render={({ field }) => <TextInput size="xs" label="" required sx={{ flex: 1 }} {...field} />}
                     />

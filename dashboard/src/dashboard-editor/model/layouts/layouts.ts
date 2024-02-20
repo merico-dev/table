@@ -10,6 +10,7 @@ export const LayoutsModel = LayoutsRenderModel.actions((self) => ({
     const target = self.basisLayoutSet;
     const newSet = target.json;
     newSet.id = id;
+    newSet.name = id;
     newSet.breakpoint = target.breakpoint + 1000;
     newSet.list = newSet.list.map((l) => ({
       ...l,

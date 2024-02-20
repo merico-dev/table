@@ -9,14 +9,16 @@ import _ from 'lodash';
 export const LayoutSetMeta = types
   .model('LayoutSetMeta', {
     id: types.identifier,
+    name: types.string,
     breakpoint: types.number,
     list: types.optional(types.array(LayoutItemMeta), []),
   })
   .views((self) => ({
     get json() {
-      const { id, breakpoint, list } = self;
+      const { id, name, breakpoint, list } = self;
       return {
         id,
+        name,
         breakpoint,
         list: list.map((o) => shallowToJS(o.json)),
       };
@@ -26,6 +28,9 @@ export const LayoutSetMeta = types
     },
   }))
   .actions((self) => ({
+    setName(v: string) {
+      self.name = v;
+    },
     addLayout(panelID: string) {
       self.list.push({
         id: uuidv4(),
