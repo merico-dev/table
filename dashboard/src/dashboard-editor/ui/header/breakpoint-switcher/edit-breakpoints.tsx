@@ -48,7 +48,8 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
 
   const values = getValues();
   const changed = useMemo(() => {
-    return !isEqual(values, defaultValues);
+    const validValues = { list: values.list.filter((l) => !!l.name && Number.isFinite(l.breakpoint)) };
+    return !isEqual(validValues, defaultValues);
   }, [values, defaultValues]);
 
   return (
