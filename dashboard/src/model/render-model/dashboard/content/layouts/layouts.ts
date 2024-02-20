@@ -75,13 +75,13 @@ export const LayoutsRenderModel = types
       });
       return ret;
     },
-    get breakpointOptions() {
+    get breakpointsInfo() {
       return self.list
         .map((l) => ({
-          label: l.id,
-          value: l.breakpoint,
+          id: l.id,
+          breakpoint: l.breakpoint,
         }))
-        .sort((a, b) => a.value - b.value);
+        .sort((a, b) => a.breakpoint - b.breakpoint);
     },
     get currentBreakpointRange() {
       return this.breakpointRanges.find((r) => r.id === self.currentBreakpoint);

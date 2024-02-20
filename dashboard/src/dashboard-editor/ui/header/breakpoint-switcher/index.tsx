@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { ManageBreakpoints } from './manage-breakpoints';
+import { EditBreakpoints } from './edit-breakpoints';
 
 export const BreakpointSwitcher = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -48,8 +49,16 @@ export const BreakpointSwitcher = observer(() => {
         </Menu.Dropdown>
       </Menu>
 
-      <Modal opened={opened} onClose={close} title="Screen sizes" withinPortal zIndex={320} size={600}>
-        <ManageBreakpoints />
+      <Modal
+        opened={opened}
+        onClose={close}
+        title="Screen sizes"
+        withinPortal
+        zIndex={320}
+        size={600}
+        closeOnClickOutside={false}
+      >
+        <EditBreakpoints />
       </Modal>
     </>
   );
