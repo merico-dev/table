@@ -10,6 +10,16 @@ export const BreakpointSwitcher = observer(() => {
   const contentModel = useEditContentModelContext();
   const currentBreakpoint = contentModel.layouts.currentBreakpoint;
   const range = contentModel.layouts.currentLayoutRange;
+  const resize = () => {
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 32);
+  };
+  const closeModal = () => {
+    close();
+    resize();
+  };
+
   return (
     <>
       <Menu withArrow withinPortal zIndex={320} trigger="hover">
@@ -49,14 +59,14 @@ export const BreakpointSwitcher = observer(() => {
 
       <Modal
         opened={opened}
-        onClose={close}
+        onClose={closeModal}
         title="Screen sizes"
         withinPortal
         zIndex={320}
         size={600}
         closeOnClickOutside={false}
       >
-        <EditBreakpoints />
+        <EditBreakpoints done={resize} />
       </Modal>
     </>
   );

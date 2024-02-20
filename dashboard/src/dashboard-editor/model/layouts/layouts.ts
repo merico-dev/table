@@ -1,22 +1,45 @@
 import _ from 'lodash';
-import { Instance } from 'mobx-state-tree';
+import { Instance, cast } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import { v4 as uuidV4 } from 'uuid';
-import { LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/model';
+import { LayoutSetInfo, LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/model';
 
 export const LayoutsModel = LayoutsRenderModel.actions((self) => ({
-  addALayoutSet() {
-    const id = uuidV4();
+  addALayoutSet(id: string, name: string, breakpoint: number) {
     const target = self.basisLayoutSet;
     const newSet = target.json;
     newSet.id = id;
-    newSet.name = id;
-    newSet.breakpoint = target.breakpoint + 1000;
+    newSet.name = name;
+    newSet.breakpoint = breakpoint;
     newSet.list = newSet.list.map((l) => ({
       ...l,
       id: uuidV4(),
     }));
     self.list.push(newSet);
+  },
+  updateLayoutSetsInfo(infos: LayoutSetInfo[]) {
+    const idmap = _.keyBy(self.list, 'id');
+    infos.forEach((info) => {
+      const layoutset = idmap[info.id];
+      if (layoutset) {
+        layoutset.setName(info.name);
+        layoutset.setBreakpoint(info.breakpoint);
+        delete idmap[info.id];
+        return;
+      }
+
+      this.addALayoutSet(info.id, info.name, info.breakpoint);
+    });
+
+    const idsToRemove = new Set(Object.keys(idmap));
+    const willRemove = idsToRemove.size > 0;
+    idsToRemove.forEach((id) => {
+      const i = self.list.findIndex((s) => s.id === id);
+      self.list.splice(i, 1);
+    });
+    if (willRemove) {
+      self.setCurrentBreakpoint('basis');
+    }
   },
   updateCurrentLayoutItems(allLayouts: Record<string, Layout[]>) {
     const items = allLayouts[self.currentBreakpoint];

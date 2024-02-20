@@ -1,17 +1,19 @@
-import { ActionIcon, Button, Divider, Group, NumberInput, Table, Text, TextInput, Tooltip } from '@mantine/core';
-import { IconDeviceFloppy, IconPlaylistAdd, IconPlus, IconTrash } from '@tabler/icons-react';
-import { v4 as uuidV4 } from 'uuid';
+import { ActionIcon, Button, Group, NumberInput, Table, Text, TextInput, Tooltip } from '@mantine/core';
+import { IconDeviceFloppy, IconPlus, IconTrash } from '@tabler/icons-react';
+import { isEqual } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { v4 as uuidV4 } from 'uuid';
 import { useEditContentModelContext } from '~/contexts';
-import { isEqual } from 'lodash';
+import { LayoutSetInfo } from '~/model';
 
+type LayoutSetFormInfo = Omit<LayoutSetInfo, 'breakpoint'> & { breakpoint: number | '' };
 type Breakpoints = {
-  list: { id: string; name: string; breakpoint: number | '' }[];
+  list: LayoutSetFormInfo[];
 };
 
-export const EditBreakpoints = observer(() => {
+export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
   const contentModel = useEditContentModelContext();
   const layouts = contentModel.layouts;
 
@@ -30,12 +32,19 @@ export const EditBreakpoints = observer(() => {
     };
   });
 
-  const add = () =>
+  const add = () => {
     append({
       id: uuidV4(),
       name: '',
       breakpoint: '',
     });
+  };
+
+  const submit = ({ list }: Breakpoints) => {
+    const filtered = list.filter((b) => Number.isFinite(b.breakpoint)) as LayoutSetInfo[];
+    layouts.updateLayoutSetsInfo(filtered);
+    done();
+  };
 
   const values = getValues();
   const changed = useMemo(() => {
@@ -44,7 +53,7 @@ export const EditBreakpoints = observer(() => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(console.log)}>
+      <form onSubmit={handleSubmit(submit)}>
         <Table fontSize="sm" highlightOnHover withBorder sx={{ tableLayout: 'fixed' }}>
           <thead>
             <tr>
@@ -58,7 +67,7 @@ export const EditBreakpoints = observer(() => {
               <tr key={f.id}>
                 <th>
                   {f.id === 'basis' ? (
-                    'basis'
+                    f.name
                   ) : (
                     <Controller
                       name={`list.${i}.name`}

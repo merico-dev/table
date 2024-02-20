@@ -6,6 +6,8 @@ import { LayoutItemMeta } from './layout-item';
 import { Layout } from 'react-grid-layout';
 import _ from 'lodash';
 
+export type LayoutSetInfo = { id: string; name: string; breakpoint: number };
+
 export const LayoutSetMeta = types
   .model('LayoutSetMeta', {
     id: types.identifier,
@@ -30,6 +32,9 @@ export const LayoutSetMeta = types
   .actions((self) => ({
     setName(v: string) {
       self.name = v;
+    },
+    setBreakpoint(v: number) {
+      self.breakpoint = v;
     },
     addLayout(panelID: string) {
       self.list.push({
