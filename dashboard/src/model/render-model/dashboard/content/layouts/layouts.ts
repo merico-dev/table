@@ -127,7 +127,9 @@ export const LayoutsRenderModel = types
         reaction(
           () => self.currentBreakpoint,
           () => {
-            window.dispatchEvent(new Event('resize'));
+            setTimeout(() => {
+              window.dispatchEvent(new Event('resize'));
+            }, 32);
           },
           {
             fireImmediately: false,
