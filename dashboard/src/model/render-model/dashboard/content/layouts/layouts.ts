@@ -94,7 +94,7 @@ export const LayoutsRenderModel = types
         return undefined;
       }
       if (r.max === Infinity) {
-        return r.min === 0 ? undefined : r.min;
+        return r.min === 0 ? undefined : r.min + 1;
       }
       return r.max;
     },
