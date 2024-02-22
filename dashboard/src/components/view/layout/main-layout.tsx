@@ -1,12 +1,13 @@
 import { ActionIcon, Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
+import { useResizeObserver } from '@mantine/hooks';
 
 const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
@@ -80,8 +81,13 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     }
   };
 
+  const [ref, rect] = useResizeObserver();
+  useEffect(() => {
+    layoutsModel.setCurrentLayoutWrapperWidth(rect.width);
+  }, [rect.width]);
+
   return (
-    <Box sx={{ minHeight: '100%', background: '#efefef' }}>
+    <Box sx={{ minHeight: '100%', background: '#efefef' }} ref={ref}>
       <Box
         sx={{
           minHeight: '100%',
@@ -89,6 +95,8 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
           background: 'white',
           margin: '0 auto',
           width: layoutsModel.currentLayoutPreviewWidth ?? '100%',
+          transform: `scale(${layoutsModel.currentLayoutPreviewScale})`,
+          transformOrigin: '0 0',
         }}
       >
         <ResponsiveGridLayout
