@@ -311,6 +311,7 @@ const _ContentModel = types
       const id = uuidv4();
       self.panels.append(getNewPanel(id));
       self.views.findByID(viewID)?.appendPanelID(id);
+      self.layouts.addALayoutItem(id);
     },
     applyJSONSchema(partialSchema: AnyObject) {
       const { views, panels, filters, definition = {} } = partialSchema;

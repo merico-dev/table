@@ -1,5 +1,6 @@
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
+import { v4 as uuidV4 } from 'uuid';
 
 export const LayoutItemMeta = types
   .model('LayoutItemMeta', {
@@ -37,7 +38,7 @@ export const LayoutItemMeta = types
     },
     get layoutProperies() {
       const { id, x, y, w, h, moved } = self;
-      return { id, i: id, x, y, w, h, moved, static: self.static } as Layout;
+      return { id, i: id, x, y: y === null ? Infinity : y, w, h, moved, static: self.static } as Layout;
     },
   }))
   .actions((self) => ({
@@ -59,3 +60,16 @@ export const LayoutItemMeta = types
   }));
 
 export type LayoutItemMetaInstance = Instance<typeof LayoutItemMeta>;
+
+export function getNewLayoutItem(panelID: string) {
+  return {
+    id: uuidV4(),
+    panelID,
+    x: 0,
+    y: Infinity, // puts it at the bottom
+    w: 18,
+    h: 300,
+    moved: false,
+    static: false,
+  };
+}
