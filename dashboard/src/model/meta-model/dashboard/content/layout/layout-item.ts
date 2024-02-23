@@ -60,3 +60,14 @@ export const LayoutItemMeta = types
   }));
 
 export type LayoutItemMetaInstance = Instance<typeof LayoutItemMeta>;
+
+export type LayoutItem = {
+  id: string;
+  panelID: string;
+  x: number;
+  y: number | null;
+  w: number;
+  h: number;
+  moved?: boolean;
+  static?: boolean;
+};

@@ -17,7 +17,7 @@ export const LayoutsModel = types
   .actions((self) => ({
     addALayoutItem(panelID: string) {
       self.list.forEach((l) => {
-        l.addLayout(panelID);
+        l.addNewLayout(panelID);
       });
     },
     duplicateLayoutItemsByPanelID(sourcePanelID: string, targetPanelID: string) {

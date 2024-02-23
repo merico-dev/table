@@ -2,7 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 
 import { v4 as uuidv4 } from 'uuid';
 import { shallowToJS } from '~/utils';
-import { LayoutItemMeta } from './layout-item';
+import { LayoutItem, LayoutItemMeta } from './layout-item';
 import { Layout } from 'react-grid-layout';
 import _ from 'lodash';
 
@@ -48,7 +48,10 @@ export const LayoutSetMeta = types
     setBreakpoint(v: number) {
       self.breakpoint = v;
     },
-    addLayout(panelID: string) {
+    addLayout(layoutItem: LayoutItem) {
+      self.list.push(layoutItem);
+    },
+    addNewLayout(panelID: string) {
       self.list.push({
         id: uuidv4(),
         panelID,
