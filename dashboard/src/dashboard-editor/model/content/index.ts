@@ -26,17 +26,17 @@ import {
   getInitialFiltersConfig,
   getInitialMockContextMeta,
   getNewPanel,
+  LayoutItem,
   MockContextMeta,
   QueryUsageType,
   SQLSnippetUsageType,
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
-import { payloadToDashboardState } from '~/utils';
-import { UsageRegs } from '~/utils';
+import { payloadToDashboardState, UsageRegs } from '~/utils';
+import { LayoutsModel } from '../layouts';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
-import { LayoutsModel } from '../layouts';
 
 const _ContentModel = types
   .model({
@@ -315,7 +315,7 @@ const _ContentModel = types
       self.layouts.addALayoutItem(id);
     },
     applyJSONSchema(partialSchema: AnyObject) {
-      const { views, panels, filters, definition = {} } = partialSchema;
+      const { views, panels, filters, definition = {}, layouts } = partialSchema;
       const { queries, sqlSnippets, mock_context } = definition;
       const panelIDMap: Map<string, string> = new Map(); // old -> new
 
@@ -349,6 +349,41 @@ const _ContentModel = types
           };
         });
         self.views.appendMultiple(newViews);
+      }
+
+      // LAYOUTS
+      if (Array.isArray(layouts)) {
+        const isBreakpointPresent = (name: string, breakpoint: number) => {
+          const b = self.layouts.breakpointNameRecord[name];
+          return b === breakpoint;
+        };
+
+        let basis: LayoutItem[] = [];
+        const validLayoutSets = layouts.filter((l) => isBreakpointPresent(l.name, l.breakpoint));
+        validLayoutSets.forEach((layoutSet) => {
+          if (layoutSet.id === 'basis') {
+            basis = layoutSet.list;
+          }
+          layoutSet.list.forEach((l: LayoutItem) => {
+            const newPanelID = panelIDMap.get(l.panelID)!;
+            l.id = uuidv4();
+            l.panelID = newPanelID;
+          });
+        });
+
+        self.layouts.list.forEach((layoutSet) => {
+          const match = validLayoutSets.find((s) => s.name === layoutSet.name && s.breakpoint === layoutSet.breakpoint);
+          if (!match) {
+            basis!.forEach((basisLayoutItem: LayoutItem) => {
+              layoutSet.addLayout(basisLayoutItem);
+            });
+            return;
+          }
+
+          match.list.forEach((matchedLayoutItem: LayoutItem) => {
+            layoutSet.addLayout(matchedLayoutItem);
+          });
+        });
       }
 
       // FILTERS

@@ -57,6 +57,13 @@ export const LayoutsRenderModel = types
       });
       return ret;
     },
+    get breakpointNameRecord() {
+      const ret: Record<string, number> = {};
+      self.list.forEach((set) => {
+        ret[set.name] = set.breakpoint;
+      });
+      return ret;
+    },
     get breakpointRanges() {
       const ret = self.list.map((s) => {
         return {
