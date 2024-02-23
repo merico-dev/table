@@ -33,7 +33,7 @@ export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayou
     >
       {layoutItems.map((l) => {
         return (
-          <div key={l.id} className="panel-grid-item">
+          <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
             <PanelRender view={view} panel={l.panel} />
           </div>
         );
