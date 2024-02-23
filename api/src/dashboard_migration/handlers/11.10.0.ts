@@ -2,7 +2,11 @@ import { randomUUID } from 'crypto';
 /**
  * https://github.com/merico-dev/table/issues/1347
  */
-export function main({ panels, ...rest }: Record<string, any>) {
+export function main(schema: Record<string, any>) {
+  const { panels, layouts, ...rest } = schema;
+  if (Array.isArray(layouts) && layouts.length > 0) {
+    return schema;
+  }
   const initialLayouts = panels.map((p) => {
     return {
       id: randomUUID(),
