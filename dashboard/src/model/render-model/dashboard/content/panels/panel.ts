@@ -84,7 +84,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return {
         panel,
         queries: self.queries.map((q) => q.json),
-        layouts: self.contentModel.layouts.jsonByPanelID(self.id),
+        layouts: self.contentModel.layouts.jsonByPanelIDSet(new Set([self.id])),
       };
     },
     downloadSchema() {

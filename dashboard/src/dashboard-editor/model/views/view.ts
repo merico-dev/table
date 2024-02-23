@@ -17,12 +17,15 @@ export const ViewModel = ViewRenderModel.actions((self) => ({
       }
     });
 
+    const layouts = self.contentModel.layouts.jsonByPanelIDSet(new Set(self.panelIDs));
+
     const ret = {
       views: [view],
       panels: panels,
       definition: {
         queries: _.uniqBy(queries, (q) => q.id),
       },
+      layouts,
       version: CURRENT_SCHEMA_VERSION,
     };
     return ret;

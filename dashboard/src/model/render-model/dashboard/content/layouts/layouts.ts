@@ -18,9 +18,9 @@ export const LayoutsRenderModel = types
     get json() {
       return self.list.map((o) => o.json);
     },
-    jsonByPanelID(panelID: string) {
+    jsonByPanelIDSet(panelIDSet: Set<string>) {
       return self.list.map((layoutSet) => {
-        return layoutSet.jsonByPanelID(panelID);
+        return layoutSet.jsonByPanelIDSet(panelIDSet);
       });
     },
     get root() {

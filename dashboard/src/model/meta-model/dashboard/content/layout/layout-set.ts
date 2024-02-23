@@ -25,13 +25,13 @@ export const LayoutSetMeta = types
         list: list.map((o) => shallowToJS(o.json)),
       };
     },
-    jsonByPanelID(panelID: string) {
+    jsonByPanelIDSet(panelIDSet: Set<string>) {
       const { id, name, breakpoint, list } = self;
       return {
         id,
         name,
         breakpoint,
-        list: list.filter((o) => o.panelID === panelID).map((o) => shallowToJS(o.json)),
+        list: list.filter((o) => panelIDSet.has(o.panelID)).map((o) => shallowToJS(o.json)),
       };
     },
     findByID(id: string) {
