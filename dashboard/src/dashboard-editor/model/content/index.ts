@@ -305,6 +305,7 @@ const _ContentModel = types
     },
     removePanelByID(panelID: string, viewID: string) {
       self.panels.removeByID(panelID);
+      self.layouts.removeByPanelID(panelID);
       self.views.findByID(viewID)?.removePanelID(panelID);
     },
     addANewPanel(viewID: string) {

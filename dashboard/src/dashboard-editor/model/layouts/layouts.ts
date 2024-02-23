@@ -35,6 +35,11 @@ export const LayoutsModel = types
         });
       });
     },
+    removeByPanelID(panelID: string) {
+      self.list.forEach((layoutSet) => {
+        layoutSet.removeByPanelID(panelID);
+      });
+    },
     setCurrentLayoutWrapperWidth(v: number) {
       self.currentLayoutWrapperWidth = v;
     },

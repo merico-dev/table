@@ -51,6 +51,12 @@ export const LayoutSetMeta = types
         moved: false,
       });
     },
+    removeByPanelID(panelID: string) {
+      const i = self.list.findIndex((l) => l.panelID === panelID);
+      if (i >= 0) {
+        self.list.splice(i, 1);
+      }
+    },
     updateLayouts(layouts: Layout[]) {
       const record = _.keyBy(layouts, 'i');
       self.list.forEach((l) => {
