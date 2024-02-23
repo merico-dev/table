@@ -60,16 +60,3 @@ export const LayoutItemMeta = types
   }));
 
 export type LayoutItemMetaInstance = Instance<typeof LayoutItemMeta>;
-
-export function getNewLayoutItem(panelID: string) {
-  return {
-    id: uuidV4(),
-    panelID,
-    x: 0,
-    y: Infinity, // puts it at the bottom
-    w: 18,
-    h: 300,
-    moved: false,
-    static: false,
-  };
-}

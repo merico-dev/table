@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { reaction } from 'mobx';
-import { Instance, addDisposer, cast, types } from 'mobx-state-tree';
+import { Instance, addDisposer, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import { v4 as uuidV4 } from 'uuid';
-import { LayoutSetInfo, LayoutSetMetaSnapshotIn, LayoutsRenderModel, getNewLayoutItem } from '~/model';
+import { LayoutSetInfo, LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/model';
 
 export const LayoutsModel = types
   .compose(
@@ -17,7 +17,7 @@ export const LayoutsModel = types
   .actions((self) => ({
     addALayoutItem(panelID: string) {
       self.list.forEach((l) => {
-        l.list.push(getNewLayoutItem(panelID));
+        l.addLayout(panelID);
       });
     },
     setCurrentLayoutWrapperWidth(v: number) {
