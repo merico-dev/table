@@ -28,6 +28,9 @@ export const LayoutSetMeta = types
     findByID(id: string) {
       return self.list.find((l) => l.id === id);
     },
+    findByPanelID(panelID: string) {
+      return self.list.find((l) => l.panelID === panelID);
+    },
   }))
   .actions((self) => ({
     setName(v: string) {

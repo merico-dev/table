@@ -20,6 +20,21 @@ export const LayoutsModel = types
         l.addLayout(panelID);
       });
     },
+    duplicateLayoutItemsByPanelID(sourcePanelID: string, targetPanelID: string) {
+      self.list.forEach((layoutSet) => {
+        const match = layoutSet.findByPanelID(sourcePanelID);
+        if (!match) {
+          console.error(`Can't find a layout item by panelID[${sourcePanelID}] in layoutSet[${layoutSet.name}]`);
+          return;
+        }
+        layoutSet.list.push({
+          ...match,
+          id: uuidV4(),
+          panelID: targetPanelID,
+          y: Infinity,
+        });
+      });
+    },
     setCurrentLayoutWrapperWidth(v: number) {
       self.currentLayoutWrapperWidth = v;
     },

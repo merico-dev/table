@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { castToSnapshot, Instance, types } from 'mobx-state-tree';
+import { getRoot, castToSnapshot, Instance, types } from 'mobx-state-tree';
 import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { PanelsRenderModel } from '~/model';
 import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';
@@ -13,6 +13,10 @@ export const PanelsModel = types
     }),
   )
   .views((self) => ({
+    get contentModel() {
+      // @ts-expect-error type of getRoot
+      return getRoot(self).content as any;
+    },
     editorOptions(viewID: string, panelIDs: string[]) {
       const panels = self.panelsByIDs(panelIDs);
       if (panels.length !== panelIDs.length) {
@@ -82,12 +86,8 @@ export const PanelsModel = types
         title: {
           ...base.json.title,
         },
-        layout: {
-          ...base.layout,
-          y: Infinity,
-          moved: false,
-        },
       });
+      self.contentModel.layouts.duplicateLayoutItemsByPanelID(base.id, newID);
       return newID;
     },
     replaceByIndex(index: number, replacement: PanelModelInstance) {
