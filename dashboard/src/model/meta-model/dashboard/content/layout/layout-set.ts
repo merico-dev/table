@@ -25,6 +25,15 @@ export const LayoutSetMeta = types
         list: list.map((o) => shallowToJS(o.json)),
       };
     },
+    jsonByPanelID(panelID: string) {
+      const { id, name, breakpoint, list } = self;
+      return {
+        id,
+        name,
+        breakpoint,
+        list: list.filter((o) => o.panelID === panelID).map((o) => shallowToJS(o.json)),
+      };
+    },
     findByID(id: string) {
       return self.list.find((l) => l.id === id);
     },

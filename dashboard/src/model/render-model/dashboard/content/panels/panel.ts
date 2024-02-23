@@ -84,15 +84,17 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return {
         panel,
         queries: self.queries.map((q) => q.json),
+        layouts: self.contentModel.layouts.jsonByPanelID(self.id),
       };
     },
     downloadSchema() {
-      const { panel, queries } = this.getSchema();
+      const { panel, queries, layouts } = this.getSchema();
       const schema = {
         panels: [panel],
         definition: {
           queries,
         },
+        layouts,
         version: CURRENT_SCHEMA_VERSION,
       };
       const schemaStr = JSON.stringify(schema, null, 2);

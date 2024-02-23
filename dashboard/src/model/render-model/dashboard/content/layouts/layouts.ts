@@ -18,6 +18,11 @@ export const LayoutsRenderModel = types
     get json() {
       return self.list.map((o) => o.json);
     },
+    jsonByPanelID(panelID: string) {
+      return self.list.map((layoutSet) => {
+        return layoutSet.jsonByPanelID(panelID);
+      });
+    },
     get root() {
       return getRoot(self);
     },
