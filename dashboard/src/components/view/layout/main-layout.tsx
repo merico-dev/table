@@ -81,54 +81,35 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     }
   };
 
-  const [ref, rect] = useResizeObserver();
-  useEffect(() => {
-    layoutsModel.setCurrentLayoutWrapperWidth(rect.width);
-  }, [rect.width]);
-
   return (
-    <Box sx={{ minHeight: '100%', background: '#efefef' }} ref={ref}>
-      <Box
-        sx={{
-          minHeight: '100%',
-          paddingBottom: '100px',
-          background: 'white',
-          margin: '0 auto',
-          width: layoutsModel.currentLayoutPreviewWidth ?? '100%',
-          transform: `scale(${layoutsModel.currentLayoutPreviewScale})`,
-          transformOrigin: '0 0',
-        }}
-      >
-        <ResponsiveGridLayout
-          onLayoutChange={onLayoutChange}
-          className={`dashboard-layout ${className}`}
-          rowHeight={1}
-          margin={[0, 0]}
-          isBounded={true}
-          isDraggable
-          isResizable
-          cols={layoutsModel.cols}
-          layouts={gridLayouts}
-          draggableHandle=".react-grid-customDragHandle"
-          resizeHandle={<CustomResizeHandle />}
-          onResize={onResize}
-          breakpoints={layoutsModel.breakpoints}
-          onBreakpointChange={layoutsModel.setCurrentBreakpoint}
-          onDragStop={(...args) => {
-            console.log('🔴 onDragStop', ...args);
-          }}
-          width={layoutsModel.currentLayoutPreviewWidth}
-        >
-          {layoutItems.map((l) => {
-            return (
-              <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
-                <CustomDragHandle h={l.h} />
-                <Panel view={view} panel={l.panel} />
-              </div>
-            );
-          })}
-        </ResponsiveGridLayout>
-      </Box>
-    </Box>
+    <ResponsiveGridLayout
+      onLayoutChange={onLayoutChange}
+      className={`dashboard-layout ${className}`}
+      rowHeight={1}
+      margin={[0, 0]}
+      isBounded={true}
+      isDraggable
+      isResizable
+      cols={layoutsModel.cols}
+      layouts={gridLayouts}
+      draggableHandle=".react-grid-customDragHandle"
+      resizeHandle={<CustomResizeHandle />}
+      onResize={onResize}
+      breakpoints={layoutsModel.breakpoints}
+      onBreakpointChange={layoutsModel.setCurrentBreakpoint}
+      onDragStop={(...args) => {
+        console.log('🔴 onDragStop', ...args);
+      }}
+      width={layoutsModel.currentLayoutPreviewWidth}
+    >
+      {layoutItems.map((l) => {
+        return (
+          <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
+            <CustomDragHandle h={l.h} />
+            <Panel view={view} panel={l.panel} />
+          </div>
+        );
+      })}
+    </ResponsiveGridLayout>
   );
 });

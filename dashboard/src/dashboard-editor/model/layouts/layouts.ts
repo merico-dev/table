@@ -11,9 +11,22 @@ export const LayoutsModel = types
     LayoutsRenderModel,
     types.model({
       currentLayoutWrapperWidth: types.optional(types.number, 0),
-      currentLayoutPreviewScale: types.optional(types.number, 1),
     }),
   )
+  .views((self) => ({
+    get divisionPreviewScale() {
+      const w1 = self.currentLayoutPreviewWidth;
+      const w2 = self.currentLayoutWrapperWidth;
+      if (!w1 || !w2) {
+        return 1;
+      }
+      if (w1 <= w2) {
+        return 1;
+      }
+
+      return w2 / w1;
+    },
+  }))
   .actions((self) => ({
     addALayoutItem(panelID: string) {
       self.list.forEach((l) => {
@@ -108,34 +121,6 @@ export const LayoutsModel = types
       ids.forEach((id) => {
         this.removeByID(id);
       });
-    },
-    afterCreate() {
-      addDisposer(
-        self,
-        reaction(
-          () => {
-            return `${self.currentLayoutPreviewWidth}|${self.currentLayoutWrapperWidth}`;
-          },
-          () => {
-            const w1 = self.currentLayoutPreviewWidth;
-            const w2 = self.currentLayoutWrapperWidth;
-            if (!w1 || !w2) {
-              self.currentLayoutPreviewScale = 1;
-              return;
-            }
-            if (w1 <= w2) {
-              self.currentLayoutPreviewScale = 1;
-              return;
-            }
-
-            self.currentLayoutPreviewScale = w2 / w1;
-            return;
-          },
-          {
-            fireImmediately: false,
-          },
-        ),
-      );
     },
   }));
 

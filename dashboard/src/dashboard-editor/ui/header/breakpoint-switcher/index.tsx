@@ -58,9 +58,9 @@ export const BreakpointSwitcher = observer(() => {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        {contentModel.layouts.currentLayoutPreviewScale < 1 && (
+        {contentModel.layouts.divisionPreviewScale < 1 && (
           <Text size="xs" color="dimmed">
-            {numbro(contentModel.layouts.currentLayoutPreviewScale).format({ output: 'percent', mantissa: 0 })}
+            {numbro(contentModel.layouts.divisionPreviewScale).format({ output: 'percent', mantissa: 0 })}
           </Text>
         )}
       </Group>
