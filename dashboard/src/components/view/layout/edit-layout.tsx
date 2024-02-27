@@ -1,13 +1,12 @@
-import { ActionIcon, Box } from '@mantine/core';
+import { ActionIcon } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
-import { useResizeObserver } from '@mantine/hooks';
 
 const CustomDragHandle = React.forwardRef(({ h }: { h: number }, ref: $TSFixMe) => (
   <ActionIcon
@@ -50,12 +49,12 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-interface IMainDashboardLayout {
+interface IEditLayout {
   view: ViewMetaInstance;
   className?: string;
 }
 
-export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
+export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout) => {
   const contentModel = useEditContentModelContext();
   const layoutsModel = contentModel.layouts;
   const layoutItems = layoutsModel.items(view.panelIDs);

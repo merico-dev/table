@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Filters } from '~/components/filter';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { ViewRenderModelInstance } from '~/model';
-import { MainDashboardLayout } from './layout';
+import { EditLayout } from './layout';
 import { PreviewViewComponent } from './view-component/preview';
 
 interface IDashboardViewEditor {
@@ -26,8 +26,7 @@ export const DashboardViewEditor = observer(function _DashboardViewEditor({ view
               <Filters view={view} />
             </Box>
 
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            <MainDashboardLayout view={view} />
+            <EditLayout view={view} />
           </Box>
         </PreviewViewComponent>
       </Box>
