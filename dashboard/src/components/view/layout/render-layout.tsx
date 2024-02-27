@@ -7,15 +7,12 @@ import './index.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-interface IReadOnlyDashboardLayout {
+interface IRenderLayout {
   view: ViewMetaInstance;
   className?: string;
 }
 
-export const ReadOnlyDashboardLayout = observer(function _ReadOnlyDashboardLayout({
-  view,
-  className = 'layout',
-}: IReadOnlyDashboardLayout) {
+export const RenderLayout = observer(({ view, className = 'layout' }: IRenderLayout) => {
   const contentModel = useRenderContentModelContext();
   const layoutItems = contentModel.layouts.items(view.panelIDs);
   const gridLayouts = contentModel.layouts.gridLayouts(view.panelIDs);

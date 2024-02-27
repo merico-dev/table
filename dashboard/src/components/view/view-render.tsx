@@ -6,7 +6,7 @@ import { usePanelFullScreen } from '~/components/panel/panel-render/full-screen-
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { EViewComponentType, ViewRenderModelInstance } from '~/model';
 import { useFullScreenPanelContext } from '../..';
-import { ReadOnlyDashboardLayout } from './layout';
+import { RenderLayout } from './layout';
 import { RenderViewComponent } from './view-component/render';
 
 interface IDashboardViewRender {
@@ -40,8 +40,7 @@ export const DashboardViewRender = observer(function _DashboardLayout({ view }: 
                 <Filters view={view} />
               </Box>
             )}
-            {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */}
-            {!inFullScreen && <ReadOnlyDashboardLayout view={view} />}
+            {!inFullScreen && <RenderLayout view={view} />}
           </Box>
         </RenderViewComponent>
       </Box>
