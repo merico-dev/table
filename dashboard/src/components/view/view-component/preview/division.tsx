@@ -1,4 +1,4 @@
-import { Box, Overlay } from '@mantine/core';
+import { Box } from '@mantine/core';
 import { useResizeObserver } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect } from 'react';
@@ -32,6 +32,10 @@ export const PreviewViewDivision = observer(
             view={view}
             sx={{
               paddingTop: '0px !important',
+              '.dashboard-sticky-area > form': {
+                paddingBottom: '5px',
+              },
+              '.dashboard-layout': { marginTop: 0, marginBottom: 0 },
             }}
           >
             {children}
