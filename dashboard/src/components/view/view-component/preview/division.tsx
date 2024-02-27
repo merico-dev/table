@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Box, Overlay } from '@mantine/core';
 import { useResizeObserver } from '@mantine/hooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect } from 'react';
@@ -17,10 +17,9 @@ export const PreviewViewDivision = observer(
     }, [rect.width]);
 
     return (
-      <Box sx={{ height: '100%', background: '#efefef' }} ref={ref}>
+      <Box sx={{ height: '100%' }} ref={ref}>
         <Box
           sx={{
-            height: '100%',
             paddingBottom: '100px',
             background: 'white',
             margin: '0 auto',
@@ -31,7 +30,9 @@ export const PreviewViewDivision = observer(
         >
           <RenderViewDivision
             view={view}
-            sx={{ paddingTop: '0 !important', paddingBottom: '0 !important', '.dashboard-layout': { margin: 0 } }}
+            sx={{
+              paddingTop: '0px !important',
+            }}
           >
             {children}
           </RenderViewDivision>
