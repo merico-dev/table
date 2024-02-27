@@ -1,7 +1,7 @@
 import { ActionIcon } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Layout, Responsive, WidthProvider } from 'react-grid-layout';
+import { ItemCallback, Responsive, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
 import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
@@ -60,14 +60,6 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
   const layoutItems = layoutsModel.items(view.panelIDs);
   const gridLayouts = layoutsModel.gridLayouts(view.panelIDs);
 
-  const onLayoutChange = React.useCallback(
-    (currentLayouts: Layout[], allLayouts: Record<string, Layout[]>) => {
-      console.log('🔴 onLayoutChange', { currentLayouts, allLayouts });
-      layoutsModel.updateCurrentLayoutItems(currentLayouts);
-    },
-    [contentModel],
-  );
-
   const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
     console.log('🔴 onResize', _layout);
     if (layoutItem.h < 30) {
@@ -81,9 +73,18 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
     }
   };
 
+  const onResizeStop: ItemCallback = (layouts, oldItem, newItem) => {
+    console.log('🔴 onResizeStop', { layouts, oldItem, newItem });
+    layoutsModel.updateCurrentLayoutItem(newItem);
+  };
+
+  const onDragStop: ItemCallback = (layouts, oldItem, newItem) => {
+    console.log('🔴 onDragStop', { layouts, oldItem, newItem });
+    layoutsModel.updateCurrentLayoutItem(newItem);
+  };
+
   return (
     <ResponsiveGridLayout
-      onLayoutChange={onLayoutChange}
       className={`dashboard-layout ${className}`}
       rowHeight={1}
       margin={[0, 0]}
@@ -97,6 +98,8 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
       onResize={onResize}
       breakpoints={layoutsModel.breakpoints}
       onBreakpointChange={layoutsModel.setCurrentBreakpoint}
+      onResizeStop={onResizeStop}
+      onDragStop={onDragStop}
       width={layoutsModel.currentLayoutPreviewWidth}
     >
       {layoutItems.map((l) => {

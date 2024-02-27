@@ -69,15 +69,14 @@ export const LayoutSetMeta = types
         self.list.splice(i, 1);
       }
     },
-    updateLayouts(layouts: Layout[]) {
-      const record = _.keyBy(layouts, 'i');
-      self.list.forEach((l) => {
-        const r = record[l.id];
-        if (!r) {
-          return;
-        }
-        l.set(r);
-      });
+    updateLayoutItem(item: Layout) {
+      const layoutItem = self.list.find((o) => o.id === item.i);
+      if (!layoutItem) {
+        console.error("Trying to update a layout that doesn't exist");
+        console.log({ strangeLayoutItem: item });
+        return;
+      }
+      layoutItem.set(item);
     },
   }));
 

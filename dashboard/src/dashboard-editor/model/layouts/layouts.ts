@@ -92,8 +92,8 @@ export const LayoutsModel = types
         self.setCurrentBreakpoint('basis');
       }
     },
-    updateCurrentLayoutItems(items: Layout[]) {
-      self.currentLayoutSet.updateLayouts(items);
+    updateCurrentLayoutItem(item: Layout) {
+      self.currentLayoutSet.updateLayoutItem(item);
     },
     append(item: LayoutSetMetaSnapshotIn) {
       self.list.push(item);
