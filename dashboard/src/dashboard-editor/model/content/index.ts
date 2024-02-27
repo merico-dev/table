@@ -441,6 +441,7 @@ const _ContentModel = types
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
         applySnapshot(self.panels.list, self.origin.panels.list);
+        applySnapshot(self.layouts.list, self.origin.layouts.list);
         self.mock_context.current = self.origin.mock_context.current;
       },
       resetFilters() {

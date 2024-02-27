@@ -61,8 +61,9 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
   const gridLayouts = layoutsModel.gridLayouts(view.panelIDs);
 
   const onLayoutChange = React.useCallback(
-    (currentLayout: Layout[], allLayouts: Record<string, Layout[]>) => {
-      layoutsModel.updateCurrentLayoutItems(allLayouts);
+    (currentLayouts: Layout[], allLayouts: Record<string, Layout[]>) => {
+      console.log('🔴 onLayoutChange', { currentLayouts, allLayouts });
+      layoutsModel.updateCurrentLayoutItems(currentLayouts);
     },
     [contentModel],
   );
@@ -96,9 +97,6 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
       onResize={onResize}
       breakpoints={layoutsModel.breakpoints}
       onBreakpointChange={layoutsModel.setCurrentBreakpoint}
-      onDragStop={(...args) => {
-        console.log('🔴 onDragStop', ...args);
-      }}
       width={layoutsModel.currentLayoutPreviewWidth}
     >
       {layoutItems.map((l) => {

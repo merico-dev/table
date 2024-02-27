@@ -93,8 +93,7 @@ export const LayoutsModel = types
         self.setCurrentBreakpoint('basis');
       }
     },
-    updateCurrentLayoutItems(allLayouts: Record<string, Layout[]>) {
-      const items = allLayouts[self.currentBreakpoint];
+    updateCurrentLayoutItems(items: Layout[]) {
       self.currentLayoutSet.updateLayouts(items);
     },
     append(item: LayoutSetMetaSnapshotIn) {
