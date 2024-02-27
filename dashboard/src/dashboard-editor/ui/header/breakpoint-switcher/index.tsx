@@ -1,10 +1,10 @@
-import { Button, Group, Menu, Modal, Text, Tooltip } from '@mantine/core';
+import { Button, Group, Menu, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconDevices, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import numbro from 'numbro';
 import { useEditContentModelContext } from '~/contexts';
 import { EditBreakpoints } from './edit-breakpoints';
-import numbro from 'numbro';
 
 export const BreakpointSwitcher = observer(() => {
   const [opened, { open, close }] = useDisclosure(false);

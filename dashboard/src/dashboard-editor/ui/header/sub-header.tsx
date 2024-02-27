@@ -1,9 +1,9 @@
 import { Box, Group, Sx } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { AddAPanel } from './add-a-panel';
+import { BreakpointSwitcher } from './breakpoint-switcher';
 import { DownloadThisView } from './download-this-view';
 import { ImportWithSchema } from './import-with-schema';
-import { BreakpointSwitcher } from './breakpoint-switcher';
 
 const SubHeaderSx: Sx = {
   position: 'fixed',

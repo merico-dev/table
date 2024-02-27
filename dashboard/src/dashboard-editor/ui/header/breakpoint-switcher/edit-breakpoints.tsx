@@ -1,7 +1,6 @@
 import { ActionIcon, Button, Group, NumberInput, Table, Text, TextInput, Tooltip } from '@mantine/core';
 import { IconDeviceFloppy, IconPlus, IconRecycle, IconTrash } from '@tabler/icons-react';
-import _ from 'lodash';
-import { isEqual } from 'lodash';
+import _, { isEqual } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';

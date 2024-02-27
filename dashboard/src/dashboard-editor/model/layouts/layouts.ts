@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { reaction } from 'mobx';
-import { Instance, addDisposer, types } from 'mobx-state-tree';
+import { Instance, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
 import { v4 as uuidV4 } from 'uuid';
 import { LayoutSetInfo, LayoutSetMetaSnapshotIn, LayoutsRenderModel } from '~/model';

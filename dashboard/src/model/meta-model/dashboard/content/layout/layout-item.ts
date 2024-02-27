@@ -1,6 +1,5 @@
 import { Instance, getRoot, types } from 'mobx-state-tree';
 import { Layout } from 'react-grid-layout';
-import { v4 as uuidV4 } from 'uuid';
 
 export const LayoutItemMeta = types
   .model('LayoutItemMeta', {

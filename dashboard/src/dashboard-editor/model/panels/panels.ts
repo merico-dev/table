@@ -1,5 +1,4 @@
-import _ from 'lodash';
-import { getRoot, castToSnapshot, Instance, types } from 'mobx-state-tree';
+import { Instance, castToSnapshot, getRoot, types } from 'mobx-state-tree';
 import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { PanelsRenderModel } from '~/model';
 import { PanelModel, PanelModelInstance, PanelModelSnapshotIn } from './panel';

@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react-lite';
-import { ReactNode, useEffect } from 'react';
-import { ViewRenderModelInstance } from '~/model';
-import { RenderViewDivision } from '../render';
 import { Box } from '@mantine/core';
 import { useResizeObserver } from '@mantine/hooks';
+import { observer } from 'mobx-react-lite';
+import { ReactNode, useEffect } from 'react';
 import { useEditContentModelContext } from '~/contexts';
+import { ViewRenderModelInstance } from '~/model';
+import { RenderViewDivision } from '../render';
 
 export const PreviewViewDivision = observer(
   ({ children, view }: { children: ReactNode; view: ViewRenderModelInstance }) => {
