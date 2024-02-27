@@ -40,7 +40,10 @@ const mockPanel: IViewPanelInfo = {
   dataFieldOptions: () => [{ label: 'foo', value: `${mockQueryID}.foo` }],
 };
 const mockData = { [mockQueryID]: [{ foo: 'alice', bar: 'bob' }] };
-
+const MEASURE = {
+  w: 800,
+  h: 600,
+};
 describe('viz-table.cy.ts', () => {
   let vizManager: IVizManager;
   beforeEach(() => {
@@ -50,7 +53,13 @@ describe('viz-table.cy.ts', () => {
     it('show data', () => {
       cy.mount(
         <PanelContextProvider value={{ panel: mockPanel, data: mockData, loading: false, errors: [] }}>
-          <VizViewComponent panel={mockPanel} data={mockData} variables={[]} vizManager={vizManager} />
+          <VizViewComponent
+            panel={mockPanel}
+            measure={MEASURE}
+            data={mockData}
+            variables={[]}
+            vizManager={vizManager}
+          />
         </PanelContextProvider>,
       );
       cy.findByText('alice').should('exist');
@@ -59,7 +68,13 @@ describe('viz-table.cy.ts', () => {
       const instance = vizManager.getOrCreateInstance(mockPanel);
       cy.mount(
         <PanelContextProvider value={{ panel: mockPanel, data: mockData, loading: false, errors: [] }}>
-          <VizViewComponent panel={mockPanel} data={mockData} variables={[]} vizManager={vizManager} />
+          <VizViewComponent
+            panel={mockPanel}
+            measure={MEASURE}
+            data={mockData}
+            variables={[]}
+            vizManager={vizManager}
+          />
         </PanelContextProvider>,
       );
       cy.findByText('alice')
