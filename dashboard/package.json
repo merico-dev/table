@@ -114,7 +114,7 @@
     "vite-plugin-static-copy": "^0.17.0"
   },
   "peerDependencies": {
-    "@emotion/react": "11.10.6",
+    "@emotion/react": "11.11.4",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "6.0.16",
     "@mantine/dates": "6.0.16",
