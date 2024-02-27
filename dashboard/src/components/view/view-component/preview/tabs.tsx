@@ -14,6 +14,9 @@ const getStyles = ({ variant, orientation }: ViewTabsConfigInstance) => {
       height: '100%',
       overflow: 'hidden',
     },
+    tabsList: {
+      backgroundColor: 'white',
+    },
     tab: {},
     panel: {
       padding: '16px',
