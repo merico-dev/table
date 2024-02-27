@@ -123,8 +123,8 @@ export const LayoutsRenderModel = types
       });
       return ret;
     },
-    findByPanelID(panelID: string) {
-      const layout = this.currentLayoutSet.findByID(panelID);
+    findItemByPanelID(panelID: string) {
+      const layout = this.currentLayoutSet.findByPanelID(panelID);
       return layout as LayoutItemMetaInstance;
     },
   }))

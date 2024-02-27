@@ -5,7 +5,7 @@ import { useEditPanelContext } from '~/contexts/panel-context';
 
 export const EditStyle = observer(() => {
   const { panel } = useEditPanelContext();
-  const layout = useRenderContentModelContext().layouts.findByPanelID(panel.id);
+  const layout = useRenderContentModelContext().layouts.findItemByPanelID(panel.id);
   const { style } = panel;
 
   return (
