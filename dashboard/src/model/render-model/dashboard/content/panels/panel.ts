@@ -84,15 +84,17 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return {
         panel,
         queries: self.queries.map((q) => q.json),
+        layouts: self.contentModel.layouts.jsonByPanelIDSet(new Set([self.id])),
       };
     },
     downloadSchema() {
-      const { panel, queries } = this.getSchema();
+      const { panel, queries, layouts } = this.getSchema();
       const schema = {
         panels: [panel],
         definition: {
           queries,
         },
+        layouts,
         version: CURRENT_SCHEMA_VERSION,
       };
       const schemaStr = JSON.stringify(schema, null, 2);
@@ -108,12 +110,6 @@ export function getNewPanel(id: string): PanelRenderModelSnapshotIn {
   return {
     id,
     name: id,
-    layout: {
-      x: 0,
-      y: Infinity, // puts it at the bottom
-      w: 18,
-      h: 300,
-    },
     title: { show: true },
     description: '<p></p>',
     queryIDs: [],

@@ -1,9 +1,11 @@
 import { Checkbox, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useRenderContentModelContext } from '~/contexts';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
 export const EditStyle = observer(() => {
   const { panel } = useEditPanelContext();
+  const layout = useRenderContentModelContext().layouts.findItemByPanelID(panel.id);
   const { style } = panel;
 
   return (
@@ -19,18 +21,18 @@ export const EditStyle = observer(() => {
             precision={0}
             rightSection={<Text size={12}>of 36 columns</Text>}
             styles={{ rightSection: { width: '110px' } }}
-            value={panel.layout.w}
+            value={layout.w}
             onChange={(v) => {
-              v && panel.layout.setWidth(v);
+              v && layout.setWidth(v);
             }}
           />
           <NumberInput
             label="Height"
             rightSection={<Text size={12}>px</Text>}
             styles={{ rightSection: { width: '40px' } }}
-            value={panel.layout.h}
+            value={layout.h}
             onChange={(v) => {
-              v && panel.layout.setHeight(v);
+              v && layout.setHeight(v);
             }}
           />
         </Group>

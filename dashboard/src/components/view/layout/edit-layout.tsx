@@ -1,9 +1,9 @@
 import { ActionIcon } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import RGL, { Layout, WidthProvider } from 'react-grid-layout';
+import { ItemCallback, Responsive, WidthProvider } from 'react-grid-layout';
 import { ArrowsMove, ChevronDownRight } from 'tabler-icons-react';
-import { useRenderContentModelContext } from '~/contexts';
+import { useEditContentModelContext } from '~/contexts';
 import { ViewMetaInstance } from '~/model';
 import { Panel } from '../../panel';
 import './index.css';
@@ -47,31 +47,21 @@ const CustomResizeHandle = React.forwardRef(({ handleAxis, ...rest }: $TSFixMe, 
   </ActionIcon>
 ));
 
-const ReactGridLayout = WidthProvider(RGL);
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
-interface IMainDashboardLayout {
+interface IEditLayout {
   view: ViewMetaInstance;
   className?: string;
 }
 
-export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMainDashboardLayout) => {
-  const model = useRenderContentModelContext();
-  const { panels, layouts } = model.panels.panelsByIDs(view.panelIDs);
-
-  const onLayoutChange = React.useCallback(
-    (currentLayout: Layout[]) => {
-      currentLayout.forEach(({ i, ...rest }) => {
-        const p = model.panels.findByID(i);
-        if (!p) {
-          return;
-        }
-        p.layout.set(rest);
-      });
-    },
-    [model],
-  );
+export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout) => {
+  const contentModel = useEditContentModelContext();
+  const layoutsModel = contentModel.layouts;
+  const layoutItems = layoutsModel.items(view.panelIDs);
+  const gridLayouts = layoutsModel.gridLayouts(view.panelIDs);
 
   const onResize = (_layout: any, _oldLayoutItem: any, layoutItem: any, placeholder: any) => {
+    console.log('🔴 onResize', _layout);
     if (layoutItem.h < 30) {
       layoutItem.h = 30;
       placeholder.h = 30;
@@ -83,29 +73,43 @@ export const MainDashboardLayout = observer(({ view, className = 'layout' }: IMa
     }
   };
 
+  const onResizeStop: ItemCallback = (layouts, oldItem, newItem) => {
+    console.log('🔴 onResizeStop', { layouts, oldItem, newItem });
+    layoutsModel.updateCurrentLayoutItem(newItem);
+  };
+
+  const onDragStop: ItemCallback = (layouts, oldItem, newItem) => {
+    console.log('🔴 onDragStop', { layouts, oldItem, newItem });
+    layoutsModel.updateCurrentLayoutItem(newItem);
+  };
+
   return (
-    <ReactGridLayout
-      onLayoutChange={onLayoutChange}
+    <ResponsiveGridLayout
       className={`dashboard-layout ${className}`}
       rowHeight={1}
-      cols={36}
       margin={[0, 0]}
       isBounded={true}
       isDraggable
       isResizable
-      layout={layouts}
+      cols={layoutsModel.cols}
+      layouts={gridLayouts}
       draggableHandle=".react-grid-customDragHandle"
       resizeHandle={<CustomResizeHandle />}
       onResize={onResize}
+      breakpoints={layoutsModel.breakpoints}
+      onBreakpointChange={layoutsModel.setCurrentBreakpoint}
+      onResizeStop={onResizeStop}
+      onDragStop={onDragStop}
+      width={layoutsModel.currentLayoutPreviewWidth}
     >
-      {panels.map((panel, index) => {
+      {layoutItems.map((l) => {
         return (
-          <div key={panel.id} data-grid={{ ...panel.layout }} className="panel-grid-item">
-            <CustomDragHandle h={panel.layout.h} />
-            <Panel view={view} panel={panel} />
+          <div key={l.id} data-grid={l.layoutProperies} className="panel-grid-item">
+            <CustomDragHandle h={l.h} />
+            <Panel view={view} panel={l.panel} />
           </div>
         );
       })}
-    </ReactGridLayout>
+    </ResponsiveGridLayout>
   );
 });

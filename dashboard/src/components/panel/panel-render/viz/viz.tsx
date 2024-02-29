@@ -1,18 +1,19 @@
 import { useElementSize } from '@mantine/hooks';
 import { get } from 'lodash';
 
+import { Box } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useContext } from 'react';
 import { useConfigVizInstanceService } from '~/components/panel/use-config-viz-instance-service';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
+import { WidthAndHeight } from '~/components/plugins/viz-manager/components';
 import { ErrorBoundary } from '~/utils';
 import { useRenderPanelContext } from '../../../../contexts';
 import { IViewPanelInfo, PluginContext } from '../../../plugins';
 import { PluginVizViewComponent } from '../../plugin-adaptor';
 import './viz.css';
-import { Box } from '@mantine/core';
 
-function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): ReactNode | null {
+function usePluginViz(data: TPanelData, measure: WidthAndHeight): ReactNode | null {
   const { vizManager } = useContext(PluginContext);
   const {
     panel: { viz, title, id, name, description, queryIDs, variables },
@@ -24,7 +25,6 @@ function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): React
     description,
     queryIDs,
     viz,
-    layout,
   };
   const configureService = useConfigVizInstanceService(panel);
   try {
@@ -35,6 +35,7 @@ function usePluginViz(data: TPanelData, layout: IViewPanelInfo['layout']): React
         <PluginVizViewComponent
           setVizConf={viz.setConf}
           panel={panel}
+          measure={measure}
           data={data}
           variables={variables}
           vizManager={vizManager}

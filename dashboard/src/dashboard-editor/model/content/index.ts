@@ -26,14 +26,15 @@ import {
   getInitialFiltersConfig,
   getInitialMockContextMeta,
   getNewPanel,
+  LayoutItem,
   MockContextMeta,
   QueryUsageType,
   SQLSnippetUsageType,
   TPayloadForSQL,
   TPayloadForViz,
 } from '~/model';
-import { payloadToDashboardState } from '~/utils';
-import { UsageRegs } from '~/utils';
+import { payloadToDashboardState, UsageRegs } from '~/utils';
+import { LayoutsModel } from '../layouts';
 import { PanelsModel } from '../panels';
 import { getInitialDashboardViewsModel, ViewsModel } from '../views';
 
@@ -50,6 +51,7 @@ const _ContentModel = types
     sqlSnippets: SQLSnippetsModel,
     views: ViewsModel,
     panels: PanelsModel,
+    layouts: LayoutsModel,
     mock_context: MockContextMeta,
     /**
      * this field should be excluded from snapshot
@@ -69,6 +71,7 @@ const _ContentModel = types
           panels: self.panels.json,
           filters: self.filters.json,
           version: self.version,
+          layouts: self.layouts.json,
           definition: {
             queries: self.queries.json,
             sqlSnippets: self.sqlSnippets.json,
@@ -112,6 +115,10 @@ const _ContentModel = types
     },
     get panelsChanged() {
       const fields = 'panels.list';
+      return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
+    },
+    get layoutsChanged() {
+      const fields = 'layouts.list';
       return !isEqual(getSnapshot(get(self, fields)), get(self.origin, fields));
     },
     get mockContextChanged() {
@@ -165,6 +172,7 @@ const _ContentModel = types
         this.sqlSnippetsChanged ||
         this.viewsChanged ||
         this.panelsChanged ||
+        this.layoutsChanged ||
         this.mockContextChanged
       );
     },
@@ -297,15 +305,17 @@ const _ContentModel = types
     },
     removePanelByID(panelID: string, viewID: string) {
       self.panels.removeByID(panelID);
+      self.layouts.removeByPanelID(panelID);
       self.views.findByID(viewID)?.removePanelID(panelID);
     },
     addANewPanel(viewID: string) {
       const id = uuidv4();
       self.panels.append(getNewPanel(id));
       self.views.findByID(viewID)?.appendPanelID(id);
+      self.layouts.addALayoutItem(id);
     },
     applyJSONSchema(partialSchema: AnyObject) {
-      const { views, panels, filters, definition = {} } = partialSchema;
+      const { views, panels, filters, definition = {}, layouts } = partialSchema;
       const { queries, sqlSnippets, mock_context } = definition;
       const panelIDMap: Map<string, string> = new Map(); // old -> new
 
@@ -339,6 +349,41 @@ const _ContentModel = types
           };
         });
         self.views.appendMultiple(newViews);
+      }
+
+      // LAYOUTS
+      if (Array.isArray(layouts)) {
+        const isBreakpointPresent = (name: string, breakpoint: number) => {
+          const b = self.layouts.breakpointNameRecord[name];
+          return b === breakpoint;
+        };
+
+        let basis: LayoutItem[] = [];
+        const validLayoutSets = layouts.filter((l) => isBreakpointPresent(l.name, l.breakpoint));
+        validLayoutSets.forEach((layoutSet) => {
+          if (layoutSet.id === 'basis') {
+            basis = layoutSet.list;
+          }
+          layoutSet.list.forEach((l: LayoutItem) => {
+            const newPanelID = panelIDMap.get(l.panelID)!;
+            l.id = uuidv4();
+            l.panelID = newPanelID;
+          });
+        });
+
+        self.layouts.list.forEach((layoutSet) => {
+          const match = validLayoutSets.find((s) => s.name === layoutSet.name && s.breakpoint === layoutSet.breakpoint);
+          if (!match) {
+            basis!.forEach((basisLayoutItem: LayoutItem) => {
+              layoutSet.addLayout(basisLayoutItem);
+            });
+            return;
+          }
+
+          match.list.forEach((matchedLayoutItem: LayoutItem) => {
+            layoutSet.addLayout(matchedLayoutItem);
+          });
+        });
       }
 
       // FILTERS
@@ -396,6 +441,7 @@ const _ContentModel = types
         applySnapshot(self.sqlSnippets.current, self.origin.sqlSnippets.current);
         applySnapshot(self.views.current, self.origin.views.current);
         applySnapshot(self.panels.list, self.origin.panels.list);
+        applySnapshot(self.layouts.list, self.origin.layouts.list);
         self.mock_context.current = self.origin.mock_context.current;
       },
       resetFilters() {
@@ -473,6 +519,7 @@ export function createContentModel(
     filters,
     views,
     panels,
+    layouts,
     definition: { queries, sqlSnippets, mock_context = {} },
   } = content;
   return ContentModel.create({
@@ -493,6 +540,10 @@ export function createContentModel(
     views: getInitialDashboardViewsModel(views),
     panels: {
       list: panels,
+    },
+    layouts: {
+      list: layouts,
+      currentBreakpoint: layouts[0].id,
     },
   });
 }

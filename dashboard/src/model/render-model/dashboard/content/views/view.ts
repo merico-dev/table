@@ -42,7 +42,7 @@ export const ViewRenderModel = types
     },
     get panels() {
       if (self.type !== EViewComponentType.Tabs) {
-        return this.contentModel.panels.panelsByIDs(self.panelIDs).panels;
+        return this.contentModel.panels.panelsByIDs(self.panelIDs);
       }
 
       const viewID = this.tabViewID;

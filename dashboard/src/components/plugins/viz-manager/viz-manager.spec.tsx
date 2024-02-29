@@ -52,6 +52,10 @@ class MockVizHelper {
   }
 }
 
+const MEASURE = {
+  w: 800,
+  h: 600,
+};
 type IMockVizDebugProps = { helper: MockVizHelper };
 
 describe('VizManager', () => {
@@ -69,13 +73,13 @@ describe('VizManager', () => {
     } as IDashboardPlugin);
   });
   test('create view', async () => {
-    render(<VizViewComponent panel={mockPanel} data={[]} vizManager={vizManager} />);
+    render(<VizViewComponent panel={mockPanel} measure={MEASURE} data={[]} vizManager={vizManager} />);
     await waitFor(() => {
       expect(screen.getByText('Hello, alice')).toBeInTheDocument();
     });
   });
   test('create config', async () => {
-    render(<VizConfigComponent panel={mockPanel} vizManager={vizManager} data={[]} />);
+    render(<VizConfigComponent panel={mockPanel} measure={MEASURE} vizManager={vizManager} data={[]} />);
     await waitFor(() => {
       expect(screen.getByText('World')).toBeInTheDocument();
     });
@@ -84,12 +88,19 @@ describe('VizManager', () => {
   test('share message channels between view and config panel', async () => {
     const vizInstance = new MockVizHelper();
     render(
-      <VizViewComponent<IMockVizDebugProps> helper={vizInstance} panel={mockPanel} data={[]} vizManager={vizManager} />,
+      <VizViewComponent<IMockVizDebugProps>
+        helper={vizInstance}
+        panel={mockPanel}
+        measure={MEASURE}
+        data={[]}
+        vizManager={vizManager}
+      />,
     );
     render(
       <VizConfigComponent<IMockVizDebugProps>
         helper={vizInstance}
         panel={mockPanel}
+        measure={MEASURE}
         vizManager={vizManager}
         data={[]}
       />,
@@ -104,7 +115,7 @@ describe('VizManager', () => {
   test('create new message channels for each instance', async () => {
     const viz1 = new MockVizHelper();
     const viz2 = new MockVizHelper();
-    render(<VizViewComponent helper={viz1} panel={mockPanel} data={[]} vizManager={vizManager} />);
+    render(<VizViewComponent helper={viz1} panel={mockPanel} measure={MEASURE} data={[]} vizManager={vizManager} />);
     render(
       <VizViewComponent
         helper={viz2}
@@ -113,6 +124,7 @@ describe('VizManager', () => {
           id: 'another',
           viz: { ...mockPanel.viz, type: 'viz2' },
         }}
+        measure={MEASURE}
         data={[]}
         vizManager={vizManager}
       />,
@@ -124,7 +136,9 @@ describe('VizManager', () => {
 
   test('provide data through context', async () => {
     const viz1 = new MockVizHelper();
-    render(<VizViewComponent helper={viz1} panel={mockPanel} data={[1, 2, 3]} vizManager={vizManager} />);
+    render(
+      <VizViewComponent helper={viz1} panel={mockPanel} measure={MEASURE} data={[1, 2, 3]} vizManager={vizManager} />,
+    );
     // wait until it rendered
     await waitFor(() => {
       expect(screen.getByText('Hello, alice')).toBeInTheDocument();

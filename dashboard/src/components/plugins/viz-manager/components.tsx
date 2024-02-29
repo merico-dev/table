@@ -36,20 +36,22 @@ function createCommonContext(
   };
 }
 
-export type IViewPanelInfo = IPanelInfo & { layout: { w: number; h: number } };
+export type IViewPanelInfo = IPanelInfo;
+export type WidthAndHeight = { w: number; h: number };
 export type IViewComponentProps<TDebug = Record<string, unknown>> = {
-  panel: IViewPanelInfo;
+  panel: IPanelInfo;
+  measure: WidthAndHeight;
   data: $TSFixMe;
   vizManager: IVizManager;
   variables: ITemplateVariable[];
 } & TDebug;
 export const VizViewComponent = <T,>(props: IViewComponentProps<T>) => {
-  const { panel, vizManager, data, variables } = props;
+  const { panel, measure, vizManager, data, variables } = props;
   const comp = vizManager.resolveComponent(panel.viz.type);
   const instance = vizManager.getOrCreateInstance(panel);
   const context: VizViewContext = {
     ...createCommonContext(instance, data, vizManager, variables),
-    viewport: { width: panel.layout.w, height: panel.layout.h },
+    viewport: { width: measure.w, height: measure.h },
   };
   const Comp = comp.viewRender;
   return <Comp context={context} instance={instance} {...omit(props, ['panel', 'vizManager', 'data'])} />;

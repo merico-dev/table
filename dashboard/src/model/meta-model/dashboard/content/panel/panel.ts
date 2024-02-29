@@ -1,5 +1,4 @@
 import { cast, types } from 'mobx-state-tree';
-import { PanelLayoutMeta } from './layout';
 import { PanelStyleMeta } from './style';
 import { PanelTitleMeta } from './title';
 import { VariableMeta, VariableMetaInstance, VariableMetaSnapshotIn } from './variable';
@@ -11,7 +10,6 @@ export const PanelMeta = types
     name: types.optional(types.string, ''),
     title: PanelTitleMeta,
     description: types.string,
-    layout: PanelLayoutMeta,
     queryIDs: types.array(types.string),
     viz: PanelVizMeta,
     style: PanelStyleMeta,
@@ -26,7 +24,6 @@ export const PanelMeta = types
         name,
         style: self.style.json,
         title: title.json,
-        layout: self.layout.json,
         queryIDs: [...queryIDs],
         variables: self.variables.map((v) => v.json),
         description,
