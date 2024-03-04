@@ -10,6 +10,26 @@ import { getReferenceLines } from './reference-line';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
+import _ from 'lodash';
+import * as math from 'mathjs';
+
+function autoYAxisMin({ min, max }: { min: number; max: number }) {
+  if (min <= 110) {
+    return Math.min(0, min);
+  }
+  if (min <= 200) {
+    return 100;
+  }
+  const l = math.floor(math.log10(min));
+  const unit = Math.pow(10, l);
+  const prevUnit = Math.pow(10, l - 1);
+
+  if (min / unit <= 2) {
+    const base = _.round(min, -1 * (l - 1));
+    return base - prevUnit;
+  }
+  return _.round(min, -1 * l) - unit;
+}
 
 interface IGetOption {
   config: IBoxplotChartConf;
@@ -53,6 +73,7 @@ export function getOption({ config, data, variables }: IGetOption) {
             return formatNumber(value, y_axis.label_formatter);
           },
         },
+        min: autoYAxisMin,
       }),
     ],
     series: [...series, ...getReferenceLines(reference_lines, variables, data)],
