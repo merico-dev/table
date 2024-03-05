@@ -1,7 +1,5 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { SunburstChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import { useMemo } from 'react';
 
@@ -10,8 +8,6 @@ import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
-
-echarts.use([SunburstChart, CanvasRenderer]);
 
 export function VizSunburst({ context }: VizViewProps) {
   const { variables } = context;

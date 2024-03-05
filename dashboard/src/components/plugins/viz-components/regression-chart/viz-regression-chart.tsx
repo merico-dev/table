@@ -1,9 +1,6 @@
 import { EChartsInstance } from 'echarts-for-react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { ScatterChart } from 'echarts/charts';
-import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import { defaultsDeep } from 'lodash';
 import { useMemo, useRef } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -13,8 +10,6 @@ import { parseDataKey } from '~/utils';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
-
-echarts.use([DataZoomComponent, ScatterChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 export function VizRegressionChart({ context }: VizViewProps) {
   const { value: conf } = useStorageData<IRegressionChartConf>(context.instanceData, 'config');

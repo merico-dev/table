@@ -1,9 +1,6 @@
 import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -12,17 +9,6 @@ import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { Toolbox } from './toolbox';
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
-
-echarts.use([
-  BarChart,
-  LineChart,
-  HeatmapChart,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  CanvasRenderer,
-  VisualMapComponent,
-]);
 
 function Chart({
   conf,

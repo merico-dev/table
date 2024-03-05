@@ -1,8 +1,5 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { RadarChart } from 'echarts/charts';
-import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaultsDeep, isEmpty } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -10,8 +7,7 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils';
-import { ITemplateVariable } from '~/utils';
+import { ITemplateVariable, parseDataKey } from '~/utils';
 import { getOption } from './option';
 import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
@@ -25,8 +21,6 @@ interface IClickRadarSeries {
   color: string;
   value: AnyObject;
 }
-
-echarts.use([RadarChart, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 function Chart({
   conf,

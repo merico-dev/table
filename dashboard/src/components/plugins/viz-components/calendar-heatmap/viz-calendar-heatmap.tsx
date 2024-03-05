@@ -1,41 +1,17 @@
-import { Box } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
-import {
-  CalendarComponent,
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent,
-} from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _ from 'lodash';
 import React, { useCallback, useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
+import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { getOption } from './option';
 import { ClickCalendarDate } from './triggers';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
-import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
-import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
-
-echarts.use([
-  DataZoomComponent,
-  BarChart,
-  LineChart,
-  HeatmapChart,
-  CalendarComponent,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-]);
 
 interface IClickCalendarDate {
   type: 'click';

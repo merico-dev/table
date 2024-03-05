@@ -1,19 +1,15 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { PieChart } from 'echarts/charts';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _ from 'lodash';
 import React, { useMemo } from 'react';
-import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
+import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickPieChart } from './triggers';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
-import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
-
-echarts.use([PieChart, CanvasRenderer]);
 
 interface IClickEchartsSeries {
   type: 'click';
