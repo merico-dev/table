@@ -23,8 +23,10 @@ import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
+import { registerECharts } from '~/utils';
 
 registerThemes();
+registerECharts();
 
 const AppShellStyles = {
   root: {

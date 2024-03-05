@@ -1,8 +1,5 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, LineChart } from 'echarts/charts';
-import { DataZoomComponent, GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
@@ -13,8 +10,6 @@ import { useStorageData } from '../../hooks';
 import { getOption } from './option';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
-
-echarts.use([BarChart, LineChart, DataZoomComponent, GridComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 interface IClickParetoSeries {
   type: 'click';

@@ -1,17 +1,7 @@
 import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import {
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  MarkAreaComponent,
-  MarkLineComponent,
-  TooltipComponent,
-} from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -35,19 +25,6 @@ interface IClickScatterChartSeries {
   value: string; // string-typed number
   data: AnyObject;
 }
-
-echarts.use([
-  DataZoomComponent,
-  BarChart,
-  LineChart,
-  ScatterChart,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  CanvasRenderer,
-  MarkLineComponent,
-  MarkAreaComponent,
-]);
 
 function templateNotEmpty(str: string) {
   return str.trim().length > 0;

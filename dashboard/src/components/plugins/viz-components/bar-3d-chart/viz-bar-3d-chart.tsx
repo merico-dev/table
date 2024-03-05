@@ -1,8 +1,6 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
-import { GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import { defaults, get, maxBy, minBy } from 'lodash';
 import { useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -10,8 +8,6 @@ import { DefaultVizBox, getBoxContentStyle } from '~/styles/viz-box';
 import { VizViewProps } from '~/types/plugin';
 import { extractFullQueryData, parseDataKey } from '~/utils';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
-
-echarts.use([GridComponent, VisualMapComponent, LegendComponent, TooltipComponent, CanvasRenderer]);
 
 const paddings = {
   top: 16,

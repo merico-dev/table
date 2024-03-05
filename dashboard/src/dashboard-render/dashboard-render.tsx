@@ -20,8 +20,10 @@ import { LayoutStateContext } from '../contexts/layout-state-context';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
+import { registerECharts } from '~/utils';
 
 registerThemes();
+registerECharts();
 
 interface IReadOnlyDashboard {
   context: ContextRecordType;

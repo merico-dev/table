@@ -1,26 +1,16 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { BarChart, LineChart, ScatterChart } from 'echarts/charts';
-import {
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  MarkAreaComponent,
-  MarkLineComponent,
-  TooltipComponent,
-} from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useRowDataMap } from '~/components/plugins/hooks/use-row-data-map';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable } from '~/utils';
 import { ClickEchartSeries } from '../cartesian/triggers';
 import { getOption } from './option';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
-import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 
 interface IClickEchartsSeries {
   type: 'click';
@@ -31,19 +21,6 @@ interface IClickEchartsSeries {
   color: string;
   value: string; // string-typed number
 }
-
-echarts.use([
-  DataZoomComponent,
-  BarChart,
-  LineChart,
-  ScatterChart,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  CanvasRenderer,
-  MarkLineComponent,
-  MarkAreaComponent,
-]);
 
 function Chart({
   conf,

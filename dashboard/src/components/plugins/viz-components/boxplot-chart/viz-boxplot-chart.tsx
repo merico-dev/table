@@ -1,15 +1,6 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import 'echarts-gl';
-import { BoxplotChart, CustomChart } from 'echarts/charts';
-import {
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  MarkLineComponent,
-  TooltipComponent,
-} from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -20,17 +11,6 @@ import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotDataItem } from './type';
-
-echarts.use([
-  DataZoomComponent,
-  BoxplotChart,
-  CustomChart,
-  MarkLineComponent,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  CanvasRenderer,
-]);
 
 interface IClickBoxplotSeries {
   type: 'click';

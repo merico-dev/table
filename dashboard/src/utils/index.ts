@@ -9,6 +9,7 @@ export * from './error-boundary';
 export * from './function-utils';
 export * from './http-query';
 export * from './number';
+export * from './register-echarts';
 export * from './shallow-to-js';
 export * from './sql';
 export * from './usage';

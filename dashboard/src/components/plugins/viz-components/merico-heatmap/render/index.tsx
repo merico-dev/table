@@ -1,14 +1,5 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { HeatmapChart } from 'echarts/charts';
-import {
-  DataZoomComponent,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent,
-} from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
 import _, { defaults } from 'lodash';
 import React, { useCallback, useMemo } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
@@ -16,8 +7,7 @@ import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interact
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils';
-import { ITemplateVariable } from '~/utils';
+import { ITemplateVariable, parseDataKey } from '~/utils';
 import { ClickHeatBlock } from '../triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
 import { getOption } from './option';
@@ -32,16 +22,6 @@ interface IClickHeatBlock {
   value: [string, string, string];
   rowData: AnyObject;
 }
-
-echarts.use([
-  DataZoomComponent,
-  HeatmapChart,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent,
-  CanvasRenderer,
-]);
 
 function Chart({
   conf,
