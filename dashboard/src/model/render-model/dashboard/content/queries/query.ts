@@ -6,6 +6,7 @@ import { queryByHTTP, queryBySQL, QueryFailureError } from '~/api-caller';
 import { TAdditionalQueryInfo } from '~/api-caller/request';
 import { functionUtils, postProcessWithDataSource, postProcessWithQuery, preProcessWithDataSource } from '~/utils';
 import { MuteQueryModel } from './mute-query';
+import _ from 'lodash';
 
 enum QueryState {
   idle = 'idle',
@@ -162,7 +163,7 @@ export const QueryRenderModel = types
           const queries = queryModels.map((q: QueryRenderModelInstance) => ({
             id: q.id,
             name: q.name,
-            data: q.data,
+            data: _.cloneDeep(q.data),
           }));
           const state = self.contentModel.dashboardState;
           const transform = self.pre_process;
