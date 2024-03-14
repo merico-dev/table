@@ -1691,6 +1691,7 @@ __metadata:
     file-saver: 2.0.5
     i18next: ^23.10.1
     i18next-browser-languagedetector: ^7.2.0
+    intl-pluralrules: ^2.0.1
     js-base64: 3.7.5
     jsdom: ^20.0.0
     jsdom-testing-mocks: ^1.5.0
@@ -11695,6 +11696,13 @@ __metadata:
   version: 0.12.2
   resolution: "intersection-observer@npm:0.12.2"
   checksum: d1fa9ebbb1e0baafe88ad95545bbb93f92bdcb8789912a2bd11b2463ab177ef185052c9c79c26187833d633f404acb077d4b1249353c5f6e2ca5cd64f50e216b
+  languageName: node
+  linkType: hard
+
+"intl-pluralrules@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "intl-pluralrules@npm:2.0.1"
+  checksum: e07d5818a0583decb24677f958689f4dfc3c62d972d897c576917aefcd6af429ce8c1eee77af9e2fbf4fce71a800851fe1c33970f7ca56efbe3e70c023e658c1
   languageName: node
   linkType: hard
 
