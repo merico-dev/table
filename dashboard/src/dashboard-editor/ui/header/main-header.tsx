@@ -1,9 +1,10 @@
-import { Button, Group, Header as MantineHeader, Text } from '@mantine/core';
+import { Button, Group, Header as MantineHeader, SegmentedControl, Text } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 import { ISaveChangesOrMore, SaveChangesOrMore } from './save-changes-or-more';
+import { LanguageSwitcher } from '~/components/i18n/language-switcher';
 
 export type OnExitParams = { hasChanges: boolean; dashboardId: string };
 export type OnExitCallback = (params: OnExitParams) => void;
@@ -42,6 +43,7 @@ export const MainHeader = observer(
           </Group>
           <Group position="right" sx={{ flexGrow: 1 }}>
             {headerSlot}
+            <LanguageSwitcher />
           </Group>
         </Group>
       </MantineHeader>
