@@ -2,12 +2,14 @@ import { ActionIcon, Button, Group, Navbar as MantineNavbar, Text, Tooltip } fro
 import { IconDatabase, IconFilter, IconLink, IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { InteractionsViewerModal } from '~/interactions/interactions-viewer';
 import { ActionIconGroupStyle } from '~/styles/action-icon-group-style';
 import { ViewLinks } from './view-links';
 
 export const DashboardEditorNavbar = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const openQueries = () => {
@@ -45,7 +47,7 @@ export const DashboardEditorNavbar = observer(() => {
               <IconFilter size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label="Queries" withinPortal>
+          <Tooltip label={t('query', { count: 2 })} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
               <IconDatabase size={18} />
             </ActionIcon>

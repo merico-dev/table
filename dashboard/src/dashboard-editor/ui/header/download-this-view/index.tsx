@@ -3,6 +3,7 @@ import { IconCode, IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
+import { useTranslation } from 'react-i18next';
 
 const ButtonSx: Sx = {
   height: '30px',
@@ -13,6 +14,7 @@ const ButtonSx: Sx = {
 };
 
 export const DownloadThisView = observer(() => {
+  const { t } = useTranslation();
   const contentModel = useEditContentModelContext();
   const cant = contentModel.views.VIE?.type === EViewComponentType.Tabs;
   const download = () => contentModel.views.VIE?.downloadSchema();
@@ -30,7 +32,7 @@ export const DownloadThisView = observer(() => {
             transform: 'none !important',
           }}
         >
-          Download this View
+          {t('Download this View')}
         </Button>
       </Tooltip>
     );
@@ -49,7 +51,7 @@ export const DownloadThisView = observer(() => {
         // background: 'rgb(231, 245, 255)',
       }}
     >
-      Download this View
+      {t('Download this View')}
     </Button>
   );
 });
