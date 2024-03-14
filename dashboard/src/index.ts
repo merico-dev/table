@@ -17,6 +17,7 @@ export * from './api-caller/request';
 export type { AnyObject } from './types/utils';
 
 import './init-dayjs';
+import './i18n';
 
 // NOTE: keep it align with global.d.ts
 export interface IDashboardConfig {
