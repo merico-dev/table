@@ -54,7 +54,13 @@ export const FilterSelectConfigMeta = types
       const filters = getRoot(self).content.filters;
       // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
       const key = getParent(self).key;
-      filters.setValueByKey(key, self.default_selection);
+      const currentValue = filters.values[key];
+      const validValue = self.options.find((o) => o.value === currentValue)?.value;
+      if (validValue) {
+        filters.setValueByKey(key, validValue);
+      } else {
+        filters.setValueByKey(key, self.default_selection);
+      }
     },
   }))
   .actions((self) => ({
