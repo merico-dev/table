@@ -3,7 +3,7 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
+import React, { ForwardedRef, ReactNode, forwardRef, useEffect } from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { configureAPIClient } from '~/api-caller/request';
 import { PluginContext, createPluginContext } from '~/components/plugins';
@@ -24,6 +24,7 @@ import { useLoadMonacoEditor } from './utils/load-monaco-editor';
 import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
 import { registerECharts } from '~/utils';
+import { useTranslation } from 'react-i18next';
 
 registerThemes();
 registerECharts();
@@ -59,6 +60,7 @@ interface IDashboardProps {
   filterValues?: Record<string, any>;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
   onExit: OnExitCallback;
+  lang: string;
 }
 
 export interface IDashboardModel {
@@ -80,11 +82,16 @@ const _DashboardEditor = (
     filterValues,
     onFilterValuesChange,
     onExit,
+    lang,
   }: IDashboardProps,
   ref: ForwardedRef<IDashboardModel>,
 ) => {
   useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
 
   const { data: datasources = [] } = useRequest(listDataSources);
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
