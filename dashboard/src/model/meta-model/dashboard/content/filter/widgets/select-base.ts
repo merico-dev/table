@@ -46,11 +46,12 @@ export const FilterBaseSelectConfigMeta = types
       if (!self.usingQuery) {
         return self.static_options;
       }
-      const { data, state, error } = self.contentModel.getDataStuffByID(self.options_query_id);
-      if (state === 'idle') {
-        return Array.isArray(data) ? data : [];
+      const { data, state } = self.contentModel.getDataStuffByID(self.options_query_id);
+      if (state === 'error') {
+        return [];
       }
-      return [];
+      // return stale data if we have it
+      return Array.isArray(data) ? data : [];
     },
   }))
   .actions((self) => ({
