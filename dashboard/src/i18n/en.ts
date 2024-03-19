@@ -10,6 +10,7 @@ export const en = {
     'Manage Queries': 'Manage Queries',
     'Manage SQL Snippets': 'Manage SQL Snippets',
     'Manage screen sizes': 'Manage screen sizes',
+    'See Query Variables': 'See Query Variables',
     query_one: 'Query',
     query_other: 'Queries',
     Filters: 'Filters',
@@ -19,9 +20,20 @@ export const en = {
     'Download this View': 'Download this View',
     'SQL Snippet': 'SQL Snippet',
     'SQL Snippets': 'SQL Snippets',
+    'Global SQL Snippets': 'Global SQL Snippets',
     Views: 'Views',
     Interactions: 'Interactions',
     'Interactions Viewer': 'Interactions Viewer',
     Settings: 'Settings',
+    query_variables_guide: {
+      tabs: {
+        guide: 'Guide',
+        variables_in_this_dashboard: 'Variables in this dashboard',
+        global_sql_snippets: 'Global SQL Snippets',
+      },
+    },
+    global_sql_snippets: {
+      description: 'SQL snippets worth sharing between dashboards are managed in System Settings by admins.',
+    },
   },
 };

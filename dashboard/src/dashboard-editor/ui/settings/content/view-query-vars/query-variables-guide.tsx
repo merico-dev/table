@@ -4,6 +4,7 @@ import { IconAlertCircle, IconVariable, IconVariablePlus } from '@tabler/icons-r
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { GlobalSQLSnippetsTable } from './global-sql-snippets-table';
+import { useTranslation } from 'react-i18next';
 
 interface IQueryVariablesGuide {
   showSQLSnippets?: boolean;
@@ -28,6 +29,7 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
   showSQLSnippets = true,
   sx = {},
 }: IQueryVariablesGuide) {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const contextInfo = model.context.current;
@@ -58,13 +60,13 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
       <Tabs defaultValue="guide" keepMounted={false}>
         <Tabs.List grow>
           <Tabs.Tab value="guide" icon={<IconAlertCircle size={14} />}>
-            Guide
+            {t('query_variables_guide.tabs.guide')}
           </Tabs.Tab>
           <Tabs.Tab value="local_query_vars" icon={<IconVariable size={14} />}>
-            Variables in this dashboard
+            {t('query_variables_guide.tabs.variables_in_this_dashboard')}
           </Tabs.Tab>
           <Tabs.Tab value="global_sql_snippets" icon={<IconVariablePlus size={14} />}>
-            Global SQL Snippets
+            {t('query_variables_guide.tabs.global_sql_snippets')}
           </Tabs.Tab>
         </Tabs.List>
 
@@ -82,8 +84,8 @@ export const QueryVariablesGuide = observer(function _QueryVariablesGuide({
 
         <Tabs.Panel value="global_sql_snippets" pt="xs">
           <Stack spacing={10}>
-            <Alert icon={<IconAlertCircle size={16} />} title="Global SQL Snippets">
-              SQL snippets worth sharing between dashboards are managed in System Settings by admins.
+            <Alert icon={<IconAlertCircle size={16} />} title={t('Global SQL Snippets')}>
+              {t('global_sql_snippets.description')}
             </Alert>
             <GlobalSQLSnippetsTable />
           </Stack>

@@ -10,6 +10,7 @@ export const zh = {
     'Manage Queries': '管理查询',
     'Manage SQL Snippets': '管理SQL片段',
     'Manage screen sizes': '管理屏幕尺寸',
+    'See Query Variables': '查看查询变量',
     query_one: '查询',
     query_other: '查询',
     Filters: '筛选器',
@@ -19,9 +20,20 @@ export const zh = {
     'Download this View': '截屏此视图',
     'SQL Snippet': 'SQL片段',
     'SQL Snippets': 'SQL片段',
+    'Global SQL Snippets': '全局SQL片段',
     Views: '视图',
     Interactions: '交互',
     'Interactions Viewer': '纵览交互',
     Settings: '设置',
+    query_variables_guide: {
+      tabs: {
+        guide: '使用指南',
+        variables_in_this_dashboard: '本看板中的查询变量',
+        global_sql_snippets: '全局SQL片段',
+      },
+    },
+    global_sql_snippets: {
+      description: '管理员负责在系统设置中维护全局SQL片段',
+    },
   },
 };
