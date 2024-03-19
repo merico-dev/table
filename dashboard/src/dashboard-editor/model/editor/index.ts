@@ -101,7 +101,7 @@ export const EditorModel = types
           Icon: IconVariable,
         },
         {
-          label: 'Mock Context',
+          label: 'mock_context.label',
           value: '_MOCK_CONTEXT_',
           Icon: IconCodeDots,
           _type: 'mock_context',

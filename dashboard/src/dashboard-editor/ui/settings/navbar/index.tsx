@@ -3,8 +3,10 @@ import { IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditDashboardContext } from '~/contexts';
 import { SettingsNavLinks } from './nav-links';
+import { useTranslation } from 'react-i18next';
 
 export const SettingsNavbar = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
 
   return (
@@ -20,7 +22,7 @@ export const SettingsNavbar = observer(() => {
     >
       <MantineNavbar.Section pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text align="center" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Settings
+          {t('common.titles.settings')}
         </Text>
       </MantineNavbar.Section>
 

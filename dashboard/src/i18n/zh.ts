@@ -15,7 +15,6 @@ export const zh = {
     Filters: '筛选器',
     Queries: '查询',
     'Query Variables': '查询变量',
-    'Mock Context': '模拟上下文',
     'Download this View': '截屏此视图',
     'SQL Snippet': 'SQL片段',
     'SQL Snippets': 'SQL片段',
@@ -26,7 +25,6 @@ export const zh = {
       add: '新增交互',
       interactions_viewer: '纵览交互',
     },
-    Settings: '设置',
     query_variables_guide: {
       tabs: {
         guide: '使用指南',
@@ -38,7 +36,11 @@ export const zh = {
       description: '管理员负责在系统设置中维护全局SQL片段',
     },
     common: {
+      titles: {
+        settings: '设置',
+      },
       actions: {
+        close: '关闭',
         save_changes: '保存改动',
         revert: '还原',
         revert_changes: '还原改动',
@@ -51,6 +53,10 @@ export const zh = {
       manage: '管理屏幕尺寸',
       name: '名称',
       breakpoint: '最小宽度',
+    },
+    mock_context: {
+      label: '模拟上下文',
+      hint: '内容格式为JSON',
     },
   },
 };

@@ -15,7 +15,6 @@ export const en = {
     Filters: 'Filters',
     Queries: 'Queries',
     'Query Variables': 'Query Variables',
-    'Mock Context': 'Mock Context',
     'Download this View': 'Download this View',
     'SQL Snippet': 'SQL Snippet',
     'SQL Snippets': 'SQL Snippets',
@@ -26,7 +25,6 @@ export const en = {
       add: 'Add an interaction',
       interactions_viewer: 'Interactions Viewer',
     },
-    Settings: 'Settings',
     query_variables_guide: {
       tabs: {
         guide: 'Guide',
@@ -38,7 +36,11 @@ export const en = {
       description: 'SQL snippets worth sharing between dashboards are managed in System Settings by admins.',
     },
     common: {
+      titles: {
+        settings: 'Settings',
+      },
       actions: {
+        close: 'Close',
         save_changes: 'Save Changes',
         revert: 'Revert',
         revert_changes: 'Revert Changes',
@@ -51,6 +53,10 @@ export const en = {
       manage: 'Manage screen sizes',
       name: 'Name',
       breakpoint: 'Min Width',
+    },
+    mock_context: {
+      label: 'Mock Context',
+      hint: 'A valid json string is required',
     },
   },
 };

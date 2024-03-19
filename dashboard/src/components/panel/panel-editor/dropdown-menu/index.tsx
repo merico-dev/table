@@ -3,6 +3,7 @@ import { useModals } from '@mantine/modals';
 import { IconCamera, IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
@@ -10,6 +11,7 @@ import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const modals = useModals();
@@ -68,7 +70,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
 
             <Divider label="Edit" labelPosition="center" />
             <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
-              Settings
+              {t('common.titles.settings')}
             </Menu.Item>
             <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
               Duplicate

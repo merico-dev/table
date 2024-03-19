@@ -3,6 +3,7 @@ import { IconPointFilled } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import { TDashboardContent } from '~/types';
 import { viewComponentNames } from '../../settings/content/edit-view/edit-view-form';
+import { useTranslation } from 'react-i18next';
 
 const CustomTable = ({ headers, rows }: { headers: ReactNode; rows: ReactNode }) => {
   return (
@@ -164,6 +165,7 @@ const SQLSnippets = ({ content }: Props) => {
 };
 
 const MockContext = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = Object.keys(content.definition?.mock_context ?? {});
   if (list.length === 0) {
     return null;
@@ -172,7 +174,7 @@ const MockContext = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Mock Context
+        {t('mock_context.label')}
       </Text>
       <List size="sm" pl={10} ff="monospace" icon={<IconPointFilled size={10} />}>
         {list.map((s) => (
