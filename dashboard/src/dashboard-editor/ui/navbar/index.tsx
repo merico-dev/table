@@ -52,7 +52,7 @@ export const DashboardEditorNavbar = observer(() => {
               <IconDatabase size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('Interactions Viewer')} withinPortal>
+          <Tooltip label={t('interactions.interactions_viewer')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
               <IconLink size={18} />
             </ActionIcon>

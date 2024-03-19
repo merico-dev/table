@@ -21,8 +21,11 @@ export const zh = {
     'SQL Snippets': 'SQL片段',
     'Global SQL Snippets': '全局SQL片段',
     Views: '视图',
-    Interactions: '交互',
-    'Interactions Viewer': '纵览交互',
+    interactions: {
+      label: '交互',
+      add: '新增交互',
+      interactions_viewer: '纵览交互',
+    },
     Settings: '设置',
     query_variables_guide: {
       tabs: {

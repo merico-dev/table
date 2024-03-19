@@ -1,6 +1,7 @@
 import { Modal } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { InteractionsViewer } from './viewer';
+import { useTranslation } from 'react-i18next';
 
 interface IInteractionsViewerModal {
   opened: boolean;
@@ -8,6 +9,7 @@ interface IInteractionsViewerModal {
 }
 
 export const InteractionsViewerModal = observer(({ opened, close }: IInteractionsViewerModal) => {
+  const { t } = useTranslation();
   return (
     <Modal
       size="96vw"
@@ -15,7 +17,7 @@ export const InteractionsViewerModal = observer(({ opened, close }: IInteraction
       onClose={close}
       // closeOnClickOutside={false}
       // closeOnEscape={true}
-      title="Interactions"
+      title={t('interactions.interactions_viewer')}
       trapFocus
       onDragStart={(e) => {
         e.stopPropagation();

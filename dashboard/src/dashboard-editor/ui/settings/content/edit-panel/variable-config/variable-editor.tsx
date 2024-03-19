@@ -8,10 +8,12 @@ import { VariableConfigUIModel } from './model';
 
 import { VariableMetaInstance, createDraft } from '~/model';
 import { TemplateVariableField } from './variable-field';
+import { useTranslation } from 'react-i18next';
 
 // todo: support validation
 
 export const VariableEditor = observer((props: { variable: VariableMetaInstance; uiModel: VariableConfigUIModel }) => {
+  const { t } = useTranslation();
   const draft = useCreation(() => createDraft(props.variable), [props.variable]);
   const remove = () => props.uiModel.remove(props.variable);
   return (
@@ -35,7 +37,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
           onClick={draft.commit}
           leftIcon={<IconDeviceFloppy size={18} />}
         >
-          Save Changes
+          {t('common.actions.save_changes')}
         </Button>
       </Group>
 

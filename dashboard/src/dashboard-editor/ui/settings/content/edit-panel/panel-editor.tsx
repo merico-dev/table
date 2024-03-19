@@ -13,6 +13,7 @@ import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/v
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
+import { useTranslation } from 'react-i18next';
 
 const TabsStyles = {
   root: {
@@ -58,6 +59,7 @@ function doesVizRequiresData(type: string) {
 }
 
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -127,7 +129,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
               <Text>Visualization</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions">Interactions</Tabs.Tab>
+          <Tabs.Tab value="Interactions">{t('interactions.label')}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">

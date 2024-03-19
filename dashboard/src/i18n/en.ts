@@ -21,8 +21,11 @@ export const en = {
     'SQL Snippets': 'SQL Snippets',
     'Global SQL Snippets': 'Global SQL Snippets',
     Views: 'Views',
-    Interactions: 'Interactions',
-    'Interactions Viewer': 'Interactions Viewer',
+    interactions: {
+      label: 'Interactions',
+      add: 'Add an interaction',
+      interactions_viewer: 'Interactions Viewer',
+    },
     Settings: 'Settings',
     query_variables_guide: {
       tabs: {
