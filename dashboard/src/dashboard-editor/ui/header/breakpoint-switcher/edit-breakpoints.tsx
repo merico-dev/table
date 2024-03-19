@@ -4,6 +4,7 @@ import _, { isEqual } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { v4 as uuidV4 } from 'uuid';
 import { useEditContentModelContext } from '~/contexts';
 import { LayoutSetInfo } from '~/model';
@@ -14,6 +15,7 @@ type Breakpoints = {
 };
 
 export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
+  const { t } = useTranslation();
   const contentModel = useEditContentModelContext();
   const layouts = contentModel.layouts;
 
@@ -67,8 +69,8 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
         <Table fontSize="sm" highlightOnHover withBorder sx={{ tableLayout: 'fixed' }}>
           <thead>
             <tr>
-              <th style={{ width: '340px' }}>Name</th>
-              <th style={{ width: '160px' }}>Min Width</th>
+              <th style={{ width: '340px' }}>{t('breakpoint.name')}</th>
+              <th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</th>
               <th></th>
             </tr>
           </thead>
@@ -121,7 +123,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             ))}
             <tr style={{ backgroundColor: 'transparent' }}>
               <td colSpan={3} style={{ padding: '0' }}>
-                <Tooltip label="Add a screen size">
+                <Tooltip label={t('breakpoint.add')}>
                   <ActionIcon variant="subtle" size="md" color="blue" onClick={add} sx={{ width: '100%' }}>
                     <IconPlus size={18} />
                   </ActionIcon>
@@ -141,10 +143,10 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
             leftIcon={<IconRecycle size={18} />}
             disabled={!changed}
           >
-            Revert
+            {t('common.actions.revert')}
           </Button>
           <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />} disabled={!changed}>
-            Save changes
+            {t('common.actions.save_changes')}
           </Button>
         </Group>
       </form>

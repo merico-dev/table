@@ -9,7 +9,6 @@ export const en = {
     'Manage Filters': 'Manage Filters',
     'Manage Queries': 'Manage Queries',
     'Manage SQL Snippets': 'Manage SQL Snippets',
-    'Manage screen sizes': 'Manage screen sizes',
     'See Query Variables': 'See Query Variables',
     query_one: 'Query',
     query_other: 'Queries',
@@ -34,6 +33,21 @@ export const en = {
     },
     global_sql_snippets: {
       description: 'SQL snippets worth sharing between dashboards are managed in System Settings by admins.',
+    },
+    common: {
+      actions: {
+        save_changes: 'Save Changes',
+        revert: 'Revert',
+        revert_changes: 'Revert Changes',
+      },
+    },
+    breakpoint: {
+      label_one: 'Screen size',
+      label_other: 'Screen sizes',
+      add: 'Add a screen size',
+      manage: 'Manage screen sizes',
+      name: 'Name',
+      breakpoint: 'Min Width',
     },
   },
 };

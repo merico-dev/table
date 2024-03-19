@@ -9,7 +9,6 @@ export const zh = {
     'Manage Filters': '管理筛选器',
     'Manage Queries': '管理查询',
     'Manage SQL Snippets': '管理SQL片段',
-    'Manage screen sizes': '管理屏幕尺寸',
     'See Query Variables': '查看查询变量',
     query_one: '查询',
     query_other: '查询',
@@ -34,6 +33,21 @@ export const zh = {
     },
     global_sql_snippets: {
       description: '管理员负责在系统设置中维护全局SQL片段',
+    },
+    common: {
+      actions: {
+        save_changes: '保存改动',
+        revert: '还原',
+        revert_changes: '还原改动',
+      },
+    },
+    breakpoint: {
+      label_one: '屏幕尺寸',
+      label_other: '屏幕尺寸',
+      add: '新增屏幕尺寸',
+      manage: '管理屏幕尺寸',
+      name: '名称',
+      breakpoint: '最小宽度',
     },
   },
 };

@@ -56,7 +56,7 @@ export const BreakpointSwitcher = observer(() => {
             ))}
             <Menu.Divider />
             <Menu.Item color="blue" icon={<IconSettings size={14} />} onClick={open}>
-              <Text size="sm">{t('Manage screen sizes')}</Text>
+              <Text size="sm">{t('breakpoint.manage')}</Text>
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
@@ -69,7 +69,7 @@ export const BreakpointSwitcher = observer(() => {
       <Modal
         opened={opened}
         onClose={closeModal}
-        title="Screen sizes"
+        title={t('breakpoint.label', { count: 2 })}
         withinPortal
         zIndex={320}
         size={600}
