@@ -39,11 +39,18 @@ export const en = {
       titles: {
         settings: 'Settings',
       },
+      name: 'Name',
+      key: 'Key',
+      label: 'Label',
+      type: 'Type',
+      action: 'Action',
       actions: {
         close: 'Close',
         save_changes: 'Save Changes',
         revert: 'Revert',
         revert_changes: 'Revert Changes',
+        select_all: 'Select All',
+        clear_selection: 'Clear Selection',
       },
     },
     breakpoint: {
@@ -51,7 +58,6 @@ export const en = {
       label_other: 'Screen sizes',
       add: 'Add a screen size',
       manage: 'Manage screen sizes',
-      name: 'Name',
       breakpoint: 'Min Width',
     },
     mock_context: {

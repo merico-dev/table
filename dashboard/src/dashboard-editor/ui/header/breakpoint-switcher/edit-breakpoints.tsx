@@ -69,7 +69,7 @@ export const EditBreakpoints = observer(({ done }: { done: () => void }) => {
         <Table fontSize="sm" highlightOnHover withBorder sx={{ tableLayout: 'fixed' }}>
           <thead>
             <tr>
-              <th style={{ width: '340px' }}>{t('breakpoint.name')}</th>
+              <th style={{ width: '340px' }}>{t('common.name')}</th>
               <th style={{ width: '160px' }}>{t('breakpoint.breakpoint')}</th>
               <th></th>
             </tr>

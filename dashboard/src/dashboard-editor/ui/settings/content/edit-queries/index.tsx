@@ -53,10 +53,10 @@ export const EditQueries = observer(() => {
         <Group position="left">
           <Button.Group>
             <Button variant="default" size="xs" onClick={selectAll}>
-              Select All
+              {t('common.actions.select_all')}
             </Button>
             <Button variant="default" size="xs" onClick={selectNone}>
-              Clear Selection
+              {t('common.actions.clear_selection')}
             </Button>
           </Button.Group>
           <Button
@@ -88,11 +88,11 @@ export const EditQueries = observer(() => {
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>
-                <th>Name</th>
+                <th>{t('common.name')}</th>
                 <th style={{ width: '200px' }}>Data Source</th>
-                <th style={{ width: '100px', textAlign: 'right' }}>Type</th>
+                <th style={{ width: '100px', textAlign: 'right' }}>{t('common.type')}</th>
                 <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
             <tbody>

@@ -39,11 +39,18 @@ export const zh = {
       titles: {
         settings: '设置',
       },
+      name: '名称',
+      key: '键',
+      label: '标签',
+      type: '类型',
+      action: '操作',
       actions: {
         close: '关闭',
         save_changes: '保存改动',
         revert: '还原',
         revert_changes: '还原改动',
+        select_all: '全选',
+        clear_selection: '撤销选择',
       },
     },
     breakpoint: {
@@ -51,7 +58,6 @@ export const zh = {
       label_other: '屏幕尺寸',
       add: '新增屏幕尺寸',
       manage: '管理屏幕尺寸',
-      name: '名称',
       breakpoint: '最小宽度',
     },
     mock_context: {

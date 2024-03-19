@@ -33,7 +33,7 @@ export const SettingsNavbar = observer(() => {
       <MantineNavbar.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
           <Button size="xs" color="red" leftIcon={<IconX size={18} />} onClick={() => model.editor.close()}>
-            Close
+            {t('common.actions.close')}
           </Button>
         </Group>
       </MantineNavbar.Section>

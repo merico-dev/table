@@ -40,10 +40,10 @@ export const EditFilters = observer(() => {
         <Group position="left">
           <Button.Group>
             <Button variant="default" size="xs" onClick={selectAll}>
-              Select All
+              {t('common.actions.select_all')}
             </Button>
             <Button variant="default" size="xs" onClick={selectNone}>
-              Clear Selection
+              {t('common.actions.clear_selection')}
             </Button>
           </Button.Group>
           <Button
@@ -64,10 +64,10 @@ export const EditFilters = observer(() => {
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>
-                <th style={{ width: '300px' }}>Label</th>
-                <th>Key</th>
+                <th style={{ width: '300px' }}>{t('common.label')}</th>
+                <th>{t('common.key')}</th>
                 <th style={{ width: '100px' }}>Widget</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
             <tbody>
