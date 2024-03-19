@@ -2,10 +2,12 @@ import { Box, Button, Checkbox, Flex, Group, Stack, Table, Text } from '@mantine
 import { IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditFilters = observer(() => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<string[]>([]);
   const model = useEditDashboardContext();
   const navigateToFilter = (filterID: string) => {
@@ -31,7 +33,7 @@ export const EditFilters = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage Filters
+          {t('Manage Filters')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>

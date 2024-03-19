@@ -1,6 +1,7 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 
@@ -9,6 +10,7 @@ interface IAddAPanel {
 }
 
 export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   if (!parentID) {
     return null;
@@ -33,7 +35,7 @@ export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
         },
       }}
     >
-      Add a Panel
+      {t('Add a Panel')}
     </Button>
   );
 });

@@ -42,17 +42,17 @@ export const DashboardEditorNavbar = observer(() => {
             button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' },
           }}
         >
-          <Tooltip label="Filters" withinPortal>
+          <Tooltip label={t('Filters')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openFilters}>
               <IconFilter size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('query', { count: 2 })} withinPortal>
+          <Tooltip label={t('Queries')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
               <IconDatabase size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label="Interactions Viewer" withinPortal>
+          <Tooltip label={t('Interactions Viewer')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openInteractions}>
               <IconLink size={18} />
             </ActionIcon>
@@ -73,7 +73,7 @@ export const DashboardEditorNavbar = observer(() => {
       <MantineNavbar.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
           <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
-            Settings
+            {t('Settings')}
           </Button>
         </Group>
       </MantineNavbar.Section>

@@ -1,9 +1,11 @@
 import { Button } from '@mantine/core';
 import { IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 
 export const FiltersSettingsButton = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   return (
     <Button
@@ -21,7 +23,7 @@ export const FiltersSettingsButton = observer(() => {
         },
       }}
     >
-      Manage Filters
+      {t('Manage Filters')}
     </Button>
   );
 });

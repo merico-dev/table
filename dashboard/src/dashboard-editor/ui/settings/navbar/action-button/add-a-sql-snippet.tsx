@@ -1,10 +1,12 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { SQLSnippetRenderModelSnapshotIn } from '~/model';
 
 export const AddASQLSnippet = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const add = () => {
     const id = new Date().getTime().toString();
@@ -32,7 +34,7 @@ export const AddASQLSnippet = observer(() => {
         },
       }}
     >
-      Add a SQL Snippet
+      {t('Add a SQL Snippet')}
     </Button>
   );
 });

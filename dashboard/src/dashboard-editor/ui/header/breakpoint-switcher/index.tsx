@@ -5,8 +5,10 @@ import { observer } from 'mobx-react-lite';
 import numbro from 'numbro';
 import { useEditContentModelContext } from '~/contexts';
 import { EditBreakpoints } from './edit-breakpoints';
+import { useTranslation } from 'react-i18next';
 
 export const BreakpointSwitcher = observer(() => {
+  const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const contentModel = useEditContentModelContext();
   const currentBreakpoint = contentModel.layouts.currentBreakpoint;
@@ -54,7 +56,7 @@ export const BreakpointSwitcher = observer(() => {
             ))}
             <Menu.Divider />
             <Menu.Item color="blue" icon={<IconSettings size={14} />} onClick={open}>
-              <Text size="sm">Manage screen sizes</Text>
+              <Text size="sm">{t('Manage screen sizes')}</Text>
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

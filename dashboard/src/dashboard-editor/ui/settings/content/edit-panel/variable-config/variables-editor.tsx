@@ -5,6 +5,7 @@ import { VariableConfigUIModel, useConfigUIModel } from './model';
 
 import { IconPlus } from '@tabler/icons-react';
 import { VariableEditor } from './variable-editor';
+import { useTranslation } from 'react-i18next';
 
 interface IVariableListProps {
   uiModel: VariableConfigUIModel;
@@ -29,6 +30,7 @@ export const VariableList = observer((props: IVariableListProps) => {
 });
 
 const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel }) => {
+  const { t } = useTranslation();
   return (
     <Overlay color="#fff" opacity={1} sx={{ position: 'absolute' }}>
       <Button
@@ -38,13 +40,14 @@ const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel })
         onClick={model.addNew}
         sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
       >
-        Add a Variable
+        {t('Add a Variable')}
       </Button>
     </Overlay>
   );
 });
 
 export const VariablesEditor = observer(() => {
+  const { t } = useTranslation();
   const model = useConfigUIModel();
   if (model.variableOptions.length === 0) {
     return <AddAVariableGuide model={model} />;
@@ -67,7 +70,7 @@ export const VariablesEditor = observer(() => {
           onClick={model.addNew}
           sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
         >
-          Add a Variable
+          {t('Add a Variable')}
         </Button>
       </Group>
       <Divider variant="dashed" />

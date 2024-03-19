@@ -3,9 +3,11 @@ import { useModals } from '@mantine/modals';
 import { IconCode, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditQueries = observer(() => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<string[]>([]);
   const modals = useModals();
   const model = useEditDashboardContext();
@@ -44,7 +46,7 @@ export const EditQueries = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage Queries
+          {t('Manage Queries')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>

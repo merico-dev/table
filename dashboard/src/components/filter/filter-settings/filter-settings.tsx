@@ -7,8 +7,10 @@ import { useEditContentModelContext } from '~/contexts';
 import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
+import { useTranslation } from 'react-i18next';
 
 export const FilterSettings = observer(function _FilterSettings() {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   const filters = model.filters.current;
 
@@ -65,7 +67,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
-              Add a Filter
+              {t('Add a Filter')}
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
