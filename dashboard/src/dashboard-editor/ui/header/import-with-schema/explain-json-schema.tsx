@@ -145,6 +145,7 @@ const Queries = ({ content }: Props) => {
 };
 
 const SQLSnippets = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = content.definition?.sqlSnippets;
   if (!Array.isArray(list) || list.length === 0) {
     return null;
@@ -153,7 +154,7 @@ const SQLSnippets = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        SQL Snippets
+        {t('sql_snippet.labels')}
       </Text>
       <List size="sm" pl={10} ff="monospace" icon={<IconPointFilled size={10} />}>
         {list.map((s) => (

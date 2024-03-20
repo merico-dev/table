@@ -23,7 +23,7 @@ export const SQLSnippetsSettingsButton = observer(() => {
         },
       }}
     >
-      {t('Manage SQL Snippets')}
+      {t('sql_snippet.manage')}
     </Button>
   );
 });

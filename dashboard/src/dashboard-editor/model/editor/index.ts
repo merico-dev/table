@@ -114,7 +114,7 @@ export const EditorModel = types
           _type: 'GROUP',
         },
         {
-          label: 'SQL Snippets',
+          label: 'sql_snippet.labels',
           value: '_SQL_SNIPPETS_',
           Icon: IconCopy,
           children: [

@@ -4,10 +4,8 @@ export const en = {
     'Add a View': 'Add a View',
     'Add a Variable': 'Add a Variable',
     'Add a Query': 'Add a Query',
-    'Add a SQL Snippet': 'Add a SQL Snippet',
     'Manage Filters': 'Manage Filters',
     'Manage Queries': 'Manage Queries',
-    'Manage SQL Snippets': 'Manage SQL Snippets',
     'See Query Variables': 'See Query Variables',
     query_one: 'Query',
     query_other: 'Queries',
@@ -15,9 +13,6 @@ export const en = {
     Queries: 'Queries',
     'Query Variables': 'Query Variables',
     'Download this View': 'Download this View',
-    'SQL Snippet': 'SQL Snippet',
-    'SQL Snippets': 'SQL Snippets',
-    'Global SQL Snippets': 'Global SQL Snippets',
     Views: 'Views',
     interactions: {
       label: 'Interactions',
@@ -31,7 +26,15 @@ export const en = {
         global_sql_snippets: 'Global SQL Snippets',
       },
     },
-    global_sql_snippets: {
+    sql_snippet: {
+      label: 'SQL Snippet',
+      labels: 'SQL Snippets',
+      add: 'Add a SQL Snippet',
+      manage: 'Manage SQL Snippets',
+    },
+    global_sql_snippet: {
+      label: 'Global SQL Snippet',
+      labels: 'Global SQL Snippets',
       description: 'SQL snippets worth sharing between dashboards are managed in System Settings by admins.',
     },
     common: {

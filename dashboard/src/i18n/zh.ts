@@ -4,10 +4,8 @@ export const zh = {
     'Add a View': '新增视图',
     'Add a Variable': '新增变量',
     'Add a Query': '新增查询',
-    'Add a SQL Snippet': '新增SQL片段',
     'Manage Filters': '管理筛选器',
     'Manage Queries': '管理查询',
-    'Manage SQL Snippets': '管理SQL片段',
     'See Query Variables': '查看查询变量',
     query_one: '查询',
     query_other: '查询',
@@ -15,9 +13,6 @@ export const zh = {
     Queries: '查询',
     'Query Variables': '查询变量',
     'Download this View': '截屏此视图',
-    'SQL Snippet': 'SQL片段',
-    'SQL Snippets': 'SQL片段',
-    'Global SQL Snippets': '全局SQL片段',
     Views: '视图',
     interactions: {
       label: '交互',
@@ -31,7 +26,15 @@ export const zh = {
         global_sql_snippets: '全局SQL片段',
       },
     },
-    global_sql_snippets: {
+    sql_snippet: {
+      label: 'SQL片段',
+      labels: 'SQL片段',
+      add: '新增SQL片段',
+      manage: '管理SQL片段',
+    },
+    global_sql_snippet: {
+      label: '全局SQL片段',
+      labels: '全局SQL片段',
       description: '管理员负责在系统设置中维护全局SQL片段',
     },
     common: {
