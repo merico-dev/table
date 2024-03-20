@@ -1,7 +1,6 @@
 export const zh = {
   translation: {
     'Add a Filter': '新增筛选器',
-    'Add a Panel': '新增卡片',
     'Add a View': '新增视图',
     'Add a Variable': '新增变量',
     'Add a Query': '新增查询',
@@ -70,6 +69,12 @@ export const zh = {
     mock_context: {
       label: '模拟上下文',
       hint: '内容格式为JSON',
+    },
+    panel: {
+      label: '卡片',
+      add: '新增卡片',
+      delete: '删除这个卡片',
+      panel_name: '卡片名',
     },
   },
 };

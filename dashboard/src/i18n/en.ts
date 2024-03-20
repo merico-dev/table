@@ -1,7 +1,6 @@
 export const en = {
   translation: {
     'Add a Filter': 'Add a Filter',
-    'Add a Panel': 'Add a Panel',
     'Add a View': 'Add a View',
     'Add a Variable': 'Add a Variable',
     'Add a Query': 'Add a Query',
@@ -70,6 +69,12 @@ export const en = {
     mock_context: {
       label: 'Mock Context',
       hint: 'A valid json string is required',
+    },
+    panel: {
+      label: 'Panel',
+      add: 'Add a Pane',
+      delete: 'Delete This Panel',
+      panel_name: 'Panel Name',
     },
   },
 };

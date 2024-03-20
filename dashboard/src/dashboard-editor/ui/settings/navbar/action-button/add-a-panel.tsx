@@ -35,7 +35,7 @@ export const AddAPanel = observer(({ parentID }: IAddAPanel) => {
         },
       }}
     >
-      {t('Add a Panel')}
+      {t('panel.add')}
     </Button>
   );
 });

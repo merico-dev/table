@@ -109,7 +109,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         <Group position="right" noWrap>
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
           <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
-            Delete This Panel
+            {t('panel.delete')}
           </Button>
         </Group>
       </Group>
@@ -118,7 +118,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           <Tabs.Tab value="Data" disabled={loading}>
             Data
           </Tabs.Tab>
-          <Tabs.Tab value="Panel">Panel</Tabs.Tab>
+          <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
           <Tabs.Tab value="Variables" disabled={dataNotReady}>
             <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>Variables</Text>

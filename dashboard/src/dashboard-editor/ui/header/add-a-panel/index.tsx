@@ -32,7 +32,7 @@ export const AddAPanel = observer(() => {
             transform: 'none !important',
           }}
         >
-          {t('Add a Panel')}
+          {t('panel.add')}
         </Button>
       </Tooltip>
     );
@@ -51,7 +51,7 @@ export const AddAPanel = observer(() => {
         background: 'rgb(231, 245, 255)',
       }}
     >
-      {t('Add a Panel')}
+      {t('panel.add')}
     </Button>
   );
 });
