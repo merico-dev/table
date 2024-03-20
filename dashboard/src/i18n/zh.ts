@@ -1,8 +1,45 @@
 export const zh = {
   translation: {
-    'Add a Filter': '新增筛选器',
-    'Manage Filters': '管理筛选器',
-    Filters: '筛选器',
+    filter: {
+      label: '筛选器',
+      labels: '筛选器',
+      add: '新增筛选器',
+      manage: '管理筛选器',
+      field: {
+        widget: '控件',
+        visible_in: '在...视图中可见',
+        key_placeholder: '用于引用此筛选器，需保持唯一',
+        label_placeholder: '用于展示的标签文案',
+        auto_submit: '自动提交',
+        order: '排列次序',
+      },
+      widget: {
+        names: {
+          select: '单选',
+          multi_select: '多选',
+          tree_select: '树形选择器',
+          text_input: '文本框',
+          checkbox: '勾选框',
+          date_range: '日期范围',
+        },
+        common: {
+          use_query_data_as_options: '使用所查数据为选项',
+          or_fetch_options_from_datasource: '或从数据源查选项',
+        },
+        text_input: {
+          default_value: '默认值',
+          required: '必填',
+        },
+        select: {
+          width: '控件宽度',
+          required: '必选',
+          configure_options: '配置选项',
+          default_selection: '默认选项',
+          no_default_selection: '无',
+          select_first_option_by_default: '默认选中第一个选项',
+        },
+      },
+    },
     view: {
       label: '视图',
       labels: '视图',
@@ -41,10 +78,13 @@ export const zh = {
     common: {
       titles: {
         settings: '设置',
+        edit: '编辑',
+        config: '配置',
       },
       name: '名称',
       key: '键',
       label: '标签',
+      value: '值',
       type: '类型',
       action: '操作',
       actions: {
@@ -61,6 +101,7 @@ export const zh = {
         enter_fullscreen: '全屏',
         duplicate: '复制',
         delete: '删除',
+        add_an_option: '新增选项',
       },
     },
     breakpoint: {
@@ -85,6 +126,7 @@ export const zh = {
       labels: '查询',
       add: '新增查询',
       manage: '管理查询',
+      open: '打开此查询',
     },
   },
 };

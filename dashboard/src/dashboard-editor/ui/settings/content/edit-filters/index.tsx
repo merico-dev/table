@@ -33,7 +33,7 @@ export const EditFilters = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          {t('Manage Filters')}
+          {t('filter.manage')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>
@@ -66,7 +66,7 @@ export const EditFilters = observer(() => {
                 <th style={{ width: '40px' }}></th>
                 <th style={{ width: '300px' }}>{t('common.label')}</th>
                 <th>{t('common.key')}</th>
-                <th style={{ width: '100px' }}>Widget</th>
+                <th style={{ width: '100px' }}>{t('filter.field.widget')}</th>
                 <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>

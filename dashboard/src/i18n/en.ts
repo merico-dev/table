@@ -1,8 +1,45 @@
 export const en = {
   translation: {
-    'Add a Filter': 'Add a Filter',
-    'Manage Filters': 'Manage Filters',
-    Filters: 'Filters',
+    filter: {
+      label: 'Filter',
+      labels: 'Filters',
+      add: 'Add a Filter',
+      manage: 'Manage Filters',
+      field: {
+        widget: 'Widget',
+        visible_in: 'Visible in...',
+        key_placeholder: 'A unique key to refer',
+        label_placeholder: 'Label for this field',
+        auto_submit: 'Submit automatically',
+        order: 'Placement Order',
+      },
+      widget: {
+        names: {
+          select: 'Select',
+          multi_select: 'Multi Select',
+          tree_select: 'Tree Select',
+          text_input: 'Text Input',
+          checkbox: 'Checkbox',
+          date_range: 'Date Range',
+        },
+        common: {
+          use_query_data_as_options: 'Use query data as options',
+          or_fetch_options_from_datasource: 'Or fetch options from datasource',
+        },
+        text_input: {
+          default_value: 'Default Value',
+          required: 'Required',
+        },
+        select: {
+          width: 'Width',
+          required: 'Required',
+          configure_options: 'Configure options',
+          default_selection: 'Default Selection',
+          no_default_selection: 'none',
+          select_first_option_by_default: 'Select the first option by default',
+        },
+      },
+    },
     view: {
       label: 'View',
       labels: 'Views',
@@ -41,10 +78,13 @@ export const en = {
     common: {
       titles: {
         settings: 'Settings',
+        edit: 'Edit',
+        config: 'Config',
       },
       name: 'Name',
       key: 'Key',
       label: 'Label',
+      value: 'Value',
       type: 'Type',
       action: 'Action',
       actions: {
@@ -61,6 +101,7 @@ export const en = {
         enter_fullscreen: 'Full Screen',
         duplicate: 'Duplicate',
         delete: 'Delete',
+        add_an_option: 'Add an Option',
       },
     },
     breakpoint: {
@@ -85,6 +126,7 @@ export const en = {
       labels: 'Queries',
       add: 'Add a Query',
       manage: 'Manage Queries',
+      open: 'Open this query',
     },
   },
 };

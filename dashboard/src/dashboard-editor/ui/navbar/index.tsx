@@ -42,7 +42,7 @@ export const DashboardEditorNavbar = observer(() => {
             button: { borderWidth: 0, borderBottomWidth: 1, borderColor: '#e9ecef' },
           }}
         >
-          <Tooltip label={t('Filters')} withinPortal>
+          <Tooltip label={t('filter.labels')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openFilters}>
               <IconFilter size={18} />
             </ActionIcon>

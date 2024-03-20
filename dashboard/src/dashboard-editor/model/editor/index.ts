@@ -107,7 +107,7 @@ export const EditorModel = types
           _type: 'mock_context',
         },
         {
-          label: 'Filters',
+          label: 'filter.labels',
           value: '_FILTERS_',
           Icon: IconFilter,
           children: [getActionOption('_FILTERS_SETTINGS_'), ...filters.options, getActionOption('_Add_A_Filter_')],

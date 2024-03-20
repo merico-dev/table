@@ -67,7 +67,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
-              {t('Add a Filter')}
+              {t('filter.add')}
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (

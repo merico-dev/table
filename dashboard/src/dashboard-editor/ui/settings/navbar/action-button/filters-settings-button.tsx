@@ -23,7 +23,7 @@ export const FiltersSettingsButton = observer(() => {
         },
       }}
     >
-      {t('Manage Filters')}
+      {t('filter.manage')}
     </Button>
   );
 });

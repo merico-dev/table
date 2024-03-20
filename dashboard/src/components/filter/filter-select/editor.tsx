@@ -18,12 +18,15 @@ import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForSelect } from '../pick-query-for-filter/expected-structure-for-select';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 interface IFilterEditorSelect {
   filter: FilterMetaInstance;
 }
 
 export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter }: IFilterEditorSelect) {
+  const { t, i18n } = useTranslation();
   const config = filter.config as FilterSelectConfigInstance;
 
   const addStaticOption = () => {
@@ -35,7 +38,9 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
 
   const staticOptionFields = config.static_options;
 
-  const optionsForDefaultValue = [{ label: 'No default selection', value: '' }, ...staticOptionFields];
+  const optionsForDefaultValue = useMemo(() => {
+    return [{ label: t('filter.widget.select.no_default_selection'), value: '' }, ...staticOptionFields];
+  }, [i18n.language, staticOptionFields]);
 
   return (
     <>
@@ -43,17 +48,17 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
-          label="Required"
+          label={t('filter.widget.select.required')}
         />
         <CustomDefaultValueEditor filter={filter} />
       </Group>
       <TextInput
-        label="Width"
+        label={t('filter.widget.select.width')}
         value={config.width}
         onChange={(e) => config.setWidth(e.currentTarget.value)}
         placeholder="200px"
       />
-      <Divider label="Configure options" labelPosition="center" />
+      <Divider label={t('filter.widget.select.configure_options')} labelPosition="center" />
       <Stack spacing={10} sx={{ position: 'relative', minHeight: '50px' }}>
         {config.usingQuery && (
           <>
@@ -67,7 +72,7 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
         )}
         {staticOptionFields.length > 0 && (
           <Select
-            label="Default Selection"
+            label={t('filter.widget.select.default_selection')}
             data={optionsForDefaultValue}
             value={config.default_value}
             onChange={config.setDefaultValue}
@@ -76,7 +81,7 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
         {staticOptionFields.map((_optionField, optionIndex) => (
           <Flex gap={10} key={optionIndex} sx={{ position: 'relative' }} pr="40px">
             <TextInput
-              label="Label"
+              label={t('common.label')}
               required
               value={config.static_options[optionIndex].label}
               onChange={(e) => {
@@ -85,7 +90,7 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
               sx={{ flexGrow: 1 }}
             />
             <TextInput
-              label="Value"
+              label={t('common.value')}
               required
               value={config.static_options[optionIndex].value}
               onChange={(e) => {
@@ -111,14 +116,14 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
           sx={{ width: '50%' }}
           mx="auto"
         >
-          Add an Option
+          {t('common.actions.add_an_option')}
         </Button>
       </Stack>
-      <Divider label="Or fetch options from database" labelPosition="center" />
+      <Divider label={t('filter.widget.common.or_fetch_options_from_datasource')} labelPosition="center" />
       <Checkbox
         checked={config.default_selection_count === 1}
         onChange={(e) => config.setDefaultSelectionCount(e.currentTarget.checked ? 1 : 0)}
-        label="Select the first option by default"
+        label={t('filter.widget.select.select_first_option_by_default')}
       />
       <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <ExpectedStructureForSelect />

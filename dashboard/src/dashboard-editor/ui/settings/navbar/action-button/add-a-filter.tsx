@@ -41,7 +41,7 @@ export const AddAFilter = observer(() => {
         },
       }}
     >
-      {t('Add a Filter')}
+      {t('filter.add')}
     </Button>
   );
 });

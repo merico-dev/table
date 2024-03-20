@@ -4,8 +4,10 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useEditContentModelContext, useEditPanelContext, useEditDashboardContext } from '~/contexts';
 import { DataPreview } from '../../data-preview';
+import { useTranslation } from 'react-i18next';
 
 export const PickQuery = observer(function _PickQuery() {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const { panel } = useEditPanelContext();
@@ -44,7 +46,7 @@ export const PickQuery = observer(function _PickQuery() {
           <DataPreview
             id={panel.queryIDs[0]}
             moreActions={
-              <Tooltip label="Open this query">
+              <Tooltip label={t('query.open')}>
                 <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(panel.queryIDs[0])}>
                   <IconArrowCurveRight size={16} />
                 </ActionIcon>
@@ -66,7 +68,7 @@ export const PickQuery = observer(function _PickQuery() {
                 <DataPreview
                   id={q.id}
                   moreActions={
-                    <Tooltip label="Open this query">
+                    <Tooltip label={t('query.open')}>
                       <ActionIcon variant="subtle" color="blue" onClick={() => navigateToQuery(q.id)}>
                         <IconArrowCurveRight size={16} />
                       </ActionIcon>

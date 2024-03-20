@@ -2,9 +2,11 @@ import { Button, Group, Select, Text } from '@mantine/core';
 import { IconArrowCurveRight } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 
 export const PickQueryForFilter = observer(({ value, onChange }: { value: string; onChange: (v: string) => void }) => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const contentModel = useEditContentModelContext();
   const options = React.useMemo(() => {
@@ -18,7 +20,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
     <Select
       label={
         <Group position="apart">
-          <Text>Use query data as options</Text>
+          <Text>{t('filter.widget.common.use_query_data_as_options')}</Text>
           {value && (
             <Button
               size="xs"
@@ -27,7 +29,7 @@ export const PickQueryForFilter = observer(({ value, onChange }: { value: string
               color="blue"
               onClick={() => navigateToQuery(value)}
             >
-              Open this query
+              {t('query.open')}
             </Button>
           )}
         </Group>
