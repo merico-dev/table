@@ -132,7 +132,7 @@ export const EditorModel = types
           _type: 'GROUP',
         },
         {
-          label: 'Views',
+          label: 'view.labels',
           value: '_VIEWS_',
           Icon: IconBoxMultiple,
           children: [...views.editorOptions, getActionOption('_Add_A_VIEW_')],

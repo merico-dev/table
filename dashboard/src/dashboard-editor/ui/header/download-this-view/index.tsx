@@ -32,7 +32,7 @@ export const DownloadThisView = observer(() => {
             transform: 'none !important',
           }}
         >
-          {t('Download this View')}
+          {t('view.download_schema')}
         </Button>
       </Tooltip>
     );
@@ -51,7 +51,7 @@ export const DownloadThisView = observer(() => {
         // background: 'rgb(231, 245, 255)',
       }}
     >
-      {t('Download this View')}
+      {t('view.download_schema')}
     </Button>
   );
 });

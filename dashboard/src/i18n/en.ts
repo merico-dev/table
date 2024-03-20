@@ -1,12 +1,14 @@
 export const en = {
   translation: {
     'Add a Filter': 'Add a Filter',
-    'Add a View': 'Add a View',
-    'Add a Variable': 'Add a Variable',
     'Manage Filters': 'Manage Filters',
     Filters: 'Filters',
-    'Download this View': 'Download this View',
-    Views: 'Views',
+    view: {
+      label: 'View',
+      labels: 'Views',
+      add: 'Add a View',
+      download_schema: 'Download this View',
+    },
     interactions: {
       label: 'Interactions',
       add: 'Add an interaction',
@@ -15,6 +17,7 @@ export const en = {
     query_variable: {
       label: 'Query Variable',
       labels: 'Query Variables',
+      add: 'Add a Variable',
       guide: {
         tabs: {
           guide: 'Guide',

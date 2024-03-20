@@ -19,6 +19,7 @@ type Props = {
 };
 
 const Views = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = content.views;
   if (!Array.isArray(list) || list.length === 0) {
     return null;
@@ -27,7 +28,7 @@ const Views = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Views
+        {t('view.labels')}
       </Text>
       <CustomTable
         headers={

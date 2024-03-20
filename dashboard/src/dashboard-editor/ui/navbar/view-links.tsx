@@ -85,7 +85,7 @@ export const ViewLinks = observer(() => {
           },
         }}
       >
-        {t('Add a View')}
+        {t('view.add')}
       </Button>
     </Box>
   );

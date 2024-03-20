@@ -1,12 +1,14 @@
 export const zh = {
   translation: {
     'Add a Filter': '新增筛选器',
-    'Add a View': '新增视图',
-    'Add a Variable': '新增变量',
     'Manage Filters': '管理筛选器',
     Filters: '筛选器',
-    'Download this View': '截屏此视图',
-    Views: '视图',
+    view: {
+      label: '视图',
+      labels: '视图',
+      add: '新增视图',
+      download_schema: '下载此视图描述文件',
+    },
     interactions: {
       label: '交互',
       add: '新增交互',
@@ -15,6 +17,7 @@ export const zh = {
     query_variable: {
       label: '查询变量',
       labels: '查询变量',
+      add: '新增变量',
       guide: {
         tabs: {
           guide: '使用指南',

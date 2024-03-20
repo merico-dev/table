@@ -24,7 +24,7 @@ export const AddAView = observer(() => {
         },
       }}
     >
-      {t('Add a View')}
+      {t('view.add')}
     </Button>
   );
 });
