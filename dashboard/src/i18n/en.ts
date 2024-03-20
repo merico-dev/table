@@ -51,6 +51,13 @@ export const en = {
         revert_changes: 'Revert Changes',
         select_all: 'Select All',
         clear_selection: 'Clear Selection',
+        refresh: 'Refresh',
+        download_data: 'Download Data',
+        download_schema: 'Download Schema',
+        download_screenshot: 'Screenshot',
+        enter_fullscreen: 'Full Screen',
+        duplicate: 'Duplicate',
+        delete: 'Delete',
       },
     },
     breakpoint: {

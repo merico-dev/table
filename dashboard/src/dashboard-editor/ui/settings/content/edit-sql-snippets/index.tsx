@@ -68,7 +68,7 @@ export const EditSQLSnippets = observer(() => {
             disabled={value.length === 0}
             onClick={downloadSchema}
           >
-            Download Schema
+            {t('common.actions.download_schema')}
           </Button>
         </Group>
         <Button

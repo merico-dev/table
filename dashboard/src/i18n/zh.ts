@@ -51,6 +51,13 @@ export const zh = {
         revert_changes: '还原改动',
         select_all: '全选',
         clear_selection: '撤销选择',
+        refresh: '刷新',
+        download_data: '下载数据',
+        download_schema: '下载描述文件',
+        download_screenshot: '下载截图',
+        enter_fullscreen: '全屏',
+        duplicate: '复制',
+        delete: '删除',
       },
     },
     breakpoint: {

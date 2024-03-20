@@ -51,20 +51,20 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>
-              Refresh
+              {t('common.actions.refresh')}
             </Menu.Item>
             <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
-              Download Data
+              {t('common.actions.download_data')}
             </Menu.Item>
             <Menu.Item onClick={panel.downloadSchema} icon={<IconCode size={14} />}>
-              Download Schema
+              {t('common.actions.download_schema')}
             </Menu.Item>
             <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
-              Screenshot
+              {t('common.actions.download_screenshot')}
             </Menu.Item>
             {showFullScreenOption && (
               <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled>
-                Full Screen
+                {t('common.actions.enter_fullscreen')}
               </Menu.Item>
             )}
 
@@ -73,10 +73,10 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
               {t('common.titles.settings')}
             </Menu.Item>
             <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
-              Duplicate
+              {t('common.actions.duplicate')}
             </Menu.Item>
             <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>
-              Delete
+              {t('common.actions.delete')}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
