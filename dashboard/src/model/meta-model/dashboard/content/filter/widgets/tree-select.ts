@@ -121,7 +121,14 @@ export const FilterTreeSelectConfigMeta = types
       // @ts-expect-error typeof getParent
       const key = getParent(self, 1).key;
       const filters = self.contentModel.filters;
-      filters.setValueByKey(key, self.defaultSelection);
+      const currentSelection = filters.values[key];
+      const options = new Set(self.plainData.map((o: any) => o.value));
+      const validValues = (currentSelection ?? []).filter((v: any) => options.has(v));
+      if (validValues.length > 0) {
+        filters.setValueByKey(key, validValues);
+      } else {
+        filters.setValueByKey(key, self.defaultSelection);
+      }
     },
     afterCreate() {
       addDisposer(
