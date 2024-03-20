@@ -47,7 +47,7 @@ export const DashboardEditorNavbar = observer(() => {
               <IconFilter size={18} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('Queries')} withinPortal>
+          <Tooltip label={t('query.labels')} withinPortal>
             <ActionIcon variant="default" radius={0} size="md" sx={{ height: '30px' }} onClick={openQueries}>
               <IconDatabase size={18} />
             </ActionIcon>

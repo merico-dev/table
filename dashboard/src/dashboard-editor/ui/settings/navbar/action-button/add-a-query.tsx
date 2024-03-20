@@ -37,7 +37,7 @@ export const AddAQuery = observer(() => {
         },
       }}
     >
-      {t('Add a Query')}
+      {t('query.add')}
     </Button>
   );
 });

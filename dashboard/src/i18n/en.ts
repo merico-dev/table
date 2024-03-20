@@ -3,15 +3,8 @@ export const en = {
     'Add a Filter': 'Add a Filter',
     'Add a View': 'Add a View',
     'Add a Variable': 'Add a Variable',
-    'Add a Query': 'Add a Query',
     'Manage Filters': 'Manage Filters',
-    'Manage Queries': 'Manage Queries',
-    'See Query Variables': 'See Query Variables',
-    query_one: 'Query',
-    query_other: 'Queries',
     Filters: 'Filters',
-    Queries: 'Queries',
-    'Query Variables': 'Query Variables',
     'Download this View': 'Download this View',
     Views: 'Views',
     interactions: {
@@ -19,12 +12,17 @@ export const en = {
       add: 'Add an interaction',
       interactions_viewer: 'Interactions Viewer',
     },
-    query_variables_guide: {
-      tabs: {
-        guide: 'Guide',
-        variables_in_this_dashboard: 'Variables in this dashboard',
-        global_sql_snippets: 'Global SQL Snippets',
+    query_variable: {
+      label: 'Query Variable',
+      labels: 'Query Variables',
+      guide: {
+        tabs: {
+          guide: 'Guide',
+          variables_in_this_dashboard: 'Variables in this dashboard',
+          global_sql_snippets: 'Global SQL Snippets',
+        },
       },
+      open: 'See Query Variables',
     },
     sql_snippet: {
       label: 'SQL Snippet',
@@ -78,6 +76,12 @@ export const en = {
       add: 'Add a Pane',
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
+    },
+    query: {
+      label: 'Query',
+      labels: 'Queries',
+      add: 'Add a Query',
+      manage: 'Manage Queries',
     },
   },
 };

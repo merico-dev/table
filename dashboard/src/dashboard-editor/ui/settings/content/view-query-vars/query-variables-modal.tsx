@@ -9,7 +9,13 @@ export const QueryVariablesModal = observer(() => {
   const [opened, setOpened] = useState(false);
   return (
     <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title={t('Query Variables')} zIndex={320} size="800px">
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title={t('query_variable.labels')}
+        zIndex={320}
+        size="800px"
+      >
         <QueryVariablesGuide />
       </Modal>
 

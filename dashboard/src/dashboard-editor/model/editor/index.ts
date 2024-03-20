@@ -95,7 +95,7 @@ export const EditorModel = types
       const { filters, views, sqlSnippets, queries } = content;
       const ret: Array<NavOptionType> = [
         {
-          label: 'Query Variables',
+          label: 'query_variable.labels',
           value: '_QUERY_VARS_',
           _type: 'query_variables',
           Icon: IconVariable,
@@ -125,7 +125,7 @@ export const EditorModel = types
           _type: 'GROUP',
         },
         {
-          label: 'Queries',
+          label: 'query.labels',
           value: '_QUERIES_',
           Icon: IconDatabase,
           children: [getActionOption('_QUERIES_SETTINGS_'), ...queries.options, getActionOption('_Add_A_QUERY_')],

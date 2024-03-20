@@ -46,7 +46,7 @@ export const EditQueries = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          {t('Manage Queries')}
+          {t('query.manage')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>

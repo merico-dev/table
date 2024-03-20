@@ -3,15 +3,8 @@ export const zh = {
     'Add a Filter': '新增筛选器',
     'Add a View': '新增视图',
     'Add a Variable': '新增变量',
-    'Add a Query': '新增查询',
     'Manage Filters': '管理筛选器',
-    'Manage Queries': '管理查询',
-    'See Query Variables': '查看查询变量',
-    query_one: '查询',
-    query_other: '查询',
     Filters: '筛选器',
-    Queries: '查询',
-    'Query Variables': '查询变量',
     'Download this View': '截屏此视图',
     Views: '视图',
     interactions: {
@@ -19,12 +12,17 @@ export const zh = {
       add: '新增交互',
       interactions_viewer: '纵览交互',
     },
-    query_variables_guide: {
-      tabs: {
-        guide: '使用指南',
-        variables_in_this_dashboard: '本看板中的查询变量',
-        global_sql_snippets: '全局SQL片段',
+    query_variable: {
+      label: '查询变量',
+      labels: '查询变量',
+      guide: {
+        tabs: {
+          guide: '使用指南',
+          variables_in_this_dashboard: '本看板中的查询变量',
+          global_sql_snippets: '全局SQL片段',
+        },
       },
+      open: '查看查询变量',
     },
     sql_snippet: {
       label: 'SQL片段',
@@ -78,6 +76,12 @@ export const zh = {
       add: '新增卡片',
       delete: '删除这个卡片',
       panel_name: '卡片名',
+    },
+    query: {
+      label: '查询',
+      labels: '查询',
+      add: '新增查询',
+      manage: '管理查询',
     },
   },
 };

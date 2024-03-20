@@ -23,7 +23,7 @@ export const QueriesSettingsButton = observer(() => {
         },
       }}
     >
-      {t('Manage Queries')}
+      {t('query.manage')}
     </Button>
   );
 });
