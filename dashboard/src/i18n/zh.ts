@@ -125,6 +125,7 @@ export const zh = {
         add_an_option: '新增选项',
         end_editing: '结束编辑 <1>{{name}}</1>',
       },
+      choose_a_tab_first: '请先选择一个标签页',
     },
     breakpoint: {
       label_one: '屏幕尺寸',
@@ -231,6 +232,8 @@ export const zh = {
       label: '数据源',
       explore: '查看数据源',
       explorer: '数据源查看器',
+      table_structure: '数据表结构',
+      table_structure_short: '表结构',
       see_table_structure: '查看数据表结构',
     },
     visualization: {
@@ -258,7 +261,6 @@ export const zh = {
     },
     import: {
       label: '导入...',
-      cant: '请先选择一个标签页',
       title: '自描述文件导入看板内容',
       json_file: '描述文件（JSON格式）',
       this_dashboard: '此看板',

@@ -25,7 +25,7 @@ export const ImportWithSchema = observer(() => {
   const cant = model.content.views.VIE?.type === EViewComponentType.Tabs;
   if (cant) {
     return (
-      <Tooltip label={t('import.cant')}>
+      <Tooltip label={t('common.choose_a_tab_first')}>
         <Button
           variant="outline"
           color="gray"

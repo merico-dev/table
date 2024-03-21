@@ -46,7 +46,7 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
       <Tabs defaultValue="structure" styles={tabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="structure" icon={<IconColumns size={14} />}>
-            Structure
+            {t('data_source.table_structure_short')}
           </Tabs.Tab>
           <Tabs.Tab value="data" icon={<IconDatabase size={14} />}>
             {t('data.label')}

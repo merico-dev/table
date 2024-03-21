@@ -125,6 +125,7 @@ export const en = {
         add_an_option: 'Add an Option',
         end_editing: 'End editing <1>{{name}}</1>',
       },
+      choose_a_tab_first: 'Please choose a tab first',
     },
     breakpoint: {
       label_one: 'Screen size',
@@ -231,6 +232,8 @@ export const en = {
       label: 'Data Source',
       explore: 'Explore Data Source',
       explorer: 'Data Source Explorer',
+      table_structure: 'Table Structure',
+      table_structure_short: 'Structure',
       see_table_structure: 'See Table Structure',
     },
     visualization: {
@@ -258,7 +261,6 @@ export const en = {
     },
     import: {
       label: 'Import...',
-      cant: 'Please choose a tab first',
       title: 'Import content with schema json',
       json_file: 'JSON File',
       this_dashboard: 'This dashboard',

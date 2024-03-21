@@ -20,7 +20,7 @@ export const AddAPanel = observer(() => {
   const add = () => contentModel.addANewPanel(contentModel.views.idOfVIE);
   if (cant) {
     return (
-      <Tooltip label="Please choose a tab first">
+      <Tooltip label={t('common.choose_a_tab_first')}>
         <Button
           variant="outline"
           color="gray"
