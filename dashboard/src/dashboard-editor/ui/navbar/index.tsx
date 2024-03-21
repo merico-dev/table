@@ -73,7 +73,7 @@ export const DashboardEditorNavbar = observer(() => {
       <MantineNavbar.Section>
         <Group grow p="md" pt="sm" sx={{ borderTop: '1px solid #eee' }}>
           <Button size="xs" leftIcon={<IconSettings size={20} />} onClick={() => model.editor.open([])}>
-            {t('Settings')}
+            {t('common.titles.settings')}
           </Button>
         </Group>
       </MantineNavbar.Section>

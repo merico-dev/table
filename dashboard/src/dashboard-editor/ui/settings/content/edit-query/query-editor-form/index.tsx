@@ -65,7 +65,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
           </Tooltip>
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>
-          <Tooltip label="This query is not used for any filter or panel" disabled={!noUsage} withinPortal>
+          <Tooltip label={t('query.usage.unused_description')} disabled={!noUsage} withinPortal>
             <Text>{t('query.usage.label')}</Text>
           </Tooltip>
         </Tabs.Tab>

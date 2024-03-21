@@ -25,7 +25,7 @@ export const QueryVariablesModal = observer(() => {
         px={16}
         styles={{ inner: { justifyContent: 'flex-start' } }}
       >
-        {t('See Query Variables')}
+        {t('query_variable.open')}
       </Button>
     </>
   );

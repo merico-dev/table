@@ -41,7 +41,7 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
         <tbody>
           {usage.map((u) => (
             <tr key={u.id}>
-              <td>{_.capitalize(u.type)}</td>
+              <td>{t(`${u.type}.label`)}</td>
               <td>
                 <Anchor component="button" type="button" onClick={() => open(u)}>
                   {u.label}

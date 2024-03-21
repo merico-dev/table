@@ -25,7 +25,7 @@ export const EditView = observer(({ id }: { id: string }) => {
   };
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
-      title: 'Delete this view?',
+      title: `${t('view.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
@@ -39,7 +39,7 @@ export const EditView = observer(({ id }: { id: string }) => {
     <Stack sx={{ maxWidth: '600px', height: '100%' }} spacing="sm">
       <Group position="right" pt={10}>
         <Button size="xs" color="red" leftIcon={<Trash size={16} />} onClick={removeWithConfirmation}>
-          Delete this view
+          {t('view.delete')}
         </Button>
       </Group>
       <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>

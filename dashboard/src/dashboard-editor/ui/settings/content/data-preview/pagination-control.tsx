@@ -1,5 +1,6 @@
 import { Group, Pagination, Select, Text } from '@mantine/core';
 import { SetStateAction } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const limitOptions = [
   { label: '10', value: '10' },
@@ -28,6 +29,7 @@ type Props = {
   setLimit: React.Dispatch<SetStateAction<number>>;
 };
 export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Props) => {
+  const { t } = useTranslation();
   const total = data.length;
   const maxPage = Math.ceil(total / limit);
 
@@ -58,7 +60,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
           <Select
             icon={
               <Text ta="center" color="dimmed" size={14}>
-                Page Size
+                {t('common.pagination.page_size')}
               </Text>
             }
             size="xs"
@@ -72,7 +74,7 @@ export const PaginationControl = ({ data, page, setPage, limit, setLimit }: Prop
       </Group>
       <Group position="right">
         <Text color="dimmed" my={0} size={14}>
-          Total {total} rows
+          {t('common.pagination.total_rows', { total })}
         </Text>
       </Group>
     </Group>

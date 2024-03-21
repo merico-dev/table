@@ -32,7 +32,7 @@ export const FilterSettings = observer(function _FilterSettings() {
   const modals = useModals();
   const removeWithConfirmation = (id: string) => {
     modals.openConfirmModal({
-      title: 'Delete this filter?',
+      title: `${t('filter.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.filters.removeByID(id),
@@ -91,7 +91,7 @@ export const FilterSettings = observer(function _FilterSettings() {
                       leftIcon={<Trash size={20} />}
                       onClick={() => removeWithConfirmation(filter.id)}
                     >
-                      Delete this filter
+                      {t('filter.delete')}
                     </Button>
                   </Group>
                 </Stack>

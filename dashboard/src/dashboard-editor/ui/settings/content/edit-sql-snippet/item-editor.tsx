@@ -43,7 +43,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   const modals = useModals();
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
-      title: 'Delete this SQL snippet?',
+      title: `${t('sql_snippet.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: remove,
@@ -76,7 +76,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           error={isADuplicatedKey}
         />
         <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
-          Delete this SQL Snippet
+          {t('sql_snippet.delete')}
         </Button>
       </Group>
       <Tabs value={tab} onTabChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>

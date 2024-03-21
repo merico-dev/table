@@ -46,6 +46,7 @@ export const en = {
       label: 'View',
       labels: 'Views',
       add: 'Add a View',
+      delete: 'Delete this View',
       download_schema: 'Download this View',
     },
     interactions: {
@@ -88,6 +89,11 @@ export const en = {
         edit: 'Edit',
         config: 'Config',
       },
+      pagination: {
+        page_size: 'Page Size',
+        total: 'Total',
+        total_rows: 'Total {total} row',
+      },
       id: 'ID',
       name: 'Name',
       key: 'Key',
@@ -117,6 +123,7 @@ export const en = {
         cancel: 'Cancel',
         confirm: 'Confirm',
         add_an_option: 'Add an Option',
+        end_editing: 'End editing <1>{{name}}</1>',
       },
     },
     breakpoint: {
@@ -212,6 +219,7 @@ export const en = {
       usage: {
         label: 'Usage',
         in_views: 'In View(s)',
+        unused_description: 'This query is not used by any filter or panel',
       },
     },
     data: {
@@ -255,6 +263,12 @@ export const en = {
       json_file: 'JSON File',
       this_dashboard: 'This dashboard',
       this_file: 'This file',
+    },
+    function_utils: {
+      trigger_text: "About parameter 'utils'",
+      modal_title: 'About FunctionUtils',
+      description: 'Parameter <code>utils</code> is <code>FunctionUtils</code>, which contains:',
+      document: 'Document',
     },
   },
 };

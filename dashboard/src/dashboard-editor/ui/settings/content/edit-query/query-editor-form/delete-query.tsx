@@ -21,7 +21,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   const modals = useModals();
   const remove = () => {
     modals.openConfirmModal({
-      title: 'Delete this query?',
+      title: `${t('query.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {

@@ -54,7 +54,13 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
           >
             {t('common.actions.revert_changes')}
           </Button>
-          <Button size="xs" onClick={handleOk} disabled={!hasChanges} leftIcon={<IconDeviceFloppy size={16} />}>
+          <Button
+            color="green"
+            size="xs"
+            onClick={handleOk}
+            disabled={!hasChanges}
+            leftIcon={<IconDeviceFloppy size={16} />}
+          >
             {t('common.actions.save_changes')}
           </Button>
         </Group>

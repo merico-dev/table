@@ -46,6 +46,7 @@ export const zh = {
       label: '视图',
       labels: '视图',
       add: '新增视图',
+      delete: '删除此视图',
       download_schema: '下载此视图描述文件',
     },
     interactions: {
@@ -88,6 +89,11 @@ export const zh = {
         edit: '编辑',
         config: '配置',
       },
+      pagination: {
+        page_size: '页容量',
+        total: '共',
+        total_rows: '共 {{total}} 行',
+      },
       id: 'ID',
       name: '名称',
       key: '键',
@@ -117,6 +123,7 @@ export const zh = {
         cancel: '取消',
         confirm: '确认',
         add_an_option: '新增选项',
+        end_editing: '结束编辑 <1>{{name}}</1>',
       },
     },
     breakpoint: {
@@ -212,6 +219,7 @@ export const zh = {
       usage: {
         label: '使用情况',
         in_views: '所在视图',
+        unused_description: '此查询未被任何筛选器或卡片用到',
       },
     },
     data: {
@@ -255,6 +263,12 @@ export const zh = {
       json_file: '描述文件（JSON格式）',
       this_dashboard: '此看板',
       this_file: '此文件',
+    },
+    function_utils: {
+      trigger_text: '关于utils参数',
+      modal_title: '关于utils参数',
+      description: '参数 <code>utils</code> 是 <code>FunctionUtils</code>，包含以下内容：',
+      document: '文档',
     },
   },
 };

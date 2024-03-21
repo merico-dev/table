@@ -45,15 +45,15 @@ const getDescriptionRow = (d: DescriptionType) => `
 </tr>
 `;
 
-export const FunctionUtilsDescription = `
+export const getFunctionUtilsDescription = (t: any) => `
 <p>
-  Parameter <code>utils</code> is <code>functionUtils</code>, which contains:
+  ${t('function_utils.description')}
 </p>
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Document</th>
+      <th>${t('common.name')}</th>
+      <th>${t('function_utils.document')}</th>
     </tr>
   </thead>
   <tbody>
