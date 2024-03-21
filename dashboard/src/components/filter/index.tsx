@@ -10,8 +10,10 @@ import { FilterMetaInstance, ViewMetaInstance } from '~/model';
 import { Filter } from './filter';
 import { SearchButton } from './search-button';
 import { useUpdateFilterPreviewValues } from './use-update-filter-preview-values';
+import { useTranslation } from 'react-i18next';
 
 const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
+  const { t } = useTranslation();
   return (
     <Group position="right" ml={-4} mt={-4} mb={opened ? 4 : 0}>
       <Button
@@ -22,7 +24,7 @@ const FilterToggler = ({ opened, toggle }: { opened: boolean; toggle: () => void
         leftIcon={opened ? <IconChevronsUp size={14} /> : <IconChevronsDown size={14} />}
         onClick={toggle}
       >
-        {opened ? 'Hide Filters' : 'Show Filters'}
+        {opened ? t('filter.hide_filters') : t('filter.show_filters')}
       </Button>
     </Group>
   );

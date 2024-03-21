@@ -5,6 +5,8 @@ export const zh = {
       labels: '筛选器',
       add: '新增筛选器',
       manage: '管理筛选器',
+      show_filters: '展开筛选器',
+      hide_filters: '收起筛选器',
       field: {
         widget: '控件',
         visible_in: '在...视图中可见',
@@ -243,6 +245,14 @@ export const zh = {
           output: '输出',
         },
       },
+    },
+    import: {
+      label: '导入...',
+      cant: '请先选择一个标签页',
+      title: '自描述文件导入看板内容',
+      json_file: '描述文件（JSON格式）',
+      this_dashboard: '此看板',
+      this_file: '此文件',
     },
   },
 };

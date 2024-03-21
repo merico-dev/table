@@ -5,6 +5,8 @@ export const en = {
       labels: 'Filters',
       add: 'Add a Filter',
       manage: 'Manage Filters',
+      show_filters: 'Show Filters',
+      hide_filters: 'Hide Filters',
       field: {
         widget: 'Widget',
         visible_in: 'Visible in...',
@@ -243,6 +245,14 @@ export const en = {
           output: 'Out',
         },
       },
+    },
+    import: {
+      label: 'Import...',
+      cant: 'Please choose a tab first',
+      title: 'Import content with schema json',
+      json_file: 'JSON File',
+      this_dashboard: 'This dashboard',
+      this_file: 'This file',
     },
   },
 };

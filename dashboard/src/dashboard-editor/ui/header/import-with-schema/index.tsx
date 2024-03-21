@@ -6,6 +6,7 @@ import { useEditDashboardContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 import { ImportWithSchemaForm } from './form';
 import { useBoolean } from 'ahooks';
+import { useTranslation } from 'react-i18next';
 
 const ButtonSx: Sx = {
   height: '30px',
@@ -16,6 +17,7 @@ const ButtonSx: Sx = {
 };
 
 export const ImportWithSchema = observer(() => {
+  const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
   const [bigModal, { setTrue, setFalse }] = useBoolean(false);
 
@@ -23,7 +25,7 @@ export const ImportWithSchema = observer(() => {
   const cant = model.content.views.VIE?.type === EViewComponentType.Tabs;
   if (cant) {
     return (
-      <Tooltip label="Please choose a tab first">
+      <Tooltip label={t('import.cant')}>
         <Button
           variant="outline"
           color="gray"
@@ -35,7 +37,7 @@ export const ImportWithSchema = observer(() => {
             transform: 'none !important',
           }}
         >
-          Import...
+          {t('import.label')}
         </Button>
       </Tooltip>
     );
@@ -55,12 +57,12 @@ export const ImportWithSchema = observer(() => {
           // background: 'rgb(231, 245, 255)',
         }}
       >
-        Import...
+        {t('import.label')}
       </Button>
       <Modal
         opened={opened}
         onClose={close}
-        title="Import content with schema json"
+        title={t('import.title')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
