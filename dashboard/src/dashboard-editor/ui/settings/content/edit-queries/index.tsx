@@ -19,7 +19,7 @@ export const EditQueries = observer(() => {
     modals.openConfirmModal({
       title: 'Delete ununsed queries?',
       children: <Text size="sm">This action cannot be undone.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.content.removeUnusedQueries(),
       confirmProps: { color: 'red' },

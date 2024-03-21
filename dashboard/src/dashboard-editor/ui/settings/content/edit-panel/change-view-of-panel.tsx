@@ -3,6 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBoxMultiple, IconDeviceFloppy, IconX } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 
@@ -11,6 +12,7 @@ interface IChangeViewOfPanel {
   sourceViewID: string;
 }
 export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewOfPanel) => {
+  const { t } = useTranslation();
   const content = useEditContentModelContext();
   const [targetViewID, setTargetViewID] = useState(sourceViewID);
   useEffect(() => {
@@ -26,9 +28,9 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
   return (
     <>
       <Button size="xs" variant="subtle" color="blue" onClick={open} leftIcon={<IconBoxMultiple size={14} />}>
-        Move into Another View
+        {t('panel.settings.change_view')}
       </Button>
-      <Modal opened={opened} onClose={close} title="Move panel into another view" zIndex={320}>
+      <Modal opened={opened} onClose={close} title={t('panel.settings.change_view_title')} zIndex={320}>
         <Stack sx={{ maxHeight: 'calc(100vh - 185px)', overflow: 'hidden' }}>
           <Radio.Group
             value={targetViewID}
@@ -45,7 +47,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
 
           <Group noWrap position="apart" sx={{ flexGrow: 0, flexShrink: 0 }}>
             <Button size="xs" color="red" leftIcon={<IconX size={14} />} onClick={close}>
-              Cancel
+              {t('common.actions.cancel')}
             </Button>
             <Button
               size="xs"
@@ -54,7 +56,7 @@ export const ChangeViewOfPanel = observer(({ panel, sourceViewID }: IChangeViewO
               onClick={confirm}
               disabled={targetViewID === sourceViewID}
             >
-              Confirm
+              {t('common.actions.confirm')}
             </Button>
           </Group>
         </Stack>

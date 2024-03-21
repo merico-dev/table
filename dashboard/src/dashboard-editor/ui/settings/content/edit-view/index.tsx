@@ -1,11 +1,13 @@
 import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { EditViewForm } from '~/dashboard-editor/ui/settings/content/edit-view/edit-view-form';
 
 export const EditView = observer(({ id }: { id: string }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -24,7 +26,7 @@ export const EditView = observer(({ id }: { id: string }) => {
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
       title: 'Delete this view?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.views.removeByID(id);

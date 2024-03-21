@@ -22,7 +22,7 @@ export const PickQuery = observer(function _PickQuery() {
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Choose queries"
+        title={t('panel.settings.choose_queries')}
         padding="xl"
         size={500}
         zIndex={320}
@@ -39,7 +39,7 @@ export const PickQuery = observer(function _PickQuery() {
       <Stack spacing={6}>
         <Group position="right">
           <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
-            Click me to choose queries for this panel
+            {t('panel.settings.choose_queries')}
           </Button>
         </Group>
         {panel.queryIDs.length === 1 && (

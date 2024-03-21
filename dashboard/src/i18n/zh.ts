@@ -89,6 +89,7 @@ export const zh = {
       action: '操作',
       actions: {
         close: '关闭',
+        save: '保存',
         save_changes: '保存改动',
         revert: '还原',
         revert_changes: '还原改动',
@@ -101,6 +102,8 @@ export const zh = {
         enter_fullscreen: '全屏',
         duplicate: '复制',
         delete: '删除',
+        cancel: '取消',
+        confirm: '确认',
         add_an_option: '新增选项',
       },
     },
@@ -120,6 +123,11 @@ export const zh = {
       add: '新增卡片',
       delete: '删除这个卡片',
       panel_name: '卡片名',
+      settings: {
+        change_view: '移至另一个视图下',
+        change_view_title: '移动此卡片至另一个视图下',
+        choose_queries: '关联查询',
+      },
     },
     query: {
       label: '查询',

@@ -88,7 +88,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
   const remove = () =>
     modals.openConfirmModal({
       title: 'Delete this panel?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.removePanelByID(panel.id, viewID);

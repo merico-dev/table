@@ -1,11 +1,13 @@
 import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { Trash } from 'tabler-icons-react';
 import { FilterSetting } from '~/components/filter/filter-settings/filter-setting';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 
 export const EditFilter = observer(({ id }: { id: string }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -25,7 +27,7 @@ export const EditFilter = observer(({ id }: { id: string }) => {
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
       title: 'Delete this filter?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.filters.removeByID(id);

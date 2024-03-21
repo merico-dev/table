@@ -3,6 +3,7 @@ import { useModals } from '@mantine/modals';
 import { IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'tabler-icons-react';
 import { DashboardViewRender } from '~/components/view';
 import { useEditContentModelContext } from '~/contexts';
@@ -48,6 +49,7 @@ const getTabSX = (t: TabModelInstance): Sx => {
 };
 
 export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstance }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditContentModelContext();
   const options = useMemo(
@@ -60,7 +62,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
   const remove = (index: number) =>
     modals.openConfirmModal({
       title: 'Delete this tab?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         config.removeTab(index);

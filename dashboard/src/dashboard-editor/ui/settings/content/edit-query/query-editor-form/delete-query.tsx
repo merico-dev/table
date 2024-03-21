@@ -2,6 +2,7 @@ import { Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { QueryRenderModelInstance } from '~/model';
 
@@ -10,6 +11,7 @@ export interface IDeleteQueryProps {
 }
 
 const _DeleteQuery = (props: IDeleteQueryProps) => {
+  const { t } = useTranslation();
   const { queryModel } = props;
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -20,7 +22,7 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   const remove = () => {
     modals.openConfirmModal({
       title: 'Delete this query?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.queries.removeQuery(queryModel.id);

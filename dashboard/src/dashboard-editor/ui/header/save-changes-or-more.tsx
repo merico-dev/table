@@ -22,7 +22,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
           <Text>You are reverting changes</Text>
         </Group>
       ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       confirmProps: { color: 'red' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.reset(),

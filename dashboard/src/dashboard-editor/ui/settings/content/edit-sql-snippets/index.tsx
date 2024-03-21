@@ -19,7 +19,7 @@ export const EditSQLSnippets = observer(() => {
     modals.openConfirmModal({
       title: 'Delete ununsed SQL snippets?',
       children: <Text size="sm">This action cannot be undone.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.content.removeUnusedSQLSnippets(),
       confirmProps: { color: 'red' },

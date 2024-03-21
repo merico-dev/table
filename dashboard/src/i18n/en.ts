@@ -89,6 +89,7 @@ export const en = {
       action: 'Action',
       actions: {
         close: 'Close',
+        save: 'Save',
         save_changes: 'Save Changes',
         revert: 'Revert',
         revert_changes: 'Revert Changes',
@@ -101,6 +102,8 @@ export const en = {
         enter_fullscreen: 'Full Screen',
         duplicate: 'Duplicate',
         delete: 'Delete',
+        cancel: 'Cancel',
+        confirm: 'Confirm',
         add_an_option: 'Add an Option',
       },
     },
@@ -120,6 +123,11 @@ export const en = {
       add: 'Add a Pane',
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
+      settings: {
+        change_view: 'Move into Another View',
+        change_view_title: 'Move panel into another view',
+        choose_queries: 'Choose queries',
+      },
     },
     query: {
       label: 'Query',
