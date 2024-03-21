@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@mantine/core';
+import { Box, Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
@@ -36,20 +36,24 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   if (disabled) {
     return (
       <Tooltip
-        label="Can't delete this query for it's being used, check out Usage tab for details"
+        label={t('query.cant_delete')}
         withArrow
         events={{ hover: true, focus: false, touch: false }}
         withinPortal
+        zIndex={320}
+        position="top-end"
       >
-        <Button color="gray" size="xs" leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
-          Delete this Query
-        </Button>
+        <Box sx={{ alignSelf: 'flex-end' }}>
+          <Button disabled size="xs" leftIcon={<IconTrash size={16} />}>
+            {t('query.delete')}
+          </Button>
+        </Box>
       </Tooltip>
     );
   }
   return (
     <Button color="red" size="xs" onClick={remove} leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
-      Delete this Query
+      {t('query.delete')}
     </Button>
   );
 };

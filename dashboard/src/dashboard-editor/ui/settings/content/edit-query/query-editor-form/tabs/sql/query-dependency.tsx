@@ -3,9 +3,11 @@ import { IconAlertTriangle, IconDiscountCheckFilled, IconHierarchy, IconPointFil
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { QueryRenderModelInstance } from '~/model';
 
 export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
+  const { t } = useTranslation();
   const groupedDependencies = useMemo(() => {
     return _.groupBy(queryModel.dependencies, 'type');
   }, [queryModel.dependencies]);
@@ -17,7 +19,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
   const hasDependency = queryModel.dependencies.length > 0;
   if (!hasDependency) {
     return (
-      <Tooltip label="This query has no dependency">
+      <Tooltip label={t('query.dependency.has_none')}>
         <Button
           size="xs"
           variant="subtle"
@@ -25,7 +27,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
           leftIcon={<IconHierarchy size={16} style={{ transform: 'rotate(180deg)' }} />}
           sx={{ transform: 'none !important' }}
         >
-          Dependency
+          {t('query.dependency.label')}
         </Button>
       </Tooltip>
     );
@@ -41,7 +43,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
           disabled={!hasDependency}
           leftIcon={hasUnmetDependencies ? <IconAlertTriangle size={16} /> : <IconDiscountCheckFilled size={16} />}
         >
-          Dependency
+          {t('query.dependency.label')}
         </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown>
@@ -49,7 +51,7 @@ export const QueryDependency = observer(({ queryModel }: { queryModel: QueryRend
           {Object.entries(groupedDependencies).map(([type, arr]) => (
             <List.Item key={type}>
               <Text fw="bold" ff="monospace">
-                {type}
+                {t(`${type}.label`)}
               </Text>
               <List withPadding size={14} sx={{ fontFamily: 'monospace', svg: { verticalAlign: 'middle' } }}>
                 {arr.map((info) => (

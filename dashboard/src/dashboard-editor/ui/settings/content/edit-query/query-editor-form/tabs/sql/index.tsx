@@ -6,6 +6,7 @@ import { QueryRenderModelInstance } from '~/model';
 import { DBExplorerModal } from '../../../../db-explorer-modal';
 import { EditSQL } from './edit-sql';
 import { PreviewSQL } from './preview-sql';
+import { useTranslation } from 'react-i18next';
 
 export const DEFAULT_SQL_REQ_PROCESSING = {
   pre: [
@@ -23,6 +24,7 @@ export const DEFAULT_SQL_REQ_PROCESSING = {
 };
 
 export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
+  const { t } = useTranslation();
   if (!queryModel.typedAsSQL) {
     return null;
   }
@@ -37,12 +39,12 @@ export const TabPanel_SQL = observer(({ queryModel }: { queryModel: QueryRenderM
       <Tabs.List>
         <Tabs.Tab value="Edit">
           <Group spacing={14} position="apart">
-            Edit SQL
+            {t('query.edit_sql')}
           </Group>
         </Tabs.Tab>
-        <Tabs.Tab value="Preview">Preview SQL</Tabs.Tab>
-        <Tabs.Tab value="pre_process">Process Request</Tabs.Tab>
-        <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
+        <Tabs.Tab value="Preview">{t('query.preview_sql')}</Tabs.Tab>
+        <Tabs.Tab value="pre_process">{t('query.process_request')}</Tabs.Tab>
+        <Tabs.Tab value="post_process">{t('query.process_result')}</Tabs.Tab>
         <QueryVariablesModal />
         {queryModel.datasource && <DBExplorerModal dataSource={queryModel.datasource} />}
       </Tabs.List>

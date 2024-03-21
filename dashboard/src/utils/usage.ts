@@ -5,7 +5,7 @@ export const UsageRegs = {
 };
 
 export type DependencyInfo = {
-  type: 'SQL Snippet' | 'Context' | 'Filter';
+  type: 'sql_snippet' | 'context' | 'filter';
   key: string;
   valid: boolean;
 };

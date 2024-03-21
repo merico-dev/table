@@ -34,7 +34,7 @@ export const AddASQLSnippet = observer(() => {
         },
       }}
     >
-      {t('Add a SQL Snippet')}
+      {t('sql_snippet.add')}
     </Button>
   );
 });

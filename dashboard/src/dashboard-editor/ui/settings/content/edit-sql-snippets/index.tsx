@@ -79,7 +79,7 @@ export const EditSQLSnippets = observer(() => {
           disabled={!model.content.hasUnusedSQLSnippets}
           onClick={removeUnusedSQLSnippetsWithConfirmation}
         >
-          Delete unused SQL snippets
+          {t('sql_snippet.delete_unused')}
         </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
@@ -89,7 +89,7 @@ export const EditSQLSnippets = observer(() => {
               <tr>
                 <th style={{ width: '40px' }}></th>
                 <th>{t('common.key')}</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>{t('sql_snippet.usage.label')}</th>
                 <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
@@ -113,7 +113,7 @@ export const EditSQLSnippets = observer(() => {
                     </td>
                     <td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
-                        Open
+                        {t('common.actions.open')}
                       </Button>
                     </td>
                   </tr>

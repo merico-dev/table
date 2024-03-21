@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { QueryRenderModelInstance } from '~/model';
 import { QueryDependency } from './query-dependency';
+import { useTranslation } from 'react-i18next';
 
 interface IEditSQL {
   queryModel: QueryRenderModelInstance;
@@ -13,6 +14,7 @@ interface IEditSQL {
 const defaultValue = 'SELECT 1';
 
 export const EditSQL = observer(({ queryModel }: IEditSQL) => {
+  const { t } = useTranslation();
   const [localValue, setLocalValue] = useState<string>(queryModel.sql);
 
   const handleOk = () => {
@@ -41,7 +43,7 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
         </Group>
         <Group position="right">
           <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
-            Reset to default
+            {t('common.actions.reset_to_default')}
           </Button>
           <Button
             onClick={handleCancel}
@@ -50,10 +52,10 @@ export const EditSQL = observer(({ queryModel }: IEditSQL) => {
             disabled={!hasChanges}
             leftIcon={<IconRecycle size={16} />}
           >
-            Revert Changes
+            {t('common.actions.revert_changes')}
           </Button>
           <Button size="xs" onClick={handleOk} disabled={!hasChanges} leftIcon={<IconDeviceFloppy size={16} />}>
-            Confirm Changes
+            {t('common.actions.save_changes')}
           </Button>
         </Group>
       </Group>

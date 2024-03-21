@@ -55,10 +55,10 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
       sx={{ height: '100vh' }}
     >
       <Tabs.List grow>
-        <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
-        {queryModel.typedAsSQL && <Tabs.Tab value="SQL">Request</Tabs.Tab>}
-        {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
-        {queryModel.isTransform && <Tabs.Tab value="Transform">Transform</Tabs.Tab>}
+        <Tabs.Tab value="Configurations">{t('query.configurations')}</Tabs.Tab>
+        {queryModel.typedAsSQL && <Tabs.Tab value="SQL">{t('query.request')}</Tabs.Tab>}
+        {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">{t('query.request')}</Tabs.Tab>}
+        {queryModel.isTransform && <Tabs.Tab value="Transform">{t('query.transform.label')}</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
           <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
             <Text>{t('data.preview_data')}</Text>
@@ -66,7 +66,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>
           <Tooltip label="This query is not used for any filter or panel" disabled={!noUsage} withinPortal>
-            <Text>Usage</Text>
+            <Text>{t('query.usage.label')}</Text>
           </Tooltip>
         </Tabs.Tab>
       </Tabs.List>

@@ -1,6 +1,7 @@
 import { Anchor, Box, Stack, Table } from '@mantine/core';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { QueryUsageType } from '~/model';
 
@@ -10,6 +11,7 @@ interface IQueryUsage {
 }
 
 export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
+  const { t } = useTranslation();
   const editor = useEditDashboardContext().editor;
   const open = (u: QueryUsageType) => {
     if (u.type === 'filter') {
@@ -31,9 +33,9 @@ export const QueryUsage = observer(({ queryID, usage }: IQueryUsage) => {
       <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
         <thead>
           <tr>
-            <th style={{ width: 100 }}>Type</th>
-            <th style={{ width: 'calc(50% - 50px)' }}>Name</th>
-            <th>In View(s)</th>
+            <th style={{ width: 100 }}>{t('common.type')}</th>
+            <th style={{ width: 'calc(50% - 50px)' }}>{t('common.name')}</th>
+            <th>{t('query.usage.in_views')}</th>
           </tr>
         </thead>
         <tbody>

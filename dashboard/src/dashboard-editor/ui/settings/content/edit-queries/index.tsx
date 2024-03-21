@@ -79,7 +79,7 @@ export const EditQueries = observer(() => {
           disabled={!model.content.hasUnusedQueries}
           onClick={removeUnusedQueriesWithConfirmation}
         >
-          Delete unused queries
+          {t('query.delete_unused')}
         </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
@@ -91,7 +91,7 @@ export const EditQueries = observer(() => {
                 <th>{t('common.name')}</th>
                 <th style={{ width: '200px' }}>{t('data_source.label')}</th>
                 <th style={{ width: '100px', textAlign: 'right' }}>{t('common.type')}</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>{t('query.usage.label')}</th>
                 <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@ export const EditQueries = observer(() => {
                     </td>
                     <td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToQuery(q.id)}>
-                        Open
+                        {t('common.actions.open')}
                       </Button>
                     </td>
                   </tr>

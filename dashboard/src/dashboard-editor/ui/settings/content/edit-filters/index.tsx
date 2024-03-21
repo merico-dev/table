@@ -82,7 +82,7 @@ export const EditFilters = observer(() => {
                     <td>{filterTypeNames[f.type]}</td>
                     <td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToFilter(f.id)}>
-                        Open
+                        {t('common.actions.open')}
                       </Button>
                     </td>
                   </tr>

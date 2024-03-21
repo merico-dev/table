@@ -1,5 +1,6 @@
 import { Tabs } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
 import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view-query-vars/query-variables-modal';
 import { QueryRenderModelInstance } from '~/model';
@@ -17,14 +18,15 @@ export const DEFAULT_HTTP_REQ_PROCESSING = {
 };
 
 export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
+  const { t } = useTranslation();
   if (!queryModel.typedAsHTTP) {
     return null;
   }
   return (
     <Tabs defaultValue="pre_process" orientation="vertical" sx={{ flexGrow: 1 }}>
       <Tabs.List>
-        <Tabs.Tab value="pre_process">Build Request</Tabs.Tab>
-        <Tabs.Tab value="post_process">Process Result</Tabs.Tab>
+        <Tabs.Tab value="pre_process">{t('query.build_request')}</Tabs.Tab>
+        <Tabs.Tab value="post_process">{t('query.process_result')}</Tabs.Tab>
         <QueryVariablesModal />
       </Tabs.List>
       <Tabs.Panel value="pre_process" sx={{ position: 'relative' }} p="sm">
