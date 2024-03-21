@@ -8,6 +8,7 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { ITemplateVariable } from '~/utils';
 import { TemplateVariableStyleField } from './variable-style';
+import { useTranslation } from 'react-i18next';
 
 interface ITemplateVariableField {
   value: ITemplateVariable;
@@ -21,6 +22,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
   { value, onChange, withStyle = true, remove }: ITemplateVariableField,
   ref: $TSFixMe,
 ) {
+  const { t } = useTranslation();
   const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {
     const v = _.cloneDeep(value);
     _.set(v, path, newValue);
@@ -32,20 +34,20 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
       <Stack spacing="xs" px="sm" py="md" sx={{ border: '1px solid #e9ecef' }}>
         <Group grow noWrap>
           <TextInput
-            label="Name"
+            label={t('common.name')}
             required
             value={value.name}
             onChange={(e) => handleChange('name', e.currentTarget.value)}
           />
           <DataFieldSelector
-            label="Data Field"
+            label={t('common.data_field')}
             required
             value={value.data_field}
             onChange={(v) => handleChange('data_field', v)}
           />
         </Group>
         <AggregationSelector
-          label="Aggregation"
+          label={t('panel.variable.aggregation.label')}
           pt={0}
           value={value.aggregation}
           onChange={(v) => handleChange('aggregation', v)}
@@ -54,7 +56,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
 
         {value.aggregation.type !== 'custom' && (
           <>
-            <Divider mt="xl" mb={0} label="Format" labelPosition="center" variant="dashed" />
+            <Divider mt="xl" mb={0} label={t('numbro.format.label')} labelPosition="center" variant="dashed" />
             <NumbroFormatSelector value={value.formatter} onChange={(v) => handleChange('formatter', v)} />
           </>
         )}
@@ -62,7 +64,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
       {withStyle && (
         <Accordion variant="contained">
           <Accordion.Item value="Styles">
-            <Accordion.Control icon={<Text size="xl">🖼️</Text>}>Styles</Accordion.Control>
+            <Accordion.Control icon={<Text size="xl">🖼️</Text>}>{t('panel.variable.styles.label')}</Accordion.Control>
             <Accordion.Panel>
               <TemplateVariableStyleField value={value} onChange={onChange} />
             </Accordion.Panel>
@@ -71,7 +73,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
       )}
 
       <Button mt={20} leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={remove}>
-        Delete this Variable
+        {t('panel.variable.delete')}
       </Button>
     </Stack>
   );

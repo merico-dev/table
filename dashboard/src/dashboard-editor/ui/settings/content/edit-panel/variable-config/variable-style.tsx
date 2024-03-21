@@ -7,6 +7,7 @@ import { MantineColorSelector } from '../../../../../../components/panel/setting
 import { MantineFontWeightSlider } from '../../../../../../components/panel/settings/common/mantine-font-weight';
 import { TextArrayInput } from '../../../../../../components/panel/settings/common/text-array-input';
 import { ITemplateVariable } from '../../../../../../utils/template/types';
+import { useTranslation } from 'react-i18next';
 
 interface ITemplateVariableStyleField {
   value: ITemplateVariable;
@@ -18,6 +19,7 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ref: $TSFixMe,
 ) {
+  const { t } = useTranslation();
   const colorType = value.color.type;
   const handleChange = (path: Path<ITemplateVariable>, newValue: $TSFixMe) => {
     const v = _.cloneDeep(value);
@@ -50,8 +52,8 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
     <>
       <Stack>
         <TextInput
-          label="Font Size"
-          placeholder="10px, 1em, 1rem, 100%..."
+          label={t('panel.variable.styles.font_size.label')}
+          placeholder={t('panel.variable.styles.font_size.placeholder')}
           sx={{ flex: 1 }}
           value={value.size}
           onChange={(e) => handleChange('size', e.currentTarget.value)}
@@ -59,7 +61,11 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
       </Stack>
 
       <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
-        <MantineFontWeightSlider label="Font Weight" value={value.weight} onChange={(v) => handleChange('weight', v)} />
+        <MantineFontWeightSlider
+          label={t('panel.variable.styles.font_weight.label')}
+          value={value.weight}
+          onChange={(v) => handleChange('weight', v)}
+        />
       </Group>
 
       <Divider mt="lg" mb={0} variant="dashed" label="Style" labelPosition="center" />

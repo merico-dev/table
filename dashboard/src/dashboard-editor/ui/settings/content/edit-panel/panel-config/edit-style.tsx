@@ -1,25 +1,27 @@
 import { Checkbox, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
 export const EditStyle = observer(() => {
+  const { t } = useTranslation();
   const { panel } = useEditPanelContext();
   const layout = useRenderContentModelContext().layouts.findItemByPanelID(panel.id);
   const { style } = panel;
 
   return (
     <>
-      <Divider mb={-10} label="Style" labelPosition="center" variant="dashed" />
+      <Divider mb={-10} label={t('panel.style.label')} labelPosition="center" variant="dashed" />
       <Stack spacing={20}>
         <Group grow align="top">
           <NumberInput
-            label="Width"
+            label={t('panel.style.width')}
             min={1}
             max={36}
             step={1}
             precision={0}
-            rightSection={<Text size={12}>of 36 columns</Text>}
+            rightSection={<Text size={12}>{t('panel.style.width_postfix')}</Text>}
             styles={{ rightSection: { width: '110px' } }}
             value={layout.w}
             onChange={(v) => {
@@ -27,8 +29,8 @@ export const EditStyle = observer(() => {
             }}
           />
           <NumberInput
-            label="Height"
-            rightSection={<Text size={12}>px</Text>}
+            label={t('panel.style.height')}
+            rightSection={<Text size={12}>{t('panel.style.height_postfix')}</Text>}
             styles={{ rightSection: { width: '40px' } }}
             value={layout.h}
             onChange={(v) => {
@@ -38,7 +40,7 @@ export const EditStyle = observer(() => {
         </Group>
         <Checkbox
           ml={6}
-          label="Border"
+          label={t('panel.style.border')}
           checked={style.border.enabled}
           onChange={(event) => style.border.setEnabled(event.currentTarget.checked)}
         />

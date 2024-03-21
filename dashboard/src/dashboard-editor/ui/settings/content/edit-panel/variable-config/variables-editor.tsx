@@ -40,7 +40,7 @@ const AddAVariableGuide = observer(({ model }: { model: VariableConfigUIModel })
         onClick={model.addNew}
         sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
       >
-        {t('Add a Variable')}
+        {t('panel.variable.add')}
       </Button>
     </Overlay>
   );
@@ -53,10 +53,10 @@ export const VariablesEditor = observer(() => {
     return <AddAVariableGuide model={model} />;
   }
   return (
-    <Stack>
+    <Stack pb={20}>
       <Group position="left">
         <Select
-          label="Variables"
+          label={t('panel.variable.labels')}
           data={model.variableOptions}
           value={model.selected?.name}
           onChange={model.selectByName}
@@ -70,7 +70,7 @@ export const VariablesEditor = observer(() => {
           onClick={model.addNew}
           sx={{ flexGrow: 0, flexShrink: 0, alignSelf: 'flex-end', height: '38px' }}
         >
-          {t('Add a Variable')}
+          {t('panel.variable.add')}
         </Button>
       </Group>
       <Divider variant="dashed" />

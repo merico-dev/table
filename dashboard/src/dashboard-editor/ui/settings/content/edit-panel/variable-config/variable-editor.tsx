@@ -27,7 +27,7 @@ export const VariableEditor = observer((props: { variable: VariableMetaInstance;
           onClick={draft.reset}
           leftIcon={<IconRecycle size={18} />}
         >
-          Revert Changes
+          {t('common.actions.revert_changes')}
         </Button>
         <Button
           variant="filled"

@@ -87,6 +87,8 @@ export const zh = {
       label: '标签',
       value: '值',
       type: '类型',
+      info: '信息',
+      data_field: '数据字段',
       action: '操作',
       actions: {
         close: '关闭',
@@ -124,10 +126,42 @@ export const zh = {
       add: '新增卡片',
       delete: '删除这个卡片',
       panel_name: '卡片名',
+      panel_description: '卡片描述',
+      show_title: '展示卡片标题',
+      use_name_as_title: '使用卡片名作为标题',
       settings: {
         change_view: '移至另一个视图下',
         change_view_title: '移动此卡片至另一个视图下',
         choose_queries: '关联查询',
+      },
+      style: {
+        label: '样式',
+        width: '宽',
+        width_postfix: '之 36 栏',
+        height: '高',
+        height_postfix: 'px',
+        border: '边框',
+      },
+      variable: {
+        label: '变量',
+        labels: '变量',
+        add: '新增变量',
+        delete: '删除此变量',
+        aggregation: {
+          label: '聚合',
+          fallback_value: '兜底值',
+          fallback_value_description: '当数据为空或聚合结果非数字时，使用此兜底值',
+        },
+        styles: {
+          label: '样式',
+          font_size: {
+            label: '字号',
+            placeholder: '10px, 1em, 1rem, 100%...',
+          },
+          font_weight: {
+            label: '字重',
+          },
+        },
       },
     },
     query: {
@@ -147,6 +181,28 @@ export const zh = {
       explore: '查看数据源',
       explorer: '数据源查看器',
       see_table_structure: '查看数据表结构',
+    },
+    visualization: {
+      label: '可视化',
+      label_short: '可视化',
+    },
+    numbro: {
+      format: {
+        label: '格式',
+        absolute: '绝对值',
+        absolute_description: '非负',
+        abbreviation: '缩写',
+        abbreviation_description: '如1.23k、1.23m',
+        mantissa: '小数',
+        trim_mantissa: '抹零',
+        trim_mantissa_description: '省略末尾的零',
+        preview: {
+          open: '展开预览',
+          close: '收起预览',
+          input: '输入',
+          output: '输出',
+        },
+      },
     },
   },
 };

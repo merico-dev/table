@@ -87,6 +87,8 @@ export const en = {
       label: 'Label',
       value: 'Value',
       type: 'Type',
+      info: 'Info',
+      data_field: 'Data Field',
       action: 'Action',
       actions: {
         close: 'Close',
@@ -124,10 +126,42 @@ export const en = {
       add: 'Add a Pane',
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
+      panel_description: 'Description',
+      show_title: 'Show title',
+      use_name_as_title: 'Use name as title',
       settings: {
         change_view: 'Move into Another View',
         change_view_title: 'Move panel into another view',
         choose_queries: 'Choose queries',
+      },
+      style: {
+        label: 'Style',
+        width: 'Width',
+        width_postfix: 'of 36 columns',
+        height: 'Height',
+        height_postfix: 'px',
+        border: 'Border',
+      },
+      variable: {
+        label: 'Variable',
+        labels: 'Variables',
+        add: 'Add a Variable',
+        delete: 'Delete this Variable',
+        aggregation: {
+          label: 'Aggregation',
+          fallback_value: 'Fallback Value',
+          fallback_value_description: 'Used when data is empty or the aggregation yields NaN',
+        },
+        styles: {
+          label: 'Styles',
+          font_size: {
+            label: 'Font Size',
+            placeholder: '10px, 1em, 1rem, 100%...',
+          },
+          font_weight: {
+            label: 'Font Weight',
+          },
+        },
       },
     },
     query: {
@@ -147,6 +181,28 @@ export const en = {
       explore: 'Explore Data Source',
       explorer: 'Data Source Explorer',
       see_table_structure: 'See Table Structure',
+    },
+    visualization: {
+      label: 'Visualization',
+      label_short: 'Viz',
+    },
+    numbro: {
+      format: {
+        label: 'Format',
+        absolute: 'Absolute',
+        absolute_description: 'Non-negative',
+        abbreviation: 'Abbreviation',
+        abbreviation_description: 'like 1.23k, 1.23m',
+        mantissa: 'Mantissa',
+        trim_mantissa: 'Trim mantissa',
+        trim_mantissa_description: 'hide trailing zero(s)',
+        preview: {
+          open: 'Open Preview',
+          close: 'Close Preview',
+          input: 'In',
+          output: 'Out',
+        },
+      },
     },
   },
 };
