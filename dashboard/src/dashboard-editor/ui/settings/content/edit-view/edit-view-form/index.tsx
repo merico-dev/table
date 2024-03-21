@@ -2,6 +2,7 @@ import { Select, Stack, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { ConfigFields } from './config-fields';
+import { useTranslation } from 'react-i18next';
 
 export const viewComponentNames = {
   [EViewComponentType.Division]: 'Division',
@@ -16,20 +17,21 @@ const viewComponentTypeOptions = [
 ];
 
 export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => {
+  const { t } = useTranslation();
   if (!view) {
     return null;
   }
   return (
     <Stack sx={{ position: 'relative' }}>
       <TextInput
-        label="Name"
+        label={t('common.name')}
         value={view.name}
         onChange={(e) => {
           view.setName(e.currentTarget.value);
         }}
       />
       <Select
-        label="Type"
+        label={t('common.type')}
         withinPortal
         zIndex={320}
         value={view.type}

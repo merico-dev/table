@@ -61,7 +61,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
 
   const remove = (index: number) =>
     modals.openConfirmModal({
-      title: 'Delete this tab?',
+      title: `${t('view.component.tabs.tab.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
@@ -91,34 +91,34 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
           <Plus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
-      {config.tabsInOrder.map((t, i) => {
-        const tabView = model.views.findByID(t.view_id);
+      {config.tabsInOrder.map((tab, i) => {
+        const tabView = model.views.findByID(tab.view_id);
         return (
-          <Tabs.Panel key={t.id} value={t.id} sx={{ position: 'relative' }}>
+          <Tabs.Panel key={tab.id} value={tab.id} sx={{ position: 'relative' }}>
             <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 200 }}>
               <Overlay opacity={0.8} color="#FFF" blur={10} zIndex={100} />
 
               <Stack mx="auto" mt={100} sx={{ width: '300px', position: 'relative', zIndex: 200 }}>
                 <TextInput
-                  label="Tab Name"
+                  label={t('view.component.tabs.tab.name')}
                   required
-                  value={t.name}
-                  onChange={(e) => t.setName(e.currentTarget.value)}
+                  value={tab.name}
+                  onChange={(e) => tab.setName(e.currentTarget.value)}
                 />
-                <Select label="View" value={t.view_id} onChange={t.setViewID} data={options} />
+                <Select label="View" value={tab.view_id} onChange={tab.setViewID} data={options} />
                 <NumberInput
-                  label="Placement Order"
+                  label={t('view.component.tabs.tab.order')}
                   required
-                  value={t.order}
-                  onChange={(v) => t.setOrder(v ? v : 0)}
+                  value={tab.order}
+                  onChange={(v) => tab.setOrder(v ? v : 0)}
                   min={0}
                   max={1000}
                   step={1}
                 />
                 <ColorInput
-                  label="Color"
-                  value={t.color}
-                  onChange={t.setColor}
+                  label={t('view.component.tabs.tab.color')}
+                  value={tab.color}
+                  onChange={tab.setColor}
                   disabled={config.variant !== 'default'}
                 />
 
@@ -130,7 +130,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                     gradient={{ from: 'cyan', to: 'indigo' }}
                     onClick={() => model.views.setIDOfVIE(tabView.id)}
                   >
-                    Swith to View: {tabView.name}
+                    {t('view.component.tabs.tab.switch_to_view', { name: tabView.name })}
                   </Button>
                 )}
 
@@ -142,7 +142,7 @@ export const PreviewViewTabs = observer(({ view }: { view: ViewRenderModelInstan
                   disabled={onlyOneTabLeft}
                   leftIcon={<IconTrash size={14} />}
                 >
-                  Delete This Tab
+                  {t('view.component.tabs.tab.delete')}
                 </Button>
               </Stack>
             </Box>

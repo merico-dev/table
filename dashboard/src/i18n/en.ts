@@ -48,6 +48,30 @@ export const en = {
       add: 'Add a View',
       delete: 'Delete this View',
       download_schema: 'Download this View',
+      component: {
+        div: {
+          label: 'Division',
+        },
+        tabs: {
+          label: 'Tabs',
+          tab: {
+            name: 'Tab Name',
+            view: 'View',
+            order: 'Placement Order',
+            color: 'Color',
+            delete: 'Delete this tab',
+            switch_to_view: 'Swith to View: {{name}}',
+          },
+        },
+        modal: {
+          label: 'Modal',
+          modal_settings: 'Modal settings',
+          title: 'Modal Title',
+          custom_title: 'Customize modal title',
+          width: 'Width',
+          height: 'Height',
+        },
+      },
     },
     interactions: {
       label: 'Interactions',
@@ -102,6 +126,7 @@ export const en = {
       type: 'Type',
       info: 'Info',
       data_field: 'Data Field',
+      enabled: 'Enabled',
       action: 'Action',
       actions: {
         open: 'Open',

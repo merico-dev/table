@@ -48,6 +48,30 @@ export const zh = {
       add: '新增视图',
       delete: '删除此视图',
       download_schema: '下载此视图描述文件',
+      component: {
+        div: {
+          label: 'Div内容视图',
+        },
+        tabs: {
+          label: 'Tabs标签页视图',
+          tab: {
+            name: '名称',
+            view: '内容视图',
+            order: '排列次序',
+            color: '颜色',
+            delete: '删除这个标签页',
+            switch_to_view: '打开视图: {{name}}',
+          },
+        },
+        modal: {
+          label: '弹窗',
+          modal_settings: '弹窗设置',
+          title: '弹窗标题',
+          custom_title: '自定义弹窗标题',
+          width: '宽度',
+          height: '高度',
+        },
+      },
     },
     interactions: {
       label: '交互',
@@ -102,6 +126,7 @@ export const zh = {
       type: '类型',
       info: '信息',
       data_field: '数据字段',
+      enabled: '启用',
       action: '操作',
       actions: {
         open: '打开',

@@ -58,7 +58,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
       </ActionIcon>
       <Modal
         size={800}
-        title="Customize modal title"
+        title={t('view.component.modal.custom_title')}
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -69,7 +69,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
           <Stack>
             <Checkbox
               mt={10}
-              label="Enabled"
+              label={t('common.enabled')}
               checked={localValue.enabled}
               onChange={(event) => changeEnabled(event.currentTarget.checked)}
             />
@@ -80,7 +80,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
             />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                {t('common.actions.reset')}
+                {t('common.actions.revert')}
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
