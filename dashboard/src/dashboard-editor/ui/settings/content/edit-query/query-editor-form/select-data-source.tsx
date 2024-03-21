@@ -52,7 +52,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       type: ds.type,
     }));
     ret.push({
-      label: "Use other queries' data",
+      label: t('query.transform.data_source'),
       value: DataSourceType.Transform,
       type: DataSourceType.Transform,
     });

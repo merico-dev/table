@@ -1,9 +1,8 @@
 import { Box, Divider, List, Stack, Table, Text } from '@mantine/core';
 import { IconPointFilled } from '@tabler/icons-react';
 import { ReactNode } from 'react';
-import { TDashboardContent } from '~/types';
-import { viewComponentNames } from '../../settings/content/edit-view/edit-view-form';
 import { useTranslation } from 'react-i18next';
+import { TDashboardContent } from '~/types';
 
 const CustomTable = ({ headers, rows }: { headers: ReactNode; rows: ReactNode }) => {
   return (
@@ -42,7 +41,7 @@ const Views = ({ content }: Props) => {
           <tr key={v.id}>
             <td>{v.id}</td>
             <td>{v.name}</td>
-            <td>{viewComponentNames[v.type]}</td>
+            <td>{t(`view.component.${v.type}.label`)}</td>
           </tr>
         ))}
       />

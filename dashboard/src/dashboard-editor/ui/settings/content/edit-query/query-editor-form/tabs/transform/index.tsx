@@ -1,5 +1,6 @@
 import { Box, MultiSelect, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { InlineFunctionInput } from '~/components/widgets/inline-function-input';
 import { useEditContentModelContext } from '~/contexts';
 import { QueryRenderModelInstance } from '~/model';
@@ -16,6 +17,7 @@ export const DEFAULT_TRANSFORM_REQ_PROCESSING = {
 };
 
 export const TabPanel_Transform = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
+  const { t } = useTranslation();
   const content = useEditContentModelContext();
 
   if (!queryModel.isTransform) {
@@ -24,14 +26,14 @@ export const TabPanel_Transform = observer(({ queryModel }: { queryModel: QueryR
 
   return (
     <Stack py={20} px={20} sx={{ height: '100%' }}>
-      <Text size="md">Step 1: Pick queries for data input</Text>
+      <Text size="sm">{t('query.transform.guide.pick_queries')}</Text>
       <MultiSelect
         data={content.queries.optionsWithoutTransform}
         value={[...queryModel.dep_query_ids]}
         onChange={queryModel.setDependantQueryIDs}
         maxDropdownHeight={800}
       />
-      <Text size="md">Write a function for making new data</Text>
+      <Text size="sm">{t('query.transform.guide.write_function')}</Text>
       <Box sx={{ flexGrow: 1 }}>
         <InlineFunctionInput
           label=""

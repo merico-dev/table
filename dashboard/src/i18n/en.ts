@@ -54,6 +54,7 @@ export const en = {
         },
         tabs: {
           label: 'Tabs',
+          tabs_settings: 'Tabs Settings',
           tab: {
             name: 'Tab Name',
             view: 'View',
@@ -149,6 +150,20 @@ export const en = {
         confirm: 'Confirm',
         add_an_option: 'Add an Option',
         end_editing: 'End editing <1>{{name}}</1>',
+      },
+      tabs: {
+        variant: {
+          label: 'Variant',
+          default: 'Default',
+          outline: 'Outline',
+          pills: 'Pills',
+        },
+        orientation: {
+          label: 'Orientation',
+          horizontal: 'Horizontal',
+          vertical: 'Vertical',
+        },
+        grow_tabs: 'Grow Tabs',
       },
       choose_a_tab_first: 'Please choose a tab first',
     },
@@ -246,6 +261,14 @@ export const en = {
         label: 'Usage',
         in_views: 'In View(s)',
         unused_description: 'This query is not used by any filter or panel',
+      },
+      transform: {
+        label: 'Transform',
+        data_source: "Use other queries' data",
+        guide: {
+          pick_queries: 'Pick queries for data input',
+          write_function: 'Write a function for making new data',
+        },
       },
     },
     data: {

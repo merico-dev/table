@@ -3,21 +3,18 @@ import { observer } from 'mobx-react-lite';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { ConfigFields } from './config-fields';
 import { useTranslation } from 'react-i18next';
-
-export const viewComponentNames = {
-  [EViewComponentType.Division]: 'Division',
-  [EViewComponentType.Modal]: 'Modal',
-  [EViewComponentType.Tabs]: 'Tabs',
-};
-
-const viewComponentTypeOptions = [
-  { label: viewComponentNames[EViewComponentType.Division], value: EViewComponentType.Division },
-  { label: viewComponentNames[EViewComponentType.Modal], value: EViewComponentType.Modal },
-  { label: viewComponentNames[EViewComponentType.Tabs], value: EViewComponentType.Tabs },
-];
+import { useMemo } from 'react';
 
 export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const options = useMemo(() => {
+    return [
+      { label: t('view.component.div.label'), value: EViewComponentType.Division },
+      { label: t('view.component.modal.label'), value: EViewComponentType.Modal },
+      { label: t('view.component.tabs.label'), value: EViewComponentType.Tabs },
+    ];
+  }, [i18n.language]);
+
   if (!view) {
     return null;
   }
@@ -36,7 +33,7 @@ export const EditViewForm = observer(({ view }: { view?: ViewMetaInstance }) => 
         zIndex={320}
         value={view.type}
         onChange={view.setType}
-        data={viewComponentTypeOptions}
+        data={options}
       />
       <ConfigFields view={view} />
     </Stack>

@@ -50,10 +50,11 @@ export const zh = {
       download_schema: '下载此视图描述文件',
       component: {
         div: {
-          label: 'Div内容视图',
+          label: '内容',
         },
         tabs: {
-          label: 'Tabs标签页视图',
+          label: '标签页',
+          tabs_settings: '标签页设置',
           tab: {
             name: '名称',
             view: '内容视图',
@@ -149,6 +150,20 @@ export const zh = {
         confirm: '确认',
         add_an_option: '新增选项',
         end_editing: '结束编辑 <1>{{name}}</1>',
+      },
+      tabs: {
+        variant: {
+          label: '风格',
+          default: '默认',
+          outline: '轮廓',
+          pills: '胶囊',
+        },
+        orientation: {
+          label: '朝向',
+          horizontal: '水平',
+          vertical: '垂直',
+        },
+        grow_tabs: '拉伸标签卡宽度',
       },
       choose_a_tab_first: '请先选择一个标签页',
     },
@@ -246,6 +261,14 @@ export const zh = {
         label: '使用情况',
         in_views: '所在视图',
         unused_description: '此查询未被任何筛选器或卡片用到',
+      },
+      transform: {
+        label: '查询变形',
+        data_source: '基于其他查询的数据，加工出新数据',
+        guide: {
+          pick_queries: '选择一至多个查询作为数据输入',
+          write_function: '编写函数，返回新数据',
+        },
       },
     },
     data: {
