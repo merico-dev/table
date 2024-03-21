@@ -89,7 +89,7 @@ export const EditQueries = observer(() => {
               <tr>
                 <th style={{ width: '40px' }}></th>
                 <th>{t('common.name')}</th>
-                <th style={{ width: '200px' }}>Data Source</th>
+                <th style={{ width: '200px' }}>{t('data_source.label')}</th>
                 <th style={{ width: '100px', textAlign: 'right' }}>{t('common.type')}</th>
                 <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
                 <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>

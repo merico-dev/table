@@ -5,9 +5,11 @@ import { Download, Refresh } from 'tabler-icons-react';
 import { useRenderContentModelContext } from '~/contexts';
 import { DataTableWithPagination } from './data-table-with-pagination';
 import { QueryStateMessage } from './query-state-message';
+import { useTranslation } from 'react-i18next';
 
 export const DataPreview = observer(
   ({ id, moreActions, refreshOnMount }: { id: string; moreActions: ReactNode | null; refreshOnMount?: boolean }) => {
+    const { t } = useTranslation();
     const content = useRenderContentModelContext();
     const { data, state } = content.getDataStuffByID(id);
     const loading = state === 'loading';
@@ -28,7 +30,7 @@ export const DataPreview = observer(
       <Stack spacing={0} sx={{ height: '100%', border: '1px solid #eee' }}>
         <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
           <Group position="left">
-            <Text weight={500}>Preview Data</Text>
+            <Text weight={500}>{t('data.preview_data')}</Text>
           </Group>
           <Group pr={15}>
             {moreActions}

@@ -81,6 +81,7 @@ export const zh = {
         edit: '编辑',
         config: '配置',
       },
+      id: 'ID',
       name: '名称',
       key: '键',
       label: '标签',
@@ -135,6 +136,17 @@ export const zh = {
       add: '新增查询',
       manage: '管理查询',
       open: '打开此查询',
+    },
+    data: {
+      label: '数据',
+      preview_data: '预览数据',
+      empty_data: '无数据',
+    },
+    data_source: {
+      label: '数据源',
+      explore: '查看数据源',
+      explorer: '数据源查看器',
+      see_table_structure: '查看数据表结构',
     },
   },
 };

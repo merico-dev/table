@@ -11,6 +11,7 @@ import { QueryUsage } from './query-usage';
 import { TabPanel_SQL } from './tabs/sql';
 import { TabPanel_Transform } from './tabs/transform';
 import { QueryModelInstance } from '~/dashboard-editor/model/queries';
+import { useTranslation } from 'react-i18next';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -22,6 +23,7 @@ interface IQueryEditorForm {
 }
 
 export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
+  const { t } = useTranslation();
   const content = useEditContentModelContext();
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
@@ -59,7 +61,7 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
         {queryModel.isTransform && <Tabs.Tab value="Transform">Transform</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
           <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
-            <Text>Data</Text>
+            <Text>{t('data.preview_data')}</Text>
           </Tooltip>
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>

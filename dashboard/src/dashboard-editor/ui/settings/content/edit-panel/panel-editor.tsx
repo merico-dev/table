@@ -116,7 +116,7 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="Data" disabled={loading}>
-            Data
+            {t('data.label')}
           </Tabs.Tab>
           <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
           <Tabs.Tab value="Variables" disabled={dataNotReady}>

@@ -81,6 +81,7 @@ export const en = {
         edit: 'Edit',
         config: 'Config',
       },
+      id: 'ID',
       name: 'Name',
       key: 'Key',
       label: 'Label',
@@ -135,6 +136,17 @@ export const en = {
       add: 'Add a Query',
       manage: 'Manage Queries',
       open: 'Open this query',
+    },
+    data: {
+      label: 'Data',
+      preview_data: 'Preview Data',
+      empty_data: 'Empty Data',
+    },
+    data_source: {
+      label: 'Data Source',
+      explore: 'Explore Data Source',
+      explorer: 'Data Source Explorer',
+      see_table_structure: 'See Table Structure',
     },
   },
 };

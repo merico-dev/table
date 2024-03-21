@@ -33,9 +33,9 @@ const Views = ({ content }: Props) => {
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
-            <th>Type</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
+            <th>{t('common.type')}</th>
           </tr>
         }
         rows={list.map((v) => (
@@ -51,6 +51,7 @@ const Views = ({ content }: Props) => {
 };
 
 const Filters = ({ content }: Props) => {
+  const { t } = useTranslation();
   const filters = content.filters;
   if (!Array.isArray(filters) || filters.length === 0) {
     return null;
@@ -59,14 +60,14 @@ const Filters = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Filters
+        {t('filter.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Key</th>
-            <th>Label</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.key')}</th>
+            <th>{t('common.label')}</th>
           </tr>
         }
         rows={filters.map((f) => (
@@ -82,6 +83,7 @@ const Filters = ({ content }: Props) => {
 };
 
 const Panels = ({ content }: Props) => {
+  const { t } = useTranslation();
   const panels = content.panels;
   if (!Array.isArray(panels) || panels.length === 0) {
     return null;
@@ -90,13 +92,13 @@ const Panels = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Panels
+        {t('panel.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
             <th>Visualization</th>
           </tr>
         }
@@ -113,6 +115,7 @@ const Panels = ({ content }: Props) => {
 };
 
 const Queries = ({ content }: Props) => {
+  const { t } = useTranslation();
   const queries = content.definition?.queries;
   if (!Array.isArray(queries) || queries.length === 0) {
     return null;
@@ -121,15 +124,15 @@ const Queries = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Queries
+        {t('query.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
-            <th style={{ width: '140px' }}>Type</th>
-            <th style={{ width: '260px' }}>Data Source</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
+            <th style={{ width: '140px' }}>{t('common.type')}</th>
+            <th style={{ width: '260px' }}>{t('data_source.label')}</th>
           </tr>
         }
         rows={queries.map((q) => (
