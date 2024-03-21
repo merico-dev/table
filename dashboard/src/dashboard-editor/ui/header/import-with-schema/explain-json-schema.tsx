@@ -99,7 +99,7 @@ const Panels = ({ content }: Props) => {
           <tr>
             <th style={{ width: '160px' }}>{t('common.id')}</th>
             <th>{t('common.name')}</th>
-            <th>{t('visualization.label')}</th>
+            <th>{t('visualization.component')}</th>
           </tr>
         }
         rows={panels.map((p) => (

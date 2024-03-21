@@ -30,7 +30,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
 
   const remove = () =>
     modals.openConfirmModal({
-      title: 'Delete this panel?',
+      title: `${t('panel.delete')}?`,
       labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => content.removePanelByID(id, view.id),

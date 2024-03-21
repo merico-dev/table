@@ -135,6 +135,7 @@ export const zh = {
     },
     panel: {
       label: '卡片',
+      labels: '卡片',
       add: '新增卡片',
       delete: '删除这个卡片',
       panel_name: '卡片名',
@@ -226,6 +227,7 @@ export const zh = {
     },
     visualization: {
       label: '可视化',
+      component: '可视化组件',
       label_short: '可视化',
     },
     numbro: {

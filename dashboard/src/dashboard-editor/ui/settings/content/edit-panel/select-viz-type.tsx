@@ -36,7 +36,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
   const changed = value !== type;
   return (
     <Select
-      label={t('visualization.label')}
+      label={t('visualization.component')}
       value={type}
       searchable
       onChange={setType}

@@ -135,6 +135,7 @@ export const en = {
     },
     panel: {
       label: 'Panel',
+      labels: 'Panels',
       add: 'Add a Pane',
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
@@ -226,6 +227,7 @@ export const en = {
     },
     visualization: {
       label: 'Visualization',
+      component: 'Visualization',
       label_short: 'Viz',
     },
     numbro: {
