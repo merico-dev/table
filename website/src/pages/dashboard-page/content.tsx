@@ -13,8 +13,10 @@ import { getDashboardConfig } from '../../utils/config';
 import { ErrorBoundary } from '../../utils/error-boundary';
 import './content.css';
 import { DashboardIsEmpty } from './placeholder';
+import { useLanguageContext } from '../../contexts';
 
 export const DashboardPageContent = observer(() => {
+  const { lang } = useLanguageContext();
   const { store } = useDashboardStore();
   const [search, setSearch] = useUrlState({
     full_screen_panel_id: '',
@@ -67,6 +69,7 @@ export const DashboardPageContent = observer(() => {
           config={dashboardConfig}
           fullScreenPanelID={search.full_screen_panel_id}
           setFullScreenPanelID={setFullScreenPanelID}
+          lang={lang}
           // onFilterValuesChange={console.log}
         />
       </ErrorBoundary>
