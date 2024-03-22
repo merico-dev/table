@@ -40,6 +40,11 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
         '.mantine-Select-item[data-selected] .mantine-Text-root[data-role=description]': {
           color: 'rgba(255,255,255,.7)',
         },
+        '.mantine-Select-nothingFound': {
+          fontSize: '0.75rem',
+          textAlign: 'left',
+          padding: '4px 10px',
+        },
       }}
       itemComponent={FilterSelectItem}
       searchable
