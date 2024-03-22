@@ -8,6 +8,7 @@ import { CURRENT_SCHEMA_VERSION } from '~/model';
 import { TDashboardContent } from '~/types';
 import { ExplainJSONSchema } from './explain-json-schema';
 import { validateDashboardJSONFile } from './validate';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   content: Partial<TDashboardContent> | null;
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkModal }: Props) => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
 
   const {
@@ -100,7 +102,7 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
     <Box mx="auto" sx={{ position: 'relative' }}>
       <form onSubmit={handleSubmit(updateDashboardWithJSON)}>
         <FileInput
-          label="JSON File"
+          label={t('import.json_file')}
           required
           value={file}
           onChange={setFile}
@@ -111,11 +113,11 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
           <Table fontSize={12} mt={10}>
             <tbody>
               <tr>
-                <th>Dashboard</th>
+                <th>{t('import.this_dashboard')}</th>
                 <td>{CURRENT_SCHEMA_VERSION}</td>
               </tr>
               <tr>
-                <th>This file</th>
+                <th>{t('import.this_file')}</th>
                 <td style={{ color: 'red' }}>{content?.version}</td>
               </tr>
             </tbody>
@@ -125,7 +127,7 @@ export const ImportWithSchemaForm = observer(({ onSuccess, stretchModal, shrinkM
             <ExplainJSONSchema content={content} />
             <Group position="right" my="md">
               <Button type="submit" color="green" disabled={disabled}>
-                Confirm
+                {t('common.actions.confirm')}
               </Button>
             </Group>
           </>

@@ -1,5 +1,6 @@
 import { Group, Pagination, Select, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 
 const limitOptions = [
@@ -22,6 +23,7 @@ const selectorStyles = {
 };
 
 export const PaginationControl = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
+  const { t } = useTranslation();
   const { tableData } = dataSource;
   return (
     <Group pt={10} px={10} position="apart">
@@ -39,7 +41,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
         <Select
           icon={
             <Text ta="center" color="dimmed" size={14}>
-              Limit
+              {t('common.pagination.page_size')}
             </Text>
           }
           size="xs"
@@ -52,7 +54,7 @@ export const PaginationControl = observer(({ dataSource }: { dataSource: DataSou
       </Group>
       <Group position="right">
         <Text color="dimmed" my={0} size={14}>
-          Total {tableData.total} rows
+          {t('common.pagination.total_rows', { total: tableData.total })}
         </Text>
       </Group>
     </Group>

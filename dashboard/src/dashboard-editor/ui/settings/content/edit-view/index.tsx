@@ -1,11 +1,13 @@
 import { Box, Button, Group, Stack, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { EditViewForm } from '~/dashboard-editor/ui/settings/content/edit-view/edit-view-form';
 
 export const EditView = observer(({ id }: { id: string }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -23,8 +25,8 @@ export const EditView = observer(({ id }: { id: string }) => {
   };
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
-      title: 'Delete this view?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('view.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.views.removeByID(id);
@@ -37,7 +39,7 @@ export const EditView = observer(({ id }: { id: string }) => {
     <Stack sx={{ maxWidth: '600px', height: '100%' }} spacing="sm">
       <Group position="right" pt={10}>
         <Button size="xs" color="red" leftIcon={<Trash size={16} />} onClick={removeWithConfirmation}>
-          Delete this view
+          {t('view.delete')}
         </Button>
       </Group>
       <Box sx={{ flexGrow: 1, maxHeight: 'calc(100% - 52px)', overflow: 'auto' }}>

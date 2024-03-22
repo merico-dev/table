@@ -2,6 +2,7 @@ import { Box, Button, Collapse, Group, NumberInput, Select, Stack, Switch, Table
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ErrorBoundary, TNumberFormat, formatNumber } from '~/utils';
 
 const SwitchStyles = {
@@ -19,6 +20,7 @@ const SwitchStyles = {
 const numbersToPreview = ['123456789', '1234', '1234.56789', '1.234', '0.123456789', '-0.123456789'];
 
 function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
+  const { t } = useTranslation();
   const [opened, { toggle }] = useDisclosure(false);
 
   return (
@@ -30,7 +32,7 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
         onClick={toggle}
         leftIcon={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}
       >
-        {opened ? 'Close preview' : 'Open preview'}
+        {opened ? t('numbro.format.preview.close') : t('numbro.format.preview.open')}
       </Button>
 
       <Collapse in={opened}>
@@ -38,8 +40,8 @@ function PreviewNumberFormat({ format }: { format: TNumberFormat }) {
           <Table highlightOnHover sx={{ tableLayout: 'fixed' }}>
             <thead>
               <tr>
-                <th>In</th>
-                <th>Out</th>
+                <th>{t('numbro.format.preview.input')}</th>
+                <th>{t('numbro.format.preview.output')}</th>
               </tr>
             </thead>
             <tbody>
@@ -65,6 +67,7 @@ interface INumbroFormatSelector {
 }
 
 function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: $TSFixMe) {
+  const { t } = useTranslation();
   const changeOutput = (output: TNumberFormat['output']) => {
     onChange({ ...value, output });
   };
@@ -87,7 +90,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     <Stack ref={ref}>
       <Group grow>
         <Select
-          label="Format"
+          label={t('numbro.format.label')}
           data={[
             { label: '1234', value: 'number' },
             { label: '99%', value: 'percent' },
@@ -99,9 +102,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         <Switch
           label={
             <Stack spacing={0}>
-              <Text>Absolute</Text>
+              <Text>{t('numbro.format.absolute')}</Text>
               <Text size={12} color="gray">
-                Non-negative
+                {t('numbro.format.absolute_description')}
               </Text>
             </Stack>
           }
@@ -113,9 +116,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         <Switch
           label={
             <Stack spacing={0}>
-              <Text>Average</Text>
+              <Text>{t('numbro.format.abbreviation')}</Text>
               <Text size={12} color="gray">
-                like 1.234k, 1.234m
+                {t('numbro.format.abbreviation_description')}
               </Text>
             </Stack>
           }
@@ -128,7 +131,7 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
       </Group>
       <Group grow>
         <NumberInput
-          label="Mantissa"
+          label={t('numbro.format.mantissa')}
           defaultValue={0}
           min={0}
           step={1}
@@ -139,9 +142,9 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
         <Switch
           label={
             <Stack spacing={0}>
-              <Text>Trim mantissa</Text>
+              <Text>{t('numbro.format.trim_mantissa')}</Text>
               <Text size={12} color="gray">
-                hide trailing zero(s)
+                {t('numbro.format.trim_mantissa_description')}
               </Text>
             </Stack>
           }

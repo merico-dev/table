@@ -3,6 +3,7 @@ import { useInputState } from '@mantine/hooks';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
 const RequiredMark = () => (
@@ -13,6 +14,7 @@ const RequiredMark = () => (
 );
 
 export const EditName = observer(() => {
+  const { t } = useTranslation();
   const { panel } = useEditPanelContext();
   const { name } = panel;
   const [local, setLocal] = useInputState(name);
@@ -36,7 +38,7 @@ export const EditName = observer(() => {
     <Stack spacing={4}>
       <Group align="center">
         <Text size={14} fw={500}>
-          Panel Name
+          {t('panel.panel_name')}
           <RequiredMark />
         </Text>
         <ActionIcon variant="subtle" color="blue" disabled={!changed || empty} onClick={submit}>

@@ -13,6 +13,7 @@ import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/v
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
+import { useTranslation } from 'react-i18next';
 
 const TabsStyles = {
   root: {
@@ -58,6 +59,7 @@ function doesVizRequiresData(type: string) {
 }
 
 export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -85,8 +87,8 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
 
   const remove = () =>
     modals.openConfirmModal({
-      title: 'Delete this panel?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('panel.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.removePanelByID(panel.id, viewID);
@@ -107,27 +109,27 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
         <Group position="right" noWrap>
           <ChangeViewOfPanel panel={panel} sourceViewID={viewID} />
           <Button size="xs" variant="subtle" color="red" onClick={remove} leftIcon={<IconTrash size={14} />}>
-            Delete This Panel
+            {t('panel.delete')}
           </Button>
         </Group>
       </Group>
       <Tabs value={tab} onTabChange={setTab} keepMounted={false} styles={TabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="Data" disabled={loading}>
-            Data
+            {t('data.label')}
           </Tabs.Tab>
-          <Tabs.Tab value="Panel">Panel</Tabs.Tab>
+          <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
           <Tabs.Tab value="Variables" disabled={dataNotReady}>
             <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>Variables</Text>
+              <Text>{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
           <Tabs.Tab value="Visualization" disabled={dataNotReady}>
             <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={310}>
-              <Text>Visualization</Text>
+              <Text>{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>
-          <Tabs.Tab value="Interactions">Interactions</Tabs.Tab>
+          <Tabs.Tab value="Interactions">{t('interactions.label')}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Data">

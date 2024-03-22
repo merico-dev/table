@@ -1,8 +1,8 @@
 import { Box, Divider, List, Stack, Table, Text } from '@mantine/core';
 import { IconPointFilled } from '@tabler/icons-react';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TDashboardContent } from '~/types';
-import { viewComponentNames } from '../../settings/content/edit-view/edit-view-form';
 
 const CustomTable = ({ headers, rows }: { headers: ReactNode; rows: ReactNode }) => {
   return (
@@ -18,6 +18,7 @@ type Props = {
 };
 
 const Views = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = content.views;
   if (!Array.isArray(list) || list.length === 0) {
     return null;
@@ -26,21 +27,21 @@ const Views = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Views
+        {t('view.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
-            <th>Type</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
+            <th>{t('common.type')}</th>
           </tr>
         }
         rows={list.map((v) => (
           <tr key={v.id}>
             <td>{v.id}</td>
             <td>{v.name}</td>
-            <td>{viewComponentNames[v.type]}</td>
+            <td>{t(`view.component.${v.type}.label`)}</td>
           </tr>
         ))}
       />
@@ -49,6 +50,7 @@ const Views = ({ content }: Props) => {
 };
 
 const Filters = ({ content }: Props) => {
+  const { t } = useTranslation();
   const filters = content.filters;
   if (!Array.isArray(filters) || filters.length === 0) {
     return null;
@@ -57,14 +59,14 @@ const Filters = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Filters
+        {t('filter.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Key</th>
-            <th>Label</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.key')}</th>
+            <th>{t('common.label')}</th>
           </tr>
         }
         rows={filters.map((f) => (
@@ -80,6 +82,7 @@ const Filters = ({ content }: Props) => {
 };
 
 const Panels = ({ content }: Props) => {
+  const { t } = useTranslation();
   const panels = content.panels;
   if (!Array.isArray(panels) || panels.length === 0) {
     return null;
@@ -88,14 +91,14 @@ const Panels = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Panels
+        {t('panel.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
-            <th>Visualization</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
+            <th>{t('visualization.component')}</th>
           </tr>
         }
         rows={panels.map((p) => (
@@ -111,6 +114,7 @@ const Panels = ({ content }: Props) => {
 };
 
 const Queries = ({ content }: Props) => {
+  const { t } = useTranslation();
   const queries = content.definition?.queries;
   if (!Array.isArray(queries) || queries.length === 0) {
     return null;
@@ -119,15 +123,15 @@ const Queries = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Queries
+        {t('query.labels')}
       </Text>
       <CustomTable
         headers={
           <tr>
-            <th style={{ width: '160px' }}>ID</th>
-            <th>Name</th>
-            <th style={{ width: '140px' }}>Type</th>
-            <th style={{ width: '260px' }}>Data Source</th>
+            <th style={{ width: '160px' }}>{t('common.id')}</th>
+            <th>{t('common.name')}</th>
+            <th style={{ width: '140px' }}>{t('common.type')}</th>
+            <th style={{ width: '260px' }}>{t('data_source.label')}</th>
           </tr>
         }
         rows={queries.map((q) => (
@@ -144,6 +148,7 @@ const Queries = ({ content }: Props) => {
 };
 
 const SQLSnippets = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = content.definition?.sqlSnippets;
   if (!Array.isArray(list) || list.length === 0) {
     return null;
@@ -152,7 +157,7 @@ const SQLSnippets = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        SQL Snippets
+        {t('sql_snippet.labels')}
       </Text>
       <List size="sm" pl={10} ff="monospace" icon={<IconPointFilled size={10} />}>
         {list.map((s) => (
@@ -164,6 +169,7 @@ const SQLSnippets = ({ content }: Props) => {
 };
 
 const MockContext = ({ content }: Props) => {
+  const { t } = useTranslation();
   const list = Object.keys(content.definition?.mock_context ?? {});
   if (list.length === 0) {
     return null;
@@ -172,7 +178,7 @@ const MockContext = ({ content }: Props) => {
   return (
     <Box>
       <Text pl={10} size="sm" fw={500} c="dimmed" ta="center">
-        Mock Context
+        {t('mock_context.label')}
       </Text>
       <List size="sm" pl={10} ff="monospace" icon={<IconPointFilled size={10} />}>
         {list.map((s) => (

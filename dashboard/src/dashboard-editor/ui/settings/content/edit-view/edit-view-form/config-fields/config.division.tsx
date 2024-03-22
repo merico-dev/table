@@ -8,10 +8,10 @@ export const ViewDivisionConfigFields = observer(({ view }: { view: ViewMetaInst
   }
   return (
     <Stack>
-      <Divider mt={8} mb={0} label="Division settings" labelPosition="center" />
+      {/* <Divider mt={8} mb={0} label="Division settings" labelPosition="center" />
       <Text align="center" size="xs" color="dimmed">
         Under construction
-      </Text>
+      </Text> */}
     </Stack>
   );
 });

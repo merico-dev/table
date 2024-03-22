@@ -2,6 +2,7 @@ import { ActionIcon, Button, Group, Menu, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconAlertTriangle, IconCaretDown, IconDeviceFloppy, IconRecycle } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 
 export interface ISaveChangesOrMore {
@@ -9,6 +10,7 @@ export interface ISaveChangesOrMore {
 }
 
 export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChangesOrMore) => {
+  const { t } = useTranslation();
   const modals = useModals();
   const model = useEditContentModelContext();
 
@@ -20,7 +22,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
           <Text>You are reverting changes</Text>
         </Group>
       ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       confirmProps: { color: 'red' },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.reset(),
@@ -41,7 +43,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
         disabled={!hasChanges}
         sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
       >
-        Save Changes
+        {t('common.actions.save_changes')}
       </Button>
 
       <Menu
@@ -73,7 +75,7 @@ export const SaveChangesOrMore = observer(({ saveDashboardChanges }: ISaveChange
             disabled={!hasChanges}
             onClick={revertWithConfirmation}
           >
-            Revert Changes
+            {t('common.actions.revert_changes')}
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

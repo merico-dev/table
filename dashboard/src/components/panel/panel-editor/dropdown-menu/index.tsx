@@ -3,6 +3,7 @@ import { useModals } from '@mantine/modals';
 import { IconCamera, IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ArrowsMaximize, Copy, Download, Refresh, Settings, Trash } from 'tabler-icons-react';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
@@ -10,6 +11,7 @@ import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
 export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const modals = useModals();
@@ -28,8 +30,8 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
 
   const remove = () =>
     modals.openConfirmModal({
-      title: 'Delete this panel?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('panel.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => content.removePanelByID(id, view.id),
       confirmProps: { color: 'red' },
@@ -49,32 +51,32 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={panel.refreshData} icon={<Refresh size={14} />}>
-              Refresh
+              {t('common.actions.refresh')}
             </Menu.Item>
             <Menu.Item onClick={panel.downloadData} icon={<Download size={14} />}>
-              Download Data
+              {t('common.actions.download_data')}
             </Menu.Item>
             <Menu.Item onClick={panel.downloadSchema} icon={<IconCode size={14} />}>
-              Download Schema
+              {t('common.actions.download_schema')}
             </Menu.Item>
             <Menu.Item onClick={downloadPanelScreenshot} icon={<IconCamera size={14} />}>
-              Screenshot
+              {t('common.actions.download_screenshot')}
             </Menu.Item>
             {showFullScreenOption && (
               <Menu.Item onClick={enterFullScreen} icon={<ArrowsMaximize size={14} />} disabled>
-                Full Screen
+                {t('common.actions.enter_fullscreen')}
               </Menu.Item>
             )}
 
             <Divider label="Edit" labelPosition="center" />
             <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
-              Settings
+              {t('common.titles.settings')}
             </Menu.Item>
             <Menu.Item onClick={duplicate} icon={<Copy size={14} />}>
-              Duplicate
+              {t('common.actions.duplicate')}
             </Menu.Item>
             <Menu.Item color="red" onClick={remove} icon={<Trash size={14} />}>
-              Delete
+              {t('common.actions.delete')}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

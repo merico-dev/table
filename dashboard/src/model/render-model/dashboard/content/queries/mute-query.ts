@@ -150,15 +150,15 @@ export const MuteQueryModel = QueryMeta.views((self) => ({
 
     const ret: DependencyInfo[] = [];
     sqlSnippetKeys.forEach((key) => {
-      ret.push({ type: 'SQL Snippet', key, valid: self.contentModel.sqlSnippets.keySet.has(key) });
+      ret.push({ type: 'sql_snippet', key, valid: self.contentModel.sqlSnippets.keySet.has(key) });
     });
 
     filterKeys.forEach((key) => {
-      ret.push({ type: 'Filter', key, valid: self.contentModel.filters.keySet.has(key) });
+      ret.push({ type: 'filter', key, valid: self.contentModel.filters.keySet.has(key) });
     });
 
     contextKeys.forEach((key) => {
-      ret.push({ type: 'Context', key, valid: self.contentModel.mock_context.keySet.has(key) });
+      ret.push({ type: 'context', key, valid: self.contentModel.mock_context.keySet.has(key) });
     });
 
     return ret;

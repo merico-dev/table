@@ -3,12 +3,14 @@ import { IconCamera, IconCode, IconDownload, IconShare3 } from '@tabler/icons-re
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext, useRenderDashboardContext } from '~/contexts';
-import { ViewMetaInstance, ViewRenderModelInstance } from '~/model';
+import { ViewRenderModelInstance } from '~/model';
 import { downloadJSON } from '~/utils/download';
 import { useDownloadDivScreenshot } from '../utils';
 
 export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot: () => void }) => {
+  const { t } = useTranslation();
   const [flag, { setTrue, setFalse }] = useBoolean(false);
   const model = useRenderDashboardContext();
   const content = useRenderContentModelContext();
@@ -43,14 +45,14 @@ export const DivActions = observer(({ downloadScreenshot }: { downloadScreenshot
 
       <Menu.Dropdown>
         <Menu.Item icon={<IconCamera size={14} />} onClick={downloadScreenshot}>
-          Screenshot
+          {t('common.actions.download_screenshot')}
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item icon={<IconDownload size={14} />} onClick={content.queries.downloadAllData}>
-          Download Data
+          {t('common.actions.download_data')}
         </Menu.Item>
         <Menu.Item icon={<IconCode size={14} />} onClick={downloadSchema}>
-          Download Schema
+          {t('common.actions.download_schema')}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

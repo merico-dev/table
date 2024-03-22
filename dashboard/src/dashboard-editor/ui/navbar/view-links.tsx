@@ -2,6 +2,7 @@ import { ActionIcon, Box, Button, Divider, Group, Text, Tooltip, UnstyledButton 
 import { IconAdjustments, IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 
 interface IViewLink {
@@ -51,6 +52,7 @@ function ViewLink({ onClick, name, active, openSettings }: IViewLink) {
 }
 
 export const ViewLinks = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
   const getClickHandler = useCallback((id: string) => () => content.views.setIDOfVIE(id), [content]);
@@ -83,7 +85,7 @@ export const ViewLinks = observer(() => {
           },
         }}
       >
-        Add a View
+        {t('view.add')}
       </Button>
     </Box>
   );

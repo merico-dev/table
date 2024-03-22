@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "12.3.1",
+  "version": "12.4.1",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -35,6 +35,9 @@
     "@types/chroma-js": "^2.1.4",
     "dom-to-image-more": "3.1.6",
     "file-saver": "2.0.5",
+    "i18next": "^23.10.1",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "intl-pluralrules": "^2.0.1",
     "js-base64": "3.7.5",
     "mathjs": "11.8.0",
     "monaco-editor": "0.36.0",
@@ -42,6 +45,7 @@
     "popmotion": "^11.0.3",
     "rc-select": "14.1.0",
     "rc-tree-select": "5.5.5",
+    "react-i18next": "^14.1.0",
     "reactflow": "^11.6.0",
     "uuid": "9.0.1"
   },

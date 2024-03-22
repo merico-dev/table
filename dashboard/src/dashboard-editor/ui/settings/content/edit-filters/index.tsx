@@ -2,10 +2,12 @@ import { Box, Button, Checkbox, Flex, Group, Stack, Table, Text } from '@mantine
 import { IconCode } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { filterTypeNames } from '~/components/filter/filter-settings/filter-setting';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditFilters = observer(() => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<string[]>([]);
   const model = useEditDashboardContext();
   const navigateToFilter = (filterID: string) => {
@@ -31,17 +33,17 @@ export const EditFilters = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage Filters
+          {t('filter.manage')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>
         <Group position="left">
           <Button.Group>
             <Button variant="default" size="xs" onClick={selectAll}>
-              Select All
+              {t('common.actions.select_all')}
             </Button>
             <Button variant="default" size="xs" onClick={selectNone}>
-              Clear Selection
+              {t('common.actions.clear_selection')}
             </Button>
           </Button.Group>
           <Button
@@ -52,7 +54,7 @@ export const EditFilters = observer(() => {
             disabled={value.length === 0}
             onClick={downloadSchema}
           >
-            Download Schema
+            {t('common.actions.download_schema')}
           </Button>
         </Group>
       </Flex>
@@ -62,10 +64,10 @@ export const EditFilters = observer(() => {
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>
-                <th style={{ width: '300px' }}>Label</th>
-                <th>Key</th>
-                <th style={{ width: '100px' }}>Widget</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+                <th style={{ width: '300px' }}>{t('common.label')}</th>
+                <th>{t('common.key')}</th>
+                <th style={{ width: '100px' }}>{t('filter.field.widget')}</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
             <tbody>
@@ -80,7 +82,7 @@ export const EditFilters = observer(() => {
                     <td>{filterTypeNames[f.type]}</td>
                     <td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToFilter(f.id)}>
-                        Open
+                        {t('common.actions.open')}
                       </Button>
                     </td>
                   </tr>

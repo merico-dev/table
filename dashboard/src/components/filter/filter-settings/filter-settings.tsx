@@ -7,8 +7,10 @@ import { useEditContentModelContext } from '~/contexts';
 import { DashboardFilterType, FilterMetaInstance, createFilterTextInputConfig } from '~/model';
 import { FilterSetting } from './filter-setting';
 import './filter-settings.css';
+import { useTranslation } from 'react-i18next';
 
 export const FilterSettings = observer(function _FilterSettings() {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   const filters = model.filters.current;
 
@@ -30,8 +32,8 @@ export const FilterSettings = observer(function _FilterSettings() {
   const modals = useModals();
   const removeWithConfirmation = (id: string) => {
     modals.openConfirmModal({
-      title: 'Delete this filter?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('filter.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.filters.removeByID(id),
       zIndex: 320,
@@ -65,7 +67,7 @@ export const FilterSettings = observer(function _FilterSettings() {
         <Group sx={{ height: '100%' }}>
           <Stack sx={{ height: '100%' }}>
             <Button size="xs" color="blue" leftIcon={<PlaylistAdd size={20} />} onClick={addFilter}>
-              Add a Filter
+              {t('filter.add')}
             </Button>
             <Tabs.List position="left" sx={{ flexGrow: 1, width: '200px' }}>
               {model.filters.current.map((field) => (
@@ -89,7 +91,7 @@ export const FilterSettings = observer(function _FilterSettings() {
                       leftIcon={<Trash size={20} />}
                       onClick={() => removeWithConfirmation(filter.id)}
                     >
-                      Delete this filter
+                      {t('filter.delete')}
                     </Button>
                   </Group>
                 </Stack>

@@ -7,6 +7,7 @@ import { QueryVariablesModal } from '~/dashboard-editor/ui/settings/content/view
 import { MinimalMonacoEditor } from '~/components/widgets/minimal-monaco-editor';
 import { PreviewSnippet } from './preview-snippet';
 import { SQLSnippetRenderModelInstance } from '~/model';
+import { useTranslation } from 'react-i18next';
 
 interface ISQLSnippetItemEditor {
   item: SQLSnippetRenderModelInstance;
@@ -14,6 +15,7 @@ interface ISQLSnippetItemEditor {
   onKeyChanged: (newKey: string) => void;
 }
 export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: ISQLSnippetItemEditor) => {
+  const { t } = useTranslation();
   // tab
   const [tab, setTab] = useState<string | null>('SQL');
 
@@ -41,8 +43,8 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
   const modals = useModals();
   const removeWithConfirmation = () => {
     modals.openConfirmModal({
-      title: 'Delete this SQL snippet?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('sql_snippet.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: remove,
       confirmProps: { color: 'red' },
@@ -74,7 +76,7 @@ export const SQLSnippetItemEditor = observer(({ item, remove, onKeyChanged }: IS
           error={isADuplicatedKey}
         />
         <Button leftIcon={<Trash size={16} />} color="red" variant="light" onClick={removeWithConfirmation}>
-          Delete this SQL Snippet
+          {t('sql_snippet.delete')}
         </Button>
       </Group>
       <Tabs value={tab} onTabChange={setTab} sx={{ flexGrow: 1 }} styles={{ panel: { height: 'calc(100% - 50px)' } }}>

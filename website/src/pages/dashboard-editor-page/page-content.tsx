@@ -5,24 +5,25 @@ import React, { useCallback } from 'react';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { IDashboardModel } from '@devtable/dashboard';
+import { IDashboardModel, OnExitParams } from '@devtable/dashboard';
+import { Group, Text } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+import { IconAlertTriangle } from '@tabler/icons-react';
 import { useRequest } from 'ahooks';
 import { reaction, toJS } from 'mobx';
+import { useNavigate } from 'react-router-dom';
 import { APICaller } from '../../api-caller';
+import { useLanguageContext } from '../../contexts';
 import { DashboardDetailModelInstance } from '../../frames/app/models/dashboard-detail-model';
 import { useDashboardStore } from '../../frames/app/models/dashboard-store-context';
 import { getDashboardConfig } from '../../utils/config';
 import { useRebaseModel } from './content-rebase-warning/rebase-editor/rebase-config-context';
 import { MoreDashboardInfo } from './more-dashboard-info';
 import { LoadingPlaceholder } from './placeholder';
-import { useNavigate } from 'react-router-dom';
-import { useModals } from '@mantine/modals';
-import { IconAlertTriangle } from '@tabler/icons-react';
-import { Group, Text } from '@mantine/core';
-import { OnExitParams } from '@devtable/dashboard';
 
 export const DashboardEditorPageContent = observer(
   ({ dashboardModel, refresh }: { dashboardModel: DashboardDetailModelInstance; refresh: () => void }) => {
+    const { lang } = useLanguageContext();
     const { store } = useDashboardStore();
     const [context] = React.useState({});
     const rebaseModel = useRebaseModel();
@@ -102,6 +103,7 @@ export const DashboardEditorPageContent = observer(
         config={dashboardConfig}
         headerSlot={<MoreDashboardInfo />}
         onExit={handleExit}
+        lang={lang}
         // onFilterValuesChange={console.log}
       />
     );

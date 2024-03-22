@@ -1,6 +1,7 @@
 import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
 import React, { ChangeEvent, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ModalFunctionEditor } from '~/components/widgets/modal-function-editor';
 import { AggregationType, DefaultCustomAggregationFunc } from '~/utils';
 
@@ -29,6 +30,7 @@ function _AggregationSelector(
   { label, value, onChange, pt = 'sm', withFallback }: IAggregationSelector,
   ref: $TSFixMe,
 ) {
+  const { t } = useTranslation();
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {
@@ -115,8 +117,8 @@ function _AggregationSelector(
       </Group>
       {withFallback && (
         <TextInput
-          label="Fallback Value"
-          description="Used when data is empty or the aggregation yields NaN"
+          label={t('panel.variable.aggregation.fallback_value')}
+          description={t('panel.variable.aggregation.fallback_value_description')}
           value={value.fallback}
           onChange={changeFallback}
         />

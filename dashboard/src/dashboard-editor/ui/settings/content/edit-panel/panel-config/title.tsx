@@ -1,8 +1,10 @@
 import { Checkbox, Group, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditPanelContext } from '~/contexts/panel-context';
 
 export const EditTitle = observer(() => {
+  const { t } = useTranslation();
   const { panel } = useEditPanelContext();
 
   return (
@@ -12,10 +14,10 @@ export const EditTitle = observer(() => {
           size="sm"
           checked={panel.title.show}
           onChange={(event) => panel.title.setShow(event.currentTarget.checked)}
-          label="Show Title"
+          label={t('panel.show_title')}
           sx={{ userSelect: 'none' }}
         />
-        <Checkbox size="sm" checked disabled label="Use name as title" />
+        <Checkbox size="sm" checked disabled label={t('panel.use_name_as_title')} />
       </Group>
     </Stack>
   );

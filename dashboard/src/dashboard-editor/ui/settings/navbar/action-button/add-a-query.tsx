@@ -1,10 +1,12 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 import { DataSourceType, QueryRenderModelInstance } from '~/model';
 
 export const AddAQuery = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const add = () => {
     const id = new Date().getTime().toString();
@@ -35,7 +37,7 @@ export const AddAQuery = observer(() => {
         },
       }}
     >
-      Add a Query
+      {t('query.add')}
     </Button>
   );
 });

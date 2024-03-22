@@ -95,26 +95,26 @@ export const EditorModel = types
       const { filters, views, sqlSnippets, queries } = content;
       const ret: Array<NavOptionType> = [
         {
-          label: 'Query Variables',
+          label: 'query_variable.labels',
           value: '_QUERY_VARS_',
           _type: 'query_variables',
           Icon: IconVariable,
         },
         {
-          label: 'Mock Context',
+          label: 'mock_context.label',
           value: '_MOCK_CONTEXT_',
           Icon: IconCodeDots,
           _type: 'mock_context',
         },
         {
-          label: 'Filters',
+          label: 'filter.labels',
           value: '_FILTERS_',
           Icon: IconFilter,
           children: [getActionOption('_FILTERS_SETTINGS_'), ...filters.options, getActionOption('_Add_A_Filter_')],
           _type: 'GROUP',
         },
         {
-          label: 'SQL Snippets',
+          label: 'sql_snippet.labels',
           value: '_SQL_SNIPPETS_',
           Icon: IconCopy,
           children: [
@@ -125,14 +125,14 @@ export const EditorModel = types
           _type: 'GROUP',
         },
         {
-          label: 'Queries',
+          label: 'query.labels',
           value: '_QUERIES_',
           Icon: IconDatabase,
           children: [getActionOption('_QUERIES_SETTINGS_'), ...queries.options, getActionOption('_Add_A_QUERY_')],
           _type: 'GROUP',
         },
         {
-          label: 'Views',
+          label: 'view.labels',
           value: '_VIEWS_',
           Icon: IconBoxMultiple,
           children: [...views.editorOptions, getActionOption('_Add_A_VIEW_')],

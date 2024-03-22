@@ -4,6 +4,7 @@ import { useAsyncEffect, useCreation, useRequest } from 'ahooks';
 import { throttle } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AlertCircle, Trash } from 'tabler-icons-react';
 import { IPanelInfo, IVizManager, PluginContext } from '~/components/plugins';
 import { useRenderPanelContext } from '~/contexts';
@@ -74,6 +75,7 @@ const InteractionItem = observer(
 );
 
 export const InteractionSettings = (props: IInteractionSettingsProps) => {
+  const { t } = useTranslation();
   const [version, setVersion] = useState(0);
   const { interactionManager, instance, sampleData, variables } = props;
   const interactions = useInteractionList(interactionManager, version);
@@ -124,7 +126,7 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
         />
       ))}
       <Button style={{ width: 'fit-content' }} onClick={() => createNewInteraction()} disabled={data === 0}>
-        Add interaction
+        {t('interactions.add')}
       </Button>
     </Stack>
   );

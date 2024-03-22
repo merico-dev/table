@@ -3,6 +3,7 @@ import { IconCode, IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
+import { useTranslation } from 'react-i18next';
 
 const ButtonSx: Sx = {
   height: '30px',
@@ -13,12 +14,13 @@ const ButtonSx: Sx = {
 };
 
 export const DownloadThisView = observer(() => {
+  const { t } = useTranslation();
   const contentModel = useEditContentModelContext();
   const cant = contentModel.views.VIE?.type === EViewComponentType.Tabs;
   const download = () => contentModel.views.VIE?.downloadSchema();
   if (cant) {
     return (
-      <Tooltip label="Please choose a tab first">
+      <Tooltip label={t('common.choose_a_tab_first')}>
         <Button
           variant="outline"
           color="gray"
@@ -30,7 +32,7 @@ export const DownloadThisView = observer(() => {
             transform: 'none !important',
           }}
         >
-          Download this View
+          {t('view.download_schema')}
         </Button>
       </Tooltip>
     );
@@ -49,7 +51,7 @@ export const DownloadThisView = observer(() => {
         // background: 'rgb(231, 245, 255)',
       }}
     >
-      Download this View
+      {t('view.download_schema')}
     </Button>
   );
 });

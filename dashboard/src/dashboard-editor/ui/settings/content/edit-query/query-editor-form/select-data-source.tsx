@@ -7,6 +7,7 @@ import { DataSourceType } from '~/model';
 import { listDataSources } from '~/api-caller';
 import { DBExplorerModal } from '../../db-explorer-modal';
 import { IconVectorTriangle } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 const DataSourceLabel = forwardRef<HTMLDivElement, { label: string; type: DataSourceType }>(
   ({ label, type, ...others }, ref) =>
@@ -34,6 +35,7 @@ interface ISelectDataSource {
   onChange: (v: { type: DataSourceType; key: string }) => void;
 }
 export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource) => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   const { data: dataSources = [], loading } = useRequest(
     listDataSources,
@@ -50,7 +52,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       type: ds.type,
     }));
     ret.push({
-      label: "Use other queries' data",
+      label: t('query.transform.data_source'),
       value: DataSourceType.Transform,
       type: DataSourceType.Transform,
     });
@@ -82,7 +84,7 @@ export const SelectDataSource = observer(({ value, onChange }: ISelectDataSource
       data={dataSourceOptions}
       label={
         <Group position="apart">
-          <Box>Data Source</Box>
+          <Box>{t('data_source.label')}</Box>
           {dataSource && (
             <DBExplorerModal dataSource={dataSource} triggerButtonProps={{ compact: true, size: 'xs', px: 10 }} />
           )}

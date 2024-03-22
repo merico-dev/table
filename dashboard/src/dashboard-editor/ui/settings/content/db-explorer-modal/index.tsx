@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { DataSourceModelInstance } from '~/dashboard-editor/model/datasources/datasource';
 import { AnyObject } from '~/types';
 import { DBExplorer } from './db-explorer';
+import { useTranslation } from 'react-i18next';
 
 const modalStyles = {
   modal: { paddingLeft: '0px !important', paddingRight: '0px !important' },
@@ -20,6 +21,7 @@ interface IDBExplorerModal {
 }
 
 export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }: IDBExplorerModal) => {
+  const { t } = useTranslation();
   const [opened, setOpened] = useState(false);
 
   if (dataSource.type === 'http') {
@@ -32,7 +34,7 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
         onClose={() => setOpened(false)}
         title={
           <Group position="apart" sx={{ flexGrow: 1 }}>
-            <Text fw={500}>Explorer Data Source</Text>
+            <Text fw={500}>{t('data_source.explorer')}</Text>
             <Group spacing={7}>
               <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
                 {dataSource.key}
@@ -59,7 +61,7 @@ export const DBExplorerModal = observer(({ dataSource, triggerButtonProps = {} }
         styles={{ inner: { justifyContent: 'flex-start' } }}
         {...triggerButtonProps}
       >
-        See Table Structure
+        {t('data_source.see_table_structure')}
       </Button>
     </>
   );

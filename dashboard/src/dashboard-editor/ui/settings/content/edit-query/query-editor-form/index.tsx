@@ -11,6 +11,7 @@ import { QueryUsage } from './query-usage';
 import { TabPanel_SQL } from './tabs/sql';
 import { TabPanel_Transform } from './tabs/transform';
 import { QueryModelInstance } from '~/dashboard-editor/model/queries';
+import { useTranslation } from 'react-i18next';
 
 const TabPanelStyle: Sx = {
   height: 'calc(100% - 44px)', // Tabs.List
@@ -22,6 +23,7 @@ interface IQueryEditorForm {
 }
 
 export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
+  const { t } = useTranslation();
   const content = useEditContentModelContext();
   const defaultTab = useMemo(() => {
     if (!queryModel.datasource) {
@@ -53,18 +55,18 @@ export const QueryEditorForm = observer(({ queryModel }: IQueryEditorForm) => {
       sx={{ height: '100vh' }}
     >
       <Tabs.List grow>
-        <Tabs.Tab value="Configurations">Configurations</Tabs.Tab>
-        {queryModel.typedAsSQL && <Tabs.Tab value="SQL">Request</Tabs.Tab>}
-        {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">Request</Tabs.Tab>}
-        {queryModel.isTransform && <Tabs.Tab value="Transform">Transform</Tabs.Tab>}
+        <Tabs.Tab value="Configurations">{t('query.configurations')}</Tabs.Tab>
+        {queryModel.typedAsSQL && <Tabs.Tab value="SQL">{t('query.request')}</Tabs.Tab>}
+        {queryModel.typedAsHTTP && <Tabs.Tab value="HTTP">{t('query.request')}</Tabs.Tab>}
+        {queryModel.isTransform && <Tabs.Tab value="Transform">{t('query.transform.label')}</Tabs.Tab>}
         <Tabs.Tab value="Data" disabled={!queryModel.canPreviewData}>
           <Tooltip label={queryModel.guideToPreviewData} disabled={queryModel.canPreviewData} withinPortal>
-            <Text>Data</Text>
+            <Text>{t('data.preview_data')}</Text>
           </Tooltip>
         </Tabs.Tab>
         <Tabs.Tab value="Usage" disabled={noUsage}>
-          <Tooltip label="This query is not used for any filter or panel" disabled={!noUsage} withinPortal>
-            <Text>Usage</Text>
+          <Tooltip label={t('query.usage.unused_description')} disabled={!noUsage} withinPortal>
+            <Text>{t('query.usage.label')}</Text>
           </Tooltip>
         </Tabs.Tab>
       </Tabs.List>

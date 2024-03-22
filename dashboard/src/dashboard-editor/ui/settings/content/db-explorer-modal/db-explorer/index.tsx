@@ -7,6 +7,7 @@ import { ErrorBoundary } from '~/utils';
 import { Structure } from './structure';
 import { TableNavLinks } from './table-nav-links';
 import { TableData } from './table-data';
+import { useTranslation } from 'react-i18next';
 
 const tabsStyles = {
   root: {
@@ -23,6 +24,7 @@ const tabsStyles = {
 };
 
 export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceModelInstance }) => {
+  const { t } = useTranslation();
   useEffect(() => {
     dataSource.loadTablesIfEmpty();
   }, [dataSource]);
@@ -44,10 +46,10 @@ export const DBExplorer = observer(({ dataSource }: { dataSource: DataSourceMode
       <Tabs defaultValue="structure" styles={tabsStyles}>
         <Tabs.List>
           <Tabs.Tab value="structure" icon={<IconColumns size={14} />}>
-            Structure
+            {t('data_source.table_structure_short')}
           </Tabs.Tab>
           <Tabs.Tab value="data" icon={<IconDatabase size={14} />}>
-            Data
+            {t('data.label')}
           </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="structure">

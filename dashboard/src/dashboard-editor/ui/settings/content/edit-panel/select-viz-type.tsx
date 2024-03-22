@@ -3,6 +3,7 @@ import { useInputState } from '@mantine/hooks';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { PluginContext } from '~/components/plugins';
 
@@ -25,6 +26,7 @@ interface ISelectVizType {
 }
 
 export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
+  const { t } = useTranslation();
   const [type, setType] = useInputState(value);
   useEffect(() => {
     setType(value);
@@ -34,7 +36,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
   const changed = value !== type;
   return (
     <Select
-      label="Visualization"
+      label={t('visualization.component')}
       value={type}
       searchable
       onChange={setType}

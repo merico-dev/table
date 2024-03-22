@@ -1,6 +1,7 @@
 import { Button, Sx, Tooltip } from '@mantine/core';
 import { IconPlaylistAdd } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 import { EViewComponentType } from '~/model';
 
@@ -13,12 +14,13 @@ const ButtonSx: Sx = {
 };
 
 export const AddAPanel = observer(() => {
+  const { t } = useTranslation();
   const contentModel = useEditContentModelContext();
   const cant = contentModel.views.VIE?.type === EViewComponentType.Tabs;
   const add = () => contentModel.addANewPanel(contentModel.views.idOfVIE);
   if (cant) {
     return (
-      <Tooltip label="Please choose a tab first">
+      <Tooltip label={t('common.choose_a_tab_first')}>
         <Button
           variant="outline"
           color="gray"
@@ -30,7 +32,7 @@ export const AddAPanel = observer(() => {
             transform: 'none !important',
           }}
         >
-          Add a Panel
+          {t('panel.add')}
         </Button>
       </Tooltip>
     );
@@ -49,7 +51,7 @@ export const AddAPanel = observer(() => {
         background: 'rgb(231, 245, 255)',
       }}
     >
-      Add a Panel
+      {t('panel.add')}
     </Button>
   );
 });

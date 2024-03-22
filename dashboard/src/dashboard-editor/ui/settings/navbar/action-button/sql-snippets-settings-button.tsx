@@ -1,9 +1,11 @@
 import { Button } from '@mantine/core';
 import { IconSettings } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 
 export const SQLSnippetsSettingsButton = observer(() => {
+  const { t } = useTranslation();
   const model = useEditDashboardContext();
   return (
     <Button
@@ -21,7 +23,7 @@ export const SQLSnippetsSettingsButton = observer(() => {
         },
       }}
     >
-      Manage SQL Snippets
+      {t('sql_snippet.manage')}
     </Button>
   );
 });

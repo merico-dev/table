@@ -2,10 +2,12 @@ import { ActionIcon, Group, JsonInput, Stack, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DeviceFloppy } from 'tabler-icons-react';
 import { useEditContentModelContext } from '~/contexts';
 
 export const EditMockContext = observer(() => {
+  const { t } = useTranslation();
   const content = useEditContentModelContext();
   const [v, setV] = useState(() => JSON.stringify(content.mock_context.current, null, 4));
   const submit = () => {
@@ -37,11 +39,11 @@ export const EditMockContext = observer(() => {
         py="md"
         sx={{ borderBottom: '1px solid #eee', background: '#efefef', flexGrow: 0 }}
       >
-        <Text weight={500}>Mock Context</Text>
+        <Text weight={500}>{t('mock_context.label')}</Text>
       </Group>
       <Group grow px="md" pb="md" pt={0} sx={{ flexGrow: 1, position: 'relative', alignItems: 'flex-start' }}>
         <Stack spacing={10} sx={{ maxWidth: 'unset !important' }}>
-          <Text>A valid json string is required</Text>
+          <Text>{t('mock_context.hint')}</Text>
           <JsonInput
             validationError="Invalid json"
             formatOnBlur

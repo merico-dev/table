@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
@@ -21,6 +21,7 @@ import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-render.css';
 import { createDashboardRenderModel } from './model';
 import { registerECharts } from '~/utils';
+import { useTranslation } from 'react-i18next';
 
 registerThemes();
 registerECharts();
@@ -35,6 +36,7 @@ interface IReadOnlyDashboard {
   setFullScreenPanelID: (v: string) => void;
   filterValues?: Record<string, any>;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
+  lang: string;
 }
 
 const _ReadOnlyDashboard = ({
@@ -47,8 +49,13 @@ const _ReadOnlyDashboard = ({
   setFullScreenPanelID,
   filterValues,
   onFilterValuesChange,
+  lang,
 }: IReadOnlyDashboard) => {
   configureAPIClient(config);
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+  }, [lang]);
 
   const { data: datasources = [] } = useRequest(listDataSources);
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);

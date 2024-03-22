@@ -1,7 +1,8 @@
-import { Button, Tooltip } from '@mantine/core';
+import { Box, Button, Tooltip } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { QueryRenderModelInstance } from '~/model';
 
@@ -10,6 +11,7 @@ export interface IDeleteQueryProps {
 }
 
 const _DeleteQuery = (props: IDeleteQueryProps) => {
+  const { t } = useTranslation();
   const { queryModel } = props;
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -19,8 +21,8 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   const modals = useModals();
   const remove = () => {
     modals.openConfirmModal({
-      title: 'Delete this query?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: `${t('query.delete')}?`,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => {
         content.queries.removeQuery(queryModel.id);
@@ -34,20 +36,24 @@ const _DeleteQuery = (props: IDeleteQueryProps) => {
   if (disabled) {
     return (
       <Tooltip
-        label="Can't delete this query for it's being used, check out Usage tab for details"
+        label={t('query.cant_delete')}
         withArrow
         events={{ hover: true, focus: false, touch: false }}
         withinPortal
+        zIndex={320}
+        position="top-end"
       >
-        <Button color="gray" size="xs" leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
-          Delete this Query
-        </Button>
+        <Box sx={{ alignSelf: 'flex-end' }}>
+          <Button disabled size="xs" leftIcon={<IconTrash size={16} />}>
+            {t('query.delete')}
+          </Button>
+        </Box>
       </Tooltip>
     );
   }
   return (
     <Button color="red" size="xs" onClick={remove} leftIcon={<IconTrash size={16} />} sx={{ alignSelf: 'flex-end' }}>
-      Delete this Query
+      {t('query.delete')}
     </Button>
   );
 };

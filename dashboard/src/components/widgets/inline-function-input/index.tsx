@@ -3,6 +3,7 @@ import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons
 import { forwardRef, useEffect, useState } from 'react';
 import { AboutFunctionUtils } from '../about-function-utils';
 import { FunctionEditor } from '../function-editor';
+import { useTranslation } from 'react-i18next';
 
 interface IInlineFunctionInput {
   value: TFunctionString;
@@ -13,6 +14,7 @@ interface IInlineFunctionInput {
 
 export const InlineFunctionInput = forwardRef(
   ({ value, onChange, label, defaultValue }: IInlineFunctionInput, _ref: any) => {
+    const { t } = useTranslation();
     const [localValue, setLocalValue] = useState<string>(value);
 
     const handleOk = () => {
@@ -41,7 +43,7 @@ export const InlineFunctionInput = forwardRef(
           </Group>
           <Group position="right">
             <Button onClick={resetFuncContent} size="xs" variant="default" leftIcon={<IconPlayerSkipBack size={16} />}>
-              Reset to default
+              {t('common.actions.reset_to_default')}
             </Button>
             <Button
               onClick={handleCancel}
@@ -50,10 +52,16 @@ export const InlineFunctionInput = forwardRef(
               disabled={!hasChanges}
               leftIcon={<IconRecycle size={16} />}
             >
-              Revert Changes
+              {t('common.actions.revert_changes')}
             </Button>
-            <Button size="xs" onClick={handleOk} disabled={!hasChanges} leftIcon={<IconDeviceFloppy size={16} />}>
-              Confirm Changes
+            <Button
+              color="green"
+              size="xs"
+              onClick={handleOk}
+              disabled={!hasChanges}
+              leftIcon={<IconDeviceFloppy size={16} />}
+            >
+              {t('common.actions.save_changes')}
             </Button>
           </Group>
         </Group>

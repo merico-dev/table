@@ -1,9 +1,11 @@
 import { Button } from '@mantine/core';
 import { IconPlus } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useEditContentModelContext } from '~/contexts';
 
 export const AddAView = observer(() => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
 
   return (
@@ -22,7 +24,7 @@ export const AddAView = observer(() => {
         },
       }}
     >
-      Add a View
+      {t('view.add')}
     </Button>
   );
 });

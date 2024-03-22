@@ -3,9 +3,11 @@ import { useModals } from '@mantine/modals';
 import { IconCode, IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useEditDashboardContext } from '~/contexts';
 
 export const EditSQLSnippets = observer(() => {
+  const { t } = useTranslation();
   const [value, setValue] = useState<string[]>([]);
   const modals = useModals();
   const model = useEditDashboardContext();
@@ -17,7 +19,7 @@ export const EditSQLSnippets = observer(() => {
     modals.openConfirmModal({
       title: 'Delete ununsed SQL snippets?',
       children: <Text size="sm">This action cannot be undone.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: () => model.content.removeUnusedSQLSnippets(),
       confirmProps: { color: 'red' },
@@ -45,17 +47,17 @@ export const EditSQLSnippets = observer(() => {
     <Stack sx={{ height: '100%' }} spacing="sm" pb={'59px'}>
       <Box pt={9} pb={8} sx={{ borderBottom: '1px solid #eee' }}>
         <Text px="md" align="left" sx={{ userSelect: 'none', cursor: 'default' }}>
-          Manage SQL Snippets
+          {t('sql_snippet.manage')}
         </Text>
       </Box>
       <Flex justify="space-between" align="center" px={12}>
         <Group position="left">
           <Button.Group>
             <Button variant="default" size="xs" onClick={selectAll}>
-              Select All
+              {t('common.actions.select_all')}
             </Button>
             <Button variant="default" size="xs" onClick={selectNone}>
-              Clear Selection
+              {t('common.actions.clear_selection')}
             </Button>
           </Button.Group>
           <Button
@@ -66,7 +68,7 @@ export const EditSQLSnippets = observer(() => {
             disabled={value.length === 0}
             onClick={downloadSchema}
           >
-            Download Schema
+            {t('common.actions.download_schema')}
           </Button>
         </Group>
         <Button
@@ -77,7 +79,7 @@ export const EditSQLSnippets = observer(() => {
           disabled={!model.content.hasUnusedSQLSnippets}
           onClick={removeUnusedSQLSnippetsWithConfirmation}
         >
-          Delete unused SQL snippets
+          {t('sql_snippet.delete_unused')}
         </Button>
       </Flex>
       <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
@@ -86,9 +88,9 @@ export const EditSQLSnippets = observer(() => {
             <thead>
               <tr>
                 <th style={{ width: '40px' }}></th>
-                <th>Key</th>
-                <th style={{ width: '100px', textAlign: 'center' }}>Usage</th>
-                <th style={{ width: '300px', paddingLeft: '24px' }}>Action</th>
+                <th>{t('common.key')}</th>
+                <th style={{ width: '100px', textAlign: 'center' }}>{t('sql_snippet.usage.label')}</th>
+                <th style={{ width: '300px', paddingLeft: '24px' }}>{t('common.action')}</th>
               </tr>
             </thead>
             <tbody>
@@ -111,7 +113,7 @@ export const EditSQLSnippets = observer(() => {
                     </td>
                     <td>
                       <Button variant="subtle" size="xs" onClick={() => navigateToSnippet(s.key)}>
-                        Open
+                        {t('common.actions.open')}
                       </Button>
                     </td>
                   </tr>

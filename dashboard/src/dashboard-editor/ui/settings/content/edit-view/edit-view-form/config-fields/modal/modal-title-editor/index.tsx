@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Edit, Recycle, Settings } from 'tabler-icons-react';
 import { CustomModalTitleFunctionEditor } from './function-editor';
 import { DEFAULT_CUSTOM_MODAL_TITLE, ICustomModalTitle } from '~/model';
+import { useTranslation } from 'react-i18next';
 
 interface ICustomModalTitleField {
   value: ICustomModalTitle;
@@ -11,6 +12,7 @@ interface ICustomModalTitleField {
 }
 
 export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleField) => {
+  const { t } = useTranslation();
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<ICustomModalTitle>(value ?? DEFAULT_CUSTOM_MODAL_TITLE);
 
@@ -56,7 +58,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
       </ActionIcon>
       <Modal
         size={800}
-        title="Customize modal title"
+        title={t('view.component.modal.custom_title')}
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -67,7 +69,7 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
           <Stack>
             <Checkbox
               mt={10}
-              label="Enabled"
+              label={t('common.enabled')}
               checked={localValue.enabled}
               onChange={(event) => changeEnabled(event.currentTarget.checked)}
             />
@@ -78,13 +80,13 @@ export const CustomModalTitleField = ({ value, onChange }: ICustomModalTitleFiel
             />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Reset
+                {t('common.actions.revert')}
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
-                  Cancel
+                  {t('common.actions.cancel')}
                 </Button>
-                <Button onClick={handleOk}>OK</Button>
+                <Button onClick={handleOk}>{t('common.actions.save')}</Button>
               </Group>
             </Group>
           </Stack>

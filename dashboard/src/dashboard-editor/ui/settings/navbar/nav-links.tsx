@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { useEditDashboardContext } from '~/contexts';
 import { NavOptionType } from '~/dashboard-editor/model/editor';
 import { ActionButton } from './action-button';
+import { useTranslation } from 'react-i18next';
 
 interface ISettingsNavLink {
   option: NavOptionType;
 }
 
 const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
+  const { t } = useTranslation();
   const editor = useEditDashboardContext().editor;
   const isActive = editor.isOptionActive;
   const active = isActive(editor.path, option);
@@ -28,7 +30,7 @@ const SettingsNavLink = observer(({ option }: ISettingsNavLink) => {
       defaultOpened={defaultOpened}
       opened={opened}
       onChange={setOpened}
-      label={option.label}
+      label={t(option.label)}
       onClick={() => onClick(option)}
       icon={option.Icon ? <option.Icon size={18} /> : null}
     >
