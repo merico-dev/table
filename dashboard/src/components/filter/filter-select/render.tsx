@@ -2,8 +2,8 @@ import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, FilterSelectConfigInstance } from '~/model';
+import { ErrorMessageOrNotFound } from '../error-message-or-not-found';
 import { FilterSelectItem } from '../select-item';
-import { useTranslation } from 'react-i18next';
 
 interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
   config: FilterSelectConfigInstance;
@@ -12,7 +12,6 @@ interface IFilterSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'confi
 }
 
 export const FilterSelect = observer(({ label, config, value, onChange }: IFilterSelect) => {
-  const { t } = useTranslation();
   const model = useRenderContentModelContext();
   const usingRemoteOptions = !!config.options_query_id;
   const { state, error } = model.getDataStuffByID(config.options_query_id);
@@ -25,8 +24,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       disabled={usingRemoteOptions ? loading : false}
       value={value}
       onChange={onChange}
-      error={!!error}
-      placeholder={error}
+      // error={!!error}
       maxDropdownHeight={500}
       styles={{
         root: {
@@ -47,8 +45,8 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
         },
       }}
       itemComponent={FilterSelectItem}
-      searchable
-      nothingFound={t('filter.widget.common.selector_option_empty')}
+      searchable={!error}
+      nothingFound={<ErrorMessageOrNotFound errorMessage={error} />}
     />
   );
 });
