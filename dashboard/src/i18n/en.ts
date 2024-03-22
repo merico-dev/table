@@ -27,6 +27,7 @@ export const en = {
         common: {
           use_query_data_as_options: 'Use query data as options',
           or_fetch_options_from_datasource: 'Or fetch options from datasource',
+          selector_option_empty: 'Not found',
         },
         text_input: {
           default_value: 'Default Value',
