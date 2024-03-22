@@ -1,6 +1,7 @@
 import {
   BarChart,
   BoxplotChart,
+  CustomChart,
   FunnelChart,
   HeatmapChart,
   LineChart,
@@ -28,6 +29,7 @@ export function registerECharts() {
 
     BarChart,
     BoxplotChart,
+    CustomChart,
     FunnelChart,
     HeatmapChart,
     LineChart,
