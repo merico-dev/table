@@ -40,6 +40,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
         },
       }}
       itemComponent={FilterSelectItem}
+      searchable
     />
   );
 });
