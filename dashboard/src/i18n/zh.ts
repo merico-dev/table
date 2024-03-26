@@ -27,6 +27,7 @@ export const zh = {
         common: {
           use_query_data_as_options: '使用所查数据为选项',
           or_fetch_options_from_datasource: '或从数据源查选项',
+          selector_option_empty: '无选项可用',
         },
         text_input: {
           default_value: '默认值',

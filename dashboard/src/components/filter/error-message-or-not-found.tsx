@@ -1,10 +1,12 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   errorMessage?: string;
 }
 
 export const ErrorMessageOrNotFound = ({ errorMessage }: IProps) => {
+  const { t } = useTranslation();
   if (errorMessage) {
     return (
       <Text color="red" size={12}>
@@ -14,7 +16,7 @@ export const ErrorMessageOrNotFound = ({ errorMessage }: IProps) => {
   }
   return (
     <Text color="dimmed" size={12}>
-      Not found
+      {t('filter.widget.common.selector_option_empty')}
     </Text>
   );
 };

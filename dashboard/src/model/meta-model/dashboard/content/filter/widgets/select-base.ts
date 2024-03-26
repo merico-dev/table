@@ -50,8 +50,11 @@ export const FilterBaseSelectConfigMeta = types
       if (state === 'error') {
         return [];
       }
+      if (!Array.isArray(data)) {
+        return [];
+      }
       // return stale data if we have it
-      return Array.isArray(data) ? data : [];
+      return data.filter((d) => 'label' in d && 'value' in d);
     },
   }))
   .actions((self) => ({
