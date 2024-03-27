@@ -9,6 +9,7 @@ import './index.css';
 import { DashboardStoreProvider } from './models/dashboard-store-context';
 import { Navbar } from './navbar';
 import { NavbarToggler } from './navbar-toggler';
+import { LanguageSwitcher } from '../../components/language-switcher';
 
 export function App() {
   const [navbarCollapsed, { setTrue, setFalse }] = useBoolean(false);
@@ -52,7 +53,10 @@ export function App() {
               <NavbarToggler collapsed={navbarCollapsed} expand={setFalse} />
               <DashboardBreadcrumbs />
             </Group>
-            <AccountDropdown height={39} />
+            <Group position="right" spacing={2}>
+              <LanguageSwitcher />
+              <AccountDropdown height={39} />
+            </Group>
           </Group>
           <Box sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
             <Notifications position="top-right" />
