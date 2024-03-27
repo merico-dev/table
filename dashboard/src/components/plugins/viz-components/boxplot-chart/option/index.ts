@@ -37,7 +37,7 @@ function getSeriesNames(t: TFunction): SeriesNames {
   return {
     Box: t('viz.boxplot.box'),
     Scatter: t('viz.boxplot.scatter'),
-    Outlier: t('viz.boxplot.outliers'),
+    Outlier: t('viz.boxplot.outlier'),
   };
 }
 
