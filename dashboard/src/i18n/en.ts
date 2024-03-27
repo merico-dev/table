@@ -36,6 +36,7 @@ export const en = {
         select: {
           width: 'Width',
           required: 'Required',
+          clearable: 'Clearable',
           configure_options: 'Configure options',
           default_selection: 'Default Selection',
           no_default_selection: 'none',

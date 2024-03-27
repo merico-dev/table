@@ -50,6 +50,11 @@ export const FilterEditorSelect = observer(function _FilterEditorSelect({ filter
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
           label={t('filter.widget.select.required')}
         />
+        <Checkbox
+          checked={config.clearable}
+          onChange={(e) => config.setClearable(e.currentTarget.checked)}
+          label={t('filter.widget.select.clearable')}
+        />
         <CustomDefaultValueEditor filter={filter} />
       </Group>
       <TextInput
