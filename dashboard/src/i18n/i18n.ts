@@ -4,6 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import 'intl-pluralrules';
 import { en } from './en';
 import { zh } from './zh';
+import { vizList } from '~/components/plugins';
 
 i18n
   .use(LanguageDetector)
@@ -20,4 +21,9 @@ i18n
     },
   });
 
+vizList.forEach((viz) => {
+  viz.translation?.forEach((t) => {
+    i18n.addResourceBundle(t.lang, 'translation', { viz: t.resources }, true, true);
+  });
+});
 export default i18n;
