@@ -10,16 +10,27 @@ export const FilterSelectConfigMeta = types
       _name: types.literal('select'),
       default_value: types.string,
       width: types.optional(types.string, ''),
+      clearable: types.optional(types.boolean, false),
     }),
     FilterBaseSelectConfigMeta,
   )
   .views((self) => ({
     get json() {
-      const { _name, default_value, required, width, static_options, options_query_id, default_selection_count } = self;
+      const {
+        _name,
+        clearable,
+        default_value,
+        required,
+        width,
+        static_options,
+        options_query_id,
+        default_selection_count,
+      } = self;
       return shallowToJS({
         _name,
         width,
         required,
+        clearable,
         default_value,
         static_options,
         options_query_id,
@@ -48,6 +59,9 @@ export const FilterSelectConfigMeta = types
     },
     setWidth(v: string) {
       self.width = v;
+    },
+    setClearable(v: boolean) {
+      self.clearable = v;
     },
     setDefaultSelection() {
       // @ts-expect-error getRoot type

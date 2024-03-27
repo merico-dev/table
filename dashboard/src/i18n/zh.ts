@@ -36,6 +36,7 @@ export const zh = {
         select: {
           width: '控件宽度',
           required: '必选',
+          clearable: '可取消选择',
           configure_options: '配置选项',
           default_selection: '默认选项',
           no_default_selection: '无',

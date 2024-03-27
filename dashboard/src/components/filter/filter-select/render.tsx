@@ -47,6 +47,7 @@ export const FilterSelect = observer(({ label, config, value, onChange }: IFilte
       itemComponent={FilterSelectItem}
       searchable={!error}
       nothingFound={<ErrorMessageOrNotFound errorMessage={error} />}
+      clearable={config.clearable}
     />
   );
 });
