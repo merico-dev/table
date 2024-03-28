@@ -322,5 +322,96 @@ export const zh = {
       description: '参数 <code>utils</code> 是 <code>FunctionUtils</code>，包含以下内容：',
       document: '文档',
     },
+    chart: {
+      chart_config: '图表设置',
+      data_field: '数据字段',
+      groups: {
+        merico_suite: 'Merico套件',
+        echarts_based_charts: '基于ECharts的图表',
+        others: '其他',
+      },
+      axis: {
+        tick_label: '刻度文案',
+        customize_label: '自定义文案',
+        overflow: {
+          label: '溢出',
+          max_width: '最大宽度',
+          truncate: '截断',
+          break_line: '换行',
+          break_word: '断词换行',
+          ellipsis: '省略符',
+          section_title: {
+            on_axis: '轴刻度上文案的溢出',
+            in_tooltip: '提示框中的文案溢出',
+          },
+        },
+        section_title: {
+          label_format: '文案格式',
+        },
+      },
+      rotate: '旋转',
+      degree: '度',
+      content_template: {
+        label: '内容模板',
+        hint: '均值: ${avg}',
+      },
+      x_axis: {
+        label: 'X轴',
+        labels: 'X轴',
+        x_axis_name: 'X轴名称',
+        x_axis_data_field: 'X轴数据字段',
+      },
+      y_axis: {
+        label: 'Y轴',
+        labels: 'Y轴',
+        y_axis_name: 'Y轴名称',
+        y_axis_data_field: 'Y轴数据字段',
+      },
+      legend: {
+        label: '图例',
+        show_legend: '显示图例',
+        orientation: {
+          label: '布局朝向',
+          horizontal: '横向',
+          vertical: '纵向',
+        },
+      },
+      tooltip: {
+        label: '提示框',
+        additional_metrics: {
+          description: '在此设置更多指标，来展示在散点的提示框',
+          delete: '删除这个指标',
+        },
+      },
+      style: {
+        label: '样式',
+      },
+      color: {
+        label: '颜色',
+        or: '或',
+        set_any_color: '输入色号',
+        pick_a_theme_color: '选择一个主题色',
+      },
+      reference_line: {
+        label: '参考线',
+        labels: '参考线',
+        add: '增加一条参考线',
+        name_placeholder: '均值参考线',
+      },
+      zooming: {
+        label: '缩放',
+        scroll: {
+          label: '滚轮缩放',
+          x_axis: '对X轴启用',
+          y_axis: '对Y轴启用',
+        },
+        slider: {
+          label: '滚动条缩放',
+          x_axis: '对X轴启用',
+          y_axis: '对Y轴启用',
+          y_axis_disabled: '暂不可用，会与Y轴刻度文字重叠',
+        },
+      },
+    },
   },
 };

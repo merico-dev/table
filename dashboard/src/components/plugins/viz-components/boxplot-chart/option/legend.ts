@@ -1,18 +1,19 @@
 import { IBoxplotChartConf } from '../type';
+import { SeriesNames } from './type';
 
-export function getLegend({ config }: { config: IBoxplotChartConf }) {
+export function getLegend({ config, seriesNames }: { config: IBoxplotChartConf; seriesNames: SeriesNames }) {
   const ret: Record<string, any> = {
     ...config.legend,
     data: [
       {
-        name: 'Box',
+        name: seriesNames.Box,
         icon: 'roundRect',
         itemStyle: {
           color: config.color,
         },
       },
       {
-        name: 'Scatter',
+        name: seriesNames.Scatter,
         icon: 'circle',
         itemStyle: {
           color: '#ED6A45',
@@ -20,7 +21,7 @@ export function getLegend({ config }: { config: IBoxplotChartConf }) {
         },
       },
       {
-        name: 'Outlier',
+        name: seriesNames.Outlier,
         icon: 'circle',
         itemStyle: {
           color: '#ED6A45',

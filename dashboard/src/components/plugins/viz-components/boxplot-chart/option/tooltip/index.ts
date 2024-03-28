@@ -3,37 +3,29 @@ import { IBoxplotChartConf, IBoxplotDataItem, TOutlierDataItem, TScatterDataItem
 import { getBoxplotTooltipContent } from './boxplot';
 import { getOutlierTooltipContent } from './outlier';
 import { getScatterTooltipContent } from './scatter';
+import { SeriesNames } from '../type';
 
-type TTooltipFormatterParams =
-  | {
-      seriesName: 'Scatter';
-      value: TScatterDataItem;
-    }
-  | {
-      seriesName: 'Outlier';
-      value: TOutlierDataItem;
-    }
-  | {
-      seriesName: 'Box';
-      value: IBoxplotDataItem;
-    };
+type TTooltipFormatterParams = {
+  seriesName: string;
+  value: IBoxplotDataItem | TOutlierDataItem | TScatterDataItem;
+};
 
-const getFormatter = (config: IBoxplotChartConf) => (params: TTooltipFormatterParams) => {
+const getFormatter = (config: IBoxplotChartConf, seriesNames: SeriesNames) => (params: TTooltipFormatterParams) => {
   const { seriesName, value } = params;
 
   switch (seriesName) {
-    case 'Box':
-      return getBoxplotTooltipContent(config, value);
-    case 'Outlier':
-      return getOutlierTooltipContent(config, value);
-    case 'Scatter':
-      return getScatterTooltipContent(config, value);
+    case seriesNames.Box:
+      return getBoxplotTooltipContent(config, value as IBoxplotDataItem);
+    case seriesNames.Outlier:
+      return getOutlierTooltipContent(config, value as TOutlierDataItem);
+    case seriesNames.Scatter:
+      return getScatterTooltipContent(config, value as TScatterDataItem);
   }
 };
 
-export function getTooltip({ config }: { config: IBoxplotChartConf }) {
+export function getTooltip({ config, seriesNames }: { config: IBoxplotChartConf; seriesNames: SeriesNames }) {
   return defaultEchartsOptions.getTooltip({
     trigger: 'item',
-    formatter: getFormatter(config),
+    formatter: getFormatter(config, seriesNames),
   });
 }

@@ -4,6 +4,7 @@ import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { IBoxplotChartConf } from '../../type';
 import { ReferenceLineField } from './reference-line';
 import { ITemplateVariable } from '~/utils';
+import { useTranslation } from 'react-i18next';
 
 interface IReferenceLinesField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
@@ -12,6 +13,7 @@ interface IReferenceLinesField {
 }
 
 export function ReferenceLinesField({ control, watch, variables }: IReferenceLinesField) {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'reference_lines',
@@ -50,7 +52,7 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
         />
       ))}
       <Group position="center" mt="xs">
-        <Button onClick={add}>Add a Reference Line</Button>
+        <Button onClick={add}>{t('chart.reference_line.add')}</Button>
       </Group>
     </Stack>
   );

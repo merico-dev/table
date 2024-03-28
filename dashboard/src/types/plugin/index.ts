@@ -101,6 +101,10 @@ export interface IConfigMigrationExecContext extends IConfigMigrationContext {
   panelModel: PanelModelInstance;
 }
 
+export type TranslationPatch = {
+  lang: 'en' | 'zh';
+  resources: Record<string, any>;
+}[];
 export interface VizComponent {
   name: string;
   displayName?: string;
@@ -113,6 +117,7 @@ export interface VizComponent {
     config: AnyObject;
   };
   triggers?: ITriggerSchema[];
+  translation?: TranslationPatch;
 }
 
 export interface IPanelScopeConfigMigrator {

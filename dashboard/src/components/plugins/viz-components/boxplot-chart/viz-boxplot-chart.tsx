@@ -11,6 +11,7 @@ import { VizViewProps } from '~/types/plugin';
 import { getOption } from './option';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf, IBoxplotDataItem } from './type';
+import { useTranslation } from 'react-i18next';
 
 interface IClickBoxplotSeries {
   type: 'click';
@@ -23,6 +24,7 @@ interface IClickBoxplotSeries {
 }
 
 export function VizBoxplotChart({ context, instance }: VizViewProps) {
+  const { t } = useTranslation();
   const { value: conf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const data = context.data;
@@ -54,7 +56,7 @@ export function VizBoxplotChart({ context, instance }: VizViewProps) {
     };
   }, [handleSeriesClick]);
 
-  const option = useMemo(() => getOption({ config, data, variables }), [config, data, variables]);
+  const option = useMemo(() => getOption({ config, data, variables, t }), [config, data, variables, t]);
 
   if (!conf || !width || !height) {
     return null;

@@ -44,7 +44,7 @@ class VizBar3dChartMigrator extends VersionBasedMigrator {
 
 export const Bar3dChartVizComponent: VizComponent = {
   displayName: 'Bar Chart (3D)',
-  displayGroup: 'ECharts-based charts',
+  displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizBar3dChartMigrator(),
   name: 'bar-3d',
   viewRender: VizBar3dChart,

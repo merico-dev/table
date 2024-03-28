@@ -93,7 +93,7 @@ class VizSunburstMigrator extends VersionBasedMigrator {
 
 export const SunburstVizComponent: VizComponent = {
   displayName: 'Sunburst Chart',
-  displayGroup: 'ECharts-based charts',
+  displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizSunburstMigrator(),
   name: 'sunburst',
   viewRender: VizSunburst,

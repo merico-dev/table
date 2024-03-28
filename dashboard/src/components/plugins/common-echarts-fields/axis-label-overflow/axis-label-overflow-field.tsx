@@ -2,6 +2,7 @@ import { Stack } from '@mantine/core';
 import { forwardRef } from 'react';
 import { OverflowField } from './overflow-field';
 import { IAxisLabelOverflow, IEchartsOverflow } from './types';
+import { useTranslation } from 'react-i18next';
 
 interface ILabelOverflowField {
   value: IAxisLabelOverflow;
@@ -9,6 +10,7 @@ interface ILabelOverflowField {
 }
 
 export const LabelOverflowField = forwardRef(({ value, onChange }: ILabelOverflowField, ref: any) => {
+  const { t } = useTranslation();
   const changeLabel = (v: IEchartsOverflow) => {
     onChange({
       ...value,
@@ -23,8 +25,16 @@ export const LabelOverflowField = forwardRef(({ value, onChange }: ILabelOverflo
   };
   return (
     <Stack ref={ref} spacing={0}>
-      <OverflowField sectionTitle="Overflow on Axis" value={value.on_axis} onChange={changeLabel} />
-      <OverflowField sectionTitle="Overflow in Tooltip" value={value.in_tooltip} onChange={changeTooltip} />
+      <OverflowField
+        sectionTitle={t('chart.axis.overflow.section_title.on_axis')}
+        value={value.on_axis}
+        onChange={changeLabel}
+      />
+      <OverflowField
+        sectionTitle={t('chart.axis.overflow.section_title.in_tooltip')}
+        value={value.in_tooltip}
+        onChange={changeTooltip}
+      />
     </Stack>
   );
 });

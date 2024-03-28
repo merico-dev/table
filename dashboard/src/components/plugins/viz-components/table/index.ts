@@ -111,7 +111,7 @@ export const TableVizComponent: VizComponent = {
     };
   },
   displayName: 'Table',
-  displayGroup: 'Others',
+  displayGroup: 'chart.groups.others',
   migrator: new VizTableMigrator(),
   name: 'table',
   viewRender: VizTable,

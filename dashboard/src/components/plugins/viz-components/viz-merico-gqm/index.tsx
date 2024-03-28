@@ -20,7 +20,7 @@ class VizMericoGQMMigrator extends VersionBasedMigrator {
 
 export const MericoGQMVizComponent: VizComponent = {
   displayName: 'Merico GQM',
-  displayGroup: 'Merico suite',
+  displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoGQMMigrator(),
   name: 'mericoGQM',
   viewRender: VizMericoGQM,
