@@ -5,6 +5,7 @@ import { Recycle } from 'tabler-icons-react';
 import { AnyObject } from '~/types';
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './types';
+import { useTranslation } from 'react-i18next';
 
 interface IXAxisLabelFormatterField {
   value: IXAxisLabelFormatter;
@@ -12,6 +13,7 @@ interface IXAxisLabelFormatterField {
 }
 
 export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisLabelFormatterField, _ref: any) => {
+  const { t } = useTranslation();
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<IXAxisLabelFormatter>(value);
   useEffect(() => {
@@ -56,11 +58,11 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
   return (
     <>
       <Button variant="filled" mt={24} onClick={setTrue} sx={{ flexGrow: 0 }}>
-        Customize Label
+        {t('chart.axis.customize_label')}
       </Button>
       <Modal
         size={800}
-        title="Customize label content"
+        title={t('chart.axis.customize_label')}
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -71,7 +73,7 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
           <Stack>
             <Checkbox
               mt={10}
-              label="Enabled"
+              label={t('common.enabled')}
               checked={localValue.enabled}
               onChange={(event) => changeEnabled(event.currentTarget.checked)}
             />
@@ -82,13 +84,13 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
             />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Reset
+                {t('common.actions.reset_to_default')}
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
-                  Cancel
+                  {t('common.actions.cancel')}
                 </Button>
-                <Button onClick={handleOk}>OK</Button>
+                <Button onClick={handleOk}>{t('common.actions.save')}</Button>
               </Group>
             </Group>
           </Stack>

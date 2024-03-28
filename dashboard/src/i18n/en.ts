@@ -322,5 +322,91 @@ export const en = {
       description: 'Parameter <code>utils</code> is <code>FunctionUtils</code>, which contains:',
       document: 'Document',
     },
+    chart: {
+      chart_config: 'Chart Config',
+      data_field: 'Data Field',
+      axis: {
+        tick_label: 'Tick Label',
+        customize_label: 'Customize Label',
+        overflow: {
+          label: 'Overflow',
+          max_width: 'Max Width',
+          truncate: 'Truncate',
+          break_line: 'Break Line',
+          break_word: 'Break Word',
+          ellipsis: 'Ellipsis',
+          section_title: {
+            on_axis: 'Overflow on Axis',
+            in_tooltip: 'Overflow in Tooltip',
+          },
+        },
+        section_title: {
+          label_format: 'Label Format',
+        },
+      },
+      rotate: 'Rotate',
+      degree: 'degree',
+      content_template: {
+        label: 'Content Template',
+        hint: 'Average: ${avg}',
+      },
+      x_axis: {
+        label: 'X Axis',
+        labels: 'X Axes',
+        x_axis_name: 'X Axis Name',
+        x_axis_data_field: 'X Axis Data Field',
+      },
+      y_axis: {
+        label: 'Y Axis',
+        labels: 'Y Axes',
+        y_axis_name: 'Y Axis Name',
+        y_axis_data_field: 'Y Axis Data Field',
+      },
+      legend: {
+        label: 'Legend',
+        show_legend: 'Show Legend',
+        orientation: {
+          label: 'Orientation',
+          horizontal: 'Horizontal',
+          vertical: 'Vertical',
+        },
+      },
+      tooltip: {
+        label: 'Tooltip',
+        additional_metrics: {
+          description: "Set additional metrics to show in scatter's tooltip",
+          delete: 'Delete this Metric',
+        },
+      },
+      style: {
+        label: 'Style',
+      },
+      color: {
+        label: 'Color',
+        or: 'or',
+        set_any_color: 'Set any color',
+        pick_a_theme_color: 'Pick a theme color',
+      },
+      reference_line: {
+        label: 'Reference Line',
+        labels: 'Reference Lines',
+        add: 'Add a reference line',
+        name_placeholder: 'Average Reference Line',
+      },
+      zooming: {
+        label: 'Zooming',
+        scroll: {
+          label: 'Scroll to zoom',
+          x_axis: 'Enable on X Axis',
+          y_axis: 'Enable on Y Axis',
+        },
+        slider: {
+          label: 'Slider for zooming',
+          x_axis: 'Slider for X Axis',
+          y_axis: 'Slider for Y Axis',
+          y_axis_disabled: "Not available for now, will overlap y-axis's label",
+        },
+      },
+    },
   },
 };
