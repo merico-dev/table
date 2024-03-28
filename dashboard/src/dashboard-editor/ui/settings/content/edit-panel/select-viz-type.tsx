@@ -9,12 +9,13 @@ import { PluginContext } from '~/components/plugins';
 
 type OptionType = { label: string; value: string; group: string };
 function useVizSelectData() {
+  const { t } = useTranslation();
   const { vizManager } = useContext(PluginContext);
   return useMemo(() => {
     const ret: OptionType[] = vizManager.availableVizList.map((it) => ({
       value: it.name,
-      label: it.displayName ?? it.name,
-      group: it.displayGroup ?? '',
+      label: t(it.displayName ?? it.name),
+      group: t(it.displayGroup ?? ''),
     }));
     return _.orderBy(ret, [(i) => i.group, (i) => i.label], ['asc', 'asc']);
   }, [vizManager]);

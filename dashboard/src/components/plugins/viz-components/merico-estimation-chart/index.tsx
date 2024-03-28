@@ -61,7 +61,7 @@ type ConfigType = {
 
 export const MericoEstimationChartVizComponent: VizComponent = {
   displayName: 'Merico Estimation Chart',
-  displayGroup: 'Merico suite',
+  displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoEstimationChartMigrator(),
   name: 'mericoEstimationChart',
   viewRender: VizMericoEstimationChart,

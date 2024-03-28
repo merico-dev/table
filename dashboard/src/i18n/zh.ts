@@ -325,6 +325,11 @@ export const zh = {
     chart: {
       chart_config: '图表设置',
       data_field: '数据字段',
+      groups: {
+        merico_suite: 'Merico套件',
+        echarts_based_charts: '基于ECharts的图表',
+        others: '其他',
+      },
       axis: {
         tick_label: '刻度文案',
         customize_label: '自定义文案',

@@ -200,7 +200,7 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
 
 export const BoxplotChartVizComponent: VizComponent = {
   displayName: 'Boxplot Chart',
-  displayGroup: 'ECharts-based charts',
+  displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizBoxplotChartMigrator(),
   name: 'boxplot',
   viewRender: VizBoxplotChart,

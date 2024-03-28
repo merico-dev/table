@@ -28,7 +28,7 @@ class VizMericoStatsMigrator extends VersionBasedMigrator {
 
 export const MericoStatsVizComponent: VizComponent = {
   displayName: 'Merico Stats',
-  displayGroup: 'Merico suite',
+  displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoStatsMigrator(),
   name: 'merico-stats',
   viewRender: VizMericoStats,

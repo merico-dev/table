@@ -325,6 +325,11 @@ export const en = {
     chart: {
       chart_config: 'Chart Config',
       data_field: 'Data Field',
+      groups: {
+        merico_suite: 'Merico suite',
+        echarts_based_charts: 'ECharts-based charts',
+        others: 'Others',
+      },
       axis: {
         tick_label: 'Tick Label',
         customize_label: 'Customize Label',
