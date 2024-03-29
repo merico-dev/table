@@ -8,6 +8,7 @@ import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
 import { getDefaultDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
+import { translation } from './translation';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -198,8 +199,8 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
 }
 
 export const BoxplotChartVizComponent: VizComponent = {
-  displayName: 'Boxplot Chart',
-  displayGroup: 'ECharts-based charts',
+  displayName: 'viz.boxplot.chart_name',
+  displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizBoxplotChartMigrator(),
   name: 'boxplot',
   viewRender: VizBoxplotChart,
@@ -211,4 +212,5 @@ export const BoxplotChartVizComponent: VizComponent = {
     };
   },
   triggers: [ClickBoxplotSeries],
+  translation,
 };

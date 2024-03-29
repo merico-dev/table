@@ -14,8 +14,10 @@ import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { TooltipField } from './editors/tooltip';
 import { LegendField } from './editors/legend';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
+import { useTranslation } from 'react-i18next';
 
 export function VizBoxplotChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IBoxplotChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
@@ -35,7 +37,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
+          <Text>{t('chart.chart_config')}</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
@@ -55,13 +57,13 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
-            <Tabs.Tab value="Legend">Legend</Tabs.Tab>
-            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
-            <Tabs.Tab value="Style">Style</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
-            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+            <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Legend">{t('chart.legend.label')}</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
+            <Tabs.Tab value="Style">{t('chart.style.label')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel value="X Axis">
             <XAxisField control={control} watch={watch} />
@@ -77,7 +79,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
           </Tabs.Panel>
           <Tabs.Panel value="Style">
             <Stack spacing={4}>
-              <Text size="sm">Color</Text>
+              <Text size="sm">{t('chart.color.label')}</Text>
               <Controller name="color" control={control} render={({ field }) => <MantineColorSelector {...field} />} />
             </Stack>
           </Tabs.Panel>

@@ -12,7 +12,7 @@ export const StatsVizComponent: VizComponent = {
     };
   },
   displayName: 'Stats',
-  displayGroup: 'Others',
+  displayGroup: 'chart.groups.others',
   migrator: new VizStatsMigrator(),
   name: 'stats',
   viewRender: VizStats,

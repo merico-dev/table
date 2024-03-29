@@ -12,6 +12,8 @@ import { getTooltip } from './tooltip';
 import { getEchartsDataZoomOption } from '../../cartesian/editors/echarts-zooming-field/get-echarts-data-zoom-option';
 import _ from 'lodash';
 import * as math from 'mathjs';
+import { TFunction } from 'i18next';
+import { SeriesNames } from './type';
 
 function autoYAxisMin({ min, max }: { min: number; max: number }) {
   if (min <= 110) {
@@ -31,23 +33,34 @@ function autoYAxisMin({ min, max }: { min: number; max: number }) {
   return _.round(min, -1 * l) - unit;
 }
 
+function getSeriesNames(t: TFunction): SeriesNames {
+  return {
+    Box: t('viz.boxplot.box'),
+    Scatter: t('viz.boxplot.scatter'),
+    Outlier: t('viz.boxplot.outlier'),
+  };
+}
+
 interface IGetOption {
   config: IBoxplotChartConf;
   data: TPanelData;
   variables: ITemplateVariable[];
+  t: TFunction;
 }
-export function getOption({ config, data, variables }: IGetOption) {
+export function getOption({ config, data, variables, t }: IGetOption) {
   const { x_axis, y_axis, reference_lines } = config;
   const dataset = getDataset(config, data);
 
   const overflowOption = getLabelOverflowOptionOnAxis(x_axis.axisLabel.overflow.on_axis);
-  const series = getSeries(config, dataset);
+  const seriesNames = getSeriesNames(t);
+  const series = getSeries(config, dataset).map((s) => ({ ...s, name: _.get(seriesNames, s.name, s.name) }));
+
   return {
     dataZoom: getEchartsDataZoomOption(config.dataZoom, 'filter'),
     grid: getGrid(config),
     dataset,
-    legend: getLegend({ config }),
-    tooltip: getTooltip({ config }),
+    legend: getLegend({ config, seriesNames }),
+    tooltip: getTooltip({ config, seriesNames }),
     xAxis: [
       defaultEchartsOptions.getXAxis({
         type: 'category',

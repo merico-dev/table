@@ -4,12 +4,14 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IBoxplotChartConf } from '../type';
+import { useTranslation } from 'react-i18next';
 
 interface IXAxisField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
   watch: UseFormWatch<IBoxplotChartConf>;
 }
 export const XAxisField = ({ control, watch }: IXAxisField) => {
+  const { t } = useTranslation();
   watch(['x_axis']);
   return (
     <Stack>
@@ -17,15 +19,17 @@ export const XAxisField = ({ control, watch }: IXAxisField) => {
         <Controller
           name="x_axis.name"
           control={control}
-          render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('chart.x_axis.x_axis_name')} sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="x_axis.data_key"
           control={control}
-          render={({ field }) => <DataFieldSelector label="X Axis Data Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('chart.x_axis.x_axis_data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
-      <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
@@ -33,11 +37,11 @@ export const XAxisField = ({ control, watch }: IXAxisField) => {
           render={({ field }) => (
             // @ts-expect-error type of onChange
             <NumberInput
-              label="Rotate"
+              label={t('chart.rotate')}
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">degree</Text>}
+              rightSection={<Text color="dimmed">{t('chart.degree')}</Text>}
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

@@ -2,6 +2,7 @@ import { ActionIcon, Group, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { IBoxplotChartConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 interface IReferenceLineField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
@@ -11,6 +12,7 @@ interface IReferenceLineField {
 }
 
 export function ReferenceLineField({ control, index, remove, variableOptions }: IReferenceLineField) {
+  const { t } = useTranslation();
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap>
@@ -18,21 +20,35 @@ export function ReferenceLineField({ control, index, remove, variableOptions }: 
           name={`reference_lines.${index}.name`}
           control={control}
           render={({ field }) => (
-            <TextInput label="Name" placeholder="Average Reference Line" required sx={{ flex: 1 }} {...field} />
+            <TextInput
+              label={t('common.name')}
+              placeholder={t('chart.reference_line.name_placeholder')}
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
         <Controller
           name={`reference_lines.${index}.variable_key`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Value" required data={variableOptions} sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select label={t('common.value')} required data={variableOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Controller
         name={`reference_lines.${index}.template`}
         control={control}
         render={({ field }) => (
-          <TextInput label="Content Template" placeholder="Average: ${avg}" required sx={{ flex: 1 }} {...field} />
+          <TextInput
+            label={t('chart.content_template.label')}
+            placeholder={t('chart.content_template.placeholder')}
+            required
+            sx={{ flex: 1 }}
+            {...field}
+          />
         )}
       />
       <ActionIcon

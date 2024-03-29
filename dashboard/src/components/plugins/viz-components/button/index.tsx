@@ -33,7 +33,7 @@ class VizButtonMigrator extends VersionBasedMigrator {
 
 export const ButtonVizComponent: VizComponent = {
   displayName: 'Button',
-  displayGroup: 'Others',
+  displayGroup: 'chart.groups.others',
   migrator: new VizButtonMigrator(),
   name: 'button',
   viewRender: VizButton,

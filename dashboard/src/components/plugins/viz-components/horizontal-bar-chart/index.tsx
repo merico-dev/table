@@ -62,7 +62,7 @@ type ConfigType = {
 
 export const HorizontalBarChartVizComponent: VizComponent = {
   displayName: 'Horizontal Bar Chart',
-  displayGroup: 'ECharts-based charts',
+  displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizHorizontalBarChartMigrator(),
   name: 'horizontalBarChart',
   viewRender: VizHorizontalBarChart,
