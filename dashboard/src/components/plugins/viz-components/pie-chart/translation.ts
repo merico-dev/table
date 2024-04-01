@@ -1,20 +1,14 @@
 import { TranslationPatch } from '~/types/plugin';
 
 const en = {
-  boxplot: {
-    viz_name: 'Boxplot Chart',
-    box: 'Box',
-    outlier: 'Outlier',
-    scatter: 'Scatter',
+  pie_chart: {
+    viz_name: 'Pie Chart',
   },
 };
 
 const zh = {
-  boxplot: {
-    viz_name: '箱线图',
-    box: '箱体',
-    outlier: '异常点',
-    scatter: '散点',
+  pie_chart: {
+    viz_name: '饼图',
   },
 };
 

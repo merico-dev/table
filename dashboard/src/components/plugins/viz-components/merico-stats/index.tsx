@@ -4,6 +4,7 @@ import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
 import { VizMericoStats } from './render';
 import { VizMericoStatsEditor } from './viz-merico-stats-editor';
 import { v2 } from './migrators';
+import { translation } from './translation';
 
 class VizMericoStatsMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
@@ -27,7 +28,7 @@ class VizMericoStatsMigrator extends VersionBasedMigrator {
 }
 
 export const MericoStatsVizComponent: VizComponent = {
-  displayName: 'Merico Stats',
+  displayName: 'viz.merico_stats.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoStatsMigrator(),
   name: 'merico-stats',
@@ -40,4 +41,5 @@ export const MericoStatsVizComponent: VizComponent = {
     version: 2,
     config: DEFAULT_CONFIG,
   }),
+  translation,
 };

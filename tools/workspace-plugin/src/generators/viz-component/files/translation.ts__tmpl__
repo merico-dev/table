@@ -2,13 +2,13 @@ import { TranslationPatch } from '~/types/plugin';
 
 const en = {
   <%= camelcase(name) %>: {
-    chart_name: '<%= pascalcase(name) %>',
+    viz_name: '<%= pascalcase(name) %>',
   },
 };
 
 const zh = {
   <%= camelcase(name) %>: {
-    chart_name: '<%= pascalcase(name) %>',
+    viz_name: '<%= pascalcase(name) %>',
   },
 };
 

@@ -10,6 +10,7 @@ import { DEFAULT_CONFIG, getDefaultScatterLabelOverfow, IScatterChartConf } from
 import { VizScatterChart } from './viz-scatter-chart';
 import { VizScatterChartEditor } from './viz-scatter-chart-editor';
 import { getDefaultAxisLabelOverflow } from '../../common-echarts-fields/axis-label-overflow';
+import { translation } from './translation';
 
 function updateToSchema3(legacyConf: $TSFixMe): IScatterChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -174,7 +175,7 @@ class VizScatterChartMigrator extends VersionBasedMigrator {
 }
 
 export const ScatterChartVizComponent: VizComponent = {
-  displayName: 'Scatter Chart',
+  displayName: 'viz.scatter_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizScatterChartMigrator(),
   name: 'scatterChart',
@@ -187,4 +188,5 @@ export const ScatterChartVizComponent: VizComponent = {
     };
   },
   triggers: [ClickScatterChartSeries],
+  translation,
 };

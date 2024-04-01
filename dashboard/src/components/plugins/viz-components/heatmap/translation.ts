@@ -1,20 +1,14 @@
 import { TranslationPatch } from '~/types/plugin';
 
 const en = {
-  boxplot: {
-    viz_name: 'Boxplot Chart',
-    box: 'Box',
-    outlier: 'Outlier',
-    scatter: 'Scatter',
+  heatmap: {
+    viz_name: 'Heatmap',
   },
 };
 
 const zh = {
-  boxplot: {
-    viz_name: '箱线图',
-    box: '箱体',
-    outlier: '异常点',
-    scatter: '散点',
+  heatmap: {
+    viz_name: '热力图',
   },
 };
 

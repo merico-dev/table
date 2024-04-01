@@ -6,6 +6,7 @@ import { VizTable } from './render';
 import { VizTableEditor } from './viz-table-editor';
 import { ClickCellContent } from './triggers';
 import { randomId } from '@mantine/hooks';
+import { translation } from './translation';
 
 function v3(prev: any): ITableConf {
   const { columns, ...rest } = prev;
@@ -110,11 +111,12 @@ export const TableVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as ITableConf,
     };
   },
-  displayName: 'Table',
+  displayName: 'viz.table.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new VizTableMigrator(),
   name: 'table',
   viewRender: VizTable,
   configRender: VizTableEditor,
   triggers: [ClickCellContent],
+  translation,
 };

@@ -326,7 +326,7 @@ export const zh = {
       chart_config: '图表设置',
       data_field: '数据字段',
       groups: {
-        merico_suite: 'Merico套件',
+        merico_suite: '思码逸套件',
         echarts_based_charts: '基于ECharts的图表',
         others: '其他',
       },

@@ -4,6 +4,7 @@ import { EditMericoHeatmap } from './editors';
 import { RenderMericoHeatmap } from './render';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from './type';
+import { translation } from './translation';
 
 class MericoHeatmapMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -19,7 +20,7 @@ class MericoHeatmapMigrator extends VersionBasedMigrator {
 }
 
 export const MericoHeatmapVizComponent: VizComponent = {
-  displayName: 'Merico Heatmap',
+  displayName: 'viz.merico_heatmap.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new MericoHeatmapMigrator(),
   name: 'merico-heatmap',
@@ -33,4 +34,5 @@ export const MericoHeatmapVizComponent: VizComponent = {
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],
+  translation,
 };

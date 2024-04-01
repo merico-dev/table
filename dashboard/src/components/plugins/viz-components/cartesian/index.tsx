@@ -7,6 +7,7 @@ import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { VizCartesianChart } from './viz-cartesian-chart';
 import { VizCartesianEditor } from './viz-cartesian-editor';
 import * as Migrators from './migrators';
+import { translation } from './translation';
 
 export class VizCartesianMigrator extends VersionBasedMigrator {
   configVersions(): void {
@@ -156,7 +157,7 @@ export class VizCartesianMigrator extends VersionBasedMigrator {
 }
 
 export const CartesianVizComponent: VizComponent = {
-  displayName: 'Cartesian Chart',
+  displayName: 'viz.cartesian_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizCartesianMigrator(),
   name: 'cartesian',
@@ -169,4 +170,5 @@ export const CartesianVizComponent: VizComponent = {
     };
   },
   triggers: [ClickEchartSeries],
+  translation,
 };

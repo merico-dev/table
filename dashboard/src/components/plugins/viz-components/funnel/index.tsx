@@ -4,6 +4,7 @@ import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator'
 import { VizFunnelChart } from './viz-funnel-chart';
 import { VizFunnelEditor } from './viz-funnel-editor';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
+import { translation } from './translation';
 
 function v2(prev: AnyObject): IFunnelConf {
   return {
@@ -83,11 +84,12 @@ type ConfigType = {
 };
 
 export const FunnelVizComponent: VizComponent = {
-  displayName: 'Funnel Chart',
+  displayName: 'viz.funnel_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizFunnelMigrator(),
   name: 'funnel',
   viewRender: VizFunnelChart,
   configRender: VizFunnelEditor,
   createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
+  translation,
 };

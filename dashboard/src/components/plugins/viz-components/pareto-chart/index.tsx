@@ -8,6 +8,7 @@ import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
 import { VizParetoChartEditor } from './viz-pareto-chart-editor';
+import { translation } from './translation';
 
 function v2(legacyConf: $TSFixMe): IParetoChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;
@@ -193,7 +194,7 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
 }
 
 export const ParetoChartVizComponent: VizComponent = {
-  displayName: 'Pareto Chart',
+  displayName: 'viz.pareto_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizParetoChartMigrator(),
   name: 'paretoChart',
@@ -206,4 +207,5 @@ export const ParetoChartVizComponent: VizComponent = {
     };
   },
   triggers: [ClickParetoSeries],
+  translation,
 };

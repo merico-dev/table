@@ -3,6 +3,7 @@ import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator'
 import { DEFAULT_CONFIG, IMericoEstimationChartConf } from './type';
 import { VizMericoEstimationChart } from './viz-merico-estimation-chart';
 import { VizMericoEstimationChartEditor } from './viz-merico-estimation-chart-editor';
+import { translation } from './translation';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IMericoEstimationChartConf {
   try {
@@ -60,11 +61,12 @@ type ConfigType = {
 };
 
 export const MericoEstimationChartVizComponent: VizComponent = {
-  displayName: 'Merico Estimation Chart',
+  displayName: 'viz.merico_estimation_chart.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoEstimationChartMigrator(),
   name: 'mericoEstimationChart',
   viewRender: VizMericoEstimationChart,
   configRender: VizMericoEstimationChartEditor,
   createConfig: (): ConfigType => ({ version: 2, config: DEFAULT_CONFIG }),
+  translation,
 };

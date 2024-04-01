@@ -5,6 +5,7 @@ import { VizHeatmapEditor } from './viz-heatmap-editor';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 import { ClickHeatBlock } from './triggers';
 import _ from 'lodash';
+import { translation } from './translation';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHeatmapConf {
   try {
@@ -108,7 +109,7 @@ class VizHeatmapMigrator extends VersionBasedMigrator {
 }
 
 export const HeatmapVizComponent: VizComponent = {
-  displayName: 'Heatmap',
+  displayName: 'viz.heatmap.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizHeatmapMigrator(),
   name: 'heatmap',
@@ -122,4 +123,5 @@ export const HeatmapVizComponent: VizComponent = {
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],
+  translation,
 };

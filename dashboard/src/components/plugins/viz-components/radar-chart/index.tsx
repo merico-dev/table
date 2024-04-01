@@ -6,6 +6,7 @@ import { ClickRadarChartSeries } from './triggers/click-radar-chart';
 import { DEFAULT_CONFIG, IRadarChartConf, IRadarChartDimension } from './type';
 import { VizRadarChart } from './viz-radar-chart';
 import { VizRadarChartEditor } from './viz-radar-chart-editor';
+import { translation } from './translation';
 
 // replace withDefaults function in editor
 function v2(prev: $TSFixMe): IRadarChartConf {
@@ -126,7 +127,7 @@ class VizRadarChartMigrator extends VersionBasedMigrator {
 }
 
 export const RadarChartVizComponent: VizComponent = {
-  displayName: 'Radar Chart',
+  displayName: 'viz.radar_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizRadarChartMigrator(),
   name: 'radar',
@@ -140,4 +141,5 @@ export const RadarChartVizComponent: VizComponent = {
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickRadarChartSeries],
+  translation,
 };

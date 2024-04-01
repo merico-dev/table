@@ -5,6 +5,7 @@ import { VizCalendarHeatmap } from './viz-calendar-heatmap';
 import { VizCalendarHeatmapEditor } from './viz-calendar-heatmap-editor';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
 import { ClickCalendarDate } from './triggers';
+import { translation } from './translation';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): ICalendarHeatmapConf {
   try {
@@ -97,7 +98,7 @@ type ConfigType = {
 };
 
 export const CalendarHeatmapVizComponent: VizComponent = {
-  displayName: 'Heatmap(Calendar)',
+  displayName: 'viz.calendar_heatmap.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizCalendarHeatmapMigrator(),
   name: 'calendarHeatmap',
@@ -105,4 +106,5 @@ export const CalendarHeatmapVizComponent: VizComponent = {
   configRender: VizCalendarHeatmapEditor,
   createConfig: (): ConfigType => ({ version: 3, config: DEFAULT_CONFIG }),
   triggers: [ClickCalendarDate],
+  translation,
 };

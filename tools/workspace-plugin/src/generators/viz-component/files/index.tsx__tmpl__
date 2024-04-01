@@ -38,7 +38,7 @@ type ConfigType = {
 };
 
 export const <%= pascalcase(name) %>VizComponent: VizComponent = {
-  displayName: 'viz.<%= camelcase(name) %>.chart_name',
+  displayName: 'viz.<%= camelcase(name) %>.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new Viz<%= pascalcase(name) %>Migrator(),
   name: '<%= camelcase(name) %>',
