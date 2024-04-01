@@ -1,0 +1,24 @@
+import { TranslationPatch } from '~/types/plugin';
+
+const en = {
+  <%= camelcase(name) %>: {
+    chart_name: '<%= pascalcase(name) %>',
+  },
+};
+
+const zh = {
+  <%= camelcase(name) %>: {
+    chart_name: '<%= pascalcase(name) %>',
+  },
+};
+
+export const translation: TranslationPatch = [
+  {
+    lang: 'en',
+    resources: en,
+  },
+  {
+    lang: 'zh',
+    resources: zh,
+  },
+];
