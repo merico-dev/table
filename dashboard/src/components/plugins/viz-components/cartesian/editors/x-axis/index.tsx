@@ -17,12 +17,14 @@ import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/a
 import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
 import { IconInfoCircle } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 //https://echarts.apache.org/zh/option.html#xAxis.type
 const XAxisTypeLabel = () => {
+  const { t } = useTranslation();
   return (
     <Group sx={{ display: 'inline-flex' }} spacing={6} mr={14}>
-      <Text>X Axis Data Type</Text>
+      <Text>{t('chart.x_axis.x_axis_data_type')}</Text>
       <HoverCard width={340} shadow="md" position="top">
         <HoverCard.Target>
           <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
@@ -55,19 +57,22 @@ interface IXAxisField {
   watch: UseFormWatch<ICartesianChartConf>;
 }
 export function XAxisField({ control, watch }: IXAxisField) {
+  const { t } = useTranslation();
   watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
   return (
     <Stack>
       <Controller
         name="x_axis_name"
         control={control}
-        render={({ field }) => <TextInput label="X Axis Name" sx={{ flex: 1 }} {...field} />}
+        render={({ field }) => <TextInput label={t('chart.x_axis.x_axis_name')} sx={{ flex: 1 }} {...field} />}
       />
       <Group grow noWrap>
         <Controller
           name="x_axis_data_key"
           control={control}
-          render={({ field }) => <DataFieldSelector label="X Axis Data Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('chart.x_axis.x_axis_data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name="x_axis.type"
@@ -78,7 +83,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
           )}
         />
       </Group>
-      <Divider mb={-15} label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} label={t('chart.axis.tick_label')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name="x_axis.axisLabel.rotate"
@@ -86,11 +91,11 @@ export function XAxisField({ control, watch }: IXAxisField) {
           render={({ field }) => (
             // @ts-expect-error type of onChange
             <NumberInput
-              label="Rotate"
+              label={t('chart.rotate')}
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">degree</Text>}
+              rightSection={<Text color="dimmed">{t('chart.degree')}</Text>}
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

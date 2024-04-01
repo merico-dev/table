@@ -16,8 +16,10 @@ import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
 import { TooltipField } from './editors/tooltip';
+import { useTranslation } from 'react-i18next';
 
 export function VizCartesianEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const defaultValues: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -37,7 +39,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
         <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
+          <Text>{t('chart.chart_config')}</Text>
           <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
             <DeviceFloppy size={20} />
           </ActionIcon>
@@ -57,15 +59,15 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
+            <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axes">{t('chart.y_axis.labels')}</Tabs.Tab>
             <Tabs.Tab value="Series">Series</Tabs.Tab>
             <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
             <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
             <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
-            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+            <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
