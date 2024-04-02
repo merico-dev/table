@@ -37,7 +37,9 @@ function _MantineColorSelector({ value, onChange }: IMantineColorSelector, ref: 
         variant={!isThemeColor ? 'default' : 'filled'}
         sx={{ maxWidth: '46%', flexGrow: 1 }}
       />
-      <Text sx={{ flexGrow: 0 }}>{t('chart.color.or')}</Text>
+      <Text sx={{ flexGrow: 0 }} size="xs">
+        {t('chart.color.or')}
+      </Text>
       <Select
         data={themeColors}
         value={value}

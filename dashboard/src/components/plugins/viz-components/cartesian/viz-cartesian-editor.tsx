@@ -61,7 +61,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
           <Tabs.List>
             <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Y Axes">{t('chart.y_axis.labels')}</Tabs.Tab>
-            <Tabs.Tab value="Series">Series</Tabs.Tab>
+            <Tabs.Tab value="Series">{t('chart.series.label')}</Tabs.Tab>
             <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
             <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
             <Tabs.Tab value="Stats">Stats</Tabs.Tab>

@@ -8,6 +8,7 @@ import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echa
 import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
+import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -17,7 +18,7 @@ export interface ICartesianChartSeriesItem {
   symbolSize: TScatterSize;
   y_axis_data_key: TDataKey;
   yAxisIndex: number;
-  label_position?: string;
+  label_position?: IEchartsLabelPosition;
   stack: string;
   color?: string;
   barMinWidth: string;

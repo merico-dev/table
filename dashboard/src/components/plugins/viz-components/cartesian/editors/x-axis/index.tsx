@@ -17,14 +17,15 @@ import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/a
 import { ICartesianChartConf } from '../../type';
 import { XAxisLabelFormatterField } from './x-axis-label-formatter';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 //https://echarts.apache.org/zh/option.html#xAxis.type
 const XAxisTypeLabel = () => {
   const { t } = useTranslation();
   return (
     <Group sx={{ display: 'inline-flex' }} spacing={6} mr={14}>
-      <Text>{t('chart.x_axis.x_axis_data_type')}</Text>
+      <Text>{t('chart.x_axis.x_axis_type')}</Text>
       <HoverCard width={340} shadow="md" position="top">
         <HoverCard.Target>
           <ActionIcon size="xs" sx={{ transform: 'none !important' }}>
@@ -33,11 +34,13 @@ const XAxisTypeLabel = () => {
         </HoverCard.Target>
         <HoverCard.Dropdown>
           <Text size="sm">
-            Click
-            <Anchor href="https://echarts.apache.org/en/option.html#xAxis.type" target="_blank" mx={4}>
-              here
-            </Anchor>
-            to learn more about these options
+            <Trans i18nKey="chart.axis.type.click_to_learn_more">
+              Click
+              <Anchor href="https://echarts.apache.org/en/option.html#xAxis.type" target="_blank" mx={3}>
+                here
+              </Anchor>
+              to learn more about these options
+            </Trans>
           </Text>
         </HoverCard.Dropdown>
       </HoverCard>
@@ -45,20 +48,23 @@ const XAxisTypeLabel = () => {
   );
 };
 
-const XAxisTypeOptions = [
-  { label: 'Value', value: 'value' },
-  { label: 'Category', value: 'category' },
-  { label: 'Time', value: 'time' },
-  { label: 'Log', value: 'log' },
-];
-
 interface IXAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   watch: UseFormWatch<ICartesianChartConf>;
 }
 export function XAxisField({ control, watch }: IXAxisField) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   watch(['x_axis_data_key', 'x_axis_name', 'x_axis']);
+
+  const XAxisTypeOptions = useMemo(
+    () => [
+      { label: t('chart.axis.type.value'), value: 'value' },
+      { label: t('chart.axis.type.category'), value: 'category' },
+      { label: t('chart.axis.type.time'), value: 'time' },
+      { label: t('chart.axis.type.log'), value: 'log' },
+    ],
+    [i18n.language],
+  );
   return (
     <Stack>
       <Controller
