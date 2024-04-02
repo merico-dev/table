@@ -86,7 +86,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           control={control}
           render={({ field }) => (
             <AggregationSelector
-              label="Aggregation on Value"
+              label={t('viz.cartesian_chart.series.aggregation.label')}
               value={field.value ?? DefaultAggregation}
               onChange={field.onChange}
               pt={0}
@@ -101,7 +101,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           control={control}
           render={({ field }) => (
             <DataFieldSelector
-              label="Split into multiple series by this key..."
+              label={t('viz.cartesian_chart.series.group_by.label')}
               clearable
               sx={{ flex: 1 }}
               {...field}

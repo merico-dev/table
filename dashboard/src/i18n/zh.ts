@@ -322,6 +322,27 @@ export const zh = {
       description: '参数 <code>utils</code> 是 <code>FunctionUtils</code>，包含以下内容：',
       document: '文档',
     },
+    aggregation: {
+      option: {
+        none: '无',
+        sum: '和',
+        mean: '平均值',
+        median: '中位数',
+        min: '最小值',
+        max: '最大值',
+        cov: '变异系数',
+        std: '标准差',
+        quantile: {
+          label: '分位',
+          label_with_hint: '分位(99%, 95%, ...)',
+        },
+        custom: {
+          label: '自定义',
+          label_trigger: '编写函数',
+          title: '自定义聚合方式',
+        },
+      },
+    },
     chart: {
       chart_config: '图表设置',
       data_field: '数据字段',
@@ -399,6 +420,9 @@ export const zh = {
             exact: '柱宽',
             max: '最大柱宽',
           },
+        },
+        scatter: {
+          label: '散点',
         },
         hide_in_legend: '不显示在图例中',
       },

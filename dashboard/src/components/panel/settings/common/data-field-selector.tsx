@@ -22,7 +22,6 @@ export const DataFieldSelector = observer(
       const options = React.useMemo(() => {
         return panel.dataFieldOptions(value, clearable);
       }, [value, clearable]);
-      console.log({ options });
 
       if (options.length === 0) {
         const v = panel.explainDataKey(value);

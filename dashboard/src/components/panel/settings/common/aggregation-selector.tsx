@@ -1,22 +1,9 @@
 import { Group, NumberInput, Select, SpacingValue, SystemProp, TextInput } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ModalFunctionEditor } from '~/components/widgets/modal-function-editor';
 import { AggregationType, DefaultCustomAggregationFunc } from '~/utils';
-
-const options: { label: string; value: AggregationType['type'] }[] = [
-  { label: 'None', value: 'none' },
-  { label: 'Sum', value: 'sum' },
-  { label: 'Mean', value: 'mean' },
-  { label: 'Median', value: 'median' },
-  { label: 'Max', value: 'max' },
-  { label: 'Min', value: 'min' },
-  { label: 'Coefficient of Variation', value: 'CV' },
-  { label: 'Standard Variation', value: 'std' },
-  { label: 'Quantile(99%, 95%, ...)', value: 'quantile' },
-  { label: 'Custom', value: 'custom' },
-];
 
 interface IAggregationSelector {
   value: AggregationType;
@@ -30,7 +17,7 @@ function _AggregationSelector(
   { label, value, onChange, pt = 'sm', withFallback }: IAggregationSelector,
   ref: $TSFixMe,
 ) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // migrate from legacy
   useEffect(() => {
     if (typeof value === 'string') {
@@ -77,6 +64,23 @@ function _AggregationSelector(
       fallback: e.currentTarget.value,
     });
   };
+
+  const options: { label: string; value: AggregationType['type'] }[] = useMemo(
+    () => [
+      { label: t('aggregation.option.none'), value: 'none' },
+      { label: t('aggregation.option.sum'), value: 'sum' },
+      { label: t('aggregation.option.min'), value: 'min' },
+      { label: t('aggregation.option.mean'), value: 'mean' },
+      { label: t('aggregation.option.median'), value: 'median' },
+      { label: t('aggregation.option.max'), value: 'max' },
+      { label: t('aggregation.option.cov'), value: 'CV' },
+      { label: t('aggregation.option.std'), value: 'std' },
+      { label: t('aggregation.option.quantile.label_with_hint'), value: 'quantile' },
+      { label: t('aggregation.option.custom.label'), value: 'custom' },
+    ],
+    [i18n.language],
+  );
+
   return (
     <>
       <Group grow noWrap pt={pt}>
@@ -101,9 +105,9 @@ function _AggregationSelector(
         )}
         {value.type === 'custom' && (
           <ModalFunctionEditor
-            title="Custom Aggregation"
+            title={t('aggregation.option.custom.title')}
             label=""
-            triggerLabel="Edit Function"
+            triggerLabel={t('aggregation.option.custom.label_trigger')}
             value={value.config.func}
             onChange={changeCustomFunc}
             defaultValue={DefaultCustomAggregationFunc}
@@ -111,6 +115,7 @@ function _AggregationSelector(
               size: 'xs',
               sx: { flexGrow: 0, alignSelf: 'center', marginTop: '22px' },
               leftIcon: <IconMathFunction size={16} />,
+              color: 'grape',
             }}
           />
         )}

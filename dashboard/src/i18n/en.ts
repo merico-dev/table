@@ -322,6 +322,27 @@ export const en = {
       description: 'Parameter <code>utils</code> is <code>FunctionUtils</code>, which contains:',
       document: 'Document',
     },
+    aggregation: {
+      option: {
+        none: 'None',
+        sum: 'Sum',
+        mean: 'Mean',
+        median: 'Median',
+        min: 'Min',
+        max: 'Max',
+        cov: 'Coefficient of Variation',
+        std: 'Standard Variation',
+        quantile: {
+          label: 'Quantile',
+          label_with_hint: 'Quantile(99%, 95%, ...)',
+        },
+        custom: {
+          label: 'Custom',
+          label_trigger: 'Edit Function',
+          title: 'Custom Aggregation',
+        },
+      },
+    },
     chart: {
       chart_config: 'Chart Config',
       data_field: 'Data Field',
@@ -399,6 +420,9 @@ export const en = {
             exact: 'Bar Width',
             max: 'Bar Width(max)',
           },
+        },
+        scatter: {
+          label: 'Scatter',
         },
         hide_in_legend: 'Hide in legend',
       },
