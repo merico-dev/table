@@ -1,20 +1,9 @@
 import { Select, SimpleGrid } from '@mantine/core';
-import { forwardRef } from 'react';
-import { AnyObject } from '~/types';
+import { forwardRef, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DynamicScatterSizeField } from './dynamic';
 import { StaticScatterSizeField } from './static';
 import { DEFAULT_SCATTER_SIZE, TScatterSize } from './types';
-
-const typeOptions = [
-  {
-    label: 'Static',
-    value: 'static',
-  },
-  {
-    label: 'Dynamic',
-    value: 'dynamic',
-  },
-];
 
 interface IScatterSizeSelect {
   label?: string;
@@ -24,6 +13,22 @@ interface IScatterSizeSelect {
 
 export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect>(
   ({ label = 'Size', value, onChange }: IScatterSizeSelect, ref) => {
+    const { t, i18n } = useTranslation();
+
+    const typeOptions = useMemo(
+      () => [
+        {
+          label: t('chart.symbol_size.static'),
+          value: 'static',
+        },
+        {
+          label: t('chart.symbol_size.dynamic'),
+          value: 'dynamic',
+        },
+      ],
+      [i18n.language],
+    );
+
     const changeType = (type: 'static' | 'dynamic') => {
       onChange({ ...DEFAULT_SCATTER_SIZE[type] });
     };
