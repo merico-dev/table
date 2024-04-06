@@ -388,9 +388,10 @@ export const zh = {
         line: {
           label: '线',
           line_settings: '线段设置',
+          line_style: '线条样式',
           type: {
             label: '类型',
-            solid: '实现',
+            solid: '实线',
             dashed: '方虚线',
             dotted: '圆点虚线',
           },
@@ -425,6 +426,10 @@ export const zh = {
           label: '散点',
         },
         hide_in_legend: '不显示在图例中',
+        group_by: {
+          label: '按此字段拆分为多个系列',
+          label_line: '按此字段拆分为多条线',
+        },
       },
       axis: {
         tick_label: '刻度文案',
@@ -481,6 +486,13 @@ export const zh = {
         behavior: '表现',
         visible: '可见',
       },
+      stats: {
+        label: '统计内容',
+        template: {
+          above_chart: '统计内容模板（图表上方）',
+          under_chart: '统计内容模板（图表下方）',
+        },
+      },
       legend: {
         label: '图例',
         show_legend: '显示图例',
@@ -514,6 +526,39 @@ export const zh = {
         labels: '参考线',
         add: '增加一条参考线',
         name_placeholder: '均值参考线',
+        delete: '删除这条参考线',
+      },
+      regression_line: {
+        label: '回归线',
+        labels: '回归线',
+        add: '增加一条回归线',
+        delete: '删除这条回归线',
+        method: {
+          label: '方法',
+          linear: '线性回归',
+          exponential: '指数回归',
+          logistic: '指数回归',
+          polynomial: '多项式回归',
+          polynomial_order: '次',
+        },
+      },
+      reference_area: {
+        label: '参考区域',
+        labels: '参考区域',
+        add: '增加一面参考区域',
+        delete: '删除这面参考区域',
+        type: {
+          label: '形状',
+          rectangle: '矩形',
+        },
+        direction: {
+          label: '方向',
+          horizontal: '水平',
+        },
+        boundary: {
+          upper: '上边界',
+          lower: '下边界',
+        },
       },
       zooming: {
         label: '缩放',

@@ -4,19 +4,8 @@ import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { ICartesianChartConf, IRegressionConf } from '../../type';
-
-const regressionOptions = [
-  { label: 'Linear', value: 'linear' },
-  { label: 'Exponential', value: 'exponential' },
-  { label: 'Logarithmic', value: 'logarithmic' },
-  { label: 'Polynomial', value: 'polynomial' },
-];
-
-const lineTypeOptions = [
-  { label: 'solid', value: 'solid' },
-  { label: 'dashed', value: 'dashed' },
-  { label: 'dotted', value: 'dotted' },
-];
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 interface IRegressionField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -30,6 +19,27 @@ interface IRegressionField {
 }
 
 export function RegressionField({ control, regressionItem, index, remove, yAxisOptions }: IRegressionField) {
+  const { t, i18n } = useTranslation();
+
+  const regressionOptions = useMemo(
+    () => [
+      { label: t('chart.regression_line.method.linear'), value: 'linear' },
+      { label: t('chart.regression_line.method.exponential'), value: 'exponential' },
+      { label: t('chart.regression_line.method.logistic'), value: 'logistic' },
+      { label: t('chart.regression_line.method.polynomial'), value: 'polynomial' },
+    ],
+    [i18n.language],
+  );
+
+  const lineTypeOptions = useMemo(
+    () => [
+      { label: t('chart.series.line.type.solid'), value: 'solid' },
+      { label: t('chart.series.line.type.dashed'), value: 'dashed' },
+      { label: t('chart.series.line.type.dotted'), value: 'dotted' },
+    ],
+    [i18n.language],
+  );
+
   const method = regressionItem.transform.config.method;
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
@@ -37,18 +47,13 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`regressions.${index}.group_by_key`}
           control={control}
           render={({ field }) => (
-            <DataFieldSelector
-              label="Split into multiple regression lines by this key..."
-              clearable
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <DataFieldSelector label={t('chart.series.group_by.label_line')} clearable sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
@@ -56,14 +61,16 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.y_axis_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('common.data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`regressions.${index}.plot.yAxisIndex`}
           control={control}
           render={({ field: { value, onChange, ...rest } }) => (
             <Select
-              label="Y Axis"
+              label={t('chart.y_axis.label')}
               data={yAxisOptions}
               disabled={yAxisOptions.length === 0}
               {...rest}
@@ -84,31 +91,44 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.transform.config.method`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Method" data={regressionOptions} sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select
+              label={t('chart.regression_line.method.label')}
+              data={regressionOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
+          )}
         />
         {method === 'polynomial' && (
           <Controller
             name={`regressions.${index}.transform.config.order`}
             control={control}
-            // @ts-expect-error type of onChange
-            render={({ field }) => <NumberInput label="Order" sx={{ flex: 1 }} {...field} />}
+            render={({ field }) => (
+              // @ts-expect-error type of onChange
+              <NumberInput label={t('chart.regression_line.method.polynomial_order')} sx={{ flex: 1 }} {...field} />
+            )}
           />
         )}
       </Group>
-      <Divider mb={-15} variant="dashed" label="Line Style" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('chart.series.line.line_style')} labelPosition="center" />
       <Group grow>
         <Controller
           name={`regressions.${index}.plot.lineStyle.type`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select label={t('chart.series.line.type.label')} data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`regressions.${index}.plot.lineStyle.width`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
+          )}
         />
       </Group>
       <Stack spacing={4}>
@@ -126,7 +146,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         onClick={() => remove(index)}
         sx={{ top: 15, right: 5 }}
       >
-        Delete this Regression Line
+        {t('chart.regression_line.delete')}
       </Button>
     </Stack>
   );

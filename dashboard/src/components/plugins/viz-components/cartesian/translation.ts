@@ -7,9 +7,6 @@ const en = {
       aggregation: {
         label: 'Aggregation on Value',
       },
-      group_by: {
-        label: 'Split into multiple seires by this field...',
-      },
     },
   },
 };
@@ -20,9 +17,6 @@ const zh = {
     series: {
       aggregation: {
         label: '聚合数据',
-      },
-      group_by: {
-        label: '按此字段拆分为多个系列',
       },
     },
   },

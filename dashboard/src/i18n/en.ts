@@ -388,6 +388,7 @@ export const en = {
         line: {
           label: 'Line',
           line_settings: 'Line Settings',
+          line_style: 'Line Style',
           type: {
             label: 'Line Type',
             solid: 'Solid',
@@ -425,6 +426,10 @@ export const en = {
           label: 'Scatter',
         },
         hide_in_legend: 'Hide in legend',
+        group_by: {
+          label: 'Split into multiple seires by this field...',
+          label_line: 'Split into multiple lines by this field...',
+        },
       },
       axis: {
         tick_label: 'Tick Label',
@@ -481,6 +486,13 @@ export const en = {
         behavior: 'Behavior',
         visible: 'Visible',
       },
+      stats: {
+        label: 'Stats',
+        template: {
+          above_chart: 'Template for stats above the chart',
+          under_chart: 'Template for stats under the chart',
+        },
+      },
       legend: {
         label: 'Legend',
         show_legend: 'Show Legend',
@@ -514,6 +526,39 @@ export const en = {
         labels: 'Reference Lines',
         add: 'Add a reference line',
         name_placeholder: 'Average Reference Line',
+        delete: 'Remove this Reference Line',
+      },
+      regression_line: {
+        label: 'Regression Line',
+        labels: 'Regression Lines',
+        add: 'Add a line',
+        delete: 'Delete this line',
+        method: {
+          label: 'Method',
+          linear: 'Linear',
+          exponential: 'Exponential',
+          logistic: 'Logistic',
+          polynomial: 'Polynomial',
+          polynomial_order: 'Order',
+        },
+      },
+      reference_area: {
+        label: 'Reference Area',
+        labels: 'Reference Areas',
+        add: 'Add a reference area',
+        delete: 'Remove this reference area',
+        type: {
+          label: 'Type',
+          rectangle: 'Rectangle',
+        },
+        direction: {
+          label: 'Direction',
+          horizontal: 'Horizontal',
+        },
+        boundary: {
+          upper: 'Upper Boundary',
+          lower: 'Lower Boundary',
+        },
       },
       zooming: {
         label: 'Zooming',

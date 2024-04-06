@@ -100,12 +100,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           name={`series.${index}.group_by_key`}
           control={control}
           render={({ field }) => (
-            <DataFieldSelector
-              label={t('viz.cartesian_chart.series.group_by.label')}
-              clearable
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <DataFieldSelector label={t('chart.series.group_by.label')} clearable sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>

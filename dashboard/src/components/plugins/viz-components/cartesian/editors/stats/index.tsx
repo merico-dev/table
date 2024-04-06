@@ -6,6 +6,7 @@ import { Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { TemplateInput } from '~/utils';
 import { ICartesianChartConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 interface IVariablesField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -13,6 +14,7 @@ interface IVariablesField {
 }
 
 export function StatsField({ control, watch }: IVariablesField) {
+  const { t } = useTranslation();
   watch('stats');
   return (
     <Stack>
@@ -21,14 +23,14 @@ export function StatsField({ control, watch }: IVariablesField) {
           name="stats.templates.top"
           control={control}
           render={({ field }) => (
-            <TemplateInput label="Template for stats above the chart" py="md" sx={{ flexGrow: 1 }} {...field} />
+            <TemplateInput label={t('chart.stats.template.above_chart')} py="md" sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Controller
           name="stats.templates.bottom"
           control={control}
           render={({ field }) => (
-            <TemplateInput label="Template for stats under the chart" py="md" sx={{ flexGrow: 1 }} {...field} />
+            <TemplateInput label={t('chart.stats.template.under_chart')} py="md" sx={{ flexGrow: 1 }} {...field} />
           )}
         />
       </Stack>

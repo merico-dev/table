@@ -2,9 +2,8 @@ import { ActionIcon, Button, Divider, Group, Select, Stack, TextInput } from '@m
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { ICartesianChartConf } from '../../type';
-
-const referenceAreaTypeOptions = [{ label: 'Rectangle', value: 'rectangle' }];
-const referenceAreaDirectionOptions = [{ label: 'Horizontal', value: 'horizontal' }];
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
 
 interface IReferenceAreaField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -14,18 +13,31 @@ interface IReferenceAreaField {
 }
 
 export function ReferenceAreaField({ control, index, remove, variableOptions }: IReferenceAreaField) {
+  const { t, i18n } = useTranslation();
+  const referenceAreaTypeOptions = useMemo(
+    () => [{ label: t('chart.reference_area.type.rectangle'), value: 'rectangle' }],
+    [i18n.language],
+  );
+
+  const referenceAreaDirectionOptions = useMemo(
+    () => [{ label: t('chart.reference_area.direction.horizontal'), value: 'horizontal' }],
+    [i18n.language],
+  );
+
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`reference_areas.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <TextInput label={t('chart.reference_area.label')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`reference_areas.${index}.color`}
           control={control}
-          render={({ field }) => <TextInput label="Color" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('chart.color.label')} required sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Group grow noWrap>
@@ -34,7 +46,13 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Type" required data={referenceAreaTypeOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('chart.reference_area.type.label')}
+              required
+              data={referenceAreaTypeOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
         <Controller
@@ -42,18 +60,30 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Direction" required data={referenceAreaDirectionOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('chart.reference_area.direction.label')}
+              required
+              data={referenceAreaDirectionOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
       </Group>
-      <Divider variant="dashed" label="Data" labelPosition="center" />
+      <Divider variant="dashed" label={t('data.label')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name={`reference_areas.${index}.y_keys.upper`}
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Upper Boundary" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('chart.reference_area.boundary.upper')}
+              required
+              data={variableOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
         <Controller
@@ -61,7 +91,13 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Lower Boundary" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('chart.reference_area.boundary.lower')}
+              required
+              data={variableOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
       </Group>
@@ -72,7 +108,7 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
         onClick={() => remove(index)}
         sx={{ top: 15, right: 5 }}
       >
-        Delete this Reference Area
+        {t('chart.reference_area.delete')}
       </Button>
     </Stack>
   );

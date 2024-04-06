@@ -8,7 +8,7 @@ export function getRegressionDataSource(transform: IRegressionTransform, rawData
       return [...d3Regression.regressionLinear()(rawData)];
     case 'exponential':
       return [...d3Regression.regressionExp()(rawData)];
-    case 'logarithmic':
+    case 'logistic':
       return [...d3Regression.regressionLog()(rawData)];
     case 'polynomial':
       return [...d3Regression.regressionPoly().order(transform.config.order)(rawData)];

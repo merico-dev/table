@@ -3,7 +3,7 @@ import { AnyObject } from '~/types';
 export interface IRegressionTransform {
   type: 'ecStat:regression';
   config: {
-    method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
+    method: 'linear' | 'exponential' | 'logistic' | 'polynomial';
     order: number;
     formulaOn: 'end';
   };
