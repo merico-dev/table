@@ -461,6 +461,14 @@ export const en = {
           click_to_learn_more: 'Click <1>here</1> to learn more about these options',
         },
       },
+      name_text: {
+        align: {
+          label: 'Name Anchor',
+          left: 'Left',
+          center: 'Center',
+          right: 'Right',
+        },
+      },
       rotate: 'Rotate',
       degree: 'degree',
       content_template: {

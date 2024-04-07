@@ -1,14 +1,11 @@
 import { Button, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { IScatterChartConf } from '../../type';
 
-const nameAlignmentOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'center', value: 'center' },
-  { label: 'right', value: 'right' },
-];
 const positionOptions = [
   { label: 'left', value: 'left' },
   { label: 'right', value: 'right' },
@@ -21,6 +18,7 @@ interface IYAxisField {
 }
 
 export function YAxisField({ control, index, remove }: IYAxisField) {
+  const { t } = useTranslation();
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
       <Divider mb={-15} mt={15} variant="dashed" label="Name" labelPosition="center" />
@@ -33,10 +31,7 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
         <Controller
           name={`y_axes.${index}.nameAlignment`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Layout" labelPosition="center" />

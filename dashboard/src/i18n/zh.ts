@@ -461,6 +461,14 @@ export const zh = {
           click_to_learn_more: '点击 <1>这里</1> 以进一步了解这些选项',
         },
       },
+      name_text: {
+        align: {
+          label: '名称贴靠侧',
+          left: '左',
+          center: '中',
+          right: '右',
+        },
+      },
       rotate: '旋转',
       degree: '度',
       content_template: {

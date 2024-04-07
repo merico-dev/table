@@ -3,12 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { IParetoChartConf } from '../type';
-
-const nameAlignmentOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'center', value: 'center' },
-  { label: 'right', value: 'right' },
-];
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 
 interface IBarField {
   control: Control<IParetoChartConf, $TSFixMe>;
@@ -27,10 +22,7 @@ export function BarField({ control, watch }: IBarField) {
         <Controller
           name="bar.nameAlignment"
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Align" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Stack spacing={2}>

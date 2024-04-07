@@ -9,6 +9,7 @@ import {
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 
 export type TMericoHeatmapConf = {
   x_axis: {
@@ -23,7 +24,7 @@ export type TMericoHeatmapConf = {
   y_axis: {
     name: string;
     data_key: TDataKey;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;

@@ -9,6 +9,7 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -23,7 +24,7 @@ export interface IHeatmapConf {
   y_axis: {
     name: string;
     data_key: TDataKey;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;

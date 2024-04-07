@@ -8,6 +8,7 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
@@ -27,13 +28,13 @@ export interface IParetoChartConf {
   data_key: string;
   bar: {
     name: string;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     color: string;
     label_formatter: TNumberFormat;
   };
   line: {
     name: string;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     color: string;
   };
   dataZoom: TEchartsDataZoomConfig;

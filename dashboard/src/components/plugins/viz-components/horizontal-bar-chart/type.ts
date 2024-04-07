@@ -10,6 +10,7 @@ import {
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
@@ -65,7 +66,7 @@ export interface IHorizontalBarChartConf {
       overflow: IAxisLabelOverflow;
       formatter: IXAxisLabelFormatter;
     };
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
   };
   series: IHorizontalBarChartSeriesItem[];
   tooltip: {

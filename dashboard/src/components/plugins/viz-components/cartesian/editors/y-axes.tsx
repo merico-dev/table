@@ -1,16 +1,12 @@
-import { ActionIcon, Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
-import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
+import { Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { Control, Controller, UseFieldArrayRemove, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Plus, Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
-import { ICartesianChartConf } from '../type';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { defaultNumberFormat } from '~/utils';
-import { useTranslation } from 'react-i18next';
+import { ICartesianChartConf } from '../type';
 
-const nameAlignmentOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'center', value: 'center' },
-  { label: 'right', value: 'right' },
-];
 const positionOptions = [
   { label: 'left', value: 'left' },
   { label: 'right', value: 'right' },
@@ -38,16 +34,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
         <Controller
           name={`y_axes.${index}.nameAlignment`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select
-              label={t('chart.y_axis.y_axis_name_anchor')}
-              required
-              data={nameAlignmentOptions}
-              sx={{ flex: 1 }}
-              {...field}
-            />
-          )}
+          render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Divider mb={-15} variant="dashed" label={t('chart.y_axis.layout')} labelPosition="center" />

@@ -1,15 +1,11 @@
-import { Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { IHeatmapConf } from '../../type';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
 
-const nameAlignmentOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'center', value: 'center' },
-  { label: 'right', value: 'right' },
-];
 interface IYAxisField {
   watch: UseFormWatch<IHeatmapConf>;
   control: Control<IHeatmapConf, $TSFixMe>;
@@ -35,10 +31,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
         <Controller
           name="y_axis.nameAlignment"
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Name Alignment" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
