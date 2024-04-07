@@ -3,12 +3,7 @@ import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-ho
 import { Trash } from 'tabler-icons-react';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { IScatterChartConf } from '../../type';
-
-const lineTypeOptions = [
-  { label: 'solid', value: 'solid' },
-  { label: 'dashed', value: 'dashed' },
-  { label: 'dotted', value: 'dotted' },
-];
+import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 
 const orientationOptions = [
   { label: 'Horizontal', value: 'horizontal' },
@@ -105,8 +100,7 @@ export function ReferenceLineField({
         <Controller
           name={`reference_lines.${index}.lineStyle.type`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => <LineTypeSelector label="Line Type" sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`reference_lines.${index}.lineStyle.width`}

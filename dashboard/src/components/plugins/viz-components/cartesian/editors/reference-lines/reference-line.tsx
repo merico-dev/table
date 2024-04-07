@@ -4,12 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { ICartesianChartConf } from '../../type';
 import { useTranslation } from 'react-i18next';
-
-const lineTypeOptions = [
-  { label: 'solid', value: 'solid' },
-  { label: 'dashed', value: 'dashed' },
-  { label: 'dotted', value: 'dotted' },
-];
+import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 
 const orientationOptions = [
   { label: 'Horizontal', value: 'horizontal' },
@@ -127,8 +122,7 @@ export function ReferenceLineField({
           name={`reference_lines.${index}.lineStyle.type`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label={t('chart.series.line.type.label')} data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />
+            <LineTypeSelector label={t('chart.series.line.type.label')} sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Controller

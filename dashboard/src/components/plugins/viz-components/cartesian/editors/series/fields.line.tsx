@@ -4,6 +4,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { ScatterSizeSelect } from '../scatter-size-select';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -25,15 +26,6 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
     [i18n.language],
   );
 
-  const lineTypeOptions = useMemo(
-    () => [
-      { label: t('chart.series.line.type.solid'), value: 'solid' },
-      { label: t('chart.series.line.type.dashed'), value: 'dashed' },
-      { label: t('chart.series.line.type.dotted'), value: 'dotted' },
-    ],
-    [i18n.language],
-  );
-
   return (
     <>
       <Divider mb={-15} variant="dashed" label={t('chart.series.line.line_settings')} labelPosition="center" />
@@ -42,8 +34,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           name={`series.${index}.lineStyle.type`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label={t('chart.series.line.type.label')} data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />
+            <LineTypeSelector label={t('chart.series.line.type.label')} sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Controller

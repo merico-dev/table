@@ -1,4 +1,5 @@
 import { AnyObject } from '~/types';
+import { IEChartsLineType } from '../line-type';
 
 export interface IRegressionTransform {
   type: 'ecStat:regression';
@@ -14,7 +15,7 @@ export interface IRegressionLineConf {
   yAxisIndex: number;
   color: string;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
   };
 }

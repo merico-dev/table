@@ -9,6 +9,7 @@ import { TScatterSize } from './editors/scatter-size-select/types';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -30,7 +31,7 @@ export interface ICartesianChartSeriesItem {
   group_by_key: string;
   aggregation_on_value?: AggregationType;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
   };
   hide_in_legend: boolean;
@@ -61,7 +62,7 @@ export interface ICartesianReferenceLine {
   orientation: 'horizontal' | 'vertical';
   yAxisIndex: number;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
     color: string;
   };

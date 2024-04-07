@@ -8,13 +8,14 @@ import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
   name: string;
   template: string;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
     color: string;
   };

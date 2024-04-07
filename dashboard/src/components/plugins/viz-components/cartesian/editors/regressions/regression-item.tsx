@@ -6,6 +6,7 @@ import { MantineColorSelector } from '~/components/panel/settings/common/mantine
 import { ICartesianChartConf, IRegressionConf } from '../../type';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
+import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 
 interface IRegressionField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -27,15 +28,6 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
       { label: t('chart.regression_line.method.exponential'), value: 'exponential' },
       { label: t('chart.regression_line.method.logistic'), value: 'logistic' },
       { label: t('chart.regression_line.method.polynomial'), value: 'polynomial' },
-    ],
-    [i18n.language],
-  );
-
-  const lineTypeOptions = useMemo(
-    () => [
-      { label: t('chart.series.line.type.solid'), value: 'solid' },
-      { label: t('chart.series.line.type.dashed'), value: 'dashed' },
-      { label: t('chart.series.line.type.dotted'), value: 'dotted' },
     ],
     [i18n.language],
   );
@@ -118,8 +110,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           name={`regressions.${index}.plot.lineStyle.type`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label={t('chart.series.line.type.label')} data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />
+            <LineTypeSelector label={t('chart.series.line.type.label')} sx={{ flexGrow: 1 }} {...field} />
           )}
         />
         <Controller
