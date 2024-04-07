@@ -129,7 +129,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         control={control}
         render={({ field }) => (
           <Checkbox
-            label={t('chart.series.hide_in_legend')}
+            label={t('chart.legend.hide_in_legend')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />

@@ -425,7 +425,6 @@ export const en = {
         scatter: {
           label: 'Scatter',
         },
-        hide_in_legend: 'Hide in legend',
         group_by: {
           label: 'Split into multiple seires by this field...',
           label_line: 'Split into multiple lines by this field...',
@@ -496,6 +495,8 @@ export const en = {
       legend: {
         label: 'Legend',
         show_legend: 'Show Legend',
+        show_in_legend: 'Show in legend',
+        hide_in_legend: 'Hide in legend',
         orientation: {
           label: 'Orientation',
           horizontal: 'Horizontal',
@@ -527,6 +528,12 @@ export const en = {
         add: 'Add a reference line',
         name_placeholder: 'Average Reference Line',
         delete: 'Remove this Reference Line',
+        orientation: {
+          label: 'Orientation',
+          horizontal: 'Horizontal',
+          vertical: 'Vertical',
+          vertical_hint: 'Works only when xAxis values are numbers',
+        },
       },
       regression_line: {
         label: 'Regression Line',

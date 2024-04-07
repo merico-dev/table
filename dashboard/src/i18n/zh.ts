@@ -425,7 +425,6 @@ export const zh = {
         scatter: {
           label: '散点',
         },
-        hide_in_legend: '不显示在图例中',
         group_by: {
           label: '按此字段拆分为多个系列',
           label_line: '按此字段拆分为多条线',
@@ -496,6 +495,8 @@ export const zh = {
       legend: {
         label: '图例',
         show_legend: '显示图例',
+        show_in_legend: '显示在图例中',
+        hide_in_legend: '不显示在图例中',
         orientation: {
           label: '布局朝向',
           horizontal: '横向',
@@ -527,6 +528,12 @@ export const zh = {
         add: '增加一条参考线',
         name_placeholder: '均值参考线',
         delete: '删除这条参考线',
+        orientation: {
+          label: '朝向',
+          horizontal: '水平',
+          vertical: '垂直',
+          vertical_hint: '仅当X轴值为数字时可绘制',
+        },
       },
       regression_line: {
         label: '回归线',
