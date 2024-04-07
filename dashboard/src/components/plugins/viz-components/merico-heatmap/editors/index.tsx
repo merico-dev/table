@@ -1,16 +1,16 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import _, { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { DeviceFloppy } from 'tabler-icons-react';
+import { ChartConfigBanner } from '~/components/plugins/editor-components';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
 import { HeatBlockField } from './heat_block';
 import { TooltipField } from './tooltip';
 import { XAxisField } from './x-axis';
 import { YAxisField } from './y-axis';
-import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
 
 export function EditMericoHeatmap({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<TMericoHeatmapConf>(context.instanceData, 'config');
@@ -41,12 +41,7 @@ export function EditMericoHeatmap({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
       <Stack spacing="xs" sx={{ height: '100%' }}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <ChartConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

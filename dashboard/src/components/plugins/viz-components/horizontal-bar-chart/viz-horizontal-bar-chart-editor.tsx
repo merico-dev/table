@@ -1,9 +1,9 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
+import { ChartConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { SeriesField } from './editors/series';
@@ -30,12 +30,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Horizontal Bar Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <ChartConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"

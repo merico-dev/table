@@ -1,11 +1,11 @@
-import { ActionIcon, Checkbox, Divider, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { Checkbox, Divider, Select, SimpleGrid, Stack, TextInput } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { MantineColorSwatches } from '~/components/panel/settings/common/mantine-color-swatches';
 import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
 import { VizConfigProps } from '~/types/plugin';
+import { ChartConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 
@@ -58,12 +58,7 @@ export function VizButtonEditor({ context }: VizConfigProps) {
   watch(['content', 'variant', 'color', 'size', 'compact', 'horizontal_align', 'vertical_align']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-        <Text>Chart Config</Text>
-        <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-          <DeviceFloppy size={20} />
-        </ActionIcon>
-      </Group>
+      <ChartConfigBanner canSubmit={changed} />
       <Stack>
         <Controller
           control={control}

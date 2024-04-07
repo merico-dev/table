@@ -1,11 +1,11 @@
-import { ActionIcon, Group, Tabs, Text } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { ChartConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 import { BarField } from './editors/bar';
 import { LineField } from './editors/line';
@@ -31,12 +31,7 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-        <Text>Chart Config</Text>
-        <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-          <DeviceFloppy size={20} />
-        </ActionIcon>
-      </Group>
+      <ChartConfigBanner canSubmit={changed} />
 
       <Tabs
         defaultValue="X Axis"

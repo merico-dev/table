@@ -15,6 +15,7 @@ import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
+import { ChartConfigBanner } from '../../editor-components';
 
 function normalizeStats(stats?: IScatterChartConf['stats']) {
   if (!stats) {
@@ -66,12 +67,7 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <ChartConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

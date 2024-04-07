@@ -1,10 +1,10 @@
-import { Accordion, ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { ChartConfigBanner } from '../../editor-components';
 import { RegressionField } from './editors/regression-field';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
@@ -27,12 +27,7 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <ChartConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X轴"
           orientation="vertical"
