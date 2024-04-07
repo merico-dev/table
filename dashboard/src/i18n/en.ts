@@ -131,6 +131,7 @@ export const en = {
       data_field: 'Data Field',
       name_data_field: 'Name Data Field',
       value_data_field: 'Value Data Field',
+      color_data_field: 'Color Data Field',
       enabled: 'Enabled',
       action: 'Action',
       actions: {
@@ -355,6 +356,7 @@ export const en = {
       },
       label: {
         label: 'Label',
+        label_full: 'Label',
       },
       label_position: {
         label: 'Label Position',
@@ -476,6 +478,7 @@ export const en = {
       },
       rotate: 'Rotate',
       degree: 'degree',
+      padding: 'Padding',
       content_template: {
         label: 'Content Template',
         hint: 'Average: ${avg}',

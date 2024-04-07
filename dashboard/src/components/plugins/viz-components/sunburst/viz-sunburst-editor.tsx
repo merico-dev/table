@@ -8,8 +8,11 @@ import { VizConfigProps } from '~/types/plugin';
 import { DataField } from './editors/data-field';
 import { LevelsField } from './editors/levels';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
+import { useTranslation } from 'react-i18next';
+import { ChartConfigBanner } from '../../editor-components';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<ISunburstConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: ISunburstConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -31,12 +34,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Sunburst Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <ChartConfigBanner canSubmit={changed} />
         <Tabs
           value={tab}
           onTabChange={setTab}
@@ -53,8 +51,8 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="Data">Data</Tabs.Tab>
-            <Tabs.Tab value="Levels">Levels</Tabs.Tab>
+            <Tabs.Tab value="Data">{t('data.label')}</Tabs.Tab>
+            <Tabs.Tab value="Levels">{t('viz.sunburst_chart.level.labels')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="Data">

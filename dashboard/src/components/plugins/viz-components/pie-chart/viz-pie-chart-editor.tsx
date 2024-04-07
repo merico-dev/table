@@ -7,8 +7,10 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { ChartConfigBanner } from '../../editor-components';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizPieChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
   const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
@@ -33,17 +35,17 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="label_field"
-            render={({ field }) => <DataFieldSelector label="Label Key" required {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.name_data_field')} required {...field} />}
           />
           <Controller
             control={control}
             name="value_field"
-            render={({ field }) => <DataFieldSelector label="Value Key" required {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.value_data_field')} required {...field} />}
           />
           <Controller
             control={control}
             name="color_field"
-            render={({ field }) => <DataFieldSelector label="Color Key" clearable {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
         </Stack>
       </form>

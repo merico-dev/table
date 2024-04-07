@@ -129,8 +129,9 @@ export const zh = {
       type: '类型',
       info: '信息',
       data_field: '数据字段',
-      name_data_field: '名称数据字段',
-      value_data_field: '值数据字段',
+      name_data_field: '名称字段',
+      value_data_field: '值字段',
+      color_data_field: '颜色字段',
       enabled: '启用',
       action: '操作',
       actions: {
@@ -355,6 +356,7 @@ export const zh = {
       },
       label: {
         label: '文案',
+        label_full: '标签文案',
       },
       label_position: {
         label: '文案位置',
@@ -476,6 +478,7 @@ export const zh = {
       },
       rotate: '旋转',
       degree: '度',
+      padding: '内间距',
       content_template: {
         label: '内容模板',
         hint: '均值: ${avg}',
