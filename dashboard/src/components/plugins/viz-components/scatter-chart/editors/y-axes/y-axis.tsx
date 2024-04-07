@@ -1,15 +1,11 @@
-import { Button, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
+import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { YAxisPositionSelector } from '~/components/plugins/common-echarts-fields/y-axis-position';
 import { IScatterChartConf } from '../../type';
-
-const positionOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'right', value: 'right' },
-];
 
 interface IYAxisField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -39,10 +35,7 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
         <Controller
           name={`y_axes.${index}.position`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <YAxisPositionSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Stack>

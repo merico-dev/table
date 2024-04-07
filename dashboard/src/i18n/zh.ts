@@ -491,7 +491,11 @@ export const zh = {
         y_axis_name_anchor: '名称贴靠侧',
         y_axis_data_field: 'Y轴数据字段',
         layout: '布局',
-        position: '位置',
+        position: {
+          label: '位置',
+          left: '左',
+          right: '右',
+        },
         value_range: '值范围',
         value_min: '最小值',
         value_max: '最大值',

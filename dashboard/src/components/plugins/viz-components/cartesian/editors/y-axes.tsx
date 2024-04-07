@@ -1,16 +1,12 @@
-import { Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
+import { Button, Checkbox, Divider, Group, Stack, Tabs, TextInput } from '@mantine/core';
 import { Control, Controller, UseFieldArrayRemove, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Plus, Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { YAxisPositionSelector } from '~/components/plugins/common-echarts-fields/y-axis-position';
 import { defaultNumberFormat } from '~/utils';
 import { ICartesianChartConf } from '../type';
-
-const positionOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'right', value: 'right' },
-];
 
 interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -42,10 +38,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
         <Controller
           name={`y_axes.${index}.position`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label={t('chart.y_axis.position')} required data={positionOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <YAxisPositionSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Stack>

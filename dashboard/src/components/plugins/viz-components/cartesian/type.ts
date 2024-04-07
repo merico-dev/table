@@ -12,6 +12,7 @@ import { IEchartsLabelPosition } from '../../common-echarts-fields/label-positio
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -44,7 +45,7 @@ export interface IYAxisConf {
   max: string;
   name: string;
   show: boolean;
-  position: 'left' | 'right';
+  position: EChartsYAxisPosition;
   nameAlignment: EChartsNameTextAlign;
   label_formatter: TNumberFormat;
 }

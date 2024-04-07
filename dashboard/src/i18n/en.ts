@@ -491,7 +491,11 @@ export const en = {
         y_axis_name_anchor: 'Name Anchor',
         y_axis_data_field: 'Y Axis Data Field',
         layout: 'Layout',
-        position: 'Position',
+        position: {
+          label: 'Position',
+          left: 'Left',
+          right: 'Right',
+        },
         value_range: 'Value Range',
         value_min: 'Min',
         value_max: 'Max',
