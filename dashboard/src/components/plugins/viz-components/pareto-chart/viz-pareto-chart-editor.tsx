@@ -13,8 +13,10 @@ import { MarkLineField } from './editors/mark-line';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizParetoChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
@@ -48,8 +50,8 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-          <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+          <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+          <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
           <Tabs.Tab value="Bar">Bar</Tabs.Tab>
           <Tabs.Tab value="Line">Line</Tabs.Tab>
           <Tabs.Tab value="80-20 Line">80-20 Line</Tabs.Tab>

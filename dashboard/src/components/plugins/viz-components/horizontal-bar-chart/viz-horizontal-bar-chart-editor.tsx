@@ -10,8 +10,10 @@ import { SeriesField } from './editors/series';
 import { XAxesField } from './editors/x-axes';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHorizontalBarChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: IHorizontalBarChartConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -46,8 +48,8 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axes">X Axes</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
+            <Tabs.Tab value="X Axes">{t('chart.x_axis.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Series">Series</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
           </Tabs.List>

@@ -527,6 +527,11 @@ export const zh = {
       behavior: {
         label: '表现',
       },
+      heatmap: {
+        heatblock: {
+          label: '热力块',
+        },
+      },
       reference_line: {
         label: '参考线',
         labels: '参考线',

@@ -16,6 +16,7 @@ import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
 import { ChartConfigBanner } from '../../editor-components';
+import { useTranslation } from 'react-i18next';
 
 function normalizeStats(stats?: IScatterChartConf['stats']) {
   if (!stats) {
@@ -38,6 +39,7 @@ function normalizeConf({ reference_lines = [], stats, ...rest }: IScatterChartCo
 }
 
 export function VizScatterChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IScatterChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: IScatterChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -83,14 +85,14 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
+            <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axes">{t('chart.y_axis.labels')}</Tabs.Tab>
             <Tabs.Tab value="Scatter">Scatter</Tabs.Tab>
-            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
-            <Tabs.Tab value="Stats">Stats</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
-            <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
-            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
+            <Tabs.Tab value="Stats">{t('chart.stats.label')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Areas">{t('chart.reference_area.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">

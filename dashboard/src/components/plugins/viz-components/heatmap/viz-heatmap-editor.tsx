@@ -11,8 +11,10 @@ import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizHeatmapEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: IHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -61,10 +63,10 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
-            <Tabs.Tab value="Heat Block">Heat Block</Tabs.Tab>
-            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
+            <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Heat Block">{t('chart.heatmap.heatblock.label')}</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">

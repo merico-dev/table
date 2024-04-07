@@ -527,6 +527,11 @@ export const en = {
       behavior: {
         label: 'Behavior',
       },
+      heatmap: {
+        heatblock: {
+          label: 'Heat Block',
+        },
+      },
       reference_line: {
         label: 'Reference Line',
         labels: 'Reference Lines',
