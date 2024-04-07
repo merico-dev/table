@@ -33,9 +33,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
         <Controller
           name={`series.${index}.lineStyle.type`}
           control={control}
-          render={({ field }) => (
-            <LineTypeSelector label={t('chart.series.line.type.label')} sx={{ flexGrow: 1 }} {...field} />
-          )}
+          render={({ field }) => <LineTypeSelector sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.lineStyle.width`}

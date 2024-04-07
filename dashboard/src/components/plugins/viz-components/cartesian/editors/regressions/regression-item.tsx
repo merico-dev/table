@@ -109,9 +109,7 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
         <Controller
           name={`regressions.${index}.plot.lineStyle.type`}
           control={control}
-          render={({ field }) => (
-            <LineTypeSelector label={t('chart.series.line.type.label')} sx={{ flexGrow: 1 }} {...field} />
-          )}
+          render={({ field }) => <LineTypeSelector sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`regressions.${index}.plot.lineStyle.width`}

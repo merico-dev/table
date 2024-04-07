@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { IEChartsLineType } from './types';
 
 interface Props {
-  label: string;
+  label?: string;
   value?: IEChartsLineType;
   onChange: (v: IEChartsLineType) => void;
   sx?: Sx;
@@ -22,5 +22,14 @@ export const LineTypeSelector = forwardRef(({ label, value, onChange, sx = {} }:
     return ret;
   }, [i18n.language]);
 
-  return <Select ref={ref} label={label} data={options} value={value} onChange={onChange} sx={sx} />;
+  return (
+    <Select
+      ref={ref}
+      label={label ?? t('chart.series.line.type.label')}
+      data={options}
+      value={value}
+      onChange={onChange}
+      sx={sx}
+    />
+  );
 });

@@ -93,7 +93,7 @@ export function ReferenceLineField({
         <Controller
           name={`reference_lines.${index}.lineStyle.type`}
           control={control}
-          render={({ field }) => <LineTypeSelector label="Line Type" sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => <LineTypeSelector sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`reference_lines.${index}.lineStyle.width`}
