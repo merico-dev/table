@@ -22,7 +22,9 @@ export const EditStyle = observer(() => {
             step={1}
             precision={0}
             rightSection={<Text size={12}>{t('panel.style.width_postfix')}</Text>}
-            styles={{ rightSection: { width: '110px' } }}
+            styles={{
+              rightSection: { width: 'auto', maxWidth: '100px', paddingRight: '14px', justifyContent: 'flex-end' },
+            }}
             value={layout.w}
             onChange={(v) => {
               v && layout.setWidth(v);
