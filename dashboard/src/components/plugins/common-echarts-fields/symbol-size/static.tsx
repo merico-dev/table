@@ -1,16 +1,16 @@
 import { NumberInput } from '@mantine/core';
-import { TScatterSize, TScatterSize_Static } from './types';
+import { SymbolSize, SymbolSize_Static } from './types';
 
-interface IStaticScatterSizeField {
-  value: TScatterSize;
-  onChange: (v: TScatterSize) => void;
+interface IStaticSymbolSizeField {
+  value: SymbolSize;
+  onChange: (v: SymbolSize) => void;
 }
-export const StaticScatterSizeField = ({ value, onChange }: IStaticScatterSizeField) => {
+export const StaticSymbolSizeField = ({ value, onChange }: IStaticSymbolSizeField) => {
   if (value.type !== 'static') {
     return null;
   }
 
-  const changeSize = (size: TScatterSize_Static['size']) => {
+  const changeSize = (size: SymbolSize_Static['size']) => {
     onChange({
       ...value,
       size,

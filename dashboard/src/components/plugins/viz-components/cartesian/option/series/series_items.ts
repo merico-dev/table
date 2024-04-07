@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { AnyObject } from '~/types';
-import { getEchartsSymbolSize } from '../../editors/scatter-size-select/get-echarts-symbol-size';
+import { getEchartsSymbolSize } from '../../../../common-echarts-fields/symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { DataTemplateType } from './types';

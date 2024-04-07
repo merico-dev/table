@@ -1,10 +1,10 @@
 import lodash, { keyBy } from 'lodash';
 import { interpolate } from 'popmotion';
 import { extractFullQueryData, parseDataKey } from '~/utils';
-import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
+import { SymbolSize, SymbolSize_Dynamic, SymbolSize_Static } from './types';
 
 export function getEchartsSymbolSize(
-  { type, ...rest }: TScatterSize,
+  { type, ...rest }: SymbolSize,
   data: TPanelData,
   x_axis_data_key: string,
   variableValueMap: Record<string, string | number>,
@@ -13,10 +13,10 @@ export function getEchartsSymbolSize(
     return 10;
   }
   if (type === 'static') {
-    const { size } = rest as TScatterSize_Static;
+    const { size } = rest as SymbolSize_Static;
     return size;
   }
-  const { func_content } = rest as TScatterSize_Dynamic;
+  const { func_content } = rest as SymbolSize_Dynamic;
   const { queryID, columnKey } = parseDataKey(x_axis_data_key);
   const rows = keyBy(extractFullQueryData(data, queryID), columnKey);
   return (_value: number, params: $TSFixMe) => {

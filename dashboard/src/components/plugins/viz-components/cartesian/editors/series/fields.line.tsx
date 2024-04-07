@@ -1,7 +1,7 @@
 import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
-import { ScatterSizeSelect } from '../scatter-size-select';
+import { SymbolSizeSelector } from '../../../../common-echarts-fields/symbol-size';
 import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
@@ -109,7 +109,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           <Controller
             name={`series.${index}.symbolSize`}
             control={control}
-            render={({ field }) => <ScatterSizeSelect label={t('chart.symbol_size.label')} {...field} />}
+            render={({ field }) => <SymbolSizeSelector {...field} />}
           />
         )}
       </Stack>

@@ -1,18 +1,18 @@
 import { Select, SimpleGrid } from '@mantine/core';
 import { forwardRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DynamicScatterSizeField } from './dynamic';
-import { StaticScatterSizeField } from './static';
-import { DEFAULT_SCATTER_SIZE, TScatterSize } from './types';
+import { DynamicSymbolSizeField } from './dynamic';
+import { StaticSymbolSizeField } from './static';
+import { DEFAULT_SCATTER_SIZE, SymbolSize } from './types';
 
-interface IScatterSizeSelect {
+interface ISymbolSizeSelect {
   label?: string;
-  value: TScatterSize;
-  onChange: (v: TScatterSize) => void;
+  value: SymbolSize;
+  onChange: (v: SymbolSize) => void;
 }
 
-export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect>(
-  ({ label = 'Size', value, onChange }: IScatterSizeSelect, ref) => {
+export const SymbolSizeSelector = forwardRef<HTMLInputElement, ISymbolSizeSelect>(
+  ({ label, value, onChange }: ISymbolSizeSelect, ref) => {
     const { t, i18n } = useTranslation();
 
     const typeOptions = useMemo(
@@ -36,14 +36,14 @@ export const ScatterSizeSelect = forwardRef<HTMLInputElement, IScatterSizeSelect
       <SimpleGrid cols={2}>
         <Select
           ref={ref}
-          label={label}
+          label={label ?? t('chart.symbol_size.label')}
           data={typeOptions}
           value={value.type}
           onChange={changeType}
           sx={{ flexGrow: 1 }}
         />
-        <StaticScatterSizeField value={value} onChange={onChange} />
-        <DynamicScatterSizeField value={value} onChange={onChange} />
+        <StaticSymbolSizeField value={value} onChange={onChange} />
+        <DynamicSymbolSizeField value={value} onChange={onChange} />
       </SimpleGrid>
     );
   },

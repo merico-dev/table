@@ -1,10 +1,10 @@
-import { TScatterSize_Dynamic } from './types';
+import { SymbolSize_Dynamic } from './types';
 import Editor from '@monaco-editor/react';
 import { Box } from '@mantine/core';
 
 interface IDynamicSizeFunctionEditor {
-  value: TScatterSize_Dynamic['func_content'];
-  onChange: (v: TScatterSize_Dynamic['func_content']) => void;
+  value: SymbolSize_Dynamic['func_content'];
+  onChange: (v: SymbolSize_Dynamic['func_content']) => void;
 }
 export const DynamicSizeFunctionEditor = ({ value, onChange }: IDynamicSizeFunctionEditor) => {
   const handleChange = (v: string | undefined) => {

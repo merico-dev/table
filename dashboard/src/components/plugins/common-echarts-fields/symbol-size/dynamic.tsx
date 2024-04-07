@@ -5,17 +5,17 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Recycle } from 'tabler-icons-react';
 import { DynamicSizeFunctionEditor } from './dynamic-size-function-editor';
-import { DEFAULT_SCATTER_SIZE, TScatterSize, TScatterSize_Dynamic } from './types';
+import { DEFAULT_SCATTER_SIZE, SymbolSize, SymbolSize_Dynamic } from './types';
 
 interface IField {
-  value: TScatterSize_Dynamic;
-  onChange: (v: TScatterSize_Dynamic) => void;
+  value: SymbolSize_Dynamic;
+  onChange: (v: SymbolSize_Dynamic) => void;
 }
 
 const Field = ({ value, onChange }: IField) => {
   const { t } = useTranslation();
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
-  const [localValue, setLocalValue] = useState<TScatterSize_Dynamic>(value);
+  const [localValue, setLocalValue] = useState<SymbolSize_Dynamic>(value);
 
   const handleOk = () => {
     setFalse();
@@ -34,7 +34,7 @@ const Field = ({ value, onChange }: IField) => {
     setLocalValue(value);
   };
 
-  const changeFuncContent = (func_content: TScatterSize_Dynamic['func_content']) => {
+  const changeFuncContent = (func_content: SymbolSize_Dynamic['func_content']) => {
     setLocalValue((prev) => ({
       ...prev,
       func_content,
@@ -98,12 +98,12 @@ const Field = ({ value, onChange }: IField) => {
   );
 };
 
-export interface IDynamicScatterSizeField {
-  value: TScatterSize;
-  onChange: (v: TScatterSize) => void;
+export interface IDynamicSymbolSizeField {
+  value: SymbolSize;
+  onChange: (v: SymbolSize) => void;
 }
 
-export const DynamicScatterSizeField = ({ value, onChange }: IDynamicScatterSizeField) => {
+export const DynamicSymbolSizeField = ({ value, onChange }: IDynamicSymbolSizeField) => {
   if (value.type !== 'dynamic') {
     return null;
   }

@@ -1,20 +1,20 @@
-export type TScatterSize_Static = {
+export type SymbolSize_Static = {
   type: 'static';
   size: number;
 };
 
-export type TScatterSize_Dynamic = {
+export type SymbolSize_Dynamic = {
   type: 'dynamic';
   func_content: string;
 };
 
-export type TScatterSize = TScatterSize_Static | TScatterSize_Dynamic;
+export type SymbolSize = SymbolSize_Static | SymbolSize_Dynamic;
 
 export const DEFAULT_SCATTER_SIZE = {
   static: {
     type: 'static',
     size: 10,
-  } as TScatterSize_Static,
+  } as SymbolSize_Static,
   dynamic: {
     type: 'dynamic',
     func_content: [
@@ -23,5 +23,5 @@ export const DEFAULT_SCATTER_SIZE = {
       '    // return 10',
       '}',
     ].join('\n'),
-  } as TScatterSize_Dynamic,
+  } as SymbolSize_Dynamic,
 };

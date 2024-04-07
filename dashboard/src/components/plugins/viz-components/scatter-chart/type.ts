@@ -9,8 +9,8 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { SymbolSize } from '../../common-echarts-fields/symbol-size';
 import { ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
-import { TScatterSize } from './editors/scatter/scatter-size-select/types';
 import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 
 export interface IScatterLabelOverflow {
@@ -32,7 +32,7 @@ export interface IScatterChartConf {
   scatter: {
     y_data_key: TDataKey;
     name_data_key: TDataKey;
-    symbolSize: TScatterSize;
+    symbolSize: SymbolSize;
     label_position: string;
     color: TSeriesColor;
     label_overflow: IScatterLabelOverflow;

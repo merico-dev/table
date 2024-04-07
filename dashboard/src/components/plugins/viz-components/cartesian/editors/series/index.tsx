@@ -4,7 +4,7 @@ import React from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
-import { DEFAULT_SCATTER_SIZE } from '../scatter-size-select/types';
+import { DEFAULT_SCATTER_SIZE } from '../../../../common-echarts-fields/symbol-size';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
