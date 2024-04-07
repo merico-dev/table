@@ -129,6 +129,8 @@ export const en = {
       type: 'Type',
       info: 'Info',
       data_field: 'Data Field',
+      name_data_field: 'Name Data Field',
+      value_data_field: 'Value Data Field',
       enabled: 'Enabled',
       action: 'Action',
       actions: {
@@ -350,6 +352,9 @@ export const en = {
         merico_suite: 'Merico suite',
         echarts_based_charts: 'ECharts-based charts',
         others: 'Others',
+      },
+      label: {
+        label: 'Label',
       },
       label_position: {
         label: 'Label Position',

@@ -129,6 +129,8 @@ export const zh = {
       type: '类型',
       info: '信息',
       data_field: '数据字段',
+      name_data_field: '名称数据字段',
+      value_data_field: '值数据字段',
       enabled: '启用',
       action: '操作',
       actions: {
@@ -350,6 +352,9 @@ export const zh = {
         merico_suite: '思码逸套件',
         echarts_based_charts: '基于ECharts的图表',
         others: '其他',
+      },
+      label: {
+        label: '文案',
       },
       label_position: {
         label: '文案位置',

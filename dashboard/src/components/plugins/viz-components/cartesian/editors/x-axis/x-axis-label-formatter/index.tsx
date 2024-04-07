@@ -1,11 +1,10 @@
 import { Button, Checkbox, Group, Modal, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Recycle } from 'tabler-icons-react';
-import { AnyObject } from '~/types';
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './types';
-import { useTranslation } from 'react-i18next';
 
 interface IXAxisLabelFormatterField {
   value: IXAxisLabelFormatter;
@@ -90,7 +89,9 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>
-                <Button onClick={handleOk}>{t('common.actions.save')}</Button>
+                <Button color="green" onClick={handleOk}>
+                  {t('common.actions.save')}
+                </Button>
               </Group>
             </Group>
           </Stack>

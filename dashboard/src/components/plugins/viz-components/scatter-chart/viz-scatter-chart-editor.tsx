@@ -87,7 +87,7 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
           <Tabs.List>
             <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Y Axes">{t('chart.y_axis.labels')}</Tabs.Tab>
-            <Tabs.Tab value="Scatter">Scatter</Tabs.Tab>
+            <Tabs.Tab value="Scatter">{t('chart.series.scatter.label')}</Tabs.Tab>
             <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
             <Tabs.Tab value="Stats">{t('chart.stats.label')}</Tabs.Tab>
             <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
