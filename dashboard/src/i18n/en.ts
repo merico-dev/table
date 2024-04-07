@@ -531,6 +531,11 @@ export const en = {
           description: "Set additional metrics to show in scatter's tooltip",
           delete: 'Delete this Metric',
         },
+        trigger: {
+          label: 'Trigger',
+          scatter_point: 'Scatter Point',
+          x_axis: 'X Axis',
+        },
       },
       style: {
         label: 'Style',
@@ -540,6 +545,8 @@ export const en = {
         or: 'or',
         set_any_color: 'Set any color',
         pick_a_theme_color: 'Pick a theme color',
+        background_color: 'Background Color',
+        text_color: 'Text Color',
       },
       behavior: {
         label: 'Behavior',
@@ -589,6 +596,16 @@ export const en = {
         boundary: {
           upper: 'Upper Boundary',
           lower: 'Lower Boundary',
+        },
+        content: {
+          label: 'Content',
+          content_text: 'Content Text',
+          text_position: 'Text Position',
+        },
+        endpoint: {
+          labels: 'Endpoints',
+          left_bottom_point: 'Left-Bottom Point',
+          right_top_point: 'Right-Top Point',
         },
       },
       zooming: {

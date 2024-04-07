@@ -531,6 +531,11 @@ export const zh = {
           description: '在此设置更多指标，来展示在散点的提示框',
           delete: '删除这个指标',
         },
+        trigger: {
+          label: '触发者',
+          scatter_point: '散点',
+          x_axis: 'X轴',
+        },
       },
       style: {
         label: '样式',
@@ -540,6 +545,8 @@ export const zh = {
         or: '或',
         set_any_color: '输入色号',
         pick_a_theme_color: '选择一个主题色',
+        background_color: '背景色',
+        text_color: '文字颜色',
       },
       behavior: {
         label: '表现',
@@ -589,6 +596,16 @@ export const zh = {
         boundary: {
           upper: '上边界',
           lower: '下边界',
+        },
+        content: {
+          label: '内容',
+          content_text: '内容文字',
+          text_position: '文字位置',
+        },
+        endpoint: {
+          labels: '端点',
+          left_bottom_point: '左下点',
+          right_top_point: '右上点',
         },
       },
       zooming: {

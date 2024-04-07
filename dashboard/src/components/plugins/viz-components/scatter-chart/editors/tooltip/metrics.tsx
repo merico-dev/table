@@ -4,6 +4,7 @@ import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
 import { IScatterChartConf } from '../../type';
 import { TooltipMetricField } from './metric';
+import { useTranslation } from 'react-i18next';
 
 interface ITooltipMetricsField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -11,6 +12,7 @@ interface ITooltipMetricsField {
 }
 
 export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) => {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'tooltip.metrics',
@@ -44,7 +46,7 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <InfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
-          Configure additional metrics to show in tooltip
+          {t('chart.tooltip.additional_metrics.description')}
         </Text>
       </Group>
       <Tabs
