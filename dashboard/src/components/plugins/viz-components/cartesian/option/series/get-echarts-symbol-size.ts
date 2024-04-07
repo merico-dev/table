@@ -1,9 +1,9 @@
 import lodash, { keyBy } from 'lodash';
 import { interpolate } from 'popmotion';
 import { extractFullQueryData, parseDataKey } from '~/utils';
-import { SymbolSize, SymbolSize_Dynamic, SymbolSize_Static } from './types';
+import { SymbolSize, SymbolSize_Dynamic, SymbolSize_Static } from '../../../../common-echarts-fields/symbol-size/types';
 
-export function getEchartsSymbolSize(
+export function getEChartsSymbolSize(
   { type, ...rest }: SymbolSize,
   data: TPanelData,
   x_axis_data_key: string,

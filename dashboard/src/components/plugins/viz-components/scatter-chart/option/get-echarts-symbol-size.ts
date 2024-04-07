@@ -1,19 +1,20 @@
 import lodash from 'lodash';
 import { interpolate } from 'popmotion';
-import { TScatterSize, TScatterSize_Dynamic, TScatterSize_Static } from './types';
+import {
+  SymbolSize,
+  SymbolSize_Dynamic,
+  SymbolSize_Static,
+} from '~/components/plugins/common-echarts-fields/symbol-size';
 
-export function getEchartsSymbolSize(
-  { type, ...rest }: TScatterSize,
-  variableValueMap: Record<string, string | number>,
-) {
+export function getEChartsSymbolSize({ type, ...rest }: SymbolSize, variableValueMap: Record<string, string | number>) {
   if (!type) {
     return 10;
   }
   if (type === 'static') {
-    const { size } = rest as TScatterSize_Static;
+    const { size } = rest as SymbolSize_Static;
     return size;
   }
-  const { func_content } = rest as TScatterSize_Dynamic;
+  const { func_content } = rest as SymbolSize_Dynamic;
   return (_value: number, params: $TSFixMe) => {
     const rowData = params.data;
     try {
