@@ -4,11 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { IHorizontalBarChartConf } from '../../type';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
-
-const orientationOptions = [
-  { label: 'Horizontal', value: 'horizontal' },
-  { label: 'Vertical', value: 'vertical' },
-];
+import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
 
 interface IReferenceLineField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
@@ -60,10 +56,7 @@ export function ReferenceLineField({
           <Controller
             name={`reference_lines.${index}.orientation`}
             control={control}
-            render={({ field }) => (
-              // @ts-expect-error type of onChange
-              <Select label="Orientation" data={orientationOptions} required sx={{ flex: 1 }} {...field} />
-            )}
+            render={({ field }) => <OrientationSelector sx={{ flex: 1 }} {...field} />}
           />
           {orientation === 'vertical' && (
             <Text mt={-10} color="dimmed" size={12}>

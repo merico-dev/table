@@ -369,6 +369,11 @@ export const zh = {
         inside_bottom_right: '内-下-右',
         outside: '外',
       },
+      orientation: {
+        label: '朝向',
+        horizontal: '水平',
+        vertical: '垂直',
+      },
       symbol_size: {
         label: '标记点大小',
         static: '固定值',
@@ -529,9 +534,6 @@ export const zh = {
         name_placeholder: '均值参考线',
         delete: '删除这条参考线',
         orientation: {
-          label: '朝向',
-          horizontal: '水平',
-          vertical: '垂直',
           vertical_hint: '仅当X轴值为数字时可绘制',
         },
       },

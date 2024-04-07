@@ -10,6 +10,7 @@ import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/
 import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -59,7 +60,7 @@ export interface ICartesianReferenceLine {
   name: string;
   template: string;
   variable_key: string;
-  orientation: 'horizontal' | 'vertical';
+  orientation: ChartingOrientation;
   yAxisIndex: number;
   lineStyle: {
     type: IEChartsLineType;

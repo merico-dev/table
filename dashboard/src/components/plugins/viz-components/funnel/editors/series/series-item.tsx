@@ -8,6 +8,7 @@ import {
 } from '~/components/plugins/common-echarts-fields/label-position';
 import { AnyObject } from '~/types';
 import { IFunnelConf, IFunnelSeriesItem } from '../../type';
+import { ChartingOrientation, OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
 
 const sortOptions = [
   { label: 'Ascending', value: 'ascending' },
@@ -21,12 +22,7 @@ const alignmentOptions = [
   { label: 'Right', value: 'right' },
 ];
 
-const orientationOptions = [
-  { label: 'Horizontal', value: 'horizontal' },
-  { label: 'Vertical', value: 'vertical' },
-];
-
-const positionOptions: Record<'horizontal' | 'vertical', LabelPositionOptionType[]> = {
+const positionOptions: Record<ChartingOrientation, LabelPositionOptionType[]> = {
   horizontal: [
     { label: 'Top', value: 'top' },
     { label: 'Inside Center', value: 'inside' },
@@ -157,8 +153,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.orient`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Orientation" data={orientationOptions} {...field} />}
+          render={({ field }) => <OrientationSelector {...field} />}
         />
         <Controller
           name={`series.${index}.sort`}
@@ -190,6 +185,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.axisLabel.position`}
           control={control}
           render={({ field }) => (
+            // @ts-expect-error type error about undefined
             <LabelPositionSelector label="Position" options={positionOptions[orient]} {...field} />
           )}
         />

@@ -5,11 +5,7 @@ import { MantineColorSelector } from '~/components/panel/settings/common/mantine
 import { ICartesianChartConf } from '../../type';
 import { useTranslation } from 'react-i18next';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
-
-const orientationOptions = [
-  { label: 'Horizontal', value: 'horizontal' },
-  { label: 'Vertical', value: 'vertical' },
-];
+import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
 
 interface IReferenceLineField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -76,14 +72,7 @@ export function ReferenceLineField({
             name={`reference_lines.${index}.orientation`}
             control={control}
             render={({ field }) => (
-              // @ts-expect-error type of onChange
-              <Select
-                label={t('chart.reference_line.orientation.label')}
-                data={orientationOptions}
-                required
-                sx={{ flex: 1 }}
-                {...field}
-              />
+              <OrientationSelector label={t('chart.orientation.label')} sx={{ flex: 1 }} {...field} />
             )}
           />
           {orientation === 'vertical' && (

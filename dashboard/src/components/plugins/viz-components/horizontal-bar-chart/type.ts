@@ -9,6 +9,7 @@ import {
   IXAxisLabelFormatter,
 } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
@@ -20,7 +21,7 @@ export interface IHorizontalBarChartReferenceLine {
     color: string;
   };
   xAxisIndex: string;
-  orientation: 'horizontal' | 'vertical';
+  orientation: ChartingOrientation;
   variable_key: string;
   show_in_legend: boolean;
 }

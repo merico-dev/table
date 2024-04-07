@@ -14,6 +14,7 @@ import {
   getDefaultDataZoomConfig,
   TEchartsDataZoomConfig,
 } from '../cartesian/editors/echarts-zooming-field/types';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -21,15 +22,13 @@ export interface IBoxplotReferenceLine {
   variable_key: string;
 }
 
-export type TLegendOrientation = 'horizontal' | 'vertical';
-
 export type TBoxplotLegend = {
   show: boolean;
   top: string;
   right: string;
   bottom: string;
   left: string;
-  orient: TLegendOrientation;
+  orient: ChartingOrientation;
   type: 'scroll';
 };
 

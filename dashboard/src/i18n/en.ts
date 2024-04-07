@@ -369,6 +369,11 @@ export const en = {
         inside_bottom_right: 'Inside Bottom Right',
         outside: 'Outside',
       },
+      orientation: {
+        label: 'Orientation',
+        horizontal: 'Horizontal',
+        vertical: 'Vertical',
+      },
       symbol_size: {
         label: 'Symbol Size',
         static: 'Static',
@@ -529,9 +534,6 @@ export const en = {
         name_placeholder: 'Average Reference Line',
         delete: 'Remove this Reference Line',
         orientation: {
-          label: 'Orientation',
-          horizontal: 'Horizontal',
-          vertical: 'Vertical',
           vertical_hint: 'Works only when xAxis values are numbers',
         },
       },

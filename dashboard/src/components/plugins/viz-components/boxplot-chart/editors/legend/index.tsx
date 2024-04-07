@@ -1,17 +1,17 @@
-import { Group, Select, Stack, Switch } from '@mantine/core';
+import { Group, Stack, Switch } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
-import { IBoxplotChartConf, TBoxplotLegend, TLegendOrientation } from '../../type';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { ChartingOrientation, OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
+import { IBoxplotChartConf, TBoxplotLegend } from '../../type';
 
 interface Props {
   control: Control<IBoxplotChartConf, $TSFixMe>;
   watch: UseFormWatch<IBoxplotChartConf>;
 }
 export const LegendField = ({ control, watch }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const legend = watch('legend');
-  const changeOrientation = (orient: TLegendOrientation, set: (v: TBoxplotLegend) => void) => {
+  const changeOrientation = (orient: ChartingOrientation, set: (v: TBoxplotLegend) => void) => {
     const ret: TBoxplotLegend = { ...legend, orient };
     if (orient === 'horizontal') {
       ret.top = '0';
@@ -27,13 +27,6 @@ export const LegendField = ({ control, watch }: Props) => {
     set(ret);
   };
 
-  const orientationOptions = useMemo(
-    () => [
-      { label: t('chart.legend.orientation.horizontal'), value: 'horizontal' },
-      { label: t('chart.legend.orientation.vertical'), value: 'vertical' },
-    ],
-    [i18n.language],
-  );
   return (
     <Stack>
       <Group grow noWrap mt={20}>
@@ -55,12 +48,10 @@ export const LegendField = ({ control, watch }: Props) => {
           name="legend"
           control={control}
           render={({ field }) => (
-            <Select
-              label={t('chart.legend.orientation.label')}
-              data={orientationOptions}
+            <OrientationSelector
               sx={{ flex: 1 }}
               value={field.value.orient}
-              onChange={(v: TLegendOrientation) => {
+              onChange={(v: ChartingOrientation) => {
                 changeOrientation(v, field.onChange);
               }}
               disabled={!legend.show}
