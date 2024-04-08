@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 import { LegendField } from './editors/legend';
 import { ReferenceLinesField } from './editors/reference-lines';
@@ -36,7 +36,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

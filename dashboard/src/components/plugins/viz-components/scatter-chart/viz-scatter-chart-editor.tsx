@@ -15,7 +15,7 @@ import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, IScatterChartConf } from './type';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { useTranslation } from 'react-i18next';
 
 function normalizeStats(stats?: IScatterChartConf['stats']) {
@@ -69,7 +69,7 @@ export function VizScatterChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { SeriesField } from './editors/series';
@@ -32,7 +32,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"

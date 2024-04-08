@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { HeatBlockField } from './editors/heat_block';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
@@ -43,7 +43,7 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
       <Stack spacing="xs" sx={{ height: '100%' }}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

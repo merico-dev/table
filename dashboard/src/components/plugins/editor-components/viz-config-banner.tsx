@@ -6,11 +6,11 @@ type Props = {
   canSubmit: boolean;
 };
 
-export function ChartConfigBanner({ canSubmit }: Props) {
+export function VizConfigBanner({ canSubmit }: Props) {
   const { t } = useTranslation();
   return (
     <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-      <Text>{t('chart.chart_config')}</Text>
+      <Text>{t('viz.viz_config_banner')}</Text>
       <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!canSubmit}>
         <IconDeviceFloppy size={20} />
       </ActionIcon>

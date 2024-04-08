@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { RegressionField } from './editors/regression-field';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
@@ -27,7 +27,7 @@ export function VizRegressionChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X轴"
           orientation="vertical"

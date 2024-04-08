@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 import { useTranslation } from 'react-i18next';
 
@@ -30,7 +30,7 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Controller
             control={control}

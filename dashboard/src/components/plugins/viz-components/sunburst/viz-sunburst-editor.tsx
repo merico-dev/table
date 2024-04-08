@@ -9,7 +9,7 @@ import { DataField } from './editors/data-field';
 import { LevelsField } from './editors/levels';
 import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { useTranslation } from 'react-i18next';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 
 export function VizSunburstEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -34,7 +34,7 @@ export function VizSunburstEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           value={tab}
           onTabChange={setTab}

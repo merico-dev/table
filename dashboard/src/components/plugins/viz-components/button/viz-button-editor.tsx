@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { MantineColorSwatches } from '~/components/panel/settings/common/mantine-color-swatches';
 import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 
@@ -58,7 +58,7 @@ export function VizButtonEditor({ context }: VizConfigProps) {
   watch(['content', 'variant', 'color', 'size', 'compact', 'horizontal_align', 'vertical_align']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <ChartConfigBanner canSubmit={changed} />
+      <VizConfigBanner canSubmit={changed} />
       <Stack>
         <Controller
           control={control}

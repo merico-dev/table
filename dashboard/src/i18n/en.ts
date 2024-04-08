@@ -643,5 +643,8 @@ export const en = {
         },
       },
     },
+    viz: {
+      viz_config_banner: 'Visualization Settings',
+    },
   },
 };

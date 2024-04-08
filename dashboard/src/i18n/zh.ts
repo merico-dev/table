@@ -643,5 +643,8 @@ export const zh = {
         },
       },
     },
+    viz: {
+      viz_config_banner: '可视化参数配置',
+    },
   },
 };

@@ -7,6 +7,7 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import _, { defaultsDeep } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
+import { VizConfigBanner } from '../../editor-components';
 
 const horizontalAlignmentOptions = [
   { label: 'Left', value: 'left' },
@@ -42,12 +43,7 @@ export function VizStatsEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text weight={500}>Stats Configurations</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Controller
           name="template"
           control={control}

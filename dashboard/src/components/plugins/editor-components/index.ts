@@ -1,1 +1,1 @@
-export * from './chart-config-banner';
+export * from './viz-config-banner';

@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from './editors/echarts-zooming-field';
 import { ReferenceAreasField } from './editors/reference-areas';
 import { ReferenceLinesField } from './editors/reference-lines';
@@ -38,7 +38,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"

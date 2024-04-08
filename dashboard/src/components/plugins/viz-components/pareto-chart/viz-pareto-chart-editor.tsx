@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
-import { ChartConfigBanner } from '../../editor-components';
+import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
 import { BarField } from './editors/bar';
 import { LineField } from './editors/line';
@@ -33,7 +33,7 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
 
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <ChartConfigBanner canSubmit={changed} />
+      <VizConfigBanner canSubmit={changed} />
 
       <Tabs
         defaultValue="X Axis"

@@ -3,7 +3,7 @@ import _, { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { ChartConfigBanner } from '~/components/plugins/editor-components';
+import { VizConfigBanner } from '~/components/plugins/editor-components';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from '../type';
@@ -43,7 +43,7 @@ export function EditMericoHeatmap({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)} style={{ flexGrow: 1 }}>
       <Stack spacing="xs" sx={{ height: '100%' }}>
-        <ChartConfigBanner canSubmit={changed} />
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"
