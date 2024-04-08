@@ -101,7 +101,11 @@ export function XAxisField({ control, watch }: IXAxisField) {
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">{t('chart.degree')}</Text>}
+              rightSection={
+                <Text size="xs" color="dimmed">
+                  {t('chart.degree')}
+                </Text>
+              }
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

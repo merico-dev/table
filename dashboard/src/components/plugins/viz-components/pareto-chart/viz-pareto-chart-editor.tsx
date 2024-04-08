@@ -52,10 +52,10 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
         <Tabs.List>
           <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
           <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
-          <Tabs.Tab value="Bar">Bar</Tabs.Tab>
-          <Tabs.Tab value="Line">Line</Tabs.Tab>
-          <Tabs.Tab value="80-20 Line">80-20 Line</Tabs.Tab>
-          <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+          <Tabs.Tab value="Bar">{t('chart.series.bar.label')}</Tabs.Tab>
+          <Tabs.Tab value="Line">{t('chart.series.line.label')}</Tabs.Tab>
+          <Tabs.Tab value="80-20 Line">{t('viz.pareto_chart.line_80_20.label')}</Tabs.Tab>
+          <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="X Axis">

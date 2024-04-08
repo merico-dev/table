@@ -358,6 +358,7 @@ export const zh = {
         label: '文案',
         label_full: '标签文案',
         label_style: '标签文案样式',
+        label_format: '标签文案格式',
       },
       label_position: {
         label: '文案位置',

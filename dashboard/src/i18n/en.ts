@@ -358,6 +358,7 @@ export const en = {
         label: 'Label',
         label_full: 'Label',
         label_style: 'Label Style',
+        label_format: 'Label Format',
       },
       label_position: {
         label: 'Label Position',
