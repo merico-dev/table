@@ -8,6 +8,11 @@ import { AnyObject } from '~/types';
 import { DefaultAggregation } from '~/utils';
 import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
+import { useTranslation } from 'react-i18next';
+import {
+  IEchartsLabelPosition,
+  LabelPositionSelector,
+} from '~/components/plugins/common-echarts-fields/label-position';
 
 const labelPositions = [
   { label: 'off', value: '' },
@@ -38,13 +43,14 @@ interface ISeriesItemField {
 }
 
 export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptions }: ISeriesItemField) {
+  const { t } = useTranslation();
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`series.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.xAxisIndex`}
@@ -52,7 +58,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           render={({ field }) => (
             // @ts-expect-error type of onChange
             <Select
-              label="X Axis"
+              label={t('chart.x_axis.label')}
               data={xAxisOptions}
               disabled={xAxisOptions.length === 0}
               sx={{ flex: 1 }}
@@ -65,14 +71,16 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
         <Controller
           name={`series.${index}.data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('common.data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`series.${index}.aggregation_on_value`}
           control={control}
           render={({ field }) => (
             <AggregationSelector
-              label="Aggregation on Value"
+              label={t('viz.horizontal_bar_chart.series.aggregation.label')}
               value={field.value ?? DefaultAggregation}
               onChange={field.onChange}
               pt={0}
@@ -86,38 +94,40 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           name={`series.${index}.group_by_key`}
           control={control}
           render={({ field }) => (
-            <DataFieldSelector
-              label="Split into multiple series by this key..."
-              clearable
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <DataFieldSelector label={t('chart.series.group_by.label')} clearable sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
       <BarFields index={index} control={control} seriesItem={seriesItem} />
-      <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.style.label')} labelPosition="center" />
       <Controller
         name={`series.${index}.label_position`}
         control={control}
-        // @ts-expect-error type of onChange
-        render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
+        render={({ field }) => (
+          <LabelPositionSelector
+            label={t('chart.label_position.label')}
+            {...field}
+            onChange={(v?: IEchartsLabelPosition) => {
+              v && field.onChange(v);
+            }}
+          />
+        )}
       />
       <Stack spacing={4}>
-        <Text size="sm">Color</Text>
+        <Text size="sm">{t('chart.color.label')}</Text>
         <Controller
           name={`series.${index}.color`}
           control={control}
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
-      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.behavior.label')} labelPosition="center" />
       <Controller
         name={`series.${index}.hide_in_legend`}
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Hide in legend"
+            label={t('chart.legend.hide_in_legend')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />
@@ -142,7 +152,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
         onClick={() => remove(index)}
         sx={{ top: 15, right: 5 }}
       >
-        Delete this Series
+        {t('chart.series.delete')}
       </Button>
     </Stack>
   );

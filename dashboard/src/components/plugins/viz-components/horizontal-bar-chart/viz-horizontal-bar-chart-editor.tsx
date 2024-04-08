@@ -50,8 +50,8 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           <Tabs.List>
             <Tabs.Tab value="X Axes">{t('chart.x_axis.labels')}</Tabs.Tab>
             <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
-            <Tabs.Tab value="Series">Series</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="Series">{t('chart.series.label')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axes">

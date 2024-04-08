@@ -11,6 +11,8 @@ import {
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
+import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
@@ -42,7 +44,7 @@ export interface IHorizontalBarChartSeriesItem {
   group_by_key: TDataKey;
   hide_in_legend: boolean;
   invisible: boolean;
-  label_position?: string;
+  label_position?: IEchartsLabelPosition;
   aggregation_on_value?: AggregationType;
 }
 
@@ -52,7 +54,7 @@ export interface IHorizontalBarChartXAxis {
   max: string;
   name: string;
   data_key: TDataKey;
-  position: 'top' | 'bottom';
+  position: EChartsXAxisPosition;
   label_formatter: TNumberFormat;
   show: boolean;
 }

@@ -5,6 +5,7 @@ import { MantineColorSelector } from '~/components/panel/settings/common/mantine
 import { IHorizontalBarChartConf } from '../../type';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
+import { useTranslation } from 'react-i18next';
 
 interface IReferenceLineField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
@@ -26,29 +27,43 @@ export function ReferenceLineField({
   variableOptions,
   xAxisOptions,
 }: IReferenceLineField) {
+  const { t } = useTranslation();
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
-    <Stack my={0} p={0} sx={{ position: 'relative' }}>
+    <Stack my={0} p={0} pt={10} sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`reference_lines.${index}.name`}
           control={control}
           render={({ field }) => (
-            <TextInput label="Name" placeholder="Average Reference Line" required sx={{ flex: 1 }} {...field} />
+            <TextInput
+              label={t('common.name')}
+              placeholder={t('chart.reference_line.name_placeholder')}
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
         <Controller
           name={`reference_lines.${index}.variable_key`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Value" required data={variableOptions} sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <Select label={t('common.data_field')} required data={variableOptions} sx={{ flex: 1 }} {...field} />
+          )}
         />
       </Group>
       <Controller
         name={`reference_lines.${index}.template`}
         control={control}
         render={({ field }) => (
-          <TextInput label="Content Template" placeholder="Average: ${avg}" sx={{ flex: 1 }} {...field} />
+          <TextInput
+            label={t('chart.content_template.label')}
+            placeholder={t('chart.content_template.hint')}
+            sx={{ flex: 1 }}
+            {...field}
+          />
         )}
       />
       <Group grow>
@@ -60,7 +75,7 @@ export function ReferenceLineField({
           />
           {orientation === 'vertical' && (
             <Text mt={-10} color="dimmed" size={12}>
-              Works only when xAxis values are numbers
+              {t('chart.reference_line.orientation.vertical_hint')}
             </Text>
           )}
         </Stack>
@@ -71,7 +86,7 @@ export function ReferenceLineField({
             render={({ field }) => (
               // @ts-expect-error type of onChange
               <Select
-                label="X Axis"
+                label={t('chart.x_axis.label')}
                 data={xAxisOptions}
                 disabled={xAxisOptions.length === 0}
                 sx={{ flex: 1 }}
@@ -81,7 +96,7 @@ export function ReferenceLineField({
           />
         )}
       </Group>
-      <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.style.label')} labelPosition="center" />
       <Group grow>
         <Controller
           name={`reference_lines.${index}.lineStyle.type`}
@@ -91,25 +106,27 @@ export function ReferenceLineField({
         <Controller
           name={`reference_lines.${index}.lineStyle.width`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
+          )}
         />
       </Group>
       <Stack spacing={4}>
-        <Text size="sm">Color</Text>
+        <Text size="sm">{t('chart.color.label')}</Text>
         <Controller
           name={`reference_lines.${index}.lineStyle.color`}
           control={control}
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
-      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.behavior.label')} labelPosition="center" />
       <Controller
         name={`reference_lines.${index}.show_in_legend`}
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Show in legend"
+            label={t('chart.legend.show_in_legend')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />
@@ -122,7 +139,7 @@ export function ReferenceLineField({
         onClick={() => remove(index)}
         sx={{ top: 15, right: 5 }}
       >
-        Delete this Reference Line
+        {t('chart.reference_line.delete')}
       </Button>
     </Stack>
   );
