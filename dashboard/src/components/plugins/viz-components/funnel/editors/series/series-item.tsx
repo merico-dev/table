@@ -12,12 +12,6 @@ import { ChartingOrientation, OrientationSelector } from '~/components/plugins/c
 import { IFunnelConf, IFunnelSeriesItem } from '../../type';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 
-const alignmentOptions = [
-  { label: 'Left', value: 'left' },
-  { label: 'Center', value: 'center' },
-  { label: 'Right', value: 'right' },
-];
-
 interface ISeriesItemField {
   item: IFunnelSeriesItem;
   control: Control<IFunnelConf, $TSFixMe>;

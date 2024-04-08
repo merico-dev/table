@@ -6,6 +6,7 @@ import { MantineColorSwatches } from '~/components/panel/settings/common/mantine
 import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
 import { VizConfigProps } from '~/types/plugin';
 import { VizConfigBanner } from '../../editor-components';
+import { HorizontalAlignSelector, VerticalAlignSelector } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 
@@ -17,18 +18,6 @@ const variantOptions = [
   { label: 'Default', value: 'default' },
   { label: 'Subtle', value: 'subtle' },
   { label: 'Gradient', value: 'gradient', disabled: true },
-];
-
-const horizontalAlignmentOptions = [
-  { label: 'Left', value: 'left' },
-  { label: 'Center', value: 'center' },
-  { label: 'Right', value: 'right' },
-];
-
-const verticalAlignmentOptions = [
-  { label: 'Top', value: 'top' },
-  { label: 'Center', value: 'center' },
-  { label: 'Bottom', value: 'bottom' },
 ];
 
 export function VizButtonEditor({ context }: VizConfigProps) {
@@ -109,14 +98,12 @@ export function VizButtonEditor({ context }: VizConfigProps) {
           <Controller
             control={control}
             name="horizontal_align"
-            // @ts-expect-error type of onChange
-            render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
+            render={({ field }) => <HorizontalAlignSelector {...field} />}
           />
           <Controller
             control={control}
             name="vertical_align"
-            // @ts-expect-error type of onChange
-            render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
+            render={({ field }) => <VerticalAlignSelector {...field} />}
           />
         </SimpleGrid>
       </Stack>

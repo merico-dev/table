@@ -121,6 +121,20 @@ export const zh = {
         total: '共',
         total_rows: '共 {{total}} 行',
       },
+      align: {
+        horizontal: {
+          label: '水平对齐',
+          left: '居左',
+          center: '居中',
+          right: '居右',
+        },
+        vertical: {
+          label: '垂直对齐',
+          left: '居上',
+          center: '居中',
+          right: '居下',
+        },
+      },
       id: 'ID',
       name: '名称',
       key: '键',

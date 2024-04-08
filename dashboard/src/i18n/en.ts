@@ -121,6 +121,20 @@ export const en = {
         total: 'Total',
         total_rows: 'Total {total} row',
       },
+      align: {
+        horizontal: {
+          label: 'Horizontal Align',
+          left: 'left',
+          center: 'center',
+          right: 'right',
+        },
+        vertical: {
+          label: 'Vertical Align',
+          left: 'top',
+          center: 'center',
+          right: 'bottom',
+        },
+      },
       id: 'ID',
       name: 'Name',
       key: 'Key',

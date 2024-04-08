@@ -8,20 +8,11 @@ import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 import _, { defaultsDeep } from 'lodash';
 import { Controller, useForm } from 'react-hook-form';
 import { VizConfigBanner } from '../../editor-components';
-
-const horizontalAlignmentOptions = [
-  { label: 'Left', value: 'left' },
-  { label: 'Center', value: 'center' },
-  { label: 'Right', value: 'right' },
-];
-
-const verticalAlignmentOptions = [
-  { label: 'Top', value: 'top' },
-  { label: 'Center', value: 'center' },
-  { label: 'Bottom', value: 'bottom' },
-];
+import { useTranslation } from 'react-i18next';
+import { HorizontalAlignSelector, VerticalAlignSelector } from '../../editor-components';
 
 export function VizStatsEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
 
   const defaultValues = React.useMemo(() => {
@@ -47,20 +38,26 @@ export function VizStatsEditor({ context }: VizConfigProps) {
         <Controller
           name="template"
           control={control}
-          render={({ field }) => <TemplateInput label="Template" py="md" sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => (
+            <TemplateInput
+              label={t('chart.content_template.label')}
+              placeholder={t('chart.content_template.hint')}
+              py="md"
+              sx={{ flexGrow: 1 }}
+              {...field}
+            />
+          )}
         />
         <SimpleGrid cols={2}>
           <Controller
             name="horizontal_align"
             control={control}
-            // @ts-expect-error type of onChange
-            render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
+            render={({ field }) => <HorizontalAlignSelector {...field} />}
           />
           <Controller
             control={control}
             name="vertical_align"
-            // @ts-expect-error type of onChange
-            render={({ field }) => <Select label="Vertical Alignment" data={verticalAlignmentOptions} {...field} />}
+            render={({ field }) => <VerticalAlignSelector {...field} />}
           />
         </SimpleGrid>
       </form>

@@ -1,4 +1,4 @@
-import { Stack, Text, Group, ActionIcon, Select, Divider, TextInput } from '@mantine/core';
+import { ActionIcon, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
 import _, { defaultsDeep, isEqual } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -6,14 +6,9 @@ import { DeviceFloppy } from 'tabler-icons-react';
 import { MantineFontWeightSlider } from '~/components/panel/settings/common/mantine-font-weight';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { HorizontalAlignSelector } from '../../editor-components';
 import { FuncContentField } from './editors/func-content';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
-
-const horizontalAlignmentOptions = [
-  { label: 'Left', value: 'left' },
-  { label: 'Center', value: 'center' },
-  { label: 'Right', value: 'right' },
-];
 
 export function VizTextEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<IVizTextConf>(context.instanceData, 'config');
@@ -58,8 +53,7 @@ export function VizTextEditor({ context }: VizConfigProps) {
           <Controller
             name="horizontal_align"
             control={control}
-            // @ts-expect-error type of onChange
-            render={({ field }) => <Select label="Horizontal Alignment" data={horizontalAlignmentOptions} {...field} />}
+            render={({ field }) => <HorizontalAlignSelector {...field} />}
           />
           <Controller
             name="font_size"

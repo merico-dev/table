@@ -1,4 +1,5 @@
 import { MantineColor, MantineSize, Variants } from '@mantine/core';
+import { HorizontalAlign, VerticalAlign } from '../../editor-components';
 
 export interface IButtonConf {
   content: string;
@@ -6,8 +7,8 @@ export interface IButtonConf {
   color: MantineColor;
   size: MantineSize;
   compact: boolean;
-  horizontal_align: 'left' | 'center' | 'right';
-  vertical_align: 'top' | 'center' | 'bottom';
+  horizontal_align: HorizontalAlign;
+  vertical_align: VerticalAlign;
 }
 
 export const DEFAULT_CONFIG: IButtonConf = {
