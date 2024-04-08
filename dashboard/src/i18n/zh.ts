@@ -142,6 +142,8 @@ export const zh = {
       value: '值',
       type: '类型',
       info: '信息',
+      min: '最小值',
+      max: '最大值',
       data_field: '数据字段',
       name_data_field: '名称字段',
       value_data_field: '值字段',
@@ -659,6 +661,11 @@ export const zh = {
     },
     viz: {
       viz_config_banner: '可视化参数配置',
+    },
+    validation: {
+      number: {
+        require_a_number: '请填写一个数字',
+      },
     },
   },
 };

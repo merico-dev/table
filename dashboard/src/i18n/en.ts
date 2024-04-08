@@ -142,6 +142,8 @@ export const en = {
       value: 'Value',
       type: 'Type',
       info: 'Info',
+      min: 'Min',
+      max: 'Max',
       data_field: 'Data Field',
       name_data_field: 'Name Data Field',
       value_data_field: 'Value Data Field',
@@ -659,6 +661,11 @@ export const en = {
     },
     viz: {
       viz_config_banner: 'Visualization Settings',
+    },
+    validation: {
+      number: {
+        require_a_number: 'A number is required',
+      },
     },
   },
 };

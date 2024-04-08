@@ -10,8 +10,11 @@ import { VizConfigProps } from '~/types/plugin';
 import { AdditionalSeriesField } from './editors/additional-series';
 import { DimensionsField } from './editors/dimensions';
 import { DEFAULT_CONFIG, IRadarChartConf } from './type';
+import { VizConfigBanner } from '../../editor-components';
+import { useTranslation } from 'react-i18next';
 
 export function VizRadarChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IRadarChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: IRadarChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -33,19 +36,14 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Radar Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed || !formState.isValid}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed && formState.isValid} />
         <Tabs defaultValue="series">
           <Tabs.List>
-            <Tabs.Tab value="series">Series</Tabs.Tab>
-            <Tabs.Tab value="metrics">Metrics</Tabs.Tab>
-            <Tabs.Tab value="style">Style</Tabs.Tab>
+            <Tabs.Tab value="series">{t('chart.series.label')}</Tabs.Tab>
+            <Tabs.Tab value="metrics">{t('viz.radar_chart.metric.labels')}</Tabs.Tab>
+            <Tabs.Tab value="style">{t('chart.style.label')}</Tabs.Tab>
             <Tabs.Tab value="additional_series" ml="auto">
-              Additional Series
+              {t('viz.radar_chart.additional_series.label')}
             </Tabs.Tab>
           </Tabs.List>
 
@@ -54,7 +52,12 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
               name="series_name_key"
               control={control}
               render={({ field }) => (
-                <DataFieldSelector label="Series Name Field" required sx={{ flex: 1 }} {...field} />
+                <DataFieldSelector
+                  label={t('viz.radar_chart.series.series_name_field')}
+                  required
+                  sx={{ flex: 1 }}
+                  {...field}
+                />
               )}
             />
           </Tabs.Panel>
@@ -70,7 +73,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
                 control={control}
                 render={({ field }) => (
                   <Checkbox
-                    label="Show background"
+                    label={t('viz.radar_chart.style.show_background')}
                     checked={field.value}
                     onChange={(event) => field.onChange(event.currentTarget.checked)}
                   />
@@ -81,7 +84,7 @@ export function VizRadarChartEditor({ context }: VizConfigProps) {
                 control={control}
                 render={({ field }) => (
                   <Checkbox
-                    label="Show value label"
+                    label={t('viz.radar_chart.style.show_value_label')}
                     checked={field.value}
                     onChange={(event) => field.onChange(event.currentTarget.checked)}
                   />

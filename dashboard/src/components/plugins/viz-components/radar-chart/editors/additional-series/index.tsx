@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { IRadarChartConf } from '../../type';
 import { AdditionalSeriesItemField } from './additional-series-item';
+import { Trans, useTranslation } from 'react-i18next';
 
 type Props = {
   control: Control<IRadarChartConf, $TSFixMe>;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function AdditionalSeriesField({ control, watch }: Props) {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'additional_series',
@@ -52,8 +54,10 @@ export function AdditionalSeriesField({ control, watch }: Props) {
   };
   return (
     <>
-      <Alert icon={<IconInfoCircle size={16} />} title="Additional Series">
-        By setting <Mark>Series Name Key</Mark>, you may add series from more queries to the chart.
+      <Alert icon={<IconInfoCircle size={16} />} title={t('viz.radar_chart.additional_series.label')}>
+        <Trans i18nKey="viz.radar_chart.additional_series.intro">
+          By setting <Mark>Series Name Key</Mark>, you may add series from more queries to the chart.
+        </Trans>
       </Alert>
       <Tabs
         value={tab}

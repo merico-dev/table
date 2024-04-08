@@ -2,13 +2,15 @@ import { ActionIcon, Group, Stack, Text } from '@mantine/core';
 import { defaults } from 'lodash';
 import { useEffect, useMemo, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DeviceFloppy } from 'tabler-icons-react';
-import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { useStorageData } from '~/components/plugins/hooks';
+import { CustomRichTextEditor } from '~/components/widgets/rich-text-editor/custom-rich-text-editor';
 import { VizConfigProps } from '~/types/plugin';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 
 export function VizRichTextEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IRichTextConf>(context.instanceData, 'config');
   const defaultValues = useMemo(() => {
     return defaults({}, conf, DEFAULT_CONFIG);
@@ -32,8 +34,8 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
           pl="md"
           sx={{ borderBottom: '1px solid #eee', background: '#efefef', display: 'none' }}
         >
-          <Text>Content</Text>
-          <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="blue">
+          <Text>{t('viz.rich_text.content.label')}</Text>
+          <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="green">
             <DeviceFloppy size={20} />
           </ActionIcon>
         </Group>
@@ -45,7 +47,7 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
             <CustomRichTextEditor
               {...field}
               styles={{ root: { flexGrow: 1 } }}
-              label="Content"
+              label={t('viz.rich_text.content.label')}
               onSubmit={onContentSubmit}
             />
           )}
