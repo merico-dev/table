@@ -1,4 +1,4 @@
-import { Slider, Stack, Text } from '@mantine/core';
+import { Box, Slider, Stack, Text } from '@mantine/core';
 import React from 'react';
 
 const marks = [
@@ -43,16 +43,9 @@ function _MantineFontWeightSlider({ label, value, onChange }: IMantineFontWeight
   return (
     <Stack spacing={0} mt="sm" mb="lg">
       <Text size="sm">{label}</Text>
-      <Slider
-        label={null}
-        marks={marks}
-        value={mark}
-        onChange={setMark}
-        step={25}
-        placeholder="Pick a font size"
-        mx="1em"
-        ref={ref}
-      />
+      <Box px="1.5em">
+        <Slider label={null} marks={marks} value={mark} onChange={setMark} step={25} ref={ref} />
+      </Box>
     </Stack>
   );
 }
