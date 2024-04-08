@@ -8,10 +8,11 @@ interface Props {
   value?: EChartsNameTextAlign;
   onChange: (v: EChartsNameTextAlign) => void;
   sx?: Sx;
+  disabled?: boolean;
 }
 
 export const NameTextAlignSelector = forwardRef(
-  ({ label, value, onChange, sx = {} }: Props, ref: Ref<HTMLInputElement>) => {
+  ({ label, value, onChange, sx = {}, disabled }: Props, ref: Ref<HTMLInputElement>) => {
     const { t, i18n } = useTranslation();
 
     const options = useMemo(
@@ -31,6 +32,7 @@ export const NameTextAlignSelector = forwardRef(
         value={value}
         onChange={onChange}
         sx={sx}
+        disabled={disabled}
       />
     );
   },

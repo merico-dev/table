@@ -357,6 +357,7 @@ export const en = {
       label: {
         label: 'Label',
         label_full: 'Label',
+        label_style: 'Label Style',
       },
       label_position: {
         label: 'Label Position',
@@ -368,6 +369,7 @@ export const en = {
         inside: 'Inside',
         inside_top: 'Inside Top',
         inside_left: 'Inside Left',
+        inside_center: 'Inside Center',
         inside_right: 'Inside Right',
         inside_bottom: 'Inside Bottom',
         inside_top_left: 'Inside Top Left',

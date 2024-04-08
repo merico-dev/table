@@ -357,6 +357,7 @@ export const zh = {
       label: {
         label: '文案',
         label_full: '标签文案',
+        label_style: '标签文案样式',
       },
       label_position: {
         label: '文案位置',
@@ -368,6 +369,7 @@ export const zh = {
         inside: '内',
         inside_top: '内-上',
         inside_left: '内-左',
+        inside_center: '内-中',
         inside_right: '内-右',
         inside_bottom: '内-下',
         inside_top_left: '内-上-左',
