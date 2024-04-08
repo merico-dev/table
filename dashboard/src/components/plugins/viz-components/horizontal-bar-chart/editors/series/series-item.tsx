@@ -14,23 +14,6 @@ import {
   LabelPositionSelector,
 } from '~/components/plugins/common-echarts-fields/label-position';
 
-const labelPositions = [
-  { label: 'off', value: '' },
-  { label: 'top', value: 'top' },
-  { label: 'left', value: 'left' },
-  { label: 'right', value: 'right' },
-  { label: 'bottom', value: 'bottom' },
-  { label: 'inside', value: 'inside' },
-  { label: 'insideLeft', value: 'insideLeft' },
-  { label: 'insideRight', value: 'insideRight' },
-  { label: 'insideTop', value: 'insideTop' },
-  { label: 'insideBottom', value: 'insideBottom' },
-  { label: 'insideTopLeft', value: 'insideTopLeft' },
-  { label: 'insideBottomLeft', value: 'insideBottomLeft' },
-  { label: 'insideTopRight', value: 'insideTopRight' },
-  { label: 'insideBottomRight', value: 'insideBottomRight' },
-];
-
 interface ISeriesItemField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
   index: number;
@@ -107,6 +90,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
           <LabelPositionSelector
             label={t('chart.label_position.label')}
             {...field}
+            withOffOption
             onChange={(v?: IEchartsLabelPosition) => {
               v && field.onChange(v);
             }}
