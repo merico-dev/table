@@ -43,7 +43,7 @@ export const SelectVizType = observer(({ value, submit }: ISelectVizType) => {
       onChange={setType}
       data={selectData}
       rightSection={
-        <ActionIcon disabled={!changed} onClick={() => submit(type)}>
+        <ActionIcon variant="filled" color="green" disabled={!changed} onClick={() => submit(type)}>
           <DeviceFloppy size={20} />
         </ActionIcon>
       }
