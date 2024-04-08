@@ -232,16 +232,16 @@ export const en = {
           fallback_value: 'Fallback Value',
           fallback_value_description: 'Used when data is empty or the aggregation yields NaN',
         },
-        styles: {
-          label: 'Styles',
-          font_size: {
-            label: 'Font Size',
-            placeholder: '10px, 1em, 1rem, 100%...',
-          },
-          font_weight: {
-            label: 'Font Weight',
-          },
-        },
+      },
+    },
+    style: {
+      label: 'Style',
+      font_size: {
+        label: 'Font Size',
+        placeholder: '10px, 1em, 1rem, 100%...',
+      },
+      font_weight: {
+        label: 'Font Weight',
       },
     },
     query: {

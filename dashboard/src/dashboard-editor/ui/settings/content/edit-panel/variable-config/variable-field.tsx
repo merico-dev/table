@@ -64,7 +64,7 @@ export const TemplateVariableField = React.forwardRef(function _TemplateVariable
       {withStyle && (
         <Accordion variant="contained">
           <Accordion.Item value="Styles">
-            <Accordion.Control icon={<Text size="xl">🖼️</Text>}>{t('panel.variable.styles.label')}</Accordion.Control>
+            <Accordion.Control icon={<Text size="xl">🖼️</Text>}>{t('style.label')}</Accordion.Control>
             <Accordion.Panel>
               <TemplateVariableStyleField value={value} onChange={onChange} />
             </Accordion.Panel>

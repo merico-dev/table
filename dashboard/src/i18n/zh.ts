@@ -232,16 +232,16 @@ export const zh = {
           fallback_value: '兜底值',
           fallback_value_description: '当数据为空或聚合结果非数字时，使用此兜底值',
         },
-        styles: {
-          label: '样式',
-          font_size: {
-            label: '字号',
-            placeholder: '10px, 1em, 1rem, 100%...',
-          },
-          font_weight: {
-            label: '字重',
-          },
-        },
+      },
+    },
+    style: {
+      label: '样式',
+      font_size: {
+        label: '字号',
+        placeholder: '10px, 1em, 1rem, 100%...',
+      },
+      font_weight: {
+        label: '字重',
       },
     },
     query: {
