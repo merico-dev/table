@@ -568,6 +568,7 @@ export const zh = {
       },
       behavior: {
         label: '表现',
+        invisible: '隐藏不可见',
       },
       heatmap: {
         heatblock: {

@@ -138,7 +138,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, xAxisOptio
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Invisible"
+            label={t('chart.behavior.invisible')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />

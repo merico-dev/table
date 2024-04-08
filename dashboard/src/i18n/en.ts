@@ -568,6 +568,7 @@ export const en = {
       },
       behavior: {
         label: 'Behavior',
+        invisible: 'Invisible',
       },
       heatmap: {
         heatblock: {
