@@ -1,6 +1,7 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { InfoCircle } from 'tabler-icons-react';
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
 import { useRenderPanelContext } from '~/contexts';
@@ -13,6 +14,7 @@ function isRichTextContentEmpty(str: string) {
 }
 
 export const DescriptionPopover = observer(() => {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const { panel } = useRenderPanelContext();
 
@@ -40,7 +42,7 @@ export const DescriptionPopover = observer(() => {
           }}
         />
       </Modal>
-      <Tooltip label="Click to see description" position="top-start" withinPortal>
+      <Tooltip label={t('panel.panel_description_click')} position="top-start" withinPortal>
         <ActionIcon
           variant="subtle"
           color="blue"

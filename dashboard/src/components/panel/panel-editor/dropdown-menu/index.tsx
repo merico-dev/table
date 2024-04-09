@@ -68,7 +68,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
               </Menu.Item>
             )}
 
-            <Divider label="Edit" labelPosition="center" />
+            <Divider label={t('common.actions.edit')} labelPosition="center" />
             <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
               {t('common.titles.settings')}
             </Menu.Item>

@@ -1,6 +1,7 @@
 import { Button, HoverCard, Sx, Table, Tabs, Text } from '@mantine/core';
 import { IconInfoCircle } from '@tabler/icons-react';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ErrorBoundary, formatNumber } from '~/utils';
 import { IRegressionChartConf } from '../../type';
 import { TDescription, getRegressionDescription } from './desc';
@@ -16,6 +17,7 @@ const TableSx: Sx = {
 };
 
 function DescriptionContent({ desc }: { desc: TDescription }) {
+  const { t } = useTranslation();
   const { expression, rSquared, adjustedRSquared } = desc;
   if (!expression) {
     return <Text>Unavailable for this regression method</Text>;
@@ -29,13 +31,13 @@ function DescriptionContent({ desc }: { desc: TDescription }) {
           </td>
         </tr>
         <tr>
-          <td>R-Sq</td>
+          <td>{t('viz.regression_chart.r_sq')}</td>
           <td style={{ textAlign: 'right' }}>
             {formatNumber(rSquared, { output: 'percent', mantissa: 1, absolute: false })}
           </td>
         </tr>
         <tr>
-          <td>R-Sq(Adjusted)</td>
+          <td>{t('viz.regression_chart.r_sq_adjusted')}</td>
           <td style={{ textAlign: 'right' }}>
             {formatNumber(adjustedRSquared, { output: 'percent', mantissa: 1, absolute: false })}
           </td>
@@ -77,11 +79,12 @@ function DescriptionInTabs({ conf, queryData }: IRegressionDescription) {
 }
 
 export function RegressionDescription({ conf, queryData }: IRegressionDescription) {
+  const { t } = useTranslation();
   return (
     <HoverCard shadow="md" withinPortal zIndex={320}>
       <HoverCard.Target>
         <Button size="xs" variant="subtle" compact leftIcon={<IconInfoCircle size={14} />}>
-          Regression Info
+          {t('viz.regression_chart.regression_info')}
         </Button>
       </HoverCard.Target>
       <HoverCard.Dropdown>

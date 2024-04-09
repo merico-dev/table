@@ -170,6 +170,7 @@ export const en = {
         cancel: 'Cancel',
         confirm: 'Confirm',
         add_an_option: 'Add an Option',
+        edit: 'Edit',
         end_editing: 'End editing <1>{{name}}</1>',
       },
       tabs: {
@@ -209,6 +210,7 @@ export const en = {
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
       panel_description: 'Description',
+      panel_description_click: 'Click to see description',
       show_title: 'Show title',
       use_name_as_title: 'Use name as title',
       settings: {

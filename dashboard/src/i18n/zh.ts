@@ -170,6 +170,7 @@ export const zh = {
         cancel: '取消',
         confirm: '确认',
         add_an_option: '新增选项',
+        edit: '编辑',
         end_editing: '结束编辑 <1>{{name}}</1>',
       },
       tabs: {
@@ -209,6 +210,7 @@ export const zh = {
       delete: '删除这个卡片',
       panel_name: '卡片名',
       panel_description: '卡片描述',
+      panel_description_click: '点击查看卡片描述',
       show_title: '展示卡片标题',
       use_name_as_title: '使用卡片名作为标题',
       settings: {
