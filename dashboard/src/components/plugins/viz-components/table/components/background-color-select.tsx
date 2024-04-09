@@ -3,14 +3,13 @@ import { useLatest } from 'ahooks';
 import { isObject, isString } from 'lodash';
 import { forwardRef, useContext, useState } from 'react';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { ColorInterpolationSelect } from '~/components/plugins/controls/color-interpolation-select';
 import { CellBackgroundColorType } from '~/components/plugins/viz-components/table/type';
 import { IColorManager, PluginContext } from '~/components/plugins';
 
 import { IColorInterpolationConfig } from '~/types/plugin';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { ColorType, ColorTypeSelector } from '~/components/plugins/editor-components/color-type';
+import { ColorInterpolationSelect, ColorType, ColorTypeSelector } from '~/components/plugins/editor-components';
 
 export interface IBackgroundColorSelectProps {
   value?: CellBackgroundColorType;

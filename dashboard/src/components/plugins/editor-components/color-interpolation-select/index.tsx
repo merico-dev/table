@@ -6,8 +6,8 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IColorManager } from '~/components/plugins';
 
-import { ColorMappingEditor } from '~/components/plugins/controls/color-mapping-editor';
 import { IColorInterpolationConfig, IValueStep } from '~/types/plugin';
+import { ColorMappingEditor } from '../color-mapping-editor';
 
 export interface IColorInterpolationSelectProps {
   colorManager: IColorManager;

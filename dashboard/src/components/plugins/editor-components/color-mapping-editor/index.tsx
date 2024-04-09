@@ -5,9 +5,9 @@ import { range } from 'lodash';
 import { makeAutoObservable, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { CSSProperties, useEffect, useState } from 'react';
-import { useStyles } from '~/components/plugins/controls/color-mapping-editor/style';
 import { IColorInterpolation, IValueStep } from '~/types/plugin';
 import { formatNumber } from '~/utils';
+import { useStyles } from './style';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },
