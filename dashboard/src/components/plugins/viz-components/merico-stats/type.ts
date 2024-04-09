@@ -1,5 +1,5 @@
-import { TAlignItems, TJustifyContent } from '~/components/panel/settings/common/css-types';
 import { TNumberFormat, defaultNumberFormat } from '~/utils';
+import { AlignItems, JustifyContent } from '../../editor-components';
 
 export type TMetricPostfix = {
   type: 'filter-option-label' | 'text';
@@ -21,8 +21,8 @@ export type TMericoStatsMetric = {
 };
 
 export type TMericoStatsStyle = {
-  justify: TJustifyContent;
-  align: TAlignItems;
+  justify: JustifyContent;
+  align: AlignItems;
 };
 
 export type TMericoStatsConf = {

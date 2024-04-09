@@ -252,6 +252,24 @@ export const en = {
         lg: 'lg',
         xl: 'xl',
       },
+      flex: {
+        justify_content: {
+          label: 'Justify Content',
+          left: 'Left',
+          center: 'Center',
+          right: 'Right',
+          space_between: 'Space Between',
+          space_around: 'Space Around',
+          space_evenly: 'Space Evenly',
+        },
+        align_items: {
+          label: 'Align Items',
+          start: 'Start',
+          center: 'Center',
+          end: 'End',
+          stretch: 'Stretch',
+        },
+      },
       color: {
         type: {
           label: 'Color Type',

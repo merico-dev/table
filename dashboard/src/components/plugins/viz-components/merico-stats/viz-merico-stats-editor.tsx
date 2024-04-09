@@ -1,14 +1,14 @@
-import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { MetricsField } from './editors/metrics';
-import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
 import { StylesField } from './editors/styles';
+import { DEFAULT_CONFIG, TMericoStatsConf } from './type';
 
 export function VizMericoStatsEditor({ context }: VizConfigProps) {
   const { value: confValue, set: setConf } = useStorageData<TMericoStatsConf>(context.instanceData, 'config');
@@ -28,12 +28,7 @@ export function VizMericoStatsEditor({ context }: VizConfigProps) {
   return (
     <form onSubmit={handleSubmit(setConf)}>
       <Stack spacing="xs">
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Merico Stats Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <StylesField control={control} watch={watch} />
         <MetricsField control={control} watch={watch} variables={variables} />
       </Stack>

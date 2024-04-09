@@ -6,6 +6,7 @@ import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { ITemplateVariable } from '~/utils';
 import { TMericoStatsConf, getNewMetric } from '../../type';
 import { MetricField } from './metric';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 export const MetricsField = ({ control, watch, variables }: IProps) => {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'metrics',
@@ -57,7 +59,7 @@ export const MetricsField = ({ control, watch, variables }: IProps) => {
   };
   return (
     <>
-      <Divider mt={15} variant="dashed" label="Metrics" labelPosition="center" />
+      <Divider mt={15} variant="dashed" label={t('viz.merico_stats.metric.labels')} labelPosition="center" />
       <Tabs
         value={tab}
         onTabChange={setTab}

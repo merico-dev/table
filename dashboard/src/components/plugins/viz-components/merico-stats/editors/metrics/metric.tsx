@@ -4,6 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { TMericoStatsConf } from '../../type';
 import { PostfixField } from './postfix-field';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 export function MetricField({ control, index, remove, watch, variableOptions }: IProps) {
+  const { t } = useTranslation();
   watch(`metrics.${index}.postfix`);
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
@@ -21,14 +23,22 @@ export function MetricField({ control, index, remove, watch, variableOptions }: 
         <Controller
           name={`metrics.${index}.names.value`}
           control={control}
-          render={({ field }) => <TextInput label="Metric Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <TextInput label={t('viz.merico_stats.metric.metric_name')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`metrics.${index}.data_keys.value`}
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Metric Data" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('viz.merico_stats.metric.metric_data_field')}
+              required
+              data={variableOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
       </Group>
@@ -36,24 +46,32 @@ export function MetricField({ control, index, remove, watch, variableOptions }: 
         <Controller
           name={`metrics.${index}.names.basis`}
           control={control}
-          render={({ field }) => <TextInput label="Basis Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <TextInput label={t('viz.merico_stats.metric.basis_name')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`metrics.${index}.data_keys.basis`}
           control={control}
           render={({ field }) => (
             // @ts-expect-error type of onChange
-            <Select label="Basis Data" required data={variableOptions} sx={{ flex: 1 }} {...field} />
+            <Select
+              label={t('viz.merico_stats.metric.basis_data_field')}
+              required
+              data={variableOptions}
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
       </Group>
-      <Divider mb={-15} variant="dashed" label="Format" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('numbro.format.label')} labelPosition="center" />
       <Controller
         name={`metrics.${index}.formatter`}
         control={control}
         render={({ field }) => <NumbroFormatSelector {...field} />}
       />
-      <Divider mb={-15} variant="dashed" label="Others" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('viz.merico_stats.metric.others')} labelPosition="center" />
       <Controller
         name={`metrics.${index}.postfix`}
         control={control}

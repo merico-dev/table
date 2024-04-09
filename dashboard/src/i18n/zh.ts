@@ -252,6 +252,24 @@ export const zh = {
         lg: '大',
         xl: '特大',
       },
+      flex: {
+        justify_content: {
+          label: '内容分布',
+          left: '从左起',
+          center: '居中',
+          right: '从右起',
+          space_between: '均匀分布，首尾顶格',
+          space_around: '均匀分布，首尾留空一半',
+          space_evenly: '均匀分布，首尾留空',
+        },
+        align_items: {
+          label: '对齐位置',
+          start: '起点对齐',
+          center: '居中对齐',
+          end: '末端对齐',
+          stretch: '拉伸对齐',
+        },
+      },
       color: {
         type: {
           label: '颜色类型',
