@@ -245,6 +245,30 @@ export const zh = {
       font_weight: {
         label: '字重',
       },
+      color: {
+        type: {
+          label: '颜色类型',
+          static: '单色',
+          interpolation: '插值取色',
+          none: '无',
+        },
+        interpolation: {
+          setup: '设置取色方案',
+          palette: {
+            label: '色板',
+            category: {
+              sequential: '单色渐变',
+              diverging: '双色渐变',
+            },
+            red_green: '红 / 绿',
+            yellow_blue: '黄 / 蓝',
+            red: '红',
+            green: '绿',
+            blue: '蓝',
+            orange: '橙',
+          },
+        },
+      },
     },
     query: {
       label: '查询',

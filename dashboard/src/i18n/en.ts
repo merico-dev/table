@@ -245,6 +245,30 @@ export const en = {
       font_weight: {
         label: 'Font Weight',
       },
+      color: {
+        type: {
+          label: 'Color Type',
+          static: 'Static',
+          interpolation: 'Interpolation',
+          none: 'None',
+        },
+        interpolation: {
+          setup: 'Setup color interpolation',
+          palette: {
+            label: 'Palette',
+            category: {
+              sequential: 'Sequential',
+              diverging: 'Diverging',
+            },
+            red_green: 'Red / Green',
+            yellow_blue: 'Yellow / Blue',
+            red: 'Red',
+            green: 'Green',
+            blue: 'Blue',
+            orange: 'Orange',
+          },
+        },
+      },
     },
     query: {
       label: 'Query',

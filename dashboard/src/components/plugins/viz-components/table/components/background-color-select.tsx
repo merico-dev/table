@@ -9,19 +9,20 @@ import { IColorManager, PluginContext } from '~/components/plugins';
 
 import { IColorInterpolationConfig } from '~/types/plugin';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
+import { ColorType, ColorTypeSelector } from '~/components/plugins/editor-components/color-type';
 
 export interface IBackgroundColorSelectProps {
   value?: CellBackgroundColorType;
   onChange?: (value: CellBackgroundColorType) => void;
 }
 
-const ColorTypes = ['static', 'interpolation', 'none'].map((v) => ({ label: _.capitalize(v), value: v }));
 const DEFAULT_STEPS = [
   { from: 0, to: 0 },
   { from: 100, to: 100 },
 ];
 
-function getColorType(color?: CellBackgroundColorType) {
+function getColorType(color?: CellBackgroundColorType): ColorType {
   if (!color) {
     return 'none';
   }
@@ -55,6 +56,7 @@ function getInitialInterpolationColor(
 }
 
 export const BackgroundColorSelect = forwardRef((props: IBackgroundColorSelectProps, ref: any) => {
+  const { t } = useTranslation();
   const { colorManager } = useContext(PluginContext);
   const [colorType, setColorType] = useState(getColorType(props.value));
   const [staticColor, setStaticColor] = useState<string>(getInitialStaticColor(colorManager, props.value));
@@ -64,7 +66,7 @@ export const BackgroundColorSelect = forwardRef((props: IBackgroundColorSelectPr
   );
   const interpolationColorRef = useLatest(interpolationColor);
 
-  const handleColorTypeChange = (value: string | null) => {
+  const handleColorTypeChange = (value: ColorType | null) => {
     setColorType(value || 'none');
     if (value === 'static') {
       props.onChange?.(staticColorRef.current);
@@ -84,7 +86,11 @@ export const BackgroundColorSelect = forwardRef((props: IBackgroundColorSelectPr
   };
   return (
     <Stack align="stretch">
-      <Select label="Cell background" value={colorType || 'none'} onChange={handleColorTypeChange} data={ColorTypes} />
+      <ColorTypeSelector
+        label={t('viz.table.column.cell_background')}
+        value={colorType || 'none'}
+        onChange={handleColorTypeChange}
+      />
       {colorType === 'static' && <MantineColorSelector value={staticColor} onChange={handleStaticColorChange} />}
       {colorType === 'interpolation' && (
         <ColorInterpolationSelect
