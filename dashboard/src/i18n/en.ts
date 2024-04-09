@@ -245,6 +245,13 @@ export const en = {
       font_weight: {
         label: 'Font Weight',
       },
+      size: {
+        xs: 'xs',
+        sm: 'sm',
+        md: 'md',
+        lg: 'lg',
+        xl: 'xl',
+      },
       color: {
         type: {
           label: 'Color Type',

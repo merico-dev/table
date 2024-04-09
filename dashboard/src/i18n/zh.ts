@@ -245,6 +245,13 @@ export const zh = {
       font_weight: {
         label: '字重',
       },
+      size: {
+        xs: '特小',
+        sm: '小',
+        md: '中',
+        lg: '大',
+        xl: '特大',
+      },
       color: {
         type: {
           label: '颜色类型',

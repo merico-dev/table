@@ -10,12 +10,13 @@ interface IDataFieldSelector {
   onChange: (v: string) => void;
   clearable?: boolean;
   sx?: Sx;
+  description?: string;
 }
 
 export const DataFieldSelector = observer(
   forwardRef(
     (
-      { label, required, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector,
+      { label, required, description, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector,
       ref: React.ForwardedRef<HTMLInputElement>,
     ) => {
       const { panel } = useEditPanelContext();
@@ -53,6 +54,7 @@ export const DataFieldSelector = observer(
         <Select
           ref={ref}
           label={label}
+          description={description}
           data={options}
           value={value}
           onChange={onChange}

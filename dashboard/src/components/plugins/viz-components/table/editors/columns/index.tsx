@@ -4,12 +4,14 @@ import { Control, Controller, UseFormWatch, useFieldArray } from 'react-hook-for
 import { Plus } from 'tabler-icons-react';
 import { IColumnConf, ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
+import { useTranslation } from 'react-i18next';
 
 interface IColumnsField {
   control: Control<ITableConf, $TSFixMe>;
   watch: UseFormWatch<ITableConf>;
 }
 export const ColumnsField = ({ control, watch }: IColumnsField) => {
+  const { t } = useTranslation();
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: 'columns',
@@ -38,7 +40,7 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
           <Switch
             mt={20}
             mb={20}
-            label="Use Original Data Columns"
+            label={t('viz.table.column.use_original_data_columns')}
             checked={field.value}
             onChange={(e) => field.onChange(e.currentTarget.checked)}
           />
