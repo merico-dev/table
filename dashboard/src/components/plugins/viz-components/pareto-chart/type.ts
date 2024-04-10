@@ -7,7 +7,7 @@ import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/e
 
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 
@@ -51,7 +51,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
   },

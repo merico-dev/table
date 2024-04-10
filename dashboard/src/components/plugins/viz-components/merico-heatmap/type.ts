@@ -1,14 +1,14 @@
-import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import {
   getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { defaultNumberFormat, TNumberFormat } from '~/utils';
 
 import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 
@@ -55,7 +55,7 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
     axisLabel: {
       rotate: 0,
       overflow: getDefaultAxisLabelOverflow(),
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   y_axis: {
@@ -65,7 +65,7 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
     axisLabel: {
       rotate: 0,
       overflow: getDefaultAxisLabelOverflow(),
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   heat_block: {

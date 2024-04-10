@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { IRegressionChartConf } from '../type';
-import { defaultNumberFormat } from '~/utils';
-import { getDefaultAxisLabelOverflow } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { IMigrationEnv } from '~/components/plugins';
+import { getDefaultAxisLabelOverflow } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { getDefaultXAxisLabelFormatter } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { defaultNumberFormat } from '~/utils';
+import { IRegressionChartConf } from '../type';
 
 export function v2(legacyConf: $TSFixMe): IRegressionChartConf {
   const patch = {
@@ -12,7 +12,7 @@ export function v2(legacyConf: $TSFixMe): IRegressionChartConf {
         rotate: 0,
         format: defaultNumberFormat,
         overflow: getDefaultAxisLabelOverflow(),
-        formatter: DEFAULT_X_AXIS_LABEL_FORMATTER,
+        formatter: getDefaultXAxisLabelFormatter(),
       },
     },
     regression: {

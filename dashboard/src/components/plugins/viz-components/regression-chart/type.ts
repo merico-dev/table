@@ -3,7 +3,7 @@ import {
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
@@ -34,7 +34,7 @@ export const DEFAULT_CONFIG: IRegressionChartConf = {
       rotate: 0,
       format: defaultNumberFormat,
       overflow: getDefaultAxisLabelOverflow(),
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   y_axis: {

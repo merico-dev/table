@@ -1,11 +1,11 @@
 import { Button, Checkbox, Group, Modal, Stack } from '@mantine/core';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Recycle } from 'tabler-icons-react';
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './types';
-import { useTranslation } from 'react-i18next';
-import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
+import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './types';
 
 interface IXAxisLabelFormatterField {
   value: IXAxisLabelFormatter;
@@ -54,7 +54,7 @@ export const XAxisLabelFormatterField = forwardRef(
     };
 
     const resetFuncContent = () => {
-      changeFuncContent(DEFAULT_X_AXIS_LABEL_FORMATTER.func_content);
+      changeFuncContent(getDefaultXAxisLabelFormatter().func_content);
     };
 
     const buttonText = triggerButtonText ?? t('chart.axis.customize_label');

@@ -4,18 +4,18 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/common-echarts-fields/regression-line';
 import { AggregationType, defaultNumberFormat, TNumberFormat } from '~/utils';
-import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
-import { SymbolSize } from '../../common-echarts-fields/symbol-size';
-import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
-import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
-import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
+import { SymbolSize } from '../../common-echarts-fields/symbol-size';
+import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
+import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';
@@ -122,7 +122,7 @@ export const DEFAULT_CONFIG: ICartesianChartConf = {
     type: 'category',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
   },

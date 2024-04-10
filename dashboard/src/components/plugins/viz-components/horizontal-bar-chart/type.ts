@@ -5,15 +5,15 @@ import {
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { AggregationType, DefaultAggregation, defaultNumberFormat, TNumberFormat } from '~/utils';
 
-import { IEChartsLineType } from '../../common-echarts-fields/line-type';
-import { ChartingOrientation } from '../../common-echarts-fields/orientation';
-import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
-import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import { IEChartsLineType } from '../../common-echarts-fields/line-type';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
@@ -95,7 +95,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
     name: 'Y Axis',
     data_key: '',
     axisLabel: {
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
     nameAlignment: 'center',

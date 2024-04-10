@@ -1,7 +1,7 @@
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
+  getDefaultXAxisLabelFormatter,
 } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export interface IMericoEstimationChartConf {
@@ -29,7 +29,7 @@ export const DEFAULT_CONFIG: IMericoEstimationChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   deviation: {
