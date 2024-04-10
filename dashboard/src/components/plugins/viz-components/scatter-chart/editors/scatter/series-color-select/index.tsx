@@ -1,19 +1,9 @@
 import { Select, SimpleGrid } from '@mantine/core';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { DynamicSeriesColorField } from './dynamic';
 import { StaticSeriesColorField } from './static';
 import { DEFAULT_SERIES_COLOR, TSeriesColor } from './types';
-
-const typeOptions = [
-  {
-    label: 'Static',
-    value: 'static',
-  },
-  {
-    label: 'Dynamic',
-    value: 'dynamic',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 interface ISeriesColorSelect {
   label?: string;
@@ -23,6 +13,21 @@ interface ISeriesColorSelect {
 
 export const SeriesColorSelect = forwardRef<HTMLInputElement, ISeriesColorSelect>(
   ({ label = 'Color', value, onChange }: ISeriesColorSelect, ref) => {
+    const { t, i18n } = useTranslation();
+
+    const typeOptions = useMemo(
+      () => [
+        {
+          label: t('viz.scatter_chart.color.type.static'),
+          value: 'static',
+        },
+        {
+          label: t('viz.scatter_chart.color.type.dynamic'),
+          value: 'dynamic',
+        },
+      ],
+      [i18n.language],
+    );
     const changeType = (type: 'static' | 'dynamic') => {
       onChange({ ...DEFAULT_SERIES_COLOR[type] });
     };

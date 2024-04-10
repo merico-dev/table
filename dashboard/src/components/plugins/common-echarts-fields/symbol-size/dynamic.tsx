@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Group, Modal, Stack } from '@mantine/core';
-import { IconMathFunction } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 import { useBoolean } from 'ahooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -86,7 +86,7 @@ const Field = ({ value, onChange }: IField) => {
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>
-                <Button color="green" onClick={handleOk}>
+                <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                   {t('common.actions.save')}
                 </Button>
               </Group>
