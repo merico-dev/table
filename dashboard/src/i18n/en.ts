@@ -652,6 +652,9 @@ export const en = {
       heatmap: {
         heatblock: {
           label: 'Heat Block',
+          min_value: 'Min Value',
+          max_value: 'Max Value',
+          show_label: 'Show Label',
         },
       },
       reference_line: {

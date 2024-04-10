@@ -31,16 +31,12 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.min"
           control={control}
-          render={({ field }) => (
-            <NumberOrDynamicValue label={t('viz.calendar_heatmap.heatblock.min_value')} {...field} />
-          )}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.min_value')} {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
-          render={({ field }) => (
-            <NumberOrDynamicValue label={t('viz.calendar_heatmap.heatblock.max_value')} {...field} />
-          )}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.max_value')} {...field} />}
         />
       </Group>
       <Divider mb={-15} variant="dashed" label={t('numbro.format.label')} labelPosition="center" />

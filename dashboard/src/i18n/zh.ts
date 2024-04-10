@@ -652,6 +652,9 @@ export const zh = {
       heatmap: {
         heatblock: {
           label: '热力块',
+          min_value: '最小值',
+          max_value: '最大值',
+          show_label: '展示值文案',
         },
       },
       reference_line: {

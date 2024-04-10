@@ -33,12 +33,12 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.min"
           control={control}
-          render={({ field }) => <NumberOrDynamicValue label={t('viz.heatmap.heatblock.min_value')} {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.min_value')} {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
-          render={({ field }) => <NumberOrDynamicValue label={t('viz.heatmap.heatblock.max_value')} {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.max_value')} {...field} />}
         />
       </Group>
 
@@ -56,7 +56,7 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
           control={control}
           render={({ field }) => (
             <Switch
-              label={t('viz.heatmap.heatblock.show_label')}
+              label={t('chart.heatmap.heatblock.show_label')}
               checked={field.value}
               onChange={(e) => field.onChange(e.currentTarget.checked)}
               sx={{ flexGrow: 1 }}
