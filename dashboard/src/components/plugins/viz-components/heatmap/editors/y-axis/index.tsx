@@ -6,6 +6,7 @@ import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label
 import { IHeatmapConf } from '../../type';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
 import { useTranslation } from 'react-i18next';
+import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 
 interface IYAxisField {
   watch: UseFormWatch<IHeatmapConf>;
@@ -46,29 +47,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
         <Controller
           name="y_axis.axisLabel.rotate"
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <NumberInput
-              label={t('chart.rotate')}
-              hideControls
-              min={-90}
-              max={90}
-              rightSection={
-                <Text size="xs" color="dimmed">
-                  {t('chart.degree')}
-                </Text>
-              }
-              sx={{ width: '48%' }}
-              styles={{
-                rightSection: {
-                  width: '4em',
-                  justifyContent: 'flex-end',
-                  paddingRight: '6px',
-                },
-              }}
-              {...field}
-            />
-          )}
+          render={({ field }) => <AxisLabelRotateInput sx={{ width: '48%' }} {...field} />}
         />
         <Controller
           name="y_axis.axisLabel.formatter"

@@ -1,10 +1,11 @@
-import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IBoxplotChartConf } from '../type';
-import { useTranslation } from 'react-i18next';
 
 interface IXAxisField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
@@ -34,25 +35,7 @@ export const XAxisField = ({ control, watch }: IXAxisField) => {
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <NumberInput
-              label={t('chart.rotate')}
-              hideControls
-              min={-90}
-              max={90}
-              rightSection={<Text color="dimmed">{t('chart.degree')}</Text>}
-              sx={{ width: '48%' }}
-              styles={{
-                rightSection: {
-                  width: '4em',
-                  justifyContent: 'flex-end',
-                  paddingRight: '6px',
-                },
-              }}
-              {...field}
-            />
-          )}
+          render={({ field }) => <AxisLabelRotateInput sx={{ width: '48%' }} {...field} />}
         />
         <Controller
           name="x_axis.axisLabel.formatter"
