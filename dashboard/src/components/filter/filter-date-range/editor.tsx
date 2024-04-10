@@ -5,6 +5,7 @@ import { FilterDateRange } from './render';
 import { useMemo } from 'react';
 import { getDateRangeShortcuts } from './widget/shortcuts/shortcuts';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
+import { useTranslation } from 'react-i18next';
 
 interface IFilterEditorDateRange {
   filter: FilterMetaInstance;
@@ -19,10 +20,16 @@ const inputFormatOptions = [
 ];
 
 export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ filter }: IFilterEditorDateRange) {
+  const { t } = useTranslation();
   const config = filter.config as FilterDateRangeConfigInstance;
 
   const shortcuts = useMemo(
-    () => getDateRangeShortcuts().map(({ value, group }) => ({ label: value, value, group })),
+    () =>
+      getDateRangeShortcuts().map(({ key, value, group }) => ({
+        label: t(`filter.widget.date_range.shortcut.${group}.full.${key}`),
+        value,
+        group: t(`filter.widget.date_range.shortcut.${group}.label`),
+      })),
     [],
   );
   return (
@@ -31,26 +38,32 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
-          label="Required"
+          label={t('filter.widget.date_range.required')}
         />
         <Checkbox
           checked={config.allowSingleDateInRange}
           onChange={(e) => config.setAllowSingleDateInRange(e.currentTarget.checked)}
-          label="Allow choosing 1 day"
+          label={t('filter.widget.date_range.allow_single_date')}
         />
       </Group>
       <Group grow>
         <Select
           data={inputFormatOptions}
-          label="Display Format"
+          label={t('filter.widget.date_range.display_format')}
           value={config.inputFormat}
           onChange={config.setInputFormat}
         />
-        <NumberInput label="Max Days" min={0} value={config.max_days} onChange={config.setMaxDays} hideControls />
+        <NumberInput
+          label={t('filter.widget.date_range.max_days')}
+          min={0}
+          value={config.max_days}
+          onChange={config.setMaxDays}
+          hideControls
+        />
       </Group>
       <Group>
         <FilterDateRange
-          label="Default Value"
+          label={t('filter.widget.date_range.default_value')}
           config={config}
           // @ts-expect-error type of default_value
           value={config.default_value}
@@ -59,10 +72,10 @@ export const FilterEditorDateRange = observer(function _FilterEditorDateRange({ 
         />
         <Select
           data={shortcuts}
-          label="Default by Shortcut"
+          label={t('filter.widget.date_range.default_by_shortcut')}
           value={config.default_shortcut}
           onChange={config.setDefaultShortcut}
-          placeholder="Priors default value"
+          placeholder={t('filter.widget.date_range.default_by_shortcut_placeholder')}
           clearable
           sx={{ flexGrow: 1 }}
           maxDropdownHeight={500}

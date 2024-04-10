@@ -13,6 +13,7 @@ import Select, { Option } from 'rc-select';
 import { useMemo, useState } from 'react';
 import useStyles, { MultiSelectWidgetStylesParams } from './widget.styles';
 import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not-found';
+import { useTranslation } from 'react-i18next';
 
 export type TSelectOption = {
   label: string;
@@ -50,6 +51,7 @@ export const MultiSelectWidget = ({
   errorMessage,
   required,
 }: IProps) => {
+  const { t } = useTranslation();
   const { classes, cx } = useStyles({ radius }, { name: 'MultiSelectWidget', classNames, styles, unstyled });
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDropdownVisibleChange = (visible: boolean) => {
@@ -80,7 +82,7 @@ export const MultiSelectWidget = ({
           )}
         </Text>
         {tooltipVisible && (
-          <Tooltip label={`${value.length} selected`}>
+          <Tooltip label={t('filter.widget.common.x_selected', { count: value.length })}>
             <Badge>{value.length}</Badge>
           </Tooltip>
         )}
@@ -102,7 +104,7 @@ export const MultiSelectWidget = ({
         maxTagCount={0}
         notFoundContent={<ErrorMessageOrNotFound errorMessage={errorMessage} />}
         maxTagTextLength={10}
-        maxTagPlaceholder={(valueList) => `${valueList.length} selected`}
+        maxTagPlaceholder={(valueList) => t('filter.widget.common.x_selected', { count: valueList.length })}
         searchValue={keyword}
         onSearch={setKeyword}
         filterOption={false}

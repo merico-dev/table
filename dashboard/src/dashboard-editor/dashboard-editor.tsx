@@ -9,9 +9,7 @@ import { configureAPIClient } from '~/api-caller/request';
 import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewEditor } from '~/components/view';
-import { ContentModelContextProvider } from '~/contexts/content-model-context';
-import { DashboardModelContextProvider } from '~/contexts/dashboard-context';
-import { LayoutStateContext } from '~/contexts/layout-state-context';
+
 import { createDashboardModel } from '~/dashboard-editor/model';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
@@ -25,6 +23,12 @@ import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
 import { registerECharts } from '~/utils';
 import { useTranslation } from 'react-i18next';
+import {
+  DatesProvider,
+  ContentModelContextProvider,
+  DashboardModelContextProvider,
+  LayoutStateContext,
+} from '~/contexts';
 
 registerThemes();
 registerECharts();
@@ -142,46 +146,48 @@ const _DashboardEditor = (
   const configureServices = useTopLevelServices(pluginContext);
   return (
     <ModalsProvider>
-      <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
-        <DashboardModelContextProvider value={model}>
-          <ContentModelContextProvider value={model.content}>
-            <LayoutStateContext.Provider
-              value={{
-                inEditMode: true,
-              }}
-            >
-              <PluginContext.Provider value={pluginContext}>
-                <ServiceLocatorProvider configure={configureServices}>
-                  <AppShell
-                    padding={0}
-                    header={
-                      <DashboardEditorHeader
-                        onExit={onExit}
-                        saveDashboardChanges={saveDashboardChanges}
-                        headerSlot={headerSlot}
-                      />
-                    }
-                    navbar={<DashboardEditorNavbar />}
-                    styles={AppShellStyles}
-                  >
-                    <Box
-                      className={`${className} dashboard-root`}
-                      sx={{
-                        position: 'relative',
-                      }}
+      <DatesProvider>
+        <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+          <DashboardModelContextProvider value={model}>
+            <ContentModelContextProvider value={model.content}>
+              <LayoutStateContext.Provider
+                value={{
+                  inEditMode: true,
+                }}
+              >
+                <PluginContext.Provider value={pluginContext}>
+                  <ServiceLocatorProvider configure={configureServices}>
+                    <AppShell
+                      padding={0}
+                      header={
+                        <DashboardEditorHeader
+                          onExit={onExit}
+                          saveDashboardChanges={saveDashboardChanges}
+                          headerSlot={headerSlot}
+                        />
+                      }
+                      navbar={<DashboardEditorNavbar />}
+                      styles={AppShellStyles}
                     >
-                      {model.content.views.visibleViews.map((view) => (
-                        <DashboardViewEditor key={view.id} view={view} />
-                      ))}
-                    </Box>
-                  </AppShell>
-                  <Settings />
-                </ServiceLocatorProvider>
-              </PluginContext.Provider>
-            </LayoutStateContext.Provider>
-          </ContentModelContextProvider>
-        </DashboardModelContextProvider>
-      </DashboardThemeContextProvider>
+                      <Box
+                        className={`${className} dashboard-root`}
+                        sx={{
+                          position: 'relative',
+                        }}
+                      >
+                        {model.content.views.visibleViews.map((view) => (
+                          <DashboardViewEditor key={view.id} view={view} />
+                        ))}
+                      </Box>
+                    </AppShell>
+                    <Settings />
+                  </ServiceLocatorProvider>
+                </PluginContext.Provider>
+              </LayoutStateContext.Provider>
+            </ContentModelContextProvider>
+          </DashboardModelContextProvider>
+        </DashboardThemeContextProvider>
+      </DatesProvider>
     </ModalsProvider>
   );
 };

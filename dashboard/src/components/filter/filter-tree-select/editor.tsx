@@ -4,12 +4,14 @@ import { FilterMetaInstance, FilterTreeSelectConfigInstance } from '~/model';
 import { PickQueryForFilter } from '../pick-query-for-filter';
 import { ExpectedStructureForTreeSelect } from './expected-structure';
 import { CustomDefaultValueEditor } from '../custom-default-value-editor';
+import { useTranslation } from 'react-i18next';
 
 interface IFilterEditorTreeSelect {
   filter: FilterMetaInstance;
 }
 
 export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect({ filter }: IFilterEditorTreeSelect) {
+  const { t } = useTranslation();
   const config = filter.config as FilterTreeSelectConfigInstance;
   return (
     <>
@@ -17,26 +19,26 @@ export const FilterEditorTreeSelect = observer(function _FilterEditorTreeSelect(
         <Checkbox
           checked={config.required}
           onChange={(e) => config.setRequired(e.currentTarget.checked)}
-          label="Required"
+          label={t('filter.widget.select.required')}
         />
         <CustomDefaultValueEditor filter={filter} />
       </Group>
       <TextInput
-        label="Min-width"
+        label={t('filter.widget.common.min_width')}
         value={config.min_width}
         onChange={(e) => config.setMinWidth(e.currentTarget.value)}
         placeholder="200px"
       />
-      <Divider label="Fetch options from database" labelPosition="center" />
+      <Divider label={t('filter.widget.common.fetch_options_from_datasource')} labelPosition="center" />
       <Checkbox
         checked={config.treeCheckStrictly}
         onChange={(e) => config.setTreeCheckStrictly(e.currentTarget.checked)}
-        label="Parent and children nodes are not associated"
+        label={t('filter.widget.tree_select.strictly')}
       />
       <NumberInput
         value={config.default_selection_count}
         onChange={config.setDefaultSelectionCount}
-        label="Select first N options by default"
+        label={t('filter.widget.common.default_selection_count')}
       />
       <PickQueryForFilter value={config.options_query_id} onChange={config.setOptionsQueryID} />
       <ExpectedStructureForTreeSelect />

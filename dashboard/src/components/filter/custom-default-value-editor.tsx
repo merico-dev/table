@@ -3,6 +3,7 @@ import { FilterMetaInstance } from '~/model';
 import { ModalFunctionEditor } from '../widgets/modal-function-editor';
 import { IconMathFunction } from '@tabler/icons-react';
 import { Alert, List } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 const DefaultValueFuncTemplate = ['function getDefaultValue(filter, utils, context) {', '    return "";', '}'].join(
   '\n',
@@ -13,11 +14,12 @@ type Props = {
 };
 
 export const CustomDefaultValueEditor = observer(({ filter }: Props) => {
+  const { t } = useTranslation();
   return (
     <ModalFunctionEditor
       label=""
-      title="Custom Default Value"
-      triggerLabel="Default by function"
+      title={t('filter.field.custom_default_value.title')}
+      triggerLabel={t('filter.field.custom_default_value.trigger')}
       value={filter.default_value_func}
       onChange={filter.setDefaultValueFunc}
       defaultValue={DefaultValueFuncTemplate}
@@ -28,10 +30,10 @@ export const CustomDefaultValueEditor = observer(({ filter }: Props) => {
         leftIcon: <IconMathFunction size={16} />,
       }}
       description={
-        <Alert title="Tips" color="gray" mb={16}>
+        <Alert title={t('filter.field.custom_default_value.tips')} color="gray" mb={16}>
           <List size={13} type="ordered">
-            <List.Item>Function has the highest priority of getting filter's default value</List.Item>
-            <List.Item>Leave this editor empty to disable this feature</List.Item>
+            <List.Item>{t('filter.field.custom_default_value.tip_1')}</List.Item>
+            <List.Item>{t('filter.field.custom_default_value.tip_2')}</List.Item>
           </List>
         </Alert>
       }
