@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Recycle } from 'tabler-icons-react';
 import { XAxisLabelFormatterFunctionEditor } from './function-editor';
 import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './types';
-import { IconMathFunction } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 
 interface IXAxisLabelFormatterField {
   value: IXAxisLabelFormatter;
@@ -97,7 +97,7 @@ export const XAxisLabelFormatterField = forwardRef(({ value, onChange }: IXAxisL
                 <Button onClick={handleCancel} variant="subtle">
                   {t('common.actions.cancel')}
                 </Button>
-                <Button color="green" onClick={handleOk}>
+                <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
                   {t('common.actions.save')}
                 </Button>
               </Group>

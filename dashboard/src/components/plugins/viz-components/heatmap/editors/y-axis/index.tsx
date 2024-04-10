@@ -5,6 +5,7 @@ import { NameTextAlignSelector } from '~/components/plugins/common-echarts-field
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { IHeatmapConf } from '../../type';
 import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
+import { useTranslation } from 'react-i18next';
 
 interface IYAxisField {
   watch: UseFormWatch<IHeatmapConf>;
@@ -12,6 +13,7 @@ interface IYAxisField {
 }
 
 export function YAxisField({ control, watch }: IYAxisField) {
+  const { t } = useTranslation();
   watch(['y_axis']);
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
@@ -19,12 +21,12 @@ export function YAxisField({ control, watch }: IYAxisField) {
         <Controller
           name="y_axis.data_key"
           control={control}
-          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <DataFieldSelector label={t('common.data_field')} sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="y_axis.name"
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Group grow noWrap>
@@ -34,7 +36,7 @@ export function YAxisField({ control, watch }: IYAxisField) {
           render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Divider mb={-15} variant="dashed" label="Tick Label" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('chart.axis.tick_label')} labelPosition="center" />
       <Controller
         name="y_axis.axisLabel.overflow"
         control={control}
@@ -47,11 +49,15 @@ export function YAxisField({ control, watch }: IYAxisField) {
           render={({ field }) => (
             // @ts-expect-error type of onChange
             <NumberInput
-              label="Rotate"
+              label={t('chart.rotate')}
               hideControls
               min={-90}
               max={90}
-              rightSection={<Text color="dimmed">degree</Text>}
+              rightSection={
+                <Text size="xs" color="dimmed">
+                  {t('chart.degree')}
+                </Text>
+              }
               sx={{ width: '48%' }}
               styles={{
                 rightSection: {

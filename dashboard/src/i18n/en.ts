@@ -446,6 +446,17 @@ export const en = {
         inside_bottom_right: 'Inside Bottom Right',
         outside: 'Outside',
       },
+      number_or_dynamic_value: {
+        type: {
+          static: 'Static',
+          dynamic: 'Dynamic',
+        },
+        dynamic: {
+          setup: 'Setup',
+          setup_title: 'Setup dynamic value',
+          guide: 'Dyanmic by a custom function',
+        },
+      },
       orientation: {
         label: 'Orientation',
         horizontal: 'Horizontal',

@@ -446,6 +446,17 @@ export const zh = {
         inside_bottom_right: '内-下-右',
         outside: '外',
       },
+      number_or_dynamic_value: {
+        type: {
+          static: '具体值',
+          dynamic: '动态值',
+        },
+        dynamic: {
+          setup: '设置',
+          setup_title: '设置动态值',
+          guide: '由函数确定动态值',
+        },
+      },
       orientation: {
         label: '朝向',
         horizontal: '水平',
