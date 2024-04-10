@@ -187,6 +187,10 @@ export const en = {
       delete: 'Delete this SQL Snippet',
       delete_unused: 'Delete unused SQL Snippets',
       manage: 'Manage SQL Snippets',
+      key: 'Key',
+      key_occupied: 'This key is occupied by another snippet',
+      edit_snippet: 'Edit SQL Snippet',
+      preview_snippet: 'Preview SQL Snippet',
       usage: {
         label: 'Usage',
       },

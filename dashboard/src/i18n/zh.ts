@@ -187,6 +187,10 @@ export const zh = {
       delete: '删除这个SQL片段',
       delete_unused: '删除未用到的SQL片段',
       manage: '管理SQL片段',
+      key: '键',
+      key_occupied: '此键已被其他SQL片段占用',
+      edit_snippet: '编辑SQL片段',
+      preview_snippet: '预览SQL片段',
       usage: {
         label: '使用情况',
       },
