@@ -2,10 +2,11 @@ import { Group, Select, Stack } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { ICalendarHeatmapConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 const localeOptions = [
   {
-    label: 'Chinese',
+    label: '中文',
     value: 'ZH',
   },
   {
@@ -19,6 +20,7 @@ interface ICalendarField {
   watch: UseFormWatch<ICalendarHeatmapConf>;
 }
 export function CalendarField({ control, watch }: ICalendarField) {
+  const { t } = useTranslation();
   watch(['calendar']);
   return (
     <Stack>
@@ -26,14 +28,16 @@ export function CalendarField({ control, watch }: ICalendarField) {
         <Controller
           name="calendar.data_key"
           control={control}
-          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <DataFieldSelector label={t('common.data_field')} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Controller
         name="calendar.locale"
         control={control}
-        // @ts-expect-error type of onChange
-        render={({ field }) => <Select label="Language" required data={localeOptions} sx={{ flex: 1 }} {...field} />}
+        render={({ field }) => (
+          // @ts-expect-error type of onChange
+          <Select label={t('viz.calendar_heatmap.calendar.locale')} data={localeOptions} sx={{ flex: 1 }} {...field} />
+        )}
       />
     </Stack>
   );
