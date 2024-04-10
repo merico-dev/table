@@ -6,13 +6,16 @@ import { IRegressionLineConf, IRegressionTransform } from '~/components/plugins/
 import { AggregationType, defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from './editors/echarts-zooming-field/types';
 import { SymbolSize } from '../../common-echarts-fields/symbol-size';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER, IXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 import { IEchartsTooltipMetric } from '../../common-echarts-fields/tooltip-metric';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import { EChartsYAxisPosition } from '../../common-echarts-fields/y-axis-position';
+import {
+  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  IXAxisLabelFormatter,
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export interface ICartesianChartSeriesItem {
   type: 'line' | 'bar' | 'scatter';

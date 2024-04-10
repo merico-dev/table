@@ -5,16 +5,13 @@ import {
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { AnyObject } from '~/types';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
+
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
-import {
-  DEFAULT_DATA_ZOOM_CONFIG,
-  getDefaultDataZoomConfig,
-  TEchartsDataZoomConfig,
-} from '../cartesian/editors/echarts-zooming-field/types';
-import { ChartingOrientation } from '../../common-echarts-fields/orientation';
+} from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultDataZoomConfig, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 
 export interface IBoxplotReferenceLine {
   name: string;

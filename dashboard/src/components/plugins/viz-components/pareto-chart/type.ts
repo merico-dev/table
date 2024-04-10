@@ -4,11 +4,12 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
+
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
-import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',

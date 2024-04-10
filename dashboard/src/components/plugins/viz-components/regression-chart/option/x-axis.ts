@@ -1,5 +1,5 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { formatNumber } from '~/utils';
 import { IRegressionChartConf } from '../type';

@@ -4,12 +4,13 @@ import {
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+
+import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
-import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
-import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export type TMericoHeatmapConf = {
   x_axis: {

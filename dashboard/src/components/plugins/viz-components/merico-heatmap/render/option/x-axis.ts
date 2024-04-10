@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { AnyObject } from '~/types';
-import { FormatterFuncType } from '../../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+
 import { TMericoHeatmapConf } from '../../type';
 import { getLabelOverflowOptionOnAxis } from '../../../../common-echarts-fields/axis-label-overflow';
 import { parseDataKey } from '~/utils';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { FormatterFuncType } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFunc: FormatterFuncType) {
   const x = parseDataKey(conf.x_axis.data_key);

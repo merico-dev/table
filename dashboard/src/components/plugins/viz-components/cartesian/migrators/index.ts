@@ -4,9 +4,9 @@ import { AnyObject } from '~/types';
 import { DefaultAggregation } from '~/utils';
 import { ITemplateVariable } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../editors/x-axis/x-axis-label-formatter/types';
 import { ICartesianChartConf } from '../type';
 import { IMigrationEnv } from '~/components/plugins';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));

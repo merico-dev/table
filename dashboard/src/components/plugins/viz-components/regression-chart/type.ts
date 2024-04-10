@@ -5,7 +5,7 @@ import {
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/types';
+} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { IRegressionConf } from '../cartesian/type';
 

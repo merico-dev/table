@@ -6,7 +6,7 @@ import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { TMericoHeatmapConf } from '../../type';
-import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 interface IYAxisField {
   watch: UseFormWatch<TMericoHeatmapConf>;

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
-import { XAxisLabelFormatterField } from '../../cartesian/editors/x-axis/x-axis-label-formatter';
 import { IParetoChartConf } from '../type';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 interface IXAxisField {
   control: Control<IParetoChartConf, $TSFixMe>;

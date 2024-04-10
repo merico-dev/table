@@ -11,8 +11,11 @@ import { IEchartsReferenceArea } from '~/components/plugins/common-echarts-field
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { SymbolSize } from '../../common-echarts-fields/symbol-size';
 import { ICartesianReferenceLine, IYAxisConf } from '../cartesian/type';
-import { IXAxisLabelFormatter, getDefaultXAxisLabelFormatter } from './editors/x-axis/x-axis-label-formatter/types';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import {
+  IXAxisLabelFormatter,
+  getDefaultXAxisLabelFormatter,
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export interface IScatterLabelOverflow {
   label: IEchartsOverflow;

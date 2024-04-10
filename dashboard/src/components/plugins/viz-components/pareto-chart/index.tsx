@@ -3,12 +3,12 @@ import { defaultNumberFormat } from '~/utils';
 import { VizComponent } from '~/types/plugin';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
 import { VizParetoChartEditor } from './viz-pareto-chart-editor';
 import { translation } from './translation';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../../common-echarts-fields/x-axis-label-formatter';
 
 function v2(legacyConf: $TSFixMe): IParetoChartConf {
   const { dataZoom = DEFAULT_DATA_ZOOM_CONFIG, ...rest } = legacyConf;

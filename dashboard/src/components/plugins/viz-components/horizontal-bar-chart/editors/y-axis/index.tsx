@@ -2,9 +2,9 @@ import { Box, Divider, Group, NumberInput, Stack, Text, TextInput, Tooltip } fro
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { XAxisLabelFormatterField } from '~/components/plugins/viz-components/cartesian/editors/x-axis/x-axis-label-formatter';
 import { IHorizontalBarChartConf } from '../../type';
 import { useTranslation } from 'react-i18next';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 interface IYAxisField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;

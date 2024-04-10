@@ -1,7 +1,7 @@
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export function getXAxes(conf: IScatterChartConf, xAxisData: $TSFixMe[]) {
   const allNumbers = xAxisData.every((d) => !Number.isNaN(Number(d)));

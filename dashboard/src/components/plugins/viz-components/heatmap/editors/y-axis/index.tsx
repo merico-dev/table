@@ -1,12 +1,12 @@
-import { Divider, Group, NumberInput, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, Stack, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { IHeatmapConf } from '../../type';
-import { XAxisLabelFormatterField } from '../x-axis/x-axis-label-formatter';
-import { useTranslation } from 'react-i18next';
-import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 
 interface IYAxisField {
   watch: UseFormWatch<IHeatmapConf>;

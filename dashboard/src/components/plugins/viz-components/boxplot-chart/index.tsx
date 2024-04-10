@@ -2,13 +2,13 @@ import _, { cloneDeep, omit } from 'lodash';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable, defaultNumberFormat } from '~/utils';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
 import { getDefaultDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 import { translation } from './translation';
+import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../../common-echarts-fields/x-axis-label-formatter';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');

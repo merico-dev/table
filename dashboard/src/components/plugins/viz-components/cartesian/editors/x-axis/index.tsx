@@ -7,7 +7,7 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 import { ICartesianChartConf } from '../../type';
-import { XAxisLabelFormatterField } from './x-axis-label-formatter';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 //https://echarts.apache.org/zh/option.html#xAxis.type
 const XAxisTypeLabel = () => {

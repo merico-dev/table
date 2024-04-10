@@ -1,4 +1,4 @@
-import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/get-echarts-x-axis-tick-label';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { IMericoEstimationChartConf } from '../type';
 
 export function getXAxes(conf: IMericoEstimationChartConf, xAxisData: string[]) {

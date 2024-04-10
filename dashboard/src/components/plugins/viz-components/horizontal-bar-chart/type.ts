@@ -4,15 +4,16 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { AggregationType, DefaultAggregation, defaultNumberFormat, TNumberFormat } from '~/utils';
-import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
-  IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+
 import { IEChartsLineType } from '../../common-echarts-fields/line-type';
 import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
 import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import {
+  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  IXAxisLabelFormatter,
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;

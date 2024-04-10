@@ -2,7 +2,7 @@ import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-field
 import {
   DEFAULT_X_AXIS_LABEL_FORMATTER,
   IXAxisLabelFormatter,
-} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter/types';
+} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export interface IMericoEstimationChartConf {
   x_axis: {

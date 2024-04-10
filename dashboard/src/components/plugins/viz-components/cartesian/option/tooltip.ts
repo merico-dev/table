@@ -1,12 +1,12 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICartesianChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { extractData, formatNumber, readColumnIgnoringQuery } from '~/utils';
 import _ from 'lodash';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 function getXAxisLabel(params: AnyObject[], conf: ICartesianChartConf) {
   const basis = params.find((p) => p.axisDim === 'x' && p.axisId === 'main-x-axis');

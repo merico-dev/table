@@ -3,8 +3,8 @@ import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echa
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { AnyObject } from '~/types';
 import { formatNumber, readColumnIgnoringQuery } from '~/utils';
-import { getEchartsXAxisLabel } from '../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IScatterChartConf } from '../type';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 function formatXAxisLabel(value: string | number, index: number, conf: IScatterChartConf) {
   const { x_axis } = conf;

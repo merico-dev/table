@@ -1,10 +1,10 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { getLabelOverflowStyleInTooltip } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { AnyObject } from '~/types';
-import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHorizontalBarChartConf } from '../type';
 import { IEchartsSeriesItem } from './utils/types';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 function getYAxisLabel(params: AnyObject[], conf: IHorizontalBarChartConf) {
   const basis = params.find((p) => p.axisDim === 'y' && p.axisId === 'main-y-axis');
