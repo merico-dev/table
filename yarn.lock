@@ -6362,7 +6362,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ahooks@npm:^3.3.11, ahooks@npm:^3.4.1":
+"ahooks@npm:^3.3.11":
+  version: 3.7.11
+  resolution: "ahooks@npm:3.7.11"
+  dependencies:
+    "@babel/runtime": ^7.21.0
+    dayjs: ^1.9.1
+    intersection-observer: ^0.12.0
+    js-cookie: ^2.x.x
+    lodash: ^4.17.21
+    react-fast-compare: ^3.2.2
+    resize-observer-polyfill: ^1.5.1
+    screenfull: ^5.0.0
+    tslib: ^2.4.1
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 290f78a27a25720060e0e4a0b15a772e58f8e02534a000fa60e8fa2e09958c2ec410d382c51e5d510e511a8563f67fdbbee3ffe20680bb2a34573691ba3dbafc
+  languageName: node
+  linkType: hard
+
+"ahooks@npm:^3.4.1":
   version: 3.7.8
   resolution: "ahooks@npm:3.7.8"
   dependencies:
@@ -16686,7 +16705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.2.0":
+"react-fast-compare@npm:^3.2.0, react-fast-compare@npm:^3.2.2":
   version: 3.2.2
   resolution: "react-fast-compare@npm:3.2.2"
   checksum: 2071415b4f76a3e6b55c84611c4d24dcb12ffc85811a2840b5a3f1ff2d1a99be1020d9437ee7c6e024c9f4cbb84ceb35e48cf84f28fcb00265ad2dfdd3947704

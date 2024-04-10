@@ -2,12 +2,13 @@ import { useLocalStorage } from '@mantine/hooks';
 import _ from 'lodash';
 import React, { ReactNode } from 'react';
 
-export const DEFAULT_LANGUAGE = 'en';
+export type Language = 'en' | 'zh';
+export const DEFAULT_LANGUAGE: Language = 'en';
 const LANGUAGE_KEY = '@devtable/website/lang';
 
 export type LanguageContextType = {
-  lang: string;
-  setLang: (lang: string) => void;
+  lang: Language;
+  setLang: (lang: Language) => void;
 };
 
 const initialContext = {
