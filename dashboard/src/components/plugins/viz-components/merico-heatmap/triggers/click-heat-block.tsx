@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export function ClickHeatBlockSettings(props: ITriggerConfigProps) {
@@ -6,12 +7,13 @@ export function ClickHeatBlockSettings(props: ITriggerConfigProps) {
 }
 
 function ClickHeatBlockName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click heat block</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.merico_heatmap.click_heatmap.heatblock.label')}</Text>;
 }
 
 export const ClickHeatBlock: ITriggerSchema = {
   id: 'builtin:echarts:click-heatmap:heat-block',
-  displayName: 'Click Heat Block',
+  displayName: 'viz.merico_heatmap.click_heatmap.heatblock.label',
   nameRender: ClickHeatBlockName,
   configRender: ClickHeatBlockSettings,
   payload: [

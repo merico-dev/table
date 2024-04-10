@@ -2,6 +2,7 @@ import { ActionIcon, Sx, Table, TextInput } from '@mantine/core';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
@@ -47,6 +48,7 @@ export interface ISetFilterValuesOperationConfig {
 const defaultValue: ISetFilterValuesOperationConfig = { dictionary: {} };
 
 const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps) => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   const { value = defaultValue, set } = useStorageData<ISetFilterValuesOperationConfig>(
     props.operation.operationData,
@@ -80,8 +82,8 @@ const SetFilterValuesOperationSettings = observer((props: IOperationConfigProps)
     <Table sx={TableSx}>
       <thead>
         <tr>
-          <th>Set filter</th>
-          <th>with</th>
+          <th>{t('interactions.operation.set_filter_values.set_filter')}</th>
+          <th>{t('interactions.operation.set_filter_values.with')}</th>
         </tr>
       </thead>
       <tbody>
@@ -118,7 +120,7 @@ async function run(payload: Record<string, unknown>, operation: IDashboardOperat
 }
 
 export const SetFilterValues: IDashboardOperationSchema = {
-  displayName: 'Set Filter Values',
+  displayName: 'interactions.operation.set_filter_values.label',
   id: 'builtin:op:set_filter_values',
   configRender: SetFilterValuesOperationSettings,
   run,

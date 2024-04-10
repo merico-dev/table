@@ -10,6 +10,9 @@ const en = {
       param_section_note_1: '80-20 line stuff',
       param_section_note_2: 'chart configs',
     },
+    click_series: {
+      label: 'Click chart series',
+    },
   },
 };
 
@@ -22,6 +25,9 @@ const zh = {
       click_to_see_params: '点击查看线上文案模板的参数',
       param_section_note_1: '80-20线相关',
       param_section_note_2: '图表配置信息',
+    },
+    click_series: {
+      label: '点击柱或线',
     },
   },
 };

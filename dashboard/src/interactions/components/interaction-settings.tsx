@@ -110,8 +110,8 @@ export const InteractionSettings = (props: IInteractionSettingsProps) => {
     <Stack>
       <LoadingOverlay visible={loading} />
       {data === 0 && (
-        <Alert icon={<AlertCircle size={16} />} title="Unavailable" color="gray">
-          This visualization does not have available interactions to choose from
+        <Alert icon={<AlertCircle size={16} />} title={t('interactions.unavailable')} color="gray">
+          {t('interactions.unavailable_reason')}
         </Alert>
       )}
       {interactions.map((it) => (

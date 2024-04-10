@@ -29,6 +29,12 @@ const en = {
       striped: 'Striped',
       highlight_on_hover: 'Hightlight on hover',
     },
+    click_cell: {
+      label: 'Click cell content',
+      click_cell_content: 'Click cell content (click to config)',
+      click_cell_of_x: 'Click cell of {{ x }}',
+      choose_a_column: 'Choose a column',
+    },
   },
 };
 
@@ -60,6 +66,12 @@ const zh = {
       vertical_spacing: '垂直间距',
       striped: '隔行变色',
       highlight_on_hover: '鼠标悬停时高亮整行',
+    },
+    click_cell: {
+      label: '点击单元格',
+      click_cell_content: '点击单元格内容',
+      click_cell_of_x: '点击 {{ x }} 列单元格',
+      choose_a_column: '选择列',
     },
   },
 };

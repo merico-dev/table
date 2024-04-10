@@ -166,6 +166,41 @@ export const en = {
       label: 'Interactions',
       add: 'Add an interaction',
       interactions_viewer: 'Interactions Viewer',
+      unavailable: 'Unavailable',
+      unavailable_reason: 'This visualization does not have available interactions to choose from',
+      trigger: {
+        setup: 'Setup Trigger',
+        label: 'Trigger',
+        payload: 'Payload',
+      },
+      operation: {
+        setup: 'Operation Settings',
+        label: 'Operation',
+        settings: 'Settings',
+        variables: 'Variables',
+        console_log: {
+          label: 'console.log | debug',
+          log_content: 'log content',
+        },
+        open_link: {
+          label: 'Open Link',
+          url: 'URL',
+          open_in_new_tab: 'Open in new tab',
+        },
+        open_view: {
+          label: 'Open View',
+          view: 'View',
+        },
+        set_filter_values: {
+          label: 'Set Filter Values',
+          set_filter: 'Set filter',
+          with: 'with',
+        },
+        clear_filter_values: {
+          label: 'Clear Filter Values',
+          select_filter: 'Select filters to clear',
+        },
+      },
     },
     query_variable: {
       label: 'Query Variable',
@@ -239,6 +274,7 @@ export const en = {
       value_data_field: 'Value Data Field',
       color_data_field: 'Color Data Field',
       enabled: 'Enabled',
+      copied: 'Copied to clipboard',
       action: 'Action',
       actions: {
         open: 'Open',

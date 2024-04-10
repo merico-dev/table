@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export function ClickCalendarDateSettings(props: ITriggerConfigProps) {
@@ -6,12 +7,13 @@ export function ClickCalendarDateSettings(props: ITriggerConfigProps) {
 }
 
 function ClickCalendarDateName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click heat block</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.calendar_heatmap.click_heatmap.heatblock.label')}</Text>;
 }
 
 export const ClickCalendarDate: ITriggerSchema = {
   id: 'builtin:echarts:click-heatmap:heat-block',
-  displayName: 'Click Heat Block',
+  displayName: 'viz.calendar_heatmap.click_heatmap.heatblock.label',
   nameRender: ClickCalendarDateName,
   configRender: ClickCalendarDateSettings,
   payload: [

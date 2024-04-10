@@ -13,6 +13,9 @@ const en = {
         setup_title: 'Setup dynamic color',
       },
     },
+    click_scatter: {
+      trigger: 'Click Scatter',
+    },
   },
 };
 
@@ -28,6 +31,9 @@ const zh = {
         setup: '设置',
         setup_title: '设置动态计算颜色的逻辑',
       },
+    },
+    click_scatter: {
+      trigger: '点击散点',
     },
   },
 };

@@ -166,6 +166,41 @@ export const zh = {
       label: '交互',
       add: '新增交互',
       interactions_viewer: '纵览交互',
+      unavailable: '不可用',
+      unavailable_reason: '此可视化组件没有交互功能',
+      trigger: {
+        setup: '设置触发动作',
+        label: '触发动作',
+        payload: '触发时的参数',
+      },
+      operation: {
+        setup: '操作设置',
+        label: '操作',
+        settings: '设置',
+        variables: '变量',
+        console_log: {
+          label: 'console.log | 调试用',
+          log_content: '打印内容',
+        },
+        open_link: {
+          label: '打开链接',
+          url: 'URL',
+          open_in_new_tab: '在新标签页中打开',
+        },
+        open_view: {
+          label: '唤出视图',
+          view: '视图',
+        },
+        set_filter_values: {
+          label: '设置筛选器值',
+          set_filter: '将筛选器的值',
+          with: '设为',
+        },
+        clear_filter_values: {
+          label: '清除筛选器值',
+          select_filter: '选择筛选器以清除其值',
+        },
+      },
     },
     query_variable: {
       label: '查询变量',
@@ -239,6 +274,7 @@ export const zh = {
       value_data_field: '值字段',
       color_data_field: '颜色字段',
       enabled: '启用',
+      copied: '已复制到剪切板',
       action: '操作',
       actions: {
         open: '打开',

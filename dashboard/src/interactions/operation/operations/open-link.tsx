@@ -1,6 +1,7 @@
 import { Stack, Switch, TextInput } from '@mantine/core';
 import { defaults } from 'lodash';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData, VersionBasedMigrator } from '~/components/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
@@ -22,6 +23,7 @@ function useConfig<T>(props: IOperationConfigProps, defaultConfig: T) {
 }
 
 function OpenLinkSettings(props: IOperationConfigProps) {
+  const { t } = useTranslation();
   const { config, setConfig, commit } = useConfig<IOpenLinkOperationConfig>(props, {
     urlTemplate: '',
     openInNewTab: true,
@@ -43,9 +45,14 @@ function OpenLinkSettings(props: IOperationConfigProps) {
     });
   return (
     <Stack>
-      <TextInput label="Url" value={config.urlTemplate} onChange={handleUrlTemplateChange} onBlur={updateUrlTemplate} />
+      <TextInput
+        label={t('interactions.operation.open_link.url')}
+        value={config.urlTemplate}
+        onChange={handleUrlTemplateChange}
+        onBlur={updateUrlTemplate}
+      />
       <Switch
-        label="Open in new Tab"
+        label={t('interactions.operation.open_link.open_in_new_tab')}
         checked={config.openInNewTab}
         onChange={(e) => updateOpenInTab(e.currentTarget.checked)}
       />
@@ -68,7 +75,7 @@ class Migrator extends VersionBasedMigrator {
   }
 }
 export const OpenLink: IDashboardOperationSchema = {
-  displayName: 'Open Link',
+  displayName: 'interactions.operation.open_link.label',
   id: 'builtin:op:open-link',
   configRender: OpenLinkSettings,
   run,

@@ -7,6 +7,11 @@ const en = {
       label: 'Calendar',
       locale: 'Langauge',
     },
+    click_heatmap: {
+      heatblock: {
+        label: 'Click heat block',
+      },
+    },
   },
 };
 
@@ -16,6 +21,11 @@ const zh = {
     calendar: {
       label: '日历',
       locale: '语言',
+    },
+    click_heatmap: {
+      heatblock: {
+        label: '点击热力块',
+      },
     },
   },
 };

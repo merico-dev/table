@@ -1,5 +1,6 @@
 import { Select } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
@@ -9,6 +10,7 @@ export interface IOpenViewOperationConfig {
 }
 
 const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   const { value, set } = useStorageData<IOpenViewOperationConfig>(props.operation.operationData, 'config');
   console.log({ value, viewID: value?.viewID });
@@ -20,7 +22,7 @@ const OpenViewOperationSettings = observer((props: IOperationConfigProps) => {
       defaultValue={viewID}
       value={viewID}
       onChange={setViewID}
-      label="View"
+      label={t('interactions.operation.open_view.view')}
       data={model.views.options}
       withinPortal
       zIndex={340}
@@ -36,7 +38,7 @@ async function run(payload: Record<string, unknown>, operation: IDashboardOperat
 }
 
 export const OpenView: IDashboardOperationSchema = {
-  displayName: 'Open View',
+  displayName: 'interactions.operation.open_view.label',
   id: 'builtin:op:open_view',
   configRender: OpenViewOperationSettings,
   run,

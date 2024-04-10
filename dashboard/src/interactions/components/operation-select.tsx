@@ -2,7 +2,7 @@ import { Button, Modal, Select, Stack, Tabs } from '@mantine/core';
 import { useAsyncEffect, useBoolean, useCreation } from 'ahooks';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { createElement } from 'react';
+import { createElement, useMemo } from 'react';
 import { VariableList } from './variable-list';
 import { Ready } from '~/types';
 import {
@@ -13,6 +13,7 @@ import {
   IVizOperationManager,
   VizInstance,
 } from '~/types/plugin';
+import { useTranslation } from 'react-i18next';
 
 export interface IOperationSelectProps {
   operationId: string;
@@ -62,10 +63,11 @@ function isReady(model: OperationConfigModel): model is ReadyOperationConfigMode
 
 const OperationModalButton = observer(
   ({ model, onClick }: { model: ReadyOperationConfigModel; onClick: () => void }) => {
+    const { t } = useTranslation();
     const operationName = model.operationSchema?.displayName;
     return (
       <Button variant="outline" onClick={onClick}>
-        {operationName}
+        {t(operationName)}
       </Button>
     );
   },
@@ -81,11 +83,16 @@ const OperationSettings = observer(({ model }: { model: ReadyOperationConfigMode
 });
 
 const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfigModel }) => {
+  const { t, i18n } = useTranslation();
   const schemaList = model.schemaList;
-  const selectItems = schemaList.map((it) => ({
-    label: it.displayName,
-    value: it.id,
-  }));
+  const selectItems = useMemo(
+    () =>
+      schemaList.map((it) => ({
+        label: t(it.displayName),
+        value: it.id,
+      })),
+    [schemaList, i18n.language],
+  );
 
   async function handleChange(schemaId: string) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -94,7 +101,7 @@ const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfig
 
   return (
     <Select
-      label="Operation"
+      label={t('interactions.operation.label')}
       data={selectItems}
       onChange={handleChange}
       value={model.operationSchema.id}
@@ -105,6 +112,7 @@ const OperationSchemaSelect = observer(({ model }: { model: ReadyOperationConfig
 });
 
 export const OperationSelect = observer((props: IOperationSelectProps) => {
+  const { t } = useTranslation();
   const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
   const { operationManager, operationId, instance, variables } = props;
   const model = useCreation(() => new OperationConfigModel(operationManager, instance), [operationManager, instance]);
@@ -116,19 +124,25 @@ export const OperationSelect = observer((props: IOperationSelectProps) => {
     return (
       <>
         <OperationModalButton model={model} onClick={openModal} />
-        <Modal size={600} opened={modalOpen} onClose={closeModal} title="Operation Settings" zIndex={320}>
+        <Modal
+          size={600}
+          opened={modalOpen}
+          onClose={closeModal}
+          title={t('interactions.operation.setup')}
+          zIndex={320}
+        >
           <Stack>
             <OperationSchemaSelect model={model} />
             <Tabs defaultValue="settings">
               <Tabs.List>
-                <Tabs.Tab value="settings">Settings</Tabs.Tab>
-                <Tabs.Tab value="variables">Variables</Tabs.Tab>
+                <Tabs.Tab value="settings">{t('interactions.operation.settings')}</Tabs.Tab>
+                <Tabs.Tab value="variables">{t('interactions.operation.variables')}</Tabs.Tab>
               </Tabs.List>
               <Tabs.Panel value="settings" pt={10}>
                 <OperationSettings model={model} />
               </Tabs.Panel>
               <Tabs.Panel value="variables" pt={10}>
-                <VariableList title="Variables" variables={model.variables} />
+                <VariableList title={t('interactions.operation.variables')} variables={model.variables} />
               </Tabs.Panel>
             </Tabs>
           </Stack>

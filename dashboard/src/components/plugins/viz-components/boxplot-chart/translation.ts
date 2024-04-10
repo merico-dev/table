@@ -6,6 +6,9 @@ const en = {
     box: 'Box',
     outlier: 'Outlier',
     scatter: 'Scatter',
+    click_series: {
+      label: 'Click box, scatter or outlier',
+    },
   },
 };
 
@@ -15,6 +18,9 @@ const zh = {
     box: '箱体',
     outlier: '异常点',
     scatter: '散点',
+    click_series: {
+      label: '点击箱体、散点或异常点',
+    },
   },
 };
 

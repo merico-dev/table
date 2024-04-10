@@ -8,6 +8,9 @@ const en = {
         label: 'Aggregation on Value',
       },
     },
+    click_series: {
+      label: 'Click bar, line or scatter',
+    },
   },
 };
 
@@ -18,6 +21,9 @@ const zh = {
       aggregation: {
         label: '聚合数据',
       },
+    },
+    click_series: {
+      label: '点击柱、线或散点',
     },
   },
 };

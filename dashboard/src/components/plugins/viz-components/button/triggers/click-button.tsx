@@ -1,9 +1,10 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export const ClickButton: ITriggerSchema = {
   id: 'builtin:button:click-button',
-  displayName: 'Click Button',
+  displayName: 'viz.button.click.label',
   nameRender: ClickButtonName,
   configRender: ClickButtonSettings,
   payload: [],
@@ -18,5 +19,6 @@ export function ClickButtonSettings(props: ITriggerConfigProps) {
 }
 
 function ClickButtonName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click this button</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.button.click.label')}</Text>;
 }
