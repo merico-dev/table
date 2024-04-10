@@ -47,7 +47,7 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X 轴</Tabs.Tab>
+            <Tabs.Tab value="X Axis">X轴</Tabs.Tab>
             <Tabs.Tab value="Deviation">偏差</Tabs.Tab>
             <Tabs.Tab value="Additional Metrics">指标</Tabs.Tab>
           </Tabs.List>
