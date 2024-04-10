@@ -5,7 +5,7 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 import { LabelOverflowField } from '../../../../common-echarts-fields/axis-label-overflow';
 import { IHeatmapConf } from '../../type';
-import { XAxisLabelFormatterField } from './x-axis-label-formatter';
+import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 interface IXAxisField {
   control: Control<IHeatmapConf, $TSFixMe>;
