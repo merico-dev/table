@@ -2,7 +2,10 @@ import { useUpdate } from 'ahooks';
 import { noop } from 'lodash';
 import { MutableRefObject, useEffect, useState } from 'react';
 import { RedGreen } from '~/components/plugins/colors';
-import { ColorMappingEditor, IColorMappingEditorProps } from '~/components/plugins/controls/color-mapping-editor';
+import {
+  ColorMappingEditor,
+  IColorMappingEditorProps,
+} from '~/components/plugins/editor-components/color-mapping-editor';
 import { IValueStep } from '~/types/plugin';
 
 const steps: IValueStep[] = [
@@ -59,8 +62,8 @@ describe('color-mapping-editor.cy.ts', () => {
     cy.get('.palette-item').should('have.length', 13);
     // change the middle color
     cy.get('.palette-item').eq(6).click();
-    cy.findByLabelText(/map a value/gi).type('200');
-    cy.findByText(/ok/gi).click();
+    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').type('200');
+    cy.findByText('common.actions.save').click();
     cy.get('.palette-value--up').eq(6).should('have.text', '200');
     cy.get('@onChangeSpy').should('have.been.calledWith', [
       {
@@ -72,10 +75,8 @@ describe('color-mapping-editor.cy.ts', () => {
     ]);
     // change the last color
     cy.get('.palette-item').last().click();
-    cy.findByLabelText(/map a value/gi)
-      .clear()
-      .type('10000');
-    cy.findByText(/ok/gi).click();
+    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().type('10000');
+    cy.findByText('common.actions.save').click();
     cy.get('.palette-value--up').last().should('have.text', '10k');
     cy.get('@onChangeSpy').should('be.calledWith', [
       {
@@ -87,21 +88,16 @@ describe('color-mapping-editor.cy.ts', () => {
     ]);
     // cancel editing
     cy.get('.palette-item').eq(6).click();
-    cy.findByLabelText(/map a value/gi)
-      .clear()
-      .clear()
-      .type('100');
-    cy.findByText(/cancel/gi).click();
+    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().clear().type('100');
+    cy.findByText('common.actions.cancel').click();
     cy.get('.palette-value--up').eq(6).should('have.text', '200');
   });
 
   test('long value text', () => {
     cy.wait(10);
     cy.get('.palette-item').eq(2).click();
-    cy.findByLabelText(/map a value/gi)
-      .clear()
-      .type('10000000000');
-    cy.findByText(/ok/gi).click();
+    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().type('10000000000');
+    cy.findByText('common.actions.save').click();
     cy.get('.palette-value--bottom').eq(2).invoke('outerWidth').should('be.eq', 36);
   });
 });

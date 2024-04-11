@@ -73,42 +73,36 @@ describe('color-interpolation-select.cy.tsx', () => {
   });
   test('cancel editing', () => {
     // click button to open modal
-    cy.findByText(/red \/ green/gi).click();
+    cy.findByText('style.color.interpolation.palette.red_green').click();
     cy.findByTestId('color-interpolation-modal').as('modal');
     // change color style
-    cy.findByLabelText(/color style/gi)
-      .as('select')
-      .click();
-    cy.findByText(/yellow \/ blue/gi).click();
+    cy.findByLabelText('style.color.interpolation.palette.label').as('select').click();
+    cy.findByText('style.color.interpolation.palette.yellow_blue').click();
     cy.findByTestId('color-interpolation-modal').as('modal');
-    cy.get('@modal')
-      .findByText(/cancel/gi)
-      .click();
+    cy.get('@modal').findByText('common.actions.cancel').click();
     cy.get('@onChangeSpy').should('not.be.called');
-    cy.findByText(/red \/ green/gi).click();
+    cy.findByText('style.color.interpolation.palette.red_green').click();
   });
   test('playground', () => {
     // click button to open modal
-    cy.findByText(/red \/ green/gi).click();
+    cy.findByText('style.color.interpolation.palette.red_green').click();
     cy.findByTestId('color-interpolation-modal').as('modal');
-    cy.findByText(/setup color interpolation/gi).should('exist');
+    cy.findByText('style.color.interpolation.setup').should('exist');
 
     // change color style
-    cy.findByLabelText(/color style/gi)
-      .as('select')
-      .click();
-    cy.findByText(/yellow \/ blue/gi).click();
-    cy.findByDisplayValue(/yellow \/ blue/gi).should('exist');
+    cy.findByLabelText('style.color.interpolation.palette.label').as('select').click();
+    cy.findByText('style.color.interpolation.palette.yellow_blue').click();
+    cy.findByDisplayValue('style.color.interpolation.palette.yellow_blue').should('exist');
 
     // config color steps
     cy.findByTestId(/palette-item-6/)
       .findByTestId('palette-item-target')
       .click();
-    cy.findByLabelText(/map a value/gi).type('40');
+    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').type('40');
     cy.findByTestId(/palette-item-ok/gi).click();
 
     // commit changes
-    cy.get('@modal').findByText(/ok/gi).click();
+    cy.get('@modal').findByText('common.actions.save').click();
     cy.get('@modal').should('not.exist');
     cy.get('@onChangeSpy').should(
       'have.been.calledWith',
