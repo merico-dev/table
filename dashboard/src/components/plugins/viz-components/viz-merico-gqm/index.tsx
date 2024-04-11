@@ -4,6 +4,7 @@ import { VizMericoGQM } from './viz-merico-gqm';
 import { VizMericoGQMEditor } from './viz-merico-gqm-editor';
 import { DEFAULT_CONFIG, IMericoGQMConf } from './type';
 import { cloneDeep } from 'lodash';
+import { translation } from './translation';
 
 class VizMericoGQMMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -19,7 +20,7 @@ class VizMericoGQMMigrator extends VersionBasedMigrator {
 }
 
 export const MericoGQMVizComponent: VizComponent = {
-  displayName: 'Merico GQM',
+  displayName: 'viz.merico_gqm.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new VizMericoGQMMigrator(),
   name: 'mericoGQM',
@@ -31,4 +32,5 @@ export const MericoGQMVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IMericoGQMConf,
     };
   },
+  translation,
 };

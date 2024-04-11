@@ -3,6 +3,7 @@ import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator'
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
 import { VizHorizontalBarChart } from './viz-horizontal-bar-chart';
 import { VizHorizontalBarChartEditor } from './viz-horizontal-bar-chart-editor';
+import { translation } from './translation';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHorizontalBarChartConf {
   try {
@@ -61,11 +62,12 @@ type ConfigType = {
 };
 
 export const HorizontalBarChartVizComponent: VizComponent = {
-  displayName: 'Horizontal Bar Chart',
+  displayName: 'viz.horizontal_bar_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizHorizontalBarChartMigrator(),
   name: 'horizontalBarChart',
   viewRender: VizHorizontalBarChart,
   configRender: VizHorizontalBarChartEditor,
   createConfig: (): ConfigType => ({ version: 2, config: DEFAULT_CONFIG }),
+  translation,
 };

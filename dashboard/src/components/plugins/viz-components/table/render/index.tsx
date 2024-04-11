@@ -5,7 +5,6 @@ import { parseDataKey } from '~/utils';
 import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';
-import { useWhyDidYouUpdate } from 'ahooks';
 
 type IPrepareDataAndRender = {
   data: TPanelData;

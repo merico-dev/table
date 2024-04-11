@@ -5,6 +5,7 @@ import { ClickButton } from './triggers';
 import { DEFAULT_CONFIG, IButtonConf } from './type';
 import { VizButton } from './viz-button';
 import { VizButtonEditor } from './viz-button-editor';
+import { translation } from './translation';
 
 class VizButtonMigrator extends VersionBasedMigrator {
   readonly VERSION = 2;
@@ -32,7 +33,7 @@ class VizButtonMigrator extends VersionBasedMigrator {
 }
 
 export const ButtonVizComponent: VizComponent = {
-  displayName: 'Button',
+  displayName: 'viz.button.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new VizButtonMigrator(),
   name: 'button',
@@ -45,4 +46,5 @@ export const ButtonVizComponent: VizComponent = {
     };
   },
   triggers: [ClickButton],
+  translation,
 };

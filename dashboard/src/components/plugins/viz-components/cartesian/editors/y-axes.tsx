@@ -1,19 +1,12 @@
-import { ActionIcon, Button, Checkbox, Divider, Group, Select, Stack, Tabs, TextInput } from '@mantine/core';
-import { Control, Controller, useFieldArray, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
+import { Button, Checkbox, Divider, Group, Stack, Tabs, TextInput } from '@mantine/core';
+import { Control, Controller, UseFieldArrayRemove, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Plus, Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
-import { ICartesianChartConf } from '../type';
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
+import { YAxisPositionSelector } from '~/components/plugins/common-echarts-fields/y-axis-position';
 import { defaultNumberFormat } from '~/utils';
-
-const nameAlignmentOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'center', value: 'center' },
-  { label: 'right', value: 'right' },
-];
-const positionOptions = [
-  { label: 'left', value: 'left' },
-  { label: 'right', value: 'right' },
-];
+import { ICartesianChartConf } from '../type';
 
 interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -22,37 +15,34 @@ interface IYAxisField {
 }
 
 function YAxisField({ control, index, remove }: IYAxisField) {
+  const { t } = useTranslation();
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
-      <Divider mb={-15} mt={15} variant="dashed" label="Name" labelPosition="center" />
+      <Divider mb={-15} mt={15} variant="dashed" label={t('common.name')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name={`y_axes.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <TextInput label={t('chart.y_axis.y_axis_name')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`y_axes.${index}.nameAlignment`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Name Anchor" required data={nameAlignmentOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <NameTextAlignSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
-      <Divider mb={-15} variant="dashed" label="Layout" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('chart.y_axis.layout')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name={`y_axes.${index}.position`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <YAxisPositionSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
+        <Divider mb={-15} variant="dashed" label={t('chart.y_axis.label_format')} labelPosition="center" />
         <Controller
           name={`y_axes.${index}.label_formatter`}
           control={control}
@@ -61,28 +51,28 @@ function YAxisField({ control, index, remove }: IYAxisField) {
       </Stack>
 
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Value Range" labelPosition="center" />
+        <Divider mb={-15} variant="dashed" label={t('chart.y_axis.value_range')} labelPosition="center" />
         <Group grow>
           <Controller
             name={`y_axes.${index}.min`}
             control={control}
-            render={({ field }) => <TextInput label="Min" {...field} />}
+            render={({ field }) => <TextInput label={t('chart.y_axis.value_min')} {...field} />}
           />
           <Controller
             name={`y_axes.${index}.max`}
             control={control}
-            render={({ field }) => <TextInput label="Max" {...field} />}
+            render={({ field }) => <TextInput label={t('chart.y_axis.value_max')} {...field} />}
           />
         </Group>
       </Stack>
 
-      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.y_axis.behavior')} labelPosition="center" />
       <Controller
         name={`y_axes.${index}.show`}
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Visible"
+            label={t('chart.y_axis.visible')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />
@@ -97,7 +87,7 @@ function YAxisField({ control, index, remove }: IYAxisField) {
         onClick={() => remove(index)}
         disabled={index === 0}
       >
-        Delete this YAxis
+        {t('chart.y_axis.delete')}
       </Button>
     </Stack>
   );

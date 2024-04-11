@@ -1,5 +1,6 @@
 import { IColorInterpolationConfig } from '~/types/plugin';
 import { IClickCellContentConfig } from './triggers/click-cell-content';
+import { HorizontalAlign } from '../../editor-components';
 
 export enum ValueType {
   string = 'string',
@@ -11,7 +12,7 @@ export enum ValueType {
 
 export type CellBackgroundColorType = string | IColorInterpolationConfig;
 
-export type ColumnAlignType = 'left' | 'center' | 'right';
+export type ColumnAlignType = HorizontalAlign;
 
 export interface IColumnConf {
   id: string;

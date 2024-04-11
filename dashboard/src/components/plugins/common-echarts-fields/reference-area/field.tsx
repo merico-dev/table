@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { LabelPositionSelector } from '../label-position';
 import { IEchartsReferenceArea } from './types';
+import { useTranslation } from 'react-i18next';
 
 type SelectorOptionType = { label: string; value: string; description?: string };
 
@@ -17,6 +18,7 @@ interface IReferenceAreaField {
 
 export const ReferenceAreaField = forwardRef(
   ({ value, onChange, xAxisOptions, yAxisOptions, variableOptions }: IReferenceAreaField, ref: any) => {
+    const { t, i18n } = useTranslation();
     const handleChange = (path: string, v: any) => {
       const newValue = _.cloneDeep(value);
       _.set(newValue, path, v);
@@ -24,25 +26,25 @@ export const ReferenceAreaField = forwardRef(
     };
     return (
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Content" labelPosition="right" />
+        <Divider mb={-15} variant="dashed" label={t('chart.reference_area.content.label')} labelPosition="right" />
         <Group grow noWrap>
           <TextInput
-            label="Content Text"
+            label={t('chart.reference_area.content.content_text')}
             value={value.content.text}
             onChange={(e) => handleChange('content.text', e.currentTarget.value)}
           />
           <LabelPositionSelector
-            label="Text Position"
+            label={t('chart.reference_area.content.text_position')}
             value={value.label.position}
             onChange={(v) => handleChange('label.position', v)}
           />
         </Group>
 
-        <Divider mb={-15} variant="dashed" label="Endpoints" labelPosition="right" />
+        <Divider mb={-15} variant="dashed" label={t('chart.reference_area.endpoint.labels')} labelPosition="right" />
         <Group grow noWrap>
           {xAxisOptions && (
             <Select
-              label="X Axis"
+              label={t('chart.x_axis.label')}
               data={xAxisOptions}
               value={value.xAxisIndex}
               onChange={(v) => handleChange('xAxisIndex', v)}
@@ -50,7 +52,7 @@ export const ReferenceAreaField = forwardRef(
           )}
           {yAxisOptions && (
             <Select
-              label="Y Axis"
+              label={t('chart.y_axis.label')}
               data={yAxisOptions}
               value={value.yAxisIndex}
               onChange={(v) => handleChange('xAxisIndex', v)}
@@ -59,7 +61,7 @@ export const ReferenceAreaField = forwardRef(
         </Group>
         <Stack spacing={0}>
           <Text size={14} color="#212529" fw={500}>
-            Left-Bottom Point
+            {t('chart.reference_area.endpoint.left_bottom_point')}
           </Text>
           <Group grow noWrap>
             <Select
@@ -80,7 +82,7 @@ export const ReferenceAreaField = forwardRef(
         </Stack>
         <Stack spacing={0}>
           <Text size={14} color="#212529" fw={500}>
-            Right-Top Point
+            {t('chart.reference_area.endpoint.right_top_point')}
           </Text>
           <Group grow noWrap>
             <Select
@@ -100,13 +102,13 @@ export const ReferenceAreaField = forwardRef(
           </Group>
         </Stack>
 
-        <Divider mb={-15} variant="dashed" label="Style" labelPosition="right" />
+        <Divider mb={-15} variant="dashed" label={t('chart.style.label')} labelPosition="right" />
         <Stack spacing={4}>
-          <Text size={14}>Background Color</Text>
+          <Text size={14}>{t('chart.color.background_color')}</Text>
           <MantineColorSelector value={value.itemStyle.color} onChange={(v) => handleChange('itemStyle.color', v)} />
         </Stack>
         <Stack spacing={4}>
-          <Text size={14}>Text Color</Text>
+          <Text size={14}>{t('chart.color.text_color')}</Text>
           <MantineColorSelector value={value.label.color} onChange={(v) => handleChange('label.color', v)} />
         </Stack>
       </Stack>

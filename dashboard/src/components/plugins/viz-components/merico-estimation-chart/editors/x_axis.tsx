@@ -3,6 +3,7 @@ import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { XAxisLabelFormatterField } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 import { IMericoEstimationChartConf } from '../type';
+import { AxisLabelRotateInput } from '~/components/plugins/common-echarts-fields/axis-label-rotate';
 
 interface IXAxisField {
   control: Control<IMericoEstimationChartConf, $TSFixMe>;
@@ -29,25 +30,7 @@ export function XAxisField({ control, watch }: IXAxisField) {
         <Controller
           name="x_axis.axisLabel.rotate"
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <NumberInput
-              label="旋转"
-              hideControls
-              min={-90}
-              max={90}
-              rightSection={<Text color="dimmed">度</Text>}
-              sx={{ width: '48%' }}
-              styles={{
-                rightSection: {
-                  width: '4em',
-                  justifyContent: 'flex-end',
-                  paddingRight: '6px',
-                },
-              }}
-              {...field}
-            />
-          )}
+          render={({ field }) => <AxisLabelRotateInput sx={{ width: '48%' }} {...field} />}
         />
         <Controller
           name="x_axis.axisLabel.formatter"

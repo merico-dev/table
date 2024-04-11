@@ -1,20 +1,10 @@
 import { Box, Divider, Group, NumberInput, Select, Stack, Switch } from '@mantine/core';
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
-import { ScatterSizeSelect } from '../scatter-size-select';
-
-const stepOptions = [
-  { label: 'off', value: 'false' },
-  { label: 'start', value: 'start' },
-  { label: 'middle', value: 'middle' },
-  { label: 'end', value: 'end' },
-];
-
-const lineTypeOptions = [
-  { label: 'solid', value: 'solid' },
-  { label: 'dashed', value: 'dashed' },
-  { label: 'dotted', value: 'dotted' },
-];
+import { SymbolSizeSelector } from '../../../../common-echarts-fields/symbol-size';
+import { useTranslation } from 'react-i18next';
+import { useMemo } from 'react';
+import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 
 interface ILineFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -23,22 +13,35 @@ interface ILineFields {
 }
 
 export function LineFields({ control, index, seriesItem }: ILineFields) {
+  const { t, i18n } = useTranslation();
   const showSymbol = seriesItem.showSymbol;
+
+  const stepOptions = useMemo(
+    () => [
+      { label: t('chart.series.line.step.off'), value: 'false' },
+      { label: t('chart.series.line.step.start'), value: 'start' },
+      { label: t('chart.series.line.step.middle'), value: 'middle' },
+      { label: t('chart.series.line.step.end'), value: 'end' },
+    ],
+    [i18n.language],
+  );
+
   return (
     <>
-      <Divider mb={-15} variant="dashed" label="Line Settings" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('chart.series.line.line_settings')} labelPosition="center" />
       <Group grow>
         <Controller
           name={`series.${index}.lineStyle.type`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Line Type" data={lineTypeOptions} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => <LineTypeSelector sx={{ flexGrow: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.lineStyle.width`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput label="Line Width" min={1} max={10} sx={{ flexGrow: 1 }} {...field} />}
+          render={({ field }) => (
+            // @ts-expect-error type of onChange
+            <NumberInput label={t('chart.series.line.line_width')} min={1} max={10} sx={{ flexGrow: 1 }} {...field} />
+          )}
         />
       </Group>
       <Group grow align="center">
@@ -47,7 +50,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           control={control}
           render={({ field }) => (
             <Select
-              label="Step"
+              label={t('chart.series.line.step.label')}
               data={stepOptions}
               sx={{ flexGrow: 1, maxWidth: '48%' }}
               {...field}
@@ -66,7 +69,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
             render={({ field }) => (
               <Box sx={{ flexGrow: 1 }}>
                 <Switch
-                  label="Smooth Line"
+                  label={t('chart.series.line.smooth_line')}
                   checked={field.value}
                   onChange={(event) => field.onChange(event.currentTarget.checked)}
                 />
@@ -79,7 +82,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
             render={({ field }) => (
               <Box sx={{ flexGrow: 1 }}>
                 <Switch
-                  label="Display Name on Line"
+                  label={t('chart.series.line.show_name_on_line')}
                   checked={field.value ?? false}
                   onChange={(event) => field.onChange(event.currentTarget.checked)}
                 />
@@ -95,7 +98,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           render={({ field }) => (
             <Box mt={10} mb={-10} sx={{ flexGrow: 1 }}>
               <Switch
-                label="Show Symbol on Line"
+                label={t('chart.series.line.show_symbol_on_line')}
                 checked={field.value}
                 onChange={(event) => field.onChange(event.currentTarget.checked)}
               />
@@ -106,7 +109,7 @@ export function LineFields({ control, index, seriesItem }: ILineFields) {
           <Controller
             name={`series.${index}.symbolSize`}
             control={control}
-            render={({ field }) => <ScatterSizeSelect label="Symbol Size" {...field} />}
+            render={({ field }) => <SymbolSizeSelector {...field} />}
           />
         )}
       </Stack>

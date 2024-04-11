@@ -10,8 +10,11 @@ import { HeatBlockField } from './editors/heat_block';
 import { TooltipField } from './editors/tooltip';
 import { CalendarField } from './editors/calendar';
 import { DEFAULT_CONFIG, ICalendarHeatmapConf } from './type';
+import { useTranslation } from 'react-i18next';
+import { VizConfigBanner } from '../../editor-components';
 
 export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<ICalendarHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: ICalendarHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -40,12 +43,7 @@ export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Calendar Heatmap Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Calendar"
           orientation="vertical"
@@ -61,9 +59,9 @@ export function VizCalendarHeatmapEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="Calendar">Calendar</Tabs.Tab>
-            <Tabs.Tab value="Heat Block">Heat Block</Tabs.Tab>
-            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
+            <Tabs.Tab value="Calendar">{t('viz.calendar_heatmap.calendar.label')}</Tabs.Tab>
+            <Tabs.Tab value="Heat Block">{t('chart.heatmap.heatblock.label')}</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="Calendar">

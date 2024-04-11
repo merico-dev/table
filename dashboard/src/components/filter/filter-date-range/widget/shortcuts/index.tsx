@@ -3,13 +3,16 @@ import { DateRangeValue } from '../type';
 import { GetRange, getDateRangeShortcuts } from './shortcuts';
 import { useMemo } from 'react';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void }) => {
+  const { t, i18n } = useTranslation();
   const getClickHandler = (getRange: GetRange) => () => {
     const range = getRange();
     onChange(range);
   };
   const shortcutGroups = useMemo(() => _.groupBy(getDateRangeShortcuts(), 'group'), []);
+  const useFullLabel = i18n.language === 'zh';
   return (
     <>
       <Divider variant="dashed" my={10} />
@@ -26,13 +29,13 @@ export const Shortcuts = ({ onChange }: { onChange: (v: DateRangeValue) => void 
             <tr key={group}>
               <th>
                 <Text size="xs" color="#555">
-                  {group}
+                  {t(`filter.widget.date_range.shortcut.${group}.label`)}
                 </Text>
               </th>
-              {shortcuts.map(({ label, value, getRange }) => (
-                <td key={label}>
+              {shortcuts.map(({ key, value, getRange }) => (
+                <td key={key}>
                   <Button compact size="xs" variant="subtle" onClick={getClickHandler(getRange)}>
-                    {label}
+                    {t(`filter.widget.date_range.shortcut.${group}.${useFullLabel ? 'full.' : ''}${key}`)}
                   </Button>
                 </td>
               ))}

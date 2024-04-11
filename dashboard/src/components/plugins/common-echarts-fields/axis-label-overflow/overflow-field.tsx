@@ -1,14 +1,8 @@
 import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
 import _ from 'lodash';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { IEchartsOverflow } from './types';
 import { useTranslation } from 'react-i18next';
-
-const overflowOptions = [
-  { label: 'Truncate', value: 'truncate' },
-  { label: 'Break Line', value: 'break' },
-  { label: 'Break Word', value: 'breakAll' },
-];
 
 interface IOverflowField {
   sectionTitle?: string;
@@ -17,12 +11,21 @@ interface IOverflowField {
 }
 
 export const OverflowField = forwardRef(({ sectionTitle, value, onChange }: IOverflowField, ref: any) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const getChangeHandler = (path: string) => (v: any) => {
     const newV = _.cloneDeep(value);
     _.set(newV, path, v);
     onChange(newV);
   };
+
+  const overflowOptions = useMemo(
+    () => [
+      { label: t('chart.axis.overflow.truncate'), value: 'truncate' },
+      { label: t('chart.axis.overflow.break_line'), value: 'break' },
+      { label: t('chart.axis.overflow.break_word'), value: 'breakAll' },
+    ],
+    [i18n.language],
+  );
   return (
     <Stack spacing={0}>
       {sectionTitle && (

@@ -103,7 +103,7 @@ describe('viz-table.cy.ts', () => {
           <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} variables={[]} />
         </PanelContextProvider>,
       );
-      cy.findByText('Table Config');
+      cy.findByText('viz.viz_config_banner');
     });
     it('update config', () => {
       const instance = vizManager.getOrCreateInstance(mockPanel);
@@ -112,7 +112,7 @@ describe('viz-table.cy.ts', () => {
           <VizConfigComponent panel={mockPanel} data={mockData} vizManager={vizManager} variables={[]} />
         </PanelContextProvider>,
       );
-      cy.findByLabelText('Use Original Data Columns').click({ force: true });
+      cy.findByLabelText('viz.table.column.use_original_data_columns').click({ force: true });
       cy.get('button[type="submit"]', { timeout: 2000 }).should('be.enabled').click();
       cy.then(async () => {
         const { use_raw_columns } = await instance.instanceData.getItem<ITableConf>('config');

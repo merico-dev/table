@@ -4,6 +4,8 @@ import { useBoolean } from 'ahooks';
 import { forwardRef, useEffect, useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
 import { DEFAULT_CELL_FUNC_CONTENT } from '../../type';
+import { useTranslation } from 'react-i18next';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 
 interface IFuncContentEditor {
   value: string;
@@ -11,6 +13,7 @@ interface IFuncContentEditor {
 }
 
 export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEditor, _ref: any) => {
+  const { t } = useTranslation();
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [localValue, setLocalValue] = useState<string>(value);
 
@@ -34,12 +37,19 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
 
   return (
     <>
-      <Button variant="filled" mt={24} onClick={setTrue} sx={{ flexGrow: 0 }}>
-        Custom Cell Content
+      <Button
+        color="grape"
+        variant="filled"
+        leftIcon={<IconMathFunction size={16} />}
+        mt={24}
+        onClick={setTrue}
+        sx={{ flexGrow: 0 }}
+      >
+        {t('viz.table.column.custom_cell_content')}
       </Button>
       <Modal
         size={800}
-        title="Custom cell content"
+        title={t('viz.table.column.custom_cell_content')}
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -64,13 +74,15 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
             </Box>
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Reset
+                {t('common.actions.reset_to_default')}
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
-                  Cancel
+                  {t('common.actions.cancel')}
                 </Button>
-                <Button onClick={handleOk}>OK</Button>
+                <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+                  {t('common.actions.save')}
+                </Button>
               </Group>
             </Group>
           </Stack>

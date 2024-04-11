@@ -4,6 +4,7 @@ import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator'
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 import { VizRichText } from './viz-rich-text';
 import { VizRichTextEditor } from './viz-rich-text-editor';
+import { translation } from './translation';
 
 class VizRichTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -23,7 +24,7 @@ class VizRichTextMigrator extends VersionBasedMigrator {
 }
 
 export const RichTextVizComponent: VizComponent = {
-  displayName: 'Rich Text',
+  displayName: 'viz.rich_text.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new VizRichTextMigrator(),
   name: 'richText',
@@ -35,4 +36,5 @@ export const RichTextVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IRichTextConf,
     };
   },
+  translation,
 };

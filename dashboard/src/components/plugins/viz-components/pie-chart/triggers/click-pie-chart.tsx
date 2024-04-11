@@ -1,9 +1,10 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export const ClickPieChart: ITriggerSchema = {
   id: 'builtin:echarts:click-pie-chart:series',
-  displayName: 'Click Pie Series',
+  displayName: 'viz.pie_chart.click_series.label',
   nameRender: ClickPieChartName,
   configRender: ClickPieChartSettings,
   payload: [
@@ -49,5 +50,6 @@ export function ClickPieChartSettings(props: ITriggerConfigProps) {
 }
 
 function ClickPieChartName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click chart's series</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.pie_chart.click_series.label')}</Text>;
 }

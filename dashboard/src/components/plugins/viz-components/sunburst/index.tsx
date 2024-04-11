@@ -4,6 +4,7 @@ import { DEFAULT_CONFIG, ISunburstConf } from './type';
 import { VizSunburst } from './viz-sunburst';
 import { VizSunburstEditor } from './viz-sunburst-editor';
 import { cloneDeep } from 'lodash';
+import { translation } from './translation';
 
 function v2(legacy: any): ISunburstConf {
   const { label_field, value_field, ...rest } = legacy;
@@ -92,7 +93,7 @@ class VizSunburstMigrator extends VersionBasedMigrator {
 }
 
 export const SunburstVizComponent: VizComponent = {
-  displayName: 'Sunburst Chart',
+  displayName: 'viz.sunburst_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizSunburstMigrator(),
   name: 'sunburst',
@@ -104,4 +105,5 @@ export const SunburstVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as ISunburstConf,
     };
   },
+  translation,
 };

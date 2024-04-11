@@ -1,9 +1,10 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export const ClickEchartSeries: ITriggerSchema = {
   id: 'builtin:echarts:click-echart:series',
-  displayName: 'Click Chart Series',
+  displayName: 'viz.cartesian_chart.click_series.label',
   nameRender: ClickEchartSeriesName,
   configRender: ClickEchartSeriesSettings,
   payload: [
@@ -49,5 +50,6 @@ export function ClickEchartSeriesSettings(props: ITriggerConfigProps) {
 }
 
 function ClickEchartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click chart's series</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.cartesian_chart.click_series.label')}</Text>;
 }

@@ -1,9 +1,9 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { DeviationField } from './editors/deviation';
 import { MetricsField } from './editors/metrics';
@@ -31,12 +31,7 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Merico Estimation Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"
@@ -52,7 +47,7 @@ export function VizMericoEstimationChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X 轴</Tabs.Tab>
+            <Tabs.Tab value="X Axis">X轴</Tabs.Tab>
             <Tabs.Tab value="Deviation">偏差</Tabs.Tab>
             <Tabs.Tab value="Additional Metrics">指标</Tabs.Tab>
           </Tabs.List>

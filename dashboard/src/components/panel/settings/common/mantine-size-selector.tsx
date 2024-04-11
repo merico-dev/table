@@ -1,16 +1,25 @@
-import { MantineSize, MANTINE_SIZES, Select } from '@mantine/core';
+import { MantineSize, MANTINE_SIZES, Select, Sx } from '@mantine/core';
+import { Ref, forwardRef, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-interface IMantineSizeSelector {
+interface Props {
   label: string;
   value: MantineSize;
   onChange: (v: MantineSize) => void;
+  sx?: Sx;
+  disabled?: boolean;
 }
 
-const options = MANTINE_SIZES.map((size) => ({
-  label: size.toUpperCase(),
-  value: size,
-}));
+export const MantineSizeSelector = forwardRef(
+  ({ label, value, onChange, sx, disabled }: Props, ref: Ref<HTMLInputElement>) => {
+    const { t } = useTranslation();
+    const options = useMemo(() => {
+      return MANTINE_SIZES.map((size) => ({
+        label: t(`style.size.${size}`),
+        value: size,
+      }));
+    }, []);
 
-export const MantineSizeSelector = ({ label, value, onChange }: IMantineSizeSelector) => {
-  return <Select data={options} label={label} value={value} onChange={onChange} />;
-};
+    return <Select ref={ref} data={options} label={label} value={value} onChange={onChange} sx={sx} disabled />;
+  },
+);

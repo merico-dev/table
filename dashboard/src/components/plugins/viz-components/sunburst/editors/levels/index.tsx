@@ -4,6 +4,7 @@ import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { InfoCircle, Plus } from 'tabler-icons-react';
 import { ISunburstConf } from '../../type';
 import { LevelField } from './level';
+import { useTranslation } from 'react-i18next';
 
 interface ILevelsField {
   control: Control<ISunburstConf, $TSFixMe>;
@@ -11,6 +12,7 @@ interface ILevelsField {
 }
 
 export const LevelsField = ({ control, watch }: ILevelsField) => {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'levels',
@@ -51,7 +53,7 @@ export const LevelsField = ({ control, watch }: ILevelsField) => {
       <Group spacing={2} sx={{ cursor: 'default', userSelect: 'none' }}>
         <InfoCircle size={14} color="#888" />
         <Text size={14} color="#888">
-          Configure ring style on each level
+          {t('viz.sunburst_chart.level.hint')}
         </Text>
       </Group>
       <Divider variant="dashed" my={10} />

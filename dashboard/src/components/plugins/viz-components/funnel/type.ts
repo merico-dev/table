@@ -3,6 +3,7 @@ import {
   getDefaultAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsLabelPosition } from '~/components/plugins/common-echarts-fields/label-position';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 
 export function getNewSeriesItem(id?: string): IFunnelSeriesItem {
   if (!id) {
@@ -57,7 +58,7 @@ export interface IFunnelSeriesItem {
     overflow: IAxisLabelOverflow;
   };
   sort: 'ascending' | 'descending' | 'none';
-  orient: 'horizontal' | 'vertical';
+  orient: ChartingOrientation;
   funnelAlign: 'left' | 'right' | 'center';
 }
 

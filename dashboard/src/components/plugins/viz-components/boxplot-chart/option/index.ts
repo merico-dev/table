@@ -1,7 +1,6 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { ITemplateVariable, formatNumber } from '~/utils';
-import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IBoxplotChartConf } from '../type';
 import { getDataset } from './dataset';
 import { getGrid } from './grid';
@@ -14,6 +13,7 @@ import _ from 'lodash';
 import * as math from 'mathjs';
 import { TFunction } from 'i18next';
 import { SeriesNames } from './type';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 function autoYAxisMin({ min, max }: { min: number; max: number }) {
   if (min <= 110) {

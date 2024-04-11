@@ -1,5 +1,6 @@
 import { TextInput } from '@mantine/core';
 import { template } from 'lodash';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
 
@@ -14,9 +15,14 @@ function useConfigTemplate(operation: IDashboardOperation) {
 }
 
 function ConsoleLogOperationSettings(props: IOperationConfigProps) {
+  const { t } = useTranslation();
   const [template, setTemplate] = useConfigTemplate(props.operation);
   return (
-    <TextInput defaultValue={template} onBlur={(event) => setTemplate(event.currentTarget.value)} label="console.log" />
+    <TextInput
+      defaultValue={template}
+      onBlur={(event) => setTemplate(event.currentTarget.value)}
+      label={t('interactions.operation.console_log.log_content')}
+    />
   );
 }
 
@@ -28,7 +34,7 @@ async function run(payload: Record<string, unknown>, operation: IDashboardOperat
 }
 
 export const ConsoleLog: IDashboardOperationSchema = {
-  displayName: 'console.log (debug)',
+  displayName: 'interactions.operation.console_log.label',
   id: 'builtin:op:debug',
   configRender: ConsoleLogOperationSettings,
   run,

@@ -2,19 +2,25 @@ import { TranslationPatch } from '~/types/plugin';
 
 const en = {
   boxplot: {
-    chart_name: 'Boxplot Chart',
+    viz_name: 'Boxplot Chart',
     box: 'Box',
     outlier: 'Outlier',
     scatter: 'Scatter',
+    click_series: {
+      label: 'Click box, scatter or outlier',
+    },
   },
 };
 
 const zh = {
   boxplot: {
-    chart_name: '箱线图',
+    viz_name: '箱线图',
     box: '箱体',
     outlier: '异常点',
     scatter: '散点',
+    click_series: {
+      label: '点击箱体、散点或异常点',
+    },
   },
 };
 

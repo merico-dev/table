@@ -1,20 +1,20 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs, Text } from '@mantine/core';
 import { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { DeviceFloppy } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
+import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
+import { LegendField } from './editors/legend';
 import { ReferenceLinesField } from './editors/reference-lines';
+import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
-import { TooltipField } from './editors/tooltip';
-import { LegendField } from './editors/legend';
-import { EchartsZoomingField } from '../cartesian/editors/echarts-zooming-field';
-import { useTranslation } from 'react-i18next';
 
 export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -36,12 +36,7 @@ export function VizBoxplotChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>{t('chart.chart_config')}</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="X Axis"
           orientation="vertical"

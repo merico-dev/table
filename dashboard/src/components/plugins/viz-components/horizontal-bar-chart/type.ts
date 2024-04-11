@@ -4,22 +4,28 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { AggregationType, DefaultAggregation, defaultNumberFormat, TNumberFormat } from '~/utils';
+
+import { IEchartsLabelPosition } from '../../common-echarts-fields/label-position';
+import { IEChartsLineType } from '../../common-echarts-fields/line-type';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+} from '../../common-echarts-fields/x-axis-label-formatter';
+import { EChartsXAxisPosition } from '../../common-echarts-fields/x-axis-position';
 
 export interface IHorizontalBarChartReferenceLine {
   id: string;
   name: string;
   template: string;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
     color: string;
   };
   xAxisIndex: string;
-  orientation: 'horizontal' | 'vertical';
+  orientation: ChartingOrientation;
   variable_key: string;
   show_in_legend: boolean;
 }
@@ -39,7 +45,7 @@ export interface IHorizontalBarChartSeriesItem {
   group_by_key: TDataKey;
   hide_in_legend: boolean;
   invisible: boolean;
-  label_position?: string;
+  label_position?: IEchartsLabelPosition;
   aggregation_on_value?: AggregationType;
 }
 
@@ -49,7 +55,7 @@ export interface IHorizontalBarChartXAxis {
   max: string;
   name: string;
   data_key: TDataKey;
-  position: 'top' | 'bottom';
+  position: EChartsXAxisPosition;
   label_formatter: TNumberFormat;
   show: boolean;
 }
@@ -63,7 +69,7 @@ export interface IHorizontalBarChartConf {
       overflow: IAxisLabelOverflow;
       formatter: IXAxisLabelFormatter;
     };
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
   };
   series: IHorizontalBarChartSeriesItem[];
   tooltip: {
@@ -89,7 +95,7 @@ export const DEFAULT_CONFIG: IHorizontalBarChartConf = {
     name: 'Y Axis',
     data_key: '',
     axisLabel: {
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
     nameAlignment: 'center',

@@ -1,12 +1,11 @@
 import { random } from 'chroma-js';
 import _, { cloneDeep, omit } from 'lodash';
-import { AnyObject } from '~/types';
-import { DefaultAggregation } from '~/utils';
-import { ITemplateVariable } from '~/utils';
-import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../editors/x-axis/x-axis-label-formatter/types';
-import { ICartesianChartConf } from '../type';
 import { IMigrationEnv } from '~/components/plugins';
+import { getDefaultXAxisLabelFormatter } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { AnyObject } from '~/types';
+import { DefaultAggregation, ITemplateVariable } from '~/utils';
+import { DEFAULT_DATA_ZOOM_CONFIG } from '../editors/echarts-zooming-field/types';
+import { ICartesianChartConf } from '../type';
 
 export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITemplateVariable[] }): AnyObject {
   const cloned = cloneDeep(omit(legacyConf, 'variables'));
@@ -15,7 +14,7 @@ export function updateSchema2(legacyConf: ICartesianChartConf & { variables: ITe
 }
 
 export function updateToSchema3(legacyConf: $TSFixMe): ICartesianChartConf {
-  const { rotate, formatter = DEFAULT_X_AXIS_LABEL_FORMATTER } = legacyConf.x_axis.axisLabel;
+  const { rotate, formatter = getDefaultXAxisLabelFormatter() } = legacyConf.x_axis.axisLabel;
   return {
     ...legacyConf,
     x_axis: {

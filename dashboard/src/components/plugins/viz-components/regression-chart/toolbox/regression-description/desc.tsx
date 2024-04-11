@@ -90,7 +90,7 @@ function getExponentialDescription(
   };
 }
 
-function getLogarithmicDescription(
+function getLogisticDescription(
   name: string,
   queryData: TQueryData,
   basisData: [number, number][],
@@ -155,8 +155,8 @@ function getDescription(name: string, queryData: TQueryData, conf: IRegressionCh
     return getExponentialDescription(name, queryData, dataSource, conf);
   }
 
-  if (regression.transform.config.method === 'logarithmic') {
-    return getLogarithmicDescription(name, queryData, dataSource, conf);
+  if (regression.transform.config.method === 'logistic') {
+    return getLogisticDescription(name, queryData, dataSource, conf);
   }
   if (regression.transform.config.method === 'polynomial') {
     return getPolynomialDescription(name, queryData, dataSource, conf);

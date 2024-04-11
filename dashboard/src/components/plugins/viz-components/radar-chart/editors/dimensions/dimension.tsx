@@ -4,6 +4,7 @@ import { Trash } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { IRadarChartConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 interface IDimensionField {
   control: Control<IRadarChartConf, $TSFixMe>;
@@ -12,18 +13,21 @@ interface IDimensionField {
 }
 
 export function DimensionField({ control, index, remove }: IDimensionField) {
+  const { t } = useTranslation();
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
       <Group grow noWrap align="top">
         <Controller
           name={`dimensions.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`dimensions.${index}.data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Data Key" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('common.data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`dimensions.${index}.max`}
@@ -31,17 +35,17 @@ export function DimensionField({ control, index, remove }: IDimensionField) {
           rules={{
             validate: (v) => {
               if (Number.isNaN(Number(v))) {
-                return 'A number is required';
+                return t('validation.number.require_a_number');
               }
             },
           }}
           render={({ field, fieldState }) => (
-            <TextInput label="Max" required sx={{ flex: 1 }} {...field} error={fieldState.error?.message} />
+            <TextInput label={t('common.max')} required sx={{ flex: 1 }} {...field} error={fieldState.error?.message} />
           )}
         />
       </Group>
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Value Formatter" labelPosition="center" />
+        <Divider mb={-15} variant="dashed" label={t('viz.radar_chart.metric.value_formatter')} labelPosition="center" />
         <Controller
           name={`dimensions.${index}.formatter`}
           control={control}
@@ -56,7 +60,7 @@ export function DimensionField({ control, index, remove }: IDimensionField) {
         onClick={() => remove(index)}
         disabled={index === 0}
       >
-        Delete this Metric
+        {t('viz.radar_chart.metric.delete')}
       </Button>
     </Stack>
   );

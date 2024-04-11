@@ -1,17 +1,19 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { SeriesField } from './editors/series';
 import { XAxesField } from './editors/x-axes';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHorizontalBarChartConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHorizontalBarChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const conf: IHorizontalBarChartConf = useMemo(() => _.defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -30,12 +32,7 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Horizontal Bar Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"
@@ -51,10 +48,10 @@ export function VizHorizontalBarChartEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axes">X Axes</Tabs.Tab>
-            <Tabs.Tab value="Y Axis">Y Axis</Tabs.Tab>
-            <Tabs.Tab value="Series">Series</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
+            <Tabs.Tab value="X Axes">{t('chart.x_axis.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Series">{t('chart.series.label')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axes">

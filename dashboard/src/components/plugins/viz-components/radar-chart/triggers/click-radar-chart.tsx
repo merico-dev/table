@@ -1,4 +1,5 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export function ClickRadarChartSeriesSettings(props: ITriggerConfigProps) {
@@ -6,12 +7,13 @@ export function ClickRadarChartSeriesSettings(props: ITriggerConfigProps) {
 }
 
 function ClickRadarChartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click heat block</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.radar_chart.click_series.label')}</Text>;
 }
 
 export const ClickRadarChartSeries: ITriggerSchema = {
   id: 'builtin:echarts:click-radar-chart:series',
-  displayName: 'Click radar chart series',
+  displayName: 'viz.radar_chart.click_series.label',
   nameRender: ClickRadarChartSeriesName,
   configRender: ClickRadarChartSeriesSettings,
   payload: [

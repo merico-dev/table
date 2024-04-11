@@ -9,23 +9,8 @@ import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';
 import { ScatterFields } from './fields.scatter';
-
-const labelPositions = [
-  { label: 'off', value: '' },
-  { label: 'top', value: 'top' },
-  { label: 'left', value: 'left' },
-  { label: 'right', value: 'right' },
-  { label: 'bottom', value: 'bottom' },
-  { label: 'inside', value: 'inside' },
-  { label: 'insideLeft', value: 'insideLeft' },
-  { label: 'insideRight', value: 'insideRight' },
-  { label: 'insideTop', value: 'insideTop' },
-  { label: 'insideBottom', value: 'insideBottom' },
-  { label: 'insideTopLeft', value: 'insideTopLeft' },
-  { label: 'insideBottomLeft', value: 'insideBottomLeft' },
-  { label: 'insideTopRight', value: 'insideTopRight' },
-  { label: 'insideBottomRight', value: 'insideBottomRight' },
-];
+import { LabelPositionSelector } from '~/components/plugins/common-echarts-fields/label-position';
+import { useTranslation } from 'react-i18next';
 
 interface ISeriesItemField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -39,6 +24,7 @@ interface ISeriesItemField {
 }
 
 export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
+  const { t } = useTranslation();
   const type = seriesItem.type;
   return (
     <Stack my={0} p={0} sx={{ position: 'relative' }}>
@@ -50,9 +36,9 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
             // @ts-expect-error type of onChange
             <SegmentedControl
               data={[
-                { label: 'Line', value: 'line' },
-                { label: 'Bar', value: 'bar' },
-                { label: 'Scatter', value: 'scatter' },
+                { label: t('chart.series.line.label'), value: 'line' },
+                { label: t('chart.series.bar.label'), value: 'bar' },
+                { label: t('chart.series.scatter.label'), value: 'scatter' },
               ]}
               {...field}
             />
@@ -63,14 +49,14 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Controller
           name={`series.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('chart.series.name')} required sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name={`series.${index}.yAxisIndex`}
           control={control}
           render={({ field: { value, onChange, ...rest } }) => (
             <Select
-              label="Y Axis"
+              label={t('chart.series.y_axis')}
               data={yAxisOptions}
               disabled={yAxisOptions.length === 0}
               {...rest}
@@ -91,14 +77,16 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         <Controller
           name={`series.${index}.y_axis_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Value Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('chart.series.data_field')} required sx={{ flex: 1 }} {...field} />
+          )}
         />
         <Controller
           name={`series.${index}.aggregation_on_value`}
           control={control}
           render={({ field }) => (
             <AggregationSelector
-              label="Aggregation on Value"
+              label={t('viz.cartesian_chart.series.aggregation.label')}
               value={field.value ?? DefaultAggregation}
               onChange={field.onChange}
               pt={0}
@@ -112,40 +100,36 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           name={`series.${index}.group_by_key`}
           control={control}
           render={({ field }) => (
-            <DataFieldSelector
-              label="Split into multiple series by this key..."
-              clearable
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <DataFieldSelector label={t('chart.series.group_by.label')} clearable sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
       {type === 'line' && <LineFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'bar' && <BarFields index={index} control={control} seriesItem={seriesItem} />}
       {type === 'scatter' && <ScatterFields index={index} control={control} />}
-      <Divider mb={-10} mt={10} variant="dashed" label="Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.style.label')} labelPosition="center" />
       <Controller
         name={`series.${index}.label_position`}
         control={control}
-        // @ts-expect-error type of onChange
-        render={({ field }) => <Select label="Label Position" data={labelPositions} {...field} />}
+        render={({ field }) => (
+          <LabelPositionSelector label={t('chart.label_position.label')} withOffOption {...field} />
+        )}
       />
       <Stack spacing={4}>
-        <Text size="sm">Color</Text>
+        <Text size="sm">{t('chart.color.label')}</Text>
         <Controller
           name={`series.${index}.color`}
           control={control}
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
-      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.behavior.label')} labelPosition="center" />
       <Controller
         name={`series.${index}.hide_in_legend`}
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Hide in legend"
+            label={t('chart.legend.hide_in_legend')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />
@@ -159,7 +143,7 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
         onClick={() => remove(index)}
         sx={{ top: 15, right: 5 }}
       >
-        Delete this Series
+        {t('chart.series.delete')}
       </Button>
     </Stack>
   );

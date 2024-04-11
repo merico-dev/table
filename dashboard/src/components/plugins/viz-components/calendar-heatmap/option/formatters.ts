@@ -1,6 +1,6 @@
 import { formatNumber } from '~/utils';
-import { FormatterFuncType } from '../../heatmap/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { ICalendarHeatmapConf } from '../type';
+import { FormatterFuncType } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export type ValueFormattersType = {
   heat_block: FormatterFuncType;

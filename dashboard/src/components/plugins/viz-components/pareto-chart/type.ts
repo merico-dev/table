@@ -4,10 +4,12 @@ import {
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { DEFAULT_DATA_ZOOM_CONFIG, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
+
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
@@ -27,13 +29,13 @@ export interface IParetoChartConf {
   data_key: string;
   bar: {
     name: string;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     color: string;
     label_formatter: TNumberFormat;
   };
   line: {
     name: string;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     color: string;
   };
   dataZoom: TEchartsDataZoomConfig;
@@ -49,7 +51,7 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
   },

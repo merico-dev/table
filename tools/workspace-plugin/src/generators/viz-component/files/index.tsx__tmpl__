@@ -4,6 +4,7 @@ import { VersionBasedMigrator } from '../../plugin-data-migrator';
 import { Viz<%= pascalcase(name) %> } from './viz-<%= dashcase(name) %>';
 import { Viz<%= pascalcase(name) %>Editor } from './viz-<%= dashcase(name) %>-editor';
 import { DEFAULT_CONFIG, I<%= pascalcase(name) %>Conf } from './type';
+import { translation } from './translation';
 
 // function v2(prev: AnyObject): I<%= pascalcase(name) %>Conf {
 //   return prev;
@@ -37,11 +38,12 @@ type ConfigType = {
 };
 
 export const <%= pascalcase(name) %>VizComponent: VizComponent = {
-  displayName: '<%= pascalcase(name) %>',
+  displayName: 'viz.<%= camelcase(name) %>.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new Viz<%= pascalcase(name) %>Migrator(),
   name: '<%= camelcase(name) %>',
   viewRender: Viz<%= pascalcase(name) %>,
   configRender: Viz<%= pascalcase(name) %>Editor,
   createConfig: (): ConfigType => ({ version: 1, config: DEFAULT_CONFIG }),
+  translation,
 };

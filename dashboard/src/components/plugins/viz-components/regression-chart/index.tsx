@@ -5,6 +5,7 @@ import { VizRegressionChartEditor } from './viz-regression-chart-editor';
 import { DEFAULT_CONFIG, IRegressionChartConf } from './type';
 import { cloneDeep } from 'lodash';
 import * as Migrators from './migrators';
+import { translation } from './translation';
 
 class VizRegressionChartMigrator extends VersionBasedMigrator {
   readonly VERSION = 3;
@@ -31,7 +32,7 @@ class VizRegressionChartMigrator extends VersionBasedMigrator {
 }
 
 export const RegressionChartVizComponent: VizComponent = {
-  displayName: 'Regression Chart',
+  displayName: 'viz.regression_chart.viz_name',
   displayGroup: 'chart.groups.merico_suite',
   migrator: new VizRegressionChartMigrator(),
   name: 'regressionChart',
@@ -43,4 +44,5 @@ export const RegressionChartVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IRegressionChartConf,
     };
   },
+  translation,
 };

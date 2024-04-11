@@ -1,3 +1,5 @@
+import { HorizontalAlign } from '../../editor-components';
+
 export const DEFAULT_TEXT_FUNC_CONTENT = [
   'function text({ data, variables, filters, context}) {',
   '    // your code goes here',
@@ -7,7 +9,7 @@ export const DEFAULT_TEXT_FUNC_CONTENT = [
 
 export interface IVizTextConf {
   func_content: string;
-  horizontal_align: 'left' | 'center' | 'right';
+  horizontal_align: HorizontalAlign;
   font_size: string;
   font_weight: string;
 }

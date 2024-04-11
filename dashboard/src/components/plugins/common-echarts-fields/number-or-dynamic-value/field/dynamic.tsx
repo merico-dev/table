@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
 import { DynamicValueFunctionEditor } from './dynamic-function-editor';
 import { DEFAULT_VALUE, TNumberOrDynamic, TNumberOrDynamic_Dynamic } from '../types';
+import { useTranslation } from 'react-i18next';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 
 interface IField {
   value: TNumberOrDynamic_Dynamic;
@@ -11,6 +13,7 @@ interface IField {
 }
 
 const Field = ({ value: conf, onChange }: IField) => {
+  const { t } = useTranslation();
   const [modalOpened, { setTrue, setFalse }] = useBoolean();
   const [local, setLocal] = useState<TNumberOrDynamic_Dynamic>(conf);
 
@@ -45,13 +48,20 @@ const Field = ({ value: conf, onChange }: IField) => {
   return (
     <>
       <Box sx={{ width: '50%' }}>
-        <Button variant="filled" mt={24} onClick={setTrue} sx={{ flexGrow: 0 }}>
-          Setup
+        <Button
+          color="grape"
+          variant="filled"
+          leftIcon={<IconMathFunction size={16} />}
+          mt={24}
+          onClick={setTrue}
+          sx={{ flexGrow: 0 }}
+        >
+          {t('chart.number_or_dynamic_value.dynamic.setup')}
         </Button>
       </Box>
       <Modal
         size={800}
-        title="Setup dynamic value"
+        title={t('chart.number_or_dynamic_value.dynamic.setup_title')}
         opened={modalOpened}
         onClose={setFalse}
         closeOnClickOutside={false}
@@ -60,17 +70,25 @@ const Field = ({ value: conf, onChange }: IField) => {
       >
         {modalOpened && (
           <Stack>
-            <Divider mt={10} mb={-10} label="Dynamic by a custom function" labelPosition="center" variant="dashed" />
+            <Divider
+              mt={10}
+              mb={-10}
+              label={t('chart.number_or_dynamic_value.dynamic.guide')}
+              labelPosition="center"
+              variant="dashed"
+            />
             <DynamicValueFunctionEditor value={local.value} onChange={changeFuncContent} />
             <Group position="apart">
               <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                Reset
+                {t('common.actions.reset_to_default')}
               </Button>
               <Group position="right">
                 <Button onClick={handleCancel} variant="subtle">
-                  Cancel
+                  {t('common.actions.cancel')}
                 </Button>
-                <Button onClick={handleOk}>OK</Button>
+                <Button color="green" leftIcon={<IconDeviceFloppy size={16} />} onClick={handleOk}>
+                  {t('common.actions.save')}
+                </Button>
               </Group>
             </Group>
           </Stack>

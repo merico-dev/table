@@ -5,6 +5,7 @@ import { VizPieChartEditor } from './viz-pie-chart-editor';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
 import { cloneDeep } from 'lodash';
 import { ClickPieChart } from './triggers';
+import { translation } from './translation';
 
 function v2(legacyConf: $TSFixMe): IPieChartConf {
   const { color_field = '', ...rest } = legacyConf;
@@ -61,7 +62,7 @@ class VizPieChartMigrator extends VersionBasedMigrator {
 }
 
 export const PieChartVizComponent: VizComponent = {
-  displayName: 'Pie Chart',
+  displayName: 'viz.pie_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizPieChartMigrator(),
   name: 'pie',
@@ -74,4 +75,5 @@ export const PieChartVizComponent: VizComponent = {
     };
   },
   triggers: [ClickPieChart],
+  translation,
 };

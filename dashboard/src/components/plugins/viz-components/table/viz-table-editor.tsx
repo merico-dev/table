@@ -10,6 +10,8 @@ import { VizConfigProps } from '~/types/plugin';
 import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
 import { DEFAULT_CONFIG, ITableConf } from './type';
+import { VizConfigBanner } from '../../editor-components';
+import { useTranslation } from 'react-i18next';
 
 // FIXME: migrator to version 2 in index.ts doesn't work
 function tempMigration({ columns, ...rest }: ITableConf) {
@@ -23,6 +25,7 @@ function tempMigration({ columns, ...rest }: ITableConf) {
 }
 
 export function VizTableEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<ITableConf>(context.instanceData, 'config');
   // const { variables } = context;
   const conf: ITableConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -51,12 +54,7 @@ export function VizTableEditor({ context }: VizConfigProps) {
   watch(['id_field']);
   return (
     <form onSubmit={handleSubmit(setConf)}>
-      <Group position="apart" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-        <Text>Table Config</Text>
-        <ActionIcon type="submit" aria-label="save config" mr={5} variant="filled" color="blue" disabled={!changed}>
-          <DeviceFloppy size={20} />
-        </ActionIcon>
-      </Group>
+      <VizConfigBanner canSubmit={changed} />
       <Tabs
         defaultValue="Columns"
         orientation="vertical"
@@ -72,15 +70,22 @@ export function VizTableEditor({ context }: VizConfigProps) {
         }}
       >
         <Tabs.List>
-          <Tabs.Tab value="Columns">Columns</Tabs.Tab>
-          <Tabs.Tab value="Style">Style</Tabs.Tab>
+          <Tabs.Tab value="Columns">{t('viz.table.column.labels')}</Tabs.Tab>
+          <Tabs.Tab value="Style">{t('style.label')}</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="Columns">
           <Controller
             name="id_field"
             control={control}
-            render={({ field }) => <DataFieldSelector label="ID Field" required {...field} />}
+            render={({ field }) => (
+              <DataFieldSelector
+                label={t('viz.table.column.id_field')}
+                description={t('viz.table.column.id_field_hint')}
+                required
+                {...field}
+              />
+            )}
           />
           <Divider mt={20} mb={10} variant="dashed" />
           <ColumnsField control={control} watch={watch} />

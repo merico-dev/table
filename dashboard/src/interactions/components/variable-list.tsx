@@ -1,6 +1,7 @@
 import { Code, Paper, Stack, Text } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
+import { useTranslation } from 'react-i18next';
 import { IPayloadVariableSchema } from '~/types/plugin';
 
 export interface IVariableListProps {
@@ -9,13 +10,14 @@ export interface IVariableListProps {
 }
 
 export const VariableList = (props: IVariableListProps) => {
+  const { t } = useTranslation();
   const { title = 'Variables', variables } = props;
   const clipboard = useClipboard();
   const handleClick = (valueToCopy: string) => {
     clipboard.copy(valueToCopy);
     showNotification({
       color: 'green',
-      message: 'Copied to clipboard',
+      message: t('common.copied'),
     });
   };
   return (

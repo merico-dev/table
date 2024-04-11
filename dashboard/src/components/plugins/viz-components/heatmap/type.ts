@@ -5,10 +5,11 @@ import {
 import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
+import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+} from '../../common-echarts-fields/x-axis-label-formatter';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -23,7 +24,7 @@ export interface IHeatmapConf {
   y_axis: {
     name: string;
     data_key: TDataKey;
-    nameAlignment: 'left' | 'center' | 'right';
+    nameAlignment: EChartsNameTextAlign;
     axisLabel: {
       rotate: number;
       formatter: IXAxisLabelFormatter;
@@ -53,7 +54,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     axisLabel: {
       rotate: 0,
       overflow: getDefaultAxisLabelOverflow(),
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   y_axis: {
@@ -63,7 +64,7 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     axisLabel: {
       rotate: 0,
       overflow: getDefaultAxisLabelOverflow(),
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
     },
   },
   heat_block: {

@@ -1,20 +1,21 @@
 import { Text } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ITriggerConfigProps, ITriggerSchema } from '~/types/plugin';
 
 export const ClickScatterChartSeries: ITriggerSchema = {
   id: 'builtin:echarts:click-scatter-chart:series',
-  displayName: 'Click Scatter',
+  displayName: 'viz.scatter_chart.click_scatter.trigger',
   nameRender: ClickScatterChartSeriesName,
   configRender: ClickScatterChartSeriesSettings,
   payload: [
     {
       name: 'seriesType',
-      description: `'scatter'`,
+      description: `"scatter"`,
       valueType: 'string',
     },
     {
       name: 'componentType',
-      description: `'series'`,
+      description: `"series"`,
       valueType: 'string',
     },
     {
@@ -49,5 +50,6 @@ export function ClickScatterChartSeriesSettings(props: ITriggerConfigProps) {
 }
 
 function ClickScatterChartSeriesName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
-  return <Text>Click scatter</Text>;
+  const { t } = useTranslation();
+  return <Text>{t('viz.scatter_chart.click_scatter.trigger')}</Text>;
 }

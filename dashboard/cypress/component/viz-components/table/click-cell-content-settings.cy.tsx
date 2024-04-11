@@ -21,7 +21,7 @@ describe('click-cell-content-settings.cy.tsx', () => {
     cy.then(async () => {
       const trigger = await triggerManager.createOrGetTrigger('builtin:table:click-cell-content', ClickCellContent);
       cy.mount(<ClickCellContentSettings instance={instance} sampleData={MOCK_DATA} trigger={trigger} />);
-      cy.findByLabelText('Choose a column').click();
+      cy.findByLabelText('viz.table.click_cell.choose_a_column').click();
       cy.findByText('Foo')
         .click()
         .then(async () => {
@@ -39,7 +39,7 @@ describe('click-cell-content-settings.cy.tsx', () => {
       });
       const trigger = await triggerManager.createOrGetTrigger('builtin:table:click-cell-content', ClickCellContent);
       cy.mount(<ClickCellContentSettings instance={instance} sampleData={MOCK_DATA} trigger={trigger} />);
-      cy.findByLabelText('Choose a column').click();
+      cy.findByLabelText('viz.table.click_cell.choose_a_column').click();
       cy.findByText('bar');
       cy.findByText('foo')
         .click()

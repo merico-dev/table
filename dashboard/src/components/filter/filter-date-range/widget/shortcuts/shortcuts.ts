@@ -3,7 +3,7 @@ import { DateRangeValue } from '../type';
 
 export type GetRange = () => DateRangeValue;
 type Shrotcut = {
-  label: string;
+  key: string;
   value: string;
   group: 'last' | 'recent' | 'this';
   getRange: GetRange;
@@ -11,7 +11,7 @@ type Shrotcut = {
 
 export const getDateRangeShortcuts = (): Shrotcut[] => [
   {
-    label: 'yesterday',
+    key: 'd',
     value: 'yesterday',
     group: 'last',
     getRange: () => {
@@ -23,7 +23,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'week',
+    key: 'w',
     value: 'last week',
     group: 'last',
     getRange: () => {
@@ -35,7 +35,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'month',
+    key: 'm',
     value: 'last month',
     group: 'last',
     getRange: () => {
@@ -47,7 +47,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '2 months',
+    key: 'm2',
     value: 'last 2 months',
     group: 'last',
     getRange: () => {
@@ -59,7 +59,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '3 months',
+    key: 'm3',
     value: 'last 3 months',
     group: 'last',
     getRange: () => {
@@ -71,7 +71,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'year',
+    key: 'y',
     value: 'last year',
     group: 'last',
     getRange: () => {
@@ -83,7 +83,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '7 days',
+    key: 'd7',
     value: 'recent 7 days',
     group: 'recent',
     getRange: () => {
@@ -95,7 +95,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '30 days',
+    key: 'd30',
     value: 'recent 30 days',
     group: 'recent',
     getRange: () => {
@@ -107,7 +107,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '60 days',
+    key: 'd60',
     value: 'recent 60 days',
     group: 'recent',
     getRange: () => {
@@ -119,7 +119,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '90 days',
+    key: 'd90',
     value: 'recent 90 days',
     group: 'recent',
     getRange: () => {
@@ -131,7 +131,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '180 days',
+    key: 'd180',
     value: 'recent 180 days',
     group: 'recent',
     getRange: () => {
@@ -143,7 +143,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '365 days',
+    key: 'd365',
     value: 'recent 365 days',
     group: 'recent',
     getRange: () => {
@@ -155,7 +155,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'today',
+    key: 'd',
     value: 'today',
     group: 'this',
     getRange: () => {
@@ -164,7 +164,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'week',
+    key: 'w',
     value: 'this week',
     group: 'this',
     getRange: () => {
@@ -173,7 +173,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: 'month',
+    key: 'm',
     value: 'this month',
     group: 'this',
     getRange: () => {
@@ -182,25 +182,7 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     },
   },
   {
-    label: '2 months',
-    value: 'this 2 months',
-    group: 'this',
-    getRange: () => {
-      const now = Date.now();
-      return [dayjs(now).startOf('month').toDate(), dayjs(now).add(1, 'month').endOf('week').toDate()];
-    },
-  },
-  {
-    label: '3 months',
-    value: 'this 3 months',
-    group: 'this',
-    getRange: () => {
-      const now = Date.now();
-      return [dayjs(now).startOf('month').toDate(), dayjs(now).add(2, 'month').endOf('week').toDate()];
-    },
-  },
-  {
-    label: 'year',
+    key: 'y',
     value: 'this year',
     group: 'this',
     getRange: () => {

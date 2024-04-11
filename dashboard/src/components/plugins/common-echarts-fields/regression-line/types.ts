@@ -1,9 +1,10 @@
 import { AnyObject } from '~/types';
+import { IEChartsLineType } from '../line-type';
 
 export interface IRegressionTransform {
   type: 'ecStat:regression';
   config: {
-    method: 'linear' | 'exponential' | 'logarithmic' | 'polynomial';
+    method: 'linear' | 'exponential' | 'logistic' | 'polynomial';
     order: number;
     formulaOn: 'end';
   };
@@ -14,7 +15,7 @@ export interface IRegressionLineConf {
   yAxisIndex: number;
   color: string;
   lineStyle: {
-    type: 'solid' | 'dashed' | 'dotted';
+    type: IEChartsLineType;
     width: number;
   };
 }

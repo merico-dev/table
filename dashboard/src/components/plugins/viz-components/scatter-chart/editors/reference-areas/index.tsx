@@ -7,6 +7,7 @@ import { ReferenceAreaField } from '~/components/plugins/common-echarts-fields/r
 import { getNewReferenceArea } from '~/components/plugins/common-echarts-fields/reference-area/types';
 import { ITemplateVariable } from '~/utils';
 import { IScatterChartConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 interface IReferenceAreasField {
   control: Control<IScatterChartConf, $TSFixMe>;
@@ -15,6 +16,7 @@ interface IReferenceAreasField {
 }
 
 export function ReferenceAreasField({ control, watch, variables }: IReferenceAreasField) {
+  const { t } = useTranslation();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'reference_areas',
@@ -83,7 +85,7 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
                 <ReferenceAreaField variableOptions={variableOptions} yAxisOptions={yAxisOptions} {...field} />
                 <Divider mb={-10} mt={10} variant="dashed" />
                 <Button leftIcon={<IconTrash size={16} />} color="red" variant="light" onClick={() => remove(index)}>
-                  Delete this Reference Area
+                  {t('chart.reference_area.delete')}
                 </Button>
               </Stack>
             )}

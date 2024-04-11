@@ -3,11 +3,8 @@ import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
 import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { IHorizontalBarChartConf } from '../../type';
-
-const positionOptions = [
-  { label: 'Top', value: 'top' },
-  { label: 'Bottom', value: 'bottom' },
-];
+import { XAxisPositionSelector } from '~/components/plugins/common-echarts-fields/x-axis-position';
+import { useTranslation } from 'react-i18next';
 
 interface IXAxisField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
@@ -16,29 +13,23 @@ interface IXAxisField {
 }
 
 export function XAxisField({ control, index, remove }: IXAxisField) {
+  const { t } = useTranslation();
   return (
-    <Stack my={0} p="0" sx={{ position: 'relative' }}>
-      <Divider mb={-15} mt={15} variant="dashed" label="Name" labelPosition="center" />
+    <Stack my={10} p="0" sx={{ position: 'relative' }}>
       <Group grow noWrap>
         <Controller
           name={`x_axes.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Name" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} required sx={{ flex: 1 }} {...field} />}
         />
-      </Group>
-      <Divider mb={-15} variant="dashed" label="Layout" labelPosition="center" />
-      <Group grow noWrap>
         <Controller
           name={`x_axes.${index}.position`}
           control={control}
-          render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Position" required data={positionOptions} sx={{ flex: 1 }} {...field} />
-          )}
+          render={({ field }) => <XAxisPositionSelector sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Label Format" labelPosition="center" />
+        <Divider mb={-15} variant="dashed" label={t('chart.x_axis.label_format')} labelPosition="center" />
         <Controller
           name={`x_axes.${index}.label_formatter`}
           control={control}
@@ -47,27 +38,27 @@ export function XAxisField({ control, index, remove }: IXAxisField) {
       </Stack>
 
       <Stack>
-        <Divider mb={-15} variant="dashed" label="Value Range" labelPosition="center" />
+        <Divider mb={-15} variant="dashed" label={t('chart.x_axis.value_range')} labelPosition="center" />
         <Group grow>
           <Controller
             name={`x_axes.${index}.min`}
             control={control}
-            render={({ field }) => <TextInput label="Min" {...field} />}
+            render={({ field }) => <TextInput label={t('chart.x_axis.value_min')} {...field} />}
           />
           <Controller
             name={`x_axes.${index}.max`}
             control={control}
-            render={({ field }) => <TextInput label="Max" {...field} />}
+            render={({ field }) => <TextInput label={t('chart.x_axis.value_max')} {...field} />}
           />
         </Group>
       </Stack>
-      <Divider mb={-10} mt={10} variant="dashed" label="Behavior" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.x_axis.behavior')} labelPosition="center" />
       <Controller
         name={`x_axes.${index}.show`}
         control={control}
         render={({ field }) => (
           <Checkbox
-            label="Visible"
+            label={t('chart.x_axis.visible')}
             checked={field.value}
             onChange={(event) => field.onChange(event.currentTarget.checked)}
           />
@@ -82,7 +73,7 @@ export function XAxisField({ control, index, remove }: IXAxisField) {
         onClick={() => remove(index)}
         disabled={index === 0}
       >
-        Delete this X Axis
+        {t('chart.x_axis.delete')}
       </Button>
     </Stack>
   );

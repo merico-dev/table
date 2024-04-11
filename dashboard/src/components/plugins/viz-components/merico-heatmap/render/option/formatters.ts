@@ -1,9 +1,10 @@
 import { formatNumber } from '~/utils';
+
+import { TMericoHeatmapConf } from '../../type';
 import {
   FormatterFuncType,
   getEchartsXAxisLabel,
-} from '../../editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
-import { TMericoHeatmapConf } from '../../type';
+} from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export type LabelFormattersType = {
   x_axis: FormatterFuncType;

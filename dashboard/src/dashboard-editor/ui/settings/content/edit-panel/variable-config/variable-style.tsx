@@ -52,8 +52,8 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
     <>
       <Stack>
         <TextInput
-          label={t('panel.variable.styles.font_size.label')}
-          placeholder={t('panel.variable.styles.font_size.placeholder')}
+          label={t('style.font_size.label')}
+          placeholder={t('styles.font_size.placeholder')}
           sx={{ flex: 1 }}
           value={value.size}
           onChange={(e) => handleChange('size', e.currentTarget.value)}
@@ -62,13 +62,13 @@ export const TemplateVariableStyleField = React.forwardRef(function _TemplateVar
 
       <Group position="apart" grow sx={{ '> *': { flexGrow: 1, maxWidth: '100%' } }}>
         <MantineFontWeightSlider
-          label={t('panel.variable.styles.font_weight.label')}
+          label={t('style.font_weight.label')}
           value={value.weight}
           onChange={(v) => handleChange('weight', v)}
         />
       </Group>
 
-      <Divider mt="lg" mb={0} variant="dashed" label="Style" labelPosition="center" />
+      <Divider mt="lg" mb={0} variant="dashed" label={t('style.label')} labelPosition="center" />
       <Stack>
         <Select
           label="Color Type"

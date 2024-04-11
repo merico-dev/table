@@ -1,8 +1,7 @@
 import { cloneDeep } from 'lodash';
-import { AnyObject } from '~/types';
-import { getEchartsSymbolSize } from '../../editors/scatter-size-select/get-echarts-symbol-size';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { makeGroupedSeriesData, makeOneSeriesData } from './data';
+import { getEChartsSymbolSize } from './get-echarts-symbol-size';
 import { DataTemplateType } from './types';
 
 export function getSeriesItemOrItems(
@@ -38,7 +37,7 @@ export function getSeriesItemOrItems(
     yAxisIndex,
     stack,
     color,
-    symbolSize: getEchartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
+    symbolSize: getEChartsSymbolSize(symbolSize, data, x_axis_data_key, variableValueMap),
     hide_in_legend,
     labelLayout: {
       hideOverlap: true,

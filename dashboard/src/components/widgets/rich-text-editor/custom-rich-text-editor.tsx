@@ -98,7 +98,7 @@ export const CustomRichTextEditor = forwardRef(
           <Text size={14} fw={500}>
             {label}
           </Text>
-          <ActionIcon color="blue" disabled={!changed} onClick={submit}>
+          <ActionIcon color="green" disabled={!changed} onClick={submit}>
             <IconDeviceFloppy size={18} />
           </ActionIcon>
         </Group>

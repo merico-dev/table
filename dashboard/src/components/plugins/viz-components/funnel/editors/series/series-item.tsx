@@ -1,45 +1,16 @@
 import { Box, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput, Tooltip } from '@mantine/core';
+import { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { LabelOverflowField } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import {
   LabelPositionOptionType,
   LabelPositionSelector,
 } from '~/components/plugins/common-echarts-fields/label-position';
-import { AnyObject } from '~/types';
+import { ChartingOrientation, OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
 import { IFunnelConf, IFunnelSeriesItem } from '../../type';
-
-const sortOptions = [
-  { label: 'Ascending', value: 'ascending' },
-  { label: 'Descending', value: 'descending' },
-  { label: 'Use original data order', value: '0' },
-];
-
-const alignmentOptions = [
-  { label: 'Left', value: 'left' },
-  { label: 'Center', value: 'center' },
-  { label: 'Right', value: 'right' },
-];
-
-const orientationOptions = [
-  { label: 'Horizontal', value: 'horizontal' },
-  { label: 'Vertical', value: 'vertical' },
-];
-
-const positionOptions: Record<'horizontal' | 'vertical', LabelPositionOptionType[]> = {
-  horizontal: [
-    { label: 'Top', value: 'top' },
-    { label: 'Inside Center', value: 'inside' },
-    { label: 'Bottom', value: 'bottom' },
-  ],
-  vertical: [
-    { label: 'Left', value: 'left' },
-    { label: 'Inside Left', value: 'insideLeft' },
-    { label: 'Inside Center', value: 'inside' },
-    { label: 'Inside Right', value: 'insideRight' },
-    { label: 'Right', value: 'right' },
-  ],
-};
+import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 
 interface ISeriesItemField {
   item: IFunnelSeriesItem;
@@ -49,32 +20,61 @@ interface ISeriesItemField {
 }
 
 export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemField) => {
+  const { t, i18n } = useTranslation();
   const enable_min = item.min.enable_value;
   const enable_max = item.max.enable_value;
   const { orient } = item;
+
+  const positionOptions: Record<ChartingOrientation, LabelPositionOptionType[]> = useMemo(
+    () => ({
+      horizontal: [
+        { label: t('chart.label_position.top'), value: 'top' },
+        { label: t('chart.label_position.inside_center'), value: 'inside' },
+        { label: t('chart.label_position.bottom'), value: 'bottom' },
+      ],
+      vertical: [
+        { label: t('chart.label_position.left'), value: 'left' },
+        { label: t('chart.label_position.inside_left'), value: 'insideLeft' },
+        { label: t('chart.label_position.inside_center'), value: 'inside' },
+        { label: t('chart.label_position.inside_right'), value: 'insideRight' },
+        { label: t('chart.label_position.right'), value: 'right' },
+      ],
+    }),
+    [i18n.language],
+  );
+
+  const sortOptions = useMemo(
+    () => [
+      { label: t('viz.funnel_chart.sort.ascending'), value: 'ascending' },
+      { label: t('viz.funnel_chart.sort.descending'), value: 'descending' },
+      { label: t('viz.funnel_chart.sort.none'), value: '0' },
+    ],
+    [i18n.language],
+  );
+
   return (
     <Stack>
       <Group grow noWrap>
         <Controller
           name={`series.${index}.name`}
           control={control}
-          render={({ field }) => <TextInput label="Series Name" {...field} />}
+          render={({ field }) => <TextInput label={t('viz.funnel_chart.series_name')} {...field} />}
         />
       </Group>
       <Group grow noWrap>
         <Controller
           name={`series.${index}.level_name_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Name Field" {...field} />}
+          render={({ field }) => <DataFieldSelector label={t('viz.funnel_chart.level_name_field')} {...field} />}
         />
         <Controller
           name={`series.${index}.level_value_data_key`}
           control={control}
-          render={({ field }) => <DataFieldSelector label="Level Value Field" {...field} />}
+          render={({ field }) => <DataFieldSelector label={t('viz.funnel_chart.level_value_field')} {...field} />}
         />
       </Group>
 
-      <Divider mb={-10} mt={10} variant="dashed" label="Funnel Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('viz.funnel_chart.funnel_style')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name={`series.${index}.min.value`}
@@ -86,8 +86,8 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               labelProps={{ display: 'block' }}
               label={
                 <Group position="apart" pr={6} sx={{ width: '100%' }}>
-                  <Text>Min Value</Text>
-                  <Tooltip label="Check to enable specific min value">
+                  <Text>{t('viz.funnel_chart.min_value')}</Text>
+                  <Tooltip label={t('viz.funnel_chart.min_value_checkbox_tip')}>
                     <Box>
                       <Controller
                         name={`series.${index}.min.enable_value`}
@@ -111,7 +111,7 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.min.size`}
           control={control}
-          render={({ field }) => <TextInput placeholder="0%" label="Min Size" {...field} />}
+          render={({ field }) => <TextInput placeholder="0%" label={t('viz.funnel_chart.min_size')} {...field} />}
         />
       </Group>
       <Group grow noWrap>
@@ -125,8 +125,8 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
               labelProps={{ display: 'block' }}
               label={
                 <Group position="apart" pr={6} sx={{ width: '100%' }}>
-                  <Text>Max Value</Text>
-                  <Tooltip label="Check to enable specific max value">
+                  <Text>{t('viz.funnel_chart.max_value')}</Text>
+                  <Tooltip label={t('viz.funnel_chart.max_value_checkbox_tip')}>
                     <Box>
                       <Controller
                         name={`series.${index}.max.enable_value`}
@@ -150,21 +150,20 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
         <Controller
           name={`series.${index}.max.size`}
           control={control}
-          render={({ field }) => <TextInput placeholder="100%" label="Max Size" {...field} />}
+          render={({ field }) => <TextInput placeholder="100%" label={t('viz.funnel_chart.max_size')} {...field} />}
         />
       </Group>
       <Group grow noWrap>
         <Controller
           name={`series.${index}.orient`}
           control={control}
-          // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Orientation" data={orientationOptions} {...field} />}
+          render={({ field }) => <OrientationSelector {...field} />}
         />
         <Controller
           name={`series.${index}.sort`}
           control={control}
           // @ts-expect-error type of onChange
-          render={({ field }) => <Select label="Sort" data={sortOptions} {...field} />}
+          render={({ field }) => <Select label={t('viz.funnel_chart.sort.label')} data={sortOptions} {...field} />}
         />
       </Group>
       <Group grow noWrap>
@@ -172,25 +171,29 @@ export const SeriesItemField = ({ item, control, index, remove }: ISeriesItemFie
           name={`series.${index}.funnelAlign`}
           control={control}
           render={({ field }) => (
-            // @ts-expect-error type of onChange
-            <Select label="Align" disabled={orient === 'horizontal'} data={alignmentOptions} {...field} />
+            <NameTextAlignSelector label={t('viz.funnel_chart.align')} disabled={orient === 'horizontal'} {...field} />
           )}
         />
         <Controller
           name={`series.${index}.gap`}
           control={control}
           // @ts-expect-error type of onChange
-          render={({ field }) => <NumberInput placeholder="0, 5, 10..." label="Gap" {...field} />}
+          render={({ field }) => <NumberInput placeholder="0, 5, 10..." label={t('viz.funnel_chart.gap')} {...field} />}
         />
       </Group>
 
-      <Divider mb={-10} mt={10} variant="dashed" label="Label Style" labelPosition="center" />
+      <Divider mb={-10} mt={10} variant="dashed" label={t('chart.label.label_style')} labelPosition="center" />
       <Group grow noWrap>
         <Controller
           name={`series.${index}.axisLabel.position`}
           control={control}
           render={({ field }) => (
-            <LabelPositionSelector label="Position" options={positionOptions[orient]} {...field} />
+            // @ts-expect-error type error about undefined
+            <LabelPositionSelector
+              label={t('chart.label_position.label')}
+              options={positionOptions[orient]}
+              {...field}
+            />
           )}
         />
         <Box />

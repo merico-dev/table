@@ -40,6 +40,7 @@ export default ({ mode }) => {
       alias: {
         '@devtable/dashboard': workspace('dashboard', 'src'),
         '@devtable/settings-form': workspace('settings-form', 'src'),
+        'dayjs/locale': path.resolve(__dirname, '../node_modules/dayjs/locale'),
       },
     },
     optimizeDeps: {

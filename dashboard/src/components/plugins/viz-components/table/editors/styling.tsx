@@ -1,12 +1,15 @@
 import { Group, Stack, Switch, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { ITableConf } from '../type';
+import { MantineSizeSelector } from '~/components/panel/settings/common/mantine-size-selector';
 
 interface IStylingFields {
   control: Control<ITableConf, $TSFixMe>;
   watch: UseFormWatch<ITableConf>;
 }
 export function StylingFields({ control, watch }: IStylingFields) {
+  const { t } = useTranslation();
   watch(['horizontalSpacing', 'verticalSpacing', 'fontSize', 'striped', 'highlightOnHover']);
   return (
     <Stack spacing="xs">
@@ -15,26 +18,14 @@ export function StylingFields({ control, watch }: IStylingFields) {
           name="horizontalSpacing"
           control={control}
           render={({ field }) => (
-            <TextInput
-              label="Horizontal Spacing"
-              placeholder="10px, 1em, 1rem, 100%..."
-              required
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <MantineSizeSelector disabled label={t('viz.table.style.horizontal_spacing')} sx={{ flex: 1 }} {...field} />
           )}
         />
         <Controller
           name="verticalSpacing"
           control={control}
           render={({ field }) => (
-            <TextInput
-              label="Vertical Spacing"
-              placeholder="10px, 1em, 1rem, 100%..."
-              required
-              sx={{ flex: 1 }}
-              {...field}
-            />
+            <MantineSizeSelector disabled label={t('viz.table.style.vertical_spacing')} sx={{ flex: 1 }} {...field} />
           )}
         />
       </Group>
@@ -43,7 +34,13 @@ export function StylingFields({ control, watch }: IStylingFields) {
           name="fontSize"
           control={control}
           render={({ field }) => (
-            <TextInput label="Font Size" placeholder="10px, 1em, 1rem, 100%..." required sx={{ flex: 1 }} {...field} />
+            <TextInput
+              label={t('style.font_size.label')}
+              placeholder={t('style.font_size.placeholder')}
+              required
+              sx={{ flex: 1 }}
+              {...field}
+            />
           )}
         />
       </Group>
@@ -52,7 +49,11 @@ export function StylingFields({ control, watch }: IStylingFields) {
           name="striped"
           control={control}
           render={({ field }) => (
-            <Switch label="Striped" checked={field.value} onChange={(e) => field.onChange(e.currentTarget.checked)} />
+            <Switch
+              label={t('viz.table.style.striped')}
+              checked={field.value}
+              onChange={(e) => field.onChange(e.currentTarget.checked)}
+            />
           )}
         />
         <Controller
@@ -60,7 +61,7 @@ export function StylingFields({ control, watch }: IStylingFields) {
           control={control}
           render={({ field }) => (
             <Switch
-              label="Highlight on hover"
+              label={t('viz.table.style.highlight_on_hover')}
               checked={field.value}
               onChange={(e) => field.onChange(e.currentTarget.checked)}
             />

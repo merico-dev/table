@@ -1,7 +1,8 @@
 import { Button, Modal, Select, Stack } from '@mantine/core';
 import { useBoolean } from 'ahooks';
 import { observer } from 'mobx-react-lite';
-import { createElement } from 'react';
+import { createElement, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReadyTriggerConfigModel } from '~/interactions/components/trigger-config-model';
 import { VariableList } from '~/interactions/components/variable-list';
 import { ITriggerConfigProps } from '~/types/plugin';
@@ -25,18 +26,30 @@ const TriggerModalButton = observer(({ model, onClick }: { model: ReadyTriggerCo
 });
 
 const TriggerSchemaSelect = observer(({ model }: { model: ReadyTriggerConfigModel }) => {
+  const { t, i18n } = useTranslation();
   const schemaList = model.schemaList;
-  const selectItems = schemaList.map((it) => ({
-    label: it.displayName,
-    value: it.id,
-  }));
+  const selectItems = useMemo(
+    () =>
+      schemaList.map((it) => ({
+        label: t(it.displayName),
+        value: it.id,
+      })),
+    [schemaList, i18n.language],
+  );
 
   async function handleChange(schemaId: string) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await model.changeSchema(schemaList.find((it) => it.id === schemaId)!);
   }
 
-  return <Select label="Trigger" data={selectItems} value={model.triggerSchema.id} onChange={handleChange} />;
+  return (
+    <Select
+      label={t('interactions.trigger.label')}
+      data={selectItems}
+      value={model.triggerSchema.id}
+      onChange={handleChange}
+    />
+  );
 });
 
 const TriggerSettings = observer(({ model }: { model: ReadyTriggerConfigModel }) => {
@@ -49,15 +62,16 @@ const TriggerSettings = observer(({ model }: { model: ReadyTriggerConfigModel })
 });
 
 export const TriggerSelect = observer((props: ITriggerSelectProps) => {
+  const { t } = useTranslation();
   const [modalOpen, { setTrue: openModal, setFalse: closeModal }] = useBoolean(false);
   const model = props.model;
   return (
     <>
-      <Modal opened={modalOpen} onClose={closeModal} title="Setup Trigger" zIndex={320}>
+      <Modal opened={modalOpen} onClose={closeModal} title={t('interactions.trigger.setup')} zIndex={320}>
         <Stack>
           <TriggerSchemaSelect model={model} />
           <TriggerSettings model={model} />
-          <VariableList title="Payload" variables={model.triggerSchema.payload} />
+          <VariableList title={t('interactions.trigger.payload')} variables={model.triggerSchema.payload} />
         </Stack>
       </Modal>
       <TriggerModalButton onClick={openModal} model={model} />

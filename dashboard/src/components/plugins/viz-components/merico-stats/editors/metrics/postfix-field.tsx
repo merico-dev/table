@@ -1,19 +1,9 @@
 import { Group, Select, TextInput } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { useEditContentModelContext } from '~/contexts';
 import { TMetricPostfix } from '../../type';
-
-const postfixTypeOptions: { label: string; value: TMetricPostfix['type'] }[] = [
-  {
-    label: 'Text',
-    value: 'text',
-  },
-  {
-    label: 'Filter Option Label',
-    value: 'filter-option-label',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   value: TMetricPostfix;
@@ -22,6 +12,7 @@ type Props = {
 
 export const PostfixField = observer(
   forwardRef(({ value: postfix, onChange }: Props, _ref: any) => {
+    const { t, i18n } = useTranslation();
     const contentModel = useEditContentModelContext();
     const filterSelects = contentModel.filters.selects;
 
@@ -39,12 +30,31 @@ export const PostfixField = observer(
       });
     };
 
+    const postfixTypeOptions: { label: string; value: TMetricPostfix['type'] }[] = useMemo(
+      () => [
+        {
+          label: t('viz.merico_stats.metric.postfix_type.text'),
+          value: 'text',
+        },
+        {
+          label: t('viz.merico_stats.metric.postfix_type.filter'),
+          value: 'filter-option-label',
+        },
+      ],
+      [i18n.language],
+    );
+
     return (
       <Group grow noWrap>
-        <Select label="Postfix Type" data={postfixTypeOptions} value={postfix.type} onChange={changeType} />
+        <Select
+          label={t('viz.merico_stats.metric.postfix_type.label')}
+          data={postfixTypeOptions}
+          value={postfix.type}
+          onChange={changeType}
+        />
         {postfix.type === 'text' && (
           <TextInput
-            label="Postfix Content"
+            label={t('viz.merico_stats.metric.postfix_content')}
             value={postfix.value}
             onChange={(e) => {
               changeValue(e.currentTarget.value);
@@ -52,7 +62,12 @@ export const PostfixField = observer(
           />
         )}
         {postfix.type === 'filter-option-label' && (
-          <Select label="Filter" value={postfix.value} onChange={changeValue} data={filterSelects} />
+          <Select
+            label={t('viz.merico_stats.metric.postfix_filter')}
+            value={postfix.value}
+            onChange={changeValue}
+            data={filterSelects}
+          />
         )}
       </Group>
     );

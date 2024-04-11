@@ -4,12 +4,14 @@ import { DataFieldSelector } from '~/components/panel/settings/common/data-field
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { NumberOrDynamicValue } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value';
 import { ICalendarHeatmapConf } from '../../type';
+import { useTranslation } from 'react-i18next';
 
 interface IHeatBlockField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
   watch: UseFormWatch<ICalendarHeatmapConf>;
 }
 export function HeatBlockField({ control, watch }: IHeatBlockField) {
+  const { t } = useTranslation();
   watch(['heat_block']);
   return (
     <Stack>
@@ -17,27 +19,27 @@ export function HeatBlockField({ control, watch }: IHeatBlockField) {
         <Controller
           name="heat_block.data_key"
           control={control}
-          render={({ field }) => <DataFieldSelector label="Data Field" required sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <DataFieldSelector label={t('common.data_field')} sx={{ flex: 1 }} {...field} />}
         />
         <Controller
           name="heat_block.name"
           control={control}
-          render={({ field }) => <TextInput label="Name" sx={{ flex: 1 }} {...field} />}
+          render={({ field }) => <TextInput label={t('common.name')} sx={{ flex: 1 }} {...field} />}
         />
       </Group>
       <Group grow noWrap>
         <Controller
           name="heat_block.min"
           control={control}
-          render={({ field }) => <NumberOrDynamicValue label="Min Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.min_value')} {...field} />}
         />
         <Controller
           name="heat_block.max"
           control={control}
-          render={({ field }) => <NumberOrDynamicValue label="Max Value" {...field} />}
+          render={({ field }) => <NumberOrDynamicValue label={t('chart.heatmap.heatblock.max_value')} {...field} />}
         />
       </Group>
-      <Divider mb={-15} variant="dashed" label="Value Format" labelPosition="center" />
+      <Divider mb={-15} variant="dashed" label={t('numbro.format.label')} labelPosition="center" />
       <Controller
         name={`heat_block.value_formatter`}
         control={control}

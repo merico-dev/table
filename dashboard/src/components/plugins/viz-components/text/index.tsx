@@ -4,6 +4,7 @@ import { VizText } from './viz-text';
 import { VizTextEditor } from './viz-text-editor';
 import { DEFAULT_CONFIG, IVizTextConf } from './type';
 import { cloneDeep } from 'lodash';
+import { translation } from './translation';
 
 class VizTextMigrator extends VersionBasedMigrator {
   readonly VERSION = 1;
@@ -19,7 +20,7 @@ class VizTextMigrator extends VersionBasedMigrator {
 }
 
 export const TextVizComponent: VizComponent = {
-  displayName: 'Text',
+  displayName: 'viz.text.viz_name',
   displayGroup: 'chart.groups.others',
   migrator: new VizTextMigrator(),
   name: 'text',
@@ -31,4 +32,5 @@ export const TextVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IVizTextConf,
     };
   },
+  translation,
 };

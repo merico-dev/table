@@ -1,7 +1,7 @@
 import { getLabelOverflowOptionOnAxis } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
 import { defaultEchartsOptions } from '~/styles/default-echarts-options';
-import { getEchartsXAxisLabel } from '../../cartesian/editors/x-axis/x-axis-label-formatter/get-echarts-x-axis-tick-label';
 import { IHorizontalBarChartConf } from '../type';
+import { getEchartsXAxisLabel } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
 
 export function getYAxes(conf: IHorizontalBarChartConf, yAxisData: $TSFixMe[]) {
   const allNumbers = yAxisData.every((d) => !Number.isNaN(Number(d)));

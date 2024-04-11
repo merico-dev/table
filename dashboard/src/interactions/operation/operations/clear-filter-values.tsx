@@ -1,6 +1,7 @@
 import { MultiSelect, Stack } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { useEditContentModelContext } from '~/contexts';
 import { IDashboardOperation, IDashboardOperationSchema, IOperationConfigProps } from '~/types/plugin';
@@ -12,6 +13,7 @@ export interface IClearFilterValuesOperationConfig {
 const defaultValue: IClearFilterValuesOperationConfig = { filter_keys: [] };
 
 const ClearFilterValuesOperationSettings = observer((props: IOperationConfigProps) => {
+  const { t } = useTranslation();
   const model = useEditContentModelContext();
   const { value = defaultValue, set } = useStorageData<IClearFilterValuesOperationConfig>(
     props.operation.operationData,
@@ -35,7 +37,7 @@ const ClearFilterValuesOperationSettings = observer((props: IOperationConfigProp
   return (
     <Stack spacing={10}>
       <MultiSelect
-        label="Select Filters to Clear"
+        label={t('interactions.operation.clear_filter_values.select_filter')}
         data={filterKeyOptions}
         value={filter_keys}
         onChange={setFilterKeys}
@@ -51,7 +53,7 @@ async function run(payload: Record<string, unknown>, operation: IDashboardOperat
 }
 
 export const ClearFilterValues: IDashboardOperationSchema = {
-  displayName: 'Clear Filter Values',
+  displayName: 'interactions.operation.clear_filter_values.label',
   id: 'builtin:op:clear_filter_values',
   configRender: ClearFilterValuesOperationSettings,
   run,

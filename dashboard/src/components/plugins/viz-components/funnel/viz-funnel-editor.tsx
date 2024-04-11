@@ -1,9 +1,9 @@
-import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { useStorageData } from '../../hooks';
 import { SeriesField } from './editors/series';
 import { DEFAULT_CONFIG, IFunnelConf } from './type';
@@ -27,12 +27,7 @@ export function VizFunnelEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Funnel Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         {/* <Tabs
           defaultValue="Basics"
           orientation="vertical"

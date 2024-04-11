@@ -16,6 +16,7 @@ import { ErrorMessageOrNotFound } from '~/components/filter/error-message-or-not
 import { SwitcherIcon } from './switcher-icon';
 import { TreeIcon } from './tree-icon';
 import useStyles, { TreeSelectWidgetStylesParams } from './widget.styles';
+import { useTranslation } from 'react-i18next';
 
 // This type will contain a union with all selectors defined in useStyles,
 // in this case it will be `'root' | 'title' | 'description'`
@@ -53,6 +54,7 @@ export const FilterTreeSelectWidget = ({
   required,
   treeCheckStrictly,
 }: IFilterTreeSelectWidget) => {
+  const { t } = useTranslation();
   const { classes, cx } = useStyles({ radius }, { name: 'FilterTreeSelectWidget', classNames, styles, unstyled });
 
   const [showTooltip, setShowTooltip] = useState(false);
@@ -72,7 +74,7 @@ export const FilterTreeSelectWidget = ({
           )}
         </Text>
         {tooltipVisible && (
-          <Tooltip label={`${value.length} selected`}>
+          <Tooltip label={t('filter.widget.common.x_selected', { count: value.length })}>
             <Badge>{value.length}</Badge>
           </Tooltip>
         )}
@@ -105,7 +107,7 @@ export const FilterTreeSelectWidget = ({
         onChange={onChange}
         onSelect={console.log}
         maxTagCount={0}
-        maxTagPlaceholder={() => `${value.length} selected`}
+        maxTagPlaceholder={() => t('filter.widget.common.x_selected', { count: value.length })}
       />
     </Stack>
   );

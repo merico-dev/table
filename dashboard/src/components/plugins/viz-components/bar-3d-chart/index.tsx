@@ -4,6 +4,7 @@ import { VizBar3dChart } from './viz-bar-3d-chart';
 import { VizBar3dChartEditor } from './viz-bar-3d-chart-editor';
 import { DEFAULT_CONFIG, IBar3dChartConf } from './type';
 import { cloneDeep } from 'lodash';
+import { translation } from './translation';
 
 function v2(legacyConf: any, { panelModel }: IMigrationEnv): IBar3dChartConf {
   try {
@@ -43,7 +44,7 @@ class VizBar3dChartMigrator extends VersionBasedMigrator {
 }
 
 export const Bar3dChartVizComponent: VizComponent = {
-  displayName: 'Bar Chart (3D)',
+  displayName: 'viz.bar_chart_3d.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizBar3dChartMigrator(),
   name: 'bar-3d',
@@ -55,4 +56,5 @@ export const Bar3dChartVizComponent: VizComponent = {
       config: cloneDeep(DEFAULT_CONFIG) as IBar3dChartConf,
     };
   },
+  translation,
 };

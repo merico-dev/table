@@ -2,13 +2,13 @@ import _, { cloneDeep, omit } from 'lodash';
 import { IMigrationEnv, VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { VizComponent } from '~/types/plugin';
 import { ITemplateVariable, defaultNumberFormat } from '~/utils';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { getDefaultXAxisLabelFormatter } from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
+import { translation } from './translation';
 import { ClickBoxplotSeries } from './triggers';
 import { DEFAULT_CONFIG, IBoxplotChartConf } from './type';
 import { VizBoxplotChart } from './viz-boxplot-chart';
 import { VizBoxplotChartEditor } from './viz-boxplot-chart-editor';
-import { getDefaultDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
-import { translation } from './translation';
 
 function updateSchema2(legacyConf: IBoxplotChartConf & { variables: ITemplateVariable[] }): IBoxplotChartConf {
   return omit(legacyConf, 'variables');
@@ -28,7 +28,7 @@ function updateToSchema3(legacyConf: $TSFixMe): IBoxplotChartConf {
 function updateToSchema4(legacyConf: $TSFixMe): IBoxplotChartConf {
   const defaultXAxisLabel = {
     rotate: 0,
-    formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+    formatter: getDefaultXAxisLabelFormatter(),
   };
 
   const { axisLabel = defaultXAxisLabel, ...rest } = legacyConf.x_axis;
@@ -199,7 +199,7 @@ export class VizBoxplotChartMigrator extends VersionBasedMigrator {
 }
 
 export const BoxplotChartVizComponent: VizComponent = {
-  displayName: 'viz.boxplot.chart_name',
+  displayName: 'viz.boxplot.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizBoxplotChartMigrator(),
   name: 'boxplot',

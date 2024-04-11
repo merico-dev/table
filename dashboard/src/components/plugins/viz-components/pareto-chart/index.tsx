@@ -1,9 +1,10 @@
 import _, { cloneDeep } from 'lodash';
-import { defaultNumberFormat } from '~/utils';
 import { VizComponent } from '~/types/plugin';
+import { defaultNumberFormat } from '~/utils';
+import { getDefaultXAxisLabelFormatter } from '../../common-echarts-fields/x-axis-label-formatter';
 import { IMigrationEnv, VersionBasedMigrator } from '../../plugin-data-migrator';
 import { DEFAULT_DATA_ZOOM_CONFIG } from '../cartesian/editors/echarts-zooming-field/types';
-import { DEFAULT_X_AXIS_LABEL_FORMATTER } from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
+import { translation } from './translation';
 import { ClickParetoSeries } from './triggers';
 import { DEFAULT_CONFIG, DEFAULT_PARETO_MARK_LINE, IParetoChartConf } from './type';
 import { VizParetoChart } from './viz-pareto-chart';
@@ -28,7 +29,7 @@ function v3(legacyConf: $TSFixMe): IParetoChartConf {
 function v4(legacyConf: $TSFixMe): IParetoChartConf {
   const finalAxisLabel = _.defaultsDeep({}, legacyConf.x_axis.axisLabel, {
     rotate: 0,
-    formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+    formatter: getDefaultXAxisLabelFormatter(),
   });
 
   return {
@@ -193,7 +194,7 @@ class VizParetoChartMigrator extends VersionBasedMigrator {
 }
 
 export const ParetoChartVizComponent: VizComponent = {
-  displayName: 'Pareto Chart',
+  displayName: 'viz.pareto_chart.viz_name',
   displayGroup: 'chart.groups.echarts_based_charts',
   migrator: new VizParetoChartMigrator(),
   name: 'paretoChart',
@@ -206,4 +207,5 @@ export const ParetoChartVizComponent: VizComponent = {
     };
   },
   triggers: [ClickParetoSeries],
+  translation,
 };

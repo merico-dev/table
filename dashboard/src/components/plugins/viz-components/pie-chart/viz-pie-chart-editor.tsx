@@ -1,14 +1,16 @@
-import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import _, { defaultsDeep } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { DEFAULT_CONFIG, IPieChartConf } from './type';
+import { useTranslation } from 'react-i18next';
 
 export function VizPieChartEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IPieChartConf>(context.instanceData, 'config');
   const conf: IPieChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
   const defaultValues: IPieChartConf = useMemo(() => _.clone(conf), [conf]);
@@ -28,27 +30,22 @@ export function VizPieChartEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Pie Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Stack mt="md" spacing="xs" p="md" mb="sm" sx={{ border: '1px solid #eee', borderRadius: '5px' }}>
           <Controller
             control={control}
             name="label_field"
-            render={({ field }) => <DataFieldSelector label="Label Key" required {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.name_data_field')} required {...field} />}
           />
           <Controller
             control={control}
             name="value_field"
-            render={({ field }) => <DataFieldSelector label="Value Key" required {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.value_data_field')} required {...field} />}
           />
           <Controller
             control={control}
             name="color_field"
-            render={({ field }) => <DataFieldSelector label="Color Key" clearable {...field} />}
+            render={({ field }) => <DataFieldSelector label={t('common.color_data_field')} clearable {...field} />}
           />
         </Stack>
       </form>

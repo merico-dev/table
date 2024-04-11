@@ -1,6 +1,6 @@
 import { Control, Controller } from 'react-hook-form';
 import { ICartesianChartConf } from '../../type';
-import { ScatterSizeSelect } from '../scatter-size-select';
+import { SymbolSizeSelector } from '../../../../common-echarts-fields/symbol-size';
 
 interface IScatterFields {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -12,7 +12,7 @@ export function ScatterFields({ control, index }: IScatterFields) {
     <Controller
       name={`series.${index}.symbolSize`}
       control={control}
-      render={({ field }) => <ScatterSizeSelect label="Size" {...field} />}
+      render={({ field }) => <SymbolSizeSelector label="Size" {...field} />}
     />
   );
 }

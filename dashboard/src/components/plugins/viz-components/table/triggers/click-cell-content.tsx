@@ -1,13 +1,14 @@
 import { Select, SelectItem, Text } from '@mantine/core';
-import { defaults, isEmpty, isNumber } from 'lodash';
+import { defaults, isNumber } from 'lodash';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { ITableConf } from '~/components/plugins/viz-components/table/type';
 import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin';
-import { extractData, extractFullQueryData, parseDataKey } from '~/utils';
+import { extractFullQueryData } from '~/utils';
 
 export const ClickCellContent: ITriggerSchema = {
   id: 'builtin:table:click-cell-content',
-  displayName: 'Click Cell Content',
+  displayName: 'viz.table.click_cell.click_cell_content',
   nameRender: ClickCellContentName,
   configRender: ClickCellContentSettings,
   payload: [
@@ -71,6 +72,7 @@ function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
 }
 
 export function ClickCellContentSettings(props: ITriggerConfigProps) {
+  const { t } = useTranslation();
   const { columnsFromConfig, columnsFromData } = useColumnsFromConfig(props.instance, props.sampleData);
   const columns = columnsFromConfig.length > 0 ? columnsFromConfig : columnsFromData;
   const { value: config, set: setConfig } = useStorageData<IClickCellContentConfig>(
@@ -89,7 +91,7 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
     <Select
       clearable={false}
       data={columns}
-      label="Choose a column"
+      label={t('viz.table.click_cell.choose_a_column')}
       value={column.toString()}
       onChange={handleFieldChange}
     />
@@ -97,13 +99,14 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
 }
 
 function generateTriggerName(config: IClickCellContentConfig | undefined, columnsFromConfig: SelectItem[]) {
+  const { t } = useTranslation();
   if (!config) {
-    return 'Click cell content (click to config)';
+    return t('viz.table.click_cell.click_cell_content');
   }
   if (isNumber(config.column)) {
-    return `Click cell of ${columnsFromConfig[config.column].label}`;
+    return t('viz.table.click_cell.click_cell_of_x', { x: columnsFromConfig[config.column].label });
   }
-  return `Click cell of ${config.column}`;
+  return t('viz.table.click_cell.click_cell_of_x', { x: config.column });
 }
 
 function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {

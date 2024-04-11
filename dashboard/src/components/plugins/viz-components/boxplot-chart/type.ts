@@ -5,15 +5,13 @@ import {
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { AnyObject } from '~/types';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
+
+import { ChartingOrientation } from '../../common-echarts-fields/orientation';
 import {
-  DEFAULT_X_AXIS_LABEL_FORMATTER,
+  getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
-} from '../cartesian/editors/x-axis/x-axis-label-formatter/types';
-import {
-  DEFAULT_DATA_ZOOM_CONFIG,
-  getDefaultDataZoomConfig,
-  TEchartsDataZoomConfig,
-} from '../cartesian/editors/echarts-zooming-field/types';
+} from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultDataZoomConfig, TEchartsDataZoomConfig } from '../cartesian/editors/echarts-zooming-field/types';
 
 export interface IBoxplotReferenceLine {
   name: string;
@@ -21,15 +19,13 @@ export interface IBoxplotReferenceLine {
   variable_key: string;
 }
 
-export type TLegendOrientation = 'horizontal' | 'vertical';
-
 export type TBoxplotLegend = {
   show: boolean;
   top: string;
   right: string;
   bottom: string;
   left: string;
-  orient: TLegendOrientation;
+  orient: ChartingOrientation;
   type: 'scroll';
 };
 
@@ -63,7 +59,7 @@ export const DEFAULT_CONFIG: IBoxplotChartConf = {
     data_key: '',
     axisLabel: {
       rotate: 0,
-      formatter: { ...DEFAULT_X_AXIS_LABEL_FORMATTER },
+      formatter: getDefaultXAxisLabelFormatter(),
       overflow: getDefaultAxisLabelOverflow(),
     },
   },

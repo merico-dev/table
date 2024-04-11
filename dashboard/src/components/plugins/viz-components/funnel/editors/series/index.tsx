@@ -55,7 +55,7 @@ export const SeriesField = ({ control, watch }: ISeriesField) => {
           </Tabs.Tab>
         ))}
         <Tabs.Tab value="add" disabled>
-          <Tooltip label="TODO">
+          <Tooltip label="todo">
             <Center>
               <IconPlus size={18} color="#228be6" />
             </Center>

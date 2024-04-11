@@ -4,7 +4,7 @@ import { AnyObject } from '~/types';
 import { parseDataKey } from '~/utils';
 import { ITemplateVariable, templateToString } from '~/utils';
 import { ICartesianReferenceLine } from '../../cartesian/type';
-import { getEchartsSymbolSize } from '../editors/scatter/scatter-size-select/get-echarts-symbol-size';
+import { getEChartsSymbolSize } from './get-echarts-symbol-size';
 import { getSeriesColor } from '../editors/scatter/series-color-select/get-series-color';
 import { IScatterChartConf } from '../type';
 
@@ -73,7 +73,7 @@ function getSeriesItemOrItems(
     itemStyle: {
       color: getSeriesColor(scatter.color, variableValueMap),
     },
-    symbolSize: getEchartsSymbolSize(scatter.symbolSize, variableValueMap),
+    symbolSize: getEChartsSymbolSize(scatter.symbolSize, variableValueMap),
     encode: { x: x.columnKey, y: y.columnKey },
   };
 }

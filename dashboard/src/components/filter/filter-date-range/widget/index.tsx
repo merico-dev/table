@@ -7,6 +7,7 @@ import { CountDays } from './count-days';
 import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
 import { DateRangeValue } from './type';
+import { useTranslation } from 'react-i18next';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
@@ -31,6 +32,7 @@ export const DateRangeWidget = ({
   allowSingleDateInRange,
   inputFormat,
 }: Props) => {
+  const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
 
   const [begin, end] = value;
@@ -45,7 +47,7 @@ export const DateRangeWidget = ({
             label={label}
             required={required}
             icon={<IconCalendar size={16} />}
-            placeholder="Start date"
+            placeholder={t('filter.widget.date_range.start_date')}
             readOnly
             value={beginStr}
             onFocus={open}
@@ -62,7 +64,7 @@ export const DateRangeWidget = ({
             </Group>
           }
           icon={<IconMinus size={16} />}
-          placeholder="End date"
+          placeholder={t('filter.widget.date_range.end_date')}
           readOnly
           disabled={!begin}
           value={endStr}

@@ -1,23 +1,25 @@
-import { ActionIcon, Group, Stack, Tabs, Text } from '@mantine/core';
+import { Stack, Tabs } from '@mantine/core';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { DeviceFloppy } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { EchartsZoomingField } from './editors/echarts-zooming-field';
 import { ReferenceAreasField } from './editors/reference-areas';
 import { ReferenceLinesField } from './editors/reference-lines';
 import { RegressionsField } from './editors/regressions';
 import { SeriesField } from './editors/series';
 import { StatsField } from './editors/stats';
+import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxesField } from './editors/y-axes';
 import { DEFAULT_CONFIG, ICartesianChartConf } from './type';
-import { TooltipField } from './editors/tooltip';
 
 export function VizCartesianEditor({ context }: VizConfigProps) {
+  const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<ICartesianChartConf>(context.instanceData, 'config');
   const { variables } = context;
   const defaultValues: ICartesianChartConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
@@ -36,12 +38,7 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
   return (
     <Stack spacing="xs">
       <form onSubmit={handleSubmit(setConf)}>
-        <Group position="left" py="md" pl="md" sx={{ borderBottom: '1px solid #eee', background: '#efefef' }}>
-          <Text>Chart Config</Text>
-          <ActionIcon type="submit" mr={5} variant="filled" color="blue" disabled={!changed}>
-            <DeviceFloppy size={20} />
-          </ActionIcon>
-        </Group>
+        <VizConfigBanner canSubmit={changed} />
         <Tabs
           defaultValue="Series"
           orientation="vertical"
@@ -57,15 +54,15 @@ export function VizCartesianEditor({ context }: VizConfigProps) {
           }}
         >
           <Tabs.List>
-            <Tabs.Tab value="X Axis">X Axis</Tabs.Tab>
-            <Tabs.Tab value="Y Axes">Y Axes</Tabs.Tab>
-            <Tabs.Tab value="Series">Series</Tabs.Tab>
-            <Tabs.Tab value="Regression Lines">Regression Lines</Tabs.Tab>
-            <Tabs.Tab value="Tooltip">Tooltip</Tabs.Tab>
-            <Tabs.Tab value="Stats">Stats</Tabs.Tab>
-            <Tabs.Tab value="Reference Lines">Reference Lines</Tabs.Tab>
-            <Tabs.Tab value="Reference Areas">Reference Areas</Tabs.Tab>
-            <Tabs.Tab value="Zooming">Zooming</Tabs.Tab>
+            <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
+            <Tabs.Tab value="Y Axes">{t('chart.y_axis.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Series">{t('chart.series.label')}</Tabs.Tab>
+            <Tabs.Tab value="Regression Lines">{t('chart.regression_line.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
+            <Tabs.Tab value="Stats">{t('chart.stats.label')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Reference Areas">{t('chart.reference_area.labels')}</Tabs.Tab>
+            <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
