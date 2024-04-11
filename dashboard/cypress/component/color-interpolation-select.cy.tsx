@@ -6,7 +6,7 @@ import { RedGreen } from '~/components/plugins/colors';
 import {
   ColorInterpolationSelect,
   IColorInterpolationSelectProps,
-} from '~/components/plugins/controls/color-interpolation-select';
+} from '~/components/plugins/editor-components/color-interpolation-select';
 import { AnyObject } from '~/types';
 
 const withTestBed = <TP extends AnyObject = AnyObject, TC extends React.ComponentType<TP> = React.ComponentType<TP>>(
