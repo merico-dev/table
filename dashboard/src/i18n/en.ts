@@ -419,6 +419,9 @@ export const en = {
             green: 'Green',
             blue: 'Blue',
             orange: 'Orange',
+            mapping: {
+              value_input_label: 'Map a value to this color',
+            },
           },
         },
       },

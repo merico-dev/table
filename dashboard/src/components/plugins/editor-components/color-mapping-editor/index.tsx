@@ -8,6 +8,8 @@ import { CSSProperties, useEffect, useState } from 'react';
 import { IColorInterpolation, IValueStep } from '~/types/plugin';
 import { formatNumber } from '~/utils';
 import { useStyles } from './style';
+import { useTranslation } from 'react-i18next';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },
@@ -85,6 +87,7 @@ class ColorMappingEditorModel {
 }
 
 function PaletteItem(props: { index: number; color: string; value?: number; onChange?: (val?: number) => void }) {
+  const { t } = useTranslation();
   const { onChange, color, index, value } = props;
   const { classes } = useStyles();
   const [state, setState] = useState(value);
@@ -114,7 +117,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
       >
         {valueText}
       </Text>
-      <Popover width={200} trapFocus opened={popoverOpened} onClose={closePopover}>
+      <Popover width={200} trapFocus opened={popoverOpened} onClose={closePopover} zIndex={340} withinPortal>
         <Popover.Target>
           <div
             data-testid={`palette-item-target`}
@@ -130,14 +133,26 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
         </Popover.Target>
         <Popover.Dropdown>
           <Stack>
-            {/* @ts-expect-error type of onChange */}
-            <NumberInput size="xs" label="Map a value to this color" value={state} onChange={setState} />
+            <NumberInput
+              size="xs"
+              label={t('style.color.interpolation.mapping.value_input_label')}
+              value={state}
+              onChange={(v: number | '') => {
+                typeof v === 'number' && setState(v);
+              }}
+            />
             <Group position="right">
               <Button variant="subtle" size="xs" onClick={handleCancel}>
-                Cancel
+                {t('common.actions.cancel')}
               </Button>
-              <Button data-testid="palette-item-ok" size="xs" onClick={handleOk}>
-                OK
+              <Button
+                color="green"
+                leftIcon={<IconDeviceFloppy size={16} />}
+                data-testid="palette-item-ok"
+                size="xs"
+                onClick={handleOk}
+              >
+                {t('common.actions.save')}
               </Button>
             </Group>
           </Stack>

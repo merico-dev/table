@@ -419,6 +419,9 @@ export const zh = {
             green: '绿',
             blue: '蓝',
             orange: '橙',
+            mapping: {
+              value_input_label: '映射一个值到此颜色',
+            },
           },
         },
       },
