@@ -255,7 +255,7 @@ export const en = {
       pagination: {
         page_size: 'Page Size',
         total: 'Total',
-        total_rows: 'Total {{total}} row',
+        total_rows: 'Total {{total}} row(s)',
       },
       align: {
         horizontal: {
