@@ -54,7 +54,13 @@ export function DataTable({ data }: { data: AnyObject[] }) {
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id}>
-                  <ErrorBoundary>{flexRender(cell.column.columnDef.cell, cell.getContext())}</ErrorBoundary>
+                  <ErrorBoundary>
+                    {typeof cell.getValue() === 'object' ? (
+                      <pre>{JSON.stringify(cell.getValue(), null, 2)}</pre>
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
+                  </ErrorBoundary>
                 </td>
               ))}
             </tr>

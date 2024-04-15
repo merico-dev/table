@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { AnyObject, IAPIClient, IAPIClientRequestOptions } from './types';
 import { cryptSign } from './utils';
 import axios, { Method, AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -46,7 +47,8 @@ export class DefaultApiClient implements IAPIClient {
           return res.data;
         })
         .catch((err: Error) => {
-          return Promise.reject(err);
+          const msg = _.get(err, 'response.data.detail.message', err.message);
+          return Promise.reject(new Error(msg));
         }) as Promise<T>;
     };
   }

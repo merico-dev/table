@@ -24,6 +24,7 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
       title: 'Pending',
       message: 'Submitting permission changes...',
       loading: true,
+      autoClose: false,
     });
     const { id, access } = model.json;
     try {
@@ -33,6 +34,7 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
         title: 'Successful',
         message: 'Permission has changed',
         color: 'green',
+        autoClose: true,
       });
       model.load();
       postSubmit();
@@ -43,6 +45,7 @@ export const SubmitPermissionChanges = observer(({ model, postSubmit }: ISubmitP
         // @ts-expect-error unkown error
         message: err.message,
         color: 'red',
+        autoClose: true,
       });
     } finally {
       setFalse();

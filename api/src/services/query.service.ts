@@ -54,7 +54,15 @@ export class QueryService {
   }
 
   private getDBStructureSql(): string {
-    return 'SELECT table_schema, table_name, table_type FROM information_schema.tables ORDER BY table_schema, table_name';
+    return `
+        SELECT
+          table_schema as table_schema,
+          table_name as table_name,
+          table_type as table_type
+        FROM
+          information_schema.tables
+        ORDER BY table_schema, table_name
+      `;
   }
 
   private getColumnStructureSql(type: string, table_schema: string, table_name: string): string {
@@ -76,14 +84,23 @@ export class QueryService {
               AND attname = column_name
             LEFT JOIN pg_constraint pc ON pc.conrelid = ${attrelid} AND ordinal_position = any(pc.conkey)
           WHERE
-            table_name = '${table_name}' AND table_schema = '${table_schema}';
+            table_name = '${table_name}' AND table_schema = '${table_schema}'
+          ORDER BY ordinal_position ASC;
         `;
     }
     if (type === 'mysql') {
       return `
-          SELECT ordinal_position, column_key, column_name, column_type, is_nullable, column_default, column_comment
+          SELECT
+            ordinal_position as ordinal_position,
+            column_key as column_key,
+            column_name as column_name,
+            column_type as column_type,
+            is_nullable as is_nullable,
+            column_default as column_default,
+            column_comment as column_comment
           FROM information_schema.columns
           WHERE table_name = '${table_name}' AND table_schema = '${table_schema}'
+          ORDER BY ordinal_position ASC
         `;
     }
     return '';

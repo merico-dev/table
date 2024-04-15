@@ -21,6 +21,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
       title: 'Pending',
       message: 'Editing data source...',
       loading: true,
+      autoClose: false,
     });
     try {
       console.log({ config });
@@ -30,6 +31,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
         title: 'Successful',
         message: 'Data source is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -38,6 +40,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

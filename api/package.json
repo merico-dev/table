@@ -1,6 +1,6 @@
 {
   "name": "@devtable/api",
-  "version": "12.10.1",
+  "version": "12.11.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -54,7 +54,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
+    "mysql2": "2.3.3",
     "npmlog": "^7.0.1",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",

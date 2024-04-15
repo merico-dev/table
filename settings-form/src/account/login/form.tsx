@@ -30,6 +30,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         title: 'Pending',
         message: 'Loggin in...',
         loading: true,
+        autoClose: false,
       });
       const res = await APICaller.account.login(name.trim(), password.trim());
       window.localStorage.setItem('token', res.token);
@@ -38,6 +39,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         title: 'Successful',
         message: 'Logged in',
         color: 'green',
+        autoClose: true,
       });
       postSubmit(res);
     } catch (error: $TSFixMe) {
@@ -46,6 +48,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
         title: 'Login Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

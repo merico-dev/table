@@ -51,6 +51,7 @@ export const DashboardEditorPageContent = observer(
         title: 'Pending',
         message: 'Updating dashboard content...',
         loading: true,
+        autoClose: false,
       });
       try {
         if (!c.content) {
@@ -65,6 +66,7 @@ export const DashboardEditorPageContent = observer(
           title: 'Successful',
           message: 'This dashboard is updated',
           color: 'green',
+          autoClose: true,
         });
         await store.currentDetail?.content.load();
       } catch (error) {
@@ -75,6 +77,7 @@ export const DashboardEditorPageContent = observer(
           // @ts-expect-error type of error
           message: error.message,
           color: 'red',
+          autoClose: true,
         });
       }
     };

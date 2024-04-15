@@ -23,6 +23,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       title: 'Pending',
       message: 'Adding data source...',
       loading: true,
+      autoClose: false,
     });
     try {
       console.log({ type, key, config });
@@ -32,14 +33,17 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
         title: 'Successful',
         message: 'Data source is added',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
+      console.error(error);
       updateNotification({
         id: 'for-creating',
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

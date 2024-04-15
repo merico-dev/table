@@ -19,6 +19,7 @@ export const SetAsDefaultVersion = observer(({ id, postSubmit }: ISetAsDefaultVe
         title: 'Pending',
         message: '',
         loading: true,
+        autoClose: false,
       });
 
       if (!store.currentDetail) {
@@ -37,6 +38,7 @@ export const SetAsDefaultVersion = observer(({ id, postSubmit }: ISetAsDefaultVe
         title: 'Successful',
         message: '',
         color: 'green',
+        autoClose: true,
       });
       store.setCurrentContentID(id);
       store.loadCurrentDetail();
@@ -48,6 +50,7 @@ export const SetAsDefaultVersion = observer(({ id, postSubmit }: ISetAsDefaultVe
         // @ts-expect-error type of error
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

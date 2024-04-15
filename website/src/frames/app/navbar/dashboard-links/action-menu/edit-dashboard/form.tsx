@@ -45,6 +45,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
       title: 'Pending',
       message: 'Updating dashboard...',
       loading: true,
+      autoClose: false,
     });
     setPending(true);
     try {
@@ -54,6 +55,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
         title: 'Successful',
         message: 'Dashboard is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -62,6 +64,7 @@ export function EditDashboardForm({ dashboard, postSubmit }: IEditDashboardForm)
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     } finally {
       setPending(false);

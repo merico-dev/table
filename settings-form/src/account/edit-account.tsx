@@ -1,12 +1,13 @@
 import { Box, Button, Divider, Group, Modal, PasswordInput, Switch, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Edit } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { IAccount } from '../api-caller/account.typed';
 import { RoleSelector } from './role-selector';
-import { defaultStyles, IStyles } from './styles';
+import { IStyles, defaultStyles } from './styles';
 
 interface IFormValues {
   name: string;
@@ -39,6 +40,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Pending',
         message: 'Updating account...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.edit({
         id,
@@ -53,6 +55,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Successful',
         message: 'Account is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -61,6 +64,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };
@@ -135,7 +139,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         )}
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
+          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
             Submit
           </Button>
         </Group>

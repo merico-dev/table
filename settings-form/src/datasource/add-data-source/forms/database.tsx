@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig } from '../../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../../styles';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 
 interface IFormValues {
   type: DataSourceType;
@@ -103,8 +104,8 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
+          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
+            Submit
           </Button>
         </Group>
       </form>

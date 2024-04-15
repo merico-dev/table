@@ -57,6 +57,7 @@ export function OverwriteWithJSONForm({
       title: 'Pending',
       message: 'Updating dashboard...',
       loading: true,
+      autoClose: false,
     });
     setPending(true);
     try {
@@ -69,6 +70,7 @@ export function OverwriteWithJSONForm({
         title: 'Successful',
         message: 'Dashboard is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -77,6 +79,7 @@ export function OverwriteWithJSONForm({
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     } finally {
       setPending(false);

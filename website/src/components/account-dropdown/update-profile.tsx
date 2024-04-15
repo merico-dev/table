@@ -43,6 +43,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
         title: 'Pending',
         message: 'Updating profile...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.update(name, email);
       updateNotification({
@@ -50,6 +51,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
         title: 'Successful',
         message: 'Your profile is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -58,6 +60,7 @@ function EditAccountForm({ account, postSubmit, styles = defaultStyles }: IEditA
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     } finally {
       setFalse();

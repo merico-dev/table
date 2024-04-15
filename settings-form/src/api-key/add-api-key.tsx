@@ -34,6 +34,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         title: 'Pending',
         message: 'Adding API Key...',
         loading: true,
+        autoClose: false,
       });
       const { app_id, app_secret } = await APICaller.api_key.create(name, role_id);
       updateNotification({
@@ -41,6 +42,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         title: 'Successful',
         message: 'API Key is added',
         color: 'green',
+        autoClose: true,
       });
       postSubmit(app_id, app_secret);
     } catch (error: $TSFixMe) {
@@ -49,6 +51,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

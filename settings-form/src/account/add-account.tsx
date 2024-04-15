@@ -1,5 +1,6 @@
 import { Box, Button, Group, Modal, PasswordInput, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
@@ -37,6 +38,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Pending',
         message: 'Adding account...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.create(name, email, password, role_id);
       updateNotification({
@@ -44,6 +46,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Successful',
         message: 'Account is added',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -52,6 +55,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };
@@ -95,8 +99,8 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
+          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
+            Submit
           </Button>
         </Group>
       </form>

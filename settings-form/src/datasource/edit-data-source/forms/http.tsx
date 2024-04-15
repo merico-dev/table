@@ -1,4 +1,5 @@
 import { Box, Button, Divider, Group, TextInput } from '@mantine/core';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
 import { FunctionStringField } from '../../components/function-string-field';
@@ -78,8 +79,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
         </Group>
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
+          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
+            Submit
           </Button>
         </Group>
       </form>

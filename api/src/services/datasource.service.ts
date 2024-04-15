@@ -149,7 +149,8 @@ export class DataSourceService {
     try {
       await source.initialize();
     } catch (error) {
-      throw new ApiError(BAD_REQUEST, { message: translate('DATASOURCE_CONNECTION_TEST_FAILED', locale) });
+      const message = error.message ?? translate('DATASOURCE_CONNECTION_TEST_FAILED', locale);
+      throw new ApiError(BAD_REQUEST, { message });
     }
     await source.destroy();
   }
