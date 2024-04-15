@@ -1,13 +1,12 @@
 import { Box, Button, Group, Modal, Stack, Text, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
+import { IconDeviceFloppy, IconEdit } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { TUpdateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
-import { IconEdit } from '@tabler/icons-react';
 
 type TFormValues = TUpdateSQLSnippetPayload;
 
@@ -76,8 +75,8 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
+          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
+            Submit
           </Button>
         </Group>
       </form>
