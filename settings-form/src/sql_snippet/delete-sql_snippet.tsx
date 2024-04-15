@@ -23,6 +23,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
       title: 'Pending',
       message: 'Deleting SQL Snippet...',
       loading: true,
+      autoClose: false,
     });
     try {
       await APICaller.sql_snippet.delete(id);
@@ -31,6 +32,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
         title: 'Successful',
         message: `SQL Snippet [${id}] is deleted`,
         color: 'green',
+        autoClose: true,
       });
       onSuccess();
     } catch (error: $TSFixMe) {
@@ -39,6 +41,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

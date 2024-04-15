@@ -24,6 +24,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
       title: 'Pending',
       message: 'Deleting account...',
       loading: true,
+      autoClose: false,
     });
     try {
       await APICaller.account.delete(id);
@@ -32,6 +33,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
         title: 'Successful',
         message: `Account [${name}] is deleted`,
         color: 'green',
+        autoClose: true,
       });
       onSuccess();
     } catch (error: $TSFixMe) {
@@ -40,6 +42,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

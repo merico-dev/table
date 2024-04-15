@@ -31,6 +31,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
         title: 'Pending',
         message: 'Updating SQL Snippet...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.sql_snippet.update(payload);
       updateNotification({
@@ -38,6 +39,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
         title: 'Successful',
         message: 'SQL Snippet is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -46,6 +48,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

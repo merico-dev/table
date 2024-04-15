@@ -37,6 +37,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Pending',
         message: 'Adding account...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.create(name, email, password, role_id);
       updateNotification({
@@ -44,6 +45,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Successful',
         message: 'Account is added',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -52,6 +54,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

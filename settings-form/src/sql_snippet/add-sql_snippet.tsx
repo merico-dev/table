@@ -30,6 +30,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         title: 'Pending',
         message: 'Adding SQL Snippet...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.sql_snippet.create(payload);
       updateNotification({
@@ -37,6 +38,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         title: 'Successful',
         message: 'SQL Snippet is added',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -45,6 +47,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

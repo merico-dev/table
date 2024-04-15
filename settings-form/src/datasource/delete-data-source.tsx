@@ -27,6 +27,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
       title: 'Pending',
       message: 'Deleting data source...',
       loading: true,
+      autoClose: false,
     });
     await APICaller.datasource.delete(id);
     updateNotification({
@@ -34,6 +35,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
       title: 'Successful',
       message: `Data source [${name}] is deleted`,
       color: 'green',
+      autoClose: true,
     });
     onSuccess();
   };

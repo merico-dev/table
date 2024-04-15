@@ -39,6 +39,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Pending',
         message: 'Updating account...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.edit({
         id,
@@ -53,6 +54,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Successful',
         message: 'Account is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -61,6 +63,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

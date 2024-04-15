@@ -24,6 +24,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
       title: 'Pending',
       message: 'Deleting API Key...',
       loading: true,
+      autoClose: false,
     });
     try {
       await APICaller.api_key.delete(id);
@@ -32,6 +33,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
         title: 'Successful',
         message: `API Key [${name}] is deleted`,
         color: 'green',
+        autoClose: true,
       });
       onSuccess();
     } catch (error: $TSFixMe) {
@@ -40,6 +42,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };
