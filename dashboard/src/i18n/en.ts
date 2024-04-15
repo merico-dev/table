@@ -255,7 +255,7 @@ export const en = {
       pagination: {
         page_size: 'Page Size',
         total: 'Total',
-        total_rows: 'Total {total} row',
+        total_rows: 'Total {{total}} row(s)',
       },
       align: {
         horizontal: {
@@ -343,7 +343,7 @@ export const en = {
     panel: {
       label: 'Panel',
       labels: 'Panels',
-      add: 'Add a Pane',
+      add: 'Add a Panel',
       delete: 'Delete This Panel',
       panel_name: 'Panel Name',
       panel_description: 'Description',
