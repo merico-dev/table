@@ -5,7 +5,7 @@ export type GetRange = () => DateRangeValue;
 type Shrotcut = {
   key: string;
   value: string;
-  group: 'last' | 'recent' | 'this';
+  group: 'last' | 'recent' | 'this' | 'this_so_far';
   getRange: GetRange;
 };
 
@@ -188,6 +188,33 @@ export const getDateRangeShortcuts = (): Shrotcut[] => [
     getRange: () => {
       const now = Date.now();
       return [dayjs(now).startOf('year').toDate(), dayjs(now).endOf('year').toDate()];
+    },
+  },
+  {
+    key: 'w',
+    value: 'this week so far',
+    group: 'this_so_far',
+    getRange: () => {
+      const now = Date.now();
+      return [dayjs(now).startOf('week').toDate(), dayjs(now).toDate()];
+    },
+  },
+  {
+    key: 'm',
+    value: 'this month so far',
+    group: 'this_so_far',
+    getRange: () => {
+      const now = Date.now();
+      return [dayjs(now).startOf('month').toDate(), dayjs(now).toDate()];
+    },
+  },
+  {
+    key: 'y',
+    value: 'this year so far',
+    group: 'this_so_far',
+    getRange: () => {
+      const now = Date.now();
+      return [dayjs(now).startOf('year').toDate(), dayjs(now).toDate()];
     },
   },
 ];

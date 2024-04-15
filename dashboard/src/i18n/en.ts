@@ -126,6 +126,17 @@ export const en = {
                 y: 'this year',
               },
             },
+            this_so_far: {
+              label: 'this...so far',
+              w: 'week',
+              m: 'month',
+              y: 'year',
+              full: {
+                w: 'this week so far',
+                m: 'this month so far',
+                y: 'this year so far',
+              },
+            },
           },
         },
       },
