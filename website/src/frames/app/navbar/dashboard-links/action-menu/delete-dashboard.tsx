@@ -21,6 +21,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
       title: 'Pending',
       message: 'Deleting dashboard...',
       loading: true,
+      autoClose: false,
     });
     await APICaller.dashboard.delete(id);
     updateNotification({
@@ -28,6 +29,7 @@ export const DeleteDashboard = observer(({ id }: { id: string }) => {
       title: 'Successful',
       message: 'Dashboard is deleted',
       color: 'green',
+      autoClose: true,
     });
     navigate('/dashboard');
     store.load();

@@ -93,6 +93,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         title: 'Pending',
         message: 'Creating dashboard...',
         loading: true,
+        autoClose: false,
       });
       const initialContent = await getInitialContent({
         idToDuplicate,
@@ -103,6 +104,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         title: 'Pending',
         message: 'Preparing dashboard content...',
         loading: true,
+        autoClose: false,
       });
       const d = await APICaller.dashboard.create(name, group);
       updateNotification({
@@ -110,6 +112,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         title: 'Pending',
         message: 'Creating dashboard record...',
         loading: true,
+        autoClose: false,
       });
       const c = await APICaller.dashboard_content.create({
         ...initialContent,
@@ -120,6 +123,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         title: 'Pending',
         message: 'Creating dashboard content record...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.dashboard.update({ ...d, content_id: c.id });
       updateNotification({
@@ -127,6 +131,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         title: 'Successful',
         message: 'A new dashboard is created',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
       navigate(`/dashboard/${d.id}/edit/${c.id}`);
@@ -137,6 +142,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
         // @ts-expect-error type of error
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

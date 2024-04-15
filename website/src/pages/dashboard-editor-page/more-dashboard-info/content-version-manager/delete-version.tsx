@@ -23,6 +23,7 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
         title: 'Pending',
         message: 'Deleting version...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.dashboard_content.delete({ id });
       updateNotification({
@@ -30,6 +31,7 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
         title: 'Successful',
         message: 'Dashboard is deleted',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
       const defaultContentID = store.currentDetail?.content_id;
@@ -45,6 +47,7 @@ export const DeleteVersion = observer(({ id, postSubmit }: IDeleteVersion) => {
         // @ts-expect-error type of error
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

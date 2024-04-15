@@ -34,6 +34,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
         title: 'Pending',
         message: 'Updating version info...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.dashboard_content.update({
         id,
@@ -44,6 +45,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
         title: 'Successful',
         message: 'Version is updated',
         color: 'green',
+        autoClose: true,
       });
       postSubmit(name);
     } catch (error) {
@@ -53,6 +55,7 @@ export const EditVersionInfo = observer(({ id, name, create_time, update_time, p
         // @ts-expect-error type of error
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };

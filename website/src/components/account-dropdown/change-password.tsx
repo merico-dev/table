@@ -42,6 +42,7 @@ function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePassw
         title: 'Pending',
         message: 'Changing password...',
         loading: true,
+        autoClose: false,
       });
       await APICaller.account.changepassword(old_password, new_password);
       updateNotification({
@@ -49,6 +50,7 @@ function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePassw
         title: 'Successful',
         message: 'Your password is changed',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
     } catch (error: $TSFixMe) {
@@ -57,6 +59,7 @@ function ChangePasswordForm({ postSubmit, styles = defaultStyles }: IChangePassw
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     } finally {
       setFalse();

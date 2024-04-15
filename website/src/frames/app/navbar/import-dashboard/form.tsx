@@ -45,6 +45,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       title: 'Pending',
       message: 'Creating dashboard...',
       loading: true,
+      autoClose: false,
     });
     try {
       if (!content) {
@@ -63,6 +64,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
         title: 'Successful',
         message: 'A new dashboard is created',
         color: 'green',
+        autoClose: true,
       });
       postSubmit();
       navigate(`/dashboard/${d.id}/edit/${c.id}`);
@@ -72,6 +74,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
         title: 'Failed',
         message: error.message,
         color: 'red',
+        autoClose: true,
       });
     }
   };
