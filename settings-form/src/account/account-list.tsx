@@ -6,14 +6,17 @@ import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
 import { IStyles, defaultStyles } from './styles';
+import { useApplyLanguage } from '../i18n';
 
 interface IAccountList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function AccountList({ styles = defaultStyles, config }: IAccountList) {
+export function AccountList({ lang, styles = defaultStyles, config }: IAccountList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
 
   const {
     data = [],

@@ -9,6 +9,7 @@ import { IStyles, defaultStyles } from './styles';
 
 import { IconEye } from '@tabler/icons-react';
 import { UpdateSQLSnippet } from './update-sql_snippet';
+import { useApplyLanguage } from '../i18n';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
@@ -29,12 +30,14 @@ function HoverToSeeContent({ content }: { content: string }) {
 }
 
 interface ISQLSnippetList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetList) {
+export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSnippetList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
 
   const {
     data = [],

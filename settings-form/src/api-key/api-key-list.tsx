@@ -5,14 +5,17 @@ import { configureAPIClient } from '../api-caller/request';
 import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { IStyles, defaultStyles } from './styles';
+import { useApplyLanguage } from '../i18n';
 
 interface IAPIKeyList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
+export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
 
   const {
     data = [],

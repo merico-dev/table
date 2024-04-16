@@ -8,15 +8,18 @@ import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
 import { EditDataSource } from './edit-data-source';
 import { DataSourceIcon } from './components/data-source-icon';
+import { useApplyLanguage } from '../i18n';
 
 interface IDataSourceList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
+export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSourceList) {
   useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
+  useApplyLanguage(lang);
 
   const {
     data = [],
