@@ -48,7 +48,19 @@ export const en = {
       label: 'Account',
     },
     global_sql_snippet: {
-      label: 'SQL Snippet',
+      label: 'Global SQL Snippet',
+      add: 'Add a snippet',
+      edit: 'Edit snippet',
+      content: 'Content',
+      state: {
+        adding: 'Adding snippet...',
+        added: 'Snippet is added',
+        updating: 'Editing snippet...',
+        updated: 'Snippet is updated',
+        deleting: 'Deleting snippet...',
+        deleted: 'Snippet [{{name}}] is deleted',
+      },
+      delete: 'Delete this snippet?',
     },
     api_key: {
       label: 'API Key',
@@ -57,6 +69,8 @@ export const en = {
       type: 'Type',
       name: 'Name',
       name_placeholder: 'A unique name',
+      created_at: 'Created At',
+      updated_at: 'Updated At',
       state: {
         pending: 'Pending',
         successful: 'Successful',

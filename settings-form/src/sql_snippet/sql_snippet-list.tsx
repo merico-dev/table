@@ -10,6 +10,7 @@ import { IStyles, defaultStyles } from './styles';
 import { IconEye } from '@tabler/icons-react';
 import { UpdateSQLSnippet } from './update-sql_snippet';
 import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
@@ -38,6 +39,7 @@ interface ISQLSnippetList {
 export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSnippetList) {
   configureAPIClient(config);
   useApplyLanguage(lang);
+  const { t } = useTranslation();
 
   const {
     data = [],
@@ -73,11 +75,11 @@ export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSni
         >
           <thead>
             <tr>
-              <th>Name</th>
+              <th>{t('common.name')}</th>
               <th></th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th>Action</th>
+              <th>{t('common.created_at')}</th>
+              <th>{t('common.updated_at')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

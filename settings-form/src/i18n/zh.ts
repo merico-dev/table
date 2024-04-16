@@ -49,6 +49,18 @@ export const zh = {
     },
     global_sql_snippet: {
       label: '全局SQL片段',
+      add: '添加片段',
+      edit: '编辑片段',
+      content: 'SQL片段内容',
+      state: {
+        adding: '正在添加片段...',
+        added: '片段已添加',
+        updating: '正在更新片段...',
+        updated: '片段已更新',
+        deleting: '正在删除片段...',
+        deleted: '片段"{{name}}"已删除',
+      },
+      delete: '删除这个片段？',
     },
     api_key: {
       label: 'API令牌',
@@ -57,6 +69,8 @@ export const zh = {
       type: '类型',
       name: '名称',
       name_placeholder: '名称须唯一',
+      created_at: '创建时间',
+      updated_at: '更新时间',
       state: {
         pending: '处理中',
         successful: '成功',
