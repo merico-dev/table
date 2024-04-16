@@ -1,10 +1,10 @@
 import { Box, Button, Group, Modal, PasswordInput, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
+import { SubmitFormButton } from '../components';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
 
@@ -99,9 +99,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

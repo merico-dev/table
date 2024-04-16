@@ -8,6 +8,7 @@ import { APICaller } from '../api-caller';
 import { TCreateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
+import { SubmitFormButton } from '../components';
 
 type TFormValues = TCreateSQLSnippetPayload;
 
@@ -76,9 +77,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

@@ -1,8 +1,5 @@
 export const en = {
   translation: {
-    system_settings: {
-      label: 'System Settings',
-    },
     datasource: {
       label: 'Data Source',
     },
@@ -14,6 +11,16 @@ export const en = {
     },
     api_key: {
       label: 'API Key',
+    },
+    common: {
+      type: 'Type',
+      name: 'Name',
+      action: 'Action',
+      actions: {
+        edit: 'Edit',
+        delete: 'Delete',
+        submit: 'Submit',
+      },
     },
   },
 };

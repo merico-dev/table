@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { APICaller } from '../../api-caller';
 import { ILoginResp } from '../../api-caller/account.typed';
 import { defaultStyles, IStyles } from '../styles';
+import { SubmitFormButton } from '../../components';
 
 interface IFormValues {
   name: string;
@@ -72,9 +73,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
           )}
         />
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

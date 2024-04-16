@@ -1,8 +1,5 @@
 export const zh = {
   translation: {
-    system_settings: {
-      label: '系统设置',
-    },
     datasource: {
       label: '数据源',
     },
@@ -14,6 +11,16 @@ export const zh = {
     },
     api_key: {
       label: 'API令牌',
+    },
+    common: {
+      type: '类型',
+      name: '名称',
+      action: '动作',
+      actions: {
+        edit: '编辑',
+        delete: '删除',
+        submit: '提交',
+      },
     },
   },
 };

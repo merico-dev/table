@@ -8,6 +8,7 @@ import { APICaller } from '../api-caller';
 import { IAccount } from '../api-caller/account.typed';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
+import { SubmitFormButton } from '../components';
 
 interface IFormValues {
   name: string;
@@ -139,9 +140,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
         )}
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

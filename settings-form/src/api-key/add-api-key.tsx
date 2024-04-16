@@ -6,7 +6,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { RoleSelector } from '../account/role-selector';
 import { APICaller } from '../api-caller';
-import { defaultStyles, IStyles } from './styles';
+import { SubmitFormButton } from '../components';
+import { IStyles, defaultStyles } from './styles';
 
 interface IFormValues {
   name: string;
@@ -72,9 +73,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

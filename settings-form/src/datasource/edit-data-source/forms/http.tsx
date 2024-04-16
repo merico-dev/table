@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
 import { FunctionStringField } from '../../components/function-string-field';
 import { IStyles, defaultStyles } from '../../styles';
+import { SubmitFormButton } from '../../../components';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [
@@ -79,9 +80,7 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
         </Group>
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

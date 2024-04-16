@@ -7,6 +7,7 @@ import { APICaller } from '../api-caller';
 import { TUpdateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
+import { SubmitFormButton } from '../components';
 
 type TFormValues = TUpdateSQLSnippetPayload;
 
@@ -75,9 +76,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>
