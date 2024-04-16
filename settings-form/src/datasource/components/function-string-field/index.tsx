@@ -4,6 +4,8 @@ import { forwardRef, useEffect, useState } from 'react';
 import { Recycle } from 'tabler-icons-react';
 import { IStyles } from '../../styles';
 import { FunctionStringEditor } from './function-string-editor';
+import { useTranslation } from 'react-i18next';
+import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
 
 interface IFunctionStringField {
   value: TFunctionString;
@@ -16,6 +18,7 @@ interface IFunctionStringField {
 
 export const FunctionStringField = forwardRef(
   ({ value, onChange, label, modalTitle, defaultValue, styles }: IFunctionStringField, _ref: any) => {
+    const { t } = useTranslation();
     const [modalOpened, { setTrue, setFalse }] = useBoolean();
     const [localValue, setLocalValue] = useState<string>(value);
 
@@ -39,7 +42,14 @@ export const FunctionStringField = forwardRef(
 
     return (
       <>
-        <Button variant="filled" size={styles.button.size} onClick={setTrue} sx={{ flexGrow: 1 }}>
+        <Button
+          color="grape"
+          variant="filled"
+          leftIcon={<IconMathFunction size={16} />}
+          size={styles.button.size}
+          onClick={setTrue}
+          sx={{ flexGrow: 1 }}
+        >
           {label}
         </Button>
         <Modal
@@ -54,14 +64,26 @@ export const FunctionStringField = forwardRef(
             <Stack>
               <FunctionStringEditor value={localValue} onChange={setLocalValue} />
               <Group position="apart">
-                <Button onClick={resetFuncContent} color="red" leftIcon={<Recycle size={20} />}>
-                  Reset
+                <Button
+                  size={styles.button.size}
+                  onClick={resetFuncContent}
+                  color="red"
+                  leftIcon={<Recycle size={20} />}
+                >
+                  {t('common.actions.reset_to_default')}
                 </Button>
                 <Group position="right">
-                  <Button onClick={handleCancel} variant="subtle">
-                    Cancel
+                  <Button size={styles.button.size} onClick={handleCancel} variant="subtle">
+                    {t('common.actions.cancel')}
                   </Button>
-                  <Button onClick={handleOk}>OK</Button>
+                  <Button
+                    size={styles.button.size}
+                    color="green"
+                    leftIcon={<IconDeviceFloppy size={16} />}
+                    onClick={handleOk}
+                  >
+                    {t('common.actions.save')}
+                  </Button>
                 </Group>
               </Group>
             </Stack>

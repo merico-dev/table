@@ -9,6 +9,7 @@ import { defaultStyles, IStyles } from './styles';
 import { EditDataSource } from './edit-data-source';
 import { DataSourceIcon } from './components/data-source-icon';
 import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface IDataSourceList {
   lang: string;
@@ -21,6 +22,7 @@ export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSo
   configureAPIClient(config);
   useApplyLanguage(lang);
 
+  const { t } = useTranslation();
   const {
     data = [],
     loading,
@@ -50,9 +52,9 @@ export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSo
         >
           <thead>
             <tr>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Action</th>
+              <th>{t('common.type')}</th>
+              <th>{t('common.name')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

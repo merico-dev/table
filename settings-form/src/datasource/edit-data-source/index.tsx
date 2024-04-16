@@ -7,6 +7,7 @@ import { IDataSource } from '../../api-caller/datasource.typed';
 import { IStyles, defaultStyles } from '../styles';
 import { EditDataSourceForm_HTTP } from './forms/http';
 import { IFormValues } from './types';
+import { useTranslation } from 'react-i18next';
 
 interface IEditDataSourceForm {
   dataSource: IDataSource;
@@ -15,11 +16,12 @@ interface IEditDataSourceForm {
 }
 
 function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: IEditDataSourceForm) {
+  const { t } = useTranslation();
   const update = async ({ config }: IFormValues) => {
     showNotification({
       id: 'for-updating',
-      title: 'Pending',
-      message: 'Editing data source...',
+      title: t('common.state.pending'),
+      message: t('datasource.state.updating'),
       loading: true,
       autoClose: false,
     });
@@ -28,8 +30,8 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
       await APICaller.datasource.update(dataSource.id, config);
       updateNotification({
         id: 'for-updating',
-        title: 'Successful',
-        message: 'Data source is updated',
+        title: t('common.state.successful'),
+        message: t('datasource.state.updated'),
         color: 'green',
         autoClose: true,
       });
@@ -37,7 +39,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',
-        title: 'Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -63,6 +65,7 @@ interface IEditDataSource {
 }
 
 export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }: IEditDataSource) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -73,11 +76,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
 
   if (dataSource.is_preset) {
     return (
-      <Tooltip
-        withArrow
-        events={{ hover: true, touch: false, focus: false }}
-        label="This is a preset datasource, it can not be changed"
-      >
+      <Tooltip withArrow events={{ hover: true, touch: false, focus: false }} label={t('datasource.cant_edit.preset')}>
         <Button
           size={styles.button.size}
           color="gray"
@@ -85,7 +84,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           leftIcon={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          Edit
+          {t('common.actions.edit')}
         </Button>
       </Tooltip>
     );
@@ -93,11 +92,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
 
   if (dataSource.type !== 'http') {
     return (
-      <Tooltip
-        withArrow
-        events={{ hover: true, touch: false, focus: false }}
-        label="Only HTTP datasources can be edited"
-      >
+      <Tooltip withArrow events={{ hover: true, touch: false, focus: false }} label={t('datasource.cant_edit.db')}>
         <Button
           size={styles.button.size}
           color="gray"
@@ -105,7 +100,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           leftIcon={<IconEdit size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          Edit
+          {t('common.actions.edit')}
         </Button>
       </Tooltip>
     );
@@ -116,7 +111,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add a data source"
+        title={t('datasource.edit')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -125,7 +120,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
         <EditDataSourceForm dataSource={dataSource} postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} color="blue" onClick={open} leftIcon={<IconEdit size={16} />}>
-        Edit
+        {t('common.actions.edit')}
       </Button>
     </>
   );

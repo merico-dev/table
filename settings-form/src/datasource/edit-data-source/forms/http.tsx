@@ -5,6 +5,7 @@ import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/data
 import { FunctionStringField } from '../../components/function-string-field';
 import { IStyles, defaultStyles } from '../../styles';
 import { SubmitFormButton } from '../../../components';
+import { useTranslation } from 'react-i18next';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [
@@ -30,6 +31,7 @@ interface IEditDataSourceForm {
 }
 
 export function EditDataSourceForm_HTTP({ name, config, submit, styles = defaultStyles }: IEditDataSourceForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       config,
@@ -39,15 +41,21 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(submit)}>
-        <TextInput mb={styles.spacing} size={styles.size} required label="Name" value={name} readOnly />
+        <TextInput mb={styles.spacing} size={styles.size} required label={t('common.name')} value={name} readOnly />
 
-        <Divider label="Connection Info" labelPosition="center" />
+        <Divider label={t('datasource.connection_info')} labelPosition="center" />
 
         <Controller
           name="config.host"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} label="Base URL" sx={{ flexGrow: 1 }} {...field} />
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              label={t('datasource.http.base_url')}
+              sx={{ flexGrow: 1 }}
+              {...field}
+            />
           )}
         />
         <Group grow>
@@ -56,8 +64,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label="Pre Processing"
-                modalTitle="This function will run before sending the request (for scenarios like encryption)"
+                label={t('datasource.http.processing.pre.label')}
+                modalTitle={t('datasource.http.processing.pre.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.pre}
                 {...field}
                 styles={styles}
@@ -69,8 +77,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label="Post Processing"
-                modalTitle="This function will run after sending the request (for scenarios like decryption)"
+                label={t('datasource.http.processing.post.label')}
+                modalTitle={t('datasource.http.processing.post.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.post}
                 {...field}
                 styles={styles}
