@@ -6,6 +6,7 @@ import { useAccountContext } from '../require-auth/account-context';
 import './index.css';
 import { AdminNavbar } from './navbar';
 import { AdminBreadcrumbs } from './breadcrumbs';
+import { LanguageSwitcher } from '../../components/language-switcher';
 
 export function AdminFrame() {
   const { isAdmin } = useAccountContext();
@@ -35,7 +36,10 @@ export function AdminFrame() {
             {/* should place breadcrumbs here */}
             <AdminBreadcrumbs />
           </Group>
-          <AccountDropdown height={39} />
+          <Group position="right">
+            <LanguageSwitcher />
+            <AccountDropdown height={39} />
+          </Group>
         </Group>
         <Box p={10} sx={{ height: 'calc(100vh - 30px)', overflow: 'auto' }}>
           <Notifications position="top-right" />
