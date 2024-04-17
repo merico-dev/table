@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
+import { ActionIcon, Alert, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
@@ -62,7 +62,8 @@ export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSni
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} position="apart">
+        <Alert>{t('global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>

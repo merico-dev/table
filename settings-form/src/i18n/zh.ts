@@ -72,6 +72,7 @@ export const zh = {
       add: '添加片段',
       edit: '编辑片段',
       content: 'SQL片段内容',
+      description: '在制作任何看板时，既可以制订该看板自己的SQL片段，也可以使用这里的全局SQL片段',
       state: {
         adding: '正在添加片段...',
         added: '片段已添加',

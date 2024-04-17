@@ -72,6 +72,7 @@ export const en = {
       add: 'Add a snippet',
       edit: 'Edit snippet',
       content: 'Content',
+      description: 'Global SQL Snippets are shared among dashboards',
       state: {
         adding: 'Adding snippet...',
         added: 'Snippet is added',
