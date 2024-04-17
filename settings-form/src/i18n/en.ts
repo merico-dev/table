@@ -38,7 +38,7 @@ export const en = {
       state: {
         adding: 'Adding data source...',
         added: 'Data source is added',
-        updating: 'Editing data source...',
+        updating: 'Updating data source...',
         updated: 'Data source is updated',
         deleting: 'Deleting data source...',
         deleted: 'Data source [{{name}}] is deleted',
@@ -55,7 +55,7 @@ export const en = {
       state: {
         adding: 'Adding snippet...',
         added: 'Snippet is added',
-        updating: 'Editing snippet...',
+        updating: 'Updating snippet...',
         updated: 'Snippet is updated',
         deleting: 'Deleting snippet...',
         deleted: 'Snippet [{{name}}] is deleted',
@@ -64,6 +64,27 @@ export const en = {
     },
     api_key: {
       label: 'API Key',
+      add: 'Add an API Key',
+      edit: 'Edit API key',
+      app_id: 'APP ID',
+      app_secret: 'APP Secret',
+      state: {
+        adding: 'Adding API key...',
+        added: 'API key is added',
+        updating: 'Updating API key...',
+        updated: 'API Key is updated',
+        deleting: 'Deleting API key...',
+        deleted: 'API key [{{name}}] is deleted',
+      },
+      save: {
+        title: 'API Key is generated',
+        warn: "Make sure you save it - you won't be able to access it again.",
+        saved: "I've saved this API Key",
+      },
+      delete: 'Delete this key?',
+    },
+    role: {
+      label: 'Role',
     },
     common: {
       type: 'Type',

@@ -6,6 +6,7 @@ import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { IStyles, defaultStyles } from './styles';
 import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface IAPIKeyList {
   lang: string;
@@ -16,6 +17,7 @@ interface IAPIKeyList {
 export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList) {
   configureAPIClient(config);
   useApplyLanguage(lang);
+  const { t } = useTranslation();
 
   const {
     data = [],
@@ -60,10 +62,10 @@ export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList
         >
           <thead>
             <tr>
-              <th>Name</th>
-              <th>APP ID</th>
-              <th>Role</th>
-              <th>Action</th>
+              <th>{t('common.name')}</th>
+              <th>{t('api_key.app_id')}</th>
+              <th>{t('role.label')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

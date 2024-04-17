@@ -3,6 +3,7 @@ import { useRequest } from 'ahooks';
 import { forwardRef } from 'react';
 import { APICaller } from '../api-caller';
 import { IStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IRoleOptionItem {
   label: string;
@@ -27,6 +28,7 @@ interface IRoleSelector {
   styles: IStyles;
 }
 export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelector, ref: $TSFixMe) => {
+  const { t } = useTranslation();
   const { data: roleOptions = [], loading: roleLoading } = useRequest(
     async () => {
       const data = await APICaller.role.list();
@@ -47,7 +49,7 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       mb={styles.spacing}
       size={styles.size}
       required
-      label="Role"
+      label={t('role.label')}
       itemComponent={RoleOptionItem}
       data={roleOptions}
       disabled={roleLoading}
@@ -64,6 +66,8 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       })}
       value={value}
       onChange={onChange}
+      withinPortal
+      maxDropdownHeight={500}
     />
   );
 });

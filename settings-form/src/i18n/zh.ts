@@ -64,6 +64,27 @@ export const zh = {
     },
     api_key: {
       label: 'API令牌',
+      add: '添加令牌',
+      edit: '编辑令牌',
+      app_id: '应用ID',
+      app_secret: '应用密钥',
+      state: {
+        adding: '正在添加令牌...',
+        added: '令牌已添加',
+        updating: '正在更新令牌...',
+        updated: '令牌已更新',
+        deleting: '正在删除令牌...',
+        deleted: '令牌"{{name}}"已删除',
+      },
+      save: {
+        title: 'API令牌已生成',
+        warn: '此信息只出现一次，请务必保存',
+        saved: '我已保存',
+      },
+      delete: '删除这个片段？',
+    },
+    role: {
+      label: '角色',
     },
     common: {
       type: '类型',

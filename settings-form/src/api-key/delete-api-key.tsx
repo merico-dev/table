@@ -4,6 +4,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { Trash } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IDeleteAPIKey {
   id: string;
@@ -13,6 +14,7 @@ interface IDeleteAPIKey {
 }
 
 export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: IDeleteAPIKey) {
+  const { t } = useTranslation();
   const modals = useModals();
 
   const doDelete = async () => {
@@ -49,15 +51,22 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: 'Delete this api-key?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: t('api_key.delete'),
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      cancelProps: {
+        size: styles.button.size,
+      },
+      confirmProps: {
+        color: 'red',
+        size: styles.button.size,
+      },
     });
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      Delete
+      {t('common.actions.delete')}
     </Button>
   );
 }
