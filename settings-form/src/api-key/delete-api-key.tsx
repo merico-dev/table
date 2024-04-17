@@ -23,8 +23,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     }
     showNotification({
       id: 'for-deleting',
-      title: t('common.state.pending'),
-      message: t('global_sql_snippet.state.deleting'),
+      title: t('settings.common.state.pending'),
+      message: t('settings.global_sql_snippet.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -32,8 +32,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
       await APICaller.api_key.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: t('common.state.successful'),
-        message: t('global_sql_snippet.state.deleted', { name }),
+        title: t('settings.common.state.successful'),
+        message: t('settings.global_sql_snippet.state.deleted', { name }),
         color: 'green',
         autoClose: true,
       });
@@ -41,7 +41,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: t('common.state.failed'),
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -51,8 +51,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: t('api_key.delete'),
-      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
+      title: t('settings.api_key.delete'),
+      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
       cancelProps: {
@@ -66,7 +66,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      {t('common.actions.delete')}
+      {t('settings.common.actions.delete')}
     </Button>
   );
 }

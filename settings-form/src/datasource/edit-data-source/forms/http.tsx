@@ -41,9 +41,16 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(submit)}>
-        <TextInput mb={styles.spacing} size={styles.size} required label={t('common.name')} value={name} readOnly />
+        <TextInput
+          mb={styles.spacing}
+          size={styles.size}
+          required
+          label={t('settings.common.name')}
+          value={name}
+          readOnly
+        />
 
-        <Divider label={t('datasource.connection_info')} labelPosition="center" />
+        <Divider label={t('settings.datasource.connection_info')} labelPosition="center" />
 
         <Controller
           name="config.host"
@@ -52,7 +59,7 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             <TextInput
               mb={styles.spacing}
               size={styles.size}
-              label={t('datasource.http.base_url')}
+              label={t('settings.datasource.http.base_url')}
               sx={{ flexGrow: 1 }}
               {...field}
             />
@@ -64,8 +71,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label={t('datasource.http.processing.pre.label')}
-                modalTitle={t('datasource.http.processing.pre.description')}
+                label={t('settings.datasource.http.processing.pre.label')}
+                modalTitle={t('settings.datasource.http.processing.pre.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.pre}
                 {...field}
                 styles={styles}
@@ -77,8 +84,8 @@ export function EditDataSourceForm_HTTP({ name, config, submit, styles = default
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label={t('datasource.http.processing.post.label')}
-                modalTitle={t('datasource.http.processing.post.description')}
+                label={t('settings.datasource.http.processing.post.label')}
+                modalTitle={t('settings.datasource.http.processing.post.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.post}
                 {...field}
                 styles={styles}

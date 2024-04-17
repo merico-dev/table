@@ -31,16 +31,16 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
     try {
       showNotification({
         id: 'for-creating',
-        title: t('common.state.pending'),
-        message: t('global_sql_snippet.state.adding'),
+        title: t('settings.common.state.pending'),
+        message: t('settings.global_sql_snippet.state.adding'),
         loading: true,
         autoClose: false,
       });
       await APICaller.sql_snippet.create(payload);
       updateNotification({
         id: 'for-creating',
-        title: t('common.state.successful'),
-        message: t('global_sql_snippet.state.added'),
+        title: t('settings.common.state.successful'),
+        message: t('settings.global_sql_snippet.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -48,7 +48,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: t('common.state.failed'),
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -67,8 +67,8 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('common.name')}
-              placeholder={t('common.name_placeholder')}
+              label={t('settings.common.name')}
+              placeholder={t('settings.common.name_placeholder')}
               {...field}
             />
           )}
@@ -80,7 +80,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
           render={({ field }) => (
             <Stack spacing={4}>
               <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
-                {t('global_sql_snippet.content')}
+                {t('settings.global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />
             </Stack>
@@ -115,7 +115,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('global_sql_snippet.add')}
+        title={t('settings.global_sql_snippet.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -125,7 +125,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
         <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={18} />}>
-        {t('global_sql_snippet.add')}
+        {t('settings.global_sql_snippet.add')}
       </Button>
     </>
   );

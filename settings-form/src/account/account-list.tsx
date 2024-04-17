@@ -63,12 +63,12 @@ export function AccountList({ lang, styles = defaultStyles, config }: IAccountLi
         >
           <thead>
             <tr>
-              <th>{t('account.username')}</th>
-              <th>{t('account.email')}</th>
-              <th>{t('role.label')}</th>
+              <th>{t('settings.account.username')}</th>
+              <th>{t('settings.account.email')}</th>
+              <th>{t('settings.role.label')}</th>
               {/* <th>Created at</th>
               <th>Updated at</th> */}
-              <th>{t('common.action')}</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>

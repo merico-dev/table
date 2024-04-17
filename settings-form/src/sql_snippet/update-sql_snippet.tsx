@@ -30,16 +30,16 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
     try {
       showNotification({
         id: 'for-updating',
-        title: t('common.state.pending'),
-        message: t('global_sql_snippet.state.updating'),
+        title: t('settings.common.state.pending'),
+        message: t('settings.global_sql_snippet.state.updating'),
         loading: true,
         autoClose: false,
       });
       await APICaller.sql_snippet.update(payload);
       updateNotification({
         id: 'for-updating',
-        title: t('common.state.successful'),
-        message: t('global_sql_snippet.state.updated'),
+        title: t('settings.common.state.successful'),
+        message: t('settings.global_sql_snippet.state.updated'),
         color: 'green',
         autoClose: true,
       });
@@ -47,7 +47,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',
-        title: t('common.state.failed'),
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -66,8 +66,8 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('common.name')}
-              placeholder={t('common.name_placeholder')}
+              label={t('settings.common.name')}
+              placeholder={t('settings.common.name_placeholder')}
               {...field}
             />
           )}
@@ -79,7 +79,7 @@ function UpdateSQLSnippetForm({ postSubmit, styles = defaultStyles, id, content 
           render={({ field }) => (
             <Stack spacing={4}>
               <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
-                {t('global_sql_snippet.content')}
+                {t('settings.global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />
             </Stack>
@@ -114,7 +114,7 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('global_sql_snippet.edit')}
+        title={t('settings.global_sql_snippet.edit')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -124,7 +124,7 @@ export function UpdateSQLSnippet({ onSuccess, styles = defaultStyles, ...rest }:
         <UpdateSQLSnippetForm postSubmit={postSubmit} styles={styles} {...rest} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<IconEdit size={18} />}>
-        {t('common.actions.edit')}
+        {t('settings.common.actions.edit')}
       </Button>
     </>
   );

@@ -49,7 +49,7 @@ export const RoleSelector = forwardRef(({ styles, value, onChange }: IRoleSelect
       mb={styles.spacing}
       size={styles.size}
       required
-      label={t('role.label')}
+      label={t('settings.role.label')}
       itemComponent={RoleOptionItem}
       data={roleOptions}
       disabled={roleLoading}

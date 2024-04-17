@@ -52,9 +52,9 @@ export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSo
         >
           <thead>
             <tr>
-              <th>{t('common.type')}</th>
-              <th>{t('common.name')}</th>
-              <th>{t('common.action')}</th>
+              <th>{t('settings.common.type')}</th>
+              <th>{t('settings.common.name')}</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>
