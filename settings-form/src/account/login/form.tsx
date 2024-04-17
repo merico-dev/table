@@ -5,6 +5,7 @@ import { APICaller } from '../../api-caller';
 import { ILoginResp } from '../../api-caller/account.typed';
 import { defaultStyles, IStyles } from '../styles';
 import { SubmitFormButton } from '../../components';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -17,6 +18,7 @@ interface ILoginForm {
 }
 
 export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       name: '',
@@ -28,8 +30,8 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
     try {
       showNotification({
         id: 'for-login',
-        title: 'Pending',
-        message: 'Loggin in...',
+        title: t('common.state.pending'),
+        message: t('account.state.logging_in'),
         loading: true,
         autoClose: false,
       });
@@ -37,8 +39,8 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
       window.localStorage.setItem('token', res.token);
       updateNotification({
         id: 'for-login',
-        title: 'Successful',
-        message: 'Logged in',
+        title: t('common.state.successful'),
+        message: t('account.state.logged_in'),
         color: 'green',
         autoClose: true,
       });
@@ -46,7 +48,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-login',
-        title: 'Login Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -61,7 +63,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.username')} {...field} />
           )}
         />
 
@@ -69,7 +71,7 @@ export function LoginForm({ postSubmit, styles = defaultStyles }: ILoginForm) {
           name="password"
           control={control}
           render={({ field }) => (
-            <PasswordInput mb={styles.spacing} size={styles.size} required label="Password" {...field} />
+            <PasswordInput mb={styles.spacing} size={styles.size} required label={t('account.password')} {...field} />
           )}
         />
         <Group position="right" mt={styles.spacing}>

@@ -7,6 +7,7 @@ import { APICaller } from '../api-caller';
 import { SubmitFormButton } from '../components';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -22,6 +23,7 @@ interface IAddAccountForm {
 }
 
 function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAccountForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       name: '',
@@ -35,16 +37,16 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     try {
       showNotification({
         id: 'for-creating',
-        title: 'Pending',
-        message: 'Adding account...',
+        title: t('common.state.pending'),
+        message: t('account.state.adding'),
         loading: true,
         autoClose: false,
       });
       await APICaller.account.create(name, email, password, role_id);
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
-        message: 'Account is added',
+        title: t('common.state.successful'),
+        message: t('account.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -52,7 +54,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: 'Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -67,14 +69,16 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.username')} {...field} />
           )}
         />
 
         <Controller
           name="email"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Email" {...field} />}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.email')} {...field} />
+          )}
         />
 
         <Controller
@@ -85,8 +89,8 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label="Password"
-              description="Password must be at least 8 characters long"
+              label={t('account.password')}
+              description={t('account.password_hint')}
               {...field}
             />
           )}
@@ -113,6 +117,7 @@ interface IAddAccount {
 }
 
 export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAccount) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -126,7 +131,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add an Account"
+        title={t('account.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -135,7 +140,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add an Account
+        {t('account.add')}
       </Button>
     </>
   );

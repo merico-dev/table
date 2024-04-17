@@ -9,6 +9,7 @@ import { IAccount } from '../api-caller/account.typed';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
 import { SubmitFormButton } from '../components';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -24,6 +25,7 @@ interface IEditAccountForm extends Pick<IAccount, 'id' | 'name' | 'email' | 'rol
 }
 
 function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaultStyles }: IEditAccountForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit, watch } = useForm<IFormValues>({
     defaultValues: {
       name,
@@ -38,8 +40,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
     try {
       showNotification({
         id: 'for-updating',
-        title: 'Pending',
-        message: 'Updating account...',
+        title: t('common.state.pending'),
+        message: t('account.state.updating'),
         loading: true,
         autoClose: false,
       });
@@ -53,8 +55,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
       });
       updateNotification({
         id: 'for-updating',
-        title: 'Successful',
-        message: 'Account is updated',
+        title: t('common.state.successful'),
+        message: t('account.state.updated'),
         color: 'green',
         autoClose: true,
       });
@@ -62,7 +64,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',
-        title: 'Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -79,14 +81,16 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.username')} {...field} />
           )}
         />
 
         <Controller
           name="email"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Email" {...field} />}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.email')} {...field} />
+          )}
         />
 
         <Controller
@@ -104,7 +108,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
             <Switch
               mb={styles.spacing}
               size={styles.size}
-              label="Reset password"
+              label={t('account.reset_password')}
               checked={field.value}
               onChange={(event) => field.onChange(event.currentTarget.checked)}
               styles={{
@@ -131,8 +135,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
                 mb={styles.spacing}
                 size={styles.size}
                 required
-                description="Password must be at least 8 characters long"
-                label="New Password"
+                description={t('account.password_hint')}
+                label={t('account.new_password')}
                 {...field}
               />
             )}
@@ -154,6 +158,7 @@ interface IEditAccount {
 }
 
 export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEditAccount) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -167,7 +172,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={`Editing ${account.name}`}
+        title={t('account.editing_xx', { name: account.name })}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -176,7 +181,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
         <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<Edit size={20} />}>
-        Edit
+        {t('common.actions.edit')}
       </Button>
     </>
   );

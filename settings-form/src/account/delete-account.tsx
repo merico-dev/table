@@ -4,6 +4,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { Trash } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IDeleteAccount {
   id: string;
@@ -13,6 +14,7 @@ interface IDeleteAccount {
 }
 
 export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: IDeleteAccount) {
+  const { t } = useTranslation();
   const modals = useModals();
 
   const doDelete = async () => {
@@ -21,8 +23,8 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
     }
     showNotification({
       id: 'for-deleting',
-      title: 'Pending',
-      message: 'Deleting account...',
+      title: t('common.state.pending'),
+      message: t('account.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -30,8 +32,8 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
       await APICaller.account.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: 'Successful',
-        message: `Account [${name}] is deleted`,
+        title: t('common.state.successful'),
+        message: t('account.state.deleted', { name }),
         color: 'green',
         autoClose: true,
       });
@@ -39,7 +41,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: 'Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -49,15 +51,22 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: 'Delete this account?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: t('account.delete'),
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      cancelProps: {
+        size: styles.button.size,
+      },
+      confirmProps: {
+        color: 'red',
+        size: styles.button.size,
+      },
     });
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      Delete
+      {t('common.actions.delete')}
     </Button>
   );
 }

@@ -23,8 +23,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     }
     showNotification({
       id: 'for-deleting',
-      title: 'Pending',
-      message: 'Deleting API Key...',
+      title: t('common.state.pending'),
+      message: t('global_sql_snippet.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -32,8 +32,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
       await APICaller.api_key.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: 'Successful',
-        message: `API Key [${name}] is deleted`,
+        title: t('common.state.successful'),
+        message: t('global_sql_snippet.state.deleted', { name }),
         color: 'green',
         autoClose: true,
       });
@@ -41,7 +41,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: 'Failed',
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
