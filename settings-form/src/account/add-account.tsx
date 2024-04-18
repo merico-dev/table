@@ -1,12 +1,13 @@
 import { Box, Button, Group, Modal, PasswordInput, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { IconDeviceFloppy } from '@tabler/icons-react';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
+import { SubmitFormButton } from '../components';
 import { RoleSelector } from './role-selector';
 import { IStyles, defaultStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -22,6 +23,7 @@ interface IAddAccountForm {
 }
 
 function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAccountForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       name: '',
@@ -35,16 +37,16 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     try {
       showNotification({
         id: 'for-creating',
-        title: 'Pending',
-        message: 'Adding account...',
+        title: t('settings.common.state.pending'),
+        message: t('settings.account.state.adding'),
         loading: true,
         autoClose: false,
       });
       await APICaller.account.create(name, email, password, role_id);
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
-        message: 'Account is added',
+        title: t('settings.common.state.successful'),
+        message: t('settings.account.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -52,7 +54,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: 'Failed',
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -67,14 +69,22 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              required
+              label={t('settings.account.username')}
+              {...field}
+            />
           )}
         />
 
         <Controller
           name="email"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Email" {...field} />}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('settings.account.email')} {...field} />
+          )}
         />
 
         <Controller
@@ -85,8 +95,8 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label="Password"
-              description="Password must be at least 8 characters long"
+              label={t('settings.account.password')}
+              description={t('settings.account.password_hint')}
               {...field}
             />
           )}
@@ -99,9 +109,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>
@@ -115,6 +123,7 @@ interface IAddAccount {
 }
 
 export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAccount) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -128,7 +137,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add an Account"
+        title={t('settings.account.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -137,7 +146,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add an Account
+        {t('settings.account.add')}
       </Button>
     </>
   );

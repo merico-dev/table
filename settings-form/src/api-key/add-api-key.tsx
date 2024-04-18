@@ -6,7 +6,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { PlaylistAdd } from 'tabler-icons-react';
 import { RoleSelector } from '../account/role-selector';
 import { APICaller } from '../api-caller';
-import { defaultStyles, IStyles } from './styles';
+import { SubmitFormButton } from '../components';
+import { IStyles, defaultStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   name: string;
@@ -20,6 +22,7 @@ interface IAddAPIKeyForm {
 }
 
 function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IAddAPIKeyForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       name: '',
@@ -31,16 +34,16 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
     try {
       showNotification({
         id: 'for-creating',
-        title: 'Pending',
-        message: 'Adding API Key...',
+        title: t('settings.common.state.pending'),
+        message: t('settings.api_key.state.adding'),
         loading: true,
         autoClose: false,
       });
       const { app_id, app_secret } = await APICaller.api_key.create(name, role_id);
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
-        message: 'API Key is added',
+        title: t('settings.common.state.successful'),
+        message: t('settings.api_key.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -48,7 +51,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: 'Failed',
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -62,7 +65,9 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         <Controller
           name="name"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Name" {...field} />}
+          render={({ field }) => (
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('settings.common.name')} {...field} />
+          )}
         />
 
         <Controller
@@ -72,9 +77,7 @@ function AddAPIKeyForm({ postSubmit, styles = defaultStyles, initialRoleID }: IA
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>
@@ -88,6 +91,7 @@ interface IAddAPIKey {
 }
 
 export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: IAddAPIKey) {
+  const { t } = useTranslation();
   const modals = useModals();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
@@ -95,15 +99,20 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
   const postSubmit = (app_id: string, app_secret: string) => {
     close();
     modals.openModal({
-      title: 'API Key is generated',
+      title: t('settings.api_key.save.title'),
       children: (
         <Stack>
-          <Text color="dimmed">Make sure you save it - you won't be able to access it again.</Text>
-          <TextInput defaultValue={app_id} disabled label="APP ID" styles={{ input: { cursor: 'text !important' } }} />
+          <Text color="dimmed">{t('settings.api_key.save.warn')}</Text>
+          <TextInput
+            defaultValue={app_id}
+            disabled
+            label={t('settings.api_key.app_id')}
+            styles={{ input: { cursor: 'text !important' } }}
+          />
           <TextInput
             defaultValue={app_secret}
             disabled
-            label="APP Secret"
+            label={t('settings.api_key.app_secret')}
             styles={{ input: { cursor: 'text !important' } }}
           />
           <Button
@@ -112,7 +121,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
               closeAllModals();
             }}
           >
-            I've saved this API Key
+            {t('settings.api_key.save.saved')}
           </Button>
         </Stack>
       ),
@@ -127,7 +136,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add an API Key"
+        title={t('settings.api_key.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -136,7 +145,7 @@ export function AddAPIKey({ onSuccess, styles = defaultStyles, initialRoleID }: 
         <AddAPIKeyForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add an API Key
+        {t('settings.api_key.add')}
       </Button>
     </>
   );

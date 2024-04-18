@@ -6,6 +6,7 @@ import { Trash } from 'tabler-icons-react';
 
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IDeleteDataSource {
   id: string;
@@ -16,6 +17,7 @@ interface IDeleteDataSource {
 }
 
 export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = defaultStyles }: IDeleteDataSource) {
+  const { t } = useTranslation();
   const modals = useModals();
 
   const doDelete = async () => {
@@ -24,16 +26,16 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
     }
     showNotification({
       id: 'for-deleting',
-      title: 'Pending',
-      message: 'Deleting data source...',
+      title: t('settings.common.state.pending'),
+      message: t('settings.datasource.state.deleting'),
       loading: true,
       autoClose: false,
     });
     await APICaller.datasource.delete(id);
     updateNotification({
       id: 'for-deleting',
-      title: 'Successful',
-      message: `Data source [${name}] is deleted`,
+      title: t('settings.common.state.successful'),
+      message: t('settings.datasource.state.deleted', { name }),
       color: 'green',
       autoClose: true,
     });
@@ -42,11 +44,18 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: 'Delete this data source?',
-      children: <Text size={styles.size}>This action won't affect your database.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: t('settings.datasource.delete.title'),
+      children: <Text size={styles.size}>{t('settings.datasource.delete.hint')}</Text>,
+      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      cancelProps: {
+        size: styles.button.size,
+      },
+      confirmProps: {
+        color: 'red',
+        size: styles.button.size,
+      },
     });
 
   if (isProtected) {
@@ -54,7 +63,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
       <Tooltip
         withArrow
         events={{ hover: true, touch: false, focus: false }}
-        label="This is a preset datasource, it can not be deleted"
+        label={t('settings.datasource.delete.cant_delete_preset')}
       >
         <Button
           size={styles.button.size}
@@ -63,7 +72,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
           leftIcon={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          Delete
+          {t('settings.common.actions.delete')}
         </Button>
       </Tooltip>
     );
@@ -71,7 +80,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={16} />}>
-      Delete
+      {t('settings.common.actions.delete')}
     </Button>
   );
 }

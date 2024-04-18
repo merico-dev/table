@@ -8,6 +8,8 @@ import { APICaller } from '../api-caller';
 import { TCreateSQLSnippetPayload } from '../api-caller/sql_snippet.typed';
 import { MinimalMonacoEditor } from '../components/minimal-mocaco-editor';
 import { IStyles, defaultStyles } from './styles';
+import { SubmitFormButton } from '../components';
+import { useTranslation } from 'react-i18next';
 
 type TFormValues = TCreateSQLSnippetPayload;
 
@@ -17,6 +19,7 @@ interface IAddSQLSnippetForm {
 }
 
 function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippetForm) {
+  const { t } = useTranslation();
   const { control, handleSubmit } = useForm<TFormValues>({
     defaultValues: {
       id: '',
@@ -28,16 +31,16 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
     try {
       showNotification({
         id: 'for-creating',
-        title: 'Pending',
-        message: 'Adding SQL Snippet...',
+        title: t('settings.common.state.pending'),
+        message: t('settings.global_sql_snippet.state.adding'),
         loading: true,
         autoClose: false,
       });
       await APICaller.sql_snippet.create(payload);
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
-        message: 'SQL Snippet is added',
+        title: t('settings.common.state.successful'),
+        message: t('settings.global_sql_snippet.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -45,7 +48,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: 'Failed',
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -59,7 +62,16 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         <Controller
           name="id"
           control={control}
-          render={({ field }) => <TextInput mb={styles.spacing} size={styles.size} required label="Name" {...field} />}
+          render={({ field }) => (
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              required
+              label={t('settings.common.name')}
+              placeholder={t('settings.common.name_placeholder')}
+              {...field}
+            />
+          )}
         />
 
         <Controller
@@ -68,7 +80,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
           render={({ field }) => (
             <Stack spacing={4}>
               <Text size={14} fw={500} color="#212529" sx={{ cursor: 'default' }}>
-                Content
+                {t('settings.global_sql_snippet.content')}
               </Text>
               <MinimalMonacoEditor height="600px" {...field} />
             </Stack>
@@ -76,9 +88,7 @@ function AddSQLSnippetForm({ postSubmit, styles = defaultStyles }: IAddSQLSnippe
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>
@@ -91,6 +101,7 @@ interface IAddSQLSnippet {
 }
 
 export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnippet) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -104,7 +115,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add a SQL Snippet"
+        title={t('settings.global_sql_snippet.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -114,7 +125,7 @@ export function AddSQLSnippet({ onSuccess, styles = defaultStyles }: IAddSQLSnip
         <AddSQLSnippetForm postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={18} />}>
-        Add a SQL Snippet
+        {t('settings.global_sql_snippet.add')}
       </Button>
     </>
   );

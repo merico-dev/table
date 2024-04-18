@@ -4,6 +4,7 @@ import { showNotification, updateNotification } from '@mantine/notifications';
 import { Trash } from 'tabler-icons-react';
 import { APICaller } from '../api-caller';
 import { defaultStyles, IStyles } from './styles';
+import { useTranslation } from 'react-i18next';
 
 interface IDeleteAPIKey {
   id: string;
@@ -13,6 +14,7 @@ interface IDeleteAPIKey {
 }
 
 export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: IDeleteAPIKey) {
+  const { t } = useTranslation();
   const modals = useModals();
 
   const doDelete = async () => {
@@ -21,8 +23,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     }
     showNotification({
       id: 'for-deleting',
-      title: 'Pending',
-      message: 'Deleting API Key...',
+      title: t('settings.common.state.pending'),
+      message: t('settings.global_sql_snippet.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -30,8 +32,8 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
       await APICaller.api_key.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: 'Successful',
-        message: `API Key [${name}] is deleted`,
+        title: t('settings.common.state.successful'),
+        message: t('settings.global_sql_snippet.state.deleted', { name }),
         color: 'green',
         autoClose: true,
       });
@@ -39,7 +41,7 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: 'Failed',
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -49,15 +51,22 @@ export function DeleteAPIKey({ id, name, onSuccess, styles = defaultStyles }: ID
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: 'Delete this api-key?',
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      title: t('settings.api_key.delete'),
+      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
+      cancelProps: {
+        size: styles.button.size,
+      },
+      confirmProps: {
+        color: 'red',
+        size: styles.button.size,
+      },
     });
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      Delete
+      {t('settings.common.actions.delete')}
     </Button>
   );
 }

@@ -9,6 +9,7 @@ import { AddDataSourceForm_DB } from './forms/database';
 import { AddDataSourceForm_HTTP } from './forms/http';
 import { IFormValues } from './types';
 import { DBPermissionTips } from './db-permission-tips';
+import { useTranslation } from 'react-i18next';
 
 interface IAddDataSourceForm {
   postSubmit: () => void;
@@ -16,12 +17,13 @@ interface IAddDataSourceForm {
 }
 
 function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourceForm) {
+  const { t } = useTranslation();
   const [type, setType] = useState<DataSourceType>('postgresql');
   const addDataSource = async ({ type, key, config }: IFormValues) => {
     showNotification({
       id: 'for-creating',
-      title: 'Pending',
-      message: 'Adding data source...',
+      title: t('settings.common.state.pending'),
+      message: t('settings.datasource.state.adding'),
       loading: true,
       autoClose: false,
     });
@@ -30,8 +32,8 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       await APICaller.datasource.create(type, key, config);
       updateNotification({
         id: 'for-creating',
-        title: 'Successful',
-        message: 'Data source is added',
+        title: t('settings.common.state.successful'),
+        message: t('settings.datasource.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -40,7 +42,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       console.error(error);
       updateNotification({
         id: 'for-creating',
-        title: 'Failed',
+        title: t('settings.common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -77,6 +79,7 @@ interface IAddDataSource {
 }
 
 export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSource) {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const open = () => setOpened(true);
   const close = () => setOpened(false);
@@ -90,7 +93,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Add a data source"
+        title={t('settings.datasource.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -99,7 +102,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        Add a Data Source
+        {t('settings.datasource.add')}
       </Button>
     </>
   );

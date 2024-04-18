@@ -6,14 +6,19 @@ import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
 import { IStyles, defaultStyles } from './styles';
+import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface IAccountList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function AccountList({ styles = defaultStyles, config }: IAccountList) {
+export function AccountList({ lang, styles = defaultStyles, config }: IAccountList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
+  const { t } = useTranslation();
 
   const {
     data = [],
@@ -58,12 +63,12 @@ export function AccountList({ styles = defaultStyles, config }: IAccountList) {
         >
           <thead>
             <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Role</th>
+              <th>{t('settings.account.username')}</th>
+              <th>{t('settings.account.email')}</th>
+              <th>{t('settings.role.label')}</th>
               {/* <th>Created at</th>
               <th>Updated at</th> */}
-              <th>Action</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>

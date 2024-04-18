@@ -4,6 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
 import { defaultStyles, IStyles } from '../../styles';
 import { FunctionStringField } from '../../components/function-string-field';
+import { SubmitFormButton } from '../../../components';
+import { useTranslation } from 'react-i18next';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [
@@ -27,6 +29,7 @@ interface IAddDataSourceForm {
 }
 
 export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddDataSourceForm) {
+  const { t } = useTranslation();
   const { control, setValue, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       type: 'http',
@@ -52,20 +55,26 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
               mb={styles.spacing}
               size={styles.size}
               required
-              label="Name"
-              placeholder="A unique name"
+              label={t('settings.common.name')}
+              placeholder={t('settings.common.name_placeholder')}
               {...field}
             />
           )}
         />
 
-        <Divider label="Connection Info" labelPosition="center" />
+        <Divider label={t('settings.datasource.connection_info')} labelPosition="center" />
 
         <Controller
           name="config.host"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} label="Base URL" sx={{ flexGrow: 1 }} {...field} />
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              label={t('settings.datasource.http.base_url')}
+              sx={{ flexGrow: 1 }}
+              {...field}
+            />
           )}
         />
         <Group grow>
@@ -74,8 +83,8 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label="Pre Processing"
-                modalTitle="This function will run before sending the request (for scenarios like encryption)"
+                label={t('settings.datasource.http.processing.pre.label')}
+                modalTitle={t('settings.datasource.http.processing.pre.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.pre}
                 {...field}
                 styles={styles}
@@ -87,8 +96,8 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label="Post Processing"
-                modalTitle="This function will run after sending the request (for scenarios like decryption)"
+                label={t('settings.datasource.http.processing.post.label')}
+                modalTitle={t('settings.datasource.http.processing.post.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.post}
                 {...field}
                 styles={styles}
@@ -98,9 +107,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
         </Group>
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" size={styles.button.size}>
-            Save
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

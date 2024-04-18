@@ -1,9 +1,10 @@
-import { Box, Button, Divider, Group, NumberInput, PasswordInput, TextInput } from '@mantine/core';
+import { Box, Divider, Group, NumberInput, PasswordInput, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { DataSourceType, TDataSourceConfig } from '../../../api-caller/datasource.typed';
-import { defaultStyles, IStyles } from '../../styles';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+import { SubmitFormButton } from '../../../components';
+import { IStyles, defaultStyles } from '../../styles';
+import { useTranslation } from 'react-i18next';
 
 interface IFormValues {
   type: DataSourceType;
@@ -18,6 +19,7 @@ interface IAddDataSourceForm {
 }
 
 export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: IAddDataSourceForm) {
+  const { t } = useTranslation();
   const { control, setValue, handleSubmit } = useForm<IFormValues>({
     defaultValues: {
       type,
@@ -46,21 +48,28 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label="Name"
-              placeholder="A unique name"
+              label={t('settings.common.name')}
+              placeholder={t('settings.common.name_placeholder')}
               {...field}
             />
           )}
         />
 
-        <Divider label="Connection Info" labelPosition="center" />
+        <Divider label={t('settings.datasource.connection_info')} labelPosition="center" />
 
         <Group grow>
           <Controller
             name="config.host"
             control={control}
             render={({ field }) => (
-              <TextInput mb={styles.spacing} size={styles.size} required label="Host" sx={{ flexGrow: 1 }} {...field} />
+              <TextInput
+                mb={styles.spacing}
+                size={styles.size}
+                required
+                label={t('settings.datasource.db.host')}
+                sx={{ flexGrow: 1 }}
+                {...field}
+              />
             )}
           />
           <Controller
@@ -72,7 +81,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
                 mb={styles.spacing}
                 size={styles.size}
                 required
-                label="Port"
+                label={t('settings.datasource.db.port')}
                 hideControls
                 sx={{ width: '8em' }}
                 {...field}
@@ -85,28 +94,44 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
           name="config.username"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Username" {...field} />
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              required
+              label={t('settings.datasource.db.username')}
+              {...field}
+            />
           )}
         />
         <Controller
           name="config.password"
           control={control}
           render={({ field }) => (
-            <PasswordInput mb={styles.spacing} size={styles.size} required label="Password" {...field} />
+            <PasswordInput
+              mb={styles.spacing}
+              size={styles.size}
+              required
+              label={t('settings.datasource.db.password')}
+              {...field}
+            />
           )}
         />
         <Controller
           name="config.database"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label="Database" {...field} />
+            <TextInput
+              mb={styles.spacing}
+              size={styles.size}
+              required
+              label={t('settings.datasource.db.database')}
+              {...field}
+            />
           )}
         />
 
         <Group position="right" mt={styles.spacing}>
-          <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={styles.button.size}>
-            Submit
-          </Button>
+          <SubmitFormButton size={styles.button.size} />
         </Group>
       </form>
     </Box>

@@ -5,14 +5,19 @@ import { configureAPIClient } from '../api-caller/request';
 import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { IStyles, defaultStyles } from './styles';
+import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface IAPIKeyList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
+export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
+  const { t } = useTranslation();
 
   const {
     data = [],
@@ -57,10 +62,10 @@ export function APIKeyList({ styles = defaultStyles, config }: IAPIKeyList) {
         >
           <thead>
             <tr>
-              <th>Name</th>
-              <th>APP ID</th>
-              <th>Role</th>
-              <th>Action</th>
+              <th>{t('settings.common.name')}</th>
+              <th>{t('settings.api_key.app_id')}</th>
+              <th>{t('settings.role.label')}</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>

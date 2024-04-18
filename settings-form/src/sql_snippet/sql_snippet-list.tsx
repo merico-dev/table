@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
+import { ActionIcon, Alert, Box, Group, HoverCard, LoadingOverlay, Table } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
@@ -9,6 +9,8 @@ import { IStyles, defaultStyles } from './styles';
 
 import { IconEye } from '@tabler/icons-react';
 import { UpdateSQLSnippet } from './update-sql_snippet';
+import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
@@ -29,12 +31,15 @@ function HoverToSeeContent({ content }: { content: string }) {
 }
 
 interface ISQLSnippetList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetList) {
+export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSnippetList) {
   configureAPIClient(config);
+  useApplyLanguage(lang);
+  const { t } = useTranslation();
 
   const {
     data = [],
@@ -57,7 +62,8 @@ export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetLi
 
   return (
     <>
-      <Group pt={styles.spacing} position="right">
+      <Group pt={styles.spacing} position="apart">
+        <Alert>{t('settings.global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
@@ -70,11 +76,11 @@ export function SQLSnippetList({ styles = defaultStyles, config }: ISQLSnippetLi
         >
           <thead>
             <tr>
-              <th>Name</th>
+              <th>{t('settings.common.name')}</th>
               <th></th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th>Action</th>
+              <th>{t('settings.common.created_at')}</th>
+              <th>{t('settings.common.updated_at')}</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>

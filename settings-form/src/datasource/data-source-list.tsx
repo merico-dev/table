@@ -8,16 +8,21 @@ import { DeleteDataSource } from './delete-data-source';
 import { defaultStyles, IStyles } from './styles';
 import { EditDataSource } from './edit-data-source';
 import { DataSourceIcon } from './components/data-source-icon';
+import { useApplyLanguage } from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 interface IDataSourceList {
+  lang: string;
   styles?: IStyles;
   config: ISettingsFormConfig;
 }
 
-export function DataSourceList({ styles = defaultStyles, config }: IDataSourceList) {
+export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSourceList) {
   useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
+  useApplyLanguage(lang);
 
+  const { t } = useTranslation();
   const {
     data = [],
     loading,
@@ -47,9 +52,9 @@ export function DataSourceList({ styles = defaultStyles, config }: IDataSourceLi
         >
           <thead>
             <tr>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Action</th>
+              <th>{t('settings.common.type')}</th>
+              <th>{t('settings.common.name')}</th>
+              <th>{t('settings.common.action')}</th>
             </tr>
           </thead>
           <tbody>
