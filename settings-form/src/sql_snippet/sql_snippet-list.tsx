@@ -2,15 +2,14 @@ import { ActionIcon, Alert, Box, Group, HoverCard, LoadingOverlay, Table } from 
 import { Prism } from '@mantine/prism';
 import { useRequest } from 'ahooks';
 import { APICaller } from '../api-caller';
-import { configureAPIClient } from '../api-caller/request';
 import { AddSQLSnippet } from './add-sql_snippet';
 import { DeleteSQLSnippet } from './delete-sql_snippet';
 import { IStyles, defaultStyles } from './styles';
 
 import { IconEye } from '@tabler/icons-react';
-import { UpdateSQLSnippet } from './update-sql_snippet';
-import { useApplyLanguage } from '../i18n';
 import { useTranslation } from 'react-i18next';
+import { withEntry } from '../components';
+import { UpdateSQLSnippet } from './update-sql_snippet';
 
 function HoverToSeeContent({ content }: { content: string }) {
   return (
@@ -30,15 +29,11 @@ function HoverToSeeContent({ content }: { content: string }) {
   );
 }
 
-interface ISQLSnippetList {
-  lang: string;
+type Props = {
   styles?: IStyles;
-  config: ISettingsFormConfig;
-}
+};
 
-export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSnippetList) {
-  configureAPIClient(config);
-  useApplyLanguage(lang);
+export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = defaultStyles }: Props) => {
   const { t } = useTranslation();
 
   const {
@@ -108,4 +103,4 @@ export function SQLSnippetList({ lang, styles = defaultStyles, config }: ISQLSni
       </Box>
     </>
   );
-}
+});
