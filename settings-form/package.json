@@ -31,6 +31,7 @@
     "@tabler/icons-react": "2.25.0",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.0",
+    "intl-pluralrules": "^2.0.1",
     "monaco-editor": "0.36.0",
     "react-i18next": "^14.1.0"
   },
