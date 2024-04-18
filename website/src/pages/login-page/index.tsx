@@ -5,9 +5,11 @@ import { useRequest } from 'ahooks';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { APICaller } from '../../api-caller';
 import { SettingsFormConfig } from '../../utils/config';
+import { useLanguageContext } from '../../contexts';
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const { lang } = useLanguageContext();
   const { data: account, loading, ...rest } = useRequest(APICaller.account.get);
 
   const redirect_to = window.localStorage.getItem('redirect_to') ?? '/dashboard/';
@@ -25,7 +27,7 @@ export function LoginPage() {
     <Center sx={{ width: '100vw', height: '100vh' }}>
       <Notifications position="top-right" />
       <LoadingOverlay visible={loading} />
-      <Login config={SettingsFormConfig} onSuccess={onSuccess} />
+      <Login config={SettingsFormConfig} onSuccess={onSuccess} lang={lang} />
     </Center>
   );
 }
