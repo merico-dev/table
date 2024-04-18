@@ -3,32 +3,32 @@ import { ModalsProvider } from '@mantine/modals';
 import { useCreation, useRequest } from 'ahooks';
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import React, { ForwardedRef, ReactNode, forwardRef, useEffect } from 'react';
+import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
 import { configureAPIClient } from '~/api-caller/request';
 import { PluginContext, createPluginContext } from '~/components/plugins';
 import { ServiceLocatorProvider } from '~/components/plugins/service/service-locator/use-service-locator';
 import { DashboardViewEditor } from '~/components/view';
 
+import {
+  ContentModelContextProvider,
+  DashboardModelContextProvider,
+  DatesProvider,
+  LayoutStateContext,
+} from '~/contexts';
 import { createDashboardModel } from '~/dashboard-editor/model';
+import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
+import { I18nextContextProvider } from '~/i18n';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
 import { ContextRecordType } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
+import { registerECharts } from '~/utils';
+import { DashboardThemeContextProvider, IDashboardConfig } from '..';
 import { useTopLevelServices } from '../components/plugins/service/use-top-level-services';
 import { DashboardContentDBType, IDashboard } from '../types/dashboard';
 import './dashboard-editor.css';
 import { DashboardEditorHeader, DashboardEditorNavbar, Settings } from './ui';
 import { useLoadMonacoEditor } from './utils/load-monaco-editor';
-import { DashboardThemeContextProvider, IDashboardConfig } from '..';
-import { OnExitCallback } from '~/dashboard-editor/ui/header/main-header';
-import { registerECharts } from '~/utils';
-import { useTranslation } from 'react-i18next';
-import {
-  DatesProvider,
-  ContentModelContextProvider,
-  DashboardModelContextProvider,
-  LayoutStateContext,
-} from '~/contexts';
 
 registerThemes();
 registerECharts();
@@ -92,10 +92,6 @@ const _DashboardEditor = (
 ) => {
   useLoadMonacoEditor(config.monacoPath);
   configureAPIClient(config);
-  const { i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [lang]);
 
   const { data: datasources = [] } = useRequest(listDataSources);
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
@@ -145,50 +141,52 @@ const _DashboardEditor = (
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
   return (
-    <ModalsProvider>
-      <DatesProvider>
-        <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
-          <DashboardModelContextProvider value={model}>
-            <ContentModelContextProvider value={model.content}>
-              <LayoutStateContext.Provider
-                value={{
-                  inEditMode: true,
-                }}
-              >
-                <PluginContext.Provider value={pluginContext}>
-                  <ServiceLocatorProvider configure={configureServices}>
-                    <AppShell
-                      padding={0}
-                      header={
-                        <DashboardEditorHeader
-                          onExit={onExit}
-                          saveDashboardChanges={saveDashboardChanges}
-                          headerSlot={headerSlot}
-                        />
-                      }
-                      navbar={<DashboardEditorNavbar />}
-                      styles={AppShellStyles}
-                    >
-                      <Box
-                        className={`${className} dashboard-root`}
-                        sx={{
-                          position: 'relative',
-                        }}
+    <I18nextContextProvider lang={lang}>
+      <ModalsProvider>
+        <DatesProvider>
+          <DashboardThemeContextProvider value={{ searchButtonProps: config.searchButtonProps }}>
+            <DashboardModelContextProvider value={model}>
+              <ContentModelContextProvider value={model.content}>
+                <LayoutStateContext.Provider
+                  value={{
+                    inEditMode: true,
+                  }}
+                >
+                  <PluginContext.Provider value={pluginContext}>
+                    <ServiceLocatorProvider configure={configureServices}>
+                      <AppShell
+                        padding={0}
+                        header={
+                          <DashboardEditorHeader
+                            onExit={onExit}
+                            saveDashboardChanges={saveDashboardChanges}
+                            headerSlot={headerSlot}
+                          />
+                        }
+                        navbar={<DashboardEditorNavbar />}
+                        styles={AppShellStyles}
                       >
-                        {model.content.views.visibleViews.map((view) => (
-                          <DashboardViewEditor key={view.id} view={view} />
-                        ))}
-                      </Box>
-                    </AppShell>
-                    <Settings />
-                  </ServiceLocatorProvider>
-                </PluginContext.Provider>
-              </LayoutStateContext.Provider>
-            </ContentModelContextProvider>
-          </DashboardModelContextProvider>
-        </DashboardThemeContextProvider>
-      </DatesProvider>
-    </ModalsProvider>
+                        <Box
+                          className={`${className} dashboard-root`}
+                          sx={{
+                            position: 'relative',
+                          }}
+                        >
+                          {model.content.views.visibleViews.map((view) => (
+                            <DashboardViewEditor key={view.id} view={view} />
+                          ))}
+                        </Box>
+                      </AppShell>
+                      <Settings />
+                    </ServiceLocatorProvider>
+                  </PluginContext.Provider>
+                </LayoutStateContext.Provider>
+              </ContentModelContextProvider>
+            </DashboardModelContextProvider>
+          </DashboardThemeContextProvider>
+        </DatesProvider>
+      </ModalsProvider>
+    </I18nextContextProvider>
   );
 };
 

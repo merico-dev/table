@@ -6,7 +6,7 @@ import { en } from './en';
 import { zh } from './zh';
 
 const i18n = createInstance({
-  debug: true,
+  debug: false,
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
