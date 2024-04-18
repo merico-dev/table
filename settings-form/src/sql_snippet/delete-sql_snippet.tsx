@@ -22,8 +22,8 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
     }
     showNotification({
       id: 'for-deleting',
-      title: t('settings.common.state.pending'),
-      message: t('settings.global_sql_snippet.state.deleting'),
+      title: t('common.state.pending'),
+      message: t('global_sql_snippet.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -31,8 +31,8 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
       await APICaller.sql_snippet.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: t('settings.common.state.successful'),
-        message: t('settings.global_sql_snippet.state.deleted', { name: id }),
+        title: t('common.state.successful'),
+        message: t('global_sql_snippet.state.deleted', { name: id }),
         color: 'green',
         autoClose: true,
       });
@@ -40,7 +40,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -50,8 +50,8 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: t('settings.global_sql_snippet.delete'),
-      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
+      title: t('global_sql_snippet.delete'),
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
       cancelProps: {
@@ -65,7 +65,7 @@ export function DeleteSQLSnippet({ id, onSuccess, styles = defaultStyles }: IDel
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      {t('settings.common.actions.edit')}
+      {t('common.actions.edit')}
     </Button>
   );
 }

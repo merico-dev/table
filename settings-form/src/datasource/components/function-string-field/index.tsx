@@ -70,11 +70,11 @@ export const FunctionStringField = forwardRef(
                   color="red"
                   leftIcon={<Recycle size={20} />}
                 >
-                  {t('settings.common.actions.reset_to_default')}
+                  {t('common.actions.reset_to_default')}
                 </Button>
                 <Group position="right">
                   <Button size={styles.button.size} onClick={handleCancel} variant="subtle">
-                    {t('settings.common.actions.cancel')}
+                    {t('common.actions.cancel')}
                   </Button>
                   <Button
                     size={styles.button.size}
@@ -82,7 +82,7 @@ export const FunctionStringField = forwardRef(
                     leftIcon={<IconDeviceFloppy size={16} />}
                     onClick={handleOk}
                   >
-                    {t('settings.common.actions.save')}
+                    {t('common.actions.save')}
                   </Button>
                 </Group>
               </Group>

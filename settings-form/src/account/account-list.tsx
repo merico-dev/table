@@ -58,12 +58,12 @@ export const AccountList = withEntry<Props>('AccountList', ({ styles = defaultSt
         >
           <thead>
             <tr>
-              <th>{t('settings.account.username')}</th>
-              <th>{t('settings.account.email')}</th>
-              <th>{t('settings.role.label')}</th>
+              <th>{t('account.username')}</th>
+              <th>{t('account.email')}</th>
+              <th>{t('role.label')}</th>
               {/* <th>Created at</th>
               <th>Updated at</th> */}
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

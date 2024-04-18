@@ -58,7 +58,7 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
   return (
     <>
       <Group pt={styles.spacing} position="apart">
-        <Alert>{t('settings.global_sql_snippet.description')}</Alert>
+        <Alert>{t('global_sql_snippet.description')}</Alert>
         <AddSQLSnippet onSuccess={refresh} />
       </Group>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
@@ -71,11 +71,11 @@ export const SQLSnippetList = withEntry<Props>('DataSourceList', ({ styles = def
         >
           <thead>
             <tr>
-              <th>{t('settings.common.name')}</th>
+              <th>{t('common.name')}</th>
               <th></th>
-              <th>{t('settings.common.created_at')}</th>
-              <th>{t('settings.common.updated_at')}</th>
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.created_at')}</th>
+              <th>{t('common.updated_at')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

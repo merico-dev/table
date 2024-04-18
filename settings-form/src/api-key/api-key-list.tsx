@@ -57,10 +57,10 @@ export const APIKeyList = withEntry<Props>('APIKeyList', ({ styles = defaultStyl
         >
           <thead>
             <tr>
-              <th>{t('settings.common.name')}</th>
-              <th>{t('settings.api_key.app_id')}</th>
-              <th>{t('settings.role.label')}</th>
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.name')}</th>
+              <th>{t('api_key.app_id')}</th>
+              <th>{t('role.label')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

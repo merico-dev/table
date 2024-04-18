@@ -37,16 +37,16 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     try {
       showNotification({
         id: 'for-creating',
-        title: t('settings.common.state.pending'),
-        message: t('settings.account.state.adding'),
+        title: t('common.state.pending'),
+        message: t('account.state.adding'),
         loading: true,
         autoClose: false,
       });
       await APICaller.account.create(name, email, password, role_id);
       updateNotification({
         id: 'for-creating',
-        title: t('settings.common.state.successful'),
-        message: t('settings.account.state.added'),
+        title: t('common.state.successful'),
+        message: t('account.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -54,7 +54,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-creating',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -69,13 +69,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label={t('settings.account.username')}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.username')} {...field} />
           )}
         />
 
@@ -83,7 +77,7 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
           name="email"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label={t('settings.account.email')} {...field} />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.email')} {...field} />
           )}
         />
 
@@ -95,8 +89,8 @@ function AddAccountForm({ postSubmit, styles = defaultStyles, initialRoleID }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('settings.account.password')}
-              description={t('settings.account.password_hint')}
+              label={t('account.password')}
+              description={t('account.password_hint')}
               {...field}
             />
           )}
@@ -137,7 +131,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('settings.account.add')}
+        title={t('account.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -146,7 +140,7 @@ export function AddAccount({ onSuccess, styles = defaultStyles, initialRoleID }:
         <AddAccountForm postSubmit={postSubmit} styles={styles} initialRoleID={initialRoleID} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        {t('settings.account.add')}
+        {t('account.add')}
       </Button>
     </>
   );

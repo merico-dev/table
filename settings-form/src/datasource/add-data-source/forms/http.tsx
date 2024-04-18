@@ -55,14 +55,14 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('settings.common.name')}
-              placeholder={t('settings.common.name_placeholder')}
+              label={t('common.name')}
+              placeholder={t('common.name_placeholder')}
               {...field}
             />
           )}
         />
 
-        <Divider label={t('settings.datasource.connection_info')} labelPosition="center" />
+        <Divider label={t('datasource.connection_info')} labelPosition="center" />
 
         <Controller
           name="config.host"
@@ -71,7 +71,7 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             <TextInput
               mb={styles.spacing}
               size={styles.size}
-              label={t('settings.datasource.http.base_url')}
+              label={t('datasource.http.base_url')}
               sx={{ flexGrow: 1 }}
               {...field}
             />
@@ -83,8 +83,8 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label={t('settings.datasource.http.processing.pre.label')}
-                modalTitle={t('settings.datasource.http.processing.pre.description')}
+                label={t('datasource.http.processing.pre.label')}
+                modalTitle={t('datasource.http.processing.pre.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.pre}
                 {...field}
                 styles={styles}
@@ -96,8 +96,8 @@ export function AddDataSourceForm_HTTP({ submit, styles = defaultStyles }: IAddD
             control={control}
             render={({ field }) => (
               <FunctionStringField
-                label={t('settings.datasource.http.processing.post.label')}
-                modalTitle={t('settings.datasource.http.processing.post.description')}
+                label={t('datasource.http.processing.post.label')}
+                modalTitle={t('datasource.http.processing.post.description')}
                 defaultValue={DEFAULT_HTTP_PROCESSING.post}
                 {...field}
                 styles={styles}

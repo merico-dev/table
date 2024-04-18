@@ -26,16 +26,16 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
     }
     showNotification({
       id: 'for-deleting',
-      title: t('settings.common.state.pending'),
-      message: t('settings.datasource.state.deleting'),
+      title: t('common.state.pending'),
+      message: t('datasource.state.deleting'),
       loading: true,
       autoClose: false,
     });
     await APICaller.datasource.delete(id);
     updateNotification({
       id: 'for-deleting',
-      title: t('settings.common.state.successful'),
-      message: t('settings.datasource.state.deleted', { name }),
+      title: t('common.state.successful'),
+      message: t('datasource.state.deleted', { name }),
       color: 'green',
       autoClose: true,
     });
@@ -44,9 +44,9 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: t('settings.datasource.delete.title'),
-      children: <Text size={styles.size}>{t('settings.datasource.delete.hint')}</Text>,
-      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
+      title: t('datasource.delete.title'),
+      children: <Text size={styles.size}>{t('datasource.delete.hint')}</Text>,
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
       cancelProps: {
@@ -63,7 +63,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
       <Tooltip
         withArrow
         events={{ hover: true, touch: false, focus: false }}
-        label={t('settings.datasource.delete.cant_delete_preset')}
+        label={t('datasource.delete.cant_delete_preset')}
       >
         <Button
           size={styles.button.size}
@@ -72,7 +72,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
           leftIcon={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          {t('settings.common.actions.delete')}
+          {t('common.actions.delete')}
         </Button>
       </Tooltip>
     );
@@ -80,7 +80,7 @@ export function DeleteDataSource({ id, name, isProtected, onSuccess, styles = de
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={16} />}>
-      {t('settings.common.actions.delete')}
+      {t('common.actions.delete')}
     </Button>
   );
 }

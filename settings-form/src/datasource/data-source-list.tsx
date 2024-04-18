@@ -44,9 +44,9 @@ export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = def
         >
           <thead>
             <tr>
-              <th>{t('settings.common.type')}</th>
-              <th>{t('settings.common.name')}</th>
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.type')}</th>
+              <th>{t('common.name')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>

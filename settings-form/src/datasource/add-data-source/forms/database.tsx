@@ -48,14 +48,14 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('settings.common.name')}
-              placeholder={t('settings.common.name_placeholder')}
+              label={t('common.name')}
+              placeholder={t('common.name_placeholder')}
               {...field}
             />
           )}
         />
 
-        <Divider label={t('settings.datasource.connection_info')} labelPosition="center" />
+        <Divider label={t('datasource.connection_info')} labelPosition="center" />
 
         <Group grow>
           <Controller
@@ -66,7 +66,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
                 mb={styles.spacing}
                 size={styles.size}
                 required
-                label={t('settings.datasource.db.host')}
+                label={t('datasource.db.host')}
                 sx={{ flexGrow: 1 }}
                 {...field}
               />
@@ -81,7 +81,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
                 mb={styles.spacing}
                 size={styles.size}
                 required
-                label={t('settings.datasource.db.port')}
+                label={t('datasource.db.port')}
                 hideControls
                 sx={{ width: '8em' }}
                 {...field}
@@ -94,13 +94,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
           name="config.username"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label={t('settings.datasource.db.username')}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('datasource.db.username')} {...field} />
           )}
         />
         <Controller
@@ -111,7 +105,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
               mb={styles.spacing}
               size={styles.size}
               required
-              label={t('settings.datasource.db.password')}
+              label={t('datasource.db.password')}
               {...field}
             />
           )}
@@ -120,13 +114,7 @@ export function AddDataSourceForm_DB({ submit, styles = defaultStyles, type }: I
           name="config.database"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label={t('settings.datasource.db.database')}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('datasource.db.database')} {...field} />
           )}
         />
 

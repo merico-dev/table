@@ -10,7 +10,7 @@ export function SubmitFormButton({ size, disabled }: Props) {
   const { t } = useTranslation();
   return (
     <Button type="submit" color="green" leftIcon={<IconDeviceFloppy size={16} />} size={size} disabled={disabled}>
-      {t('settings.common.actions.submit')}
+      {t('common.actions.submit')}
     </Button>
   );
 }
