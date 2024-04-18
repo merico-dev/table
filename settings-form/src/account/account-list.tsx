@@ -1,23 +1,18 @@
 import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
-import { configureAPIClient } from '../api-caller/request';
+import { withEntry } from '../components';
 import { AddAccount } from './add-account';
 import { DeleteAccount } from './delete-account';
 import { EditAccount } from './edit-account';
 import { IStyles, defaultStyles } from './styles';
-import { useApplyLanguage } from '../i18n';
-import { useTranslation } from 'react-i18next';
 
-interface IAccountList {
-  lang: string;
+type Props = {
   styles?: IStyles;
-  config: ISettingsFormConfig;
-}
+};
 
-export function AccountList({ lang, styles = defaultStyles, config }: IAccountList) {
-  configureAPIClient(config);
-  useApplyLanguage(lang);
+export const AccountList = withEntry<Props>('AccountList', ({ styles = defaultStyles }: Props) => {
   const { t } = useTranslation();
 
   const {
@@ -63,12 +58,12 @@ export function AccountList({ lang, styles = defaultStyles, config }: IAccountLi
         >
           <thead>
             <tr>
-              <th>{t('settings.account.username')}</th>
-              <th>{t('settings.account.email')}</th>
-              <th>{t('settings.role.label')}</th>
+              <th>{t('account.username')}</th>
+              <th>{t('account.email')}</th>
+              <th>{t('role.label')}</th>
               {/* <th>Created at</th>
               <th>Updated at</th> */}
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -95,4 +90,4 @@ export function AccountList({ lang, styles = defaultStyles, config }: IAccountLi
       </Box>
     </>
   );
-}
+});

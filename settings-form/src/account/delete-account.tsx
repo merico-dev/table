@@ -23,8 +23,8 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
     }
     showNotification({
       id: 'for-deleting',
-      title: t('settings.common.state.pending'),
-      message: t('settings.account.state.deleting'),
+      title: t('common.state.pending'),
+      message: t('account.state.deleting'),
       loading: true,
       autoClose: false,
     });
@@ -32,8 +32,8 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
       await APICaller.account.delete(id);
       updateNotification({
         id: 'for-deleting',
-        title: t('settings.common.state.successful'),
-        message: t('settings.account.state.deleted', { name }),
+        title: t('common.state.successful'),
+        message: t('account.state.deleted', { name }),
         color: 'green',
         autoClose: true,
       });
@@ -41,7 +41,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-deleting',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -51,8 +51,8 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
 
   const confirmAndDelete = () =>
     modals.openConfirmModal({
-      title: t('settings.account.delete'),
-      labels: { confirm: t('settings.common.actions.confirm'), cancel: t('settings.common.actions.cancel') },
+      title: t('account.delete'),
+      labels: { confirm: t('common.actions.confirm'), cancel: t('common.actions.cancel') },
       onCancel: () => console.log('Cancel'),
       onConfirm: doDelete,
       cancelProps: {
@@ -66,7 +66,7 @@ export function DeleteAccount({ id, name, onSuccess, styles = defaultStyles }: I
 
   return (
     <Button size={styles.button.size} color="red" onClick={confirmAndDelete} leftIcon={<Trash size={20} />}>
-      {t('settings.common.actions.delete')}
+      {t('common.actions.delete')}
     </Button>
   );
 }

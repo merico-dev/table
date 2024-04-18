@@ -22,8 +22,8 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
   const addDataSource = async ({ type, key, config }: IFormValues) => {
     showNotification({
       id: 'for-creating',
-      title: t('settings.common.state.pending'),
-      message: t('settings.datasource.state.adding'),
+      title: t('common.state.pending'),
+      message: t('datasource.state.adding'),
       loading: true,
       autoClose: false,
     });
@@ -32,8 +32,8 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       await APICaller.datasource.create(type, key, config);
       updateNotification({
         id: 'for-creating',
-        title: t('settings.common.state.successful'),
-        message: t('settings.datasource.state.added'),
+        title: t('common.state.successful'),
+        message: t('datasource.state.added'),
         color: 'green',
         autoClose: true,
       });
@@ -42,7 +42,7 @@ function AddDataSourceForm({ postSubmit, styles = defaultStyles }: IAddDataSourc
       console.error(error);
       updateNotification({
         id: 'for-creating',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -93,7 +93,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('settings.datasource.add')}
+        title={t('datasource.add')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -102,7 +102,7 @@ export function AddDataSource({ onSuccess, styles = defaultStyles }: IAddDataSou
         <AddDataSourceForm postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<PlaylistAdd size={20} />}>
-        {t('settings.datasource.add')}
+        {t('datasource.add')}
       </Button>
     </>
   );

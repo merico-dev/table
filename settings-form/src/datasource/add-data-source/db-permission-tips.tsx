@@ -1,14 +1,13 @@
 import { Alert, Box } from '@mantine/core';
-import { IStyles, defaultStyles } from '../styles';
+import { Trans } from 'react-i18next';
 import { AlertCircle } from 'tabler-icons-react';
-import { Trans, useTranslation } from 'react-i18next';
+import { IStyles, defaultStyles } from '../styles';
 
 interface IDBPermissionTips {
   styles?: IStyles;
 }
 
 export function DBPermissionTips({ styles = defaultStyles }: IDBPermissionTips) {
-  const { t } = useTranslation();
   return (
     <Box mx="auto">
       <Alert mt={styles.spacing} icon={<AlertCircle size={16} />}>

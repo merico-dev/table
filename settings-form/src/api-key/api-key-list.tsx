@@ -1,22 +1,17 @@
 import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
+import { useTranslation } from 'react-i18next';
 import { APICaller } from '../api-caller';
-import { configureAPIClient } from '../api-caller/request';
+import { withEntry } from '../components';
 import { AddAPIKey } from './add-api-key';
 import { DeleteAPIKey } from './delete-api-key';
 import { IStyles, defaultStyles } from './styles';
-import { useApplyLanguage } from '../i18n';
-import { useTranslation } from 'react-i18next';
 
-interface IAPIKeyList {
-  lang: string;
+type Props = {
   styles?: IStyles;
-  config: ISettingsFormConfig;
-}
+};
 
-export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList) {
-  configureAPIClient(config);
-  useApplyLanguage(lang);
+export const APIKeyList = withEntry<Props>('APIKeyList', ({ styles = defaultStyles }: Props) => {
   const { t } = useTranslation();
 
   const {
@@ -62,10 +57,10 @@ export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList
         >
           <thead>
             <tr>
-              <th>{t('settings.common.name')}</th>
-              <th>{t('settings.api_key.app_id')}</th>
-              <th>{t('settings.role.label')}</th>
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.name')}</th>
+              <th>{t('api_key.app_id')}</th>
+              <th>{t('role.label')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -91,4 +86,4 @@ export function APIKeyList({ lang, styles = defaultStyles, config }: IAPIKeyList
       </Box>
     </>
   );
-}
+});

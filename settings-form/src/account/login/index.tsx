@@ -1,21 +1,15 @@
 import { Box } from '@mantine/core';
 import { ILoginResp } from '../../api-caller/account.typed';
-import { configureAPIClient } from '../../api-caller/request';
+import { withEntry } from '../../components';
 import { defaultStyles, IStyles } from '../styles';
 import { LoginForm } from './form';
-import { useApplyLanguage } from '../../i18n';
 
-interface ILogin {
-  lang: string;
+type Props = {
   styles?: IStyles;
-  config: ISettingsFormConfig;
   onSuccess: (resp: ILoginResp) => void;
-}
+};
 
-export function Login({ lang, styles = defaultStyles, config, onSuccess }: ILogin) {
-  configureAPIClient(config);
-  useApplyLanguage(lang);
-
+export const Login = withEntry<Props>('Login', ({ styles = defaultStyles, onSuccess }: Props) => {
   return (
     <>
       <Box mt={styles.spacing} sx={{ position: 'relative' }}>
@@ -23,4 +17,4 @@ export function Login({ lang, styles = defaultStyles, config, onSuccess }: ILogi
       </Box>
     </>
   );
-}
+});

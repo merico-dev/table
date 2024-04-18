@@ -20,8 +20,8 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
   const update = async ({ config }: IFormValues) => {
     showNotification({
       id: 'for-updating',
-      title: t('settings.common.state.pending'),
-      message: t('settings.datasource.state.updating'),
+      title: t('common.state.pending'),
+      message: t('datasource.state.updating'),
       loading: true,
       autoClose: false,
     });
@@ -30,8 +30,8 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
       await APICaller.datasource.update(dataSource.id, config);
       updateNotification({
         id: 'for-updating',
-        title: t('settings.common.state.successful'),
-        message: t('settings.datasource.state.updated'),
+        title: t('common.state.successful'),
+        message: t('datasource.state.updated'),
         color: 'green',
         autoClose: true,
       });
@@ -39,7 +39,7 @@ function EditDataSourceForm({ dataSource, postSubmit, styles = defaultStyles }: 
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -76,11 +76,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
 
   if (dataSource.is_preset) {
     return (
-      <Tooltip
-        withArrow
-        events={{ hover: true, touch: false, focus: false }}
-        label={t('settings.datasource.cant_edit.preset')}
-      >
+      <Tooltip withArrow events={{ hover: true, touch: false, focus: false }} label={t('datasource.cant_edit.preset')}>
         <Button
           size={styles.button.size}
           color="gray"
@@ -88,7 +84,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           leftIcon={<IconLock size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          {t('settings.common.actions.edit')}
+          {t('common.actions.edit')}
         </Button>
       </Tooltip>
     );
@@ -96,11 +92,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
 
   if (dataSource.type !== 'http') {
     return (
-      <Tooltip
-        withArrow
-        events={{ hover: true, touch: false, focus: false }}
-        label={t('settings.datasource.cant_edit.db')}
-      >
+      <Tooltip withArrow events={{ hover: true, touch: false, focus: false }} label={t('datasource.cant_edit.db')}>
         <Button
           size={styles.button.size}
           color="gray"
@@ -108,7 +100,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
           leftIcon={<IconEdit size={16} />}
           sx={{ transform: 'none !important' }}
         >
-          {t('settings.common.actions.edit')}
+          {t('common.actions.edit')}
         </Button>
       </Tooltip>
     );
@@ -119,7 +111,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('settings.datasource.edit')}
+        title={t('datasource.edit')}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -128,7 +120,7 @@ export function EditDataSource({ dataSource, onSuccess, styles = defaultStyles }
         <EditDataSourceForm dataSource={dataSource} postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} color="blue" onClick={open} leftIcon={<IconEdit size={16} />}>
-        {t('settings.common.actions.edit')}
+        {t('common.actions.edit')}
       </Button>
     </>
   );

@@ -1,27 +1,19 @@
 import { Box, Group, LoadingOverlay, Table } from '@mantine/core';
 import { useRequest } from 'ahooks';
-import { APICaller } from '../api-caller';
-import { configureAPIClient } from '../api-caller/request';
-import { useLoadMonacoEditor } from '../utils/load-monaco-editor';
-import { AddDataSource } from './add-data-source';
-import { DeleteDataSource } from './delete-data-source';
-import { defaultStyles, IStyles } from './styles';
-import { EditDataSource } from './edit-data-source';
-import { DataSourceIcon } from './components/data-source-icon';
-import { useApplyLanguage } from '../i18n';
 import { useTranslation } from 'react-i18next';
+import { APICaller } from '../api-caller';
+import { withEntry } from '../components';
+import { AddDataSource } from './add-data-source';
+import { DataSourceIcon } from './components/data-source-icon';
+import { DeleteDataSource } from './delete-data-source';
+import { EditDataSource } from './edit-data-source';
+import { IStyles, defaultStyles } from './styles';
 
-interface IDataSourceList {
-  lang: string;
+type Props = {
   styles?: IStyles;
-  config: ISettingsFormConfig;
-}
+};
 
-export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSourceList) {
-  useLoadMonacoEditor(config.monacoPath);
-  configureAPIClient(config);
-  useApplyLanguage(lang);
-
+export const DataSourceList = withEntry<Props>('DataSourceList', ({ styles = defaultStyles }: Props) => {
   const { t } = useTranslation();
   const {
     data = [],
@@ -52,9 +44,9 @@ export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSo
         >
           <thead>
             <tr>
-              <th>{t('settings.common.type')}</th>
-              <th>{t('settings.common.name')}</th>
-              <th>{t('settings.common.action')}</th>
+              <th>{t('common.type')}</th>
+              <th>{t('common.name')}</th>
+              <th>{t('common.action')}</th>
             </tr>
           </thead>
           <tbody>
@@ -86,4 +78,4 @@ export function DataSourceList({ lang, styles = defaultStyles, config }: IDataSo
       </Box>
     </>
   );
-}
+});

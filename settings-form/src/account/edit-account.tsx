@@ -40,8 +40,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
     try {
       showNotification({
         id: 'for-updating',
-        title: t('settings.common.state.pending'),
-        message: t('settings.account.state.updating'),
+        title: t('common.state.pending'),
+        message: t('account.state.updating'),
         loading: true,
         autoClose: false,
       });
@@ -55,8 +55,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
       });
       updateNotification({
         id: 'for-updating',
-        title: t('settings.common.state.successful'),
-        message: t('settings.account.state.updated'),
+        title: t('common.state.successful'),
+        message: t('account.state.updated'),
         color: 'green',
         autoClose: true,
       });
@@ -64,7 +64,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
     } catch (error: $TSFixMe) {
       updateNotification({
         id: 'for-updating',
-        title: t('settings.common.state.failed'),
+        title: t('common.state.failed'),
         message: error.message,
         color: 'red',
         autoClose: true,
@@ -81,13 +81,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
           name="name"
           control={control}
           render={({ field }) => (
-            <TextInput
-              mb={styles.spacing}
-              size={styles.size}
-              required
-              label={t('settings.account.username')}
-              {...field}
-            />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.username')} {...field} />
           )}
         />
 
@@ -95,7 +89,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
           name="email"
           control={control}
           render={({ field }) => (
-            <TextInput mb={styles.spacing} size={styles.size} required label={t('settings.account.email')} {...field} />
+            <TextInput mb={styles.spacing} size={styles.size} required label={t('account.email')} {...field} />
           )}
         />
 
@@ -114,7 +108,7 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
             <Switch
               mb={styles.spacing}
               size={styles.size}
-              label={t('settings.account.reset_password')}
+              label={t('account.reset_password')}
               checked={field.value}
               onChange={(event) => field.onChange(event.currentTarget.checked)}
               styles={{
@@ -141,8 +135,8 @@ function EditAccountForm({ id, name, email, role_id, postSubmit, styles = defaul
                 mb={styles.spacing}
                 size={styles.size}
                 required
-                description={t('settings.account.password_hint')}
-                label={t('settings.account.new_password')}
+                description={t('account.password_hint')}
+                label={t('account.new_password')}
                 {...field}
               />
             )}
@@ -178,7 +172,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
-        title={t('settings.account.editing_xx', { name: account.name })}
+        title={t('account.editing_xx', { name: account.name })}
         trapFocus
         onDragStart={(e) => {
           e.stopPropagation();
@@ -187,7 +181,7 @@ export function EditAccount({ account, onSuccess, styles = defaultStyles }: IEdi
         <EditAccountForm {...account} postSubmit={postSubmit} styles={styles} />
       </Modal>
       <Button size={styles.button.size} onClick={open} leftIcon={<Edit size={20} />}>
-        {t('settings.common.actions.edit')}
+        {t('common.actions.edit')}
       </Button>
     </>
   );
