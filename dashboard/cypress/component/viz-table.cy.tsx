@@ -38,6 +38,7 @@ const mockPanel: IViewPanelInfo = {
   id: 'mock-panel-01',
   queryIDs: [mockQueryID],
   dataFieldOptions: () => [{ label: 'foo', value: `${mockQueryID}.foo` }],
+  queryOptions: () => [{ label: 'mockQuery', value: mockQueryID }],
 };
 const mockData = { [mockQueryID]: [{ foo: 'alice', bar: 'bob' }] };
 const MEASURE = {
