@@ -25,6 +25,33 @@ export const PanelModel = PanelRenderModel.views((self) => ({
       .flat();
   },
 
+  get realQueryOptions() {
+    if (self.queryIDs.length === 0) {
+      return [];
+    }
+
+    return self.queries.map((query) => ({
+      label: query.name,
+      value: query.id,
+      disabled: false,
+    }));
+  },
+
+  queryOptions(selected: string, clearable: boolean) {
+    const options = [...this.realQueryOptions];
+    if (selected && !options.find((o) => o.value === selected)) {
+      options.unshift({
+        label: selected,
+        value: selected,
+        disabled: true,
+      });
+    }
+
+    if (clearable) {
+      options.unshift({ label: 'unset', value: '', disabled: false });
+    }
+    return options;
+  },
   dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
     let options = [...this.realDataFieldOptions];
     if (queryID) {
