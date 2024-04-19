@@ -120,12 +120,12 @@ export const PanelEditor = observer(({ panel }: { panel: PanelModelInstance }) =
           </Tabs.Tab>
           <Tabs.Tab value="Panel">{t('panel.label')}</Tabs.Tab>
           <Tabs.Tab value="Variables" disabled={dataNotReady}>
-            <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={310}>
+            <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('panel.variable.labels')}</Text>
             </Tooltip>
           </Tabs.Tab>
           <Tabs.Tab value="Visualization" disabled={dataNotReady}>
-            <Tooltip label="Requires data" disabled={!dataNotReady} withinPortal zIndex={310}>
+            <Tooltip label={t('data.requires_data')} disabled={!dataNotReady} withinPortal zIndex={310}>
               <Text>{t('visualization.label')}</Text>
             </Tooltip>
           </Tabs.Tab>

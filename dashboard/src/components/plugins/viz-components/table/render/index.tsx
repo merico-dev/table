@@ -1,10 +1,11 @@
 import { Text } from '@mantine/core';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRenderPanelContext } from '~/contexts';
 import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
 import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';
-import { useRenderPanelContext } from '~/contexts';
 
 type IPrepareDataAndRender = {
   data: TPanelData;
@@ -15,6 +16,7 @@ type IPrepareDataAndRender = {
   context: VizViewContext;
 };
 function PrepareDataAndRender({ data, width, height, conf, context, instance }: IPrepareDataAndRender) {
+  const { t } = useTranslation();
   const { panel } = useRenderPanelContext();
   const fallbackQueryData = panel.firstQueryData ?? [];
 
@@ -29,7 +31,7 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
   if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">
-        Empty Data
+        {t('data.empty_data')}
       </Text>
     );
   }

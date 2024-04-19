@@ -487,6 +487,7 @@ export const zh = {
       label: '数据',
       preview_data: '预览数据',
       empty_data: '无数据',
+      requires_data: '请先关联查询',
     },
     data_source: {
       label: '数据源',

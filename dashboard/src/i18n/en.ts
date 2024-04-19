@@ -487,6 +487,7 @@ export const en = {
       label: 'Data',
       preview_data: 'Preview Data',
       empty_data: 'Empty Data',
+      requires_data: 'Requires data',
     },
     data_source: {
       label: 'Data Source',
