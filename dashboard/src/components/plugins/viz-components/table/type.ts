@@ -28,7 +28,7 @@ export interface IColumnConf {
 }
 
 export interface ITableConf {
-  id_field: TDataKey;
+  query_id: string;
   use_raw_columns: boolean;
   columns: IColumnConf[];
   fontSize: string;
@@ -50,7 +50,7 @@ export const DEFAULT_CONFIG: ITableConf = {
   fontSize: '14px',
   highlightOnHover: true,
   horizontalSpacing: '14px',
-  id_field: '',
+  query_id: '',
   striped: true,
   use_raw_columns: true,
   verticalSpacing: '14px',

@@ -10,7 +10,7 @@ import { translation } from './translation';
 import * as Migrators from './migrators';
 
 class VizTableMigrator extends VersionBasedMigrator {
-  readonly VERSION = 5;
+  readonly VERSION = 6;
 
   configVersions(): void {
     // @ts-expect-error data's type
@@ -55,13 +55,20 @@ class VizTableMigrator extends VersionBasedMigrator {
         config: Migrators.v5(data.config),
       };
     });
+    this.version(6, (data) => {
+      return {
+        ...data,
+        version: 6,
+        config: Migrators.v6(data.config),
+      };
+    });
   }
 }
 
 export const TableVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 5,
+      version: 6,
       config: cloneDeep(DEFAULT_CONFIG) as ITableConf,
     };
   },

@@ -6,8 +6,8 @@ const en = {
     column: {
       labels: 'Columns',
       delete: 'Delete this column',
-      id_field: 'ID Field',
-      id_field_hint: '',
+      query_id: 'Query',
+      query_id_hint: 'Load table data from this query',
       use_original_data_columns: 'Use original data columns',
       width: 'Width',
       min_width: 'Min Width',
@@ -44,8 +44,8 @@ const zh = {
     column: {
       labels: '列设置',
       delete: '删除这个列',
-      id_field: 'ID字段',
-      id_field_hint: '用于唯一标识每行数据',
+      query_id: '表格数据来源',
+      query_id_hint: '通过所选的查询获取表格数据',
       use_original_data_columns: '使用数据本身的列',
       width: '宽度',
       min_width: '最小宽度',

@@ -58,8 +58,8 @@ function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
   if (!panelData) {
     return ret;
   }
-  if (config?.id_field) {
-    const queryData = extractFullQueryData(panelData, config.id_field);
+  if (config?.query_id) {
+    const queryData = panelData[config.query_id];
     if (queryData?.length > 0) {
       ret.columnsFromData = Object.keys(queryData[0]).map((key) => ({
         label: key,

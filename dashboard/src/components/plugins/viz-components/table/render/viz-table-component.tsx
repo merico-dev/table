@@ -28,7 +28,7 @@ type IVizTableComponent = {
 };
 
 export function VizTableComponent({ queryData, width, height, conf, context, instance }: IVizTableComponent) {
-  const { id_field, use_raw_columns, columns, ...rest } = conf;
+  const { use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
 

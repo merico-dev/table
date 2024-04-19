@@ -1,5 +1,6 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
 import { ITableConf } from '../type';
+import { parseDataKey } from '~/utils';
 
 export function v3(prev: any): ITableConf {
   const { columns, ...rest } = prev;
@@ -45,5 +46,14 @@ export function v5(prev: any): ITableConf {
       cellBackgroundColor: c.cellBackgroundColor ?? '',
       width: c.width ?? '',
     })),
+  };
+}
+
+export function v6(prev: any): ITableConf {
+  const { id_field, ...rest } = prev;
+  const { queryID } = parseDataKey(id_field);
+  return {
+    ...rest,
+    query_id: queryID ?? '',
   };
 }
