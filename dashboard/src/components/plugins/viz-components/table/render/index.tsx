@@ -7,6 +7,15 @@ import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';
 
+function EmptyMessage() {
+  const { t } = useTranslation();
+  return (
+    <Text color="gray" align="center">
+      {t('data.empty_data')}
+    </Text>
+  );
+}
+
 type IPrepareDataAndRender = {
   data: TPanelData;
   width: number;
@@ -20,14 +29,6 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
   const { panel } = useRenderPanelContext();
   const fallbackQueryData = panel.firstQueryData ?? [];
 
-  const { query_id } = conf;
-  const queryData = useMemo(() => {
-    if (!query_id) {
-      return fallbackQueryData;
-    }
-    return data[query_id];
-  }, [data, query_id, fallbackQueryData]);
-
   if (panel.queryIDs.length === 0) {
     return (
       <Text color="gray" align="center">
@@ -36,12 +37,29 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
     );
   }
 
-  if (!Array.isArray(queryData) || queryData.length === 0) {
+  const { query_id } = conf;
+  if (!query_id) {
+    if (fallbackQueryData.length === 0) {
+      return <EmptyMessage />;
+    }
     return (
-      <Text color="gray" align="center">
-        {t('data.empty_data')}
-      </Text>
+      <VizTableComponent
+        queryData={fallbackQueryData}
+        width={width}
+        height={height}
+        conf={{
+          ...conf,
+          use_raw_columns: true,
+          columns: [],
+        }}
+        context={context}
+        instance={instance}
+      />
     );
+  }
+  const queryData = data[query_id];
+  if (!Array.isArray(queryData) || queryData.length === 0) {
+    return <EmptyMessage />;
   }
 
   return (
