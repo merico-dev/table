@@ -17,6 +17,7 @@ export const PickQuery = observer(function _PickQuery() {
     model.editor.setPath(['_QUERIES_', queryID]);
   };
 
+  const count = panel.queryIDs.length;
   return (
     <>
       <Drawer
@@ -37,12 +38,12 @@ export const PickQuery = observer(function _PickQuery() {
       </Drawer>
 
       <Stack spacing={6}>
-        <Group position="right">
+        <Group position="left">
           <Button variant="light" size="sm" leftIcon={<IconLine size={16} />} onClick={() => setOpened(true)}>
-            {t('panel.settings.choose_queries')}
+            {count === 0 ? t('panel.settings.need_to_choose_queries') : t('panel.settings.choose_queries')}
           </Button>
         </Group>
-        {panel.queryIDs.length === 1 && (
+        {count === 1 && (
           <DataPreview
             id={panel.queryIDs[0]}
             moreActions={
@@ -54,7 +55,7 @@ export const PickQuery = observer(function _PickQuery() {
             }
           />
         )}
-        {panel.queryIDs.length > 1 && (
+        {count > 1 && (
           <Tabs defaultValue={panel.queryIDs[0]}>
             <Tabs.List>
               {panel.queries.map((q) => (

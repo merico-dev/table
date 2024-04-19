@@ -28,6 +28,14 @@ function PrepareDataAndRender({ data, width, height, conf, context, instance }: 
     return data[query_id];
   }, [data, query_id, fallbackQueryData]);
 
+  if (panel.queryIDs.length === 0) {
+    return (
+      <Text color="gray" align="center">
+        {t('panel.settings.need_to_choose_queries')}
+      </Text>
+    );
+  }
+
   if (!Array.isArray(queryData) || queryData.length === 0) {
     return (
       <Text color="gray" align="center">

@@ -354,6 +354,7 @@ export const zh = {
         change_view: '移至另一个视图下',
         change_view_title: '移动此卡片至另一个视图下',
         choose_queries: '关联查询',
+        need_to_choose_queries: '请关联至少一个查询以使用其数据',
       },
       style: {
         label: '样式',
