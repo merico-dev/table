@@ -25,8 +25,11 @@ export const PanelModel = PanelRenderModel.views((self) => ({
       .flat();
   },
 
-  dataFieldOptions(selected: TDataKey, clearable: boolean) {
-    const options = [...this.realDataFieldOptions];
+  dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
+    let options = [...this.realDataFieldOptions];
+    if (queryID) {
+      options = options.filter((o) => o.group === queryID);
+    }
     if (selected && !options.find((o) => o.value === selected)) {
       const s = parseDataKey(selected);
       const q = self.queryByID(s.queryID);

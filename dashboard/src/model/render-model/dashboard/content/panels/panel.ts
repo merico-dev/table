@@ -17,6 +17,18 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     get queries(): QueryRenderModelInstance[] {
       return self.contentModel.queries.findByIDSet(self.queryIDSet);
     },
+    get firstQuery(): QueryRenderModelInstance | null {
+      if (this.queries.length > 0) {
+        return this.queries[0];
+      }
+      return null;
+    },
+    get firstQueryData() {
+      if (this.firstQuery) {
+        return this.firstQuery.data;
+      }
+      return [];
+    },
     queryByID(queryID: string) {
       return this.queries.find((q) => q.id === queryID);
     },
