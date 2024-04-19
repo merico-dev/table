@@ -6,8 +6,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useWhyDidYouUpdate } from 'ahooks';
 import React, { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { HeadCell } from '~/components/plugins/viz-components/table/components/head-cell';
 import { baseTableSX, useTableStyles } from '~/components/plugins/viz-components/table/viz-table.styles';
 import { AnyObject } from '~/types';
@@ -28,6 +28,7 @@ type IVizTableComponent = {
 };
 
 export function VizTableComponent({ queryData, width, height, conf, context, instance }: IVizTableComponent) {
+  const { t } = useTranslation();
   const { use_raw_columns, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
@@ -92,20 +93,6 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
   const tableHeight = showInfoBar ? height - 22 : height;
   const theadTop = showInfoBar ? 22 : 0;
 
-  useWhyDidYouUpdate('VizTableComponent', {
-    queryData,
-    width,
-    height,
-    conf,
-    context,
-    instance,
-    finalColumns,
-    getCellContext,
-    tableColumns,
-    table,
-    rows,
-    tableContainerRef,
-  });
   return (
     <div
       ref={tableContainerRef}
@@ -116,7 +103,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
       {totalRows > 0 && (
         <Box className={classes.info_bar} sx={{ height: 22 }}>
           <Text align="right" pr={6} size={14} color="dimmed" fw="normal">
-            Total: {totalRows}
+            {t('common.pagination.total_rows', { total: totalRows })}
           </Text>
         </Box>
       )}
