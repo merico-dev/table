@@ -7,53 +7,7 @@ import { VizTableEditor } from './viz-table-editor';
 import { ClickCellContent } from './triggers';
 import { randomId } from '@mantine/hooks';
 import { translation } from './translation';
-
-function v3(prev: any): ITableConf {
-  const { columns, ...rest } = prev;
-  return {
-    ...prev,
-    columns: columns.map((c: any) => ({
-      ...c,
-      align: c.align ?? 'left',
-    })),
-  };
-}
-
-function v4(legacyConf: any, { panelModel }: IMigrationEnv): ITableConf {
-  try {
-    const queryID = panelModel.queryIDs[0];
-    if (!queryID) {
-      throw new Error('cannot migrate when queryID is empty');
-    }
-    const changeKey = (key: string) => (key ? `${queryID}.${key}` : key);
-    const { id_field, columns, ...rest } = legacyConf;
-    return {
-      ...rest,
-      id_field: changeKey(id_field),
-
-      columns: columns.map((c: any) => ({
-        ...c,
-        value_field: changeKey(c.value_field),
-      })),
-    };
-  } catch (error) {
-    console.error('[Migration failed]', error);
-    throw error;
-  }
-}
-
-function v5(prev: any): ITableConf {
-  const { columns, ...rest } = prev;
-  return {
-    ...rest,
-    columns: columns.map((c: any) => ({
-      ...c,
-      align: c.align ?? 'left',
-      cellBackgroundColor: c.cellBackgroundColor ?? '',
-      width: c.width ?? '',
-    })),
-  };
-}
+import * as Migrators from './migrators';
 
 class VizTableMigrator extends VersionBasedMigrator {
   readonly VERSION = 5;
@@ -84,21 +38,21 @@ class VizTableMigrator extends VersionBasedMigrator {
       return {
         ...data,
         version: 3,
-        config: v3(data.config),
+        config: Migrators.v3(data.config),
       };
     });
     this.version(4, (data, env) => {
       return {
         ...data,
         version: 4,
-        config: v4(data.config, env),
+        config: Migrators.v4(data.config, env),
       };
     });
     this.version(5, (data) => {
       return {
         ...data,
         version: 5,
-        config: v5(data.config),
+        config: Migrators.v5(data.config),
       };
     });
   }
