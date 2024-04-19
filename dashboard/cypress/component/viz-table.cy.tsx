@@ -12,7 +12,7 @@ import { PanelContextProvider } from '~/contexts';
 
 const mockQueryID = 'queryID-01';
 const defaultConfig = {
-  id_field: `${mockQueryID}.foo`,
+  query_id: mockQueryID,
   horizontalSpacing: '10px',
   verticalSpacing: '10px',
   use_raw_columns: false,
