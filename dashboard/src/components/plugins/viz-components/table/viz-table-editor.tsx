@@ -1,18 +1,16 @@
-import { ActionIcon, Divider, Group, Tabs, Text } from '@mantine/core';
+import { Divider, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { DeviceFloppy } from 'tabler-icons-react';
-import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
+import { useTranslation } from 'react-i18next';
+import { PanelQuerySelector } from '~/components/panel/settings/common/panel-query-selector';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VizConfigBanner } from '../../editor-components';
 import { ColumnsField } from './editors/columns';
 import { StylingFields } from './editors/styling';
 import { DEFAULT_CONFIG, ITableConf } from './type';
-import { VizConfigBanner } from '../../editor-components';
-import { useTranslation } from 'react-i18next';
-import { PanelQuerySelector } from '~/components/panel/settings/common/panel-query-selector';
 
 // FIXME: migrator to version 2 in index.ts doesn't work
 function tempMigration({ columns, ...rest }: ITableConf) {
