@@ -354,6 +354,7 @@ export const en = {
         change_view: 'Move into Another View',
         change_view_title: 'Move panel into another view',
         choose_queries: 'Choose queries',
+        need_to_choose_queries: 'Choose at least 1 query for its data',
       },
       style: {
         label: 'Style',
@@ -487,6 +488,7 @@ export const en = {
       label: 'Data',
       preview_data: 'Preview Data',
       empty_data: 'Empty Data',
+      requires_data: 'Requires data',
     },
     data_source: {
       label: 'Data Source',

@@ -1,10 +1,20 @@
 import { Text } from '@mantine/core';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRenderPanelContext } from '~/contexts';
 import { VizInstance, VizViewContext, VizViewProps } from '~/types/plugin';
-import { parseDataKey } from '~/utils';
 import { useStorageData } from '../../..';
 import { ITableConf } from '../type';
 import { VizTableComponent } from './viz-table-component';
+
+function EmptyMessage() {
+  const { t } = useTranslation();
+  return (
+    <Text color="gray" align="center">
+      {t('data.empty_data')}
+    </Text>
+  );
+}
 
 type IPrepareDataAndRender = {
   data: TPanelData;
@@ -15,22 +25,41 @@ type IPrepareDataAndRender = {
   context: VizViewContext;
 };
 function PrepareDataAndRender({ data, width, height, conf, context, instance }: IPrepareDataAndRender) {
-  const { id_field, use_raw_columns, columns } = conf;
+  const { t } = useTranslation();
+  const { panel } = useRenderPanelContext();
+  const fallbackQueryData = panel.firstQueryData ?? [];
 
-  const queryData = useMemo(() => {
-    if (!id_field) {
-      return [];
-    }
-    const k = parseDataKey(id_field);
-    return data[k.queryID];
-  }, [data, id_field]);
-
-  if (!Array.isArray(queryData) || queryData.length === 0) {
+  if (panel.queryIDs.length === 0) {
     return (
       <Text color="gray" align="center">
-        Empty Data
+        {t('panel.settings.need_to_choose_queries')}
       </Text>
     );
+  }
+
+  const { query_id } = conf;
+  if (!query_id) {
+    if (fallbackQueryData.length === 0) {
+      return <EmptyMessage />;
+    }
+    return (
+      <VizTableComponent
+        queryData={fallbackQueryData}
+        width={width}
+        height={height}
+        conf={{
+          ...conf,
+          use_raw_columns: true,
+          columns: [],
+        }}
+        context={context}
+        instance={instance}
+      />
+    );
+  }
+  const queryData = data[query_id];
+  if (!Array.isArray(queryData) || queryData.length === 0) {
+    return <EmptyMessage />;
   }
 
   return (
@@ -52,14 +81,6 @@ export function VizTable({ context, instance }: VizViewProps) {
 
   if (!conf) {
     return null;
-  }
-
-  if (!conf.id_field) {
-    return (
-      <Text color="red" align="center">
-        ID Field is not set, can't render a table without it
-      </Text>
-    );
   }
 
   return (

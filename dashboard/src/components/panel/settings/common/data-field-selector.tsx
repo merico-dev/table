@@ -10,19 +10,30 @@ interface IDataFieldSelector {
   onChange: (v: string) => void;
   clearable?: boolean;
   sx?: Sx;
+  queryID?: string;
   description?: string;
 }
 
 export const DataFieldSelector = observer(
   forwardRef(
     (
-      { label, required, description, value, onChange, clearable = false, sx, ...restProps }: IDataFieldSelector,
+      {
+        label,
+        required,
+        description,
+        value,
+        onChange,
+        queryID,
+        clearable = false,
+        sx,
+        ...restProps
+      }: IDataFieldSelector,
       ref: React.ForwardedRef<HTMLInputElement>,
     ) => {
       const { panel } = useEditPanelContext();
       const options = React.useMemo(() => {
-        return panel.dataFieldOptions(value, clearable);
-      }, [value, clearable]);
+        return panel.dataFieldOptions(value, clearable, queryID);
+      }, [value, clearable, queryID]);
 
       if (options.length === 0) {
         const v = panel.explainDataKey(value);

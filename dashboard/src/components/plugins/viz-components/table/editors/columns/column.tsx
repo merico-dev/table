@@ -40,6 +40,7 @@ interface IColumnField {
 export const ColumnField = ({ control, index, watch, remove, column }: IColumnField) => {
   const { t } = useTranslation();
   const value_type = watch(`columns.${index}.value_type`);
+  const queryID = watch('query_id');
 
   return (
     <Stack my={0} sx={{ position: 'relative' }}>
@@ -54,7 +55,9 @@ export const ColumnField = ({ control, index, watch, remove, column }: IColumnFi
         <Controller
           name={`columns.${index}.value_field`}
           control={control}
-          render={({ field }) => <DataFieldSelector label={t('common.data_field')} required {...field} />}
+          render={({ field }) => (
+            <DataFieldSelector label={t('common.data_field')} required queryID={queryID} {...field} />
+          )}
         />
       </Group>
       <Group grow>

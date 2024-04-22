@@ -12,7 +12,7 @@ import { PanelContextProvider } from '~/contexts';
 
 const mockQueryID = 'queryID-01';
 const defaultConfig = {
-  id_field: `${mockQueryID}.foo`,
+  query_id: mockQueryID,
   horizontalSpacing: '10px',
   verticalSpacing: '10px',
   use_raw_columns: false,
@@ -38,6 +38,7 @@ const mockPanel: IViewPanelInfo = {
   id: 'mock-panel-01',
   queryIDs: [mockQueryID],
   dataFieldOptions: () => [{ label: 'foo', value: `${mockQueryID}.foo` }],
+  queryOptions: () => [{ label: 'mockQuery', value: mockQueryID }],
 };
 const mockData = { [mockQueryID]: [{ foo: 'alice', bar: 'bob' }] };
 const MEASURE = {
