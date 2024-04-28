@@ -11,7 +11,6 @@ interface IReferenceLineField {
   control: Control<IScatterChartConf, $TSFixMe>;
   index: number;
   watch: UseFormWatch<IScatterChartConf>;
-  remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
   yAxisOptions: {
     label: string;
@@ -19,14 +18,7 @@ interface IReferenceLineField {
   }[];
 }
 
-export function ReferenceLineField({
-  control,
-  index,
-  remove,
-  watch,
-  variableOptions,
-  yAxisOptions,
-}: IReferenceLineField) {
+export function ReferenceLineField({ control, index, watch, variableOptions, yAxisOptions }: IReferenceLineField) {
   const { t } = useTranslation();
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
@@ -139,15 +131,6 @@ export function ReferenceLineField({
           />
         )}
       /> */}
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.reference_line.delete')}
-      </Button>
     </Stack>
   );
 }
