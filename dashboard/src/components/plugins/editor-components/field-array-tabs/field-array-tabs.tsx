@@ -14,6 +14,15 @@ const TabsStyles = {
 };
 
 type FieldArrayTabsChildren<FieldItem> = ({ field, index }: { field: FieldItem; index: number }) => ReactNode;
+export type FieldArrayButtonStateFunc<FieldItem> = ({
+  field,
+  index,
+  fields,
+}: {
+  field: FieldItem;
+  index: number;
+  fields: FieldItem[];
+}) => boolean;
 
 type Props<T extends FieldValues, FieldItem> = {
   control: Control<T, $TSFixMe>;
@@ -21,17 +30,22 @@ type Props<T extends FieldValues, FieldItem> = {
   name: Path<T>;
   getItem: () => any;
   children: FieldArrayTabsChildren<FieldItem>;
+  addButtonText: string;
   deleteButtonText: string;
   renderTabName: (field: FieldItem, index: number) => ReactNode;
+  deleteDisalbed?: FieldArrayButtonStateFunc<FieldItem>;
 };
+// TODO: first selected tab
 export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   control,
   watch,
   name,
   getItem,
   children,
+  addButtonText,
   deleteButtonText,
   renderTabName,
+  deleteDisalbed,
 }: Props<T, FieldItem>) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -57,6 +71,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={add} value="add">
+          {/* {addButtonText} */}
           <IconPlus size={18} color="#228be6" />
         </Tabs.Tab>
       </Tabs.List>
@@ -71,6 +86,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
               variant="light"
               onClick={() => remove(index)}
               sx={{ top: 15, right: 5 }}
+              disabled={deleteDisalbed?.({ field, index, fields: controlledFields })}
             >
               {deleteButtonText}
             </Button>
