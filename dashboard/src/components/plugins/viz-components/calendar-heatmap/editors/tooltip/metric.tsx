@@ -8,10 +8,9 @@ import { useTranslation } from 'react-i18next';
 interface ITooltipMetricField {
   control: Control<ICalendarHeatmapConf, $TSFixMe>;
   index: number;
-  remove: (index: number) => void;
 }
 
-export const TooltipMetricField = ({ control, index, remove }: ITooltipMetricField) => {
+export const TooltipMetricField = ({ control, index }: ITooltipMetricField) => {
   const { t } = useTranslation();
   return (
     <Stack>
@@ -29,16 +28,6 @@ export const TooltipMetricField = ({ control, index, remove }: ITooltipMetricFie
           )}
         />
       </Group>
-      <Divider mb={-10} mt={10} variant="dashed" />
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.tooltip.additional_metrics.delete')}
-      </Button>
     </Stack>
   );
 };
