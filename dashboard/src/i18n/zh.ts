@@ -768,6 +768,7 @@ export const zh = {
         label: '提示框',
         additional_metrics: {
           description: '在此设置更多指标，来展示在散点的提示框',
+          add: '增加一个指标',
           delete: '删除这个指标',
         },
         trigger: {

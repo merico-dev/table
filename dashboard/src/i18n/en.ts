@@ -768,6 +768,7 @@ export const en = {
         label: 'Tooltip',
         additional_metrics: {
           description: "Set additional metrics to show in scatter's tooltip",
+          add: 'Add a metic',
           delete: 'Delete this Metric',
         },
         trigger: {
