@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, Tabs } from '@mantine/core';
+import { Button, Center, Divider, Stack, Tabs, Tooltip } from '@mantine/core';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import { ArrayPath, Control, FieldValues, Path, UseFormWatch, useFieldArray } from 'react-hook-form';
@@ -71,8 +71,11 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
           </Tabs.Tab>
         ))}
         <Tabs.Tab onClick={add} value="add">
-          {/* {addButtonText} */}
-          <IconPlus size={18} color="#228be6" />
+          <Tooltip label={addButtonText}>
+            <Center>
+              <IconPlus size={18} color="#228be6" />
+            </Center>
+          </Tooltip>
         </Tabs.Tab>
       </Tabs.List>
       {controlledFields.map((field, index) => (
