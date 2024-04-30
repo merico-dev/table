@@ -1,21 +1,19 @@
-import { Button, Checkbox, Divider, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+import { Checkbox, Divider, Group, SegmentedControl, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { AggregationSelector } from '~/components/panel/settings/common/aggregation-selector';
 import { DataFieldSelector } from '~/components/panel/settings/common/data-field-selector';
 import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
+import { LabelPositionSelector } from '~/components/plugins/common-echarts-fields/label-position';
 import { DefaultAggregation } from '~/utils';
 import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { BarFields } from './fields.bar';
 import { LineFields } from './fields.line';
 import { ScatterFields } from './fields.scatter';
-import { LabelPositionSelector } from '~/components/plugins/common-echarts-fields/label-position';
-import { useTranslation } from 'react-i18next';
 
 interface ISeriesItemField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
   seriesItem: ICartesianChartSeriesItem;
   yAxisOptions: {
     label: string;
@@ -23,7 +21,7 @@ interface ISeriesItemField {
   }[];
 }
 
-export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptions }: ISeriesItemField) {
+export function SeriesItemField({ control, index, seriesItem, yAxisOptions }: ISeriesItemField) {
   const { t } = useTranslation();
   const type = seriesItem.type;
   return (
@@ -135,16 +133,6 @@ export function SeriesItemField({ control, index, remove, seriesItem, yAxisOptio
           />
         )}
       />
-      <Divider mb={-10} mt={10} variant="dashed" />
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.series.delete')}
-      </Button>
     </Stack>
   );
 }

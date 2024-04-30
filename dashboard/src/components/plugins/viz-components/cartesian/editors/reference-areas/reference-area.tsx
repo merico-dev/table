@@ -8,11 +8,10 @@ import { useMemo } from 'react';
 interface IReferenceAreaField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
 }
 
-export function ReferenceAreaField({ control, index, remove, variableOptions }: IReferenceAreaField) {
+export function ReferenceAreaField({ control, index, variableOptions }: IReferenceAreaField) {
   const { t, i18n } = useTranslation();
   const referenceAreaTypeOptions = useMemo(
     () => [{ label: t('chart.reference_area.type.rectangle'), value: 'rectangle' }],
@@ -101,15 +100,6 @@ export function ReferenceAreaField({ control, index, remove, variableOptions }: 
           )}
         />
       </Group>
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.reference_area.delete')}
-      </Button>
     </Stack>
   );
 }

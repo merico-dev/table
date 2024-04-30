@@ -12,14 +12,14 @@ interface IRegressionField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   regressionItem: IRegressionConf;
   index: number;
-  remove: UseFieldArrayRemove;
+
   yAxisOptions: {
     label: string;
     value: string;
   }[];
 }
 
-export function RegressionField({ control, regressionItem, index, remove, yAxisOptions }: IRegressionField) {
+export function RegressionField({ control, regressionItem, index, yAxisOptions }: IRegressionField) {
   const { t, i18n } = useTranslation();
 
   const regressionOptions = useMemo(
@@ -128,15 +128,6 @@ export function RegressionField({ control, regressionItem, index, remove, yAxisO
           render={({ field }) => <MantineColorSelector {...field} />}
         />
       </Stack>
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.regression_line.delete')}
-      </Button>
     </Stack>
   );
 }
