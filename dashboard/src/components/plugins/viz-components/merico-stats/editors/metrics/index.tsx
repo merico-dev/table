@@ -4,9 +4,10 @@ import _ from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { ITemplateVariable } from '~/utils';
-import { TMericoStatsConf, getNewMetric } from '../../type';
+import { TMericoStatsConf, TMericoStatsMetric, getNewMetric } from '../../type';
 import { MetricField } from './metric';
 import { useTranslation } from 'react-i18next';
+import { FieldArrayButtonStateFunc, FieldArrayTabs } from '~/components/plugins/editor-components';
 
 interface IProps {
   control: Control<TMericoStatsConf, $TSFixMe>;
@@ -16,21 +17,19 @@ interface IProps {
 
 export const MetricsField = ({ control, watch, variables }: IProps) => {
   const { t } = useTranslation();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'metrics',
-  });
 
-  const watchFieldArray = watch('metrics');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
+  const getItem = () => {
+    const item = getNewMetric();
+    return item;
+  };
 
-  const addDimension = () => {
-    append(getNewMetric());
+  const renderTabName = (field: TMericoStatsMetric, index: number) => {
+    const n = field.names.value.trim();
+    return n ? n : index + 1;
+  };
+
+  const deleteDisalbed: FieldArrayButtonStateFunc<TMericoStatsMetric> = ({ field, index, fields }) => {
+    return fields.length <= 1;
   };
 
   const variableOptions = useMemo(() => {
@@ -40,61 +39,23 @@ export const MetricsField = ({ control, watch, variables }: IProps) => {
     }));
   }, [variables]);
 
-  const firstTab = _.get(controlledFields, '0.id', null);
-  const [tab, setTab] = useState<string | null>(firstTab);
-  useEffect(() => {
-    setTab((tab) => {
-      if (tab) {
-        return tab;
-      }
-      return firstTab;
-    });
-  }, [firstTab]);
-
-  const removeAndResetTab = (params?: number | number[]) => {
-    remove(params);
-
-    const t = _.get(controlledFields, '0.id', null);
-    setTab(t);
-  };
   return (
     <>
       <Divider mt={15} variant="dashed" label={t('viz.merico_stats.metric.labels')} labelPosition="center" />
-      <Tabs
-        value={tab}
-        onTabChange={setTab}
-        styles={{
-          tab: {
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          },
-          panel: {
-            padding: '0px',
-          },
-        }}
+      <FieldArrayTabs<TMericoStatsConf, TMericoStatsMetric>
+        control={control}
+        watch={watch}
+        name="metrics"
+        getItem={getItem}
+        addButtonText={t('chart.tooltip.additional_metrics.add')}
+        deleteButtonText={t('chart.tooltip.additional_metrics.delete')}
+        renderTabName={renderTabName}
+        deleteDisalbed={deleteDisalbed}
       >
-        <Tabs.List>
-          {controlledFields.map((field, index) => (
-            <Tabs.Tab key={field.id} value={field.id}>
-              {field.names.value ? field.names.value : index + 1}
-            </Tabs.Tab>
-          ))}
-          <Tabs.Tab onClick={addDimension} value="add">
-            <IconPlus size={18} color="#228be6" />
-          </Tabs.Tab>
-        </Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Panel key={field.id} value={field.id}>
-            <MetricField
-              control={control}
-              index={index}
-              remove={removeAndResetTab}
-              variableOptions={variableOptions}
-              watch={watch}
-            />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+        {({ field, index }) => (
+          <MetricField control={control} index={index} variableOptions={variableOptions} watch={watch} />
+        )}
+      </FieldArrayTabs>
     </>
   );
 };

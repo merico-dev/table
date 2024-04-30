@@ -1,22 +1,20 @@
-import { Button, Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, Select, Stack, TextInput } from '@mantine/core';
+import { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
+import { useTranslation } from 'react-i18next';
 import {
   IEchartsLabelPosition,
   LabelPositionSelector,
 } from '~/components/plugins/common-echarts-fields/label-position';
-import { ISunburstConf } from '../../type';
-import { useTranslation } from 'react-i18next';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
-import { useMemo } from 'react';
+import { ISunburstConf } from '../../type';
 
 interface ILevelField {
   control: Control<ISunburstConf, $TSFixMe>;
   index: number;
-  remove: (index: number) => void;
 }
 
-export const LevelField = ({ control, index, remove }: ILevelField) => {
+export const LevelField = ({ control, index }: ILevelField) => {
   const { t, i18n } = useTranslation();
 
   const rotationOptions = useMemo(
@@ -97,16 +95,6 @@ export const LevelField = ({ control, index, remove }: ILevelField) => {
           render={({ field }) => <NumberInput label={t('chart.padding')} min={0} hideControls {...field} />}
         />
       </Group>
-      <Divider mb={-10} mt={10} variant="dashed" />
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('viz.sunburst_chart.level.delete')}
-      </Button>
     </Stack>
   );
 };

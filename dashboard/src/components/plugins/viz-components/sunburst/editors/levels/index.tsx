@@ -1,10 +1,10 @@
-import { Divider, Group, Tabs, Text } from '@mantine/core';
-import { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { InfoCircle, Plus } from 'tabler-icons-react';
-import { ISunburstConf } from '../../type';
-import { LevelField } from './level';
+import { Divider, Group, Text } from '@mantine/core';
+import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { InfoCircle } from 'tabler-icons-react';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { ISunburstConf, ISunburstLevelConf } from '../../type';
+import { LevelField } from './level';
 
 interface ILevelsField {
   control: Control<ISunburstConf, $TSFixMe>;
@@ -13,21 +13,9 @@ interface ILevelsField {
 
 export const LevelsField = ({ control, watch }: ILevelsField) => {
   const { t } = useTranslation();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'levels',
-  });
 
-  const watchFieldArray = watch('levels');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addLevel = () =>
-    append({
+  const getItem = () => {
+    const item: ISunburstLevelConf = {
       id: Date.now().toString(),
       r0: '',
       r: '',
@@ -38,15 +26,13 @@ export const LevelsField = ({ control, watch }: ILevelsField) => {
         position: 'inside',
         padding: 0,
       },
-    });
+    };
+    return item;
+  };
 
-  const firstID = watch('levels.0.id');
-  const [tab, setTab] = useState<string | null>(() => firstID ?? null);
-  useEffect(() => {
-    if (firstID) {
-      setTab((t) => (t !== null ? t : firstID));
-    }
-  }, [firstID]);
+  const renderTabName = (field: ISunburstLevelConf, index: number) => {
+    return index + 1;
+  };
 
   return (
     <>
@@ -57,36 +43,17 @@ export const LevelsField = ({ control, watch }: ILevelsField) => {
         </Text>
       </Group>
       <Divider variant="dashed" my={10} />
-      <Tabs
-        value={tab}
-        onTabChange={(t) => setTab(t)}
-        styles={{
-          tab: {
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          },
-          panel: {
-            padding: '0px',
-            paddingTop: '6px',
-          },
-        }}
+      <FieldArrayTabs<ISunburstConf, ISunburstLevelConf>
+        control={control}
+        watch={watch}
+        name="levels"
+        getItem={getItem}
+        addButtonText={t('viz.sunburst_chart.level.add')}
+        deleteButtonText={t('viz.sunburst_chart.level.delete')}
+        renderTabName={renderTabName}
       >
-        <Tabs.List>
-          {controlledFields.map((m, i) => (
-            <Tabs.Tab key={m.id} value={m.id}>
-              {i}
-            </Tabs.Tab>
-          ))}
-          <Tabs.Tab onClick={addLevel} value="add">
-            <Plus size={18} color="#228be6" />
-          </Tabs.Tab>
-        </Tabs.List>
-        {controlledFields.map((m, index) => (
-          <Tabs.Panel key={m.id} value={m.id}>
-            <LevelField key={m.id} control={control} index={index} remove={remove} />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+        {({ field, index }) => <LevelField control={control} index={index} />}
+      </FieldArrayTabs>
     </>
   );
 };
