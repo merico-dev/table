@@ -1,7 +1,8 @@
-import { Tabs } from '@mantine/core';
-import { Control, UseFormWatch, useFieldArray } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayButtonStateFunc, FieldArrayTabs } from '~/components/plugins/editor-components';
 import { defaultNumberFormat } from '~/utils';
+import { IYAxisConf } from '../../../cartesian/type';
 import { IScatterChartConf } from '../../type';
 import { YAxisField } from './y-axis';
 
@@ -10,21 +11,10 @@ interface IYAxesField {
   watch: UseFormWatch<IScatterChartConf>;
 }
 export function YAxesField({ control, watch }: IYAxesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'y_axes',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('y_axes');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addYAxis = () =>
-    append({
+  const getItem = () => {
+    const item: IYAxisConf = {
       name: '',
       label_formatter: defaultNumberFormat,
       min: '',
@@ -32,37 +22,31 @@ export function YAxesField({ control, watch }: IYAxesField) {
       show: true,
       position: 'right',
       nameAlignment: 'right',
-    });
+    };
+    return item;
+  };
+
+  const renderTabName = (field: IYAxisConf, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
+
+  const deleteDisalbed: FieldArrayButtonStateFunc<IYAxisConf> = ({ field, index, fields }) => {
+    return fields.length <= 1;
+  };
 
   return (
-    <Tabs
-      defaultValue="0"
-      styles={{
-        tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        },
-        panel: {
-          padding: '0px',
-        },
-      }}
+    <FieldArrayTabs<IScatterChartConf, IYAxisConf>
+      control={control}
+      watch={watch}
+      name="y_axes"
+      getItem={getItem}
+      addButtonText={t('chart.y_axis.add')}
+      deleteButtonText={t('chart.y_axis.delete')}
+      renderTabName={renderTabName}
+      deleteDisalbed={deleteDisalbed}
     >
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={addYAxis} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={index.toString()}>
-          <YAxisField control={control} index={index} remove={remove} />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => <YAxisField control={control} index={index} />}
+    </FieldArrayTabs>
   );
 }

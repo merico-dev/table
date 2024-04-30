@@ -2,10 +2,10 @@ import { random } from 'chroma-js';
 import { useMemo } from 'react';
 import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { ICartesianReferenceLine } from '~/components/plugins/viz-components/cartesian/type';
 import { ITemplateVariable } from '~/utils';
 import { IScatterChartConf } from '../../type';
-import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
@@ -49,17 +49,19 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     }));
   }, [yAxes]);
 
+  const renderTabName = (field: ICartesianReferenceLine, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
   return (
     <FieldArrayTabs<IScatterChartConf, ICartesianReferenceLine>
       control={control}
       watch={watch}
       name="reference_lines"
       getItem={getItem}
+      addButtonText={t('chart.reference_line.add')}
       deleteButtonText={t('chart.reference_line.delete')}
-      renderTabName={(field, index) => {
-        const n = field.name.trim();
-        return n ? n : index + 1;
-      }}
+      renderTabName={renderTabName}
     >
       {({ field, index }) => (
         <ReferenceLineField
