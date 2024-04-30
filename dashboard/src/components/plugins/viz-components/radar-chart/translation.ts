@@ -9,11 +9,13 @@ const en = {
     metric: {
       labels: 'Metrics',
       value_formatter: 'Value Formatter',
-      delete: 'Delete this Metric',
+      add: 'Add a metric',
+      delete: 'Delete this metric',
     },
     additional_series: {
       label: 'Additional Series',
       intro: 'By setting <1>Series Name Field</1>, you may add series from more queries to the chart.',
+      add: 'Add a series',
       delete: 'Delete',
     },
     style: {
@@ -36,11 +38,13 @@ const zh = {
     metric: {
       labels: '维度',
       value_formatter: '数据格式',
+      add: '增加一个维度',
       delete: '删除这个维度',
     },
     additional_series: {
       label: '扩展系列',
       intro: '在<1>系列名字段</1>中选择不同查询中的字段，从而实现图表系列的扩展',
+      add: '增加一个扩展系列',
       delete: '删除这个扩展系列',
     },
     style: {

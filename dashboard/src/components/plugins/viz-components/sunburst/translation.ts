@@ -8,6 +8,7 @@ const en = {
       hint: 'Configure ring style on each level',
       inside_radius: 'Inside Radius',
       outside_radius: 'Outside Radius',
+      add: 'Add a level',
       delete: 'Delete this level',
     },
     label: {
@@ -31,6 +32,7 @@ const zh = {
       hint: '为每层配置圆环样式',
       inside_radius: '内径',
       outside_radius: '外径',
+      add: '增加一层',
       delete: '删除这一层',
     },
     label: {
