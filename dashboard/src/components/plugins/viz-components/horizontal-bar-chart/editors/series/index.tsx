@@ -1,9 +1,8 @@
-import { Tabs } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
-import { useTabState } from '~/components/plugins/hooks/use-tab-state';
-import { getNewSeriesItem, IHorizontalBarChartConf } from '../../type';
+import React from 'react';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { IHorizontalBarChartConf, IHorizontalBarChartSeriesItem, getNewSeriesItem } from '../../type';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
@@ -11,22 +10,16 @@ interface ISeriesField {
   watch: UseFormWatch<IHorizontalBarChartConf>;
 }
 export function SeriesField({ control, watch }: ISeriesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'series',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('series');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
+  const getItem = () => {
+    const item = getNewSeriesItem();
+    return item;
+  };
 
-  const addSeries = () => {
-    const s = getNewSeriesItem();
-    append(s);
+  const renderTabName = (field: IHorizontalBarChartSeriesItem, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
   };
 
   const xAxes = watch('x_axes');
@@ -38,44 +31,19 @@ export function SeriesField({ control, watch }: ISeriesField) {
     }));
   }, [xAxes]);
 
-  const { tab, setTab } = useTabState(controlledFields[0]?.id);
   return (
-    <Tabs
-      value={tab}
-      onTabChange={setTab}
-      styles={{
-        tab: {
-          paddingTop: '4px',
-          paddingBottom: '4px',
-        },
-        panel: {
-          padding: '0px',
-          paddingTop: '6px',
-        },
-      }}
+    <FieldArrayTabs<IHorizontalBarChartConf, IHorizontalBarChartSeriesItem>
+      control={control}
+      watch={watch}
+      name="series"
+      getItem={getItem}
+      addButtonText={t('chart.series.add')}
+      deleteButtonText={t('chart.series.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((seriesItem) => (
-          <Tabs.Tab key={seriesItem.id} value={seriesItem.id}>
-            {seriesItem.name}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={addSeries} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((seriesItem, index) => (
-        <Tabs.Panel key={seriesItem.id} value={seriesItem.id}>
-          <SeriesItemField
-            key={seriesItem.id}
-            control={control}
-            index={index}
-            remove={remove}
-            seriesItem={seriesItem}
-            xAxisOptions={xAxisOptions}
-          />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => (
+        <SeriesItemField control={control} index={index} seriesItem={field} xAxisOptions={xAxisOptions} />
+      )}
+    </FieldArrayTabs>
   );
 }
