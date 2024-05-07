@@ -1,17 +1,15 @@
-import { ActionIcon, Group, Select, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
-import { IBoxplotChartConf } from '../../type';
+import { Group, Select, Stack, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { IBoxplotChartConf } from '../../type';
 
 interface IReferenceLineField {
   control: Control<IBoxplotChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
 }
 
-export function ReferenceLineField({ control, index, remove, variableOptions }: IReferenceLineField) {
+export function ReferenceLineField({ control, index, variableOptions }: IReferenceLineField) {
   const { t } = useTranslation();
   return (
     <Stack my={0} p="md" pr={40} sx={{ border: '1px solid #eee', position: 'relative' }}>
@@ -51,14 +49,6 @@ export function ReferenceLineField({ control, index, remove, variableOptions }: 
           />
         )}
       />
-      <ActionIcon
-        color="red"
-        variant="subtle"
-        onClick={() => remove(index)}
-        sx={{ position: 'absolute', top: 15, right: 5 }}
-      >
-        <Trash size={16} />
-      </ActionIcon>
     </Stack>
   );
 }

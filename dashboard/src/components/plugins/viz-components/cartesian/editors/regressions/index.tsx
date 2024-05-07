@@ -1,8 +1,8 @@
-import { ActionIcon, Tabs } from '@mantine/core';
 import React from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
-import { ICartesianChartConf } from '../../type';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { ICartesianChartConf, IRegressionConf } from '../../type';
 import { RegressionField } from './regression-item';
 
 interface IRegressionsField {
@@ -10,18 +10,7 @@ interface IRegressionsField {
   watch: UseFormWatch<ICartesianChartConf>;
 }
 export function RegressionsField({ control, watch }: IRegressionsField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'regressions',
-  });
-
-  const watchFieldArray = watch('regressions');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
+  const { t } = useTranslation();
 
   const yAxes = watch('y_axes');
   const yAxisOptions = React.useMemo(() => {
@@ -31,8 +20,8 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
     }));
   }, [yAxes]);
 
-  const add = () =>
-    append({
+  const getItem = () => {
+    const item: IRegressionConf = {
       transform: {
         type: 'ecStat:regression',
         config: {
@@ -53,44 +42,28 @@ export function RegressionsField({ control, watch }: IRegressionsField) {
           width: 1,
         },
       },
-    });
+    };
+    return item;
+  };
+
+  const renderTabName = (field: IRegressionConf, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
 
   return (
-    <Tabs
-      defaultValue="0"
-      styles={{
-        tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        },
-        panel: {
-          padding: '0px',
-          paddingTop: '6px',
-        },
-      }}
+    <FieldArrayTabs<ICartesianChartConf, IRegressionConf>
+      control={control}
+      watch={watch}
+      name="regressions"
+      getItem={getItem}
+      addButtonText={t('chart.regression_line.add')}
+      deleteButtonText={t('chart.regression_line.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={add} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((regressionItem, index) => (
-        <Tabs.Panel key={regressionItem.id} value={index.toString()}>
-          <RegressionField
-            regressionItem={regressionItem}
-            control={control}
-            index={index}
-            remove={remove}
-            yAxisOptions={yAxisOptions}
-          />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => (
+        <RegressionField regressionItem={field} control={control} index={index} yAxisOptions={yAxisOptions} />
+      )}
+    </FieldArrayTabs>
   );
 }

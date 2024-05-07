@@ -1,10 +1,10 @@
-import { ActionIcon, Button, Group, Stack, Tabs } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import React from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
-import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { DEFAULT_SCATTER_SIZE } from '../../../../common-echarts-fields/symbol-size';
+import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { SeriesItemField } from './series-item';
 
 interface ISeriesField {
@@ -12,21 +12,10 @@ interface ISeriesField {
   watch: UseFormWatch<ICartesianChartConf>;
 }
 export function SeriesField({ control, watch }: ISeriesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'series',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('series');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addSeries = () => {
-    const s: ICartesianChartSeriesItem = {
+  const getItem = () => {
+    const item: ICartesianChartSeriesItem = {
       type: 'bar',
       name: randomId(),
       showSymbol: false,
@@ -50,7 +39,12 @@ export function SeriesField({ control, watch }: ISeriesField) {
       hide_in_legend: false,
       group_by_key: '',
     };
-    append(s);
+    return item;
+  };
+
+  const renderTabName = (field: ICartesianChartSeriesItem, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
   };
 
   const yAxes = watch('y_axes');
@@ -63,42 +57,18 @@ export function SeriesField({ control, watch }: ISeriesField) {
   }, [yAxes]);
 
   return (
-    <Tabs
-      defaultValue={'0'}
-      styles={{
-        tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        },
-        panel: {
-          padding: '0px',
-          paddingTop: '6px',
-        },
-      }}
+    <FieldArrayTabs<ICartesianChartConf, ICartesianChartSeriesItem>
+      control={control}
+      watch={watch}
+      name="series"
+      getItem={getItem}
+      addButtonText={t('chart.series.add')}
+      deleteButtonText={t('chart.series.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((seriesItem, index) => (
-          <Tabs.Tab key={seriesItem.id} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={addSeries} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((seriesItem, index) => (
-        <Tabs.Panel key={seriesItem.id} value={index.toString()}>
-          <SeriesItemField
-            key={seriesItem.id}
-            control={control}
-            index={index}
-            remove={remove}
-            seriesItem={seriesItem}
-            yAxisOptions={yAxisOptions}
-          />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => (
+        <SeriesItemField control={control} index={index} seriesItem={field} yAxisOptions={yAxisOptions} />
+      )}
+    </FieldArrayTabs>
   );
 }

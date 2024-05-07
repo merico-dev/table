@@ -1,10 +1,8 @@
-import { Alert, Divider, Stack, Tabs, Text } from '@mantine/core';
-import { IconInfoCircle, IconPlus } from '@tabler/icons-react';
-import _ from 'lodash';
-import { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { defaultNumberFormat } from '~/utils';
-import { IRadarChartConf } from '../../type';
+import { IRadarChartConf, IRadarChartDimension } from '../../type';
 import { DimensionField } from './dimension';
 
 interface IDimensionsField {
@@ -13,77 +11,38 @@ interface IDimensionsField {
 }
 
 export function DimensionsField({ control, watch }: IDimensionsField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'dimensions',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('dimensions');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addDimension = () => {
+  const getItem = () => {
     const id = new Date().getTime().toString();
-    append({
+    const item = {
       id,
       name: id,
       data_key: '',
       max: '100',
       formatter: defaultNumberFormat,
-    });
+    };
+    return item;
   };
-  const firstTab = _.get(controlledFields, '0.id', null);
-  const [tab, setTab] = useState<string | null>(firstTab);
-  useEffect(() => {
-    setTab((tab) => {
-      if (tab) {
-        return tab;
-      }
-      return firstTab;
-    });
-  }, [firstTab]);
 
-  const removeAndResetTab = (params?: number | number[]) => {
-    remove(params);
-
-    const t = _.get(controlledFields, '0.id', null);
-    setTab(t);
+  const renderTabName = (field: IRadarChartDimension, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
   };
+
   return (
     <>
-      <Tabs
-        value={tab}
-        onTabChange={setTab}
-        styles={{
-          tab: {
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          },
-          panel: {
-            padding: '0px',
-          },
-        }}
+      <FieldArrayTabs<IRadarChartConf, IRadarChartDimension>
+        control={control}
+        watch={watch}
+        name="dimensions"
+        getItem={getItem}
+        addButtonText={t('viz.radar_chart.metric.add')}
+        deleteButtonText={t('viz.radar_chart.metric.delete')}
+        renderTabName={renderTabName}
       >
-        <Tabs.List>
-          {controlledFields.map((field, index) => (
-            <Tabs.Tab key={field.id} value={field.id}>
-              {field.name ? field.name : index + 1}
-            </Tabs.Tab>
-          ))}
-          <Tabs.Tab onClick={addDimension} value="add">
-            <IconPlus size={18} color="#228be6" />
-          </Tabs.Tab>
-        </Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Panel key={field.id} value={field.id}>
-            <DimensionField control={control} index={index} remove={removeAndResetTab} />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+        {({ field, index }) => <DimensionField control={control} index={index} />}
+      </FieldArrayTabs>
     </>
   );
 }

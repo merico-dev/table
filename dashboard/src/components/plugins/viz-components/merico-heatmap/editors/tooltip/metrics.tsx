@@ -1,10 +1,11 @@
-import { Divider, Group, Tabs, Text } from '@mantine/core';
-import { useEffect, useState } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { InfoCircle, Plus } from 'tabler-icons-react';
+import { Divider, Group, Text } from '@mantine/core';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { InfoCircle } from 'tabler-icons-react';
+import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { TMericoHeatmapConf } from '../../type';
 import { TooltipMetricField } from './metric';
-import { useTranslation } from 'react-i18next';
 
 interface ITooltipMetricsField {
   control: Control<TMericoHeatmapConf, $TSFixMe>;
@@ -13,33 +14,20 @@ interface ITooltipMetricsField {
 
 export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) => {
   const { t } = useTranslation();
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'tooltip.metrics',
-  });
 
-  const watchFieldArray = watch('tooltip.metrics');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addMetric = () =>
-    append({
+  const getItem = () => {
+    const item: IEchartsTooltipMetric = {
       id: Date.now().toString(),
       data_key: '',
       name: '',
-    });
+    };
+    return item;
+  };
 
-  const firstID = watch('tooltip.metrics.0.id');
-  const [tab, setTab] = useState<string | null>(() => firstID ?? null);
-  useEffect(() => {
-    if (firstID) {
-      setTab((t) => (t !== null ? t : firstID));
-    }
-  }, [firstID]);
+  const renderTabName = (field: IEchartsTooltipMetric, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
 
   return (
     <>
@@ -50,36 +38,17 @@ export const TooltipMetricsField = ({ control, watch }: ITooltipMetricsField) =>
         </Text>
       </Group>
       <Divider variant="dashed" my={10} />
-      <Tabs
-        value={tab}
-        onTabChange={(t) => setTab(t)}
-        styles={{
-          tab: {
-            paddingTop: '0px',
-            paddingBottom: '0px',
-          },
-          panel: {
-            padding: '0px',
-            paddingTop: '6px',
-          },
-        }}
+      <FieldArrayTabs<TMericoHeatmapConf, IEchartsTooltipMetric>
+        control={control}
+        watch={watch}
+        name="tooltip.metrics"
+        getItem={getItem}
+        addButtonText={t('chart.tooltip.additional_metrics.add')}
+        deleteButtonText={t('chart.tooltip.additional_metrics.delete')}
+        renderTabName={renderTabName}
       >
-        <Tabs.List>
-          {controlledFields.map((m, i) => (
-            <Tabs.Tab key={m.id} value={m.id}>
-              {m.name ? m.name : i}
-            </Tabs.Tab>
-          ))}
-          <Tabs.Tab onClick={addMetric} value="add">
-            <Plus size={18} color="#228be6" />
-          </Tabs.Tab>
-        </Tabs.List>
-        {controlledFields.map((m, index) => (
-          <Tabs.Panel key={m.id} value={m.id}>
-            <TooltipMetricField key={m.id} control={control} index={index} remove={remove} />
-          </Tabs.Panel>
-        ))}
-      </Tabs>
+        {({ field, index }) => <TooltipMetricField control={control} index={index} />}
+      </FieldArrayTabs>
     </>
   );
 };

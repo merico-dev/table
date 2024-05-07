@@ -1,7 +1,7 @@
-import { Tabs } from '@mantine/core';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
-import { getNewXAxis, IHorizontalBarChartConf } from '../../type';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { getNewXAxis, IHorizontalBarChartConf, IHorizontalBarChartXAxis } from '../../type';
 import { XAxisField } from './x-axis';
 
 interface IXAxesField {
@@ -9,53 +9,29 @@ interface IXAxesField {
   watch: UseFormWatch<IHorizontalBarChartConf>;
 }
 export function XAxesField({ control, watch }: IXAxesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'x_axes',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('x_axes');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addXAxis = () => {
-    const v = getNewXAxis();
-    append(v);
+  const getItem = () => {
+    const item = getNewXAxis();
+    return item;
   };
 
-  const defaultTab = controlledFields.length > 0 ? controlledFields[0].id : '0';
+  const renderTabName = (field: IHorizontalBarChartXAxis, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
+
   return (
-    <Tabs
-      defaultValue={defaultTab}
-      styles={{
-        tab: {
-          paddingTop: '4px',
-          paddingBottom: '4px',
-        },
-        panel: {
-          padding: '0px',
-        },
-      }}
+    <FieldArrayTabs<IHorizontalBarChartConf, IHorizontalBarChartXAxis>
+      control={control}
+      watch={watch}
+      name="x_axes"
+      getItem={getItem}
+      addButtonText={t('chart.x_axis.add')}
+      deleteButtonText={t('chart.x_axis.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((field) => (
-          <Tabs.Tab key={field.id} value={field.id}>
-            {field.name}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={addXAxis} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={field.id}>
-          <XAxisField control={control} index={index} remove={remove} />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => <XAxisField control={control} index={index} />}
+    </FieldArrayTabs>
   );
 }

@@ -2,9 +2,11 @@ import { ActionIcon, Tabs } from '@mantine/core';
 import { useMemo } from 'react';
 import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
-import { ICartesianChartConf } from '../../type';
+import { ICartesianChartConf, ICartesianReferenceArea } from '../../type';
 import { ReferenceAreaField } from './reference-area';
 import { ITemplateVariable } from '~/utils';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
+import { useTranslation } from 'react-i18next';
 
 interface IReferenceAreasField {
   control: Control<ICartesianChartConf, $TSFixMe>;
@@ -13,21 +15,10 @@ interface IReferenceAreasField {
 }
 
 export function ReferenceAreasField({ control, watch, variables }: IReferenceAreasField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'reference_areas',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('reference_areas');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const add = () =>
-    append({
+  const getItem = () => {
+    const item: ICartesianReferenceArea = {
       name: '',
       color: 'rgba(0,0,0,0.1)',
       type: 'rectangle',
@@ -36,7 +27,14 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
         upper: '',
         lower: '',
       },
-    });
+    };
+    return item;
+  };
+
+  const renderTabName = (field: ICartesianReferenceArea, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
 
   const variableOptions = useMemo(() => {
     return variables.map((v) => ({
@@ -44,35 +42,18 @@ export function ReferenceAreasField({ control, watch, variables }: IReferenceAre
       value: v.name,
     }));
   }, [variables]);
+
   return (
-    <Tabs
-      defaultValue="0"
-      styles={{
-        tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        },
-        panel: {
-          padding: '6px 0px 0px',
-        },
-      }}
+    <FieldArrayTabs<ICartesianChartConf, ICartesianReferenceArea>
+      control={control}
+      watch={watch}
+      name="reference_areas"
+      getItem={getItem}
+      addButtonText={t('chart.reference_area.add')}
+      deleteButtonText={t('chart.reference_area.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={add} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={index.toString()}>
-          <ReferenceAreaField control={control} index={index} remove={remove} variableOptions={variableOptions} />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => <ReferenceAreaField control={control} index={index} variableOptions={variableOptions} />}
+    </FieldArrayTabs>
   );
 }

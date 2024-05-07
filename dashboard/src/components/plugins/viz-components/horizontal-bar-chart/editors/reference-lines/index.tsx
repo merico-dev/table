@@ -1,9 +1,9 @@
-import { Tabs } from '@mantine/core';
 import { useMemo } from 'react';
-import { Control, useFieldArray, UseFormWatch } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
+import { Control, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { ITemplateVariable } from '~/utils';
-import { getNewReferenceLine, IHorizontalBarChartConf } from '../../type';
+import { getNewReferenceLine, IHorizontalBarChartConf, IHorizontalBarChartReferenceLine } from '../../type';
 import { ReferenceLineField } from './reference-line';
 
 interface IReferenceLinesField {
@@ -13,22 +13,11 @@ interface IReferenceLinesField {
 }
 
 export function ReferenceLinesField({ control, watch, variables }: IReferenceLinesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'reference_lines',
-  });
+  const { t } = useTranslation();
 
-  const watchFieldArray = watch('reference_lines');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const add = () => {
-    const v = getNewReferenceLine();
-    append(v);
+  const getItem = () => {
+    const item = getNewReferenceLine();
+    return item;
   };
 
   const variableOptions = useMemo(() => {
@@ -47,42 +36,29 @@ export function ReferenceLinesField({ control, watch, variables }: IReferenceLin
     }));
   }, [xAxes]);
 
-  const defaultTab = controlledFields.length > 0 ? controlledFields[0].id : '0';
+  const renderTabName = (field: IHorizontalBarChartReferenceLine, index: number) => {
+    const n = field.name.trim();
+    return n ? n : index + 1;
+  };
   return (
-    <Tabs
-      defaultValue={defaultTab}
-      styles={{
-        tab: {
-          paddingTop: '4px',
-          paddingBottom: '4px',
-        },
-        panel: {
-          padding: '0px',
-        },
-      }}
+    <FieldArrayTabs<IHorizontalBarChartConf, IHorizontalBarChartReferenceLine>
+      control={control}
+      watch={watch}
+      name="reference_lines"
+      getItem={getItem}
+      addButtonText={t('chart.reference_line.add')}
+      deleteButtonText={t('chart.reference_line.delete')}
+      renderTabName={renderTabName}
     >
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={field.id}>
-            {field.name}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={add} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={field.id}>
-          <ReferenceLineField
-            control={control}
-            index={index}
-            remove={remove}
-            watch={watch}
-            variableOptions={variableOptions}
-            xAxisOptions={xAxisOptions}
-          />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
+      {({ field, index }) => (
+        <ReferenceLineField
+          control={control}
+          index={index}
+          watch={watch}
+          variableOptions={variableOptions}
+          xAxisOptions={xAxisOptions}
+        />
+      )}
+    </FieldArrayTabs>
   );
 }

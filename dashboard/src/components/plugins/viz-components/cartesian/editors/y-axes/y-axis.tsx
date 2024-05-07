@@ -1,20 +1,17 @@
-import { Button, Checkbox, Divider, Group, Stack, Tabs, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { Checkbox, Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Plus, Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { YAxisPositionSelector } from '~/components/plugins/common-echarts-fields/y-axis-position';
-import { defaultNumberFormat } from '~/utils';
-import { ICartesianChartConf } from '../type';
+import { ICartesianChartConf } from '../../type';
 
 interface IYAxisField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
 }
 
-function YAxisField({ control, index, remove }: IYAxisField) {
+export function YAxisField({ control, index }: IYAxisField) {
   const { t } = useTranslation();
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
@@ -78,79 +75,6 @@ function YAxisField({ control, index, remove }: IYAxisField) {
           />
         )}
       />
-
-      <Button
-        mt={20}
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        disabled={index === 0}
-      >
-        {t('chart.y_axis.delete')}
-      </Button>
     </Stack>
-  );
-}
-
-interface IYAxesField {
-  control: Control<ICartesianChartConf, $TSFixMe>;
-  watch: UseFormWatch<ICartesianChartConf>;
-}
-export function YAxesField({ control, watch }: IYAxesField) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'y_axes',
-  });
-
-  const watchFieldArray = watch('y_axes');
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index],
-    };
-  });
-
-  const addYAxis = () =>
-    append({
-      name: '',
-      position: 'left',
-      nameAlignment: 'left',
-      label_formatter: defaultNumberFormat,
-      min: '',
-      max: '',
-      show: true,
-    });
-
-  return (
-    <Tabs
-      defaultValue="0"
-      styles={{
-        tab: {
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        },
-        panel: {
-          padding: '0px',
-        },
-      }}
-    >
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {index + 1}
-            {/* {field.name.trim() ? field.name : index + 1} */}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={addYAxis} value="add">
-          <Plus size={18} color="#228be6" />
-        </Tabs.Tab>
-      </Tabs.List>
-      {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={index.toString()}>
-          <YAxisField control={control} index={index} remove={remove} />
-        </Tabs.Panel>
-      ))}
-    </Tabs>
   );
 }

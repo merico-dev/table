@@ -1,7 +1,6 @@
-import { Button, Divider, Group, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
+import { Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Trash } from 'tabler-icons-react';
 import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
 import { NameTextAlignSelector } from '~/components/plugins/common-echarts-fields/name-text-align';
 import { YAxisPositionSelector } from '~/components/plugins/common-echarts-fields/y-axis-position';
@@ -10,10 +9,9 @@ import { IScatterChartConf } from '../../type';
 interface IYAxisField {
   control: Control<IScatterChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
 }
 
-export function YAxisField({ control, index, remove }: IYAxisField) {
+export function YAxisField({ control, index }: IYAxisField) {
   const { t } = useTranslation();
   return (
     <Stack my={0} p="0" sx={{ position: 'relative' }}>
@@ -62,17 +60,6 @@ export function YAxisField({ control, index, remove }: IYAxisField) {
           />
         </Group>
       </Stack>
-
-      <Button
-        mt={20}
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        disabled={index === 0}
-      >
-        {t('chart.y_axis.delete')}
-      </Button>
     </Stack>
   );
 }

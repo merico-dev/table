@@ -619,6 +619,7 @@ export const zh = {
         name: '名称',
         y_axis: 'Y轴',
         data_field: '数据字段',
+        add: '增加一个系列',
         delete: '删除这个系列',
         line: {
           label: '线',
@@ -710,7 +711,8 @@ export const zh = {
         label: 'X轴',
         labels: 'X轴',
         label_format: '刻度文案格式',
-        delete: '删除这个X轴',
+        add: '增加一条X轴',
+        delete: '删除这条X轴',
         x_axis_name: 'X轴名称',
         x_axis_data_field: 'X轴数据字段',
         x_axis_type: 'X轴类型',
@@ -730,7 +732,8 @@ export const zh = {
         label: 'Y轴',
         labels: 'Y轴',
         label_format: '刻度文案格式',
-        delete: '删除这个Y轴',
+        add: '增加一条Y轴',
+        delete: '删除这条Y轴',
         y_axis_name: 'Y轴名称',
         y_axis_name_anchor: '名称贴靠侧',
         y_axis_data_field: 'Y轴数据字段',
@@ -768,6 +771,7 @@ export const zh = {
         label: '提示框',
         additional_metrics: {
           description: '在此设置更多指标，来展示在散点的提示框',
+          add: '增加一个指标',
           delete: '删除这个指标',
         },
         trigger: {

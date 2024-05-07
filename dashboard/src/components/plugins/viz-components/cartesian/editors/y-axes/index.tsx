@@ -2,13 +2,12 @@ import { Control, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FieldArrayButtonStateFunc, FieldArrayTabs } from '~/components/plugins/editor-components';
 import { defaultNumberFormat } from '~/utils';
-import { IYAxisConf } from '../../../cartesian/type';
-import { IScatterChartConf } from '../../type';
+import { ICartesianChartConf, IYAxisConf } from '../../type';
 import { YAxisField } from './y-axis';
 
 interface IYAxesField {
-  control: Control<IScatterChartConf, $TSFixMe>;
-  watch: UseFormWatch<IScatterChartConf>;
+  control: Control<ICartesianChartConf, $TSFixMe>;
+  watch: UseFormWatch<ICartesianChartConf>;
 }
 export function YAxesField({ control, watch }: IYAxesField) {
   const { t } = useTranslation();
@@ -16,12 +15,12 @@ export function YAxesField({ control, watch }: IYAxesField) {
   const getItem = () => {
     const item: IYAxisConf = {
       name: '',
+      position: 'left',
+      nameAlignment: 'left',
       label_formatter: defaultNumberFormat,
       min: '',
       max: '',
       show: true,
-      position: 'right',
-      nameAlignment: 'right',
     };
     return item;
   };
@@ -36,7 +35,7 @@ export function YAxesField({ control, watch }: IYAxesField) {
   };
 
   return (
-    <FieldArrayTabs<IScatterChartConf, IYAxisConf>
+    <FieldArrayTabs<ICartesianChartConf, IYAxisConf>
       control={control}
       watch={watch}
       name="y_axes"

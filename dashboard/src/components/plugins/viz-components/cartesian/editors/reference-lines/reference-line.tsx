@@ -1,17 +1,15 @@
-import { Button, Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove, UseFormWatch } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
-import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
-import { ICartesianChartConf } from '../../type';
+import { Checkbox, Divider, Group, NumberInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { MantineColorSelector } from '~/components/panel/settings/common/mantine-color';
 import { LineTypeSelector } from '~/components/plugins/common-echarts-fields/line-type';
 import { OrientationSelector } from '~/components/plugins/common-echarts-fields/orientation';
+import { ICartesianChartConf } from '../../type';
 
 interface IReferenceLineField {
   control: Control<ICartesianChartConf, $TSFixMe>;
   index: number;
   watch: UseFormWatch<ICartesianChartConf>;
-  remove: UseFieldArrayRemove;
   variableOptions: { label: string; value: string }[];
   yAxisOptions: {
     label: string;
@@ -19,14 +17,7 @@ interface IReferenceLineField {
   }[];
 }
 
-export function ReferenceLineField({
-  control,
-  index,
-  remove,
-  watch,
-  variableOptions,
-  yAxisOptions,
-}: IReferenceLineField) {
+export function ReferenceLineField({ control, index, watch, variableOptions, yAxisOptions }: IReferenceLineField) {
   const { t } = useTranslation();
   const orientation = watch(`reference_lines.${index}.orientation`);
   return (
@@ -141,15 +132,6 @@ export function ReferenceLineField({
           />
         )}
       />
-      <Button
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        sx={{ top: 15, right: 5 }}
-      >
-        {t('chart.reference_line.delete')}
-      </Button>
     </Stack>
   );
 }

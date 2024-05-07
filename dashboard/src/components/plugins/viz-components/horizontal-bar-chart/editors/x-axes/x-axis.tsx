@@ -1,18 +1,16 @@
-import { Button, Checkbox, Divider, Group, Select, Stack, TextInput } from '@mantine/core';
-import { Control, Controller, UseFieldArrayRemove } from 'react-hook-form';
-import { Trash } from 'tabler-icons-react';
-import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
-import { IHorizontalBarChartConf } from '../../type';
-import { XAxisPositionSelector } from '~/components/plugins/common-echarts-fields/x-axis-position';
+import { Checkbox, Divider, Group, Stack, TextInput } from '@mantine/core';
+import { Control, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { NumbroFormatSelector } from '~/components/panel/settings/common/numbro-format-selector';
+import { XAxisPositionSelector } from '~/components/plugins/common-echarts-fields/x-axis-position';
+import { IHorizontalBarChartConf } from '../../type';
 
 interface IXAxisField {
   control: Control<IHorizontalBarChartConf, $TSFixMe>;
   index: number;
-  remove: UseFieldArrayRemove;
 }
 
-export function XAxisField({ control, index, remove }: IXAxisField) {
+export function XAxisField({ control, index }: IXAxisField) {
   const { t } = useTranslation();
   return (
     <Stack my={10} p="0" sx={{ position: 'relative' }}>
@@ -64,17 +62,6 @@ export function XAxisField({ control, index, remove }: IXAxisField) {
           />
         )}
       />
-
-      <Button
-        mt={20}
-        leftIcon={<Trash size={16} />}
-        color="red"
-        variant="light"
-        onClick={() => remove(index)}
-        disabled={index === 0}
-      >
-        {t('chart.x_axis.delete')}
-      </Button>
     </Stack>
   );
 }

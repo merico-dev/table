@@ -5,3 +5,4 @@ export * from './color-interpolation-select';
 export * from './color-mapping-editor';
 export * from './color-type';
 export * from './flex';
+export * from './field-array-tabs';
