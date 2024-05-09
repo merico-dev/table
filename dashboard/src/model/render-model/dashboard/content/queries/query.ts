@@ -237,5 +237,27 @@ export type QueryRenderModelInstance = Instance<typeof QueryRenderModel>;
 export type QueryRenderModelSnapshotIn = SnapshotIn<QueryRenderModelInstance>;
 
 export type QueryUsageType =
-  | { type: 'filter'; queryID: string; id: string; label: string; views: { id: string; label: string }[] }
-  | { type: 'panel'; queryID: string; id: string; label: string; views: { id: string; label: string }[] };
+  | {
+      type: 'filter';
+      type_label: 'filter.label';
+      queryID: string;
+      id: string;
+      label: string;
+      views: { id: string; label: string }[];
+    }
+  | {
+      type: 'panel';
+      type_label: 'panel.label';
+      queryID: string;
+      id: string;
+      label: string;
+      views: { id: string; label: string }[];
+    }
+  | {
+      type: 'transform-query';
+      type_label: 'query.transform.full_label';
+      queryID: string;
+      id: string;
+      label: string;
+      views: [];
+    };

@@ -477,6 +477,7 @@ export const zh = {
       },
       transform: {
         label: '查询变形',
+        full_label: '查询变形',
         data_source: '基于其他查询的数据，加工出新数据',
         guide: {
           pick_queries: '选择一至多个查询作为数据输入',

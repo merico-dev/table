@@ -477,6 +477,7 @@ export const en = {
       },
       transform: {
         label: 'Transform',
+        full_label: 'Transform Query',
         data_source: "Use other queries' data",
         guide: {
           pick_queries: 'Pick queries for data input',
