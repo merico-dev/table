@@ -12,10 +12,14 @@ Dependencies are managed by [yarn workspaces](https://classic.yarnpkg.com/lang/e
 
 ## Dev
 
+Install volta
+
+https://docs.volta.sh/guide/getting-started
+
 Add nx globally
 
 ```bash
-yarn global add nx
+volta install nx
 ```
 
 Run these commands at root dir:
