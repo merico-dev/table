@@ -225,6 +225,7 @@ const _ContentModel = types
               id: pid,
               queryID,
               type,
+              type_label: 'panel.label',
               label,
               views,
             });
@@ -241,6 +242,7 @@ const _ContentModel = types
         .forEach((f) => {
           usages.push({
             type: 'filter',
+            type_label: 'filter.label',
             id: f.id,
             queryID: _.get(f, 'config.options_query_id'),
             label: f.label,
@@ -250,6 +252,21 @@ const _ContentModel = types
             })),
           });
         });
+      self.queries.current.forEach((q) => {
+        if (!q.isTransform) {
+          return;
+        }
+        q.dep_query_ids.forEach((queryID) => {
+          usages.push({
+            type: 'transform-query',
+            type_label: 'query.transform.full_label',
+            id: q.id,
+            queryID,
+            label: q.name,
+            views: [],
+          });
+        });
+      });
 
       return _.groupBy(usages, 'queryID');
     },
