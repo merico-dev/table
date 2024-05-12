@@ -590,8 +590,15 @@ export const en = {
         outside: 'Outside',
       },
       visual_map: {
+        label: 'Visual Map',
+        item_width: 'Bar Width',
+        item_height: 'Bar Height',
+        calculable: 'Show drag handle',
         min_value: 'Min Value',
         max_value: 'Max Value',
+        min_text: 'Min Text',
+        max_text: 'Max Text',
+        use_palette_x: 'Use palette "{{x}}"',
       },
       number_or_dynamic_value: {
         type: {
@@ -795,6 +802,7 @@ export const en = {
         pick_a_theme_color: 'Pick a theme color',
         background_color: 'Background Color',
         text_color: 'Text Color',
+        click_to_add_a_color: 'Click to add a color',
       },
       behavior: {
         label: 'Behavior',

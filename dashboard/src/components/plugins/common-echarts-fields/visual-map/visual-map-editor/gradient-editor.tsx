@@ -3,6 +3,8 @@ import { ArrayPath, Controller, Path, UseFormReturn, useFieldArray } from 'react
 import { VisualMapPartialForm } from './types';
 import { getVisualMapPalettes } from '../utils';
 import { VisualMapInRangeColor } from '../types';
+import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 type Props = {
   form: UseFormReturn<VisualMapPartialForm>;
@@ -11,17 +13,23 @@ type Props = {
 const palettes = getVisualMapPalettes();
 
 export const GrandientEditor = ({ form, name }: Props) => {
+  const { t } = useTranslation();
   const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
     name: name as ArrayPath<VisualMapPartialForm>,
   });
 
-  const add = () => {
-    append('#000000');
+  const [newColor, setNewColor] = useState('');
+  const addNewColor = () => {
+    if (newColor) {
+      append(newColor);
+      setNewColor('');
+    }
   };
   const backgroundImage = `linear-gradient(to right,  ${fields.join(', ')})`;
   return (
-    <Divider label="Color">
+    <Stack>
+      <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
       <Stack mt={-6}>
         <Box
           style={{
@@ -45,6 +53,8 @@ export const GrandientEditor = ({ form, name }: Props) => {
                         flexGrow: 1,
                       },
                     }}
+                    withinPortal
+                    dropdownZIndex={340}
                     {...field}
                   />
                 )}
@@ -52,12 +62,17 @@ export const GrandientEditor = ({ form, name }: Props) => {
               <CloseButton onClick={() => remove(index)} />
             </Group>
           ))}
-          <Button variant="light" onClick={add}>
-            Add a color
-          </Button>
+          <ColorInput
+            withinPortal
+            dropdownZIndex={340}
+            placeholder={t('chart.color.click_to_add_a_color')}
+            value={newColor}
+            onChange={setNewColor}
+            onBlur={addNewColor}
+          />
           <Group>
             {Object.entries(palettes).map(([name, colors]) => (
-              <Tooltip key={name} label={`Use palette "${name}"`}>
+              <Tooltip key={name} label={t('chart.visual_map.use_palette_x', { x: name })}>
                 <Box
                   style={{
                     height: '20px',
@@ -77,6 +92,6 @@ export const GrandientEditor = ({ form, name }: Props) => {
           </Group>
         </Stack>
       </Stack>
-    </Divider>
+    </Stack>
   );
 };

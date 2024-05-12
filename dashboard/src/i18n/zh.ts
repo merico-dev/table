@@ -590,8 +590,15 @@ export const zh = {
         outside: '外',
       },
       visual_map: {
+        label: '视觉映射',
+        item_width: '长条的宽度',
+        item_height: '长条的高度',
+        calculable: '显示拖拽手柄',
         min_value: '最小值',
         max_value: '最大值',
+        min_text: '最小值文案',
+        max_text: '最大值文案',
+        use_palette_x: '使用配色方案"{{x}}"',
       },
       number_or_dynamic_value: {
         type: {
@@ -795,6 +802,7 @@ export const zh = {
         pick_a_theme_color: '选择一个主题色',
         background_color: '背景色',
         text_color: '文字颜色',
+        click_to_add_a_color: '点击增加一个颜色',
       },
       behavior: {
         label: '表现',

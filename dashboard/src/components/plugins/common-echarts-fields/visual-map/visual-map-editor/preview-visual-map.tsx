@@ -1,5 +1,6 @@
 import { Divider, Stack } from '@mantine/core';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
+import * as echarts from 'echarts/core';
 import { VisualMap } from '../types';
 
 export const PreviewVisualMap = ({ visualMap }: { visualMap: VisualMap }) => {
@@ -10,7 +11,13 @@ export const PreviewVisualMap = ({ visualMap }: { visualMap: VisualMap }) => {
   const options = JSON.parse(JSON.stringify({ visualMap }));
   return (
     <Stack>
-      <ReactEChartsCore option={options} style={{ width: '100%', height: `${renderHeight + 20}px` }} notMerge />
+      <ReactEChartsCore
+        echarts={echarts}
+        option={options}
+        style={{ width: '100%', height: `${renderHeight + 20}px` }}
+        notMerge
+        theme="merico-light"
+      />
       <Divider />
     </Stack>
   );
