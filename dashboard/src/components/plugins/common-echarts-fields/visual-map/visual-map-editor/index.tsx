@@ -4,6 +4,7 @@ import { OrientationSelector } from '../../orientation';
 import { GrandientEditor } from './gradient-editor';
 import { PreviewVisualMap } from './preview-visual-map';
 import { VisualMapPartialForm } from './types';
+import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
 
 type Props = {
   form: UseFormReturn<VisualMapPartialForm>;
@@ -77,12 +78,12 @@ export const VisualMapEditor = ({ form }: Props) => {
           <Controller
             name="visualMap.min"
             control={control}
-            render={({ field }) => <NumberInput label="min" {...field} onChange={getNumberChanger(field.onChange)} />}
+            render={({ field }) => <NumberOrDynamicValue label="chart.visual_map.min_value" {...field} />}
           />
           <Controller
             name="visualMap.max"
             control={control}
-            render={({ field }) => <NumberInput label="max" {...field} onChange={getNumberChanger(field.onChange)} />}
+            render={({ field }) => <NumberOrDynamicValue label="chart.visual_map.max_value" {...field} />}
           />
         </Group>
         <Group grow>

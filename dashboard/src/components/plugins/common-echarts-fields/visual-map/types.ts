@@ -1,3 +1,4 @@
+import { TNumberOrDynamic } from '../number-or-dynamic-value';
 import { ChartingOrientation } from '../orientation';
 
 export type VisualMapType = 'continuous' | 'piecewise';
@@ -8,8 +9,8 @@ export type VisualMapInRangeColor = string[];
 export type ContinuousVisualMap = {
   type: 'continuous';
   id: string;
-  min: number;
-  max: number;
+  min: TNumberOrDynamic;
+  max: TNumberOrDynamic;
   orient: ChartingOrientation;
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;
@@ -26,8 +27,8 @@ export type ContinuousVisualMap = {
 export type PiecewiseVisualMap = {
   type: 'piecewise';
   id: string;
-  min: number;
-  max: number;
+  min: TNumberOrDynamic;
+  max: TNumberOrDynamic;
   orient: ChartingOrientation;
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;

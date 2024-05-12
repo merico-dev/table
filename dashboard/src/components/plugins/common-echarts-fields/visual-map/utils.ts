@@ -5,14 +5,20 @@ function getDefaultVisualMap(color: string[]): VisualMap {
   return {
     type: 'continuous',
     id: 'continuous-example',
-    min: 0,
-    max: 100,
+    min: {
+      type: 'static',
+      value: 0,
+    },
+    max: {
+      type: 'static',
+      value: 100,
+    },
     orient: 'horizontal',
     left: 'center',
     top: 'center',
-    text: ['Min', 'Max'],
+    text: ['', ''],
     calculable: true,
-    itemWidth: 20,
+    itemWidth: 15,
     itemHeight: 140,
     show: true,
     inRange: {
