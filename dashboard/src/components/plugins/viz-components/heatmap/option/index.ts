@@ -5,11 +5,11 @@ import { getLabelFormatters, getValueFormatters } from './formatters';
 import { getGrid } from './grid';
 import { getSeries } from './series';
 import { getTooltip } from './tooltip';
-import { getVisualMap } from './visual-map';
 import { getXAxis } from './x-axis';
 import { getYAxis } from './y-axis';
 import _ from 'lodash';
 import { parseDataKey } from '~/utils';
+import { getVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 
 function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
   if (width < xlen * 10 || height < ylen * 10) {
@@ -54,7 +54,7 @@ export function getOption(
     series: getSeries(conf, seriesData, borderWidth),
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
-    visualMap: getVisualMap(conf, variableValueMap),
+    visualMap: getVisualMap(conf.visualMap, variableValueMap),
   };
   return options;
 }

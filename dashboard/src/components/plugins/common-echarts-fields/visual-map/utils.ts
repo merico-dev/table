@@ -1,5 +1,6 @@
 import { ChartTheme } from '~/styles/register-themes';
 import { VisualMap } from './types';
+import { getNumberOrDynamicValue } from '../number-or-dynamic-value';
 
 function getDefaultVisualMap(color: string[]): VisualMap {
   return {
@@ -15,7 +16,7 @@ function getDefaultVisualMap(color: string[]): VisualMap {
     },
     orient: 'horizontal',
     left: 'center',
-    top: 'center',
+    top: 'top',
     text: ['', ''],
     calculable: true,
     itemWidth: 15,
@@ -38,5 +39,15 @@ export function getVisualMapPalettes() {
     blue: ['#f9fcff', '#48b3e9', '#003f94'],
     darkgreen_pink: ['#0c525a', '#f21f99'],
     spectrum: ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000'],
+  };
+}
+
+export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<string, string | number>) {
+  const min = getNumberOrDynamicValue(visualMap.min, variableValueMap);
+  const max = getNumberOrDynamicValue(visualMap.max, variableValueMap);
+  return {
+    ...visualMap,
+    min,
+    max,
   };
 }
