@@ -10,7 +10,7 @@ function getDefaultVisualMap(color: string[]): VisualMap {
     orient: 'horizontal',
     left: 'center',
     top: 'center',
-    text: ['满分', '零分'],
+    text: ['Min', 'Max'],
     calculable: true,
     itemWidth: 20,
     itemHeight: 140,
@@ -23,4 +23,14 @@ function getDefaultVisualMap(color: string[]): VisualMap {
 
 export function getDefaultDepthVisualMap() {
   return getDefaultVisualMap(Object.values(ChartTheme.graphics.depth));
+}
+
+export function getVisualMapPalettes() {
+  return {
+    red: ['#FFF7F8', '#FFE1E1', '#FDBCBC', '#F39494', '#FA4242', '#E21212'],
+    yellow_blue: ['#8f531d', '#ffd347', '#e3efe3', '#eefaee', '#4ecbbf', '#003f94'],
+    blue: ['#f9fcff', '#48b3e9', '#003f94'],
+    darkgreen_pink: ['#0c525a', '#f21f99'],
+    spectrum: ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ff0000'],
+  };
 }

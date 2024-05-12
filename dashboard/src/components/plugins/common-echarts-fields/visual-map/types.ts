@@ -1,5 +1,6 @@
+import { ChartingOrientation } from '../orientation';
+
 export type VisualMapType = 'continuous' | 'piecewise';
-export type VisualMapOrientation = 'horizontal' | 'vertical';
 export type VisualMapHorizontalAlign = 'left' | 'center' | 'right';
 export type VisualMapVerticalAlign = 'top' | 'center' | 'bottom';
 export type VisualMapInRangeColor = string[];
@@ -9,7 +10,7 @@ export type ContinuousVisualMap = {
   id: string;
   min: number;
   max: number;
-  orient: VisualMapOrientation;
+  orient: ChartingOrientation;
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;
   text: [string, string];
@@ -27,7 +28,7 @@ export type PiecewiseVisualMap = {
   id: string;
   min: number;
   max: number;
-  orient: VisualMapOrientation;
+  orient: ChartingOrientation;
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;
   text: [string, string];
