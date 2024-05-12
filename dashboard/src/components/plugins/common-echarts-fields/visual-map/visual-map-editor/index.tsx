@@ -27,7 +27,6 @@ export const VisualMapEditor = ({ form }: Props) => {
 
   return (
     <Stack>
-      {/* TODO: provide this when variableValueMap is in panelcontext */}
       {/* <PreviewVisualMap visualMap={visualMap} /> */}
       <Group grow>
         <Controller

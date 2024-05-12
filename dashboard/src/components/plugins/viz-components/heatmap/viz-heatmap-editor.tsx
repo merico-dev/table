@@ -1,23 +1,22 @@
 import { Stack, Tabs } from '@mantine/core';
-import _, { defaults, defaultsDeep, isEqual } from 'lodash';
+import _, { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VisualMapEditor } from '../../common-echarts-fields/visual-map';
 import { VizConfigBanner } from '../../editor-components';
 import { HeatBlockField } from './editors/heat_block';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { useTranslation } from 'react-i18next';
-import { VisualMapEditor } from '../../common-echarts-fields/visual-map';
 
 export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
-  const { variables } = context;
   const conf: IHeatmapConf = useMemo(() => {
     if (!confValue) {
       return DEFAULT_CONFIG;
