@@ -1,4 +1,4 @@
-import { Box, Button, CloseButton, ColorInput, Divider, Group, Badge, Stack, Tooltip } from '@mantine/core';
+import { Box, Text, CloseButton, ColorInput, Divider, Group, Badge, Stack, Tooltip, Table } from '@mantine/core';
 import { ArrayPath, Controller, Path, UseFormReturn, useFieldArray } from 'react-hook-form';
 import { VisualMapPartialForm } from './types';
 import { getVisualMapPalettes } from '../utils';
@@ -18,6 +18,13 @@ export const GrandientEditor = ({ form, name }: Props) => {
     control: form.control,
     name: name as ArrayPath<VisualMapPartialForm>,
   });
+  const watchFieldArray = form.watch(name);
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      value: watchFieldArray[index],
+    };
+  });
 
   const [newColor, setNewColor] = useState('');
   const addNewColor = () => {
@@ -26,10 +33,10 @@ export const GrandientEditor = ({ form, name }: Props) => {
       setNewColor('');
     }
   };
-  const backgroundImage = `linear-gradient(to right,  ${fields.join(', ')})`;
+  const backgroundImage = `linear-gradient(to right,  ${controlledFields.join(', ')})`;
   return (
     <Stack>
-      <Divider label={t('chart.color.label')} labelPosition="center" variant="dashed" />
+      <Divider label={t('chart.color.color_gradient')} labelPosition="left" variant="dashed" />
       <Stack mt={-6}>
         <Box
           style={{
@@ -39,38 +46,55 @@ export const GrandientEditor = ({ form, name }: Props) => {
             borderRadius: 4,
           }}
         />
-        <Stack>
-          {fields.map((f, index) => (
-            <Group key={f.id}>
-              <Badge>{index}</Badge>
-              <Controller
-                name={`${name}.${index}`}
-                control={form.control}
-                render={({ field }) => (
-                  <ColorInput
-                    styles={{
-                      root: {
-                        flexGrow: 1,
-                      },
-                    }}
-                    withinPortal
-                    dropdownZIndex={340}
-                    {...field}
+        <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
+          <tbody>
+            {controlledFields.map((f, index) => (
+              <tr key={f.id}>
+                <td style={{ width: '60px' }}>
+                  <Badge>{index}</Badge>
+                </td>
+                <td>
+                  <Controller
+                    name={`${name}.${index}`}
+                    control={form.control}
+                    render={({ field }) => (
+                      <ColorInput
+                        styles={{
+                          root: {
+                            flexGrow: 1,
+                          },
+                        }}
+                        withinPortal
+                        dropdownZIndex={340}
+                        {...field}
+                      />
+                    )}
                   />
-                )}
-              />
-              <CloseButton onClick={() => remove(index)} />
-            </Group>
-          ))}
-          <ColorInput
-            withinPortal
-            dropdownZIndex={340}
-            placeholder={t('chart.color.click_to_add_a_color')}
-            value={newColor}
-            onChange={setNewColor}
-            onBlur={addNewColor}
-          />
-          <Group>
+                </td>
+                <td style={{ width: '60px' }}>
+                  <CloseButton onClick={() => remove(index)} />
+                </td>
+              </tr>
+            ))}
+            <tr>
+              <td style={{ width: '60px' }} />
+              <td>
+                <ColorInput
+                  withinPortal
+                  dropdownZIndex={340}
+                  placeholder={t('chart.color.click_to_add_a_color')}
+                  value={newColor}
+                  onChange={setNewColor}
+                  onBlur={addNewColor}
+                />
+              </td>
+              <td style={{ width: '60px' }} />
+            </tr>
+          </tbody>
+        </Table>
+        <Stack>
+          <Divider variant="dashed" label={t('chart.visual_map.built_in_palettes')} labelPosition="left" />
+          <Group px={70}>
             {Object.entries(palettes).map(([name, colors]) => (
               <Tooltip key={name} label={t('chart.visual_map.use_palette_x', { x: name })}>
                 <Box

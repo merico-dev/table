@@ -599,6 +599,7 @@ export const en = {
         min_text: 'Min Text',
         max_text: 'Max Text',
         use_palette_x: 'Use palette "{{x}}"',
+        built_in_palettes: 'Built-in Palettes',
       },
       number_or_dynamic_value: {
         type: {
@@ -803,6 +804,7 @@ export const en = {
         background_color: 'Background Color',
         text_color: 'Text Color',
         click_to_add_a_color: 'Click to add a color',
+        color_gradient: 'Color Gradient',
       },
       behavior: {
         label: 'Behavior',

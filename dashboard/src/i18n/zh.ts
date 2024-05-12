@@ -599,6 +599,7 @@ export const zh = {
         min_text: '最小值文案',
         max_text: '最大值文案',
         use_palette_x: '使用配色方案"{{x}}"',
+        built_in_palettes: '内置配色方案',
       },
       number_or_dynamic_value: {
         type: {
@@ -803,6 +804,7 @@ export const zh = {
         background_color: '背景色',
         text_color: '文字颜色',
         click_to_add_a_color: '点击增加一个颜色',
+        color_gradient: '颜色渐变',
       },
       behavior: {
         label: '表现',

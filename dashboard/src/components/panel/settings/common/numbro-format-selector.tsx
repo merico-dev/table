@@ -85,7 +85,6 @@ function _NumbroFormatSelector({ value, onChange }: INumbroFormatSelector, ref: 
     const payload = { ...value, absolute: event.currentTarget.checked };
     onChange(payload);
   };
-  console.log({ value });
   return (
     <Stack ref={ref}>
       <Group grow>

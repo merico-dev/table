@@ -24,6 +24,7 @@ export const VisualMapEditor = ({ form }: Props) => {
     }
     handleChange(v);
   };
+
   return (
     <Stack>
       {/* TODO: provide this when variableValueMap is in panelcontext */}
@@ -105,7 +106,7 @@ export const VisualMapEditor = ({ form }: Props) => {
 
       <GrandientEditor name="visualMap.inRange.color" form={form} />
 
-      {/* <pre>{JSON.stringify(options, null, 2)}</pre> */}
+      {/* <pre>{JSON.stringify(visualMap, null, 2)}</pre> */}
     </Stack>
   );
 };

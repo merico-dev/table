@@ -1,5 +1,5 @@
 import { Stack, Tabs } from '@mantine/core';
-import _, { defaultsDeep, isEqual } from 'lodash';
+import _, { defaults, defaultsDeep, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -18,7 +18,12 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
   const { variables } = context;
-  const conf: IHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const conf: IHeatmapConf = useMemo(() => {
+    if (!confValue) {
+      return DEFAULT_CONFIG;
+    }
+    return defaults({}, confValue);
+  }, [confValue]);
   const defaultValues: IHeatmapConf = useMemo(() => {
     return _.cloneDeep(conf);
   }, [conf]);
