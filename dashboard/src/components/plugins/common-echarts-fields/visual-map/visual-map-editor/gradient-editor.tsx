@@ -33,7 +33,7 @@ export const GrandientEditor = ({ form, name }: Props) => {
       setNewColor('');
     }
   };
-  const backgroundImage = `linear-gradient(to right,  ${controlledFields.join(', ')})`;
+  const backgroundImage = `linear-gradient(to right,  ${watchFieldArray.join(', ')})`;
   return (
     <Stack>
       <Divider label={t('chart.color.color_gradient')} labelPosition="left" variant="dashed" />
