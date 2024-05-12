@@ -2,9 +2,11 @@ import { getNumberOrDynamicValue } from '~/components/plugins/common-echarts-fie
 import { IHeatmapConf } from '../type';
 
 export function getVisualMap(conf: IHeatmapConf, variableValueMap: Record<string, string | number>) {
-  const min = getNumberOrDynamicValue(conf.heat_block.min, variableValueMap);
-  const max = getNumberOrDynamicValue(conf.heat_block.max, variableValueMap);
+  const { visualMap } = conf;
+  const min = getNumberOrDynamicValue(visualMap.min, variableValueMap);
+  const max = getNumberOrDynamicValue(visualMap.max, variableValueMap);
   return {
+    ...visualMap,
     min,
     max,
     calculable: true,

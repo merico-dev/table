@@ -589,6 +589,10 @@ export const en = {
         inside_bottom_right: 'Inside Bottom Right',
         outside: 'Outside',
       },
+      visual_map: {
+        min_value: 'Min Value',
+        max_value: 'Max Value',
+      },
       number_or_dynamic_value: {
         type: {
           static: 'Static',
@@ -799,8 +803,6 @@ export const en = {
       heatmap: {
         heatblock: {
           label: 'Heat Block',
-          min_value: 'Min Value',
-          max_value: 'Max Value',
           show_label: 'Show Label',
         },
       },

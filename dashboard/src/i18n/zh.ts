@@ -589,6 +589,10 @@ export const zh = {
         inside_bottom_right: '内-下-右',
         outside: '外',
       },
+      visual_map: {
+        min_value: '最小值',
+        max_value: '最大值',
+      },
       number_or_dynamic_value: {
         type: {
           static: '具体值',
@@ -799,8 +803,6 @@ export const zh = {
       heatmap: {
         heatblock: {
           label: '热力块',
-          min_value: '最小值',
-          max_value: '最大值',
           show_label: '展示值文案',
         },
       },
