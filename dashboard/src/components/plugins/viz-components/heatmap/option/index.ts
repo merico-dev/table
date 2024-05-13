@@ -9,7 +9,7 @@ import { getXAxis } from './x-axis';
 import { getYAxis } from './y-axis';
 import _ from 'lodash';
 import { parseDataKey } from '~/utils';
-import { getVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
+import { getSkipRangeColor, getVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 
 function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
   if (width < xlen * 10 || height < ylen * 10) {
@@ -51,10 +51,18 @@ export function getOption(
     const vx = _.get(d, x.columnKey);
     const vy = _.get(d, y.columnKey);
     const vh = _.get(d, h.columnKey);
-    return {
+    const ret: any = {
       value: [vx, vy, vh],
-      // visualMap: vh > min && vh < max, TODO: configure style on end points
     };
+
+    const { followVisualMap, color } = getSkipRangeColor(vh, min, max, conf.visualMap);
+    if (!followVisualMap) {
+      ret.visualMap = false;
+      ret.itemStyle = {
+        color,
+      };
+    }
+    return ret;
   });
   const borderWidth = calcBorderWidth(xData.length, yData.length, width, height);
 
