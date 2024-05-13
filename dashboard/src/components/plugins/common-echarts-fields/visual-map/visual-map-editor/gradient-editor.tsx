@@ -45,52 +45,50 @@ export const GrandientEditor = ({ value, onChange }: Props) => {
 
   return (
     <Stack>
-      <Stack mt={-6}>
-        <PreviewGradientAndApplyPalette colors={value} applyPalette={replace} />
-        <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
-          <tbody>
-            {colors.map((c, index) => (
-              <tr key={c.id}>
-                <td style={{ width: '60px' }}>
-                  <Badge>{index}</Badge>
-                </td>
-                <td>
-                  <ColorInput
-                    styles={{
-                      root: {
-                        flexGrow: 1,
-                      },
-                    }}
-                    withinPortal
-                    dropdownZIndex={340}
-                    size="xs"
-                    value={c.value}
-                    onChange={getChangeHandler(index)}
-                  />
-                </td>
-                <td style={{ width: '40px' }}>
-                  <CloseButton onClick={() => remove(index)} />
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td style={{ width: '60px' }} />
+      <PreviewGradientAndApplyPalette colors={value} applyPalette={replace} />
+      <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
+        <tbody>
+          {colors.map((c, index) => (
+            <tr key={c.id}>
+              <td style={{ width: '60px' }}>
+                <Badge>{index}</Badge>
+              </td>
               <td>
                 <ColorInput
+                  styles={{
+                    root: {
+                      flexGrow: 1,
+                    },
+                  }}
                   withinPortal
                   dropdownZIndex={340}
-                  placeholder={t('chart.color.click_to_add_a_color')}
-                  value={newColor}
-                  onChange={setNewColor}
-                  onBlur={addNewColor}
                   size="xs"
+                  value={c.value}
+                  onChange={getChangeHandler(index)}
                 />
               </td>
-              <td style={{ width: '40px' }} />
+              <td style={{ width: '40px' }}>
+                <CloseButton onClick={() => remove(index)} />
+              </td>
             </tr>
-          </tbody>
-        </Table>
-      </Stack>
+          ))}
+          <tr>
+            <td style={{ width: '60px' }} />
+            <td>
+              <ColorInput
+                withinPortal
+                dropdownZIndex={340}
+                placeholder={t('chart.color.click_to_add_a_color')}
+                value={newColor}
+                onChange={setNewColor}
+                onBlur={addNewColor}
+                size="xs"
+              />
+            </td>
+            <td style={{ width: '40px' }} />
+          </tr>
+        </tbody>
+      </Table>
     </Stack>
   );
 };
