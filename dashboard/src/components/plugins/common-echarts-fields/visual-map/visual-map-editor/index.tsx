@@ -1,4 +1,4 @@
-import { Checkbox, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { Checkbox, Group, NumberInput, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { OrientationSelector } from '../../orientation';
 import { GrandientEditor } from './gradient-editor';
@@ -103,6 +103,26 @@ export const VisualMapEditor = ({ form }: Props) => {
           render={({ field }) => <TextInput label={t('chart.visual_map.max_text')} {...field} />}
         />
       </Group>
+      {/* <Stack spacing={0}>
+        <Text
+          style={{
+            display: 'inline-block',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            color: '#212529',
+            wordBreak: 'break-word',
+            cursor: 'default',
+          }}
+        >
+          Visual Map Type
+        </Text>
+        <SegmentedControl
+          data={[
+            { label: 'Continuous', value: 'continuous' },
+            { label: 'Piecewise', value: 'piecewise', disabled: true },
+          ]}
+        />
+      </Stack> */}
       <Controller
         name="visualMap.inRange.color"
         control={control}
