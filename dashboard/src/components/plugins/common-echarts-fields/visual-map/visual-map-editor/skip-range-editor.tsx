@@ -1,6 +1,7 @@
 import { Controller, ControllerRenderProps, FieldPath, UseFormReturn, useFieldArray } from 'react-hook-form';
 import { VisualMapPartialForm } from './types';
 import { CloseButton, ColorInput, Group, Stack, Table } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
 type FieldType = ControllerRenderProps<
   VisualMapPartialForm,
@@ -12,10 +13,11 @@ type SkipRangeColorInputProps = {
   label: string;
 };
 const SkipRangeColorInput = ({ label, field }: SkipRangeColorInputProps) => {
+  const { t } = useTranslation();
   return (
     <ColorInput
       label={label}
-      placeholder="follow gradient rule"
+      placeholder={t('chart.visual_map.skip_range.follow_visual_map')}
       size="xs"
       withinPortal
       dropdownZIndex={340}
@@ -38,27 +40,28 @@ type Props = {
 };
 
 export const SkipRangeEditor = ({ form }: Props) => {
+  const { t } = useTranslation();
   return (
     <Stack>
       <Controller
         control={form.control}
         name="visualMap.skipRange.lt_min"
-        render={({ field }) => <SkipRangeColorInput field={field} label="Color for smaller values than min value" />}
+        render={({ field }) => <SkipRangeColorInput field={field} label={t('chart.visual_map.skip_range.lt_min')} />}
       />
       <Controller
         control={form.control}
         name="visualMap.skipRange.min"
-        render={({ field }) => <SkipRangeColorInput field={field} label="Color for min value" />}
+        render={({ field }) => <SkipRangeColorInput field={field} label={t('chart.visual_map.skip_range.min')} />}
       />
       <Controller
         control={form.control}
         name="visualMap.skipRange.max"
-        render={({ field }) => <SkipRangeColorInput field={field} label="Color for max value" />}
+        render={({ field }) => <SkipRangeColorInput field={field} label={t('chart.visual_map.skip_range.max')} />}
       />
       <Controller
         control={form.control}
         name="visualMap.skipRange.gt_max"
-        render={({ field }) => <SkipRangeColorInput field={field} label="Color for greater values than max value" />}
+        render={({ field }) => <SkipRangeColorInput field={field} label={t('chart.visual_map.skip_range.gt_max')} />}
       />
     </Stack>
   );

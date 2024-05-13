@@ -600,6 +600,13 @@ export const zh = {
         max_text: '最大值文案',
         use_palette_x: '使用配色方案"{{x}}"',
         built_in_palettes: '内置配色方案',
+        skip_range: {
+          lt_min: '小于最小值时的颜色',
+          min: '最小值的颜色',
+          max: '最大值的颜色',
+          gt_max: '大于最大值时的颜色',
+          follow_visual_map: '颜色跟随渐变规则',
+        },
       },
       number_or_dynamic_value: {
         type: {

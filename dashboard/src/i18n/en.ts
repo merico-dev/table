@@ -600,6 +600,13 @@ export const en = {
         max_text: 'Max Text',
         use_palette_x: 'Use palette "{{x}}"',
         built_in_palettes: 'Built-in Palettes',
+        skip_range: {
+          lt_min: 'Color for smaller values than min value',
+          min: 'Color for min value',
+          max: 'Color for max value',
+          gt_max: 'Color for greater values than max value',
+          follow_visual_map: 'follow gradient rule',
+        },
       },
       number_or_dynamic_value: {
         type: {
