@@ -36,6 +36,8 @@ export function getOption(
     prev[variable.name] = formatAggregatedValue(variable, value);
     return prev;
   }, {} as Record<string, string | number>);
+  const visualMap = getVisualMap(conf.visualMap, variableValueMap);
+  const { min, max } = visualMap;
 
   const labelFormatters = getLabelFormatters(conf);
   const valueFormatters = getValueFormatters(conf);
@@ -45,7 +47,15 @@ export function getOption(
   const h = parseDataKey(conf.heat_block.data_key);
   const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
   const yData = _.uniq(data[x.queryID].map((d) => d[y.columnKey]));
-  const seriesData = data[x.queryID].map((d) => [_.get(d, x.columnKey), _.get(d, y.columnKey), _.get(d, h.columnKey)]);
+  const seriesData = data[x.queryID].map((d) => {
+    const vx = _.get(d, x.columnKey);
+    const vy = _.get(d, y.columnKey);
+    const vh = _.get(d, h.columnKey);
+    return {
+      value: [vx, vy, vh],
+      // visualMap: vh > min && vh < max, TODO: configure style on end points
+    };
+  });
   const borderWidth = calcBorderWidth(xData.length, yData.length, width, height);
 
   const options = {
@@ -54,7 +64,7 @@ export function getOption(
     series: getSeries(conf, seriesData, borderWidth),
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
-    visualMap: getVisualMap(conf.visualMap, variableValueMap),
+    visualMap,
   };
   return options;
 }
