@@ -1,10 +1,21 @@
-import { Badge, Box, CloseButton, ColorInput, Divider, Group, Stack, Table, Tooltip } from '@mantine/core';
+import {
+  Badge,
+  Box,
+  CloseButton,
+  ColorInput,
+  Group,
+  Menu,
+  Stack,
+  Table,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
+import { IconSelector } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
-import { ArrayPath, Controller, useFieldArray } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { getVisualMapPalettes } from '../utils';
-import { VisualMapPartialForm } from './types';
 import { v4 as uuidv4 } from 'uuid';
+import { getVisualMapPalettes } from '../utils';
 
 type Props = {
   value: string[];
@@ -48,16 +59,69 @@ export const GrandientEditor = ({ value, onChange }: Props) => {
   const backgroundImage = `linear-gradient(to right,  ${value.join(', ')})`;
   return (
     <Stack>
-      <Divider label={t('chart.color.color_gradient')} labelPosition="left" variant="dashed" />
       <Stack mt={-6}>
-        <Box
-          style={{
-            height: '20px',
-            width: '100%',
-            backgroundImage,
-            borderRadius: 4,
-          }}
-        />
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <UnstyledButton>
+              <Text
+                style={{
+                  display: 'inline-block',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  color: '#212529',
+                  wordBreak: 'break-word',
+                  cursor: 'default',
+                }}
+              >
+                {t('chart.color.color_gradient')}
+              </Text>
+              <Group
+                style={{
+                  padding: '0.4375rem 0.625rem',
+                  border: '0.0625rem solid #ced4da',
+                  borderRadius: '0.25rem',
+                  columnGap: 10,
+                }}
+              >
+                <Box
+                  style={{
+                    height: '20px',
+                    flexGrow: 1,
+                    backgroundImage,
+                    borderRadius: 4,
+                  }}
+                />
+                <IconSelector size={14} color="rgb(134, 142, 150)" />
+              </Group>
+            </UnstyledButton>
+          </Menu.Target>
+
+          <Menu.Dropdown>
+            <Menu.Label>{t('chart.visual_map.built_in_palettes')}</Menu.Label>
+            <Menu.Divider />
+
+            {Object.entries(palettes).map(([name, colors]) => (
+              <Tooltip key={name} label={t('chart.visual_map.use_palette_x', { x: name })}>
+                <Menu.Item>
+                  <Box
+                    style={{
+                      height: '20px',
+                      width: '100%',
+                      backgroundImage: `linear-gradient(to right,  ${colors.join(', ')})`,
+                      borderRadius: 4,
+                      boxShadow: '0 0 3px 0 #eee',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      replace(colors);
+                    }}
+                    title={name}
+                  />
+                </Menu.Item>
+              </Tooltip>
+            ))}
+          </Menu.Dropdown>
+        </Menu>
         <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
           <tbody>
             {colors.map((c, index) => (
@@ -79,7 +143,7 @@ export const GrandientEditor = ({ value, onChange }: Props) => {
                     onChange={getChangeHandler(index)}
                   />
                 </td>
-                <td style={{ width: '60px' }}>
+                <td style={{ width: '40px' }}>
                   <CloseButton onClick={() => remove(index)} />
                 </td>
               </tr>
@@ -97,33 +161,10 @@ export const GrandientEditor = ({ value, onChange }: Props) => {
                   size="xs"
                 />
               </td>
-              <td style={{ width: '60px' }} />
+              <td style={{ width: '40px' }} />
             </tr>
           </tbody>
         </Table>
-        <Stack>
-          <Divider variant="dashed" label={t('chart.visual_map.built_in_palettes')} labelPosition="left" />
-          <Group px={70} sx={{ rowGap: 8 }}>
-            {Object.entries(palettes).map(([name, colors]) => (
-              <Tooltip key={name} label={t('chart.visual_map.use_palette_x', { x: name })}>
-                <Box
-                  style={{
-                    height: '20px',
-                    width: '100px',
-                    backgroundImage: `linear-gradient(to right,  ${colors.join(', ')})`,
-                    borderRadius: 4,
-                    boxShadow: '0 0 3px 0 #eee',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    replace(colors);
-                  }}
-                  title={name}
-                />
-              </Tooltip>
-            ))}
-          </Group>
-        </Stack>
       </Stack>
     </Stack>
   );
