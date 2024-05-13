@@ -12,7 +12,7 @@ export const PreviewGradientAndApplyPalette = ({ colors, applyPalette }: Props) 
   const { t } = useTranslation();
   const backgroundImage = `linear-gradient(to right,  ${colors.join(', ')})`;
   return (
-    <Menu shadow="md" width={200}>
+    <Menu shadow="md" width={300}>
       <Menu.Target>
         <UnstyledButton>
           <Text
