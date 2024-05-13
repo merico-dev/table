@@ -34,7 +34,9 @@ export function getDefaultDepthVisualMap() {
 
 export function getVisualMapPalettes() {
   return {
-    red: ['#FFF7F8', '#FFE1E1', '#FDBCBC', '#F39494', '#FA4242', '#E21212'],
+    compared: Object.values(ChartTheme.graphics.compared),
+    level: Object.values(ChartTheme.graphics.level),
+    depth: Object.values(ChartTheme.graphics.depth),
     yellow_blue: ['#8f531d', '#ffd347', '#e3efe3', '#eefaee', '#4ecbbf', '#003f94'],
     blue: ['#f9fcff', '#48b3e9', '#003f94'],
     darkgreen_pink: ['#0c525a', '#f21f99'],
