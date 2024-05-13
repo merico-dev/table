@@ -6,6 +6,7 @@ import { PreviewVisualMap } from './preview-visual-map';
 import { VisualMapPartialForm } from './types';
 import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
 import { useTranslation } from 'react-i18next';
+import { SkipRangeEditor } from './skip-range-editor';
 
 type Props = {
   // TODO: solve problem at form={form} -> Types of property 'watch' are incompatible.

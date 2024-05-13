@@ -1,6 +1,6 @@
 import { ChartTheme } from '~/styles/register-themes';
-import { VisualMap } from './types';
 import { getNumberOrDynamicValue } from '../number-or-dynamic-value';
+import { VisualMap } from './types';
 
 function getDefaultVisualMap(color: string[]): VisualMap {
   return {
@@ -25,6 +25,12 @@ function getDefaultVisualMap(color: string[]): VisualMap {
     inRange: {
       color,
     },
+    skipRange: {
+      lt_min: '',
+      min: '',
+      max: '',
+      gt_max: '',
+    },
   };
 }
 
@@ -47,9 +53,37 @@ export function getVisualMapPalettes() {
 export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<string, string | number>) {
   const min = getNumberOrDynamicValue(visualMap.min, variableValueMap);
   const max = getNumberOrDynamicValue(visualMap.max, variableValueMap);
+  if (visualMap.type === 'continuous') {
+    const { skipRange, ...rest } = visualMap;
+    return {
+      ...rest,
+      min,
+      max,
+    };
+  }
   return {
     ...visualMap,
     min,
     max,
   };
+}
+
+export function getSkipRangeColor(value: number, min: number, max: number, visualMap: VisualMap) {
+  if (visualMap.type !== 'continuous') {
+    return { followVisualMap: true, color: '' };
+  }
+  const { skipRange } = visualMap;
+  if (value === min) {
+    return { followVisualMap: false, color: skipRange.min };
+  }
+  if (value === max) {
+    return { followVisualMap: false, color: skipRange.max };
+  }
+  if (value < min) {
+    return { followVisualMap: false, color: skipRange.lt_min };
+  }
+  if (value > max) {
+    return { followVisualMap: false, color: skipRange.gt_max };
+  }
+  return { followVisualMap: true, color: '' };
 }
