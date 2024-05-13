@@ -1,30 +1,42 @@
-import { Box, Text, CloseButton, ColorInput, Divider, Group, Badge, Stack, Tooltip, Table } from '@mantine/core';
-import { ArrayPath, Controller, Path, UseFormReturn, useFieldArray } from 'react-hook-form';
-import { VisualMapPartialForm } from './types';
-import { getVisualMapPalettes } from '../utils';
-import { VisualMapInRangeColor } from '../types';
+import { Badge, Box, CloseButton, ColorInput, Divider, Group, Stack, Table, Tooltip } from '@mantine/core';
+import { useMemo, useState } from 'react';
+import { ArrayPath, Controller, useFieldArray } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { getVisualMapPalettes } from '../utils';
+import { VisualMapPartialForm } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
 type Props = {
-  form: UseFormReturn<VisualMapPartialForm>;
-  name: 'visualMap.inRange.color';
+  value: string[];
+  onChange: (v: string[]) => void;
 };
 const palettes = getVisualMapPalettes();
 
-export const GrandientEditor = ({ form, name }: Props) => {
+export const GrandientEditor = ({ value, onChange }: Props) => {
   const { t } = useTranslation();
-  const { fields, append, remove, replace } = useFieldArray({
-    control: form.control,
-    name: name as ArrayPath<VisualMapPartialForm>,
-  });
-  const watchFieldArray = form.watch(name);
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      value: watchFieldArray[index],
-    };
-  });
+  const colors = useMemo(() => {
+    return value.map((value) => ({
+      id: uuidv4(),
+      value,
+    }));
+  }, [value]);
+
+  const append = (v: string) => {
+    onChange([...value, v]);
+  };
+  const remove = (index: number) => {
+    const newValue = [...value];
+    newValue.splice(index, 1);
+    onChange(newValue);
+  };
+  const replace = (colors: string[]) => {
+    onChange([...colors]);
+  };
+  const getChangeHandler = (index: number) => (v: string) => {
+    const newValue = [...value];
+    newValue[index] = v;
+    onChange(newValue);
+  };
 
   const [newColor, setNewColor] = useState('');
   const addNewColor = () => {
@@ -33,7 +45,7 @@ export const GrandientEditor = ({ form, name }: Props) => {
       setNewColor('');
     }
   };
-  const backgroundImage = `linear-gradient(to right,  ${watchFieldArray.join(', ')})`;
+  const backgroundImage = `linear-gradient(to right,  ${value.join(', ')})`;
   return (
     <Stack>
       <Divider label={t('chart.color.color_gradient')} labelPosition="left" variant="dashed" />
@@ -48,27 +60,23 @@ export const GrandientEditor = ({ form, name }: Props) => {
         />
         <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
           <tbody>
-            {controlledFields.map((f, index) => (
-              <tr key={f.id}>
+            {colors.map((c, index) => (
+              <tr key={c.id}>
                 <td style={{ width: '60px' }}>
                   <Badge>{index}</Badge>
                 </td>
                 <td>
-                  <Controller
-                    name={`${name}.${index}`}
-                    control={form.control}
-                    render={({ field }) => (
-                      <ColorInput
-                        styles={{
-                          root: {
-                            flexGrow: 1,
-                          },
-                        }}
-                        withinPortal
-                        dropdownZIndex={340}
-                        {...field}
-                      />
-                    )}
+                  <ColorInput
+                    styles={{
+                      root: {
+                        flexGrow: 1,
+                      },
+                    }}
+                    withinPortal
+                    dropdownZIndex={340}
+                    size="xs"
+                    value={c.value}
+                    onChange={getChangeHandler(index)}
                   />
                 </td>
                 <td style={{ width: '60px' }}>
@@ -86,6 +94,7 @@ export const GrandientEditor = ({ form, name }: Props) => {
                   value={newColor}
                   onChange={setNewColor}
                   onBlur={addNewColor}
+                  size="xs"
                 />
               </td>
               <td style={{ width: '60px' }} />
@@ -94,13 +103,13 @@ export const GrandientEditor = ({ form, name }: Props) => {
         </Table>
         <Stack>
           <Divider variant="dashed" label={t('chart.visual_map.built_in_palettes')} labelPosition="left" />
-          <Group px={70}>
+          <Group px={70} sx={{ rowGap: 8 }}>
             {Object.entries(palettes).map(([name, colors]) => (
               <Tooltip key={name} label={t('chart.visual_map.use_palette_x', { x: name })}>
                 <Box
                   style={{
                     height: '20px',
-                    width: '60px',
+                    width: '100px',
                     backgroundImage: `linear-gradient(to right,  ${colors.join(', ')})`,
                     borderRadius: 4,
                     boxShadow: '0 0 3px 0 #eee',

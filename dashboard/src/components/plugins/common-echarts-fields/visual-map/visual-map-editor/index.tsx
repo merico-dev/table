@@ -102,8 +102,12 @@ export const VisualMapEditor = ({ form }: Props) => {
           render={({ field }) => <TextInput label={t('chart.visual_map.max_text')} {...field} />}
         />
       </Group>
-
-      <GrandientEditor name="visualMap.inRange.color" form={form} />
+      <Controller
+        name="visualMap.inRange.color"
+        control={control}
+        render={({ field }) => <GrandientEditor {...field} />}
+      />
+      <SkipRangeEditor form={form} />
 
       {/* <pre>{JSON.stringify(visualMap, null, 2)}</pre> */}
     </Stack>
