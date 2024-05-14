@@ -53,7 +53,10 @@ server.setConfig((application: any) => {
   });
 
   application.get('/version', (req: express.Request, res: express.Response) => {
-    res.send(process.env.npm_package_version);
+    res.json({
+      "semver": process.env.npm_package_version,
+      "version": process.env.COMMIT || "",
+    });
   });
   application.use(
     swagger.express({
