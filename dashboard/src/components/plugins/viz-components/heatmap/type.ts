@@ -10,6 +10,7 @@ import {
   getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { getDefaultDepthVisualMap, VisualMap } from '../../common-echarts-fields/visual-map';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -32,8 +33,6 @@ export interface IHeatmapConf {
     };
   };
   heat_block: {
-    min: TNumberOrDynamic;
-    max: TNumberOrDynamic;
     name: string;
     data_key: TDataKey;
     value_formatter: TNumberFormat;
@@ -45,6 +44,7 @@ export interface IHeatmapConf {
   tooltip: {
     metrics: IEchartsTooltipMetric[];
   };
+  visualMap: VisualMap;
 }
 
 export const DEFAULT_CONFIG: IHeatmapConf = {
@@ -68,14 +68,6 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     },
   },
   heat_block: {
-    min: {
-      type: 'static',
-      value: 0,
-    },
-    max: {
-      type: 'static',
-      value: 100,
-    },
     name: 'Value',
     data_key: '',
     value_formatter: defaultNumberFormat,
@@ -87,4 +79,5 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   tooltip: {
     metrics: [],
   },
+  visualMap: getDefaultDepthVisualMap(),
 };

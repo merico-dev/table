@@ -589,6 +589,25 @@ export const zh = {
         inside_bottom_right: '内-下-右',
         outside: '外',
       },
+      visual_map: {
+        label: '视觉映射',
+        item_width: '长条的宽度',
+        item_height: '长条的高度',
+        calculable: '显示拖拽手柄',
+        min_value: '最小值',
+        max_value: '最大值',
+        min_text: '最小值文案',
+        max_text: '最大值文案',
+        use_palette_x: '使用配色方案"{{x}}"',
+        built_in_palettes: '内置配色方案',
+        skip_range: {
+          lt_min: '小于最小值时的颜色',
+          min: '最小值的颜色',
+          max: '最大值的颜色',
+          gt_max: '大于最大值时的颜色',
+          follow_visual_map: '颜色跟随渐变规则',
+        },
+      },
       number_or_dynamic_value: {
         type: {
           static: '具体值',
@@ -791,6 +810,8 @@ export const zh = {
         pick_a_theme_color: '选择一个主题色',
         background_color: '背景色',
         text_color: '文字颜色',
+        click_to_add_a_color: '点击增加一个颜色',
+        color_gradient: '颜色渐变',
       },
       behavior: {
         label: '表现',
@@ -799,8 +820,6 @@ export const zh = {
       heatmap: {
         heatblock: {
           label: '热力块',
-          min_value: '最小值',
-          max_value: '最大值',
           show_label: '展示值文案',
         },
       },

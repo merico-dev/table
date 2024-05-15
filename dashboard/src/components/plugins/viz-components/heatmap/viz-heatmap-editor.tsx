@@ -1,23 +1,28 @@
 import { Stack, Tabs } from '@mantine/core';
-import _, { defaultsDeep, isEqual } from 'lodash';
+import _, { defaults, isEqual } from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins/hooks';
 import { VizConfigProps } from '~/types/plugin';
+import { VisualMapEditor } from '../../common-echarts-fields/visual-map';
 import { VizConfigBanner } from '../../editor-components';
 import { HeatBlockField } from './editors/heat_block';
 import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { useTranslation } from 'react-i18next';
 
 export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
   const { value: confValue, set: setConf } = useStorageData<IHeatmapConf>(context.instanceData, 'config');
-  const { variables } = context;
-  const conf: IHeatmapConf = useMemo(() => defaultsDeep({}, confValue, DEFAULT_CONFIG), [confValue]);
+  const conf: IHeatmapConf = useMemo(() => {
+    if (!confValue) {
+      return DEFAULT_CONFIG;
+    }
+    return defaults({}, confValue);
+  }, [confValue]);
   const defaultValues: IHeatmapConf = useMemo(() => {
     return _.cloneDeep(conf);
   }, [conf]);
@@ -30,7 +35,8 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
     }
   }, [conf, defaultValues]);
 
-  const { control, handleSubmit, watch, getValues, reset } = useForm<IHeatmapConf>({ defaultValues });
+  const form = useForm<IHeatmapConf>({ defaultValues });
+  const { control, handleSubmit, watch, getValues, reset } = form;
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
@@ -66,6 +72,7 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="X Axis">{t('chart.x_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Y Axis">{t('chart.y_axis.label')}</Tabs.Tab>
             <Tabs.Tab value="Heat Block">{t('chart.heatmap.heatblock.label')}</Tabs.Tab>
+            <Tabs.Tab value="Visual Map">{t('chart.visual_map.label')}</Tabs.Tab>
             <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
           </Tabs.List>
 
@@ -79,6 +86,11 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Heat Block">
             <HeatBlockField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Visual Map">
+            {/* @ts-expect-error Types of property 'watch' are incompatible. */}
+            <VisualMapEditor form={form} />
           </Tabs.Panel>
 
           <Tabs.Panel value="Tooltip">

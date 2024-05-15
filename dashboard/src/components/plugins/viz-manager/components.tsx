@@ -6,7 +6,7 @@ import { IPanelInfo, IVizManager } from './types';
 
 function createCommonContext(
   instance: VizInstance,
-  data: $TSFixMe,
+  data: TPanelData,
   vizManager: IVizManager,
   variables: ITemplateVariable[],
 ): VizContext {
@@ -41,7 +41,7 @@ export type WidthAndHeight = { w: number; h: number };
 export type IViewComponentProps<TDebug = Record<string, unknown>> = {
   panel: IPanelInfo;
   measure: WidthAndHeight;
-  data: $TSFixMe;
+  data: TPanelData;
   vizManager: IVizManager;
   variables: ITemplateVariable[];
 } & TDebug;
@@ -60,7 +60,7 @@ export type IConfigComponentProps<TDebug = Record<string, unknown>> = {
   panel: IPanelInfo;
   vizManager: IVizManager;
   variables: ITemplateVariable[];
-  data: $TSFixMe;
+  data: TPanelData;
 } & TDebug;
 export const VizConfigComponent = <T,>(props: IConfigComponentProps<T>) => {
   const { vizManager, panel, data, variables } = props;

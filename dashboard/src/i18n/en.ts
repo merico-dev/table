@@ -589,6 +589,25 @@ export const en = {
         inside_bottom_right: 'Inside Bottom Right',
         outside: 'Outside',
       },
+      visual_map: {
+        label: 'Visual Map',
+        item_width: 'Bar Width',
+        item_height: 'Bar Height',
+        calculable: 'Show drag handle',
+        min_value: 'Min Value',
+        max_value: 'Max Value',
+        min_text: 'Min Text',
+        max_text: 'Max Text',
+        use_palette_x: 'Use palette "{{x}}"',
+        built_in_palettes: 'Built-in Palettes',
+        skip_range: {
+          lt_min: 'Color for smaller values than min value',
+          min: 'Color for min value',
+          max: 'Color for max value',
+          gt_max: 'Color for greater values than max value',
+          follow_visual_map: 'follow gradient rule',
+        },
+      },
       number_or_dynamic_value: {
         type: {
           static: 'Static',
@@ -791,6 +810,8 @@ export const en = {
         pick_a_theme_color: 'Pick a theme color',
         background_color: 'Background Color',
         text_color: 'Text Color',
+        click_to_add_a_color: 'Click to add a color',
+        color_gradient: 'Color Gradient',
       },
       behavior: {
         label: 'Behavior',
@@ -799,8 +820,6 @@ export const en = {
       heatmap: {
         heatblock: {
           label: 'Heat Block',
-          min_value: 'Min Value',
-          max_value: 'Max Value',
           show_label: 'Show Label',
         },
       },
