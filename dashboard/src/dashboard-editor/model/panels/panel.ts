@@ -19,6 +19,7 @@ export const PanelModel = PanelRenderModel.views((self) => ({
           label: k,
           value: `${query.id}.${k}`,
           group: query.name,
+          group_id: query.id,
           disabled: false,
         }));
       })
@@ -55,7 +56,7 @@ export const PanelModel = PanelRenderModel.views((self) => ({
   dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
     let options = [...this.realDataFieldOptions];
     if (queryID) {
-      options = options.filter((o) => o.group === queryID);
+      options = options.filter((o) => o.group_id === queryID);
     }
     if (selected && !options.find((o) => o.value === selected)) {
       const s = parseDataKey(selected);
@@ -64,12 +65,13 @@ export const PanelModel = PanelRenderModel.views((self) => ({
         label: s.columnKey,
         value: selected,
         group: q ? q.name : s.queryID,
+        group_id: q ? q.id : '',
         disabled: true,
       });
     }
 
     if (clearable) {
-      options.unshift({ label: 'unset', value: '', group: '', disabled: false });
+      options.unshift({ label: 'unset', value: '', group: '', group_id: '', disabled: false });
     }
     return options;
   },
