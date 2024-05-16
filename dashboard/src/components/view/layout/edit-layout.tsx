@@ -80,7 +80,7 @@ export const EditLayout = observer(({ view, className = 'layout' }: IEditLayout)
 
   const onDragStop: ItemCallback = (layouts, oldItem, newItem) => {
     console.log('🔴 onDragStop', { layouts, oldItem, newItem });
-    layoutsModel.updateCurrentLayoutItem(newItem);
+    layoutsModel.updateCurrentLayoutItems(layouts);
   };
 
   return (
