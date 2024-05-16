@@ -5,6 +5,7 @@ import { AnyObject } from '~/types';
 import { formatNumber } from '~/utils';
 import { ColumnAlignType, ITableCellContext, ValueType } from '../type';
 import { AlignmentToFlexJustify } from '../utils';
+import { functionUtils } from '~/utils';
 
 const useCellStyles = createStyles((theme, params: { clickable?: boolean; align: ColumnAlignType }) => ({
   content: {
@@ -77,12 +78,11 @@ function PercentageCell(props: ICellValue) {
 }
 
 function CustomCell(props: ICellValue) {
-  const value = props.value;
-  const func_content = props.func_content;
+  const { value, row_data, func_content } = props;
   if (!func_content) {
     return <CellRender {...props}>{value}</CellRender>;
   }
-  const v = new Function(`return ${func_content}`)()({ value });
+  const v = new Function(`return ${func_content}`)()({ value, row_data }, functionUtils);
   return <CellRender {...props}>{v}</CellRender>;
 }
 
@@ -92,6 +92,7 @@ interface ICellValue {
   tableCellContext: ITableCellContext;
   func_content?: string;
   align: ColumnAlignType;
+  row_data: AnyObject;
 }
 
 export function CellValue(props: ICellValue) {

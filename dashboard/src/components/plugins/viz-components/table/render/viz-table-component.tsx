@@ -62,9 +62,17 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     const valueCols = finalColumns.map((c) => {
       const k = parseDataKeyOrColumnKey(c.value_field);
       return columnHelper.accessor(k.columnKey, {
-        cell: (cell) => (
-          <CellValue tableCellContext={getCellContext(cell.cell)} value={cell.getValue()} type={c.value_type} {...c} />
-        ),
+        cell: (cell) => {
+          return (
+            <CellValue
+              tableCellContext={getCellContext(cell.cell)}
+              value={cell.getValue()}
+              type={c.value_type}
+              row_data={cell.row.original}
+              {...c}
+            />
+          );
+        },
         header: c.label,
         enableSorting: true,
         meta: c,

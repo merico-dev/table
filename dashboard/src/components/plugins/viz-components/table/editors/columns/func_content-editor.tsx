@@ -6,6 +6,7 @@ import { Recycle } from 'tabler-icons-react';
 import { DEFAULT_CELL_FUNC_CONTENT } from '../../type';
 import { useTranslation } from 'react-i18next';
 import { IconDeviceFloppy, IconMathFunction } from '@tabler/icons-react';
+import { AboutFunctionUtils } from '~/components/widgets/about-function-utils';
 
 interface IFuncContentEditor {
   value: string;
@@ -58,6 +59,9 @@ export const FuncContentEditor = forwardRef(({ value, onChange }: IFuncContentEd
       >
         {modalOpened && (
           <Stack>
+            <Group position="left">
+              <AboutFunctionUtils />
+            </Group>
             <Box sx={{ position: 'relative' }}>
               <Editor
                 height="500px"
