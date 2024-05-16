@@ -95,6 +95,11 @@ export const LayoutsModel = types
     updateCurrentLayoutItem(item: Layout) {
       self.currentLayoutSet.updateLayoutItem(item);
     },
+    updateCurrentLayoutItems(items: Layout[]) {
+      items.forEach((item) => {
+        self.currentLayoutSet.updateLayoutItem(item);
+      });
+    },
     append(item: LayoutSetMetaSnapshotIn) {
       self.list.push(item);
     },
