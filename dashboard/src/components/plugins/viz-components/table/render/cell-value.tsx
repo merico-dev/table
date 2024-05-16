@@ -5,6 +5,7 @@ import { AnyObject } from '~/types';
 import { formatNumber } from '~/utils';
 import { ColumnAlignType, ITableCellContext, ValueType } from '../type';
 import { AlignmentToFlexJustify } from '../utils';
+import { functionUtils } from '~/utils';
 
 const useCellStyles = createStyles((theme, params: { clickable?: boolean; align: ColumnAlignType }) => ({
   content: {
@@ -82,7 +83,7 @@ function CustomCell(props: ICellValue) {
   if (!func_content) {
     return <CellRender {...props}>{value}</CellRender>;
   }
-  const v = new Function(`return ${func_content}`)()({ value });
+  const v = new Function(`return ${func_content}`)()({ value }, functionUtils);
   return <CellRender {...props}>{v}</CellRender>;
 }
 
