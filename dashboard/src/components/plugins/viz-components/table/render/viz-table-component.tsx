@@ -29,27 +29,34 @@ type IVizTableComponent = {
 
 export function VizTableComponent({ queryData, width, height, conf, context, instance }: IVizTableComponent) {
   const { t } = useTranslation();
-  const { use_raw_columns, columns, ...rest } = conf;
+  const { use_raw_columns, ignored_column_keys, columns, ...rest } = conf;
 
   const { classes, cx } = useTableStyles();
 
   const finalColumns: IColumnConf[] = React.useMemo(() => {
-    if (use_raw_columns) {
-      if (!Array.isArray(queryData) || queryData.length === 0) {
-        return [];
-      }
-      return Object.keys(queryData[0]).map((k) => ({
-        id: k,
-        label: k,
-        value_field: k,
-        value_type: ValueType.string,
-        align: 'left',
-        width: '',
-        cellBackgroundColor: '',
-      }));
+    if (!use_raw_columns) {
+      return columns;
     }
-    return columns;
-  }, [use_raw_columns, columns, queryData]);
+
+    if (!Array.isArray(queryData) || queryData.length === 0) {
+      return [];
+    }
+
+    let keys = Object.keys(queryData[0]);
+    const ignoredKeys = new Set(ignored_column_keys.split(/\r?\n|\r|\n/g).filter((t) => !!t));
+    if (ignoredKeys.size > 0) {
+      keys = keys.filter((k) => !ignoredKeys.has(k));
+    }
+    return keys.map((k) => ({
+      id: k,
+      label: k,
+      value_field: k,
+      value_type: ValueType.string,
+      align: 'left',
+      width: '',
+      cellBackgroundColor: '',
+    }));
+  }, [use_raw_columns, ignored_column_keys, columns, queryData]);
 
   const getCellContext = useGetCellContext({
     getColIndex: useCallback((cell) => finalColumns.indexOf(cell.column.columnDef.meta as IColumnConf), [finalColumns]),

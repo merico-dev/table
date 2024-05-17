@@ -1,4 +1,4 @@
-import { Divider, Stack, Switch, Tabs, Text } from '@mantine/core';
+import { Divider, Stack, Switch, Tabs, Text, Textarea } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import { Control, Controller, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { Plus } from 'tabler-icons-react';
@@ -29,7 +29,7 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
     } as IColumnConf);
   };
 
-  watch('columns');
+  watch(['columns', 'ignored_column_keys']);
   const use_raw_columns = watch('use_raw_columns');
   return (
     <>
@@ -46,6 +46,22 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
           />
         )}
       />
+      {use_raw_columns && (
+        <Controller
+          name="ignored_column_keys"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              label={t('viz.table.column.ignore_columns_by_these_key')}
+              placeholder={t('viz.table.column.separate_by_line_break')}
+              autosize
+              minRows={2}
+              maxRows={10}
+              {...field}
+            />
+          )}
+        />
+      )}
       {!use_raw_columns && (
         <Stack>
           <Tabs
