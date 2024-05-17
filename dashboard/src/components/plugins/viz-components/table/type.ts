@@ -38,7 +38,9 @@ export interface ITableConf {
   highlightOnHover: boolean;
 }
 
-export const DEFAULT_CELL_FUNC_CONTENT = ['function text({ value }, utils) {', '    return value', '}'].join('\n');
+export const DEFAULT_CELL_FUNC_CONTENT = ['function text({ value, row_data }, utils) {', '    return value', '}'].join(
+  '\n',
+);
 
 export const DEFAULT_CONFIG: ITableConf = {
   columns: [],
