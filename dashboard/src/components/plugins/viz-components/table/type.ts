@@ -30,6 +30,7 @@ export interface IColumnConf {
 export interface ITableConf {
   query_id: string;
   use_raw_columns: boolean;
+  ignored_column_keys: string;
   columns: IColumnConf[];
   fontSize: string;
   horizontalSpacing: string;
@@ -50,6 +51,7 @@ export const DEFAULT_CONFIG: ITableConf = {
   query_id: '',
   striped: true,
   use_raw_columns: true,
+  ignored_column_keys: '',
   verticalSpacing: '14px',
 };
 
