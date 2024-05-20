@@ -43,7 +43,7 @@ export const StatusTable = () => {
           <th>@devtable/api</th>
           <td style={{ position: 'relative' }}>
             <LoadingOverlay visible={loading} />
-            {api_version}
+            {api_version?.semver}
           </td>
         </tr>
         <tr>
