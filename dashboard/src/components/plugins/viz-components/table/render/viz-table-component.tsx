@@ -43,7 +43,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     }
 
     let keys = Object.keys(queryData[0]);
-    const ignoredKeys = new Set(ignored_column_keys.split(/\r?\n|\r|\n/g).filter((t) => !!t));
+    const ignoredKeys = new Set(ignored_column_keys?.split(/\r?\n|\r|\n/g).filter((t) => !!t));
     if (ignoredKeys.size > 0) {
       keys = keys.filter((k) => !ignoredKeys.has(k));
     }
