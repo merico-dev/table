@@ -57,3 +57,11 @@ export function v6(prev: any): ITableConf {
     query_id: queryID ?? '',
   };
 }
+
+export function v7(prev: any): ITableConf {
+  const { ignored_column_keys, ...rest } = prev;
+  return {
+    ...rest,
+    ignored_column_keys: ignored_column_keys ?? '',
+  };
+}
