@@ -25,6 +25,5 @@ export function withEntry<T extends object>(displayName: string, Component: Reac
 
   Entry.displayName = `withEntry(${displayName})`;
 
-  console.log('entry');
   return Entry;
 }
