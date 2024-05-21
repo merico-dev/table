@@ -1718,7 +1718,6 @@ __metadata:
     tabler-icons-react: ^1.48.0
     typescript: ^4.6.3
     uuid: 9.0.1
-    vite-plugin-git-revision: ^0.1.9
     vite-plugin-static-copy: ^0.17.0
   peerDependencies:
     "@emotion/react": 11.10.6
@@ -19955,15 +19954,6 @@ __metadata:
     vite:
       optional: true
   checksum: a19b3be8bab1169ba67bd87bc6c998ec53cc9f676b3bffd7d8aedd44f95bcd399d0c39d01930bb62fd5228c6bc8117f6dcc8e1f139240c2221402ae05b13a3b7
-  languageName: node
-  linkType: hard
-
-"vite-plugin-git-revision@npm:^0.1.9":
-  version: 0.1.9
-  resolution: "vite-plugin-git-revision@npm:0.1.9"
-  peerDependencies:
-    vite: ">=2.0.0"
-  checksum: b30a08adc9df6c71f8cdd56aec92b98f60f6ee6c2a734e7f66dacee412947a36780ed377046a294e06d6c5a30989ba77c985d3c642ade2701e22550e3f00cb19
   languageName: node
   linkType: hard
 
