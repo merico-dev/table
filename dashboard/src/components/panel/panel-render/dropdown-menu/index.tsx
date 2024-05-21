@@ -9,7 +9,7 @@ import { EViewComponentType, ViewMetaInstance } from '~/model';
 import { doesVizRequiresData } from '../../utils';
 import { useTranslation } from 'react-i18next';
 
-export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
+export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInstance; title: string }) => {
   const { t } = useTranslation();
   const { panel, downloadPanelScreenshot } = useRenderPanelContext();
   const { id } = panel;
@@ -27,7 +27,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
   }
 
   return (
-    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }}>
+    <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }} title={title}>
       <Menu withinPortal>
         <Menu.Target>
           <Box className="panel-dropdown-target" />
