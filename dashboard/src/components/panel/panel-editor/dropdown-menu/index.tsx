@@ -10,7 +10,7 @@ import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
 
-export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance }) => {
+export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInstance; title: string }) => {
   const { t } = useTranslation();
   const model = useEditDashboardContext();
   const content = useEditContentModelContext();
@@ -44,7 +44,7 @@ export const PanelDropdownMenu = observer(({ view }: { view: ViewMetaInstance })
   const showFullScreenOption = !inFullScreen && view.type !== EViewComponentType.Modal;
   return (
     <>
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }}>
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 300 }} title={title}>
         <Menu withinPortal>
           <Menu.Target>
             <Box className="panel-dropdown-target" sx={{ width: '100%' }}></Box>
