@@ -1,10 +1,11 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { defineConfig } from 'vitest/config';
-import dts from 'vite-plugin-dts';
 import visualizer from 'rollup-plugin-visualizer';
+import dts from 'vite-plugin-dts';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 import { dependencies, peerDependencies } from './package.json';
+import { writeVersionFile } from './rollup-plugin-write-version-file';
 
 const GLOBAL_MODULE_IDS = {
   'crypto-js': 'CryptoJS',
@@ -86,7 +87,7 @@ export default defineConfig({
       fileName: (format) => `dashboard.${format}.js`,
     },
     rollupOptions: {
-      plugins: [visualizer({ emitFile: true })],
+      plugins: [visualizer({ emitFile: true }), writeVersionFile()],
       external: externals,
       output: {
         globals: (name) => {
