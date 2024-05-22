@@ -7,6 +7,7 @@ export enum ValueType {
   number = 'number',
   eloc = 'eloc',
   percentage = 'percentage',
+  url = 'url',
   custom = 'custom',
 }
 

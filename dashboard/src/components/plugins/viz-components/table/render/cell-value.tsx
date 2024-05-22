@@ -1,4 +1,4 @@
-import { createStyles, Text } from '@mantine/core';
+import { Anchor, createStyles, Text } from '@mantine/core';
 import chroma from 'chroma-js';
 import { PropsWithChildren } from 'react';
 import { AnyObject } from '~/types';
@@ -56,6 +56,23 @@ function StringCell(props: ICellValue) {
   return <CellRender {...props}>{props.value}</CellRender>;
 }
 
+function URLCell(props: ICellValue) {
+  const cellStyles = useCellStyles({ clickable: true, align: props.align });
+  const href = props.value as string;
+  return (
+    <div
+      className={cellStyles.classes.content}
+      style={{
+        ...getCellStyle(props),
+      }}
+    >
+      <Anchor className="table-cell-text" href={href} target="_blank">
+        {href}
+      </Anchor>
+    </div>
+  );
+}
+
 function ELOCCell(props: ICellValue) {
   const v = formatNumber(props.value, {
     output: 'number',
@@ -105,6 +122,8 @@ export function CellValue(props: ICellValue) {
       return <NumberCell {...props} />;
     case ValueType.percentage:
       return <PercentageCell {...props} />;
+    case ValueType.url:
+      return <URLCell {...props} />;
     case ValueType.custom:
       return <CustomCell {...props} />;
   }
