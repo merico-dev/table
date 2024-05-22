@@ -1,6 +1,6 @@
 {
   "name": "@devtable/dashboard",
-  "version": "13.7.0",
+  "version": "13.8.1",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public",
@@ -20,6 +20,10 @@
     "./dist/style.css": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
+    },
+    "./dist/version.json": {
+      "import": "./dist/version.json",
+      "require": "./dist/version.json"
     }
   },
   "scripts": {
