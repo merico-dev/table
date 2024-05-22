@@ -20,6 +20,10 @@
     "./dist/style.css": {
       "import": "./dist/style.css",
       "require": "./dist/style.css"
+    },
+    "./dist/version.json": {
+      "import": "./dist/version.json",
+      "require": "./dist/version.json"
     }
   },
   "scripts": {
