@@ -66,7 +66,7 @@ function URLCell(props: ICellValue) {
         ...getCellStyle(props),
       }}
     >
-      <Anchor className="table-cell-text" href={href} target="_blank">
+      <Anchor className="table-cell-text" href={href} target="_blank" color="black">
         {href}
       </Anchor>
     </div>
