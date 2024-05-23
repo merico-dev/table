@@ -24,6 +24,7 @@ export const ValueTypeSelector = forwardRef(
         data={options}
         value={value}
         onChange={onChange}
+        maxDropdownHeight={500}
         sx={sx}
       />
     );
