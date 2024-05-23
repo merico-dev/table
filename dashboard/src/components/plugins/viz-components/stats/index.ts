@@ -4,6 +4,7 @@ import { VizStatsMigrator } from './update';
 import { VizStats } from './viz-stats';
 import { VizStatsEditor } from './viz-stats-editor';
 import { translation } from './translation';
+import { ClickStats } from './triggers';
 
 export const StatsVizComponent: VizComponent = {
   createConfig() {
@@ -18,5 +19,6 @@ export const StatsVizComponent: VizComponent = {
   name: 'stats',
   viewRender: VizStats,
   configRender: VizStatsEditor,
+  triggers: [ClickStats],
   translation,
 };
