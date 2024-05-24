@@ -1,6 +1,6 @@
 import { Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import { useCreation, useRequest } from 'ahooks';
+import { useCreation, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { listDataSources, listGlobalSQLSnippets } from '~/api-caller';
@@ -90,6 +90,19 @@ const _ReadOnlyDashboard = ({
 
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
+
+  useWhyDidYouUpdate('@devtable/dashboard render', {
+    context,
+    dashboard,
+    content,
+    className,
+    config,
+    fullScreenPanelID,
+    setFullScreenPanelID,
+    filterValues,
+    onFilterValuesChange,
+    lang,
+  });
   return (
     <I18nextContextProvider lang={lang}>
       <ModalsProvider>
