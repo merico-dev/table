@@ -75,7 +75,7 @@ export const zh = {
           x_max_days: '最多可选{{max_days}}天',
           default_value: '默认日期范围（具体）',
           default_by_shortcut: '默认日期范围（快捷方式）',
-          defualt_by_shortcut_placeholder: '优先于左侧',
+          default_by_shortcut_placeholder: '优先于左侧',
           start_date: '开始日期',
           end_date: '结束日期',
           shortcut: {
