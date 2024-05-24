@@ -1,6 +1,6 @@
 import { AppShell, Box } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
-import { useCreation, useRequest } from 'ahooks';
+import { useCreation, useRequest, useWhyDidYouUpdate } from 'ahooks';
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { ForwardedRef, ReactNode, forwardRef } from 'react';
@@ -140,6 +140,21 @@ const _DashboardEditor = (
 
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
+
+  useWhyDidYouUpdate('@devtable/dashboard editor', {
+    context,
+    dashboard,
+    content,
+    update,
+    className,
+    config,
+    onChange,
+    headerSlot,
+    filterValues,
+    onFilterValuesChange,
+    onExit,
+    lang,
+  });
   return (
     <I18nextContextProvider lang={lang}>
       <ModalsProvider>
