@@ -68,22 +68,24 @@ export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<stri
   };
 }
 
+const getSkipRangeColorRet = (color: string) => ({ followVisualMap: !color, color });
+
 export function getSkipRangeColor(value: number, min: number, max: number, visualMap: VisualMap) {
   if (visualMap.type !== 'continuous') {
-    return { followVisualMap: true, color: '' };
+    return getSkipRangeColorRet('');
   }
   const { skipRange } = visualMap;
   if (value === min) {
-    return { followVisualMap: false, color: skipRange.min };
+    return getSkipRangeColorRet(skipRange.min);
   }
   if (value === max) {
-    return { followVisualMap: false, color: skipRange.max };
+    return getSkipRangeColorRet(skipRange.max);
   }
   if (value < min) {
-    return { followVisualMap: false, color: skipRange.lt_min };
+    return getSkipRangeColorRet(skipRange.lt_min);
   }
   if (value > max) {
-    return { followVisualMap: false, color: skipRange.gt_max };
+    return getSkipRangeColorRet(skipRange.gt_max);
   }
-  return { followVisualMap: true, color: '' };
+  return getSkipRangeColorRet('');
 }
