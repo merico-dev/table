@@ -12,9 +12,7 @@ export const DEFAULT_HTTP_REQ_PROCESSING = {
     "    return { method: 'POST', url: '/', params: {}, headers: {}, data: {} }",
     '}',
   ].join('\n'),
-  post: ['function process_result(res, utils, state) {', '    // your code goes here', '    return data', '}'].join(
-    '\n',
-  ),
+  post: ['function process_result(resp, utils, state) {', '    return resp.data', '}'].join('\n'),
 };
 
 export const TabPanel_HTTP = observer(({ queryModel }: { queryModel: QueryRenderModelInstance }) => {
