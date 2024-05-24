@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Group, TextInput } from '@mantine/core';
-import { IconDeviceFloppy } from '@tabler/icons-react';
+import { Box, Divider, Group, TextInput } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { DataSourceType, TDataSourceConfig_HTTP } from '../../../api-caller/datasource.typed';
+import { SubmitFormButton } from '../../../components';
 import { FunctionStringField } from '../../components/function-string-field';
 import { IStyles, defaultStyles } from '../../styles';
-import { SubmitFormButton } from '../../../components';
-import { useTranslation } from 'react-i18next';
 
 export const DEFAULT_HTTP_PROCESSING = {
   pre: [
@@ -14,7 +13,7 @@ export const DEFAULT_HTTP_PROCESSING = {
     '    return { method, url, params, headers, data }',
     '}',
   ].join('\n'),
-  post: ['function post_process(res, utils) {', '    // your code goes here', '    return data', '}'].join('\n'),
+  post: ['function post_process(resp, utils) {', '    return resp.data', '}'].join('\n'),
 };
 
 interface IFormValues {
