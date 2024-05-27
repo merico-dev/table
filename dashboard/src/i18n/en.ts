@@ -75,7 +75,7 @@ export const en = {
           x_max_days: '{{max_days}} days max',
           default_value: 'Default value',
           default_by_shortcut: 'Default by shortcut',
-          defualt_by_shortcut_placeholder: 'Priors default value',
+          default_by_shortcut_placeholder: 'Priors default value',
           start_date: 'Start date',
           end_date: 'End date',
           shortcut: {
