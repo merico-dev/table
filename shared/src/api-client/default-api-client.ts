@@ -47,6 +47,9 @@ export class DefaultApiClient implements IAPIClient {
           return res.data;
         })
         .catch((err: Error) => {
+          if (axios.isCancel(err)) {
+            return Promise.reject(err);
+          }
           const msg = _.get(err, 'response.data.detail.message', err.message);
           return Promise.reject(new Error(msg));
         }) as Promise<T>;
