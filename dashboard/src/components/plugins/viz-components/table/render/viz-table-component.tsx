@@ -1,4 +1,4 @@
-import { Box, Table, TableProps, Text } from '@mantine/core';
+import { ActionIcon, Box, Table, TableProps, Text } from '@mantine/core';
 import {
   SortingState,
   createColumnHelper,
@@ -17,6 +17,7 @@ import { IColumnConf, ITableConf, ValueType } from '../type';
 import { CellValue } from './cell-value';
 import { TableBody } from './table-body';
 import { useGetCellContext } from './use-get-cell-context';
+import { IconArrowBarToRight } from '@tabler/icons-react';
 
 type IVizTableComponent = {
   queryData: TQueryData;
@@ -97,6 +98,7 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
     },
     onSortingChange: setSorting,
     columns: tableColumns,
+    columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
@@ -130,6 +132,13 @@ export function VizTableComponent({ queryData, width, height, conf, context, ins
                 return (
                   <th key={header.id} style={{ width: header.getSize() }}>
                     <HeadCell header={header} cx={cx} />
+                    <ActionIcon
+                      onMouseDown={header.getResizeHandler()}
+                      onTouchStart={header.getResizeHandler()}
+                      className={`resizer ${header.column.getIsResizing() ? 'isResizing' : ''}`}
+                    >
+                      <IconArrowBarToRight />
+                    </ActionIcon>
                   </th>
                 );
               })}

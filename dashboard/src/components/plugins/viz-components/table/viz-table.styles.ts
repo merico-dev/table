@@ -40,10 +40,17 @@ export const useTableStyles = createStyles((theme) => ({
 
 export const baseTableSX: Sx = {
   tableLayout: 'fixed',
+  width: 'fit-content',
+  minWidth: '100%',
   'thead, tbody': {
     tr: {
+      width: 'fit-content',
+      th: {
+        position: 'relative',
+      },
       'th, td': {
         padding: '2px 10px',
+        // wordBreak: 'break-word',
         div: {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -54,6 +61,32 @@ export const baseTableSX: Sx = {
           paddingRight: 2,
         },
       },
+    },
+  },
+  '.resizer': {
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    cursor: 'col-resize',
+    userSelect: 'none',
+    touchAction: 'none',
+  },
+
+  '.resizer.isResizing': {
+    color: '#228be6',
+    opacity: '1',
+    transform: 'translateY(-50%)',
+    backgroundColor: 'rgb(248, 249, 250)',
+  },
+  '@media (hover: hover)': {
+    '.resizer': {
+      opacity: '0',
+    },
+
+    '*:hover > .resizer': {
+      color: '#228be6',
+      opacity: '1',
     },
   },
 };
