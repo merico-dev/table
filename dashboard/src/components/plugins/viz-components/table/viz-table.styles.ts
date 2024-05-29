@@ -77,6 +77,7 @@ export const baseTableSX: Sx = {
     color: '#228be6',
     opacity: '1',
     transform: 'translateY(-50%)',
+    backgroundColor: 'rgb(248, 249, 250)',
   },
   '@media (hover: hover)': {
     '.resizer': {

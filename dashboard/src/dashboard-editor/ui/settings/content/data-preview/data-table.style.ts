@@ -28,6 +28,7 @@ export const TableStyle: Sx = {
   '.resizer.isResizing': {
     color: '#228be6',
     opacity: '1',
+    backgroundColor: 'rgb(248, 249, 250)',
   },
 
   '@media (hover: hover)': {
