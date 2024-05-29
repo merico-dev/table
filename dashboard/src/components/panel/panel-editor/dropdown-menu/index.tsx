@@ -9,6 +9,7 @@ import { useEditContentModelContext, useEditDashboardContext } from '~/contexts'
 import { DashboardActionContext } from '~/contexts/dashboard-action-context';
 import { useEditPanelContext } from '~/contexts/panel-context';
 import { EViewComponentType, ViewMetaInstance } from '~/model';
+import { QueryMenuItems } from './query-menu-items';
 
 export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInstance; title: string }) => {
   const { t } = useTranslation();
@@ -67,6 +68,8 @@ export const PanelDropdownMenu = observer(({ view, title }: { view: ViewMetaInst
                 {t('common.actions.enter_fullscreen')}
               </Menu.Item>
             )}
+
+            <QueryMenuItems />
 
             <Divider label={t('common.actions.edit')} labelPosition="center" />
             <Menu.Item onClick={openPanelEditor} icon={<Settings size={14} />}>
