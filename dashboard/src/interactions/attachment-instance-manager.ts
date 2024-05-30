@@ -1,7 +1,20 @@
+import _ from 'lodash';
 import { values } from 'lodash';
 import { SubTreeJsonPluginStorage } from '~/components/plugins/sub-tree-json-plugin-storage';
 import { PluginStorage, VizInstance } from '~/types/plugin';
+import { ClearFilterValues } from './operation/operations/clear-filter-values';
+import { SetFilterValues } from './operation/operations/set-filter-values';
+import { OpenLink } from './operation/operations/open-link';
+import { OpenView } from './operation/operations/open-view';
+import { ConsoleLog } from './operation/operations/console-log';
 
+const TempOperationOrders = {
+  [ConsoleLog.id]: 1,
+  [ClearFilterValues.id]: 2,
+  [SetFilterValues.id]: 3,
+  [OpenView.id]: 4,
+  [OpenLink.id]: 5,
+};
 export class AttachmentInstanceManager<T extends { id: string }> {
   protected attachmentStorage: PluginStorage;
 
@@ -32,8 +45,12 @@ export class AttachmentInstanceManager<T extends { id: string }> {
 
   async list(): Promise<T[]> {
     const instanceList = await this.attachmentStorage.getItem(null);
+    const orderedInstanceList = _.orderBy(
+      values(instanceList),
+      (instance) => TempOperationOrders[instance.schemaRef] ?? 10,
+    );
     return Promise.all(
-      values(instanceList).map((instance) =>
+      orderedInstanceList.map((instance) =>
         this.constructInstance(new SubTreeJsonPluginStorage(this.attachmentStorage, instance.id)),
       ),
     );

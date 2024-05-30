@@ -78,14 +78,12 @@ export class InteractionManager implements IVizInteractionManager {
   async runInteraction(triggerId: string, payload: Record<string, unknown>): Promise<void> {
     const interactionList = await this.getInteractionList();
     const affectedInteractions = interactionList.filter((i) => i.triggerRef === triggerId);
-    await Promise.all(
-      affectedInteractions.map(async (it) => {
-        try {
-          return await this.operationManager.runOperation(it.operationRef, payload);
-        } catch (e) {
-          console.warn(`Failed to run operation '${it.operationRef}'`, e);
-        }
-      }),
-    );
+    for (let it of affectedInteractions) {
+      try {
+        await this.operationManager.runOperation(it.operationRef, payload);
+      } catch (e) {
+        console.warn(`Failed to run operation '${it.operationRef}'`, e);
+      }
+    }
   }
 }
