@@ -88,6 +88,12 @@ export const FiltersRenderModel = types
         [key]: value,
       };
     },
+    applyValuesPatch(values: Record<string, any>) {
+      self.values = {
+        ...self.values,
+        ...values,
+      };
+    },
     getValueByKey(key: string) {
       return self.values[key];
     },

@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
+import { useEffect } from 'react';
 import { ContentRenderModelInstance } from '~/dashboard-render/model';
+import { AnyObject, ContentModelInstance } from '..';
 
 function logEvent(e: any) {
   console.groupCollapsed('Running operation ', e.type);
@@ -41,10 +41,13 @@ export function useInteractionOperationHacks(
         console.error(new Error('[Set Filter Values] payload is empty'));
         return;
       }
+      const patch: Record<string, any> = {};
       Object.entries(dictionary).forEach(([filterKey, payloadKey]) => {
         // @ts-expect-error type of payload
-        model.filters.setValueByKey(filterKey, _.get(payload, payloadKey));
+        const newValue = _.get(payload, payloadKey);
+        patch[filterKey] = newValue;
       });
+      model.filters.applyValuesPatch(patch);
     };
     window.addEventListener('set-filter-values', handler);
 
@@ -74,13 +77,14 @@ export function useInteractionOperationHacks(
     }
     const handler = (e: $TSFixMe) => {
       logEvent(e);
+      const patch: Record<string, any> = {};
       const { filter_keys } = e.detail as { filter_keys: string[] };
       filter_keys.forEach((k) => {
         const currentValue = _.get(model.filters.values, k);
         const newValue = getEmptyValueByType(currentValue);
-        console.log(`${k}: ${newValue}`);
-        model.filters.setValueByKey(k, newValue);
+        patch[k] = newValue;
       });
+      model.filters.applyValuesPatch(patch);
     };
     window.addEventListener('clear-filter-values', handler);
 
