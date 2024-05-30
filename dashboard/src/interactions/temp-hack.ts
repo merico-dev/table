@@ -3,13 +3,20 @@ import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
 import { ContentRenderModelInstance } from '~/dashboard-render/model';
 
+function logEvent(e: any) {
+  console.groupCollapsed('Running operation ', e.type);
+  console.log(e);
+  console.groupEnd();
+}
+
 export function useInteractionOperationHacks(
   model: ContentModelInstance | ContentRenderModelInstance,
   inEditMode: boolean,
 ) {
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
+
       const { viewID } = e.detail;
       if (!viewID) {
         console.error(new Error('[Open View] Needs to pick a view first'));
@@ -28,7 +35,7 @@ export function useInteractionOperationHacks(
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
       const { dictionary, payload } = e.detail;
       if (!payload || Object.keys(payload).length === 0) {
         console.error(new Error('[Set Filter Values] payload is empty'));
@@ -66,7 +73,7 @@ export function useInteractionOperationHacks(
       return v;
     }
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
       const { filter_keys } = e.detail as { filter_keys: string[] };
       filter_keys.forEach((k) => {
         const currentValue = _.get(model.filters.values, k);
@@ -84,7 +91,7 @@ export function useInteractionOperationHacks(
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
       const { urlTemplate, openInNewTab, enableEncoding = false, payload } = e.detail;
       if (!urlTemplate) {
         console.error(new Error('[Open Link] URL is empty'));
