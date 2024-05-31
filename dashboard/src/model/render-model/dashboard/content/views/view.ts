@@ -1,11 +1,12 @@
 import { reaction } from 'mobx';
 import { saveAs } from 'file-saver';
 import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { EViewComponentType, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
+import { EViewComponentType, TabModelInstance, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
 // @ts-expect-error dom-to-image-more's declaration file
 import domtoimage from 'dom-to-image-more';
 import JSZip from 'jszip';
 import { notifications } from '@mantine/notifications';
+import _ from 'lodash';
 
 export const ViewRenderModel = types
   .compose(
@@ -23,7 +24,8 @@ export const ViewRenderModel = types
 
       const config = self.config as ViewTabsConfigInstance;
       if (config.tabs.length > 0) {
-        return config.tabs[0].id;
+        const firstTab = _.minBy(config.tabs, (tab) => tab.order) as TabModelInstance;
+        return firstTab.id;
       }
 
       return '';
