@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
-import { AnyObject, ContentModelInstance } from '..';
 import _, { cloneDeepWith, template } from 'lodash';
+import { useEffect } from 'react';
 import { ContentRenderModelInstance } from '~/dashboard-render/model';
+import { AnyObject, ContentModelInstance } from '..';
+
+function logEvent(e: any) {
+  console.groupCollapsed('Running operation ', e.type);
+  console.log(e);
+  console.groupEnd();
+}
 
 export function useInteractionOperationHacks(
   model: ContentModelInstance | ContentRenderModelInstance,
@@ -9,7 +15,8 @@ export function useInteractionOperationHacks(
 ) {
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
+
       const { viewID } = e.detail;
       if (!viewID) {
         console.error(new Error('[Open View] Needs to pick a view first'));
@@ -28,16 +35,19 @@ export function useInteractionOperationHacks(
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
       const { dictionary, payload } = e.detail;
       if (!payload || Object.keys(payload).length === 0) {
         console.error(new Error('[Set Filter Values] payload is empty'));
         return;
       }
+      const patch: Record<string, any> = {};
       Object.entries(dictionary).forEach(([filterKey, payloadKey]) => {
         // @ts-expect-error type of payload
-        model.filters.setValueByKey(filterKey, _.get(payload, payloadKey));
+        const newValue = _.get(payload, payloadKey);
+        patch[filterKey] = newValue;
       });
+      model.filters.applyValuesPatch(patch);
     };
     window.addEventListener('set-filter-values', handler);
 
@@ -66,14 +76,15 @@ export function useInteractionOperationHacks(
       return v;
     }
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
+      const patch: Record<string, any> = {};
       const { filter_keys } = e.detail as { filter_keys: string[] };
       filter_keys.forEach((k) => {
         const currentValue = _.get(model.filters.values, k);
         const newValue = getEmptyValueByType(currentValue);
-        console.log(`${k}: ${newValue}`);
-        model.filters.setValueByKey(k, newValue);
+        patch[k] = newValue;
       });
+      model.filters.applyValuesPatch(patch);
     };
     window.addEventListener('clear-filter-values', handler);
 
@@ -84,7 +95,7 @@ export function useInteractionOperationHacks(
 
   useEffect(() => {
     const handler = (e: $TSFixMe) => {
-      console.log(e);
+      logEvent(e);
       const { urlTemplate, openInNewTab, enableEncoding = false, payload } = e.detail;
       if (!urlTemplate) {
         console.error(new Error('[Open Link] URL is empty'));
