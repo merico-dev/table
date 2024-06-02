@@ -98,7 +98,7 @@ export const FilterTreeSelectConfigMeta = types
       return this.plainData.filter((d: any) => set.has(d.value));
     },
     initialSelection(value: string[] | null) {
-      if (!value || value.length === 0) {
+      if (!value) {
         return this.valueObjects(this.defaultSelection);
       }
       return this.valueObjects(value);
