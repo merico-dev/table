@@ -62,7 +62,7 @@ describe('color-mapping-editor.cy.ts', () => {
     cy.get('.palette-item').should('have.length', 13);
     // change the middle color
     cy.get('.palette-item').eq(6).click();
-    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').type('200');
+    cy.findByLabelText('style.color.interpolation.palette.mapping.value_input_label').type('200');
     cy.findByText('common.actions.save').click();
     cy.get('.palette-value--up').eq(6).should('have.text', '200');
     cy.get('@onChangeSpy').should('have.been.calledWith', [
@@ -75,7 +75,7 @@ describe('color-mapping-editor.cy.ts', () => {
     ]);
     // change the last color
     cy.get('.palette-item').last().click();
-    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().type('10000');
+    cy.findByLabelText('style.color.interpolation.palette.mapping.value_input_label').clear().type('10000');
     cy.findByText('common.actions.save').click();
     cy.get('.palette-value--up').last().should('have.text', '10k');
     cy.get('@onChangeSpy').should('be.calledWith', [
@@ -88,15 +88,15 @@ describe('color-mapping-editor.cy.ts', () => {
     ]);
     // cancel editing
     cy.get('.palette-item').eq(6).click();
-    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().clear().type('100');
-    cy.findByText('common.actions.cancel').click();
+    cy.findByLabelText('style.color.interpolation.palette.mapping.value_input_label').clear().clear().type('100');
+    cy.findByTestId(/palette-item-cancel/gi).click();
     cy.get('.palette-value--up').eq(6).should('have.text', '200');
   });
 
   test('long value text', () => {
     cy.wait(10);
     cy.get('.palette-item').eq(2).click();
-    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').clear().type('10000000000');
+    cy.findByLabelText('style.color.interpolation.palette.mapping.value_input_label').clear().type('10000000000');
     cy.findByText('common.actions.save').click();
     cy.get('.palette-value--bottom').eq(2).invoke('outerWidth').should('be.eq', 36);
   });
