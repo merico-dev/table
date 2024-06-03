@@ -157,6 +157,7 @@ function PaletteItem(props: {
         <Popover.Dropdown>
           <Tooltip withinPortal zIndex={340} label={t('common.actions.close')}>
             <CloseButton
+              data-testid="palette-item-cancel"
               size="sm"
               color="gray"
               onClick={handleCancel}

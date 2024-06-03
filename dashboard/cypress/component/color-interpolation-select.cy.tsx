@@ -98,7 +98,7 @@ describe('color-interpolation-select.cy.tsx', () => {
     cy.findByTestId(/palette-item-6/)
       .findByTestId('palette-item-target')
       .click();
-    cy.findByLabelText('style.color.interpolation.mapping.value_input_label').type('40');
+    cy.findByLabelText('style.color.interpolation.palette.mapping.value_input_label').type('40');
     cy.findByTestId(/palette-item-ok/gi).click();
 
     // commit changes
