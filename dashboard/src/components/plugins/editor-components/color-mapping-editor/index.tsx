@@ -1,15 +1,15 @@
-import { Button, Group, NumberInput, Popover, Stack, Text } from '@mantine/core';
+import { Button, CloseButton, Group, Popover, Stack, Text, TextInput, Tooltip } from '@mantine/core';
+import { IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { useBoolean, useCreation } from 'ahooks';
 import chroma from 'chroma-js';
 import { range } from 'lodash';
 import { makeAutoObservable, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { CSSProperties, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { IColorInterpolation, IValueStep } from '~/types/plugin';
 import { formatNumber } from '~/utils';
 import { useStyles } from './style';
-import { useTranslation } from 'react-i18next';
-import { IconDeviceFloppy } from '@tabler/icons-react';
 
 const DEFAULT_STEPS: IValueStep[] = [
   { from: 0, to: 0 },
@@ -73,7 +73,7 @@ class ColorMappingEditorModel {
     this.onChange = props.onChange;
   }
 
-  changeStep(fromVal: number | undefined, toVal: number) {
+  changeStep(fromVal: number | undefined | null, toVal: number) {
     if (fromVal == null) {
       this.steps.delete(toVal);
     } else {
@@ -86,25 +86,48 @@ class ColorMappingEditorModel {
   }
 }
 
-function PaletteItem(props: { index: number; color: string; value?: number; onChange?: (val?: number) => void }) {
+function getPaletteItemValueState(value?: number | null) {
+  if (typeof value === 'number') {
+    return String(value);
+  }
+  return undefined;
+}
+
+function PaletteItem(props: {
+  index: number;
+  color: string;
+  value?: number | null;
+  onChange?: (val?: number | null) => void;
+}) {
   const { t } = useTranslation();
   const { onChange, color, index, value } = props;
   const { classes } = useStyles();
-  const [state, setState] = useState(value);
+  const [state, setState] = useState(getPaletteItemValueState(value));
   const [popoverOpened, { setTrue: openPopover, setFalse: closePopover }] = useBoolean(false);
   const isOdd = index % 2 === 1;
   const showUpLabel = isOdd && value != null;
   const showBottomLabel = !isOdd && value != null;
   const textTitle = `map ${value} to color ${index}`;
   const handleCancel = () => {
-    setState(value);
+    setState(getPaletteItemValueState(value));
     closePopover();
   };
   const handleOk = () => {
     closePopover();
-    onChange?.(state);
+    onChange?.(Number(state));
   };
-  const valueText = formatNumber(value ?? null, { output: 'number', mantissa: 0, average: true, absolute: false });
+  const handleRemove = () => {
+    closePopover();
+    onChange?.(null);
+  };
+  const valueText = formatNumber(value ?? null, {
+    output: 'number',
+    mantissa: 10,
+    trimMantissa: true,
+    average: true,
+    absolute: false,
+  });
+  const invalid = !state || Number.isNaN(Number(state));
 
   return (
     <div data-testid={`palette-item-${index}`} className={classes.paletteItem}>
@@ -117,7 +140,7 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
       >
         {valueText}
       </Text>
-      <Popover width={200} trapFocus opened={popoverOpened} onClose={closePopover} zIndex={340} withinPortal>
+      <Popover width={240} trapFocus opened={popoverOpened} onClose={closePopover} zIndex={340} withinPortal>
         <Popover.Target>
           <div
             data-testid={`palette-item-target`}
@@ -132,25 +155,41 @@ function PaletteItem(props: { index: number; color: string; value?: number; onCh
           />
         </Popover.Target>
         <Popover.Dropdown>
-          <Stack>
-            <NumberInput
-              size="xs"
-              label={t('style.color.interpolation.mapping.value_input_label')}
-              value={state}
-              onChange={(v: number | '') => {
-                typeof v === 'number' && setState(v);
+          <Tooltip withinPortal zIndex={340} label={t('common.actions.close')}>
+            <CloseButton
+              size="sm"
+              color="gray"
+              onClick={handleCancel}
+              style={{
+                position: 'absolute',
+                top: '0.5em',
+                right: '0.8em',
               }}
             />
-            <Group position="right">
-              <Button variant="subtle" size="xs" onClick={handleCancel}>
-                {t('common.actions.cancel')}
+          </Tooltip>
+          <Stack>
+            <TextInput
+              size="xs"
+              label={t('style.color.interpolation.palette.mapping.value_input_label')}
+              value={state}
+              onChange={(e) => {
+                const v = e.currentTarget.value;
+                setState(v);
+              }}
+              error={state && invalid}
+            />
+            <Group position="apart">
+              <Button variant="light" color="red" size="xs" onClick={handleRemove} leftIcon={<IconTrash size={16} />}>
+                {t('common.actions.delete')}
               </Button>
+
               <Button
                 color="green"
                 leftIcon={<IconDeviceFloppy size={16} />}
                 data-testid="palette-item-ok"
                 size="xs"
                 onClick={handleOk}
+                disabled={invalid}
               >
                 {t('common.actions.save')}
               </Button>
