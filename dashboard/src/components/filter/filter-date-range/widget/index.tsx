@@ -41,10 +41,13 @@ export const DateRangeWidget = ({
 
   return (
     <Popover opened={opened} onClose={close} position="bottom-start" shadow="md">
-      <Group position="left" grow noWrap spacing={0} w="18em" sx={{ marginTop: '3px' }}>
+      <Group position="left" grow noWrap spacing={0} w="288px" sx={{ marginTop: '3px' }}>
         <Popover.Target>
           <TextInput
             label={label}
+            labelProps={{
+              title: label,
+            }}
             required={required}
             icon={<IconCalendar size={16} />}
             placeholder={t('filter.widget.date_range.start_date')}
@@ -53,6 +56,14 @@ export const DateRangeWidget = ({
             onFocus={open}
             styles={getInputStyles(opened)}
             sx={{
+              '.mantine-TextInput-label': {
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                width: 'calc(240px)',
+                position: 'relative',
+                zIndex: 1,
+              },
               '.mantine-Input-input': { borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 },
             }}
           />
