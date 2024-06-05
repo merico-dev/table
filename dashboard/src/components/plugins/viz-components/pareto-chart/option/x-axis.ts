@@ -9,6 +9,7 @@ export function getXAxis(conf: IParetoChartConf) {
   return [
     defaultEchartsOptions.getXAxis({
       type: 'category',
+      id: 'main-x-axis',
       name: name,
       nameLocation: 'middle',
       nameGap: 30,

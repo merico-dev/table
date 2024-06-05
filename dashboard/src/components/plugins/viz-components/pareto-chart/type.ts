@@ -10,6 +10,7 @@ import {
   getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
+import { ICartesianReferenceLine } from '../cartesian/type';
 
 export const DEFAULT_PARETO_MARK_LINE = {
   label_template: '${percentage.x} of ${x_axis.name} causes ${percentage.y} of ${bar.name}',
@@ -43,6 +44,7 @@ export interface IParetoChartConf {
     label_template: string;
     color: string;
   };
+  reference_lines: ICartesianReferenceLine[];
 }
 
 export const DEFAULT_CONFIG: IParetoChartConf = {
@@ -69,4 +71,5 @@ export const DEFAULT_CONFIG: IParetoChartConf = {
   },
   dataZoom: DEFAULT_DATA_ZOOM_CONFIG,
   markLine: DEFAULT_PARETO_MARK_LINE,
+  reference_lines: [],
 };
