@@ -29,13 +29,17 @@ function _AggregationSelector(
     }
   }, [value, onChange]);
 
+  // FIXME: refactor when type errors resolve
   const changeType = (type: AggregationType['type']) => {
-    if (type === 'quantile') {
-      onChange({ type: 'quantile', config: { p: 0.99 }, fallback: value.fallback });
-    } else if (type === 'custom') {
-      onChange({ type: 'custom', config: { func: DefaultCustomAggregationFunc }, fallback: value.fallback });
-    } else {
-      onChange({ type, config: {}, fallback: value.fallback });
+    switch (type) {
+      case 'quantile':
+        return onChange({ type: 'quantile', config: { p: 0.99 }, fallback: value.fallback });
+      case 'custom':
+        return onChange({ type: 'custom', config: { func: DefaultCustomAggregationFunc }, fallback: value.fallback });
+      case 'pick_record':
+        return onChange({ type: 'pick_record', config: { method: 'first' }, fallback: value.fallback });
+      default:
+        return onChange({ type, config: {}, fallback: value.fallback });
     }
   };
 
@@ -58,6 +62,16 @@ function _AggregationSelector(
       fallback: value.fallback,
     });
   };
+
+  const changePickRecordMethod = (method: 'first' | 'last') => {
+    onChange({
+      type: 'pick_record',
+      config: {
+        method,
+      },
+      fallback: value.fallback,
+    });
+  };
   const changeFallback = (e: ChangeEvent<HTMLInputElement>) => {
     onChange({
       ...value,
@@ -76,6 +90,7 @@ function _AggregationSelector(
       { label: t('aggregation.option.cov'), value: 'CV' },
       { label: t('aggregation.option.std'), value: 'std' },
       { label: t('aggregation.option.quantile.label_with_hint'), value: 'quantile' },
+      { label: t('aggregation.option.pick_record.label'), value: 'pick_record' },
       { label: t('aggregation.option.custom.label'), value: 'custom' },
     ],
     [i18n.language],
@@ -101,6 +116,17 @@ function _AggregationSelector(
             min={0.05}
             step={0.05}
             max={1}
+          />
+        )}
+        {value.type === 'pick_record' && (
+          <Select
+            label={t('aggregation.option.pick_record.method.label')}
+            value={value.config.method}
+            onChange={changePickRecordMethod}
+            data={[
+              { label: t('aggregation.option.pick_record.method.first'), value: 'first' },
+              { label: t('aggregation.option.pick_record.method.last'), value: 'last' },
+            ]}
           />
         )}
         {value.type === 'custom' && (

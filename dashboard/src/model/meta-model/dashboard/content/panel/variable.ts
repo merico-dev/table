@@ -36,6 +36,11 @@ export const VariableMeta = types
         fallback: types.optional(types.string, '0'),
       }),
       types.model({
+        type: types.literal('pick_record'),
+        config: types.model({ method: types.enumeration('Pick Record Method', ['first', 'last']) }),
+        fallback: types.optional(types.string, '0'),
+      }),
+      types.model({
         type: types.literal('custom'),
         config: types.model({ func: types.string }),
         fallback: types.optional(types.string, '0'),

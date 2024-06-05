@@ -554,6 +554,14 @@ export const en = {
           label_trigger: 'Edit Function',
           title: 'Custom Aggregation',
         },
+        pick_record: {
+          label: 'Pick Record',
+          method: {
+            label: 'Record',
+            first: 'First Record',
+            last: 'Last Record',
+          },
+        },
       },
     },
     chart: {
