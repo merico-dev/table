@@ -14,10 +14,12 @@ import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IParetoChartConf } from './type';
 import { useTranslation } from 'react-i18next';
+import { ReferenceLinesField } from './editors/reference-lines';
 
 export function VizParetoChartEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
   const { value: conf, set: setConf } = useStorageData<IParetoChartConf>(context.instanceData, 'config');
+  const { variables } = context;
   const defaultValues = useMemo(() => defaults({}, conf, DEFAULT_CONFIG), [conf]);
 
   const { control, handleSubmit, watch, getValues, reset } = useForm<IParetoChartConf>({ defaultValues });
@@ -55,6 +57,7 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
           <Tabs.Tab value="Bar">{t('chart.series.bar.label')}</Tabs.Tab>
           <Tabs.Tab value="Line">{t('chart.series.line.label')}</Tabs.Tab>
           <Tabs.Tab value="80-20 Line">{t('viz.pareto_chart.line_80_20.label')}</Tabs.Tab>
+          <Tabs.Tab value="Reference Lines">{t('chart.reference_line.labels')}</Tabs.Tab>
           <Tabs.Tab value="Zooming">{t('chart.zooming.label')}</Tabs.Tab>
         </Tabs.List>
 
@@ -76,6 +79,10 @@ export function VizParetoChartEditor({ context }: VizConfigProps) {
 
         <Tabs.Panel value="80-20 Line">
           <MarkLineField control={control} watch={watch} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="Reference Lines">
+          <ReferenceLinesField variables={variables} control={control} watch={watch} />
         </Tabs.Panel>
 
         <Tabs.Panel value="Zooming">

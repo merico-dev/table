@@ -6,8 +6,11 @@ import { getTooltip } from './tooltip';
 import { getFormatters } from './utils';
 import { getXAxis } from './x-axis';
 import { getYAxes } from './y-axes';
+import { getReferenceLines } from './reference_lines';
+import { getVariableValueMap } from '../../cartesian/option/utils/variables';
 
-export function getOption(conf: IParetoChartConf, data: TPanelData, _variables: ITemplateVariable[]) {
+export function getOption(conf: IParetoChartConf, data: TPanelData, variables: ITemplateVariable[]) {
+  const variableValueMap = getVariableValueMap(data, variables);
   const formatters = getFormatters(conf);
 
   const option = {
@@ -15,7 +18,10 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, _variables: 
     tooltip: getTooltip(conf, formatters),
     xAxis: getXAxis(conf),
     yAxis: getYAxes(conf, formatters),
-    series: getSeries(conf, data, formatters),
+    series: [
+      ...getSeries(conf, data, formatters),
+      ...getReferenceLines(conf.reference_lines, variables, variableValueMap, data),
+    ],
     grid: {
       top: 50,
       left: 30,
@@ -24,5 +30,6 @@ export function getOption(conf: IParetoChartConf, data: TPanelData, _variables: 
       containLabel: true,
     },
   };
+  console.log(option);
   return option;
 }
