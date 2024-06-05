@@ -554,6 +554,14 @@ export const zh = {
           label_trigger: '编写函数',
           title: '自定义聚合方式',
         },
+        pick_record: {
+          label: '直接选择数据',
+          method: {
+            label: '数据记录',
+            first: '第一条',
+            last: '最后一条',
+          },
+        },
       },
     },
     chart: {

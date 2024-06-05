@@ -11,6 +11,13 @@ export type TCustomAggregation = {
   };
   fallback: string;
 };
+export type TPickRecordAggregation = {
+  type: 'pick_record';
+  config: {
+    method: 'first' | 'last';
+  };
+  fallback: string;
+};
 export type TSimpleAggregation = {
   type: 'none' | 'sum' | 'mean' | 'median' | 'max' | 'min' | 'CV' | 'std';
   config: Record<string, never>;
@@ -30,7 +37,7 @@ export const DefaultCustomAggregationFunc = [
   '}',
 ].join('\n');
 
-export type AggregationType = TSimpleAggregation | TQuantileAggregation | TCustomAggregation;
+export type AggregationType = TSimpleAggregation | TQuantileAggregation | TPickRecordAggregation | TCustomAggregation;
 
 export const DefaultAggregation: AggregationType = {
   type: 'none',
@@ -104,11 +111,24 @@ function runCustomAggregation(data: TPanelData, data_field: string, aggregation:
     return (error as any).message;
   }
 }
+function pickRecord(data: TPanelData, data_field: string, aggregation: TPickRecordAggregation) {
+  try {
+    const queryData = extractData(data, data_field);
+    const { method } = aggregation.config;
+    return _[method](queryData);
+  } catch (error) {
+    console.error(error);
+    return aggregation.fallback;
+  }
+}
 
 export function aggregateValue(data: TPanelData, data_field: string, aggregation: AggregationType) {
   try {
     if (aggregation.type === 'custom') {
       return runCustomAggregation(data, data_field, aggregation);
+    }
+    if (aggregation.type === 'pick_record') {
+      return pickRecord(data, data_field, aggregation);
     }
     return formatNumbersAndAggregateValue(extractData(data, data_field), aggregation);
   } catch (error) {
