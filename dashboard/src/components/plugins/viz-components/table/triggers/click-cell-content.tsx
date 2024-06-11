@@ -1,10 +1,10 @@
-import { Select, SelectItem, Text } from '@mantine/core';
+import { Alert, Mark, Select, SelectItem, Stack, Text, TextInput } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons-react';
 import { defaults, isNumber } from 'lodash';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useStorageData } from '~/components/plugins';
 import { ITableConf } from '~/components/plugins/viz-components/table/type';
 import { ITriggerConfigProps, ITriggerSchema, VizInstance } from '~/types/plugin';
-import { extractFullQueryData } from '~/utils';
 
 export const ClickCellContent: ITriggerSchema = {
   id: 'builtin:table:click-cell-content',
@@ -71,9 +71,16 @@ function useColumnsFromConfig(instance: VizInstance, panelData?: TPanelData) {
   return ret;
 }
 
+function useRawColumnsEnabled(instance: VizInstance) {
+  const { value: config } = useStorageData<ITableConf>(instance.instanceData, 'config');
+  return config?.use_raw_columns ?? false;
+}
+
 export function ClickCellContentSettings(props: ITriggerConfigProps) {
   const { t } = useTranslation();
   const { columnsFromConfig, columnsFromData } = useColumnsFromConfig(props.instance, props.sampleData);
+  const rawColumnsEnabled = useRawColumnsEnabled(props.instance);
+
   const columns = columnsFromConfig.length > 0 ? columnsFromConfig : columnsFromData;
   const { value: config, set: setConfig } = useStorageData<IClickCellContentConfig>(
     props.trigger.triggerData,
@@ -87,6 +94,25 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
       void setConfig({ column: col });
     }
   };
+
+  if (rawColumnsEnabled) {
+    return (
+      <Stack>
+        <Alert icon={<IconAlertCircle size="1rem" />} color="gray">
+          <Trans i18nKey="viz.table.click_cell.why_column_data_field">
+            Option <Mark>Use original data columns</Mark> is enabled, you have to address trigger column by its data
+            field
+          </Trans>
+        </Alert>
+        <TextInput
+          label={t('viz.table.click_cell.column_data_field')}
+          value={column.toString()}
+          onChange={(e) => handleFieldChange(e.currentTarget.value)}
+        />
+      </Stack>
+    );
+  }
+
   return (
     <Select
       clearable={false}
@@ -98,12 +124,21 @@ export function ClickCellContentSettings(props: ITriggerConfigProps) {
   );
 }
 
-function generateTriggerName(config: IClickCellContentConfig | undefined, columnsFromConfig: SelectItem[]) {
+function generateTriggerName(
+  config: IClickCellContentConfig | undefined,
+  columnsFromConfig: SelectItem[],
+  rawColumnsEnabled: boolean,
+) {
   const { t } = useTranslation();
   if (!config) {
     return t('viz.table.click_cell.click_cell_content');
   }
+
   if (isNumber(config.column)) {
+    if (rawColumnsEnabled) {
+      return t('viz.table.click_cell.click_cell_of_x_th', { x: config.column + 1 });
+    }
+
     return t('viz.table.click_cell.click_cell_of_x', { x: columnsFromConfig[config.column].label });
   }
   return t('viz.table.click_cell.click_cell_of_x', { x: config.column });
@@ -112,5 +147,6 @@ function generateTriggerName(config: IClickCellContentConfig | undefined, column
 function ClickCellContentName(props: Omit<ITriggerConfigProps, 'sampleData'>) {
   const { columnsFromConfig } = useColumnsFromConfig(props.instance);
   const { value: config } = useStorageData<IClickCellContentConfig>(props.trigger.triggerData, 'config');
-  return <Text>{generateTriggerName(config, columnsFromConfig)}</Text>;
+  const rawColumnsEnabled = useRawColumnsEnabled(props.instance);
+  return <Text>{generateTriggerName(config, columnsFromConfig, rawColumnsEnabled)}</Text>;
 }
