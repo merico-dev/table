@@ -36,7 +36,11 @@ const en = {
       label: 'Click cell content',
       click_cell_content: 'Click cell content (click to config)',
       click_cell_of_x: 'Click cell of {{ x }}',
+      click_cell_of_x_th: 'Click cell by column order {{ x }}',
       choose_a_column: 'Choose a column',
+      why_column_data_field:
+        'Option <1>Use original data columns</1> is enabled, you have to address trigger column by its data field',
+      column_data_field: 'Column data field',
     },
   },
 };
@@ -77,7 +81,10 @@ const zh = {
       label: '点击单元格',
       click_cell_content: '点击单元格内容',
       click_cell_of_x: '点击 {{ x }} 列单元格',
+      click_cell_of_x_th: '点击第 {{ x }} 列单元格',
       choose_a_column: '选择列',
+      why_column_data_field: '选项 <1>使用数据本身的列</1> 已开启，只能通过填写数据字段来指定触发动作的列',
+      column_data_field: '列的数据字段',
     },
   },
 };
