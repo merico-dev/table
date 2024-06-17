@@ -9,7 +9,7 @@ import { ServiceLocatorProvider } from '~/components/plugins/service/service-loc
 import { DashboardViewRender } from '~/components/view';
 import { DashboardThemeContextProvider, FullScreenPanelContext } from '~/contexts';
 import { useInteractionOperationHacks } from '~/interactions/temp-hack';
-import { ContextRecordType } from '~/model';
+import { ContextRecordType, TabInfo } from '~/model';
 import { registerThemes } from '~/styles/register-themes';
 import { IDashboardConfig } from '..';
 import { configureAPIClient } from '../api-caller/request';
@@ -40,6 +40,8 @@ interface IReadOnlyDashboard {
   setFullScreenPanelID: (v: string) => void;
   filterValues?: Record<string, any>;
   onFilterValuesChange?: (filterValues: Record<string, any>) => void;
+  activeTab?: TabInfo | null;
+  onActiveTabChange?: (tab: TabInfo | null) => void;
   lang: string;
 }
 
@@ -53,6 +55,8 @@ const _ReadOnlyDashboard = ({
   setFullScreenPanelID,
   filterValues,
   onFilterValuesChange,
+  activeTab,
+  onActiveTabChange,
   lang,
 }: IReadOnlyDashboard) => {
   configureAPIClient(config);
@@ -61,8 +65,17 @@ const _ReadOnlyDashboard = ({
   const { data: globalSQLSnippets = [] } = useRequest(listGlobalSQLSnippets);
 
   const model = React.useMemo(
-    () => createDashboardRenderModel(dashboard, content, datasources, globalSQLSnippets, context, filterValues ?? {}),
-    [dashboard, content],
+    () =>
+      createDashboardRenderModel(
+        dashboard,
+        content,
+        datasources,
+        globalSQLSnippets,
+        context,
+        filterValues ?? {},
+        activeTab ?? null,
+      ),
+    [dashboard, content, activeTab],
   );
   useInteractionOperationHacks(model.content, false);
 
@@ -88,6 +101,16 @@ const _ReadOnlyDashboard = ({
     }
   }, [filterValues, model.content.filters.patchValues]);
 
+  React.useEffect(() => {
+    onActiveTabChange?.(model.content.views.firstVisibleTabsViewActiveTab);
+  }, [onActiveTabChange, model.content.views.firstVisibleTabsViewActiveTab]);
+
+  React.useEffect(() => {
+    if (activeTab) {
+      model.content.views.setFirstVisibleTabsViewActiveTab(activeTab);
+    }
+  }, [activeTab, model.content.views.setFirstVisibleTabsViewActiveTab]);
+
   const pluginContext = useCreation(createPluginContext, []);
   const configureServices = useTopLevelServices(pluginContext);
 
@@ -101,6 +124,8 @@ const _ReadOnlyDashboard = ({
     setFullScreenPanelID,
     filterValues,
     onFilterValuesChange,
+    activeTab,
+    onActiveTabChange,
     lang,
   });
   return (
