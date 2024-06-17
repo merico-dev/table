@@ -20,6 +20,7 @@ import {
   SQLSnippetsRenderModel,
   TPayloadForSQL,
   TPayloadForViz,
+  TabInfo,
   ViewsRenderModel,
   formatSQLSnippet,
   getInitialFiltersConfig,
@@ -173,6 +174,7 @@ export function createContentRenderModel(
   { id, name, dashboard_id, create_time, update_time, content }: DashboardContentDBType,
   context: ContextRecordType,
   filterValues: Record<string, any>,
+  activeTab: TabInfo | null,
 ) {
   if (!content) {
     throw new Error('unexpected null content when creating a content model');
@@ -197,7 +199,7 @@ export function createContentRenderModel(
     queries: getInitialQueriesRenderModel(queries),
     sqlSnippets: getInitialSQLSnippetsRenderModel(sqlSnippets),
     mock_context: getInitialMockContextMeta(mock_context),
-    views: getInitialViewsRenderModel(views),
+    views: getInitialViewsRenderModel(views, activeTab),
     panels: {
       list: panels,
     },
