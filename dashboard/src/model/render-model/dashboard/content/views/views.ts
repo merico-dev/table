@@ -1,7 +1,7 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { IDashboardView } from '~/types';
 
-import { ViewMetaInstance, ViewRenderModel } from '~/model';
+import { EViewComponentType, TabInfo, ViewMetaInstance, ViewRenderModel } from '~/model';
 import { shallowToJS } from '~/utils';
 
 export const ViewsRenderModel = types
@@ -32,6 +32,16 @@ export const ViewsRenderModel = types
       const idSet = new Set(self.visibleViewIDs);
       return self.current.filter(({ id }) => idSet.has(id));
     },
+    get firstVisibleTabsView() {
+      return this.visibleViews.find((v) => v.type === EViewComponentType.Tabs);
+    },
+    get firstVisibleTabsViewActiveTab() {
+      const view = this.firstVisibleTabsView;
+      if (!view) {
+        return null;
+      }
+      return view.tabInfo;
+    },
   }))
   .actions((self) => ({
     appendToVisibles(viewID: string) {
@@ -47,16 +57,29 @@ export const ViewsRenderModel = types
       }
       self.visibleViewIDs.splice(index, 1);
     },
+    setFirstVisibleTabsViewActiveTab(tabInfo: TabInfo | null) {
+      if (!tabInfo) {
+        return;
+      }
+      const view = self.firstVisibleTabsView;
+      if (view) {
+        view.setTabByTabInfo(tabInfo);
+      }
+    },
   }));
 
 export type ViewsRenderModelInstance = Instance<typeof ViewsRenderModel>;
 
-export function getInitialViewsRenderModel(views: IDashboardView[]): SnapshotIn<Instance<typeof ViewsRenderModel>> {
+export function getInitialViewsRenderModel(
+  views: IDashboardView[],
+  activeTab: TabInfo | null,
+): SnapshotIn<Instance<typeof ViewsRenderModel>> {
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const processedViews = views.map((view) => {
     const { _name = view.type } = view.config;
     return {
       ...view,
+      tab: '',
       config: {
         ...view.config,
         _name,
@@ -64,6 +87,9 @@ export function getInitialViewsRenderModel(views: IDashboardView[]): SnapshotIn<
       panelIDs: view.panelIDs,
     };
   });
+  if (activeTab) {
+    processedViews[0].tab = activeTab.id;
+  }
   return {
     current: processedViews,
     visibleViewIDs,

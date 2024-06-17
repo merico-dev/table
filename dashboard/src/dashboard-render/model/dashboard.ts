@@ -7,6 +7,7 @@ import {
   ContextRecordType,
   DataSourcesMetaModel,
   GlobalSQLSnippetsMeta,
+  TabInfo,
   createContextMeta,
 } from '~/model';
 import { DashboardContentDBType, IDashboard } from '~/types';
@@ -30,13 +31,14 @@ export function createDashboardRenderModel(
   globalSQLSnippets: GlobalSQLSnippetDBType[],
   context: ContextRecordType,
   filterValues: Record<string, any>,
+  activeTab: TabInfo | null,
 ) {
   return DashboardRenderModel.create({
     id,
     name,
     group,
     content_id,
-    content: createContentRenderModel(content, context, filterValues),
+    content: createContentRenderModel(content, context, filterValues, activeTab),
     datasources: {
       list: datasources,
     },

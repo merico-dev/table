@@ -1,7 +1,7 @@
 import { reaction } from 'mobx';
 import { saveAs } from 'file-saver';
 import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { EViewComponentType, TabModelInstance, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
+import { EViewComponentType, TabInfo, TabModelInstance, ViewMeta, ViewTabsConfigInstance } from '~/model/meta-model';
 // @ts-expect-error dom-to-image-more's declaration file
 import domtoimage from 'dom-to-image-more';
 import JSZip from 'jszip';
@@ -30,13 +30,33 @@ export const ViewRenderModel = types
 
       return '';
     },
-    get tabViewID() {
+    get tabs() {
+      const config = self.config as ViewTabsConfigInstance;
+      return config.tabs;
+    },
+    get tabInfo() {
+      const tab = this.tabs.find((t) => t.id === self.tab);
+      if (!tab) {
+        return null;
+      }
+      return {
+        id: tab.id,
+        name: tab.name,
+      };
+    },
+    get tabView() {
       if (self.type !== EViewComponentType.Tabs) {
+        return null;
+      }
+
+      return this.tabs.find((t) => t.id === self.tab);
+    },
+    get tabViewID() {
+      if (!this.tabView) {
         return '';
       }
 
-      const config = self.config as ViewTabsConfigInstance;
-      return config.tabs.find((t) => t.id === self.tab)?.view_id ?? '';
+      return this.tabView.view_id ?? '';
     },
     get contentModel() {
       // FIXME: type
@@ -91,6 +111,12 @@ export const ViewRenderModel = types
   .actions((self) => ({
     setTab(tab: string | null) {
       self.tab = tab ?? '';
+    },
+    setTabByTabInfo(tabInfo: TabInfo) {
+      const tab = self.tabs.find((t) => t.id === tabInfo.id);
+      if (tab) {
+        self.tab = tab.id;
+      }
     },
     afterCreate() {
       addDisposer(

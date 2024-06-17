@@ -4,6 +4,8 @@ import { cast, Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { EViewComponentType } from '../types';
 import _ from 'lodash';
 
+export type TabInfo = { id: string; name: string };
+
 const TabModel = types
   .model('ViewTabsTabModel', {
     id: types.identifier,
