@@ -51,20 +51,23 @@ export function getVisualMapPalettes() {
 }
 
 export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<string, string | number>) {
-  const min = getNumberOrDynamicValue(visualMap.min, variableValueMap);
-  const max = getNumberOrDynamicValue(visualMap.max, variableValueMap);
+  const { min, max, text } = visualMap;
+  const minValue = getNumberOrDynamicValue(min, variableValueMap);
+  const maxValue = getNumberOrDynamicValue(max, variableValueMap);
   if (visualMap.type === 'continuous') {
     const { skipRange, ...rest } = visualMap;
     return {
       ...rest,
-      min,
-      max,
+      min: minValue,
+      max: maxValue,
+      text: [...text],
     };
   }
   return {
     ...visualMap,
-    min,
-    max,
+    min: minValue,
+    max: maxValue,
+    text: [...text],
   };
 }
 
