@@ -28,7 +28,7 @@ export const VisualMapEditor = ({ form }: Props) => {
 
   return (
     <Stack>
-      {/* <PreviewVisualMap visualMap={visualMap} /> */}
+      <PreviewVisualMap visualMap={visualMap} />
       <Group grow>
         <Controller
           name="visualMap.orient"
