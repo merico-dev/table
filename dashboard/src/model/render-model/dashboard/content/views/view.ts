@@ -17,19 +17,6 @@ export const ViewRenderModel = types
     }),
   )
   .views((self) => ({
-    get defaultTab() {
-      if (self.type !== EViewComponentType.Tabs) {
-        return '';
-      }
-
-      const config = self.config as ViewTabsConfigInstance;
-      if (config.tabs.length > 0) {
-        const firstTab = _.minBy(config.tabs, (tab) => tab.order) as TabModelInstance;
-        return firstTab.id;
-      }
-
-      return '';
-    },
     get tabs() {
       const config = self.config as ViewTabsConfigInstance;
       return config.tabs;
@@ -113,23 +100,7 @@ export const ViewRenderModel = types
       self.tab = tab ?? '';
     },
     setTabByTabInfo(tabInfo: TabInfo) {
-      const tab = self.tabs.find((t) => t.id === tabInfo.id);
-      if (tab) {
-        self.tab = tab.id;
-      }
-    },
-    afterCreate() {
-      addDisposer(
-        self,
-        reaction(
-          () => self.defaultTab,
-          (t) => this.setTab(t),
-          {
-            fireImmediately: true,
-            delay: 0,
-          },
-        ),
-      );
+      self.tab = tabInfo.id ?? '';
     },
   }));
 
