@@ -1,7 +1,7 @@
 import { Checkbox, Group, NumberInput, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { OrientationSelector } from '../../orientation';
-import { GrandientEditor } from './gradient-editor';
+import { GradientEditor } from './gradient-editor';
 import { PreviewVisualMap } from './preview-visual-map';
 import { VisualMapPartialForm } from './types';
 import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
@@ -126,7 +126,7 @@ export const VisualMapEditor = ({ form }: Props) => {
       <Controller
         name="visualMap.inRange.color"
         control={control}
-        render={({ field }) => <GrandientEditor {...field} />}
+        render={({ field }) => <GradientEditor {...field} />}
       />
       <SkipRangeEditor form={form} />
 

@@ -9,7 +9,7 @@ type Props = {
   onChange: (v: string[]) => void;
 };
 
-export const GrandientEditor = ({ value, onChange }: Props) => {
+export const GradientEditor = ({ value, onChange }: Props) => {
   const { t } = useTranslation();
   const colors = useMemo(() => {
     return value.map((value) => ({
