@@ -1,5 +1,5 @@
 import { Badge, CloseButton, ColorInput, Stack, Table } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { Ref, forwardRef, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { PreviewGradientAndApplyPalette } from './preview-gradient-and-apply-palette';
@@ -9,7 +9,7 @@ type Props = {
   onChange: (v: string[]) => void;
 };
 
-export const GradientEditor = ({ value, onChange }: Props) => {
+export const GradientEditor = forwardRef(({ value, onChange }: Props, ref: Ref<HTMLDivElement>) => {
   const { t } = useTranslation();
   const colors = useMemo(() => {
     return value.map((value) => ({
@@ -44,7 +44,7 @@ export const GradientEditor = ({ value, onChange }: Props) => {
   };
 
   return (
-    <Stack>
+    <Stack ref={ref}>
       <PreviewGradientAndApplyPalette colors={value} applyPalette={replace} />
       <Table withBorder={false} withColumnBorders={false} sx={{ td: { borderTop: 'none !important' } }}>
         <tbody>
@@ -91,4 +91,4 @@ export const GradientEditor = ({ value, onChange }: Props) => {
       </Table>
     </Stack>
   );
-};
+});
