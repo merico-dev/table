@@ -599,6 +599,11 @@ export const zh = {
       },
       visual_map: {
         label: '视觉映射',
+        type: {
+          label: '视觉映射类型',
+          continuous: '连续型',
+          piecewise: '分段型',
+        },
         item_width: '长条的宽度',
         item_height: '长条的高度',
         calculable: '显示拖拽手柄',

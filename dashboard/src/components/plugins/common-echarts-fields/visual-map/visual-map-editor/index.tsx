@@ -7,6 +7,8 @@ import { VisualMapPartialForm } from './types';
 import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
 import { useTranslation } from 'react-i18next';
 import { SkipRangeEditor } from './skip-range-editor';
+import { useMemo } from 'react';
+import { VisualMapType } from '../types';
 
 type Props = {
   // TODO: solve problem at form={form} -> Types of property 'watch' are incompatible.
@@ -14,10 +16,10 @@ type Props = {
 };
 
 export const VisualMapEditor = ({ form }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const control = form.control;
   const visualMap = form.watch('visualMap');
-  const { orient } = visualMap;
+  const { type, orient } = visualMap;
   const isHorizontal = orient === 'horizontal';
   const getNumberChanger = (handleChange: (n: number) => void) => (v: number | '') => {
     if (v === '') {
@@ -26,9 +28,31 @@ export const VisualMapEditor = ({ form }: Props) => {
     handleChange(v);
   };
 
+  const visualMapTypeOptions = useMemo(() => {
+    return [
+      {
+        label: t('chart.visual_map.type.continuous'),
+        value: 'continuous',
+      },
+      { label: t('chart.visual_map.type.piecewise'), value: 'piecewise' },
+    ];
+  }, [i18n.language]);
+
   return (
     <Stack>
       <PreviewVisualMap visualMap={visualMap} />
+      <Controller
+        name="visualMap.type"
+        control={control}
+        render={({ field }) => (
+          <SegmentedControl
+            data={visualMapTypeOptions}
+            sx={{ flex: 1 }}
+            {...field}
+            onChange={(v: VisualMapType) => field.onChange(v)}
+          />
+        )}
+      />
       <Group grow>
         <Controller
           name="visualMap.orient"

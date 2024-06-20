@@ -599,6 +599,11 @@ export const en = {
       },
       visual_map: {
         label: 'Visual Map',
+        type: {
+          label: 'Type',
+          continuous: 'Continuous',
+          piecewise: 'Piecewise',
+        },
         item_width: 'Bar Width',
         item_height: 'Bar Height',
         calculable: 'Show drag handle',
