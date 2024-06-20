@@ -1,8 +1,9 @@
 import { Instance, SnapshotIn, types } from 'mobx-state-tree';
 import { IDashboardView } from '~/types';
 
-import { EViewComponentType, TabInfo, ViewMetaInstance, ViewRenderModel } from '~/model';
+import { EViewComponentType, TabInfo, TabModelInstance, ViewMetaInstance, ViewRenderModel } from '~/model';
 import { shallowToJS } from '~/utils';
+import _ from 'lodash';
 
 export const ViewsRenderModel = types
   .model('ViewsRenderModel', {
@@ -62,9 +63,7 @@ export const ViewsRenderModel = types
         return;
       }
       const view = self.firstVisibleTabsView;
-      if (view) {
-        view.setTabByTabInfo(tabInfo);
-      }
+      view?.setTabByTabInfo(tabInfo);
     },
   }));
 
@@ -77,7 +76,7 @@ export function getInitialViewsRenderModel(
   const visibleViewIDs = views.length > 0 ? [views[0].id] : [];
   const processedViews = views.map((view) => {
     const { _name = view.type } = view.config;
-    return {
+    const processedView = {
       ...view,
       tab: '',
       config: {
@@ -86,6 +85,13 @@ export function getInitialViewsRenderModel(
       },
       panelIDs: view.panelIDs,
     };
+
+    if (view.type === EViewComponentType.Tabs) {
+      const tab = _.minBy(view.config.tabs, (tab: TabModelInstance) => tab.order);
+      processedView.tab = tab?.id ?? '';
+    }
+
+    return processedView;
   });
   if (activeTab) {
     processedViews[0].tab = activeTab.id;
