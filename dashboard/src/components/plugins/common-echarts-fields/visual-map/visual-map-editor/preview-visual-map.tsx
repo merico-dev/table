@@ -14,15 +14,12 @@ export const PreviewVisualMap = ({ visualMap }: { visualMap: VisualMap }) => {
 
   const visualMapOption = getVisualMap(visualMap, panel.variableValueMap);
   return (
-    <Stack spacing={0}>
-      <ReactEChartsCore
-        echarts={echarts}
-        option={{ visualMap: visualMapOption }}
-        style={{ width: '100%', height: `${renderHeight + 40}px` }}
-        notMerge
-        theme="merico-light"
-      />
-      <Divider variant="dotted" />
-    </Stack>
+    <ReactEChartsCore
+      echarts={echarts}
+      option={{ visualMap: visualMapOption }}
+      style={{ width: '100%', height: `${renderHeight + 40}px` }}
+      notMerge
+      theme="merico-light"
+    />
   );
 };

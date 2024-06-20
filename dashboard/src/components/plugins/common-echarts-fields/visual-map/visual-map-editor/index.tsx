@@ -1,14 +1,12 @@
-import { Checkbox, Group, NumberInput, SegmentedControl, Stack, Text, TextInput } from '@mantine/core';
+import { Divider, Group, NumberInput, SegmentedControl, Stack, TextInput } from '@mantine/core';
+import { useMemo } from 'react';
 import { Controller, UseFormReturn } from 'react-hook-form';
-import { OrientationSelector } from '../../orientation';
-import { GradientEditor } from './gradient-editor';
+import { useTranslation } from 'react-i18next';
+import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
+import { VisualMapType } from '../types';
+import { ContinuousVisualMapEditor } from './continuous';
 import { PreviewVisualMap } from './preview-visual-map';
 import { VisualMapPartialForm } from './types';
-import { NumberOrDynamicValue } from '../../number-or-dynamic-value';
-import { useTranslation } from 'react-i18next';
-import { SkipRangeEditor } from './skip-range-editor';
-import { useMemo } from 'react';
-import { VisualMapType } from '../types';
 
 type Props = {
   // TODO: solve problem at form={form} -> Types of property 'watch' are incompatible.
@@ -46,6 +44,7 @@ export const VisualMapEditor = ({ form }: Props) => {
         control={control}
         render={({ field }) => (
           <SegmentedControl
+            mt={-10}
             data={visualMapTypeOptions}
             sx={{ flex: 1 }}
             {...field}
@@ -53,25 +52,6 @@ export const VisualMapEditor = ({ form }: Props) => {
           />
         )}
       />
-      <Group grow>
-        <Controller
-          name="visualMap.orient"
-          control={control}
-          render={({ field }) => <OrientationSelector sx={{ flex: 1 }} {...field} />}
-        />
-        <Controller
-          name="visualMap.calculable"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              label={t('chart.visual_map.calculable')}
-              checked={field.value}
-              onChange={(event) => field.onChange(event.currentTarget.checked)}
-              styles={{ root: { transform: 'translateY(12px)' } }}
-            />
-          )}
-        />
-      </Group>
       <Group
         grow
         styles={{
@@ -127,32 +107,8 @@ export const VisualMapEditor = ({ form }: Props) => {
           render={({ field }) => <TextInput label={t('chart.visual_map.max_text')} {...field} />}
         />
       </Group>
-      {/* <Stack spacing={0}>
-        <Text
-          style={{
-            display: 'inline-block',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: '#212529',
-            wordBreak: 'break-word',
-            cursor: 'default',
-          }}
-        >
-          Visual Map Type
-        </Text>
-        <SegmentedControl
-          data={[
-            { label: 'Continuous', value: 'continuous' },
-            { label: 'Piecewise', value: 'piecewise', disabled: true },
-          ]}
-        />
-      </Stack> */}
-      <Controller
-        name="visualMap.inRange.color"
-        control={control}
-        render={({ field }) => <GradientEditor {...field} />}
-      />
-      <SkipRangeEditor form={form} />
+      <Divider variant="dashed" />
+      <ContinuousVisualMapEditor form={form} />
 
       {/* <pre>{JSON.stringify(visualMap, null, 2)}</pre> */}
     </Stack>
