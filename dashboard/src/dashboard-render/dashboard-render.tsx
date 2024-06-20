@@ -93,7 +93,7 @@ const _ReadOnlyDashboard = ({
 
   React.useEffect(() => {
     onFilterValuesChange?.(model.content.filters.values);
-  }, [onFilterValuesChange, model.content.filters.values]);
+  }, [onFilterValuesChange, model.content.filters.valuesString]);
 
   React.useEffect(() => {
     if (filterValues) {

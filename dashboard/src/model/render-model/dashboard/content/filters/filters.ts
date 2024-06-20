@@ -13,6 +13,9 @@ export const FiltersRenderModel = types
     get json() {
       return self.current.map((f) => f.json);
     },
+    get valuesString() {
+      return JSON.stringify(self.values);
+    },
     get contentModel(): any {
       // @ts-expect-error typeof getRoot
       return getRoot(self).content;
