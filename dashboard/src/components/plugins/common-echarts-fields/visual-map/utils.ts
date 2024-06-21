@@ -34,6 +34,31 @@ export function getDefaultContinuousVisualMap(color?: string[]): ContinuousVisua
   };
 }
 
+export function getDefaultPiecewiseVisualMap(): PiecewiseVisualMap {
+  return {
+    type: 'piecewise',
+    piecewise_mode: 'pieces',
+    id: 'piecewise-visualmap',
+    min: {
+      type: 'static',
+      value: 0,
+    },
+    max: {
+      type: 'static',
+      value: 100,
+    },
+    align: 'auto',
+    orient: 'horizontal',
+    left: 'center',
+    top: 'top',
+    text: ['', ''],
+    itemWidth: 15,
+    itemHeight: 140,
+    show: true,
+    pieces: [getVisualMapPiece()],
+    categories: [],
+  };
+}
 
 export function getDefaultVisualMap() {
   return getDefaultContinuousVisualMap();
@@ -92,4 +117,13 @@ export function getSkipRangeColor(value: number, min: number, max: number, visua
     return getSkipRangeColorRet(skipRange.gt_max);
   }
   return getSkipRangeColorRet('');
+}
+
+export function getVisualMapPiece(): VisualMapPiecewisePiece {
+  return {
+    lower: { value: '', symbol: 'gt' },
+    upper: { value: '', symbol: 'lt' },
+    label: '',
+    color: '',
+  };
 }

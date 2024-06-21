@@ -599,10 +599,16 @@ export const en = {
       },
       visual_map: {
         label: 'Visual Map',
-        type: {
-          label: 'Type',
-          continuous: 'Continuous',
-          piecewise: 'Piecewise',
+        continuous: {
+          label: 'Continuous',
+        },
+        piecewise: {
+          label: 'Piecewise',
+          mode: {
+            pieces: 'Pieces',
+            categories: 'Categories',
+          },
+          add_a_piece: 'Add a piece',
         },
         item_width: 'Bar Width',
         item_height: 'Bar Height',

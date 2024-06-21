@@ -10,6 +10,13 @@ export type VisualMapSkipRange = {
   max: string | '';
   gt_max: string | '';
 };
+export type VisualMapPiecewiseAlign = 'auto' | 'left' | 'right';
+export type VisualMapPiecewisePiece = {
+  lower: { value: string; symbol: 'gt' | 'gte' };
+  upper: { value: string; symbol: 'lt' | 'lte' };
+  label: string;
+  color: string;
+};
 
 export type ContinuousVisualMap = {
   type: 'continuous';
@@ -32,6 +39,7 @@ export type ContinuousVisualMap = {
 };
 export type PiecewiseVisualMap = {
   type: 'piecewise';
+  piecewise_mode: 'pieces' | 'categories';
   id: string;
   min: TNumberOrDynamic;
   max: TNumberOrDynamic;
@@ -39,13 +47,13 @@ export type PiecewiseVisualMap = {
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;
   text: [string, string];
-  calculable: boolean;
+  align: VisualMapPiecewiseAlign;
   itemWidth: number;
   itemHeight: number;
   show: boolean;
-  inRange: {
-    color: string[];
-  };
+  pieces: VisualMapPiecewisePiece[];
+  categories: string[];
+  // inRange: {} not supported for now
   // outRange: {} not supported for now
 };
 

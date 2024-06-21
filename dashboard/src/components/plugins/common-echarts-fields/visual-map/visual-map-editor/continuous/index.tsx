@@ -19,7 +19,9 @@ export const ContinuousVisualMapEditor = ({ form }: Props) => {
   const visualMap = form.watch('visualMap');
   const { type, orient } = visualMap;
   const isHorizontal = orient === 'horizontal';
-
+  if (type !== 'continuous') {
+    return null;
+  }
   return (
     <Stack>
       <Group grow>
