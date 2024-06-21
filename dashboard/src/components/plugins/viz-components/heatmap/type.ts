@@ -2,15 +2,14 @@ import {
   getDefaultAxisLabelOverflow,
   IAxisLabelOverflow,
 } from '~/components/plugins/common-echarts-fields/axis-label-overflow';
-import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { getDefaultVisualMap, VisualMap } from '../../common-echarts-fields/visual-map';
 import {
   getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
-import { getDefaultDepthVisualMap, VisualMap } from '../../common-echarts-fields/visual-map';
 
 export interface IHeatmapConf {
   x_axis: {
@@ -79,5 +78,5 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
   tooltip: {
     metrics: [],
   },
-  visualMap: getDefaultDepthVisualMap(),
+  visualMap: getDefaultVisualMap(),
 };

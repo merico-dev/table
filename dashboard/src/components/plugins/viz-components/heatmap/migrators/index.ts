@@ -1,7 +1,7 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
 import { IHeatmapConf } from '../type';
 import _ from 'lodash';
-import { getDefaultDepthVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
+import { getDefaultVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 
 export function v2(legacyConf: any, { panelModel }: IMigrationEnv): IHeatmapConf {
   try {
@@ -70,7 +70,7 @@ export function v4(legacyConf: any): IHeatmapConf {
 }
 export function v5(legacyConf: any): IHeatmapConf {
   const {
-    visualMap = getDefaultDepthVisualMap(),
+    visualMap = getDefaultVisualMap(),
     heat_block: { min, max, ...restHeatBlock },
     ...rest
   } = legacyConf;
@@ -78,7 +78,7 @@ export function v5(legacyConf: any): IHeatmapConf {
     ...rest,
     heat_block: restHeatBlock,
     visualMap: {
-      ...getDefaultDepthVisualMap(),
+      ...getDefaultVisualMap(),
       min,
       max,
     },

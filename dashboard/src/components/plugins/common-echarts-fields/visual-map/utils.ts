@@ -1,8 +1,8 @@
 import { ChartTheme } from '~/styles/register-themes';
 import { getNumberOrDynamicValue } from '../number-or-dynamic-value';
-import { VisualMap } from './types';
+import { ContinuousVisualMap, PiecewiseVisualMap, VisualMap, VisualMapPiecewisePiece } from './types';
 
-function getDefaultVisualMap(color: string[]): VisualMap {
+export function getDefaultContinuousVisualMap(color?: string[]): ContinuousVisualMap {
   return {
     type: 'continuous',
     id: 'continuous-example',
@@ -23,7 +23,7 @@ function getDefaultVisualMap(color: string[]): VisualMap {
     itemHeight: 140,
     show: true,
     inRange: {
-      color,
+      color: color ?? Object.values(ChartTheme.graphics.depth),
     },
     skipRange: {
       lt_min: '',
@@ -34,8 +34,9 @@ function getDefaultVisualMap(color: string[]): VisualMap {
   };
 }
 
-export function getDefaultDepthVisualMap() {
-  return getDefaultVisualMap(Object.values(ChartTheme.graphics.depth));
+
+export function getDefaultVisualMap() {
+  return getDefaultContinuousVisualMap();
 }
 
 export function getVisualMapPalettes() {
