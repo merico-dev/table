@@ -4,6 +4,7 @@ import * as echarts from 'echarts/core';
 import { VisualMap } from '../types';
 import { getVisualMap } from '../utils';
 import { useEditPanelContext } from '~/contexts';
+import { ErrorBoundary } from '~/utils';
 
 // it's buggy, will put into use later
 export const PreviewVisualMap = ({ visualMap }: { visualMap: VisualMap }) => {
@@ -14,12 +15,14 @@ export const PreviewVisualMap = ({ visualMap }: { visualMap: VisualMap }) => {
 
   const visualMapOption = getVisualMap(visualMap, panel.variableValueMap);
   return (
-    <ReactEChartsCore
-      echarts={echarts}
-      option={{ visualMap: visualMapOption }}
-      style={{ width: '100%', height: `${renderHeight + 40}px` }}
-      notMerge
-      theme="merico-light"
-    />
+    <ErrorBoundary>
+      <ReactEChartsCore
+        echarts={echarts}
+        option={{ visualMap: visualMapOption }}
+        style={{ width: '100%', height: `${renderHeight + 40}px` }}
+        notMerge
+        theme="merico-light"
+      />
+    </ErrorBoundary>
   );
 };
