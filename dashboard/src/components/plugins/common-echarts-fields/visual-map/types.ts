@@ -46,7 +46,6 @@ export type PiecewiseVisualMap = {
   orient: ChartingOrientation;
   left: VisualMapHorizontalAlign;
   top: VisualMapVerticalAlign;
-  text: [string, string];
   align: VisualMapPiecewiseAlign;
   itemWidth: number;
   itemHeight: number;

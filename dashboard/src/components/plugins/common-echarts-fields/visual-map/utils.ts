@@ -1,6 +1,7 @@
 import { ChartTheme } from '~/styles/register-themes';
 import { getNumberOrDynamicValue } from '../number-or-dynamic-value';
 import { ContinuousVisualMap, PiecewiseVisualMap, VisualMap, VisualMapPiecewisePiece } from './types';
+import { AnyObject } from '~/types';
 
 export function getDefaultContinuousVisualMap(color?: string[]): ContinuousVisualMap {
   return {
@@ -51,9 +52,8 @@ export function getDefaultPiecewiseVisualMap(): PiecewiseVisualMap {
     orient: 'horizontal',
     left: 'center',
     top: 'top',
-    text: ['', ''],
     itemWidth: 15,
-    itemHeight: 140,
+    itemHeight: 15,
     show: true,
     pieces: [getVisualMapPiece()],
     categories: [],
@@ -77,11 +77,11 @@ export function getVisualMapPalettes() {
 }
 
 export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<string, string | number>) {
-  const { min, max, text } = visualMap;
+  const { min, max } = visualMap;
   const minValue = getNumberOrDynamicValue(min, variableValueMap);
   const maxValue = getNumberOrDynamicValue(max, variableValueMap);
   if (visualMap.type === 'continuous') {
-    const { skipRange, ...rest } = visualMap;
+    const { skipRange, text, ...rest } = visualMap;
     return {
       ...rest,
       min: minValue,
@@ -89,12 +89,35 @@ export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<stri
       text: [...text],
     };
   }
-  return {
-    ...visualMap,
+  const { piecewise_mode, pieces, categories, ...rest } = visualMap;
+  const ret: AnyObject = {
+    ...rest,
     min: minValue,
     max: maxValue,
-    text: [...text],
   };
+  if (piecewise_mode === 'pieces') {
+    ret.pieces = pieces.map((p) => {
+      const item: AnyObject = {};
+      if (p.label) {
+        item.label = p.label;
+      }
+      if (p.color) {
+        item.color = p.color;
+      }
+      const lowerValue = Number(p.lower.value);
+      if (p.lower.value !== '' && Number.isFinite(lowerValue)) {
+        item[p.lower.symbol] = lowerValue;
+      }
+      const upperValue = Number(p.upper.value);
+      if (p.upper.value !== '' && Number.isFinite(upperValue)) {
+        item[p.upper.symbol] = upperValue;
+      }
+      return item;
+    });
+  } else if (piecewise_mode === 'categories') {
+    ret.categories = categories;
+  }
+  return ret;
 }
 
 const getSkipRangeColorRet = (color: string) => ({ followVisualMap: !color, color });
@@ -121,7 +144,7 @@ export function getSkipRangeColor(value: number, min: number, max: number, visua
 
 export function getVisualMapPiece(): VisualMapPiecewisePiece {
   return {
-    lower: { value: '', symbol: 'gt' },
+    lower: { value: '0', symbol: 'gt' },
     upper: { value: '', symbol: 'lt' },
     label: '',
     color: '',

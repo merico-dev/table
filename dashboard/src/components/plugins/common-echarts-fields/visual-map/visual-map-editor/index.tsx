@@ -21,13 +21,6 @@ export const VisualMapEditor = ({ form }: Props) => {
   const control = form.control;
   const visualMap = form.watch('visualMap');
   const { type, orient } = visualMap;
-  const isHorizontal = orient === 'horizontal';
-  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | '') => {
-    if (v === '') {
-      return;
-    }
-    handleChange(v);
-  };
 
   const visualMapTypeOptions = useMemo(() => {
     return [
@@ -67,37 +60,6 @@ export const VisualMapEditor = ({ form }: Props) => {
             />
           )}
         />
-        <Group
-          grow
-          styles={{
-            root: {
-              flexDirection: isHorizontal ? 'row-reverse' : 'row',
-            },
-          }}
-        >
-          <Controller
-            name="visualMap.itemWidth"
-            control={control}
-            render={({ field }) => (
-              <NumberInput
-                label={isHorizontal ? t('chart.visual_map.item_height') : t('chart.visual_map.item_width')}
-                {...field}
-                onChange={getNumberChanger(field.onChange)}
-              />
-            )}
-          />
-          <Controller
-            name="visualMap.itemHeight"
-            control={control}
-            render={({ field }) => (
-              <NumberInput
-                label={isHorizontal ? t('chart.visual_map.item_width') : t('chart.visual_map.item_height')}
-                {...field}
-                onChange={getNumberChanger(field.onChange)}
-              />
-            )}
-          />
-        </Group>
         <Group grow>
           <Controller
             name="visualMap.min"
@@ -108,18 +70,6 @@ export const VisualMapEditor = ({ form }: Props) => {
             name="visualMap.max"
             control={control}
             render={({ field }) => <NumberOrDynamicValue label={t('chart.visual_map.max_value')} {...field} />}
-          />
-        </Group>
-        <Group grow>
-          <Controller
-            name="visualMap.text.1"
-            control={control}
-            render={({ field }) => <TextInput label={t('chart.visual_map.min_text')} {...field} />}
-          />
-          <Controller
-            name="visualMap.text.0"
-            control={control}
-            render={({ field }) => <TextInput label={t('chart.visual_map.max_text')} {...field} />}
           />
         </Group>
         <Divider variant="dashed" />

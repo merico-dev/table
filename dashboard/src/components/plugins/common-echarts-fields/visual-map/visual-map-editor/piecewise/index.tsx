@@ -1,4 +1,4 @@
-import { Checkbox, Group, SegmentedControl, Stack } from '@mantine/core';
+import { Checkbox, Group, NumberInput, SegmentedControl, Stack } from '@mantine/core';
 import { Controller, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -26,10 +26,17 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
   }, [i18n.language]);
 
   const { type, orient, piecewise_mode } = visualMap;
+
+  const getNumberChanger = (handleChange: (n: number) => void) => (v: number | '') => {
+    if (v === '') {
+      return;
+    }
+    handleChange(v);
+  };
   if (type !== 'piecewise') {
     return null;
   }
-  console.log('piecewise_mode', piecewise_mode);
+
   return (
     <Stack>
       <Controller
@@ -37,6 +44,30 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
         control={control}
         render={({ field }) => <OrientationSelector sx={{ flex: 1 }} {...field} />}
       />
+      <Group grow>
+        <Controller
+          name="visualMap.itemWidth"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              label={t('chart.visual_map.item_width')}
+              {...field}
+              onChange={getNumberChanger(field.onChange)}
+            />
+          )}
+        />
+        <Controller
+          name="visualMap.itemHeight"
+          control={control}
+          render={({ field }) => (
+            <NumberInput
+              label={t('chart.visual_map.item_height')}
+              {...field}
+              onChange={getNumberChanger(field.onChange)}
+            />
+          )}
+        />
+      </Group>
 
       <Controller
         name="visualMap.piecewise_mode"
