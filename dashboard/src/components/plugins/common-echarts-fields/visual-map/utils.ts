@@ -55,6 +55,7 @@ export function getDefaultPiecewiseVisualMap(): PiecewiseVisualMap {
     itemWidth: 15,
     itemHeight: 15,
     show: true,
+    precision: 0,
     pieces: [getVisualMapPiece()],
     categories: [],
   };

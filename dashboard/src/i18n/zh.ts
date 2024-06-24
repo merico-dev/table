@@ -621,6 +621,7 @@ export const zh = {
         max_text: '最大值文案',
         use_palette_x: '使用配色方案"{{x}}"',
         built_in_palettes: '内置配色方案',
+        precision: '数据精度',
         skip_range: {
           lt_min: '小于最小值时的颜色',
           min: '最小值的颜色',

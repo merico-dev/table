@@ -40,6 +40,13 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
   return (
     <Stack>
       <Controller
+        name="visualMap.precision"
+        control={control}
+        render={({ field }) => (
+          <NumberInput label={t('chart.visual_map.precision')} {...field} onChange={getNumberChanger(field.onChange)} />
+        )}
+      />
+      <Controller
         name="visualMap.orient"
         control={control}
         render={({ field }) => <OrientationSelector sx={{ flex: 1 }} {...field} />}

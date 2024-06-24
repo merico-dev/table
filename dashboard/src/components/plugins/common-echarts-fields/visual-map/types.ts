@@ -50,6 +50,7 @@ export type PiecewiseVisualMap = {
   itemWidth: number;
   itemHeight: number;
   show: boolean;
+  precision: number;
   pieces: VisualMapPiecewisePiece[];
   categories: string[];
   // inRange: {} not supported for now

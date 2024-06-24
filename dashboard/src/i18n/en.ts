@@ -621,6 +621,7 @@ export const en = {
         max_text: 'Max Text',
         use_palette_x: 'Use palette "{{x}}"',
         built_in_palettes: 'Built-in Palettes',
+        precision: 'Data Precision',
         skip_range: {
           lt_min: 'Color for smaller values than min value',
           min: 'Color for min value',
