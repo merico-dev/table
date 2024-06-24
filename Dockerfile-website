@@ -1,4 +1,4 @@
-FROM registry.cn-hongkong.aliyuncs.com/merico/nginx:1.25.5
+FROM nginx:1.25.5
 
 COPY ./website/dist  /usr/share/nginx/html
 
