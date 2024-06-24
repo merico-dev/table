@@ -76,6 +76,7 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
         />
       </Group>
 
+      {/* https://github.com/apache/echarts/issues/19935#issuecomment-2119545367
       <Controller
         name="visualMap.piecewise_mode"
         control={control}
@@ -87,7 +88,7 @@ export const PiecewiseVisualMapEditor = ({ form }: Props) => {
             onChange={(v: 'pieces' | 'categories') => field.onChange(v)}
           />
         )}
-      />
+      /> */}
       {piecewise_mode === 'pieces' && <PiecesEditor form={form} />}
     </Stack>
   );
