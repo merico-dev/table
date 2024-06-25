@@ -599,8 +599,21 @@ export const en = {
       },
       visual_map: {
         label: 'Visual Map',
-        item_width: 'Bar Width',
-        item_height: 'Bar Height',
+        continuous: {
+          label: 'Continuous',
+        },
+        piecewise: {
+          label: 'Piecewise',
+          mode: {
+            pieces: 'Pieces',
+            categories: 'Categories',
+          },
+          add_a_piece: 'Add a piece',
+        },
+        bar_width: 'Bar Width',
+        bar_height: 'Bar Height',
+        item_width: 'Item Width',
+        item_height: 'Item Height',
         calculable: 'Show drag handle',
         min_value: 'Min Value',
         max_value: 'Max Value',
@@ -608,6 +621,7 @@ export const en = {
         max_text: 'Max Text',
         use_palette_x: 'Use palette "{{x}}"',
         built_in_palettes: 'Built-in Palettes',
+        precision: 'Data Precision',
         skip_range: {
           lt_min: 'Color for smaller values than min value',
           min: 'Color for min value',

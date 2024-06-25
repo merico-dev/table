@@ -1,7 +1,7 @@
-import { Controller, ControllerRenderProps, FieldPath, UseFormReturn, useFieldArray } from 'react-hook-form';
-import { VisualMapPartialForm } from './types';
-import { CloseButton, ColorInput, Group, Stack, Table } from '@mantine/core';
+import { CloseButton, ColorInput, Stack } from '@mantine/core';
+import { Controller, ControllerRenderProps, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { VisualMapPartialForm } from '../types';
 
 type FieldType = ControllerRenderProps<
   VisualMapPartialForm,

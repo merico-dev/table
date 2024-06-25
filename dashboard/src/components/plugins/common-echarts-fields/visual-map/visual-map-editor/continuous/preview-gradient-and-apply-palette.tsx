@@ -1,7 +1,7 @@
 import { Box, Group, Menu, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { IconSelector } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { getVisualMapPalettes } from '../utils';
+import { getVisualMapPalettes } from '../../utils';
 const palettes = getVisualMapPalettes();
 
 type Props = {

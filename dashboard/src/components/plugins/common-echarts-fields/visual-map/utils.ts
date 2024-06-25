@@ -1,8 +1,9 @@
 import { ChartTheme } from '~/styles/register-themes';
 import { getNumberOrDynamicValue } from '../number-or-dynamic-value';
-import { VisualMap } from './types';
+import { ContinuousVisualMap, PiecewiseVisualMap, VisualMap, VisualMapPiecewisePiece } from './types';
+import { AnyObject } from '~/types';
 
-function getDefaultVisualMap(color: string[]): VisualMap {
+export function getDefaultContinuousVisualMap(color?: string[]): ContinuousVisualMap {
   return {
     type: 'continuous',
     id: 'continuous-example',
@@ -23,7 +24,7 @@ function getDefaultVisualMap(color: string[]): VisualMap {
     itemHeight: 140,
     show: true,
     inRange: {
-      color,
+      color: color ?? Object.values(ChartTheme.graphics.depth),
     },
     skipRange: {
       lt_min: '',
@@ -34,8 +35,34 @@ function getDefaultVisualMap(color: string[]): VisualMap {
   };
 }
 
-export function getDefaultDepthVisualMap() {
-  return getDefaultVisualMap(Object.values(ChartTheme.graphics.depth));
+export function getDefaultPiecewiseVisualMap(): PiecewiseVisualMap {
+  return {
+    type: 'piecewise',
+    piecewise_mode: 'pieces',
+    id: 'piecewise-visualmap',
+    min: {
+      type: 'static',
+      value: 0,
+    },
+    max: {
+      type: 'static',
+      value: 100,
+    },
+    align: 'auto',
+    orient: 'horizontal',
+    left: 'center',
+    top: 'top',
+    itemWidth: 15,
+    itemHeight: 15,
+    show: true,
+    precision: 0,
+    pieces: [getVisualMapPiece()],
+    categories: [],
+  };
+}
+
+export function getDefaultVisualMap() {
+  return getDefaultContinuousVisualMap();
 }
 
 export function getVisualMapPalettes() {
@@ -51,21 +78,47 @@ export function getVisualMapPalettes() {
 }
 
 export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<string, string | number>) {
-  const min = getNumberOrDynamicValue(visualMap.min, variableValueMap);
-  const max = getNumberOrDynamicValue(visualMap.max, variableValueMap);
+  const { min, max } = visualMap;
+  const minValue = getNumberOrDynamicValue(min, variableValueMap);
+  const maxValue = getNumberOrDynamicValue(max, variableValueMap);
   if (visualMap.type === 'continuous') {
-    const { skipRange, ...rest } = visualMap;
+    const { skipRange, text, ...rest } = visualMap;
     return {
       ...rest,
-      min,
-      max,
+      min: minValue,
+      max: maxValue,
+      text: [...text],
     };
   }
-  return {
-    ...visualMap,
-    min,
-    max,
+  const { piecewise_mode, pieces, categories, ...rest } = visualMap;
+  const ret: AnyObject = {
+    ...rest,
+    min: minValue,
+    max: maxValue,
   };
+  if (piecewise_mode === 'pieces') {
+    ret.pieces = pieces.map((p) => {
+      const item: AnyObject = {};
+      if (p.label) {
+        item.label = p.label;
+      }
+      if (p.color) {
+        item.color = p.color;
+      }
+      const lowerValue = Number(p.lower.value);
+      if (p.lower.value !== '' && Number.isFinite(lowerValue)) {
+        item[p.lower.symbol] = lowerValue;
+      }
+      const upperValue = Number(p.upper.value);
+      if (p.upper.value !== '' && Number.isFinite(upperValue)) {
+        item[p.upper.symbol] = upperValue;
+      }
+      return item;
+    });
+  } else if (piecewise_mode === 'categories') {
+    ret.categories = categories;
+  }
+  return ret;
 }
 
 const getSkipRangeColorRet = (color: string) => ({ followVisualMap: !color, color });
@@ -88,4 +141,13 @@ export function getSkipRangeColor(value: number, min: number, max: number, visua
     return getSkipRangeColorRet(skipRange.gt_max);
   }
   return getSkipRangeColorRet('');
+}
+
+export function getVisualMapPiece(): VisualMapPiecewisePiece {
+  return {
+    lower: { value: '0', symbol: 'gt' },
+    upper: { value: '', symbol: 'lt' },
+    label: '',
+    color: '',
+  };
 }

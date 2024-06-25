@@ -4,7 +4,7 @@ import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
 import { downloadJSON } from '~/utils/download';
-import { variablesToStrings } from '~/utils';
+import { formatAggregatedValue, getAggregatedValue, variablesToStrings } from '~/utils';
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
@@ -40,6 +40,16 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     },
     get variableStrings() {
       return variablesToStrings(self.variables, this.data);
+    },
+    get variableValueMap() {
+      const ret: Record<string, string | number> = {};
+      const data = this.data;
+      self.variables.reduce((prev, variable) => {
+        const value = getAggregatedValue(variable, data);
+        prev[variable.name] = formatAggregatedValue(variable, value);
+        return prev;
+      }, ret);
+      return ret;
     },
     get dataLoading() {
       return this.queries.some((q) => q.state === 'loading');

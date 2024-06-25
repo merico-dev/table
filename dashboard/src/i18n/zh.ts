@@ -599,8 +599,21 @@ export const zh = {
       },
       visual_map: {
         label: '视觉映射',
-        item_width: '长条的宽度',
-        item_height: '长条的高度',
+        continuous: {
+          label: '连续型',
+        },
+        piecewise: {
+          label: '分段型',
+          mode: {
+            pieces: '连续数据',
+            categories: '离散数据',
+          },
+          add_a_piece: '加一个分段',
+        },
+        bar_width: '长条的宽度',
+        bar_height: '长条的高度',
+        item_width: '小块的宽度',
+        item_height: '小块的高度',
         calculable: '显示拖拽手柄',
         min_value: '最小值',
         max_value: '最大值',
@@ -608,6 +621,7 @@ export const zh = {
         max_text: '最大值文案',
         use_palette_x: '使用配色方案"{{x}}"',
         built_in_palettes: '内置配色方案',
+        precision: '数据精度',
         skip_range: {
           lt_min: '小于最小值时的颜色',
           min: '最小值的颜色',
