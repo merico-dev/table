@@ -609,6 +609,8 @@ export const zh = {
             categories: '离散数据',
           },
           add_a_piece: '加一个分段',
+          interval: '值区间',
+          piece_label: '文案',
         },
         bar_width: '长条的宽度',
         bar_height: '长条的高度',

@@ -14,7 +14,7 @@ export const PieceEditor = ({ form, index, remove }: Props) => {
   const { t } = useTranslation();
   return (
     <tr>
-      <td>{index.toString()}</td>
+      <td>{(index + 1).toString()}</td>
       <td>
         <IntervalEditor form={form} index={index} />
       </td>

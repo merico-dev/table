@@ -609,6 +609,8 @@ export const en = {
             categories: 'Categories',
           },
           add_a_piece: 'Add a piece',
+          interval: 'Interval',
+          piece_label: 'Label',
         },
         bar_width: 'Bar Width',
         bar_height: 'Bar Height',
