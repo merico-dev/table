@@ -93,9 +93,10 @@ export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<stri
   const { piecewise_mode, pieces, categories, ...rest } = visualMap;
   const ret: AnyObject = {
     ...rest,
-    min: minValue,
-    max: maxValue,
   };
+  delete ret.min;
+  delete ret.max;
+
   if (piecewise_mode === 'pieces') {
     ret.pieces = pieces.map((p) => {
       const item: AnyObject = {};
@@ -106,11 +107,16 @@ export function getVisualMap(visualMap: VisualMap, variableValueMap: Record<stri
         item.color = p.color;
       }
       const lowerValue = Number(p.lower.value);
-      if (p.lower.value !== '' && Number.isFinite(lowerValue)) {
+      if (p.lower.value === '') {
+        item[p.lower.symbol] = minValue;
+      } else if (Number.isFinite(lowerValue)) {
         item[p.lower.symbol] = lowerValue;
       }
+
       const upperValue = Number(p.upper.value);
-      if (p.upper.value !== '' && Number.isFinite(upperValue)) {
+      if (p.upper.value === '') {
+        item[p.upper.symbol] = maxValue;
+      } else if (Number.isFinite(upperValue)) {
         item[p.upper.symbol] = upperValue;
       }
       return item;

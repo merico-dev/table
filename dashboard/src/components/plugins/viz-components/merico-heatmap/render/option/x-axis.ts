@@ -1,15 +1,9 @@
-import _ from 'lodash';
-
-import { TMericoHeatmapConf } from '../../type';
-import { getLabelOverflowOptionOnAxis } from '../../../../common-echarts-fields/axis-label-overflow';
-import { parseDataKey } from '~/utils';
-import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { FormatterFuncType } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import { defaultEchartsOptions } from '~/styles/default-echarts-options';
+import { getLabelOverflowOptionOnAxis } from '../../../../common-echarts-fields/axis-label-overflow';
+import { TMericoHeatmapConf } from '../../type';
 
-export function getXAxis(conf: TMericoHeatmapConf, data: TPanelData, formatterFunc: FormatterFuncType) {
-  const x = parseDataKey(conf.x_axis.data_key);
-  const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
-
+export function getXAxis(conf: TMericoHeatmapConf, xData: any[], formatterFunc: FormatterFuncType) {
   const { overflow, rotate } = conf.x_axis.axisLabel;
   const overflowOption = getLabelOverflowOptionOnAxis(overflow.on_axis);
   return defaultEchartsOptions.getXAxis({

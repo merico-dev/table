@@ -13,12 +13,13 @@ export function getNumberOrDynamicValue(
 
   if (conf.type === 'static') {
     const { value } = conf as TNumberOrDynamic_Static;
-    return value;
+    return Number(value);
   }
 
   const { value } = conf as TNumberOrDynamic_Dynamic;
   try {
-    return new Function(`return ${value}`)()({ variables: variableValueMap }, { lodash, interpolate });
+    const ret = new Function(`return ${value}`)()({ variables: variableValueMap }, { lodash, interpolate });
+    return Number(ret);
   } catch (error) {
     // @ts-expect-error Object is of type 'unknown'.
     console.error(`[getNumberOrDynamicValue] failed parsing custom function, error: ${error.message}`);

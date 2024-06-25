@@ -34,9 +34,9 @@ export const PiecesEditor = ({ form }: Props) => {
         <thead>
           <tr>
             <th style={{ width: '40px' }} />
-            <th>Interval</th>
-            <th>Label</th>
-            <th>Color</th>
+            <th>{t('chart.visual_map.piecewise.interval')}</th>
+            <th>{t('chart.visual_map.piecewise.piece_label')}</th>
+            <th>{t('chart.color.label')}</th>
             <th style={{ width: '40px' }} />
           </tr>
         </thead>

@@ -2,6 +2,7 @@ import { Button, Group, Popover, Select, Text, TextInput } from '@mantine/core';
 import { Control, Controller, UseFormReturn } from 'react-hook-form';
 import { VisualMapPartialForm } from '../types';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const symbols = {
   lower: [
@@ -20,11 +21,14 @@ const symbolToBracket = {
   lt: ')',
   lte: ']',
 };
-const toIntervalValue = (v: string, sign: '' | '-') => {
-  if (v === '' || Number.isNaN(Number(v))) {
-    return sign + '∞';
+const toIntervalValue = (v: string, extremum: '') => {
+  if (v === '') {
+    return extremum;
   }
-  return sign + v;
+  if (Number.isNaN(Number(v))) {
+    return 'INVALID VALUE';
+  }
+  return v;
 };
 
 type Props = {
@@ -32,15 +36,17 @@ type Props = {
   index: number;
 };
 export const IntervalEditor = ({ form, index }: Props) => {
+  const { t } = useTranslation();
+
   const { control, watch } = form;
   const piece = watch(`visualMap.pieces.${index}`);
   const { lower, upper } = piece;
 
   const intervalPreview = [
     symbolToBracket[lower.symbol],
-    toIntervalValue(lower.value, '-'),
+    toIntervalValue(lower.value, t('chart.visual_map.min_value')),
     ',',
-    toIntervalValue(upper.value, ''),
+    toIntervalValue(upper.value, t('chart.visual_map.max_value')),
     symbolToBracket[upper.symbol],
   ].join('');
 
@@ -77,11 +83,10 @@ export const IntervalEditor = ({ form, index }: Props) => {
               render={({ field }) => (
                 <TextInput
                   {...field}
-                  placeholder="∞"
+                  placeholder={t('chart.visual_map.min_value')}
                   size="xs"
                   onChange={(e) => field.onChange(e.currentTarget.value)}
                   error={field.value !== '' && Number.isNaN(Number(field.value))}
-                  styles={{ input: { '&::placeholder': { fontSize: '16px' } } }}
                 />
               )}
             />
@@ -93,7 +98,7 @@ export const IntervalEditor = ({ form, index }: Props) => {
               )}
             />
             <Text color="dimmed" size="sm" sx={{ userSelect: 'none', cursor: 'default' }}>
-              value
+              {t('common.value').toLowerCase()}
             </Text>
             <Controller
               name={`visualMap.pieces.${index}.upper.symbol`}
@@ -109,10 +114,9 @@ export const IntervalEditor = ({ form, index }: Props) => {
                 <TextInput
                   {...field}
                   size="xs"
-                  placeholder="∞"
+                  placeholder={t('chart.visual_map.max_value')}
                   onChange={(e) => field.onChange(e.currentTarget.value)}
                   error={field.value !== '' && Number.isNaN(Number(field.value))}
-                  styles={{ input: { '&::placeholder': { fontSize: '16px' } } }}
                 />
               )}
             />
