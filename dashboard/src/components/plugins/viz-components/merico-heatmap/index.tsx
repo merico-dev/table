@@ -5,15 +5,23 @@ import { RenderMericoHeatmap } from './render';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, TMericoHeatmapConf } from './type';
 import { translation } from './translation';
+import * as Migrators from './migrators';
 
 class MericoHeatmapMigrator extends VersionBasedMigrator {
-  readonly VERSION = 1;
+  readonly VERSION = 2;
 
   configVersions(): void {
     this.version(1, (data: any) => {
       return {
         version: 1,
         config: data,
+      };
+    });
+    this.version(2, (data) => {
+      return {
+        ...data,
+        version: 2,
+        config: Migrators.v2(data.config),
       };
     });
   }
@@ -30,7 +38,7 @@ export const MericoHeatmapVizComponent: VizComponent = {
     version: number;
     config: TMericoHeatmapConf;
   } => ({
-    version: 1,
+    version: 2,
     config: DEFAULT_CONFIG,
   }),
   triggers: [ClickHeatBlock],

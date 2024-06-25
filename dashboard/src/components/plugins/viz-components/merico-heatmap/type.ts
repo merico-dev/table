@@ -5,8 +5,8 @@ import {
 import { IEchartsTooltipMetric } from '~/components/plugins/common-echarts-fields/tooltip-metric';
 import { defaultNumberFormat, TNumberFormat } from '~/utils';
 
-import { TNumberOrDynamic } from '~/components/plugins/common-echarts-fields/number-or-dynamic-value/types';
 import { EChartsNameTextAlign } from '../../common-echarts-fields/name-text-align';
+import { getDefaultVisualMap, VisualMap } from '../../common-echarts-fields/visual-map';
 import {
   getDefaultXAxisLabelFormatter,
   IXAxisLabelFormatter,
@@ -33,8 +33,6 @@ export type TMericoHeatmapConf = {
     };
   };
   heat_block: {
-    min: TNumberOrDynamic;
-    max: TNumberOrDynamic;
     name: string;
     data_key: TDataKey;
     value_formatter: TNumberFormat;
@@ -46,6 +44,7 @@ export type TMericoHeatmapConf = {
   tooltip: {
     metrics: IEchartsTooltipMetric[];
   };
+  visualMap: VisualMap;
 };
 
 export const DEFAULT_CONFIG: TMericoHeatmapConf = {
@@ -69,14 +68,6 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
     },
   },
   heat_block: {
-    min: {
-      type: 'static',
-      value: 0,
-    },
-    max: {
-      type: 'static',
-      value: 100,
-    },
     name: 'Value',
     data_key: '',
     value_formatter: defaultNumberFormat,
@@ -88,4 +79,5 @@ export const DEFAULT_CONFIG: TMericoHeatmapConf = {
   tooltip: {
     metrics: [],
   },
+  visualMap: getDefaultVisualMap(),
 };

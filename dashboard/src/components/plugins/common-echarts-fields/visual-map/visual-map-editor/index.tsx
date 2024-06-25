@@ -20,7 +20,6 @@ export const VisualMapEditor = ({ form }: Props) => {
   const { t, i18n } = useTranslation();
   const control = form.control;
   const visualMap = form.watch('visualMap');
-  const { type, orient } = visualMap;
 
   const visualMapTypeOptions = useMemo(() => {
     return [
