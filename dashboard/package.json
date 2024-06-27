@@ -34,6 +34,9 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@dnd-kit/helpers": "^0.0.3",
+    "@dnd-kit/react": "^0.0.4",
+    "@dnd-kit/sortable": "^8.0.0",
     "@json2csv/whatwg": "7.0.3",
     "@monaco-editor/react": "4.4.6",
     "@types/chroma-js": "^2.1.4",
