@@ -62,8 +62,11 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
     } as ControlledField<T>;
   });
 
+  // TODO: first selected tab
+  const defaultTab = controlledFields[0]?.id;
+
   return (
-    <Tabs defaultValue="0" styles={TabsStyles}>
+    <Tabs defaultValue={defaultTab} styles={TabsStyles}>
       <TabList<T, FieldItem>
         fieldArray={fieldArray}
         getItem={getItem}
@@ -72,7 +75,7 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
         controlledFields={controlledFields}
       />
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={index.toString()}>
+        <Tabs.Panel key={field.id} value={field.id}>
           <Stack>
             {children({ field, index })}
             <Divider mb={-10} mt={10} variant="dashed" />
