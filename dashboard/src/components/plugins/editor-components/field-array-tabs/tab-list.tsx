@@ -1,12 +1,11 @@
+import { DragDropProvider } from '@dnd-kit/react';
+import { useSortable } from '@dnd-kit/react/sortable';
 import { Center, Tabs, Tooltip } from '@mantine/core';
 import { IconGripHorizontal, IconPlus } from '@tabler/icons-react';
+import { useBoolean } from 'ahooks';
 import { ReactNode } from 'react';
 import { ArrayPath, FieldValues, UseFieldArrayReturn } from 'react-hook-form';
 import { ControlledField } from './types';
-import { DragDropProvider } from '@dnd-kit/react';
-import { move } from '@dnd-kit/helpers';
-import { useSortable } from '@dnd-kit/react/sortable';
-import { useBoolean } from 'ahooks';
 
 type DraggableTabProps = {
   index: number;
@@ -37,14 +36,14 @@ const DraggableTab = ({ value, index, children }: DraggableTabProps) => {
 type Props<T extends FieldValues, FieldItem> = {
   fieldArray: UseFieldArrayReturn<T, ArrayPath<T>, 'id'>;
   addButtonText: string;
-  getItem: () => any;
+  add: () => void;
   renderTabName: (field: FieldItem, index: number) => ReactNode;
   controlledFields: ControlledField<T>[];
 };
 
 export const TabList = <T extends FieldValues, FieldItem>({
   fieldArray,
-  getItem,
+  add,
   addButtonText,
   renderTabName,
   controlledFields,
@@ -56,9 +55,6 @@ export const TabList = <T extends FieldValues, FieldItem>({
     fieldArray.move(fromIndex, toIndex);
   };
 
-  const add = () => {
-    fieldArray.append(getItem());
-  };
   return (
     <Tabs.List>
       <DragDropProvider onDragEnd={onDragEnd}>

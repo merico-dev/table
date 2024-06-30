@@ -1,6 +1,7 @@
 import { Button, Divider, Stack, Tabs } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
-import { ReactNode } from 'react';
+import _ from 'lodash';
+import { ReactNode, useEffect, useState } from 'react';
 import { ArrayPath, Control, FieldValues, Path, UseFormWatch, useFieldArray } from 'react-hook-form';
 import { TabList } from './tab-list';
 import { ControlledField, FieldArrayTabsChildren } from './types';
@@ -36,7 +37,7 @@ type Props<T extends FieldValues, FieldItem> = {
   renderTabName: (field: FieldItem, index: number) => ReactNode;
   deleteDisalbed?: FieldArrayButtonStateFunc<FieldItem>;
 };
-// TODO: first selected tab
+
 export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   control,
   watch,
@@ -62,14 +63,34 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
     } as ControlledField<T>;
   });
 
-  // TODO: first selected tab
-  const defaultTab = controlledFields[0]?.id;
+  const defaultTab = _.last(controlledFields)?.id ?? null;
+  const [tab, setTab] = useState<string | null>(defaultTab);
+  const handleTabChange = (tab: string | null) => {
+    if (tab === 'add') {
+      return;
+    }
+    setTab(tab);
+  };
+  useEffect(() => {
+    setTab((t) => {
+      if (defaultTab === t) {
+        return t;
+      }
+      return defaultTab;
+    });
+  }, [defaultTab]);
+
+  const add = () => {
+    const item = getItem();
+    fieldArray.append(item);
+    setTab(item.id);
+  };
 
   return (
-    <Tabs defaultValue={defaultTab} styles={TabsStyles}>
+    <Tabs value={tab} onTabChange={handleTabChange} styles={TabsStyles}>
       <TabList<T, FieldItem>
         fieldArray={fieldArray}
-        getItem={getItem}
+        add={add}
         addButtonText={addButtonText}
         renderTabName={renderTabName}
         controlledFields={controlledFields}
