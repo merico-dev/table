@@ -1,7 +1,9 @@
-import { Button, Center, Divider, Stack, Tabs, Tooltip } from '@mantine/core';
-import { IconPlus, IconTrash } from '@tabler/icons-react';
+import { Button, Divider, Stack, Tabs } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 import { ReactNode } from 'react';
 import { ArrayPath, Control, FieldValues, Path, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { TabList } from './tab-list';
+import { ControlledField, FieldArrayTabsChildren } from './types';
 
 const TabsStyles = {
   tab: {
@@ -13,7 +15,6 @@ const TabsStyles = {
   },
 };
 
-type FieldArrayTabsChildren<FieldItem> = ({ field, index }: { field: FieldItem; index: number }) => ReactNode;
 export type FieldArrayButtonStateFunc<FieldItem> = ({
   field,
   index,
@@ -47,37 +48,29 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   renderTabName,
   deleteDisalbed,
 }: Props<T, FieldItem>) => {
-  const { fields, append, remove } = useFieldArray({
+  const fieldArray = useFieldArray({
     control,
     name: name as ArrayPath<T>,
   });
+  const { fields, append, remove } = fieldArray;
 
   const watchFieldArray = watch(name);
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
       ...watchFieldArray[index],
-    };
+    } as ControlledField<T>;
   });
-  const add = () => {
-    append(getItem());
-  };
+
   return (
     <Tabs defaultValue="0" styles={TabsStyles}>
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {renderTabName(field, index)}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={add} value="add">
-          <Tooltip label={addButtonText}>
-            <Center>
-              <IconPlus size={18} color="#228be6" />
-            </Center>
-          </Tooltip>
-        </Tabs.Tab>
-      </Tabs.List>
+      <TabList<T, FieldItem>
+        fieldArray={fieldArray}
+        getItem={getItem}
+        addButtonText={addButtonText}
+        renderTabName={renderTabName}
+        controlledFields={controlledFields}
+      />
       {controlledFields.map((field, index) => (
         <Tabs.Panel key={field.id} value={index.toString()}>
           <Stack>
