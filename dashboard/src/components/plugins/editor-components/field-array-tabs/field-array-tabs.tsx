@@ -8,8 +8,8 @@ import { ControlledField, FieldArrayTabsChildren } from './types';
 
 const TabsStyles = {
   tab: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
   },
   panel: {
     padding: '0px',
