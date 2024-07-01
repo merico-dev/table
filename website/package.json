@@ -11,7 +11,7 @@
     "@ahooksjs/use-url-state": "^3.3.11",
     "@devtable/dashboard": "workspace:*",
     "@devtable/settings-form": "workspace:*",
-    "@emotion/react": "11.10.6",
+    "@emotion/react": "11.11.4",
     "@faker-js/faker": "7.6.0",
     "@mantine/core": "6.0.16",
     "@mantine/dates": "6.0.16",
