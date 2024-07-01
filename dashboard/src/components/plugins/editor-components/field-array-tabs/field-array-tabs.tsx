@@ -1,19 +1,21 @@
-import { Button, Center, Divider, Stack, Tabs, Tooltip } from '@mantine/core';
-import { IconPlus, IconTrash } from '@tabler/icons-react';
-import { ReactNode } from 'react';
+import { Button, Divider, Stack, Tabs } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
+import _ from 'lodash';
+import { ReactNode, useEffect, useState } from 'react';
 import { ArrayPath, Control, FieldValues, Path, UseFormWatch, useFieldArray } from 'react-hook-form';
+import { TabList } from './tab-list';
+import { ControlledField, FieldArrayTabsChildren } from './types';
 
 const TabsStyles = {
   tab: {
-    paddingTop: '0px',
-    paddingBottom: '0px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
   },
   panel: {
     padding: '0px',
   },
 };
 
-type FieldArrayTabsChildren<FieldItem> = ({ field, index }: { field: FieldItem; index: number }) => ReactNode;
 export type FieldArrayButtonStateFunc<FieldItem> = ({
   field,
   index,
@@ -35,7 +37,7 @@ type Props<T extends FieldValues, FieldItem> = {
   renderTabName: (field: FieldItem, index: number) => ReactNode;
   deleteDisalbed?: FieldArrayButtonStateFunc<FieldItem>;
 };
-// TODO: first selected tab
+
 export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   control,
   watch,
@@ -47,39 +49,54 @@ export const FieldArrayTabs = <T extends FieldValues, FieldItem>({
   renderTabName,
   deleteDisalbed,
 }: Props<T, FieldItem>) => {
-  const { fields, append, remove } = useFieldArray({
+  const fieldArray = useFieldArray({
     control,
     name: name as ArrayPath<T>,
   });
+  const { fields, append, remove } = fieldArray;
 
   const watchFieldArray = watch(name);
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
       ...watchFieldArray[index],
-    };
+    } as ControlledField<T>;
   });
-  const add = () => {
-    append(getItem());
+
+  const defaultTab = _.last(controlledFields)?.id ?? null;
+  const [tab, setTab] = useState<string | null>(defaultTab);
+  const handleTabChange = (tab: string | null) => {
+    if (tab === 'add') {
+      return;
+    }
+    setTab(tab);
   };
+  useEffect(() => {
+    setTab((t) => {
+      if (defaultTab === t) {
+        return t;
+      }
+      return defaultTab;
+    });
+  }, [defaultTab]);
+
+  const add = () => {
+    const item = getItem();
+    fieldArray.append(item);
+    setTab(item.id);
+  };
+
   return (
-    <Tabs defaultValue="0" styles={TabsStyles}>
-      <Tabs.List>
-        {controlledFields.map((field, index) => (
-          <Tabs.Tab key={field.id} value={index.toString()}>
-            {renderTabName(field, index)}
-          </Tabs.Tab>
-        ))}
-        <Tabs.Tab onClick={add} value="add">
-          <Tooltip label={addButtonText}>
-            <Center>
-              <IconPlus size={18} color="#228be6" />
-            </Center>
-          </Tooltip>
-        </Tabs.Tab>
-      </Tabs.List>
+    <Tabs value={tab} onTabChange={handleTabChange} styles={TabsStyles}>
+      <TabList<T, FieldItem>
+        fieldArray={fieldArray}
+        add={add}
+        addButtonText={addButtonText}
+        renderTabName={renderTabName}
+        controlledFields={controlledFields}
+      />
       {controlledFields.map((field, index) => (
-        <Tabs.Panel key={field.id} value={index.toString()}>
+        <Tabs.Panel key={field.id} value={field.id}>
           <Stack>
             {children({ field, index })}
             <Divider mb={-10} mt={10} variant="dashed" />

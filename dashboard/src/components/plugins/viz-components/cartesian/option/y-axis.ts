@@ -10,6 +10,9 @@ type PartialSeriesConfType = {
 };
 
 function getNumbersFromData(seriesData: SeriesDataIn): SeriesDataOut {
+  if (!seriesData) {
+    return [];
+  }
   try {
     if (Array.isArray(seriesData[0]) && seriesData[0]?.length >= 2) {
       const s = seriesData as [string | number, number][];
