@@ -4,7 +4,7 @@ import { ReactNode, forwardRef } from 'react';
 import { AnyObject } from '~/types';
 import { InlineFunctionInput } from '../inline-function-input';
 
-interface Props {
+type Props = {
   title: string;
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
@@ -13,7 +13,9 @@ interface Props {
   description?: ReactNode;
   triggerLabel?: string;
   triggerButtonProps?: AnyObject;
-}
+  renderTriggerButton?: ({ onClick }: { onClick: () => void }) => ReactNode;
+  zIndex?: number;
+};
 
 export const ModalFunctionEditor = forwardRef(
   (
@@ -25,7 +27,9 @@ export const ModalFunctionEditor = forwardRef(
       description = null,
       triggerLabel = 'Edit',
       triggerButtonProps = {},
+      renderTriggerButton,
       defaultValue,
+      zIndex = 320,
     }: Props,
     _ref: any,
   ) => {
@@ -33,16 +37,19 @@ export const ModalFunctionEditor = forwardRef(
 
     return (
       <>
-        <Modal opened={opened} onClose={close} title={title} withinPortal zIndex={320} size="900px">
+        <Modal opened={opened} onClose={close} title={title} withinPortal zIndex={zIndex} size="900px">
           {description}
           <Box h={600}>
             <InlineFunctionInput value={value} onChange={onChange} defaultValue={defaultValue} label={label} />
           </Box>
         </Modal>
 
-        <Button onClick={open} {...triggerButtonProps}>
-          {triggerLabel}
-        </Button>
+        {renderTriggerButton?.({ onClick: open })}
+        {!renderTriggerButton && (
+          <Button onClick={open} {...triggerButtonProps}>
+            {triggerLabel}
+          </Button>
+        )}
       </>
     );
   },
