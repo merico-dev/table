@@ -22,10 +22,10 @@ import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 
 const RTEContentStyle: Sx = {
-  '.rte-dynamic-color': {
+  'dynamic-color': {
     position: 'relative',
   },
-  '.rte-dynamic-color:after': {
+  'dynamic-color:after': {
     content: '""',
     position: 'absolute',
     bottom: '-2px',
@@ -86,7 +86,8 @@ export const CustomRichTextEditor = forwardRef(
       ],
       content,
       onUpdate: ({ editor }) => {
-        setContent(editor.getHTML());
+        const newContent = editor.getHTML();
+        setContent(newContent);
       },
     });
 

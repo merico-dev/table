@@ -21,25 +21,23 @@ export const DynamicColorMark = Mark.create({
 
   addAttributes() {
     return {
-      [AttrKey]: null,
+      [AttrKey]: {
+        parseHTML: (element) => element.getAttribute(AttrKey),
+      },
     };
   },
 
   parseHTML() {
     return [
       {
-        tag: 'span',
+        tag: 'dynamic-color',
         getAttrs: (node: string | HTMLElement) => {
+          console.log('🔵 getAttrs', node);
           if (typeof node === 'string') {
+            console.debug(node);
             return false;
           }
 
-          const hasDynamicColor = node.hasAttribute(AttrKey);
-          console.log(node.getAttribute(AttrKey));
-          if (!hasDynamicColor) {
-            return false;
-          }
-          // TODO
           return [node.getAttribute(AttrKey)];
         },
       },
@@ -49,18 +47,10 @@ export const DynamicColorMark = Mark.create({
   renderHTML({ HTMLAttributes }) {
     console.log('🔴 renderHTML: ', HTMLAttributes);
     const v = HTMLAttributes[AttrKey];
-    let color = 'yellow';
-    if (v === '8px') {
-      color = 'red';
-    } else if (v === '10px') {
-      color = 'blue';
-    } else {
-      color = 'yellow';
-    }
 
-    const attrs = mergeAttributes({ style: `background-color: ${color};`, class: 'rte-dynamic-color' }, HTMLAttributes);
+    const attrs = mergeAttributes({}, HTMLAttributes);
     console.log('attrs: ', attrs);
-    return ['span', attrs, 0];
+    return ['dynamic-color', attrs, 0];
   },
 
   addCommands() {

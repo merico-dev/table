@@ -2,7 +2,6 @@ import { ActionIcon } from '@mantine/core';
 import { IconMathFunction } from '@tabler/icons-react';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ModalFunctionEditor } from '../../modal-function-editor';
 import { DynamicColorAttrKey, DynamicColorName } from './dynamic-color-mark';

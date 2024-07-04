@@ -18,6 +18,7 @@ import { useEffect, useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { FontSize } from './font-size-extension';
 import { Sx } from '@mantine/core';
+import { DynamicColorMark } from './dynamic-color-mark';
 
 interface IReadonlyRichText {
   value: string;
@@ -48,6 +49,7 @@ export const ReadonlyRichText = ({ value, styles = {}, sx = {} }: IReadonlyRichT
       TextStyle,
       Color,
       FontSize,
+      DynamicColorMark,
     ],
     content: value,
     editable: false,
