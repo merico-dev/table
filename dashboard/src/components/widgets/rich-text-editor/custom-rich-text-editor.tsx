@@ -19,6 +19,7 @@ import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { ChooseFontSize, FontSize } from './font-size-extension';
+import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 
 function InsertTableControl() {
   const { editor } = useRichTextEditorContext();
@@ -66,6 +67,7 @@ export const CustomRichTextEditor = forwardRef(
         TextStyle,
         Color,
         FontSize,
+        DynamicColorMark,
       ],
       content,
       onUpdate: ({ editor }) => {
@@ -126,6 +128,7 @@ export const CustomRichTextEditor = forwardRef(
                   zIndex: 320,
                 }}
               />
+              <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
               <RichTextEditor.Bold />
