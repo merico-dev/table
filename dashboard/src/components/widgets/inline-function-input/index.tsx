@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Text } from '@mantine/core';
+import { Box, Button, Group, Overlay, Stack, Text } from '@mantine/core';
 import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons-react';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { AboutFunctionUtils } from '../about-function-utils';
@@ -50,6 +50,8 @@ export const InlineFunctionInput = forwardRef(
 
     const hasChanges = localValue !== value;
 
+    const empty = typeof localValue === 'string' && localValue.length === 0;
+
     return (
       <Stack spacing={4} sx={{ height: '100%' }}>
         <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
@@ -81,7 +83,16 @@ export const InlineFunctionInput = forwardRef(
           </Group>
         </Group>
         <Text size={14}>{label}</Text>
-        <FunctionEditor value={localValue} onChange={setLocalValue} onMount={applyRestrictions} />
+        <Box sx={{ position: 'relative', flexGrow: 1 }}>
+          {empty && (
+            <Overlay center color="#fff" opacity={0.5}>
+              <Button color="blue" radius="xl" onClick={resetFuncContent}>
+                {t('common.actions.init_with_default')}
+              </Button>
+            </Overlay>
+          )}
+          <FunctionEditor value={localValue} onChange={setLocalValue} onMount={applyRestrictions} />
+        </Box>
       </Stack>
     );
   },

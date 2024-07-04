@@ -1,4 +1,3 @@
-import { Box } from '@mantine/core';
 import Editor, { OnMount } from '@monaco-editor/react';
 
 interface IFunctionEditor {
@@ -16,26 +15,24 @@ export const FunctionEditor = ({ value, onChange, onMount }: IFunctionEditor) =>
   };
 
   return (
-    <Box sx={{ position: 'relative', flexGrow: 1 }}>
-      <Editor
-        className="function-editor"
-        height="100%"
-        defaultLanguage="javascript"
-        value={value}
-        onChange={changeContent}
-        theme="vs-dark"
-        options={{
-          lineNumbers: 'off',
-          folding: false,
-          lineDecorationsWidth: 20,
-          lineNumbersMinChars: 0,
-          wordWrap: 'on',
-          minimap: {
-            enabled: false,
-          },
-        }}
-        onMount={onMount}
-      />
-    </Box>
+    <Editor
+      className="function-editor"
+      height="100%"
+      defaultLanguage="javascript"
+      value={value}
+      onChange={changeContent}
+      theme="vs-dark"
+      options={{
+        lineNumbers: 'off',
+        folding: false,
+        lineDecorationsWidth: 20,
+        lineNumbersMinChars: 0,
+        wordWrap: 'on',
+        minimap: {
+          enabled: false,
+        },
+      }}
+      onMount={onMount}
+    />
   );
 };

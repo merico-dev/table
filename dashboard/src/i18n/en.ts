@@ -295,6 +295,7 @@ export const en = {
         revert: 'Revert',
         revert_changes: 'Revert Changes',
         reset_to_default: 'Reset to default',
+        init_with_default: 'Init with default',
         select_all: 'Select All',
         clear_selection: 'Clear Selection',
         refresh: 'Refresh',

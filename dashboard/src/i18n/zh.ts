@@ -295,6 +295,7 @@ export const zh = {
         revert: '还原',
         revert_changes: '还原改动',
         reset_to_default: '重置为初始值',
+        init_with_default: '初始化',
         select_all: '全选',
         clear_selection: '撤销选择',
         refresh: '刷新',
