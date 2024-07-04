@@ -1,11 +1,12 @@
 import { Box } from '@mantine/core';
-import Editor from '@monaco-editor/react';
+import Editor, { OnMount } from '@monaco-editor/react';
 
 interface IFunctionEditor {
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
+  onMount?: OnMount;
 }
-export const FunctionEditor = ({ value, onChange }: IFunctionEditor) => {
+export const FunctionEditor = ({ value, onChange, onMount }: IFunctionEditor) => {
   const changeContent = (v?: TFunctionString) => {
     if (!v) {
       onChange('');
@@ -33,6 +34,7 @@ export const FunctionEditor = ({ value, onChange }: IFunctionEditor) => {
             enabled: false,
           },
         }}
+        onMount={onMount}
       />
     </Box>
   );
