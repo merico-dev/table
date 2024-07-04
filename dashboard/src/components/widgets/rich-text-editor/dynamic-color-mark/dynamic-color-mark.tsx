@@ -1,7 +1,6 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 import '@tiptap/extension-text-style';
-import _ from 'lodash';
-import { trimDynamicColorFunc } from './utils';
+import { hashID, trimDynamicColorFunc } from './utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -21,7 +20,12 @@ export const DynamicColorMark = Mark.create({
 
   addAttributes() {
     return {
+      id: {
+        default: hashID(6),
+        parseHTML: (element) => element.getAttribute('id'),
+      },
       [AttrKey]: {
+        default: null,
         parseHTML: (element) => element.getAttribute(AttrKey),
       },
     };
@@ -32,7 +36,6 @@ export const DynamicColorMark = Mark.create({
       {
         tag: 'dynamic-color',
         getAttrs: (node: string | HTMLElement) => {
-          console.log('🔵 getAttrs', node);
           if (typeof node === 'string') {
             console.debug(node);
             return false;
@@ -45,12 +48,7 @@ export const DynamicColorMark = Mark.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log('🔴 renderHTML: ', HTMLAttributes);
-    const v = HTMLAttributes[AttrKey];
-
-    const attrs = mergeAttributes({}, HTMLAttributes);
-    console.log('attrs: ', attrs);
-    return ['dynamic-color', attrs, 0];
+    return ['dynamic-color', HTMLAttributes, 0];
   },
 
   addCommands() {
