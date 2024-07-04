@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Stack, Sx, Text } from '@mantine/core';
 import { Link, RichTextEditor, RichTextEditorProps, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconBorderAll, IconDeviceFloppy } from '@tabler/icons-react';
 import { Color } from '@tiptap/extension-color';
@@ -20,6 +20,21 @@ import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
+
+const RTEContentStyle: Sx = {
+  '.rte-dynamic-color': {
+    position: 'relative',
+  },
+  '.rte-dynamic-color:after': {
+    content: '""',
+    position: 'absolute',
+    bottom: '-2px',
+    left: 0,
+    width: '100%',
+    height: '1px',
+    border: 'double 1px purple',
+  },
+};
 
 function InsertTableControl() {
   const { editor } = useRichTextEditorContext();
@@ -87,7 +102,7 @@ export const CustomRichTextEditor = forwardRef(
     const changed = value !== content;
 
     const finalStyles = useMemo(() => {
-      return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
+      return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...RTEContentStyle } }, styles);
     }, [styles]);
 
     if (!editor) {

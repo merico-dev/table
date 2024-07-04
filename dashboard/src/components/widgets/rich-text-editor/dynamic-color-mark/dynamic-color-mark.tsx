@@ -1,6 +1,7 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 import '@tiptap/extension-text-style';
 import _ from 'lodash';
+import { trimDynamicColorFunc } from './utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -12,9 +13,11 @@ declare module '@tiptap/core' {
 }
 
 const AttrKey = 'data-dynamic-color';
+export const DynamicColorAttrKey = AttrKey;
+export const DynamicColorName = 'dynamicColor';
 
 export const DynamicColorMark = Mark.create({
-  name: 'dynamicColor',
+  name: DynamicColorName,
 
   addAttributes() {
     return {
@@ -54,8 +57,10 @@ export const DynamicColorMark = Mark.create({
     } else {
       color = 'yellow';
     }
-    const attrs = _.omit(HTMLAttributes, [AttrKey]);
-    return ['span', mergeAttributes({ style: `color: ${color};` }, attrs), 0];
+
+    const attrs = mergeAttributes({ style: `background-color: ${color};`, class: 'rte-dynamic-color' }, HTMLAttributes);
+    console.log('attrs: ', attrs);
+    return ['span', attrs, 0];
   },
 
   addCommands() {
@@ -63,8 +68,9 @@ export const DynamicColorMark = Mark.create({
       setDynamicColor:
         (v) =>
         ({ commands }) => {
+          const value = trimDynamicColorFunc(v);
           return commands.setMark(this.name, {
-            [AttrKey]: v,
+            [AttrKey]: value,
           });
         },
       unsetDynamicColor:
