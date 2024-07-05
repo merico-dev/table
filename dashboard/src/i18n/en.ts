@@ -295,6 +295,7 @@ export const en = {
         revert: 'Revert',
         revert_changes: 'Revert Changes',
         reset_to_default: 'Reset to default',
+        init_with_default: 'Init with default',
         select_all: 'Select All',
         clear_selection: 'Clear Selection',
         refresh: 'Refresh',
@@ -562,6 +563,12 @@ export const en = {
             last: 'Last Record',
           },
         },
+      },
+    },
+    rich_text: {
+      dynamic_color: {
+        label: 'Dynamic Color',
+        edit: 'Edit dynamic color',
       },
     },
     chart: {

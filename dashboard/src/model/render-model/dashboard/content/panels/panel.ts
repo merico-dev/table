@@ -7,6 +7,8 @@ import { downloadJSON } from '~/utils/download';
 import { formatAggregatedValue, getAggregatedValue, variablesToStrings } from '~/utils';
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 
+export type VariableValueMap = Record<string, string | number>;
+
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
     // @ts-expect-error typeof getRoot
@@ -42,7 +44,7 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       return variablesToStrings(self.variables, this.data);
     },
     get variableValueMap() {
-      const ret: Record<string, string | number> = {};
+      const ret: VariableValueMap = {};
       const data = this.data;
       self.variables.reduce((prev, variable) => {
         const value = getAggregatedValue(variable, data);

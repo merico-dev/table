@@ -1,19 +1,23 @@
-import { Button, Group, Stack, Text } from '@mantine/core';
+import { Box, Button, Group, Overlay, Stack, Text } from '@mantine/core';
 import { IconDeviceFloppy, IconPlayerSkipBack, IconRecycle } from '@tabler/icons-react';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { AboutFunctionUtils } from '../about-function-utils';
-import { FunctionEditor } from '../function-editor';
+import { FunctionEditor, MonacoEditorRestriction } from '../function-editor';
 import { useTranslation } from 'react-i18next';
+import { OnMount } from '@monaco-editor/react';
+// @ts-expect-error types of constrained-editor-plugin
+import { constrainedEditor } from 'constrained-editor-plugin';
 
 interface IInlineFunctionInput {
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
   defaultValue: TFunctionString;
   label: string;
+  restrictions?: MonacoEditorRestriction[];
 }
 
 export const InlineFunctionInput = forwardRef(
-  ({ value, onChange, label, defaultValue }: IInlineFunctionInput, _ref: any) => {
+  ({ value, onChange, label, defaultValue, restrictions = [] }: IInlineFunctionInput, _ref: any) => {
     const { t } = useTranslation();
     const [localValue, setLocalValue] = useState<string>(value);
 
@@ -33,7 +37,20 @@ export const InlineFunctionInput = forwardRef(
       setLocalValue(value);
     }, [value]);
 
+    const applyRestrictions: OnMount = useCallback((editor, monaco) => {
+      if (restrictions.length === 0) {
+        return;
+      }
+
+      const constrainedInstance = constrainedEditor(monaco);
+      const model = editor.getModel();
+      constrainedInstance.initializeIn(editor);
+      constrainedInstance.addRestrictionsTo(model, restrictions);
+    }, []);
+
     const hasChanges = localValue !== value;
+
+    const empty = typeof localValue === 'string' && localValue.length === 0;
 
     return (
       <Stack spacing={4} sx={{ height: '100%' }}>
@@ -66,7 +83,16 @@ export const InlineFunctionInput = forwardRef(
           </Group>
         </Group>
         <Text size={14}>{label}</Text>
-        <FunctionEditor value={localValue} onChange={setLocalValue} />
+        <Box sx={{ position: 'relative', flexGrow: 1 }}>
+          {empty && (
+            <Overlay center color="#fff" opacity={0.5}>
+              <Button color="blue" radius="xl" onClick={resetFuncContent}>
+                {t('common.actions.init_with_default')}
+              </Button>
+            </Overlay>
+          )}
+          <FunctionEditor value={localValue} onChange={setLocalValue} onMount={applyRestrictions} />
+        </Box>
       </Stack>
     );
   },
