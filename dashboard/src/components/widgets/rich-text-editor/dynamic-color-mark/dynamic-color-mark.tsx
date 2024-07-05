@@ -11,7 +11,7 @@ declare module '@tiptap/core' {
   }
 }
 
-const AttrKey = 'data-dynamic-color';
+const AttrKey = 'data-value';
 export const DynamicColorAttrKey = AttrKey;
 export const DynamicColorName = 'dynamicColor';
 
@@ -56,9 +56,9 @@ export const DynamicColorMark = Mark.create({
       setDynamicColor:
         (v) =>
         ({ commands }) => {
-          const value = trimDynamicColorFunc(v);
+          // const value = trimDynamicColorFunc(v);
           return commands.setMark(this.name, {
-            [AttrKey]: value,
+            [AttrKey]: v,
           });
         },
       unsetDynamicColor:

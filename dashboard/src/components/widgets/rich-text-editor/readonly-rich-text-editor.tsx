@@ -18,15 +18,25 @@ import { useEffect, useMemo } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { FontSize } from './font-size-extension';
 import { Sx } from '@mantine/core';
-import { DynamicColorMark } from './dynamic-color-mark';
+import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
+import { getEmptyDashboardState } from '~/utils';
+import { TDashboardState, VariableValueMap } from '~/model';
 
 interface IReadonlyRichText {
   value: string;
   styles?: RichTextEditorProps['styles'];
   sx?: Sx;
+  dashboardState?: TDashboardState;
+  varaiables?: VariableValueMap;
 }
 
-export const ReadonlyRichText = ({ value, styles = {}, sx = {} }: IReadonlyRichText) => {
+export const ReadonlyRichText = ({
+  value,
+  styles = {},
+  sx = {},
+  dashboardState = getEmptyDashboardState(),
+  varaiables = {},
+}: IReadonlyRichText) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -59,9 +69,18 @@ export const ReadonlyRichText = ({ value, styles = {}, sx = {} }: IReadonlyRichT
     editor?.commands.setContent(value);
   }, [value, editor]);
 
+  const doc = useMemo(() => {
+    const parser = new DOMParser();
+    return parser.parseFromString(value, 'text/html');
+  }, [value]);
+
+  const dynamicColorStyles = useMemo(() => {
+    return getDynamicColorStyles(doc, dashboardState, varaiables);
+  }, [doc, dashboardState, varaiables]);
+
   const finalStyles = useMemo(() => {
-    return _.defaultsDeep({}, { content: CommonHTMLContentStyle }, styles);
-  }, [styles]);
+    return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles } }, styles);
+  }, [styles, dynamicColorStyles]);
 
   return (
     <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>

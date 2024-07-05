@@ -1,6 +1,6 @@
 import { TDashboardState, TPayloadForSQL } from '~/model';
 
-function getEmptyState(): TDashboardState {
+export function getEmptyDashboardState(): TDashboardState {
   return {
     filters: {},
     context: {},
@@ -8,9 +8,9 @@ function getEmptyState(): TDashboardState {
 }
 
 export function payloadToDashboardState(payload: TPayloadForSQL) {
-  const empty = getEmptyState();
+  const empty = getEmptyDashboardState();
   if (!payload) {
-    return getEmptyState();
+    return getEmptyDashboardState();
   }
   const { filters = empty.filters, context = empty.context } = payload;
   return { filters, context };
