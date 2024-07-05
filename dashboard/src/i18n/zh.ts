@@ -565,6 +565,12 @@ export const zh = {
         },
       },
     },
+    rich_text: {
+      dynamic_color: {
+        label: '动态颜色',
+        edit: '编辑动态颜色',
+      },
+    },
     chart: {
       chart_config: '图表设置',
       data_field: '数据字段',

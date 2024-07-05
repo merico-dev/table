@@ -565,6 +565,12 @@ export const en = {
         },
       },
     },
+    rich_text: {
+      dynamic_color: {
+        label: 'Dynamic Color',
+        edit: 'Edit dynamic color',
+      },
+    },
     chart: {
       chart_config: 'Chart Config',
       data_field: 'Data Field',
