@@ -5,7 +5,7 @@ import { Editor } from '@tiptap/react';
 import { useTranslation } from 'react-i18next';
 import { ModalFunctionEditor } from '../../modal-function-editor';
 import { DynamicColorAttrKey, DynamicColorName } from './dynamic-color-mark';
-import { DefaultDynamicColorFunc } from './utils';
+import { DefaultDynamicColorFunc, getDynamicColorRestrictions } from './utils';
 
 const renderTriggerButton = ({ onClick }: { onClick: () => void }) => {
   const { t } = useTranslation();
@@ -47,6 +47,7 @@ export const DynamicColorControl = ({ editor }: { editor: Editor }) => {
       }}
       defaultValue={DefaultDynamicColorFunc}
       renderTriggerButton={renderTriggerButton}
+      restrictions={getDynamicColorRestrictions(currentDynamicColor)}
       zIndex={340}
     />
   );

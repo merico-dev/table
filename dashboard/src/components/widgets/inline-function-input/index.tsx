@@ -43,9 +43,19 @@ export const InlineFunctionInput = forwardRef(
       }
 
       const constrainedInstance = constrainedEditor(monaco);
-      const model = editor.getModel();
+      const model = editor.getModel() as any;
       constrainedInstance.initializeIn(editor);
       constrainedInstance.addRestrictionsTo(model, restrictions);
+      if (!model) {
+        return;
+      }
+      if (!model._hasHighlight) {
+        constrainedInstance.toggleDevMode();
+        model.toggleHighlightOfEditableAreas();
+        const currentRanges = model.getCurrentEditableRanges();
+        const currentValue = model.getValueInEditableRanges();
+        console.debug({ model, currentRanges, currentValue });
+      }
     }, []);
 
     const hasChanges = localValue !== value;
@@ -53,7 +63,14 @@ export const InlineFunctionInput = forwardRef(
     const empty = typeof localValue === 'string' && localValue.length === 0;
 
     return (
-      <Stack spacing={4} sx={{ height: '100%' }}>
+      <Stack
+        spacing={4}
+        sx={{
+          height: '100%',
+          '.editableArea--multi-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
+          '.editableArea--single-line': { backgroundColor: 'rgba(255,183,78, 0.1)' },
+        }}
+      >
         <Group mb={6} position="apart" sx={{ flexShrink: 0, flexGrow: 0 }}>
           <Group position="left">
             <AboutFunctionUtils />

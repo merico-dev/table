@@ -1,10 +1,31 @@
 import { TDashboardState, VariableValueMap } from '~/model';
 import { functionUtils } from '~/utils';
+import { MonacoEditorRestriction } from '../../function-editor';
 
 const head = 'function color({ variables }, { filters, context }, utils) {';
 const tail = '}';
 export const DefaultDynamicColorFuncLines = [head, '    return "red";', tail];
 export const DefaultDynamicColorFunc = DefaultDynamicColorFuncLines.join('\n');
+export function getDynamicColorRestrictions(code: string): MonacoEditorRestriction[] {
+  const lines = code.split('\n');
+  if (lines.length === 2) {
+    console.warn('[getDynamicColorRestrictions]unexpected lines of code: ', code);
+    return [];
+  }
+
+  const lastContentLine = lines[lines.length - 2];
+  if (!lastContentLine) {
+    return [];
+  }
+
+  return [
+    {
+      range: [2, 1, lines.length - 1, lastContentLine.length + 1],
+      label: 'body',
+      allowMultiline: true,
+    },
+  ];
+}
 
 // TODO: use it after https://github.com/merico-dev/table/issues/1455
 export const trimDynamicColorFunc = (raw: string) => {
