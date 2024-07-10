@@ -1,15 +1,13 @@
-import { ActionIcon, Group, Select, SimpleGrid, Stack, Text } from '@mantine/core';
-import React from 'react';
-import { DeviceFloppy } from 'tabler-icons-react';
-import { VizConfigProps } from '~/types/plugin';
-import { TemplateInput } from '~/utils';
-import { useStorageData } from '~/components/plugins/hooks';
-import { DEFAULT_CONFIG, IVizStatsConf } from './type';
+import { Stack } from '@mantine/core';
 import _, { defaultsDeep } from 'lodash';
+import React, { useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { VizConfigBanner } from '../../editor-components';
 import { useTranslation } from 'react-i18next';
-import { HorizontalAlignSelector, VerticalAlignSelector } from '../../editor-components';
+import { useStorageData } from '~/components/plugins/hooks';
+import { CustomRichTextEditor } from '~/components/widgets';
+import { VizConfigProps } from '~/types/plugin';
+import { VerticalAlignSelector, VizConfigBanner } from '../../editor-components';
+import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 
 export function VizStatsEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -25,42 +23,37 @@ export function VizStatsEditor({ context }: VizConfigProps) {
     reset(defaultValues);
   }, [defaultValues]);
 
-  watch(['template', 'horizontal_align', 'vertical_align']);
+  watch(['content', 'vertical_align']);
   const values = getValues();
   const changed = React.useMemo(() => {
     return !_.isEqual(values, conf);
   }, [values, conf]);
 
+  const submitButton = useRef<HTMLButtonElement>(null);
+  const onContentSubmit = () => submitButton.current?.click();
   return (
-    <Stack spacing="xs">
-      <form onSubmit={handleSubmit(setConf)}>
-        <VizConfigBanner canSubmit={changed} />
+    <form onSubmit={handleSubmit(setConf)}>
+      <Stack spacing="xs">
+        <VizConfigBanner canSubmit={changed} buttonRef={submitButton} />
         <Controller
-          name="template"
+          control={control}
+          name="vertical_align"
+          render={({ field }) => <VerticalAlignSelector {...field} />}
+        />
+        <Controller
+          name="content"
           control={control}
           render={({ field }) => (
-            <TemplateInput
-              label={t('chart.content_template.label')}
-              placeholder={t('chart.content_template.hint')}
-              py="md"
-              sx={{ flexGrow: 1 }}
+            <CustomRichTextEditor
               {...field}
+              styles={{ root: { flexGrow: 1, minHeight: '120px' } }}
+              label={t('rich_text.content.label')}
+              onSubmit={onContentSubmit}
             />
           )}
         />
-        <SimpleGrid cols={2}>
-          <Controller
-            name="horizontal_align"
-            control={control}
-            render={({ field }) => <HorizontalAlignSelector {...field} />}
-          />
-          <Controller
-            control={control}
-            name="vertical_align"
-            render={({ field }) => <VerticalAlignSelector {...field} />}
-          />
-        </SimpleGrid>
-      </form>
-    </Stack>
+        <pre>{conf?.content}</pre>
+      </Stack>
+    </form>
   );
 }

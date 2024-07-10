@@ -1,3 +1,4 @@
+import { PanelRenderModelInstance } from '~/model';
 import { aggregateValue } from '../aggregation';
 import { formatNumber } from '../number';
 import { ITemplateVariable } from './types';
@@ -35,4 +36,19 @@ export function formatAggregatedValue(
     console.error(e);
     return value;
   }
+}
+
+export function transformTemplateToRichText(template: string, panel: PanelRenderModelInstance) {
+  const ret = template.replaceAll(/(\$\{([^{\}]+(?=}))\})/g, (...matches) => {
+    const code = matches[2];
+    const style = panel.variableStyleMap[code];
+    if (!style) {
+      return `{{${code}}}`;
+    }
+    const styleStr = Object.entries(style)
+      .map(([k, v]) => `${k}:${v}`)
+      .join(';');
+    return `<span style="${styleStr}">{{${code}}}</span>`;
+  });
+  return ret;
 }

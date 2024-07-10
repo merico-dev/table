@@ -22,6 +22,7 @@ function getColorByColorConf(conf: ColorConfType, value: number | number[] | nul
   }
   return 'black';
 }
+export const getColorByVariableColorConf = getColorByColorConf;
 
 export function variable2Jsx(variable: ITemplateVariable, data: TPanelData) {
   const { color, data_field, aggregation, size, weight } = variable;
