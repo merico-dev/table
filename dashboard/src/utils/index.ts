@@ -13,3 +13,4 @@ export * from './register-echarts';
 export * from './shallow-to-js';
 export * from './sql';
 export * from './usage';
+export * from './rich-text';
