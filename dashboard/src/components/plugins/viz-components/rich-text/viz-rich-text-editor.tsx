@@ -34,7 +34,7 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
           pl="md"
           sx={{ borderBottom: '1px solid #eee', background: '#efefef', display: 'none' }}
         >
-          <Text>{t('viz.rich_text.content.label')}</Text>
+          <Text>{t('rich_text.content.label')}</Text>
           <ActionIcon ref={submitButton} type="submit" mr={5} variant="filled" color="green">
             <DeviceFloppy size={20} />
           </ActionIcon>
@@ -47,7 +47,7 @@ export function VizRichTextEditor({ context }: VizConfigProps) {
             <CustomRichTextEditor
               {...field}
               styles={{ root: { flexGrow: 1 } }}
-              label={t('viz.rich_text.content.label')}
+              label={t('rich_text.content.label')}
               onSubmit={onContentSubmit}
             />
           )}

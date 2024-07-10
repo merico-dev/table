@@ -566,6 +566,10 @@ export const en = {
       },
     },
     rich_text: {
+      label: 'Rich Text',
+      content: {
+        label: 'Content',
+      },
       dynamic_color: {
         label: 'Dynamic Color',
         edit: 'Edit dynamic color',

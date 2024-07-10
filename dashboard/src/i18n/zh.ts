@@ -566,6 +566,10 @@ export const zh = {
       },
     },
     rich_text: {
+      label: '富文本',
+      content: {
+        label: '内容',
+      },
       dynamic_color: {
         label: '动态颜色',
         edit: '编辑动态颜色',
