@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import lodash from 'lodash';
 import * as mathjs from 'mathjs';
 import numbro from 'numbro';
+import * as popmotion from 'popmotion';
 
 export const functionUtils = {
   CryptoJS,
@@ -14,6 +15,7 @@ export const functionUtils = {
   numbro,
   mathjs,
   faker,
+  popmotion,
 };
 
 type DescriptionType = {
@@ -29,6 +31,7 @@ const descriptions: DescriptionType[] = [
   { name: 'mathjs', url: 'https://mathjs.org/', version: '11.7.0' },
   { name: 'numbro', url: 'https://numbrojs.com/', version: '2.3.6' },
   { name: 'faker', url: 'https://fakerjs.dev/', version: '7.6.0' },
+  { name: 'popmotion', url: 'https://popmotion.io/', version: '11.0.3' },
 ];
 
 const getDescriptionRow = (d: DescriptionType) => `
