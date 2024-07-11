@@ -2,6 +2,7 @@ import { PanelRenderModelInstance } from '~/model';
 import { aggregateValue } from '../aggregation';
 import { formatNumber } from '../number';
 import { ITemplateVariable } from './types';
+import { completeDynamicColorFunc, hashID } from '~/components/widgets';
 
 export function getNonStatsDataText(data: $TSFixMe) {
   if (data === null) {
@@ -41,14 +42,28 @@ export function formatAggregatedValue(
 export function transformTemplateToRichText(template: string, panel: PanelRenderModelInstance) {
   const ret = template.replaceAll(/(\$\{([^{\}]+(?=}))\})/g, (...matches) => {
     const code = matches[2];
-    const style = panel.variableStyleMap[code];
-    if (!style) {
+    const styleObj = panel.variableStyleMap[code];
+    if (!styleObj) {
       return `{{${code}}}`;
     }
+    const { variable, ...style } = styleObj;
     const styleStr = Object.entries(style)
       .map(([k, v]) => `${k}:${v}`)
       .join(';');
-    return `<span style="${styleStr}">{{${code}}}</span>`;
+    const colorConf = variable.color;
+    if (colorConf.type !== 'continuous') {
+      return `<span style="${styleStr}">{{${code}}}</span>`;
+    }
+    const id = hashID(6);
+    const colorCode = `try {
+      return utils.popmotion.interpolate(${JSON.stringify(colorConf.valueRange)}, ${JSON.stringify(
+      colorConf.colorRange,
+    )})(variables["${code}"]);
+    } catch (error) {
+      console.error(error);
+      return "black";
+    }`;
+    return `<span style="${styleStr}"><dynamic-color id="${id}" data-value='${colorCode}'>{{${code}}}</dynamic-color></span>`;
   });
   return ret;
 }
