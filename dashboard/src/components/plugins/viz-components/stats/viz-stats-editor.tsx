@@ -46,13 +46,12 @@ export function VizStatsEditor({ context }: VizConfigProps) {
           render={({ field }) => (
             <CustomRichTextEditor
               {...field}
-              styles={{ root: { flexGrow: 1, minHeight: '120px' } }}
+              styles={{ root: { flexGrow: 1, minHeight: '240px' } }}
               label={t('rich_text.content.label')}
               onSubmit={onContentSubmit}
             />
           )}
         />
-        <pre>{conf?.content}</pre>
       </Stack>
     </form>
   );
