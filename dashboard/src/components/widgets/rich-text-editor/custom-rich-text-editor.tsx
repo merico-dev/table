@@ -54,11 +54,13 @@ interface ICustomRichTextEditor {
   onChange: (v: string) => void;
   styles?: RichTextEditorProps['styles'];
   label: string;
+  autoSubmit?: boolean;
   onSubmit?: () => void;
 }
 
 export const CustomRichTextEditor = forwardRef(
-  ({ value, onChange, styles = {}, label, onSubmit }: ICustomRichTextEditor, ref: any) => {
+  ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
+    console.log('value:', value);
     const [content, setContent] = useState(value);
     const editor = useEditor({
       extensions: [
@@ -92,8 +94,13 @@ export const CustomRichTextEditor = forwardRef(
     });
 
     useEffect(() => {
-      setContent(value);
-      editor?.commands.setContent(value);
+      setContent((content) => {
+        if (value === content) {
+          return content;
+        }
+        editor?.commands.setContent(value);
+        return value;
+      });
     }, [value]);
 
     const submit = () => {
@@ -101,6 +108,13 @@ export const CustomRichTextEditor = forwardRef(
       onSubmit?.();
     };
     const changed = value !== content;
+
+    useEffect(() => {
+      if (!autoSubmit) {
+        return;
+      }
+      submit();
+    }, [autoSubmit, changed]);
 
     const finalStyles = useMemo(() => {
       return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...RTEContentStyle } }, styles);
@@ -116,9 +130,11 @@ export const CustomRichTextEditor = forwardRef(
           <Text size={14} fw={500}>
             {label}
           </Text>
-          <ActionIcon color="green" disabled={!changed} onClick={submit}>
-            <IconDeviceFloppy size={18} />
-          </ActionIcon>
+          {!autoSubmit && (
+            <ActionIcon color="green" disabled={!changed} onClick={submit}>
+              <IconDeviceFloppy size={18} />
+            </ActionIcon>
+          )}
         </Group>
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
