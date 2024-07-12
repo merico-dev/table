@@ -60,7 +60,6 @@ interface ICustomRichTextEditor {
 
 export const CustomRichTextEditor = forwardRef(
   ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
-    console.log('value:', value);
     const [content, setContent] = useState(value);
     const editor = useEditor({
       extensions: [
