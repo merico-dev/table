@@ -1,21 +1,16 @@
-import { Box, Center } from '@mantine/core';
-import React, { useCallback, useMemo } from 'react';
+import { Box } from '@mantine/core';
+import { useCallback, useMemo } from 'react';
 
-import _ from 'lodash';
+import { defaults } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useStorageData } from '~/components/plugins/hooks';
-import { useRenderContentModelContext } from '~/contexts';
-import { VizViewProps } from '~/types/plugin';
-import { formatAggregatedValue, getAggregatedValue, templateToJSX } from '~/utils';
-import { DEFAULT_CONFIG, IVizStatsConf } from './type';
+import { ReadonlyRichText } from '~/components/widgets';
+import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
+import { VizViewProps } from '~/types/plugin';
+import { parseRichTextContent } from '~/utils';
 import { ClickStats } from './triggers';
-
-const horizontalAlignments = {
-  left: 'flex-start',
-  center: 'center',
-  right: 'flex-end',
-};
+import { DEFAULT_CONFIG, IVizStatsConf } from './type';
 
 const verticalAlignments = {
   top: 'flex-start',
@@ -32,31 +27,20 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
   const triggers = useTriggerSnapshotList<IVizStatsConf>(interactionManager.triggerManager, ClickStats.id);
 
   const contentModel = useRenderContentModelContext();
-  const { value: conf = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
+  const { value: confValue = DEFAULT_CONFIG } = useStorageData<IVizStatsConf>(context.instanceData, 'config');
+  const { panel } = useRenderPanelContext();
   const { data, variables } = context;
-  const { template, horizontal_align, vertical_align } = conf;
   const { width, height } = context.viewport;
 
-  const semiTemplate = useMemo(() => {
-    try {
-      return _.template(template)(contentModel.payloadForSQL);
-    } catch (error) {
-      return template;
+  const richTextContent = useMemo(() => {
+    const conf = defaults({}, confValue, DEFAULT_CONFIG);
+    if (!conf.content) {
+      return '';
     }
-  }, [contentModel.payloadForSQL, template]);
+    return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
+  }, [confValue, variables, contentModel.payloadForViz]);
 
-  const contents = useMemo(() => {
-    return templateToJSX(semiTemplate, variables, context.data);
-  }, [semiTemplate, variables, context.data, context]);
-
-  const variableValueMap = useMemo(() => {
-    return variables.reduce((prev, variable) => {
-      const value = getAggregatedValue(variable, data);
-      prev[variable.name] = formatAggregatedValue(variable, value);
-      return prev;
-    }, {} as Record<string, string | number>);
-  }, [data, variables]);
-
+  const variableValueMap = panel.variableValueMap;
   const handleContentClick = useCallback(() => {
     triggers.forEach((t) => {
       interactionManager.runInteraction(t.id, { variables: variableValueMap });
@@ -73,19 +57,29 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
         }
       : {};
   return (
-    <Center
+    <Box
       sx={{
         width,
         height,
-        justifyContent: horizontalAlignments[horizontal_align],
-        alignItems: verticalAlignments[vertical_align],
+        alignItems: verticalAlignments[confValue.vertical_align],
       }}
     >
       <Box sx={contentSx} onClick={handleContentClick}>
-        {Object.values(contents).map((c, i) => (
-          <React.Fragment key={i}>{c}</React.Fragment>
-        ))}
+        <ReadonlyRichText
+          value={richTextContent}
+          styles={{
+            root: {
+              border: 'none',
+              height: '100%',
+            },
+            content: {
+              padding: 0,
+            },
+          }}
+          dashboardState={contentModel.dashboardState}
+          varaiables={variableValueMap}
+        />
       </Box>
-    </Center>
+    </Box>
   );
 });

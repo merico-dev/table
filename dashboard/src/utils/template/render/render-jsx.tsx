@@ -11,10 +11,11 @@ function getColorByColorConf(conf: ColorConfType, value: number | number[] | nul
   }
   if (conf.type === 'continuous') {
     try {
-      if (typeof value !== 'number') {
-        throw new Error(`[getColorByColorConf] Invalid type of aggregated value: ${value}`);
+      const numValue = Number(value);
+      if (Number.isNaN(numValue)) {
+        throw new Error(`[getColorByColorConf] Invalid type of aggregated value: ${value}, parsed: ${numValue}`);
       }
-      return new InterpolateColor(conf).getColor(value);
+      return new InterpolateColor(conf).getColor(numValue);
     } catch (error) {
       console.error(error);
       return 'black';
@@ -22,6 +23,7 @@ function getColorByColorConf(conf: ColorConfType, value: number | number[] | nul
   }
   return 'black';
 }
+export const getColorByVariableColorConf = getColorByColorConf;
 
 export function variable2Jsx(variable: ITemplateVariable, data: TPanelData) {
   const { color, data_field, aggregation, size, weight } = variable;

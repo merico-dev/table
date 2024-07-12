@@ -5,7 +5,7 @@ import { useStorageData } from '~/components/plugins/hooks';
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 import { VizViewProps } from '~/types/plugin';
-import { parseRichTextContent } from './parse-rich-text-content';
+import { parseRichTextContent } from '~/utils';
 import { DEFAULT_CONFIG, IRichTextConf } from './type';
 
 export const VizRichText = observer(({ context }: VizViewProps) => {

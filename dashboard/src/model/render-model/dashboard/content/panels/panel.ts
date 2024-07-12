@@ -4,10 +4,20 @@ import { TableVizComponent } from '~/components/plugins/viz-components/table';
 import { PanelMeta } from '~/model/meta-model/dashboard/content/panel';
 import { QueryRenderModelInstance } from '../queries';
 import { downloadJSON } from '~/utils/download';
-import { formatAggregatedValue, getAggregatedValue, variablesToStrings } from '~/utils';
+import {
+  formatAggregatedValue,
+  getAggregatedValue,
+  getColorByVariableColorConf,
+  ITemplateVariable,
+  variablesToStrings,
+} from '~/utils';
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 
 export type VariableValueMap = Record<string, string | number>;
+export type VariableStyleMap = Record<
+  string,
+  { color: string; 'font-size': string; 'font-weight': string; variable: ITemplateVariable }
+>;
 
 export const PanelRenderModel = PanelMeta.views((self) => ({
   get contentModel(): any {
@@ -49,6 +59,17 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
       self.variables.reduce((prev, variable) => {
         const value = getAggregatedValue(variable, data);
         prev[variable.name] = formatAggregatedValue(variable, value);
+        return prev;
+      }, ret);
+      return ret;
+    },
+    get variableStyleMap() {
+      const values = this.variableValueMap;
+      const ret: VariableStyleMap = {};
+      self.variables.reduce((prev, variable) => {
+        const color = getColorByVariableColorConf(variable.color, values[variable.name]);
+
+        prev[variable.name] = { color, 'font-size': variable.size, 'font-weight': variable.weight, variable };
         return prev;
       }, ret);
       return ret;

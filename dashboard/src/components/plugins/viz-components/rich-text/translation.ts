@@ -3,18 +3,12 @@ import { TranslationPatch } from '~/types/plugin';
 const en = {
   rich_text: {
     viz_name: 'Rich Text',
-    content: {
-      label: 'Content',
-    },
   },
 };
 
 const zh = {
   rich_text: {
     viz_name: '富文本',
-    content: {
-      label: '内容',
-    },
   },
 };
 

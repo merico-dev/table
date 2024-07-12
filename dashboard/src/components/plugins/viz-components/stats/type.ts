@@ -1,12 +1,10 @@
-import { HorizontalAlign, VerticalAlign } from '../../editor-components';
+import { VerticalAlign } from '../../editor-components';
 
 export interface IVizStatsConf {
-  template: string;
+  content: string;
   vertical_align: VerticalAlign;
-  horizontal_align: HorizontalAlign;
 }
 export const DEFAULT_CONFIG: IVizStatsConf = {
-  template: 'The variable ${value} is defined in Variables section',
+  content: 'Use double curly brackets to wrap js code: {{ new Date().getTime() }}',
   vertical_align: 'center',
-  horizontal_align: 'left',
 };

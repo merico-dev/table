@@ -1,9 +1,11 @@
-import { TNumberFormat } from '~/utils';
+import { TNumberFormat, transformTemplateToRichText } from '~/utils';
 import { VersionBasedMigrator } from '~/components/plugins/plugin-data-migrator';
 import { IVizStatsConf } from '../type';
 import { AnyObject } from '~/types';
 import { ColorConfType, ITemplateVariable } from '~/utils';
 import { cloneDeep, get, omit, set } from 'lodash';
+import { HorizontalAlign } from '~/components/plugins/editor-components';
+import { PanelModelInstance } from '~/dashboard-editor';
 
 interface ILegacyStatsConf {
   align: 'center';
@@ -89,8 +91,25 @@ function fixVariableType(variable: ITemplateVariable) {
   return cloned;
 }
 
+function applyHorizontalAlignmentToRichText(content: string, horizontal_align: HorizontalAlign) {
+  if (!horizontal_align || horizontal_align === 'left') {
+    return content;
+  }
+  return `<p style="text-align: ${horizontal_align}">${content}</p>`;
+}
+
+function v4(legacyConf: $TSFixMe, panelModel: PanelModelInstance): IVizStatsConf {
+  const { horizontal_align, template, ...rest } = legacyConf;
+  let content = transformTemplateToRichText(template, panelModel);
+  content = applyHorizontalAlignmentToRichText(content, horizontal_align);
+  return {
+    content,
+    ...rest,
+  };
+}
+
 export class VizStatsMigrator extends VersionBasedMigrator {
-  readonly VERSION = 2;
+  readonly VERSION = 4;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -110,6 +129,10 @@ export class VizStatsMigrator extends VersionBasedMigrator {
     this.version(3, (data) => {
       const { config } = data;
       return { ...data, version: 3, config: v3(config) };
+    });
+    this.version(4, (data, { panelModel }) => {
+      const { config } = data;
+      return { ...data, version: 4, config: v4(config, panelModel) };
     });
   }
 }
