@@ -45,23 +45,19 @@ export function parseRichTextContent(
   data: TPanelData,
 ) {
   const variableStrings = variablesToStrings(variables, data);
-  const regx = /^(.+)\}\}(.*)$/;
+  const ret = rawContent.replaceAll(/(\{\{([^{\}]+(?=}))\}\})/g, (...matches) => {
+    const code = matches[2];
+    if (!code) {
+      return code;
+    }
+    const element = variableStrings[code];
+    if (element) {
+      return element;
+    }
 
-  return rawContent
-    .split('{{')
-    .map((text) => {
-      const match = regx.exec(text);
-      if (!match) {
-        return text;
-      }
-      const element = variableStrings[match[1]];
-      if (element) {
-        const rest = match[2] ?? '';
-        return `${element}${rest}`;
-      }
-
-      const script = unescapeHTML(match[1]);
-      return `${tryParsingScript(script, variableStrings, payload)}${match[2]}`;
-    })
-    .join('');
+    const script = unescapeHTML(code);
+    const result = tryParsingScript(script, variableStrings, payload);
+    return result;
+  });
+  return ret;
 }
