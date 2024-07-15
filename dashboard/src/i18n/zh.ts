@@ -266,9 +266,9 @@ export const zh = {
         },
         vertical: {
           label: '垂直对齐',
-          left: '居上',
+          top: '居上',
           center: '居中',
-          right: '居下',
+          bottom: '居下',
         },
       },
       id: 'ID',
@@ -708,7 +708,7 @@ export const zh = {
             overlap: '柱子可互相重叠',
           },
           bar_width: {
-            min: '最大柱宽',
+            min: '最小柱宽',
             exact: '柱宽',
             max: '最大柱宽',
           },
