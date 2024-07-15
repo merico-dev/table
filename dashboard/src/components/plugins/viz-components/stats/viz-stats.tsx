@@ -76,10 +76,16 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
           styles={{
             root: {
               border: 'none',
-              height: '100%',
+              maxWidth: width,
+              maxHeight: height,
+              '&.mantine-RichTextEditor-root': {
+                overflow: 'auto !important',
+              },
             },
             content: {
-              padding: 0,
+              '&.mantine-RichTextEditor-content .ProseMirror': {
+                padding: 0,
+              },
             },
           }}
           dashboardState={contentModel.dashboardState}
