@@ -3,6 +3,7 @@ import { ICartesianChartConf, ICartesianChartSeriesItem } from '../../type';
 import { makeGroupedSeriesData, makeOneSeriesData } from './data';
 import { getEChartsSymbolSize } from './get-echarts-symbol-size';
 import { DataTemplateType } from './types';
+import _ from 'lodash';
 
 export function getSeriesItemOrItems(
   { x_axis_data_key, x_axis }: ICartesianChartConf,
@@ -50,7 +51,7 @@ export function getSeriesItemOrItems(
       shadowColor: 'rgba(255,255,255,1)',
       shadowBlur: 0,
       shadowOffsetX: 0,
-      shadowOffsetY: 3,
+      shadowOffsetY: _.clamp(rest.lineStyle.width, 1, 3),
     };
   }
   if (display_name_on_line) {
