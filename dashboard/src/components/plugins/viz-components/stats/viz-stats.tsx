@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Box, Flex, Sx } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 
 import { defaults } from 'lodash';
@@ -17,6 +17,19 @@ const verticalAlignments = {
   center: 'center',
   bottom: 'flex-end',
 };
+
+function getWrapperSx(triggersCount: number) {
+  const ret: Sx = {
+    flexGrow: 1,
+  };
+  if (triggersCount > 0) {
+    ret.cursor = 'pointer';
+    ret['&:hover'] = {
+      textDecoration: 'underline',
+    };
+  }
+  return ret;
+}
 
 export const VizStats = observer(({ context, instance }: VizViewProps) => {
   const interactionManager = useCurrentInteractionManager({
@@ -47,24 +60,17 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
     });
   }, [variableValueMap, triggers, interactionManager]);
 
-  const contentSx =
-    triggers.length > 0
-      ? {
-          cursor: 'pointer',
-          '&:hover': {
-            textDecoration: 'underline',
-          },
-        }
-      : {};
   return (
-    <Box
+    <Flex
+      className="viz-stats"
       sx={{
         width,
         height,
-        alignItems: verticalAlignments[confValue.vertical_align],
       }}
+      align={verticalAlignments[confValue.vertical_align]}
+      direction="row"
     >
-      <Box sx={contentSx} onClick={handleContentClick}>
+      <Box className="viz-stats--clickable-wrapper" sx={getWrapperSx(triggers.length)} onClick={handleContentClick}>
         <ReadonlyRichText
           value={richTextContent}
           styles={{
@@ -80,6 +86,6 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
           varaiables={variableValueMap}
         />
       </Box>
-    </Box>
+    </Flex>
   );
 });
