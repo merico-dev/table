@@ -40,7 +40,7 @@ export function formatAggregatedValue(
 }
 
 export function transformTemplateToRichText(template: string, panel: PanelRenderModelInstance) {
-  const ret = template.replaceAll(/(\$\{([^{\}]+(?=}))\}\})/g, (...matches) => {
+  const ret = template.replaceAll(/(\$\{([^{\}]+(?=}))\})/g, (...matches) => {
     const code = matches[2];
     const styleObj = panel.variableStyleMap[code];
     if (!styleObj) {

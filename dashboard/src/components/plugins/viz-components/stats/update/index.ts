@@ -108,8 +108,18 @@ function v4(legacyConf: $TSFixMe, panelModel: PanelModelInstance): IVizStatsConf
   };
 }
 
+// https://github.com/merico-dev/table/issues/1461
+function v5(legacyConf: $TSFixMe, panelModel: PanelModelInstance): IVizStatsConf {
+  const { content, ...rest } = legacyConf;
+  const correctContent = transformTemplateToRichText(content, panelModel);
+  return {
+    content: correctContent,
+    ...rest,
+  };
+}
+
 export class VizStatsMigrator extends VersionBasedMigrator {
-  readonly VERSION = 4;
+  readonly VERSION = 5;
 
   configVersions(): void {
     this.version(1, (data) => {
@@ -133,6 +143,10 @@ export class VizStatsMigrator extends VersionBasedMigrator {
     this.version(4, (data, { panelModel }) => {
       const { config } = data;
       return { ...data, version: 4, config: v4(config, panelModel) };
+    });
+    this.version(5, (data, { panelModel }) => {
+      const { config } = data;
+      return { ...data, version: 5, config: v5(config, panelModel) };
     });
   }
 }

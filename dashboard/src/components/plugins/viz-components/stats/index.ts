@@ -9,7 +9,7 @@ import { ClickStats } from './triggers';
 export const StatsVizComponent: VizComponent = {
   createConfig() {
     return {
-      version: 4,
+      version: 5,
       config: DEFAULT_CONFIG,
     };
   },
