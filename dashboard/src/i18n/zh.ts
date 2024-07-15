@@ -266,9 +266,9 @@ export const zh = {
         },
         vertical: {
           label: '垂直对齐',
-          left: '居上',
+          top: '居上',
           center: '居中',
-          right: '居下',
+          bottom: '居下',
         },
       },
       id: 'ID',

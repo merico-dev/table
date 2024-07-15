@@ -266,9 +266,9 @@ export const en = {
         },
         vertical: {
           label: 'Vertical Align',
-          left: 'top',
+          top: 'top',
           center: 'center',
-          right: 'bottom',
+          bottom: 'bottom',
         },
       },
       id: 'ID',
