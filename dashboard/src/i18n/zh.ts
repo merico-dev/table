@@ -708,7 +708,7 @@ export const zh = {
             overlap: '柱子可互相重叠',
           },
           bar_width: {
-            min: '最大柱宽',
+            min: '最小柱宽',
             exact: '柱宽',
             max: '最大柱宽',
           },
