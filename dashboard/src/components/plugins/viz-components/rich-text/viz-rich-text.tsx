@@ -39,7 +39,7 @@ export const VizRichText = observer(({ context }: VizViewProps) => {
         },
       }}
       dashboardState={contentModel.dashboardState}
-      varaiables={panel.variableValueMap}
+      variableAggValueMap={panel.variableAggValueMap}
     />
   );
 });

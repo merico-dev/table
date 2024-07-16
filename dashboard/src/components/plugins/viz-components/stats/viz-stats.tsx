@@ -53,12 +53,11 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
     return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
   }, [confValue, variables, contentModel.payloadForViz]);
 
-  const variableValueMap = panel.variableValueMap;
   const handleContentClick = useCallback(() => {
     triggers.forEach((t) => {
-      interactionManager.runInteraction(t.id, { variables: variableValueMap });
+      interactionManager.runInteraction(t.id, { variables: panel.variableValueMap });
     });
-  }, [variableValueMap, triggers, interactionManager]);
+  }, [panel.variableValueMap, triggers, interactionManager]);
 
   return (
     <Flex
@@ -89,7 +88,7 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
             },
           }}
           dashboardState={contentModel.dashboardState}
-          varaiables={variableValueMap}
+          variableAggValueMap={panel.variableAggValueMap}
         />
       </Box>
     </Flex>
