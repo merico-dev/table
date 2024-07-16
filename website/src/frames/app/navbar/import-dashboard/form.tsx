@@ -1,4 +1,4 @@
-import { Box, Button, FileInput, Group, LoadingOverlay, TextInput } from '@mantine/core';
+import { Autocomplete, Box, Button, FileInput, Group, LoadingOverlay, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -20,12 +20,17 @@ const cleanContent = (c: TDashboardContent | null) => {
 
 interface IFormValues {
   name: string;
+  group: string;
   content: TDashboardContent | null;
 }
 
 export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
   const { store } = useDashboardStore();
+
+  const groupNames = useMemo(() => {
+    return _.uniq(store.list.map((d) => d.group).filter((v) => !!v));
+  }, [store.list]);
 
   const dashboardNameSet = useMemo(() => {
     return new Set(store.list.map((o) => o.name));
@@ -42,11 +47,12 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
   } = useForm<IFormValues>({
     defaultValues: {
       name: '',
+      group: '',
       content: null,
     },
   });
 
-  const createDashboardWithJSON = async ({ name, content }: IFormValues) => {
+  const createDashboardWithJSON = async ({ name, group, content }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
@@ -59,7 +65,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
         throw new Error('please use a valid json file');
       }
       const finalContent = cleanContent(content);
-      const d = await APICaller.dashboard.create(name, '');
+      const d = await APICaller.dashboard.create(name, group);
       const c = await APICaller.dashboard_content.create({
         dashboard_id: d.id,
         name: 'v1',
@@ -117,31 +123,46 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
   const disabled = !name || !content;
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
-      <LoadingOverlay visible={loading} />
+      <LoadingOverlay visible={store.loading} />
       <form onSubmit={handleSubmit(createDashboardWithJSON)}>
-        <Controller
-          name="name"
-          control={control}
-          rules={{
-            validate: (v: string) => !dashboardNameSet.has(v) || 'This name is occupied',
-          }}
-          render={({ field }) => (
-            <TextInput
-              mb="md"
-              required
-              label="Name"
-              placeholder="Name the dashboard"
-              {...field}
-              error={errors.name?.message}
-            />
-          )}
-        />
-        <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
-        <Group position="right" my="md">
-          <Button type="submit" disabled={disabled}>
-            Confirm
-          </Button>
-        </Group>
+        <Stack>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              validate: (v: string) => !dashboardNameSet.has(v) || 'This name is occupied',
+            }}
+            render={({ field }) => (
+              <TextInput
+                required
+                label="Name"
+                placeholder="Name the dashboard"
+                {...field}
+                error={errors.name?.message}
+              />
+            )}
+          />
+          <Controller
+            name="group"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                disabled={store.loading}
+                withinPortal
+                label="Group"
+                maxDropdownHeight={500}
+                data={groupNames}
+                {...field}
+              />
+            )}
+          />
+          <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
+          <Group position="right" my="md">
+            <Button type="submit" disabled={disabled}>
+              Confirm
+            </Button>
+          </Group>
+        </Stack>
       </form>
     </Box>
   );
