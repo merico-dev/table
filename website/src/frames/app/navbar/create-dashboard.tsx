@@ -47,13 +47,11 @@ interface IFormValues {
   idToDuplicate: string;
 }
 
-function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
+  const { store } = useDashboardStore();
 
-  const { data: dashboards, loading } = useRequest(async (signal) => {
-    const { data } = await APICaller.dashboard.list(signal);
-    return data;
-  });
+  const dashboards = store.list;
 
   const options = useMemo(() => {
     if (!dashboards) {
@@ -176,7 +174,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             control={control}
             render={({ field }) => (
               <Autocomplete
-                disabled={loading}
+                disabled={store.loading}
                 withinPortal
                 label="Group"
                 maxDropdownHeight={500}
@@ -192,7 +190,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
               // @ts-expect-error type of onChange
               <Select
                 data={options}
-                disabled={loading || options.length === 0}
+                disabled={store.loading || options.length === 0}
                 withinPortal
                 maxDropdownHeight={500}
                 label="Choose a dashboard to duplicate (optional)"
@@ -208,7 +206,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       </form>
     </Box>
   );
-}
+});
 
 export const CreateDashboard = observer(() => {
   const { store } = useDashboardStore();
