@@ -24,6 +24,9 @@ export const DashboardStore = types
     getByID(id: string) {
       return self.list.find((d) => d.id === id);
     },
+    get groupNames() {
+      return _.uniq(self.list.map((d) => d.group).filter((v) => !!v));
+    },
     get groupedList() {
       const groups = self.list
         .filter((d) => d.group)

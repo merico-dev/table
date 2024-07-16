@@ -65,13 +65,6 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
     }));
   }, [dashboards]);
 
-  const groupNames = useMemo(() => {
-    if (!dashboards) {
-      return [];
-    }
-    return _.uniq(dashboards.map((d) => d.group).filter((v) => !!v));
-  }, [dashboards]);
-
   const {
     control,
     handleSubmit,
@@ -178,7 +171,7 @@ const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }
                 withinPortal
                 label="Group"
                 maxDropdownHeight={500}
-                data={groupNames}
+                data={store.groupNames}
                 {...field}
               />
             )}

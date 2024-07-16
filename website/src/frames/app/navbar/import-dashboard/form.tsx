@@ -28,10 +28,6 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
   const navigate = useNavigate();
   const { store } = useDashboardStore();
 
-  const groupNames = useMemo(() => {
-    return _.uniq(store.list.map((d) => d.group).filter((v) => !!v));
-  }, [store.list]);
-
   const dashboardNameSet = useMemo(() => {
     return new Set(store.list.map((o) => o.name));
   }, [store.list]);
@@ -151,7 +147,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
                 withinPortal
                 label="Group"
                 maxDropdownHeight={500}
-                data={groupNames}
+                data={store.groupNames}
                 {...field}
               />
             )}
