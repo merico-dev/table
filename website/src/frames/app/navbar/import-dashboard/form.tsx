@@ -1,13 +1,15 @@
 import { Box, Button, FileInput, Group, LoadingOverlay, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useRequest } from 'ahooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { TDashboardContent } from '@devtable/dashboard';
+import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
-import { TDashboardContent } from '@devtable/dashboard';
+import { useDashboardStore } from '../../models/dashboard-store-context';
 
 const cleanContent = (c: TDashboardContent | null) => {
   if (!c) {
@@ -21,8 +23,13 @@ interface IFormValues {
   content: TDashboardContent | null;
 }
 
-export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
+  const { store } = useDashboardStore();
+
+  const dashboardNameSet = useMemo(() => {
+    return new Set(store.list.map((o) => o.name));
+  }, [store.list]);
 
   const {
     control,
@@ -79,16 +86,6 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
     }
   };
 
-  const { data: nameSet = new Set<string>(), loading } = useRequest(
-    async () => {
-      const { data } = await APICaller.dashboard.list();
-      return new Set(data.map((o) => o.name));
-    },
-    {
-      refreshDeps: [],
-    },
-  );
-
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -126,7 +123,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
           name="name"
           control={control}
           rules={{
-            validate: (v: string) => !nameSet.has(v) || 'This name is occupied',
+            validate: (v: string) => !dashboardNameSet.has(v) || 'This name is occupied',
           }}
           render={({ field }) => (
             <TextInput
@@ -148,4 +145,4 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       </form>
     </Box>
   );
-}
+});
