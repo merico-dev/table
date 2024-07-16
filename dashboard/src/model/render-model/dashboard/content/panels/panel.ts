@@ -14,6 +14,7 @@ import {
 import { CURRENT_SCHEMA_VERSION } from '~/model/meta-model';
 
 export type VariableValueMap = Record<string, string | number>;
+export type VariableAggValueMap = Record<string, string | number>;
 export type VariableStyleMap = Record<
   string,
   { color: string; 'font-size': string; 'font-weight': string; variable: ITemplateVariable }
@@ -53,12 +54,20 @@ export const PanelRenderModel = PanelMeta.views((self) => ({
     get variableStrings() {
       return variablesToStrings(self.variables, this.data);
     },
-    get variableValueMap() {
-      const ret: VariableValueMap = {};
+    get variableAggValueMap() {
+      const ret: VariableAggValueMap = {};
       const data = this.data;
       self.variables.reduce((prev, variable) => {
-        const value = getAggregatedValue(variable, data);
-        prev[variable.name] = formatAggregatedValue(variable, value);
+        prev[variable.name] = getAggregatedValue(variable, data);
+        return prev;
+      }, ret);
+      return ret;
+    },
+    get variableValueMap() {
+      const ret: VariableValueMap = {};
+      const aggValues = this.variableAggValueMap;
+      self.variables.reduce((prev, variable) => {
+        prev[variable.name] = formatAggregatedValue(variable, aggValues[variable.name]);
         return prev;
       }, ret);
       return ret;
