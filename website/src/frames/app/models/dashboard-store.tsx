@@ -27,6 +27,9 @@ export const DashboardStore = types
     get groupNames() {
       return _.uniq(self.list.map((d) => d.group).filter((v) => !!v));
     },
+    get dashboardNameSet() {
+      return new Set(self.list.map((o) => o.name));
+    },
     get groupedList() {
       const groups = self.list
         .filter((d) => d.group)

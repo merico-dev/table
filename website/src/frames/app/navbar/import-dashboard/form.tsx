@@ -1,11 +1,10 @@
 import { Autocomplete, Box, Button, FileInput, Group, LoadingOverlay, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { TDashboardContent } from '@devtable/dashboard';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
@@ -27,10 +26,6 @@ interface IFormValues {
 export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
   const { store } = useDashboardStore();
-
-  const dashboardNameSet = useMemo(() => {
-    return new Set(store.list.map((o) => o.name));
-  }, [store.list]);
 
   const {
     control,
@@ -126,7 +121,7 @@ export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () =>
             name="name"
             control={control}
             rules={{
-              validate: (v: string) => !dashboardNameSet.has(v) || 'This name is occupied',
+              validate: (v: string) => !store.dashboardNameSet.has(v) || 'This name is occupied',
             }}
             render={({ field }) => (
               <TextInput
