@@ -20,6 +20,7 @@ import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
+import { ColorPickerControl } from './color-picker-control';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -138,27 +139,7 @@ export const CustomRichTextEditor = forwardRef(
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
             <RichTextEditor.ControlsGroup>
-              <RichTextEditor.ColorPicker
-                colors={[
-                  '#25262b',
-                  '#868e96',
-                  '#fa5252',
-                  '#e64980',
-                  '#be4bdb',
-                  '#7950f2',
-                  '#4c6ef5',
-                  '#228be6',
-                  '#15aabf',
-                  '#12b886',
-                  '#40c057',
-                  '#82c91e',
-                  '#fab005',
-                  '#fd7e14',
-                ]}
-                popoverProps={{
-                  zIndex: 320,
-                }}
-              />
+              <ColorPickerControl editor={editor} />
               <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
