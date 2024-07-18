@@ -1,13 +1,14 @@
-import { Box, Button, FileInput, Group, LoadingOverlay, TextInput } from '@mantine/core';
+import { Autocomplete, Box, Button, FileInput, Group, LoadingOverlay, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
-import { useRequest } from 'ahooks';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { TDashboardContent } from '@devtable/dashboard';
+import { observer } from 'mobx-react-lite';
 import { APICaller } from '../../../../api-caller';
 import { validateDashboardJSONFile } from '../../../../utils/validate-dashboard-json';
-import { TDashboardContent } from '@devtable/dashboard';
+import { useDashboardStore } from '../../models/dashboard-store-context';
 
 const cleanContent = (c: TDashboardContent | null) => {
   if (!c) {
@@ -18,11 +19,13 @@ const cleanContent = (c: TDashboardContent | null) => {
 
 interface IFormValues {
   name: string;
+  group: string;
   content: TDashboardContent | null;
 }
 
-export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+export const ImportDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
+  const { store } = useDashboardStore();
 
   const {
     control,
@@ -35,11 +38,12 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
   } = useForm<IFormValues>({
     defaultValues: {
       name: '',
+      group: '',
       content: null,
     },
   });
 
-  const createDashboardWithJSON = async ({ name, content }: IFormValues) => {
+  const createDashboardWithJSON = async ({ name, group, content }: IFormValues) => {
     showNotification({
       id: 'for-creating',
       title: 'Pending',
@@ -52,7 +56,7 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
         throw new Error('please use a valid json file');
       }
       const finalContent = cleanContent(content);
-      const d = await APICaller.dashboard.create(name, '');
+      const d = await APICaller.dashboard.create(name, group);
       const c = await APICaller.dashboard_content.create({
         dashboard_id: d.id,
         name: 'v1',
@@ -78,16 +82,6 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
       });
     }
   };
-
-  const { data: nameSet = new Set<string>(), loading } = useRequest(
-    async () => {
-      const { data } = await APICaller.dashboard.list();
-      return new Set(data.map((o) => o.name));
-    },
-    {
-      refreshDeps: [],
-    },
-  );
 
   const [file, setFile] = useState<File | null>(null);
 
@@ -120,32 +114,47 @@ export function ImportDashboardForm({ postSubmit }: { postSubmit: () => void }) 
   const disabled = !name || !content;
   return (
     <Box mx="auto" sx={{ position: 'relative' }}>
-      <LoadingOverlay visible={loading} />
+      <LoadingOverlay visible={store.loading} />
       <form onSubmit={handleSubmit(createDashboardWithJSON)}>
-        <Controller
-          name="name"
-          control={control}
-          rules={{
-            validate: (v: string) => !nameSet.has(v) || 'This name is occupied',
-          }}
-          render={({ field }) => (
-            <TextInput
-              mb="md"
-              required
-              label="Name"
-              placeholder="Name the dashboard"
-              {...field}
-              error={errors.name?.message}
-            />
-          )}
-        />
-        <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
-        <Group position="right" my="md">
-          <Button type="submit" disabled={disabled}>
-            Confirm
-          </Button>
-        </Group>
+        <Stack>
+          <Controller
+            name="name"
+            control={control}
+            rules={{
+              validate: (v: string) => !store.dashboardNameSet.has(v) || 'This name is occupied',
+            }}
+            render={({ field }) => (
+              <TextInput
+                required
+                label="Name"
+                placeholder="Name the dashboard"
+                {...field}
+                error={errors.name?.message}
+              />
+            )}
+          />
+          <Controller
+            name="group"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                disabled={store.loading}
+                withinPortal
+                label="Group"
+                maxDropdownHeight={500}
+                data={store.groupNames}
+                {...field}
+              />
+            )}
+          />
+          <FileInput label="JSON File" required value={file} onChange={setFile} error={errors?.content?.message} />
+          <Group position="right" my="md">
+            <Button type="submit" disabled={disabled}>
+              Confirm
+            </Button>
+          </Group>
+        </Stack>
       </form>
     </Box>
   );
-}
+});

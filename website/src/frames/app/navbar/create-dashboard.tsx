@@ -2,8 +2,6 @@ import { initialDashboardContent } from '@devtable/dashboard';
 import { Autocomplete, Box, Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { IconPlus } from '@tabler/icons-react';
-import { useRequest } from 'ahooks';
-import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
 import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -47,13 +45,11 @@ interface IFormValues {
   idToDuplicate: string;
 }
 
-function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
+const CreateDashboardForm = observer(({ postSubmit }: { postSubmit: () => void }) => {
   const navigate = useNavigate();
+  const { store } = useDashboardStore();
 
-  const { data: dashboards, loading } = useRequest(async (signal) => {
-    const { data } = await APICaller.dashboard.list(signal);
-    return data;
-  });
+  const dashboards = store.list;
 
   const options = useMemo(() => {
     if (!dashboards) {
@@ -65,13 +61,6 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       content_id: d.content_id,
       group: d.group,
     }));
-  }, [dashboards]);
-
-  const groupNames = useMemo(() => {
-    if (!dashboards) {
-      return [];
-    }
-    return _.uniq(dashboards.map((d) => d.group).filter((v) => !!v));
   }, [dashboards]);
 
   const {
@@ -147,10 +136,6 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
     }
   };
 
-  const dashboardNameSet = React.useMemo(() => {
-    return new Set(options.map((o) => o.label));
-  }, [options]);
-
   return (
     <Box mx="auto">
       <form onSubmit={handleSubmit(createDashboard)}>
@@ -159,7 +144,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             name="name"
             control={control}
             rules={{
-              validate: (v) => !dashboardNameSet.has(v) || 'This name is occupied',
+              validate: (v) => !store.dashboardNameSet.has(v) || 'This name is occupied',
             }}
             render={({ field }) => (
               <TextInput
@@ -176,11 +161,11 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
             control={control}
             render={({ field }) => (
               <Autocomplete
-                disabled={loading}
+                disabled={store.loading}
                 withinPortal
                 label="Group"
                 maxDropdownHeight={500}
-                data={groupNames}
+                data={store.groupNames}
                 {...field}
               />
             )}
@@ -192,7 +177,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
               // @ts-expect-error type of onChange
               <Select
                 data={options}
-                disabled={loading || options.length === 0}
+                disabled={store.loading || options.length === 0}
                 withinPortal
                 maxDropdownHeight={500}
                 label="Choose a dashboard to duplicate (optional)"
@@ -208,7 +193,7 @@ function CreateDashboardForm({ postSubmit }: { postSubmit: () => void }) {
       </form>
     </Box>
   );
-}
+});
 
 export const CreateDashboard = observer(() => {
   const { store } = useDashboardStore();
