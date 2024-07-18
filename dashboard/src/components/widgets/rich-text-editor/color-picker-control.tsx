@@ -14,6 +14,8 @@ import { IconCircleOff, IconX } from '@tabler/icons-react';
 import { Editor } from '@tiptap/react';
 import { useBoolean } from 'ahooks';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import chroma from 'chroma-js';
 
 const swatchNames = [
   // 'dark',
@@ -33,9 +35,14 @@ const swatchNames = [
 ];
 
 export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
+  const { t } = useTranslation();
   const theme = useMantineTheme();
   const [opened, { set: setOpened, setFalse: close, toggle }] = useBoolean();
-  const currentColor = editor.getAttributes('textStyle').color || theme.black;
+
+  const _color = editor.getAttributes('textStyle').color || theme.black;
+  const currentColor = useMemo(() => {
+    return chroma(_color).hex();
+  }, [_color]);
 
   const swatches = useMemo(() => {
     const ret: string[] = [];
@@ -59,7 +66,6 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
     (editor.chain() as any).focus().unsetColor().run();
     close();
   };
-
   return (
     <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
@@ -73,16 +79,25 @@ export const ColorPickerControl = ({ editor }: { editor: Editor }) => {
           <Group position="right">
             <ColorInput
               value={currentColor}
-              onChange={(value) => setColor(value, false)}
+              onChangeEnd={(value) => setColor(value, false)}
               size="xs"
               withPicker={false}
               dropdownZIndex={340}
-              sx={{ flexGrow: 1, fontFamily: 'monospace' }}
+              styles={{
+                root: {
+                  flexGrow: 1,
+                },
+                input: {
+                  fontFamily: 'monospace',
+                  letterSpacing: 2,
+                  textAlign: 'center',
+                },
+              }}
             />
-            <ActionIcon variant="default" onClick={unsetColor} title="clear">
+            <ActionIcon variant="default" onClick={unsetColor} title={t('common.actions.clear')}>
               <IconCircleOff stroke={1.5} size="1rem" />
             </ActionIcon>
-            <ActionIcon variant="default" onClick={close} title="close">
+            <ActionIcon variant="default" onClick={close} title={t('common.actions.close')}>
               <IconX stroke={1.5} size="1rem" />
             </ActionIcon>
           </Group>
