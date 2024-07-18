@@ -297,6 +297,7 @@ export const en = {
         reset_to_default: 'Reset to default',
         init_with_default: 'Init with default',
         select_all: 'Select All',
+        clear: 'Clear',
         clear_selection: 'Clear Selection',
         refresh: 'Refresh',
         download_data: 'Download Data',

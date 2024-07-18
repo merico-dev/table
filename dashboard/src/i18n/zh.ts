@@ -297,6 +297,7 @@ export const zh = {
         reset_to_default: '重置为初始值',
         init_with_default: '初始化',
         select_all: '全选',
+        clear: '清除',
         clear_selection: '撤销选择',
         refresh: '刷新',
         download_data: '下载数据',
