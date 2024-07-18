@@ -5,6 +5,7 @@ const en = {
     viz_name: 'Table',
     column: {
       labels: 'Columns',
+      add: 'Add a column',
       delete: 'Delete this column',
       query_id: 'Query',
       query_id_hint: 'Load table data from this query',
@@ -50,6 +51,7 @@ const zh = {
     viz_name: '表格',
     column: {
       labels: '列设置',
+      add: '加一列',
       delete: '删除这个列',
       query_id: '表格数据来源',
       query_id_hint: '通过所选的查询获取表格数据',

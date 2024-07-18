@@ -1,10 +1,10 @@
-import { Divider, Stack, Switch, Tabs, Text, Textarea } from '@mantine/core';
+import { Switch, Textarea } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
-import { Control, Controller, UseFormWatch, useFieldArray } from 'react-hook-form';
-import { Plus } from 'tabler-icons-react';
+import { Control, Controller, UseFormWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { FieldArrayTabs } from '~/components/plugins/editor-components';
 import { IColumnConf, ITableConf, ValueType } from '../../type';
 import { ColumnField } from './column';
-import { useTranslation } from 'react-i18next';
 
 interface IColumnsField {
   control: Control<ITableConf, $TSFixMe>;
@@ -12,21 +12,22 @@ interface IColumnsField {
 }
 export const ColumnsField = ({ control, watch }: IColumnsField) => {
   const { t } = useTranslation();
-  const { fields, append, remove, update } = useFieldArray({
-    control,
-    name: 'columns',
-  });
 
-  const addColumn = () => {
+  const getItem = () => {
     const id = randomId();
-    append({
+    return {
       id,
       label: id,
       align: 'center',
       value_field: '',
       value_type: ValueType.string,
       width: '',
-    } as IColumnConf);
+    } as IColumnConf;
+  };
+
+  const renderTabName = (field: IColumnConf, index: number) => {
+    const n = field.label.trim();
+    return n ? n : index + 1;
   };
 
   watch(['columns', 'ignored_column_keys']);
@@ -63,38 +64,17 @@ export const ColumnsField = ({ control, watch }: IColumnsField) => {
         />
       )}
       {!use_raw_columns && (
-        <Stack>
-          <Tabs
-            defaultValue={'0'}
-            styles={{
-              tab: {
-                paddingTop: '0px',
-                paddingBottom: '0px',
-              },
-              panel: {
-                padding: '0px',
-                paddingTop: '6px',
-              },
-            }}
-          >
-            <Tabs.List>
-              {fields.map((_item, index) => (
-                <Tabs.Tab key={_item.id} value={index.toString()}>
-                  {index + 1}
-                  {/* {field.name.trim() ? field.name : index + 1} */}
-                </Tabs.Tab>
-              ))}
-              <Tabs.Tab onClick={addColumn} value="add">
-                <Plus size={18} color="#228be6" />
-              </Tabs.Tab>
-            </Tabs.List>
-            {fields.map((column, index) => (
-              <Tabs.Panel key={column.id} value={index.toString()}>
-                <ColumnField control={control} watch={watch} index={index} column={column} remove={remove} />
-              </Tabs.Panel>
-            ))}
-          </Tabs>
-        </Stack>
+        <FieldArrayTabs<ITableConf, IColumnConf>
+          control={control}
+          watch={watch}
+          name="columns"
+          getItem={getItem}
+          addButtonText={t('viz.table.column.add')}
+          deleteButtonText={t('viz.table.column.delete')}
+          renderTabName={renderTabName}
+        >
+          {({ field, index }) => <ColumnField control={control} watch={watch} index={index} />}
+        </FieldArrayTabs>
       )}
     </>
   );
