@@ -1,8 +1,8 @@
+import { getDynamicColorID } from '~/components/widgets';
 import { PanelRenderModelInstance } from '~/model';
 import { aggregateValue } from '../aggregation';
 import { formatNumber } from '../number';
 import { ITemplateVariable } from './types';
-import { completeDynamicColorFunc, hashID } from '~/components/widgets';
 
 export function getNonStatsDataText(data: $TSFixMe) {
   if (data === null) {
@@ -54,7 +54,7 @@ export function transformTemplateToRichText(template: string, panel: PanelRender
     if (colorConf.type !== 'continuous') {
       return `<span style="${styleStr}">{{${code}}}</span>`;
     }
-    const id = hashID(6);
+    const id = getDynamicColorID(6);
     const colorCode = `try {
       return utils.popmotion.interpolate(${JSON.stringify(colorConf.valueRange)}, ${JSON.stringify(
       colorConf.colorRange,
