@@ -574,6 +574,7 @@ export const en = {
       dynamic_color: {
         label: 'Dynamic Color',
         edit: 'Edit dynamic color',
+        clear: 'Clear dynamic color',
       },
     },
     chart: {

@@ -574,6 +574,7 @@ export const zh = {
       dynamic_color: {
         label: '动态颜色',
         edit: '编辑动态颜色',
+        clear: '清除动态颜色',
       },
     },
     chart: {

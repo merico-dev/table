@@ -1,6 +1,6 @@
 import { Mark, mergeAttributes } from '@tiptap/core';
 import '@tiptap/extension-text-style';
-import { hashID, trimDynamicColorFunc } from './utils';
+import { ensurePrefixOnID, getDynamicColorID, trimDynamicColorFunc } from './utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -21,8 +21,11 @@ export const DynamicColorMark = Mark.create({
   addAttributes() {
     return {
       id: {
-        default: hashID(6),
-        parseHTML: (element) => element.getAttribute('id'),
+        default: getDynamicColorID(6),
+        parseHTML: (element) => {
+          const id = element.getAttribute('id');
+          return ensurePrefixOnID(id);
+        },
       },
       [AttrKey]: {
         default: null,

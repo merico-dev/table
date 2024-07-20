@@ -48,7 +48,16 @@ export const completeDynamicColorFunc = (trimmed: string) => {
   return [head, trimmed, tail].join('\n');
 };
 
-export const hashID = (size: number) => {
+export const DynamicColorIDPrefix = 'dyn_color_';
+export const IDPrefixReg = new RegExp(`^(?!${DynamicColorIDPrefix})(.+)$`);
+export function ensurePrefixOnID(id: string | null) {
+  if (!id) {
+    return id;
+  }
+  return id.replace(IDPrefixReg, `${DynamicColorIDPrefix}$1`);
+}
+
+export const getDynamicColorID = (size: number) => {
   const MASK = 0x3d;
   const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
   const NUMBERS = '1234567890';
@@ -57,7 +66,8 @@ export const hashID = (size: number) => {
   const bytes = new Uint8Array(size);
   crypto.getRandomValues(bytes);
 
-  return bytes.reduce((acc, byte) => `${acc}${charset[byte & MASK]}`, '');
+  const id = bytes.reduce((acc, byte) => `${acc}${charset[byte & MASK]}`, '');
+  return `${DynamicColorIDPrefix}${id}`;
 };
 
 export function getDynamicColorStyles(doc: Document, dashboardState: TDashboardState, variables: VariableValueMap) {
@@ -71,7 +81,7 @@ export function getDynamicColorStyles(doc: Document, dashboardState: TDashboardS
     if (!value) {
       return;
     }
-    ret[`#${n.id}`] = {
+    ret[`#${ensurePrefixOnID(n.id)}`] = {
       color: run(value),
     };
   });
