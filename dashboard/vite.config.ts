@@ -77,6 +77,10 @@ export default defineConfig({
       react: 'react',
       'react/jsx-runtime.js': 'react/jsx-runtime.js',
       'reactflow/dist/style.css': 'reactflow/dist/style.css',
+      'constrained-editor-plugin/dist/esm/constrainedEditor.js': resolve(
+        __dirname,
+        '../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor.js',
+      ),
     },
   },
   build: {

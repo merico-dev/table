@@ -6,7 +6,7 @@ import { FunctionEditor, MonacoEditorRestriction } from '../function-editor';
 import { useTranslation } from 'react-i18next';
 import { OnMount } from '@monaco-editor/react';
 // @ts-expect-error type of this lib
-import { constrainedEditor } from 'constrained-editor-plugin/dist/esm/constrainedEditor';
+import { constrainedEditor } from 'constrained-editor-plugin/dist/esm/constrainedEditor.js';
 interface IInlineFunctionInput {
   value: TFunctionString;
   onChange: (v: TFunctionString) => void;
