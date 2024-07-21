@@ -35,7 +35,6 @@ export const FunctionEditor = ({ value, onChange, onMount }: IFunctionEditor) =>
     onMount?.(editor, monaco);
   };
 
-  console.log({ value });
   return (
     <Editor
       className="function-editor"

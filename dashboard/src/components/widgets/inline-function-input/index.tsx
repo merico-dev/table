@@ -37,26 +37,29 @@ export const InlineFunctionInput = forwardRef(
       setLocalValue(value);
     }, [value]);
 
-    const applyRestrictions: OnMount = useCallback((editor, monaco) => {
-      if (restrictions.length === 0) {
-        return;
-      }
+    const applyRestrictions: OnMount = useCallback(
+      (editor, monaco) => {
+        if (restrictions.length === 0) {
+          return;
+        }
 
-      const constrainedInstance = constrainedEditor(monaco);
-      const model = editor.getModel() as any;
-      constrainedInstance.initializeIn(editor);
-      constrainedInstance.addRestrictionsTo(model, restrictions);
-      if (!model) {
-        return;
-      }
-      if (!model._hasHighlight) {
-        constrainedInstance.toggleDevMode();
-        model.toggleHighlightOfEditableAreas();
-        const currentRanges = model.getCurrentEditableRanges();
-        const currentValue = model.getValueInEditableRanges();
-        console.debug({ model, currentRanges, currentValue });
-      }
-    }, []);
+        const constrainedInstance = constrainedEditor(monaco);
+        const model = editor.getModel() as any;
+        constrainedInstance.initializeIn(editor);
+        constrainedInstance.addRestrictionsTo(model, restrictions);
+        if (!model) {
+          return;
+        }
+        if (!model._hasHighlight) {
+          constrainedInstance.toggleDevMode();
+          model.toggleHighlightOfEditableAreas();
+          const currentRanges = model.getCurrentEditableRanges();
+          const currentValue = model.getValueInEditableRanges();
+          console.debug({ model, currentRanges, currentValue });
+        }
+      },
+      [restrictions],
+    );
 
     const hasChanges = localValue !== value;
 

@@ -32,6 +32,7 @@ const renderTriggerButton = ({ onClick }: { onClick: () => void }) => {
 export const DynamicColorControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const currentDynamicColor = editor.getAttributes(DynamicColorName)[DynamicColorAttrKey] ?? '';
+  const restrictions = getDynamicColorRestrictions(currentDynamicColor);
   return (
     <>
       <ModalFunctionEditor
@@ -48,7 +49,7 @@ export const DynamicColorControl = ({ editor }: { editor: Editor }) => {
         }}
         defaultValue={DefaultDynamicColorFunc}
         renderTriggerButton={renderTriggerButton}
-        restrictions={getDynamicColorRestrictions(currentDynamicColor)}
+        restrictions={restrictions}
         zIndex={340}
       />
       <Tooltip label={t('rich_text.dynamic_color.clear')}>
