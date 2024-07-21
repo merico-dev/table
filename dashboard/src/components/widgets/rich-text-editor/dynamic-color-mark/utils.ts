@@ -28,20 +28,14 @@ export function getDynamicColorRestrictions(code: string): MonacoEditorRestricti
   ];
 }
 
-// TODO: use it after https://github.com/merico-dev/table/issues/1455
 export const trimDynamicColorFunc = (raw: string) => {
   if (!raw) {
     return raw;
   }
-  const ret = raw
-    .replace(DefaultDynamicColorFuncLines[0], '')
-    .replace(/[\r\n]+/gm, '')
-    .replace(/(.+)\}$/, '$1')
-    .trim();
+  const ret = raw.replace(head, '').replace(/(.*)\}$/, '$1');
   return ret;
 };
 
-// TODO: use it after https://github.com/merico-dev/table/issues/1455
 export const completeDynamicColorFunc = (trimmed: string) => {
   if (!trimmed || trimmed.startsWith(head)) {
     return trimmed;

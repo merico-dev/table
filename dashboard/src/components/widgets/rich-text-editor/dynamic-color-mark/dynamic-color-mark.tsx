@@ -59,9 +59,9 @@ export const DynamicColorMark = Mark.create({
       setDynamicColor:
         (v) =>
         ({ commands }) => {
-          // const value = trimDynamicColorFunc(v);
+          const value = trimDynamicColorFunc(v);
           return commands.setMark(this.name, {
-            [AttrKey]: v,
+            [AttrKey]: value,
           });
         },
       unsetDynamicColor:
