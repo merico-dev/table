@@ -19,7 +19,8 @@ export const FunctionEditor = ({ value, onChange, onMount }: IFunctionEditor) =>
       className="function-editor"
       height="100%"
       defaultLanguage="javascript"
-      value={value}
+      // https://github.com/suren-atoyan/monaco-react/issues/402
+      defaultValue={value}
       onChange={changeContent}
       theme="vs-dark"
       options={{
