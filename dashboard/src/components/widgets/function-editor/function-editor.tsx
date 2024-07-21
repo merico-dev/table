@@ -21,6 +21,7 @@ export const FunctionEditor = ({ value, onChange, onMount }: IFunctionEditor) =>
       defaultLanguage="javascript"
       // https://github.com/suren-atoyan/monaco-react/issues/402
       defaultValue={value}
+      value={value}
       onChange={changeContent}
       theme="vs-dark"
       options={{
