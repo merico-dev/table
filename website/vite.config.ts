@@ -41,6 +41,10 @@ export default ({ mode }) => {
         '@devtable/dashboard': workspace('dashboard', 'src'),
         '@devtable/settings-form': workspace('settings-form', 'src'),
         'dayjs/locale': path.resolve(__dirname, '../node_modules/dayjs/locale'),
+        'constrained-editor-plugin/dist/esm/constrainedEditor.js': path.resolve(
+          __dirname,
+          '../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor.js',
+        ),
       },
     },
     optimizeDeps: {

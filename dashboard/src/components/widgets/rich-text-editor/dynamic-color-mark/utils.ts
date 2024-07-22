@@ -7,40 +7,35 @@ const tail = '}';
 export const DefaultDynamicColorFuncLines = [head, '    return "red";', tail];
 export const DefaultDynamicColorFunc = DefaultDynamicColorFuncLines.join('\n');
 export function getDynamicColorRestrictions(code: string): MonacoEditorRestriction[] {
-  const lines = code.split('\n');
-  if (lines.length === 2) {
-    console.warn('[getDynamicColorRestrictions]unexpected lines of code: ', code);
+  if (!code) {
     return [];
   }
+  const lines = code.split('\n');
 
-  const lastContentLine = lines[lines.length - 2];
-  if (!lastContentLine) {
-    return [];
+  const lastLineIndex = lines.length + 1;
+  let lastLineColumn = 1;
+  const lastContentLine = lines[lines.length - 1];
+  if (lastContentLine) {
+    lastLineColumn = lastContentLine.length + 1;
   }
 
   return [
     {
-      range: [2, 1, lines.length - 1, lastContentLine.length + 1],
+      range: [2, 1, lastLineIndex, lastLineColumn],
       label: 'body',
       allowMultiline: true,
     },
   ];
 }
 
-// TODO: use it after https://github.com/merico-dev/table/issues/1455
 export const trimDynamicColorFunc = (raw: string) => {
   if (!raw) {
     return raw;
   }
-  const ret = raw
-    .replace(DefaultDynamicColorFuncLines[0], '')
-    .replace(/[\r\n]+/gm, '')
-    .replace(/(.+)\}$/, '$1')
-    .trim();
+  const ret = raw.replace(head, '').replace(/(.*)\}$/, '$1');
   return ret;
 };
 
-// TODO: use it after https://github.com/merico-dev/table/issues/1455
 export const completeDynamicColorFunc = (trimmed: string) => {
   if (!trimmed || trimmed.startsWith(head)) {
     return trimmed;

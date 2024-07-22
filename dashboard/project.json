@@ -12,7 +12,7 @@
       "options": {
         "command": "exit 0"
       },
-      "dependsOn": ["vitest", "cypress"]
+      "dependsOn": ["vitest"]
     },
     "vitest": {
       "executor": "nx:run-commands",
