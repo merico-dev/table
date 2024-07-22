@@ -31,7 +31,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@monaco-editor/react": "4.4.6",
+    "@monaco-editor/react": "4.6.0",
     "@tabler/icons-react": "2.25.0",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.0",
