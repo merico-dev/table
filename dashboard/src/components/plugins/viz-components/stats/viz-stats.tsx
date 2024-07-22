@@ -51,7 +51,7 @@ export const VizStats = observer(({ context, instance }: VizViewProps) => {
       return '';
     }
     return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
-  }, [confValue, variables, contentModel.payloadForViz]);
+  }, [data, confValue, variables, contentModel.payloadForViz]);
 
   const handleContentClick = useCallback(() => {
     triggers.forEach((t) => {

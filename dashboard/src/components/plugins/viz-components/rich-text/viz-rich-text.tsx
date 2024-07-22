@@ -20,7 +20,7 @@ export const VizRichText = observer(({ context }: VizViewProps) => {
       return '';
     }
     return parseRichTextContent(conf.content, variables, contentModel.payloadForViz, data);
-  }, [confValue, variables, contentModel.payloadForViz]);
+  }, [data, confValue, variables, contentModel.payloadForViz]);
 
   if (!content) {
     return null;
