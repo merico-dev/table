@@ -28,9 +28,14 @@ export const FilterMultiSelectConfigMeta = types
       });
     },
     get default_selection() {
-      if (!self.usingQuery) {
-        return self.filter.formattedDefaultValue;
+      const defaultValue = self.filter.formattedDefaultValue;
+      if (Array.isArray(defaultValue) && defaultValue.length > 0) {
+        return defaultValue;
       }
+      if (!self.usingQuery) {
+        return defaultValue;
+      }
+
       return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
     },
     initialSelection(value: string[] | null) {
