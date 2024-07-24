@@ -45,6 +45,9 @@ export const FilterMultiSelectConfigMeta = types
       self.min_width = v;
     },
     setDefaultSelection() {
+      if (self.optionsLoading) {
+        return;
+      }
       // @ts-expect-error getRoot type
       const filters = getRoot(self).content.filters;
       // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
