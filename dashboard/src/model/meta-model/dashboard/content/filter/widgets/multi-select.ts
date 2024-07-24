@@ -27,7 +27,7 @@ export const FilterMultiSelectConfigMeta = types
         default_selection_count,
       });
     },
-    get default_selection() {
+    get defaultSelection() {
       const defaultValue = self.filter.formattedDefaultValue;
       if (Array.isArray(defaultValue) && defaultValue.length > 0) {
         return defaultValue;
@@ -64,11 +64,14 @@ export const FilterMultiSelectConfigMeta = types
       // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
       const key = getParent(self).key;
       const options = new Set(self.options.map((o: any) => o.value));
-      const validValues = (filters.values[key] ?? []).filter((v: any) => options.has(v));
+      const values = filters.values[key] ?? [];
+      const validValues = values.filter((v: any) => options.has(v));
       if (validValues.length > 0) {
+        console.debug(`setting filter[${self.filter.key}] to validValues: `, JSON.stringify(validValues));
         filters.setValueByKey(key, validValues);
       } else {
-        filters.setValueByKey(key, self.default_selection);
+        console.debug(`setting filter[${self.filter.key}] to default: `, JSON.stringify(self.defaultSelection));
+        filters.setValueByKey(key, self.defaultSelection);
       }
     },
   }))
@@ -76,7 +79,7 @@ export const FilterMultiSelectConfigMeta = types
     afterCreate() {
       addDisposer(
         self,
-        reaction(() => toJS(self.default_selection), self.setDefaultSelection, {
+        reaction(() => toJS(self.defaultSelection), self.setDefaultSelection, {
           fireImmediately: true,
           delay: 0,
         }),

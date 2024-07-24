@@ -80,12 +80,14 @@ export const FiltersRenderModel = types
   }))
   .actions((self) => ({
     setValues(values: Record<string, $TSFixMe>) {
+      console.debug('setting filter values: ', JSON.stringify(values));
       self.values = values;
     },
     patchValues(values: Record<string, any>) {
       self.values = _.defaults({}, values, self.values);
     },
     setValueByKey(key: string, value: $TSFixMe) {
+      console.debug(`setting filter[${key}] to value: `, JSON.stringify(value));
       self.values = {
         ...self.values,
         [key]: value,
