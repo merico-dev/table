@@ -33,6 +33,12 @@ export const FilterMultiSelectConfigMeta = types
       }
       return self.options.slice(0, self.default_selection_count).map((o: any) => o.value);
     },
+    initialSelection(value: string[] | null) {
+      if (!value) {
+        return this.defaultSelection;
+      }
+      return value;
+    },
     truthy(value: any) {
       return Array.isArray(value) && value.length > 0;
     },
