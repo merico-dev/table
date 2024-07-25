@@ -223,7 +223,12 @@ export const QueryRenderModel = types
             const deps = [self.inUse, self.id, self.key, self.formattedSQL, self.pre_process, self.post_process];
             return deps.join('--');
           },
-          () => self.fetchData(false),
+          (deps: string) => {
+            if (self.name === 'getProjectGroupContributors') {
+              console.log('🔵 deps: ', deps);
+            }
+            return self.fetchData(false);
+          },
           {
             fireImmediately: true,
             delay: 0,
