@@ -80,7 +80,7 @@ export const FilterMultiSelectConfigMeta = types
       addDisposer(
         self,
         reaction(() => toJS(self.defaultSelection), self.setDefaultSelection, {
-          fireImmediately: true,
+          fireImmediately: false,
           delay: 0,
         }),
       );
