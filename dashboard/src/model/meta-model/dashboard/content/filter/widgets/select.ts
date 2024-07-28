@@ -1,5 +1,5 @@
 import { reaction, toJS } from 'mobx';
-import { addDisposer, getParent, getRoot, Instance, types } from 'mobx-state-tree';
+import { addDisposer, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
 import { FilterBaseSelectConfigMeta } from './select-base';
 
@@ -64,16 +64,12 @@ export const FilterSelectConfigMeta = types
       self.clearable = v;
     },
     setDefaultSelection() {
-      // @ts-expect-error getRoot type
-      const filters = getRoot(self).content.filters;
-      // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
-      const key = getParent(self).key;
-      const currentValue = filters.values[key];
+      const currentValue = self.filter.value;
       const validValue = self.options.find((o) => o.value === currentValue)?.value;
       if (validValue) {
-        filters.setValueByKey(key, validValue);
+        self.filter.setValue(validValue);
       } else {
-        filters.setValueByKey(key, self.default_selection);
+        self.filter.setValue(self.default_selection);
       }
     },
   }))

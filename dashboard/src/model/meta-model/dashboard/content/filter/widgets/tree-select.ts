@@ -1,10 +1,10 @@
-import { addDisposer, cast, Instance, types, getRoot, getParent } from 'mobx-state-tree';
 import { Text, TextProps } from '@mantine/core';
-import { FilterBaseSelectConfigMeta } from './select-base';
-import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
+import { reaction } from 'mobx';
+import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import React from 'react';
 import { queryDataToTree } from '~/components/filter/filter-tree-select/render/query-data-to-tree';
-import { reaction } from 'mobx';
+import { ITreeDataQueryOption, ITreeDataRenderItem } from '~/components/filter/filter-tree-select/types';
+import { FilterBaseSelectConfigMeta } from './select-base';
 
 function addLabelToData(data: ITreeDataQueryOption[]) {
   return data.map((d) => {
@@ -118,16 +118,13 @@ export const FilterTreeSelectConfigMeta = types
       self.treeCheckStrictly = v;
     },
     applyDefaultSelection() {
-      // @ts-expect-error typeof getParent
-      const key = getParent(self, 1).key;
-      const filters = self.contentModel.filters;
-      const currentSelection = filters.values[key];
+      const currentSelection = self.filter.value;
       const options = new Set(self.plainData.map((o: any) => o.value));
       const validValues = (currentSelection ?? []).filter((v: any) => options.has(v));
       if (validValues.length > 0) {
-        filters.setValueByKey(key, validValues);
+        self.filter.setValue(validValues);
       } else {
-        filters.setValueByKey(key, self.defaultSelection);
+        self.filter.setValue(self.defaultSelection);
       }
     },
     afterCreate() {

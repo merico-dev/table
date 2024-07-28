@@ -42,6 +42,13 @@ export const FilterBaseSelectConfigMeta = types
     },
   }))
   .views((self) => ({
+    get optionsLoading() {
+      if (!self.usingQuery) {
+        return false;
+      }
+      const { state } = self.contentModel.getDataStuffByID(self.options_query_id);
+      return state === 'loading';
+    },
     get options(): TSelectOption[] {
       if (!self.usingQuery) {
         return self.static_options;

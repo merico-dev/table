@@ -44,6 +44,9 @@ export const FilterMeta = types
     get filters(): any {
       return this.contentModel.filters;
     },
+    get value() {
+      return this.filters.values[self.key];
+    },
     get plainDefaultValue() {
       const v = self.config.default_value;
       if (Array.isArray(v)) {
@@ -100,6 +103,9 @@ export const FilterMeta = types
   .actions((self) => ({
     setKey(key: string) {
       self.key = key;
+    },
+    setValue(value: any) {
+      self.filters.setValueByKey(self.key, value);
     },
     setLabel(label: string) {
       self.label = label;

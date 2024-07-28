@@ -25,7 +25,6 @@ export const LanguageSwitcher = () => {
 
   useEffect(() => {
     setDayjsLocale(lang);
-    console.log(dayjs.locale());
   }, [lang]);
 
   return <SegmentedControl value={lang} onChange={setLang} size="xs" data={languages} />;

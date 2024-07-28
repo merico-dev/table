@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useRenderContentModelContext } from '~/contexts';
 import { FilterMetaInstance, FilterMultiSelectConfigInstance } from '~/model';
 import { MultiSelectWidget } from './widget';
+import { useMemo } from 'react';
 
 interface IFilterMultiSelect extends Omit<FilterMetaInstance, 'key' | 'type' | 'config'> {
   config: FilterMultiSelectConfigInstance;
@@ -18,6 +19,10 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
   const width = config.min_width ? config.min_width : '200px';
   const disabled = usingRemoteOptions ? loading : false;
 
+  const widgetValue = useMemo(() => {
+    return config.initialSelection(value);
+  }, [value, config.initialSelection]);
+
   const handleChange = (v: string[]) => onChange(v, false);
   return (
     <MultiSelectWidget
@@ -25,7 +30,7 @@ export const FilterMultiSelect = observer(({ label, config, value, onChange }: I
       options={config.options}
       style={{ minWidth: '160px', width, maxWidth: disabled ? width : 'unset', borderColor: '#e9ecef' }}
       disabled={disabled}
-      value={value}
+      value={[...widgetValue]}
       onChange={handleChange}
       errorMessage={error}
       required={config.required}
