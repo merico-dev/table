@@ -67,10 +67,8 @@ export const FilterMultiSelectConfigMeta = types
       const values = filters.values[key] ?? [];
       const validValues = values.filter((v: any) => options.has(v));
       if (validValues.length > 0) {
-        console.debug(`setting filter[${self.filter.key}] to validValues: `, JSON.stringify(validValues));
         filters.setValueByKey(key, validValues);
       } else {
-        console.debug(`setting filter[${self.filter.key}] to default: `, JSON.stringify(self.defaultSelection));
         filters.setValueByKey(key, self.defaultSelection);
       }
     },
