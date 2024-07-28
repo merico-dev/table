@@ -1,7 +1,7 @@
 import { reaction, toJS } from 'mobx';
-import { addDisposer, cast, getParent, getRoot, Instance, types } from 'mobx-state-tree';
-import { FilterBaseSelectConfigMeta } from './select-base';
+import { addDisposer, cast, Instance, types } from 'mobx-state-tree';
 import { shallowToJS } from '~/utils';
+import { FilterBaseSelectConfigMeta } from './select-base';
 
 export const FilterMultiSelectConfigMeta = types
   .compose(
@@ -59,17 +59,13 @@ export const FilterMultiSelectConfigMeta = types
       if (self.optionsLoading) {
         return;
       }
-      // @ts-expect-error getRoot type
-      const filters = getRoot(self).content.filters;
-      // @ts-expect-error Property 'key' does not exist on type 'IStateTreeNode<IAnyStateTreeNode>
-      const key = getParent(self).key;
       const options = new Set(self.options.map((o: any) => o.value));
-      const values = filters.values[key] ?? [];
-      const validValues = values.filter((v: any) => options.has(v));
+      const currentValue = self.filter.value ?? [];
+      const validValues = currentValue.filter((v: any) => options.has(v));
       if (validValues.length > 0) {
-        filters.setValueByKey(key, validValues);
+        self.filter.setValue(validValues);
       } else {
-        filters.setValueByKey(key, self.defaultSelection);
+        self.filter.setValue(self.defaultSelection);
       }
     },
   }))

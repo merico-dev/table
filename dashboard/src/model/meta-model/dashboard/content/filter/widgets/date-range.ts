@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { getParent, getRoot, Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, types } from 'mobx-state-tree';
 import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 export type TDateRangePickerValue = [string | null, string | null];
 
@@ -55,13 +55,14 @@ const _FilterDateRangeConfigMeta = types
     truthy(value: any) {
       return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
     },
+    get filter(): any {
+      return getParent(self);
+    },
   }))
   .actions((self) => ({
     setFilterValue(v: TDateRangePickerValue) {
       try {
-        const filter = getParent(self) as any;
-        const filters = getParent(filter, 2) as any;
-        filters.setValueByKey(filter.key, v);
+        self.filter.setValue(v);
       } catch (error) {
         console.error(error);
       }
