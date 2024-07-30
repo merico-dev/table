@@ -30,7 +30,6 @@ export function getOption(conf: TMericoHeatmapConf, data: TPanelData, variables:
   const y = parseDataKey(conf.y_axis.data_key);
   const h = parseDataKey(conf.heat_block.data_key);
   const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
-  const yData = _.uniq(data[x.queryID].map((d) => d[y.columnKey]));
   const seriesData = data[x.queryID].map((d) => {
     const vx = _.get(d, x.columnKey);
     const vy = _.get(d, y.columnKey);
@@ -51,7 +50,7 @@ export function getOption(conf: TMericoHeatmapConf, data: TPanelData, variables:
 
   const options = {
     xAxis: getXAxis(conf, xData, labelFormatters.x_axis),
-    yAxis: getYAxis(conf, yData, labelFormatters.y_axis),
+    yAxis: getYAxis(conf, labelFormatters.y_axis),
     series: getSeries(conf, seriesData),
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),

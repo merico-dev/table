@@ -2,8 +2,9 @@ import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { getLabelOverflowOptionOnAxis } from '../../../common-echarts-fields/axis-label-overflow';
 import { IHeatmapConf } from '../type';
 import { FormatterFuncType } from '~/components/plugins/common-echarts-fields/x-axis-label-formatter';
+import _ from 'lodash';
 
-export function getYAxis(conf: IHeatmapConf, yData: any[], formatterFunc: FormatterFuncType, borderWidth: number) {
+export function getYAxis(conf: IHeatmapConf, formatterFunc: FormatterFuncType, borderWidth: number) {
   const { nameAlignment, data_key, ...rest } = conf.y_axis;
 
   const { overflow, rotate } = conf.y_axis.axisLabel;
@@ -11,7 +12,6 @@ export function getYAxis(conf: IHeatmapConf, yData: any[], formatterFunc: Format
   return defaultEchartsOptions.getYAxis({
     ...rest,
     type: 'category',
-    data: yData,
     axisLabel: {
       rotate,
       ...overflowOption,
