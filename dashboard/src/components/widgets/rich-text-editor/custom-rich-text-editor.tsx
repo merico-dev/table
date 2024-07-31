@@ -140,9 +140,9 @@ export const CustomRichTextEditor = forwardRef(
         </Group>
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
+            <ColorPickerControl editor={editor} />
+            <GradientColorControl editor={editor} />
             <RichTextEditor.ControlsGroup>
-              <ColorPickerControl editor={editor} />
-              <GradientColorControl editor={editor} />
               <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>
