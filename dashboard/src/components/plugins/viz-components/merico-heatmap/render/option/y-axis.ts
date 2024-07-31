@@ -3,7 +3,7 @@ import { defaultEchartsOptions } from '~/styles/default-echarts-options';
 import { getLabelOverflowOptionOnAxis } from '../../../../common-echarts-fields/axis-label-overflow';
 import { TMericoHeatmapConf } from '../../type';
 
-export function getYAxis(conf: TMericoHeatmapConf, yData: any[], formatterFunc: FormatterFuncType) {
+export function getYAxis(conf: TMericoHeatmapConf, formatterFunc: FormatterFuncType) {
   const { nameAlignment, data_key, ...rest } = conf.y_axis;
 
   const { overflow, rotate } = conf.y_axis.axisLabel;
@@ -11,7 +11,6 @@ export function getYAxis(conf: TMericoHeatmapConf, yData: any[], formatterFunc: 
   return defaultEchartsOptions.getYAxis({
     ...rest,
     type: 'category',
-    data: yData,
     axisLabel: {
       rotate,
       ...overflowOption,
