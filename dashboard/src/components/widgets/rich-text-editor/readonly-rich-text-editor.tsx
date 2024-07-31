@@ -21,6 +21,7 @@ import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { getEmptyDashboardState } from '~/utils';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
+import { GradientColorMark } from './gradient-color-mark';
 
 interface IReadonlyRichText {
   value: string;
@@ -60,6 +61,7 @@ export const ReadonlyRichText = ({
       Color,
       FontSize,
       DynamicColorMark,
+      GradientColorMark,
     ],
     content: value,
     editable: false,
