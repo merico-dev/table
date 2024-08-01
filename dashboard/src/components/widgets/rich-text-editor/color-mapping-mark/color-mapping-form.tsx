@@ -52,7 +52,6 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             render={({ field }) => (
               <VariableSelector
                 label={t('rich_text.color_mapping.min.var')}
-                clearable={false}
                 preview="aggregated"
                 sx={{ flexGrow: 1, maxWidth: 'unset' }}
                 {...field}
@@ -78,7 +77,6 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
             render={({ field }) => (
               <VariableSelector
                 label={t('rich_text.color_mapping.max.var')}
-                clearable={false}
                 preview="aggregated"
                 sx={{ flexGrow: 1, maxWidth: 'unset' }}
                 {...field}
