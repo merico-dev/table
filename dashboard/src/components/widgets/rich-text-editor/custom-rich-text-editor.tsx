@@ -93,6 +93,11 @@ export const CustomRichTextEditor = forwardRef(
         const newContent = editor.getHTML();
         setContent(newContent);
       },
+      onCreate: ({ editor }) => {
+        editor.view.dom.setAttribute('spellcheck', 'false');
+        editor.view.dom.setAttribute('autocomplete', 'off');
+        editor.view.dom.setAttribute('autocapitalize', 'off');
+      },
     });
 
     useEffect(() => {
