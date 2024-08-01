@@ -576,6 +576,20 @@ export const en = {
         edit: 'Edit dynamic color',
         clear: 'Clear dynamic color',
       },
+      gradient_color: {
+        label: 'Gradient Color',
+        edit: 'Edit gradient color',
+        clear: 'Clear gradient color',
+        choose_value_var: 'Choose a variable to calculate gradient color',
+        min: {
+          val: 'Fallback min value',
+          var: 'Min',
+        },
+        max: {
+          val: 'Fallback max value',
+          var: 'Max',
+        },
+      },
     },
     chart: {
       chart_config: 'Chart Config',

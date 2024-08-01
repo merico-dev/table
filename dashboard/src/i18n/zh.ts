@@ -576,6 +576,20 @@ export const zh = {
         edit: '编辑动态颜色',
         clear: '清除动态颜色',
       },
+      gradient_color: {
+        label: '渐变色',
+        edit: '编辑渐变色',
+        clear: '清除渐变色',
+        choose_value_var: '选择变量用于计算渐变色',
+        min: {
+          val: '兜底最小值',
+          var: '最小值',
+        },
+        max: {
+          val: '兜底最大值',
+          var: '最大值',
+        },
+      },
     },
     chart: {
       chart_config: '图表设置',
