@@ -5,7 +5,7 @@ import { ColorMappingFormValues } from './color-mapping-form';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    gradientColor: {
+    colorMapping: {
       setColorMapping: (values: ColorMappingFormValues) => ReturnType;
       unsetColorMapping: () => ReturnType;
     };
@@ -21,7 +21,7 @@ const Keys = {
   variable: 'data-var',
 };
 export const ColorMappingAttrKeys = Keys;
-export const ColorMappingName = 'gradientColor';
+export const ColorMappingName = 'colorMapping';
 
 export const ColorMappingMark = Mark.create({
   name: ColorMappingName,
@@ -113,7 +113,7 @@ export const ColorMappingMark = Mark.create({
         ({ commands }) => {
           const { colors, min_val, min_var, max_val, max_var, variable } = values;
           return commands.setMark(this.name, {
-            [Keys.color]: colors,
+            [Keys.color]: JSON.stringify(colors),
             [Keys.min_val]: min_val,
             [Keys.min_var]: min_var,
             [Keys.max_val]: max_val,
