@@ -86,9 +86,7 @@ export function getColorMappingStyle(doc: Document, variables: VariableValueMap)
 }
 
 export function parseColorMappingAttrs(attrs: Record<keyof typeof ColorMappingAttrKeys, string>) {
-  const color: string = _.get(attrs, ColorMappingAttrKeys.color, '');
-  const colors: string[] = !!color ? color.split(',') : [];
-
+  const colors: string[] = _.get(attrs, ColorMappingAttrKeys.color, []);
   const min_val = _.get(attrs, ColorMappingAttrKeys.min_val, '');
   const min_var = _.get(attrs, ColorMappingAttrKeys.min_var, '');
   const max_val = _.get(attrs, ColorMappingAttrKeys.max_val, '');
