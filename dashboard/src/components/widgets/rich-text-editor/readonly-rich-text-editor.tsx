@@ -21,7 +21,7 @@ import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { getEmptyDashboardState } from '~/utils';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
-import { ColorMappingMark } from './color-mapping-mark';
+import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
 
 interface IReadonlyRichText {
   value: string;
@@ -80,9 +80,17 @@ export const ReadonlyRichText = ({
     return getDynamicColorStyles(doc, dashboardState, variableAggValueMap);
   }, [doc, dashboardState, variableAggValueMap]);
 
+  const colorMappingStyles = useMemo(() => {
+    return getColorMappingStyle(doc, variableAggValueMap);
+  }, [doc, variableAggValueMap]);
+
   const finalStyles = useMemo(() => {
-    return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles } }, styles);
-  }, [styles, dynamicColorStyles]);
+    return _.defaultsDeep(
+      {},
+      { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles, ...colorMappingStyles } },
+      styles,
+    );
+  }, [styles, dynamicColorStyles, colorMappingStyles]);
 
   return (
     <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>

@@ -74,7 +74,7 @@ export function getColorMappingStyle(doc: Document, variables: VariableValueMap)
       return;
     }
 
-    const colors = JSON.parse(colorAttr);
+    const colors = colorAttr.split(',');
     const func = getColorMappingFunc(colors, min, max);
 
     ret[`#${ensurePrefixOnID(n.id)}`] = {
