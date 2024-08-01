@@ -53,6 +53,35 @@ export const PanelModel = PanelRenderModel.views((self) => ({
     }
     return options;
   },
+  get realVariableOptions() {
+    const varMap = self.variableValueMap;
+    return Object.entries(self.variableAggValueMap).map(([k, aggValue]) => {
+      return {
+        label: k,
+        value: k,
+        formattedValue: varMap[k],
+        aggValue: aggValue,
+        disabled: false,
+      };
+    });
+  },
+  variableOptions(selected: string, clearable: boolean) {
+    const options = [...this.realVariableOptions];
+    if (selected && !options.find((o) => o.value === selected)) {
+      options.unshift({
+        label: selected,
+        value: selected,
+        formattedValue: '',
+        aggValue: '',
+        disabled: true,
+      });
+    }
+
+    if (clearable) {
+      options.unshift({ label: 'unset', value: '', formattedValue: '', aggValue: '', disabled: false });
+    }
+    return options;
+  },
   dataFieldOptions(selected: TDataKey, clearable: boolean, queryID?: string) {
     let options = [...this.realDataFieldOptions];
     if (queryID) {

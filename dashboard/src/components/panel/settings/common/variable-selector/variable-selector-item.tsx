@@ -7,12 +7,15 @@ interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
   value: string;
   aggValue: string;
   formattedValue: string;
+  preview: 'aggregated' | 'formatted';
 }
 
 export const VariableSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ aggValue, formattedValue, label, ...others }: ItemProps, ref) => {
+  ({ aggValue, formattedValue, label, preview, ...others }: ItemProps, ref) => {
     const { hovered, ref: hoverRef } = useHover();
 
+    const defaultPreview = preview === 'aggregated' ? aggValue : formattedValue;
+    const hoveredPreview = preview === 'aggregated' ? formattedValue : aggValue;
     return (
       <Box ref={hoverRef} {...others}>
         <Group noWrap position="apart" ref={ref}>
@@ -20,7 +23,7 @@ export const VariableSelectorItem = forwardRef<HTMLDivElement, ItemProps>(
             {label}
           </Text>
           <Text size="xs" opacity={hovered ? 1 : 0.65} sx={{ flexShrink: 0 }}>
-            {hovered ? aggValue : formattedValue}
+            {hovered ? hoveredPreview : defaultPreview}
           </Text>
         </Group>
       </Box>
