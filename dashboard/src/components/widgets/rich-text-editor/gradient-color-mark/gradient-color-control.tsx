@@ -67,7 +67,7 @@ export const GradientColorControl = ({ editor }: { editor: Editor }) => {
   }, [attrs]);
 
   return (
-    <Popover width={300} opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
+    <Popover width={400} opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
         <RichTextEditor.ControlsGroup>
           <Tooltip label={t('rich_text.gradient_color.label')}>

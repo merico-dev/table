@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm, UseFormReturn } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { VariableSelector } from '~/components/panel/settings/common/variable-selector';
 import { GradientEditor } from '~/components/plugins/common-echarts-fields/visual-map/visual-map-editor/continuous/gradient-editor';
 export type GradientColorFormValues = {
   colors: string[];
@@ -50,7 +51,14 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
         <Controller
           control={control}
           name="variable"
-          render={({ field }) => <TextInput label={t('rich_text.gradient_color.choose_value_var')} {...field} />}
+          render={({ field }) => (
+            <VariableSelector
+              label={t('rich_text.gradient_color.choose_value_var')}
+              clearable={false}
+              preview="aggregated"
+              {...field}
+            />
+          )}
         />
         <Group grow>
           <Controller
