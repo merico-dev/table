@@ -1,4 +1,4 @@
-import { Box, Button, CloseButton, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Box, Button, Divider, Group, TextInput } from '@mantine/core';
 import { IconArrowBackUp, IconDeviceFloppy, IconTrash } from '@tabler/icons-react';
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -23,7 +23,7 @@ type Props = {
 export const ColorMappingForm = ({ defaultValues, onSubmit, unset, cancel }: Props) => {
   const { t } = useTranslation();
   const form = useForm<ColorMappingFormValues>({ defaultValues });
-  const { control, handleSubmit, watch, getValues, reset } = form;
+  const { control, handleSubmit, reset } = form;
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
