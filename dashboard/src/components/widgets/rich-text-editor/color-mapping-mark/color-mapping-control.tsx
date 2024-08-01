@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Popover, Tooltip, useMantineTheme } from '@mantine/core';
+import { ActionIcon, Box, Modal, Tooltip, useMantineTheme } from '@mantine/core';
 import { RichTextEditor } from '@mantine/tiptap';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
@@ -77,58 +77,65 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
     editor.chain().focus().unsetColorMapping().run();
   }, [editor]);
 
-  return (
-    <Popover
-      width={500}
-      opened={opened}
-      onChange={setOpened}
-      shadow="md"
-      withinPortal
-      zIndex={340}
-      withArrow
-      closeOnClickOutside={false}
-      closeOnEscape={false}
-    >
-      <Popover.Target>
-        <RichTextEditor.ControlsGroup>
-          <Tooltip label={t('rich_text.color_mapping.label')}>
-            <ActionIcon
-              variant="default"
-              data-rich-text-editor-control="true"
-              sx={{
-                height: '26px',
-                minHeight: '26px',
-                lineHeight: '26px',
-                borderColor: '#ced4da !important',
-                color: '#000',
-              }}
-              onClick={open}
-            >
-              <IconColorMapping />
-            </ActionIcon>
-          </Tooltip>
-          <Tooltip label={t('rich_text.color_mapping.clear')}>
-            <ActionIcon
-              variant="default"
-              data-rich-text-editor-control="true"
-              sx={{
-                height: '26px',
-                minHeight: '26px',
-                lineHeight: '26px',
-                borderColor: '#ced4da !important',
-              }}
-              disabled={defaultValues.empty}
-              onClick={unset}
-            >
-              <IconColorMappingOff disabled={defaultValues.empty} />
-            </ActionIcon>
-          </Tooltip>
-        </RichTextEditor.ControlsGroup>
-      </Popover.Target>
+  console.log(defaultValues);
 
-      <Popover.Dropdown p={0}>
+  return (
+    <>
+      <Modal
+        size={500}
+        opened={opened}
+        onClose={close}
+        shadow="md"
+        withinPortal
+        zIndex={340}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
+        title={t('rich_text.color_mapping.edit')}
+        styles={{
+          header: {
+            paddingBottom: 0,
+          },
+          body: {
+            padding: 0,
+          },
+        }}
+      >
         <ColorMappingForm defaultValues={defaultValues} cancel={close} unset={unset} onSubmit={saveChanges} />
-      </Popover.Dropdown>
-    </Popover>
+      </Modal>
+      <RichTextEditor.ControlsGroup>
+        <Tooltip label={t('rich_text.color_mapping.label')}>
+          <ActionIcon
+            variant="default"
+            data-rich-text-editor-control="true"
+            sx={{
+              height: '26px',
+              minHeight: '26px',
+              lineHeight: '26px',
+              borderColor: '#ced4da !important',
+              color: '#000',
+            }}
+            onClick={open}
+          >
+            <IconColorMapping />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label={t('rich_text.color_mapping.clear')}>
+          <ActionIcon
+            variant="default"
+            data-rich-text-editor-control="true"
+            sx={{
+              height: '26px',
+              minHeight: '26px',
+              lineHeight: '26px',
+              borderColor: '#ced4da !important',
+            }}
+            disabled={defaultValues.empty}
+            onClick={unset}
+          >
+            <IconColorMappingOff disabled={defaultValues.empty} />
+          </ActionIcon>
+        </Tooltip>
+      </RichTextEditor.ControlsGroup>
+    </>
   );
 };

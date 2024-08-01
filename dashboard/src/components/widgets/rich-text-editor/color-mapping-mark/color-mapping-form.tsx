@@ -32,10 +32,6 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset, cancel }: Pro
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Group position="apart" px="1rem" pt="0.75rem">
-          <Text>{t('rich_text.color_mapping.edit')}</Text>
-          <CloseButton onClick={cancel} />
-        </Group>
         <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
         <Box px="1rem">
           <Controller
@@ -107,7 +103,7 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset, cancel }: Pro
         <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
         <Group position="apart" px="1rem" pb="0.75rem">
           <Group position="left">
-            <Button color="red" size="xs" onClick={revert} leftIcon={<IconTrash size={18} />}>
+            <Button color="red" size="xs" onClick={unset} leftIcon={<IconTrash size={18} />}>
               {t('common.actions.clear')}
             </Button>
             <Button color="orange" size="xs" onClick={revert} leftIcon={<IconArrowBackUp size={18} />}>
