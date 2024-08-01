@@ -13,7 +13,7 @@ import TableRow from '@tiptap/extension-table-row';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { useEditor } from '@tiptap/react';
+import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
@@ -22,6 +22,7 @@ import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ColorPickerControl } from './color-picker-control';
 import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
+import { useIsInEditPanelContext, useRenderPanelContext } from '~/contexts';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -76,9 +77,9 @@ interface ICustomRichTextEditor {
 
 export const CustomRichTextEditor = forwardRef(
   ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
-    const [content, setContent] = useState(value);
-    const editor = useEditor({
-      extensions: [
+    const inPanelContext = useIsInEditPanelContext();
+    const extensions: Extensions = useMemo(() => {
+      const ret = [
         StarterKit,
         Underline,
         Link,
@@ -100,8 +101,16 @@ export const CustomRichTextEditor = forwardRef(
         Color,
         FontSize,
         DynamicColorMark,
-        ColorMappingMark,
-      ],
+      ];
+      if (inPanelContext) {
+        ret.push(ColorMappingMark);
+      }
+      return ret;
+    }, [inPanelContext]);
+
+    const [content, setContent] = useState(value);
+    const editor = useEditor({
+      extensions,
       content,
       onUpdate: ({ editor }) => {
         const newContent = editor.getHTML();
@@ -160,7 +169,7 @@ export const CustomRichTextEditor = forwardRef(
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
             <ColorPickerControl editor={editor} />
-            <ColorMappingControl editor={editor} />
+            {inPanelContext && <ColorMappingControl editor={editor} />}
             <RichTextEditor.ControlsGroup>
               <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>
