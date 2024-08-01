@@ -576,18 +576,18 @@ export const zh = {
         edit: '编辑动态颜色',
         clear: '清除动态颜色',
       },
-      gradient_color: {
-        label: '渐变色',
-        edit: '编辑渐变色',
-        clear: '清除渐变色',
-        choose_value_var: '选择变量用于计算渐变色',
+      color_mapping: {
+        label: '颜色映射',
+        edit: '编辑颜色映射',
+        clear: '清除颜色映射',
+        choose_value_var: '选择变量用于映射颜色',
         min: {
-          val: '兜底最小值',
-          var: '最小值',
+          val: '固定最小值',
+          var: '动态最小值（优先）',
         },
         max: {
-          val: '兜底最大值',
-          var: '最大值',
+          val: '固定最大值',
+          var: '动态最大值（优先）',
         },
       },
     },

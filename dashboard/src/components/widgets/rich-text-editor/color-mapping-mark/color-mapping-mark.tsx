@@ -1,17 +1,17 @@
 import { Mark } from '@tiptap/core';
 import '@tiptap/extension-text-style';
-import { ensurePrefixOnID, getGradientColorID } from './utils';
+import { ensurePrefixOnID, getColorMappingID } from './utils';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     gradientColor: {
-      setGradientColors: (colors: string) => ReturnType;
+      setColorMappings: (colors: string) => ReturnType;
       setGradientMinValue: (variableKey: string) => ReturnType;
       setGradientMinVar: (variableKey: string) => ReturnType;
       setGradientMaxValue: (value: number | string) => ReturnType;
       setGradientMaxVar: (variableKey: number | string) => ReturnType;
       setGradientVariable: (variableKey: string) => ReturnType;
-      unsetGradientColor: () => ReturnType;
+      unsetColorMapping: () => ReturnType;
     };
   }
 }
@@ -24,16 +24,16 @@ const Keys = {
   max_var: 'data-max-var',
   variable: 'data-var',
 };
-export const GradientColorAttrKeys = Keys;
-export const GradientColorName = 'gradientColor';
+export const ColorMappingAttrKeys = Keys;
+export const ColorMappingName = 'gradientColor';
 
-export const GradientColorMark = Mark.create({
-  name: GradientColorName,
+export const ColorMappingMark = Mark.create({
+  name: ColorMappingName,
 
   addAttributes() {
     return {
       id: {
-        default: getGradientColorID(6),
+        default: getColorMappingID(6),
         parseHTML: (element) => {
           const id = element.getAttribute('id');
           return ensurePrefixOnID(id);
@@ -50,7 +50,7 @@ export const GradientColorMark = Mark.create({
           if (Array.isArray(ret)) {
             return ret;
           }
-          console.error(`[GradientColorMark] ${Keys.color} should be an JSON array`);
+          console.error(`[ColorMappingMark] ${Keys.color} should be an JSON array`);
         },
       },
       [Keys.min_val]: {
@@ -94,25 +94,25 @@ export const GradientColorMark = Mark.create({
   parseHTML() {
     return [
       {
-        tag: 'gradient-color',
+        tag: 'color-mapping',
         getAttrs: (node: string | HTMLElement) => {
           if (typeof node === 'string') {
             console.debug(node);
             return false;
           }
-          return Object.values(GradientColorAttrKeys).map((k) => node.getAttribute(k));
+          return Object.values(ColorMappingAttrKeys).map((k) => node.getAttribute(k));
         },
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['gradient-color', HTMLAttributes, 0];
+    return ['color-mapping', HTMLAttributes, 0];
   },
 
   addCommands() {
     return {
-      setGradientColors:
+      setColorMappings:
         (v) =>
         ({ commands }) => {
           return commands.setMark(this.name, {
@@ -154,7 +154,7 @@ export const GradientColorMark = Mark.create({
             [Keys.variable]: v,
           });
         },
-      unsetGradientColor:
+      unsetColorMapping:
         () =>
         ({ commands }) => {
           return commands.unsetMark(this.name);

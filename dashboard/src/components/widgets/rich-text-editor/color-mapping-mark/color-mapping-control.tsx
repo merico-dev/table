@@ -6,11 +6,11 @@ import { useBoolean } from 'ahooks';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChartTheme } from '~/styles/register-themes';
-import { GradientColorForm } from './gradient-color-form';
-import { GradientColorName } from './gradient-color-mark';
-import { parseGradientColorAttrs } from './utils';
+import { ColorMappingForm } from './color-mapping-form';
+import { ColorMappingName } from './color-mapping-mark';
+import { parseColorMappingAttrs } from './utils';
 
-const IconGradientColor = () => {
+const IconColorMapping = () => {
   const theme = useMantineTheme();
   return (
     <div
@@ -23,7 +23,7 @@ const IconGradientColor = () => {
     />
   );
 };
-const IconGradientColorOff = () => {
+const IconColorMappingOff = () => {
   const theme = useMantineTheme();
   return (
     <Box
@@ -58,19 +58,19 @@ const IconGradientColorOff = () => {
   );
 };
 
-export const GradientColorControl = ({ editor }: { editor: Editor }) => {
+export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const [opened, { set: setOpened, setTrue: open, setFalse: close, toggle }] = useBoolean();
-  const attrs = useMemo(() => editor.getAttributes(GradientColorName), [editor]);
+  const attrs = useMemo(() => editor.getAttributes(ColorMappingName), [editor]);
   const defaultValues = useMemo(() => {
-    return parseGradientColorAttrs(attrs);
+    return parseColorMappingAttrs(attrs);
   }, [attrs]);
 
   return (
     <Popover width={400} opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
         <RichTextEditor.ControlsGroup>
-          <Tooltip label={t('rich_text.gradient_color.label')}>
+          <Tooltip label={t('rich_text.color_mapping.label')}>
             <ActionIcon
               variant="default"
               data-rich-text-editor-control="true"
@@ -83,10 +83,10 @@ export const GradientColorControl = ({ editor }: { editor: Editor }) => {
               }}
               onClick={open}
             >
-              <IconGradientColor />
+              <IconColorMapping />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('rich_text.gradient_color.clear')}>
+          <Tooltip label={t('rich_text.color_mapping.clear')}>
             <ActionIcon
               variant="default"
               data-rich-text-editor-control="true"
@@ -100,14 +100,14 @@ export const GradientColorControl = ({ editor }: { editor: Editor }) => {
               // disabled={!gradientColorConfigured}
               onClick={() => editor.chain().focus().unsetDynamicColor().run()}
             >
-              <IconGradientColorOff />
+              <IconColorMappingOff />
             </ActionIcon>
           </Tooltip>
         </RichTextEditor.ControlsGroup>
       </Popover.Target>
 
       <Popover.Dropdown>
-        <GradientColorForm defaultValues={defaultValues} />
+        <ColorMappingForm defaultValues={defaultValues} />
       </Popover.Dropdown>
     </Popover>
   );

@@ -21,7 +21,7 @@ import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ColorPickerControl } from './color-picker-control';
-import { GradientColorControl, GradientColorMark } from './gradient-color-mark';
+import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -86,7 +86,7 @@ export const CustomRichTextEditor = forwardRef(
         Color,
         FontSize,
         DynamicColorMark,
-        GradientColorMark,
+        ColorMappingMark,
       ],
       content,
       onUpdate: ({ editor }) => {
@@ -141,7 +141,7 @@ export const CustomRichTextEditor = forwardRef(
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
             <ColorPickerControl editor={editor} />
-            <GradientColorControl editor={editor} />
+            <ColorMappingControl editor={editor} />
             <RichTextEditor.ControlsGroup>
               <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>

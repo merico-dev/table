@@ -1,4 +1,4 @@
-import { Button, Group, NumberInput, Stack } from '@mantine/core';
+import { Button, Group, NumberInput, Stack, TextInput } from '@mantine/core';
 import { IconDeviceFloppy, IconRecycle } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -6,21 +6,21 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { VariableSelector } from '~/components/panel/settings/common/variable-selector';
 import { GradientEditor } from '~/components/plugins/common-echarts-fields/visual-map/visual-map-editor/continuous/gradient-editor';
-export type GradientColorFormValues = {
+export type ColorMappingFormValues = {
   colors: string[];
-  min_val: number;
+  min_val: string;
   min_var: string;
-  max_val: number;
+  max_val: string;
   max_var: string;
   variable: string;
 };
 
 type Props = {
-  defaultValues: GradientColorFormValues;
+  defaultValues: ColorMappingFormValues;
 };
-export const GradientColorForm = ({ defaultValues }: Props) => {
+export const ColorMappingForm = ({ defaultValues }: Props) => {
   const { t } = useTranslation();
-  const form = useForm<GradientColorFormValues>({ defaultValues });
+  const form = useForm<ColorMappingFormValues>({ defaultValues });
   const { control, handleSubmit, watch, getValues, reset } = form;
   useEffect(() => {
     reset(defaultValues);
@@ -32,7 +32,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
   }, [values, defaultValues]);
 
   const revert = useCallback(() => reset(defaultValues), [reset, defaultValues]);
-  const submit = useCallback((values: GradientColorFormValues) => {
+  const submit = useCallback((values: ColorMappingFormValues) => {
     console.log(values);
   }, []);
   return (
@@ -51,7 +51,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
           name="variable"
           render={({ field }) => (
             <VariableSelector
-              label={t('rich_text.gradient_color.choose_value_var')}
+              label={t('rich_text.color_mapping.choose_value_var')}
               clearable={false}
               preview="aggregated"
               {...field}
@@ -64,7 +64,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
             control={control}
             render={({ field }) => (
               <VariableSelector
-                label={t('rich_text.gradient_color.min.var')}
+                label={t('rich_text.color_mapping.min.var')}
                 clearable={false}
                 preview="aggregated"
                 {...field}
@@ -74,13 +74,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
           <Controller
             name="min_val"
             control={control}
-            render={({ field }) => (
-              <NumberInput
-                label={t('rich_text.gradient_color.min.val')}
-                {...field}
-                onChange={(v: number | '') => v !== '' && field.onChange(v)}
-              />
-            )}
+            render={({ field }) => <TextInput label={t('rich_text.color_mapping.min.val')} {...field} />}
           />
         </Group>
         <Group grow>
@@ -89,7 +83,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
             control={control}
             render={({ field }) => (
               <VariableSelector
-                label={t('rich_text.gradient_color.max.var')}
+                label={t('rich_text.color_mapping.max.var')}
                 clearable={false}
                 preview="aggregated"
                 {...field}
@@ -99,13 +93,7 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
           <Controller
             name="max_val"
             control={control}
-            render={({ field }) => (
-              <NumberInput
-                label={t('rich_text.gradient_color.max.val')}
-                {...field}
-                onChange={(v: number | '') => v !== '' && field.onChange(v)}
-              />
-            )}
+            render={({ field }) => <TextInput label={t('rich_text.color_mapping.max.val')} {...field} />}
           />
         </Group>
         <Controller control={control} name="colors" render={({ field }) => <GradientEditor {...field} />} />

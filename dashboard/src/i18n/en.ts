@@ -576,11 +576,11 @@ export const en = {
         edit: 'Edit dynamic color',
         clear: 'Clear dynamic color',
       },
-      gradient_color: {
-        label: 'Gradient Color',
-        edit: 'Edit gradient color',
-        clear: 'Clear gradient color',
-        choose_value_var: 'Choose a variable to calculate gradient color',
+      color_mapping: {
+        label: 'Color Mapping',
+        edit: 'Edit color mapping',
+        clear: 'Clear color mapping',
+        choose_value_var: 'Choose a variable for color mapping',
         min: {
           val: 'Fallback min value',
           var: 'Min',

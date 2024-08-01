@@ -1,20 +1,20 @@
 import * as d3Array from 'd3-array';
 import * as d3Scale from 'd3-scale';
 import _ from 'lodash';
-import { TDashboardState, VariableValueMap } from '~/model';
-import { GradientColorAttrKeys } from './gradient-color-mark';
+import { VariableValueMap } from '~/model';
+import { ColorMappingAttrKeys } from './color-mapping-mark';
 
-export const GradientColorIDPrefix = 'grad_color_';
-export const IDPrefixReg = new RegExp(`^(?!${GradientColorIDPrefix})(.+)$`);
+export const ColorMappingIDPrefix = 'grad_color_';
+export const IDPrefixReg = new RegExp(`^(?!${ColorMappingIDPrefix})(.+)$`);
 export function ensurePrefixOnID(id: string | null) {
   if (!id) {
     return id;
   }
-  return id.replace(IDPrefixReg, `${GradientColorIDPrefix}$1`);
+  return id.replace(IDPrefixReg, `${ColorMappingIDPrefix}$1`);
 }
 
 // TODO: replace this with getRandomID
-export const getGradientColorID = (size: number) => {
+export const getColorMappingID = (size: number) => {
   const MASK = 0x3d;
   const LETTERS = 'abcdefghijklmnopqrstuvwxyz';
   const NUMBERS = '1234567890';
@@ -24,16 +24,16 @@ export const getGradientColorID = (size: number) => {
   crypto.getRandomValues(bytes);
 
   const id = bytes.reduce((acc, byte) => `${acc}${charset[byte & MASK]}`, '');
-  return `${GradientColorIDPrefix}${id}`;
+  return `${ColorMappingIDPrefix}${id}`;
 };
 
-export function getGradientColorFunc(colors: string[], min: number, max: number) {
+export function getColorMappingFunc(colors: string[], min: number, max: number) {
   try {
     if (!Number.isFinite(min) || !Number.isFinite(max)) {
-      throw new Error(`[getGradientColorFunc] invalid interval with min[${min}] max[${max}]`);
+      throw new Error(`[getColorMappingFunc] invalid interval with min[${min}] max[${max}]`);
     }
     if (colors.length < 2) {
-      throw new Error(`[getGradientColorFunc] expected at least 2 colors`);
+      throw new Error(`[getColorMappingFunc] expected at least 2 colors`);
     }
     const step = (max - min) / (colors.length - 1);
     const domain = d3Array.range(min, max + step, step);
@@ -58,14 +58,14 @@ function getVarOrVal(n: Element, variables: VariableValueMap, valKey: string, va
   return ret;
 }
 
-export function getGradientColorStyle(doc: Document, variables: VariableValueMap) {
+export function getColorMappingStyle(doc: Document, variables: VariableValueMap) {
   const ret: Record<string, { color: string }> = {};
-  const nodes = doc.querySelectorAll('gradient-color');
+  const nodes = doc.querySelectorAll('color-mapping');
   nodes.forEach((n) => {
-    const colorAttr = n.getAttribute(GradientColorAttrKeys.color);
-    const min = getVarOrVal(n, variables, GradientColorAttrKeys.min_val, GradientColorAttrKeys.min_var);
-    const max = getVarOrVal(n, variables, GradientColorAttrKeys.max_val, GradientColorAttrKeys.max_var);
-    const variable = n.getAttribute(GradientColorAttrKeys.variable);
+    const colorAttr = n.getAttribute(ColorMappingAttrKeys.color);
+    const min = getVarOrVal(n, variables, ColorMappingAttrKeys.min_val, ColorMappingAttrKeys.min_var);
+    const max = getVarOrVal(n, variables, ColorMappingAttrKeys.max_val, ColorMappingAttrKeys.max_var);
+    const variable = n.getAttribute(ColorMappingAttrKeys.variable);
     if (!colorAttr || !Number.isFinite(min) || !Number.isFinite(max) || !variable) {
       return;
     }
@@ -75,7 +75,7 @@ export function getGradientColorStyle(doc: Document, variables: VariableValueMap
     }
 
     const colors = JSON.parse(colorAttr);
-    const func = getGradientColorFunc(colors, min, max);
+    const func = getColorMappingFunc(colors, min, max);
 
     ret[`#${ensurePrefixOnID(n.id)}`] = {
       color: func(value),
@@ -85,18 +85,18 @@ export function getGradientColorStyle(doc: Document, variables: VariableValueMap
   return ret;
 }
 
-export function parseGradientColorAttrs(attrs: Record<keyof typeof GradientColorAttrKeys, string>) {
-  const color = _.get(attrs, GradientColorAttrKeys.color, '[]');
+export function parseColorMappingAttrs(attrs: Record<keyof typeof ColorMappingAttrKeys, string>) {
+  const color = _.get(attrs, ColorMappingAttrKeys.color, '[]');
   let colors = [];
   try {
     colors = JSON.parse(color);
   } catch (error) {}
 
-  const min_val = _.get(attrs, GradientColorAttrKeys.min_val);
-  const min_var = _.get(attrs, GradientColorAttrKeys.min_var);
-  const max_val = _.get(attrs, GradientColorAttrKeys.max_val);
-  const max_var = _.get(attrs, GradientColorAttrKeys.max_var);
-  const variable = _.get(attrs, GradientColorAttrKeys.variable, '');
+  const min_val = _.get(attrs, ColorMappingAttrKeys.min_val);
+  const min_var = _.get(attrs, ColorMappingAttrKeys.min_var);
+  const max_val = _.get(attrs, ColorMappingAttrKeys.max_val);
+  const max_var = _.get(attrs, ColorMappingAttrKeys.max_var);
+  const variable = _.get(attrs, ColorMappingAttrKeys.variable, '');
   return {
     colors,
     min_val,
