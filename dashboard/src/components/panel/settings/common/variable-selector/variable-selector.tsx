@@ -15,11 +15,22 @@ type Props = {
   clearable?: boolean;
   sx?: Sx;
   preview?: 'aggregated' | 'formatted';
+  zIndex?: number;
 };
 
 export const VariableSelector = observer(
   forwardRef<HTMLInputElement, Props>((props, ref) => {
-    const { label, value, onChange, description, required, clearable = true, sx, preview = 'formatted' } = props;
+    const {
+      label,
+      value,
+      onChange,
+      description,
+      required,
+      clearable = true,
+      sx,
+      preview = 'formatted',
+      zIndex = 340,
+    } = props;
     const { t } = useTranslation();
     const { panel } = useEditPanelContext();
     const options = React.useMemo(() => {
@@ -42,6 +53,8 @@ export const VariableSelector = observer(
         required={required}
         sx={sx}
         maxDropdownHeight={500}
+        withinPortal
+        zIndex={zIndex}
       />
     );
   }),
