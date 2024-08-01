@@ -1,15 +1,17 @@
-import { Button, Group, NumberInput, Stack, TextInput } from '@mantine/core';
+import { Button, Group, NumberInput, Stack } from '@mantine/core';
 import { IconDeviceFloppy, IconRecycle } from '@tabler/icons-react';
 import _ from 'lodash';
-import { useEffect, useMemo } from 'react';
-import { Controller, useForm, UseFormReturn } from 'react-hook-form';
+import { useCallback, useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { VariableSelector } from '~/components/panel/settings/common/variable-selector';
 import { GradientEditor } from '~/components/plugins/common-echarts-fields/visual-map/visual-map-editor/continuous/gradient-editor';
 export type GradientColorFormValues = {
   colors: string[];
-  min: number;
-  max: number;
+  min_val: number;
+  min_var: string;
+  max_val: number;
+  max_var: string;
   variable: string;
 };
 
@@ -29,18 +31,14 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
     return _.isEqual(values, defaultValues);
   }, [values, defaultValues]);
 
-  const revert = () => reset(defaultValues);
-  const submit = (values: GradientColorFormValues) => console.log(values);
+  const revert = useCallback(() => reset(defaultValues), [reset, defaultValues]);
+  const submit = useCallback((values: GradientColorFormValues) => {
+    console.log(values);
+  }, []);
   return (
     <Stack>
       <Group position="apart">
-        <Button
-          color="orange"
-          size="xs"
-          onClick={() => reset()}
-          leftIcon={<IconRecycle size={18} />}
-          disabled={!changed}
-        >
+        <Button color="orange" size="xs" onClick={revert} leftIcon={<IconRecycle size={18} />} disabled={!changed}>
           {t('common.actions.revert')}
         </Button>
         <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />} disabled={!changed}>
@@ -62,22 +60,48 @@ export const GradientColorForm = ({ defaultValues }: Props) => {
         />
         <Group grow>
           <Controller
-            name="min"
+            name="min_var"
+            control={control}
+            render={({ field }) => (
+              <VariableSelector
+                label={t('rich_text.gradient_color.min.var')}
+                clearable={false}
+                preview="aggregated"
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="min_val"
             control={control}
             render={({ field }) => (
               <NumberInput
-                label={t('rich_text.gradient_color.min_value')}
+                label={t('rich_text.gradient_color.min.val')}
                 {...field}
                 onChange={(v: number | '') => v !== '' && field.onChange(v)}
               />
             )}
           />
+        </Group>
+        <Group grow>
           <Controller
-            name="max"
+            name="max_var"
+            control={control}
+            render={({ field }) => (
+              <VariableSelector
+                label={t('rich_text.gradient_color.max.var')}
+                clearable={false}
+                preview="aggregated"
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="max_val"
             control={control}
             render={({ field }) => (
               <NumberInput
-                label={t('rich_text.gradient_color.max_value')}
+                label={t('rich_text.gradient_color.max.val')}
                 {...field}
                 onChange={(v: number | '') => v !== '' && field.onChange(v)}
               />

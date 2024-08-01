@@ -6,24 +6,25 @@ declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     gradientColor: {
       setGradientColors: (colors: string) => ReturnType;
-      setGradientMinValue: (value: number | string) => ReturnType;
+      setGradientMinValue: (variableKey: string) => ReturnType;
+      setGradientMinVar: (variableKey: string) => ReturnType;
       setGradientMaxValue: (value: number | string) => ReturnType;
+      setGradientMaxVar: (variableKey: number | string) => ReturnType;
       setGradientVariable: (variableKey: string) => ReturnType;
       unsetGradientColor: () => ReturnType;
     };
   }
 }
 
-const ColorAttrKey = 'data-colors';
-const MinAttrKey = 'data-min';
-const MaxAttrKey = 'data-max';
-const VariableAttrKey = 'data-var';
-export const GradientColorAttrKeys = {
-  color: ColorAttrKey,
-  min: MinAttrKey,
-  max: MaxAttrKey,
-  variable: VariableAttrKey,
+const Keys = {
+  color: 'data-colors',
+  min_val: 'data-min-val',
+  min_var: 'data-min-var',
+  max_val: 'data-max-val',
+  max_var: 'data-max-var',
+  variable: 'data-var',
 };
+export const GradientColorAttrKeys = Keys;
 export const GradientColorName = 'gradientColor';
 
 export const GradientColorMark = Mark.create({
@@ -38,10 +39,10 @@ export const GradientColorMark = Mark.create({
           return ensurePrefixOnID(id);
         },
       },
-      [ColorAttrKey]: {
+      [Keys.color]: {
         default: [],
         parseHTML: (element) => {
-          const v = element.getAttribute(ColorAttrKey);
+          const v = element.getAttribute(Keys.color);
           if (!v) {
             return [];
           }
@@ -49,27 +50,41 @@ export const GradientColorMark = Mark.create({
           if (Array.isArray(ret)) {
             return ret;
           }
-          console.error(`[GradientColorMark] ${ColorAttrKey} should be an JSON array`);
+          console.error(`[GradientColorMark] ${Keys.color} should be an JSON array`);
         },
       },
-      [MinAttrKey]: {
+      [Keys.min_val]: {
         default: 0,
         parseHTML: (element) => {
-          const v = element.getAttribute(MinAttrKey);
+          const v = element.getAttribute(Keys.min_val);
           return v;
         },
       },
-      [MaxAttrKey]: {
-        default: 100,
-        parseHTML: (element) => {
-          const v = element.getAttribute(MaxAttrKey);
-          return v;
-        },
-      },
-      [VariableAttrKey]: {
+      [Keys.min_var]: {
         default: '',
         parseHTML: (element) => {
-          const v = element.getAttribute(VariableAttrKey);
+          const v = element.getAttribute(Keys.min_var);
+          return v;
+        },
+      },
+      [Keys.max_val]: {
+        default: 100,
+        parseHTML: (element) => {
+          const v = element.getAttribute(Keys.max_val);
+          return v;
+        },
+      },
+      [Keys.max_var]: {
+        default: '',
+        parseHTML: (element) => {
+          const v = element.getAttribute(Keys.max_var);
+          return v;
+        },
+      },
+      [Keys.variable]: {
+        default: '',
+        parseHTML: (element) => {
+          const v = element.getAttribute(Keys.variable);
           return v;
         },
       },
@@ -101,28 +116,42 @@ export const GradientColorMark = Mark.create({
         (v) =>
         ({ commands }) => {
           return commands.setMark(this.name, {
-            [ColorAttrKey]: v,
+            [Keys.color]: v,
           });
         },
       setGradientMinValue:
         (v) =>
         ({ commands }) => {
           return commands.setMark(this.name, {
-            [MinAttrKey]: v,
+            [Keys.min_val]: v,
+          });
+        },
+      setGradientMinVar:
+        (v) =>
+        ({ commands }) => {
+          return commands.setMark(this.name, {
+            [Keys.min_var]: v,
           });
         },
       setGradientMaxValue:
         (v) =>
         ({ commands }) => {
           return commands.setMark(this.name, {
-            [MaxAttrKey]: v,
+            [Keys.max_val]: v,
+          });
+        },
+      setGradientMaxVar:
+        (v) =>
+        ({ commands }) => {
+          return commands.setMark(this.name, {
+            [Keys.max_var]: v,
           });
         },
       setGradientVariable:
         (v) =>
         ({ commands }) => {
           return commands.setMark(this.name, {
-            [VariableAttrKey]: v,
+            [Keys.variable]: v,
           });
         },
       unsetGradientColor:

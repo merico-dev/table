@@ -1,10 +1,8 @@
-import { TDashboardState, VariableValueMap } from '~/model';
-import { functionUtils } from '~/utils';
-import { MonacoEditorRestriction } from '../../function-editor';
-import { GradientColorAttrKeys } from './gradient-color-mark';
 import * as d3Array from 'd3-array';
 import * as d3Scale from 'd3-scale';
 import _ from 'lodash';
+import { TDashboardState, VariableValueMap } from '~/model';
+import { GradientColorAttrKeys } from './gradient-color-mark';
 
 export const GradientColorIDPrefix = 'grad_color_';
 export const IDPrefixReg = new RegExp(`^(?!${GradientColorIDPrefix})(.+)$`);
@@ -46,13 +44,27 @@ export function getGradientColorFunc(colors: string[], min: number, max: number)
   }
 }
 
-export function getGradientColorStyle(doc: Document, dashboardState: TDashboardState, variables: VariableValueMap) {
+function getVarOrVal(n: Element, variables: VariableValueMap, valKey: string, varKey: string) {
+  const value = Number(n.getAttribute(valKey));
+  const varName = n.getAttribute(varKey);
+  if (!varName) {
+    return value;
+  }
+
+  const ret = Number(variables[varName]);
+  if (!Number.isFinite(ret)) {
+    return value;
+  }
+  return ret;
+}
+
+export function getGradientColorStyle(doc: Document, variables: VariableValueMap) {
   const ret: Record<string, { color: string }> = {};
   const nodes = doc.querySelectorAll('gradient-color');
   nodes.forEach((n) => {
     const colorAttr = n.getAttribute(GradientColorAttrKeys.color);
-    const min = Number(n.getAttribute(GradientColorAttrKeys.min));
-    const max = Number(n.getAttribute(GradientColorAttrKeys.max));
+    const min = getVarOrVal(n, variables, GradientColorAttrKeys.min_val, GradientColorAttrKeys.min_var);
+    const max = getVarOrVal(n, variables, GradientColorAttrKeys.max_val, GradientColorAttrKeys.max_var);
     const variable = n.getAttribute(GradientColorAttrKeys.variable);
     if (!colorAttr || !Number.isFinite(min) || !Number.isFinite(max) || !variable) {
       return;
@@ -80,13 +92,17 @@ export function parseGradientColorAttrs(attrs: Record<keyof typeof GradientColor
     colors = JSON.parse(color);
   } catch (error) {}
 
-  const min = _.get(attrs, GradientColorAttrKeys.min);
-  const max = _.get(attrs, GradientColorAttrKeys.max);
+  const min_val = _.get(attrs, GradientColorAttrKeys.min_val);
+  const min_var = _.get(attrs, GradientColorAttrKeys.min_var);
+  const max_val = _.get(attrs, GradientColorAttrKeys.max_val);
+  const max_var = _.get(attrs, GradientColorAttrKeys.max_var);
   const variable = _.get(attrs, GradientColorAttrKeys.variable, '');
   return {
     colors,
-    min,
-    max,
+    min_val,
+    min_var,
+    max_val,
+    max_var,
     variable,
   };
 }
