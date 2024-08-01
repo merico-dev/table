@@ -62,7 +62,7 @@ const IconColorMappingOff = ({ disabled }: { disabled: boolean }) => {
 export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const [opened, { set: setOpened, setTrue: open, setFalse: close, toggle }] = useBoolean();
-  const attrs = useMemo(() => editor.getAttributes(ColorMappingName), [editor]);
+  const attrs = editor.getAttributes(ColorMappingName);
   const defaultValues = useMemo(() => {
     return parseColorMappingAttrs(attrs);
   }, [attrs]);
