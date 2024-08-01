@@ -582,12 +582,12 @@ export const en = {
         clear: 'Clear color mapping',
         choose_value_var: 'Choose a variable for color mapping',
         min: {
-          val: 'Fallback min value',
-          var: 'Min',
+          val: 'Fallback value',
+          var: 'Min value variable',
         },
         max: {
-          val: 'Fallback max value',
-          var: 'Max',
+          val: 'Fallback value',
+          var: 'Max value variable',
         },
       },
     },

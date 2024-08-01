@@ -3,10 +3,10 @@ import { RichTextEditor } from '@mantine/tiptap';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
 import { useBoolean } from 'ahooks';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChartTheme } from '~/styles/register-themes';
-import { ColorMappingForm } from './color-mapping-form';
+import { ColorMappingForm, ColorMappingFormValues } from './color-mapping-form';
 import { ColorMappingName } from './color-mapping-mark';
 import { parseColorMappingAttrs } from './utils';
 
@@ -23,7 +23,7 @@ const IconColorMapping = () => {
     />
   );
 };
-const IconColorMappingOff = () => {
+const IconColorMappingOff = ({ disabled }: { disabled: boolean }) => {
   const theme = useMantineTheme();
   return (
     <Box
@@ -32,6 +32,7 @@ const IconColorMappingOff = () => {
         height: '10px',
         borderRadius: '2px',
         background: theme.fn.linearGradient(90, ...Object.values(ChartTheme.graphics.depth)),
+        opacity: disabled ? '0.5' : 1,
         position: 'relative',
         '&:after': {
           position: 'absolute',
@@ -65,9 +66,29 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
   const defaultValues = useMemo(() => {
     return parseColorMappingAttrs(attrs);
   }, [attrs]);
+  const saveChanges = useCallback(
+    (values: ColorMappingFormValues) => {
+      editor.chain().focus().setColorMapping(values).run();
+      close();
+    },
+    [editor],
+  );
+  const unset = useCallback(() => {
+    editor.chain().focus().unsetColorMapping().run();
+  }, [editor]);
 
   return (
-    <Popover width={400} opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
+    <Popover
+      width={500}
+      opened={opened}
+      onChange={setOpened}
+      shadow="md"
+      withinPortal
+      zIndex={340}
+      withArrow
+      closeOnClickOutside={false}
+      closeOnEscape={false}
+    >
       <Popover.Target>
         <RichTextEditor.ControlsGroup>
           <Tooltip label={t('rich_text.color_mapping.label')}>
@@ -95,19 +116,18 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
                 minHeight: '26px',
                 lineHeight: '26px',
                 borderColor: '#ced4da !important',
-                color: '#000',
               }}
-              // disabled={!gradientColorConfigured}
-              onClick={() => editor.chain().focus().unsetDynamicColor().run()}
+              disabled={defaultValues.empty}
+              onClick={unset}
             >
-              <IconColorMappingOff />
+              <IconColorMappingOff disabled={defaultValues.empty} />
             </ActionIcon>
           </Tooltip>
         </RichTextEditor.ControlsGroup>
       </Popover.Target>
 
-      <Popover.Dropdown>
-        <ColorMappingForm defaultValues={defaultValues} />
+      <Popover.Dropdown p={0}>
+        <ColorMappingForm defaultValues={defaultValues} cancel={close} unset={unset} onSubmit={saveChanges} />
       </Popover.Dropdown>
     </Popover>
   );

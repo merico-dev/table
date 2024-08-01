@@ -580,7 +580,7 @@ export const zh = {
         label: '颜色映射',
         edit: '编辑颜色映射',
         clear: '清除颜色映射',
-        choose_value_var: '选择变量用于映射颜色',
+        choose_value_var: '选择用于映射颜色的变量',
         min: {
           val: '固定最小值',
           var: '动态最小值（优先）',

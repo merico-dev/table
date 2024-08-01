@@ -1,16 +1,12 @@
 import { Mark } from '@tiptap/core';
 import '@tiptap/extension-text-style';
 import { ensurePrefixOnID, getColorMappingID } from './utils';
+import { ColorMappingFormValues } from './color-mapping-form';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     gradientColor: {
-      setColorMappings: (colors: string) => ReturnType;
-      setGradientMinValue: (variableKey: string) => ReturnType;
-      setGradientMinVar: (variableKey: string) => ReturnType;
-      setGradientMaxValue: (value: number | string) => ReturnType;
-      setGradientMaxVar: (variableKey: number | string) => ReturnType;
-      setGradientVariable: (variableKey: string) => ReturnType;
+      setColorMapping: (values: ColorMappingFormValues) => ReturnType;
       unsetColorMapping: () => ReturnType;
     };
   }
@@ -112,46 +108,17 @@ export const ColorMappingMark = Mark.create({
 
   addCommands() {
     return {
-      setColorMappings:
-        (v) =>
+      setColorMapping:
+        (values) =>
         ({ commands }) => {
+          const { colors, min_val, min_var, max_val, max_var, variable } = values;
           return commands.setMark(this.name, {
-            [Keys.color]: v,
-          });
-        },
-      setGradientMinValue:
-        (v) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
-            [Keys.min_val]: v,
-          });
-        },
-      setGradientMinVar:
-        (v) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
-            [Keys.min_var]: v,
-          });
-        },
-      setGradientMaxValue:
-        (v) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
-            [Keys.max_val]: v,
-          });
-        },
-      setGradientMaxVar:
-        (v) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
-            [Keys.max_var]: v,
-          });
-        },
-      setGradientVariable:
-        (v) =>
-        ({ commands }) => {
-          return commands.setMark(this.name, {
-            [Keys.variable]: v,
+            [Keys.color]: colors,
+            [Keys.min_val]: min_val,
+            [Keys.min_var]: min_var,
+            [Keys.max_val]: max_val,
+            [Keys.max_var]: max_var,
+            [Keys.variable]: variable,
           });
         },
       unsetColorMapping:

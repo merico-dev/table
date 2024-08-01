@@ -92,11 +92,13 @@ export function parseColorMappingAttrs(attrs: Record<keyof typeof ColorMappingAt
     colors = JSON.parse(color);
   } catch (error) {}
 
-  const min_val = _.get(attrs, ColorMappingAttrKeys.min_val);
-  const min_var = _.get(attrs, ColorMappingAttrKeys.min_var);
-  const max_val = _.get(attrs, ColorMappingAttrKeys.max_val);
-  const max_var = _.get(attrs, ColorMappingAttrKeys.max_var);
+  const min_val = _.get(attrs, ColorMappingAttrKeys.min_val, '');
+  const min_var = _.get(attrs, ColorMappingAttrKeys.min_var, '');
+  const max_val = _.get(attrs, ColorMappingAttrKeys.max_val, '');
+  const max_var = _.get(attrs, ColorMappingAttrKeys.max_var, '');
   const variable = _.get(attrs, ColorMappingAttrKeys.variable, '');
+
+  const empty = colors.length === 0 && [min_val, min_var, max_val, max_var, variable].every((v) => v === '');
   return {
     colors,
     min_val,
@@ -104,5 +106,6 @@ export function parseColorMappingAttrs(attrs: Record<keyof typeof ColorMappingAt
     max_val,
     max_var,
     variable,
+    empty,
   };
 }
