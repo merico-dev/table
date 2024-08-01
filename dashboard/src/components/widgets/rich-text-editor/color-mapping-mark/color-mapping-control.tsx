@@ -63,9 +63,10 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const [opened, { set: setOpened, setTrue: open, setFalse: close, toggle }] = useBoolean();
   const attrs = editor.getAttributes(ColorMappingName);
-  const defaultValues = useMemo(() => {
+  const { empty, ...defaultValues } = useMemo(() => {
     return parseColorMappingAttrs(attrs);
   }, [attrs]);
+
   const saveChanges = useCallback(
     (values: ColorMappingFormValues) => {
       editor.chain().focus().setColorMapping(values).run();
@@ -77,8 +78,6 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
     editor.chain().focus().unsetColorMapping().run();
   }, [editor]);
 
-  console.log(defaultValues);
-
   return (
     <>
       <Modal
@@ -87,7 +86,7 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
         onClose={close}
         shadow="md"
         withinPortal
-        zIndex={340}
+        zIndex={330}
         closeOnClickOutside={false}
         closeOnEscape={false}
         title={t('rich_text.color_mapping.edit')}
@@ -129,10 +128,10 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
               lineHeight: '26px',
               borderColor: '#ced4da !important',
             }}
-            disabled={defaultValues.empty}
+            disabled={empty}
             onClick={unset}
           >
-            <IconColorMappingOff disabled={defaultValues.empty} />
+            <IconColorMappingOff disabled={empty} />
           </ActionIcon>
         </Tooltip>
       </RichTextEditor.ControlsGroup>

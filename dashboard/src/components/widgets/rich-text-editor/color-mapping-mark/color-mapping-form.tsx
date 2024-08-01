@@ -31,90 +31,89 @@ export const ColorMappingForm = ({ defaultValues, onSubmit, unset, cancel }: Pro
   const revert = useCallback(() => reset(defaultValues), [reset, defaultValues]);
   return (
     <Box>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
-        <Box px="1rem">
+      <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
+      <Box px="1rem">
+        <Controller
+          control={control}
+          name="variable"
+          render={({ field }) => (
+            <VariableSelector
+              label={t('rich_text.color_mapping.choose_value_var')}
+              clearable={false}
+              preview="aggregated"
+              zIndex={340}
+              {...field}
+            />
+          )}
+        />
+        <Group grow position="apart">
           <Controller
+            name="min_var"
             control={control}
-            name="variable"
             render={({ field }) => (
               <VariableSelector
-                label={t('rich_text.color_mapping.choose_value_var')}
+                label={t('rich_text.color_mapping.min.var')}
                 clearable={false}
                 preview="aggregated"
+                sx={{ flexGrow: 1, maxWidth: 'unset' }}
                 {...field}
               />
             )}
           />
-          <Group grow position="apart">
-            <Controller
-              name="min_var"
-              control={control}
-              render={({ field }) => (
-                <VariableSelector
-                  label={t('rich_text.color_mapping.min.var')}
-                  clearable={false}
-                  preview="aggregated"
-                  sx={{ flexGrow: 1, maxWidth: 'unset' }}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name="min_val"
-              control={control}
-              render={({ field }) => (
-                <TextInput
-                  label={t('rich_text.color_mapping.min.val')}
-                  {...field}
-                  sx={{ maxWidth: '120px', flexGrow: 0 }}
-                />
-              )}
-            />
-          </Group>
-          <Group grow position="apart">
-            <Controller
-              name="max_var"
-              control={control}
-              render={({ field }) => (
-                <VariableSelector
-                  label={t('rich_text.color_mapping.max.var')}
-                  clearable={false}
-                  preview="aggregated"
-                  sx={{ flexGrow: 1, maxWidth: 'unset' }}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name="max_val"
-              control={control}
-              render={({ field }) => (
-                <TextInput
-                  label={t('rich_text.color_mapping.max.val')}
-                  {...field}
-                  sx={{ maxWidth: '120px', flexGrow: 0 }}
-                />
-              )}
-            />
-          </Group>
-          <Controller control={control} name="colors" render={({ field }) => <GradientEditor {...field} />} />
-        </Box>
-        <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
-        <Group position="apart" px="1rem" pb="0.75rem">
-          <Group position="left">
-            <Button color="red" size="xs" onClick={unset} leftIcon={<IconTrash size={18} />}>
-              {t('common.actions.clear')}
-            </Button>
-            <Button color="orange" size="xs" onClick={revert} leftIcon={<IconArrowBackUp size={18} />}>
-              {t('common.actions.revert')}
-            </Button>
-          </Group>
-          <Button color="green" size="xs" type="submit" leftIcon={<IconDeviceFloppy size={18} />}>
-            {t('common.actions.save_changes')}
+          <Controller
+            name="min_val"
+            control={control}
+            render={({ field }) => (
+              <TextInput
+                label={t('rich_text.color_mapping.min.val')}
+                {...field}
+                sx={{ maxWidth: '120px', flexGrow: 0 }}
+              />
+            )}
+          />
+        </Group>
+        <Group grow position="apart">
+          <Controller
+            name="max_var"
+            control={control}
+            render={({ field }) => (
+              <VariableSelector
+                label={t('rich_text.color_mapping.max.var')}
+                clearable={false}
+                preview="aggregated"
+                sx={{ flexGrow: 1, maxWidth: 'unset' }}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="max_val"
+            control={control}
+            render={({ field }) => (
+              <TextInput
+                label={t('rich_text.color_mapping.max.val')}
+                {...field}
+                sx={{ maxWidth: '120px', flexGrow: 0 }}
+              />
+            )}
+          />
+        </Group>
+        <Controller control={control} name="colors" render={({ field }) => <GradientEditor {...field} />} />
+      </Box>
+      <Divider color="rgb(206, 212, 218)" variant="dotted" my="1rem" />
+      <Group position="apart" px="1rem" pb="0.75rem">
+        <Group position="left">
+          <Button color="red" size="xs" onClick={unset} leftIcon={<IconTrash size={18} />}>
+            {t('common.actions.clear')}
+          </Button>
+          <Button color="orange" size="xs" onClick={revert} leftIcon={<IconArrowBackUp size={18} />}>
+            {t('common.actions.revert')}
           </Button>
         </Group>
-      </form>
+        <Button color="green" size="xs" onClick={handleSubmit(onSubmit)} leftIcon={<IconDeviceFloppy size={18} />}>
+          {t('common.actions.save_changes')}
+        </Button>
+      </Group>
     </Box>
   );
 };

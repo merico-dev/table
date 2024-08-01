@@ -42,11 +42,7 @@ export const ColorMappingMark = Mark.create({
           if (!v) {
             return [];
           }
-          const ret = JSON.parse(v);
-          if (Array.isArray(ret)) {
-            return ret;
-          }
-          console.error(`[ColorMappingMark] ${Keys.color} should be an JSON array`);
+          return v.split(',');
         },
       },
       [Keys.min_val]: {
@@ -113,7 +109,7 @@ export const ColorMappingMark = Mark.create({
         ({ commands }) => {
           const { colors, min_val, min_var, max_val, max_var, variable } = values;
           return commands.setMark(this.name, {
-            [Keys.color]: JSON.stringify(colors),
+            [Keys.color]: colors.join(','),
             [Keys.min_val]: min_val,
             [Keys.min_var]: min_var,
             [Keys.max_val]: max_val,
