@@ -17,10 +17,9 @@ export type ColorMappingFormValues = {
 type Props = {
   defaultValues: ColorMappingFormValues;
   onSubmit: (values: ColorMappingFormValues) => void;
-  cancel: () => void;
   unset: () => void;
 };
-export const ColorMappingForm = ({ defaultValues, onSubmit, unset, cancel }: Props) => {
+export const ColorMappingForm = ({ defaultValues, onSubmit, unset }: Props) => {
   const { t } = useTranslation();
   const form = useForm<ColorMappingFormValues>({ defaultValues });
   const { control, handleSubmit, reset } = form;

@@ -99,7 +99,7 @@ export const ColorMappingControl = ({ editor }: { editor: Editor }) => {
           },
         }}
       >
-        <ColorMappingForm defaultValues={defaultValues} cancel={close} unset={unset} onSubmit={saveChanges} />
+        <ColorMappingForm defaultValues={defaultValues} unset={unset} onSubmit={saveChanges} />
       </Modal>
       <RichTextEditor.ControlsGroup>
         <Tooltip label={t('rich_text.color_mapping.label')}>
