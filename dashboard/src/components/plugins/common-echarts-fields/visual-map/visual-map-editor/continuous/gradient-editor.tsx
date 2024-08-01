@@ -71,9 +71,10 @@ const ColorRow = ({ color, index, handleChange, handleRemove }: ColorRowProps) =
 type Props = {
   value: string[];
   onChange: (v: string[]) => void;
+  zIndex?: number;
 };
 
-export const GradientEditor = forwardRef(({ value, onChange }: Props, ref: Ref<HTMLDivElement>) => {
+export const GradientEditor = forwardRef(({ value, onChange, zIndex = 340 }: Props, ref: Ref<HTMLDivElement>) => {
   const { t } = useTranslation();
   const colors = useMemo(() => {
     return value.map((value) => ({
@@ -114,7 +115,7 @@ export const GradientEditor = forwardRef(({ value, onChange }: Props, ref: Ref<H
 
   return (
     <Stack ref={ref}>
-      <PreviewGradientAndApplyPalette colors={value} applyPalette={replace} />
+      <PreviewGradientAndApplyPalette colors={value} applyPalette={replace} zIndex={zIndex} />
       <DragDropProvider onDragEnd={onDragEnd}>
         {colors.map((c, index) => (
           <ColorRow
@@ -131,7 +132,7 @@ export const GradientEditor = forwardRef(({ value, onChange }: Props, ref: Ref<H
         <div style={{ flex: 1 }}>
           <ColorInput
             withinPortal
-            dropdownZIndex={340}
+            dropdownZIndex={zIndex}
             placeholder={t('chart.color.click_to_add_a_color')}
             value={newColor}
             onChange={setNewColor}

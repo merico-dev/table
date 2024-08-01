@@ -7,12 +7,13 @@ const palettes = getVisualMapPalettes();
 type Props = {
   colors: string[];
   applyPalette: (colors: string[]) => void;
+  zIndex?: number;
 };
-export const PreviewGradientAndApplyPalette = ({ colors, applyPalette }: Props) => {
+export const PreviewGradientAndApplyPalette = ({ colors, applyPalette, zIndex = 340 }: Props) => {
   const { t } = useTranslation();
   const backgroundImage = `linear-gradient(to right,  ${colors.join(', ')})`;
   return (
-    <Menu shadow="md" width={300}>
+    <Menu shadow="md" width={300} withinPortal zIndex={zIndex}>
       <Menu.Target>
         <UnstyledButton>
           <Text
