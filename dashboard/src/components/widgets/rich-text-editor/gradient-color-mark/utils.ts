@@ -74,12 +74,17 @@ export function getGradientColorStyle(doc: Document, dashboardState: TDashboardS
 }
 
 export function parseGradientColorAttrs(attrs: Record<keyof typeof GradientColorAttrKeys, string>) {
-  const color = _.get(attrs, GradientColorAttrKeys.color, '');
+  const color = _.get(attrs, GradientColorAttrKeys.color, '[]');
+  let colors = [];
+  try {
+    colors = JSON.parse(color);
+  } catch (error) {}
+
   const min = _.get(attrs, GradientColorAttrKeys.min);
   const max = _.get(attrs, GradientColorAttrKeys.max);
   const variable = _.get(attrs, GradientColorAttrKeys.variable, '');
   return {
-    color,
+    colors,
     min,
     max,
     variable,

@@ -1,13 +1,14 @@
+import { ActionIcon, Box, Popover, Tooltip, useMantineTheme } from '@mantine/core';
+import { RichTextEditor } from '@mantine/tiptap';
 import '@tiptap/extension-text-style';
 import { Editor } from '@tiptap/react';
+import { useBoolean } from 'ahooks';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ChartTheme } from '~/styles/register-themes';
+import { GradientColorForm } from './gradient-color-form';
 import { GradientColorName } from './gradient-color-mark';
 import { parseGradientColorAttrs } from './utils';
-import { ActionIcon, Box, Popover, Tooltip, useMantineTheme } from '@mantine/core';
-import { useBoolean } from 'ahooks';
-import { RichTextEditor } from '@mantine/tiptap';
-import { ChartTheme } from '~/styles/register-themes';
 
 const IconGradientColor = () => {
   const theme = useMantineTheme();
@@ -56,13 +57,13 @@ const IconGradientColorOff = () => {
 export const GradientColorControl = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
   const [opened, { set: setOpened, setTrue: open, setFalse: close, toggle }] = useBoolean();
-  const attrs = editor.getAttributes(GradientColorName);
-  const defaultValue = useMemo(() => {
+  const attrs = useMemo(() => editor.getAttributes(GradientColorName), [editor]);
+  const defaultValues = useMemo(() => {
     return parseGradientColorAttrs(attrs);
   }, [attrs]);
-  console.log(defaultValue);
+
   return (
-    <Popover opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
+    <Popover width={300} opened={opened} onChange={setOpened} shadow="md" withinPortal zIndex={340} withArrow>
       <Popover.Target>
         <RichTextEditor.ControlsGroup>
           <Tooltip label={t('rich_text.gradient_color.label')}>
@@ -101,7 +102,9 @@ export const GradientColorControl = ({ editor }: { editor: Editor }) => {
         </RichTextEditor.ControlsGroup>
       </Popover.Target>
 
-      <Popover.Dropdown>TODO</Popover.Dropdown>
+      <Popover.Dropdown>
+        <GradientColorForm defaultValues={defaultValues} />
+      </Popover.Dropdown>
     </Popover>
   );
 };
