@@ -36,6 +36,20 @@ const RTEContentStyle: Sx = {
     height: '1px',
     border: 'double 1px purple',
   },
+  'color-mapping': {
+    position: 'relative',
+  },
+  'color-mapping:after': {
+    content: '""',
+    position: 'absolute',
+    bottom: '-2px',
+    left: 0,
+    width: '100%',
+    height: '4px',
+    opacity: 0.8,
+    background:
+      'linear-gradient(90deg, rgb(255, 225, 225) 0%, rgb(253, 188, 188) 40%, rgb(243, 148, 148) 60%, rgb(250, 66, 66) 80%, rgb(226, 18, 18) 100%)',
+  },
 };
 
 function InsertTableControl() {
