@@ -31,7 +31,7 @@ export function preProcessSQLQuery({ sql, pre_process }: { sql: string; pre_proc
     return new Function(`return ${pre_process}`)()({ sql }, functionUtils);
   } catch (error) {
     console.error(error);
-    return sql;
+    throw error;
   }
 }
 
@@ -43,6 +43,6 @@ export function postProcessSQLQuery(post_process: TFunctionString, data: any, st
     return new Function(`return ${post_process}`)()(data, functionUtils, state);
   } catch (error) {
     console.error(error);
-    return data;
+    throw error;
   }
 }
