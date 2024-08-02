@@ -576,6 +576,20 @@ export const en = {
         edit: 'Edit dynamic color',
         clear: 'Clear dynamic color',
       },
+      color_mapping: {
+        label: 'Color Mapping',
+        edit: 'Edit color mapping',
+        clear: 'Clear color mapping',
+        choose_value_var: 'Choose a variable for color mapping',
+        min: {
+          val: 'Fallback value',
+          var: 'Min value variable',
+        },
+        max: {
+          val: 'Fallback value',
+          var: 'Max value variable',
+        },
+      },
     },
     chart: {
       chart_config: 'Chart Config',

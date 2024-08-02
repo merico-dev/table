@@ -12,7 +12,7 @@ import TableRow from '@tiptap/extension-table-row';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { useEditor } from '@tiptap/react';
+import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
@@ -21,6 +21,8 @@ import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { getEmptyDashboardState } from '~/utils';
 import { DynamicColorMark, getDynamicColorStyles } from './dynamic-color-mark';
 import { FontSize } from './font-size-extension';
+import { ColorMappingMark, getColorMappingStyle } from './color-mapping-mark';
+import { useIsInRenderPanelContext } from '~/contexts';
 
 interface IReadonlyRichText {
   value: string;
@@ -37,8 +39,9 @@ export const ReadonlyRichText = ({
   dashboardState = getEmptyDashboardState(),
   variableAggValueMap = {},
 }: IReadonlyRichText) => {
-  const editor = useEditor({
-    extensions: [
+  const inPanelContext = useIsInRenderPanelContext();
+  const extensions: Extensions = useMemo(() => {
+    const ret = [
       StarterKit,
       Underline,
       Link,
@@ -60,7 +63,15 @@ export const ReadonlyRichText = ({
       Color,
       FontSize,
       DynamicColorMark,
-    ],
+    ];
+    if (inPanelContext) {
+      ret.push(ColorMappingMark);
+    }
+    return ret;
+  }, [inPanelContext]);
+
+  const editor = useEditor({
+    extensions,
     content: value,
     editable: false,
   });
@@ -78,9 +89,17 @@ export const ReadonlyRichText = ({
     return getDynamicColorStyles(doc, dashboardState, variableAggValueMap);
   }, [doc, dashboardState, variableAggValueMap]);
 
+  const colorMappingStyles = useMemo(() => {
+    return getColorMappingStyle(doc, variableAggValueMap);
+  }, [doc, variableAggValueMap]);
+
   const finalStyles = useMemo(() => {
-    return _.defaultsDeep({}, { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles } }, styles);
-  }, [styles, dynamicColorStyles]);
+    return _.defaultsDeep(
+      {},
+      { content: { ...CommonHTMLContentStyle, ...dynamicColorStyles, ...colorMappingStyles } },
+      styles,
+    );
+  }, [styles, dynamicColorStyles, colorMappingStyles]);
 
   return (
     <RichTextEditor editor={editor} styles={finalStyles} sx={sx}>

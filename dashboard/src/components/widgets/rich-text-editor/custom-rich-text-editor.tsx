@@ -13,7 +13,7 @@ import TableRow from '@tiptap/extension-table-row';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
-import { useEditor } from '@tiptap/react';
+import { Extensions, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
@@ -21,6 +21,8 @@ import { CommonHTMLContentStyle } from '~/styles/common-html-content-style';
 import { ChooseFontSize, FontSize } from './font-size-extension';
 import { DynamicColorControl, DynamicColorMark } from './dynamic-color-mark';
 import { ColorPickerControl } from './color-picker-control';
+import { ColorMappingControl, ColorMappingMark } from './color-mapping-mark';
+import { useIsInEditPanelContext, useRenderPanelContext } from '~/contexts';
 
 const RTEContentStyle: Sx = {
   'dynamic-color': {
@@ -34,6 +36,20 @@ const RTEContentStyle: Sx = {
     width: '100%',
     height: '1px',
     border: 'double 1px purple',
+  },
+  'color-mapping': {
+    position: 'relative',
+  },
+  'color-mapping:after': {
+    content: '""',
+    position: 'absolute',
+    bottom: '-2px',
+    left: 0,
+    width: '100%',
+    height: '4px',
+    opacity: 0.8,
+    background:
+      'linear-gradient(90deg, rgb(255, 225, 225) 0%, rgb(253, 188, 188) 40%, rgb(243, 148, 148) 60%, rgb(250, 66, 66) 80%, rgb(226, 18, 18) 100%)',
   },
 };
 
@@ -61,9 +77,9 @@ interface ICustomRichTextEditor {
 
 export const CustomRichTextEditor = forwardRef(
   ({ value, onChange, styles = {}, label, autoSubmit, onSubmit }: ICustomRichTextEditor, ref: any) => {
-    const [content, setContent] = useState(value);
-    const editor = useEditor({
-      extensions: [
+    const inPanelContext = useIsInEditPanelContext();
+    const extensions: Extensions = useMemo(() => {
+      const ret = [
         StarterKit,
         Underline,
         Link,
@@ -85,11 +101,25 @@ export const CustomRichTextEditor = forwardRef(
         Color,
         FontSize,
         DynamicColorMark,
-      ],
+      ];
+      if (inPanelContext) {
+        ret.push(ColorMappingMark);
+      }
+      return ret;
+    }, [inPanelContext]);
+
+    const [content, setContent] = useState(value);
+    const editor = useEditor({
+      extensions,
       content,
       onUpdate: ({ editor }) => {
         const newContent = editor.getHTML();
         setContent(newContent);
+      },
+      onCreate: ({ editor }) => {
+        editor.view.dom.setAttribute('spellcheck', 'false');
+        editor.view.dom.setAttribute('autocomplete', 'off');
+        editor.view.dom.setAttribute('autocapitalize', 'off');
       },
     });
 
@@ -138,8 +168,9 @@ export const CustomRichTextEditor = forwardRef(
         </Group>
         <RichTextEditor editor={editor} styles={finalStyles}>
           <RichTextEditor.Toolbar sticky stickyOffset={0}>
+            <ColorPickerControl editor={editor} />
+            {inPanelContext && <ColorMappingControl editor={editor} />}
             <RichTextEditor.ControlsGroup>
-              <ColorPickerControl editor={editor} />
               <DynamicColorControl editor={editor} />
             </RichTextEditor.ControlsGroup>
             <RichTextEditor.ControlsGroup>

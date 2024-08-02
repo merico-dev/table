@@ -576,6 +576,20 @@ export const zh = {
         edit: '编辑动态颜色',
         clear: '清除动态颜色',
       },
+      color_mapping: {
+        label: '颜色映射',
+        edit: '编辑颜色映射',
+        clear: '清除颜色映射',
+        choose_value_var: '选择用于映射颜色的变量',
+        min: {
+          val: '固定最小值',
+          var: '动态最小值（优先）',
+        },
+        max: {
+          val: '固定最大值',
+          var: '动态最大值（优先）',
+        },
+      },
     },
     chart: {
       chart_config: '图表设置',
