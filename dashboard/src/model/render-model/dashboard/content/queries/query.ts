@@ -109,6 +109,10 @@ export const QueryRenderModel = types
             const fallback = get(error, 'message', 'unkown error');
             self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
+          } else {
+            console.debug(`🟡 Query[${self.name}] is cancelled`);
+            self.data = [];
+            self.state = 'idle';
           }
         }
       }),
@@ -153,6 +157,10 @@ export const QueryRenderModel = types
             const fallback = get(error, 'message', 'unkown error');
             self.error = get(error, 'response.data.detail.message', fallback) as unknown as QueryFailureError;
             self.state = 'error';
+          } else {
+            console.debug(`🟡 Query[${self.name}] is cancelled`);
+            self.data = [];
+            self.state = 'idle';
           }
         }
       }),
