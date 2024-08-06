@@ -28,6 +28,9 @@ export function useHeatmapGroupedData(panelData: TPanelData, conf: IHeatmapConf)
 
   const totalPages = useMemo(() => {
     const rows = Object.keys(groupedFullData).length;
+    if (conf.pagination.page_size === 0) {
+      return rows;
+    }
     return _.floor(rows / conf.pagination.page_size + 1);
   }, [groupedFullData, conf.pagination.page_size]);
 

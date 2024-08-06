@@ -105,7 +105,9 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
 
   return (
     <DefaultVizBox width={width} height={height}>
-      <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
+      {conf.pagination.page_size > 0 && (
+        <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
+      )}
       <Chart
         variables={variables}
         width={getBoxContentWidth(width)}

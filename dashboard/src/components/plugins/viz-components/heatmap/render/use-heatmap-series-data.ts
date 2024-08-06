@@ -11,9 +11,13 @@ export function useHeatmapSeriesData(
   page: number,
 ) {
   const seriesData = useMemo(() => {
+    const data = Object.values(groupedFullData);
+    if (conf.pagination.page_size === 0) {
+      return data.flat();
+    }
     const start = (page - 1) * conf.pagination.page_size;
     const end = page * conf.pagination.page_size;
-    const sliced = Object.values(groupedFullData).slice(start, end);
+    const sliced = data.slice(start, end);
     return sliced.flat();
   }, [groupedFullData, page, conf.pagination.page_size]);
 
