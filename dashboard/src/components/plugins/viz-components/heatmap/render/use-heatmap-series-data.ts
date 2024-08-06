@@ -1,34 +1,21 @@
 import { useMemo } from 'react';
 import { IHeatmapConf } from '../type';
-import { parseDataKey } from '~/utils';
-import _ from 'lodash';
 
 export type SeriesDataItem = Record<string, any> & {
   value: [number, number, number];
 };
-export function useHeatmapSeriesData(panelData: TPanelData, conf: IHeatmapConf) {
-  const x = useMemo(() => parseDataKey(conf.x_axis.data_key), [conf.x_axis.data_key]);
-  const y = useMemo(() => parseDataKey(conf.y_axis.data_key), [conf.y_axis.data_key]);
-  const h = useMemo(() => parseDataKey(conf.heat_block.data_key), [conf.heat_block.data_key]);
-  return useMemo(() => {
-    const queryData = panelData[x.queryID];
-    if (!queryData) {
-      return [];
-    }
 
-    const full = queryData.map((d) => {
-      const vx = _.get(d, x.columnKey);
-      const vy = _.get(d, y.columnKey);
-      const vh = _.get(d, h.columnKey);
-      return {
-        value: [vx, vy, vh],
-      } as SeriesDataItem;
-    });
+export function useHeatmapSeriesData(
+  groupedFullData: Record<string, SeriesDataItem[]>,
+  conf: IHeatmapConf,
+  page: number,
+) {
+  const seriesData = useMemo(() => {
+    const start = (page - 1) * conf.pagination.page_size;
+    const end = page * conf.pagination.page_size;
+    const sliced = Object.values(groupedFullData).slice(start, end);
+    return sliced.flat();
+  }, [groupedFullData, page, conf.pagination.page_size]);
 
-    const grouped = _.groupBy(full, 'value.1');
-    console.log({ grouped });
-
-    const sliced = Object.values(grouped).flat();
-    return sliced;
-  }, [panelData, x, y, h]);
+  return seriesData;
 }

@@ -8,10 +8,12 @@ import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
+import { HeatmapPagination } from './heatmap-pagination';
 import { getOption } from './option';
+import { useHeatmapGroupedData } from './render/use-heatmap-grouped-data';
+import { SeriesDataItem, useHeatmapSeriesData } from './render/use-heatmap-series-data';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
-import { SeriesDataItem, useHeatmapSeriesData } from './render/use-heatmap-series-data';
 
 interface IClickHeatBlock {
   type: 'click';
@@ -93,7 +95,9 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
-  const seriesData = useHeatmapSeriesData(data, conf);
+  const { totalPages, groupedFullData } = useHeatmapGroupedData(data, conf);
+  const [page, setPage] = useState(1);
+  const seriesData = useHeatmapSeriesData(groupedFullData, conf, page);
 
   if (!width || !height) {
     return null;
@@ -101,6 +105,7 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
 
   return (
     <DefaultVizBox width={width} height={height}>
+      <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
       <Chart
         variables={variables}
         width={getBoxContentWidth(width)}
