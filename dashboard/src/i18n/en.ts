@@ -253,6 +253,7 @@ export const en = {
         config: 'Config',
       },
       pagination: {
+        label: 'Pagination',
         page_size: 'Page Size',
         total: 'Total',
         total_rows: 'Total {{total}} row(s)',

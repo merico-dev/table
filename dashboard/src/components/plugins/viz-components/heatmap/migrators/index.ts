@@ -1,5 +1,5 @@
 import { IMigrationEnv } from '~/components/plugins/plugin-data-migrator';
-import { IHeatmapConf } from '../type';
+import { getHeatmapPagination, IHeatmapConf } from '../type';
 import _ from 'lodash';
 import { getDefaultVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
 
@@ -82,5 +82,13 @@ export function v5(legacyConf: any): IHeatmapConf {
       min,
       max,
     },
+  };
+}
+
+export function v6(legacyConf: any): IHeatmapConf {
+  const { pagination = getHeatmapPagination({ page_size: 200 }), ...rest } = legacyConf;
+  return {
+    ...rest,
+    pagination,
   };
 }

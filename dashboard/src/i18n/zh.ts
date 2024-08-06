@@ -253,6 +253,7 @@ export const zh = {
         config: '配置',
       },
       pagination: {
+        label: '分页',
         page_size: '页容量',
         total: '共',
         total_rows: '共 {{total}} 行',
