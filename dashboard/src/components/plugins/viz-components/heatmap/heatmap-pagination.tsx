@@ -43,6 +43,10 @@ const SelectorPagination = ({ page, setPage, totalPages }: Props) => {
 };
 
 export const HeatmapPagination = (props: Props) => {
+  if (props.totalPages <= 1) {
+    return;
+  }
+
   return (
     <Box
       sx={{
