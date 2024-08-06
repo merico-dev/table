@@ -31,7 +31,7 @@ export function useHeatmapGroupedData(panelData: TPanelData, conf: IHeatmapConf)
     if (conf.pagination.page_size === 0) {
       return rows;
     }
-    return _.floor(rows / conf.pagination.page_size + 1);
+    return _.ceil(rows / conf.pagination.page_size);
   }, [groupedFullData, conf.pagination.page_size]);
 
   return { totalPages, groupedFullData };
