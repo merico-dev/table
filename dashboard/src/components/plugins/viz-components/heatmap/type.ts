@@ -14,7 +14,7 @@ import {
 export type THeatmapPagination = {
   page_size: number;
 };
-export function getHeatmapPagination({ page_size = 200 }: Partial<THeatmapPagination>) {
+export function getHeatmapPagination({ page_size = 20 }: Partial<THeatmapPagination>) {
   return {
     page_size,
   };
@@ -88,5 +88,5 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     metrics: [],
   },
   visualMap: getDefaultVisualMap(),
-  pagination: getHeatmapPagination({ page_size: 200 }),
+  pagination: getHeatmapPagination({ page_size: 20 }),
 };

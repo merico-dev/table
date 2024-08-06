@@ -86,7 +86,7 @@ export function v5(legacyConf: any): IHeatmapConf {
 }
 
 export function v6(legacyConf: any): IHeatmapConf {
-  const { pagination = getHeatmapPagination({ page_size: 200 }), ...rest } = legacyConf;
+  const { pagination = getHeatmapPagination({ page_size: 20 }), ...rest } = legacyConf;
   return {
     ...rest,
     pagination,
