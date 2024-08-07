@@ -458,6 +458,7 @@ export const en = {
       conditions: 'Conditions',
       run_by_condition: {
         label: 'Run query when these are truthy',
+        description: 'Falsy: empty array / NaN / false / empty string / undefined / null',
         unset: 'Leave it empty to always run this query on load',
       },
       re_run_condition: {

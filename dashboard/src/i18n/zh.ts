@@ -458,6 +458,7 @@ export const zh = {
       conditions: '条件',
       run_by_condition: {
         label: '以下条件为真时，才运行本查询',
+        description: '为假的情况: 空数组 / NaN / false / 空字符串 / undefined / null',
         unset: '留空则在看板加载时便运行本查询',
       },
       re_run_condition: {
