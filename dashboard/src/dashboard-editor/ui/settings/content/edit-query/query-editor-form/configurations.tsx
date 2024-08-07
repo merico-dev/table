@@ -59,6 +59,7 @@ export const QueryConfigurations = observer(({ queryModel }: IQueryConfiguration
         <Divider mt={10} mb={-10} variant="dashed" label={t('query.conditions')} labelPosition="center" />
         <MultiSelect
           label={t('query.run_by_condition.label')}
+          description={t('query.run_by_condition.description')}
           placeholder={t('query.run_by_condition.unset')}
           data={queryModel.conditionOptions}
           value={[...queryModel.run_by]}

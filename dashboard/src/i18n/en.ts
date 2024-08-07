@@ -5,6 +5,7 @@ export const en = {
       labels: 'Filters',
       add: 'Add a Filter',
       manage: 'Manage Filters',
+      delete: 'Delete this filter',
       show_filters: 'Show Filters',
       hide_filters: 'Hide Filters',
       field: {
@@ -15,7 +16,7 @@ export const en = {
         auto_submit: 'Submit automatically',
         order: 'Placement Order',
         custom_default_value: {
-          trigger: 'Custom',
+          trigger: 'Custom default value',
           title: 'Custom default value',
           tips: 'Tips',
           tip_1: "Function has the highest priority of getting filter's default value",
@@ -457,7 +458,8 @@ export const en = {
       conditions: 'Conditions',
       run_by_condition: {
         label: 'Run query when these are truthy',
-        unset: 'Always run this query on load',
+        description: 'Falsy: empty array / NaN / false / empty string / undefined / null',
+        unset: 'Leave it empty to always run this query on load',
       },
       re_run_condition: {
         label: 'Re-run query when these changed',

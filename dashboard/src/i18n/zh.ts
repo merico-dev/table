@@ -5,6 +5,7 @@ export const zh = {
       labels: '筛选器',
       add: '新增筛选器',
       manage: '管理筛选器',
+      delete: '删除这个筛选器',
       show_filters: '展开筛选器',
       hide_filters: '收起筛选器',
       field: {
@@ -15,7 +16,7 @@ export const zh = {
         auto_submit: '自动提交',
         order: '排列次序',
         custom_default_value: {
-          trigger: '自定义',
+          trigger: '自定义默认值',
           title: '自定义默认值',
           tips: '提示',
           tip_1: '在指定筛选器默认值这事上，自定义函数具备最高优先级',
@@ -456,8 +457,9 @@ export const zh = {
       basics: '基本信息',
       conditions: '条件',
       run_by_condition: {
-        label: '以下条件满足时，才运行本查询',
-        unset: '看板加载时便运行本查询',
+        label: '以下条件为真时，才运行本查询',
+        description: '为假的情况: 空数组 / NaN / false / 空字符串 / undefined / null',
+        unset: '留空则在看板加载时便运行本查询',
       },
       re_run_condition: {
         label: '当以下条件改变时，重新运行此查询',
