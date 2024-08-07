@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Group, NumberInput, Stack, Text } from '@mantine/core';
+import { Checkbox, Group, NumberInput, Stack, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext } from '~/contexts';
@@ -12,7 +12,6 @@ export const EditStyle = observer(() => {
 
   return (
     <>
-      <Divider mb={-10} label={t('panel.style.label')} labelPosition="center" variant="dashed" />
       <Stack spacing={20}>
         <Group grow align="top">
           <NumberInput
