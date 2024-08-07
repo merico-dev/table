@@ -18,7 +18,7 @@ export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
   const variablesString = (() => {
     const ret: Record<string, any> = {
       ...state,
-      variables: panel.variableStrings,
+      ...panel.variableStrings,
     };
 
     return JSON.stringify(ret, null, 2);
