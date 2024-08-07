@@ -6,13 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
 
 type Props = {
-  showSQLSnippets?: boolean;
   sx?: Sx;
 };
 
-const example = `
--- You may reference dashboard state & panel variables in rich-text content or custom functions.\n-- use double curly brackets to wrap code in rich-text content.\nProject ID: {{ context.project_id }}\nKeyword: {{ filters.keyword }}\nVariable: {{ variables.your_var }}
-`;
 export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
   const { t } = useTranslation();
   const content = useRenderContentModelContext();
@@ -20,7 +16,7 @@ export const PanelVariablesGuide = observer(({ sx = {} }: Props) => {
   const state = content.dashboardState;
 
   const variablesString = (() => {
-    const ret: Record<string, $TSFixMe> = {
+    const ret: Record<string, any> = {
       ...state,
       variables: panel.variableStrings,
     };
