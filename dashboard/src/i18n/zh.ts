@@ -378,6 +378,13 @@ export const zh = {
           fallback_value: '兜底值',
           fallback_value_description: '当数据为空或聚合结果非数字时，使用此兜底值',
         },
+        guide: {
+          text: '-- 可以在富文本和自定义函数中，使用看板信息以及卡片的变量。\n-- 在富文本中，要使用双重花括号来包裹代码。\n项目ID：{{ context.project_id }}\n搜索关键字：{{ filters.keyword }}\n我的卡片变量: {{ your_var }}',
+          tabs: {
+            guide: '使用指南',
+            vars: '看板信息与卡片的变量',
+          },
+        },
       },
     },
     style: {

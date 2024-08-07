@@ -1,42 +1,43 @@
-import { Box, Group, Stack, Text } from '@mantine/core';
+import { Box, Group, Text } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
 import { DescriptionPopover } from '~/components/panel';
+import '~/components/panel/panel-render/panel-render-base.css';
 import { PanelVizSection } from '~/components/panel/panel-render/viz/panel-viz-section';
 import { useRenderPanelContext } from '~/contexts';
 import { ErrorBoundary } from '~/utils';
+
+const PreviewTitleBar = observer(() => {
+  const { panel } = useRenderPanelContext();
+  return (
+    <Group grow position="center" className="panel-title-wrapper" sx={{ flexGrow: 1 }}>
+      <Text align="center" lineClamp={1} className="panel-title-text">
+        {panel.title.show ? panel.name : ''}
+      </Text>
+    </Group>
+  );
+});
 
 export const PreviewPanel = observer(() => {
   const { panel } = useRenderPanelContext();
   return (
     <ErrorBoundary>
-      <Box sx={{ height: '100%', flexGrow: 0, flexShrink: 0, width: '600px' }}>
-        <Stack
-          mt={24}
-          spacing={5}
-          sx={{
-            width: '600px',
-            height: '450px',
-            background: 'transparent',
-            borderRadius: '5px',
-            border: '1px solid #e9ecef',
-            borderWidth: panel.style.border.enabled ? '1px' : '0px',
-          }}
-        >
-          <Group position="apart" noWrap sx={{ flexGrow: 0, flexShrink: 0 }}>
-            <Group>
-              <DescriptionPopover />
-            </Group>
-            <Group grow position="center">
-              <Text lineClamp={1} weight="bold">
-                {panel.title.show ? panel.name : ''}
-              </Text>
-            </Group>
-            <Group position="right" spacing={0} sx={{ height: '28px' }} />
-          </Group>
-          <Group px={5} pb={5} sx={{ flexGrow: 1, '.panel-viz-section': { height: 'calc(100% - 28px)' } }}>
-            <PanelVizSection panel={panel} />
-          </Group>
-        </Stack>
+      <Box
+        className={`panel-root ${panel.title.show ? 'panel-root--show-title' : ''}`}
+        p={0}
+        sx={{
+          border: '1px solid',
+          borderColor: panel.style.border.enabled ? '#e9ecef' : 'transparent',
+          flexGrow: 0,
+          flexShrink: 0,
+          width: '600px !important',
+          height: '450px !important',
+        }}
+      >
+        <Box className="panel-description-popover-wrapper">
+          <DescriptionPopover />
+        </Box>
+        <PreviewTitleBar />
+        <PanelVizSection panel={panel} />
       </Box>
     </ErrorBoundary>
   );

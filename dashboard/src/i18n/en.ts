@@ -378,6 +378,13 @@ export const en = {
           fallback_value: 'Fallback Value',
           fallback_value_description: 'Used when data is empty or the aggregation yields NaN',
         },
+        guide: {
+          text: '-- You may reference dashboard state & panel variables in rich-text content or custom functions.\n-- use double curly brackets to wrap code in rich-text content.\nProject ID: {{ context.project_id }}\nKeyword: {{ filters.keyword }}\nVariable: {{ your_var }}',
+          tabs: {
+            guide: 'Guide',
+            vars: 'Dashboard state & Panel variables',
+          },
+        },
       },
     },
     style: {

@@ -1,10 +1,11 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InfoCircle } from 'tabler-icons-react';
 import { ReadonlyRichText } from '~/components/widgets/rich-text-editor/readonly-rich-text-editor';
-import { useRenderPanelContext } from '~/contexts';
+import { useRenderContentModelContext, useRenderPanelContext } from '~/contexts';
+import { parseRichTextContent } from '~/utils';
 
 function isRichTextContentEmpty(str: string) {
   if (!str) {
@@ -13,6 +14,29 @@ function isRichTextContentEmpty(str: string) {
   return ['<p><br></p>', '<p></p>'].includes(str);
 }
 
+const RenderPanelDescription = observer(() => {
+  const contentModel = useRenderContentModelContext();
+  const { panel } = useRenderPanelContext();
+
+  const content = useMemo(() => {
+    return parseRichTextContent(panel.description, panel.json.variables, contentModel.payloadForViz, panel.data);
+  }, [panel.data, panel.description, panel.json.variables, contentModel.payloadForViz]);
+
+  return (
+    <ReadonlyRichText
+      value={content}
+      styles={{
+        root: { border: 'none' },
+        content: { padding: 0 },
+      }}
+      sx={{
+        '.mantine-RichTextEditor-content .ProseMirror': { padding: '0 !important' },
+      }}
+      dashboardState={contentModel.dashboardState}
+      variableAggValueMap={panel.variableAggValueMap}
+    />
+  );
+});
 export const DescriptionPopover = observer(() => {
   const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
@@ -31,16 +55,7 @@ export const DescriptionPopover = observer(() => {
         withinPortal
         zIndex={310}
       >
-        <ReadonlyRichText
-          value={panel.description}
-          styles={{
-            root: { border: 'none' },
-            content: { padding: 0 },
-          }}
-          sx={{
-            '.mantine-RichTextEditor-content .ProseMirror': { padding: '0 !important' },
-          }}
-        />
+        <RenderPanelDescription />
       </Modal>
       <Tooltip label={t('panel.panel_description_click')} position="top-start" withinPortal>
         <ActionIcon

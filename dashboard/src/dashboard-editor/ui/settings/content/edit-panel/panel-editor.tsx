@@ -3,17 +3,18 @@ import { useModals } from '@mantine/modals';
 import { IconTrash } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { ReactNode, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PanelContextProvider, useEditContentModelContext, useEditDashboardContext } from '~/contexts';
 import { PanelModelInstance } from '~/dashboard-editor/model/panels';
 import { PanelConfig } from '~/dashboard-editor/ui/settings/content/edit-panel/panel-config';
 import { PickQuery } from '~/dashboard-editor/ui/settings/content/edit-panel/pick-query';
 import { PreviewPanel } from '~/dashboard-editor/ui/settings/content/edit-panel/preview-panel';
-import { PreviewVariables, VariablesEditor } from './variable-config';
 import { EditVizConf } from '~/dashboard-editor/ui/settings/content/edit-panel/viz-conf';
 import { InteractionSettingsPanel } from '~/interactions';
 import { ErrorBoundary } from '~/utils';
 import { ChangeViewOfPanel } from './change-view-of-panel';
-import { useTranslation } from 'react-i18next';
+import { PanelVariablesGuide } from './panel-variables-guide';
+import { VariablesEditor } from './variable-config';
 
 const TabsStyles = {
   root: {
@@ -46,7 +47,7 @@ const WithPreview = ({ children }: { children: ReactNode }) => {
       <Stack justify="flex-start" sx={{ alignSelf: 'flex-start', width: '600px', flexGrow: 0, flexShrink: 0 }}>
         <PreviewPanel />
         <Box sx={{ flexGrow: 1 }}>
-          <PreviewVariables />
+          <PanelVariablesGuide />
         </Box>
       </Stack>
     </Group>
