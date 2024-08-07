@@ -13,6 +13,7 @@ import { TooltipField } from './editors/tooltip';
 import { XAxisField } from './editors/x-axis';
 import { YAxisField } from './editors/y-axis';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
+import { PaginationField } from './editors/pagination';
 
 export function VizHeatmapEditor({ context }: VizConfigProps) {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
             <Tabs.Tab value="Heat Block">{t('chart.heatmap.heatblock.label')}</Tabs.Tab>
             <Tabs.Tab value="Visual Map">{t('chart.visual_map.label')}</Tabs.Tab>
             <Tabs.Tab value="Tooltip">{t('chart.tooltip.label')}</Tabs.Tab>
+            <Tabs.Tab value="Pagination">{t('common.pagination.label')}</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="X Axis">
@@ -95,6 +97,10 @@ export function VizHeatmapEditor({ context }: VizConfigProps) {
 
           <Tabs.Panel value="Tooltip">
             <TooltipField control={control} watch={watch} />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="Pagination">
+            <PaginationField control={control} watch={watch} />
           </Tabs.Panel>
         </Tabs>
       </Stack>

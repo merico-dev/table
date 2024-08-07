@@ -1,14 +1,17 @@
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import _, { defaults } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useStorageData } from '~/components/plugins/hooks';
 import { useCurrentInteractionManager, useTriggerSnapshotList } from '~/interactions';
 import { DefaultVizBox, getBoxContentHeight, getBoxContentWidth } from '~/styles/viz-box';
 import { AnyObject } from '~/types';
 import { IVizInteractionManager, VizViewProps } from '~/types/plugin';
 import { ITemplateVariable, parseDataKey } from '~/utils';
+import { HeatmapPagination } from './heatmap-pagination';
 import { getOption } from './option';
+import { useHeatmapGroupedData } from './render/use-heatmap-grouped-data';
+import { SeriesDataItem, useHeatmapSeriesData } from './render/use-heatmap-series-data';
 import { ClickHeatBlock } from './triggers';
 import { DEFAULT_CONFIG, IHeatmapConf } from './type';
 
@@ -26,6 +29,7 @@ interface IClickHeatBlock {
 function Chart({
   conf,
   data,
+  seriesData,
   width,
   height,
   interactionManager,
@@ -33,6 +37,7 @@ function Chart({
 }: {
   conf: IHeatmapConf;
   data: TPanelData;
+  seriesData: SeriesDataItem[];
   width: number;
   height: number;
   interactionManager: IVizInteractionManager;
@@ -64,8 +69,8 @@ function Chart({
   }, [handleHeatBlockClick]);
 
   const option = React.useMemo(() => {
-    return getOption(conf, data, variables, width, height);
-  }, [conf, data, width, height]);
+    return getOption(conf, data, seriesData, variables, width, height);
+  }, [conf, data, seriesData, width, height]);
 
   return (
     <ReactEChartsCore
@@ -90,6 +95,9 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
   const conf = useMemo(() => defaults({}, confValue, DEFAULT_CONFIG), [confValue]);
   const data = context.data;
   const { width, height } = context.viewport;
+  const { totalPages, groupedFullData } = useHeatmapGroupedData(data, conf);
+  const [page, setPage] = useState(1);
+  const seriesData = useHeatmapSeriesData(groupedFullData, conf, page);
 
   if (!width || !height) {
     return null;
@@ -97,11 +105,15 @@ export function VizHeatmap({ context, instance }: VizViewProps) {
 
   return (
     <DefaultVizBox width={width} height={height}>
+      {conf.pagination.page_size > 0 && (
+        <HeatmapPagination page={page} setPage={setPage} totalPages={totalPages} width={width} />
+      )}
       <Chart
         variables={variables}
         width={getBoxContentWidth(width)}
         height={getBoxContentHeight(height)}
         data={data}
+        seriesData={seriesData}
         conf={conf}
         interactionManager={interactionManager}
       />

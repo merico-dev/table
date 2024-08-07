@@ -8,6 +8,9 @@ const en = {
         label: 'Click heat block',
       },
     },
+    pagination: {
+      page_size_hint: 'Set 0 to disable pagination',
+    },
   },
 };
 
@@ -18,6 +21,9 @@ const zh = {
       heatblock: {
         label: '点击热力块',
       },
+    },
+    pagination: {
+      page_size_hint: '设为0以禁用分页',
     },
   },
 };

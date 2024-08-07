@@ -10,6 +10,7 @@ import { getYAxis } from './y-axis';
 import _ from 'lodash';
 import { parseDataKey } from '~/utils';
 import { getSkipRangeColor, getVisualMap } from '~/components/plugins/common-echarts-fields/visual-map';
+import { SeriesDataItem } from '../render/use-heatmap-series-data';
 
 function calcBorderWidth(xlen: number, ylen: number, width: number, height: number) {
   if (width < xlen * 10 || height < ylen * 10) {
@@ -24,6 +25,7 @@ function calcBorderWidth(xlen: number, ylen: number, width: number, height: numb
 export function getOption(
   conf: IHeatmapConf,
   data: TPanelData,
+  seriesData: SeriesDataItem[],
   variables: ITemplateVariable[],
   width: number,
   height: number,
@@ -44,18 +46,11 @@ export function getOption(
 
   const x = parseDataKey(conf.x_axis.data_key);
   const y = parseDataKey(conf.y_axis.data_key);
-  const h = parseDataKey(conf.heat_block.data_key);
   const xData = _.uniq(data[x.queryID].map((d) => d[x.columnKey]));
   const yData = _.uniq(data[x.queryID].map((d) => d[y.columnKey]));
-  const seriesData = data[x.queryID].map((d) => {
-    const vx = _.get(d, x.columnKey);
-    const vy = _.get(d, y.columnKey);
-    const vh = _.get(d, h.columnKey);
-    const ret: any = {
-      value: [vx, vy, vh],
-    };
-
-    const { followVisualMap, color } = getSkipRangeColor(vh, min, max, conf.visualMap);
+  const _seriesData = seriesData.map((d) => {
+    const ret = _.clone(d);
+    const { followVisualMap, color } = getSkipRangeColor(ret.value[2], min, max, conf.visualMap);
     if (!followVisualMap) {
       ret.visualMap = false;
       ret.itemStyle = {
@@ -69,7 +64,7 @@ export function getOption(
   const options = {
     xAxis: getXAxis(conf, xData, labelFormatters.x_axis, borderWidth),
     yAxis: getYAxis(conf, labelFormatters.y_axis, borderWidth),
-    series: getSeries(conf, seriesData, borderWidth),
+    series: getSeries(conf, _seriesData, borderWidth),
     tooltip: getTooltip(conf, data, labelFormatters, valueFormatters),
     grid: getGrid(conf),
     visualMap,

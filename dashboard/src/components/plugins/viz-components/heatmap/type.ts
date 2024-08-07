@@ -11,6 +11,14 @@ import {
   IXAxisLabelFormatter,
 } from '../../common-echarts-fields/x-axis-label-formatter';
 
+export type THeatmapPagination = {
+  page_size: number;
+};
+export function getHeatmapPagination({ page_size = 20 }: Partial<THeatmapPagination>) {
+  return {
+    page_size,
+  };
+}
 export interface IHeatmapConf {
   x_axis: {
     name: string;
@@ -43,6 +51,7 @@ export interface IHeatmapConf {
   tooltip: {
     metrics: IEchartsTooltipMetric[];
   };
+  pagination: THeatmapPagination;
   visualMap: VisualMap;
 }
 
@@ -79,4 +88,5 @@ export const DEFAULT_CONFIG: IHeatmapConf = {
     metrics: [],
   },
   visualMap: getDefaultVisualMap(),
+  pagination: getHeatmapPagination({ page_size: 20 }),
 };
