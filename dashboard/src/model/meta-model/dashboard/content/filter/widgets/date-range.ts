@@ -122,7 +122,7 @@ const _FilterDateRangeConfigMeta = types
       self.setFilterValue(v);
     },
     setDefaultShortcut(v: string) {
-      self.default_shortcut = v;
+      self.default_shortcut = v ?? '';
       if (!v) {
         return;
       }
