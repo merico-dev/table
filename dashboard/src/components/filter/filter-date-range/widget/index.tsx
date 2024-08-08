@@ -22,6 +22,7 @@ type Props = {
   inputFormat: string;
   allowSingleDateInRange: boolean;
   max_days: number;
+  disabled?: boolean;
 };
 export const DateRangeWidget = ({
   label,
@@ -31,6 +32,7 @@ export const DateRangeWidget = ({
   max_days,
   allowSingleDateInRange,
   inputFormat,
+  disabled,
 }: Props) => {
   const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
@@ -52,6 +54,7 @@ export const DateRangeWidget = ({
             icon={<IconCalendar size={16} />}
             placeholder={t('filter.widget.date_range.start_date')}
             readOnly
+            disabled={disabled}
             value={beginStr}
             onFocus={open}
             styles={getInputStyles(opened)}
@@ -77,7 +80,7 @@ export const DateRangeWidget = ({
           icon={<IconMinus size={16} />}
           placeholder={t('filter.widget.date_range.end_date')}
           readOnly
-          disabled={!begin}
+          disabled={!begin || disabled}
           value={endStr}
           onFocus={open}
           styles={getInputStyles(opened)}

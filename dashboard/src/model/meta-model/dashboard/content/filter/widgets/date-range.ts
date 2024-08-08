@@ -116,13 +116,10 @@ const _FilterDateRangeConfigMeta = types
     setInputFormat(inputFormat: string) {
       self.inputFormat = inputFormat;
     },
-    setDefaultValue(v: DateRangeValue_Value) {
+    setDefaultValue(v: DateRangeValue) {
       self.default_value.length = 0;
-      self.default_value.push(...v);
-      self.setFilterValue({
-        value: v,
-        shortcut: null,
-      });
+      self.default_value.push(...v.value);
+      self.setFilterValue(v);
     },
     setDefaultShortcut(v: string) {
       self.default_shortcut = v;
