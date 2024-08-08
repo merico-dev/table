@@ -2,12 +2,12 @@ import { Group, Popover, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCalendar, IconMinus } from '@tabler/icons-react';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { DateRangeValue } from '~/model';
 import { Calendar } from './calendar';
 import { CountDays } from './count-days';
 import { Hints } from './hints';
 import { Shortcuts } from './shortcuts';
-import { DateRangeValue } from './type';
-import { useTranslation } from 'react-i18next';
 
 const getInputStyles = (opened: boolean) => ({
   label: { display: 'block', height: '21.7px' },
@@ -35,7 +35,7 @@ export const DateRangeWidget = ({
   const { t } = useTranslation();
   const [opened, { open, close }] = useDisclosure(false);
 
-  const [begin, end] = value;
+  const [begin, end] = value.value;
   const beginStr = begin ? dayjs(begin).format(inputFormat) : '';
   const endStr = end ? dayjs(end).format(inputFormat) : '';
 

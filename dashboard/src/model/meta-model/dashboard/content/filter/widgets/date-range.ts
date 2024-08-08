@@ -3,9 +3,9 @@ import dayjs from 'dayjs';
 import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
 
-export type DateRangeValue_Value = [string | null, string | null];
+export type DateRangeValue_Value = [Date | null, Date | null];
 export type DateRangeValue = {
-  value: [string | null, string | null];
+  value: [Date | null, Date | null];
   shortcut: string | null;
 };
 
@@ -15,7 +15,7 @@ export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnap
       const range = getDateRangeShortcutValue(config.default_shortcut);
       if (range) {
         return {
-          value: range.map((d) => dayjs(d).format(config.inputFormat)) as DateRangeValue_Value,
+          value: range.value.map((d) => dayjs(d).toDate()) as DateRangeValue_Value,
           shortcut: config.default_shortcut,
         };
       }
@@ -25,7 +25,7 @@ export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnap
       if (v === null) {
         return v;
       }
-      const d = dayjs.tz(v, 'UTC').format(config.inputFormat);
+      const d = dayjs.tz(v, 'UTC').toDate();
       return d ?? v;
     }) as DateRangeValue_Value;
 
@@ -42,13 +42,13 @@ export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnap
   }
 }
 
-function postProcessDefaultValue(default_value: Array<number | string | null>, inputFormat: string) {
+function postProcessDefaultValue(default_value: Array<number | Date | null>, inputFormat: string) {
   return default_value.map((v) => {
     try {
       if (!v) {
         return null;
       }
-      return dayjs.tz(v, 'UTC').format(inputFormat);
+      return dayjs.tz(v, 'UTC').toDate();
     } catch (error) {
       console.log(`[date-range] failed parsing ${v}`);
       return null;
@@ -61,7 +61,7 @@ const _FilterDateRangeConfigMeta = types
     _name: types.literal('date-range'),
     required: types.boolean,
     inputFormat: types.enumeration('DateRangeInputFormat', ['YYYY', 'YYYYMM', 'YYYYMMDD', 'YYYY-MM', 'YYYY-MM-DD']),
-    default_value: types.optional(types.array(types.union(types.string, types.null)), [null, null]),
+    default_value: types.optional(types.array(types.union(types.Date, types.null)), [null, null]),
     default_shortcut: types.optional(types.string, ''),
     clearable: types.boolean, // TODO: will be deprecated
     max_days: types.optional(types.number, 0),
@@ -98,7 +98,7 @@ const _FilterDateRangeConfigMeta = types
     },
   }))
   .actions((self) => ({
-    setFilterValue(v: DateRangeValue_Value) {
+    setFilterValue(v: DateRangeValue) {
       try {
         self.filter.setValue(v);
       } catch (error) {
@@ -119,7 +119,10 @@ const _FilterDateRangeConfigMeta = types
     setDefaultValue(v: DateRangeValue_Value) {
       self.default_value.length = 0;
       self.default_value.push(...v);
-      self.setFilterValue(v);
+      self.setFilterValue({
+        value: v,
+        shortcut: null,
+      });
     },
     setDefaultShortcut(v: string) {
       self.default_shortcut = v;
@@ -128,10 +131,8 @@ const _FilterDateRangeConfigMeta = types
       }
 
       const range = getDateRangeShortcutValue(self.default_shortcut);
-      console.log(range);
       if (range) {
-        const newValue = range.map((d) => dayjs(d).format(self.inputFormat)) as DateRangeValue_Value;
-        self.setFilterValue(newValue);
+        self.setFilterValue(range);
       }
     },
     setMaxDays(v: number) {

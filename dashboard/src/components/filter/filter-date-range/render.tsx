@@ -1,30 +1,39 @@
-import dayjs from 'dayjs';
 import { observer } from 'mobx-react-lite';
-import { FilterDateRangeConfigInstance, DateRangeValue_Value } from '~/model';
+import { useMemo } from 'react';
+import { DateRangeValue, FilterDateRangeConfigInstance } from '~/model';
 import { DateRangeWidget } from './widget';
-import { DateRangeValue } from './widget/type';
+import { getDateRangeShortcutValue } from './widget/shortcuts/shortcuts';
 
 interface IFilterDateRange {
   label: string;
   config: FilterDateRangeConfigInstance;
-  value: DateRangeValue_Value;
-  onChange: (v: DateRangeValue_Value) => void;
+  value: DateRangeValue;
+  onChange: (v: DateRangeValue) => void;
 }
+const fallbackValue: DateRangeValue = {
+  value: [null, null],
+  shortcut: null,
+};
 
-export const FilterDateRange = observer(({ label, config, value = [null, null], onChange }: IFilterDateRange) => {
+export const FilterDateRange = observer(({ label, config, value = fallbackValue, onChange }: IFilterDateRange) => {
   const { inputFormat, required, max_days, allowSingleDateInRange } = config;
 
-  const formattedValue: DateRangeValue = Array.isArray(value)
-    ? (value.map((v) => (v ? dayjs(v).toDate() : null)) as DateRangeValue)
-    : [null, null];
-  const handleChange = (values: DateRangeValue) => {
-    onChange(values.map((d) => (d ? dayjs(d).format(inputFormat) : d)) as DateRangeValue_Value);
-  };
+  const formattedValue: DateRangeValue = useMemo(() => {
+    const valueFromShortcut = getDateRangeShortcutValue(value.shortcut);
+    if (valueFromShortcut) {
+      return valueFromShortcut;
+    }
+    if (Array.isArray(value.value)) {
+      return value;
+    }
+    return fallbackValue;
+  }, [value]);
+
   return (
     <DateRangeWidget
       label={label}
       value={formattedValue}
-      onChange={handleChange}
+      onChange={onChange}
       inputFormat={inputFormat}
       allowSingleDateInRange={allowSingleDateInRange}
       max_days={max_days}
