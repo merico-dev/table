@@ -48,7 +48,7 @@ function postProcessDefaultValue(default_value: Array<number | Date | null>, inp
       if (!v) {
         return null;
       }
-      return dayjs.tz(v, 'UTC').toDate();
+      return dayjs.tz(v, 'UTC').toISOString();
     } catch (error) {
       console.log(`[date-range] failed parsing ${v}`);
       return null;
@@ -148,7 +148,7 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
     return {
       ...rest,
       default_value: default_value.map((v: string | null) => {
-        return v === null ? null : dayjs.tz(v, 'UTC').toISOString();
+        return v === null ? null : dayjs.tz(v, 'UTC').toDate();
       }),
     };
   },
