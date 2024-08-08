@@ -1,8 +1,46 @@
 import dayjs from 'dayjs';
 
-import { getParent, Instance, types } from 'mobx-state-tree';
+import { getParent, Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
-export type TDateRangePickerValue = [string | null, string | null];
+
+export type DateRangeValue_Value = [string | null, string | null];
+export type DateRangeValue = {
+  value: [string | null, string | null];
+  shortcut: string | null;
+};
+
+export function getStaticDateRangeDefaultValue(config: FilterDateRangeConfigSnapshotOut): DateRangeValue {
+  try {
+    if (config.default_shortcut) {
+      const range = getDateRangeShortcutValue(config.default_shortcut);
+      if (range) {
+        return {
+          value: range.map((d) => dayjs(d).format(config.inputFormat)) as DateRangeValue_Value,
+          shortcut: config.default_shortcut,
+        };
+      }
+    }
+
+    const value = config.default_value.map((v) => {
+      if (v === null) {
+        return v;
+      }
+      const d = dayjs.tz(v, 'UTC').format(config.inputFormat);
+      return d ?? v;
+    }) as DateRangeValue_Value;
+
+    return {
+      value,
+      shortcut: null,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      value: [null, null],
+      shortcut: null,
+    };
+  }
+}
 
 function postProcessDefaultValue(default_value: Array<number | string | null>, inputFormat: string) {
   return default_value.map((v) => {
@@ -60,7 +98,7 @@ const _FilterDateRangeConfigMeta = types
     },
   }))
   .actions((self) => ({
-    setFilterValue(v: TDateRangePickerValue) {
+    setFilterValue(v: DateRangeValue_Value) {
       try {
         self.filter.setValue(v);
       } catch (error) {
@@ -78,7 +116,7 @@ const _FilterDateRangeConfigMeta = types
     setInputFormat(inputFormat: string) {
       self.inputFormat = inputFormat;
     },
-    setDefaultValue(v: TDateRangePickerValue) {
+    setDefaultValue(v: DateRangeValue_Value) {
       self.default_value.length = 0;
       self.default_value.push(...v);
       self.setFilterValue(v);
@@ -92,7 +130,7 @@ const _FilterDateRangeConfigMeta = types
       const range = getDateRangeShortcutValue(self.default_shortcut);
       console.log(range);
       if (range) {
-        const newValue = range.map((d) => dayjs(d).format(self.inputFormat)) as TDateRangePickerValue;
+        const newValue = range.map((d) => dayjs(d).format(self.inputFormat)) as DateRangeValue_Value;
         self.setFilterValue(newValue);
       }
     },
@@ -126,6 +164,7 @@ export const FilterDateRangeConfigMeta = types.snapshotProcessor(_FilterDateRang
 });
 
 export type FilterDateRangeConfigInstance = Instance<typeof FilterDateRangeConfigMeta>;
+export type FilterDateRangeConfigSnapshotOut = SnapshotOut<typeof FilterDateRangeConfigMeta>;
 
 export const createFilterDateRangeConfig = () =>
   FilterDateRangeConfigMeta.create({

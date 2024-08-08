@@ -1,8 +1,11 @@
-import dayjs from 'dayjs';
-import { getDateRangeShortcutValue } from '~/components/filter/filter-date-range/widget/shortcuts/shortcuts';
-import { ContextRecordType, FilterMetaSnapshotOut } from '~/model';
-import { FilterValuesType } from './types';
+import {
+  ContextRecordType,
+  FilterDateRangeConfigSnapshotOut,
+  FilterMetaSnapshotOut,
+  getStaticDateRangeDefaultValue,
+} from '~/model';
 import { functionUtils } from '~/utils';
+import { FilterValuesType } from './types';
 
 // if use FilterMetaSnapshotOut: 'filter' is referenced directly or indirectly in its own type annotation.ts(2502)
 type LocalFilterMetaSnapshotOut = {
@@ -22,25 +25,7 @@ export function getStaticDefaultValue(filter: LocalFilterMetaSnapshotOut) {
     return v;
   }
   if (config._name === 'date-range') {
-    try {
-      if (config.default_shortcut) {
-        const range = getDateRangeShortcutValue(config.default_shortcut);
-        if (range) {
-          return range.map((d) => dayjs(d).format(config.inputFormat));
-        }
-      }
-      const [...dateTimeStrings] = v as [string | null, string | null];
-      return dateTimeStrings.map((v) => {
-        if (v === null) {
-          return v;
-        }
-        const d = dayjs.tz(v, 'UTC').format(config.inputFormat);
-        return d ?? v;
-      });
-    } catch (error) {
-      console.error(error);
-      return v;
-    }
+    return getStaticDateRangeDefaultValue(config as FilterDateRangeConfigSnapshotOut);
   }
 
   return v;
@@ -49,7 +34,14 @@ export function getStaticDefaultValue(filter: LocalFilterMetaSnapshotOut) {
 export function getDefaultValueWithFunc(filter: LocalFilterMetaSnapshotOut, context: ContextRecordType) {
   const func = filter.default_value_func;
   try {
-    return new Function(`return ${func}`)()(filter, functionUtils, context);
+    const ret = new Function(`return ${func}`)()(filter, functionUtils, context);
+    if (filter.config._name === 'date-range' && Array.isArray(ret)) {
+      return {
+        value: ret,
+        shortcut: null,
+      };
+    }
+    return ret;
   } catch (error) {
     console.error(error);
     return getStaticDefaultValue(filter);
