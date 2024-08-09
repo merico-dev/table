@@ -90,8 +90,14 @@ const _FilterDateRangeConfigMeta = types
         allowSingleDateInRange,
       };
     },
-    truthy(value: any) {
-      return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
+    truthy(fullValue: DateRangeValue) {
+      try {
+        const { value } = fullValue;
+        return Array.isArray(value) && value.length === 2 && value.every((d) => !!d);
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
     },
     get filter(): any {
       return getParent(self);
@@ -99,7 +105,6 @@ const _FilterDateRangeConfigMeta = types
     get dateStringsValue(): [string, string] {
       try {
         const fullValue = this.filter.value;
-        console.log(fullValue);
         const [begin, end] = fullValue.value;
         const beginStr = begin ? dayjs(begin).format(self.inputFormat) : '';
         const endStr = end ? dayjs(end).format(self.inputFormat) : '';
