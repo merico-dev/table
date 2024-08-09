@@ -96,6 +96,19 @@ const _FilterDateRangeConfigMeta = types
     get filter(): any {
       return getParent(self);
     },
+    get dateStringsValue(): [string, string] {
+      try {
+        const fullValue = this.filter.value;
+        console.log(fullValue);
+        const [begin, end] = fullValue.value;
+        const beginStr = begin ? dayjs(begin).format(self.inputFormat) : '';
+        const endStr = end ? dayjs(end).format(self.inputFormat) : '';
+        return [beginStr, endStr];
+      } catch (error) {
+        console.error(error);
+        return ['', ''];
+      }
+    },
   }))
   .actions((self) => ({
     setFilterValue(v: DateRangeValue) {
