@@ -16,6 +16,17 @@ export const FiltersRenderModel = types
     get valuesString() {
       return JSON.stringify(self.values);
     },
+    get valuesForPayload() {
+      const ret: Record<string, any> = {};
+      Object.entries(self.values).forEach(([k, v]) => {
+        ret[k] = v;
+        if (v && typeof v === 'object' && 'value' in v && 'shortcut' in v) {
+          // date-range
+          ret[k] = v.value;
+        }
+      });
+      return ret;
+    },
     get contentModel(): any {
       // @ts-expect-error typeof getRoot
       return getRoot(self).content;
